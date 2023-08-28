@@ -8,6 +8,7 @@ SECTIONS {
     .rodata :
     ALIGN(4) {
         build/sa1/data/data.o(.rodata);
+
     }
 
     . = 0x2000000;

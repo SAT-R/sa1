@@ -1720,16 +1720,20 @@ gUnknown_086DB838:
 gUnknown_086DB848:
     .incbin "baserom.gba", 0x006DB848, 0x34
 
+;@     .global gUnknown_086DB87C
+;@ gUnknown_086DB87C:
+;@     .incbin "baserom.gba", 0x006DB87C, 0x30
+
     .global gUnknown_086DB87C
 gUnknown_086DB87C:
     .incbin "baserom.gba", 0x006DB87C, 0x1EE4
 
-    .global gUnknown_086DD760
-gUnknown_086DD760:
+    .global gMPlayTable
+gMPlayTable:
     .incbin "baserom.gba", 0x006DD760, 0x30
 
-    .global gUnknown_086DD790
-gUnknown_086DD790:
+    .global gSongTable
+gSongTable:
     .incbin "baserom.gba", 0x006DD790, 0x474
 
     .global gUnknown_086DDC04
