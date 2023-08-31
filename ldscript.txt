@@ -3,6 +3,7 @@ SECTIONS {
     .text :
     ALIGN(4) {
         build/sa1/asm/code.o(.text);
+        build/sa1/asm/core.o(.text);
         build/sa1/asm/main.o(.text);
         build/sa1/asm/task.o(.text);
         build/sa1/asm/code_2.o(.text);
