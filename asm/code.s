@@ -2193,13 +2193,3 @@ _08001484: .4byte gUnknown_03001B6C
 _08001488: .4byte gUnknown_03004630
 _0800148C: .4byte 0x01000100
 _08001490: .4byte gUnknown_030045F0
-
-	thumb_func_start AgbMain
-AgbMain: @ 0x08001494
-	push {lr}
-	bl GameInit
-	bl GameStart
-	bl GameLoop
-	pop {r0}
-	bx r0
-	.align 2, 0
