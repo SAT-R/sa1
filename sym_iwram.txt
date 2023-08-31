@@ -49,7 +49,7 @@
 . = 0x00001FB0; gUnknown_03001FB0 = .;
 . = 0x00002030; gUnknown_03002030 = .;
 . = 0x00002034; gUnknown_03002034 = .;
-. = 0x00002040; gUnknown_03002040 = .;
+. = 0x00002040; gVramGraphicsCopyQueue = .;
 . = 0x000020C0; gUnknown_030020C0 = .;
 . = 0x000020D0; gUnknown_030020D0 = .;
 . = 0x000020E0; gUnknown_030020E0 = .;
@@ -62,7 +62,7 @@
 . = 0x00002120; gUnknown_03002120 = .;
 . = 0x00002160; gUnknown_03002160 = .;
 . = 0x00002320; gUnknown_03002320 = .;
-. = 0x00002324; gUnknown_03002324 = .;
+. = 0x00002324; gVramGraphicsCopyQueueIndex = .;
 . = 0x00002328; gUnknown_03002328 = .;
 . = 0x0000232C; gUnknown_0300232C = .;
 . = 0x00002330; gUnknown_03002330 = .;
