@@ -216,8 +216,8 @@ _08000340:
 	.byte 0x43, 0x41, 0x44, 0x56, 0x41, 0x4E, 0x43, 0x45, 0x41, 0x53, 0x4F, 0x50, 0x38, 0x50, 0x96, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00
 
-	thumb_func_start sub_80003EC
-sub_80003EC: @ 0x080003EC
+	thumb_func_start GameInit
+GameInit: @ 0x080003EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -318,7 +318,7 @@ _08000472:
 	strb r2, [r1]
 	ldr r1, _08000704 @ =gUnknown_030045F8
 	strb r2, [r1]
-	ldr r1, _08000708 @ =gUnknown_03002324
+	ldr r1, _08000708 @ =gVramGraphicsCopyQueueIndex
 	strb r2, [r1]
 	str r2, [sp]
 	mov r3, sp
@@ -347,7 +347,7 @@ _08000472:
 	str r2, [sp]
 	mov r3, sp
 	str r3, [r0]
-	ldr r1, _08000724 @ =gUnknown_03002040
+	ldr r1, _08000724 @ =gVramGraphicsCopyQueue
 	str r1, [r0, #4]
 	ldr r1, _08000728 @ =0x85000020
 	str r1, [r0, #8]
@@ -598,14 +598,14 @@ _080006F8: .4byte gUnknown_03002384
 _080006FC: .4byte gUnknown_0300211C
 _08000700: .4byte gUnknown_03004C30
 _08000704: .4byte gUnknown_030045F8
-_08000708: .4byte gUnknown_03002324
+_08000708: .4byte gVramGraphicsCopyQueueIndex
 _0800070C: .4byte gUnknown_03001B40
 _08000710: .4byte 0x85000004
 _08000714: .4byte gUnknown_03004620
 _08000718: .4byte gUnknown_030020D0
 _0800071C: .4byte gUnknown_030010B4
 _08000720: .4byte gUnknown_030020E0
-_08000724: .4byte gUnknown_03002040
+_08000724: .4byte gVramGraphicsCopyQueue
 _08000728: .4byte 0x85000020
 _0800072C: .4byte gUnknown_030011B0
 _08000730: .4byte gUnknown_03002380
@@ -727,8 +727,8 @@ _08000890: .4byte 0x85000014
 _08000894: .4byte gUnknown_03001210
 _08000898: .4byte gUnknown_03001214
 
-	thumb_func_start sub_800089C
-sub_800089C: @ 0x0800089C
+	thumb_func_start GameLoop
+GameLoop: @ 0x0800089C
 	push {r4, r5, r6, lr}
 	ldr r6, _0800090C @ =gFlags
 	movs r5, #0x80
@@ -1763,13 +1763,13 @@ _08001168: .4byte 0x04000202
 sub_800116C: @ 0x0800116C
 	push {r4, r5, r6, r7, lr}
 	ldr r2, _080011B8 @ =gUnknown_030045F8
-	ldr r0, _080011BC @ =gUnknown_03002324
+	ldr r0, _080011BC @ =gVramGraphicsCopyQueueIndex
 	ldrb r1, [r2]
 	adds r7, r0, #0
 	ldrb r0, [r7]
 	cmp r1, r0
 	beq _0800121A
-	ldr r1, _080011C0 @ =gUnknown_03002040
+	ldr r1, _080011C0 @ =gVramGraphicsCopyQueue
 	mov ip, r1
 	adds r6, r2, #0
 _08001182:
@@ -1803,8 +1803,8 @@ _08001198:
 	b _080011EC
 	.align 2, 0
 _080011B8: .4byte gUnknown_030045F8
-_080011BC: .4byte gUnknown_03002324
-_080011C0: .4byte gUnknown_03002040
+_080011BC: .4byte gVramGraphicsCopyQueueIndex
+_080011C0: .4byte gVramGraphicsCopyQueue
 _080011C4: .4byte 0x040000D4
 _080011C8: .4byte 0x80000200
 _080011CC: .4byte 0xFFFFFC00
@@ -2197,9 +2197,9 @@ _08001490: .4byte gUnknown_030045F0
 	thumb_func_start AgbMain
 AgbMain: @ 0x08001494
 	push {lr}
-	bl sub_80003EC
-	bl sub_803CBC0
-	bl sub_800089C
+	bl GameInit
+	bl GameStart
+	bl GameLoop
 	pop {r0}
 	bx r0
 	.align 2, 0
