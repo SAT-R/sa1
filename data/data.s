@@ -7,13 +7,6 @@ gUnknown_0809B670:
     .global gUnknown_0809B6A8
 gUnknown_0809B6A8:
     .incbin "baserom.gba", 0x0009B6A8, 0x10
-    
-@ const AnimationCommandFunc animCmdTable_BG[12] = {
-@     animCmd_PlaySoundEffect_BG,   animCmd_AddHitbox_BG,
-@     animCmd_TranslateSprite_BG,   animCmd_8_BG,
-@     animCmd_SetIdAndVariant_BG,   animCmd_10_BG,
-@     animCmd_SetSpritePriority_BG, animCmd_12_BG,
-@ };
 
     .global animCmdTable_BG
 animCmdTable_BG:
