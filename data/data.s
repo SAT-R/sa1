@@ -44,8 +44,8 @@ gUnknown_0809C138:
 gUnknown_0809C170:
     .incbin "baserom.gba", 0x0009C170, 0x1EDD4
 
-    .global gUnknown_080BAF44
-gUnknown_080BAF44:
+    .global gSpritePosData_rings
+gSpritePosData_rings:
     .incbin "baserom.gba", 0x000BAF44, 0x48
 
     .global gUnknown_080BAF8C
