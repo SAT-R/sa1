@@ -15,7 +15,7 @@
 . = 0x000011A8; gUnknown_030011A8 = .;
 . = 0x000011B0; gUnknown_030011B0 = .;
 . = 0x000011C0; gEmptyTask = .;
-. = 0x000011E0; gUnknown_030011E0 = .;
+. = 0x000011E0; gBgAffineRegs = .;
 . = 0x00001200; gUnknown_03001200 = .;
 . = 0x00001204; gUnknown_03001204 = .;
 . = 0x00001208; gUnknown_03001208 = .;
@@ -52,7 +52,7 @@
 . = 0x00002040; gVramGraphicsCopyQueue = .;
 . = 0x000020C0; gUnknown_030020C0 = .;
 . = 0x000020D0; gUnknown_030020D0 = .;
-. = 0x000020E0; gUnknown_030020E0 = .;
+. = 0x000020E0; gDispCnt = .;
 . = 0x000020F0; gUnknown_030020F0 = .;
 . = 0x00002100; gUnknown_03002100 = .;
 . = 0x0000210E; gUnknown_0300210E = .;
@@ -88,9 +88,9 @@
 . = 0x00004C54; gExecSoundMain = .;
 . = 0x00004C58; gUnknown_03004C58 = .;
 . = 0x00004C60; gUnknown_03004C60 = .;
-. = 0x00004D80; gUnknown_03004D80 = .;
+. = 0x00004D80; gMultiSioArea = .;
 . = 0x00004F70; gUnknown_03004F70 = .;
-. = 0x00004FB0; gUnknown_03004FB0 = .;
+. = 0x00004FB0; gSio32MultiLoadArea = .;
 . = 0x00004FE0; gUnknown_03004FE0 = .;
 . = 0x00004FE4; gUnknown_03004FE4 = .;
 . = 0x00004FE8; gUnknown_03004FE8 = .;

@@ -294,7 +294,7 @@ _080016D8:
 	cmp r0, #0
 	bne _080016F0
 	ldr r0, [r2, #8]
-	bl sub_8099B3C
+	bl _call_via_r0
 _080016F0:
 	ldr r0, [r7]
 	str r0, [r5]
@@ -337,7 +337,7 @@ _08001732:
 	cmp r0, #4
 	bne _0800174A
 	ldr r0, [r2, #8]
-	bl sub_8099B3C
+	bl _call_via_r0
 _0800174A:
 	ldr r0, [r7]
 	str r0, [r5]

@@ -130,7 +130,7 @@ _08000472:
 	movs r4, #0
 	strh r2, [r1]
 	strh r2, [r1, #2]
-	ldr r3, _08000720 @ =gUnknown_030020E0
+	ldr r3, _08000720 @ =gDispCnt
 	movs r1, #0x80
 	strh r1, [r3]
 	str r2, [sp]
@@ -194,7 +194,7 @@ _08000472:
 	str r1, [r0, #4]
 	str r3, [r0, #8]
 	ldr r0, [r0, #8]
-	ldr r0, _08000758 @ =gUnknown_030011E0
+	ldr r0, _08000758 @ =gBgAffineRegs
 	movs r1, #0x80
 	lsls r1, r1, #1
 	strh r1, [r0]
@@ -393,7 +393,7 @@ _08000710: .4byte 0x85000004
 _08000714: .4byte gUnknown_03004620
 _08000718: .4byte gUnknown_030020D0
 _0800071C: .4byte gUnknown_030010B4
-_08000720: .4byte gUnknown_030020E0
+_08000720: .4byte gDispCnt
 _08000724: .4byte gVramGraphicsCopyQueue
 _08000728: .4byte 0x85000020
 _0800072C: .4byte gUnknown_030011B0
@@ -407,7 +407,7 @@ _08000748: .4byte gUnknown_03004600
 _0800074C: .4byte gUnknown_03001920
 _08000750: .4byte 0x85000080
 _08000754: .4byte gUnknown_03002120
-_08000758: .4byte gUnknown_030011E0
+_08000758: .4byte gBgAffineRegs
 _0800075C: .4byte gUnknown_03001204
 _08000760: .4byte gUnknown_030010B0
 _08000764: .4byte gUnknown_03004C34
@@ -546,7 +546,7 @@ _080008BA:
 	ldr r0, _0800091C @ =gUnknown_03002100
 	ldr r1, _08000920 @ =gUnknown_03001150
 	movs r2, #0
-	bl sub_8006D54
+	bl MultiSioMain
 	ldr r1, _08000924 @ =gUnknown_03001210
 	str r0, [r1]
 _080008DC:
@@ -632,7 +632,7 @@ sub_8000980: @ 0x08000980
 	movs r4, #0
 	movs r1, #0x80
 	lsls r1, r1, #0x13
-	ldr r0, _08000A60 @ =gUnknown_030020E0
+	ldr r0, _08000A60 @ =gDispCnt
 	ldrh r0, [r0]
 	strh r0, [r1]
 	ldr r3, _08000A64 @ =0x040000D4
@@ -699,7 +699,7 @@ _080009E2:
 	ldr r0, _08000AA8 @ =0x80000008
 	str r0, [r3, #8]
 	ldr r0, [r3, #8]
-	ldr r0, _08000AAC @ =gUnknown_030011E0
+	ldr r0, _08000AAC @ =gBgAffineRegs
 	str r0, [r3]
 	ldr r0, _08000AB0 @ =0x04000020
 	str r0, [r3, #4]
@@ -743,7 +743,7 @@ _08000A58:
 	strb r0, [r1]
 	b _08000ADE
 	.align 2, 0
-_08000A60: .4byte gUnknown_030020E0
+_08000A60: .4byte gDispCnt
 _08000A64: .4byte 0x040000D4
 _08000A68: .4byte gUnknown_03001B70
 _08000A6C: .4byte 0x04000008
@@ -762,7 +762,7 @@ _08000A9C: .4byte 0x80000003
 _08000AA0: .4byte gUnknown_030020D0
 _08000AA4: .4byte 0x04000010
 _08000AA8: .4byte 0x80000008
-_08000AAC: .4byte gUnknown_030011E0
+_08000AAC: .4byte gBgAffineRegs
 _08000AB0: .4byte 0x04000020
 _08000AB4: .4byte 0x84000008
 _08000AB8: .4byte 0x04000200
@@ -851,7 +851,7 @@ _08000B62:
 	lsls r0, r4, #2
 	adds r0, r0, r6
 	ldr r0, [r0]
-	bl sub_8099B3C
+	bl _call_via_r0
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
 	lsrs r4, r0, #0x18
@@ -941,7 +941,7 @@ _08000C32:
 	lsls r0, r4, #2
 	adds r0, r0, r5
 	ldr r0, [r0]
-	bl sub_8099B3C
+	bl _call_via_r0
 	cmp r0, #0
 	bne _08000C2C
 	ldr r0, _08000C50 @ =gUnknown_03001F94
@@ -1070,7 +1070,7 @@ sub_8000D34: @ 0x08000D34
 	movs r4, #0
 	movs r1, #0x80
 	lsls r1, r1, #0x13
-	ldr r0, _08000DEC @ =gUnknown_030020E0
+	ldr r0, _08000DEC @ =gDispCnt
 	ldrh r0, [r0]
 	strh r0, [r1]
 	ldr r0, _08000DF0 @ =gUnknown_03001B70
@@ -1118,7 +1118,7 @@ _08000D88:
 	ldr r1, _08000E24 @ =0x04000010
 	movs r2, #8
 	bl sub_8099AD8
-	ldr r0, _08000E28 @ =gUnknown_030011E0
+	ldr r0, _08000E28 @ =gBgAffineRegs
 	ldr r1, _08000E2C @ =0x04000020
 	adds r2, r7, #0
 	bl sub_8099AD8
@@ -1152,7 +1152,7 @@ _08000DE4:
 	strb r0, [r1]
 	b _08000E56
 	.align 2, 0
-_08000DEC: .4byte gUnknown_030020E0
+_08000DEC: .4byte gDispCnt
 _08000DF0: .4byte gUnknown_03001B70
 _08000DF4: .4byte 0x04000008
 _08000DF8: .4byte 0x04000002
@@ -1167,7 +1167,7 @@ _08000E18: .4byte gUnknown_030011A8
 _08000E1C: .4byte 0x04000050
 _08000E20: .4byte gUnknown_030020D0
 _08000E24: .4byte 0x04000010
-_08000E28: .4byte gUnknown_030011E0
+_08000E28: .4byte gBgAffineRegs
 _08000E2C: .4byte 0x04000020
 _08000E30: .4byte 0x04000200
 _08000E34: .4byte gHBlankIntrs
@@ -1207,7 +1207,7 @@ _08000E7E:
 	lsls r0, r4, #2
 	adds r0, r0, r6
 	ldr r0, [r0]
-	bl sub_8099B3C
+	bl _call_via_r0
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
 	lsrs r4, r0, #0x18
@@ -1281,7 +1281,7 @@ _08000F22:
 	lsls r0, r4, #2
 	adds r0, r0, r5
 	ldr r0, [r0]
-	bl sub_8099B3C
+	bl _call_via_r0
 	cmp r0, #0
 	bne _08000F1C
 	ldr r0, _08000F40 @ =gUnknown_03001F94

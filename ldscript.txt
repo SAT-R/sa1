@@ -6,7 +6,13 @@ SECTIONS {
         build/sa1/asm/core.o(.text);
         build/sa1/asm/main.o(.text);
         build/sa1/asm/task.o(.text);
+        build/sa1/asm/bg_update.o(.text);
+        build/sa1/asm/animation_commands_bg.o(.text);
         build/sa1/asm/code_2.o(.text);
+        build/sa1/asm/multi_sio.o(.text);
+        build/sa1/asm/multi_boot.o(.text);
+        build/sa1/asm/sio32_multi_load.o(.text);
+        build/sa1/asm/code_3.o(.text);
     }
 
     .rodata :
