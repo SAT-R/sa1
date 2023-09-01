@@ -2387,17 +2387,17 @@ sub_8005CFC: @ 0x08005CFC
 	ldr r1, _08005D58 @ =gUnknown_0809C138
 	adds r0, r6, #0
 	movs r2, #4
-	bl sub_809B5BC
+	bl memcpy
 	add r5, sp, #0xc
 	adds r0, r5, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_809B61C
+	bl memset
 	add r4, sp, #0x10
 	adds r0, r4, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_809B61C
+	bl memset
 	ldr r1, _08005D5C @ =gFlags
 	ldr r0, [r1]
 	movs r2, #4
@@ -3022,17 +3022,17 @@ sub_8006194: @ 0x08006194
 	ldr r1, _080061F0 @ =gUnknown_0809C138
 	adds r0, r6, #0
 	movs r2, #4
-	bl sub_809B5BC
+	bl memcpy
 	add r5, sp, #0xc
 	adds r0, r5, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_809B61C
+	bl memset
 	add r4, sp, #0x10
 	adds r0, r4, #0
 	movs r1, #0
 	movs r2, #4
-	bl sub_809B61C
+	bl memset
 	ldr r1, _080061F4 @ =gFlags
 	ldr r0, [r1]
 	movs r2, #4

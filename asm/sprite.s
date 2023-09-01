@@ -18,7 +18,7 @@ sub_800338C: @ 0x0800338C
 	ldr r1, _080033BC @ =gUnknown_0809C0E8
 	mov r0, sp
 	movs r2, #8
-	bl sub_809B5BC
+	bl memcpy
 	lsls r0, r4, #0x10
 	asrs r1, r0, #0x10
 	lsls r0, r5, #0x10

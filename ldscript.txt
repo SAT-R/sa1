@@ -20,6 +20,14 @@ SECTIONS {
         build/sa1/asm/multi_boot.o(.text);
         build/sa1/asm/sio32_multi_load.o(.text);
         build/sa1/asm/code_3.o(.text);
+        
+        *libgcc.a:fp-bit.o(.text);
+        *libgcc.a:_lshrdi3.o(.text);
+        *libgcc.a:_muldi3.o(.text);
+        *libgcc.a:_negdi2.o(.text);
+        *libgcc.a:_udivsi3.o(.text);
+        *libc.a:memcpy.o(.text);
+        *libc.a:memset.o(.text);
     }
 
     .rodata :
@@ -207,7 +215,6 @@ SECTIONS {
         build/sa1/sound/songs/song306.o(.rodata);
         build/sa1/sound/songs/song307.o(.rodata);
         build/sa1/data/data1.o(.rodata);
-
     }
 
     . = 0x2000000;
