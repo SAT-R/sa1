@@ -212,7 +212,7 @@ TaskDestroy: @ 0x08001620
 	cmp r1, #0
 	beq _08001652
 	adds r0, r4, #0
-	bl sub_8099B40
+	bl _call_via_r1
 _08001652:
 	ldr r1, _0800169C @ =gNextTask
 	ldr r0, [r1]

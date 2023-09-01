@@ -353,7 +353,7 @@ _08004E38:
 	movs r0, #0x80
 	lsls r0, r0, #9
 	adds r1, r7, #0
-	bl sub_8099CE0
+	bl __udivsi3
 	lsrs r0, r0, #8
 	movs r1, #0xff
 	ands r0, r1

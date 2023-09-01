@@ -1782,7 +1782,7 @@ _0800132C:
 	adds r0, r0, r6
 	ldr r1, [r0]
 	adds r0, r5, #0
-	bl sub_8099B40
+	bl _call_via_r1
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
 	lsrs r4, r0, #0x18

@@ -268,7 +268,7 @@ _08003556:
 	ldr r2, [r0]
 	adds r0, r3, #0
 	adds r1, r4, #0
-	bl sub_8099B44
+	bl _call_via_r2
 	adds r1, r0, #0
 	cmp r1, #1
 	beq _08003590

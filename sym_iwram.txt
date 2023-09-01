@@ -1,3 +1,7 @@
+
+. = 0x00000440; 
+*libgcc.a:(.bss);
+
 . = 0x00000470; gIntrTable = .;
 . = 0x000004B0; gUnknown_030004B0 = .;
 . = 0x000006B0; gTasks = .;
@@ -243,4 +247,4 @@ iwram_end = .;
 
 . = 0x00007FF0; gUnknown_03007FF0 = .;
 . = 0x00007FF8; gUnknown_03007FF8 = .;
-. = 0x00007FFA; gUnknown_03007FFA = .;
+. = 0x00007FFA; SOFT_RESET_DIRECT_BUF = .; /* refd in libagbsyscall */ 
