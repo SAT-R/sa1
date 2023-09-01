@@ -217,7 +217,7 @@
 . = 0x00005E80; gUnknown_03005E80 = .;
 . = 0x00006080; gUnknown_03006080 = .;
 . = 0x000060D0; gInputRecorder = .;
-. = 0x000060DC; gUnknown_030060DC = .;
+. = 0x000060DC; gInputRecorderTapeBuffer = .;
 . = 0x000060E0; gUnknown_030060E0 = .;
 . = 0x000060F0; gUnknown_030060F0 = .;
 . = 0x00006166; gUnknown_03006166 = .;
