@@ -556,7 +556,7 @@ _080008E0:
 	ldr r4, _0800090C @ =gFlags
 	ldr r0, [r4]
 	str r0, [r1]
-	bl sub_8099B14
+	bl VBlankIntrWait
 	ldr r0, [r4]
 	movs r1, #0x80
 	lsls r1, r1, #7
@@ -1077,7 +1077,7 @@ sub_8000D34: @ 0x08000D34
 	ldr r7, _08000DF4 @ =0x04000008
 	ldr r2, _08000DF8 @ =0x04000002
 	adds r1, r7, #0
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r5, _08000DFC @ =gFlags
 	ldr r0, [r5]
 	movs r6, #1
@@ -1088,7 +1088,7 @@ sub_8000D34: @ 0x08000D34
 	movs r1, #0xa0
 	lsls r1, r1, #0x13
 	movs r2, #0x80
-	bl sub_8099AD4
+	bl CpuFastSet
 	ldr r0, [r5]
 	eors r0, r6
 	str r0, [r5]
@@ -1101,7 +1101,7 @@ _08000D6E:
 	ldr r0, _08000E04 @ =gUnknown_03001920
 	ldr r1, _08000E08 @ =0x05000200
 	movs r2, #0x80
-	bl sub_8099AD4
+	bl CpuFastSet
 	ldr r0, [r5]
 	eors r0, r6
 	str r0, [r5]
@@ -1109,19 +1109,19 @@ _08000D88:
 	ldr r0, _08000E0C @ =gUnknown_03001B30
 	ldr r1, _08000E10 @ =0x04000040
 	ldr r2, _08000E14 @ =0x04000003
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r0, _08000E18 @ =gUnknown_030011A8
 	ldr r1, _08000E1C @ =0x04000050
 	movs r2, #3
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r0, _08000E20 @ =gUnknown_030020D0
 	ldr r1, _08000E24 @ =0x04000010
 	movs r2, #8
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r0, _08000E28 @ =gBgAffineRegs
 	ldr r1, _08000E2C @ =0x04000020
 	adds r2, r7, #0
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r0, [r5]
 	movs r1, #8
 	ands r0, r1
@@ -1137,7 +1137,7 @@ _08000D88:
 	ldr r2, _08000E38 @ =0x01000004
 	mov r0, sp
 	adds r1, r5, #0
-	bl sub_8099AD4
+	bl CpuFastSet
 	ldr r4, _08000E3C @ =gUnknown_0300114C
 	ldrb r0, [r4]
 	cmp r0, #0
@@ -1145,7 +1145,7 @@ _08000D88:
 	ldr r0, _08000E40 @ =gUnknown_03001F80
 	ldrb r2, [r4]
 	adds r1, r5, #0
-	bl sub_8099AD4
+	bl CpuFastSet
 _08000DE4:
 	ldr r1, _08000E44 @ =gNumHBlankIntrs
 	ldrb r0, [r4]
@@ -1194,7 +1194,7 @@ _08000E56:
 	lsls r1, r1, #0x13
 	movs r2, #0x80
 	lsls r2, r2, #1
-	bl sub_8099AD4
+	bl CpuFastSet
 _08000E70:
 	movs r4, #0
 	ldr r0, _08000EE0 @ =gUnknown_03001208
@@ -1227,7 +1227,7 @@ _08000E94:
 	ldr r5, _08000EE4 @ =gUnknown_03004C40
 	ldr r2, _08000EEC @ =0x01000004
 	adds r1, r5, #0
-	bl sub_8099AD4
+	bl CpuFastSet
 	ldr r4, _08000EF0 @ =gUnknown_030045F0
 	ldrb r0, [r4]
 	cmp r0, #0
@@ -1235,7 +1235,7 @@ _08000E94:
 	ldr r0, _08000EF4 @ =gUnknown_03001130
 	ldrb r2, [r4]
 	adds r1, r5, #0
-	bl sub_8099AD4
+	bl CpuFastSet
 _08000EC2:
 	ldr r1, _08000EE0 @ =gUnknown_03001208
 	ldrb r0, [r4]
@@ -1521,7 +1521,7 @@ _08001088:
 	ldr r0, _08001160 @ =gInput
 	strh r5, [r0]
 	movs r0, #0x20
-	bl sub_8099AF8
+	bl SoftReset
 _08001122:
 	ldr r1, _08001164 @ =gUnknown_03001B24
 	ldr r0, [r1]
@@ -1964,7 +1964,7 @@ _08001450:
 	ldr r1, _08001488 @ =gUnknown_03004630
 	ldr r2, _0800148C @ =0x01000100
 	mov r0, sp
-	bl sub_8099AD4
+	bl CpuFastSet
 	ldr r1, _08001490 @ =gUnknown_030045F0
 	movs r0, #0
 	strb r0, [r1]

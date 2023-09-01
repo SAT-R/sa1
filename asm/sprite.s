@@ -2960,12 +2960,12 @@ _080049F8:
 	ldr r5, _08004A34 @ =0x05000008
 	ldr r1, _08004A38 @ =gUnknown_03001110
 	adds r2, r5, #0
-	bl sub_8099AD8
+	bl CpuSet
 	str r4, [sp, #8]
 	ldr r1, _08004A3C @ =gUnknown_03004600
 	ldr r0, [sp, #0xc]
 	adds r2, r5, #0
-	bl sub_8099AD8
+	bl CpuSet
 	b _08004A64
 	.align 2, 0
 _08004A2C: .4byte gUnknown_030011B0

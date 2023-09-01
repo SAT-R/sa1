@@ -5,7 +5,6 @@
 .syntax unified
 .arm
 
-@ --- Start of sio32_multi_load.c ---
 	thumb_func_start Sio32MultiLoadMain
 Sio32MultiLoadMain: @ 0x080079E8
 	push {r4, r5, r6, r7, lr}
@@ -379,7 +378,7 @@ Sio32MultiLoadInit: @ 0x08007C94
 	ldr r2, _08007D20 @ =0x05000006
 	mov r0, sp
 	adds r1, r4, #0
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r1, _08007D24 @ =0x04000128
 	ldr r0, _08007D28 @ =0x00002003
 	str r0, [r1]
@@ -428,4 +427,3 @@ _08007D20: .4byte 0x05000006
 _08007D24: .4byte 0x04000128
 _08007D28: .4byte 0x00002003
 _08007D2C: .4byte 0x0400010C
-@ --- End of sio32_multi_load.c ---

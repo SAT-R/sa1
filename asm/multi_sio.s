@@ -37,15 +37,15 @@ MultiSioInit: @ 0x08006C60
 	ldr r2, _08006D38 @ =0x0500007A
 	mov r0, sp
 	adds r1, r4, #0
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r0, _08006D3C @ =MultiSioRecvBufChange
 	ldr r1, _08006D40 @ =gMultiSioRecvFuncBuf
 	ldr r2, _08006D44 @ =0x04000010
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r0, _08006D48 @ =MultiSioIntr
 	ldr r1, _08006D4C @ =gMultiSioIntrFuncBuf
 	ldr r2, _08006D50 @ =0x04000048
-	bl sub_8099AD8
+	bl CpuSet
 	strb r5, [r4, #2]
 	movs r0, #0xd
 	str r0, [r4, #0x14]
@@ -318,7 +318,7 @@ MultiSioSendDataSet: @ 0x08006E6C
 	ldr r1, [r5, #0x28]
 	adds r1, #4
 	ldr r2, _08006F34 @ =0x04000005
-	bl sub_8099AD8
+	bl CpuSet
 	movs r2, #0
 	ldr r1, [r5, #0x28]
 _08006EE8:
@@ -445,7 +445,7 @@ _08006F7C:
 	ldr r2, [sp, #0xc]
 	adds r1, r2, r1
 	ldr r2, _08007050 @ =0x04000005
-	bl sub_8099AD8
+	bl CpuSet
 _08006FDE:
 	movs r0, #0
 	str r0, [sp, #8]
@@ -455,7 +455,7 @@ _08006FDE:
 	adds r1, #4
 	mov r0, sb
 	ldr r2, _08007054 @ =0x05000005
-	bl sub_8099AD8
+	bl CpuSet
 	ldr r4, [sp, #0x10]
 	cmp r4, #3
 	ble _08006F6C

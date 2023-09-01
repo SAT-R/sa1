@@ -2,6 +2,7 @@ SECTIONS {
     . = 0x8000000;
     .text :
     ALIGN(4) {
+        /* Engine */
         build/sa1/asm/rom_header.o(.text);
         build/sa1/asm/crt0.o(.text);
         build/sa1/asm/multi_sio_asm.o(.text);
@@ -19,8 +20,15 @@ SECTIONS {
         build/sa1/asm/multi_sio.o(.text);
         build/sa1/asm/multi_boot.o(.text);
         build/sa1/asm/sio32_multi_load.o(.text);
-        build/sa1/asm/code_3.o(.text);
-        
+
+        /* Game */
+        build/sa1/asm/game.o(.text);
+
+        /* Libs */
+        build/sa1/asm/m4a0.o(.text);
+        build/sa1/asm/lib_m4a.o(.text);
+        build/sa1/asm/flash.o(.text);
+        build/sa1/asm/libagbsyscall.o(.text);
         *libgcc.a:_call_via_rX.o(.text);
         *libgcc.a:_divdi3.o(.text);
         *libgcc.a:_divsi3.o(.text);

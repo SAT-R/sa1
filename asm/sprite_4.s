@@ -3597,7 +3597,7 @@ _080065EA:
 	mov r1, sb
 	subs r0, r1, r0
 	str r3, [sp]
-	bl sub_8099B10
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	asrs r0, r0, #0x10

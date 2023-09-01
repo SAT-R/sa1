@@ -450,7 +450,7 @@ _08007460:
 	cmp r5, #0
 	bne _0800744A
 	adds r0, r7, #0
-	bl sub_8099AEC
+	bl MultiBoot
 	adds r5, r0, #0
 	cmp r5, #0
 	bne _08007484
