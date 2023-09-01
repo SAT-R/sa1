@@ -302,7 +302,7 @@ _080016F0:
 	ldrb r0, [r4]
 	cmp r0, #0
 	beq _08001704
-	bl sub_8097AD0
+	bl m4aSoundMain
 	movs r0, #0
 	strb r0, [r4]
 _08001704:
@@ -345,7 +345,7 @@ _0800174A:
 	ldrb r0, [r4]
 	cmp r0, #0
 	beq _0800175E
-	bl sub_8097AD0
+	bl m4aSoundMain
 	movs r0, #0
 	strb r0, [r4]
 _0800175E:

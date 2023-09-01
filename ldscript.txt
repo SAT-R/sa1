@@ -2,7 +2,10 @@ SECTIONS {
     . = 0x8000000;
     .text :
     ALIGN(4) {
-        build/sa1/asm/code.o(.text);
+        build/sa1/asm/rom_header.o(.text);
+        build/sa1/asm/crt0.o(.text);
+        build/sa1/asm/multi_sio_asm.o(.text);
+        build/sa1/asm/rom_header_old.o(.text);
         build/sa1/asm/core.o(.text);
         build/sa1/asm/main.o(.text);
         build/sa1/asm/task.o(.text);

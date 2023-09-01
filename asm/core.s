@@ -274,8 +274,8 @@ _080005E0:
 	mov r1, ip
 	str r0, [r1]
 	movs r2, #0
-	ldr r4, _080007A4 @ =0x03000470
-	ldr r3, _080007A8 @ =gUnknown_0809B670
+	ldr r4, _080007A4 @ =gIntrTable
+	ldr r3, _080007A8 @ =gIntrTableTemplate
 _08000610:
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
@@ -426,8 +426,8 @@ _08000794: .4byte gUnknown_03001B24
 _08000798: .4byte gUnknown_03001420
 _0800079C: .4byte gUnknown_03001FA0
 _080007A0: .4byte gUnknown_030020F0
-_080007A4: .4byte 0x03000470
-_080007A8: .4byte gUnknown_0809B670
+_080007A4: .4byte gIntrTable
+_080007A8: .4byte gIntrTableTemplate
 _080007AC: .4byte 0x85000140
 _080007B0: .4byte gUnknown_03001144
 _080007B4: .4byte gUnknown_03001B6C
@@ -453,14 +453,14 @@ _080007F8:
 	bl SetFlashTimerIntr
 _08000800:
 	ldr r1, _08000868 @ =0x040000D4
-	ldr r0, _0800086C @ =sub_80000FC
+	ldr r0, _0800086C @ =IntrMain
 	str r0, [r1]
 	ldr r2, _08000870 @ =gUnknown_030004B0
 	str r2, [r1, #4]
 	ldr r0, _08000874 @ =0x84000080
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
-	ldr r0, _08000878 @ =gUnknown_03007FFC
+	ldr r0, _08000878 @ =INTR_VECTOR
 	str r2, [r0]
 	ldr r0, _0800087C @ =0x04000208
 	movs r2, #1
@@ -503,10 +503,10 @@ _08000800:
 	.align 2, 0
 _08000864: .4byte 0x03000484
 _08000868: .4byte 0x040000D4
-_0800086C: .4byte sub_80000FC
+_0800086C: .4byte IntrMain
 _08000870: .4byte gUnknown_030004B0
 _08000874: .4byte 0x84000080
-_08000878: .4byte gUnknown_03007FFC
+_08000878: .4byte INTR_VECTOR
 _0800087C: .4byte 0x04000208
 _08000880: .4byte 0x04000004
 _08000884: .4byte gUnknown_03002100
@@ -532,7 +532,7 @@ _080008A4:
 	ands r0, r1
 	cmp r0, #0
 	bne _080008BA
-	bl sub_8097AD0
+	bl m4aSoundMain
 _080008BA:
 	ldr r0, _08000914 @ =gUnknown_03001F94
 	ldrb r0, [r0]
@@ -568,7 +568,7 @@ _080008E0:
 	ands r0, r5
 	cmp r0, #0
 	bne _08000948
-	bl sub_80013F8
+	bl ClearOamBufferCpuSet
 	b _0800093C
 	.align 2, 0
 _0800090C: .4byte gFlags
@@ -925,12 +925,12 @@ _08000C0C:
 _08000C16:
 	movs r0, #0xff
 	strb r0, [r1]
-	ldr r5, _08000C28 @ =gUnknown_0809B6A8
+	ldr r5, _08000C28 @ =spriteUpdateFuncs
 	b _08000C32
 	.align 2, 0
 _08000C20: .4byte gUnknown_03001208
 _08000C24: .4byte gUnknown_03001F94
-_08000C28: .4byte gUnknown_0809B6A8
+_08000C28: .4byte spriteUpdateFuncs
 _08000C2C:
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
@@ -1265,12 +1265,12 @@ _08000EFC:
 _08000F06:
 	movs r0, #0xff
 	strb r0, [r1]
-	ldr r5, _08000F18 @ =gUnknown_0809B6A8
+	ldr r5, _08000F18 @ =spriteUpdateFuncs
 	b _08000F22
 	.align 2, 0
 _08000F10: .4byte gUnknown_03001208
 _08000F14: .4byte gUnknown_03001F94
-_08000F18: .4byte gUnknown_0809B6A8
+_08000F18: .4byte spriteUpdateFuncs
 _08000F1C:
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
@@ -1294,8 +1294,8 @@ _08000F38:
 	.align 2, 0
 _08000F40: .4byte gUnknown_03001F94
 
-	thumb_func_start sub_8000F44
-sub_8000F44: @ 0x08000F44
+	thumb_func_start VBlankIntr
+VBlankIntr: @ 0x08000F44
 	push {r4, r5, r6, lr}
 	ldr r4, _08000FD0 @ =0x040000B0
 	ldrh r1, [r4, #0xa]
@@ -1471,7 +1471,7 @@ _08001088:
 	strh r2, [r0]
 	ldr r0, _08001138 @ =0x04000004
 	strh r2, [r0]
-	bl sub_8097C10
+	bl m4aMPlayAllStop
 	bl sub_80980E0
 	ldr r0, [r4]
 	movs r1, #5
@@ -1803,8 +1803,8 @@ _08001358: .4byte gNumHBlankIntrs
 _0800135C: .4byte gHBlankIntrs
 _08001360: .4byte 0x04000202
 
-	thumb_func_start sub_8001364
-sub_8001364: @ 0x08001364
+	thumb_func_start VCountIntr
+VCountIntr: @ 0x08001364
 	ldr r1, _0800136C @ =0x04000202
 	movs r0, #4
 	strh r0, [r1]
@@ -1812,8 +1812,8 @@ sub_8001364: @ 0x08001364
 	.align 2, 0
 _0800136C: .4byte 0x04000202
 
-	thumb_func_start sub_8001370
-sub_8001370: @ 0x08001370
+	thumb_func_start Dma0Intr
+Dma0Intr: @ 0x08001370
 	ldr r1, _0800137C @ =0x04000202
 	movs r2, #0x80
 	lsls r2, r2, #1
@@ -1823,8 +1823,8 @@ sub_8001370: @ 0x08001370
 	.align 2, 0
 _0800137C: .4byte 0x04000202
 
-	thumb_func_start sub_8001380
-sub_8001380: @ 0x08001380
+	thumb_func_start Dma1Intr
+Dma1Intr: @ 0x08001380
 	ldr r1, _0800138C @ =0x04000202
 	movs r2, #0x80
 	lsls r2, r2, #2
@@ -1834,8 +1834,8 @@ sub_8001380: @ 0x08001380
 	.align 2, 0
 _0800138C: .4byte 0x04000202
 
-	thumb_func_start sub_8001390
-sub_8001390: @ 0x08001390
+	thumb_func_start Dma2Intr
+Dma2Intr: @ 0x08001390
 	ldr r1, _0800139C @ =0x04000202
 	movs r2, #0x80
 	lsls r2, r2, #3
@@ -1845,8 +1845,8 @@ sub_8001390: @ 0x08001390
 	.align 2, 0
 _0800139C: .4byte 0x04000202
 
-	thumb_func_start sub_80013A0
-sub_80013A0: @ 0x080013A0
+	thumb_func_start Dma3Intr
+Dma3Intr: @ 0x080013A0
 	ldr r1, _080013AC @ =0x04000202
 	movs r2, #0x80
 	lsls r2, r2, #4
@@ -1856,8 +1856,8 @@ sub_80013A0: @ 0x080013A0
 	.align 2, 0
 _080013AC: .4byte 0x04000202
 
-	thumb_func_start sub_80013B0
-sub_80013B0: @ 0x080013B0
+	thumb_func_start Timer0Intr
+Timer0Intr: @ 0x080013B0
 	ldr r1, _080013B8 @ =0x04000202
 	movs r0, #8
 	strh r0, [r1]
@@ -1865,8 +1865,8 @@ sub_80013B0: @ 0x080013B0
 	.align 2, 0
 _080013B8: .4byte 0x04000202
 
-	thumb_func_start sub_80013BC
-sub_80013BC: @ 0x080013BC
+	thumb_func_start Timer1Intr
+Timer1Intr: @ 0x080013BC
 	ldr r1, _080013C4 @ =0x04000202
 	movs r0, #0x10
 	strh r0, [r1]
@@ -1874,8 +1874,8 @@ sub_80013BC: @ 0x080013BC
 	.align 2, 0
 _080013C4: .4byte 0x04000202
 
-	thumb_func_start sub_80013C8
-sub_80013C8: @ 0x080013C8
+	thumb_func_start Timer2Intr
+Timer2Intr: @ 0x080013C8
 	ldr r1, _080013D0 @ =0x04000202
 	movs r0, #0x20
 	strh r0, [r1]
@@ -1883,8 +1883,8 @@ sub_80013C8: @ 0x080013C8
 	.align 2, 0
 _080013D0: .4byte 0x04000202
 
-	thumb_func_start sub_80013D4
-sub_80013D4: @ 0x080013D4
+	thumb_func_start KeypadIntr
+KeypadIntr: @ 0x080013D4
 	ldr r1, _080013E0 @ =0x04000202
 	movs r2, #0x80
 	lsls r2, r2, #5
@@ -1894,8 +1894,8 @@ sub_80013D4: @ 0x080013D4
 	.align 2, 0
 _080013E0: .4byte 0x04000202
 
-	thumb_func_start sub_80013E4
-sub_80013E4: @ 0x080013E4
+	thumb_func_start GamepakIntr
+GamepakIntr: @ 0x080013E4
 	ldr r1, _080013F0 @ =0x04000202
 	movs r2, #0x80
 	lsls r2, r2, #6
@@ -1905,12 +1905,12 @@ sub_80013E4: @ 0x080013E4
 	.align 2, 0
 _080013F0: .4byte 0x04000202
 
-nullsub_80013F4:
+DummyFunc:
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80013F8
-sub_80013F8: @ 0x080013F8
+	thumb_func_start ClearOamBufferCpuSet
+ClearOamBufferCpuSet: @ 0x080013F8
 	push {r4, lr}
 	sub sp, #4
 	ldr r1, _08001430 @ =gUnknown_0300114C

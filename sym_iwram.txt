@@ -1,3 +1,4 @@
+. = 0x00000470; gIntrTable = .;
 . = 0x000004B0; gUnknown_030004B0 = .;
 . = 0x000006B0; gTasks = .;
 . = 0x000010B0; gUnknown_030010B0 = .;
@@ -87,9 +88,9 @@
 . = 0x00004C50; gUnknown_03004C50 = .;
 . = 0x00004C54; gExecSoundMain = .;
 . = 0x00004C58; gUnknown_03004C58 = .;
-. = 0x00004C60; gUnknown_03004C60 = .;
+. = 0x00004C60; gMultiSioIntrFuncBuf = .;
 . = 0x00004D80; gMultiSioArea = .;
-. = 0x00004F70; gUnknown_03004F70 = .;
+. = 0x00004F70; gMultiSioRecvFuncBuf = .;
 . = 0x00004FB0; gSio32MultiLoadArea = .;
 . = 0x00004FE0; gUnknown_03004FE0 = .;
 . = 0x00004FE4; gUnknown_03004FE4 = .;
@@ -235,9 +236,9 @@
 . = 0x00006424; gUnknown_03006424 = .;
 . = 0x00006428; gUnknown_03006428 = .;
 . = 0x0000642C; gUnknown_0300642C = .;
-. = 0x00007F00; gUnknown_03007F00 = .;
-. = 0x00007FA0; gUnknown_03007FA0 = .;
+. = 0x00007F00; SP_SYS = .;
+. = 0x00007FA0; SP_IRQ = .;
 . = 0x00007FF0; gUnknown_03007FF0 = .;
 . = 0x00007FF8; gUnknown_03007FF8 = .;
 . = 0x00007FFA; gUnknown_03007FFA = .;
-. = 0x00007FFC; gUnknown_03007FFC = .;
+. = 0x00007FFC; INTR_VECTOR = .;

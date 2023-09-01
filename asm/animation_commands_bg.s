@@ -5,9 +5,8 @@
 .syntax unified
 .arm
 
-@ --- animation_commands_bg.c ---
-	thumb_func_start sub_80025B0
-sub_80025B0: @ 0x080025B0
+	thumb_func_start UpdateBgAnimationTiles
+UpdateBgAnimationTiles: @ 0x080025B0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldrh r0, [r4, #0x1c]
@@ -646,12 +645,12 @@ _08002A3C:
 	lsrs r0, r0, #0xe
 	orrs r1, r0
 	lsls r1, r1, #1
-	ldr r5, _08002B34 @ =gUnknown_0809C120
+	ldr r5, _08002B34 @ =gOamShapesSizes
 	adds r0, r1, r5
 	ldrb r0, [r0]
 	lsrs r0, r0, #3
 	str r0, [sp, #0x20]
-	ldr r6, _08002B38 @ =gUnknown_0809C121
+	ldr r6, _08002B38 @ =gOamShapesSizes+1
 	adds r1, r1, r6
 	ldrb r0, [r1]
 	lsrs r0, r0, #3
@@ -741,8 +740,8 @@ _08002B24: .4byte gDispCnt
 _08002B28: .4byte gUnknown_03002034
 _08002B2C: .4byte 0x040000D4
 _08002B30: .4byte 0x80000003
-_08002B34: .4byte gUnknown_0809C120
-_08002B38: .4byte gUnknown_0809C121
+_08002B34: .4byte gOamShapesSizes
+_08002B38: .4byte gOamShapesSizes+1
 _08002B3C: .4byte 0x000003FF
 _08002B40: .4byte 0x000001FF
 _08002B44:
@@ -864,12 +863,12 @@ _08002BEE:
 	lsrs r0, r0, #0xe
 	orrs r1, r0
 	lsls r1, r1, #1
-	ldr r5, _08002C94 @ =gUnknown_0809C120
+	ldr r5, _08002C94 @ =gOamShapesSizes
 	adds r0, r1, r5
 	ldrb r0, [r0]
 	lsrs r0, r0, #3
 	str r0, [sp, #0x20]
-	ldr r6, _08002C98 @ =gUnknown_0809C121
+	ldr r6, _08002C98 @ =gOamShapesSizes+1
 	adds r1, r1, r6
 	ldrb r0, [r1]
 	lsrs r0, r0, #3
@@ -920,8 +919,8 @@ _08002BEE:
 _08002C88: .4byte gUnknown_03002034
 _08002C8C: .4byte 0x040000D4
 _08002C90: .4byte 0x80000003
-_08002C94: .4byte gUnknown_0809C120
-_08002C98: .4byte gUnknown_0809C121
+_08002C94: .4byte gOamShapesSizes
+_08002C98: .4byte gOamShapesSizes+1
 _08002C9C: .4byte 0x000001FF
 _08002CA0:
 	ldr r3, [sp, #0xc]
@@ -1783,7 +1782,7 @@ animCmd_PlaySoundEffect_BG: @ 0x08003310
 	adds r2, #2
 	strh r2, [r1, #0x14]
 	ldrh r0, [r0, #4]
-	bl sub_8097ADC
+	bl m4aSongNumStart
 	movs r0, #1
 	pop {r1}
 	bx r1

@@ -38,12 +38,12 @@ MultiSioInit: @ 0x08006C60
 	mov r0, sp
 	adds r1, r4, #0
 	bl sub_8099AD8
-	ldr r0, _08006D3C @ =sub_80001CC
-	ldr r1, _08006D40 @ =gUnknown_03004F70
+	ldr r0, _08006D3C @ =MultiSioRecvBufChange
+	ldr r1, _08006D40 @ =gMultiSioRecvFuncBuf
 	ldr r2, _08006D44 @ =0x04000010
 	bl sub_8099AD8
-	ldr r0, _08006D48 @ =sub_800020C
-	ldr r1, _08006D4C @ =gUnknown_03004C60
+	ldr r0, _08006D48 @ =MultiSioIntr
+	ldr r1, _08006D4C @ =gMultiSioIntrFuncBuf
 	ldr r2, _08006D50 @ =0x04000048
 	bl sub_8099AD8
 	strb r5, [r4, #2]
@@ -109,11 +109,11 @@ _08006D2C: .4byte 0x04000134
 _08006D30: .4byte 0x00004003
 _08006D34: .4byte gMultiSioArea
 _08006D38: .4byte 0x0500007A
-_08006D3C: .4byte sub_80001CC
-_08006D40: .4byte gUnknown_03004F70
+_08006D3C: .4byte MultiSioRecvBufChange
+_08006D40: .4byte gMultiSioRecvFuncBuf
 _08006D44: .4byte 0x04000010
-_08006D48: .4byte sub_800020C
-_08006D4C: .4byte gUnknown_03004C60
+_08006D48: .4byte MultiSioIntr
+_08006D4C: .4byte gMultiSioIntrFuncBuf
 _08006D50: .4byte 0x04000048
 
 	thumb_func_start MultiSioMain
@@ -372,7 +372,7 @@ MultiSioRecvDataCheck: @ 0x08006F3C
 	push {r5, r6, r7}
 	sub sp, #0x14
 	str r0, [sp, #0xc]
-	ldr r0, _08007048 @ =gUnknown_03004F70
+	ldr r0, _08007048 @ =gMultiSioRecvFuncBuf
 	movs r4, #0
 	str r4, [sp]
 	bl _call_via_r0
@@ -500,7 +500,7 @@ _0800702C:
 	orrs r0, r4
 	b _08007076
 	.align 2, 0
-_08007048: .4byte gUnknown_03004F70
+_08007048: .4byte gMultiSioRecvFuncBuf
 _0800704C: .4byte gMultiSioArea
 _08007050: .4byte 0x04000005
 _08007054: .4byte 0x05000005

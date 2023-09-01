@@ -258,7 +258,7 @@ _0800352C:
 	adds r6, r1, #0
 	cmp r0, #0
 	bge _0800359C
-	ldr r7, _080035DC @ =gUnknown_0809C0F0
+	ldr r7, _080035DC @ =animCmdTable
 _08003556:
 	mvns r0, r0
 	lsls r0, r0, #2
@@ -327,7 +327,7 @@ _0800359C:
 	b _080035E6
 	.align 2, 0
 _080035D8: .4byte gUnknown_03002034
-_080035DC: .4byte gUnknown_0809C0F0
+_080035DC: .4byte animCmdTable
 _080035E0:
 	adds r0, r1, #0
 	b _080035EE
@@ -344,8 +344,8 @@ _080035EE:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_80035F4
-sub_80035F4: @ 0x080035F4
+	thumb_func_start animCmd_GetTiles
+animCmd_GetTiles: @ 0x080035F4
 	adds r2, r0, #0
 	adds r3, r1, #0
 	ldrh r0, [r3, #0x14]
@@ -2092,7 +2092,7 @@ _08004348:
 	eors r0, r1
 	strh r0, [r4, #2]
 	lsls r0, r3, #1
-	ldr r1, _08004440 @ =gUnknown_0809C121
+	ldr r1, _08004440 @ =gOamShapesSizes+1
 	adds r0, r0, r1
 	ldrb r0, [r0]
 	ldr r2, [sp, #8]
@@ -2117,7 +2117,7 @@ _0800438A:
 	eors r0, r1
 	strh r0, [r4, #2]
 	lsls r0, r3, #1
-	ldr r3, _08004444 @ =gUnknown_0809C120
+	ldr r3, _08004444 @ =gOamShapesSizes
 	adds r0, r0, r3
 	ldrb r0, [r0]
 	ldr r5, [sp, #4]
@@ -2196,8 +2196,8 @@ _08004430:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08004440: .4byte gUnknown_0809C121
-_08004444: .4byte gUnknown_0809C120
+_08004440: .4byte gOamShapesSizes+1
+_08004444: .4byte gOamShapesSizes
 _08004448: .4byte 0x000001FF
 _0800444C: .4byte 0x000003FF
 _08004450: .4byte 0xF9FF0000
@@ -2496,7 +2496,7 @@ _08004658:
 	adds r0, r3, #0
 	eors r0, r1
 	strh r0, [r6, #2]
-	ldr r0, _080047E0 @ =gUnknown_0809C120
+	ldr r0, _080047E0 @ =gOamShapesSizes
 	lsls r1, r4, #1
 	adds r0, #1
 	adds r1, r1, r0
@@ -2523,7 +2523,7 @@ _0800469C:
 	adds r1, r2, #0
 	eors r0, r1
 	strh r0, [r6, #2]
-	ldr r1, _080047E0 @ =gUnknown_0809C120
+	ldr r1, _080047E0 @ =gOamShapesSizes
 	lsls r0, r4, #1
 	adds r0, r0, r1
 	ldrb r0, [r0]
@@ -2674,7 +2674,7 @@ _080047D0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080047E0: .4byte gUnknown_0809C120
+_080047E0: .4byte gOamShapesSizes
 _080047E4: .4byte 0x000001FF
 _080047E8: .4byte 0x000003FF
 _080047EC: .4byte 0xF9FF0000
@@ -3000,8 +3000,8 @@ _08004A78: .4byte gUnknown_03001110
 _08004A7C: .4byte 0x85000008
 _08004A80: .4byte gUnknown_03004600
 
-	thumb_func_start sub_8004A84
-sub_8004A84: @ 0x08004A84
+	thumb_func_start animCmd_GetPalette
+animCmd_GetPalette: @ 0x08004A84
 	push {r4, lr}
 	adds r4, r0, #0
 	adds r3, r1, #0
@@ -3055,8 +3055,8 @@ _08004AE4: .4byte gUnknown_03002034
 _08004AE8: .4byte gUnknown_03001920
 _08004AEC: .4byte gFlags
 
-	thumb_func_start sub_8004AF0
-sub_8004AF0: @ 0x08004AF0
+	thumb_func_start animCmd_JumpBack
+animCmd_JumpBack: @ 0x08004AF0
 	ldr r2, [r0, #4]
 	ldrh r0, [r1, #0x14]
 	subs r0, r0, r2
@@ -3064,8 +3064,8 @@ sub_8004AF0: @ 0x08004AF0
 	movs r0, #1
 	bx lr
 
-	thumb_func_start sub_8004AFC
-sub_8004AFC: @ 0x08004AFC
+	thumb_func_start animCmd_End
+animCmd_End: @ 0x08004AFC
 	ldr r0, [r1, #0x10]
 	movs r2, #0x80
 	lsls r2, r2, #7
@@ -3075,14 +3075,14 @@ sub_8004AFC: @ 0x08004AFC
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8004B0C
-sub_8004B0C: @ 0x08004B0C
+	thumb_func_start animCmd_PlaySoundEffect
+animCmd_PlaySoundEffect: @ 0x08004B0C
 	push {lr}
 	ldrh r2, [r1, #0x14]
 	adds r2, #2
 	strh r2, [r1, #0x14]
 	ldrh r0, [r0, #4]
-	bl sub_8097ADC
+	bl m4aSongNumStart
 	movs r0, #1
 	pop {r1}
 	bx r1

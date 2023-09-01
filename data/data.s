@@ -1,12 +1,15 @@
 	.section .rodata
 
-    .global gUnknown_0809B670
-gUnknown_0809B670:
-    .incbin "baserom.gba", 0x0009B670, 0x38
+    .global gIntrTableTemplate
+gIntrTableTemplate:
+    .4byte gMultiSioIntrFuncBuf, VBlankIntr, HBlankIntr, VCountIntr
+    .4byte Timer0Intr, Timer1Intr, Timer2Intr, Dma0Intr
+    .4byte Dma1Intr, Dma2Intr, Dma3Intr, KeypadIntr
+    .4byte GamepakIntr, 0
 
-    .global gUnknown_0809B6A8
-gUnknown_0809B6A8:
-    .incbin "baserom.gba", 0x0009B6A8, 0x10
+    .global spriteUpdateFuncs
+spriteUpdateFuncs:
+    .4byte sub_800116C, sub_8002F84, sub_8002958, sub_8001AA4
 
     .global animCmdTable_BG
 animCmdTable_BG:
@@ -18,21 +21,20 @@ animCmdTable_BG:
 gSineTable:
     .incbin "baserom.gba", 0x0009B6E8, 0xA00
 
+@ SA2: sUnknown_080984A4
     .global gUnknown_0809C0E8
 gUnknown_0809C0E8:
-    .incbin "baserom.gba", 0x0009C0E8, 0x8
+    .byte 0x01, 0x00, 0x02, 0x03, 0x06, 0x07, 0x05, 0x04
 
-    .global gUnknown_0809C0F0
-gUnknown_0809C0F0:
-    .incbin "baserom.gba", 0x0009C0F0, 0x30
+    .global animCmdTable
+animCmdTable:
+    .4byte animCmd_GetTiles, animCmd_GetPalette, animCmd_JumpBack, animCmd_End
+    .4byte animCmd_PlaySoundEffect, sub_8003660, sub_8004B20, sub_8004B3C
+    .4byte sub_8004B48, sub_8004B68, sub_8004B70, sub_8004B8C
 
-    .global gUnknown_0809C120
-gUnknown_0809C120:
-    .incbin "baserom.gba", 0x0009C120, 0x1
-
-    .global gUnknown_0809C121
-gUnknown_0809C121:
-    .incbin "baserom.gba", 0x0009C121, 0x17
+    .global gOamShapesSizes
+gOamShapesSizes:
+    .incbin "baserom.gba", 0x0009C120, 0x18
 
     .global gUnknown_0809C138
 gUnknown_0809C138:
