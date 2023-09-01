@@ -15,7 +15,7 @@ spriteUpdateFuncs:
 animCmdTable_BG:
     .4byte animCmd_GetTiles_BG, animCmd_GetPalette_BG, animCmd_JumpBack_BG, animCmd_End_BG
     .4byte animCmd_PlaySoundEffect_BG, animCmd_AddHitbox_BG, animCmd_TranslateSprite_BG, animCmd_8_BG
-    .4byte animCmd_SetIdAndVariant_BG, animCmd_10_BG, animCmd_SetSpritePriority_BG, animCmd_12_BG
+    .4byte animCmd_SetIdAndVariant_BG, animCmd_10_BG, animCmd_SetSpritePriority_BG, animCmd_SetOamOrder_BG
 
     .global gSineTable
 gSineTable:
@@ -29,8 +29,8 @@ gUnknown_0809C0E8:
     .global animCmdTable
 animCmdTable:
     .4byte animCmd_GetTiles, animCmd_GetPalette, animCmd_JumpBack, animCmd_End
-    .4byte animCmd_PlaySoundEffect, sub_8003660, sub_8004B20, sub_8004B3C
-    .4byte sub_8004B48, sub_8004B68, sub_8004B70, sub_8004B8C
+    .4byte animCmd_PlaySoundEffect, animCmd_AddHitbox, animCmd_TranslateSprite, animCmd_8
+    .4byte animCmd_SetIdAndVariant, animCmd_10, animCmd_SetSpritePriority, animCmd_SetOamOrder
 
     .global gOamShapesSizes
 gOamShapesSizes:

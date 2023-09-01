@@ -1199,7 +1199,7 @@ sub_8002E58: @ 0x08002E58
 	mov sb, r3
 	adds r0, r7, #0
 	mov r1, sb
-	bl sub_8099ADC
+	bl Div
 	ldr r1, _08002F80 @ =gSineTable
 	mov sl, r1
 	movs r2, #0x80
@@ -1219,7 +1219,7 @@ sub_8002E58: @ 0x08002E58
 	strh r0, [r3]
 	adds r0, r7, #0
 	mov r1, sb
-	bl sub_8099ADC
+	bl Div
 	lsls r4, r4, #1
 	add r4, sl
 	ldrh r1, [r4]
@@ -1235,7 +1235,7 @@ sub_8002E58: @ 0x08002E58
 	asrs r5, r5, #0x10
 	adds r0, r7, #0
 	adds r1, r5, #0
-	bl sub_8099ADC
+	bl Div
 	movs r2, #0
 	ldrsh r1, [r4, r2]
 	rsbs r1, r1, #0
@@ -1248,7 +1248,7 @@ sub_8002E58: @ 0x08002E58
 	strh r0, [r3, #4]
 	adds r0, r7, #0
 	adds r1, r5, #0
-	bl sub_8099ADC
+	bl Div
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	ldr r1, [sp, #8]
@@ -1839,6 +1839,7 @@ animCmd_10_BG: @ 0x0800336C
 	strh r2, [r1, #0x14]
 	bx lr
 
+@ No-op in BG
 	thumb_func_start animCmd_SetSpritePriority_BG
 animCmd_SetSpritePriority_BG: @ 0x08003374
 	ldrh r0, [r1, #0x14]
@@ -1848,8 +1849,9 @@ animCmd_SetSpritePriority_BG: @ 0x08003374
 	bx lr
 	.align 2, 0
 
-	thumb_func_start animCmd_12_BG
-animCmd_12_BG: @ 0x08003380
+@ No-op in BG
+	thumb_func_start animCmd_SetOamOrder_BG
+animCmd_SetOamOrder_BG: @ 0x08003380
 	ldrh r0, [r1, #0x14]
 	adds r0, #2
 	strh r0, [r1, #0x14]

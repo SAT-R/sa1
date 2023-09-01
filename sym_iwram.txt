@@ -235,10 +235,12 @@
 . = 0x00006420; gUnknown_03006420 = .;
 . = 0x00006424; gUnknown_03006424 = .;
 . = 0x00006428; gUnknown_03006428 = .;
-. = 0x0000642C; gUnknown_0300642C = .;
-. = 0x00007F00; SP_SYS = .;
-. = 0x00007FA0; SP_IRQ = .;
+
+/* TODO: Remove this after inserting library .o files */
+. = 0x0000642C;
+
+iwram_end = .;
+
 . = 0x00007FF0; gUnknown_03007FF0 = .;
 . = 0x00007FF8; gUnknown_03007FF8 = .;
 . = 0x00007FFA; gUnknown_03007FFA = .;
-. = 0x00007FFC; INTR_VECTOR = .;

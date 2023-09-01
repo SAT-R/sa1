@@ -615,7 +615,7 @@ _08001E64:
 	add r4, sl
 	ldrh r1, [r6, #0x14]
 	adds r0, r4, #0
-	bl sub_8099ADC
+	bl Div
 	str r0, [sp, #0x18]
 	ldrh r1, [r6, #0x14]
 	adds r5, r0, #0
@@ -648,7 +648,7 @@ _08001EA4:
 	add r4, sb
 	ldrh r1, [r6, #0x16]
 	adds r0, r4, #0
-	bl sub_8099ADC
+	bl Div
 	ldrh r3, [r6, #0x16]
 	adds r1, r0, #0
 	muls r1, r3, r1
@@ -1436,7 +1436,7 @@ _08002478:
 	add r4, sl
 	ldrh r1, [r6, #0x14]
 	adds r0, r4, #0
-	bl sub_8099ADC
+	bl Div
 	str r0, [sp, #0x24]
 	ldrh r1, [r6, #0x14]
 	adds r2, r0, #0
@@ -1470,7 +1470,7 @@ _080024BA:
 	add r4, sb
 	ldrh r1, [r6, #0x16]
 	adds r0, r4, #0
-	bl sub_8099ADC
+	bl Div
 	ldrh r3, [r6, #0x16]
 	adds r1, r0, #0
 	muls r1, r3, r1

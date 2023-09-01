@@ -72,7 +72,7 @@ _080014D8:
 	strh r5, [r1]
 	strh r5, [r1, #2]
 	strh r5, [r1, #4]
-	ldr r0, _08001570 @ =gUnknown_0300642C
+	ldr r0, _08001570 @ =iwram_end
 	ldr r0, [r0]
 	strh r0, [r1, #6]
 	ldr r1, _08001574 @ =gIwramHeap
@@ -91,10 +91,10 @@ _08001554: .4byte 0x85000080
 _08001558: .4byte gTaskPtrs
 _0800155C: .4byte 0x000009EC
 _08001560: .4byte TaskMainDummy1
-_08001564: .4byte 0x080019B9
+_08001564: .4byte TaskMainDummy2
 _08001568: .4byte 0x0000FFFF
 _0800156C: .4byte gEmptyTask
-_08001570: .4byte gUnknown_0300642C
+_08001570: .4byte iwram_end
 _08001574: .4byte gIwramHeap
 _08001578: .4byte 0x00002204
 _0800157C:

@@ -11,6 +11,8 @@ SECTIONS {
         build/sa1/asm/task.o(.text);
         build/sa1/asm/bg_update.o(.text);
         build/sa1/asm/animation_commands_bg.o(.text);
+        build/sa1/asm/sprite.o(.text);
+        build/sa1/asm/animation_commands.o(.text);
         build/sa1/asm/code_2.o(.text);
         build/sa1/asm/multi_sio.o(.text);
         build/sa1/asm/multi_boot.o(.text);

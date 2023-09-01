@@ -354,7 +354,7 @@ _08000610:
 	movs r0, #1
 	strb r0, [r1]
 	bl TasksInit
-	bl sub_8006A74
+	bl EwramInitHeap
 	ldr r1, _080007E8 @ =gUnknown_03001148
 	movs r2, #0x9c
 	lsls r2, r2, #2
@@ -363,7 +363,7 @@ _08000610:
 	ldr r1, _080007EC @ =gUnknown_03001200
 	ldr r0, _080007F0 @ =0x06013200
 	str r0, [r1]
-	bl sub_8006C0C
+	bl VramResetHeapState
 	bl IdentifyFlash
 	lsls r0, r0, #0x10
 	cmp r0, #0
@@ -805,7 +805,7 @@ _08000B06:
 	ldrb r0, [r0]
 	cmp r0, #0xff
 	bne _08000B54
-	bl sub_8004894
+	bl CopyOamBufferToOam
 	ldr r0, _08000BC8 @ =0x040000D4
 	ldr r3, _08000BDC @ =gUnknown_03004630
 	str r3, [r0]
@@ -1188,7 +1188,7 @@ _08000E56:
 	ldrb r0, [r0]
 	cmp r0, #0xff
 	bne _08000E70
-	bl sub_8004894
+	bl CopyOamBufferToOam
 	ldr r0, _08000EDC @ =gUnknown_03004630
 	movs r1, #0xe0
 	lsls r1, r1, #0x13
