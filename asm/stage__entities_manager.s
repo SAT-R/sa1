@@ -44,7 +44,7 @@ _080087B4:
 	ldrb r0, [r0]
 	cmp r0, #6
 	beq _08008868
-	ldr r5, _08008858 @ =gUnknown_080BAF8C
+	ldr r5, _08008858 @ =gSpritePosData_interactables
 	ldr r4, _0800885C @ =gCurrentLevel
 	movs r0, #0
 	ldrsb r0, [r4, r0]
@@ -63,7 +63,7 @@ _080087B4:
 	adds r1, r6, #0
 	bl RLUnCompWram
 	str r6, [r7]
-	ldr r5, _08008860 @ =gUnknown_080BAFD4
+	ldr r5, _08008860 @ =gSpritePosData_itemboxes
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	lsls r0, r0, #2
@@ -81,7 +81,7 @@ _080087B4:
 	adds r1, r6, #0
 	bl RLUnCompWram
 	str r6, [r7, #4]
-	ldr r5, _08008864 @ =gUnknown_080BB01C
+	ldr r5, _08008864 @ =gSpritePosData_enemies
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	lsls r0, r0, #2
@@ -103,10 +103,10 @@ _080087B4:
 	.align 2, 0
 _08008850: .4byte Task_8008CEC
 _08008854: .4byte gGameMode
-_08008858: .4byte gUnknown_080BAF8C
+_08008858: .4byte gSpritePosData_interactables
 _0800885C: .4byte gCurrentLevel
-_08008860: .4byte gUnknown_080BAFD4
-_08008864: .4byte gUnknown_080BB01C
+_08008860: .4byte gSpritePosData_itemboxes
+_08008864: .4byte gSpritePosData_enemies
 _08008868:
 	ldr r6, _08008898 @ =gUnknown_0203F000
 	ldr r0, _0800889C @ =gUnknown_0203300C

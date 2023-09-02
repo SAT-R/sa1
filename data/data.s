@@ -48,16 +48,16 @@ gUnknown_0809C170:
 gSpritePosData_rings:
     .incbin "baserom.gba", 0x000BAF44, 0x48
 
-    .global gUnknown_080BAF8C
-gUnknown_080BAF8C:
+    .global gSpritePosData_interactables
+gSpritePosData_interactables:
     .incbin "baserom.gba", 0x000BAF8C, 0x48
 
-    .global gUnknown_080BAFD4
-gUnknown_080BAFD4:
+    .global gSpritePosData_itemboxes
+gSpritePosData_itemboxes:
     .incbin "baserom.gba", 0x000BAFD4, 0x48
 
-    .global gUnknown_080BB01C
-gUnknown_080BB01C:
+    .global gSpritePosData_enemies
+gSpritePosData_enemies:
     .incbin "baserom.gba", 0x000BB01C, 0x48
 
     .global gSpriteInits_Interactables
