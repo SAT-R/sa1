@@ -1,6 +1,13 @@
 #ifndef GUARD_GBA_FLASH_INTERNAL_H
 #define GUARD_GBA_FLASH_INTERNAL_H
 
+#ifndef NON_MATCHING
+// It seems like the launch SDK had a way different
+// version of this library than later ones, so we use this
+// to make it match.
+#define AGBFLASH_USE_V126 1
+#endif
+
 #define FLASH_BASE ((u8 *)0xE000000)
 
 #define FLASH_WRITE(addr, data) ((*(vu8 *)(FLASH_BASE + (addr))) = (data))
@@ -57,7 +64,7 @@ extern u8 (*PollFlashStatus)(u8 *);
 extern u16 (*WaitForFlashWrite)(u8, u8 *, u8);
 
 extern const struct FlashSetupInfo LE39FW512;
-//extern const struct FlashSetupInfo AT29LV512;
+extern const struct FlashSetupInfo AT29LV512;
 extern const struct FlashSetupInfo MN63F805MNP;
 extern const struct FlashSetupInfo MX29L512;
 extern const struct FlashSetupInfo DefaultFlash512K;
@@ -82,11 +89,19 @@ u16 WaitForFlashWrite_Common(u8 phase, u8 *addr, u8 lastData);
 u16 ProgramByte(u8 *src, u8 *dest);
 
 u16 EraseFlashChip_LE(void);
+u16 EraseFlashChip_AT(void);
 u16 EraseFlashSector_LE(u16 sectorNum);
+u16 EraseFlashSector_AT(u16 sectorNum);
 u16 ProgramFlashSector_LE(u16 sectorNum, void *src);
 u16 ProgramFlashSector_MX(u16 sectorNum, void *src);
+u16 ProgramFlashSector_AT(u16 sectorNum, void *src);
+
 
 // agb_flash_1m
 u16 IdentifyFlash(void);
+
+/* Manufacturers and chips */
+#define MANUFACTURER_ATMEL	 0x1F
+#define CHIP_ATMEL_AT29LV512 0x3D
 
 #endif // GUARD_GBA_FLASH_INTERNAL_H

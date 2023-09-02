@@ -1,3 +1,24 @@
+
+/**** bss ****/
+build/sa1/src/lib/m4a.o(.bss.code);
+
+/* *** TODO: Do these without hard-coding! *** */
+gFlashMaxTime = 0x00000424;
+PollFlashStatus = 0x00000428;
+sTimerNum = 0x0000042C;
+sTimerCount = 0x0000042E;
+gFlashTimeoutFlag = 0x00000430;
+gTimerReg = 0x00000434;
+gSavedIme = 0x00000438;
+
+. = 0x0000042C;
+/*build/sa1/src/lib/agb_flash.o(COMMON);*/
+build/sa1/src/lib/agb_flash.o(.bss);
+
+. = 0x00000440; 
+*libgcc.a:(.bss);
+
+. = 0x00000470; gIntrTable = .;
 . = 0x000004B0; gUnknown_030004B0 = .;
 . = 0x000006B0; gTasks = .;
 . = 0x000010B0; gUnknown_030010B0 = .;
@@ -6,16 +27,16 @@
 . = 0x00001100; gFlags = .;
 . = 0x00001110; gUnknown_03001110 = .;
 . = 0x00001130; gUnknown_03001130 = .;
-. = 0x00001140; gUnknown_03001140 = .;
+. = 0x00001140; gPhysicalInput = .;
 . = 0x00001144; gUnknown_03001144 = .;
 . = 0x00001148; gUnknown_03001148 = .;
 . = 0x0000114C; gUnknown_0300114C = .;
 . = 0x00001150; gUnknown_03001150 = .;
-. = 0x000011A0; gUnknown_030011A0 = .;
+. = 0x000011A0; gNumHBlankIntrs = .;
 . = 0x000011A8; gUnknown_030011A8 = .;
 . = 0x000011B0; gUnknown_030011B0 = .;
 . = 0x000011C0; gEmptyTask = .;
-. = 0x000011E0; gUnknown_030011E0 = .;
+. = 0x000011E0; gBgAffineRegs = .;
 . = 0x00001200; gUnknown_03001200 = .;
 . = 0x00001204; gUnknown_03001204 = .;
 . = 0x00001208; gUnknown_03001208 = .;
@@ -34,25 +55,25 @@
 . = 0x00001B40; gUnknown_03001B40 = .;
 . = 0x00001B42; gUnknown_03001B42 = .;
 . = 0x00001B43; gUnknown_03001B43 = .;
-. = 0x00001B50; gUnknown_03001B50 = .;
+. = 0x00001B50; gInput = .;
 . = 0x00001B60; gUnknown_03001B60 = .;
 . = 0x00001B6C; gUnknown_03001B6C = .;
 . = 0x00001B70; gUnknown_03001B70 = .;
-. = 0x00001B78; gUnknown_03001B78 = .;
+. = 0x00001B78; gRepeatedKeys = .;
 . = 0x00001B7C; gNextTask = .;
 . = 0x00001B80; gUnknown_03001B80 = .;
 . = 0x00001F80; gUnknown_03001F80 = .;
 . = 0x00001F90; gCurTask = .;
 . = 0x00001F94; gUnknown_03001F94 = .;
 . = 0x00001FA0; gUnknown_03001FA0 = .;
-. = 0x00001FAC; gUnknown_03001FAC = .;
+. = 0x00001FAC; gReleasedKeys = .;
 . = 0x00001FB0; gUnknown_03001FB0 = .;
 . = 0x00002030; gUnknown_03002030 = .;
 . = 0x00002034; gUnknown_03002034 = .;
 . = 0x00002040; gVramGraphicsCopyQueue = .;
 . = 0x000020C0; gUnknown_030020C0 = .;
 . = 0x000020D0; gUnknown_030020D0 = .;
-. = 0x000020E0; gUnknown_030020E0 = .;
+. = 0x000020E0; gDispCnt = .;
 . = 0x000020F0; gUnknown_030020F0 = .;
 . = 0x00002100; gUnknown_03002100 = .;
 . = 0x0000210E; gUnknown_0300210E = .;
@@ -63,13 +84,13 @@
 . = 0x00002160; gUnknown_03002160 = .;
 . = 0x00002320; gUnknown_03002320 = .;
 . = 0x00002324; gVramGraphicsCopyQueueIndex = .;
-. = 0x00002328; gUnknown_03002328 = .;
+. = 0x00002328; gPrevInput = .;
 . = 0x0000232C; gUnknown_0300232C = .;
 . = 0x00002330; gUnknown_03002330 = .;
-. = 0x0000237C; gUnknown_0300237C = .;
+. = 0x0000237C; gPressedKeys = .;
 . = 0x00002380; gUnknown_03002380 = .;
 . = 0x00002384; gUnknown_03002384 = .;
-. = 0x00002390; gUnknown_03002390 = .;
+. = 0x00002390; gHBlankIntrs = .;
 . = 0x000023A0; gIwramHeap = .;
 . = 0x000045B0; gUnknown_030045B0 = .;
 . = 0x000045F0; gUnknown_030045F0 = .;
@@ -87,10 +108,10 @@
 . = 0x00004C50; gUnknown_03004C50 = .;
 . = 0x00004C54; gExecSoundMain = .;
 . = 0x00004C58; gUnknown_03004C58 = .;
-. = 0x00004C60; gUnknown_03004C60 = .;
-. = 0x00004D80; gUnknown_03004D80 = .;
-. = 0x00004F70; gUnknown_03004F70 = .;
-. = 0x00004FB0; gUnknown_03004FB0 = .;
+. = 0x00004C60; gMultiSioIntrFuncBuf = .;
+. = 0x00004D80; gMultiSioArea = .;
+. = 0x00004F70; gMultiSioRecvFuncBuf = .;
+. = 0x00004FB0; gSio32MultiLoadArea = .;
 . = 0x00004FE0; gUnknown_03004FE0 = .;
 . = 0x00004FE4; gUnknown_03004FE4 = .;
 . = 0x00004FE8; gUnknown_03004FE8 = .;
@@ -118,10 +139,10 @@
 . = 0x00005050; gUnknown_03005050 = .;
 . = 0x00005054; gUnknown_03005054 = .;
 . = 0x00005058; gUnknown_03005058 = .;
-. = 0x0000505C; gUnknown_0300505C = .;
+. = 0x0000505C; gGameMode = .;
 . = 0x00005060; gUnknown_03005060 = .;
 . = 0x00005064; gUnknown_03005064 = .;
-. = 0x00005068; gUnknown_03005068 = .;
+. = 0x00005068; gEntitiesManagerTask = .;
 . = 0x0000506C; gUnknown_0300506C = .;
 . = 0x00005070; gUnknown_03005070 = .;
 . = 0x00005074; gUnknown_03005074 = .;
@@ -138,7 +159,7 @@
 . = 0x00005130; gUnknown_03005130 = .;
 . = 0x00005140; gUnknown_03005140 = .;
 . = 0x00005148; gUnknown_03005148 = .;
-. = 0x0000514C; gUnknown_0300514C = .;
+. = 0x0000514C; gCurrentLevel = .;
 . = 0x00005150; gUnknown_03005150 = .;
 . = 0x00005154; gUnknown_03005154 = .;
 . = 0x00005160; gUnknown_03005160 = .;
@@ -216,8 +237,8 @@
 . = 0x00005C80; gUnknown_03005C80 = .;
 . = 0x00005E80; gUnknown_03005E80 = .;
 . = 0x00006080; gUnknown_03006080 = .;
-. = 0x000060D0; gUnknown_030060D0 = .;
-. = 0x000060DC; gUnknown_030060DC = .;
+. = 0x000060D0; gInputRecorder = .;
+. = 0x000060DC; gInputRecorderTapeBuffer = .;
 . = 0x000060E0; gUnknown_030060E0 = .;
 . = 0x000060F0; gUnknown_030060F0 = .;
 . = 0x00006166; gUnknown_03006166 = .;
@@ -228,16 +249,15 @@
 . = 0x00006250; gUnknown_03006250 = .;
 . = 0x000063C0; gUnknown_030063C0 = .;
 . = 0x000063F0; gUnknown_030063F0 = .;
-. = 0x00006414; gUnknown_03006414 = .;
-. = 0x00006418; gUnknown_03006418 = .;
-. = 0x0000641C; gUnknown_0300641C = .;
-. = 0x00006420; gUnknown_03006420 = .;
-. = 0x00006424; gUnknown_03006424 = .;
-. = 0x00006428; gUnknown_03006428 = .;
-. = 0x0000642C; gUnknown_0300642C = .;
-. = 0x00007F00; gUnknown_03007F00 = .;
-. = 0x00007FA0; gUnknown_03007FA0 = .;
+
+. = 0x00006408;
+build/sa1/src/lib/agb_flash.o(.data);
+
+/* TODO: Remove this after inserting library .o files */
+. = 0x0000642C;
+
+iwram_end = .;
+
 . = 0x00007FF0; gUnknown_03007FF0 = .;
 . = 0x00007FF8; gUnknown_03007FF8 = .;
-. = 0x00007FFA; gUnknown_03007FFA = .;
-. = 0x00007FFC; gUnknown_03007FFC = .;
+. = 0x00007FFA; SOFT_RESET_DIRECT_BUF = .; /* refd in libagbsyscall */ 

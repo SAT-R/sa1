@@ -1,38 +1,40 @@
 	.section .rodata
 
-    .global gUnknown_0809B670
-gUnknown_0809B670:
-    .incbin "baserom.gba", 0x0009B670, 0x38
+    .global gIntrTableTemplate
+gIntrTableTemplate:
+    .4byte gMultiSioIntrFuncBuf, VBlankIntr, HBlankIntr, VCountIntr
+    .4byte Timer0Intr, Timer1Intr, Timer2Intr, Dma0Intr
+    .4byte Dma1Intr, Dma2Intr, Dma3Intr, KeypadIntr
+    .4byte GamepakIntr, 0
 
-    .global gUnknown_0809B6A8
-gUnknown_0809B6A8:
-    .incbin "baserom.gba", 0x0009B6A8, 0x10
+    .global spriteUpdateFuncs
+spriteUpdateFuncs:
+    .4byte sub_800116C, sub_8002F84, sub_8002958, sub_8001AA4
 
     .global animCmdTable_BG
 animCmdTable_BG:
     .4byte animCmd_GetTiles_BG, animCmd_GetPalette_BG, animCmd_JumpBack_BG, animCmd_End_BG
     .4byte animCmd_PlaySoundEffect_BG, animCmd_AddHitbox_BG, animCmd_TranslateSprite_BG, animCmd_8_BG
-    .4byte animCmd_SetIdAndVariant_BG, animCmd_10_BG, animCmd_SetSpritePriority_BG, animCmd_12_BG
+    .4byte animCmd_SetIdAndVariant_BG, animCmd_10_BG, animCmd_SetSpritePriority_BG, animCmd_SetOamOrder_BG
 
     .global gSineTable
 gSineTable:
     .incbin "baserom.gba", 0x0009B6E8, 0xA00
 
+@ SA2: sUnknown_080984A4
     .global gUnknown_0809C0E8
 gUnknown_0809C0E8:
-    .incbin "baserom.gba", 0x0009C0E8, 0x8
+    .byte 0x01, 0x00, 0x02, 0x03, 0x06, 0x07, 0x05, 0x04
 
-    .global gUnknown_0809C0F0
-gUnknown_0809C0F0:
-    .incbin "baserom.gba", 0x0009C0F0, 0x30
+    .global animCmdTable
+animCmdTable:
+    .4byte animCmd_GetTiles, animCmd_GetPalette, animCmd_JumpBack, animCmd_End
+    .4byte animCmd_PlaySoundEffect, animCmd_AddHitbox, animCmd_TranslateSprite, animCmd_8
+    .4byte animCmd_SetIdAndVariant, animCmd_10, animCmd_SetSpritePriority, animCmd_SetOamOrder
 
-    .global gUnknown_0809C120
-gUnknown_0809C120:
-    .incbin "baserom.gba", 0x0009C120, 0x1
-
-    .global gUnknown_0809C121
-gUnknown_0809C121:
-    .incbin "baserom.gba", 0x0009C121, 0x17
+    .global gOamShapesSizes
+gOamShapesSizes:
+    .incbin "baserom.gba", 0x0009C120, 0x18
 
     .global gUnknown_0809C138
 gUnknown_0809C138:
@@ -42,32 +44,32 @@ gUnknown_0809C138:
 gUnknown_0809C170:
     .incbin "baserom.gba", 0x0009C170, 0x1EDD4
 
-    .global gUnknown_080BAF44
-gUnknown_080BAF44:
+    .global gSpritePosData_rings
+gSpritePosData_rings:
     .incbin "baserom.gba", 0x000BAF44, 0x48
 
-    .global gUnknown_080BAF8C
-gUnknown_080BAF8C:
+    .global gSpritePosData_interactables
+gSpritePosData_interactables:
     .incbin "baserom.gba", 0x000BAF8C, 0x48
 
-    .global gUnknown_080BAFD4
-gUnknown_080BAFD4:
+    .global gSpritePosData_itemboxes
+gSpritePosData_itemboxes:
     .incbin "baserom.gba", 0x000BAFD4, 0x48
 
-    .global gUnknown_080BB01C
-gUnknown_080BB01C:
+    .global gSpritePosData_enemies
+gSpritePosData_enemies:
     .incbin "baserom.gba", 0x000BB01C, 0x48
 
-    .global gUnknown_080BB064
-gUnknown_080BB064:
+    .global gSpriteInits_Interactables
+gSpriteInits_Interactables:
     .incbin "baserom.gba", 0x000BB064, 0x1D0
 
-    .global gUnknown_080BB234
-gUnknown_080BB234:
+    .global gSpriteInits_Enemies
+gSpriteInits_Enemies:
     .incbin "baserom.gba", 0x000BB234, 0x80
 
-    .global gUnknown_080BB2B4
-gUnknown_080BB2B4:
+    .global enemyDefeatScores
+enemyDefeatScores:
     .incbin "baserom.gba", 0x000BB2B4, 0xC
 
     .global gUnknown_080BB2C0
@@ -1685,44 +1687,3 @@ gUnknown_086CEE50:
     .global gUnknown_086CEE60
 gUnknown_086CEE60:
     .incbin "baserom.gba", 0x006CEE60, 0xC774
-
-    .global gUnknown_086DB5D4
-gUnknown_086DB5D4:
-    .incbin "baserom.gba", 0x006DB5D4, 0x90
-
-    .global gUnknown_086DB664
-gUnknown_086DB664:
-    .incbin "baserom.gba", 0x006DB664, 0xB4
-
-    .global gUnknown_086DB718
-gUnknown_086DB718:
-    .incbin "baserom.gba", 0x006DB718, 0x30
-
-    .global gUnknown_086DB748
-gUnknown_086DB748:
-    .incbin "baserom.gba", 0x006DB748, 0x18
-
-    .global gUnknown_086DB760
-gUnknown_086DB760:
-    .incbin "baserom.gba", 0x006DB760, 0x84
-
-    .global gUnknown_086DB7E4
-gUnknown_086DB7E4:
-    .incbin "baserom.gba", 0x006DB7E4, 0x18
-
-    .global gUnknown_086DB7FC
-gUnknown_086DB7FC:
-    .incbin "baserom.gba", 0x006DB7FC, 0x3C
-
-    .global gUnknown_086DB838
-gUnknown_086DB838:
-    .incbin "baserom.gba", 0x006DB838, 0x10
-
-    .global gUnknown_086DB848
-gUnknown_086DB848:
-    .incbin "baserom.gba", 0x006DB848, 0x34
-
-     .global gUnknown_086DB87C
-gUnknown_086DB87C:
-     .incbin "baserom.gba", 0x006DB87C, 0x30
-
