@@ -60,16 +60,16 @@ gUnknown_080BAFD4:
 gUnknown_080BB01C:
     .incbin "baserom.gba", 0x000BB01C, 0x48
 
-    .global gUnknown_080BB064
-gUnknown_080BB064:
+    .global gSpriteInits_Interactables
+gSpriteInits_Interactables:
     .incbin "baserom.gba", 0x000BB064, 0x1D0
 
-    .global gUnknown_080BB234
-gUnknown_080BB234:
+    .global gSpriteInits_Enemies
+gSpriteInits_Enemies:
     .incbin "baserom.gba", 0x000BB234, 0x80
 
-    .global gUnknown_080BB2B4
-gUnknown_080BB2B4:
+    .global enemyDefeatScores
+enemyDefeatScores:
     .incbin "baserom.gba", 0x000BB2B4, 0xC
 
     .global gUnknown_080BB2C0

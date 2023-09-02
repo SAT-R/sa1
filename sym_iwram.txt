@@ -128,7 +128,7 @@ build/sa1/src/lib/m4a.o(.bss.code);
 . = 0x0000505C; gGameMode = .;
 . = 0x00005060; gUnknown_03005060 = .;
 . = 0x00005064; gUnknown_03005064 = .;
-. = 0x00005068; gUnknown_03005068 = .;
+. = 0x00005068; gEntitiesManagerTask = .;
 . = 0x0000506C; gUnknown_0300506C = .;
 . = 0x00005070; gUnknown_03005070 = .;
 . = 0x00005074; gUnknown_03005074 = .;
