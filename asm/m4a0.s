@@ -17,8 +17,8 @@ __umul3232H32: @ 0x08096D9C
 	add r0, r3, #0
 	bx lr
 
-	thumb_func_start sub_8096DA8
-sub_8096DA8: @ 0x08096DA8
+	thumb_func_start SoundMain
+SoundMain: @ 0x08096DA8
 	ldr r0, _08096E14 @ =gUnknown_03007FF0
 	ldr r0, [r0]
 	ldr r2, _08096E18 @ =0x68736D53
@@ -461,8 +461,8 @@ sub_80971CA: @ 0x080971CA
 	.align 2, 0
 _080971CC: .4byte 0x68736D53
 
-	thumb_func_start sub_80971D0
-sub_80971D0: @ 0x080971D0
+	thumb_func_start SoundMainBTM
+SoundMainBTM: @ 0x080971D0
 	mov ip, r4
 	movs r1, #0
 	movs r2, #0
@@ -476,8 +476,8 @@ sub_80971D0: @ 0x080971D0
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_80971E8
-sub_80971E8: @ 0x080971E8
+	thumb_func_start RealClearChain
+RealClearChain: @ 0x080971E8
 	ldr r3, [r0, #0x2c]
 	cmp r3, #0
 	beq _08097206
@@ -498,7 +498,9 @@ _08097202:
 	str r1, [r0, #0x2c]
 _08097206:
 	bx lr
-_08097208:
+
+    thumb_func_start ply_fine
+ply_fine:
 	push {r4, r5, lr}
 	adds r5, r1, #0
 	ldr r4, [r5, #0x20]
@@ -514,7 +516,7 @@ _08097212:
 	strb r1, [r4]
 _08097220:
 	adds r0, r4, #0
-	bl sub_80971E8
+	bl RealClearChain
 	ldr r4, [r4, #0x34]
 	cmp r4, #0
 	bne _08097212
@@ -526,11 +528,11 @@ _0809722C:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8097238
-sub_8097238: @ 0x08097238
+	thumb_func_start MPlayJumpTableCopy
+MPlayJumpTableCopy: @ 0x08097238
 	mov ip, lr
 	movs r1, #0x24
-	ldr r2, _08097268 @ =gUnknown_086DB5D4
+	ldr r2, _08097268 @ =gMPlayJumpTableTemplate
 _0809723E:
 	ldr r3, [r2]
 	bl _08097252
@@ -548,7 +550,7 @@ _08097252:
 	push {r0}
 	lsrs r0, r2, #0x19
 	bne _08097264
-	ldr r0, _08097268 @ =gUnknown_086DB5D4
+	ldr r0, _08097268 @ =gMPlayJumpTableTemplate
 	cmp r2, r0
 	blo _08097262
 	lsrs r0, r2, #0xe
@@ -559,7 +561,7 @@ _08097264:
 	pop {r0}
 	bx lr
 	.align 2, 0
-_08097268: .4byte gUnknown_086DB5D4
+_08097268: .4byte gMPlayJumpTableTemplate
 
 	thumb_func_start sub_809726C
 sub_809726C: @ 0x0809726C
@@ -572,7 +574,9 @@ sub_809726E: @ 0x0809726E
 	ldrb r3, [r2]
 	b _08097252
 	.align 2, 0
-_08097278:
+
+    thumb_func_start ply_goto
+ply_goto:
 	push {lr}
 _0809727A:
 	ldr r2, [r1, #0x40]
@@ -590,8 +594,8 @@ _0809727A:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8097298
-sub_8097298: @ 0x08097298
+	thumb_func_start ply_patt
+ply_patt: @ 0x08097298
 	ldrb r2, [r1, #2]
 	cmp r2, #3
 	bhs _080972B0
@@ -603,13 +607,13 @@ sub_8097298: @ 0x08097298
 	ldrb r2, [r1, #2]
 	adds r2, #1
 	strb r2, [r1, #2]
-	b _08097278
+	b ply_goto
 _080972B0:
-	b _08097208
+	b ply_fine
 	.align 2, 0
 
-	thumb_func_start sub_80972B4
-sub_80972B4: @ 0x080972B4
+	thumb_func_start ply_pend
+ply_pend: @ 0x080972B4
 	ldrb r2, [r1, #2]
 	cmp r2, #0
 	beq _080972C6
@@ -622,8 +626,8 @@ sub_80972B4: @ 0x080972B4
 _080972C6:
 	bx lr
 
-	thumb_func_start sub_80972C8
-sub_80972C8: @ 0x080972C8
+	thumb_func_start ply_rept
+ply_rept: @ 0x080972C8
 	push {lr}
 	ldr r2, [r1, #0x40]
 	ldrb r3, [r2]
@@ -650,16 +654,16 @@ _080972EA:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80972F8
-sub_80972F8: @ 0x080972F8
+	thumb_func_start ply_prio
+ply_prio: @ 0x080972F8
 	mov ip, lr
 	bl sub_809726C
 	strb r3, [r1, #0x1d]
 	bx ip
 	.align 2, 0
 
-	thumb_func_start sub_8097304
-sub_8097304: @ 0x08097304
+	thumb_func_start ply_tempo
+ply_tempo: @ 0x08097304
 	mov ip, lr
 	bl sub_809726C
 	lsls r3, r3, #1
@@ -670,8 +674,8 @@ sub_8097304: @ 0x08097304
 	strh r3, [r0, #0x20]
 	bx ip
 
-	thumb_func_start sub_8097318
-sub_8097318: @ 0x08097318
+	thumb_func_start ply_keysh
+ply_keysh: @ 0x08097318
 	mov ip, lr
 	bl sub_809726C
 	strb r3, [r1, #0xa]
@@ -682,8 +686,8 @@ sub_8097318: @ 0x08097318
 	bx ip
 	.align 2, 0
 
-	thumb_func_start sub_809732C
-sub_809732C: @ 0x0809732C
+	thumb_func_start ply_voice
+ply_voice: @ 0x0809732C
 	mov ip, lr
 	ldr r2, [r1, #0x40]
 	ldrb r3, [r2]
@@ -706,8 +710,8 @@ sub_809732C: @ 0x0809732C
 	bx ip
 	.align 2, 0
 
-	thumb_func_start sub_809735C
-sub_809735C: @ 0x0809735C
+	thumb_func_start ply_vol
+ply_vol: @ 0x0809735C
 	mov ip, lr
 	bl sub_809726C
 	strb r3, [r1, #0x12]
@@ -718,8 +722,8 @@ sub_809735C: @ 0x0809735C
 	bx ip
 	.align 2, 0
 
-	thumb_func_start sub_8097370
-sub_8097370: @ 0x08097370
+	thumb_func_start ply_pan
+ply_pan: @ 0x08097370
 	mov ip, lr
 	bl sub_809726C
 	subs r3, #0x40
@@ -730,8 +734,8 @@ sub_8097370: @ 0x08097370
 	strb r3, [r1]
 	bx ip
 
-	thumb_func_start sub_8097384
-sub_8097384: @ 0x08097384
+	thumb_func_start ply_bend
+ply_bend: @ 0x08097384
 	mov ip, lr
 	bl sub_809726C
 	subs r3, #0x40
@@ -742,8 +746,8 @@ sub_8097384: @ 0x08097384
 	strb r3, [r1]
 	bx ip
 
-	thumb_func_start sub_8097398
-sub_8097398: @ 0x08097398
+	thumb_func_start ply_bendr
+ply_bendr: @ 0x08097398
 	mov ip, lr
 	bl sub_809726C
 	strb r3, [r1, #0xf]
@@ -754,16 +758,16 @@ sub_8097398: @ 0x08097398
 	bx ip
 	.align 2, 0
 
-	thumb_func_start sub_80973AC
-sub_80973AC: @ 0x080973AC
+	thumb_func_start ply_lfodl
+ply_lfodl: @ 0x080973AC
 	mov ip, lr
 	bl sub_809726C
 	strb r3, [r1, #0x1b]
 	bx ip
 	.align 2, 0
 
-	thumb_func_start sub_80973B8
-sub_80973B8: @ 0x080973B8
+	thumb_func_start ply_modt
+ply_modt: @ 0x080973B8
 	mov ip, lr
 	bl sub_809726C
 	ldrb r0, [r1, #0x18]
@@ -777,8 +781,8 @@ sub_80973B8: @ 0x080973B8
 _080973CE:
 	bx ip
 
-	thumb_func_start sub_80973D0
-sub_80973D0: @ 0x080973D0
+	thumb_func_start ply_tune
+ply_tune: @ 0x080973D0
 	mov ip, lr
 	bl sub_809726C
 	subs r3, #0x40
@@ -789,8 +793,8 @@ sub_80973D0: @ 0x080973D0
 	strb r3, [r1]
 	bx ip
 
-	thumb_func_start sub_80973E4
-sub_80973E4: @ 0x080973E4
+	thumb_func_start ply_port
+ply_port: @ 0x080973E4
 	mov ip, lr
 	ldr r2, [r1, #0x40]
 	ldrb r3, [r2]
@@ -845,8 +849,8 @@ _0809743C:
 _08097440: .4byte 0x040000BC
 _08097444: .4byte 0x84400004
 
-	thumb_func_start sub_8097448
-sub_8097448: @ 0x08097448
+	thumb_func_start MPlayMain
+MPlayMain: @ 0x08097448
 	ldr r2, _080976AC @ =0x68736D53
 	ldr r3, [r0, #0x34]
 	cmp r2, r3
@@ -879,7 +883,7 @@ _0809747C:
 	ldr r0, [r0]
 	mov r8, r0
 	adds r0, r7, #0
-	bl sub_8098334
+	bl FadeOutBody
 	ldr r0, [r7, #4]
 	cmp r0, #0
 	bge _08097490
@@ -924,7 +928,7 @@ _080974B6:
 	b _080974D8
 _080974D2:
 	adds r0, r4, #0
-	bl sub_8097E30
+	bl ClearChain
 _080974D8:
 	ldr r4, [r4, #0x34]
 	cmp r4, #0
@@ -935,7 +939,7 @@ _080974DE:
 	tst r0, r3
 	beq _0809755C
 	adds r0, r5, #0
-	bl sub_8097E44
+	bl Clear64byte
 	movs r0, #0x80
 	strb r0, [r5]
 	movs r0, #2
@@ -990,7 +994,7 @@ _08097530:
 	beq _080975B8
 	b _0809755C
 _08097552:
-	ldr r0, _080976A4 @ =gUnknown_086DB848
+	ldr r0, _080976A4 @ =gClockTable
 	subs r1, #0x80
 	adds r1, r1, r0
 	ldrb r0, [r1]
@@ -1090,7 +1094,7 @@ _080975EC:
 	mov sb, r2
 	adds r0, r7, #0
 	adds r1, r5, #0
-	bl sub_80983FC
+	bl TrkVolPitSet
 	ldr r4, [r5, #0x20]
 	cmp r4, #0
 	beq _0809767C
@@ -1100,7 +1104,7 @@ _0809760A:
 	tst r0, r1
 	bne _0809761A
 	adds r0, r4, #0
-	bl sub_8097E30
+	bl ClearChain
 	b _08097676
 _0809761A:
 	ldrb r0, [r4, #1]
@@ -1179,12 +1183,12 @@ _08097690:
 sub_80976A0: @ 0x080976A0
 	bx r3
 	.align 2, 0
-_080976A4: .4byte gUnknown_086DB848
+_080976A4: .4byte gClockTable
 _080976A8: .4byte gUnknown_03007FF0
 _080976AC: .4byte 0x68736D53
 
-	thumb_func_start sub_80976B0
-sub_80976B0: @ 0x080976B0
+	thumb_func_start TrackStop
+TrackStop: @ 0x080976B0
 	push {r4, r5, r6, lr}
 	adds r5, r1, #0
 	ldrb r1, [r5]
@@ -1252,8 +1256,8 @@ _08097720:
 	strb r0, [r4, #3]
 	bx lr
 
-	thumb_func_start sub_8097724
-sub_8097724: @ 0x08097724
+	thumb_func_start ply_note
+ply_note: @ 0x08097724
 	push {r4, r5, r6, r7, lr}
 	mov r4, r8
 	mov r5, sb
@@ -1266,7 +1270,7 @@ sub_8097724: @ 0x08097724
 	ldr r1, _0809791C @ =gUnknown_03007FF0
 	ldr r1, [r1]
 	str r1, [sp, #4]
-	ldr r1, _08097920 @ =gUnknown_086DB848
+	ldr r1, _08097920 @ =gClockTable
 	adds r0, r0, r1
 	ldrb r0, [r0]
 	strb r0, [r5, #4]
@@ -1435,7 +1439,7 @@ _08097858:
 	beq _0809790A
 _08097864:
 	adds r0, r4, #0
-	bl sub_8097E30
+	bl ClearChain
 	movs r1, #0
 	str r1, [r4, #0x30]
 	ldr r3, [r5, #0x20]
@@ -1455,7 +1459,7 @@ _08097878:
 _0809788A:
 	ldr r0, [sp]
 	adds r1, r5, #0
-	bl sub_80983FC
+	bl TrkVolPitSet
 	ldr r0, [r5, #4]
 	str r0, [r4, #0x10]
 	ldr r0, [sp, #0x10]
@@ -1529,10 +1533,10 @@ _0809790A:
 	bx r0
 	.align 2, 0
 _0809791C: .4byte gUnknown_03007FF0
-_08097920: .4byte gUnknown_086DB848
+_08097920: .4byte gClockTable
 
-	thumb_func_start sub_8097924
-sub_8097924: @ 0x08097924
+	thumb_func_start ply_endtie
+ply_endtie: @ 0x08097924
 	push {r4, r5}
 	ldr r2, [r1, #0x40]
 	ldrb r3, [r2]

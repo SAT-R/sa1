@@ -1472,7 +1472,7 @@ _08001088:
 	ldr r0, _08001138 @ =0x04000004
 	strh r2, [r0]
 	bl m4aMPlayAllStop
-	bl sub_80980E0
+	bl m4aSoundVSyncOff
 	ldr r0, [r4]
 	movs r1, #5
 	rsbs r1, r1, #0

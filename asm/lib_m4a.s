@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start MidiKeyToFreq
 MidiKeyToFreq: @ 0x080979B4
 	push {r4, r5, r6, r7, lr}
@@ -18,10 +19,10 @@ MidiKeyToFreq: @ 0x080979B4
 	movs r7, #0xff
 	lsls r7, r7, #0x18
 _080979C8:
-	ldr r3, _08097A10 @ =gUnknown_086DB664
+	ldr r3, _08097A10 @ =gScaleTable
 	adds r0, r6, r3
 	ldrb r5, [r0]
-	ldr r4, _08097A14 @ =gUnknown_086DB718
+	ldr r4, _08097A14 @ =gFreqTable
 	movs r2, #0xf
 	adds r0, r5, #0
 	ands r0, r2
@@ -53,8 +54,8 @@ _080979C8:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08097A10: .4byte gUnknown_086DB664
-_08097A14: .4byte gUnknown_086DB718
+_08097A10: .4byte gScaleTable
+_08097A14: .4byte gFreqTable
 _08097A18:
 
 DummyFunc:
@@ -107,9 +108,9 @@ m4aSoundInit: @ 0x08097A58
 	ldr r1, _08097AB0 @ =0x03000000
 	ldr r2, _08097AB4 @ =0x04000100
 	bl CpuSet
-	ldr r0, _08097AB8 @ =gUnknown_02001400
-	bl sub_8097E58
-	ldr r0, _08097ABC @ =gUnknown_02002440
+	ldr r0, _08097AB8 @ =gSoundInfo
+	bl SoundInit
+	ldr r0, _08097ABC @ =gCgbChans
 	bl MPlayExtender
 	ldr r0, _08097AC0 @ =0x0093F500
 	bl m4aSoundMode
@@ -125,10 +126,10 @@ _08097A8A:
 	ldr r1, [r5, #4]
 	ldrb r2, [r5, #8]
 	adds r0, r4, #0
-	bl sub_8098198
+	bl MPlayOpen
 	ldrh r0, [r5, #0xa]
 	strb r0, [r4, #0xb]
-	ldr r0, _08097ACC @ =gUnknown_02002600
+	ldr r0, _08097ACC @ =gMPlayMemAccArea
 	str r0, [r4, #0x18]
 	adds r5, #0xc
 	subs r6, #1
@@ -142,17 +143,17 @@ _08097AA6:
 _08097AAC: .4byte SoundMainRAM
 _08097AB0: .4byte 0x03000000
 _08097AB4: .4byte 0x04000100
-_08097AB8: .4byte gUnknown_02001400
-_08097ABC: .4byte gUnknown_02002440
+_08097AB8: .4byte gSoundInfo
+_08097ABC: .4byte gCgbChans
 _08097AC0: .4byte 0x0093F500
 _08097AC4: .4byte 0x00000004
 _08097AC8: .4byte gMPlayTable
-_08097ACC: .4byte gUnknown_02002600
+_08097ACC: .4byte gMPlayMemAccArea
 
 	thumb_func_start m4aSoundMain
 m4aSoundMain: @ 0x08097AD0
 	push {lr}
-	bl sub_8096DA8
+	bl SoundMain
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -282,7 +283,7 @@ m4aSongNumStop: @ 0x08097BA8
 	cmp r1, r0
 	bne _08097BCE
 	adds r0, r2, #0
-	bl sub_80982F4
+	bl MPlayStop
 _08097BCE:
 	pop {r0}
 	bx r0
@@ -329,7 +330,7 @@ m4aMPlayAllStop: @ 0x08097C10
 	adds r4, r0, #0
 _08097C20:
 	ldr r0, [r5]
-	bl sub_80982F4
+	bl MPlayStop
 	adds r5, #0xc
 	subs r4, #1
 	cmp r4, #0
@@ -447,7 +448,7 @@ _08097CD8:
 	cmp r0, #0
 	beq _08097D06
 	adds r0, r4, #0
-	bl sub_8097E44
+	bl Clear64byte
 	strb r7, [r4]
 	movs r0, #2
 	strb r0, [r4, #0xf]
@@ -505,34 +506,34 @@ MPlayExtender: @ 0x08097D14
 	bne _08097DD4
 	adds r0, r6, #1
 	str r0, [r4]
-	ldr r1, _08097DF0 @ =gUnknown_020023B0
-	ldr r0, _08097DF4 @ =sub_8098CD0
+	ldr r1, _08097DF0 @ =gMPlayJumpTable
+	ldr r0, _08097DF4 @ =ply_memacc
 	str r0, [r1, #0x20]
 	ldr r0, _08097DF8 @ =ply_lfos
 	str r0, [r1, #0x44]
 	ldr r0, _08097DFC @ =ply_mod
 	str r0, [r1, #0x4c]
-	ldr r0, _08097E00 @ =sub_8098E28
+	ldr r0, _08097E00 @ =ply_xcmd
 	str r0, [r1, #0x70]
 	ldr r0, _08097E04 @ =sub_8097924
 	str r0, [r1, #0x74]
-	ldr r0, _08097E08 @ =sub_8097F50
+	ldr r0, _08097E08 @ =SampleFreqSet
 	str r0, [r1, #0x78]
 	ldr r0, _08097E0C @ =sub_80976B0
 	str r0, [r1, #0x7c]
 	adds r2, r1, #0
 	adds r2, #0x80
-	ldr r0, _08097E10 @ =sub_8098334
+	ldr r0, _08097E10 @ =FadeOutBody
 	str r0, [r2]
 	adds r1, #0x84
-	ldr r0, _08097E14 @ =sub_80983FC
+	ldr r0, _08097E14 @ =TrkVolPitSet
 	str r0, [r1]
 	str r5, [r4, #0x1c]
-	ldr r0, _08097E18 @ =sub_8098610
+	ldr r0, _08097E18 @ =CgbSound
 	str r0, [r4, #0x28]
-	ldr r0, _08097E1C @ =sub_8098558
+	ldr r0, _08097E1C @ =CgbOscOff
 	str r0, [r4, #0x2c]
-	ldr r0, _08097E20 @ =sub_80984B0
+	ldr r0, _08097E20 @ =MidiKeyToCgbFreq
 	str r0, [r4, #0x30]
 	ldr r0, _08097E24 @ =0x00000000
 	movs r1, #0
@@ -576,26 +577,27 @@ _08097DE0: .4byte 0x04000080
 _08097DE4: .4byte 0x04000063
 _08097DE8: .4byte gUnknown_03007FF0
 _08097DEC: .4byte 0x68736D53
-_08097DF0: .4byte gUnknown_020023B0
-_08097DF4: .4byte sub_8098CD0
+_08097DF0: .4byte gMPlayJumpTable
+_08097DF4: .4byte ply_memacc
 _08097DF8: .4byte ply_lfos
 _08097DFC: .4byte ply_mod
-_08097E00: .4byte sub_8098E28
+_08097E00: .4byte ply_xcmd
 _08097E04: .4byte sub_8097924
-_08097E08: .4byte sub_8097F50
+_08097E08: .4byte SampleFreqSet
 _08097E0C: .4byte sub_80976B0
-_08097E10: .4byte sub_8098334
-_08097E14: .4byte sub_80983FC
-_08097E18: .4byte sub_8098610
-_08097E1C: .4byte sub_8098558
-_08097E20: .4byte sub_80984B0
+_08097E10: .4byte FadeOutBody
+_08097E14: .4byte TrkVolPitSet
+_08097E18: .4byte CgbSound
+_08097E1C: .4byte CgbOscOff
+_08097E20: .4byte MidiKeyToCgbFreq
 _08097E24: .4byte 0x00000000
 _08097E28: .4byte 0x05000040
-_08097E2C:
+
+MusicPlayerJumpTableCopy:
 	.byte 0x2A, 0xDF, 0x70, 0x47
 
-	thumb_func_start sub_8097E30
-sub_8097E30: @ 0x08097E30
+	thumb_func_start ClearChain
+ClearChain: @ 0x08097E30
 	push {lr}
 	ldr r1, _08097E40 @ =gUnknown_02002438
 	ldr r1, [r1]
@@ -605,8 +607,8 @@ sub_8097E30: @ 0x08097E30
 	.align 2, 0
 _08097E40: .4byte gUnknown_02002438
 
-	thumb_func_start sub_8097E44
-sub_8097E44: @ 0x08097E44
+	thumb_func_start Clear64byte
+Clear64byte: @ 0x08097E44
 	push {lr}
 	ldr r1, _08097E54 @ =gUnknown_0200243C
 	ldr r1, [r1]
@@ -616,8 +618,8 @@ sub_8097E44: @ 0x08097E44
 	.align 2, 0
 _08097E54: .4byte gUnknown_0200243C
 
-	thumb_func_start sub_8097E58
-sub_8097E58: @ 0x08097E58
+	thumb_func_start SoundInit
+SoundInit: @ 0x08097E58
 	push {r4, r5, lr}
 	sub sp, #4
 	adds r5, r0, #0
@@ -689,20 +691,20 @@ _08097E82:
 	strb r0, [r5, #6]
 	movs r0, #0xf
 	strb r0, [r5, #7]
-	ldr r0, _08097F40 @ =sub_8097724
+	ldr r0, _08097F40 @ =ply_note
 	str r0, [r5, #0x38]
 	ldr r0, _08097F44 @ =0x08098F49
 	str r0, [r5, #0x28]
 	str r0, [r5, #0x2c]
 	str r0, [r5, #0x30]
 	str r0, [r5, #0x3c]
-	ldr r4, _08097F48 @ =gUnknown_020023B0
+	ldr r4, _08097F48 @ =gMPlayJumpTable
 	adds r0, r4, #0
-	bl sub_8097238
+	bl MPlayJumpTableCopy
 	str r4, [r5, #0x34]
 	movs r0, #0x80
 	lsls r0, r0, #0xb
-	bl sub_8097F50
+	bl SampleFreqSet
 	ldr r0, _08097F4C @ =0x68736D53
 	str r0, [r5]
 	add sp, #4
@@ -722,13 +724,13 @@ _08097F30: .4byte 0x040000A0
 _08097F34: .4byte 0x040000A4
 _08097F38: .4byte gUnknown_03007FF0
 _08097F3C: .4byte 0x050003EC
-_08097F40: .4byte sub_8097724
-_08097F44: .4byte 0x08098F49
-_08097F48: .4byte gUnknown_020023B0
+_08097F40: .4byte ply_note
+_08097F44: .4byte DummyCallback
+_08097F48: .4byte gMPlayJumpTable
 _08097F4C: .4byte 0x68736D53
 
-	thumb_func_start sub_8097F50
-sub_8097F50: @ 0x08097F50
+	thumb_func_start SampleFreqSet
+SampleFreqSet: @ 0x08097F50
 	push {r4, r5, r6, lr}
 	adds r2, r0, #0
 	ldr r0, _08097FD0 @ =gUnknown_03007FF0
@@ -772,7 +774,7 @@ sub_8097F50: @ 0x08097F50
 	bl __divsi3
 	rsbs r0, r0, #0
 	strh r0, [r4]
-	bl sub_809815C
+	bl m4aSoundVSyncOn
 	ldr r1, _08097FF0 @ =0x04000006
 _08097FB4:
 	ldrb r0, [r1]
@@ -867,9 +869,9 @@ _08098062:
 	ands r4, r3
 	cmp r4, #0
 	beq _08098076
-	bl sub_80980E0
+	bl m4aSoundVSyncOff
 	adds r0, r4, #0
-	bl sub_8097F50
+	bl SampleFreqSet
 _08098076:
 	ldr r0, _08098084 @ =0x68736D53
 	str r0, [r5]
@@ -882,8 +884,8 @@ _08098080: .4byte gUnknown_03007FF0
 _08098084: .4byte 0x68736D53
 _08098088: .4byte 0x04000089
 
-	thumb_func_start sub_809808C
-sub_809808C: @ 0x0809808C
+	thumb_func_start SoundClear
+SoundClear: @ 0x0809808C
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _080980D8 @ =gUnknown_03007FF0
 	ldr r6, [r0]
@@ -929,8 +931,8 @@ _080980D2:
 _080980D8: .4byte gUnknown_03007FF0
 _080980DC: .4byte 0x68736D53
 
-	thumb_func_start sub_80980E0
-sub_80980E0: @ 0x080980E0
+	thumb_func_start m4aSoundVSyncOff
+m4aSoundVSyncOff: @ 0x080980E0
 	push {lr}
 	sub sp, #4
 	ldr r0, _08098140 @ =gUnknown_03007FF0
@@ -989,8 +991,8 @@ _08098150: .4byte 0x040000D0
 _08098154: .4byte 0x040000C6
 _08098158: .4byte 0x05000318
 
-	thumb_func_start sub_809815C
-sub_809815C: @ 0x0809815C
+	thumb_func_start m4aSoundVSyncOn
+m4aSoundVSyncOn: @ 0x0809815C
 	push {r4, lr}
 	ldr r0, _0809818C @ =gUnknown_03007FF0
 	ldr r2, [r0]
@@ -1020,8 +1022,8 @@ _0809818C: .4byte gUnknown_03007FF0
 _08098190: .4byte 0x68736D53
 _08098194: .4byte 0x040000C6
 
-	thumb_func_start sub_8098198
-sub_8098198: @ 0x08098198
+	thumb_func_start MPlayOpen
+MPlayOpen: @ 0x08098198
 	push {r4, r5, r6, r7, lr}
 	adds r7, r0, #0
 	adds r6, r1, #0
@@ -1042,7 +1044,7 @@ _080981AC:
 	adds r0, r1, #1
 	str r0, [r5]
 	adds r0, r7, #0
-	bl sub_8097E44
+	bl Clear64byte
 	str r6, [r7, #0x2c]
 	strb r4, [r7, #8]
 	movs r0, #0x80
@@ -1070,7 +1072,7 @@ _080981E0:
 	str r0, [r5, #0x20]
 _080981F0:
 	str r7, [r5, #0x24]
-	ldr r0, _0809820C @ =sub_8097448
+	ldr r0, _0809820C @ =MPlayMain
 	str r0, [r5, #0x20]
 	ldr r0, _08098208 @ =0x68736D53
 	str r0, [r5]
@@ -1082,7 +1084,7 @@ _080981FC:
 	.align 2, 0
 _08098204: .4byte gUnknown_03007FF0
 _08098208: .4byte 0x68736D53
-_0809820C: .4byte sub_8097448
+_0809820C: .4byte MPlayMain
 
 	thumb_func_start MPlayStart
 MPlayStart: @ 0x08098210
@@ -1207,8 +1209,8 @@ _080982E6:
 	.align 2, 0
 _080982F0: .4byte 0x68736D53
 
-	thumb_func_start sub_80982F4
-sub_80982F4: @ 0x080982F4
+	thumb_func_start MPlayStop
+MPlayStop: @ 0x080982F4
 	push {r4, r5, r6, lr}
 	adds r6, r0, #0
 	ldr r1, [r6, #0x34]
@@ -1244,8 +1246,8 @@ _0809832A:
 	.align 2, 0
 _08098330: .4byte 0x68736D53
 
-	thumb_func_start sub_8098334
-sub_8098334: @ 0x08098334
+	thumb_func_start FadeOutBody
+FadeOutBody: @ 0x08098334
 	push {r4, r5, r6, r7, lr}
 	adds r6, r0, #0
 	ldrh r1, [r6, #0x24]
@@ -1355,8 +1357,8 @@ _080983F6:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80983FC
-sub_80983FC: @ 0x080983FC
+	thumb_func_start TrkVolPitSet
+TrkVolPitSet: @ 0x080983FC
 	push {r4, lr}
 	adds r2, r1, #0
 	movs r0, #1
@@ -1455,8 +1457,8 @@ _080984A4:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80984B0
-sub_80984B0: @ 0x080984B0
+	thumb_func_start MidiKeyToCgbFreq
+MidiKeyToCgbFreq: @ 0x080984B0
 	push {r4, r5, r6, r7, lr}
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
@@ -1480,12 +1482,12 @@ _080984CC:
 	bls _080984DA
 	movs r5, #0x3b
 _080984DA:
-	ldr r0, _080984E4 @ =gUnknown_086DB7FC
+	ldr r0, _080984E4 @ =gNoiseTable
 	adds r0, r5, r0
 	ldrb r0, [r0]
 	b _0809854A
 	.align 2, 0
-_080984E4: .4byte gUnknown_086DB7FC
+_080984E4: .4byte gNoiseTable
 _080984E8:
 	cmp r5, #0x23
 	bhi _080984F4
@@ -1546,8 +1548,8 @@ _0809854A:
 _08098550: .4byte gUnknown_086DB760
 _08098554: .4byte gUnknown_086DB7E4
 
-	thumb_func_start sub_8098558
-sub_8098558: @ 0x08098558
+	thumb_func_start CgbOscOff
+CgbOscOff: @ 0x08098558
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	adds r1, r0, #0
@@ -1595,8 +1597,8 @@ _0809859E:
 	.align 2, 0
 _080985A4: .4byte 0x04000079
 
-	thumb_func_start sub_80985A8
-sub_80985A8: @ 0x080985A8
+	thumb_func_start CgbModVol
+CgbModVol: @ 0x080985A8
 	push {r4, lr}
 	adds r1, r0, #0
 	ldrb r0, [r1, #2]
@@ -1655,8 +1657,8 @@ _080985F4:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8098610
-sub_8098610: @ 0x08098610
+	thumb_func_start CgbSound
+CgbSound: @ 0x08098610
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1785,7 +1787,7 @@ _080986D0:
 	strb r0, [r4, #0x1d]
 	adds r0, r4, #0
 	str r3, [sp, #0x18]
-	bl sub_80985A8
+	bl CgbModVol
 	ldr r3, [sp, #0x18]
 	cmp r6, #2
 	beq _08098738
@@ -1907,7 +1909,7 @@ _080987C6:
 _080987EA:
 	lsls r0, r6, #0x18
 	lsrs r0, r0, #0x18
-	bl sub_8098558
+	bl CgbOscOff
 	movs r0, #0
 	strb r0, [r4]
 	b _08098A3C
@@ -1956,7 +1958,7 @@ _08098838:
 	strb r0, [r4, #0x1d]
 _0809884A:
 	adds r0, r4, #0
-	bl sub_80985A8
+	bl CgbModVol
 	movs r0, #3
 	ldrb r2, [r4]
 	ands r0, r2
@@ -2239,8 +2241,8 @@ _08098A4A:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8098A5C
-sub_8098A5C: @ 0x08098A5C
+	thumb_func_start m4aMPlayTempoControl
+m4aMPlayTempoControl: @ 0x08098A5C
 	push {r4, lr}
 	adds r2, r0, #0
 	lsls r1, r1, #0x10
@@ -2262,8 +2264,8 @@ _08098A78:
 	.align 2, 0
 _08098A80: .4byte 0x68736D53
 
-	thumb_func_start sub_8098A84
-sub_8098A84: @ 0x08098A84
+	thumb_func_start m4aMPlayVolumeControl
+m4aMPlayVolumeControl: @ 0x08098A84
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -2321,8 +2323,8 @@ _08098ADC:
 	.align 2, 0
 _08098AE8: .4byte 0x68736D53
 
-	thumb_func_start sub_8098AEC
-sub_8098AEC: @ 0x08098AEC
+	thumb_func_start m4aMPlayPitchControl
+m4aMPlayPitchControl: @ 0x08098AEC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2386,8 +2388,8 @@ _08098B4E:
 	.align 2, 0
 _08098B5C: .4byte 0x68736D53
 
-	thumb_func_start sub_8098B60
-sub_8098B60: @ 0x08098B60
+	thumb_func_start m4aMPlayPanpotControl
+m4aMPlayPanpotControl: @ 0x08098B60
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -2445,8 +2447,8 @@ _08098BB8:
 	.align 2, 0
 _08098BC4: .4byte 0x68736D53
 
-	thumb_func_start sub_8098BC8
-sub_8098BC8: @ 0x08098BC8
+	thumb_func_start ClearModM
+ClearModM: @ 0x08098BC8
 	adds r1, r0, #0
 	movs r2, #0
 	movs r0, #0
@@ -2466,8 +2468,8 @@ _08098BDE:
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8098BE8
-sub_8098BE8: @ 0x08098BE8
+	thumb_func_start m4aMPlayModDepthSet
+m4aMPlayModDepthSet: @ 0x08098BE8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2508,7 +2510,7 @@ _08098C18:
 	cmp r1, #0
 	bne _08098C3A
 	adds r0, r4, #0
-	bl sub_8098BC8
+	bl ClearModM
 _08098C3A:
 	subs r5, #1
 	adds r4, #0x50
@@ -2529,8 +2531,8 @@ _08098C48:
 	.align 2, 0
 _08098C58: .4byte 0x68736D53
 
-	thumb_func_start sub_8098C5C
-sub_8098C5C: @ 0x08098C5C
+	thumb_func_start m4aMPlayLFOSpeedSet
+m4aMPlayLFOSpeedSet: @ 0x08098C5C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2571,7 +2573,7 @@ _08098C8C:
 	cmp r1, #0
 	bne _08098CAE
 	adds r0, r4, #0
-	bl sub_8098BC8
+	bl ClearModM
 _08098CAE:
 	subs r5, #1
 	adds r4, #0x50
@@ -2592,8 +2594,8 @@ _08098CBC:
 	.align 2, 0
 _08098CCC: .4byte 0x68736D53
 
-	thumb_func_start sub_8098CD0
-sub_8098CD0: @ 0x08098CD0
+	thumb_func_start ply_memacc
+ply_memacc: @ 0x08098CD0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	adds r6, r1, #0
@@ -2769,14 +2771,14 @@ _08098E22:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8098E28
-sub_8098E28: @ 0x08098E28
+	thumb_func_start ply_xcmd
+ply_xcmd: @ 0x08098E28
 	push {lr}
 	ldr r2, [r1, #0x40]
 	ldrb r3, [r2]
 	adds r2, #1
 	str r2, [r1, #0x40]
-	ldr r2, _08098E44 @ =gUnknown_086DB87C
+	ldr r2, _08098E44 @ =gXcmdTable
 	lsls r3, r3, #2
 	adds r3, r3, r2
 	ldr r2, [r3]
@@ -2784,21 +2786,21 @@ sub_8098E28: @ 0x08098E28
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08098E44: .4byte gUnknown_086DB87C
+_08098E44: .4byte gXcmdTable
 
-	thumb_func_start sub_8098E48
-sub_8098E48: @ 0x08098E48
+	thumb_func_start ply_xxx
+ply_xxx: @ 0x08098E48
 	push {lr}
-	ldr r2, _08098E58 @ =gUnknown_020023B0
+	ldr r2, _08098E58 @ =gMPlayJumpTable
 	ldr r2, [r2]
 	bl _call_via_r2
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08098E58: .4byte gUnknown_020023B0
+_08098E58: .4byte gMPlayJumpTable
 
-	thumb_func_start sub_8098E5C
-sub_8098E5C: @ 0x08098E5C
+	thumb_func_start ply_xwave
+ply_xwave: @ 0x08098E5C
 	push {r4, lr}
 	ldr r2, [r1, #0x40]
 	ldr r0, _08098E94 @ =0xFFFFFF00
@@ -2832,8 +2834,8 @@ _08098E98: .4byte 0xFFFF00FF
 _08098E9C: .4byte 0xFF00FFFF
 _08098EA0: .4byte 0x00FFFFFF
 
-	thumb_func_start sub_8098EA4
-sub_8098EA4: @ 0x08098EA4
+	thumb_func_start ply_xtype
+ply_xtype: @ 0x08098EA4
 	ldr r0, [r1, #0x40]
 	ldrb r2, [r0]
 	adds r0, r1, #0
@@ -2845,8 +2847,8 @@ sub_8098EA4: @ 0x08098EA4
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8098EB8
-sub_8098EB8: @ 0x08098EB8
+	thumb_func_start ply_xatta
+ply_xatta: @ 0x08098EB8
 	ldr r0, [r1, #0x40]
 	ldrb r2, [r0]
 	adds r0, r1, #0
@@ -2858,8 +2860,8 @@ sub_8098EB8: @ 0x08098EB8
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8098ECC
-sub_8098ECC: @ 0x08098ECC
+	thumb_func_start ply_xdeca
+ply_xdeca: @ 0x08098ECC
 	ldr r0, [r1, #0x40]
 	ldrb r0, [r0]
 	adds r2, r1, #0
@@ -2871,8 +2873,8 @@ sub_8098ECC: @ 0x08098ECC
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8098EE0
-sub_8098EE0: @ 0x08098EE0
+	thumb_func_start ply_xsust
+ply_xsust: @ 0x08098EE0
 	ldr r0, [r1, #0x40]
 	ldrb r0, [r0]
 	adds r2, r1, #0
@@ -2884,8 +2886,8 @@ sub_8098EE0: @ 0x08098EE0
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8098EF4
-sub_8098EF4: @ 0x08098EF4
+	thumb_func_start ply_xrele
+ply_xrele: @ 0x08098EF4
 	ldr r0, [r1, #0x40]
 	ldrb r0, [r0]
 	adds r2, r1, #0
@@ -2897,8 +2899,8 @@ sub_8098EF4: @ 0x08098EF4
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8098F08
-sub_8098F08: @ 0x08098F08
+	thumb_func_start ply_xiecv
+ply_xiecv: @ 0x08098F08
 	ldr r0, [r1, #0x40]
 	ldrb r2, [r0]
 	strb r2, [r1, #0x1e]
@@ -2906,8 +2908,8 @@ sub_8098F08: @ 0x08098F08
 	str r0, [r1, #0x40]
 	bx lr
 
-	thumb_func_start sub_8098F14
-sub_8098F14: @ 0x08098F14
+	thumb_func_start ply_xiecl
+ply_xiecl: @ 0x08098F14
 	ldr r0, [r1, #0x40]
 	ldrb r2, [r0]
 	strb r2, [r1, #0x1f]
@@ -2944,3 +2946,4 @@ ply_xswee: @ 0x08098F34
 DummyCallback:
     bx lr
     .align 2 , 0
+.endif
