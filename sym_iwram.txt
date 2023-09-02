@@ -1,5 +1,9 @@
+
 /**** bss ****/
 build/sa1/src/lib/m4a.o(.bss.code);
+
+. = 0x0000042C;
+build/sa1/src/lib/agb_flash.o(.bss);
 
 . = 0x00000440; 
 *libgcc.a:(.bss);
@@ -235,12 +239,9 @@ build/sa1/src/lib/m4a.o(.bss.code);
 . = 0x00006250; gUnknown_03006250 = .;
 . = 0x000063C0; gUnknown_030063C0 = .;
 . = 0x000063F0; gUnknown_030063F0 = .;
-. = 0x00006414; gUnknown_03006414 = .;
-. = 0x00006418; gUnknown_03006418 = .;
-. = 0x0000641C; gUnknown_0300641C = .;
-. = 0x00006420; gUnknown_03006420 = .;
-. = 0x00006424; gUnknown_03006424 = .;
-. = 0x00006428; gUnknown_03006428 = .;
+
+. = 0x00006408;
+build/sa1/src/lib/agb_flash.o(.data);
 
 /* TODO: Remove this after inserting library .o files */
 . = 0x0000642C;

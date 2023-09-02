@@ -5,12 +5,13 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8098F4C
-sub_8098F4C: @ 0x08098F4C
+.if 0
+	thumb_func_start ReadFlashId
+ReadFlashId: @ 0x08098F4C
 	push {r4, r5, lr}
 	sub sp, #0x44
 	mov r0, sp
-	bl sub_80991C4
+	bl SetReadFlash1
 	mov r5, sp
 	adds r5, #1
 	ldr r2, _08098F74 @ =0x0E005555
@@ -89,16 +90,16 @@ IdentifyFlash: @ 0x08098FE4
 	movs r1, #3
 	orrs r0, r1
 	strh r0, [r2]
-	bl sub_8098F4C
+	bl ReadFlashId
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10
-	ldr r2, _0809900C @ =gUnknown_087BF560
+	ldr r2, _0809900C @ =gSetupInfos
 	movs r4, #1
 	b _08099012
 	.align 2, 0
 _08099004: .4byte 0x04000204
 _08099008: .4byte 0x0000FFFC
-_0809900C: .4byte gUnknown_087BF560
+_0809900C: .4byte gSetupInfos
 _08099010:
 	adds r2, #4
 _08099012:
@@ -113,27 +114,27 @@ _08099012:
 	bne _08099010
 	movs r4, #0
 _08099026:
-	ldr r1, _08099060 @ =gUnknown_03006418
+	ldr r1, _08099060 @ =ProgramFlashSector
 	ldr r0, [r2]
 	ldr r0, [r0]
 	str r0, [r1]
-	ldr r1, _08099064 @ =gUnknown_03006424
+	ldr r1, _08099064 @ =EraseFlashChip
 	ldr r0, [r2]
 	ldr r0, [r0, #4]
 	str r0, [r1]
-	ldr r1, _08099068 @ =gUnknown_03006428
+	ldr r1, _08099068 @ =EraseFlashSector
 	ldr r0, [r2]
 	ldr r0, [r0, #8]
 	str r0, [r1]
-	ldr r1, _0809906C @ =gUnknown_03006414
+	ldr r1, _0809906C @ =WaitForFlashWrite
 	ldr r0, [r2]
 	ldr r0, [r0, #0xc]
 	str r0, [r1]
-	ldr r1, _08099070 @ =0x03000424
+	ldr r1, _08099070 @ =0x03000424 @ gFlashMaxTime
 	ldr r0, [r2]
 	ldr r0, [r0, #0x10]
 	str r0, [r1]
-	ldr r1, _08099074 @ =gUnknown_0300641C
+	ldr r1, _08099074 @ =gFlash
 	ldr r0, [r2]
 	adds r0, #0x14
 	str r0, [r1]
@@ -142,15 +143,15 @@ _08099026:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08099060: .4byte gUnknown_03006418
-_08099064: .4byte gUnknown_03006424
-_08099068: .4byte gUnknown_03006428
-_0809906C: .4byte gUnknown_03006414
-_08099070: .4byte 0x03000424
-_08099074: .4byte gUnknown_0300641C
+_08099060: .4byte ProgramFlashSector
+_08099064: .4byte EraseFlashChip
+_08099068: .4byte EraseFlashSector
+_0809906C: .4byte WaitForFlashWrite
+_08099070: .4byte 0x03000424 @ gFlashMaxTime
+_08099074: .4byte gFlash
 
-	thumb_func_start sub_8099078
-sub_8099078: @ 0x08099078
+	thumb_func_start FlashTimerIntr
+FlashTimerIntr: @ 0x08099078
 	ldr r1, _08099094 @ =0x0300042E
 	ldrh r0, [r1]
 	cmp r0, #0
@@ -161,14 +162,14 @@ sub_8099078: @ 0x08099078
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08099092
-	ldr r1, _08099098 @ =0x03000430
+	ldr r1, _08099098 @ =0x03000430 @ gFlashTimeoutFlag
 	movs r0, #1
 	strb r0, [r1]
 _08099092:
 	bx lr
 	.align 2, 0
 _08099094: .4byte 0x0300042E
-_08099098: .4byte 0x03000430
+_08099098: .4byte 0x03000430 @ gFlashTimeoutFlag
 
 	thumb_func_start SetFlashTimerIntr
 SetFlashTimerIntr: @ 0x0809909C
@@ -185,7 +186,7 @@ SetFlashTimerIntr: @ 0x0809909C
 	ldr r3, _080990C8 @ =0x04000100
 	adds r0, r0, r3
 	str r0, [r1]
-	ldr r0, _080990CC @ =sub_8099078
+	ldr r0, _080990CC @ =FlashTimerIntr
 	str r0, [r2]
 	movs r0, #0
 	b _080990D2
@@ -193,14 +194,14 @@ SetFlashTimerIntr: @ 0x0809909C
 _080990C0: .4byte 0x0300042C
 _080990C4: .4byte 0x03000434
 _080990C8: .4byte 0x04000100
-_080990CC: .4byte sub_8099078
+_080990CC: .4byte FlashTimerIntr
 _080990D0:
 	movs r0, #1
 _080990D2:
 	bx lr
 
-	thumb_func_start sub_80990D4
-sub_80990D4: @ 0x080990D4
+	thumb_func_start StartFlashTimer
+StartFlashTimer: @ 0x080990D4
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb
@@ -208,7 +209,7 @@ sub_80990D4: @ 0x080990D4
 	push {r4, r5, r6}
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
-	ldr r1, _08099158 @ =0x03000424
+	ldr r1, _08099158 @ =0x03000424 @ gFlashMaxTime
 	lsls r2, r0, #1
 	adds r2, r2, r0
 	lsls r2, r2, #1
@@ -237,7 +238,7 @@ sub_80990D4: @ 0x080990D4
 	ldrh r0, [r6]
 	orrs r0, r1
 	strh r0, [r6]
-	ldr r0, _08099170 @ =0x03000430
+	ldr r0, _08099170 @ =0x03000430 @ gFlashTimeoutFlag
 	strb r3, [r0]
 	ldr r1, _08099174 @ =0x0300042E
 	ldrh r0, [r2]
@@ -267,18 +268,18 @@ sub_80990D4: @ 0x080990D4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08099158: .4byte 0x03000424
+_08099158: .4byte 0x03000424 @ gFlashMaxTime
 _0809915C: .4byte 0x03000438
 _08099160: .4byte 0x04000208
 _08099164: .4byte 0x03000434
 _08099168: .4byte 0x04000200
 _0809916C: .4byte 0x0300042C
-_08099170: .4byte 0x03000430
+_08099170: .4byte 0x03000430 @ gFlashTimeoutFlag
 _08099174: .4byte 0x0300042E
 _08099178: .4byte 0x04000202
 
-	thumb_func_start sub_809917C
-sub_809917C: @ 0x0809917C
+	thumb_func_start StopFlashTimer
+StopFlashTimer: @ 0x0809917C
 	ldr r3, _080991AC @ =0x04000208
 	movs r1, #0
 	strh r1, [r3]
@@ -308,27 +309,30 @@ _080991B0: .4byte 0x03000434
 _080991B4: .4byte 0x04000200
 _080991B8: .4byte 0x0300042C
 _080991BC: .4byte 0x03000438
-_080991C0:
-	.byte 0x00, 0x78, 0x70, 0x47
 
-	thumb_func_start sub_80991C4
-sub_80991C4: @ 0x080991C4
+	thumb_func_start ReadFlash1
+ReadFlash1: @ 0x080991C0
+	ldrb	r0, [r0]
+	bx	lr
+
+	thumb_func_start SetReadFlash1
+SetReadFlash1: @ 0x080991C4
 	adds r2, r0, #0
 	ldr r1, _080991DC @ =0x03000428
 	adds r0, r2, #1
 	str r0, [r1]
-	ldr r3, _080991E0 @ =0x080991C1
+	ldr r3, _080991E0 @ =ReadFlash1
 	movs r0, #1
 	eors r3, r0
-	ldr r0, _080991E4 @ =sub_80991C4
-	ldr r1, _080991E0 @ =0x080991C1
+	ldr r0, _080991E4 @ =SetReadFlash1
+	ldr r1, _080991E0 @ =ReadFlash1
 	subs r0, r0, r1
 	lsls r0, r0, #0xf
 	b _080991F4
 	.align 2, 0
 _080991DC: .4byte 0x03000428
-_080991E0: .4byte 0x080991C1
-_080991E4: .4byte sub_80991C4
+_080991E0: .4byte ReadFlash1
+_080991E4: .4byte SetReadFlash1
 _080991E8:
 	ldrh r0, [r3]
 	strh r0, [r2]
@@ -342,8 +346,8 @@ _080991F4:
 	bne _080991E8
 	bx lr
 
-	thumb_func_start sub_80991FC
-sub_80991FC: @ 0x080991FC
+	thumb_func_start WaitForFlashWrite512K_Common
+WaitForFlashWrite512K_Common: @ 0x080991FC
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -356,7 +360,7 @@ sub_80991FC: @ 0x080991FC
 	movs r0, #0
 	mov r8, r0
 	adds r0, r4, #0
-	bl sub_80990D4
+	bl StartFlashTimer
 	ldr r7, _08099224 @ =0x03000428
 	movs r0, #0xc0
 	lsls r0, r0, #8
@@ -366,7 +370,7 @@ sub_80991FC: @ 0x080991FC
 	.align 2, 0
 _08099224: .4byte 0x03000428
 _08099228:
-	ldr r0, _08099240 @ =gUnknown_0300641C
+	ldr r0, _08099240 @ =gFlash
 	ldr r0, [r0]
 	ldrh r1, [r0, #0x14]
 	ldr r0, _08099244 @ =0x00001CC2
@@ -380,7 +384,7 @@ _0809923A:
 	mov r8, r4
 	b _08099274
 	.align 2, 0
-_08099240: .4byte gUnknown_0300641C
+_08099240: .4byte gFlash
 _08099244: .4byte 0x00001CC2
 _08099248: .4byte 0x0E005555
 _0809924C:
@@ -391,7 +395,7 @@ _0809924C:
 	lsrs r0, r0, #0x18
 	cmp r0, r6
 	beq _08099274
-	ldr r0, _08099284 @ =0x03000430
+	ldr r0, _08099284 @ =0x03000430 @ gFlashTimeoutFlag
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _0809924C
@@ -403,7 +407,7 @@ _0809924C:
 	cmp r0, r6
 	bne _08099228
 _08099274:
-	bl sub_809917C
+	bl StopFlashTimer
 	mov r0, r8
 	pop {r3}
 	mov r8, r3
@@ -411,10 +415,10 @@ _08099274:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08099284: .4byte 0x03000430
+_08099284: .4byte 0x03000430 @ gFlashTimeoutFlag
 
-	thumb_func_start sub_8099288
-sub_8099288: @ 0x08099288
+	thumb_func_start ReadFlash_Core
+ReadFlash_Core: @ 0x08099288
 	push {r4, lr}
 	adds r4, r0, #0
 	subs r3, r2, #1
@@ -436,8 +440,8 @@ _080992A4:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80992AC
-sub_80992AC: @ 0x080992AC
+	thumb_func_start ReadFlash
+ReadFlash: @ 0x080992AC
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x80
 	adds r5, r1, #0
@@ -452,20 +456,20 @@ sub_80992AC: @ 0x080992AC
 	movs r1, #3
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r3, _080992E4 @ =sub_8099288
+	ldr r3, _080992E4 @ =ReadFlash_Core
 	movs r0, #1
 	eors r3, r0
 	mov r2, sp
-	ldr r0, _080992E8 @ =sub_80992AC
-	ldr r1, _080992E4 @ =sub_8099288
+	ldr r0, _080992E8 @ =ReadFlash
+	ldr r1, _080992E4 @ =ReadFlash_Core
 	subs r0, r0, r1
 	lsls r0, r0, #0xf
 	b _080992F8
 	.align 2, 0
 _080992DC: .4byte 0x04000204
 _080992E0: .4byte 0x0000FFFC
-_080992E4: .4byte sub_8099288
-_080992E8: .4byte sub_80992AC
+_080992E4: .4byte ReadFlash_Core
+_080992E8: .4byte ReadFlash
 _080992EC:
 	ldrh r0, [r3]
 	strh r0, [r2]
@@ -479,7 +483,7 @@ _080992F8:
 	bne _080992EC
 	mov r3, sp
 	adds r3, #1
-	ldr r0, _08099324 @ =gUnknown_087BF624
+	ldr r0, _08099324 @ =DefaultFlash512K
 	ldrb r0, [r0, #0x1c]
 	lsls r4, r0
 	adds r0, r4, #0
@@ -495,10 +499,10 @@ _080992F8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08099324: .4byte gUnknown_087BF624
+_08099324: .4byte DefaultFlash512K
 
-	thumb_func_start sub_8099328
-sub_8099328: @ 0x08099328
+	thumb_func_start VerifyFlashSector_Core
+VerifyFlashSector_Core: @ 0x08099328
 	push {r4, r5, lr}
 	adds r5, r0, #0
 	adds r3, r1, #0
@@ -528,8 +532,8 @@ _08099350:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_8099358
-sub_8099358: @ 0x08099358
+	thumb_func_start VerifyFlashSector
+VerifyFlashSector: @ 0x08099358
 	push {r4, r5, lr}
 	sub sp, #0x100
 	adds r5, r1, #0
@@ -542,20 +546,20 @@ sub_8099358: @ 0x08099358
 	movs r1, #3
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r3, _0809938C @ =sub_8099328
+	ldr r3, _0809938C @ =VerifyFlashSector_Core
 	movs r0, #1
 	eors r3, r0
 	mov r2, sp
-	ldr r0, _08099390 @ =sub_8099358
-	ldr r1, _0809938C @ =sub_8099328
+	ldr r0, _08099390 @ =VerifyFlashSector
+	ldr r1, _0809938C @ =VerifyFlashSector_Core
 	subs r0, r0, r1
 	lsls r0, r0, #0xf
 	b _080993A0
 	.align 2, 0
 _08099384: .4byte 0x04000204
 _08099388: .4byte 0x0000FFFC
-_0809938C: .4byte sub_8099328
-_08099390: .4byte sub_8099358
+_0809938C: .4byte VerifyFlashSector_Core
+_08099390: .4byte VerifyFlashSector
 _08099394:
 	ldrh r0, [r3]
 	strh r0, [r2]
@@ -569,7 +573,7 @@ _080993A0:
 	bne _08099394
 	mov r3, sp
 	adds r3, #1
-	ldr r0, _080993C8 @ =gUnknown_087BF624
+	ldr r0, _080993C8 @ =DefaultFlash512K
 	ldrb r1, [r0, #0x1c]
 	lsls r4, r1
 	adds r1, r4, #0
@@ -584,10 +588,10 @@ _080993A0:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080993C8: .4byte gUnknown_087BF624
+_080993C8: .4byte DefaultFlash512K
 
-	thumb_func_start sub_80993CC
-sub_80993CC: @ 0x080993CC
+	thumb_func_start VerifyFlashSectorNBytes
+VerifyFlashSectorNBytes: @ 0x080993CC
 	push {r4, r5, r6, lr}
 	sub sp, #0x100
 	adds r5, r1, #0
@@ -601,20 +605,20 @@ sub_80993CC: @ 0x080993CC
 	movs r1, #3
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r3, _08099400 @ =sub_8099328
+	ldr r3, _08099400 @ =VerifyFlashSector_Core
 	movs r0, #1
 	eors r3, r0
 	mov r2, sp
-	ldr r0, _08099404 @ =sub_8099358
-	ldr r1, _08099400 @ =sub_8099328
+	ldr r0, _08099404 @ =VerifyFlashSector
+	ldr r1, _08099400 @ =VerifyFlashSector_Core
 	subs r0, r0, r1
 	lsls r0, r0, #0xf
 	b _08099414
 	.align 2, 0
 _080993F8: .4byte 0x04000204
 _080993FC: .4byte 0x0000FFFC
-_08099400: .4byte sub_8099328
-_08099404: .4byte sub_8099358
+_08099400: .4byte VerifyFlashSector_Core
+_08099404: .4byte VerifyFlashSector
 _08099408:
 	ldrh r0, [r3]
 	strh r0, [r2]
@@ -628,7 +632,7 @@ _08099414:
 	bne _08099408
 	mov r3, sp
 	adds r3, #1
-	ldr r0, _0809943C @ =gUnknown_087BF624
+	ldr r0, _0809943C @ =DefaultFlash512K
 	ldrb r1, [r0, #0x1c]
 	lsls r4, r1
 	adds r1, r4, #0
@@ -643,10 +647,10 @@ _08099414:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0809943C: .4byte gUnknown_087BF624
+_0809943C: .4byte DefaultFlash512K
 
-	thumb_func_start sub_8099440
-sub_8099440: @ 0x08099440
+	thumb_func_start ProgramFlashSectorAndVerify
+ProgramFlashSectorAndVerify: @ 0x08099440
 	push {r4, r5, r6, lr}
 	adds r5, r1, #0
 	lsls r0, r0, #0x10
@@ -660,7 +664,7 @@ _0809944C:
 _08099452:
 	cmp r6, #2
 	bhi _08099478
-	ldr r0, _08099480 @ =gUnknown_03006418
+	ldr r0, _08099480 @ =ProgramFlashSector
 	ldr r2, [r0]
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -671,7 +675,7 @@ _08099452:
 	bne _0809944C
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_8099358
+	bl VerifyFlashSector
 	adds r2, r0, #0
 	cmp r2, #0
 	bne _0809944C
@@ -681,10 +685,10 @@ _08099478:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08099480: .4byte gUnknown_03006418
+_08099480: .4byte ProgramFlashSector
 
-	thumb_func_start sub_8099484
-sub_8099484: @ 0x08099484
+	thumb_func_start ProgramFlashSectorAndVerifyNBytes
+ProgramFlashSectorAndVerifyNBytes: @ 0x08099484
 	push {r4, r5, r6, r7, lr}
 	adds r5, r1, #0
 	adds r7, r2, #0
@@ -699,7 +703,7 @@ _08099492:
 _08099498:
 	cmp r6, #2
 	bhi _080994C0
-	ldr r0, _080994C8 @ =gUnknown_03006418
+	ldr r0, _080994C8 @ =ProgramFlashSector
 	ldr r2, [r0]
 	adds r0, r4, #0
 	adds r1, r5, #0
@@ -711,7 +715,7 @@ _08099498:
 	adds r0, r4, #0
 	adds r1, r5, #0
 	adds r2, r7, #0
-	bl sub_80993CC
+	bl VerifyFlashSectorNBytes
 	adds r3, r0, #0
 	cmp r3, #0
 	bne _08099492
@@ -721,17 +725,21 @@ _080994C0:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080994C8: .4byte gUnknown_03006418
+_080994C8: .4byte ProgramFlashSector
+.endif
+@ --- End of agb_flash.o ---
 
-	thumb_func_start sub_80994CC
-sub_80994CC: @ 0x080994CC
+.if 0
+@ --- Start of agb_flash_le_512k ---
+	thumb_func_start EraseFlashChip_LE
+EraseFlashChip_LE: @ 0x080994CC
 	push {r4, r5, r6, lr}
 	sub sp, #0x40
 	ldr r5, _08099528 @ =0x04000204
 	ldrh r1, [r5]
 	ldr r6, _0809952C @ =0x0000FFFC
 	ands r1, r6
-	ldr r0, _08099530 @ =gUnknown_0300641C
+	ldr r0, _08099530 @ =gFlash
 	ldr r0, [r0]
 	ldrh r0, [r0, #0x10]
 	orrs r1, r0
@@ -749,8 +757,8 @@ sub_80994CC: @ 0x080994CC
 	movs r0, #0x10
 	strb r0, [r1]
 	mov r0, sp
-	bl sub_80991C4
-	ldr r0, _0809953C @ =gUnknown_03006414
+	bl SetReadFlash1
+	ldr r0, _0809953C @ =WaitForFlashWrite
 	movs r1, #0xe0
 	lsls r1, r1, #0x14
 	ldr r3, [r0]
@@ -771,13 +779,13 @@ sub_80994CC: @ 0x080994CC
 	.align 2, 0
 _08099528: .4byte 0x04000204
 _0809952C: .4byte 0x0000FFFC
-_08099530: .4byte gUnknown_0300641C
+_08099530: .4byte gFlash
 _08099534: .4byte 0x0E005555
 _08099538: .4byte 0x0E002AAA
-_0809953C: .4byte gUnknown_03006414
+_0809953C: .4byte WaitForFlashWrite
 
-	thumb_func_start sub_8099540
-sub_8099540: @ 0x08099540
+	thumb_func_start EraseFlashSector_LE
+EraseFlashSector_LE: @ 0x08099540
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -791,7 +799,7 @@ sub_8099540: @ 0x08099540
 	ldr r0, _080995B4 @ =0x0000FFFC
 	mov r8, r0
 	ands r1, r0
-	ldr r0, _080995B8 @ =gUnknown_0300641C
+	ldr r0, _080995B8 @ =gFlash
 	ldr r2, [r0]
 	ldrh r0, [r2, #0x10]
 	orrs r1, r0
@@ -815,8 +823,8 @@ sub_8099540: @ 0x08099540
 	movs r0, #0x30
 	strb r0, [r4]
 	mov r0, sp
-	bl sub_80991C4
-	ldr r0, _080995C4 @ =gUnknown_03006414
+	bl SetReadFlash1
+	ldr r0, _080995C4 @ =WaitForFlashWrite
 	ldr r3, [r0]
 	movs r0, #2
 	adds r1, r4, #0
@@ -834,10 +842,10 @@ sub_8099540: @ 0x08099540
 	.align 2, 0
 _080995B0: .4byte 0x04000204
 _080995B4: .4byte 0x0000FFFC
-_080995B8: .4byte gUnknown_0300641C
+_080995B8: .4byte gFlash
 _080995BC: .4byte 0x0E005555
 _080995C0: .4byte 0x0E002AAA
-_080995C4: .4byte gUnknown_03006414
+_080995C4: .4byte WaitForFlashWrite
 _080995C8:
 	ldr r0, _080995D8 @ =0x000080FF
 _080995CA:
@@ -850,8 +858,8 @@ _080995CA:
 	.align 2, 0
 _080995D8: .4byte 0x000080FF
 
-	thumb_func_start sub_80995DC
-sub_80995DC: @ 0x080995DC
+	thumb_func_start ProgramByte
+ProgramByte: @ 0x080995DC
 	push {r4, lr}
 	ldr r4, _08099608 @ =0x0E005555
 	movs r2, #0xaa
@@ -863,7 +871,7 @@ sub_80995DC: @ 0x080995DC
 	strb r2, [r4]
 	ldrb r2, [r0]
 	strb r2, [r1]
-	ldr r3, _08099610 @ =gUnknown_03006414
+	ldr r3, _08099610 @ =WaitForFlashWrite
 	ldrb r2, [r0]
 	ldr r3, [r3]
 	movs r0, #1
@@ -876,10 +884,10 @@ sub_80995DC: @ 0x080995DC
 	.align 2, 0
 _08099608: .4byte 0x0E005555
 _0809960C: .4byte 0x0E002AAA
-_08099610: .4byte gUnknown_03006414
+_08099610: .4byte WaitForFlashWrite
 
-	thumb_func_start sub_8099614
-sub_8099614: @ 0x08099614
+	thumb_func_start ProgramFlashSector_LE
+ProgramFlashSector_LE: @ 0x08099614
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -896,7 +904,7 @@ sub_8099614: @ 0x08099614
 	.align 2, 0
 _08099630: .4byte 0x000080FF
 _08099634:
-	ldr r0, _08099654 @ =gUnknown_0300641C
+	ldr r0, _08099654 @ =gFlash
 	ldr r0, [r0]
 	ldrb r0, [r0, #8]
 	mov r7, r8
@@ -904,18 +912,18 @@ _08099634:
 	movs r0, #0xe0
 	lsls r0, r0, #0x14
 	adds r7, r7, r0
-	ldr r1, _08099658 @ =sub_8099738
+	ldr r1, _08099658 @ =VerifyEraseSector_Core
 	movs r0, #1
 	adds r3, r1, #0
 	eors r3, r0
 	mov r2, sp
-	ldr r0, _0809965C @ =sub_809975C
+	ldr r0, _0809965C @ =VerifyEraseSector
 	subs r0, r0, r1
 	b _0809966A
 	.align 2, 0
-_08099654: .4byte gUnknown_0300641C
-_08099658: .4byte sub_8099738
-_0809965C: .4byte sub_809975C
+_08099654: .4byte gFlash
+_08099658: .4byte VerifyEraseSector_Core
+_0809965C: .4byte VerifyEraseSector
 _08099660:
 	ldrh r0, [r3]
 	strh r0, [r2]
@@ -937,7 +945,7 @@ _08099676:
 	beq _08099720
 _08099680:
 	mov r0, r8
-	bl sub_8099540
+	bl EraseFlashSector_LE
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 	cmp r5, #0
@@ -945,7 +953,7 @@ _08099680:
 	adds r0, r7, #0
 	mov r1, sp
 	adds r1, #1
-	bl sub_809975C
+	bl VerifyEraseSector
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 	cmp r5, #0
@@ -960,7 +968,7 @@ _080996A8:
 	bhi _080996BE
 _080996AE:
 	mov r0, r8
-	bl sub_8099540
+	bl EraseFlashSector_LE
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
 	lsrs r4, r0, #0x18
@@ -968,17 +976,17 @@ _080996AE:
 	bls _080996AE
 _080996BE:
 	mov r0, sp
-	bl sub_80991C4
+	bl SetReadFlash1
 	ldr r3, _080996E0 @ =0x04000204
 	ldrh r1, [r3]
 	ldr r0, _080996E4 @ =0x0000FFFC
 	ands r1, r0
-	ldr r0, _080996E8 @ =gUnknown_0300641C
+	ldr r0, _080996E8 @ =gFlash
 	ldr r2, [r0]
 	ldrh r0, [r2, #0x10]
 	orrs r1, r0
 	strh r1, [r3]
-	ldr r1, _080996EC @ =gUnknown_03006420
+	ldr r1, _080996EC @ =gFlashNumRemainingBytes
 	ldr r0, [r2, #4]
 	strh r0, [r1]
 	adds r4, r1, #0
@@ -986,8 +994,8 @@ _080996BE:
 	.align 2, 0
 _080996E0: .4byte 0x04000204
 _080996E4: .4byte 0x0000FFFC
-_080996E8: .4byte gUnknown_0300641C
-_080996EC: .4byte gUnknown_03006420
+_080996E8: .4byte gFlash
+_080996EC: .4byte gFlashNumRemainingBytes
 _080996F0:
 	ldrh r0, [r4]
 	subs r0, #1
@@ -1001,7 +1009,7 @@ _080996FC:
 	beq _08099712
 	mov r0, sb
 	adds r1, r7, #0
-	bl sub_80995DC
+	bl ProgramByte
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 	cmp r5, #0
@@ -1028,15 +1036,15 @@ _08099722:
 _08099730: .4byte 0x04000204
 _08099734: .4byte 0x0000FFFC
 
-	thumb_func_start sub_8099738
-sub_8099738: @ 0x08099738
+	thumb_func_start VerifyEraseSector_Core
+VerifyEraseSector_Core: @ 0x08099738
 	adds r2, r0, #0
-	ldr r0, _08099744 @ =gUnknown_0300641C
+	ldr r0, _08099744 @ =gFlash
 	ldr r0, [r0]
 	ldr r1, [r0, #4]
 	b _0809974A
 	.align 2, 0
-_08099744: .4byte gUnknown_0300641C
+_08099744: .4byte gFlash
 _08099748:
 	subs r1, #1
 _0809974A:
@@ -1051,8 +1059,8 @@ _08099756:
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_809975C
-sub_809975C: @ 0x0809975C
+	thumb_func_start VerifyEraseSector
+VerifyEraseSector: @ 0x0809975C
 	push {lr}
 	bl _call_via_r1
 	cmp r0, #0
@@ -1066,7 +1074,11 @@ _0809976C:
 	bx r1
 	.align 2, 0
 _08099770: .4byte 0x00008004
+@ --- End of agb_flash_le_512k.o ---
+.endif
 
+.if 0
+@ --- Start of agb_flash_mx_512k.o ---
 	thumb_func_start sub_8099774
 sub_8099774: @ 0x08099774
 	push {r4, r5, r6, r7, lr}
@@ -1082,23 +1094,23 @@ sub_8099774: @ 0x08099774
 _08099788: .4byte 0x000080FF
 _0809978C:
 	adds r0, r4, #0
-	bl sub_8099540
+	bl EraseFlashSector_LE
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 	cmp r5, #0
 	bne _08099806
 	mov r0, sp
-	bl sub_80991C4
+	bl SetReadFlash1
 	ldr r3, _080997C8 @ =0x04000204
 	ldrh r1, [r3]
 	ldr r0, _080997CC @ =0x0000FFFC
 	ands r1, r0
-	ldr r0, _080997D0 @ =gUnknown_0300641C
+	ldr r0, _080997D0 @ =gFlash
 	ldr r2, [r0]
 	ldrh r0, [r2, #0x10]
 	orrs r1, r0
 	strh r1, [r3]
-	ldr r1, _080997D4 @ =gUnknown_03006420
+	ldr r1, _080997D4 @ =gFlashNumRemainingBytes
 	ldr r0, [r2, #4]
 	strh r0, [r1]
 	ldrb r0, [r2, #8]
@@ -1111,8 +1123,8 @@ _0809978C:
 	.align 2, 0
 _080997C8: .4byte 0x04000204
 _080997CC: .4byte 0x0000FFFC
-_080997D0: .4byte gUnknown_0300641C
-_080997D4: .4byte gUnknown_03006420
+_080997D0: .4byte gFlash
+_080997D4: .4byte gFlashNumRemainingBytes
 _080997D8:
 	ldrh r0, [r6]
 	subs r0, #1
@@ -1125,7 +1137,7 @@ _080997E2:
 	beq _080997F8
 	adds r0, r7, #0
 	adds r1, r4, #0
-	bl sub_80995DC
+	bl ProgramByte
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 	cmp r5, #0
@@ -1148,13 +1160,15 @@ _08099808:
 	.align 2, 0
 _08099810: .4byte 0x04000204
 _08099814: .4byte 0x0000FFFC
+@ --- End of agb_flash_mx_512k.o ---
+.endif
 
 	thumb_func_start sub_8099818
 sub_8099818: @ 0x08099818
 	push {r4, r5, r6, lr}
 	sub sp, #0x40
 	mov r0, sp
-	bl sub_80991C4
+	bl SetReadFlash1
 	ldr r5, _08099870 @ =0x04000204
 	ldrh r0, [r5]
 	ldr r6, _08099874 @ =0x0000FFFC
@@ -1175,7 +1189,7 @@ sub_8099818: @ 0x08099818
 	strb r2, [r3]
 	movs r0, #0x10
 	strb r0, [r1]
-	ldr r0, _08099884 @ =gUnknown_03006414
+	ldr r0, _08099884 @ =WaitForFlashWrite
 	movs r1, #0xe0
 	lsls r1, r1, #0x14
 	ldr r3, [r0]
@@ -1199,7 +1213,7 @@ _08099874: .4byte 0x0000FFFC
 _08099878: .4byte gUnknown_087BF778
 _0809987C: .4byte 0x0E005555
 _08099880: .4byte 0x0E002AAA
-_08099884: .4byte gUnknown_03006414
+_08099884: .4byte WaitForFlashWrite
 
 	thumb_func_start sub_8099888
 sub_8099888: @ 0x08099888
@@ -1240,7 +1254,7 @@ _080998C8:
 	subs r4, #1
 	ldr r0, _080998FC @ =0x04000208
 	strh r5, [r0]
-	ldr r0, _08099908 @ =gUnknown_03006414
+	ldr r0, _08099908 @ =WaitForFlashWrite
 	ldr r3, [r0]
 	movs r0, #1
 	adds r1, r4, #0
@@ -1265,7 +1279,7 @@ _080998F8: .4byte gUnknown_087BF778
 _080998FC: .4byte 0x04000208
 _08099900: .4byte 0x0E005555
 _08099904: .4byte 0x0E002AAA
-_08099908: .4byte gUnknown_03006414
+_08099908: .4byte WaitForFlashWrite
 
 	thumb_func_start sub_809990C
 sub_809990C: @ 0x0809990C
@@ -1281,7 +1295,7 @@ sub_809990C: @ 0x0809990C
 _0809991C: .4byte 0x000080FF
 _08099920:
 	mov r0, sp
-	bl sub_80991C4
+	bl SetReadFlash1
 	ldr r2, _08099940 @ =0x04000204
 	ldrh r0, [r2]
 	ldr r1, _08099944 @ =0x0000FFFC
@@ -1384,7 +1398,7 @@ _080999DC:
 	subs r5, #1
 	ldr r0, _08099A00 @ =0x04000208
 	strh r6, [r0]
-	ldr r0, _08099A0C @ =gUnknown_03006414
+	ldr r0, _08099A0C @ =WaitForFlashWrite
 	ldrb r2, [r5]
 	ldr r3, [r0]
 	movs r0, #1
@@ -1400,7 +1414,7 @@ _080999FC: .4byte gUnknown_087BF778
 _08099A00: .4byte 0x04000208
 _08099A04: .4byte 0x0E005555
 _08099A08: .4byte 0x0E002AAA
-_08099A0C: .4byte gUnknown_03006414
+_08099A0C: .4byte WaitForFlashWrite
 
 	thumb_func_start sub_8099A10
 sub_8099A10: @ 0x08099A10
@@ -1419,7 +1433,7 @@ sub_8099A10: @ 0x08099A10
 _08099A28: .4byte 0x000080FF
 _08099A2C:
 	mov r0, sp
-	bl sub_80991C4
+	bl SetReadFlash1
 	ldr r2, _08099A54 @ =0x04000204
 	ldrh r0, [r2]
 	ldr r1, _08099A58 @ =0x0000FFFC
@@ -1430,7 +1444,7 @@ _08099A2C:
 	strh r0, [r2]
 	lsls r0, r4, #0x15
 	lsrs r5, r0, #0x10
-	ldr r1, _08099A60 @ =gUnknown_03006420
+	ldr r1, _08099A60 @ =gFlashNumRemainingBytes
 	ldr r0, _08099A64 @ =gUnknown_087BF74C
 	ldr r0, [r0, #0x18]
 	strh r0, [r1]
@@ -1441,7 +1455,7 @@ _08099A2C:
 _08099A54: .4byte 0x04000204
 _08099A58: .4byte 0x0000FFFC
 _08099A5C: .4byte gUnknown_087BF778
-_08099A60: .4byte gUnknown_03006420
+_08099A60: .4byte gFlashNumRemainingBytes
 _08099A64: .4byte gUnknown_087BF74C
 _08099A68:
 	ldr r0, _08099A88 @ =gUnknown_087BF778

@@ -1,12 +1,8 @@
 	.section .rodata
 
-    .global gUnknown_087BF554
-gUnknown_087BF554:
-    .incbin "baserom.gba", 0x007BF554, 0xC
-
-    .global gUnknown_087BF560
-gUnknown_087BF560:
-    .incbin "baserom.gba", 0x007BF560, 0xC4
+@    .global gSetupInfos
+@gSetupInfos:
+@    .incbin "baserom.gba", 0x007BF560, 0xC4
 
     .global gUnknown_087BF624
 gUnknown_087BF624:

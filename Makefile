@@ -135,8 +135,9 @@ OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(OBJS))
 $(C_BUILDDIR)/lib/m4a.o: CC1 := $(CC1_OLD)
 
 # Use `-O1` for agb_flash libs, as these were also prebuilt
-$(C_BUILDDIR)/lib/agb_flash.o: CC1FLAGS := -O1 -mthumb-interwork -Werror
-$(C_BUILDDIR)/lib/agb_flash%.o: CC1FLAGS := -O1 -mthumb-interwork -Werror
+# -fprologue-bugfix requires newest build of (old_)agbcc .
+$(C_BUILDDIR)/lib/agb_flash.o: CC1FLAGS := -O1 -mthumb-interwork -Werror -fprologue-bugfix
+$(C_BUILDDIR)/lib/agb_flash%.o: CC1FLAGS := -O1 -mthumb-interwork -Werror -fprologue-bugfix
 
 ifeq ($(DINFO),1)
 override CC1FLAGS += -g
