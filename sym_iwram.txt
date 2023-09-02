@@ -2,10 +2,16 @@
 /**** bss ****/
 build/sa1/src/lib/m4a.o(.bss.code);
 
-. = 0x00000424;
-gFlashMaxTime = .;     . += 0xC;
-gFlashTimeoutFlag = .; . += 4;
+/* *** TODO: Do these without hard-coding! *** */
+gFlashMaxTime = 0x00000424;
+PollFlashStatus = 0x00000428;
+sTimerNum = 0x0000042C;
+sTimerCount = 0x0000042E;
+gFlashTimeoutFlag = 0x00000430;
+gTimerReg = 0x00000434;
+gSavedIme = 0x00000438;
 
+. = 0x0000042C;
 /*build/sa1/src/lib/agb_flash.o(COMMON);*/
 build/sa1/src/lib/agb_flash.o(.bss);
 

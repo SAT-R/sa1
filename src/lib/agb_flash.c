@@ -2,14 +2,21 @@
 #include "gba/flash_internal.h"
 #include "lib/agb_flash.h"
 
-u8 gFlashTimeoutFlag;
-static u8 sTimerNum;
-static u16 sTimerCount;
-static vu16 *gTimerReg;
-static u16 gSavedIme;
+/* TODO: Revert these back to how they were originally! 
+         We're using a hack in sym_iwram.txt right now,
+         to get the addresses aliged/ROM to match!
+*/
+extern u8 gFlashTimeoutFlag;
+extern u8 (*PollFlashStatus)(u8 *);
+extern u8 sTimerNum;
+extern u16 sTimerCount;
+extern vu16 *gTimerReg;
+extern u16 gSavedIme;
 const u16 *gFlashMaxTime;
 
-u8 (*PollFlashStatus)(u8 *) = NULL;
+u8 (*FlashTempA)(u8 *) = NULL;
+u8 (*FlashTempB)(u8 *) = NULL;
+u8 (*FlashTempC)(u8 *) = NULL;
 u16 (*WaitForFlashWrite)(u8 phase, u8 *addr, u8 lastData) = NULL;
 u16 (*ProgramFlashSector)(u16 sectorNum, void *src) = NULL;
 const struct FlashType *gFlash = NULL;
