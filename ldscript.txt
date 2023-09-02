@@ -35,7 +35,6 @@ SECTIONS {
         build/sa1/src/lib/agb_flash_le_512k.o(.text);
         build/sa1/src/lib/agb_flash_mx_512k.o(.text);
         build/sa1/src/lib/agb_flash_at_512k.o(.text);
-        build/sa1/asm/flash.o(.text);
         build/sa1/asm/libagbsyscall.o(.text);
         *libgcc.a:_call_via_rX.o(.text);
         *libgcc.a:_divdi3.o(.text);
