@@ -20,11 +20,7 @@ u16 (*EraseFlashSector)(u16 sectorNum) = NULL;
 // TODO: Make sure the flash chip names are correct!
 static const char AgbLibFlashVersion[] = "FLASH_V126";
 const struct FlashSetupInfo *const gSetup512KInfos[] = {
-    &LE39FW512,
-    &AT29LV512,
-    &MX29L512,
-    &MN63F805MNP,
-    &DefaultFlash512K,
+    &LE39FW512, &AT29LV512, &MX29L512, &MN63F805MNP, &DefaultFlash512K,
 };
 
 void SetReadFlash1(u16 *dest);
@@ -186,7 +182,7 @@ u16 WaitForFlashWrite512K_Common(u8 phase, u8 *addr, u8 lastData)
         if (gFlashTimeoutFlag) {
             if (PollFlashStatus(addr) == lastData)
                 break;
-           
+
 // This #if seems redundant, but would make copy-pasting more hassle-free
 #if AGBFLASH_USE_V126
             if (gFlash->ids.joined == 0x1cc2)
@@ -243,7 +239,7 @@ void ReadFlash(u16 sectorNum, u32 offset, void *dest, u32 size)
     }
 
     readFlash_Core = (void (*)(u8 *, u8 *, u32))((s32)readFlash_Core_Buffer + 1);
-    
+
 #if AGBFLASH_USE_V126
     src = FLASH_BASE + (sectorNum << DefaultFlash512K.type.sector.shift) + offset;
 #else
@@ -274,7 +270,7 @@ u32 VerifyFlashSector(u16 sectorNum, u8 *src)
     u32 (*verifyFlashSector_Core)(u8 *, u8 *, u32);
 
     REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | WAITCNT_SRAM_8;
-    
+
 #if !AGBFLASH_USE_V126
     if (gFlash->romSize == FLASH_ROM_SIZE_1M) {
         SwitchFlashBank(sectorNum / SECTORS_PER_BANK);
@@ -315,7 +311,7 @@ u32 VerifyFlashSectorNBytes(u16 sectorNum, u8 *src, u32 n)
     u16 *funcDest;
     u8 *tgt;
     u32 (*verifyFlashSector_Core)(u8 *, u8 *, u32);
-    
+
 #if !AGBFLASH_USE_V126
     if (gFlash->romSize == FLASH_ROM_SIZE_1M) {
         SwitchFlashBank(sectorNum / SECTORS_PER_BANK);
@@ -338,7 +334,7 @@ u32 VerifyFlashSectorNBytes(u16 sectorNum, u8 *src, u32 n)
 
     verifyFlashSector_Core
         = (u32(*)(u8 *, u8 *, u32))((s32)verifyFlashSector_Core_Buffer + 1);
-    
+
 #if AGBFLASH_USE_V126
     tgt = FLASH_BASE + (sectorNum << DefaultFlash512K.type.sector.shift);
 #else

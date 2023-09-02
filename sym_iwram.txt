@@ -2,7 +2,11 @@
 /**** bss ****/
 build/sa1/src/lib/m4a.o(.bss.code);
 
-. = 0x0000042C;
+. = 0x00000424;
+gFlashMaxTime = .;     . += 0xC;
+gFlashTimeoutFlag = .; . += 4;
+
+/*build/sa1/src/lib/agb_flash.o(COMMON);*/
 build/sa1/src/lib/agb_flash.o(.bss);
 
 . = 0x00000440; 

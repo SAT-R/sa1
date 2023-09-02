@@ -1,17 +1,18 @@
 #include "global.h"
+#include "gba/io_reg.h"
 #include "gba/flash_internal.h"
 
 const u16 AT29LV512MaxTime[] = {
-    10,  65469, TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_256CLK,
-    40,  65469, TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_256CLK,
-    0, 0, 0,
-    40,  65469, TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_256CLK,
+    10, 65469, TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_256CLK,
+    40, 65469, TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_256CLK,
+    0,  0,     0,
+    40, 65469, TIMER_ENABLE | TIMER_INTR_ENABLE | TIMER_256CLK,
 };
 
 const struct FlashSetupInfo AT29LV512 = {
-    ProgramFlashSector_Unk,//ProgramFlashSector_LE,
-    EraseFlashChip_Unk,
-    EraseFlashSector_Unk,
+    ProgramFlashSector_AT, // ProgramFlashSector_AT,
+    EraseFlashChip_AT,
+    EraseFlashSector_AT,
     WaitForFlashWrite512K_Common,
     AT29LV512MaxTime,
     {
@@ -27,32 +28,39 @@ const struct FlashSetupInfo AT29LV512 = {
     },
 };
 
-#if 0
-const struct FlashSetupInfo LE39FW512 = {
-    ProgramFlashSector_LE,
-    EraseFlashChip_LE,
-    EraseFlashSector_LE,
+u16 ProgramFlashSector_AT_2(u16, void *);
+u16 EraseFlashChip_AT(void);
+u16 EraseFlashSector_AT_2(u16);
+u16 sub_80991FC(u8, u8 *, u8);
+
+const struct FlashSetupInfo gUnknown_087BF778 = {
+    ProgramFlashSector_AT_2, // ProgramFlashSector_AT_2,
+    EraseFlashChip_AT,
+    EraseFlashSector_AT_2,
     WaitForFlashWrite512K_Common,
     AT29LV512MaxTime,
     {
         65536, // ROM size
         {
-            4096, // sector size
-            12, // bit shift to multiply by sector size (4096 == 1 << 12)
-            16, // number of sectors
+            128, // sector size
+            7, // bit shift to multiply by sector size (4096 == 1 << 12)
+            512, // number of sectors
             0 // appears to be unused
         },
-        { 1, 2 }, // wait state setup data
-        { { 0xBF, 0xD4 } } // ID
+        { 3, 3 }, // wait state setup data
+        { { MANUFACTURER_ATMEL, CHIP_ATMEL_AT29LV512 } } // ID
     },
 };
 
-u16 EraseFlashChip_LE(void)
+// static const u32 udabest = sizeof(struct FlashSetupInfo);
+u16 EraseFlashChip_AT(void)
 {
     u16 result;
     u16 readFlash1Buffer[0x20];
 
-    REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | gFlash->wait[0];
+    SetReadFlash1(readFlash1Buffer);
+
+    REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | gUnknown_087BF778.type.wait[0];
 
     FLASH_WRITE(0x5555, 0xAA);
     FLASH_WRITE(0x2AAA, 0x55);
@@ -61,8 +69,6 @@ u16 EraseFlashChip_LE(void)
     FLASH_WRITE(0x2AAA, 0x55);
     FLASH_WRITE(0x5555, 0x10);
 
-    SetReadFlash1(readFlash1Buffer);
-
     result = WaitForFlashWrite(3, FLASH_BASE, 0xFF);
 
     REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | WAITCNT_SRAM_8;
@@ -70,35 +76,109 @@ u16 EraseFlashChip_LE(void)
     return result;
 }
 
-u16 EraseFlashSector_LE(u16 sectorNum)
+u16 EraseFlashSector_AT_2(u16 sectorNum)
+{
+    u16 result;
+    u16 ime;
+    u8 *addr;
+    u32 size;
+
+    addr = FLASH_BASE + (sectorNum << gUnknown_087BF778.type.sector.shift);
+
+    ime = REG_IME;
+    REG_IME = 0;
+
+    FLASH_WRITE(0x5555, 0xAA);
+    FLASH_WRITE(0x2AAA, 0x55);
+    FLASH_WRITE(0x5555, 0xA0);
+
+    size = gUnknown_087BF778.type.sector.size;
+    while (size != 0) {
+        *addr++ = 0xFF;
+        size--;
+    }
+
+    addr--;
+
+    REG_IME = ime;
+
+    result = WaitForFlashWrite(1, addr, 0xFF);
+
+    if (result)
+        result = (result & 0xFF00) | WAITCNT_SRAM_2;
+
+    return result;
+}
+
+u16 EraseFlashSector_AT(u16 sectorNum)
 {
     u16 result;
     u8 *addr;
     u16 readFlash1Buffer[0x20];
+    u16 i, r4;
+    u16 bankNum;
 
-    if (sectorNum >= 0x10)
+    if (sectorNum >= SECTORS_PER_BANK)
         return 0x80FF;
-
-    REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | gFlash->wait[0];
-
-    addr = FLASH_BASE + (sectorNum << gFlash->sector.shift);
-
-    FLASH_WRITE(0x5555, 0xAA);
-    FLASH_WRITE(0x2AAA, 0x55);
-    FLASH_WRITE(0x5555, 0x80);
-    FLASH_WRITE(0x5555, 0xAA);
-    FLASH_WRITE(0x2AAA, 0x55);
-    *addr = 0x30;
 
     SetReadFlash1(readFlash1Buffer);
 
-    result = WaitForFlashWrite(2, addr, 0xFF);
+    REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | gUnknown_087BF778.type.wait[0];
+
+    addr = FLASH_BASE + (sectorNum << gUnknown_087BF778.type.sector.shift);
+
+    bankNum = sectorNum << 5;
+
+    for (i = 0; i < 32; i++) {
+        r4 = 2;
+
+        while (r4 != 0 && (result = EraseFlashSector_AT_2(bankNum))) {
+            r4--;
+        }
+        bankNum++;
+
+        if (result)
+            break;
+    }
 
     REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | WAITCNT_SRAM_8;
 
     return result;
 }
 
+u16 ProgramFlashSector_AT_2(u16 sectorNum, void *src)
+{
+    u16 result;
+    u16 ime;
+    u8 *addr;
+    u32 size;
+
+    addr = FLASH_BASE + (sectorNum << gUnknown_087BF778.type.sector.shift);
+
+    ime = REG_IME;
+    REG_IME = 0;
+
+    FLASH_WRITE(0x5555, 0xAA);
+    FLASH_WRITE(0x2AAA, 0x55);
+    FLASH_WRITE(0x5555, 0xA0);
+
+    size = gUnknown_087BF778.type.sector.size;
+    while (size != 0) {
+        *addr++ = *(u8 *)src++;
+        size--;
+    }
+
+    addr--;
+    src--;
+
+    REG_IME = ime;
+
+    result = WaitForFlashWrite(1, addr, *(u8 *)src);
+
+    return result;
+}
+
+#if 0
 u16 ProgramByte(u8 *src, u8 *dest)
 {
     FLASH_WRITE(0x5555, 0xAA);
@@ -108,97 +188,45 @@ u16 ProgramByte(u8 *src, u8 *dest)
 
     return WaitForFlashWrite(1, dest, *src);
 }
+#endif
 
 static u32 VerifyEraseSector_Core(u8 *dest);
 static u16 VerifyEraseSector(u8 *dest, u8 *src);
 
-u16 ProgramFlashSector_LE(u16 sectorNum, void *src)
+u16 ProgramFlashSector_AT(u16 sectorNum, void *src)
 {
     u16 result;
-    u8 *dest;
-    u16 VerifyEraseSector_Core_Buffer[0x30];
-    u16 *funcSrc;
-    u16 *funcDest;
-    u16 i;
+    u16 bankNum;
+    u16 VerifyEraseSector_Core_Buffer[0x20];
+    u16 i, r4;
     u8 tryNum;
     u8 erasesToTry;
     u8 j;
 
-    if (sectorNum > 15)
+    if (sectorNum >= SECTORS_PER_BANK)
         return 0x80FF;
-
-    if (gFlash->sector.count == FLASH_ROM_SIZE_1M) {
-        SwitchFlashBank(sectorNum / SECTORS_PER_BANK);
-        sectorNum %= SECTORS_PER_BANK;
-    }
-
-    dest = FLASH_BASE + (sectorNum << gFlash->sector.shift);
-    funcSrc = (u16 *)((s32)VerifyEraseSector_Core ^ 1);
-    funcDest = VerifyEraseSector_Core_Buffer;
-
-    i = ((s32)VerifyEraseSector - (s32)VerifyEraseSector_Core);
-
-    while (i != 0) {
-        *funcDest++ = *funcSrc++;
-        i -= 2;
-    }
-
-    tryNum = 0;
-    while ((result = EraseFlashSector_LE(sectorNum))
-           || (result = VerifyEraseSector(
-                   dest, (u8 *)((s32)&VerifyEraseSector_Core_Buffer + 1)))) {
-        tryNum++;
-        if (tryNum == 0x51) {
-            return result;
-        }
-    }
-
-    erasesToTry = 1;
-    if (tryNum != 0) {
-        erasesToTry = 6;
-    }
-
-    for (j = 1; j <= erasesToTry; j++) {
-        EraseFlashSector_LE(sectorNum);
-    }
 
     SetReadFlash1(VerifyEraseSector_Core_Buffer);
 
-    REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | gFlash->wait[0];
-    gFlashNumRemainingBytes = gFlash->sector.size;
-    while (gFlashNumRemainingBytes && (result = ProgramByte(src, dest), result == 0)) {
-        gFlashNumRemainingBytes--;
-        src++, dest++;
+    REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | gUnknown_087BF778.type.wait[0];
+    bankNum = sectorNum << 5;
+
+    gFlashNumRemainingBytes = AT29LV512.type.sector.size;
+    while (gFlashNumRemainingBytes) {
+        r4 = 2;
+
+        while (r4 != 0 && (result = ProgramFlashSector_AT_2(bankNum, src))) {
+            r4--;
+        }
+
+        if (result)
+            break;
+
+        gFlashNumRemainingBytes -= gUnknown_087BF778.type.sector.size;
+        src += gUnknown_087BF778.type.sector.size;
+        bankNum++;
     }
+
     REG_WAITCNT = (REG_WAITCNT & ~WAITCNT_SRAM_MASK) | 3;
     return result;
 }
-
-static u32 VerifyEraseSector_Core(u8 *dest)
-{
-    u32 sectorNum;
-    u8 src;
-
-    for (sectorNum = gFlash->sector.size; sectorNum != 0; sectorNum--) {
-        src = *dest++;
-
-        if (src != 0xff) {
-            break;
-        }
-    }
-    return sectorNum;
-}
-
-static u16 VerifyEraseSector(u8 *dest, u8 *src)
-{
-    u32 result;
-    // call VerifyEraseSector_Core
-    result = ((u32(*)(u8 *))((s32)src))(dest);
-
-    if (result != 0) {
-        return 0x8004;
-    }
-
-    return 0;
-}
-#endif
