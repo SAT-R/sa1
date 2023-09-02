@@ -2,12 +2,13 @@
 #include "gba/flash_internal.h"
 #include "lib/agb_flash.h"
 
+u8 gFlashTimeoutFlag;
 static u8 sTimerNum;
 static u16 sTimerCount;
 static vu16 *gTimerReg;
 static u16 gSavedIme;
+const u16 *gFlashMaxTime;
 
-u8 gFlashTimeoutFlag = 0;
 u8 (*PollFlashStatus)(u8 *) = NULL;
 u16 (*WaitForFlashWrite)(u8 phase, u8 *addr, u8 lastData) = NULL;
 u16 (*ProgramFlashSector)(u16 sectorNum, void *src) = NULL;
@@ -15,14 +16,14 @@ const struct FlashType *gFlash = NULL;
 u16 gFlashNumRemainingBytes = 0;
 u16 (*EraseFlashChip)() = NULL;
 u16 (*EraseFlashSector)(u16 sectorNum) = NULL;
-const u16 *gFlashMaxTime = NULL;
 
 // TODO: Make sure the flash chip names are correct!
 static const char AgbLibFlashVersion[] = "FLASH_V126";
-const struct FlashSetupInfo *const gSetupInfos[] = {
+const struct FlashSetupInfo *const gSetup512KInfos[] = {
     &LE39FW512,
-    &MN63F805MNP,
+    &AT29LV512,
     &MX29L512,
+    &MN63F805MNP,
     &DefaultFlash512K,
 };
 
@@ -86,7 +87,7 @@ u16 IdentifyFlash(void)
 
     flashId = ReadFlashId();
 
-    setupInfo = gSetupInfos;
+    setupInfo = gSetup512KInfos;
     result = 1;
 
     for (;;) {

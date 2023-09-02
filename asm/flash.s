@@ -1163,8 +1163,8 @@ _08099814: .4byte 0x0000FFFC
 @ --- End of agb_flash_mx_512k.o ---
 .endif
 
-	thumb_func_start sub_8099818
-sub_8099818: @ 0x08099818
+	thumb_func_start EraseFlashChip_Unk
+EraseFlashChip_Unk: @ 0x08099818
 	push {r4, r5, r6, lr}
 	sub sp, #0x40
 	mov r0, sp
@@ -1281,8 +1281,8 @@ _08099900: .4byte 0x0E005555
 _08099904: .4byte 0x0E002AAA
 _08099908: .4byte WaitForFlashWrite
 
-	thumb_func_start sub_809990C
-sub_809990C: @ 0x0809990C
+	thumb_func_start EraseFlashSector_Unk
+EraseFlashSector_Unk: @ 0x0809990C
 	push {r4, r5, r6, lr}
 	sub sp, #0x40
 	lsls r0, r0, #0x10
@@ -1416,8 +1416,8 @@ _08099A04: .4byte 0x0E005555
 _08099A08: .4byte 0x0E002AAA
 _08099A0C: .4byte WaitForFlashWrite
 
-	thumb_func_start sub_8099A10
-sub_8099A10: @ 0x08099A10
+	thumb_func_start ProgramFlashSector_Unk
+ProgramFlashSector_Unk: @ 0x08099A10
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1445,7 +1445,7 @@ _08099A2C:
 	lsls r0, r4, #0x15
 	lsrs r5, r0, #0x10
 	ldr r1, _08099A60 @ =gFlashNumRemainingBytes
-	ldr r0, _08099A64 @ =gUnknown_087BF74C
+	ldr r0, _08099A64 @ =AT29LV512
 	ldr r0, [r0, #0x18]
 	strh r0, [r1]
 	adds r0, r1, #0
@@ -1456,7 +1456,7 @@ _08099A54: .4byte 0x04000204
 _08099A58: .4byte 0x0000FFFC
 _08099A5C: .4byte gUnknown_087BF778
 _08099A60: .4byte gFlashNumRemainingBytes
-_08099A64: .4byte gUnknown_087BF74C
+_08099A64: .4byte AT29LV512
 _08099A68:
 	ldr r0, _08099A88 @ =gUnknown_087BF778
 	ldr r1, [r0, #0x18]

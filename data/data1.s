@@ -4,17 +4,18 @@
 @gSetupInfos:
 @    .incbin "baserom.gba", 0x007BF560, 0xC4
 
-    .global gUnknown_087BF624
-gUnknown_087BF624:
-    .incbin "baserom.gba", 0x007BF624, 0x128
+@    .global gUnknown_087BF624
+@gUnknown_087BF624:
+@    .incbin "baserom.gba", 0x007BF624, 0x128
 
-    .global gUnknown_087BF74C
-gUnknown_087BF74C:
-    .incbin "baserom.gba", 0x007BF74C, 0x2C
-
+@    .global UnknownFlashChip
+@UnknownFlashChip:
+@    .incbin "baserom.gba", 0x007BF74C, 0x2C
+@
     .global gUnknown_087BF778
 gUnknown_087BF778:
     .incbin "baserom.gba", 0x007BF778, 0x154
+@ --- End of flash-related data ---
 
     .global gUnknown_087BF8CC
 gUnknown_087BF8CC:

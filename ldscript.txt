@@ -31,6 +31,9 @@ SECTIONS {
         /* Libs */
         build/sa1/asm/m4a0.o(.text);
         build/sa1/src/lib/m4a.o(.text);
+        build/sa1/src/lib/agb_flash.o(.text);
+        build/sa1/src/lib/agb_flash_le_512k.o(.text);
+        build/sa1/src/lib/agb_flash_mx_512k.o(.text);
         build/sa1/asm/flash.o(.text);
         build/sa1/asm/libagbsyscall.o(.text);
         *libgcc.a:_call_via_rX.o(.text);
@@ -235,7 +238,13 @@ SECTIONS {
         build/sa1/sound/songs/song305.o(.rodata);
         build/sa1/sound/songs/song306.o(.rodata);
         build/sa1/sound/songs/song307.o(.rodata);
+        
+        build/sa1/src/lib/agb_flash.o(.rodata);
+        build/sa1/src/lib/agb_flash_le_512k.o(.rodata);
+        build/sa1/src/lib/agb_flash_mx_512k.o(.rodata);
+        build/sa1/src/lib/agb_flash_at_512k.o(.rodata);
         build/sa1/data/data1.o(.rodata);
+        
     }
 
     . = 0x2000000;

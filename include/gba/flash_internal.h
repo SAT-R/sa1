@@ -64,7 +64,7 @@ extern u8 (*PollFlashStatus)(u8 *);
 extern u16 (*WaitForFlashWrite)(u8, u8 *, u8);
 
 extern const struct FlashSetupInfo LE39FW512;
-//extern const struct FlashSetupInfo AT29LV512;
+extern const struct FlashSetupInfo AT29LV512;
 extern const struct FlashSetupInfo MN63F805MNP;
 extern const struct FlashSetupInfo MX29L512;
 extern const struct FlashSetupInfo DefaultFlash512K;
@@ -89,11 +89,19 @@ u16 WaitForFlashWrite_Common(u8 phase, u8 *addr, u8 lastData);
 u16 ProgramByte(u8 *src, u8 *dest);
 
 u16 EraseFlashChip_LE(void);
+u16 EraseFlashChip_Unk(void);
 u16 EraseFlashSector_LE(u16 sectorNum);
+u16 EraseFlashSector_Unk(u16 sectorNum);
 u16 ProgramFlashSector_LE(u16 sectorNum, void *src);
 u16 ProgramFlashSector_MX(u16 sectorNum, void *src);
+u16 ProgramFlashSector_Unk(u16 sectorNum, void *src);
+
 
 // agb_flash_1m
 u16 IdentifyFlash(void);
+
+/* Manufacturers and chips */
+#define MANUFACTURER_ATMEL	 0x1F
+#define CHIP_ATMEL_AT29LV512 0x3D
 
 #endif // GUARD_GBA_FLASH_INTERNAL_H

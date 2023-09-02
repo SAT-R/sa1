@@ -4,8 +4,6 @@
 
 __attribute__((section(".bss.code"))) char SoundMainRAM_Buffer[0x400] = {};
 
-// TODO: Remove #if once it can be merged
-#if 01
 EWRAM_DATA struct SoundInfo gSoundInfo = {};
 EWRAM_DATA MPlayFunc gMPlayJumpTable[36] = {};
 EWRAM_DATA struct CgbChannel gCgbChans[4] = {};
@@ -1297,4 +1295,3 @@ void ply_xswee(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track
 }
 
 static void DummyCallback(void) { }
-#endif
