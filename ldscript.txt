@@ -26,6 +26,8 @@ SECTIONS {
         build/sa1/asm/sio32_multi_load.o(.text);
 
         /* Game */
+        build/sa1/asm/stage__rings_manager.o(.text);
+        build/sa1/asm/stage__entities_manager.o(.text);
         build/sa1/asm/game.o(.text);
 
         /* Libs */
