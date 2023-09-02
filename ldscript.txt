@@ -31,7 +31,6 @@ SECTIONS {
         /* Libs */
         build/sa1/asm/m4a0.o(.text);
         build/sa1/src/lib/m4a.o(.text);
-        build/sa1/asm/lib_m4a.o(.text);
         build/sa1/asm/flash.o(.text);
         build/sa1/asm/libagbsyscall.o(.text);
         *libgcc.a:_call_via_rX.o(.text);
