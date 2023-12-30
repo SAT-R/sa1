@@ -61,17 +61,168 @@ gSpritePosData_enemies:
     .incbin "baserom.gba", 0x000BB01C, 0x48
 
     .global gSpriteInits_Interactables
-gSpriteInits_Interactables:
-    .incbin "baserom.gba", 0x000BB064, 0x1D0
+gSpriteInits_Interactables:     @ 0x080BB064
+    .4byte CreateEntity_Interactable000
+    .4byte CreateEntity_Interactable001
+    .4byte CreateEntity_Interactable002
+    .4byte CreateEntity_Interactable003
+    .4byte CreateEntity_Interactable003
+    .4byte CreateEntity_Interactable005
+    .4byte CreateEntity_Interactable006
+    .4byte CreateEntity_Interactable007
+    .4byte CreateEntity_Interactable008
+    .4byte CreateEntity_Interactable009
+    .4byte CreateEntity_Interactable010
+    .4byte CreateEntity_Interactable010
+    .4byte CreateEntity_Interactable012
+    .4byte CreateEntity_Interactable012
+    .4byte CreateEntity_Interactable014
+    .4byte CreateEntity_Interactable014
+    .4byte CreateEntity_Interactable016
+    .4byte CreateEntity_Interactable017
+    .4byte CreateEntity_Interactable017
+    .4byte CreateEntity_Interactable019
+    .4byte CreateEntity_Interactable020
+    .4byte CreateEntity_Interactable021
+    .4byte CreateEntity_Interactable022
+    .4byte CreateEntity_Interactable023
+    .4byte CreateEntity_Interactable024
+    .4byte CreateEntity_Interactable025
+    .4byte CreateEntity_Interactable026
+    .4byte CreateEntity_Interactable027
+    .4byte CreateEntity_Interactable028
+    .4byte CreateEntity_Interactable029
+    .4byte CreateEntity_Interactable030
+    .4byte CreateEntity_Interactable031
+    .4byte CreateEntity_Interactable032
+    .4byte CreateEntity_Interactable033
+    .4byte CreateEntity_Interactable034
+    .4byte CreateEntity_Interactable035
+    .4byte CreateEntity_Interactable036
+    .4byte CreateEntity_Interactable037
+    .4byte CreateEntity_Interactable038
+    .4byte CreateEntity_Interactable039
+    .4byte CreateEntity_Interactable040
+    .4byte CreateEntity_Interactable041
+    .4byte CreateEntity_Interactable042
+    .4byte CreateEntity_Interactable043
+    .4byte CreateEntity_Interactable044
+    .4byte CreateEntity_Interactable045
+    .4byte CreateEntity_Interactable046
+    .4byte CreateEntity_Interactable047
+    .4byte CreateEntity_Interactable048
+    .4byte CreateEntity_Interactable049
+    .4byte CreateEntity_Interactable050
+    .4byte CreateEntity_Interactable051
+    .4byte CreateEntity_Interactable052
+    .4byte CreateEntity_Interactable053
+    .4byte CreateEntity_Interactable054
+    .4byte CreateEntity_Interactable055
+    .4byte CreateEntity_Interactable056
+    .4byte CreateEntity_Interactable057
+    .4byte CreateEntity_Interactable058
+    .4byte CreateEntity_Interactable059
+    .4byte CreateEntity_Interactable060
+    .4byte CreateEntity_Interactable061
+    .4byte CreateEntity_Interactable062
+    .4byte CreateEntity_Interactable063
+    .4byte CreateEntity_Interactable064
+    .4byte CreateEntity_Interactable065
+    .4byte CreateEntity_Interactable066
+    .4byte CreateEntity_Interactable067
+    .4byte CreateEntity_Interactable068
+    .4byte CreateEntity_Interactable069
+    .4byte CreateEntity_Interactable070
+    .4byte CreateEntity_Interactable071
+    .4byte CreateEntity_Interactable072
+    .4byte CreateEntity_Interactable073
+    .4byte CreateEntity_Interactable074
+    .4byte CreateEntity_Interactable075
+    .4byte CreateEntity_Interactable076
+    .4byte CreateEntity_Interactable077
+    .4byte CreateEntity_Interactable078
+    .4byte CreateEntity_Interactable079
+    .4byte CreateEntity_Interactable080
+    .4byte CreateEntity_Interactable081
+    .4byte CreateEntity_Interactable082
+    .4byte CreateEntity_Interactable083
+    .4byte CreateEntity_Interactable084
+    .4byte CreateEntity_Interactable085
+    .4byte CreateEntity_Interactable086
+    .4byte CreateEntity_Interactable087
+    .4byte CreateEntity_Interactable088
+    .4byte CreateEntity_Interactable089
+    .4byte CreateEntity_Interactable090
+    .4byte CreateEntity_Interactable091
+    .4byte CreateEntity_Interactable092
+    .4byte CreateEntity_Interactable093
+    .4byte CreateEntity_Interactable094
+    .4byte CreateEntity_Interactable095
+    .4byte CreateEntity_Interactable096
+    .4byte CreateEntity_Interactable097
+    .4byte CreateEntity_Interactable098
+    .4byte CreateEntity_Interactable099
+    .4byte CreateEntity_Interactable100
+    .4byte CreateEntity_Interactable101
+    .4byte CreateEntity_Interactable102
+    .4byte CreateEntity_Interactable103
+    .4byte CreateEntity_Interactable104
+    .4byte CreateEntity_Interactable105
+    .4byte CreateEntity_Interactable106
+    .4byte CreateEntity_Interactable107
+    .4byte CreateEntity_Interactable108
+    .4byte CreateEntity_Interactable109
+    .4byte CreateEntity_Interactable110
+    .4byte CreateEntity_Interactable111
+    .4byte CreateEntity_Interactable112
+    .4byte CreateEntity_Interactable113
+    .4byte CreateEntity_Interactable114
+    .4byte CreateEntity_Interactable115
 
     .global gSpriteInits_Enemies
-gSpriteInits_Enemies:
+gSpriteInits_Enemies:   @ 80BB234
+.if 1
     .incbin "baserom.gba", 0x000BB234, 0x80
+.else
+    .4byte CreateEntity_Enemy000
+    .4byte CreateEntity_Enemy001
+    .4byte CreateEntity_Enemy002
+    .4byte CreateEntity_Enemy003
+    .4byte CreateEntity_Enemy004
+    .4byte CreateEntity_Enemy005
+    .4byte CreateEntity_Enemy006
+    .4byte CreateEntity_Enemy007
+    .4byte CreateEntity_Enemy008
+    .4byte CreateEntity_Enemy009
+    .4byte CreateEntity_Enemy010
+    .4byte CreateEntity_Enemy011
+    .4byte CreateEntity_Enemy012
+    .4byte CreateEntity_Enemy013
+    .4byte CreateEntity_Enemy014
+    .4byte CreateEntity_Enemy015
+    .4byte CreateEntity_Enemy016
+    .4byte CreateEntity_Enemy017
+    .4byte CreateEntity_Enemy018
+    .4byte CreateEntity_Enemy019
+    .4byte CreateEntity_Enemy020
+    .4byte CreateEntity_Enemy021
+    .4byte CreateEntity_Enemy022
+    .4byte CreateEntity_Enemy023
+    .4byte CreateEntity_Enemy024
+    .4byte CreateEntity_Enemy025
+    .4byte CreateEntity_Enemy026
+    .4byte CreateEntity_Enemy027
+    .4byte CreateEntity_Enemy028
+    .4byte CreateEntity_Enemy029
+    .4byte CreateEntity_Enemy030
+    .4byte CreateEntity_Enemy031
+.endif
 
     .global enemyDefeatScores
-enemyDefeatScores:
-    .incbin "baserom.gba", 0x000BB2B4, 0xC
+enemyDefeatScores: @ 0x080BB2B4
+    .2byte 100, 200, 400, 800, 1000, 0
 
+@ This might be gSpriteInits_InteractablesMultiplayer
     .global gUnknown_080BB2C0
 gUnknown_080BB2C0:
     .incbin "baserom.gba", 0x000BB2C0, 0x48
