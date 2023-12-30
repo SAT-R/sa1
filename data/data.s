@@ -69,7 +69,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Interactable003
     .4byte CreateEntity_Interactable005
     .4byte CreateEntity_Interactable006
-    .4byte CreateEntity_Interactable007
+    .4byte CreateEntity_Checkpoint
     .4byte CreateEntity_Interactable008
     .4byte CreateEntity_Interactable009
     .4byte CreateEntity_Interactable010
@@ -79,8 +79,8 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Interactable014
     .4byte CreateEntity_Interactable014
     .4byte CreateEntity_Interactable016
-    .4byte CreateEntity_Interactable017
-    .4byte CreateEntity_Interactable017
+    .4byte CreateEntity_Toggle_PlayerLayer @ 017
+    .4byte CreateEntity_Toggle_PlayerLayer @ 018
     .4byte CreateEntity_Interactable019
     .4byte CreateEntity_Interactable020
     .4byte CreateEntity_Interactable021
@@ -164,7 +164,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Interactable099
     .4byte CreateEntity_Interactable100
     .4byte CreateEntity_Interactable101
-    .4byte CreateEntity_Interactable102
+    .4byte CreateEntity_SpecialSpring
     .4byte CreateEntity_Interactable103
     .4byte CreateEntity_Interactable104
     .4byte CreateEntity_Interactable105
@@ -184,38 +184,38 @@ gSpriteInits_Enemies:   @ 80BB234
 .if 1
     .incbin "baserom.gba", 0x000BB234, 0x80
 .else
-    .4byte CreateEntity_Enemy000
-    .4byte CreateEntity_Enemy001
-    .4byte CreateEntity_Enemy002
-    .4byte CreateEntity_Enemy003
-    .4byte CreateEntity_Enemy004
-    .4byte CreateEntity_Enemy005
-    .4byte CreateEntity_Enemy006
-    .4byte CreateEntity_Enemy007
-    .4byte CreateEntity_Enemy008
-    .4byte CreateEntity_Enemy009
-    .4byte CreateEntity_Enemy010
-    .4byte CreateEntity_Enemy011
-    .4byte CreateEntity_Enemy012
-    .4byte CreateEntity_Enemy013
-    .4byte CreateEntity_Enemy014
-    .4byte CreateEntity_Enemy015
-    .4byte CreateEntity_Enemy016
-    .4byte CreateEntity_Enemy017
-    .4byte CreateEntity_Enemy018
-    .4byte CreateEntity_Enemy019
-    .4byte CreateEntity_Enemy020
-    .4byte CreateEntity_Enemy021
-    .4byte CreateEntity_Enemy022
-    .4byte CreateEntity_Enemy023
-    .4byte CreateEntity_Enemy024
-    .4byte CreateEntity_Enemy025
-    .4byte CreateEntity_Enemy026
-    .4byte CreateEntity_Enemy027
-    .4byte CreateEntity_Enemy028
-    .4byte CreateEntity_Enemy029
-    .4byte CreateEntity_Enemy030
-    .4byte CreateEntity_Enemy031
+    .4byte CreateEntity_Enemy000 @ Kiki
+    .4byte CreateEntity_Enemy001 @ Buzzer
+    .4byte CreateEntity_Enemy002 @ GamiGami
+    .4byte CreateEntity_Enemy003 @ Rhinotank
+    .4byte CreateEntity_Enemy004 @ KeroKero
+    .4byte CreateEntity_Enemy005 @ Senbon
+    .4byte CreateEntity_Enemy006 @ Tentou
+    .4byte CreateEntity_Enemy007 @ Fireball
+    .4byte CreateEntity_Enemy008 @ Hanabii
+    .4byte CreateEntity_Enemy009 @ Slot
+    .4byte CreateEntity_Enemy010 @ Pierrot
+    .4byte CreateEntity_Enemy011 @ Leon
+    .4byte CreateEntity_Enemy012 @ Mirror
+    .4byte CreateEntity_Enemy013 @ Wamu
+    .4byte CreateEntity_Enemy014 @ Octo
+    .4byte CreateEntity_Enemy015 @ Mole
+    .4byte CreateEntity_Enemy016 @ Yukimaru
+    .4byte CreateEntity_Enemy017 @ Yukimaru (sideways)
+    .4byte CreateEntity_Enemy018 @ Drisame
+    .4byte CreateEntity_Enemy019 @ Kura
+    .4byte CreateEntity_Enemy020 @ Pen
+    .4byte CreateEntity_Enemy021 @ Boss 1 Intro
+    .4byte CreateEntity_Enemy022 @ Boss 1
+    .4byte CreateEntity_Enemy023 @ Boss 2 A
+    .4byte CreateEntity_Enemy024 @ Boss 2 B
+    .4byte CreateEntity_Enemy025 @ Boss 3
+    .4byte CreateEntity_Enemy026 @ Boss Robo-Knuckles
+    .4byte CreateEntity_Enemy027 @ Boss 4
+    .4byte CreateEntity_Enemy028 @ Boss Sonic 1
+    .4byte CreateEntity_Enemy029 @ Boss Sonic 2
+    .4byte CreateEntity_Enemy030 @ Final Boss
+    .4byte CreateEntity_Enemy031 @ Extra Boss(?)
 .endif
 
     .global enemyDefeatScores

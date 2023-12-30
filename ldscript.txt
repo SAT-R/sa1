@@ -28,7 +28,10 @@ SECTIONS {
         /* Game */
         build/sa1/asm/stage__rings_manager.o(.text);
         build/sa1/asm/stage__entities_manager.o(.text);
-        build/sa1/asm/game.o(.text);
+        build/sa1/asm/game_0.o(.text);
+        build/sa1/asm/interactables_0.o(.text);
+        build/sa1/asm/game_1.o(.text);
+        build/sa1/asm/game_2.o(.text);
 
         /* Libs */
         build/sa1/asm/m4a0.o(.text);
