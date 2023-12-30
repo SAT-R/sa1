@@ -192,7 +192,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005910; gUnknown_03005910 = .;
 . = 0x00005950; gUnknown_03005950 = .;
 . = 0x00005990; gUnknown_03005990 = .;
-. = 0x000059D0; gUnknown_030059D0 = .;
+. = 0x000059D0; gCamera = .;
 . = 0x00005A0C; gUnknown_03005A0C = .;
 . = 0x00005A10; gUnknown_03005A10 = .;
 . = 0x00005A18; gUnknown_03005A18 = .;
