@@ -32,6 +32,7 @@ SECTIONS {
         build/sa1/asm/interactables_0.o(.text);
         build/sa1/asm/game_1.o(.text);
         build/sa1/asm/game_2.o(.text);
+        build/sa1/asm/interactables_3.o(.text);
 
         /* Libs */
         build/sa1/asm/m4a0.o(.text);

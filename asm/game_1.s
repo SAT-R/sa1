@@ -11103,8 +11103,8 @@ _0802D958:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_802D960
-sub_802D960: @ 0x0802D960
+	thumb_func_start CreateEntity_Enemy023
+CreateEntity_Enemy023: @ 0x0802D960
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -13966,8 +13966,8 @@ _0802F15C: .4byte gUnknown_03001B30
 _0802F160: .4byte 0x00003F1F
 _0802F164: .4byte gUnknown_030011A8
 
-	thumb_func_start sub_802F168
-sub_802F168: @ 0x0802F168
+	thumb_func_start CreateEntity_Enemy024
+CreateEntity_Enemy024: @ 0x0802F168
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -17006,8 +17006,8 @@ _08030A54: .4byte gUnknown_03001B30
 _08030A58: .4byte 0x00003F1F
 _08030A5C: .4byte gUnknown_030011A8
 
-	thumb_func_start sub_8030A60
-sub_8030A60: @ 0x08030A60
+	thumb_func_start CreateEntity_Enemy025
+CreateEntity_Enemy025: @ 0x08030A60
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -19643,8 +19643,8 @@ _08031FBC: .4byte 0x03000044
 _08031FC0: .4byte 0x0300002C
 _08031FC4: .4byte 0x03000065
 
-	thumb_func_start sub_8031FC8
-sub_8031FC8: @ 0x08031FC8
+	thumb_func_start CreateEntity_Enemy027
+CreateEntity_Enemy027: @ 0x08031FC8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -24197,8 +24197,8 @@ _0803446C: .4byte gUnknown_03001B30
 _08034470: .4byte 0x00003F1F
 _08034474: .4byte gUnknown_030011A8
 
-	thumb_func_start sub_8034478
-sub_8034478: @ 0x08034478
+	thumb_func_start CreateEntity_Enemy028
+CreateEntity_Enemy028: @ 0x08034478
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -26986,8 +26986,8 @@ _08035B38: .4byte gUnknown_03001B30
 _08035B3C: .4byte 0x00003F1F
 _08035B40: .4byte gUnknown_030011A8
 
-	thumb_func_start sub_8035B44
-sub_8035B44: @ 0x08035B44
+	thumb_func_start CreateEntity_Enemy029
+CreateEntity_Enemy029: @ 0x08035B44
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -29758,8 +29758,8 @@ _080371B8:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_80371C8
-sub_80371C8: @ 0x080371C8
+	thumb_func_start CreateEntity_Enemy030
+CreateEntity_Enemy030: @ 0x080371C8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

@@ -182,15 +182,13 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .global gSpriteInits_Enemies
 gSpriteInits_Enemies:   @ 80BB234
 .if 1
-    .incbin "baserom.gba", 0x000BB234, 0x80
-.else
-    .4byte CreateEntity_Enemy000 @ Kiki
-    .4byte CreateEntity_Enemy001 @ Buzzer
-    .4byte CreateEntity_Enemy002 @ GamiGami
-    .4byte CreateEntity_Enemy003 @ Rhinotank
-    .4byte CreateEntity_Enemy004 @ KeroKero
-    .4byte CreateEntity_Enemy005 @ Senbon
-    .4byte CreateEntity_Enemy006 @ Tentou
+    .4byte CreateEntity_Kiki @ Kiki
+    .4byte CreateEntity_Buzzer @ Buzzer
+    .4byte CreateEntity_GamiGami @ GamiGami
+    .4byte CreateEntity_Rhinotank @ Rhinotank
+    .4byte CreateEntity_KeroKero @ KeroKero
+    .4byte CreateEntity_Senbon @ Senbon
+    .4byte CreateEntity_Tentou @ Tentou
     .4byte CreateEntity_Enemy007 @ Fireball
     .4byte CreateEntity_Enemy008 @ Hanabii
     .4byte CreateEntity_Enemy009 @ Slot
@@ -216,6 +214,7 @@ gSpriteInits_Enemies:   @ 80BB234
     .4byte CreateEntity_Enemy029 @ Boss Sonic 2
     .4byte CreateEntity_Enemy030 @ Final Boss
     .4byte CreateEntity_Enemy031 @ Extra Boss(?)
+.else
 .endif
 
     .global enemyDefeatScores

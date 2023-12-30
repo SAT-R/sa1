@@ -3098,8 +3098,8 @@ sub_801D3C8: @ 0x0801D3C8
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_801D3DC
-sub_801D3DC: @ 0x0801D3DC
+	thumb_func_start CreateEntity_Kiki
+CreateEntity_Kiki: @ 0x0801D3DC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4193,8 +4193,8 @@ sub_801DC70: @ 0x0801DC70
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_801DC84
-sub_801DC84: @ 0x0801DC84
+	thumb_func_start CreateEntity_Buzzer
+CreateEntity_Buzzer: @ 0x0801DC84
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -20036,8 +20036,8 @@ _080259E4: .4byte gUnknown_03005730
 _080259E8: .4byte gMPlayInfo_SE3
 _080259EC: .4byte 0x087B8F20
 
-	thumb_func_start sub_80259F0
-sub_80259F0: @ 0x080259F0
+	thumb_func_start CreateEntity_Enemy021
+CreateEntity_Enemy021: @ 0x080259F0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -20664,8 +20664,8 @@ _08025F34:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8025F3C
-sub_8025F3C: @ 0x08025F3C
+	thumb_func_start CreateEntity_Enemy022
+CreateEntity_Enemy022: @ 0x08025F3C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
