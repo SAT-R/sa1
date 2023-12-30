@@ -137,7 +137,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Interactable072
     .4byte CreateEntity_Interactable073
     .4byte CreateEntity_Interactable074
-    .4byte CreateEntity_Interactable075
+    .4byte CreateEntity_Interactable075 @ Hook-Rail
     .4byte CreateEntity_Interactable076
     .4byte CreateEntity_Interactable077
     .4byte CreateEntity_Interactable078
@@ -181,41 +181,38 @@ gSpriteInits_Interactables:     @ 0x080BB064
 
     .global gSpriteInits_Enemies
 gSpriteInits_Enemies:   @ 80BB234
-.if 1
-    .4byte CreateEntity_Kiki @ Kiki
-    .4byte CreateEntity_Buzzer @ Buzzer
-    .4byte CreateEntity_GamiGami @ GamiGami
-    .4byte CreateEntity_Rhinotank @ Rhinotank
-    .4byte CreateEntity_KeroKero @ KeroKero
-    .4byte CreateEntity_Senbon @ Senbon
-    .4byte CreateEntity_Tentou @ Tentou
-    .4byte CreateEntity_Enemy007 @ Fireball
-    .4byte CreateEntity_Enemy008 @ Hanabii
-    .4byte CreateEntity_Enemy009 @ Slot
-    .4byte CreateEntity_Enemy010 @ Pierrot
-    .4byte CreateEntity_Enemy011 @ Leon
-    .4byte CreateEntity_Enemy012 @ Mirror
-    .4byte CreateEntity_Enemy013 @ Wamu
-    .4byte CreateEntity_Enemy014 @ Octo
-    .4byte CreateEntity_Enemy015 @ Mole
-    .4byte CreateEntity_Enemy016 @ Yukimaru
-    .4byte CreateEntity_Enemy017 @ Yukimaru (sideways)
-    .4byte CreateEntity_Enemy018 @ Drisame
-    .4byte CreateEntity_Enemy019 @ Kura
-    .4byte CreateEntity_Enemy020 @ Pen
-    .4byte CreateEntity_Enemy021 @ Boss 1 Intro
-    .4byte CreateEntity_Enemy022 @ Boss 1
-    .4byte CreateEntity_Enemy023 @ Boss 2 A
-    .4byte CreateEntity_Enemy024 @ Boss 2 B
-    .4byte CreateEntity_Enemy025 @ Boss 3
-    .4byte CreateEntity_Enemy026 @ Boss Robo-Knuckles
-    .4byte CreateEntity_Enemy027 @ Boss 4
-    .4byte CreateEntity_Enemy028 @ Boss Sonic 1
-    .4byte CreateEntity_Enemy029 @ Boss Sonic 2
-    .4byte CreateEntity_Enemy030 @ Final Boss
-    .4byte CreateEntity_Enemy031 @ Extra Boss(?)
-.else
-.endif
+    .4byte CreateEntity_Kiki      @ 000 Kiki
+    .4byte CreateEntity_Buzzer    @ 001 Buzzer
+    .4byte CreateEntity_GamiGami  @ 002 GamiGami
+    .4byte CreateEntity_Rhinotank @ 003 Rhinotank
+    .4byte CreateEntity_KeroKero  @ 004 KeroKero
+    .4byte CreateEntity_Senbon    @ 005 Senbon
+    .4byte CreateEntity_Tentou    @ 006 Tentou
+    .4byte CreateEntity_Enemy007  @ 007 Fireball
+    .4byte CreateEntity_Enemy008  @ 008 Hanabii
+    .4byte CreateEntity_Enemy009  @ 009 Slot
+    .4byte CreateEntity_Enemy010  @ 010 Pierrot
+    .4byte CreateEntity_Enemy011  @ 011 Leon
+    .4byte CreateEntity_Enemy012  @ 012 Mirror
+    .4byte CreateEntity_Enemy013  @ 013 Wamu
+    .4byte CreateEntity_Enemy014  @ 014 Octo
+    .4byte CreateEntity_Enemy015  @ 015 Mole
+    .4byte CreateEntity_Enemy016  @ 016 Yukimaru
+    .4byte CreateEntity_Enemy017  @ 017 Yukimaru (sideways)
+    .4byte CreateEntity_Enemy018  @ 018 Drisame
+    .4byte CreateEntity_Enemy019  @ 019 Kura
+    .4byte CreateEntity_Enemy020  @ 020 Pen
+    .4byte CreateEntity_Enemy021  @ 021 Boss 1 Intro
+    .4byte CreateEntity_Enemy022  @ 022 Boss 1
+    .4byte CreateEntity_Enemy023  @ 023 Boss 2 A
+    .4byte CreateEntity_Enemy024  @ 024 Boss 2 B
+    .4byte CreateEntity_Enemy025  @ 025 Boss 3
+    .4byte CreateEntity_Enemy026  @ 026 Boss Robo-Knuckles
+    .4byte CreateEntity_Enemy027  @ 027 Boss 4
+    .4byte CreateEntity_Enemy028  @ 028 Boss Sonic 1
+    .4byte CreateEntity_Enemy029  @ 029 Boss Sonic 2
+    .4byte CreateEntity_Enemy030  @ 030 Final Boss
+    .4byte CreateEntity_Enemy031  @ 031 Extra Boss(?)
 
     .global enemyDefeatScores
 enemyDefeatScores: @ 0x080BB2B4
