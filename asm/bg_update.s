@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start InitBackground
-InitBackground: @ 0x080019C0
+	thumb_func_start DrawBackground
+DrawBackground: @ 0x080019C0
 	push {r4, r5, r6, lr}
 	adds r3, r0, #0
 	ldrh r0, [r3, #0x1c]

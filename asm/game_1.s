@@ -3491,15 +3491,15 @@ _08029BCE:
 	movs r2, #0x40
 	bl memcpy
 	mov r0, sb
-	bl InitBackground
+	bl DrawBackground
 	mov r0, r8
-	bl InitBackground
+	bl DrawBackground
 	adds r0, r6, #0
-	bl InitBackground
+	bl DrawBackground
 	adds r0, r5, #0
-	bl InitBackground
+	bl DrawBackground
 	adds r0, r4, #0
-	bl InitBackground
+	bl DrawBackground
 	ldr r0, _08029CD0 @ =sub_802D2BC
 	movs r2, #0x90
 	lsls r2, r2, #5
@@ -3688,13 +3688,13 @@ _08029DAE:
 	ands r0, r1
 	strh r0, [r6, #0x2e]
 	adds r0, r6, #0
-	bl InitBackground
+	bl DrawBackground
 	adds r0, r7, #0
-	bl InitBackground
+	bl DrawBackground
 	mov r0, r8
-	bl InitBackground
+	bl DrawBackground
 	mov r0, sb
-	bl InitBackground
+	bl DrawBackground
 	pop {r3, r4}
 	mov r8, r3
 	mov sb, r4
@@ -36770,7 +36770,7 @@ _0803A994:
 	strb r3, [r0]
 	strh r5, [r4, #0x2e]
 	adds r0, r4, #0
-	bl InitBackground
+	bl DrawBackground
 	ldr r1, _0803AB04 @ =gUnknown_03002120
 	ldr r2, _0803AB08 @ =0x00007B60
 	adds r0, r2, #0
@@ -39905,7 +39905,7 @@ _0803C23A:
 	ldrh r0, [r0]
 	strh r0, [r7, #0x1c]
 	adds r0, r7, #0
-	bl InitBackground
+	bl DrawBackground
 	ldr r0, _0803C3DC @ =gUnknown_084ADA1E
 	add r8, r0
 	mov r1, r8
@@ -40136,7 +40136,7 @@ _0803C570:
 	movs r0, #0
 	bl MultiSioInit
 	ldr r1, _0803C5A0 @ =gUnknown_03001B20
-	ldr r0, _0803C5A4 @ =gUnknown_084ADD40
+	ldr r0, _0803C5A4 @ =gTilemaps
 	str r0, [r1]
 	movs r0, #1
 	bl sub_800D8FC
@@ -40152,7 +40152,7 @@ _0803C58A:
 	.align 2, 0
 _0803C59C: .4byte gUnknown_03001214
 _0803C5A0: .4byte gUnknown_03001B20
-_0803C5A4: .4byte gUnknown_084ADD40
+_0803C5A4: .4byte gTilemaps
 
 	thumb_func_start sub_803C5A8
 sub_803C5A8: @ 0x0803C5A8
@@ -40933,7 +40933,7 @@ GameStart: @ 0x0803CBC0
 	push {r4, r5, r6, lr}
 	movs r4, #0
 	ldr r1, _0803CC68 @ =gUnknown_03001B20
-	ldr r0, _0803CC6C @ =gUnknown_084ADD40
+	ldr r0, _0803CC6C @ =gTilemaps
 	str r0, [r1]
 	ldr r1, _0803CC70 @ =gUnknown_03002034
 	ldr r0, _0803CC74 @ =gUnknown_080DC170
@@ -41016,7 +41016,7 @@ _0803CC54:
 	b _0803CD2C
 	.align 2, 0
 _0803CC68: .4byte gUnknown_03001B20
-_0803CC6C: .4byte gUnknown_084ADD40
+_0803CC6C: .4byte gTilemaps
 _0803CC70: .4byte gUnknown_03002034
 _0803CC74: .4byte gUnknown_080DC170
 _0803CC78: .4byte gUnknown_03005004
@@ -43580,7 +43580,7 @@ _0803E220:
 	cmp r2, #0xa
 	bne _0803E28E
 	ldr r0, _0803E2F4 @ =gUnknown_03005990
-	bl InitBackground
+	bl DrawBackground
 	ldr r1, _0803E300 @ =0x040000D4
 	adds r0, r4, #0
 	adds r0, #0xd0
@@ -43634,9 +43634,9 @@ _0803E2AE:
 	cmp r0, #0xd
 	bne _0803E310
 	ldr r0, _0803E2EC @ =gUnknown_03005950
-	bl InitBackground
+	bl DrawBackground
 	ldr r0, _0803E2F4 @ =gUnknown_03005990
-	bl InitBackground
+	bl DrawBackground
 	b _0803E322
 	.align 2, 0
 _0803E2C4: .4byte gCamera
@@ -43660,11 +43660,11 @@ _0803E308: .4byte 0x0000E0FF
 _0803E30C: .4byte gGameMode
 _0803E310:
 	ldr r0, _0803E340 @ =gUnknown_03005910
-	bl InitBackground
+	bl DrawBackground
 	ldr r0, _0803E344 @ =gUnknown_03005950
-	bl InitBackground
+	bl DrawBackground
 	ldr r0, _0803E348 @ =gUnknown_03005990
-	bl InitBackground
+	bl DrawBackground
 _0803E322:
 	ldr r0, _0803E34C @ =gGameMode
 	ldrb r0, [r0]
@@ -44201,7 +44201,7 @@ _0803E6FC:
 	mov r0, sb
 	strh r0, [r7, #0x32]
 	adds r0, r7, #0
-	bl InitBackground
+	bl DrawBackground
 	b _0803E776
 	.align 2, 0
 _0803E728: .4byte gCurrentLevel
@@ -44224,7 +44224,7 @@ _0803E73C:
 	mov r0, sb
 	strh r0, [r7, #0x32]
 	adds r0, r7, #0
-	bl InitBackground
+	bl DrawBackground
 	adds r0, r7, #0
 	bl UpdateBgAnimationTiles
 	adds r7, #0x40
@@ -44235,7 +44235,7 @@ _0803E73C:
 	mov r0, sb
 	strh r0, [r7, #0x32]
 	adds r0, r7, #0
-	bl InitBackground
+	bl DrawBackground
 _0803E776:
 	pop {r3, r4}
 	mov r8, r3
@@ -44264,7 +44264,7 @@ sub_803E78C: @ 0x0803E78C
 	strh r1, [r3, #0xe]
 	strh r1, [r0, #0x30]
 	strh r1, [r0, #0x32]
-	bl InitBackground
+	bl DrawBackground
 	ldr r1, _0803E860 @ =gFlags
 	ldr r0, [r1]
 	movs r2, #4
@@ -45061,7 +45061,7 @@ sub_803ED84: @ 0x0803ED84
 	ands r0, r1
 	strh r0, [r6, #2]
 	mov r0, r8
-	bl InitBackground
+	bl DrawBackground
 	mov r0, r8
 	bl UpdateBgAnimationTiles
 	ldr r0, _0803EE40 @ =gUnknown_03005A0C
@@ -45961,7 +45961,7 @@ sub_803F52C: @ 0x0803F52C
 	strh r1, [r2, #6]
 	strh r1, [r0, #0x30]
 	strh r1, [r0, #0x32]
-	bl InitBackground
+	bl DrawBackground
 	ldr r0, _0803F60C @ =gUnknown_03001144
 	ldr r5, [r0]
 	movs r0, #0xb4
@@ -46205,7 +46205,7 @@ sub_803F714: @ 0x0803F714
 	strh r0, [r4, #0x26]
 	strh r0, [r4, #0x28]
 	adds r0, r4, #0
-	bl InitBackground
+	bl DrawBackground
 	pop {r4}
 	pop {r0}
 	bx r0
@@ -46234,7 +46234,7 @@ sub_803F770: @ 0x0803F770
 	movs r0, #0x48
 	strh r0, [r4, #0x1c]
 	adds r0, r4, #0
-	bl InitBackground
+	bl DrawBackground
 	pop {r4}
 	pop {r0}
 	bx r0
@@ -46407,7 +46407,7 @@ sub_803F8C0: @ 0x0803F8C0
 	strh r1, [r2]
 	strh r3, [r2, #2]
 	adds r0, r4, #0
-	bl InitBackground
+	bl DrawBackground
 	adds r0, r4, #0
 	bl UpdateBgAnimationTiles
 	pop {r4}

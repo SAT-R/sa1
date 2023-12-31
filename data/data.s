@@ -659,8 +659,8 @@ gUnknown_084ADCF0:
 gUnknown_084ADD38:
     .incbin "baserom.gba", 0x004ADD38, 0x8
 
-    .global gUnknown_084ADD40
-gUnknown_084ADD40:
+    .global gTilemaps
+gTilemaps:
     .incbin "baserom.gba", 0x004ADD40, 0x168
 
     .global gUnknown_084ADEA8

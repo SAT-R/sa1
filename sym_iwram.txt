@@ -48,7 +48,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00001920; gUnknown_03001920 = .;
 . = 0x00001A20; gUnknown_03001A20 = .;
 . = 0x00001AA0; gUnknown_03001AA0 = .;
-. = 0x00001B20; gUnknown_03001B20 = .;
+. = 0x00001B20; gUnknown_03001B20 = .; /* SA2: gUnknown_03002260 (ref to gTilemaps) */
 . = 0x00001B24; gUnknown_03001B24 = .;
 . = 0x00001B30; gUnknown_03001B30 = .;
 . = 0x00001B3C; gNumTasks = .;
