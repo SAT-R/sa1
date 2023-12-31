@@ -478,7 +478,7 @@ _08008ADA:
 	adds r0, r4, #0
 	mov r1, r8
 	mov r2, sb
-	bl sub_801E608
+	bl CreateEntity_ItemBox
 _08008B30:
 	adds r4, #3
 	adds r6, #1
@@ -1238,7 +1238,7 @@ _08009076:
 	adds r0, r4, #0
 	mov r1, r8
 	mov r2, sb
-	bl sub_801E608
+	bl CreateEntity_ItemBox
 _080090CC:
 	adds r4, #3
 	adds r6, #1
@@ -1679,7 +1679,7 @@ _080093BC:
 	adds r0, r4, #0
 	mov r1, r8
 	mov r2, sb
-	bl sub_801E608
+	bl CreateEntity_ItemBox
 _08009418:
 	adds r4, #3
 	adds r6, #1

@@ -3098,6 +3098,8 @@ sub_801D3C8: @ 0x0801D3C8
 	pop {r0}
 	bx r0
 
+@ --- Start of Kiki ---
+
 	thumb_func_start CreateEntity_Kiki
 CreateEntity_Kiki: @ 0x0801D3DC
 	push {r4, r5, r6, r7, lr}
@@ -3574,7 +3576,7 @@ _0801D768:
 	ldr r2, _0801D7BC @ =0xFFF80000
 	adds r1, r1, r2
 	asrs r1, r1, #0x10
-	bl sub_801D7F8
+	bl CreateKikiProjectile
 	b _0801D7DA
 	.align 2, 0
 _0801D7B0: .4byte gCurTask
@@ -3593,7 +3595,7 @@ _0801D7C0:
 	ldr r5, _0801D7F4 @ =0xFFF80000
 	adds r1, r1, r5
 	asrs r1, r1, #0x10
-	bl sub_801D7F8
+	bl CreateKikiProjectile
 _0801D7DA:
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
@@ -3610,15 +3612,15 @@ _0801D7E6:
 	.align 2, 0
 _0801D7F4: .4byte 0xFFF80000
 
-	thumb_func_start sub_801D7F8
-sub_801D7F8: @ 0x0801D7F8
+	thumb_func_start CreateKikiProjectile
+CreateKikiProjectile: @ 0x0801D7F8
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	lsls r0, r0, #0x10
 	lsrs r6, r0, #0x10
 	lsls r1, r1, #0x10
 	lsrs r7, r1, #0x10
-	ldr r0, _0801D860 @ =sub_801D8E4
+	ldr r0, _0801D860 @ =Task_KikiProjMain
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r4, #0
@@ -3663,7 +3665,7 @@ sub_801D7F8: @ 0x0801D7F8
 	ldr r0, _0801D868 @ =0x0000FFC4
 	b _0801D88C
 	.align 2, 0
-_0801D860: .4byte sub_801D8E4
+_0801D860: .4byte Task_KikiProjMain
 _0801D864: .4byte gUnknown_03005A20
 _0801D868: .4byte 0x0000FFC4
 _0801D86C:
@@ -3728,8 +3730,8 @@ _0801D88E:
 	.align 2, 0
 _0801D8E0: .4byte 0x06012580
 
-	thumb_func_start sub_801D8E4
-sub_801D8E4: @ 0x0801D8E4
+	thumb_func_start Task_KikiProjMain
+Task_KikiProjMain: @ 0x0801D8E4
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -3795,7 +3797,7 @@ _0801D960: .4byte gCurTask
 _0801D964: .4byte sub_803FF84
 _0801D968:
 	ldr r1, [r6]
-	ldr r0, _0801D9B4 @ =sub_801D9F0
+	ldr r0, _0801D9B4 @ =Task_KikiProjSplit
 	str r0, [r1, #8]
 	strh r5, [r4, #0x30]
 	strh r5, [r4, #0x32]
@@ -3825,13 +3827,13 @@ _0801D972:
 	strb r1, [r0]
 	adds r0, r6, #0
 	adds r1, r5, #0
-	bl sub_801DA88
+	bl CreateKikiProjectilePiece
 	ldr r0, _0801D9B8 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
 	b _0801D9E0
 	.align 2, 0
-_0801D9B4: .4byte sub_801D9F0
+_0801D9B4: .4byte Task_KikiProjSplit
 _0801D9B8: .4byte gCurTask
 _0801D9BC:
 	ldr r2, _0801D9EC @ =gCamera
@@ -3860,8 +3862,8 @@ _0801D9E0:
 	.align 2, 0
 _0801D9EC: .4byte gCamera
 
-	thumb_func_start sub_801D9F0
-sub_801D9F0: @ 0x0801D9F0
+	thumb_func_start Task_KikiProjSplit
+Task_KikiProjSplit: @ 0x0801D9F0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -3905,7 +3907,7 @@ _0801DA2C:
 	adds r0, r6, #0
 	adds r1, r5, #0
 _0801DA46:
-	bl sub_801DA88
+	bl CreateKikiProjectilePiece
 	ldr r0, [r7]
 	bl TaskDestroy
 	b _0801DA78
@@ -3937,8 +3939,8 @@ _0801DA78:
 	.align 2, 0
 _0801DA84: .4byte gCamera
 
-	thumb_func_start sub_801DA88
-sub_801DA88: @ 0x0801DA88
+	thumb_func_start CreateKikiProjectilePiece
+CreateKikiProjectilePiece: @ 0x0801DA88
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -3948,10 +3950,10 @@ sub_801DA88: @ 0x0801DA88
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
 	mov r8, r1
-	ldr r0, _0801DAD0 @ =sub_801DB40
+	ldr r0, _0801DAD0 @ =Task_ProjPieceMain
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _0801DAD4 @ =sub_801DC70
+	ldr r1, _0801DAD4 @ =TaskDestructor_KikiProj
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r3, #0
@@ -3975,8 +3977,8 @@ sub_801DA88: @ 0x0801DA88
 	ldr r0, _0801DADC @ =0x0000FFFF
 	b _0801DAE2
 	.align 2, 0
-_0801DAD0: .4byte sub_801DB40
-_0801DAD4: .4byte sub_801DC70
+_0801DAD0: .4byte Task_ProjPieceMain
+_0801DAD4: .4byte TaskDestructor_KikiProj
 _0801DAD8: .4byte gUnknown_03005A20
 _0801DADC: .4byte 0x0000FFFF
 _0801DAE0:
@@ -4028,8 +4030,8 @@ _0801DAE2:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_801DB40
-sub_801DB40: @ 0x0801DB40
+	thumb_func_start Task_ProjPieceMain
+Task_ProjPieceMain: @ 0x0801DB40
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4181,8 +4183,8 @@ _0801DC62:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_801DC70
-sub_801DC70: @ 0x0801DC70
+	thumb_func_start TaskDestructor_KikiProj
+TaskDestructor_KikiProj: @ 0x0801DC70
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -4192,6 +4194,10 @@ sub_801DC70: @ 0x0801DC70
 	bl VramFree
 	pop {r0}
 	bx r0
+
+@ --- End of Kiki ---
+
+@ --- Start of Buzzer ---
 
 	thumb_func_start CreateEntity_Buzzer
 CreateEntity_Buzzer: @ 0x0801DC84
@@ -4221,7 +4227,7 @@ CreateEntity_Buzzer: @ 0x0801DC84
 	cmp r0, #0
 	bne _0801DDA2
 _0801DCB6:
-	ldr r0, _0801DDBC @ =sub_801DDEC
+	ldr r0, _0801DDBC @ =Task_BuzzerMain
 	ldr r1, _0801DDC0 @ =TaskDestructor_8009670
 	str r1, [sp]
 	movs r1, #0x48
@@ -4349,7 +4355,7 @@ _0801DDA2:
 	.align 2, 0
 _0801DDB4: .4byte gCurrentLevel
 _0801DDB8: .4byte gUnknown_03005160
-_0801DDBC: .4byte sub_801DDEC
+_0801DDBC: .4byte Task_BuzzerMain
 _0801DDC0: .4byte TaskDestructor_8009670
 _0801DDC4: .4byte 0x0300000C
 _0801DDC8: .4byte 0x03000040
@@ -4362,8 +4368,8 @@ _0801DDE0: .4byte 0x0300002E
 _0801DDE4: .4byte 0x03000031
 _0801DDE8: .4byte gUnknown_03005A20
 
-	thumb_func_start sub_801DDEC
-sub_801DDEC: @ 0x0801DDEC
+	thumb_func_start Task_BuzzerMain
+Task_BuzzerMain: @ 0x0801DDEC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4799,7 +4805,7 @@ _0801E140:
 	strb r2, [r0]
 	ldr r0, _0801E188 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0801E18C @ =sub_801DDEC
+	ldr r0, _0801E18C @ =Task_BuzzerMain
 	str r0, [r1, #8]
 	adds r1, r7, #0
 	adds r1, #0x41
@@ -4821,7 +4827,7 @@ _0801E176:
 	bx r0
 	.align 2, 0
 _0801E188: .4byte gCurTask
-_0801E18C: .4byte sub_801DDEC
+_0801E18C: .4byte Task_BuzzerMain
 
 	thumb_func_start sub_801E190
 sub_801E190: @ 0x0801E190
@@ -4957,7 +4963,7 @@ _0801E280:
 	strb r1, [r0]
 	ldr r0, _0801E2B8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0801E2BC @ =sub_801DDEC
+	ldr r0, _0801E2BC @ =Task_BuzzerMain
 	str r0, [r1, #8]
 _0801E2A4:
 	adds r0, r6, #0
@@ -4972,7 +4978,7 @@ _0801E2AA:
 	bx r0
 	.align 2, 0
 _0801E2B8: .4byte gCurTask
-_0801E2BC: .4byte sub_801DDEC
+_0801E2BC: .4byte Task_BuzzerMain
 
 	thumb_func_start sub_801E2C0
 sub_801E2C0: @ 0x0801E2C0
@@ -5364,8 +5370,8 @@ _0801E5FC: .4byte gCurTask
 _0801E600: .4byte gCamera
 _0801E604: .4byte gUnknown_03004FFC
 
-	thumb_func_start sub_801E608
-sub_801E608: @ 0x0801E608
+	thumb_func_start CreateEntity_ItemBox
+CreateEntity_ItemBox: @ 0x0801E608
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -5396,8 +5402,8 @@ sub_801E608: @ 0x0801E608
 	.align 2, 0
 _0801E640: .4byte gGameMode
 _0801E644:
-	ldr r0, _0801E780 @ =sub_801E7C8
-	ldr r1, _0801E784 @ =sub_801F164
+	ldr r0, _0801E780 @ =Task_ItemBoxMain
+	ldr r1, _0801E784 @ =TaskDestructor_ItemBox
 	str r1, [sp]
 	movs r1, #0x74
 	movs r2, #0x80
@@ -5551,8 +5557,8 @@ _0801E76E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801E780: .4byte sub_801E7C8
-_0801E784: .4byte sub_801F164
+_0801E780: .4byte Task_ItemBoxMain
+_0801E784: .4byte TaskDestructor_ItemBox
 _0801E788: .4byte 0x0300000C
 _0801E78C: .4byte 0x0300006E
 _0801E790: .4byte 0x03000070
@@ -5570,8 +5576,8 @@ _0801E7BC: .4byte gUnknown_03005084
 _0801E7C0: .4byte 0x0300005D
 _0801E7C4: .4byte 0x03000061
 
-	thumb_func_start sub_801E7C8
-sub_801E7C8: @ 0x0801E7C8
+	thumb_func_start Task_ItemBoxMain
+Task_ItemBoxMain: @ 0x0801E7C8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -6754,8 +6760,8 @@ _0801F158: .4byte 0x0300006C
 _0801F15C: .4byte 0x0300003C
 _0801F160: .4byte gCamera
 
-	thumb_func_start sub_801F164
-sub_801F164: @ 0x0801F164
+	thumb_func_start TaskDestructor_ItemBox
+TaskDestructor_ItemBox: @ 0x0801F164
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
