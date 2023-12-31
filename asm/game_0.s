@@ -7772,7 +7772,7 @@ sub_800CFB8: @ 0x0800CFB8
 	strb r5, [r2]
 	movs r1, #2
 	strh r1, [r0, #0x2e]
-	bl sub_80019C0
+	bl InitBackground
 	add sp, #8
 	pop {r4, r5, r6}
 	pop {r0}
@@ -7989,7 +7989,7 @@ sub_800D198: @ 0x0800D198
 	strb r5, [r2]
 	movs r1, #2
 	strh r1, [r0, #0x2e]
-	bl sub_80019C0
+	bl InitBackground
 	add sp, #8
 	pop {r4, r5, r6}
 	pop {r0}
@@ -8528,7 +8528,7 @@ sub_800D4E0: @ 0x0800D4E0
 	strb r1, [r5]
 	movs r1, #4
 	strh r1, [r0, #0x2e]
-	bl sub_80019C0
+	bl InitBackground
 	mov r1, sb
 	ldrb r0, [r1]
 	cmp r0, #0
@@ -8624,7 +8624,7 @@ sub_800D71C: @ 0x0800D71C
 	strb r3, [r1]
 	movs r1, #6
 	strh r1, [r0, #0x2e]
-	bl sub_80019C0
+	bl InitBackground
 _0800D77E:
 	ldrh r0, [r5]
 	subs r0, #0x55
@@ -8975,7 +8975,7 @@ _0800DA10:
 	cmp r0, #0
 	beq _0800DA56
 	adds r0, r1, #0
-	bl sub_80019C0
+	bl InitBackground
 _0800DA56:
 	ldr r0, _0800DB50 @ =0x03000160
 	adds r1, r6, r0
@@ -9008,7 +9008,7 @@ _0800DA56:
 	cmp r0, #0
 	beq _0800DA98
 	adds r0, r1, #0
-	bl sub_80019C0
+	bl InitBackground
 _0800DA98:
 	movs r2, #0x80
 	lsls r2, r2, #1
@@ -10353,7 +10353,7 @@ _0800E4A0:
 	strb r2, [r4]
 	strh r6, [r5, #0x2e]
 	adds r0, r5, #0
-	bl sub_80019C0
+	bl InitBackground
 	movs r0, #3
 	bl m4aSongNumStartOrChange
 _0800E5DA:
@@ -10943,7 +10943,7 @@ _0800E96A:
 	strb r5, [r0]
 	strh r4, [r7, #0x2e]
 	adds r0, r7, #0
-	bl sub_80019C0
+	bl InitBackground
 	ldr r0, _0800EB40 @ =gUnknown_03001210
 	ldr r0, [r0]
 	movs r1, #0x80
@@ -12160,7 +12160,7 @@ sub_800F318: @ 0x0800F318
 	strb r7, [r4]
 	strh r5, [r6, #0x2e]
 	adds r0, r6, #0
-	bl sub_80019C0
+	bl InitBackground
 	ldr r0, _0800F5C4 @ =gUnknown_03001214
 	strb r7, [r0]
 	movs r0, #5
@@ -12588,7 +12588,7 @@ _0800F874:
 	strb r5, [r1]
 	strh r2, [r6, #0x2e]
 	adds r0, r6, #0
-	bl sub_80019C0
+	bl InitBackground
 	ldr r0, _0800F91C @ =gUnknown_03005160
 	ldrb r2, [r0, #0x19]
 	cmp r2, #0
@@ -30289,7 +30289,7 @@ sub_8018538: @ 0x08018538
 	strb r3, [r4]
 	strh r5, [r6, #0x2e]
 	adds r0, r6, #0
-	bl sub_80019C0
+	bl InitBackground
 	movs r0, #6
 	bl m4aSongNumStartOrChange
 	add sp, #4
@@ -31101,7 +31101,7 @@ sub_8018AE0: @ 0x08018AE0
 	mov r2, r8
 	strh r4, [r2, #0x2e]
 	mov r0, r8
-	bl sub_80019C0
+	bl InitBackground
 	ldr r1, _08018EA4 @ =0x03000040
 	adds r0, r5, r1
 	ldr r1, _08018EA8 @ =0x06004000
@@ -31126,7 +31126,7 @@ sub_8018AE0: @ 0x08018AE0
 	strb r1, [r5]
 	movs r2, #1
 	strh r2, [r0, #0x2e]
-	bl sub_80019C0
+	bl InitBackground
 	movs r0, #3
 	bl m4aSongNumStartOrChange
 	ldr r0, _08018EB4 @ =gRepeatedKeys
@@ -34397,7 +34397,7 @@ sub_801A794: @ 0x0801A794
 	mov r0, r8
 	strh r0, [r7, #0x2e]
 	adds r0, r7, #0
-	bl sub_80019C0
+	bl InitBackground
 	movs r6, #0
 	movs r1, #0
 	mov r8, r1
@@ -35154,7 +35154,7 @@ sub_801AE88: @ 0x0801AE88
 	strb r2, [r1]
 	movs r1, #2
 	strh r1, [r0, #0x2e]
-	bl sub_80019C0
+	bl InitBackground
 _0801AF10:
 	ldr r2, _0801AF64 @ =gDispCnt
 	ldrh r0, [r2]

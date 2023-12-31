@@ -2001,7 +2001,7 @@ _0801CACA:
 	movs r0, #3
 	strh r0, [r5, #0x2e]
 	adds r0, r5, #0
-	bl sub_80019C0
+	bl InitBackground
 	movs r6, #0
 	movs r3, #0
 	movs r2, #0

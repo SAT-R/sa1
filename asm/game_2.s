@@ -56260,7 +56260,7 @@ _0806A986:
 	strb r5, [r3]
 	strh r4, [r6, #0x2e]
 	adds r0, r6, #0
-	bl sub_80019C0
+	bl InitBackground
 	mov r0, sb
 	strh r4, [r0]
 	movs r0, #1
@@ -57046,7 +57046,7 @@ _0806AFD2:
 	strb r5, [r1]
 	strh r4, [r3, #0x2e]
 	mov r0, r8
-	bl sub_80019C0
+	bl InitBackground
 	movs r5, #0
 	ldr r1, [sp, #4]
 	lsls r1, r1, #1
