@@ -115,7 +115,7 @@ _08008868:
 	bl RLUnCompWram
 	str r6, [r7]
 _08008876:
-	ldr r1, _080088A0 @ =gUnknown_030059D0
+	ldr r1, _080088A0 @ =gCamera
 	ldrh r0, [r1]
 	strh r0, [r7, #0xc]
 	ldrh r0, [r1, #2]
@@ -134,7 +134,7 @@ _08008876:
 	.align 2, 0
 _08008898: .4byte gUnknown_0203F000
 _0800889C: .4byte gUnknown_0203300C
-_080088A0: .4byte gUnknown_030059D0
+_080088A0: .4byte gCamera
 _080088A4: .4byte gEntitiesManagerTask
 
 	thumb_func_start sub_80088A8
@@ -187,7 +187,7 @@ _080088EC:
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0xc]
 	mov r1, sp
-	ldr r2, _08008A3C @ =gUnknown_030059D0
+	ldr r2, _08008A3C @ =gCamera
 	ldrh r3, [r2]
 	adds r0, r3, #0
 	subs r0, #0x80
@@ -355,7 +355,7 @@ _08008A06:
 _08008A30: .4byte gUnknown_03005004
 _08008A34: .4byte gCurTask
 _08008A38: .4byte gGameMode
-_08008A3C: .4byte gUnknown_030059D0
+_08008A3C: .4byte gCamera
 _08008A40:
 	lsls r0, r1, #0x18
 	asrs r0, r0, #0x18
@@ -478,7 +478,7 @@ _08008ADA:
 	adds r0, r4, #0
 	mov r1, r8
 	mov r2, sb
-	bl sub_801E608
+	bl CreateEntity_ItemBox
 _08008B30:
 	adds r4, #3
 	adds r6, #1
@@ -680,7 +680,7 @@ _08008C96:
 	bhs _08008CB2
 	b _080089CA
 _08008CB2:
-	ldr r1, _08008CE0 @ =gUnknown_030059D0
+	ldr r1, _08008CE0 @ =gCamera
 	ldrh r0, [r1]
 	movs r2, #0
 	ldr r5, [sp, #0x10]
@@ -703,7 +703,7 @@ _08008CCA:
 	bx r0
 	.align 2, 0
 _08008CDC: .4byte gUnknown_080BB2C0
-_08008CE0: .4byte gUnknown_030059D0
+_08008CE0: .4byte gCamera
 _08008CE4: .4byte gCurTask
 _08008CE8: .4byte Task_8008CEC
 
@@ -734,7 +734,7 @@ _08008D08:
 	ldrb r0, [r1, #0x10]
 	cmp r0, #0
 	bne _08008DDC
-	ldr r0, _08008D40 @ =gUnknown_030059D0
+	ldr r0, _08008D40 @ =gCamera
 	movs r1, #0
 	ldrsh r3, [r0, r1]
 	ldr r4, [sp, #0x18]
@@ -750,7 +750,7 @@ _08008D08:
 	.align 2, 0
 _08008D38: .4byte gUnknown_03005004
 _08008D3C: .4byte gCurTask
-_08008D40: .4byte gUnknown_030059D0
+_08008D40: .4byte gCamera
 _08008D44:
 	subs r0, r2, r3
 	cmp r0, #0xf8
@@ -1238,7 +1238,7 @@ _08009076:
 	adds r0, r4, #0
 	mov r1, r8
 	mov r2, sb
-	bl sub_801E608
+	bl CreateEntity_ItemBox
 _080090CC:
 	adds r4, #3
 	adds r6, #1
@@ -1456,7 +1456,7 @@ _08009250:
 	bhs _0800926C
 	b _08008F6C
 _0800926C:
-	ldr r0, _08009320 @ =gUnknown_030059D0
+	ldr r0, _08009320 @ =gCamera
 	movs r4, #2
 	ldrsh r1, [r0, r4]
 	ldr r5, [sp, #0x18]
@@ -1555,7 +1555,7 @@ _080092F2:
 	b _08009392
 	.align 2, 0
 _0800931C: .4byte gUnknown_080BB2C0
-_08009320: .4byte gUnknown_030059D0
+_08009320: .4byte gCamera
 _08009324: .4byte gGameMode
 _08009328:
 	lsls r0, r1, #0x18
@@ -1679,7 +1679,7 @@ _080093BC:
 	adds r0, r4, #0
 	mov r1, r8
 	mov r2, sb
-	bl sub_801E608
+	bl CreateEntity_ItemBox
 _08009418:
 	adds r4, #3
 	adds r6, #1
@@ -1890,7 +1890,7 @@ _0800958C:
 	bhs _080095A8
 	b _080092BC
 _080095A8:
-	ldr r0, _080095C8 @ =gUnknown_030059D0
+	ldr r0, _080095C8 @ =gCamera
 	ldrh r1, [r0]
 	ldr r5, [sp, #0x18]
 	strh r1, [r5, #0xc]
@@ -1907,7 +1907,7 @@ _080095B4:
 	bx r0
 	.align 2, 0
 _080095C4: .4byte gUnknown_080BB2C0
-_080095C8: .4byte gUnknown_030059D0
+_080095C8: .4byte gCamera
 
 	thumb_func_start CreateEnemyDefeatScoreAndManageLives
 CreateEnemyDefeatScoreAndManageLives: @ 0x080095CC

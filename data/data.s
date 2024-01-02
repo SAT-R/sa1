@@ -61,17 +61,164 @@ gSpritePosData_enemies:
     .incbin "baserom.gba", 0x000BB01C, 0x48
 
     .global gSpriteInits_Interactables
-gSpriteInits_Interactables:
-    .incbin "baserom.gba", 0x000BB064, 0x1D0
+gSpriteInits_Interactables:     @ 0x080BB064
+    .4byte CreateEntity_Interactable000
+    .4byte CreateEntity_Interactable001
+    .4byte CreateEntity_Interactable002
+    .4byte CreateEntity_Interactable003
+    .4byte CreateEntity_Interactable003
+    .4byte CreateEntity_Interactable005
+    .4byte CreateEntity_Interactable006
+    .4byte CreateEntity_Checkpoint
+    .4byte CreateEntity_Interactable008
+    .4byte CreateEntity_Interactable009
+    .4byte CreateEntity_Interactable010
+    .4byte CreateEntity_Interactable010
+    .4byte CreateEntity_Interactable012
+    .4byte CreateEntity_Interactable012
+    .4byte CreateEntity_Interactable014
+    .4byte CreateEntity_Interactable014
+    .4byte CreateEntity_Interactable016
+    .4byte CreateEntity_Toggle_PlayerLayer @ 017
+    .4byte CreateEntity_Toggle_PlayerLayer @ 018
+    .4byte CreateEntity_Interactable019
+    .4byte CreateEntity_Interactable020
+    .4byte CreateEntity_Interactable021
+    .4byte CreateEntity_Interactable022
+    .4byte CreateEntity_Interactable023
+    .4byte CreateEntity_Interactable024
+    .4byte CreateEntity_Interactable025
+    .4byte CreateEntity_Interactable026
+    .4byte CreateEntity_Interactable027
+    .4byte CreateEntity_Interactable028
+    .4byte CreateEntity_Interactable029
+    .4byte CreateEntity_Interactable030
+    .4byte CreateEntity_Interactable031
+    .4byte CreateEntity_Interactable032
+    .4byte CreateEntity_Interactable033
+    .4byte CreateEntity_Interactable034
+    .4byte CreateEntity_Interactable035
+    .4byte CreateEntity_Interactable036
+    .4byte CreateEntity_Interactable037
+    .4byte CreateEntity_Interactable038
+    .4byte CreateEntity_Interactable039
+    .4byte CreateEntity_Interactable040
+    .4byte CreateEntity_Interactable041
+    .4byte CreateEntity_Interactable042
+    .4byte CreateEntity_Interactable043
+    .4byte CreateEntity_Interactable044
+    .4byte CreateEntity_Interactable045
+    .4byte CreateEntity_Interactable046
+    .4byte CreateEntity_Interactable047
+    .4byte CreateEntity_Interactable048
+    .4byte CreateEntity_Interactable049
+    .4byte CreateEntity_Interactable050
+    .4byte CreateEntity_Interactable051
+    .4byte CreateEntity_Interactable052
+    .4byte CreateEntity_Interactable053
+    .4byte CreateEntity_Interactable054
+    .4byte CreateEntity_Interactable055
+    .4byte CreateEntity_Interactable056
+    .4byte CreateEntity_Interactable057
+    .4byte CreateEntity_Interactable058
+    .4byte CreateEntity_Interactable059
+    .4byte CreateEntity_Interactable060
+    .4byte CreateEntity_Interactable061
+    .4byte CreateEntity_Interactable062
+    .4byte CreateEntity_Interactable063
+    .4byte CreateEntity_Interactable064
+    .4byte CreateEntity_Interactable065
+    .4byte CreateEntity_Interactable066
+    .4byte CreateEntity_Interactable067
+    .4byte CreateEntity_Interactable068
+    .4byte CreateEntity_Interactable069
+    .4byte CreateEntity_Interactable070
+    .4byte CreateEntity_Interactable071
+    .4byte CreateEntity_Interactable072
+    .4byte CreateEntity_Interactable073
+    .4byte CreateEntity_Interactable074
+    .4byte CreateEntity_Interactable075 @ Hook-Rail
+    .4byte CreateEntity_Interactable076
+    .4byte CreateEntity_Interactable077
+    .4byte CreateEntity_Interactable078
+    .4byte CreateEntity_Interactable079
+    .4byte CreateEntity_Interactable080
+    .4byte CreateEntity_Interactable081
+    .4byte CreateEntity_Interactable082
+    .4byte CreateEntity_Interactable083
+    .4byte CreateEntity_Interactable084
+    .4byte CreateEntity_Interactable085
+    .4byte CreateEntity_Interactable086
+    .4byte CreateEntity_Interactable087
+    .4byte CreateEntity_Interactable088
+    .4byte CreateEntity_Interactable089
+    .4byte CreateEntity_Interactable090
+    .4byte CreateEntity_Interactable091
+    .4byte CreateEntity_Interactable092
+    .4byte CreateEntity_Interactable093
+    .4byte CreateEntity_Interactable094
+    .4byte CreateEntity_Interactable095
+    .4byte CreateEntity_Interactable096
+    .4byte CreateEntity_Interactable097
+    .4byte CreateEntity_Interactable098
+    .4byte CreateEntity_Interactable099
+    .4byte CreateEntity_Interactable100
+    .4byte CreateEntity_Interactable101
+    .4byte CreateEntity_SpecialSpring
+    .4byte CreateEntity_Interactable103
+    .4byte CreateEntity_Interactable104
+    .4byte CreateEntity_Interactable105
+    .4byte CreateEntity_Interactable106
+    .4byte CreateEntity_Interactable107
+    .4byte CreateEntity_Interactable108
+    .4byte CreateEntity_Interactable109
+    .4byte CreateEntity_Interactable110
+    .4byte CreateEntity_Interactable111
+    .4byte CreateEntity_Interactable112
+    .4byte CreateEntity_Interactable113
+    .4byte CreateEntity_Interactable114
+    .4byte CreateEntity_Interactable115
 
     .global gSpriteInits_Enemies
-gSpriteInits_Enemies:
-    .incbin "baserom.gba", 0x000BB234, 0x80
+gSpriteInits_Enemies:   @ 80BB234
+    .4byte CreateEntity_Kiki      @ 000 Kiki
+    .4byte CreateEntity_Buzzer    @ 001 Buzzer
+    .4byte CreateEntity_GamiGami  @ 002 GamiGami
+    .4byte CreateEntity_Rhinotank @ 003 Rhinotank
+    .4byte CreateEntity_KeroKero  @ 004 KeroKero
+    .4byte CreateEntity_Senbon    @ 005 Senbon
+    .4byte CreateEntity_Tentou    @ 006 Tentou
+    .4byte CreateEntity_Enemy007  @ 007 Fireball
+    .4byte CreateEntity_Enemy008  @ 008 Hanabii
+    .4byte CreateEntity_Enemy009  @ 009 Slot
+    .4byte CreateEntity_Enemy010  @ 010 Pierrot
+    .4byte CreateEntity_Enemy011  @ 011 Leon
+    .4byte CreateEntity_Enemy012  @ 012 Mirror
+    .4byte CreateEntity_Enemy013  @ 013 Wamu
+    .4byte CreateEntity_Enemy014  @ 014 Octo
+    .4byte CreateEntity_Enemy015  @ 015 Mole
+    .4byte CreateEntity_Enemy016  @ 016 Yukimaru
+    .4byte CreateEntity_Enemy017  @ 017 Yukimaru (sideways)
+    .4byte CreateEntity_Enemy018  @ 018 Drisame
+    .4byte CreateEntity_Enemy019  @ 019 Kura
+    .4byte CreateEntity_Enemy020  @ 020 Pen
+    .4byte CreateEntity_Enemy021  @ 021 Boss 1 Intro
+    .4byte CreateEntity_Enemy022  @ 022 Boss 1
+    .4byte CreateEntity_Enemy023  @ 023 Boss 2 A
+    .4byte CreateEntity_Enemy024  @ 024 Boss 2 B
+    .4byte CreateEntity_Enemy025  @ 025 Boss 3
+    .4byte CreateEntity_Enemy026  @ 026 Boss Robo-Knuckles
+    .4byte CreateEntity_Enemy027  @ 027 Boss 4
+    .4byte CreateEntity_Enemy028  @ 028 Boss Sonic 1
+    .4byte CreateEntity_Enemy029  @ 029 Boss Sonic 2
+    .4byte CreateEntity_Enemy030  @ 030 Final Boss
+    .4byte CreateEntity_Enemy031  @ 031 Extra Boss(?)
 
     .global enemyDefeatScores
-enemyDefeatScores:
-    .incbin "baserom.gba", 0x000BB2B4, 0xC
+enemyDefeatScores: @ 0x080BB2B4
+    .2byte 100, 200, 400, 800, 1000, 0
 
+@ This might be gSpriteInits_InteractablesMultiplayer
     .global gUnknown_080BB2C0
 gUnknown_080BB2C0:
     .incbin "baserom.gba", 0x000BB2C0, 0x48
@@ -496,14 +643,31 @@ gUnknown_084ADB18:
 gUnknown_084ADB60:
     .incbin "baserom.gba", 0x004ADB60, 0x100
 
-    .global gUnknown_084ADC60
-gUnknown_084ADC60:
-    .incbin "baserom.gba", 0x004ADC60, 0x48
+    .global sStageBgInitProcedures
+sStageBgInitProcedures: @ 0x084ADC60
+    .4byte 0, 0     @ Zone 1
+    .4byte 0, 0     @ Zone 2
+    .4byte 0, 0     @ Zone 3
+    .4byte CreateStageBg_Zone4, CreateStageBg_Zone4
+    .4byte CreateStageBg_Zone5, CreateStageBg_Zone5
+    .4byte 0, 0     @ Zone 6
+    .4byte 0, CreateStageBg_Zone7_Act2  @ Zone 7
+    .4byte 0, 0     @ Multiplayer 1, 2
+    .4byte 0, 0     @ Multiplayer 3, 4
 
-    .global gUnknown_084ADCA8
-gUnknown_084ADCA8:
-    .incbin "baserom.gba", 0x004ADCA8, 0x48
+    .global sStageBgUpdateFuncs
+sStageBgUpdateFuncs: @ 0x084ADCA8
+    .4byte StageBgUpdate_Zone1Acts12, StageBgUpdate_Zone1Acts12
+    .4byte StageBgUpdate_Zone2Act1, StageBgUpdate_Zone2Act2
+    .4byte StageBgUpdate_Zone3Acts12, StageBgUpdate_Zone3Acts12
+    .4byte StageBgUpdate_Zone4Acts12, StageBgUpdate_Zone4Acts12
+    .4byte StageBgUpdate_Zone5Acts12, StageBgUpdate_Zone5Acts12
+    .4byte StageBgUpdate_Zone6Act1, StageBgUpdate_Zone6Act2
+    .4byte StageBgUpdate_Zone7Act1, StageBgUpdate_Zone7Act2
+    .4byte StageBgUpdate_Zone1Acts12, StageBgUpdate_Zone2Act2
+    .4byte StageBgUpdate_Zone3Acts12, StageBgUpdate_Zone6Act2
 
+@ SA2: gUnknown_080D5A98 from camera.c
     .global gUnknown_084ADCF0
 gUnknown_084ADCF0:
     .incbin "baserom.gba", 0x004ADCF0, 0x48
@@ -512,8 +676,8 @@ gUnknown_084ADCF0:
 gUnknown_084ADD38:
     .incbin "baserom.gba", 0x004ADD38, 0x8
 
-    .global gUnknown_084ADD40
-gUnknown_084ADD40:
+    .global gTilemaps
+gTilemaps:
     .incbin "baserom.gba", 0x004ADD40, 0x168
 
     .global gUnknown_084ADEA8
