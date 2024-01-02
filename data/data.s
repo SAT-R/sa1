@@ -643,14 +643,31 @@ gUnknown_084ADB18:
 gUnknown_084ADB60:
     .incbin "baserom.gba", 0x004ADB60, 0x100
 
-    .global gUnknown_084ADC60
-gUnknown_084ADC60:
-    .incbin "baserom.gba", 0x004ADC60, 0x48
+    .global sStageBgInitProcedures
+sStageBgInitProcedures: @ 0x084ADC60
+    .4byte 0, 0     @ Zone 1
+    .4byte 0, 0     @ Zone 2
+    .4byte 0, 0     @ Zone 3
+    .4byte CreateStageBg_Zone4, CreateStageBg_Zone4
+    .4byte CreateStageBg_Zone5, CreateStageBg_Zone5
+    .4byte 0, 0     @ Zone 6
+    .4byte 0, CreateStageBg_Zone7_Act2  @ Zone 7
+    .4byte 0, 0     @ Multiplayer 1, 2
+    .4byte 0, 0     @ Multiplayer 3, 4
 
-    .global gUnknown_084ADCA8
-gUnknown_084ADCA8:
-    .incbin "baserom.gba", 0x004ADCA8, 0x48
+    .global sStageBgUpdateFuncs
+sStageBgUpdateFuncs: @ 0x084ADCA8
+    .4byte StageBgUpdate_Zone1Acts12, StageBgUpdate_Zone1Acts12
+    .4byte StageBgUpdate_Zone2Act1, StageBgUpdate_Zone2Act2
+    .4byte StageBgUpdate_Zone3Acts12, StageBgUpdate_Zone3Acts12
+    .4byte StageBgUpdate_Zone4Acts12, StageBgUpdate_Zone4Acts12
+    .4byte StageBgUpdate_Zone5Acts12, StageBgUpdate_Zone5Acts12
+    .4byte StageBgUpdate_Zone6Act1, StageBgUpdate_Zone6Act2
+    .4byte StageBgUpdate_Zone7Act1, StageBgUpdate_Zone7Act2
+    .4byte StageBgUpdate_Zone1Acts12, StageBgUpdate_Zone2Act2
+    .4byte StageBgUpdate_Zone3Acts12, StageBgUpdate_Zone6Act2
 
+@ SA2: gUnknown_080D5A98 from camera.c
     .global gUnknown_084ADCF0
 gUnknown_084ADCF0:
     .incbin "baserom.gba", 0x004ADCF0, 0x48

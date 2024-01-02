@@ -41503,7 +41503,7 @@ _0803D086:
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
-	bl sub_803E0E4
+	bl InitCamera
 	b _0803D0BA
 	.align 2, 0
 _0803D09C: .4byte gUnknown_03005084
@@ -41514,7 +41514,7 @@ _0803D0AC: .4byte gGameMode
 _0803D0B0: .4byte gCurrentLevel
 _0803D0B4:
 	movs r0, #0
-	bl sub_803E0E4
+	bl InitCamera
 _0803D0BA:
 	ldr r3, _0803D12C @ =gUnknown_03005004
 	ldrh r0, [r3]
@@ -43397,8 +43397,8 @@ sub_803E094: @ 0x0803E094
 _0803E0DC: .4byte 0x0000032E
 _0803E0E0: .4byte 0x0000032F
 
-	thumb_func_start sub_803E0E4
-sub_803E0E4: @ 0x0803E0E4
+	thumb_func_start InitCamera
+InitCamera: @ 0x0803E0E4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -43747,13 +43747,13 @@ _0803E364:
 	movs r3, #0
 	bl TaskCreate
 	str r0, [r7, #0x30]
-	ldr r0, _0803E408 @ =gUnknown_084ADCA8
+	ldr r0, _0803E408 @ =sStageBgUpdateFuncs
 	adds r0, r4, r0
 	ldr r0, [r0]
-	str r0, [r7, #0x2c]
-	ldr r0, _0803E40C @ =gUnknown_084ADC60
+	str r0, [r7, #0x2c] @ camera->(Background-update-proc)
+	ldr r0, _0803E40C @ =sStageBgInitProcedures
 	adds r0, r4, r0
-	ldr r0, [r0]
+	ldr r0, [r0]        @ movementTask
 	cmp r0, #0
 	beq _0803E3E4
 	bl _call_via_r0
@@ -43772,8 +43772,8 @@ _0803E3F8: .4byte gUnknown_02033004
 _0803E3FC: .4byte gUnknown_03005A20
 _0803E400: .4byte sub_803F6C4
 _0803E404: .4byte sub_803F65C
-_0803E408: .4byte gUnknown_084ADCA8
-_0803E40C: .4byte gUnknown_084ADC60
+_0803E408: .4byte sStageBgUpdateFuncs
+_0803E40C: .4byte sStageBgInitProcedures
 
 	thumb_func_start sub_803E410
 sub_803E410: @ 0x0803E410
@@ -44247,8 +44247,8 @@ _0803E776:
 _0803E784: .4byte gUnknown_03005910
 _0803E788: .4byte gUnknown_030020D0
 
-	thumb_func_start sub_803E78C
-sub_803E78C: @ 0x0803E78C
+	thumb_func_start StageBgUpdate_Zone1Acts12
+StageBgUpdate_Zone1Acts12: @ 0x0803E78C
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldr r2, _0803E854 @ =gCamera
@@ -44366,16 +44366,16 @@ _0803E86C: .4byte gUnknown_03002320
 _0803E870: .4byte gUnknown_03001144
 _0803E874: .4byte gUnknown_03005120
 
-	thumb_func_start sub_803E878
-sub_803E878: @ 0x0803E878
+	thumb_func_start StageBgUpdate_Zone2_Interior
+StageBgUpdate_Zone2_Interior: @ 0x0803E878
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0xc
-	mov ip, r0
-	mov r8, r1
+	mov ip, r0          @ ip = x
+	mov r8, r1          @ r8 = y
 	ldr r1, _0803EA08 @ =gCamera
 	ldr r2, _0803EA0C @ =gUnknown_030020D0
 	asrs r7, r0, #2
@@ -44667,8 +44667,8 @@ _0803EAB2:
 _0803EAB8: .4byte 0xFFF3FFFF
 _0803EABC: .4byte 0xFFFFF3FF
 
-	thumb_func_start sub_803EAC0
-sub_803EAC0: @ 0x0803EAC0
+	thumb_func_start StageBgUpdate_Zone3Acts12
+StageBgUpdate_Zone3Acts12: @ 0x0803EAC0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -45019,8 +45019,8 @@ _0803ED78: .4byte sub_8040488
 _0803ED7C: .4byte 0x03000018
 _0803ED80: .4byte 0x03000038
 
-	thumb_func_start sub_803ED84
-sub_803ED84: @ 0x0803ED84
+	thumb_func_start StageBgUpdate_Zone4Acts12
+StageBgUpdate_Zone4Acts12: @ 0x0803ED84
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -45137,8 +45137,8 @@ _0803EE78: .4byte gDispCnt
 _0803EE7C: .4byte gUnknown_03006080
 _0803EE80: .4byte 0x0000FEFF
 
-	thumb_func_start sub_803EE84
-sub_803EE84: @ 0x0803EE84
+	thumb_func_start StageBgUpdate_Zone6Act1
+StageBgUpdate_Zone6Act1: @ 0x0803EE84
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -45801,8 +45801,8 @@ _0803F3F0:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803F400
-sub_803F400: @ 0x0803F400
+	thumb_func_start StageBgUpdate_Zone6Act2
+StageBgUpdate_Zone6Act2: @ 0x0803F400
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -45947,8 +45947,8 @@ _0803F520: .4byte 0x850000A0
 _0803F524: .4byte gUnknown_03005120
 _0803F528: .4byte 0x000001FF
 
-	thumb_func_start sub_803F52C
-sub_803F52C: @ 0x0803F52C
+	thumb_func_start StageBgUpdate_Zone7Act2
+StageBgUpdate_Zone7Act2: @ 0x0803F52C
 	push {r4, r5, lr}
 	sub sp, #4
 	ldr r3, _0803F600 @ =gCamera
@@ -46180,8 +46180,8 @@ sub_803F700: @ 0x0803F700
 	.align 2, 0
 _0803F710: .4byte gUnknown_0300504C
 
-	thumb_func_start sub_803F714
-sub_803F714: @ 0x0803F714
+	thumb_func_start CreateStageBg_Zone4
+CreateStageBg_Zone4: @ 0x0803F714
 	push {r4, lr}
 	ldr r4, _0803F750 @ =gUnknown_030058D0
 	ldr r1, _0803F754 @ =gUnknown_030011A8
@@ -46219,8 +46219,8 @@ _0803F764: .4byte gUnknown_084ADB60
 _0803F768: .4byte 0x0600C000
 _0803F76C: .4byte 0x0600D800
 
-	thumb_func_start sub_803F770
-sub_803F770: @ 0x0803F770
+	thumb_func_start CreateStageBg_Zone5
+CreateStageBg_Zone5: @ 0x0803F770
 	push {r4, lr}
 	ldr r4, _0803F798 @ =gUnknown_030058D0
 	ldr r1, _0803F79C @ =gUnknown_03001B70
@@ -46244,8 +46244,8 @@ _0803F79C: .4byte gUnknown_03001B70
 _0803F7A0: .4byte 0x00001C0F
 _0803F7A4: .4byte gUnknown_084ADB60
 
-	thumb_func_start sub_803F7A8
-sub_803F7A8: @ 0x0803F7A8
+	thumb_func_start StageBgUpdate_Zone7Act1
+StageBgUpdate_Zone7Act1: @ 0x0803F7A8
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -46290,8 +46290,8 @@ _0803F7FC: .4byte gCamera
 _0803F800: .4byte gUnknown_03005A0C
 _0803F804: .4byte gUnknown_030020D0
 
-	thumb_func_start sub_803F808
-sub_803F808: @ 0x0803F808
+	thumb_func_start CreateStageBg_Zone7_Act2
+CreateStageBg_Zone7_Act2: @ 0x0803F808
 	sub sp, #4
 	movs r2, #0
 	str r2, [sp]
@@ -46325,8 +46325,8 @@ _0803F848: .4byte 0x85000200
 _0803F84C: .4byte gUnknown_03001B70
 _0803F850: .4byte 0x00005C85
 
-	thumb_func_start sub_803F854
-sub_803F854: @ 0x0803F854
+	thumb_func_start StageBgUpdate_Zone2Act1
+StageBgUpdate_Zone2Act1: @ 0x0803F854
 	push {r4, lr}
 	adds r2, r0, #0
 	ldr r4, _0803F888 @ =gCamera
@@ -46357,14 +46357,14 @@ _0803F88C: .4byte 0x000005CF
 _0803F890: .4byte gUnknown_030020D0
 _0803F894:
 	adds r0, r2, #0
-	bl sub_803E878
+	bl StageBgUpdate_Zone2_Interior
 _0803F89A:
 	pop {r4}
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803F8A0
-sub_803F8A0: @ 0x0803F8A0
+	thumb_func_start StageBgUpdate_Zone2Act2
+StageBgUpdate_Zone2Act2: @ 0x0803F8A0
 	push {r4, lr}
 	ldr r3, _0803F8BC @ =gCamera
 	movs r4, #0x10
@@ -46373,15 +46373,15 @@ sub_803F8A0: @ 0x0803F8A0
 	movs r4, #0x12
 	ldrsh r2, [r3, r4]
 	subs r1, r1, r2
-	bl sub_803E878
+	bl StageBgUpdate_Zone2_Interior
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
 _0803F8BC: .4byte gCamera
 
-	thumb_func_start sub_803F8C0
-sub_803F8C0: @ 0x0803F8C0
+	thumb_func_start StageBgUpdate_Zone5Acts12
+StageBgUpdate_Zone5Acts12: @ 0x0803F8C0
 	push {r4, lr}
 	ldr r2, _0803F904 @ =gDispCnt
 	ldrh r0, [r2]

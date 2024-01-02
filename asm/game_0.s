@@ -17031,10 +17031,10 @@ _08011E04: .4byte 0x03000034
 sub_8011E08: @ 0x08011E08
 	push {r4, lr}
 	sub sp, #4
-	ldr r0, _08011E4C @ =sub_8011E54
+	ldr r0, _08011E4C @ =Task_Spotlights
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08011E50 @ =sub_80122D0
+	ldr r1, _08011E50 @ =TaskDestructor_Spotlights
 	str r1, [sp]
 	movs r1, #0xc
 	movs r3, #0
@@ -17063,11 +17063,11 @@ sub_8011E08: @ 0x08011E08
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08011E4C: .4byte sub_8011E54
-_08011E50: .4byte sub_80122D0
+_08011E4C: .4byte Task_Spotlights
+_08011E50: .4byte TaskDestructor_Spotlights
 
-	thumb_func_start sub_8011E54
-sub_8011E54: @ 0x08011E54
+	thumb_func_start Task_Spotlights
+Task_Spotlights: @ 0x08011E54
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -17646,8 +17646,8 @@ _080122BA:
 	.align 2, 0
 _080122CC: .4byte gUnknown_03001B30
 
-	thumb_func_start sub_80122D0
-sub_80122D0: @ 0x080122D0
+	thumb_func_start TaskDestructor_Spotlights
+TaskDestructor_Spotlights: @ 0x080122D0
 	ldr r0, _080122E0 @ =gFlags
 	ldr r1, [r0]
 	movs r2, #5
@@ -17670,7 +17670,7 @@ sub_80122E4: @ 0x080122E4
 	ldr r0, _080123B0 @ =sub_80123E4
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080123B4 @ =0x08012721
+	ldr r1, _080123B4 @ =sub_8012720
 	str r1, [sp]
 	movs r1, #0x80
 	movs r3, #0
@@ -18165,8 +18165,16 @@ sub_80126B4: @ 0x080126B4
 _08012714: .4byte gCurTask
 _08012718: .4byte 0x03000032
 _0801271C: .4byte 0x03000034
-_08012720:
-	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start nullsub_8012720
+nullsub_8012720: @ 0x08012720
+    bx lr
+    .align 2 , 0
+
+	thumb_func_start nullsub_8012724
+nullsub_8012724: @ 0x08012724
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_8012728
 sub_8012728: @ 0x08012728
@@ -28554,7 +28562,7 @@ _080178FA:
 	cmp r0, r1
 	ble _0801793C
 	ldr r1, [r5]
-	ldr r0, _08017938 @ =sub_801796C
+	ldr r0, _08017938 @ =Task_801796C
 	str r0, [r1, #8]
 	b _08017960
 	.align 2, 0
@@ -28565,7 +28573,7 @@ _08017928: .4byte 0x00001F1F
 _0801792C: .4byte 0x07FF0000
 _08017930: .4byte gUnknown_030011A8
 _08017934: .4byte gUnknown_03005A20
-_08017938: .4byte sub_801796C
+_08017938: .4byte Task_801796C
 _0801793C:
 	ldr r0, [r2, #0x10]
 	movs r1, #0x80
@@ -28590,8 +28598,9 @@ _08017960:
 	.align 2, 0
 _08017968: .4byte gUnknown_0300506C
 
-	thumb_func_start sub_801796C
-sub_801796C: @ 0x0801796C
+@ Used to destroy spotlights
+	thumb_func_start Task_801796C
+Task_801796C: @ 0x0801796C
 	push {r4, r5, lr}
 	ldr r5, _0801799C @ =gCurTask
 	ldr r0, [r5]
