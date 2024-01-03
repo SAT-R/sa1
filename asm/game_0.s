@@ -28562,8 +28562,10 @@ _080178FA:
 	cmp r0, r1
 	ble _0801793C
 	ldr r1, [r5]
-	ldr r0, _08017938 @ =Task_801796C
-	str r0, [r1, #8]
+
+@ Do not set the task used to init destruction of the spotlights
+	nop @ ldr r0, _08017938 @ =Task_801796C
+	nop @ str r0, [r1, #8]
 	b _08017960
 	.align 2, 0
 _0801791C: .4byte gCurTask

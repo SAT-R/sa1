@@ -46337,8 +46337,11 @@ StageBgUpdate_Zone2Act1: @ 0x0803F854
 	ldrsh r0, [r4, r3]
 	subs r1, r1, r0
 	ldr r0, _0803F88C @ =0x000005CF
-	cmp r2, r0
-	bgt _0803F894
+
+    @ Never render the interior of the Base
+	nop @ cmp r2, r0
+	nop @ bgt _0803F894
+
 	lsls r0, r2, #4
 	movs r1, #0x9c
 	lsls r1, r1, #3
