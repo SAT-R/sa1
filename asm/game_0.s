@@ -9700,7 +9700,7 @@ sub_800E060: @ 0x0800E060
 	movs r0, #3
 	bl m4aSongNumStop
 	bl m4aSoundVSyncOff
-	ldr r0, _0800E0B4 @ =gUnknown_0809C170
+	ldr r0, _0800E0B4 @ =gMultiBootProgram_TinyChaoGarden
 	movs r1, #0x80
 	lsls r1, r1, #0x12
 	bl LZ77UnCompWram
@@ -9728,7 +9728,7 @@ sub_800E060: @ 0x0800E060
 	bx r0
 	.align 2, 0
 _0800E0B0: .4byte gFlags
-_0800E0B4: .4byte gUnknown_0809C170
+_0800E0B4: .4byte gMultiBootProgram_TinyChaoGarden
 _0800E0B8: .4byte EWRAM_START + 8
 _0800E0BC: .4byte gUnknown_03005160
 _0800E0C0: .4byte gUnknown_03001B24
@@ -9881,7 +9881,7 @@ _0800E1F6:
 	add r0, sp, #0xc
 	bl numToTileIndices
 	ldr r0, [r4]
-	ldr r1, _0800E21C @ =gUnknown_0809C170
+	ldr r1, _0800E21C @ =gMultiBootProgram_TinyChaoGarden
 	movs r2, #0
 	str r2, [sp]
 	add r3, sp, #0xc
@@ -9896,7 +9896,7 @@ _0800E214:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800E21C: .4byte gUnknown_0809C170
+_0800E21C: .4byte gMultiBootProgram_TinyChaoGarden
 
 	thumb_func_start sub_800E220
 sub_800E220: @ 0x0800E220
@@ -10153,7 +10153,7 @@ sub_800E404: @ 0x0800E404
 	orrs r0, r1
 	str r0, [r2]
 	ldr r0, [r4]
-	ldr r1, _0800E464 @ =gUnknown_0809C170
+	ldr r1, _0800E464 @ =gMultiBootProgram_TinyChaoGarden
 	str r3, [sp]
 	ldr r2, _0800E468 @ =gUnknown_080BB340
 	str r2, [sp, #4]
@@ -10177,7 +10177,7 @@ _0800E454: .4byte gCurTask
 _0800E458: .4byte gUnknown_03002120
 _0800E45C: .4byte 0x00007FFF
 _0800E460: .4byte gFlags
-_0800E464: .4byte gUnknown_0809C170
+_0800E464: .4byte gMultiBootProgram_TinyChaoGarden
 _0800E468: .4byte gUnknown_080BB340
 _0800E46C: .4byte sub_800E128
 
@@ -19321,7 +19321,7 @@ sub_8013078: @ 0x08013078
 	push {lr}
 	sub sp, #0xc
 	ldr r0, _080130AC @ =0x06000020
-	ldr r1, _080130B0 @ =gUnknown_0809C170
+	ldr r1, _080130B0 @ =gMultiBootProgram_TinyChaoGarden
 	movs r2, #2
 	str r2, [sp]
 	ldr r2, _080130B4 @ =gUnknown_080BB3E0
@@ -19344,7 +19344,7 @@ _080130A4:
 	bx r0
 	.align 2, 0
 _080130AC: .4byte 0x06000020
-_080130B0: .4byte gUnknown_0809C170
+_080130B0: .4byte gMultiBootProgram_TinyChaoGarden
 _080130B4: .4byte gUnknown_080BB3E0
 _080130B8: .4byte gPressedKeys
 

@@ -40,8 +40,8 @@ gOamShapesSizes:
 gUnknown_0809C138:
     .incbin "baserom.gba", 0x0009C138, 0x38
 
-    .global gUnknown_0809C170
-gUnknown_0809C170:
+    .global gMultiBootProgram_TinyChaoGarden
+gMultiBootProgram_TinyChaoGarden:
     .incbin "baserom.gba", 0x0009C170, 0x1EDD4
 
     .global gSpritePosData_rings
@@ -218,9 +218,8 @@ gSpriteInits_Enemies:   @ 80BB234
 enemyDefeatScores: @ 0x080BB2B4
     .2byte 100, 200, 400, 800, 1000, 0
 
-@ This might be gSpriteInits_InteractablesMultiplayer
-    .global gUnknown_080BB2C0
-gUnknown_080BB2C0:
+    .global gSpriteInits_InteractablesMultiplayer
+gSpriteInits_InteractablesMultiplayer:
     .incbin "baserom.gba", 0x000BB2C0, 0x48
 
     .global gUnknown_080BB308
@@ -1850,4 +1849,8 @@ gUnknown_086CEE50:
 
     .global gUnknown_086CEE60
 gUnknown_086CEE60:
-    .incbin "baserom.gba", 0x006CEE60, 0xC774
+    .incbin "baserom.gba", 0x006CEE60, 0x10
+    
+    .global gUnknown_086CEE70
+gUnknown_086CEE70:
+    .incbin "baserom.gba", 0x006CEE70, 0xC764

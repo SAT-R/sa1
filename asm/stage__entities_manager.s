@@ -630,7 +630,7 @@ _08008C0A:
 	ldrsh r0, [r7, r1]
 	cmp r2, r0
 	bgt _08008C6E
-	ldr r1, _08008CDC @ =gUnknown_080BB2C0
+	ldr r1, _08008CDC @ =gSpriteInits_InteractablesMultiplayer
 	ldrb r0, [r5, #2]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -702,7 +702,7 @@ _08008CCA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08008CDC: .4byte gUnknown_080BB2C0
+_08008CDC: .4byte gSpriteInits_InteractablesMultiplayer
 _08008CE0: .4byte gCamera
 _08008CE4: .4byte gCurTask
 _08008CE8: .4byte Task_8008CEC
@@ -1405,7 +1405,7 @@ _080091C4:
 	ldrsh r0, [r7, r4]
 	cmp r2, r0
 	bgt _08009224
-	ldr r1, _0800931C @ =gUnknown_080BB2C0
+	ldr r1, _0800931C @ =gSpriteInits_InteractablesMultiplayer
 	ldrb r0, [r5, #2]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -1554,7 +1554,7 @@ _080092F2:
 	movs r6, #0
 	b _08009392
 	.align 2, 0
-_0800931C: .4byte gUnknown_080BB2C0
+_0800931C: .4byte gSpriteInits_InteractablesMultiplayer
 _08009320: .4byte gCamera
 _08009324: .4byte gGameMode
 _08009328:
@@ -1840,7 +1840,7 @@ _08009500:
 	ldrsh r0, [r4, r1]
 	cmp r2, r0
 	bgt _08009562
-	ldr r1, _080095C4 @ =gUnknown_080BB2C0
+	ldr r1, _080095C4 @ =gSpriteInits_InteractablesMultiplayer
 	ldrb r0, [r5, #2]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -1906,7 +1906,7 @@ _080095B4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080095C4: .4byte gUnknown_080BB2C0
+_080095C4: .4byte gSpriteInits_InteractablesMultiplayer
 _080095C8: .4byte gCamera
 
 	thumb_func_start CreateEnemyDefeatScoreAndManageLives
