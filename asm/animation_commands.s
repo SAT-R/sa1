@@ -34,7 +34,7 @@ animCmd_GetPalette: @ 0x08004A84
 	ldrh r1, [r4, #0xa]
 	adds r0, r0, r1
 	lsls r0, r0, #1
-	ldr r1, _08004AE8 @ =gUnknown_03001920
+	ldr r1, _08004AE8 @ =gObjPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	ldrh r0, [r4, #8]
@@ -57,7 +57,7 @@ _08004AD8:
 	.align 2, 0
 _08004AE0: .4byte 0x040000D4
 _08004AE4: .4byte gUnknown_03002034
-_08004AE8: .4byte gUnknown_03001920
+_08004AE8: .4byte gObjPalette
 _08004AEC: .4byte gFlags
 
 	thumb_func_start animCmd_JumpBack

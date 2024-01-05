@@ -182,7 +182,7 @@ _08000472:
 	str r2, [sp]
 	mov r3, sp
 	str r3, [r0]
-	ldr r1, _0800074C @ =gUnknown_03001920
+	ldr r1, _0800074C @ =gObjPalette
 	str r1, [r0, #4]
 	ldr r3, _08000750 @ =0x85000080
 	str r3, [r0, #8]
@@ -404,7 +404,7 @@ _0800073C: .4byte gUnknown_03001B80
 _08000740: .4byte gUnknown_03001110
 _08000744: .4byte 0x85000008
 _08000748: .4byte gUnknown_03004600
-_0800074C: .4byte gUnknown_03001920
+_0800074C: .4byte gObjPalette
 _08000750: .4byte 0x85000080
 _08000754: .4byte gUnknown_03002120
 _08000758: .4byte gBgAffineRegs
@@ -667,7 +667,7 @@ _080009C4:
 	ands r0, r1
 	cmp r0, #0
 	beq _080009E2
-	ldr r0, _08000A80 @ =gUnknown_03001920
+	ldr r0, _08000A80 @ =gObjPalette
 	str r0, [r3]
 	ldr r0, _08000A84 @ =0x05000200
 	str r0, [r3, #4]
@@ -751,7 +751,7 @@ _08000A70: .4byte 0x84000002
 _08000A74: .4byte gFlags
 _08000A78: .4byte gUnknown_03002120
 _08000A7C: .4byte 0x84000080
-_08000A80: .4byte gUnknown_03001920
+_08000A80: .4byte gObjPalette
 _08000A84: .4byte 0x05000200
 _08000A88: .4byte gUnknown_03001B30
 _08000A8C: .4byte 0x04000040
@@ -1098,7 +1098,7 @@ _08000D6E:
 	ands r0, r6
 	cmp r0, #0
 	beq _08000D88
-	ldr r0, _08000E04 @ =gUnknown_03001920
+	ldr r0, _08000E04 @ =gObjPalette
 	ldr r1, _08000E08 @ =0x05000200
 	movs r2, #0x80
 	bl CpuFastSet
@@ -1158,7 +1158,7 @@ _08000DF4: .4byte 0x04000008
 _08000DF8: .4byte 0x04000002
 _08000DFC: .4byte gFlags
 _08000E00: .4byte gUnknown_03002120
-_08000E04: .4byte gUnknown_03001920
+_08000E04: .4byte gObjPalette
 _08000E08: .4byte 0x05000200
 _08000E0C: .4byte gUnknown_03001B30
 _08000E10: .4byte 0x04000040

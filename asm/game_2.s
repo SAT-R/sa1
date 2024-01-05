@@ -8684,7 +8684,7 @@ _08052920:
 	adds r0, #0x28
 	ldrb r0, [r0]
 	lsls r0, r0, #5
-	ldr r1, _08052978 @ =gUnknown_03001920
+	ldr r1, _08052978 @ =gObjPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	ldr r0, [r4, #0x24]
@@ -8711,7 +8711,7 @@ _08052968: .4byte gUnknown_03006240
 _0805296C: .4byte gVramGraphicsCopyQueue
 _08052970: .4byte gVramGraphicsCopyQueueIndex
 _08052974: .4byte 0x040000D4
-_08052978: .4byte gUnknown_03001920
+_08052978: .4byte gObjPalette
 _0805297C: .4byte gFlags
 _08052980: .4byte 0xF9FF0000
 _08052984:
@@ -50760,7 +50760,7 @@ _08067CFE:
 	mov r0, r8
 	adds r0, #0xe0
 	lsls r0, r0, #1
-	ldr r1, _08067D88 @ =gUnknown_03001920
+	ldr r1, _08067D88 @ =gObjPalette
 	adds r0, r0, r1
 	strh r4, [r0]
 	mov r0, r8
@@ -50826,7 +50826,7 @@ _08067D42:
 	strb r4, [r0]
 	b _08067DD2
 	.align 2, 0
-_08067D88: .4byte gUnknown_03001920
+_08067D88: .4byte gObjPalette
 _08067D8C: .4byte gFlags
 _08067D90: .4byte 0x00000311
 _08067D94: .4byte sub_8066D64

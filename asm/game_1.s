@@ -72993,7 +72993,7 @@ sub_804C40C: @ 0x0804C40C
 	ldr r0, _0804C580 @ =gUnknown_03006080
 	mov ip, r0
 	ldr r5, _0804C584 @ =gUnknown_03005C80
-	ldr r6, _0804C588 @ =gUnknown_03001920
+	ldr r6, _0804C588 @ =gObjPalette
 	ldr r2, [r0, #0xc]
 	movs r7, #0xf
 	movs r0, #0x80
@@ -73176,7 +73176,7 @@ _0804C4DA:
 	.align 2, 0
 _0804C580: .4byte gUnknown_03006080
 _0804C584: .4byte gUnknown_03005C80
-_0804C588: .4byte gUnknown_03001920
+_0804C588: .4byte gObjPalette
 _0804C58C: .4byte gUnknown_03002120
 _0804C590: .4byte 0x7BDE7BDE
 _0804C594: .4byte 0x739C739C
