@@ -12599,7 +12599,7 @@ _0800F874:
 	adds r1, r2, #0
 	orrs r0, r1
 	strh r0, [r4]
-	ldr r1, _0800F920 @ =gUnknown_03001B30
+	ldr r1, _0800F920 @ =gWinRegs
 	movs r0, #2
 	strh r0, [r1, #8]
 	movs r0, #1
@@ -12619,14 +12619,14 @@ _0800F910: .4byte gCurTask
 _0800F914: .4byte 0x0600F000
 _0800F918: .4byte 0x0300002A
 _0800F91C: .4byte gUnknown_03005160
-_0800F920: .4byte gUnknown_03001B30
+_0800F920: .4byte gWinRegs
 _0800F924: .4byte 0x00002058
 _0800F928:
 	ldrh r0, [r4]
 	ldr r1, _0800F994 @ =0x0000DFFF
 	ands r1, r0
 	strh r1, [r4]
-	ldr r0, _0800F998 @ =gUnknown_03001B30
+	ldr r0, _0800F998 @ =gWinRegs
 	strh r2, [r0, #8]
 	strh r2, [r0, #0xa]
 _0800F936:
@@ -12678,7 +12678,7 @@ _0800F986:
 	bx r0
 	.align 2, 0
 _0800F994: .4byte 0x0000DFFF
-_0800F998: .4byte gUnknown_03001B30
+_0800F998: .4byte gWinRegs
 _0800F99C: .4byte gFlags
 _0800F9A0: .4byte gUnknown_03002160
 _0800F9A4: .4byte 0x01000010
@@ -15424,7 +15424,7 @@ sub_801104C: @ 0x0801104C
 	strh r0, [r1, #2]
 	movs r0, #0xc
 	strh r0, [r1, #4]
-	ldr r2, _080110F8 @ =gUnknown_03001B30
+	ldr r2, _080110F8 @ =gWinRegs
 	ldr r1, _080110FC @ =gUnknown_080BB38E
 	ldrb r0, [r4, #0x19]
 	lsls r0, r0, #1
@@ -15462,7 +15462,7 @@ _080110E8: .4byte 0x03000291
 _080110EC: .4byte gDispCnt
 _080110F0: .4byte gBldRegs
 _080110F4: .4byte 0x00003FBF
-_080110F8: .4byte gUnknown_03001B30
+_080110F8: .4byte gWinRegs
 _080110FC: .4byte gUnknown_080BB38E
 _08011100: .4byte sub_8011104
 
@@ -15507,7 +15507,7 @@ _08011140:
 _08011154:
 	strb r0, [r1]
 _08011156:
-	ldr r2, _080111C8 @ =gUnknown_03001B30
+	ldr r2, _080111C8 @ =gWinRegs
 	ldr r1, _080111CC @ =gUnknown_080BB38E
 	ldr r7, _080111D0 @ =0x0000033F
 	adds r4, r6, r7
@@ -15564,7 +15564,7 @@ _080111A2:
 	b _0801121E
 	.align 2, 0
 _080111C4: .4byte 0x0300033F
-_080111C8: .4byte gUnknown_03001B30
+_080111C8: .4byte gWinRegs
 _080111CC: .4byte gUnknown_080BB38E
 _080111D0: .4byte 0x0000033F
 _080111D4: .4byte gUnknown_03005160
@@ -15657,7 +15657,7 @@ _08011284:
 _08011298:
 	strb r0, [r1]
 _0801129A:
-	ldr r2, _08011328 @ =gUnknown_03001B30
+	ldr r2, _08011328 @ =gWinRegs
 	ldr r1, _0801132C @ =gUnknown_080BB38E
 	ldr r4, _08011330 @ =0x0000033F
 	adds r4, r4, r5
@@ -15727,7 +15727,7 @@ _080112F0:
 	b _08011448
 	.align 2, 0
 _08011324: .4byte 0x0300033F
-_08011328: .4byte gUnknown_03001B30
+_08011328: .4byte gWinRegs
 _0801132C: .4byte gUnknown_080BB38E
 _08011330: .4byte 0x0000033F
 _08011334: .4byte gUnknown_03005160
@@ -17485,7 +17485,7 @@ _0801217C:
 	ands r0, r1
 	cmp r0, #0
 	beq _080121B0
-	ldr r2, _080121AC @ =gUnknown_03001B30
+	ldr r2, _080121AC @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #5]
 	lsls r0, r0, #8
@@ -17496,9 +17496,9 @@ _0801217C:
 	.align 2, 0
 _080121A4: .4byte gSineTable
 _080121A8: .4byte 0x000001FF
-_080121AC: .4byte gUnknown_03001B30
+_080121AC: .4byte gWinRegs
 _080121B0:
-	ldr r2, _080121DC @ =gUnknown_03001B30
+	ldr r2, _080121DC @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #5]
 	lsls r0, r0, #8
@@ -17521,14 +17521,14 @@ _080121BE:
 	bl sub_8005170
 	b _080122BA
 	.align 2, 0
-_080121DC: .4byte gUnknown_03001B30
+_080121DC: .4byte gWinRegs
 _080121E0:
 	ldrb r1, [r4, #0xa]
 	movs r0, #1
 	ands r0, r1
 	cmp r0, #0
 	beq _08012200
-	ldr r2, _080121FC @ =gUnknown_03001B30
+	ldr r2, _080121FC @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #5]
 	lsls r0, r0, #8
@@ -17537,9 +17537,9 @@ _080121E0:
 	strh r0, [r2, #6]
 	b _0801220E
 	.align 2, 0
-_080121FC: .4byte gUnknown_03001B30
+_080121FC: .4byte gWinRegs
 _08012200:
-	ldr r2, _08012218 @ =gUnknown_03001B30
+	ldr r2, _08012218 @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #5]
 	lsls r0, r0, #8
@@ -17552,7 +17552,7 @@ _0801220E:
 	bl sub_8006194
 	b _080122BA
 	.align 2, 0
-_08012218: .4byte gUnknown_03001B30
+_08012218: .4byte gWinRegs
 _0801221C:
 	mov r3, sl
 	ldrh r0, [r3, #2]
@@ -17571,7 +17571,7 @@ _0801221C:
 	ands r0, r1
 	cmp r0, #0
 	beq _08012254
-	ldr r2, _08012250 @ =gUnknown_03001B30
+	ldr r2, _08012250 @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #1]
 	lsls r0, r0, #8
@@ -17580,9 +17580,9 @@ _0801221C:
 	strh r0, [r2, #6]
 	b _08012262
 	.align 2, 0
-_08012250: .4byte gUnknown_03001B30
+_08012250: .4byte gWinRegs
 _08012254:
-	ldr r2, _08012280 @ =gUnknown_03001B30
+	ldr r2, _08012280 @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #1]
 	lsls r0, r0, #8
@@ -17605,14 +17605,14 @@ _08012262:
 	bl sub_80053F0
 	b _080122BA
 	.align 2, 0
-_08012280: .4byte gUnknown_03001B30
+_08012280: .4byte gWinRegs
 _08012284:
 	ldrb r1, [r4, #0xa]
 	movs r0, #1
 	ands r0, r1
 	cmp r0, #0
 	beq _080122A4
-	ldr r2, _080122A0 @ =gUnknown_03001B30
+	ldr r2, _080122A0 @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #1]
 	lsls r0, r0, #8
@@ -17621,9 +17621,9 @@ _08012284:
 	strh r0, [r2, #6]
 	b _080122B2
 	.align 2, 0
-_080122A0: .4byte gUnknown_03001B30
+_080122A0: .4byte gWinRegs
 _080122A4:
-	ldr r2, _080122CC @ =gUnknown_03001B30
+	ldr r2, _080122CC @ =gWinRegs
 	add r0, sp, #8
 	ldrb r0, [r0, #1]
 	lsls r0, r0, #8
@@ -17644,7 +17644,7 @@ _080122BA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080122CC: .4byte gUnknown_03001B30
+_080122CC: .4byte gWinRegs
 
 	thumb_func_start TaskDestructor_Spotlights
 TaskDestructor_Spotlights: @ 0x080122D0
@@ -21007,7 +21007,7 @@ _08013D74:
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _08013DE8 @ =gUnknown_03001B30
+	ldr r1, _08013DE8 @ =gWinRegs
 	ldr r0, _08013DEC @ =0x0000083F
 	strh r0, [r1, #0xa]
 _08013DAE:
@@ -21032,7 +21032,7 @@ _08013DD8: .4byte gGameMode
 _08013DDC: .4byte gUnknown_03005150
 _08013DE0: .4byte 0x04000128
 _08013DE4: .4byte gDispCnt
-_08013DE8: .4byte gUnknown_03001B30
+_08013DE8: .4byte gWinRegs
 _08013DEC: .4byte 0x0000083F
 
 	thumb_func_start sub_8013DF0
@@ -28533,7 +28533,7 @@ sub_80178C0: @ 0x080178C0
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _08017924 @ =gUnknown_03001B30
+	ldr r1, _08017924 @ =gWinRegs
 	ldr r0, _08017928 @ =0x00001F1F
 	strh r0, [r1, #8]
 	movs r0, #0x3f
@@ -28568,7 +28568,7 @@ _080178FA:
 	.align 2, 0
 _0801791C: .4byte gCurTask
 _08017920: .4byte gDispCnt
-_08017924: .4byte gUnknown_03001B30
+_08017924: .4byte gWinRegs
 _08017928: .4byte 0x00001F1F
 _0801792C: .4byte 0x07FF0000
 _08017930: .4byte gBldRegs
@@ -28675,7 +28675,7 @@ sub_80179F4: @ 0x080179F4
 	movs r1, #0
 	strh r1, [r0]
 	strh r1, [r0, #4]
-	ldr r0, _08017A28 @ =gUnknown_03001B30
+	ldr r0, _08017A28 @ =gWinRegs
 	strh r1, [r0]
 	strh r1, [r0, #4]
 	strh r1, [r0, #2]
@@ -28690,7 +28690,7 @@ sub_80179F4: @ 0x080179F4
 _08017A1C: .4byte gDispCnt
 _08017A20: .4byte 0x00009FFF
 _08017A24: .4byte gBldRegs
-_08017A28: .4byte gUnknown_03001B30
+_08017A28: .4byte gWinRegs
 _08017A2C: .4byte gFlags
 
 	thumb_func_start sub_8017A30
@@ -31144,7 +31144,7 @@ sub_8018AE0: @ 0x08018AE0
 	strh r4, [r0]
 	ldr r0, _08018EBC @ =gInput
 	strh r4, [r0]
-	ldr r2, _08018EC0 @ =gUnknown_03001B30
+	ldr r2, _08018EC0 @ =gWinRegs
 	movs r0, #0x3f
 	strh r0, [r2, #0xa]
 	ldr r1, _08018EC4 @ =gBldRegs
@@ -31214,7 +31214,7 @@ _08018EB0: .4byte 0x0300006A
 _08018EB4: .4byte gRepeatedKeys
 _08018EB8: .4byte gPressedKeys
 _08018EBC: .4byte gInput
-_08018EC0: .4byte gUnknown_03001B30
+_08018EC0: .4byte gWinRegs
 _08018EC4: .4byte gBldRegs
 _08018EC8: .4byte 0x00003F46
 
@@ -32123,7 +32123,7 @@ sub_8019348: @ 0x08019348
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _080196EC @ =gUnknown_03001B30
+	ldr r1, _080196EC @ =gWinRegs
 	movs r0, #0x3d
 	strh r0, [r1, #8]
 	movs r0, #0x3b
@@ -32190,7 +32190,7 @@ _080196DC: .4byte gUnknown_030020D0
 _080196E0: .4byte 0x0300023E
 _080196E4: .4byte 0x03000244
 _080196E8: .4byte gDispCnt
-_080196EC: .4byte gUnknown_03001B30
+_080196EC: .4byte gWinRegs
 _080196F0: .4byte gBldRegs
 _080196F4: .4byte 0x00003F46
 _080196F8: .4byte sub_80196FC
@@ -34268,7 +34268,7 @@ sub_801A794: @ 0x0801A794
 	strb r5, [r0, #2]
 	strb r5, [r0, #1]
 	strb r5, [r0]
-	ldr r0, _0801AA10 @ =gUnknown_03001B30
+	ldr r0, _0801AA10 @ =gWinRegs
 	movs r6, #0
 	strh r5, [r0, #8]
 	strh r5, [r0, #0xa]
@@ -34568,7 +34568,7 @@ _0801A9C0:
 	b _0801AAEE
 	.align 2, 0
 _0801AA0C: .4byte gUnknown_03005060
-_0801AA10: .4byte gUnknown_03001B30
+_0801AA10: .4byte gWinRegs
 _0801AA14: .4byte gUnknown_03005004
 _0801AA18: .4byte gUnknown_03001214
 _0801AA1C: .4byte gFlags

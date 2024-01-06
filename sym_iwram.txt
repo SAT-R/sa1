@@ -48,7 +48,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00001920; gObjPalette = .;
 . = 0x00001B20; gTilemapsRef = .; /* SA2: (ref to gTilemaps - also for Multiboot programs like "Collect Rings"!) */
 . = 0x00001B24; gFrameCount = .;
-. = 0x00001B30; gUnknown_03001B30 = .;
+. = 0x00001B30; gWinRegs = .;
 . = 0x00001B3C; gNumTasks = .;
 . = 0x00001B40; gUnknown_03001B40 = .;
 . = 0x00001B42; gUnknown_03001B42 = .;

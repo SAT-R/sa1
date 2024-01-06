@@ -225,7 +225,7 @@ _08000472:
 	strh r2, [r0]
 	ldr r0, _08000778 @ =gUnknown_03004C38
 	strh r1, [r0]
-	ldr r0, _0800077C @ =gUnknown_03001B30
+	ldr r0, _0800077C @ =gWinRegs
 	strh r2, [r0]
 	strh r2, [r0, #2]
 	strh r2, [r0, #4]
@@ -416,7 +416,7 @@ _0800076C: .4byte gUnknown_030045F4
 _08000770: .4byte gUnknown_0300120C
 _08000774: .4byte gUnknown_030020C0
 _08000778: .4byte gUnknown_03004C38
-_0800077C: .4byte gUnknown_03001B30
+_0800077C: .4byte gWinRegs
 _08000780: .4byte gBldRegs
 _08000784: .4byte gUnknown_03004C58
 _08000788: .4byte gInputRecorder
@@ -678,7 +678,7 @@ _080009C4:
 	eors r0, r1
 	str r0, [r6]
 _080009E2:
-	ldr r0, _08000A88 @ =gUnknown_03001B30
+	ldr r0, _08000A88 @ =gWinRegs
 	str r0, [r3]
 	ldr r0, _08000A8C @ =0x04000040
 	str r0, [r3, #4]
@@ -753,7 +753,7 @@ _08000A78: .4byte gUnknown_03002120
 _08000A7C: .4byte 0x84000080
 _08000A80: .4byte gObjPalette
 _08000A84: .4byte 0x05000200
-_08000A88: .4byte gUnknown_03001B30
+_08000A88: .4byte gWinRegs
 _08000A8C: .4byte 0x04000040
 _08000A90: .4byte 0x84000003
 _08000A94: .4byte gBldRegs
@@ -1106,7 +1106,7 @@ _08000D6E:
 	eors r0, r6
 	str r0, [r5]
 _08000D88:
-	ldr r0, _08000E0C @ =gUnknown_03001B30
+	ldr r0, _08000E0C @ =gWinRegs
 	ldr r1, _08000E10 @ =0x04000040
 	ldr r2, _08000E14 @ =0x04000003
 	bl CpuSet
@@ -1160,7 +1160,7 @@ _08000DFC: .4byte gFlags
 _08000E00: .4byte gUnknown_03002120
 _08000E04: .4byte gObjPalette
 _08000E08: .4byte 0x05000200
-_08000E0C: .4byte gUnknown_03001B30
+_08000E0C: .4byte gWinRegs
 _08000E10: .4byte 0x04000040
 _08000E14: .4byte 0x04000003
 _08000E18: .4byte gBldRegs

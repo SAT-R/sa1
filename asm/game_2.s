@@ -395,7 +395,7 @@ _0804E7DE:
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _0804E8C8 @ =gUnknown_03001B30
+	ldr r1, _0804E8C8 @ =gWinRegs
 	ldr r0, _0804E8CC @ =0x00003F3F
 	strh r0, [r1, #0xa]
 _0804E814:
@@ -486,7 +486,7 @@ _0804E8AC:
 _0804E8BC: .4byte gUnknown_03005120
 _0804E8C0: .4byte gUnknown_03005A20
 _0804E8C4: .4byte gDispCnt
-_0804E8C8: .4byte gUnknown_03001B30
+_0804E8C8: .4byte gWinRegs
 _0804E8CC: .4byte 0x00003F3F
 _0804E8D0: .4byte gCamera
 
@@ -3693,7 +3693,7 @@ _08050086:
 	ldr r0, _080500D8 @ =0x00007FFF
 	ands r0, r1
 	strh r0, [r2]
-	ldr r1, _080500DC @ =gUnknown_03001B30
+	ldr r1, _080500DC @ =gWinRegs
 	ldr r0, _080500E0 @ =0x00003F3F
 	strh r0, [r1, #0xa]
 	ldr r1, _080500E4 @ =gBldRegs
@@ -3722,7 +3722,7 @@ _080500AC:
 	.align 2, 0
 _080500D4: .4byte gDispCnt
 _080500D8: .4byte 0x00007FFF
-_080500DC: .4byte gUnknown_03001B30
+_080500DC: .4byte gWinRegs
 _080500E0: .4byte 0x00003F3F
 _080500E4: .4byte gBldRegs
 _080500E8: .4byte 0x0000FFFF
@@ -5193,7 +5193,7 @@ _08050CE2:
 	ldr r0, _08050DBC @ =0x00007FFF
 	ands r0, r1
 	strh r0, [r2]
-	ldr r0, _08050DC0 @ =gUnknown_03001B30
+	ldr r0, _08050DC0 @ =gWinRegs
 	strh r3, [r0, #0xa]
 	ldr r0, _08050DC4 @ =gBldRegs
 	strh r3, [r0]
@@ -5222,7 +5222,7 @@ _08050D00:
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _08050DC0 @ =gUnknown_03001B30
+	ldr r1, _08050DC0 @ =gWinRegs
 	ldr r0, _08050DCC @ =0x00003F1F
 	strh r0, [r1, #0xa]
 	ldr r1, _08050DC4 @ =gBldRegs
@@ -5292,7 +5292,7 @@ _08050DB0: .4byte gUnknown_03005A20
 _08050DB4: .4byte 0xFFFFFE7F
 _08050DB8: .4byte gDispCnt
 _08050DBC: .4byte 0x00007FFF
-_08050DC0: .4byte gUnknown_03001B30
+_08050DC0: .4byte gWinRegs
 _08050DC4: .4byte gBldRegs
 _08050DC8: .4byte gUnknown_03005120
 _08050DCC: .4byte 0x00003F1F
@@ -7894,7 +7894,7 @@ _080522F0:
 	adds r1, r5, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _08052330 @ =gUnknown_03001B30
+	ldr r1, _08052330 @ =gWinRegs
 	lsls r0, r4, #8
 	orrs r0, r3
 	strh r0, [r1, #4]
@@ -7919,7 +7919,7 @@ _0805231A:
 	bx r1
 	.align 2, 0
 _0805232C: .4byte gDispCnt
-_08052330: .4byte gUnknown_03001B30
+_08052330: .4byte gWinRegs
 _08052334: .4byte 0x00001F1F
 _08052338: .4byte 0x00003F3F
 _0805233C: .4byte gBldRegs
@@ -11969,7 +11969,7 @@ _080542CA:
 	ldrsh r0, [r3, r1]
 	cmp r0, #0
 	beq _080542F4
-	ldr r1, _080542F0 @ =gUnknown_03001B30
+	ldr r1, _080542F0 @ =gWinRegs
 	movs r0, #0xf0
 	strh r0, [r1, #2]
 	movs r0, #0xa0
@@ -11982,9 +11982,9 @@ _080542CA:
 	.align 2, 0
 _080542E8: .4byte gBldRegs
 _080542EC: .4byte 0x00003F3F
-_080542F0: .4byte gUnknown_03001B30
+_080542F0: .4byte gWinRegs
 _080542F4:
-	ldr r1, _08054320 @ =gUnknown_03001B30
+	ldr r1, _08054320 @ =gWinRegs
 	movs r0, #0xf0
 	strh r0, [r1]
 	movs r0, #0xa0
@@ -12008,7 +12008,7 @@ _08054302:
 	movs r0, #0x80
 	b _08054328
 	.align 2, 0
-_08054320: .4byte gUnknown_03001B30
+_08054320: .4byte gWinRegs
 _08054324:
 	ldrh r1, [r4]
 	movs r0, #0xc0
@@ -12138,7 +12138,7 @@ _08054404:
 	ldrsh r0, [r3, r1]
 	cmp r0, #0
 	beq _08054428
-	ldr r1, _08054424 @ =gUnknown_03001B30
+	ldr r1, _08054424 @ =gWinRegs
 	movs r0, #0xf0
 	strh r0, [r1, #2]
 	movs r0, #0xa0
@@ -12150,9 +12150,9 @@ _08054404:
 	b _08054436
 	.align 2, 0
 _08054420: .4byte gBldRegs
-_08054424: .4byte gUnknown_03001B30
+_08054424: .4byte gWinRegs
 _08054428:
-	ldr r1, _08054454 @ =gUnknown_03001B30
+	ldr r1, _08054454 @ =gWinRegs
 	movs r0, #0xf0
 	strh r0, [r1]
 	movs r0, #0xa0
@@ -12176,7 +12176,7 @@ _08054436:
 	movs r0, #0x80
 	b _0805445C
 	.align 2, 0
-_08054454: .4byte gUnknown_03001B30
+_08054454: .4byte gWinRegs
 _08054458:
 	ldrh r1, [r4]
 	movs r0, #0xc0
@@ -15404,7 +15404,7 @@ _08055DFC:
 	mov r8, r1
 	strh r7, [r0]
 	strh r7, [r0, #4]
-	ldr r0, _08055E98 @ =gUnknown_03001B30
+	ldr r0, _08055E98 @ =gWinRegs
 	strh r7, [r0]
 	strh r7, [r0, #4]
 	strh r7, [r0, #2]
@@ -15471,7 +15471,7 @@ _08055DFC:
 _08055E8C: .4byte gCurrentLevel
 _08055E90: .4byte gCamera
 _08055E94: .4byte gBldRegs
-_08055E98: .4byte gUnknown_03001B30
+_08055E98: .4byte gWinRegs
 _08055E9C: .4byte sub_8056084
 _08055EA0: .4byte sub_8056CB4
 _08055EA4: .4byte 0x03000080
@@ -20152,7 +20152,7 @@ sub_8058360: @ 0x08058360
 	ldr r1, _08058490 @ =gBldRegs
 	movs r0, #0x1f
 	strh r0, [r1]
-	ldr r0, _08058494 @ =gUnknown_03001B30
+	ldr r0, _08058494 @ =gWinRegs
 	movs r1, #1
 	mov r8, r1
 	movs r5, #1
@@ -20274,7 +20274,7 @@ _08058484: .4byte 0x00001C06
 _08058488: .4byte 0x00001A09
 _0805848C: .4byte gUnknown_030020D0
 _08058490: .4byte gBldRegs
-_08058494: .4byte gUnknown_03001B30
+_08058494: .4byte gWinRegs
 _08058498: .4byte sub_8058830
 _0805849C: .4byte 0x03000024
 _080584A0: .4byte 0x03000028
@@ -23568,7 +23568,7 @@ sub_8059F9C: @ 0x08059F9C
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _0805A034 @ =gUnknown_03001B30
+	ldr r1, _0805A034 @ =gWinRegs
 	movs r0, #0x28
 	strh r0, [r1]
 	movs r2, #0xf0
@@ -23612,7 +23612,7 @@ _0805A024:
 	.align 2, 0
 _0805A02C: .4byte gCurTask
 _0805A030: .4byte gDispCnt
-_0805A034: .4byte gUnknown_03001B30
+_0805A034: .4byte gWinRegs
 _0805A038: .4byte 0x0000C8F0
 _0805A03C: .4byte 0x00003F3F
 _0805A040: .4byte gBldRegs
@@ -25870,7 +25870,7 @@ sub_805B1E0: @ 0x0805B1E0
 	strh r0, [r1]
 	cmp r5, #4
 	bgt _0805B288
-	ldr r1, _0805B280 @ =gUnknown_03001B30
+	ldr r1, _0805B280 @ =gWinRegs
 	ldr r0, _0805B284 @ =0x0000F0F0
 	strh r0, [r1, #2]
 	b _0805B29C
@@ -25881,10 +25881,10 @@ _0805B270: .4byte 0x030000C0
 _0805B274: .4byte 0x03000046
 _0805B278: .4byte 0x03000076
 _0805B27C: .4byte 0x03000048
-_0805B280: .4byte gUnknown_03001B30
+_0805B280: .4byte gWinRegs
 _0805B284: .4byte 0x0000F0F0
 _0805B288:
-	ldr r2, _0805B314 @ =gUnknown_03001B30
+	ldr r2, _0805B314 @ =gWinRegs
 	mov r0, r8
 	subs r0, #0x15
 	lsls r1, r0, #2
@@ -25902,7 +25902,7 @@ _0805B29C:
 	bls _0805B2B8
 	movs r0, #0
 	str r0, [r1]
-	ldr r1, _0805B314 @ =gUnknown_03001B30
+	ldr r1, _0805B314 @ =gWinRegs
 	ldr r0, _0805B318 @ =0x0000C8F0
 	strh r0, [r1, #2]
 	ldr r0, _0805B31C @ =gCurTask
@@ -25951,7 +25951,7 @@ _0805B2B8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805B314: .4byte gUnknown_03001B30
+_0805B314: .4byte gWinRegs
 _0805B318: .4byte 0x0000C8F0
 _0805B31C: .4byte gCurTask
 _0805B320: .4byte sub_805B324
@@ -32295,7 +32295,7 @@ sub_805E400: @ 0x0805E400
 	ldrh r0, [r1]
 	orrs r5, r0
 	strh r5, [r1]
-	ldr r1, _0805E684 @ =gUnknown_03001B30
+	ldr r1, _0805E684 @ =gWinRegs
 	movs r2, #0xf0
 	strh r2, [r1]
 	movs r0, #0x24
@@ -32360,7 +32360,7 @@ _0805E674: .4byte 0x040000D4
 _0805E678: .4byte 0x85000010
 _0805E67C: .4byte gUnknown_03004620
 _0805E680: .4byte gUnknown_03001B40
-_0805E684: .4byte gUnknown_03001B30
+_0805E684: .4byte gWinRegs
 _0805E688: .4byte 0x000084A0
 _0805E68C: .4byte 0x00003F3F
 _0805E690: .4byte gBldRegs
@@ -43852,7 +43852,7 @@ _080644C6:
 	adds r1, r3, #0
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _0806453C @ =gUnknown_03001B30
+	ldr r1, _0806453C @ =gWinRegs
 	ldr r0, _08064540 @ =0x00001F1F
 	strh r0, [r1, #8]
 	movs r0, #0x3f
@@ -43865,7 +43865,7 @@ _080644C6:
 	b _080645D2
 	.align 2, 0
 _08064538: .4byte gDispCnt
-_0806453C: .4byte gUnknown_03001B30
+_0806453C: .4byte gWinRegs
 _08064540: .4byte 0x00001F1F
 _08064544: .4byte gBldRegs
 _08064548: .4byte 0x00003FDF
