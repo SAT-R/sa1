@@ -64433,7 +64433,7 @@ _080935F0:
 	ldr r1, _080936A4 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _080936A8 @ =gUnknown_030045F8
+	ldr r1, _080936A8 @ =gVramGraphicsCopyCursor
 	ldr r0, _080936AC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -64455,7 +64455,7 @@ _08093698: .4byte 0x0000FFFF
 _0809369C: .4byte gUnknown_03002384
 _080936A0: .4byte gUnknown_0300211C
 _080936A4: .4byte gUnknown_03004C30
-_080936A8: .4byte gUnknown_030045F8
+_080936A8: .4byte gVramGraphicsCopyCursor
 _080936AC: .4byte gVramGraphicsCopyQueueIndex
 _080936B0:
 	adds r0, r5, #0

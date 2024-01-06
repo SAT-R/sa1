@@ -2110,7 +2110,7 @@ _0801CBAE:
 	strb r0, [r1]
 	ldr r0, _0801CC0C @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0801CC10 @ =gUnknown_030045F8
+	ldr r1, _0801CC10 @ =gVramGraphicsCopyCursor
 	ldr r0, _0801CC14 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -2126,7 +2126,7 @@ _0801CC00: .4byte 0x0000FFFF
 _0801CC04: .4byte gUnknown_03002384
 _0801CC08: .4byte gUnknown_0300211C
 _0801CC0C: .4byte gUnknown_03004C30
-_0801CC10: .4byte gUnknown_030045F8
+_0801CC10: .4byte gVramGraphicsCopyCursor
 _0801CC14: .4byte gVramGraphicsCopyQueueIndex
 _0801CC18:
 	movs r0, #0
@@ -2350,7 +2350,7 @@ _0801CDA8:
 	strb r0, [r1]
 	ldr r0, _0801CE0C @ =gUnknown_03004C30
 	strb r5, [r0]
-	ldr r1, _0801CE10 @ =gUnknown_030045F8
+	ldr r1, _0801CE10 @ =gVramGraphicsCopyCursor
 	ldr r0, _0801CE14 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -2375,7 +2375,7 @@ _0801CE00: .4byte 0x0000FFFF
 _0801CE04: .4byte gUnknown_03002384
 _0801CE08: .4byte gUnknown_0300211C
 _0801CE0C: .4byte gUnknown_03004C30
-_0801CE10: .4byte gUnknown_030045F8
+_0801CE10: .4byte gVramGraphicsCopyCursor
 _0801CE14: .4byte gVramGraphicsCopyQueueIndex
 _0801CE18: .4byte gGameMode
 _0801CE1C: .4byte gUnknown_03005150
@@ -2537,7 +2537,7 @@ _0801CF2E:
 	strb r0, [r1]
 	ldr r0, _0801CF88 @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0801CF8C @ =gUnknown_030045F8
+	ldr r1, _0801CF8C @ =gVramGraphicsCopyCursor
 	ldr r0, _0801CF90 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -2552,7 +2552,7 @@ _0801CF7C: .4byte 0x0000FFFF
 _0801CF80: .4byte gUnknown_03002384
 _0801CF84: .4byte gUnknown_0300211C
 _0801CF88: .4byte gUnknown_03004C30
-_0801CF8C: .4byte gUnknown_030045F8
+_0801CF8C: .4byte gVramGraphicsCopyCursor
 _0801CF90: .4byte gVramGraphicsCopyQueueIndex
 _0801CF94:
 	movs r0, #0
@@ -19710,7 +19710,7 @@ sub_8025714: @ 0x08025714
 	ldr r1, _08025748 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _0802574C @ =gUnknown_030045F8
+	ldr r1, _0802574C @ =gVramGraphicsCopyCursor
 	ldr r0, _08025750 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -19722,7 +19722,7 @@ _0802573C: .4byte 0x0000FFFF
 _08025740: .4byte gUnknown_03002384
 _08025744: .4byte gUnknown_0300211C
 _08025748: .4byte gUnknown_03004C30
-_0802574C: .4byte gUnknown_030045F8
+_0802574C: .4byte gVramGraphicsCopyCursor
 _08025750: .4byte gVramGraphicsCopyQueueIndex
 
 	thumb_func_start CreateEntity_Interactable041

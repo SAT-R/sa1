@@ -3713,7 +3713,7 @@ _080500AC:
 	ldr r1, _080500F4 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _080500F8 @ =gUnknown_030045F8
+	ldr r1, _080500F8 @ =gVramGraphicsCopyCursor
 	ldr r0, _080500FC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -3729,7 +3729,7 @@ _080500E8: .4byte 0x0000FFFF
 _080500EC: .4byte gUnknown_03002384
 _080500F0: .4byte gUnknown_0300211C
 _080500F4: .4byte gUnknown_03004C30
-_080500F8: .4byte gUnknown_030045F8
+_080500F8: .4byte gVramGraphicsCopyCursor
 _080500FC: .4byte gVramGraphicsCopyQueueIndex
 _08050100:
 	adds r0, r4, #0
@@ -17123,7 +17123,7 @@ _08056B10:
 	ldr r0, _08056C60 @ =gUnknown_03004C30
 	movs r1, #0
 	strb r1, [r0]
-	ldr r1, _08056C64 @ =gUnknown_030045F8
+	ldr r1, _08056C64 @ =gVramGraphicsCopyCursor
 	ldr r0, _08056C68 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -17150,7 +17150,7 @@ _08056C54: .4byte 0x03000080
 _08056C58: .4byte gUnknown_03002384
 _08056C5C: .4byte gUnknown_0300211C
 _08056C60: .4byte gUnknown_03004C30
-_08056C64: .4byte gUnknown_030045F8
+_08056C64: .4byte gVramGraphicsCopyCursor
 _08056C68: .4byte gVramGraphicsCopyQueueIndex
 _08056C6C:
 	movs r0, #0
@@ -17163,7 +17163,7 @@ _08056C6C:
 	ldr r0, _08056CA8 @ =gUnknown_03004C30
 	movs r2, #0
 	strb r2, [r0]
-	ldr r1, _08056CAC @ =gUnknown_030045F8
+	ldr r1, _08056CAC @ =gVramGraphicsCopyCursor
 	ldr r0, _08056CB0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -17181,7 +17181,7 @@ _08056C8E:
 _08056CA0: .4byte gUnknown_03002384
 _08056CA4: .4byte gUnknown_0300211C
 _08056CA8: .4byte gUnknown_03004C30
-_08056CAC: .4byte gUnknown_030045F8
+_08056CAC: .4byte gVramGraphicsCopyCursor
 _08056CB0: .4byte gVramGraphicsCopyQueueIndex
 
 	thumb_func_start sub_8056CB4
@@ -23696,7 +23696,7 @@ _0805A0BC:
 	strb r0, [r1]
 	ldr r0, _0805A11C @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0805A120 @ =gUnknown_030045F8
+	ldr r1, _0805A120 @ =gVramGraphicsCopyCursor
 	ldr r0, _0805A124 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -23712,7 +23712,7 @@ _0805A110: .4byte 0x0000FFFF
 _0805A114: .4byte gUnknown_03002384
 _0805A118: .4byte gUnknown_0300211C
 _0805A11C: .4byte gUnknown_03004C30
-_0805A120: .4byte gUnknown_030045F8
+_0805A120: .4byte gVramGraphicsCopyCursor
 _0805A124: .4byte gVramGraphicsCopyQueueIndex
 _0805A128:
 	movs r0, #0
@@ -24321,7 +24321,7 @@ _0805A58A:
 	strb r0, [r1]
 	ldr r0, _0805A5E8 @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0805A5EC @ =gUnknown_030045F8
+	ldr r1, _0805A5EC @ =gVramGraphicsCopyCursor
 	ldr r0, _0805A5F0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -24337,7 +24337,7 @@ _0805A5DC: .4byte 0x0000FFFF
 _0805A5E0: .4byte gUnknown_03002384
 _0805A5E4: .4byte gUnknown_0300211C
 _0805A5E8: .4byte gUnknown_03004C30
-_0805A5EC: .4byte gUnknown_030045F8
+_0805A5EC: .4byte gVramGraphicsCopyCursor
 _0805A5F0: .4byte gVramGraphicsCopyQueueIndex
 _0805A5F4:
 	movs r0, #0
@@ -24601,7 +24601,7 @@ _0805A7C8:
 	strb r0, [r1]
 	ldr r0, _0805A828 @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0805A82C @ =gUnknown_030045F8
+	ldr r1, _0805A82C @ =gVramGraphicsCopyCursor
 	ldr r0, _0805A830 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -24617,7 +24617,7 @@ _0805A81C: .4byte 0x0000FFFF
 _0805A820: .4byte gUnknown_03002384
 _0805A824: .4byte gUnknown_0300211C
 _0805A828: .4byte gUnknown_03004C30
-_0805A82C: .4byte gUnknown_030045F8
+_0805A82C: .4byte gVramGraphicsCopyCursor
 _0805A830: .4byte gVramGraphicsCopyQueueIndex
 _0805A834:
 	movs r0, #0
@@ -27023,7 +27023,7 @@ _0805BB8A:
 	ldr r1, _0805BBF0 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _0805BBF4 @ =gUnknown_030045F8
+	ldr r1, _0805BBF4 @ =gVramGraphicsCopyCursor
 	ldr r0, _0805BBF8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -27043,7 +27043,7 @@ _0805BBE4: .4byte 0x0000FFFF
 _0805BBE8: .4byte gUnknown_03002384
 _0805BBEC: .4byte gUnknown_0300211C
 _0805BBF0: .4byte gUnknown_03004C30
-_0805BBF4: .4byte gUnknown_030045F8
+_0805BBF4: .4byte gVramGraphicsCopyCursor
 _0805BBF8: .4byte gVramGraphicsCopyQueueIndex
 _0805BBFC: .4byte gUnknown_03004FEC
 
@@ -30262,7 +30262,7 @@ _0805D586:
 	ldr r1, _0805D614 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _0805D618 @ =gUnknown_030045F8
+	ldr r1, _0805D618 @ =gVramGraphicsCopyCursor
 	ldr r0, _0805D61C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -30291,7 +30291,7 @@ _0805D608: .4byte 0x0000FFFF
 _0805D60C: .4byte gUnknown_03002384
 _0805D610: .4byte gUnknown_0300211C
 _0805D614: .4byte gUnknown_03004C30
-_0805D618: .4byte gUnknown_030045F8
+_0805D618: .4byte gVramGraphicsCopyCursor
 _0805D61C: .4byte gVramGraphicsCopyQueueIndex
 _0805D620: .4byte gUnknown_03005034
 _0805D624: .4byte gUnknown_03005058
@@ -39565,7 +39565,7 @@ _08062190:
 	strb r0, [r1]
 	ldr r0, _080621EC @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _080621F0 @ =gUnknown_030045F8
+	ldr r1, _080621F0 @ =gVramGraphicsCopyCursor
 	ldr r0, _080621F4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -39581,7 +39581,7 @@ _080621E0: .4byte 0x0000FFFF
 _080621E4: .4byte gUnknown_03002384
 _080621E8: .4byte gUnknown_0300211C
 _080621EC: .4byte gUnknown_03004C30
-_080621F0: .4byte gUnknown_030045F8
+_080621F0: .4byte gVramGraphicsCopyCursor
 _080621F4: .4byte gVramGraphicsCopyQueueIndex
 _080621F8:
 	movs r0, #0
@@ -40056,7 +40056,7 @@ _0806258A:
 	strb r0, [r1]
 	ldr r0, _080625E8 @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _080625EC @ =gUnknown_030045F8
+	ldr r1, _080625EC @ =gVramGraphicsCopyCursor
 	ldr r0, _080625F0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -40072,7 +40072,7 @@ _080625DC: .4byte 0x0000FFFF
 _080625E0: .4byte gUnknown_03002384
 _080625E4: .4byte gUnknown_0300211C
 _080625E8: .4byte gUnknown_03004C30
-_080625EC: .4byte gUnknown_030045F8
+_080625EC: .4byte gVramGraphicsCopyCursor
 _080625F0: .4byte gVramGraphicsCopyQueueIndex
 _080625F4:
 	movs r0, #0
@@ -40450,7 +40450,7 @@ _080628DA:
 	strb r0, [r1]
 	ldr r0, _08062938 @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0806293C @ =gUnknown_030045F8
+	ldr r1, _0806293C @ =gVramGraphicsCopyCursor
 	ldr r0, _08062940 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -40466,7 +40466,7 @@ _0806292C: .4byte 0x0000FFFF
 _08062930: .4byte gUnknown_03002384
 _08062934: .4byte gUnknown_0300211C
 _08062938: .4byte gUnknown_03004C30
-_0806293C: .4byte gUnknown_030045F8
+_0806293C: .4byte gVramGraphicsCopyCursor
 _08062940: .4byte gVramGraphicsCopyQueueIndex
 _08062944:
 	movs r0, #0
@@ -41692,7 +41692,7 @@ _080632F8:
 	strb r0, [r1]
 	ldr r0, _08063358 @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0806335C @ =gUnknown_030045F8
+	ldr r1, _0806335C @ =gVramGraphicsCopyCursor
 	ldr r0, _08063360 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -41708,7 +41708,7 @@ _0806334C: .4byte 0x0000FFFF
 _08063350: .4byte gUnknown_03002384
 _08063354: .4byte gUnknown_0300211C
 _08063358: .4byte gUnknown_03004C30
-_0806335C: .4byte gUnknown_030045F8
+_0806335C: .4byte gVramGraphicsCopyCursor
 _08063360: .4byte gVramGraphicsCopyQueueIndex
 _08063364:
 	movs r0, #0
@@ -41961,7 +41961,7 @@ _0806352E:
 	strb r0, [r1]
 	ldr r0, _0806358C @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _08063590 @ =gUnknown_030045F8
+	ldr r1, _08063590 @ =gVramGraphicsCopyCursor
 	ldr r0, _08063594 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -41977,7 +41977,7 @@ _08063580: .4byte 0x0000FFFF
 _08063584: .4byte gUnknown_03002384
 _08063588: .4byte gUnknown_0300211C
 _0806358C: .4byte gUnknown_03004C30
-_08063590: .4byte gUnknown_030045F8
+_08063590: .4byte gVramGraphicsCopyCursor
 _08063594: .4byte gVramGraphicsCopyQueueIndex
 _08063598:
 	movs r0, #0
@@ -42113,7 +42113,7 @@ _0806366E:
 	strb r0, [r1]
 	ldr r0, _080636CC @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _080636D0 @ =gUnknown_030045F8
+	ldr r1, _080636D0 @ =gVramGraphicsCopyCursor
 	ldr r0, _080636D4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -42129,7 +42129,7 @@ _080636C0: .4byte 0x0000FFFF
 _080636C4: .4byte gUnknown_03002384
 _080636C8: .4byte gUnknown_0300211C
 _080636CC: .4byte gUnknown_03004C30
-_080636D0: .4byte gUnknown_030045F8
+_080636D0: .4byte gVramGraphicsCopyCursor
 _080636D4: .4byte gVramGraphicsCopyQueueIndex
 _080636D8:
 	movs r0, #0
@@ -42440,7 +42440,7 @@ sub_8063918: @ 0x08063918
 	ldr r1, _08063B14 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _08063B18 @ =gUnknown_030045F8
+	ldr r1, _08063B18 @ =gVramGraphicsCopyCursor
 	ldr r0, _08063B1C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -42666,7 +42666,7 @@ _08063B08: .4byte 0x0000FFFF
 _08063B0C: .4byte gUnknown_03002384
 _08063B10: .4byte gUnknown_0300211C
 _08063B14: .4byte gUnknown_03004C30
-_08063B18: .4byte gUnknown_030045F8
+_08063B18: .4byte gVramGraphicsCopyCursor
 _08063B1C: .4byte gVramGraphicsCopyQueueIndex
 _08063B20: .4byte gDispCnt
 _08063B24: .4byte gBgCntRegs
@@ -45143,7 +45143,7 @@ sub_8064FA0: @ 0x08064FA0
 	ldr r1, _08064FE8 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _08064FEC @ =gUnknown_030045F8
+	ldr r1, _08064FEC @ =gVramGraphicsCopyCursor
 	ldr r0, _08064FF0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -45165,7 +45165,7 @@ _08064FDC: .4byte 0x0000FFFF
 _08064FE0: .4byte gUnknown_03002384
 _08064FE4: .4byte gUnknown_0300211C
 _08064FE8: .4byte gUnknown_03004C30
-_08064FEC: .4byte gUnknown_030045F8
+_08064FEC: .4byte gVramGraphicsCopyCursor
 _08064FF0: .4byte gVramGraphicsCopyQueueIndex
 _08064FF4: .4byte gBgScrollRegs
 
@@ -45182,7 +45182,7 @@ sub_8064FF8: @ 0x08064FF8
 	ldr r1, _08065048 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _0806504C @ =gUnknown_030045F8
+	ldr r1, _0806504C @ =gVramGraphicsCopyCursor
 	ldr r0, _08065050 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -45207,7 +45207,7 @@ _0806503C: .4byte 0x0000FFFF
 _08065040: .4byte gUnknown_03002384
 _08065044: .4byte gUnknown_0300211C
 _08065048: .4byte gUnknown_03004C30
-_0806504C: .4byte gUnknown_030045F8
+_0806504C: .4byte gVramGraphicsCopyCursor
 _08065050: .4byte gVramGraphicsCopyQueueIndex
 _08065054: .4byte gBgScrollRegs
 
@@ -46302,7 +46302,7 @@ sub_8065884: @ 0x08065884
 	ldr r1, _08065C7C @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _08065C80 @ =gUnknown_030045F8
+	ldr r1, _08065C80 @ =gVramGraphicsCopyCursor
 	ldr r0, _08065C84 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -46775,7 +46775,7 @@ _08065C70: .4byte 0x0000FFFF
 _08065C74: .4byte gUnknown_03002384
 _08065C78: .4byte gUnknown_0300211C
 _08065C7C: .4byte gUnknown_03004C30
-_08065C80: .4byte gUnknown_030045F8
+_08065C80: .4byte gVramGraphicsCopyCursor
 _08065C84: .4byte gVramGraphicsCopyQueueIndex
 _08065C88: .4byte gFlags
 _08065C8C: .4byte 0x04000200
@@ -47858,7 +47858,7 @@ sub_8066520: @ 0x08066520
 	ldr r1, _080665C0 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _080665C4 @ =gUnknown_030045F8
+	ldr r1, _080665C4 @ =gVramGraphicsCopyCursor
 	ldr r0, _080665C8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -47871,7 +47871,7 @@ _080665B4: .4byte 0x0000FFFF
 _080665B8: .4byte gUnknown_03002384
 _080665BC: .4byte gUnknown_0300211C
 _080665C0: .4byte gUnknown_03004C30
-_080665C4: .4byte gUnknown_030045F8
+_080665C4: .4byte gVramGraphicsCopyCursor
 _080665C8: .4byte gVramGraphicsCopyQueueIndex
 _080665CC:
 	ldr r0, _08066624 @ =0x0000029D
@@ -49429,7 +49429,7 @@ sub_80670F8: @ 0x080670F8
 	ldr r0, _080674A8 @ =gUnknown_03004C30
 	movs r1, #0
 	strb r1, [r0]
-	ldr r1, _080674AC @ =gUnknown_030045F8
+	ldr r1, _080674AC @ =gVramGraphicsCopyCursor
 	ldr r0, _080674B0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -49752,7 +49752,7 @@ _0806749C: .4byte 0x0000FFFF
 _080674A0: .4byte gUnknown_03002384
 _080674A4: .4byte gUnknown_0300211C
 _080674A8: .4byte gUnknown_03004C30
-_080674AC: .4byte gUnknown_030045F8
+_080674AC: .4byte gVramGraphicsCopyCursor
 _080674B0: .4byte gVramGraphicsCopyQueueIndex
 _080674B4: .4byte gDispCnt
 _080674B8: .4byte gBgCntRegs
@@ -50971,7 +50971,7 @@ sub_8067E68: @ 0x08067E68
 	ldr r1, _08067EDC @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _08067EE0 @ =gUnknown_030045F8
+	ldr r1, _08067EE0 @ =gVramGraphicsCopyCursor
 	ldr r0, _08067EE4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -50983,7 +50983,7 @@ _08067ED0: .4byte 0x0000FFFF
 _08067ED4: .4byte gUnknown_03002384
 _08067ED8: .4byte gUnknown_0300211C
 _08067EDC: .4byte gUnknown_03004C30
-_08067EE0: .4byte gUnknown_030045F8
+_08067EE0: .4byte gVramGraphicsCopyCursor
 _08067EE4: .4byte gVramGraphicsCopyQueueIndex
 _08067EE8:
 	movs r0, #0x80
@@ -51982,7 +51982,7 @@ sub_8068688: @ 0x08068688
 	ldr r1, _08068888 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _0806888C @ =gUnknown_030045F8
+	ldr r1, _0806888C @ =gVramGraphicsCopyCursor
 	ldr r0, _08068890 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -52209,7 +52209,7 @@ _0806887C: .4byte 0x0000FFFF
 _08068880: .4byte gUnknown_03002384
 _08068884: .4byte gUnknown_0300211C
 _08068888: .4byte gUnknown_03004C30
-_0806888C: .4byte gUnknown_030045F8
+_0806888C: .4byte gVramGraphicsCopyCursor
 _08068890: .4byte gVramGraphicsCopyQueueIndex
 _08068894: .4byte gDispCnt
 _08068898: .4byte gBgCntRegs
@@ -52448,7 +52448,7 @@ sub_8068A78: @ 0x08068A78
 	ldr r1, _08068ACC @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _08068AD0 @ =gUnknown_030045F8
+	ldr r1, _08068AD0 @ =gVramGraphicsCopyCursor
 	ldr r0, _08068AD4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -52460,7 +52460,7 @@ _08068AC0: .4byte 0x0000FFFF
 _08068AC4: .4byte gUnknown_03002384
 _08068AC8: .4byte gUnknown_0300211C
 _08068ACC: .4byte gUnknown_03004C30
-_08068AD0: .4byte gUnknown_030045F8
+_08068AD0: .4byte gVramGraphicsCopyCursor
 _08068AD4: .4byte gVramGraphicsCopyQueueIndex
 _08068AD8:
 	movs r0, #0x80
@@ -53495,7 +53495,7 @@ _08069320:
 	ldr r1, _08069378 @ =gUnknown_03004C30
 	movs r0, #0
 	strb r0, [r1]
-	ldr r1, _0806937C @ =gUnknown_030045F8
+	ldr r1, _0806937C @ =gVramGraphicsCopyCursor
 	ldr r0, _08069380 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -53509,7 +53509,7 @@ _0806936C: .4byte 0x0000FFFF
 _08069370: .4byte gUnknown_03002384
 _08069374: .4byte gUnknown_0300211C
 _08069378: .4byte gUnknown_03004C30
-_0806937C: .4byte gUnknown_030045F8
+_0806937C: .4byte gVramGraphicsCopyCursor
 _08069380: .4byte gVramGraphicsCopyQueueIndex
 _08069384:
 	adds r0, #1
@@ -57349,7 +57349,7 @@ _0806B2CE:
 	strb r0, [r1]
 	ldr r0, _0806B334 @ =gUnknown_03004C30
 	strb r4, [r0]
-	ldr r1, _0806B338 @ =gUnknown_030045F8
+	ldr r1, _0806B338 @ =gVramGraphicsCopyCursor
 	ldr r0, _0806B33C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
@@ -57367,7 +57367,7 @@ _0806B328: .4byte 0x0000FFFF
 _0806B32C: .4byte gUnknown_03002384
 _0806B330: .4byte gUnknown_0300211C
 _0806B334: .4byte gUnknown_03004C30
-_0806B338: .4byte gUnknown_030045F8
+_0806B338: .4byte gVramGraphicsCopyCursor
 _0806B33C: .4byte gVramGraphicsCopyQueueIndex
 _0806B340:
 	movs r0, #0

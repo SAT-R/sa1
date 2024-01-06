@@ -89,17 +89,16 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x000045B0; gUnknown_030045B0 = .;
 . = 0x000045F0; gUnknown_030045F0 = .;
 . = 0x000045F4; gUnknown_030045F4 = .;
-. = 0x000045F8; gUnknown_030045F8 = .;
+. = 0x000045F8; gVramGraphicsCopyCursor = .;
 . = 0x00004600; gUnknown_03004600 = .; /* SA2: gUnknown_03004D60 */
 . = 0x00004620; gUnknown_03004620 = .; /* SA2: gUnknown_03004D80 */
 . = 0x00004630; gOamBuffer = .;
-. = 0x00004636; gUnknown_03004636 = .;
 . = 0x00004A30; gVramHeapState = .;
 . = 0x00004C30; gUnknown_03004C30 = .;
 . = 0x00004C34; gUnknown_03004C34 = .;
 . = 0x00004C38; gUnknown_03004C38 = .;
 . = 0x00004C40; gUnknown_03004C40 = .;
-. = 0x00004C50; gUnknown_03004C50 = .;
+. = 0x00004C50; gInputPlaybackData = .;
 . = 0x00004C54; gExecSoundMain = .;
 . = 0x00004C58; gPseudoRandom = .;
 . = 0x00004C60; gMultiSioIntrFuncBuf = .;

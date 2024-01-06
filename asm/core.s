@@ -105,7 +105,7 @@ _08000472:
 	strb r2, [r1]
 	ldr r1, _08000700 @ =gUnknown_03004C30
 	strb r2, [r1]
-	ldr r1, _08000704 @ =gUnknown_030045F8
+	ldr r1, _08000704 @ =gVramGraphicsCopyCursor
 	strb r2, [r1]
 	ldr r1, _08000708 @ =gVramGraphicsCopyQueueIndex
 	strb r2, [r1]
@@ -242,7 +242,7 @@ _08000472:
 	mov r8, r3
 	ldr r0, _0800078C @ =gPhysicalInput
 	mov sb, r0
-	ldr r1, _08000790 @ =gUnknown_03004C50
+	ldr r1, _08000790 @ =gInputPlaybackData
 	mov sl, r1
 	ldr r3, _08000794 @ =gFrameCount
 	mov ip, r3
@@ -386,7 +386,7 @@ _080006F4: .4byte gUnknown_03001F94
 _080006F8: .4byte gUnknown_03002384
 _080006FC: .4byte gUnknown_0300211C
 _08000700: .4byte gUnknown_03004C30
-_08000704: .4byte gUnknown_030045F8
+_08000704: .4byte gVramGraphicsCopyCursor
 _08000708: .4byte gVramGraphicsCopyQueueIndex
 _0800070C: .4byte gUnknown_03001B40
 _08000710: .4byte 0x85000004
@@ -421,7 +421,7 @@ _08000780: .4byte gBldRegs
 _08000784: .4byte gPseudoRandom
 _08000788: .4byte gInputRecorder
 _0800078C: .4byte gPhysicalInput
-_08000790: .4byte gUnknown_03004C50
+_08000790: .4byte gInputPlaybackData
 _08000794: .4byte gFrameCount
 _08000798: .4byte gBgOffsetsBuffer
 _0800079C: .4byte gKeysFirstRepeatIntervals
@@ -1548,10 +1548,10 @@ _08001160: .4byte gInput
 _08001164: .4byte gFrameCount
 _08001168: .4byte 0x04000202
 
-	thumb_func_start sub_800116C
-sub_800116C: @ 0x0800116C
+	thumb_func_start ProcessVramGraphicsCopyQueue
+ProcessVramGraphicsCopyQueue: @ 0x0800116C
 	push {r4, r5, r6, r7, lr}
-	ldr r2, _080011B8 @ =gUnknown_030045F8
+	ldr r2, _080011B8 @ =gVramGraphicsCopyCursor
 	ldr r0, _080011BC @ =gVramGraphicsCopyQueueIndex
 	ldrb r1, [r2]
 	adds r7, r0, #0
@@ -1591,7 +1591,7 @@ _08001198:
 	adds r0, r0, r1
 	b _080011EC
 	.align 2, 0
-_080011B8: .4byte gUnknown_030045F8
+_080011B8: .4byte gVramGraphicsCopyCursor
 _080011BC: .4byte gVramGraphicsCopyQueueIndex
 _080011C0: .4byte gVramGraphicsCopyQueue
 _080011C4: .4byte 0x040000D4

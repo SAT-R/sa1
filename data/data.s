@@ -9,7 +9,7 @@ gIntrTableTemplate:
 
     .global spriteUpdateFuncs
 spriteUpdateFuncs:
-    .4byte sub_800116C, sub_8002F84, sub_8002958, sub_8001AA4
+    .4byte ProcessVramGraphicsCopyQueue, sub_8002F84, sub_8002958, sub_8001AA4
 
     .global animCmdTable_BG
 animCmdTable_BG:
