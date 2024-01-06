@@ -3354,7 +3354,7 @@ _08076612:
 	str r2, [sp, #8]
 	cmp r1, #0
 	bne _080766B0
-	ldr r7, _08076650 @ =gUnknown_03004C58
+	ldr r7, _08076650 @ =gPseudoRandom
 	ldr r1, [r7]
 	ldr r0, _08076654 @ =0x00196225
 	muls r0, r1, r0
@@ -3371,7 +3371,7 @@ _08076612:
 	ldr r0, [r2]
 	b _0807665E
 	.align 2, 0
-_08076650: .4byte gUnknown_03004C58
+_08076650: .4byte gPseudoRandom
 _08076654: .4byte 0x00196225
 _08076658: .4byte 0x3C6EF35F
 _0807665C:
@@ -3382,7 +3382,7 @@ _0807665E:
 	subs r0, #0x10
 	lsls r0, r0, #0x10
 	asrs r2, r0, #0x10
-	ldr r7, _08076688 @ =gUnknown_03004C58
+	ldr r7, _08076688 @ =gPseudoRandom
 	ldr r1, [r7]
 	ldr r0, _0807668C @ =0x00196225
 	muls r0, r1, r0
@@ -3399,7 +3399,7 @@ _0807665E:
 	ldr r0, [r7, #4]
 	b _08076696
 	.align 2, 0
-_08076688: .4byte gUnknown_03004C58
+_08076688: .4byte gPseudoRandom
 _0807668C: .4byte 0x00196225
 _08076690: .4byte 0x3C6EF35F
 _08076694:

@@ -4960,7 +4960,7 @@ _0806E6AC:
 	lsls r4, r0, #2
 	add r4, r8
 	lsls r4, r4, #1
-	ldr r2, _0806E7BC @ =gUnknown_03004C58
+	ldr r2, _0806E7BC @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0806E7C0 @ =0x00196225
 	muls r0, r1, r0
@@ -5078,7 +5078,7 @@ _0806E7AC: .4byte 0x03000088
 _0806E7B0: .4byte 0x03000021
 _0806E7B4: .4byte 0x03000020
 _0806E7B8: .4byte gSineTable
-_0806E7BC: .4byte gUnknown_03004C58
+_0806E7BC: .4byte gPseudoRandom
 _0806E7C0: .4byte 0x00196225
 _0806E7C4: .4byte 0x3C6EF35F
 _0806E7C8: .4byte 0x00004E20

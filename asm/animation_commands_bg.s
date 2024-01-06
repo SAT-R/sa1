@@ -472,7 +472,7 @@ _08002918:
 	subs r0, r0, r1
 	movs r1, #0x10
 	bl Mod
-	ldr r4, _08002954 @ =gUnknown_030020D0
+	ldr r4, _08002954 @ =gBgScrollRegs
 	lsls r5, r7, #2
 	adds r1, r5, r4
 	strh r0, [r1]
@@ -494,7 +494,7 @@ _0800294A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08002954: .4byte gUnknown_030020D0
+_08002954: .4byte gBgScrollRegs
 
 	thumb_func_start sub_8002958
 sub_8002958: @ 0x08002958
@@ -1729,7 +1729,7 @@ animCmd_GetPalette_BG: @ 0x08003288
 	ldrh r1, [r4, #0xa]
 	adds r0, r0, r1
 	lsls r0, r0, #1
-	ldr r1, _080032EC @ =gUnknown_03002120
+	ldr r1, _080032EC @ =gBgPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	ldrh r0, [r4, #8]
@@ -1752,7 +1752,7 @@ _080032DC:
 	.align 2, 0
 _080032E4: .4byte 0x040000D4
 _080032E8: .4byte gUnknown_03002034
-_080032EC: .4byte gUnknown_03002120
+_080032EC: .4byte gBgPalette
 _080032F0: .4byte gFlags
 
 	thumb_func_start animCmd_JumpBack_BG

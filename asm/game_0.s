@@ -7715,7 +7715,7 @@ sub_800CFB8: @ 0x0800CFB8
 	ldr r1, _0800D06C @ =gBgCntRegs
 	ldr r0, _0800D070 @ =0x00005E01
 	strh r0, [r1, #4]
-	ldr r0, _0800D074 @ =gUnknown_030020D0
+	ldr r0, _0800D074 @ =gBgScrollRegs
 	strh r4, [r0, #8]
 	strh r4, [r0, #0xa]
 	str r4, [sp, #4]
@@ -7783,7 +7783,7 @@ _0800D064: .4byte gFlags
 _0800D068: .4byte gDispCnt
 _0800D06C: .4byte gBgCntRegs
 _0800D070: .4byte 0x00005E01
-_0800D074: .4byte gUnknown_030020D0
+_0800D074: .4byte gBgScrollRegs
 _0800D078: .4byte 0x040000D4
 _0800D07C: .4byte 0x85000010
 _0800D080: .4byte gUnknown_03004620
@@ -7817,7 +7817,7 @@ sub_800D098: @ 0x0800D098
 	subs r2, r4, r1
 	lsls r2, r2, #0x18
 	lsrs r2, r2, #0x18
-	ldr r5, _0800D114 @ =gUnknown_030020D0
+	ldr r5, _0800D114 @ =gBgScrollRegs
 	ldrh r3, [r5, #8]
 	ldrh r0, [r5, #0xa]
 	adds r0, #0xa0
@@ -7855,7 +7855,7 @@ _0800D104:
 	.align 2, 0
 _0800D10C: .4byte gCurTask
 _0800D110: .4byte gDispCnt
-_0800D114: .4byte gUnknown_030020D0
+_0800D114: .4byte gBgScrollRegs
 _0800D118: .4byte sub_800D3E0
 
 	thumb_func_start sub_800D11C
@@ -7875,7 +7875,7 @@ sub_800D11C: @ 0x0800D11C
 	subs r2, r4, r2
 	lsls r2, r2, #0x18
 	lsrs r2, r2, #0x18
-	ldr r5, _0800D18C @ =gUnknown_030020D0
+	ldr r5, _0800D18C @ =gBgScrollRegs
 	ldrh r3, [r5, #8]
 	ldrh r0, [r5, #0xa]
 	str r0, [sp]
@@ -7913,7 +7913,7 @@ _0800D17E:
 	bx r0
 	.align 2, 0
 _0800D188: .4byte gCurTask
-_0800D18C: .4byte gUnknown_030020D0
+_0800D18C: .4byte gBgScrollRegs
 _0800D190: .4byte gFlags
 _0800D194: .4byte 0xFFFF7FFF
 
@@ -7932,7 +7932,7 @@ sub_800D198: @ 0x0800D198
 	ldr r1, _0800D23C @ =gBgCntRegs
 	ldr r0, _0800D240 @ =0x00005E01
 	strh r0, [r1, #4]
-	ldr r0, _0800D244 @ =gUnknown_030020D0
+	ldr r0, _0800D244 @ =gBgScrollRegs
 	strh r4, [r0, #8]
 	strh r4, [r0, #0xa]
 	str r4, [sp, #4]
@@ -7999,7 +7999,7 @@ _0800D234: .4byte gBldRegs
 _0800D238: .4byte gDispCnt
 _0800D23C: .4byte gBgCntRegs
 _0800D240: .4byte 0x00005E01
-_0800D244: .4byte gUnknown_030020D0
+_0800D244: .4byte gBgScrollRegs
 _0800D248: .4byte 0x040000D4
 _0800D24C: .4byte 0x85000010
 _0800D250: .4byte gUnknown_03004620
@@ -8033,7 +8033,7 @@ sub_800D268: @ 0x0800D268
 	ldr r1, _0800D2EC @ =0x01170000
 	cmp r0, r1
 	bhi _0800D338
-	ldr r5, _0800D2F0 @ =gUnknown_030020D0
+	ldr r5, _0800D2F0 @ =gBgScrollRegs
 	ldrh r3, [r5, #8]
 	ldrh r0, [r5, #0xa]
 	str r0, [sp]
@@ -8073,7 +8073,7 @@ sub_800D268: @ 0x0800D268
 _0800D2E4: .4byte gCurTask
 _0800D2E8: .4byte gDispCnt
 _0800D2EC: .4byte 0x01170000
-_0800D2F0: .4byte gUnknown_030020D0
+_0800D2F0: .4byte gBgScrollRegs
 _0800D2F4:
 	movs r4, #0x40
 	subs r2, r4, r0
@@ -8345,7 +8345,7 @@ sub_800D4E0: @ 0x0800D4E0
 	strh r0, [r1, #4]
 	ldr r0, _0800D6B8 @ =0x00001482
 	strh r0, [r1]
-	ldr r0, _0800D6BC @ =gUnknown_030020D0
+	ldr r0, _0800D6BC @ =gBgScrollRegs
 	strh r6, [r0]
 	strh r6, [r0, #2]
 	strh r6, [r0, #4]
@@ -8550,7 +8550,7 @@ _0800D6AC: .4byte gDispCnt
 _0800D6B0: .4byte gBgCntRegs
 _0800D6B4: .4byte 0x0000568D
 _0800D6B8: .4byte 0x00001482
-_0800D6BC: .4byte gUnknown_030020D0
+_0800D6BC: .4byte gBgScrollRegs
 _0800D6C0: .4byte gUnknown_03004620
 _0800D6C4: .4byte gUnknown_03001B40
 _0800D6C8: .4byte 0x040000D4
@@ -8829,7 +8829,7 @@ sub_800D8FC: @ 0x0800D8FC
 	strh r0, [r1, #4]
 	ldr r0, _0800DB04 @ =0x00001482
 	strh r0, [r1]
-	ldr r0, _0800DB08 @ =gUnknown_030020D0
+	ldr r0, _0800DB08 @ =gBgScrollRegs
 	strh r5, [r0]
 	strh r5, [r0, #2]
 	strh r5, [r0, #4]
@@ -9059,7 +9059,7 @@ _0800DAF8: .4byte 0x00001541
 _0800DAFC: .4byte gBgCntRegs
 _0800DB00: .4byte 0x0000568D
 _0800DB04: .4byte 0x00001482
-_0800DB08: .4byte gUnknown_030020D0
+_0800DB08: .4byte gBgScrollRegs
 _0800DB0C: .4byte sub_800DB6C
 _0800DB10: .4byte 0x030001AC
 _0800DB14: .4byte 0x030001AF
@@ -9223,9 +9223,9 @@ _0800DBFC:
 	movs r6, #0
 	ldr r5, _0800DCE8 @ =gDispCnt
 	ldr r7, _0800DCEC @ =gBldRegs
-	ldr r4, _0800DCF0 @ =gUnknown_03001FA0
+	ldr r4, _0800DCF0 @ =gKeysFirstRepeatIntervals
 	movs r3, #0x14
-	ldr r2, _0800DCF4 @ =gUnknown_030020F0
+	ldr r2, _0800DCF4 @ =gKeysContinuedRepeatIntervals
 	movs r1, #8
 _0800DC84:
 	adds r0, r6, r4
@@ -9268,8 +9268,8 @@ _0800DCE0: .4byte gUnknown_080BB310
 _0800DCE4: .4byte gUnknown_080BB314
 _0800DCE8: .4byte gDispCnt
 _0800DCEC: .4byte gBldRegs
-_0800DCF0: .4byte gUnknown_03001FA0
-_0800DCF4: .4byte gUnknown_030020F0
+_0800DCF0: .4byte gKeysFirstRepeatIntervals
+_0800DCF4: .4byte gKeysContinuedRepeatIntervals
 _0800DCF8: .4byte 0x00009FFF
 
 	thumb_func_start sub_800DCFC
@@ -9923,7 +9923,7 @@ sub_800E220: @ 0x0800E220
 	movs r5, #1
 	ldr r2, _0800E298 @ =gUnknown_03005060
 _0800E24C:
-	ldr r1, _0800E29C @ =gUnknown_03001210
+	ldr r1, _0800E29C @ =gMultiSioStatusFlags
 	adds r0, r5, #0
 	lsls r0, r3
 	ldr r4, [r1]
@@ -9957,7 +9957,7 @@ _0800E28C: .4byte gCurTask
 _0800E290: .4byte gGameMode
 _0800E294: .4byte gUnknown_03005150
 _0800E298: .4byte gUnknown_03005060
-_0800E29C: .4byte gUnknown_03001210
+_0800E29C: .4byte gMultiSioStatusFlags
 _0800E2A0: .4byte 0x0000FFFF
 _0800E2A4: .4byte gUnknown_03002384
 _0800E2A8: .4byte gUnknown_0300211C
@@ -9993,12 +9993,12 @@ _0800E2CE:
 _0800E2E4: .4byte gUnknown_03001150
 _0800E2E8: .4byte sub_800E34C
 _0800E2EC:
-	ldr r2, _0800E33C @ =gUnknown_03002100
+	ldr r2, _0800E33C @ =gMultiSioSend
 	movs r0, #0x51
 	strh r0, [r2]
 	ldrb r0, [r7, #6]
 	strb r0, [r2, #2]
-	ldr r0, _0800E340 @ =gUnknown_03001210
+	ldr r0, _0800E340 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -10036,8 +10036,8 @@ _0800E334:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800E33C: .4byte gUnknown_03002100
-_0800E340: .4byte gUnknown_03001210
+_0800E33C: .4byte gMultiSioSend
+_0800E340: .4byte gMultiSioStatusFlags
 _0800E344: .4byte gUnknown_03005150
 _0800E348: .4byte gUnknown_03001150
 
@@ -10143,7 +10143,7 @@ sub_800E404: @ 0x0800E404
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r4, r4, r0
-	ldr r1, _0800E458 @ =gUnknown_03002120
+	ldr r1, _0800E458 @ =gBgPalette
 	movs r3, #0
 	ldr r0, _0800E45C @ =0x00007FFF
 	strh r0, [r1, #2]
@@ -10174,7 +10174,7 @@ sub_800E404: @ 0x0800E404
 	bx r0
 	.align 2, 0
 _0800E454: .4byte gCurTask
-_0800E458: .4byte gUnknown_03002120
+_0800E458: .4byte gBgPalette
 _0800E45C: .4byte 0x00007FFF
 _0800E460: .4byte gFlags
 _0800E464: .4byte gMultiBootProgram_TinyChaoGarden
@@ -10470,7 +10470,7 @@ _0800E6C8:
 	ldr r0, _0800E724 @ =0x040000D4
 	mov r1, sp
 	str r1, [r0]
-	ldr r1, _0800E728 @ =gUnknown_03002100
+	ldr r1, _0800E728 @ =gMultiSioSend
 	str r1, [r0, #4]
 	ldr r1, _0800E72C @ =0x85000005
 	str r1, [r0, #8]
@@ -10497,7 +10497,7 @@ _0800E718: .4byte 0x030001FC
 _0800E71C: .4byte gPressedKeys
 _0800E720: .4byte 0x0000020A
 _0800E724: .4byte 0x040000D4
-_0800E728: .4byte gUnknown_03002100
+_0800E728: .4byte gMultiSioSend
 _0800E72C: .4byte 0x85000005
 _0800E730: .4byte gUnknown_03001150
 _0800E734: .4byte 0x85000014
@@ -10513,7 +10513,7 @@ _0800E744:
 	adds r1, r6, r0
 	movs r0, #1
 	strb r0, [r1]
-	ldr r0, _0800E788 @ =gUnknown_03001214
+	ldr r0, _0800E788 @ =gMultiSioEnabled
 	strb r2, [r0]
 	bl MultiSioStop
 	movs r0, #0
@@ -10535,7 +10535,7 @@ _0800E776:
 	bx r0
 	.align 2, 0
 _0800E784: .4byte 0x0000020A
-_0800E788: .4byte gUnknown_03001214
+_0800E788: .4byte gMultiSioEnabled
 _0800E78C: .4byte gCurTask
 _0800E790: .4byte sub_800E868
 _0800E794: .4byte gBldRegs
@@ -10710,7 +10710,7 @@ _0800E8E0:
 	strb r0, [r1, #2]
 	movs r0, #0x20
 	strb r0, [r1, #3]
-	ldr r1, _0800E91C @ =gUnknown_03001214
+	ldr r1, _0800E91C @ =gMultiSioEnabled
 	movs r0, #1
 	strb r0, [r1]
 	b _0800E92A
@@ -10719,7 +10719,7 @@ _0800E90C: .4byte gUnknown_080BB354
 _0800E910: .4byte 0x03000203
 _0800E914: .4byte gUnknown_03004620
 _0800E918: .4byte gUnknown_03001B40
-_0800E91C: .4byte gUnknown_03001214
+_0800E91C: .4byte gMultiSioEnabled
 _0800E920:
 	ldr r1, _0800E930 @ =gBldRegs
 	asrs r0, r2, #0x18
@@ -10944,7 +10944,7 @@ _0800E96A:
 	strh r4, [r7, #0x2e]
 	adds r0, r7, #0
 	bl DrawBackground
-	ldr r0, _0800EB40 @ =gUnknown_03001210
+	ldr r0, _0800EB40 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -10981,7 +10981,7 @@ _0800EB30: .4byte gUnknown_080BB34C
 _0800EB34: .4byte 0x0000037B
 _0800EB38: .4byte gUnknown_080BB350
 _0800EB3C: .4byte 0x0600F000
-_0800EB40: .4byte gUnknown_03001210
+_0800EB40: .4byte gMultiSioStatusFlags
 _0800EB44: .4byte 0x00000206
 _0800EB48: .4byte sub_800EB4C
 
@@ -11003,7 +11003,7 @@ sub_800EB4C: @ 0x0800EB4C
 	mov sb, r2
 	movs r7, #1
 	str r7, [sp, #0xc]
-	ldr r1, _0800EBBC @ =gUnknown_03001210
+	ldr r1, _0800EBBC @ =gMultiSioStatusFlags
 	ldr r2, [r1]
 	movs r0, #0x81
 	ands r0, r2
@@ -11042,7 +11042,7 @@ sub_800EB4C: @ 0x0800EB4C
 	strb r1, [r0]
 	b _0800EE82
 	.align 2, 0
-_0800EBBC: .4byte gUnknown_03001210
+_0800EBBC: .4byte gMultiSioStatusFlags
 _0800EBC0: .4byte 0x04000128
 _0800EBC4: .4byte gUnknown_03005060
 _0800EBC8: .4byte 0x0000FFFF
@@ -11082,7 +11082,7 @@ _0800EC08:
 	asrs r0, r0, #0x18
 	strh r0, [r1, #4]
 	movs r5, #0
-	ldr r0, _0800EC88 @ =gUnknown_03001210
+	ldr r0, _0800EC88 @ =gMultiSioStatusFlags
 	mov ip, r0
 	movs r4, #1
 	ldr r1, _0800EC8C @ =0x0300020B
@@ -11139,7 +11139,7 @@ _0800EC78: .4byte gUnknown_03005060
 _0800EC7C: .4byte gCurTask
 _0800EC80: .4byte 0x03000208
 _0800EC84: .4byte gBldRegs
-_0800EC88: .4byte gUnknown_03001210
+_0800EC88: .4byte gMultiSioStatusFlags
 _0800EC8C: .4byte 0x0300020B
 _0800EC90: .4byte gUnknown_03001150
 _0800EC94: .4byte 0x04000128
@@ -11229,7 +11229,7 @@ _0800ED26:
 	ldrb r4, [r0]
 	cmp r4, #0
 	bne _0800ED7E
-	ldr r1, _0800ED60 @ =gUnknown_03001210
+	ldr r1, _0800ED60 @ =gMultiSioStatusFlags
 	ldr r0, [r1]
 	movs r1, #0x81
 	ands r0, r1
@@ -11250,7 +11250,7 @@ _0800ED26:
 	b _0800EE82
 	.align 2, 0
 _0800ED5C: .4byte gUnknown_03001150
-_0800ED60: .4byte gUnknown_03001210
+_0800ED60: .4byte gMultiSioStatusFlags
 _0800ED64: .4byte 0x0000FFFF
 _0800ED68: .4byte gUnknown_03002384
 _0800ED6C: .4byte gUnknown_0300211C
@@ -11306,7 +11306,7 @@ _0800EDD0: .4byte gUnknown_03005008
 _0800EDD4: .4byte gUnknown_03001150
 _0800EDD8: .4byte 0x04000128
 _0800EDDC:
-	ldr r0, _0800EE04 @ =gUnknown_03001210
+	ldr r0, _0800EE04 @ =gMultiSioStatusFlags
 	movs r1, #1
 	lsls r1, r5
 	ldr r0, [r0]
@@ -11326,7 +11326,7 @@ _0800EDDC:
 	ldr r3, [sp, #0x14]
 	b _0800EE14
 	.align 2, 0
-_0800EE04: .4byte gUnknown_03001210
+_0800EE04: .4byte gMultiSioStatusFlags
 _0800EE08:
 	ldrb r0, [r4]
 	orrs r0, r3
@@ -11405,13 +11405,13 @@ _0800EEA8:
 	ands r0, r1
 	cmp r0, #0
 	beq _0800EF10
-	ldr r1, _0800EEFC @ =gUnknown_03001214
+	ldr r1, _0800EEFC @ =gMultiSioEnabled
 	movs r0, #0
 	strb r0, [r1]
 	bl MultiSioStop
 	movs r0, #0
 	bl MultiSioInit
-	ldr r6, _0800EF00 @ =gUnknown_03002100
+	ldr r6, _0800EF00 @ =gMultiSioSend
 	movs r4, #0
 	movs r0, #0
 	strh r0, [r6]
@@ -11435,8 +11435,8 @@ _0800EEA8:
 	b _0800F032
 	.align 2, 0
 _0800EEF8: .4byte gPressedKeys
-_0800EEFC: .4byte gUnknown_03001214
-_0800EF00: .4byte gUnknown_03002100
+_0800EEFC: .4byte gMultiSioEnabled
+_0800EF00: .4byte gMultiSioSend
 _0800EF04: .4byte gUnknown_03004620
 _0800EF08: .4byte gUnknown_03001B40
 _0800EF0C: .4byte gCurTask
@@ -11458,7 +11458,7 @@ _0800EF20:
 	subs r5, #1
 	cmp r5, #0
 	bge _0800EF20
-	ldr r0, _0800EFDC @ =gUnknown_03001210
+	ldr r0, _0800EFDC @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -11477,7 +11477,7 @@ _0800EF20:
 	adds r0, r4, #0
 	bl DisplaySprite
 _0800EF5C:
-	ldr r0, _0800EFDC @ =gUnknown_03001210
+	ldr r0, _0800EFDC @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -11508,7 +11508,7 @@ _0800EF80:
 	cmp r0, #1
 	ble _0800EFF8
 _0800EF96:
-	ldr r6, _0800EFE8 @ =gUnknown_03002100
+	ldr r6, _0800EFE8 @ =gMultiSioSend
 	movs r0, #0x11
 	strh r0, [r6]
 	mov r1, sl
@@ -11543,10 +11543,10 @@ _0800EF96:
 	strb r0, [r1]
 	b _0800F032
 	.align 2, 0
-_0800EFDC: .4byte gUnknown_03001210
+_0800EFDC: .4byte gMultiSioStatusFlags
 _0800EFE0: .4byte gPressedKeys
 _0800EFE4: .4byte 0x00000206
-_0800EFE8: .4byte gUnknown_03002100
+_0800EFE8: .4byte gMultiSioSend
 _0800EFEC: .4byte gUnknown_03005160
 _0800EFF0: .4byte 0x040000D4
 _0800EFF4: .4byte 0x84000002
@@ -11559,7 +11559,7 @@ _0800EFF8:
 	movs r0, #0
 	strb r0, [r1]
 _0800F006:
-	ldr r6, _0800F048 @ =gUnknown_03002100
+	ldr r6, _0800F048 @ =gMultiSioSend
 	movs r0, #0x10
 	strh r0, [r6]
 	ldr r1, _0800F04C @ =gUnknown_03005160
@@ -11592,7 +11592,7 @@ _0800F032:
 	bx r0
 	.align 2, 0
 _0800F044: .4byte 0x00000206
-_0800F048: .4byte gUnknown_03002100
+_0800F048: .4byte gMultiSioSend
 _0800F04C: .4byte gUnknown_03005160
 _0800F050: .4byte 0x040000D4
 _0800F054: .4byte 0x84000002
@@ -11630,7 +11630,7 @@ sub_800F058: @ 0x0800F058
 	movs r5, #1
 	ldr r2, _0800F0C4 @ =gUnknown_03005060
 _0800F094:
-	ldr r1, _0800F0C8 @ =gUnknown_03001210
+	ldr r1, _0800F0C8 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
 	lsls r0, r3
 	ldr r4, [r1]
@@ -11652,7 +11652,7 @@ _0800F0B8: .4byte gCurTask
 _0800F0BC: .4byte gGameMode
 _0800F0C0: .4byte gUnknown_03005150
 _0800F0C4: .4byte gUnknown_03005060
-_0800F0C8: .4byte gUnknown_03001210
+_0800F0C8: .4byte gMultiSioStatusFlags
 _0800F0CC: .4byte 0x0000FFFF
 _0800F0D0:
 	movs r0, #0
@@ -11688,7 +11688,7 @@ _0800F108: .4byte gUnknown_03001150
 _0800F10C:
 	cmp r0, #0x10
 	beq _0800F12C
-	ldr r0, _0800F170 @ =gUnknown_03001210
+	ldr r0, _0800F170 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -11703,13 +11703,13 @@ _0800F10C:
 	cmp r4, #0
 	beq _0800F18C
 _0800F12C:
-	ldr r1, _0800F178 @ =gUnknown_03001214
+	ldr r1, _0800F178 @ =gMultiSioEnabled
 	movs r0, #0
 	strb r0, [r1]
 	bl MultiSioStop
 	movs r0, #0
 	bl MultiSioInit
-	ldr r2, _0800F17C @ =gUnknown_03002100
+	ldr r2, _0800F17C @ =gMultiSioSend
 	movs r4, #0
 	movs r0, #0
 	strh r0, [r2]
@@ -11732,10 +11732,10 @@ _0800F12C:
 	bl sub_800E470
 	b _0800F2FA
 	.align 2, 0
-_0800F170: .4byte gUnknown_03001210
+_0800F170: .4byte gMultiSioStatusFlags
 _0800F174: .4byte gPressedKeys
-_0800F178: .4byte gUnknown_03001214
-_0800F17C: .4byte gUnknown_03002100
+_0800F178: .4byte gMultiSioEnabled
+_0800F17C: .4byte gMultiSioSend
 _0800F180: .4byte gUnknown_03004620
 _0800F184: .4byte gUnknown_03001B40
 _0800F188: .4byte gCurTask
@@ -11830,13 +11830,13 @@ _0800F230:
 	subs r5, #1
 	cmp r5, #0
 	bge _0800F230
-	ldr r2, _0800F2B8 @ =gUnknown_03001210
+	ldr r2, _0800F2B8 @ =gMultiSioStatusFlags
 	ldr r0, [r2]
 	movs r1, #0x80
 	ands r0, r1
 	cmp r0, #0
 	beq _0800F2DA
-	ldr r6, _0800F2BC @ =gUnknown_03002100
+	ldr r6, _0800F2BC @ =gMultiSioSend
 	movs r0, #0x12
 	strh r0, [r6]
 	strb r7, [r6, #2]
@@ -11889,8 +11889,8 @@ _0800F2A6:
 	.align 2, 0
 _0800F2B0: .4byte 0x0000020B
 _0800F2B4: .4byte 0x04000128
-_0800F2B8: .4byte gUnknown_03001210
-_0800F2BC: .4byte gUnknown_03002100
+_0800F2B8: .4byte gMultiSioStatusFlags
+_0800F2BC: .4byte gMultiSioSend
 _0800F2C0: .4byte gUnknown_03005160
 _0800F2C4: .4byte 0x040000D4
 _0800F2C8: .4byte 0x84000002
@@ -11901,7 +11901,7 @@ _0800F2D4:
 	strh r0, [r6]
 	b _0800F2FA
 _0800F2DA:
-	ldr r6, _0800F308 @ =gUnknown_03002100
+	ldr r6, _0800F308 @ =gMultiSioSend
 	movs r0, #0x11
 	strh r0, [r6]
 	strb r7, [r6, #2]
@@ -11926,7 +11926,7 @@ _0800F2FA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800F308: .4byte gUnknown_03002100
+_0800F308: .4byte gMultiSioSend
 _0800F30C: .4byte gUnknown_03005160
 _0800F310: .4byte 0x040000D4
 _0800F314: .4byte 0x84000002
@@ -12161,11 +12161,11 @@ sub_800F318: @ 0x0800F318
 	strh r5, [r6, #0x2e]
 	adds r0, r6, #0
 	bl DrawBackground
-	ldr r0, _0800F5C4 @ =gUnknown_03001214
+	ldr r0, _0800F5C4 @ =gMultiSioEnabled
 	strb r7, [r0]
 	movs r0, #5
 	bl m4aSongNumStart
-	ldr r0, _0800F5C8 @ =gUnknown_03002330
+	ldr r0, _0800F5C8 @ =gMultiBootParam
 	ldr r1, _0800F5CC @ =gUnknown_087C0258
 	str r1, [r0, #0x28]
 	adds r1, r0, #0
@@ -12236,8 +12236,8 @@ _0800F5B4: .4byte 0x030000F1
 _0800F5B8: .4byte 0x030000F2
 _0800F5BC: .4byte 0x0600F000
 _0800F5C0: .4byte 0x0300002A
-_0800F5C4: .4byte gUnknown_03001214
-_0800F5C8: .4byte gUnknown_03002330
+_0800F5C4: .4byte gMultiSioEnabled
+_0800F5C8: .4byte gMultiBootParam
 _0800F5CC: .4byte gUnknown_087C0258
 _0800F5D0: .4byte sub_800F5F0
 _0800F5D4: .4byte 0x04000128
@@ -12278,7 +12278,7 @@ _0800F61A:
 	asrs r0, r0, #0x18
 	strh r0, [r1, #4]
 	movs r5, #1
-	ldr r1, _0800F678 @ =gUnknown_03002330
+	ldr r1, _0800F678 @ =gMultiBootParam
 	ldrb r0, [r1, #0x1d]
 	asrs r0, r0, #1
 	ands r0, r6
@@ -12318,7 +12318,7 @@ _0800F646:
 _0800F66C: .4byte gCurTask
 _0800F670: .4byte 0x03000208
 _0800F674: .4byte gBldRegs
-_0800F678: .4byte gUnknown_03002330
+_0800F678: .4byte gMultiBootParam
 _0800F67C: .4byte 0x030000C0
 _0800F680:
 	adds r0, r6, #3
@@ -12339,7 +12339,7 @@ _0800F686:
 	lsrs r5, r0, #0x18
 	cmp r5, #2
 	bls _0800F686
-	ldr r1, _0800F6D0 @ =gUnknown_03002330
+	ldr r1, _0800F6D0 @ =gMultiBootParam
 	ldrb r0, [r1, #0x1e]
 	movs r2, #0xe
 	ands r2, r0
@@ -12359,7 +12359,7 @@ _0800F686:
 	bl DisplaySprite
 	b _0800F6EC
 	.align 2, 0
-_0800F6D0: .4byte gUnknown_03002330
+_0800F6D0: .4byte gMultiBootParam
 _0800F6D4:
 	ldr r1, _0800F7BC @ =0x00000207
 	adds r0, r7, r1
@@ -12373,7 +12373,7 @@ _0800F6D4:
 	str r0, [r2]
 	bl m4aSoundVSyncOn
 _0800F6EC:
-	ldr r2, _0800F7CC @ =gUnknown_03002330
+	ldr r2, _0800F7CC @ =gMultiBootParam
 	mov r8, r2
 _0800F6F0:
 	mov r4, r8
@@ -12478,7 +12478,7 @@ _0800F7BC: .4byte 0x00000207
 _0800F7C0: .4byte gFlags
 _0800F7C4: .4byte 0xFFFFBFFF
 _0800F7C8: .4byte 0xFFFF7FFF
-_0800F7CC: .4byte gUnknown_03002330
+_0800F7CC: .4byte gMultiBootParam
 _0800F7D0: .4byte gPressedKeys
 _0800F7D4: .4byte 0x040000B0
 _0800F7D8: .4byte 0x0000C5FF
@@ -12488,7 +12488,7 @@ _0800F7E4: .4byte gUnknown_087C0318
 _0800F7E8: .4byte gUnknown_087C22F8
 _0800F7EC: .4byte gCurTask
 _0800F7F0:
-	ldr r4, _0800F840 @ =gUnknown_03002330
+	ldr r4, _0800F840 @ =gMultiBootParam
 	adds r0, r4, #0
 	bl MultiBootMain
 	cmp r0, #0x50
@@ -12525,7 +12525,7 @@ _0800F808:
 	bl sub_801A728
 	b _0800F986
 	.align 2, 0
-_0800F840: .4byte gUnknown_03002330
+_0800F840: .4byte gMultiBootParam
 _0800F844: .4byte 0x0000FFFF
 _0800F848: .4byte gUnknown_03002384
 _0800F84C: .4byte gUnknown_0300211C
@@ -12553,7 +12553,7 @@ _0800F874:
 	strh r0, [r1]
 	adds r0, #1
 	strh r0, [r1, #2]
-	ldr r0, _0800F90C @ =gUnknown_030020D0
+	ldr r0, _0800F90C @ =gBgScrollRegs
 	strh r2, [r0]
 	strh r2, [r0, #2]
 	strh r2, [r0, #4]
@@ -12614,7 +12614,7 @@ _0800F8FC: .4byte gDispCnt
 _0800F900: .4byte 0x00001341
 _0800F904: .4byte gBgCntRegs
 _0800F908: .4byte 0x00001E02
-_0800F90C: .4byte gUnknown_030020D0
+_0800F90C: .4byte gBgScrollRegs
 _0800F910: .4byte gCurTask
 _0800F914: .4byte 0x0600F000
 _0800F918: .4byte 0x0300002A
@@ -12638,14 +12638,14 @@ _0800F936:
 	add r0, sp, #4
 	movs r4, #0
 	strh r4, [r0]
-	ldr r1, _0800F9A0 @ =gUnknown_03002160
+	ldr r1, _0800F9A0 @ =gBgPalette+0x40
 	ldr r2, _0800F9A4 @ =0x01000010
 	bl CpuSet
 	ldr r0, _0800F9A8 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _0800F9AC @ =sub_800FF38
 	str r0, [r1, #8]
-	ldr r1, _0800F9B0 @ =gUnknown_03002100
+	ldr r1, _0800F9B0 @ =gMultiSioSend
 	strb r4, [r1]
 	ldr r5, _0800F9B4 @ =gUnknown_03001150
 	strb r4, [r5]
@@ -12680,11 +12680,11 @@ _0800F986:
 _0800F994: .4byte 0x0000DFFF
 _0800F998: .4byte gWinRegs
 _0800F99C: .4byte gFlags
-_0800F9A0: .4byte gUnknown_03002160
+_0800F9A0: .4byte gBgPalette+0x40
 _0800F9A4: .4byte 0x01000010
 _0800F9A8: .4byte gCurTask
 _0800F9AC: .4byte sub_800FF38
-_0800F9B0: .4byte gUnknown_03002100
+_0800F9B0: .4byte gMultiSioSend
 _0800F9B4: .4byte gUnknown_03001150
 _0800F9B8: .4byte 0x0000F001
 
@@ -12701,7 +12701,7 @@ sub_800F9BC: @ 0x0800F9BC
 	lsls r0, r0, #0x12
 	adds r0, r0, r2
 	mov r8, r0
-	ldr r0, _0800FA9C @ =gUnknown_03001210
+	ldr r0, _0800FA9C @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x20
 	ands r0, r1
@@ -12715,7 +12715,7 @@ sub_800F9BC: @ 0x0800F9BC
 	ldr r0, _0800FAA4 @ =sub_800FBF8
 	str r0, [r3, #8]
 _0800F9EC:
-	ldr r5, _0800FA9C @ =gUnknown_03001210
+	ldr r5, _0800FA9C @ =gMultiSioStatusFlags
 	ldr r0, [r5]
 	movs r1, #0x10
 	ands r0, r1
@@ -12726,7 +12726,7 @@ _0800F9EC:
 	movs r0, #1
 	strb r0, [r1]
 _0800FA00:
-	ldr r0, _0800FAAC @ =gUnknown_03002100
+	ldr r0, _0800FAAC @ =gMultiSioSend
 	ldr r1, _0800FAB0 @ =gUnknown_03005160
 	ldrb r1, [r1, #0x19]
 	strb r1, [r0]
@@ -12800,11 +12800,11 @@ _0800FA34:
 	b _0800FBD8
 	.align 2, 0
 _0800FA98: .4byte gCurTask
-_0800FA9C: .4byte gUnknown_03001210
+_0800FA9C: .4byte gMultiSioStatusFlags
 _0800FAA0: .4byte 0x03000204
 _0800FAA4: .4byte sub_800FBF8
 _0800FAA8: .4byte 0x00000202
-_0800FAAC: .4byte gUnknown_03002100
+_0800FAAC: .4byte gMultiSioSend
 _0800FAB0: .4byte gUnknown_03005160
 _0800FAB4: .4byte gUnknown_03001150
 _0800FAB8: .4byte 0x00000205
@@ -12903,7 +12903,7 @@ _0800FB6C:
 	movs r0, #0
 	strh r0, [r1]
 	lsls r1, r4, #1
-	ldr r6, _0800FBE8 @ =gUnknown_03002160
+	ldr r6, _0800FBE8 @ =gBgPalette+0x40
 	adds r1, r1, r6
 	movs r2, #0x10
 	subs r2, r2, r4
@@ -12943,7 +12943,7 @@ _0800FBD8:
 	bx r0
 	.align 2, 0
 _0800FBE4: .4byte gFlags
-_0800FBE8: .4byte gUnknown_03002160
+_0800FBE8: .4byte gBgPalette+0x40
 _0800FBEC: .4byte 0x001FFFFF
 _0800FBF0: .4byte 0x0000027F
 _0800FBF4: .4byte gUnknown_03001150
@@ -12969,9 +12969,9 @@ sub_800FBF8: @ 0x0800FBF8
 	movs r1, #0
 	ldr r0, _0800FC88 @ =gIntrTable
 	mov ip, r0
-	ldr r0, _0800FC8C @ =gUnknown_03001214
+	ldr r0, _0800FC8C @ =gMultiSioEnabled
 	mov r8, r0
-	ldr r0, _0800FC90 @ =gUnknown_03001210
+	ldr r0, _0800FC90 @ =gMultiSioStatusFlags
 	mov sb, r0
 	ldr r6, _0800FC94 @ =gUnknown_03005090
 	movs r2, #0
@@ -13019,8 +13019,8 @@ _0800FC32:
 _0800FC80: .4byte gCurTask
 _0800FC84: .4byte 0x03000204
 _0800FC88: .4byte gIntrTable
-_0800FC8C: .4byte gUnknown_03001214
-_0800FC90: .4byte gUnknown_03001210
+_0800FC8C: .4byte gMultiSioEnabled
+_0800FC90: .4byte gMultiSioStatusFlags
 _0800FC94: .4byte gUnknown_03005090
 _0800FC98: .4byte gUnknown_0300500C
 _0800FC9C: .4byte gUnknown_03005048
@@ -13035,7 +13035,7 @@ _0800FCAC:
 	str r0, [r2]
 	ldr r0, _0800FCEC @ =Sio32MultiLoadIntr
 	str r0, [r1]
-	ldr r0, _0800FCF0 @ =gUnknown_03001210
+	ldr r0, _0800FCF0 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -13059,7 +13059,7 @@ _0800FCD6:
 _0800FCE4: .4byte 0x030001F0
 _0800FCE8: .4byte gIntrTable
 _0800FCEC: .4byte Sio32MultiLoadIntr
-_0800FCF0: .4byte gUnknown_03001210
+_0800FCF0: .4byte gMultiSioStatusFlags
 _0800FCF4: .4byte gUnknown_080BB3F8
 _0800FCF8: .4byte sub_8010020
 
@@ -13397,7 +13397,7 @@ sub_800FF94: @ 0x0800FF94
 	ldr r1, _0800FFCC @ =gIntrTable
 	ldr r0, _0800FFD0 @ =gMultiSioIntrFuncBuf
 	str r0, [r1]
-	ldr r5, _0800FFD4 @ =gUnknown_03001210
+	ldr r5, _0800FFD4 @ =gMultiSioStatusFlags
 	ldr r0, [r5]
 	movs r1, #0xf0
 	lsls r1, r1, #4
@@ -13419,14 +13419,14 @@ sub_800FF94: @ 0x0800FF94
 _0800FFC8: .4byte gCurTask
 _0800FFCC: .4byte gIntrTable
 _0800FFD0: .4byte gMultiSioIntrFuncBuf
-_0800FFD4: .4byte gUnknown_03001210
+_0800FFD4: .4byte gMultiSioStatusFlags
 _0800FFD8: .4byte 0x03000202
 _0800FFDC: .4byte 0x03000205
 
 	thumb_func_start sub_800FFE0
 sub_800FFE0: @ 0x0800FFE0
 	push {lr}
-	ldr r0, _08010010 @ =gUnknown_03001210
+	ldr r0, _08010010 @ =gMultiSioStatusFlags
 	ldr r1, [r0]
 	movs r0, #0x10
 	ands r0, r1
@@ -13436,7 +13436,7 @@ sub_800FFE0: @ 0x0800FFE0
 	ands r1, r0
 	cmp r1, #0
 	beq _0800FFFE
-	ldr r1, _08010014 @ =gUnknown_03002100
+	ldr r1, _08010014 @ =gMultiSioSend
 	ldrb r0, [r1, #2]
 	adds r0, #1
 	strb r0, [r1, #2]
@@ -13450,8 +13450,8 @@ _08010006:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08010010: .4byte gUnknown_03001210
-_08010014: .4byte gUnknown_03002100
+_08010010: .4byte gMultiSioStatusFlags
+_08010014: .4byte gMultiSioSend
 _08010018: .4byte gCurTask
 _0801001C: .4byte sub_800F9BC
 
@@ -13544,7 +13544,7 @@ sub_80100A8: @ 0x080100A8
 	movs r5, #0
 	ldr r0, _080101DC @ =0x00000F84
 	strh r0, [r1]
-	ldr r0, _080101E0 @ =gUnknown_030020D0
+	ldr r0, _080101E0 @ =gBgScrollRegs
 	strh r5, [r0, #2]
 	ldr r0, _080101E4 @ =sub_80102A8
 	movs r2, #0x80
@@ -13675,7 +13675,7 @@ sub_80100A8: @ 0x080100A8
 _080101D4: .4byte gDispCnt
 _080101D8: .4byte gBgCntRegs
 _080101DC: .4byte 0x00000F84
-_080101E0: .4byte gUnknown_030020D0
+_080101E0: .4byte gBgScrollRegs
 _080101E4: .4byte sub_80102A8
 _080101E8: .4byte 0x0300006C
 _080101EC: .4byte 0x03000074
@@ -14192,7 +14192,7 @@ sub_801061C: @ 0x0801061C
 	movs r5, #0
 	ldr r0, _08010870 @ =0x00001E03
 	strh r0, [r1]
-	ldr r0, _08010874 @ =gUnknown_030020D0
+	ldr r0, _08010874 @ =gBgScrollRegs
 	strh r5, [r0]
 	strh r5, [r0, #2]
 	bl sub_80535FC
@@ -14462,7 +14462,7 @@ _080106EE:
 _08010868: .4byte gDispCnt
 _0801086C: .4byte gBgCntRegs
 _08010870: .4byte 0x00001E03
-_08010874: .4byte gUnknown_030020D0
+_08010874: .4byte gBgScrollRegs
 _08010878: .4byte 0x00001FFF
 _0801087C: .4byte gBldRegs
 _08010880: .4byte sub_8010B6C
@@ -14803,7 +14803,7 @@ sub_8010B6C: @ 0x08010B6C
 	adds r0, r4, r1
 	movs r1, #0
 	strb r1, [r0]
-	ldr r0, _08010BD4 @ =gUnknown_030020D0
+	ldr r0, _08010BD4 @ =gBgScrollRegs
 	strh r1, [r0]
 	adds r0, r5, #0
 	bl sub_805423C
@@ -14839,7 +14839,7 @@ _08010B98:
 _08010BC8: .4byte gCurTask
 _08010BCC: .4byte 0x03000330
 _08010BD0: .4byte 0x0300033F
-_08010BD4: .4byte gUnknown_030020D0
+_08010BD4: .4byte gBgScrollRegs
 _08010BD8: .4byte gRepeatedKeys
 _08010BDC: .4byte 0x0300033E
 _08010BE0:
@@ -16267,7 +16267,7 @@ sub_80117A8: @ 0x080117A8
 	strh r5, [r0]
 	strh r5, [r0, #2]
 	strh r5, [r0, #4]
-	ldr r0, _08011928 @ =gUnknown_030020D0
+	ldr r0, _08011928 @ =gBgScrollRegs
 	strh r5, [r0]
 	strh r5, [r0, #2]
 	ldr r0, _0801192C @ =sub_8011B7C
@@ -16430,7 +16430,7 @@ _08011918: .4byte gDispCnt
 _0801191C: .4byte gBgCntRegs
 _08011920: .4byte 0x00001B04
 _08011924: .4byte gBldRegs
-_08011928: .4byte gUnknown_030020D0
+_08011928: .4byte gBgScrollRegs
 _0801192C: .4byte sub_8011B7C
 _08011930: .4byte sub_8011DD0
 _08011934: .4byte 0x03000020
@@ -17746,7 +17746,7 @@ _08012362:
 	ldr r0, _080123D8 @ =0x85000010
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
-	ldr r1, _080123DC @ =gUnknown_03002120
+	ldr r1, _080123DC @ =gBgPalette
 	movs r0, #0
 	strh r0, [r1]
 	ldr r2, _080123E0 @ =gFlags
@@ -17771,7 +17771,7 @@ _080123CC: .4byte 0x03000025
 _080123D0: .4byte 0x01E00050
 _080123D4: .4byte 0x040000D4
 _080123D8: .4byte 0x85000010
-_080123DC: .4byte gUnknown_03002120
+_080123DC: .4byte gBgPalette
 _080123E0: .4byte gFlags
 
 	thumb_func_start sub_80123E4
@@ -19291,7 +19291,7 @@ sub_8012FE8: @ 0x08012FE8
 	str r3, [sp]
 	movs r1, #0
 	bl TaskCreate
-	ldr r1, _0801306C @ =gUnknown_03002120
+	ldr r1, _0801306C @ =gBgPalette
 	ldr r0, _08013070 @ =0x00007FFF
 	strh r0, [r1, #2]
 	ldr r2, _08013074 @ =gFlags
@@ -19312,7 +19312,7 @@ _0801305C: .4byte 0x85000010
 _08013060: .4byte gUnknown_03004620
 _08013064: .4byte gUnknown_03001B40
 _08013068: .4byte sub_8013078
-_0801306C: .4byte gUnknown_03002120
+_0801306C: .4byte gBgPalette
 _08013070: .4byte 0x00007FFF
 _08013074: .4byte gFlags
 
@@ -19790,7 +19790,7 @@ sub_8013400: @ 0x08013400
 	ldr r1, _080134D4 @ =gUnknown_03001150
 	adds r0, r0, r1
 	mov r8, r0
-	ldr r5, _080134D8 @ =gUnknown_03001210
+	ldr r5, _080134D8 @ =gMultiSioStatusFlags
 	mov sb, r5
 	movs r5, #1
 	adds r1, r5, #0
@@ -19876,7 +19876,7 @@ _080134BC:
 _080134CC: .4byte gCurTask
 _080134D0: .4byte 0x03000056
 _080134D4: .4byte gUnknown_03001150
-_080134D8: .4byte gUnknown_03001210
+_080134D8: .4byte gMultiSioStatusFlags
 _080134DC: .4byte 0x03000061
 _080134E0: .4byte 0x03000050
 _080134E4: .4byte 0x03000052
@@ -26849,7 +26849,7 @@ _08016B92:
 	bl sub_8016D80
 	ldrh r6, [r0, #6]
 	adds r3, r6, r7
-	ldr r2, _08016D60 @ =gUnknown_03004C58
+	ldr r2, _08016D60 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _08016D64 @ =0x00196225
 	muls r0, r1, r0
@@ -26904,7 +26904,7 @@ _08016C00:
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r3, r6, r0
-	ldr r7, _08016D60 @ =gUnknown_03004C58
+	ldr r7, _08016D60 @ =gPseudoRandom
 	ldr r0, [r7]
 	ldr r2, _08016D64 @ =0x00196225
 	mov sb, r2
@@ -27056,7 +27056,7 @@ _08016D44:
 _08016D54: .4byte gCurTask
 _08016D58: .4byte gUnknown_080BB43C
 _08016D5C: .4byte gCurrentLevel
-_08016D60: .4byte gUnknown_03004C58
+_08016D60: .4byte gPseudoRandom
 _08016D64: .4byte 0x00196225
 _08016D68: .4byte 0x3C6EF35F
 _08016D6C: .4byte 0x03000040
@@ -28095,7 +28095,7 @@ sub_8017540: @ 0x08017540
 	movs r0, #0xa0
 	lsls r0, r0, #3
 	strh r0, [r2, #0x1a]
-	ldr r3, _0801759C @ =gUnknown_03004C58
+	ldr r3, _0801759C @ =gPseudoRandom
 	ldr r1, [r3]
 	ldr r0, _080175A0 @ =0x00196225
 	muls r0, r1, r0
@@ -28115,7 +28115,7 @@ sub_8017540: @ 0x08017540
 	.align 2, 0
 _08017594: .4byte 0x06011000
 _08017598: .4byte 0x00000263
-_0801759C: .4byte gUnknown_03004C58
+_0801759C: .4byte gPseudoRandom
 _080175A0: .4byte 0x00196225
 _080175A4: .4byte 0x3C6EF35F
 
@@ -28705,7 +28705,7 @@ sub_8017A30: @ 0x08017A30
 	ldr r0, [r0]
 	lsls r0, r0, #0x1a
 	lsrs r6, r0, #0x1e
-	ldr r0, _08017AE4 @ =gUnknown_03002100
+	ldr r0, _08017AE4 @ =gMultiSioSend
 	mov r8, r0
 	ldrh r5, [r0, #8]
 	movs r3, #0x80
@@ -28721,7 +28721,7 @@ sub_8017A30: @ 0x08017A30
 	mov sl, r2
 	cmp r0, #0
 	beq _08017ABA
-	ldr r0, _08017AEC @ =gUnknown_03001210
+	ldr r0, _08017AEC @ =gMultiSioStatusFlags
 	movs r7, #1
 	ldr r0, [r0]
 	mov ip, r0
@@ -28781,7 +28781,7 @@ _08017ABA:
 	ldr r1, _08017AFC @ =0x040000D4
 	mov r0, sp
 	str r0, [r1]
-	ldr r0, _08017B00 @ =gUnknown_0300210E
+	ldr r0, _08017B00 @ =gMultiSioSend+0xE
 	str r0, [r1, #4]
 	ldr r0, _08017B04 @ =0x81000003
 	str r0, [r1, #8]
@@ -28789,14 +28789,14 @@ _08017ABA:
 	b _08017B34
 	.align 2, 0
 _08017AE0: .4byte 0x04000128
-_08017AE4: .4byte gUnknown_03002100
+_08017AE4: .4byte gMultiSioSend
 _08017AE8: .4byte gUnknown_03005150
-_08017AEC: .4byte gUnknown_03001210
+_08017AEC: .4byte gMultiSioStatusFlags
 _08017AF0: .4byte gUnknown_03001150
 _08017AF4: .4byte gUnknown_03005014
 _08017AF8: .4byte gUnknown_03005000
 _08017AFC: .4byte 0x040000D4
-_08017B00: .4byte gUnknown_0300210E
+_08017B00: .4byte gMultiSioSend+0xE
 _08017B04: .4byte 0x81000003
 _08017B08:
 	ldr r2, _08017B44 @ =0x040000D4
@@ -28805,7 +28805,7 @@ _08017B08:
 	ldr r1, _08017B48 @ =gUnknown_030050A0
 	adds r0, r0, r1
 	str r0, [r2]
-	ldr r0, _08017B4C @ =gUnknown_0300210E
+	ldr r0, _08017B4C @ =gMultiSioSend+0xE
 	str r0, [r2, #4]
 	ldr r0, _08017B50 @ =0x80000003
 	str r0, [r2, #8]
@@ -28833,7 +28833,7 @@ _08017B34:
 	.align 2, 0
 _08017B44: .4byte 0x040000D4
 _08017B48: .4byte gUnknown_030050A0
-_08017B4C: .4byte gUnknown_0300210E
+_08017B4C: .4byte gMultiSioSend+0xE
 _08017B50: .4byte 0x80000003
 
 	thumb_func_start sub_8017B54
@@ -28843,7 +28843,7 @@ sub_8017B54: @ 0x08017B54
 	ldr r0, [r0]
 	lsls r0, r0, #0x1a
 	lsrs r6, r0, #0x1e
-	ldr r7, _08017B70 @ =gUnknown_03002100
+	ldr r7, _08017B70 @ =gMultiSioSend
 	movs r5, #0
 	cmp r5, r6
 	beq _08017BD0
@@ -28852,10 +28852,10 @@ sub_8017B54: @ 0x08017B54
 	b _08017BE4
 	.align 2, 0
 _08017B6C: .4byte 0x04000128
-_08017B70: .4byte gUnknown_03002100
+_08017B70: .4byte gMultiSioSend
 _08017B74: .4byte gUnknown_03005150
 _08017B78:
-	ldr r0, _08017BF4 @ =gUnknown_03001210
+	ldr r0, _08017BF4 @ =gMultiSioStatusFlags
 	movs r1, #1
 	lsls r1, r5
 	ldr r0, [r0]
@@ -28920,7 +28920,7 @@ _08017BEC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08017BF4: .4byte gUnknown_03001210
+_08017BF4: .4byte gMultiSioStatusFlags
 _08017BF8: .4byte gUnknown_03001150
 _08017BFC: .4byte gUnknown_080BB45C
 _08017C00: .4byte gUnknown_03005150
@@ -29699,7 +29699,7 @@ sub_80181F8: @ 0x080181F8
 	ldr r2, _08018258 @ =0x040000D4
 	add r1, sp, #4
 	str r1, [r2]
-	ldr r1, _0801825C @ =gUnknown_03002100
+	ldr r1, _0801825C @ =gMultiSioSend
 	str r1, [r2, #4]
 	ldr r1, _08018260 @ =0x85000005
 	str r1, [r2, #8]
@@ -29732,7 +29732,7 @@ sub_80181F8: @ 0x080181F8
 _08018250: .4byte sub_8017A30
 _08018254: .4byte 0x0000FFFE
 _08018258: .4byte 0x040000D4
-_0801825C: .4byte gUnknown_03002100
+_0801825C: .4byte gMultiSioSend
 _08018260: .4byte 0x85000005
 _08018264: .4byte gUnknown_03001150
 _08018268: .4byte 0x85000014
@@ -29756,7 +29756,7 @@ sub_801827C: @ 0x0801827C
 	ldr r2, _080182D8 @ =0x040000D4
 	add r1, sp, #4
 	str r1, [r2]
-	ldr r1, _080182DC @ =gUnknown_03002100
+	ldr r1, _080182DC @ =gMultiSioSend
 	str r1, [r2, #4]
 	ldr r1, _080182E0 @ =0x85000005
 	str r1, [r2, #8]
@@ -29788,7 +29788,7 @@ sub_801827C: @ 0x0801827C
 	.align 2, 0
 _080182D4: .4byte sub_8017B54
 _080182D8: .4byte 0x040000D4
-_080182DC: .4byte gUnknown_03002100
+_080182DC: .4byte gMultiSioSend
 _080182E0: .4byte 0x85000005
 _080182E4: .4byte gUnknown_03001150
 _080182E8: .4byte 0x85000014
@@ -30367,7 +30367,7 @@ sub_801874C: @ 0x0801874C
 	movs r5, #1
 	ldr r2, _080187C8 @ =gUnknown_03005060
 _0801877E:
-	ldr r1, _080187CC @ =gUnknown_03001210
+	ldr r1, _080187CC @ =gMultiSioStatusFlags
 	adds r0, r5, #0
 	lsls r0, r3
 	ldr r4, [r1]
@@ -30401,7 +30401,7 @@ _080187BC: .4byte gCurTask
 _080187C0: .4byte gGameMode
 _080187C4: .4byte gUnknown_03005150
 _080187C8: .4byte gUnknown_03005060
-_080187CC: .4byte gUnknown_03001210
+_080187CC: .4byte gMultiSioStatusFlags
 _080187D0: .4byte 0x0000FFFF
 _080187D4: .4byte gUnknown_03002384
 _080187D8: .4byte gUnknown_0300211C
@@ -30434,7 +30434,7 @@ _080187FE:
 	beq _080188DC
 	movs r0, #0x6c
 	bl m4aSongNumStart
-	ldr r0, _08018834 @ =gUnknown_03001210
+	ldr r0, _08018834 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -30446,7 +30446,7 @@ _080187FE:
 	.align 2, 0
 _0801882C: .4byte gUnknown_03001150
 _08018830: .4byte 0x00000203
-_08018834: .4byte gUnknown_03001210
+_08018834: .4byte gMultiSioStatusFlags
 _08018838:
 	cmp r0, #0x31
 	bne _080188DC
@@ -30472,7 +30472,7 @@ _08018852:
 	ldr r0, _08018884 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	ldr r2, _08018888 @ =gUnknown_03004C58
+	ldr r2, _08018888 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0801888C @ =0x00196225
 	muls r0, r1, r0
@@ -30483,7 +30483,7 @@ _08018852:
 _0801887C: .4byte 0x00000203
 _08018880: .4byte gGameMode
 _08018884: .4byte gCurTask
-_08018888: .4byte gUnknown_03004C58
+_08018888: .4byte gPseudoRandom
 _0801888C: .4byte 0x00196225
 _08018890: .4byte 0x3C6EF35F
 _08018894:
@@ -30493,7 +30493,7 @@ _08018894:
 	ldr r0, _080188C8 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	ldr r2, _080188CC @ =gUnknown_03004C58
+	ldr r2, _080188CC @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _080188D0 @ =0x00196225
 	muls r0, r1, r0
@@ -30513,12 +30513,12 @@ _080188AE:
 	.align 2, 0
 _080188C4: .4byte gGameMode
 _080188C8: .4byte gCurTask
-_080188CC: .4byte gUnknown_03004C58
+_080188CC: .4byte gPseudoRandom
 _080188D0: .4byte 0x00196225
 _080188D4: .4byte 0x3C6EF35F
 _080188D8: .4byte 0x04000128
 _080188DC:
-	ldr r0, _08018934 @ =gUnknown_03001210
+	ldr r0, _08018934 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -30529,7 +30529,7 @@ _080188EA:
 	movs r3, #1
 	mov r8, r3
 	movs r0, #0x30
-	ldr r1, _08018938 @ =gUnknown_03002100
+	ldr r1, _08018938 @ =gMultiSioSend
 	strh r0, [r1]
 	ldr r3, _0801893C @ =0x00000213
 	adds r0, r6, r3
@@ -30564,8 +30564,8 @@ _0801892A:
 	str r5, [r0]
 	b _08018974
 	.align 2, 0
-_08018934: .4byte gUnknown_03001210
-_08018938: .4byte gUnknown_03002100
+_08018934: .4byte gMultiSioStatusFlags
+_08018938: .4byte gMultiSioSend
 _0801893C: .4byte 0x00000213
 _08018940: .4byte gRepeatedKeys
 _08018944: .4byte 0x00000203
@@ -30596,7 +30596,7 @@ _08018974:
 	ldr r3, _080189F0 @ =0x00000203
 	adds r0, r6, r3
 	ldrb r0, [r0]
-	ldr r1, _080189F4 @ =gUnknown_03002100
+	ldr r1, _080189F4 @ =gMultiSioSend
 	strb r0, [r1, #2]
 	movs r4, #1
 	ldr r1, _080189F8 @ =gUnknown_03005150
@@ -30657,19 +30657,19 @@ _080189E0:
 	movs r1, #1
 	strb r1, [r0]
 	movs r0, #0x31
-	ldr r3, _080189F4 @ =gUnknown_03002100
+	ldr r3, _080189F4 @ =gMultiSioSend
 	strh r0, [r3]
 	b _08018A30
 	.align 2, 0
 _080189F0: .4byte 0x00000203
-_080189F4: .4byte gUnknown_03002100
+_080189F4: .4byte gMultiSioSend
 _080189F8: .4byte gUnknown_03005150
 _080189FC: .4byte gUnknown_03001150
 _08018A00: .4byte gPressedKeys
 _08018A04: .4byte 0x00000213
 _08018A08:
 	movs r0, #0x30
-	ldr r1, _08018AD0 @ =gUnknown_03002100
+	ldr r1, _08018AD0 @ =gMultiSioSend
 	strh r0, [r1]
 	movs r3, #0xe0
 	lsls r3, r3, #1
@@ -30770,7 +30770,7 @@ _08018AC2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08018AD0: .4byte gUnknown_03002100
+_08018AD0: .4byte gMultiSioSend
 _08018AD4: .4byte gUnknown_080BB48C
 _08018AD8: .4byte 0x00000203
 _08018ADC: .4byte gUnknown_03005160
@@ -31251,7 +31251,7 @@ sub_8018ECC: @ 0x08018ECC
 	movs r5, #1
 	ldr r2, _08018F4C @ =gUnknown_03005060
 _08018F08:
-	ldr r1, _08018F50 @ =gUnknown_03001210
+	ldr r1, _08018F50 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
 	lsls r0, r3
 	ldr r4, [r1]
@@ -31281,7 +31281,7 @@ _08018F40: .4byte 0x03000234
 _08018F44: .4byte gGameMode
 _08018F48: .4byte gUnknown_03005150
 _08018F4C: .4byte gUnknown_03005060
-_08018F50: .4byte gUnknown_03001210
+_08018F50: .4byte gMultiSioStatusFlags
 _08018F54: .4byte 0x0000FFFF
 _08018F58: .4byte gUnknown_03002384
 _08018F5C: .4byte gUnknown_0300211C
@@ -31315,7 +31315,7 @@ _08018F7C:
 _08018F92:
 	movs r0, #0x6c
 	bl m4aSongNumStart
-	ldr r0, _08018FB4 @ =gUnknown_03001210
+	ldr r0, _08018FB4 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -31329,12 +31329,12 @@ _08018FA6:
 	.align 2, 0
 _08018FAC: .4byte gUnknown_03001150
 _08018FB0: .4byte 0x00000246
-_08018FB4: .4byte gUnknown_03001210
+_08018FB4: .4byte gMultiSioStatusFlags
 _08018FB8:
 	cmp r2, #0x35
 	bne _08019092
 	movs r3, #1
-	ldr r0, _08018FFC @ =gUnknown_03001210
+	ldr r0, _08018FFC @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -31367,10 +31367,10 @@ _08018FE6:
 	bne _08018FDE
 	b _08019008
 	.align 2, 0
-_08018FFC: .4byte gUnknown_03001210
+_08018FFC: .4byte gMultiSioStatusFlags
 _08019000: .4byte gUnknown_03005150
 _08019004:
-	ldr r4, _0801903C @ =gUnknown_03002100
+	ldr r4, _0801903C @ =gMultiSioSend
 	strh r2, [r4]
 _08019008:
 	cmp r3, #0
@@ -31398,7 +31398,7 @@ _08019022:
 	movs r0, #3
 	b _0801904A
 	.align 2, 0
-_0801903C: .4byte gUnknown_03002100
+_0801903C: .4byte gMultiSioSend
 _08019040: .4byte 0x00000246
 _08019044: .4byte gGameMode
 _08019048:
@@ -31465,7 +31465,7 @@ _080190C8: .4byte gUnknown_03004C30
 _080190CC: .4byte gUnknown_030045F8
 _080190D0: .4byte gVramGraphicsCopyQueueIndex
 _080190D4:
-	ldr r0, _08019108 @ =gUnknown_03001210
+	ldr r0, _08019108 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -31473,7 +31473,7 @@ _080190D4:
 	beq _080191B8
 _080190E0:
 	movs r4, #1
-	ldr r2, _0801910C @ =gUnknown_03002100
+	ldr r2, _0801910C @ =gMultiSioSend
 	mov r8, r2
 	movs r0, #0x34
 	strh r0, [r2]
@@ -31493,8 +31493,8 @@ _080190E0:
 	strb r4, [r0]
 	b _0801912C
 	.align 2, 0
-_08019108: .4byte gUnknown_03001210
-_0801910C: .4byte gUnknown_03002100
+_08019108: .4byte gMultiSioStatusFlags
+_0801910C: .4byte gMultiSioSend
 _08019110: .4byte 0x00000247
 _08019114: .4byte gInput
 _08019118: .4byte 0x00000246
@@ -31580,7 +31580,7 @@ _080191AC: .4byte gUnknown_03001150
 _080191B0: .4byte gPressedKeys
 _080191B4: .4byte 0x00000247
 _080191B8:
-	ldr r4, _08019220 @ =gUnknown_03002100
+	ldr r4, _08019220 @ =gMultiSioSend
 	movs r0, #0x34
 	strh r0, [r4]
 	movs r0, #0x80
@@ -31632,7 +31632,7 @@ _0801920C:
 	adds r1, #1
 	b _08019236
 	.align 2, 0
-_08019220: .4byte gUnknown_03002100
+_08019220: .4byte gMultiSioSend
 _08019224: .4byte 0x00000246
 _08019228: .4byte 0x00000236
 _0801922C:
@@ -31694,7 +31694,7 @@ _08019236:
 	ldrh r3, [r2]
 	adds r0, r0, r3
 	strh r0, [r2]
-	ldr r3, _080192EC @ =gUnknown_030020D0
+	ldr r3, _080192EC @ =gBgScrollRegs
 	ldrh r0, [r1]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x18
@@ -31730,7 +31730,7 @@ _080192DC: .4byte 0x00000236
 _080192E0: .4byte gSineTable
 _080192E4: .4byte 0x0000023A
 _080192E8: .4byte 0x0000023E
-_080192EC: .4byte gUnknown_030020D0
+_080192EC: .4byte gBgScrollRegs
 _080192F0: .4byte 0xFFFF7880
 _080192F4:
 	strh r4, [r6, #0x16]
@@ -32096,7 +32096,7 @@ sub_8019348: @ 0x08019348
 	ldr r1, _080196D4 @ =gBgCntRegs
 	ldr r0, _080196D8 @ =0x00001F05
 	strh r0, [r1, #4]
-	ldr r1, _080196DC @ =gUnknown_030020D0
+	ldr r1, _080196DC @ =gBgScrollRegs
 	ldrh r2, [r1, #4]
 	strh r2, [r1, #8]
 	ldrh r0, [r1, #6]
@@ -32186,7 +32186,7 @@ _080196CC: .4byte gPressedKeys
 _080196D0: .4byte gInput
 _080196D4: .4byte gBgCntRegs
 _080196D8: .4byte 0x00001F05
-_080196DC: .4byte gUnknown_030020D0
+_080196DC: .4byte gBgScrollRegs
 _080196E0: .4byte 0x0300023E
 _080196E4: .4byte 0x03000244
 _080196E8: .4byte gDispCnt
@@ -32275,7 +32275,7 @@ _08019782:
 	movs r5, #1
 	ldr r2, _080197DC @ =gUnknown_03005060
 _0801979C:
-	ldr r1, _080197E0 @ =gUnknown_03001210
+	ldr r1, _080197E0 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
 	lsls r0, r3
 	ldr r4, [r1]
@@ -32304,7 +32304,7 @@ _080197D0: .4byte 0x03000246
 _080197D4: .4byte gGameMode
 _080197D8: .4byte gUnknown_03005150
 _080197DC: .4byte gUnknown_03005060
-_080197E0: .4byte gUnknown_03001210
+_080197E0: .4byte gMultiSioStatusFlags
 _080197E4: .4byte 0x0000FFFF
 _080197E8: .4byte gUnknown_03002384
 _080197EC: .4byte gUnknown_0300211C
@@ -32587,7 +32587,7 @@ _0801998E:
 	ldrh r0, [r2]
 	subs r0, r0, r1
 	strh r0, [r2]
-	ldr r1, _08019AE0 @ =gUnknown_030020D0
+	ldr r1, _08019AE0 @ =gBgScrollRegs
 	ldrh r0, [r3]
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x18
@@ -32663,7 +32663,7 @@ _08019A9A:
 	movs r0, #0x6a
 	bl m4aSongNumStart
 _08019AAA:
-	ldr r5, _08019AF4 @ =gUnknown_03002100
+	ldr r5, _08019AF4 @ =gMultiSioSend
 	movs r0, #0x41
 	strh r0, [r5]
 	ldr r0, _08019AF0 @ =0x00000246
@@ -32682,12 +32682,12 @@ _08019AD0: .4byte 0x00000236
 _08019AD4: .4byte gSineTable
 _08019AD8: .4byte 0x0000023E
 _08019ADC: .4byte 0x00000242
-_08019AE0: .4byte gUnknown_030020D0
+_08019AE0: .4byte gBgScrollRegs
 _08019AE4: .4byte gPressedKeys
 _08019AE8: .4byte 0x00000247
 _08019AEC: .4byte gInput
 _08019AF0: .4byte 0x00000246
-_08019AF4: .4byte gUnknown_03002100
+_08019AF4: .4byte gMultiSioSend
 _08019AF8:
 	ldr r1, _08019B1C @ =0x0000FFFF
 	movs r0, #0
@@ -32714,7 +32714,7 @@ _08019B28: .4byte gUnknown_03004C30
 _08019B2C: .4byte gUnknown_030045F8
 _08019B30: .4byte gVramGraphicsCopyQueueIndex
 _08019B34:
-	ldr r5, _08019BFC @ =gUnknown_03002100
+	ldr r5, _08019BFC @ =gMultiSioSend
 	movs r0, #0x40
 	strh r0, [r5]
 	ldr r0, _08019C00 @ =0x00000246
@@ -32820,7 +32820,7 @@ _08019BEA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08019BFC: .4byte gUnknown_03002100
+_08019BFC: .4byte gMultiSioSend
 _08019C00: .4byte 0x00000246
 _08019C04: .4byte gUnknown_03005150
 _08019C08: .4byte 0x04000128
@@ -33737,7 +33737,7 @@ _0801A2EA:
 	ldr r1, _0801A348 @ =0x040000D4
 	mov r0, sl
 	str r0, [r1]
-	ldr r0, _0801A34C @ =gUnknown_03002100
+	ldr r0, _0801A34C @ =gMultiSioSend
 	str r0, [r1, #4]
 	ldr r0, _0801A350 @ =0x85000005
 	str r0, [r1, #8]
@@ -33754,7 +33754,7 @@ _0801A33C: .4byte gUnknown_030045F8
 _0801A340: .4byte gVramGraphicsCopyQueueIndex
 _0801A344: .4byte gGameMode
 _0801A348: .4byte 0x040000D4
-_0801A34C: .4byte gUnknown_03002100
+_0801A34C: .4byte gMultiSioSend
 _0801A350: .4byte 0x85000005
 _0801A354:
 	movs r0, #0
@@ -33762,7 +33762,7 @@ _0801A354:
 	ldr r1, _0801A380 @ =0x040000D4
 	mov r0, sl
 	str r0, [r1]
-	ldr r0, _0801A384 @ =gUnknown_03002100
+	ldr r0, _0801A384 @ =gMultiSioSend
 	str r0, [r1, #4]
 	ldr r0, _0801A388 @ =0x85000005
 	str r0, [r1, #8]
@@ -33780,7 +33780,7 @@ _0801A36E:
 	bx r0
 	.align 2, 0
 _0801A380: .4byte 0x040000D4
-_0801A384: .4byte gUnknown_03002100
+_0801A384: .4byte gMultiSioSend
 _0801A388: .4byte 0x85000005
 
 	thumb_func_start sub_801A38C
@@ -34221,7 +34221,7 @@ sub_801A728: @ 0x0801A728
 	ldr r1, _0801A778 @ =gDispCnt
 	movs r0, #0x40
 	strh r0, [r1]
-	ldr r1, _0801A77C @ =gUnknown_03001214
+	ldr r1, _0801A77C @ =gMultiSioEnabled
 	movs r0, #0
 	strb r0, [r1]
 	bl MultiSioStop
@@ -34246,7 +34246,7 @@ sub_801A728: @ 0x0801A728
 	.align 2, 0
 _0801A774: .4byte gFlags
 _0801A778: .4byte gDispCnt
-_0801A77C: .4byte gUnknown_03001214
+_0801A77C: .4byte gMultiSioEnabled
 _0801A780: .4byte gTilemapsRef
 _0801A784: .4byte gTilemaps
 _0801A788: .4byte gUnknown_03002034
@@ -34278,7 +34278,7 @@ sub_801A794: @ 0x0801A794
 	strh r5, [r0, #6]
 	ldr r0, _0801AA14 @ =gUnknown_03005004
 	strh r5, [r0]
-	ldr r1, _0801AA18 @ =gUnknown_03001214
+	ldr r1, _0801AA18 @ =gMultiSioEnabled
 	movs r0, #1
 	strb r0, [r1]
 	ldr r4, _0801AA1C @ =gFlags
@@ -34570,7 +34570,7 @@ _0801A9C0:
 _0801AA0C: .4byte gUnknown_03005060
 _0801AA10: .4byte gWinRegs
 _0801AA14: .4byte gUnknown_03005004
-_0801AA18: .4byte gUnknown_03001214
+_0801AA18: .4byte gMultiSioEnabled
 _0801AA1C: .4byte gFlags
 _0801AA20: .4byte 0xFFFFBFFF
 _0801AA24: .4byte gGameMode
@@ -34691,7 +34691,7 @@ sub_801AB34: @ 0x0801AB34
 	orrs r0, r1
 	strh r0, [r2]
 	ldr r2, _0801ABB4 @ =gUnknown_03005150
-	ldr r3, _0801ABB8 @ =gUnknown_03001210
+	ldr r3, _0801ABB8 @ =gMultiSioStatusFlags
 	ldr r0, [r3]
 	movs r1, #0xf0
 	lsls r1, r1, #4
@@ -34742,7 +34742,7 @@ _0801AB72:
 	.align 2, 0
 _0801ABB0: .4byte gDispCnt
 _0801ABB4: .4byte gUnknown_03005150
-_0801ABB8: .4byte gUnknown_03001210
+_0801ABB8: .4byte gMultiSioStatusFlags
 _0801ABBC: .4byte gGameMode
 _0801ABC0: .4byte gUnknown_03005060
 _0801ABC4: .4byte 0x0000FFFF
@@ -34765,7 +34765,7 @@ _0801ABE0:
 	cmp r0, #0
 	bne _0801AB72
 _0801ABF2:
-	ldr r2, _0801AC68 @ =gUnknown_03002100
+	ldr r2, _0801AC68 @ =gMultiSioSend
 	movs r0, #0x10
 	strh r0, [r2]
 	ldr r0, [r3]
@@ -34827,7 +34827,7 @@ _0801AC4A:
 	lsls r0, r0, #2
 	b _0801AC8C
 	.align 2, 0
-_0801AC68: .4byte gUnknown_03002100
+_0801AC68: .4byte gMultiSioSend
 _0801AC6C: .4byte gUnknown_03005160
 _0801AC70: .4byte gCurTask
 _0801AC74: .4byte gBldRegs
@@ -34864,7 +34864,7 @@ _0801AC8C:
 	cmp r6, #2
 	bls _0801AC4A
 _0801ACBE:
-	ldr r0, _0801ACF4 @ =gUnknown_03001210
+	ldr r0, _0801ACF4 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -34891,7 +34891,7 @@ _0801ACBE:
 	adds r0, r0, r1
 	b _0801AD0A
 	.align 2, 0
-_0801ACF4: .4byte gUnknown_03001210
+_0801ACF4: .4byte gMultiSioStatusFlags
 _0801ACF8: .4byte 0x00000434
 _0801ACFC:
 	movs r0, #0xd1
@@ -34962,7 +34962,7 @@ _0801AD78:
 	ldr r1, _0801ADC0 @ =0x03000430
 	adds r7, r3, r1
 _0801AD82:
-	ldr r2, _0801ADC4 @ =gUnknown_03001210
+	ldr r2, _0801ADC4 @ =gMultiSioStatusFlags
 	adds r0, r6, #0
 	adds r0, #8
 	mov r1, r8
@@ -34994,7 +34994,7 @@ _0801AD82:
 	b _0801ADE4
 	.align 2, 0
 _0801ADC0: .4byte 0x03000430
-_0801ADC4: .4byte gUnknown_03001210
+_0801ADC4: .4byte gMultiSioStatusFlags
 _0801ADC8: .4byte gUnknown_03005048
 _0801ADCC:
 	lsls r1, r6, #2
@@ -35116,7 +35116,7 @@ sub_801AE88: @ 0x0801AE88
 	str r0, [sp]
 	ldr r2, _0801AF3C @ =gUnknown_03005150
 	mov r8, r2
-	ldr r6, _0801AF40 @ =gUnknown_03001210
+	ldr r6, _0801AF40 @ =gMultiSioStatusFlags
 	ldr r0, [r6]
 	movs r1, #0xf0
 	lsls r1, r1, #4
@@ -35188,7 +35188,7 @@ _0801AF10:
 	.align 2, 0
 _0801AF38: .4byte gCurTask
 _0801AF3C: .4byte gUnknown_03005150
-_0801AF40: .4byte gUnknown_03001210
+_0801AF40: .4byte gMultiSioStatusFlags
 _0801AF44: .4byte gUnknown_03001150
 _0801AF48: .4byte gUnknown_03005084
 _0801AF4C: .4byte 0x03000434
@@ -35227,7 +35227,7 @@ _0801AF9E:
 	ldrb r1, [r3]
 	movs r0, #1
 	ands r1, r0
-	ldr r0, _0801AFCC @ =gUnknown_03002100
+	ldr r0, _0801AFCC @ =gMultiSioSend
 	mov ip, r0
 	cmp r1, #0
 	beq _0801AFFC
@@ -35246,7 +35246,7 @@ _0801AFB8:
 	b _0801AFE8
 	.align 2, 0
 _0801AFC8: .4byte 0x03000400
-_0801AFCC: .4byte gUnknown_03002100
+_0801AFCC: .4byte gMultiSioSend
 _0801AFD0:
 	mov r0, sb
 	adds r5, r1, r0
@@ -35433,12 +35433,12 @@ _0801B12C:
 _0801B140: .4byte gBldRegs
 _0801B144:
 	bl sub_801B1B4
-	ldr r3, _0801B1A0 @ =gUnknown_03002100
+	ldr r3, _0801B1A0 @ =gMultiSioSend
 	movs r1, #0
 	movs r0, #0x51
 	strh r0, [r3]
 	strb r1, [r3, #2]
-	ldr r0, _0801B1A4 @ =gUnknown_03001210
+	ldr r0, _0801B1A4 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
 	ands r0, r1
@@ -35468,7 +35468,7 @@ _0801B180:
 	lsrs r1, r0, #0x18
 	cmp r1, #3
 	bls _0801B168
-	ldr r3, _0801B1A0 @ =gUnknown_03002100
+	ldr r3, _0801B1A0 @ =gMultiSioSend
 	movs r0, #0x80
 	strh r0, [r3]
 	ldr r1, _0801B1B0 @ =0x0000043C
@@ -35480,8 +35480,8 @@ _0801B198:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801B1A0: .4byte gUnknown_03002100
-_0801B1A4: .4byte gUnknown_03001210
+_0801B1A0: .4byte gMultiSioSend
+_0801B1A4: .4byte gMultiSioStatusFlags
 _0801B1A8: .4byte gUnknown_03005150
 _0801B1AC: .4byte gUnknown_03001150
 _0801B1B0: .4byte 0x0000043C
@@ -35503,7 +35503,7 @@ sub_801B1B4: @ 0x0801B1B4
 	ldrb r1, [r2]
 	movs r0, #1
 	ands r1, r0
-	ldr r7, _0801B220 @ =gUnknown_03001210
+	ldr r7, _0801B220 @ =gMultiSioStatusFlags
 	cmp r1, #0
 	beq _0801B256
 	movs r6, #1
@@ -35540,7 +35540,7 @@ _0801B1DC:
 	.align 2, 0
 _0801B218: .4byte gGameMode
 _0801B21C: .4byte gUnknown_03005150
-_0801B220: .4byte gUnknown_03001210
+_0801B220: .4byte gMultiSioStatusFlags
 _0801B224: .4byte gUnknown_03005060
 _0801B228: .4byte 0x0000FFFF
 _0801B22C: .4byte gUnknown_03002384
@@ -35571,7 +35571,7 @@ _0801B256:
 	mov r8, r1
 	movs r6, #0
 _0801B266:
-	ldr r2, _0801B2B0 @ =gUnknown_03001210
+	ldr r2, _0801B2B0 @ =gMultiSioStatusFlags
 	adds r0, r6, #0
 	adds r0, #8
 	movs r3, #1
@@ -35607,7 +35607,7 @@ _0801B266:
 	b _0801B4E6
 	.align 2, 0
 _0801B2AC: .4byte gCurTask
-_0801B2B0: .4byte gUnknown_03001210
+_0801B2B0: .4byte gMultiSioStatusFlags
 _0801B2B4: .4byte gUnknown_03005048
 _0801B2B8:
 	ldr r0, _0801B42C @ =gUnknown_03005048

@@ -20,7 +20,7 @@ GameInit: @ 0x080003EC
 	ldr r2, _0800044C @ =gFlags
 	movs r1, #0
 	str r1, [r2]
-	ldr r0, _08000450 @ =gUnknown_03002030
+	ldr r0, _08000450 @ =gFlagsPreVBlank
 	str r1, [r0]
 	ldr r0, _08000454 @ =0x04000134
 	ldrh r1, [r0]
@@ -56,7 +56,7 @@ _08000432:
 _08000444: .4byte 0x04000204
 _08000448: .4byte 0x00004014
 _0800044C: .4byte gFlags
-_08000450: .4byte gUnknown_03002030
+_08000450: .4byte gFlagsPreVBlank
 _08000454: .4byte 0x04000134
 _08000458: .4byte 0x040000D4
 _0800045C: .4byte 0x06010000
@@ -122,7 +122,7 @@ _08000472:
 	str r2, [sp]
 	mov r1, sp
 	str r1, [r0]
-	ldr r1, _08000718 @ =gUnknown_030020D0
+	ldr r1, _08000718 @ =gBgScrollRegs
 	str r1, [r0, #4]
 	str r3, [r0, #8]
 	ldr r1, [r0, #8]
@@ -143,7 +143,7 @@ _08000472:
 	ldr r1, [r0, #8]
 	ldr r1, _0800072C @ =gOamFreeIndex
 	strb r4, [r1]
-	ldr r1, _08000730 @ =gUnknown_03002380
+	ldr r1, _08000730 @ =gOamFirstPausedIndex
 	strb r4, [r1]
 	add r3, sp, #4
 	movs r1, #0x80
@@ -151,7 +151,7 @@ _08000472:
 	adds r5, r1, #0
 	strh r5, [r3]
 	str r3, [r0]
-	ldr r1, _08000734 @ =gUnknown_03004630
+	ldr r1, _08000734 @ =gOamBuffer
 	str r1, [r0, #4]
 	ldr r4, _08000738 @ =0x81000200
 	str r4, [r0, #8]
@@ -190,7 +190,7 @@ _08000472:
 	str r2, [sp]
 	mov r1, sp
 	str r1, [r0]
-	ldr r1, _08000754 @ =gUnknown_03002120
+	ldr r1, _08000754 @ =gBgPalette
 	str r1, [r0, #4]
 	str r3, [r0, #8]
 	ldr r0, [r0, #8]
@@ -236,7 +236,7 @@ _08000472:
 	strh r2, [r0]
 	strh r2, [r0, #2]
 	strh r2, [r0, #4]
-	ldr r0, _08000784 @ =gUnknown_03004C58
+	ldr r0, _08000784 @ =gPseudoRandom
 	str r2, [r0]
 	ldr r3, _08000788 @ =gInputRecorder
 	mov r8, r3
@@ -247,9 +247,9 @@ _08000472:
 	ldr r3, _08000794 @ =gFrameCount
 	mov ip, r3
 	ldr r7, _08000798 @ =gBgOffsetsBuffer
-	ldr r6, _0800079C @ =gUnknown_03001FA0
+	ldr r6, _0800079C @ =gKeysFirstRepeatIntervals
 	movs r5, #0x14
-	ldr r4, _080007A0 @ =gUnknown_030020F0
+	ldr r4, _080007A0 @ =gKeysContinuedRepeatIntervals
 	movs r3, #8
 _080005E0:
 	lsls r0, r2, #0x10
@@ -355,12 +355,12 @@ _08000610:
 	strb r0, [r1]
 	bl TasksInit
 	bl EwramInitHeap
-	ldr r1, _080007E8 @ =gUnknown_03001148
+	ldr r1, _080007E8 @ =gVramHeapMaxTileSlots
 	movs r2, #0x9c
 	lsls r2, r2, #2
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _080007EC @ =gUnknown_03001200
+	ldr r1, _080007EC @ =gVramHeapStartAddr
 	ldr r0, _080007F0 @ =0x06013200
 	str r0, [r1]
 	bl VramResetHeapState
@@ -391,14 +391,14 @@ _08000708: .4byte gVramGraphicsCopyQueueIndex
 _0800070C: .4byte gUnknown_03001B40
 _08000710: .4byte 0x85000004
 _08000714: .4byte gUnknown_03004620
-_08000718: .4byte gUnknown_030020D0
+_08000718: .4byte gBgScrollRegs
 _0800071C: .4byte gUnknown_030010B4
 _08000720: .4byte gDispCnt
 _08000724: .4byte gVramGraphicsCopyQueue
 _08000728: .4byte 0x85000020
 _0800072C: .4byte gOamFreeIndex
-_08000730: .4byte gUnknown_03002380
-_08000734: .4byte gUnknown_03004630
+_08000730: .4byte gOamFirstPausedIndex
+_08000734: .4byte gOamBuffer
 _08000738: .4byte 0x81000200
 _0800073C: .4byte gOamBuffer2
 _08000740: .4byte gUnknown_03001110
@@ -406,7 +406,7 @@ _08000744: .4byte 0x85000008
 _08000748: .4byte gUnknown_03004600
 _0800074C: .4byte gObjPalette
 _08000750: .4byte 0x85000080
-_08000754: .4byte gUnknown_03002120
+_08000754: .4byte gBgPalette
 _08000758: .4byte gBgAffineRegs
 _0800075C: .4byte gUnknown_03001204
 _08000760: .4byte gUnknown_030010B0
@@ -418,14 +418,14 @@ _08000774: .4byte gUnknown_030020C0
 _08000778: .4byte gUnknown_03004C38
 _0800077C: .4byte gWinRegs
 _08000780: .4byte gBldRegs
-_08000784: .4byte gUnknown_03004C58
+_08000784: .4byte gPseudoRandom
 _08000788: .4byte gInputRecorder
 _0800078C: .4byte gPhysicalInput
 _08000790: .4byte gUnknown_03004C50
 _08000794: .4byte gFrameCount
 _08000798: .4byte gBgOffsetsBuffer
-_0800079C: .4byte gUnknown_03001FA0
-_080007A0: .4byte gUnknown_030020F0
+_0800079C: .4byte gKeysFirstRepeatIntervals
+_080007A0: .4byte gKeysContinuedRepeatIntervals
 _080007A4: .4byte gIntrTable
 _080007A8: .4byte gIntrTableTemplate
 _080007AC: .4byte 0x85000140
@@ -443,8 +443,8 @@ _080007D8: .4byte gUnknown_03001130
 _080007DC: .4byte gUnknown_03004C40
 _080007E0: .4byte 0x0093F500
 _080007E4: .4byte gExecSoundMain
-_080007E8: .4byte gUnknown_03001148
-_080007EC: .4byte gUnknown_03001200
+_080007E8: .4byte gVramHeapMaxTileSlots
+_080007EC: .4byte gVramHeapStartAddr
 _080007F0: .4byte 0x06013200
 _080007F4: .4byte gFlags
 _080007F8:
@@ -474,7 +474,7 @@ _08000800:
 	str r2, [sp]
 	mov r3, sp
 	str r3, [r1]
-	ldr r0, _08000884 @ =gUnknown_03002100
+	ldr r0, _08000884 @ =gMultiSioSend
 	str r0, [r1, #4]
 	ldr r0, _08000888 @ =0x85000005
 	str r0, [r1, #8]
@@ -486,9 +486,9 @@ _08000800:
 	ldr r0, _08000890 @ =0x85000014
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
-	ldr r0, _08000894 @ =gUnknown_03001210
+	ldr r0, _08000894 @ =gMultiSioStatusFlags
 	str r2, [r0]
-	ldr r0, _08000898 @ =gUnknown_03001214
+	ldr r0, _08000898 @ =gMultiSioEnabled
 	strb r2, [r0]
 	movs r0, #0
 	bl MultiSioInit
@@ -509,12 +509,12 @@ _08000874: .4byte 0x84000080
 _08000878: .4byte INTR_VECTOR
 _0800087C: .4byte 0x04000208
 _08000880: .4byte 0x04000004
-_08000884: .4byte gUnknown_03002100
+_08000884: .4byte gMultiSioSend
 _08000888: .4byte 0x85000005
 _0800088C: .4byte gUnknown_03001150
 _08000890: .4byte 0x85000014
-_08000894: .4byte gUnknown_03001210
-_08000898: .4byte gUnknown_03001214
+_08000894: .4byte gMultiSioStatusFlags
+_08000898: .4byte gMultiSioEnabled
 
 	thumb_func_start GameLoop
 GameLoop: @ 0x0800089C
@@ -539,20 +539,20 @@ _080008BA:
 	cmp r0, #0xff
 	bne _080008E0
 	bl GetInput
-	ldr r0, _08000918 @ =gUnknown_03001214
+	ldr r0, _08000918 @ =gMultiSioEnabled
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _080008DC
-	ldr r0, _0800091C @ =gUnknown_03002100
+	ldr r0, _0800091C @ =gMultiSioSend
 	ldr r1, _08000920 @ =gUnknown_03001150
 	movs r2, #0
 	bl MultiSioMain
-	ldr r1, _08000924 @ =gUnknown_03001210
+	ldr r1, _08000924 @ =gMultiSioStatusFlags
 	str r0, [r1]
 _080008DC:
 	bl TasksExec
 _080008E0:
-	ldr r1, _08000928 @ =gUnknown_03002030
+	ldr r1, _08000928 @ =gFlagsPreVBlank
 	ldr r4, _0800090C @ =gFlags
 	ldr r0, [r4]
 	str r0, [r1]
@@ -574,11 +574,11 @@ _080008E0:
 _0800090C: .4byte gFlags
 _08000910: .4byte gExecSoundMain
 _08000914: .4byte gUnknown_03001F94
-_08000918: .4byte gUnknown_03001214
-_0800091C: .4byte gUnknown_03002100
+_08000918: .4byte gMultiSioEnabled
+_0800091C: .4byte gMultiSioSend
 _08000920: .4byte gUnknown_03001150
-_08000924: .4byte gUnknown_03001210
-_08000928: .4byte gUnknown_03002030
+_08000924: .4byte gMultiSioStatusFlags
+_08000928: .4byte gFlagsPreVBlank
 _0800092C:
 	bl sub_8000980
 	ldr r0, [r4]
@@ -651,7 +651,7 @@ sub_8000980: @ 0x08000980
 	adds r6, r1, #0
 	cmp r0, #0
 	beq _080009C4
-	ldr r0, _08000A78 @ =gUnknown_03002120
+	ldr r0, _08000A78 @ =gBgPalette
 	str r0, [r3]
 	movs r0, #0xa0
 	lsls r0, r0, #0x13
@@ -692,7 +692,7 @@ _080009E2:
 	ldr r0, _08000A9C @ =0x80000003
 	str r0, [r3, #8]
 	ldr r0, [r3, #8]
-	ldr r0, _08000AA0 @ =gUnknown_030020D0
+	ldr r0, _08000AA0 @ =gBgScrollRegs
 	str r0, [r3]
 	ldr r0, _08000AA4 @ =0x04000010
 	str r0, [r3, #4]
@@ -749,7 +749,7 @@ _08000A68: .4byte gBgCntRegs
 _08000A6C: .4byte 0x04000008
 _08000A70: .4byte 0x84000002
 _08000A74: .4byte gFlags
-_08000A78: .4byte gUnknown_03002120
+_08000A78: .4byte gBgPalette
 _08000A7C: .4byte 0x84000080
 _08000A80: .4byte gObjPalette
 _08000A84: .4byte 0x05000200
@@ -759,7 +759,7 @@ _08000A90: .4byte 0x84000003
 _08000A94: .4byte gBldRegs
 _08000A98: .4byte 0x04000050
 _08000A9C: .4byte 0x80000003
-_08000AA0: .4byte gUnknown_030020D0
+_08000AA0: .4byte gBgScrollRegs
 _08000AA4: .4byte 0x04000010
 _08000AA8: .4byte 0x80000008
 _08000AAC: .4byte gBgAffineRegs
@@ -807,7 +807,7 @@ _08000B06:
 	bne _08000B54
 	bl CopyOamBufferToOam
 	ldr r0, _08000BC8 @ =0x040000D4
-	ldr r3, _08000BDC @ =gUnknown_03004630
+	ldr r3, _08000BDC @ =gOamBuffer
 	str r3, [r0]
 	movs r1, #0xe0
 	lsls r1, r1, #0x13
@@ -902,7 +902,7 @@ _08000BCC: .4byte gUnknown_03001144
 _08000BD0: .4byte gUnknown_03002118
 _08000BD4: .4byte gUnknown_03002320
 _08000BD8: .4byte gUnknown_03001F94
-_08000BDC: .4byte gUnknown_03004630
+_08000BDC: .4byte gOamBuffer
 _08000BE0: .4byte 0x80000080
 _08000BE4: .4byte 0x07000100
 _08000BE8: .4byte 0x07000200
@@ -1011,7 +1011,7 @@ _08000CAC:
 	ldr r0, _08000D24 @ =0x040000D4
 	mov r1, sp
 	str r1, [r0]
-	ldr r1, _08000D28 @ =gUnknown_03004630
+	ldr r1, _08000D28 @ =gOamBuffer
 	mov ip, r1
 	str r1, [r0, #4]
 	ldr r2, _08000D2C @ =0x81000080
@@ -1059,7 +1059,7 @@ _08000CAC:
 	.align 2, 0
 _08000D20: .4byte gUnknown_03001B6C
 _08000D24: .4byte 0x040000D4
-_08000D28: .4byte gUnknown_03004630
+_08000D28: .4byte gOamBuffer
 _08000D2C: .4byte 0x81000080
 _08000D30: .4byte gUnknown_030045F0
 
@@ -1084,7 +1084,7 @@ sub_8000D34: @ 0x08000D34
 	ands r0, r6
 	cmp r0, #0
 	beq _08000D6E
-	ldr r0, _08000E00 @ =gUnknown_03002120
+	ldr r0, _08000E00 @ =gBgPalette
 	movs r1, #0xa0
 	lsls r1, r1, #0x13
 	movs r2, #0x80
@@ -1114,7 +1114,7 @@ _08000D88:
 	ldr r1, _08000E1C @ =0x04000050
 	movs r2, #3
 	bl CpuSet
-	ldr r0, _08000E20 @ =gUnknown_030020D0
+	ldr r0, _08000E20 @ =gBgScrollRegs
 	ldr r1, _08000E24 @ =0x04000010
 	movs r2, #8
 	bl CpuSet
@@ -1157,7 +1157,7 @@ _08000DF0: .4byte gBgCntRegs
 _08000DF4: .4byte 0x04000008
 _08000DF8: .4byte 0x04000002
 _08000DFC: .4byte gFlags
-_08000E00: .4byte gUnknown_03002120
+_08000E00: .4byte gBgPalette
 _08000E04: .4byte gObjPalette
 _08000E08: .4byte 0x05000200
 _08000E0C: .4byte gWinRegs
@@ -1165,7 +1165,7 @@ _08000E10: .4byte 0x04000040
 _08000E14: .4byte 0x04000003
 _08000E18: .4byte gBldRegs
 _08000E1C: .4byte 0x04000050
-_08000E20: .4byte gUnknown_030020D0
+_08000E20: .4byte gBgScrollRegs
 _08000E24: .4byte 0x04000010
 _08000E28: .4byte gBgAffineRegs
 _08000E2C: .4byte 0x04000020
@@ -1189,7 +1189,7 @@ _08000E56:
 	cmp r0, #0xff
 	bne _08000E70
 	bl CopyOamBufferToOam
-	ldr r0, _08000EDC @ =gUnknown_03004630
+	ldr r0, _08000EDC @ =gOamBuffer
 	movs r1, #0xe0
 	lsls r1, r1, #0x13
 	movs r2, #0x80
@@ -1246,7 +1246,7 @@ _08000ECC: .4byte 0x04000200
 _08000ED0: .4byte 0x0000FFFD
 _08000ED4: .4byte gNumHBlankIntrs
 _08000ED8: .4byte gUnknown_03001F94
-_08000EDC: .4byte gUnknown_03004630
+_08000EDC: .4byte gOamBuffer
 _08000EE0: .4byte gUnknown_03001208
 _08000EE4: .4byte gUnknown_03004C40
 _08000EE8: .4byte gFlags
@@ -1315,7 +1315,7 @@ VBlankIntr: @ 0x08000F44
 	strh r0, [r1]
 	ldr r0, _08000FE0 @ =gExecSoundMain
 	strb r2, [r0]
-	ldr r5, _08000FE4 @ =gUnknown_03002030
+	ldr r5, _08000FE4 @ =gFlagsPreVBlank
 	ldr r3, [r5]
 	movs r0, #4
 	ands r3, r0
@@ -1373,7 +1373,7 @@ _08000FD4: .4byte 0x0000C5FF
 _08000FD8: .4byte 0x00007FFF
 _08000FDC: .4byte gUnknown_03007FF8
 _08000FE0: .4byte gExecSoundMain
-_08000FE4: .4byte gUnknown_03002030
+_08000FE4: .4byte gFlagsPreVBlank
 _08000FE8: .4byte 0x04000200
 _08000FEC: .4byte gUnknown_03001144
 _08000FF0: .4byte gUnknown_03002118
@@ -1653,9 +1653,9 @@ GetInput: @ 0x08001224
 	mov r6, r8
 	push {r6, r7}
 	ldr r7, _08001258 @ =gRepeatedKeysTestCounter
-	ldr r0, _0800125C @ =gUnknown_03001FA0
+	ldr r0, _0800125C @ =gKeysFirstRepeatIntervals
 	mov sb, r0
-	ldr r1, _08001260 @ =gUnknown_030020F0
+	ldr r1, _08001260 @ =gKeysContinuedRepeatIntervals
 	mov r8, r1
 	ldr r4, _08001264 @ =gInput
 	ldr r0, _08001268 @ =0x04000130
@@ -1675,8 +1675,8 @@ GetInput: @ 0x08001224
 	b _08001282
 	.align 2, 0
 _08001258: .4byte gRepeatedKeysTestCounter
-_0800125C: .4byte gUnknown_03001FA0
-_08001260: .4byte gUnknown_030020F0
+_0800125C: .4byte gKeysFirstRepeatIntervals
+_08001260: .4byte gKeysContinuedRepeatIntervals
 _08001264: .4byte gInput
 _08001268: .4byte 0x04000130
 _0800126C: .4byte 0x000003FF
@@ -1961,7 +1961,7 @@ _08001450:
 	movs r0, #0x80
 	lsls r0, r0, #2
 	str r0, [sp]
-	ldr r1, _08001488 @ =gUnknown_03004630
+	ldr r1, _08001488 @ =gOamBuffer
 	ldr r2, _0800148C @ =0x01000100
 	mov r0, sp
 	bl CpuFastSet
@@ -1979,6 +1979,6 @@ _08001450:
 	bx r0
 	.align 2, 0
 _08001484: .4byte gUnknown_03001B6C
-_08001488: .4byte gUnknown_03004630
+_08001488: .4byte gOamBuffer
 _0800148C: .4byte 0x01000100
 _08001490: .4byte gUnknown_030045F0

@@ -61,7 +61,7 @@ _08001A08:
 	mov r1, ip
 	ldrb r0, [r1]
 	lsls r0, r0, #1
-	ldr r1, _08001A94 @ =gUnknown_03002120
+	ldr r1, _08001A94 @ =gBgPalette
 	adds r0, r0, r1
 	str r0, [r2, #4]
 	movs r0, #0x80
@@ -112,7 +112,7 @@ _08001A84: .4byte gTilemapsRef
 _08001A88: .4byte gVramGraphicsCopyQueue
 _08001A8C: .4byte gVramGraphicsCopyQueueIndex
 _08001A90: .4byte 0x040000D4
-_08001A94: .4byte gUnknown_03002120
+_08001A94: .4byte gBgPalette
 _08001A98: .4byte gFlags
 _08001A9C: .4byte gUnknown_030010C0
 _08001AA0: .4byte gUnknown_0300211C
@@ -744,7 +744,7 @@ _08001F60:
 	movs r0, #0x40
 	ands r0, r2
 	ldrh r3, [r6, #0x30]
-	ldr r1, _08002030 @ =gUnknown_030020D0
+	ldr r1, _08002030 @ =gBgScrollRegs
 	mov sb, r1
 	lsls r5, r5, #2
 	mov r8, r5
@@ -851,7 +851,7 @@ _08001FEA:
 	lsrs r2, r0, #0x10
 	b _08002036
 	.align 2, 0
-_08002030: .4byte gUnknown_030020D0
+_08002030: .4byte gBgScrollRegs
 _08002034:
 	movs r2, #0
 _08002036:

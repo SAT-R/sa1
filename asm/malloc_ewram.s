@@ -7,14 +7,14 @@
 
 	thumb_func_start EwramInitHeap
 EwramInitHeap: @ 0x08006A74
-	ldr r0, _08006A80 @ =gUnknown_02002650
+	ldr r0, _08006A80 @ =gEwramHeap
 	movs r1, #0
 	str r1, [r0]
 	ldr r1, _08006A84 @ =0x00020080
 	str r1, [r0, #4]
 	bx lr
 	.align 2, 0
-_08006A80: .4byte gUnknown_02002650
+_08006A80: .4byte gEwramHeap
 _08006A84: .4byte 0x00020080
 
 	thumb_func_start EwramMalloc
@@ -27,7 +27,7 @@ EwramMalloc: @ 0x08006A88
 	lsls r0, r2, #2
 	adds r2, r0, #0
 	adds r2, #8
-	ldr r3, _08006AB0 @ =gUnknown_02002650
+	ldr r3, _08006AB0 @ =gEwramHeap
 _08006A9A:
 	ldr r1, [r3, #4]
 	cmp r2, r1
@@ -40,7 +40,7 @@ _08006A9A:
 	adds r0, #8
 	b _08006AE2
 	.align 2, 0
-_08006AB0: .4byte gUnknown_02002650
+_08006AB0: .4byte gEwramHeap
 _08006AB4:
 	adds r0, r2, #0
 	adds r0, #8
@@ -65,12 +65,12 @@ _08006AD4:
 	adds r3, r0, #0
 	b _08006A9A
 _08006ADE:
-	ldr r0, _08006AE4 @ =gUnknown_020226D0
+	ldr r0, _08006AE4 @ =ewram_end
 	ldr r0, [r0]
 _08006AE2:
 	bx lr
 	.align 2, 0
-_08006AE4: .4byte gUnknown_020226D0
+_08006AE4: .4byte ewram_end
 
 	thumb_func_start EwramFree
 EwramFree: @ 0x08006AE8
@@ -78,12 +78,12 @@ EwramFree: @ 0x08006AE8
 	adds r1, r0, #0
 	cmp r1, #0
 	beq _08006B44
-	ldr r0, _08006B4C @ =gUnknown_020226D0
+	ldr r0, _08006B4C @ =ewram_end
 	ldr r0, [r0]
 	cmp r0, r1
 	beq _08006B44
 	subs r1, #8
-	ldr r3, _08006B50 @ =gUnknown_02002650
+	ldr r3, _08006B50 @ =gEwramHeap
 	adds r4, r3, #0
 	cmp r1, r3
 	beq _08006B0A
@@ -129,5 +129,5 @@ _08006B44:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08006B4C: .4byte gUnknown_020226D0
-_08006B50: .4byte gUnknown_02002650
+_08006B4C: .4byte ewram_end
+_08006B50: .4byte gEwramHeap

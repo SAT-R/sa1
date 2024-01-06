@@ -2774,11 +2774,11 @@ CopyOamBufferToOam: @ 0x08004894
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x10
-	ldr r5, _08004944 @ =gUnknown_03004630
+	ldr r5, _08004944 @ =gOamBuffer
 	movs r0, #0
 	mov sb, r0
 	movs r3, #0
-	ldr r1, _08004948 @ =gUnknown_03002380
+	ldr r1, _08004948 @ =gOamFirstPausedIndex
 	mov sl, r1
 	mov r2, sp
 	adds r2, #8
@@ -2835,7 +2835,7 @@ _080048FA:
 	ldr r0, _08004964 @ =gOamFreeIndex
 	ldrb r3, [r0]
 	lsls r0, r3, #3
-	ldr r1, _08004944 @ =gUnknown_03004630
+	ldr r1, _08004944 @ =gOamBuffer
 	adds r5, r0, r1
 	mov r2, sl
 	ldrb r0, [r2]
@@ -2861,8 +2861,8 @@ _0800492C:
 	blt _0800492C
 	b _080049F8
 	.align 2, 0
-_08004944: .4byte gUnknown_03004630
-_08004948: .4byte gUnknown_03002380
+_08004944: .4byte gOamBuffer
+_08004948: .4byte gOamFirstPausedIndex
 _0800494C: .4byte gUnknown_03001110
 _08004950: .4byte 0x040000D4
 _08004954: .4byte gUnknown_03001FB0
@@ -2881,13 +2881,13 @@ _0800496C:
 	ldrb r0, [r1]
 	subs r3, r0, #1
 	lsls r0, r3, #3
-	ldr r2, _080049E4 @ =gUnknown_03004630
+	ldr r2, _080049E4 @ =gOamBuffer
 	adds r5, r0, r2
 	cmp r3, #0
 	blt _080049A6
 	ldr r2, _080049E8 @ =0x040000D4
 	ldr r6, _080049EC @ =0x80000003
-	ldr r0, _080049E4 @ =gUnknown_03004630
+	ldr r0, _080049E4 @ =gOamBuffer
 	movs r1, #0xfe
 	lsls r1, r1, #2
 	adds r4, r0, r1
@@ -2920,7 +2920,7 @@ _080049A6:
 	ldr r1, _080049E8 @ =0x040000D4
 	adds r4, r0, #0
 	ldr r6, _080049F0 @ =0x81000003
-	ldr r2, _080049E4 @ =gUnknown_03004630
+	ldr r2, _080049E4 @ =gOamBuffer
 _080049CA:
 	strh r7, [r5]
 	mov r0, sp
@@ -2935,7 +2935,7 @@ _080049CA:
 	b _080049F8
 	.align 2, 0
 _080049E0: .4byte gOamFreeIndex
-_080049E4: .4byte gUnknown_03004630
+_080049E4: .4byte gOamBuffer
 _080049E8: .4byte 0x040000D4
 _080049EC: .4byte 0x80000003
 _080049F0: .4byte 0x81000003
