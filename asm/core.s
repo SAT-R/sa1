@@ -141,7 +141,7 @@ _08000472:
 	ldr r1, _08000728 @ =0x85000020
 	str r1, [r0, #8]
 	ldr r1, [r0, #8]
-	ldr r1, _0800072C @ =gUnknown_030011B0
+	ldr r1, _0800072C @ =gOamFreeIndex
 	strb r4, [r1]
 	ldr r1, _08000730 @ =gUnknown_03002380
 	strb r4, [r1]
@@ -232,7 +232,7 @@ _08000472:
 	strh r2, [r0, #6]
 	strh r2, [r0, #8]
 	strh r2, [r0, #0xa]
-	ldr r0, _08000780 @ =gUnknown_030011A8
+	ldr r0, _08000780 @ =gBldRegs
 	strh r2, [r0]
 	strh r2, [r0, #2]
 	strh r2, [r0, #4]
@@ -244,7 +244,7 @@ _08000472:
 	mov sb, r0
 	ldr r1, _08000790 @ =gUnknown_03004C50
 	mov sl, r1
-	ldr r3, _08000794 @ =gUnknown_03001B24
+	ldr r3, _08000794 @ =gFrameCount
 	mov ip, r3
 	ldr r7, _08000798 @ =gUnknown_03001420
 	ldr r6, _0800079C @ =gUnknown_03001FA0
@@ -396,7 +396,7 @@ _0800071C: .4byte gUnknown_030010B4
 _08000720: .4byte gDispCnt
 _08000724: .4byte gVramGraphicsCopyQueue
 _08000728: .4byte 0x85000020
-_0800072C: .4byte gUnknown_030011B0
+_0800072C: .4byte gOamFreeIndex
 _08000730: .4byte gUnknown_03002380
 _08000734: .4byte gUnknown_03004630
 _08000738: .4byte 0x81000200
@@ -417,12 +417,12 @@ _08000770: .4byte gUnknown_0300120C
 _08000774: .4byte gUnknown_030020C0
 _08000778: .4byte gUnknown_03004C38
 _0800077C: .4byte gUnknown_03001B30
-_08000780: .4byte gUnknown_030011A8
+_08000780: .4byte gBldRegs
 _08000784: .4byte gUnknown_03004C58
 _08000788: .4byte gInputRecorder
 _0800078C: .4byte gPhysicalInput
 _08000790: .4byte gUnknown_03004C50
-_08000794: .4byte gUnknown_03001B24
+_08000794: .4byte gFrameCount
 _08000798: .4byte gUnknown_03001420
 _0800079C: .4byte gUnknown_03001FA0
 _080007A0: .4byte gUnknown_030020F0
@@ -455,7 +455,7 @@ _08000800:
 	ldr r1, _08000868 @ =0x040000D4
 	ldr r0, _0800086C @ =IntrMain
 	str r0, [r1]
-	ldr r2, _08000870 @ =gUnknown_030004B0
+	ldr r2, _08000870 @ =gIntrMainBuf
 	str r2, [r1, #4]
 	ldr r0, _08000874 @ =0x84000080
 	str r0, [r1, #8]
@@ -504,7 +504,7 @@ _08000800:
 _08000864: .4byte 0x03000484
 _08000868: .4byte 0x040000D4
 _0800086C: .4byte IntrMain
-_08000870: .4byte gUnknown_030004B0
+_08000870: .4byte gIntrMainBuf
 _08000874: .4byte 0x84000080
 _08000878: .4byte INTR_VECTOR
 _0800087C: .4byte 0x04000208
@@ -685,7 +685,7 @@ _080009E2:
 	ldr r0, _08000A90 @ =0x84000003
 	str r0, [r3, #8]
 	ldr r0, [r3, #8]
-	ldr r0, _08000A94 @ =gUnknown_030011A8
+	ldr r0, _08000A94 @ =gBldRegs
 	str r0, [r3]
 	ldr r0, _08000A98 @ =0x04000050
 	str r0, [r3, #4]
@@ -756,7 +756,7 @@ _08000A84: .4byte 0x05000200
 _08000A88: .4byte gUnknown_03001B30
 _08000A8C: .4byte 0x04000040
 _08000A90: .4byte 0x84000003
-_08000A94: .4byte gUnknown_030011A8
+_08000A94: .4byte gBldRegs
 _08000A98: .4byte 0x04000050
 _08000A9C: .4byte 0x80000003
 _08000AA0: .4byte gUnknown_030020D0
@@ -1110,7 +1110,7 @@ _08000D88:
 	ldr r1, _08000E10 @ =0x04000040
 	ldr r2, _08000E14 @ =0x04000003
 	bl CpuSet
-	ldr r0, _08000E18 @ =gUnknown_030011A8
+	ldr r0, _08000E18 @ =gBldRegs
 	ldr r1, _08000E1C @ =0x04000050
 	movs r2, #3
 	bl CpuSet
@@ -1163,7 +1163,7 @@ _08000E08: .4byte 0x05000200
 _08000E0C: .4byte gUnknown_03001B30
 _08000E10: .4byte 0x04000040
 _08000E14: .4byte 0x04000003
-_08000E18: .4byte gUnknown_030011A8
+_08000E18: .4byte gBldRegs
 _08000E1C: .4byte 0x04000050
 _08000E20: .4byte gUnknown_030020D0
 _08000E24: .4byte 0x04000010
@@ -1523,7 +1523,7 @@ _08001088:
 	movs r0, #0x20
 	bl SoftReset
 _08001122:
-	ldr r1, _08001164 @ =gUnknown_03001B24
+	ldr r1, _08001164 @ =gFrameCount
 	ldr r0, [r1]
 	adds r0, #1
 	str r0, [r1]
@@ -1545,7 +1545,7 @@ _08001154: .4byte 0x0000C5FF
 _08001158: .4byte 0x00007FFF
 _0800115C: .4byte 0x040000D4
 _08001160: .4byte gInput
-_08001164: .4byte gUnknown_03001B24
+_08001164: .4byte gFrameCount
 _08001168: .4byte 0x04000202
 
 	thumb_func_start sub_800116C

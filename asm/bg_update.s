@@ -10,7 +10,7 @@ DrawBackground: @ 0x080019C0
 	push {r4, r5, r6, lr}
 	adds r3, r0, #0
 	ldrh r0, [r3, #0x1c]
-	ldr r1, _08001A84 @ =gUnknown_03001B20
+	ldr r1, _08001A84 @ =gTilemapsRef
 	ldr r1, [r1]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -108,7 +108,7 @@ _08001A66:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08001A84: .4byte gUnknown_03001B20
+_08001A84: .4byte gTilemapsRef
 _08001A88: .4byte gVramGraphicsCopyQueue
 _08001A8C: .4byte gVramGraphicsCopyQueueIndex
 _08001A90: .4byte 0x040000D4

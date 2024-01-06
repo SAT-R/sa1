@@ -1988,7 +1988,7 @@ _08004292:
 	ldr r3, [sp, #0xc]
 	cmp r3, #0
 	bne _080042A4
-	ldr r0, _08004338 @ =gUnknown_030011B0
+	ldr r0, _08004338 @ =gOamFreeIndex
 	ldrb r0, [r0]
 	subs r0, #1
 	adds r1, r7, #0
@@ -2068,7 +2068,7 @@ _0800431E:
 	.align 2, 0
 _08004330: .4byte gUnknown_03002034
 _08004334: .4byte iwram_end
-_08004338: .4byte gUnknown_030011B0
+_08004338: .4byte gOamFreeIndex
 _0800433C: .4byte 0x040000D4
 _08004340: .4byte 0x80000003
 _08004344: .4byte 0x000001FF
@@ -2698,7 +2698,7 @@ OamMalloc: @ 0x080047FC
 	bls _08004808
 	movs r5, #0x1f
 _08004808:
-	ldr r0, _0800481C @ =gUnknown_030011B0
+	ldr r0, _0800481C @ =gOamFreeIndex
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	adds r4, r0, #0
@@ -2708,7 +2708,7 @@ _08004808:
 	ldr r0, [r0]
 	b _08004880
 	.align 2, 0
-_0800481C: .4byte gUnknown_030011B0
+_0800481C: .4byte gOamFreeIndex
 _08004820: .4byte iwram_end
 _08004824:
 	ldr r0, _08004848 @ =gUnknown_03001110
@@ -2832,7 +2832,7 @@ _080048FA:
 	ands r0, r1
 	cmp r0, #0
 	beq _0800496C
-	ldr r0, _08004964 @ =gUnknown_030011B0
+	ldr r0, _08004964 @ =gOamFreeIndex
 	ldrb r3, [r0]
 	lsls r0, r3, #3
 	ldr r1, _08004944 @ =gUnknown_03004630
@@ -2869,7 +2869,7 @@ _08004954: .4byte gUnknown_03001FB0
 _08004958: .4byte gUnknown_03001B80
 _0800495C: .4byte 0x80000003
 _08004960: .4byte gFlags
-_08004964: .4byte gUnknown_030011B0
+_08004964: .4byte gOamFreeIndex
 _08004968: .4byte 0x81000003
 _0800496C:
 	movs r0, #0x80
@@ -2877,7 +2877,7 @@ _0800496C:
 	ands r0, r1
 	cmp r0, #0
 	beq _080049F4
-	ldr r1, _080049E0 @ =gUnknown_030011B0
+	ldr r1, _080049E0 @ =gOamFreeIndex
 	ldrb r0, [r1]
 	subs r3, r0, #1
 	lsls r0, r3, #3
@@ -2903,7 +2903,7 @@ _08004994:
 	cmp r3, #0
 	bge _08004994
 _080049A6:
-	ldr r2, _080049E0 @ =gUnknown_030011B0
+	ldr r2, _080049E0 @ =gOamFreeIndex
 	ldrb r1, [r2]
 	movs r0, #0x80
 	subs r0, r0, r1
@@ -2934,7 +2934,7 @@ _080049CA:
 	blt _080049CA
 	b _080049F8
 	.align 2, 0
-_080049E0: .4byte gUnknown_030011B0
+_080049E0: .4byte gOamFreeIndex
 _080049E4: .4byte gUnknown_03004630
 _080049E8: .4byte 0x040000D4
 _080049EC: .4byte 0x80000003
@@ -2944,7 +2944,7 @@ _080049F4:
 	strb r0, [r1]
 _080049F8:
 	movs r0, #0
-	ldr r2, _08004A2C @ =gUnknown_030011B0
+	ldr r2, _08004A2C @ =gOamFreeIndex
 	strb r0, [r2]
 	ldr r1, _08004A30 @ =gFlags
 	ldr r0, [r1]
@@ -2968,7 +2968,7 @@ _080049F8:
 	bl CpuSet
 	b _08004A64
 	.align 2, 0
-_08004A2C: .4byte gUnknown_030011B0
+_08004A2C: .4byte gOamFreeIndex
 _08004A30: .4byte gFlags
 _08004A34: .4byte 0x05000008
 _08004A38: .4byte gUnknown_03001110

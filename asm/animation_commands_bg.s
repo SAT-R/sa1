@@ -10,7 +10,7 @@ UpdateBgAnimationTiles: @ 0x080025B0
 	push {r4, r5, r6, lr}
 	adds r4, r0, #0
 	ldrh r0, [r4, #0x1c]
-	ldr r1, _0800260C @ =gUnknown_03001B20
+	ldr r1, _0800260C @ =gTilemapsRef
 	ldr r1, [r1]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -54,7 +54,7 @@ _080025F2:
 	ldr r0, [r3, #8]
 	b _0800262E
 	.align 2, 0
-_0800260C: .4byte gUnknown_03001B20
+_0800260C: .4byte gTilemapsRef
 _08002610:
 	ldr r1, [r3, #8]
 	ldr r0, [r3, #0xc]

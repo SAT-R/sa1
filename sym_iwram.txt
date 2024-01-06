@@ -19,10 +19,10 @@ build/sa1/src/lib/agb_flash.o(.bss);
 *libgcc.a:(.bss);
 
 . = 0x00000470; gIntrTable = .;
-. = 0x000004B0; gUnknown_030004B0 = .;
+. = 0x000004B0; gIntrMainBuf = .;
 . = 0x000006B0; gTasks = .;
 . = 0x000010B0; gUnknown_030010B0 = .;
-. = 0x000010B4; gUnknown_030010B4 = .;
+. = 0x000010B4; gUnknown_030010B4 = .; /* SA2: gUnknown_030017F4 (some on-screen window rect? Sprites with flag 17 set get moved by this pos) */
 . = 0x000010C0; gUnknown_030010C0 = .;
 . = 0x00001100; gFlags = .;
 . = 0x00001110; gUnknown_03001110 = .;
@@ -33,8 +33,8 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x0000114C; gUnknown_0300114C = .;
 . = 0x00001150; gUnknown_03001150 = .;
 . = 0x000011A0; gNumHBlankIntrs = .;
-. = 0x000011A8; gUnknown_030011A8 = .;
-. = 0x000011B0; gUnknown_030011B0 = .;
+. = 0x000011A8; gBldRegs = .;
+. = 0x000011B0; gOamFreeIndex = .;
 . = 0x000011C0; gEmptyTask = .;
 . = 0x000011E0; gBgAffineRegs = .;
 . = 0x00001200; gUnknown_03001200 = .;
@@ -46,10 +46,8 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00001220; gTaskPtrs = .;
 . = 0x00001420; gUnknown_03001420 = .;
 . = 0x00001920; gObjPalette = .;
-. = 0x00001A20; gUnknown_03001A20 = .;
-. = 0x00001AA0; gUnknown_03001AA0 = .;
-. = 0x00001B20; gUnknown_03001B20 = .; /* SA2: gUnknown_03002260 (ref to gTilemaps) */
-. = 0x00001B24; gUnknown_03001B24 = .;
+. = 0x00001B20; gTilemapsRef = .; /* SA2: (ref to gTilemaps - also for Multiboot programs like "Collect Rings"!) */
+. = 0x00001B24; gFrameCount = .;
 . = 0x00001B30; gUnknown_03001B30 = .;
 . = 0x00001B3C; gNumTasks = .;
 . = 0x00001B40; gUnknown_03001B40 = .;
@@ -69,7 +67,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00001FAC; gReleasedKeys = .;
 . = 0x00001FB0; gUnknown_03001FB0 = .;
 . = 0x00002030; gUnknown_03002030 = .;
-. = 0x00002034; gUnknown_03002034 = .;
+. = 0x00002034; gUnknown_03002034 = .; /* SA2: gUnknown_03002794 */
 . = 0x00002040; gVramGraphicsCopyQueue = .;
 . = 0x000020C0; gUnknown_030020C0 = .;
 . = 0x000020D0; gUnknown_030020D0 = .;
