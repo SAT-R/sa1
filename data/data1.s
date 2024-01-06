@@ -8,7 +8,32 @@ gUnknown_087BF8CC:
 
     .global gUnknown_087BF8DC
 gUnknown_087BF8DC:
-    .incbin "baserom.gba", 0x007BF8DC, 0x83C
+    .incbin "baserom.gba", 0x007BF8DC, 0x3C
+
+@@@
+@@@ Compressed Input-recordings for Demo playback
+@@@
+    @ src/data/recordings.c:static const u8 demo1[]
+    .global demo1
+demo1:
+    .incbin "baserom.gba", 0x007BF918, 0x1F8
+
+    @ src/data/recordings.c:static const u8 demo2[]
+    .global demo2
+demo2:
+    .incbin "baserom.gba", 0x007BFB10, 0x200
+
+    @ src/data/recordings.c:static const u8 demo4[]
+    @ NOTE: Ice Mountain data comes before Casino Paradise!
+    .global demo4
+demo4:
+    .incbin "baserom.gba", 0x007BFD10, 0x208
+
+    @ src/data/recordings.c:static const u8 demo3[]
+    .global demo3
+demo3:
+    .incbin "baserom.gba", 0x007BFF18, 0x200
+
 
     .global gUnknown_087C0118
 gUnknown_087C0118:
