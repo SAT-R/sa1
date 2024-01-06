@@ -7712,7 +7712,7 @@ sub_800CFB8: @ 0x0800CFB8
 	ldr r0, _0800D068 @ =gDispCnt
 	movs r2, #0x40
 	strh r2, [r0]
-	ldr r1, _0800D06C @ =gUnknown_03001B70
+	ldr r1, _0800D06C @ =gBgCntRegs
 	ldr r0, _0800D070 @ =0x00005E01
 	strh r0, [r1, #4]
 	ldr r0, _0800D074 @ =gUnknown_030020D0
@@ -7781,7 +7781,7 @@ sub_800CFB8: @ 0x0800CFB8
 _0800D060: .4byte gBldRegs
 _0800D064: .4byte gFlags
 _0800D068: .4byte gDispCnt
-_0800D06C: .4byte gUnknown_03001B70
+_0800D06C: .4byte gBgCntRegs
 _0800D070: .4byte 0x00005E01
 _0800D074: .4byte gUnknown_030020D0
 _0800D078: .4byte 0x040000D4
@@ -7929,7 +7929,7 @@ sub_800D198: @ 0x0800D198
 	ldr r0, _0800D238 @ =gDispCnt
 	movs r2, #0x40
 	strh r2, [r0]
-	ldr r1, _0800D23C @ =gUnknown_03001B70
+	ldr r1, _0800D23C @ =gBgCntRegs
 	ldr r0, _0800D240 @ =0x00005E01
 	strh r0, [r1, #4]
 	ldr r0, _0800D244 @ =gUnknown_030020D0
@@ -7997,7 +7997,7 @@ sub_800D198: @ 0x0800D198
 	.align 2, 0
 _0800D234: .4byte gBldRegs
 _0800D238: .4byte gDispCnt
-_0800D23C: .4byte gUnknown_03001B70
+_0800D23C: .4byte gBgCntRegs
 _0800D240: .4byte 0x00005E01
 _0800D244: .4byte gUnknown_030020D0
 _0800D248: .4byte 0x040000D4
@@ -8337,7 +8337,7 @@ sub_800D4E0: @ 0x0800D4E0
 	ldr r1, _0800D6AC @ =gDispCnt
 	movs r0, #0x41
 	strh r0, [r1]
-	ldr r1, _0800D6B0 @ =gUnknown_03001B70
+	ldr r1, _0800D6B0 @ =gBgCntRegs
 	movs r0, #0
 	mov r8, r0
 	movs r6, #0
@@ -8547,7 +8547,7 @@ _0800D698:
 	.align 2, 0
 _0800D6A8: .4byte gUnknown_080BB33C
 _0800D6AC: .4byte gDispCnt
-_0800D6B0: .4byte gUnknown_03001B70
+_0800D6B0: .4byte gBgCntRegs
 _0800D6B4: .4byte 0x0000568D
 _0800D6B8: .4byte 0x00001482
 _0800D6BC: .4byte gUnknown_030020D0
@@ -8820,7 +8820,7 @@ sub_800D8FC: @ 0x0800D8FC
 	ldr r2, _0800DAF8 @ =0x00001541
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r0, _0800DAFC @ =gUnknown_03001B70
+	ldr r0, _0800DAFC @ =gBgCntRegs
 	mov sb, r0
 	movs r7, #0
 	movs r5, #0
@@ -9056,7 +9056,7 @@ _0800DAEC: .4byte gGameMode
 _0800DAF0: .4byte gUnknown_03005018
 _0800DAF4: .4byte gDispCnt
 _0800DAF8: .4byte 0x00001541
-_0800DAFC: .4byte gUnknown_03001B70
+_0800DAFC: .4byte gBgCntRegs
 _0800DB00: .4byte 0x0000568D
 _0800DB04: .4byte 0x00001482
 _0800DB08: .4byte gUnknown_030020D0
@@ -9759,7 +9759,7 @@ sub_800E0C4: @ 0x0800E0C4
 	lsls r3, r3, #1
 	adds r0, r3, #0
 	strh r0, [r1]
-	ldr r1, _0800E11C @ =gUnknown_03001B70
+	ldr r1, _0800E11C @ =gBgCntRegs
 	movs r3, #0
 	ldr r0, _0800E120 @ =0x00001F06
 	strh r0, [r1]
@@ -9775,7 +9775,7 @@ sub_800E0C4: @ 0x0800E0C4
 _0800E110: .4byte sub_800E404
 _0800E114: .4byte gUnknown_03005060
 _0800E118: .4byte gDispCnt
-_0800E11C: .4byte gUnknown_03001B70
+_0800E11C: .4byte gBgCntRegs
 _0800E120: .4byte 0x00001F06
 _0800E124: .4byte 0x06004020
 
@@ -10208,7 +10208,7 @@ _0800E4A0:
 	ldr r2, _0800E5F0 @ =0x00001141
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _0800E5F4 @ =gUnknown_03001B70
+	ldr r1, _0800E5F4 @ =gBgCntRegs
 	movs r0, #0
 	mov r8, r0
 	movs r6, #0
@@ -10368,7 +10368,7 @@ _0800E5DA:
 	.align 2, 0
 _0800E5EC: .4byte gDispCnt
 _0800E5F0: .4byte 0x00001141
-_0800E5F4: .4byte gUnknown_03001B70
+_0800E5F4: .4byte gBgCntRegs
 _0800E5F8: .4byte 0x00001E03
 _0800E5FC: .4byte sub_800FEF4
 _0800E600: .4byte 0x03000200
@@ -11961,7 +11961,7 @@ sub_800F318: @ 0x0800F318
 	ldr r2, _0800F558 @ =0x00001141
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _0800F55C @ =gUnknown_03001B70
+	ldr r1, _0800F55C @ =gBgCntRegs
 	movs r7, #0
 	ldr r0, _0800F560 @ =0x00001E03
 	strh r0, [r1]
@@ -12210,7 +12210,7 @@ _0800F54C: .4byte gUnknown_03004620
 _0800F550: .4byte gUnknown_03001B40
 _0800F554: .4byte gDispCnt
 _0800F558: .4byte 0x00001141
-_0800F55C: .4byte gUnknown_03001B70
+_0800F55C: .4byte gBgCntRegs
 _0800F560: .4byte 0x00001E03
 _0800F564: .4byte gCurTask
 _0800F568: .4byte 0x03000207
@@ -12546,7 +12546,7 @@ _0800F874:
 	ldr r1, _0800F900 @ =0x00001341
 	adds r0, r1, #0
 	strh r0, [r4]
-	ldr r1, _0800F904 @ =gUnknown_03001B70
+	ldr r1, _0800F904 @ =gBgCntRegs
 	movs r5, #0
 	movs r2, #0
 	ldr r0, _0800F908 @ =0x00001E02
@@ -12612,7 +12612,7 @@ _0800F874:
 	.align 2, 0
 _0800F8FC: .4byte gDispCnt
 _0800F900: .4byte 0x00001341
-_0800F904: .4byte gUnknown_03001B70
+_0800F904: .4byte gBgCntRegs
 _0800F908: .4byte 0x00001E02
 _0800F90C: .4byte gUnknown_030020D0
 _0800F910: .4byte gCurTask
@@ -13538,7 +13538,7 @@ sub_80100A8: @ 0x080100A8
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _080101D8 @ =gUnknown_03001B70
+	ldr r1, _080101D8 @ =gBgCntRegs
 	movs r3, #0
 	mov r8, r3
 	movs r5, #0
@@ -13673,7 +13673,7 @@ sub_80100A8: @ 0x080100A8
 	b _08010244
 	.align 2, 0
 _080101D4: .4byte gDispCnt
-_080101D8: .4byte gUnknown_03001B70
+_080101D8: .4byte gBgCntRegs
 _080101DC: .4byte 0x00000F84
 _080101E0: .4byte gUnknown_030020D0
 _080101E4: .4byte sub_80102A8
@@ -14187,7 +14187,7 @@ sub_801061C: @ 0x0801061C
 	lsls r1, r1, #5
 	adds r0, r1, #0
 	strh r0, [r4]
-	ldr r1, _0801086C @ =gUnknown_03001B70
+	ldr r1, _0801086C @ =gBgCntRegs
 	movs r7, #0
 	movs r5, #0
 	ldr r0, _08010870 @ =0x00001E03
@@ -14460,7 +14460,7 @@ _080106EE:
 	b _080108E2
 	.align 2, 0
 _08010868: .4byte gDispCnt
-_0801086C: .4byte gUnknown_03001B70
+_0801086C: .4byte gBgCntRegs
 _08010870: .4byte 0x00001E03
 _08010874: .4byte gUnknown_030020D0
 _08010878: .4byte 0x00001FFF
@@ -16258,7 +16258,7 @@ sub_80117A8: @ 0x080117A8
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _0801191C @ =gUnknown_03001B70
+	ldr r1, _0801191C @ =gBgCntRegs
 	movs r7, #0
 	movs r5, #0
 	ldr r0, _08011920 @ =0x00001B04
@@ -16427,7 +16427,7 @@ _08011854:
 	b _08011966
 	.align 2, 0
 _08011918: .4byte gDispCnt
-_0801191C: .4byte gUnknown_03001B70
+_0801191C: .4byte gBgCntRegs
 _08011920: .4byte 0x00001B04
 _08011924: .4byte gBldRegs
 _08011928: .4byte gUnknown_030020D0
@@ -19261,7 +19261,7 @@ sub_8012FE8: @ 0x08012FE8
 	lsls r2, r2, #3
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _08013050 @ =gUnknown_03001B70
+	ldr r1, _08013050 @ =gBgCntRegs
 	movs r4, #0
 	movs r3, #0
 	ldr r0, _08013054 @ =0x00001E01
@@ -19305,7 +19305,7 @@ sub_8012FE8: @ 0x08012FE8
 	bx r0
 	.align 2, 0
 _0801304C: .4byte gDispCnt
-_08013050: .4byte gUnknown_03001B70
+_08013050: .4byte gBgCntRegs
 _08013054: .4byte 0x00001E01
 _08013058: .4byte 0x040000D4
 _0801305C: .4byte 0x85000010
@@ -30121,7 +30121,7 @@ sub_8018538: @ 0x08018538
 	ldr r2, _080186E4 @ =0x00001141
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _080186E8 @ =gUnknown_03001B70
+	ldr r1, _080186E8 @ =gBgCntRegs
 	movs r3, #0
 	mov r8, r3
 	ldr r0, _080186EC @ =0x00001E03
@@ -30313,7 +30313,7 @@ sub_8018538: @ 0x08018538
 _080186DC: .4byte gUnknown_03005060
 _080186E0: .4byte gDispCnt
 _080186E4: .4byte 0x00001141
-_080186E8: .4byte gUnknown_03001B70
+_080186E8: .4byte gBgCntRegs
 _080186EC: .4byte 0x00001E03
 _080186F0: .4byte gBldRegs
 _080186F4: .4byte sub_801874C
@@ -30796,7 +30796,7 @@ sub_8018AE0: @ 0x08018AE0
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r1, _08018E04 @ =gUnknown_03001B70
+	ldr r1, _08018E04 @ =gBgCntRegs
 	ldr r0, _08018E08 @ =0x00001E03
 	strh r0, [r1]
 	ldr r0, _08018E0C @ =0x00001F06
@@ -31167,7 +31167,7 @@ sub_8018AE0: @ 0x08018AE0
 _08018DF8: .4byte 0x06010000
 _08018DFC: .4byte gUnknown_03005060
 _08018E00: .4byte gDispCnt
-_08018E04: .4byte gUnknown_03001B70
+_08018E04: .4byte gBgCntRegs
 _08018E08: .4byte 0x00001E03
 _08018E0C: .4byte 0x00001F06
 _08018E10: .4byte sub_8018ECC
@@ -32093,7 +32093,7 @@ sub_8019348: @ 0x08019348
 	strh r5, [r0]
 	ldr r0, _080196D0 @ =gInput
 	strh r5, [r0]
-	ldr r1, _080196D4 @ =gUnknown_03001B70
+	ldr r1, _080196D4 @ =gBgCntRegs
 	ldr r0, _080196D8 @ =0x00001F05
 	strh r0, [r1, #4]
 	ldr r1, _080196DC @ =gUnknown_030020D0
@@ -32184,7 +32184,7 @@ _080196C4: .4byte 0x030001F2
 _080196C8: .4byte gRepeatedKeys
 _080196CC: .4byte gPressedKeys
 _080196D0: .4byte gInput
-_080196D4: .4byte gUnknown_03001B70
+_080196D4: .4byte gBgCntRegs
 _080196D8: .4byte 0x00001F05
 _080196DC: .4byte gUnknown_030020D0
 _080196E0: .4byte 0x0300023E
@@ -34313,7 +34313,7 @@ sub_801A794: @ 0x0801A794
 	ldr r0, _0801AA3C @ =gDispCnt
 	movs r3, #0x40
 	strh r3, [r0]
-	ldr r1, _0801AA40 @ =gUnknown_03001B70
+	ldr r1, _0801AA40 @ =gBgCntRegs
 	ldr r0, _0801AA44 @ =0x00005E0B
 	strh r0, [r1, #6]
 	ldr r0, _0801AA48 @ =0x00001C0C
@@ -34580,7 +34580,7 @@ _0801AA30: .4byte gUnknown_087D7E80
 _0801AA34: .4byte gUnknown_02033000
 _0801AA38: .4byte gTilemapsRef
 _0801AA3C: .4byte gDispCnt
-_0801AA40: .4byte gUnknown_03001B70
+_0801AA40: .4byte gBgCntRegs
 _0801AA44: .4byte 0x00005E0B
 _0801AA48: .4byte 0x00001C0C
 _0801AA4C: .4byte gUnknown_03004620

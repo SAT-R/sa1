@@ -2716,7 +2716,7 @@ _08004824:
 	ldrb r0, [r2]
 	cmp r0, #0xff
 	bne _08004854
-	ldr r1, _0800484C @ =gUnknown_03001B80
+	ldr r1, _0800484C @ =gOamBuffer2
 	ldrb r0, [r4]
 	lsls r0, r0, #3
 	adds r0, r0, r1
@@ -2731,10 +2731,10 @@ _08004824:
 	b _08004872
 	.align 2, 0
 _08004848: .4byte gUnknown_03001110
-_0800484C: .4byte gUnknown_03001B80
+_0800484C: .4byte gOamBuffer2
 _08004850: .4byte gUnknown_03004600
 _08004854:
-	ldr r3, _08004888 @ =gUnknown_03001B80
+	ldr r3, _08004888 @ =gOamBuffer2
 	ldrb r0, [r4]
 	lsls r0, r0, #3
 	adds r0, r0, r3
@@ -2762,7 +2762,7 @@ _08004880:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08004888: .4byte gUnknown_03001B80
+_08004888: .4byte gOamBuffer2
 _0800488C: .4byte gUnknown_03004600
 _08004890: .4byte gRepeatedKeys
 
@@ -2798,7 +2798,7 @@ _080048B2:
 	mov r8, r1
 	ldr r0, _08004954 @ =gUnknown_03001FB0
 	mov ip, r0
-	ldr r7, _08004958 @ =gUnknown_03001B80
+	ldr r7, _08004958 @ =gOamBuffer2
 _080048D0:
 	asrs r2, r2, #0x18
 	lsls r3, r2, #3
@@ -2866,7 +2866,7 @@ _08004948: .4byte gUnknown_03002380
 _0800494C: .4byte gUnknown_03001110
 _08004950: .4byte 0x040000D4
 _08004954: .4byte gUnknown_03001FB0
-_08004958: .4byte gUnknown_03001B80
+_08004958: .4byte gOamBuffer2
 _0800495C: .4byte 0x80000003
 _08004960: .4byte gFlags
 _08004964: .4byte gOamFreeIndex

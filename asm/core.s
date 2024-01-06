@@ -158,7 +158,7 @@ _08000472:
 	ldr r1, [r0, #8]
 	strh r5, [r3]
 	str r3, [r0]
-	ldr r1, _0800073C @ =gUnknown_03001B80
+	ldr r1, _0800073C @ =gOamBuffer2
 	str r1, [r0, #4]
 	str r4, [r0, #8]
 	ldr r1, [r0, #8]
@@ -317,7 +317,7 @@ _08000610:
 	str r2, [sp]
 	mov r1, sp
 	str r1, [r0]
-	ldr r3, _080007C8 @ =gUnknown_03001F80
+	ldr r3, _080007C8 @ =gHBlankCallbacks
 	str r3, [r0, #4]
 	ldr r1, _08000710 @ =0x85000004
 	str r1, [r0, #8]
@@ -400,7 +400,7 @@ _0800072C: .4byte gOamFreeIndex
 _08000730: .4byte gUnknown_03002380
 _08000734: .4byte gUnknown_03004630
 _08000738: .4byte 0x81000200
-_0800073C: .4byte gUnknown_03001B80
+_0800073C: .4byte gOamBuffer2
 _08000740: .4byte gUnknown_03001110
 _08000744: .4byte 0x85000008
 _08000748: .4byte gUnknown_03004600
@@ -435,7 +435,7 @@ _080007B8: .4byte gUnknown_03002118
 _080007BC: .4byte gUnknown_03002320
 _080007C0: .4byte gUnknown_0300114C
 _080007C4: .4byte gNumHBlankIntrs
-_080007C8: .4byte gUnknown_03001F80
+_080007C8: .4byte gHBlankCallbacks
 _080007CC: .4byte gHBlankIntrs
 _080007D0: .4byte gUnknown_030045F0
 _080007D4: .4byte gUnknown_03001208
@@ -636,7 +636,7 @@ sub_8000980: @ 0x08000980
 	ldrh r0, [r0]
 	strh r0, [r1]
 	ldr r3, _08000A64 @ =0x040000D4
-	ldr r0, _08000A68 @ =gUnknown_03001B70
+	ldr r0, _08000A68 @ =gBgCntRegs
 	str r0, [r3]
 	ldr r0, _08000A6C @ =0x04000008
 	str r0, [r3, #4]
@@ -728,7 +728,7 @@ _080009E2:
 	ldrb r0, [r2]
 	cmp r0, #0
 	beq _08000A58
-	ldr r0, _08000AC8 @ =gUnknown_03001F80
+	ldr r0, _08000AC8 @ =gHBlankCallbacks
 	str r0, [r3]
 	str r1, [r3, #4]
 	ldrb r0, [r2]
@@ -745,7 +745,7 @@ _08000A58:
 	.align 2, 0
 _08000A60: .4byte gDispCnt
 _08000A64: .4byte 0x040000D4
-_08000A68: .4byte gUnknown_03001B70
+_08000A68: .4byte gBgCntRegs
 _08000A6C: .4byte 0x04000008
 _08000A70: .4byte 0x84000002
 _08000A74: .4byte gFlags
@@ -769,7 +769,7 @@ _08000AB8: .4byte 0x04000200
 _08000ABC: .4byte gHBlankIntrs
 _08000AC0: .4byte 0x85000004
 _08000AC4: .4byte gUnknown_0300114C
-_08000AC8: .4byte gUnknown_03001F80
+_08000AC8: .4byte gHBlankCallbacks
 _08000ACC: .4byte gNumHBlankIntrs
 _08000AD0:
 	ldr r2, _08000BBC @ =0x04000200
@@ -1073,7 +1073,7 @@ sub_8000D34: @ 0x08000D34
 	ldr r0, _08000DEC @ =gDispCnt
 	ldrh r0, [r0]
 	strh r0, [r1]
-	ldr r0, _08000DF0 @ =gUnknown_03001B70
+	ldr r0, _08000DF0 @ =gBgCntRegs
 	ldr r7, _08000DF4 @ =0x04000008
 	ldr r2, _08000DF8 @ =0x04000002
 	adds r1, r7, #0
@@ -1142,7 +1142,7 @@ _08000D88:
 	ldrb r0, [r4]
 	cmp r0, #0
 	beq _08000DE4
-	ldr r0, _08000E40 @ =gUnknown_03001F80
+	ldr r0, _08000E40 @ =gHBlankCallbacks
 	ldrb r2, [r4]
 	adds r1, r5, #0
 	bl CpuFastSet
@@ -1153,7 +1153,7 @@ _08000DE4:
 	b _08000E56
 	.align 2, 0
 _08000DEC: .4byte gDispCnt
-_08000DF0: .4byte gUnknown_03001B70
+_08000DF0: .4byte gBgCntRegs
 _08000DF4: .4byte 0x04000008
 _08000DF8: .4byte 0x04000002
 _08000DFC: .4byte gFlags
@@ -1173,7 +1173,7 @@ _08000E30: .4byte 0x04000200
 _08000E34: .4byte gHBlankIntrs
 _08000E38: .4byte 0x01000004
 _08000E3C: .4byte gUnknown_0300114C
-_08000E40: .4byte gUnknown_03001F80
+_08000E40: .4byte gHBlankCallbacks
 _08000E44: .4byte gNumHBlankIntrs
 _08000E48:
 	ldr r2, _08000ECC @ =0x04000200
@@ -1652,7 +1652,7 @@ GetInput: @ 0x08001224
 	mov r7, sb
 	mov r6, r8
 	push {r6, r7}
-	ldr r7, _08001258 @ =gUnknown_03001B60
+	ldr r7, _08001258 @ =gRepeatedKeysTestCounter
 	ldr r0, _0800125C @ =gUnknown_03001FA0
 	mov sb, r0
 	ldr r1, _08001260 @ =gUnknown_030020F0
@@ -1674,7 +1674,7 @@ GetInput: @ 0x08001224
 	bl InputRecorderWrite
 	b _08001282
 	.align 2, 0
-_08001258: .4byte gUnknown_03001B60
+_08001258: .4byte gRepeatedKeysTestCounter
 _0800125C: .4byte gUnknown_03001FA0
 _08001260: .4byte gUnknown_030020F0
 _08001264: .4byte gInput

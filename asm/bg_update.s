@@ -187,7 +187,7 @@ _08001B14:
 	ands r0, r1
 	cmp r0, #0
 	beq _08001B58
-	ldr r1, _08001B54 @ =gUnknown_03001B70
+	ldr r1, _08001B54 @ =gBgCntRegs
 	lsls r0, r5, #1
 	adds r0, r0, r1
 	ldrh r0, [r0]
@@ -203,11 +203,11 @@ _08001B14:
 _08001B48: .4byte 0x04000006
 _08001B4C: .4byte gUnknown_030010C0
 _08001B50: .4byte gDispCnt
-_08001B54: .4byte gUnknown_03001B70
+_08001B54: .4byte gBgCntRegs
 _08001B58:
 	movs r1, #0x20
 	str r1, [sp, #0xc]
-	ldr r0, _08001C48 @ =gUnknown_03001B70
+	ldr r0, _08001C48 @ =gBgCntRegs
 	lsls r1, r5, #1
 	adds r1, r1, r0
 	ldrh r0, [r1]
@@ -334,7 +334,7 @@ _08001C36:
 	bne _08001C04
 	bl _08002570
 	.align 2, 0
-_08001C48: .4byte gUnknown_03001B70
+_08001C48: .4byte gBgCntRegs
 _08001C4C: .4byte 0x0000FFFF
 _08001C50:
 	ldrh r0, [r6, #0x20]

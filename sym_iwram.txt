@@ -50,17 +50,15 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00001B24; gFrameCount = .;
 . = 0x00001B30; gWinRegs = .;
 . = 0x00001B3C; gNumTasks = .;
-. = 0x00001B40; gUnknown_03001B40 = .;
-. = 0x00001B42; gUnknown_03001B42 = .;
-. = 0x00001B43; gUnknown_03001B43 = .;
+. = 0x00001B40; gUnknown_03001B40 = .; /* SA2: gUnknown_03002280 */
 . = 0x00001B50; gInput = .;
-. = 0x00001B60; gUnknown_03001B60 = .;
-. = 0x00001B6C; gUnknown_03001B6C = .;
-. = 0x00001B70; gUnknown_03001B70 = .;
+. = 0x00001B60; gRepeatedKeysTestCounter = .;
+. = 0x00001B6C; gUnknown_03001B6C = .; /* SA2: gUnknown_030022AC */
+. = 0x00001B70; gBgCntRegs = .;
 . = 0x00001B78; gRepeatedKeys = .;
 . = 0x00001B7C; gNextTask = .;
-. = 0x00001B80; gUnknown_03001B80 = .;
-. = 0x00001F80; gUnknown_03001F80 = .;
+. = 0x00001B80; gOamBuffer2 = .;
+. = 0x00001F80; gHBlankCallbacks = .;
 . = 0x00001F90; gCurTask = .;
 . = 0x00001F94; gUnknown_03001F94 = .;
 . = 0x00001FA0; gUnknown_03001FA0 = .;

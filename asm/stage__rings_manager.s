@@ -980,7 +980,7 @@ _08008482:
 _080084A6:
 	ldrb r1, [r2]
 	lsls r1, r1, #3
-	ldr r0, _0800858C @ =gUnknown_03001B80
+	ldr r0, _0800858C @ =gOamBuffer2
 	adds r5, r1, r0
 	ldr r4, [sp, #0x18]
 	ldrh r0, [r4, #0x1a]
@@ -1099,7 +1099,7 @@ _0800857E:
 _08008588:
 	b _08008744
 	.align 2, 0
-_0800858C: .4byte gUnknown_03001B80
+_0800858C: .4byte gOamBuffer2
 _08008590: .4byte iwram_end
 _08008594: .4byte 0x040000D4
 _08008598: .4byte 0x80000003
@@ -1222,7 +1222,7 @@ _08008678: .4byte gCamera
 _0800867C:
 	ldrb r1, [r1]
 	lsls r1, r1, #3
-	ldr r0, _08008754 @ =gUnknown_03001B80
+	ldr r0, _08008754 @ =gOamBuffer2
 	adds r5, r1, r0
 	ldr r4, [sp, #0x18]
 	ldrh r0, [r4, #0x1a]
@@ -1334,7 +1334,7 @@ _08008744:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08008754: .4byte gUnknown_03001B80
+_08008754: .4byte gOamBuffer2
 _08008758: .4byte iwram_end
 _0800875C: .4byte 0x040000D4
 _08008760: .4byte 0x80000003

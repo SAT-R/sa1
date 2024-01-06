@@ -1615,7 +1615,7 @@ _0801C792:
 	ldr r3, [r5]
 	movs r0, #0x10
 	orrs r3, r0
-	ldr r4, _0801C804 @ =gUnknown_03001F80
+	ldr r4, _0801C804 @ =gHBlankCallbacks
 	ldr r2, _0801C808 @ =gUnknown_0300114C
 	ldrb r0, [r2]
 	adds r1, r0, #1
@@ -1641,7 +1641,7 @@ _0801C7F4: .4byte gUnknown_03001130
 _0801C7F8: .4byte gUnknown_030045F0
 _0801C7FC: .4byte sub_801C9AC
 _0801C800: .4byte gFlags
-_0801C804: .4byte gUnknown_03001F80
+_0801C804: .4byte gHBlankCallbacks
 _0801C808: .4byte gUnknown_0300114C
 _0801C80C: .4byte sub_801C9C0
 
@@ -1679,7 +1679,7 @@ sub_801C810: @ 0x0801C810
 	ldr r3, [r6]
 	movs r0, #0x10
 	orrs r3, r0
-	ldr r5, _0801C8C0 @ =gUnknown_03001F80
+	ldr r5, _0801C8C0 @ =gHBlankCallbacks
 	ldr r2, _0801C8C4 @ =gUnknown_0300114C
 	ldrb r0, [r2]
 	adds r1, r0, #1
@@ -1730,7 +1730,7 @@ _0801C8B0: .4byte gUnknown_03001130
 _0801C8B4: .4byte gUnknown_030045F0
 _0801C8B8: .4byte sub_801C9AC
 _0801C8BC: .4byte gFlags
-_0801C8C0: .4byte gUnknown_03001F80
+_0801C8C0: .4byte gHBlankCallbacks
 _0801C8C4: .4byte gUnknown_0300114C
 _0801C8C8: .4byte sub_801C9C0
 _0801C8CC: .4byte sub_801C8D4
@@ -1789,7 +1789,7 @@ _0801C91C:
 	ldr r3, [r5]
 	movs r0, #0x10
 	orrs r3, r0
-	ldr r4, _0801C974 @ =gUnknown_03001F80
+	ldr r4, _0801C974 @ =gHBlankCallbacks
 	ldr r2, _0801C978 @ =gUnknown_0300114C
 	ldrb r0, [r2]
 	adds r1, r0, #1
@@ -1812,7 +1812,7 @@ _0801C964: .4byte gUnknown_03001130
 _0801C968: .4byte gUnknown_030045F0
 _0801C96C: .4byte sub_801C9AC
 _0801C970: .4byte gFlags
-_0801C974: .4byte gUnknown_03001F80
+_0801C974: .4byte gHBlankCallbacks
 _0801C978: .4byte gUnknown_0300114C
 _0801C97C: .4byte sub_801C9C0
 
@@ -1878,7 +1878,7 @@ sub_801C9D8: @ 0x0801C9D8
 	ldr r0, _0801CA5C @ =gDispCnt
 	movs r3, #0x40
 	strh r3, [r0]
-	ldr r1, _0801CA60 @ =gUnknown_03001B70
+	ldr r1, _0801CA60 @ =gBgCntRegs
 	ldr r0, _0801CA64 @ =0x00005E0B
 	strh r0, [r1, #6]
 	ldr r0, _0801CA68 @ =gBldRegs
@@ -1930,7 +1930,7 @@ sub_801C9D8: @ 0x0801C9D8
 	.align 2, 0
 _0801CA58: .4byte gWinRegs
 _0801CA5C: .4byte gDispCnt
-_0801CA60: .4byte gUnknown_03001B70
+_0801CA60: .4byte gBgCntRegs
 _0801CA64: .4byte 0x00005E0B
 _0801CA68: .4byte gBldRegs
 _0801CA6C: .4byte gUnknown_03005060
