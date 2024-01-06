@@ -299,7 +299,7 @@ _08000610:
 	ldr r1, _080007AC @ =0x85000140
 	str r1, [r0, #8]
 	ldr r1, [r0, #8]
-	ldr r1, _080007B0 @ =gUnknown_03001144
+	ldr r1, _080007B0 @ =gBgOffsetsHBlank
 	str r7, [r1]
 	movs r3, #0xa0
 	lsls r3, r3, #2
@@ -310,7 +310,7 @@ _08000610:
 	str r2, [r1]
 	ldr r3, _080007BC @ =gUnknown_03002320
 	strb r2, [r3]
-	ldr r1, _080007C0 @ =gUnknown_0300114C
+	ldr r1, _080007C0 @ =gNumHBlankCallbacks
 	strb r2, [r1]
 	ldr r3, _080007C4 @ =gNumHBlankIntrs
 	strb r2, [r3]
@@ -429,11 +429,11 @@ _080007A0: .4byte gKeysContinuedRepeatIntervals
 _080007A4: .4byte gIntrTable
 _080007A8: .4byte gIntrTableTemplate
 _080007AC: .4byte 0x85000140
-_080007B0: .4byte gUnknown_03001144
+_080007B0: .4byte gBgOffsetsHBlank
 _080007B4: .4byte gUnknown_03001B6C
 _080007B8: .4byte gUnknown_03002118
 _080007BC: .4byte gUnknown_03002320
-_080007C0: .4byte gUnknown_0300114C
+_080007C0: .4byte gNumHBlankCallbacks
 _080007C4: .4byte gNumHBlankIntrs
 _080007C8: .4byte gHBlankCallbacks
 _080007CC: .4byte gHBlankIntrs
@@ -481,7 +481,7 @@ _08000800:
 	ldr r0, [r1, #8]
 	str r2, [sp]
 	str r3, [r1]
-	ldr r0, _0800088C @ =gUnknown_03001150
+	ldr r0, _0800088C @ =gMultiSioRecv
 	str r0, [r1, #4]
 	ldr r0, _08000890 @ =0x85000014
 	str r0, [r1, #8]
@@ -511,7 +511,7 @@ _0800087C: .4byte 0x04000208
 _08000880: .4byte 0x04000004
 _08000884: .4byte gMultiSioSend
 _08000888: .4byte 0x85000005
-_0800088C: .4byte gUnknown_03001150
+_0800088C: .4byte gMultiSioRecv
 _08000890: .4byte 0x85000014
 _08000894: .4byte gMultiSioStatusFlags
 _08000898: .4byte gMultiSioEnabled
@@ -544,7 +544,7 @@ _080008BA:
 	cmp r0, #0
 	beq _080008DC
 	ldr r0, _0800091C @ =gMultiSioSend
-	ldr r1, _08000920 @ =gUnknown_03001150
+	ldr r1, _08000920 @ =gMultiSioRecv
 	movs r2, #0
 	bl MultiSioMain
 	ldr r1, _08000924 @ =gMultiSioStatusFlags
@@ -563,7 +563,7 @@ _080008E0:
 	ands r0, r1
 	cmp r0, #0
 	beq _0800092C
-	bl sub_8000D34
+	bl UpdateScreenCpuSet
 	ldr r0, [r4]
 	ands r0, r5
 	cmp r0, #0
@@ -576,16 +576,16 @@ _08000910: .4byte gExecSoundMain
 _08000914: .4byte gUnknown_03001F94
 _08000918: .4byte gMultiSioEnabled
 _0800091C: .4byte gMultiSioSend
-_08000920: .4byte gUnknown_03001150
+_08000920: .4byte gMultiSioRecv
 _08000924: .4byte gMultiSioStatusFlags
 _08000928: .4byte gFlagsPreVBlank
 _0800092C:
-	bl sub_8000980
+	bl UpdateScreenDma
 	ldr r0, [r4]
 	ands r0, r5
 	cmp r0, #0
 	bne _08000948
-	bl sub_8000C54
+	bl ClearOamBufferDma
 _0800093C:
 	ldr r2, _08000954 @ =gFlags
 	ldr r1, [r2]
@@ -625,8 +625,8 @@ _0800096C:
 _08000978: .4byte 0xFFFFF7FF
 _0800097C: .4byte 0x04000004
 
-	thumb_func_start sub_8000980
-sub_8000980: @ 0x08000980
+	thumb_func_start UpdateScreenDma
+UpdateScreenDma: @ 0x08000980
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	movs r4, #0
@@ -724,7 +724,7 @@ _080009E2:
 	ldr r0, _08000AC0 @ =0x85000004
 	str r0, [r3, #8]
 	ldr r0, [r3, #8]
-	ldr r2, _08000AC4 @ =gUnknown_0300114C
+	ldr r2, _08000AC4 @ =gNumHBlankCallbacks
 	ldrb r0, [r2]
 	cmp r0, #0
 	beq _08000A58
@@ -768,7 +768,7 @@ _08000AB4: .4byte 0x84000008
 _08000AB8: .4byte 0x04000200
 _08000ABC: .4byte gHBlankIntrs
 _08000AC0: .4byte 0x85000004
-_08000AC4: .4byte gUnknown_0300114C
+_08000AC4: .4byte gNumHBlankCallbacks
 _08000AC8: .4byte gHBlankCallbacks
 _08000ACC: .4byte gNumHBlankIntrs
 _08000AD0:
@@ -786,7 +786,7 @@ _08000ADE:
 	cmp r0, #0
 	beq _08000B06
 	ldr r2, _08000BC8 @ =0x040000D4
-	ldr r0, _08000BCC @ =gUnknown_03001144
+	ldr r0, _08000BCC @ =gBgOffsetsHBlank
 	ldr r0, [r0]
 	str r0, [r2]
 	ldr r0, _08000BD0 @ =gUnknown_03002118
@@ -898,7 +898,7 @@ _08000BBC: .4byte 0x04000200
 _08000BC0: .4byte 0x0000FFFD
 _08000BC4: .4byte gNumHBlankIntrs
 _08000BC8: .4byte 0x040000D4
-_08000BCC: .4byte gUnknown_03001144
+_08000BCC: .4byte gBgOffsetsHBlank
 _08000BD0: .4byte gUnknown_03002118
 _08000BD4: .4byte gUnknown_03002320
 _08000BD8: .4byte gUnknown_03001F94
@@ -954,11 +954,11 @@ _08000C48:
 	.align 2, 0
 _08000C50: .4byte gUnknown_03001F94
 
-	thumb_func_start sub_8000C54
-sub_8000C54: @ 0x08000C54
+	thumb_func_start ClearOamBufferDma
+ClearOamBufferDma: @ 0x08000C54
 	push {r4, lr}
 	sub sp, #4
-	ldr r1, _08000C8C @ =gUnknown_0300114C
+	ldr r1, _08000C8C @ =gNumHBlankCallbacks
 	movs r0, #0
 	strb r0, [r1]
 	ldr r2, _08000C90 @ =gFlags
@@ -972,7 +972,7 @@ sub_8000C54: @ 0x08000C54
 	adds r4, r2, #0
 	cmp r0, #0
 	bne _08000CAC
-	ldr r1, _08000C94 @ =gUnknown_03001144
+	ldr r1, _08000C94 @ =gBgOffsetsHBlank
 	ldr r0, [r1]
 	ldr r2, _08000C98 @ =gBgOffsetsBuffer
 	cmp r0, r2
@@ -985,9 +985,9 @@ sub_8000C54: @ 0x08000C54
 	str r2, [r0]
 	b _08000CAC
 	.align 2, 0
-_08000C8C: .4byte gUnknown_0300114C
+_08000C8C: .4byte gNumHBlankCallbacks
 _08000C90: .4byte gFlags
-_08000C94: .4byte gUnknown_03001144
+_08000C94: .4byte gBgOffsetsHBlank
 _08000C98: .4byte gBgOffsetsBuffer
 _08000C9C: .4byte gUnknown_03001B6C
 _08000CA0:
@@ -1063,8 +1063,8 @@ _08000D28: .4byte gOamBuffer
 _08000D2C: .4byte 0x81000080
 _08000D30: .4byte gUnknown_030045F0
 
-	thumb_func_start sub_8000D34
-sub_8000D34: @ 0x08000D34
+	thumb_func_start UpdateScreenCpuSet
+UpdateScreenCpuSet: @ 0x08000D34
 	push {r4, r5, r6, r7, lr}
 	sub sp, #8
 	movs r4, #0
@@ -1138,7 +1138,7 @@ _08000D88:
 	mov r0, sp
 	adds r1, r5, #0
 	bl CpuFastSet
-	ldr r4, _08000E3C @ =gUnknown_0300114C
+	ldr r4, _08000E3C @ =gNumHBlankCallbacks
 	ldrb r0, [r4]
 	cmp r0, #0
 	beq _08000DE4
@@ -1172,7 +1172,7 @@ _08000E2C: .4byte 0x04000020
 _08000E30: .4byte 0x04000200
 _08000E34: .4byte gHBlankIntrs
 _08000E38: .4byte 0x01000004
-_08000E3C: .4byte gUnknown_0300114C
+_08000E3C: .4byte gNumHBlankCallbacks
 _08000E40: .4byte gHBlankCallbacks
 _08000E44: .4byte gNumHBlankIntrs
 _08000E48:
@@ -1331,7 +1331,7 @@ VBlankIntr: @ 0x08000F44
 	movs r1, #0x80
 	lsls r1, r1, #0x18
 	adds r6, r5, #0
-	ldr r4, _08000FEC @ =gUnknown_03001144
+	ldr r4, _08000FEC @ =gBgOffsetsHBlank
 	ldr r5, _08000FF0 @ =gUnknown_03002118
 	ldr r3, _08000FF4 @ =gUnknown_03002320
 	cmp r0, #0
@@ -1375,7 +1375,7 @@ _08000FDC: .4byte gUnknown_03007FF8
 _08000FE0: .4byte gExecSoundMain
 _08000FE4: .4byte gFlagsPreVBlank
 _08000FE8: .4byte 0x04000200
-_08000FEC: .4byte gUnknown_03001144
+_08000FEC: .4byte gBgOffsetsHBlank
 _08000FF0: .4byte gUnknown_03002118
 _08000FF4: .4byte gUnknown_03002320
 _08000FF8: .4byte 0xA2600000
@@ -1913,7 +1913,7 @@ DummyFunc:
 ClearOamBufferCpuSet: @ 0x080013F8
 	push {r4, lr}
 	sub sp, #4
-	ldr r1, _08001430 @ =gUnknown_0300114C
+	ldr r1, _08001430 @ =gNumHBlankCallbacks
 	movs r0, #0
 	strb r0, [r1]
 	ldr r2, _08001434 @ =gFlags
@@ -1927,7 +1927,7 @@ ClearOamBufferCpuSet: @ 0x080013F8
 	adds r4, r2, #0
 	cmp r0, #0
 	bne _08001450
-	ldr r1, _08001438 @ =gUnknown_03001144
+	ldr r1, _08001438 @ =gBgOffsetsHBlank
 	ldr r0, [r1]
 	ldr r2, _0800143C @ =gBgOffsetsBuffer
 	cmp r0, r2
@@ -1940,9 +1940,9 @@ ClearOamBufferCpuSet: @ 0x080013F8
 	str r2, [r0]
 	b _08001450
 	.align 2, 0
-_08001430: .4byte gUnknown_0300114C
+_08001430: .4byte gNumHBlankCallbacks
 _08001434: .4byte gFlags
-_08001438: .4byte gUnknown_03001144
+_08001438: .4byte gBgOffsetsHBlank
 _0800143C: .4byte gBgOffsetsBuffer
 _08001440: .4byte gUnknown_03001B6C
 _08001444:

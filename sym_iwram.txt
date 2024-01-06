@@ -21,26 +21,26 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00000470; gIntrTable = .;
 . = 0x000004B0; gIntrMainBuf = .;
 . = 0x000006B0; gTasks = .;
-. = 0x000010B0; gUnknown_030010B0 = .;
+. = 0x000010B0; gUnknown_030010B0 = .; /* SA2: gUnknown_030017F0 */
 . = 0x000010B4; gUnknown_030010B4 = .; /* SA2: gUnknown_030017F4 (some on-screen window rect? Sprites with flag 17 set get moved by this pos) */
-. = 0x000010C0; gUnknown_030010C0 = .;
+. = 0x000010C0; gUnknown_030010C0 = .; /* SA2: gUnknown_03001800 */
 . = 0x00001100; gFlags = .;
 . = 0x00001110; gUnknown_03001110 = .;
 . = 0x00001130; gUnknown_03001130 = .;
 . = 0x00001140; gPhysicalInput = .;
-. = 0x00001144; gUnknown_03001144 = .;
+. = 0x00001144; gBgOffsetsHBlank = .;
 . = 0x00001148; gVramHeapMaxTileSlots = .;
-. = 0x0000114C; gUnknown_0300114C = .;
-. = 0x00001150; gUnknown_03001150 = .;
+. = 0x0000114C; gNumHBlankCallbacks = .;
+. = 0x00001150; gMultiSioRecv = .;
 . = 0x000011A0; gNumHBlankIntrs = .;
 . = 0x000011A8; gBldRegs = .;
 . = 0x000011B0; gOamFreeIndex = .;
 . = 0x000011C0; gEmptyTask = .;
 . = 0x000011E0; gBgAffineRegs = .;
 . = 0x00001200; gVramHeapStartAddr = .;
-. = 0x00001204; gUnknown_03001204 = .;
-. = 0x00001208; gUnknown_03001208 = .;
-. = 0x0000120C; gUnknown_0300120C = .;
+. = 0x00001204; gUnknown_03001204 = .; /* SA2: gUnknown_03001944 */
+. = 0x00001208; gUnknown_03001208 = .; /* SA2: gUnknown_03001948 */
+. = 0x0000120C; gUnknown_0300120C = .; /* SA2: gUnknown_0300194C */
 . = 0x00001210; gMultiSioStatusFlags = .;
 . = 0x00001214; gMultiSioEnabled = .;
 . = 0x00001220; gTaskPtrs = .;
@@ -57,10 +57,12 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00001B70; gBgCntRegs = .;
 . = 0x00001B78; gRepeatedKeys = .;
 . = 0x00001B7C; gNextTask = .;
+/* SA2: gUnknown_030022C0(size:0x10) - not reserved/used in SA1 */
 . = 0x00001B80; gOamBuffer2 = .;
+/* SA2: gMosaicReg(size:0x10?) - not reserved/used in SA1 */
 . = 0x00001F80; gHBlankCallbacks = .;
 . = 0x00001F90; gCurTask = .;
-. = 0x00001F94; gUnknown_03001F94 = .;
+. = 0x00001F94; gUnknown_03001F94 = .; /* SA": gUnknown_030026F4 */
 . = 0x00001FA0; gKeysFirstRepeatIntervals = .;
 . = 0x00001FAC; gReleasedKeys = .;
 . = 0x00001FB0; gUnknown_03001FB0 = .; /* SA2: gUnknown_03002710 */
@@ -107,8 +109,8 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00004FB0; gSio32MultiLoadArea = .;
 . = 0x00004FE0; gUnknown_03004FE0 = .;
 . = 0x00004FE4; gUnknown_03004FE4 = .;
-. = 0x00004FE8; gUnknown_03004FE8 = .;
-. = 0x00004FEC; gUnknown_03004FEC = .;
+. = 0x00004FE8; gMultiplayerCharRings = .; /* gMultiplayerCharRings[NUM_CHARACTERS] */
+. = 0x00004FEC; gRingCount = .;
 . = 0x00004FF0; gUnknown_03004FF0 = .;
 . = 0x00004FFC; gUnknown_03004FFC = .;
 . = 0x00005000; gUnknown_03005000 = .;
@@ -120,11 +122,11 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005018; gUnknown_03005018 = .;
 . = 0x0000501C; gUnknown_0300501C = .;
 . = 0x00005020; gUnknown_03005020 = .;
-. = 0x00005024; gUnknown_03005024 = .;
+. = 0x00005024; gNumLives = .;
 . = 0x00005028; gUnknown_03005028 = .;
 . = 0x0000502C; gUnknown_0300502C = .;
-. = 0x00005030; gUnknown_03005030 = .;
-. = 0x00005034; gUnknown_03005034 = .;
+. = 0x00005030; gLevelScore = .;
+. = 0x00005034; gCourseTime = .;
 . = 0x00005038; gUnknown_03005038 = .;
 . = 0x00005040; gUnknown_03005040 = .;
 . = 0x00005048; gUnknown_03005048 = .;
@@ -147,7 +149,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x0000508C; gUnknown_0300508C = .;
 . = 0x00005090; gUnknown_03005090 = .;
 . = 0x000050A0; gUnknown_030050A0 = .;
-. = 0x00005120; gUnknown_03005120 = .;
+. = 0x00005120; gStageTime = .;
 . = 0x00005124; gUnknown_03005124 = .;
 . = 0x00005130; gUnknown_03005130 = .;
 . = 0x00005140; gUnknown_03005140 = .;

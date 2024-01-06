@@ -6464,7 +6464,7 @@ _0800C658:
 	ands r0, r2
 	cmp r0, #0
 	bne _0800C6FC
-	ldr r2, _0800C6C8 @ =gUnknown_03004FEC
+	ldr r2, _0800C6C8 @ =gRingCount
 	ldrh r0, [r2]
 	cmp r0, #0
 	beq _0800C6D0
@@ -6495,7 +6495,7 @@ _0800C694:
 	strb r1, [r0]
 	strb r5, [r0, #1]
 _0800C6B4:
-	ldr r1, _0800C6C8 @ =gUnknown_03004FEC
+	ldr r1, _0800C6C8 @ =gRingCount
 	ldrh r0, [r1]
 	subs r0, r0, r5
 	strh r0, [r1]
@@ -6503,7 +6503,7 @@ _0800C6B4:
 	.align 2, 0
 _0800C6C0: .4byte 0xFEFFFFFF
 _0800C6C4: .4byte 0xFFFFCFFF
-_0800C6C8: .4byte gUnknown_03004FEC
+_0800C6C8: .4byte gRingCount
 _0800C6CC: .4byte gGameMode
 _0800C6D0:
 	ldr r0, _0800C6F4 @ =gUnknown_03005004
@@ -6669,7 +6669,7 @@ _0800C7AC:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _0800C826
-	ldr r6, _0800C844 @ =gUnknown_03004FEC
+	ldr r6, _0800C844 @ =gRingCount
 	ldrh r4, [r6]
 	cmp r4, #0xa
 	bls _0800C808
@@ -6701,7 +6701,7 @@ _0800C834: .4byte 0x0000FE80
 _0800C838: .4byte 0xFFFFFBFF
 _0800C83C: .4byte 0xFFFFFEFF
 _0800C840: .4byte gGameMode
-_0800C844: .4byte gUnknown_03004FEC
+_0800C844: .4byte gRingCount
 
 	thumb_func_start sub_800C848
 sub_800C848: @ 0x0800C848
@@ -6790,7 +6790,7 @@ _0800C89A:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _0800C914
-	ldr r6, _0800C930 @ =gUnknown_03004FEC
+	ldr r6, _0800C930 @ =gRingCount
 	ldrh r4, [r6]
 	cmp r4, #5
 	bls _0800C8F6
@@ -6821,7 +6821,7 @@ _0800C91C:
 _0800C924: .4byte 0xFFFFFBFF
 _0800C928: .4byte 0xFFFFFEFF
 _0800C92C: .4byte gGameMode
-_0800C930: .4byte gUnknown_03004FEC
+_0800C930: .4byte gRingCount
 
 	thumb_func_start sub_800C934
 sub_800C934: @ 0x0800C934
@@ -9978,7 +9978,7 @@ _0800E2BC:
 	cmp r0, #0
 	bne _0800E24C
 _0800E2CE:
-	ldr r2, _0800E2E4 @ =gUnknown_03001150
+	ldr r2, _0800E2E4 @ =gMultiSioRecv
 	ldrh r0, [r2]
 	cmp r0, #0x52
 	bne _0800E2EC
@@ -9990,7 +9990,7 @@ _0800E2CE:
 	str r0, [r1, #8]
 	b _0800E334
 	.align 2, 0
-_0800E2E4: .4byte gUnknown_03001150
+_0800E2E4: .4byte gMultiSioRecv
 _0800E2E8: .4byte sub_800E34C
 _0800E2EC:
 	ldr r2, _0800E33C @ =gMultiSioSend
@@ -10009,7 +10009,7 @@ _0800E2EC:
 	ldr r6, _0800E344 @ =gUnknown_03005150
 	ldrb r3, [r6]
 	movs r5, #1
-	ldr r4, _0800E348 @ =gUnknown_03001150
+	ldr r4, _0800E348 @ =gMultiSioRecv
 _0800E30E:
 	adds r0, r3, #0
 	asrs r0, r1
@@ -10039,7 +10039,7 @@ _0800E334:
 _0800E33C: .4byte gMultiSioSend
 _0800E340: .4byte gMultiSioStatusFlags
 _0800E344: .4byte gUnknown_03005150
-_0800E348: .4byte gUnknown_03001150
+_0800E348: .4byte gMultiSioRecv
 
 	thumb_func_start sub_800E34C
 sub_800E34C: @ 0x0800E34C
@@ -10478,7 +10478,7 @@ _0800E6C8:
 	str r4, [sp]
 	mov r1, sp
 	str r1, [r0]
-	ldr r1, _0800E730 @ =gUnknown_03001150
+	ldr r1, _0800E730 @ =gMultiSioRecv
 	str r1, [r0, #4]
 	ldr r1, _0800E734 @ =0x85000014
 	str r1, [r0, #8]
@@ -10499,7 +10499,7 @@ _0800E720: .4byte 0x0000020A
 _0800E724: .4byte 0x040000D4
 _0800E728: .4byte gMultiSioSend
 _0800E72C: .4byte 0x85000005
-_0800E730: .4byte gUnknown_03001150
+_0800E730: .4byte gMultiSioRecv
 _0800E734: .4byte 0x85000014
 _0800E738: .4byte gBldRegs
 _0800E73C: .4byte gCurTask
@@ -11091,7 +11091,7 @@ _0800EC08:
 	str r2, [sp, #0x18]
 _0800EC22:
 	ldr r7, [sp, #0x18]
-	ldr r0, _0800EC90 @ =gUnknown_03001150
+	ldr r0, _0800EC90 @ =gMultiSioRecv
 	adds r6, r7, r0
 	ldrb r0, [r3]
 	lsls r2, r0, #1
@@ -11141,7 +11141,7 @@ _0800EC80: .4byte 0x03000208
 _0800EC84: .4byte gBldRegs
 _0800EC88: .4byte gMultiSioStatusFlags
 _0800EC8C: .4byte 0x0300020B
-_0800EC90: .4byte gUnknown_03001150
+_0800EC90: .4byte gMultiSioRecv
 _0800EC94: .4byte 0x04000128
 _0800EC98:
 	lsls r0, r5, #1
@@ -11222,7 +11222,7 @@ _0800ED1C:
 	movs r0, #1
 	str r0, [sp, #4]
 _0800ED26:
-	ldr r6, _0800ED5C @ =gUnknown_03001150
+	ldr r6, _0800ED5C @ =gMultiSioRecv
 	movs r0, #0x86
 	lsls r0, r0, #2
 	add r0, r8
@@ -11249,7 +11249,7 @@ _0800ED26:
 	strb r4, [r0]
 	b _0800EE82
 	.align 2, 0
-_0800ED5C: .4byte gUnknown_03001150
+_0800ED5C: .4byte gMultiSioRecv
 _0800ED60: .4byte gMultiSioStatusFlags
 _0800ED64: .4byte 0x0000FFFF
 _0800ED68: .4byte gUnknown_03002384
@@ -11287,7 +11287,7 @@ _0800ED7E:
 	movs r2, #0x3c
 	movs r3, #0xff
 _0800EDAE:
-	ldr r0, _0800EDD4 @ =gUnknown_03001150
+	ldr r0, _0800EDD4 @ =gMultiSioRecv
 	adds r6, r2, r0
 	ldr r0, _0800EDD8 @ =0x04000128
 	ldr r0, [r0]
@@ -11303,7 +11303,7 @@ _0800EDAE:
 _0800EDC8: .4byte gUnknown_03005010
 _0800EDCC: .4byte gUnknown_03005150
 _0800EDD0: .4byte gUnknown_03005008
-_0800EDD4: .4byte gUnknown_03001150
+_0800EDD4: .4byte gMultiSioRecv
 _0800EDD8: .4byte 0x04000128
 _0800EDDC:
 	ldr r0, _0800EE04 @ =gMultiSioStatusFlags
@@ -11669,7 +11669,7 @@ _0800F0D4:
 	cmp r0, #0
 	bne _0800F094
 _0800F0E8:
-	ldr r2, _0800F108 @ =gUnknown_03001150
+	ldr r2, _0800F108 @ =gMultiSioRecv
 	ldrh r0, [r2]
 	mov r8, r2
 	cmp r0, #0x12
@@ -11684,7 +11684,7 @@ _0800F0E8:
 	bl sub_803C1AC
 	b _0800F2FA
 	.align 2, 0
-_0800F108: .4byte gUnknown_03001150
+_0800F108: .4byte gMultiSioRecv
 _0800F10C:
 	cmp r0, #0x10
 	beq _0800F12C
@@ -11858,7 +11858,7 @@ _0800F230:
 	movs r4, #1
 	mov ip, r2
 	movs r3, #0
-	ldr r2, _0800F2D0 @ =gUnknown_03001150
+	ldr r2, _0800F2D0 @ =gMultiSioRecv
 	mov r8, r2
 _0800F280:
 	adds r0, r7, #0
@@ -11895,7 +11895,7 @@ _0800F2C0: .4byte gUnknown_03005160
 _0800F2C4: .4byte 0x040000D4
 _0800F2C8: .4byte 0x84000002
 _0800F2CC: .4byte gUnknown_03005150
-_0800F2D0: .4byte gUnknown_03001150
+_0800F2D0: .4byte gMultiSioRecv
 _0800F2D4:
 	movs r0, #0x11
 	strh r0, [r6]
@@ -12647,7 +12647,7 @@ _0800F936:
 	str r0, [r1, #8]
 	ldr r1, _0800F9B0 @ =gMultiSioSend
 	strb r4, [r1]
-	ldr r5, _0800F9B4 @ =gUnknown_03001150
+	ldr r5, _0800F9B4 @ =gMultiSioRecv
 	strb r4, [r5]
 	strb r4, [r5, #0x14]
 	adds r3, r5, #0
@@ -12685,7 +12685,7 @@ _0800F9A4: .4byte 0x01000010
 _0800F9A8: .4byte gCurTask
 _0800F9AC: .4byte sub_800FF38
 _0800F9B0: .4byte gMultiSioSend
-_0800F9B4: .4byte gUnknown_03001150
+_0800F9B4: .4byte gMultiSioRecv
 _0800F9B8: .4byte 0x0000F001
 
 	thumb_func_start sub_800F9BC
@@ -12730,7 +12730,7 @@ _0800FA00:
 	ldr r1, _0800FAB0 @ =gUnknown_03005160
 	ldrb r1, [r1, #0x19]
 	strb r1, [r0]
-	ldr r1, _0800FAB4 @ =gUnknown_03001150
+	ldr r1, _0800FAB4 @ =gMultiSioRecv
 	ldr r2, _0800FAA8 @ =0x00000202
 	add r2, r8
 	ldrb r2, [r2]
@@ -12806,7 +12806,7 @@ _0800FAA4: .4byte sub_800FBF8
 _0800FAA8: .4byte 0x00000202
 _0800FAAC: .4byte gMultiSioSend
 _0800FAB0: .4byte gUnknown_03005160
-_0800FAB4: .4byte gUnknown_03001150
+_0800FAB4: .4byte gMultiSioRecv
 _0800FAB8: .4byte 0x00000205
 _0800FABC: .4byte gUnknown_03005060
 _0800FAC0: .4byte 0x0000FFFF
@@ -12831,7 +12831,7 @@ _0800FAEC:
 	lsls r0, r3, #2
 	adds r0, r0, r3
 	lsls r0, r0, #2
-	ldr r1, _0800FB44 @ =gUnknown_03001150
+	ldr r1, _0800FB44 @ =gMultiSioRecv
 	adds r0, r0, r1
 	ldrh r0, [r0]
 	cmp r0, #0x10
@@ -12868,7 +12868,7 @@ _0800FB1A:
 	b _0800FBD8
 	.align 2, 0
 _0800FB40: .4byte gUnknown_03005060
-_0800FB44: .4byte gUnknown_03001150
+_0800FB44: .4byte gMultiSioRecv
 _0800FB48: .4byte gCurTask
 _0800FB4C: .4byte sub_8010048
 _0800FB50: .4byte gDispCnt
@@ -12923,7 +12923,7 @@ _0800FB6C:
 	adds r1, r6, #0
 	adds r2, r4, #0
 	bl CpuSet
-	ldr r0, _0800FBF4 @ =gUnknown_03001150
+	ldr r0, _0800FBF4 @ =gMultiSioRecv
 	ldrb r2, [r0, #2]
 	ldrb r0, [r7]
 	cmp r0, r2
@@ -12946,7 +12946,7 @@ _0800FBE4: .4byte gFlags
 _0800FBE8: .4byte gBgPalette+0x40
 _0800FBEC: .4byte 0x001FFFFF
 _0800FBF0: .4byte 0x0000027F
-_0800FBF4: .4byte gUnknown_03001150
+_0800FBF4: .4byte gMultiSioRecv
 
 	thumb_func_start sub_800FBF8
 sub_800FBF8: @ 0x0800FBF8
@@ -19787,7 +19787,7 @@ sub_8013400: @ 0x08013400
 	lsls r0, r2, #2
 	adds r0, r0, r2
 	lsls r0, r0, #2
-	ldr r1, _080134D4 @ =gUnknown_03001150
+	ldr r1, _080134D4 @ =gMultiSioRecv
 	adds r0, r0, r1
 	mov r8, r0
 	ldr r5, _080134D8 @ =gMultiSioStatusFlags
@@ -19875,7 +19875,7 @@ _080134BC:
 	.align 2, 0
 _080134CC: .4byte gCurTask
 _080134D0: .4byte 0x03000056
-_080134D4: .4byte gUnknown_03001150
+_080134D4: .4byte gMultiSioRecv
 _080134D8: .4byte gMultiSioStatusFlags
 _080134DC: .4byte 0x03000061
 _080134E0: .4byte 0x03000050
@@ -20062,7 +20062,7 @@ _08013644:
 	mov r4, r8
 	ldrh r1, [r4, #6]
 	ldrb r3, [r4, #6]
-	ldr r2, _08013690 @ =gUnknown_03004FE8
+	ldr r2, _08013690 @ =gMultiplayerCharRings
 	mov r5, sb
 	ldrb r0, [r5]
 	adds r0, r0, r2
@@ -20087,7 +20087,7 @@ _08013680: .4byte 0xFFFFFBFF
 _08013684: .4byte 0xFFFFFEFF
 _08013688: .4byte 0xFFBFFFFF
 _0801368C: .4byte gGameMode
-_08013690: .4byte gUnknown_03004FE8
+_08013690: .4byte gMultiplayerCharRings
 _08013694:
 	cmp r3, #0x12
 	bne _080136A0
@@ -20181,7 +20181,7 @@ _08013738:
 	bls _08013722
 	mov r1, sb
 	ldrb r0, [r1]
-	ldr r4, _08013758 @ =gUnknown_03004FE8
+	ldr r4, _08013758 @ =gMultiplayerCharRings
 	adds r0, r0, r4
 	mov r1, sp
 	ldrb r1, [r1, #8]
@@ -20190,7 +20190,7 @@ _08013738:
 	.align 2, 0
 _08013750: .4byte 0x000003FF
 _08013754: .4byte 0x04000128
-_08013758: .4byte gUnknown_03004FE8
+_08013758: .4byte gMultiplayerCharRings
 _0801375C:
 	mov r2, r8
 	ldrh r3, [r2, #6]
@@ -20875,7 +20875,7 @@ _08013C88:
 	beq _08013CAA
 	b _08013DB4
 _08013CAA:
-	ldr r0, _08013DCC @ =gUnknown_03005120
+	ldr r0, _08013DCC @ =gStageTime
 	ldr r0, [r0]
 	movs r4, #2
 	ands r0, r4
@@ -21025,7 +21025,7 @@ _08013DB4:
 	.align 2, 0
 _08013DC4: .4byte 0xFFFFF7FF
 _08013DC8: .4byte 0xFFFFCFFF
-_08013DCC: .4byte gUnknown_03005120
+_08013DCC: .4byte gStageTime
 _08013DD0: .4byte gUnknown_03005048
 _08013DD4: .4byte 0xFFFFFE7F
 _08013DD8: .4byte gGameMode
@@ -27949,9 +27949,9 @@ _08017422:
 	asrs r0, r0, #0x10
 	cmp r0, #0x3c
 	ble _0801745E
-	ldr r0, _08017494 @ =gUnknown_03004FEC
+	ldr r0, _08017494 @ =gRingCount
 	ldrh r0, [r0]
-	ldr r1, _08017498 @ =gUnknown_03005034
+	ldr r1, _08017498 @ =gCourseTime
 	ldr r1, [r1]
 	bl sub_80573D4
 	ldr r0, [r5]
@@ -27968,9 +27968,9 @@ _0801745E:
 	asrs r0, r0, #0x10
 	cmp r0, #0xf0
 	ble _08017488
-	ldr r0, _08017494 @ =gUnknown_03004FEC
+	ldr r0, _08017494 @ =gRingCount
 	ldrh r0, [r0]
-	ldr r1, _08017498 @ =gUnknown_03005034
+	ldr r1, _08017498 @ =gCourseTime
 	ldr r1, [r1]
 	bl sub_80573D4
 	ldr r0, _08017490 @ =gCurTask
@@ -27982,8 +27982,8 @@ _08017488:
 	bx r0
 	.align 2, 0
 _08017490: .4byte gCurTask
-_08017494: .4byte gUnknown_03004FEC
-_08017498: .4byte gUnknown_03005034
+_08017494: .4byte gRingCount
+_08017498: .4byte gCourseTime
 
 	thumb_func_start sub_801749C
 sub_801749C: @ 0x0801749C
@@ -28170,9 +28170,9 @@ sub_80175D8: @ 0x080175D8
 	asrs r0, r0, #0x10
 	cmp r0, #0x3c
 	ble _08017616
-	ldr r0, _08017650 @ =gUnknown_03004FEC
+	ldr r0, _08017650 @ =gRingCount
 	ldrh r0, [r0]
-	ldr r1, _08017654 @ =gUnknown_03005034
+	ldr r1, _08017654 @ =gCourseTime
 	ldr r1, [r1]
 	bl sub_80573D4
 	ldr r0, [r5]
@@ -28189,9 +28189,9 @@ _08017616:
 	asrs r0, r0, #0x10
 	cmp r0, #0xf0
 	ble _08017640
-	ldr r0, _08017650 @ =gUnknown_03004FEC
+	ldr r0, _08017650 @ =gRingCount
 	ldrh r0, [r0]
-	ldr r1, _08017654 @ =gUnknown_03005034
+	ldr r1, _08017654 @ =gCourseTime
 	ldr r1, [r1]
 	bl sub_80573D4
 	ldr r0, _08017648 @ =gCurTask
@@ -28204,8 +28204,8 @@ _08017640:
 	.align 2, 0
 _08017648: .4byte gCurTask
 _0801764C: .4byte gUnknown_03005A20
-_08017650: .4byte gUnknown_03004FEC
-_08017654: .4byte gUnknown_03005034
+_08017650: .4byte gRingCount
+_08017654: .4byte gCourseTime
 
 	thumb_func_start sub_8017658
 sub_8017658: @ 0x08017658
@@ -28736,7 +28736,7 @@ _08017A6E:
 	lsls r0, r4, #2
 	adds r0, r0, r4
 	lsls r0, r0, #2
-	ldr r1, _08017AF0 @ =gUnknown_03001150
+	ldr r1, _08017AF0 @ =gMultiSioRecv
 	adds r0, r0, r1
 	ldrh r1, [r0]
 	cmp r1, sb
@@ -28792,7 +28792,7 @@ _08017AE0: .4byte 0x04000128
 _08017AE4: .4byte gMultiSioSend
 _08017AE8: .4byte gUnknown_03005150
 _08017AEC: .4byte gMultiSioStatusFlags
-_08017AF0: .4byte gUnknown_03001150
+_08017AF0: .4byte gMultiSioRecv
 _08017AF4: .4byte gUnknown_03005014
 _08017AF8: .4byte gUnknown_03005000
 _08017AFC: .4byte 0x040000D4
@@ -28865,7 +28865,7 @@ _08017B78:
 	lsls r0, r5, #2
 	adds r0, r0, r5
 	lsls r0, r0, #2
-	ldr r1, _08017BF8 @ =gUnknown_03001150
+	ldr r1, _08017BF8 @ =gMultiSioRecv
 	adds r3, r0, r1
 	ldrh r2, [r3]
 	movs r0, #0x80
@@ -28921,7 +28921,7 @@ _08017BEC:
 	bx r0
 	.align 2, 0
 _08017BF4: .4byte gMultiSioStatusFlags
-_08017BF8: .4byte gUnknown_03001150
+_08017BF8: .4byte gMultiSioRecv
 _08017BFC: .4byte gUnknown_080BB45C
 _08017C00: .4byte gUnknown_03005150
 
@@ -29093,7 +29093,7 @@ _08017D48:
 	ldr r1, [r6, #0x5c]
 	cmp r0, #0
 	beq _08017D78
-	ldr r5, _08017DA4 @ =gUnknown_03004FE8
+	ldr r5, _08017DA4 @ =gMultiplayerCharRings
 	mov r2, r8
 _08017D5A:
 	adds r0, r3, r5
@@ -29132,7 +29132,7 @@ _08017D92:
 _08017D98: .4byte gGameMode
 _08017D9C: .4byte gUnknown_03005150
 _08017DA0: .4byte 0x04000128
-_08017DA4: .4byte gUnknown_03004FE8
+_08017DA4: .4byte gMultiplayerCharRings
 _08017DA8:
 	ldr r0, _08017E70 @ =0x04000128
 	ldr r0, [r0]
@@ -29583,7 +29583,7 @@ _08018106:
 	movs r0, #4
 	orrs r0, r1
 	strh r0, [r3]
-	ldr r1, _080181A4 @ =gUnknown_03005034
+	ldr r1, _080181A4 @ =gCourseTime
 	movs r0, #0xe1
 	lsls r0, r0, #4
 	str r0, [r1]
@@ -29640,7 +29640,7 @@ _08018194: .4byte 0x04000128
 _08018198: .4byte 0xFFFFFBFF
 _0801819C: .4byte 0xFFFFFEFF
 _080181A0: .4byte gUnknown_03005004
-_080181A4: .4byte gUnknown_03005034
+_080181A4: .4byte gCourseTime
 _080181A8:
 	lsrs r0, r4, #0x18
 	ldr r2, [sp, #0xc]
@@ -29707,7 +29707,7 @@ sub_80181F8: @ 0x080181F8
 	str r4, [sp, #4]
 	add r1, sp, #4
 	str r1, [r2]
-	ldr r1, _08018264 @ =gUnknown_03001150
+	ldr r1, _08018264 @ =gMultiSioRecv
 	str r1, [r2, #4]
 	ldr r1, _08018268 @ =0x85000014
 	str r1, [r2, #8]
@@ -29734,7 +29734,7 @@ _08018254: .4byte 0x0000FFFE
 _08018258: .4byte 0x040000D4
 _0801825C: .4byte gMultiSioSend
 _08018260: .4byte 0x85000005
-_08018264: .4byte gUnknown_03001150
+_08018264: .4byte gMultiSioRecv
 _08018268: .4byte 0x85000014
 _0801826C: .4byte gUnknown_030050A0
 _08018270: .4byte 0x85000020
@@ -29764,7 +29764,7 @@ sub_801827C: @ 0x0801827C
 	str r4, [sp, #4]
 	add r1, sp, #4
 	str r1, [r2]
-	ldr r1, _080182E4 @ =gUnknown_03001150
+	ldr r1, _080182E4 @ =gMultiSioRecv
 	str r1, [r2, #4]
 	ldr r1, _080182E8 @ =0x85000014
 	str r1, [r2, #8]
@@ -29790,7 +29790,7 @@ _080182D4: .4byte sub_8017B54
 _080182D8: .4byte 0x040000D4
 _080182DC: .4byte gMultiSioSend
 _080182E0: .4byte 0x85000005
-_080182E4: .4byte gUnknown_03001150
+_080182E4: .4byte gMultiSioRecv
 _080182E8: .4byte 0x85000014
 _080182EC: .4byte gUnknown_030050A0
 _080182F0: .4byte 0x85000020
@@ -30422,7 +30422,7 @@ _080187EC:
 	cmp r0, #0
 	bne _0801877E
 _080187FE:
-	ldr r5, _0801882C @ =gUnknown_03001150
+	ldr r5, _0801882C @ =gMultiSioRecv
 	ldrh r0, [r5]
 	cmp r0, #0x30
 	bne _08018838
@@ -30444,7 +30444,7 @@ _080187FE:
 	strb r0, [r4]
 	b _080188DC
 	.align 2, 0
-_0801882C: .4byte gUnknown_03001150
+_0801882C: .4byte gMultiSioRecv
 _08018830: .4byte 0x00000203
 _08018834: .4byte gMultiSioStatusFlags
 _08018838:
@@ -30614,7 +30614,7 @@ _08018974:
 	mov sl, r1
 	cmp r0, #0
 	beq _080189C4
-	ldr r0, _080189FC @ =gUnknown_03001150
+	ldr r0, _080189FC @ =gMultiSioRecv
 	adds r1, r7, #0
 	adds r2, r0, #0
 	adds r2, #0x14
@@ -30664,7 +30664,7 @@ _080189E0:
 _080189F0: .4byte 0x00000203
 _080189F4: .4byte gMultiSioSend
 _080189F8: .4byte gUnknown_03005150
-_080189FC: .4byte gUnknown_03001150
+_080189FC: .4byte gMultiSioRecv
 _08018A00: .4byte gPressedKeys
 _08018A04: .4byte 0x00000213
 _08018A08:
@@ -31301,7 +31301,7 @@ _08018F68:
 	cmp r0, #0
 	bne _08018F08
 _08018F7C:
-	ldr r6, _08018FAC @ =gUnknown_03001150
+	ldr r6, _08018FAC @ =gMultiSioRecv
 	ldrh r2, [r6]
 	cmp r2, #0x34
 	bne _08018FB8
@@ -31327,7 +31327,7 @@ _08018FA6:
 	strb r0, [r4]
 	b _080190D4
 	.align 2, 0
-_08018FAC: .4byte gUnknown_03001150
+_08018FAC: .4byte gMultiSioRecv
 _08018FB0: .4byte 0x00000246
 _08018FB4: .4byte gMultiSioStatusFlags
 _08018FB8:
@@ -31526,7 +31526,7 @@ _0801912C:
 	mov sl, r3
 	cmp r0, #0
 	beq _08019172
-	ldr r0, _080191AC @ =gUnknown_03001150
+	ldr r0, _080191AC @ =gMultiSioRecv
 	adds r2, r0, #0
 	adds r2, #0x14
 	movs r3, #1
@@ -31576,7 +31576,7 @@ _0801918C:
 	.align 2, 0
 _080191A4: .4byte 0x00000246
 _080191A8: .4byte gUnknown_03005150
-_080191AC: .4byte gUnknown_03001150
+_080191AC: .4byte gMultiSioRecv
 _080191B0: .4byte gPressedKeys
 _080191B4: .4byte 0x00000247
 _080191B8:
@@ -32336,7 +32336,7 @@ _0801980A:
 	movs r0, #0
 	str r0, [sp, #0x10]
 _08019822:
-	ldr r0, _08019880 @ =gUnknown_03001150
+	ldr r0, _08019880 @ =gMultiSioRecv
 	ldr r1, [sp, #0x10]
 	adds r5, r1, r0
 	ldrh r1, [r5]
@@ -32383,7 +32383,7 @@ _08019822:
 	strb r0, [r2]
 	b _080198A2
 	.align 2, 0
-_08019880: .4byte gUnknown_03001150
+_08019880: .4byte gMultiSioRecv
 _08019884: .4byte gUnknown_080BB484
 _08019888: .4byte 0xFFFFFBFF
 _0801988C:
@@ -32507,7 +32507,7 @@ _08019952:
 	movs r3, #0x74
 	bl sub_80053F0
 	ldr r2, _08019AC0 @ =0x040000D4
-	ldr r0, _08019AC4 @ =gUnknown_03001144
+	ldr r0, _08019AC4 @ =gBgOffsetsHBlank
 	ldr r4, [r0]
 	ldr r0, _08019AC8 @ =gUnknown_03002320
 	ldrb r3, [r0]
@@ -32675,7 +32675,7 @@ _08019AAA:
 	b _08019B42
 	.align 2, 0
 _08019AC0: .4byte 0x040000D4
-_08019AC4: .4byte gUnknown_03001144
+_08019AC4: .4byte gBgOffsetsHBlank
 _08019AC8: .4byte gUnknown_03002320
 _08019ACC: .4byte 0x000003FF
 _08019AD0: .4byte 0x00000236
@@ -32738,7 +32738,7 @@ _08019B54:
 	lsrs r0, r0, #0x1e
 	cmp r0, r6
 	beq _08019B6A
-	ldr r0, _08019C0C @ =gUnknown_03001150
+	ldr r0, _08019C0C @ =gMultiSioRecv
 	adds r5, r2, r0
 	ldrh r0, [r5]
 	cmp r0, #0x41
@@ -32824,7 +32824,7 @@ _08019BFC: .4byte gMultiSioSend
 _08019C00: .4byte 0x00000246
 _08019C04: .4byte gUnknown_03005150
 _08019C08: .4byte 0x04000128
-_08019C0C: .4byte gUnknown_03001150
+_08019C0C: .4byte gMultiSioRecv
 _08019C10: .4byte 0xFFFF5C80
 
 	thumb_func_start sub_8019C14
@@ -33078,7 +33078,7 @@ _08019E04:
 	ldrb r3, [r4]
 	cmp r3, #4
 	bne _08019EF4
-	ldr r0, _08019EA0 @ =gUnknown_03004FE8
+	ldr r0, _08019EA0 @ =gMultiplayerCharRings
 	ldr r0, [r0]
 	str r0, [sp, #8]
 	movs r6, #0
@@ -33155,7 +33155,7 @@ _08019E90: .4byte gUnknown_080BB490
 _08019E94: .4byte sub_801A110
 _08019E98: .4byte gGameMode
 _08019E9C: .4byte gUnknown_03005040
-_08019EA0: .4byte gUnknown_03004FE8
+_08019EA0: .4byte gMultiplayerCharRings
 _08019EA4: .4byte gUnknown_03005048
 _08019EA8:
 	ldrb r1, [r5, #1]
@@ -33215,7 +33215,7 @@ _08019EFA:
 	ldrb r3, [r0]
 	mov r2, r8
 	movs r5, #0x10
-	ldr r4, _08019F98 @ =gUnknown_03004FE8
+	ldr r4, _08019F98 @ =gMultiplayerCharRings
 _08019F12:
 	adds r1, r5, #0
 	lsls r1, r6
@@ -33287,7 +33287,7 @@ _08019F86:
 	.align 2, 0
 _08019F90: .4byte gUnknown_03005130
 _08019F94: .4byte gUnknown_03005150
-_08019F98: .4byte gUnknown_03004FE8
+_08019F98: .4byte gMultiplayerCharRings
 _08019F9C: .4byte gUnknown_03005048
 _08019FA0:
 	movs r6, #0
@@ -33353,13 +33353,13 @@ _0801A00C:
 	movs r2, #0x85
 	lsls r2, r2, #3
 	adds r1, r1, r2
-	ldr r0, _0801A084 @ =gUnknown_03004FEC
+	ldr r0, _0801A084 @ =gRingCount
 	movs r4, #0
 	ldrsh r2, [r0, r4]
 	ldr r0, [r1]
 	adds r0, r0, r2
 	str r0, [r1]
-	ldr r0, _0801A088 @ =gUnknown_03005034
+	ldr r0, _0801A088 @ =gCourseTime
 	ldr r2, [r0]
 	ldr r0, _0801A08C @ =0x00008CA0
 	cmp r2, r0
@@ -33411,8 +33411,8 @@ _0801A078:
 	b _0801A0B2
 	.align 2, 0
 _0801A080: .4byte gUnknown_03005160
-_0801A084: .4byte gUnknown_03004FEC
-_0801A088: .4byte gUnknown_03005034
+_0801A084: .4byte gRingCount
+_0801A088: .4byte gCourseTime
 _0801A08C: .4byte 0x00008CA0
 _0801A090: .4byte gUnknown_03005004
 _0801A094: .4byte gUnknown_03005130
@@ -33595,7 +33595,7 @@ _0801A1EA:
 	movs r1, #0
 	movs r2, #4
 	bl memset
-	ldr r0, _0801A2A4 @ =gUnknown_03004FE8
+	ldr r0, _0801A2A4 @ =gMultiplayerCharRings
 	ldr r0, [r0]
 	str r0, [sp, #4]
 	movs r7, #0
@@ -33678,7 +33678,7 @@ _0801A294: .4byte gBldRegs
 _0801A298: .4byte 0x00000FFF
 _0801A29C: .4byte gGameMode
 _0801A2A0: .4byte gUnknown_080BB490
-_0801A2A4: .4byte gUnknown_03004FE8
+_0801A2A4: .4byte gMultiplayerCharRings
 _0801A2A8: .4byte gUnknown_03005048
 _0801A2AC: .4byte gUnknown_03005090
 _0801A2B0: .4byte gUnknown_0300500C
@@ -35123,7 +35123,7 @@ sub_801AE88: @ 0x0801AE88
 	ands r0, r1
 	lsrs r0, r0, #8
 	strb r0, [r2]
-	ldr r5, _0801AF44 @ =gUnknown_03001150
+	ldr r5, _0801AF44 @ =gMultiSioRecv
 	ldrh r3, [r5]
 	cmp r3, #0x12
 	bne _0801AF88
@@ -35189,7 +35189,7 @@ _0801AF10:
 _0801AF38: .4byte gCurTask
 _0801AF3C: .4byte gUnknown_03005150
 _0801AF40: .4byte gMultiSioStatusFlags
-_0801AF44: .4byte gUnknown_03001150
+_0801AF44: .4byte gMultiSioRecv
 _0801AF48: .4byte gUnknown_03005084
 _0801AF4C: .4byte 0x03000434
 _0801AF50: .4byte 0x03000040
@@ -35377,7 +35377,7 @@ sub_801B0B8: @ 0x0801B0B8
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r7, r1, r0
-	ldr r3, _0801B114 @ =gUnknown_03001150
+	ldr r3, _0801B114 @ =gMultiSioRecv
 	ldrh r0, [r3]
 	adds r6, r2, #0
 	cmp r0, #0x80
@@ -35415,7 +35415,7 @@ _0801B0E0:
 	b _0801B198
 	.align 2, 0
 _0801B110: .4byte gCurTask
-_0801B114: .4byte gUnknown_03001150
+_0801B114: .4byte gMultiSioRecv
 _0801B118: .4byte gUnknown_03005010
 _0801B11C: .4byte gFlags
 _0801B120: .4byte gUnknown_03005090
@@ -35448,7 +35448,7 @@ _0801B144:
 	ldr r0, _0801B1A8 @ =gUnknown_03005150
 	ldrb r2, [r0]
 	movs r5, #1
-	ldr r4, _0801B1AC @ =gUnknown_03001150
+	ldr r4, _0801B1AC @ =gMultiSioRecv
 _0801B168:
 	adds r0, r2, #0
 	asrs r0, r1
@@ -35483,7 +35483,7 @@ _0801B198:
 _0801B1A0: .4byte gMultiSioSend
 _0801B1A4: .4byte gMultiSioStatusFlags
 _0801B1A8: .4byte gUnknown_03005150
-_0801B1AC: .4byte gUnknown_03001150
+_0801B1AC: .4byte gMultiSioRecv
 _0801B1B0: .4byte 0x0000043C
 
 	thumb_func_start sub_801B1B4
@@ -35637,7 +35637,7 @@ _0801B2B8:
 	movs r3, #0
 	bl sub_800681C
 	lsls r4, r4, #2
-	ldr r0, _0801B430 @ =gUnknown_03001150
+	ldr r0, _0801B430 @ =gMultiSioRecv
 	adds r4, r4, r0
 	ldr r0, _0801B434 @ =0x04000128
 	ldr r0, [r0]
@@ -35703,7 +35703,7 @@ _0801B318:
 	strh r0, [r5, #0x18]
 	adds r0, r5, #0
 	bl DisplaySprite
-	ldr r0, _0801B440 @ =gUnknown_03004FE8
+	ldr r0, _0801B440 @ =gMultiplayerCharRings
 	adds r0, r6, r0
 	ldrb r0, [r0]
 	bl sub_800348C
@@ -35795,11 +35795,11 @@ _0801B3F8:
 	b _0801B4E4
 	.align 2, 0
 _0801B42C: .4byte gUnknown_03005048
-_0801B430: .4byte gUnknown_03001150
+_0801B430: .4byte gMultiSioRecv
 _0801B434: .4byte 0x04000128
 _0801B438: .4byte 0x00000434
 _0801B43C: .4byte gUnknown_03005090
-_0801B440: .4byte gUnknown_03004FE8
+_0801B440: .4byte gMultiplayerCharRings
 _0801B444:
 	lsls r0, r6, #3
 	subs r0, r0, r6
@@ -36149,7 +36149,7 @@ sub_801B6F4: @ 0x0801B6F4
 	lsls r0, r0, #0x12
 	adds r0, r3, r0
 	str r0, [sp]
-	ldr r0, _0801B8A4 @ =gUnknown_03005034
+	ldr r0, _0801B8A4 @ =gCourseTime
 	ldr r2, [r0]
 	ldr r1, _0801B8A8 @ =0x00000E0F
 	ldr r4, _0801B8AC @ =0x03000030
@@ -36199,7 +36199,7 @@ _0801B754:
 	strh r0, [r7, #0x16]
 	adds r0, r7, #0
 	bl DisplaySprite
-	ldr r4, _0801B8A4 @ =gUnknown_03005034
+	ldr r4, _0801B8A4 @ =gCourseTime
 	ldr r0, [r4]
 	movs r1, #0x3c
 	bl Div
@@ -36342,7 +36342,7 @@ _0801B87E:
 	b _0801B920
 	.align 2, 0
 _0801B8A0: .4byte gCurTask
-_0801B8A4: .4byte gUnknown_03005034
+_0801B8A4: .4byte gCourseTime
 _0801B8A8: .4byte 0x00000E0F
 _0801B8AC: .4byte 0x03000030
 _0801B8B0: .4byte 0x03000240
@@ -36414,7 +36414,7 @@ _0801B920:
 	ldr r0, _0801B974 @ =gUnknown_03005150
 	ldrb r3, [r0]
 	mov r8, r1
-	ldr r7, _0801B984 @ =gUnknown_03004FE8
+	ldr r7, _0801B984 @ =gMultiplayerCharRings
 	movs r6, #0x10
 _0801B944:
 	adds r0, r6, #0
@@ -36448,9 +36448,9 @@ _0801B974: .4byte gUnknown_03005150
 _0801B978: .4byte gUnknown_03005090
 _0801B97C: .4byte gGameMode
 _0801B980: .4byte gUnknown_03005130
-_0801B984: .4byte gUnknown_03004FE8
+_0801B984: .4byte gMultiplayerCharRings
 _0801B988:
-	ldr r0, _0801B9F4 @ =gUnknown_03004FE8
+	ldr r0, _0801B9F4 @ =gMultiplayerCharRings
 	adds r0, r5, r0
 	ldrb r0, [r0]
 _0801B98E:
@@ -36503,7 +36503,7 @@ _0801B98E:
 	adds r0, #0x13
 	b _0801BA32
 	.align 2, 0
-_0801B9F4: .4byte gUnknown_03004FE8
+_0801B9F4: .4byte gMultiplayerCharRings
 _0801B9F8:
 	cmp r4, #0xf
 	bls _0801BA40

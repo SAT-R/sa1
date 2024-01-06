@@ -10044,7 +10044,7 @@ _08070F06:
 _08070F14: .4byte gCurTask
 _08070F18: .4byte gCamera
 _08070F1C:
-	ldr r0, _08070FF8 @ =gUnknown_03005120
+	ldr r0, _08070FF8 @ =gStageTime
 	movs r2, #4
 	ldrsh r1, [r7, r2]
 	ldr r0, [r0]
@@ -10152,7 +10152,7 @@ _08070FE8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08070FF8: .4byte gUnknown_03005120
+_08070FF8: .4byte gStageTime
 _08070FFC: .4byte sub_807101C
 _08071000: .4byte TaskDestructor_8009670
 _08071004: .4byte 0x0300000C

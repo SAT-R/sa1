@@ -376,7 +376,7 @@ _08008006:
 	cmp r0, r3
 	blt _08008076
 _08008014:
-	ldr r1, _080081C4 @ =gUnknown_03004FEC
+	ldr r1, _080081C4 @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, #1
 	strh r0, [r1]
@@ -399,7 +399,7 @@ _08008014:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _08008054
-	ldr r1, _080081D0 @ =gUnknown_03005024
+	ldr r1, _080081D0 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -411,7 +411,7 @@ _08008054:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _08008068
-	ldr r1, _080081C4 @ =gUnknown_03004FEC
+	ldr r1, _080081C4 @ =gRingCount
 	ldrh r0, [r1]
 	cmp r0, #0xff
 	bls _08008068
@@ -600,10 +600,10 @@ _080081B4: .4byte gUnknown_03005004
 _080081B8: .4byte gCurTask
 _080081BC: .4byte 0x03000030
 _080081C0: .4byte gUnknown_03005AB0
-_080081C4: .4byte gUnknown_03004FEC
+_080081C4: .4byte gRingCount
 _080081C8: .4byte gCurrentLevel
 _080081CC: .4byte gGameMode
-_080081D0: .4byte gUnknown_03005024
+_080081D0: .4byte gNumLives
 _080081D4: .4byte gUnknown_03005040
 _080081D8: .4byte gUnknown_03005088
 _080081DC: .4byte 0x04000128

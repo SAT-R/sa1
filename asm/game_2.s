@@ -371,7 +371,7 @@ _0804E7D0:
 	cmp r0, #0
 	beq _0804E82E
 _0804E7DE:
-	ldr r0, _0804E8BC @ =gUnknown_03005120
+	ldr r0, _0804E8BC @ =gStageTime
 	ldr r0, [r0]
 	movs r1, #2
 	ands r0, r1
@@ -483,7 +483,7 @@ _0804E8AC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E8BC: .4byte gUnknown_03005120
+_0804E8BC: .4byte gStageTime
 _0804E8C0: .4byte gUnknown_03005A20
 _0804E8C4: .4byte gDispCnt
 _0804E8C8: .4byte gWinRegs
@@ -1199,7 +1199,7 @@ sub_804EE20: @ 0x0804EE20
 	push {r4, r5, r6, lr}
 	mov ip, r0
 	movs r2, #0
-	ldr r0, _0804EE90 @ =gUnknown_03005120
+	ldr r0, _0804EE90 @ =gStageTime
 	ldr r0, [r0]
 	movs r1, #7
 	ands r0, r1
@@ -1253,7 +1253,7 @@ _0804EE88:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0804EE90: .4byte gUnknown_03005120
+_0804EE90: .4byte gStageTime
 _0804EE94: .4byte gPseudoRandom
 _0804EE98: .4byte 0x00196225
 _0804EE9C: .4byte 0x3C6EF35F
@@ -2573,7 +2573,7 @@ _0804F884: .4byte gUnknown_03005040
 	thumb_func_start sub_804F888
 sub_804F888: @ 0x0804F888
 	push {r4, r5, r6, lr}
-	ldr r1, _0804F8C4 @ =gUnknown_03005030
+	ldr r1, _0804F8C4 @ =gLevelScore
 	ldr r6, [r1]
 	movs r2, #0xfa
 	lsls r2, r2, #2
@@ -2592,7 +2592,7 @@ sub_804F888: @ 0x0804F888
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0804F8BC
-	ldr r1, _0804F8D0 @ =gUnknown_03005024
+	ldr r1, _0804F8D0 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -2601,10 +2601,10 @@ _0804F8BC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F8C4: .4byte gUnknown_03005030
+_0804F8C4: .4byte gLevelScore
 _0804F8C8: .4byte 0x0000C350
 _0804F8CC: .4byte gGameMode
-_0804F8D0: .4byte gUnknown_03005024
+_0804F8D0: .4byte gNumLives
 
 	thumb_func_start sub_804F8D4
 sub_804F8D4: @ 0x0804F8D4
@@ -3828,7 +3828,7 @@ sub_8050194: @ 0x08050194
 	mov r1, r8
 	ldr r0, [r1, #0x50]
 	asrs r7, r0, #8
-	ldr r2, _080504BC @ =gUnknown_03005120
+	ldr r2, _080504BC @ =gStageTime
 	ldr r0, [r2]
 	lsls r0, r0, #3
 	adds r7, r7, r0
@@ -3932,7 +3932,7 @@ _08050278:
 	asrs r0, r0, #0x18
 	cmp r0, #1
 	beq _080502D2
-	ldr r1, _080504BC @ =gUnknown_03005120
+	ldr r1, _080504BC @ =gStageTime
 	ldr r0, [r1]
 	movs r1, #1
 	ands r0, r1
@@ -3980,7 +3980,7 @@ _080502D2:
 	mov r1, r8
 	ldr r0, [r1, #0x50]
 	asrs r7, r0, #8
-	ldr r2, _080504BC @ =gUnknown_03005120
+	ldr r2, _080504BC @ =gStageTime
 	ldr r0, [r2]
 	lsls r0, r0, #3
 	adds r7, r7, r0
@@ -4082,7 +4082,7 @@ _080503A6:
 	asrs r0, r0, #0x18
 	cmp r0, #1
 	beq _080503FE
-	ldr r1, _080504BC @ =gUnknown_03005120
+	ldr r1, _080504BC @ =gStageTime
 	ldr r0, [r1]
 	movs r1, #1
 	ands r0, r1
@@ -4170,7 +4170,7 @@ _080503FE:
 	adds r1, r1, r0
 	asrs r1, r1, #0x10
 	adds r4, r4, r1
-	ldr r0, _080504BC @ =gUnknown_03005120
+	ldr r0, _080504BC @ =gStageTime
 	ldr r0, [r0]
 	lsls r0, r0, #3
 	adds r4, r4, r0
@@ -4214,7 +4214,7 @@ _080504A6:
 	bx r1
 	.align 2, 0
 _080504B8: .4byte gUnknown_030061F0
-_080504BC: .4byte gUnknown_03005120
+_080504BC: .4byte gStageTime
 _080504C0: .4byte 0x00000A7F
 _080504C4: .4byte gSineTable
 _080504C8: .4byte sub_803FD5C
@@ -5095,7 +5095,7 @@ _08050BC2:
 	movs r1, #1
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _08050C7C @ =gUnknown_03005030
+	ldr r1, _08050C7C @ =gLevelScore
 	ldr r6, [r1]
 	movs r2, #0xfa
 	lsls r2, r2, #2
@@ -5114,7 +5114,7 @@ _08050BC2:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _08050CC2
-	ldr r1, _08050C88 @ =gUnknown_03005024
+	ldr r1, _08050C88 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -5134,10 +5134,10 @@ _08050C6C: .4byte 0x0000DFFF
 _08050C70: .4byte gBldRegs
 _08050C74: .4byte gFlags
 _08050C78: .4byte gUnknown_03005004
-_08050C7C: .4byte gUnknown_03005030
+_08050C7C: .4byte gLevelScore
 _08050C80: .4byte 0x0000C350
 _08050C84: .4byte gGameMode
-_08050C88: .4byte gUnknown_03005024
+_08050C88: .4byte gNumLives
 _08050C8C:
 	ldr r3, _08050DB0 @ =gUnknown_03005A20
 	movs r4, #0x1c
@@ -5204,7 +5204,7 @@ _08050D00:
 	ldrsb r0, [r3, r0]
 	cmp r0, #0
 	beq _08050D46
-	ldr r0, _08050DC8 @ =gUnknown_03005120
+	ldr r0, _08050DC8 @ =gStageTime
 	ldr r0, [r0]
 	movs r1, #2
 	ands r0, r1
@@ -5294,7 +5294,7 @@ _08050DB8: .4byte gDispCnt
 _08050DBC: .4byte 0x00007FFF
 _08050DC0: .4byte gWinRegs
 _08050DC4: .4byte gBldRegs
-_08050DC8: .4byte gUnknown_03005120
+_08050DC8: .4byte gStageTime
 _08050DCC: .4byte 0x00003F1F
 _08050DD0: .4byte gUnknown_0300504C
 _08050DD4: .4byte _08050DD8
@@ -6584,7 +6584,7 @@ _08051842:
 	movs r2, #0x80
 	lsls r2, r2, #2
 	bl sub_804CFE0
-	ldr r0, _08051898 @ =gUnknown_03005120
+	ldr r0, _08051898 @ =gStageTime
 	ldr r0, [r0]
 	movs r1, #0x1f
 	ands r0, r1
@@ -6615,7 +6615,7 @@ _0805188C:
 	bl sub_804A8A8
 	b _080518D8
 	.align 2, 0
-_08051898: .4byte gUnknown_03005120
+_08051898: .4byte gStageTime
 _0805189C: .4byte gPseudoRandom
 _080518A0: .4byte 0x00196225
 _080518A4: .4byte 0x3C6EF35F
@@ -7595,7 +7595,7 @@ sub_80520B8: @ 0x080520B8
 	push {r4, r5, r6, lr}
 	adds r5, r0, #0
 	movs r2, #0
-	ldr r0, _08052138 @ =gUnknown_03005120
+	ldr r0, _08052138 @ =gStageTime
 	ldr r1, [r0]
 	movs r0, #0xf
 	ands r0, r1
@@ -7658,7 +7658,7 @@ _08052130:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08052138: .4byte gUnknown_03005120
+_08052138: .4byte gStageTime
 _0805213C: .4byte gPseudoRandom
 _08052140: .4byte 0x00196225
 _08052144: .4byte 0x3C6EF35F
@@ -10543,7 +10543,7 @@ _08053738:
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r6, r1, r0
-	ldr r2, _0805376C @ =gUnknown_03004FEC
+	ldr r2, _0805376C @ =gRingCount
 	ldrh r1, [r2]
 	ldr r0, _08053770 @ =0x000003E7
 	cmp r1, r0
@@ -10559,7 +10559,7 @@ _0805375C: .4byte gUnknown_0865F178
 _08053760: .4byte gGameMode
 _08053764: .4byte gUnknown_03005084
 _08053768: .4byte gCurTask
-_0805376C: .4byte gUnknown_03004FEC
+_0805376C: .4byte gRingCount
 _08053770: .4byte 0x000003E7
 _08053774:
 	ldrh r4, [r2]
@@ -10588,7 +10588,7 @@ _0805379C:
 	ldrh r0, [r0, #6]
 	ldr r1, _08053804 @ =0x03000044
 	adds r0, r0, r1
-	ldr r1, _08053808 @ =gUnknown_03004FEC
+	ldr r1, _08053808 @ =gRingCount
 	ldrh r1, [r1]
 	strh r1, [r0]
 	ldr r0, [r2]
@@ -10597,7 +10597,7 @@ _0805379C:
 	adds r6, r0, r1
 	movs r0, #0
 	strb r0, [r6, #9]
-	ldr r0, _08053810 @ =gUnknown_03005030
+	ldr r0, _08053810 @ =gLevelScore
 	ldr r4, [r0]
 	movs r5, #8
 _080537BE:
@@ -10616,7 +10616,7 @@ _080537BE:
 	subs r5, #1
 	cmp r5, #0
 	bge _080537BE
-	ldr r0, _08053814 @ =gUnknown_03005034
+	ldr r0, _08053814 @ =gCourseTime
 	ldr r0, [r0]
 	bl sub_8053A90
 	ldr r0, _08053800 @ =gCurTask
@@ -10624,7 +10624,7 @@ _080537BE:
 	ldrh r0, [r0, #6]
 	ldr r1, _08053818 @ =0x03000030
 	adds r6, r0, r1
-	ldr r0, _0805381C @ =gUnknown_03005024
+	ldr r0, _0805381C @ =gNumLives
 	ldrb r0, [r0]
 	adds r1, r0, #0
 	cmp r1, #9
@@ -10634,12 +10634,12 @@ _080537BE:
 	.align 2, 0
 _08053800: .4byte gCurTask
 _08053804: .4byte 0x03000044
-_08053808: .4byte gUnknown_03004FEC
+_08053808: .4byte gRingCount
 _0805380C: .4byte 0x03000010
-_08053810: .4byte gUnknown_03005030
-_08053814: .4byte gUnknown_03005034
+_08053810: .4byte gLevelScore
+_08053814: .4byte gCourseTime
 _08053818: .4byte 0x03000030
-_0805381C: .4byte gUnknown_03005024
+_0805381C: .4byte gNumLives
 _08053820:
 	cmp r1, #0
 	beq _08053828
@@ -10665,7 +10665,7 @@ _08053840:
 	ands r0, r1
 	cmp r0, #0
 	beq _08053884
-	ldr r4, _0805387C @ =gUnknown_03005034
+	ldr r4, _0805387C @ =gCourseTime
 	ldr r1, [r4]
 	ldr r0, _08053880 @ =0x000004AF
 	cmp r1, r0
@@ -10685,10 +10685,10 @@ _08053840:
 _08053870: .4byte gUnknown_03005160
 _08053874: .4byte gGameMode
 _08053878: .4byte gUnknown_03005004
-_0805387C: .4byte gUnknown_03005034
+_0805387C: .4byte gCourseTime
 _08053880: .4byte 0x000004AF
 _08053884:
-	ldr r4, _080538B0 @ =gUnknown_03005034
+	ldr r4, _080538B0 @ =gCourseTime
 	ldr r1, [r4]
 	ldr r0, _080538B4 @ =0x000087F0
 	cmp r1, r0
@@ -10710,7 +10710,7 @@ _080538A8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080538B0: .4byte gUnknown_03005034
+_080538B0: .4byte gCourseTime
 _080538B4: .4byte 0x000087F0
 _080538B8: .4byte 0x00008C9F
 
@@ -10957,7 +10957,7 @@ sub_8053A90: @ 0x08053A90
 	ands r0, r1
 	cmp r0, #0
 	beq _08053ACC
-	ldr r0, _08053AC4 @ =gUnknown_03005034
+	ldr r0, _08053AC4 @ =gCourseTime
 	ldr r1, [r0]
 	ldr r0, _08053AC8 @ =0x00000E0F
 	movs r6, #0
@@ -10968,17 +10968,17 @@ sub_8053A90: @ 0x08053A90
 _08053AB8: .4byte gCurTask
 _08053ABC: .4byte 0x03000020
 _08053AC0: .4byte gUnknown_03005004
-_08053AC4: .4byte gUnknown_03005034
+_08053AC4: .4byte gCourseTime
 _08053AC8: .4byte 0x00000E0F
 _08053ACC:
-	ldr r0, _08053B14 @ =gUnknown_03005034
+	ldr r0, _08053B14 @ =gCourseTime
 	ldr r1, [r0]
 	ldr r0, _08053B18 @ =0x00007E90
 	movs r6, #0
 	cmp r1, r0
 	bls _08053AE6
 _08053AD8:
-	ldr r0, _08053B1C @ =gUnknown_03005120
+	ldr r0, _08053B1C @ =gStageTime
 	ldr r0, [r0]
 	movs r1, #0x10
 	ands r0, r1
@@ -11010,9 +11010,9 @@ _08053AF8:
 	strb r1, [r5]
 	b _08053B8E
 	.align 2, 0
-_08053B14: .4byte gUnknown_03005034
+_08053B14: .4byte gCourseTime
 _08053B18: .4byte 0x00007E90
-_08053B1C: .4byte gUnknown_03005120
+_08053B1C: .4byte gStageTime
 _08053B20: .4byte gUnknown_03005160
 _08053B24: .4byte gGameMode
 _08053B28: .4byte 0x00008C9F
@@ -11113,7 +11113,7 @@ sub_8053BAC: @ 0x08053BAC
 	strh r2, [r0, #0x10]
 	movs r3, #1
 	strb r3, [r0, #0x16]
-	ldr r0, _08053C2C @ =gUnknown_03004FEC
+	ldr r0, _08053C2C @ =gRingCount
 	ldrh r2, [r0]
 	cmp r2, #9
 	bhi _08053C3C
@@ -11142,7 +11142,7 @@ sub_8053BAC: @ 0x08053BAC
 	.align 2, 0
 _08053C24: .4byte gCurTask
 _08053C28: .4byte 0x03000048
-_08053C2C: .4byte gUnknown_03004FEC
+_08053C2C: .4byte gRingCount
 _08053C30: .4byte gUnknown_0865F174
 _08053C34:
 	ldr r1, _08053C38 @ =0x03000002
@@ -11181,7 +11181,7 @@ _08053C6C:
 	strh r1, [r0, #0xc]
 	movs r3, #0
 	ldrb r0, [r5]
-	ldr r1, _08053CB8 @ =gUnknown_03005030
+	ldr r1, _08053CB8 @ =gLevelScore
 	cmp r0, #0x20
 	bne _08053C90
 _08053C7E:
@@ -11213,7 +11213,7 @@ _08053C90:
 	b _08053CCC
 	.align 2, 0
 _08053CB4: .4byte 0x0000FFFE
-_08053CB8: .4byte gUnknown_03005030
+_08053CB8: .4byte gLevelScore
 _08053CBC:
 	mov r1, sp
 	movs r0, #1
@@ -18776,7 +18776,7 @@ _08057940:
 _08057942:
 	subs r0, #0x64
 	str r0, [r7, #0x2c]
-	ldr r1, _08057A08 @ =gUnknown_03005030
+	ldr r1, _08057A08 @ =gLevelScore
 	ldr r6, [r1]
 	adds r0, r6, #0
 	adds r0, #0x64
@@ -18794,7 +18794,7 @@ _08057942:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _08057976
-	ldr r1, _08057A14 @ =gUnknown_03005024
+	ldr r1, _08057A14 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -18808,7 +18808,7 @@ _0805797C:
 	beq _080579BC
 	subs r0, #0x64
 	str r0, [r7, #0x30]
-	ldr r1, _08057A08 @ =gUnknown_03005030
+	ldr r1, _08057A08 @ =gLevelScore
 	ldr r6, [r1]
 	adds r0, r6, #0
 	adds r0, #0x64
@@ -18826,7 +18826,7 @@ _0805797C:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _080579B6
-	ldr r1, _08057A14 @ =gUnknown_03005024
+	ldr r1, _08057A14 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -18874,10 +18874,10 @@ _080579DE:
 	movs r0, #0x87
 	b _08057A32
 	.align 2, 0
-_08057A08: .4byte gUnknown_03005030
+_08057A08: .4byte gLevelScore
 _08057A0C: .4byte 0x0000C350
 _08057A10: .4byte gGameMode
-_08057A14: .4byte gUnknown_03005024
+_08057A14: .4byte gNumLives
 _08057A18: .4byte gCurrentLevel
 _08057A1C: .4byte 0xFF7FFFFF
 _08057A20: .4byte gUnknown_03005084
@@ -18896,7 +18896,7 @@ _08057A32:
 	bl m4aSongNumStart
 	b _08057B5C
 _08057A3C:
-	ldr r0, _08057A54 @ =gUnknown_03005120
+	ldr r0, _08057A54 @ =gStageTime
 	ldr r0, [r0]
 	movs r1, #4
 	bl Mod
@@ -18908,7 +18908,7 @@ _08057A4C:
 	bl m4aSongNumStart
 	b _08057B5C
 	.align 2, 0
-_08057A54: .4byte gUnknown_03005120
+_08057A54: .4byte gStageTime
 _08057A58:
 	mov r0, r8
 	strh r2, [r0, #4]
@@ -23738,7 +23738,7 @@ _0805A13E:
 	strb r0, [r1]
 	movs r3, #0
 	adds r4, r1, #0
-	ldr r2, _0805A1EC @ =gUnknown_03001150
+	ldr r2, _0805A1EC @ =gMultiSioRecv
 	mov r8, r2
 	movs r6, #0
 _0805A158:
@@ -23814,7 +23814,7 @@ _0805A18E:
 	b _0805A358
 	.align 2, 0
 _0805A1E8: .4byte gGameMode
-_0805A1EC: .4byte gUnknown_03001150
+_0805A1EC: .4byte gMultiSioRecv
 _0805A1F0: .4byte 0x04000128
 _0805A1F4: .4byte gRepeatedKeys
 _0805A1F8:
@@ -24376,7 +24376,7 @@ _0805A630: .4byte 0x0000FFFE
 _0805A634: .4byte gCurTask
 _0805A638: .4byte sub_805A060
 _0805A63C:
-	ldr r1, _0805A678 @ =gUnknown_03001150
+	ldr r1, _0805A678 @ =gMultiSioRecv
 	ldrh r0, [r1]
 	adds r7, r1, #0
 	cmp r0, #0x22
@@ -24408,7 +24408,7 @@ _0805A666:
 	str r7, [r0, #8]
 	b _0805A788
 	.align 2, 0
-_0805A678: .4byte gUnknown_03001150
+_0805A678: .4byte gMultiSioRecv
 _0805A67C: .4byte gCurTask
 _0805A680: .4byte sub_805A798
 _0805A684: .4byte gUnknown_03005150
@@ -24634,7 +24634,7 @@ _0805A838:
 	cmp r0, #0
 	bne _0805A7C8
 _0805A84C:
-	ldr r3, _0805A8A4 @ =gUnknown_03001150
+	ldr r3, _0805A8A4 @ =gMultiSioRecv
 	ldrh r0, [r3]
 	adds r7, r3, #0
 	cmp r0, #0x23
@@ -24681,7 +24681,7 @@ _0805A896:
 	bl sub_805A9A4
 	b _0805A992
 	.align 2, 0
-_0805A8A4: .4byte gUnknown_03001150
+_0805A8A4: .4byte gMultiSioRecv
 _0805A8A8: .4byte gUnknown_03005140
 _0805A8AC: .4byte gUnknown_03005150
 _0805A8B0: .4byte gMultiSioStatusFlags
@@ -27027,7 +27027,7 @@ _0805BB8A:
 	ldr r0, _0805BBF8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _0805BBFC @ =gUnknown_03004FEC
+	ldr r1, _0805BBFC @ =gRingCount
 	movs r0, #0
 	strh r0, [r1]
 	bl sub_803CF9C
@@ -27045,7 +27045,7 @@ _0805BBEC: .4byte gUnknown_0300211C
 _0805BBF0: .4byte gUnknown_03004C30
 _0805BBF4: .4byte gVramGraphicsCopyCursor
 _0805BBF8: .4byte gVramGraphicsCopyQueueIndex
-_0805BBFC: .4byte gUnknown_03004FEC
+_0805BBFC: .4byte gRingCount
 
 	thumb_func_start sub_805BC00
 sub_805BC00: @ 0x0805BC00
@@ -29681,7 +29681,7 @@ _0805D0EC:
 	ldrb r0, [r1]
 	add r0, r8
 	strb r0, [r1]
-	ldr r1, _0805D174 @ =gUnknown_03005030
+	ldr r1, _0805D174 @ =gLevelScore
 	ldr r6, [r1]
 	movs r0, #0x64
 	mov r2, sl
@@ -29704,7 +29704,7 @@ _0805D0EC:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0805D146
-	ldr r1, _0805D180 @ =gUnknown_03005024
+	ldr r1, _0805D180 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -29727,10 +29727,10 @@ _0805D164: .4byte gUnknown_03005160
 _0805D168: .4byte gUnknown_03005078
 _0805D16C: .4byte gUnknown_0300507C
 _0805D170: .4byte gUnknown_03005018
-_0805D174: .4byte gUnknown_03005030
+_0805D174: .4byte gLevelScore
 _0805D178: .4byte 0x0000C350
 _0805D17C: .4byte gGameMode
-_0805D180: .4byte gUnknown_03005024
+_0805D180: .4byte gNumLives
 _0805D184:
 	mov r7, sl
 _0805D186:
@@ -30266,7 +30266,7 @@ _0805D586:
 	ldr r0, _0805D61C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r5, _0805D620 @ =gUnknown_03005034
+	ldr r5, _0805D620 @ =gCourseTime
 	ldr r6, [r5]
 	bl sub_803CF9C
 	ldr r0, _0805D624 @ =gUnknown_03005058
@@ -30293,7 +30293,7 @@ _0805D610: .4byte gUnknown_0300211C
 _0805D614: .4byte gUnknown_03004C30
 _0805D618: .4byte gVramGraphicsCopyCursor
 _0805D61C: .4byte gVramGraphicsCopyQueueIndex
-_0805D620: .4byte gUnknown_03005034
+_0805D620: .4byte gCourseTime
 _0805D624: .4byte gUnknown_03005058
 _0805D628: .4byte gUnknown_03005064
 _0805D62C:
@@ -37797,7 +37797,7 @@ _08061334:
 	str r0, [r1]
 	ldr r0, _080613C4 @ =gUnknown_03002320
 	strb r2, [r0]
-	ldr r0, _080613C8 @ =gUnknown_03001144
+	ldr r0, _080613C8 @ =gBgOffsetsHBlank
 	lsls r1, r7, #2
 	ldr r0, [r0]
 	adds r2, r0, r1
@@ -37859,7 +37859,7 @@ _080613B8: .4byte gFlags
 _080613BC: .4byte gUnknown_03002118
 _080613C0: .4byte 0x04000010
 _080613C4: .4byte gUnknown_03002320
-_080613C8: .4byte gUnknown_03001144
+_080613C8: .4byte gBgOffsetsHBlank
 _080613CC: .4byte 0x000001FF
 
 	thumb_func_start sub_80613D0
@@ -39340,7 +39340,7 @@ _08061F64:
 	str r0, [r1]
 	ldr r0, _0806211C @ =gUnknown_03002320
 	strb r2, [r0]
-	ldr r0, _08062120 @ =gUnknown_03001144
+	ldr r0, _08062120 @ =gBgOffsetsHBlank
 	ldr r1, [r0]
 	movs r2, #0
 	movs r4, #0
@@ -39491,7 +39491,7 @@ _08062110: .4byte gFlags
 _08062114: .4byte gUnknown_03002118
 _08062118: .4byte 0x04000010
 _0806211C: .4byte gUnknown_03002320
-_08062120: .4byte gUnknown_03001144
+_08062120: .4byte gBgOffsetsHBlank
 _08062124: .4byte 0x000001FF
 _08062128: .4byte gPressedKeys
 _0806212C: .4byte gBgScrollRegs
@@ -39602,7 +39602,7 @@ _08062210:
 	ldrb r0, [r2]
 	cmp r0, #1
 	bls _08062244
-	ldr r2, _08062298 @ =gUnknown_03001150
+	ldr r2, _08062298 @ =gMultiSioRecv
 	ldr r0, _0806229C @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
@@ -39667,7 +39667,7 @@ _0806226C:
 	adds r0, #1
 	b _080622C0
 	.align 2, 0
-_08062298: .4byte gUnknown_03001150
+_08062298: .4byte gMultiSioRecv
 _0806229C: .4byte gMultiSioStatusFlags
 _080622A0: .4byte gGameMode
 _080622A4: .4byte gRepeatedKeys
@@ -39948,7 +39948,7 @@ _080624C0:
 	movs r0, #0x51
 	strh r0, [r2]
 _080624DE:
-	ldr r2, _08062530 @ =gUnknown_03001150
+	ldr r2, _08062530 @ =gMultiSioRecv
 	ldrh r0, [r2]
 	cmp r0, #0x51
 	bne _0806250C
@@ -39988,7 +39988,7 @@ _08062514:
 _08062524: .4byte gMultiSioStatusFlags
 _08062528: .4byte gPressedKeys
 _0806252C: .4byte gMultiSioSend
-_08062530: .4byte gUnknown_03001150
+_08062530: .4byte gMultiSioRecv
 _08062534: .4byte gCurTask
 _08062538: .4byte sub_8062540
 _0806253C: .4byte gBgScrollRegs
@@ -40092,7 +40092,7 @@ _0806260A:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0806262E
-	ldr r2, _0806271C @ =gUnknown_03001150
+	ldr r2, _0806271C @ =gMultiSioRecv
 	ldr r0, _08062720 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
@@ -40229,7 +40229,7 @@ _08062704:
 	b _0806275A
 	.align 2, 0
 _08062718: .4byte gGameMode
-_0806271C: .4byte gUnknown_03001150
+_0806271C: .4byte gMultiSioRecv
 _08062720: .4byte gMultiSioStatusFlags
 _08062724: .4byte 0x000002D7
 _08062728: .4byte 0x000002D9
@@ -40482,7 +40482,7 @@ _08062948:
 	cmp r0, #0
 	bne _080628DA
 _0806295A:
-	ldr r4, _080629C0 @ =gUnknown_03001150
+	ldr r4, _080629C0 @ =gMultiSioRecv
 	ldrh r0, [r4]
 	mov r8, r4
 	cmp r0, #0x52
@@ -40536,7 +40536,7 @@ _080629B4:
 	movs r0, #0x52
 	b _080629D4
 	.align 2, 0
-_080629C0: .4byte gUnknown_03001150
+_080629C0: .4byte gMultiSioRecv
 _080629C4: .4byte sub_80629E8
 _080629C8: .4byte gMultiSioSend
 _080629CC: .4byte gUnknown_03005150
@@ -41724,7 +41724,7 @@ _08063368:
 	cmp r0, #0
 	bne _080632F8
 _0806337A:
-	ldr r2, _080633DC @ =gUnknown_03001150
+	ldr r2, _080633DC @ =gMultiSioRecv
 	ldr r0, _080633E0 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
 	movs r1, #0x80
@@ -41773,7 +41773,7 @@ _080633A6:
 	adds r0, #1
 	b _080633F8
 	.align 2, 0
-_080633DC: .4byte gUnknown_03001150
+_080633DC: .4byte gMultiSioRecv
 _080633E0: .4byte gMultiSioStatusFlags
 _080633E4: .4byte gRepeatedKeys
 _080633E8:
@@ -41863,7 +41863,7 @@ _08063432:
 	movs r0, #0x51
 	strh r0, [r2]
 _0806348E:
-	ldr r2, _080634E0 @ =gUnknown_03001150
+	ldr r2, _080634E0 @ =gMultiSioRecv
 	ldrh r0, [r2]
 	cmp r0, #0x51
 	bne _080634BC
@@ -41898,7 +41898,7 @@ _080634D0: .4byte 0x000002D9
 _080634D4: .4byte gMultiSioSend
 _080634D8: .4byte gMultiSioStatusFlags
 _080634DC: .4byte gPressedKeys
-_080634E0: .4byte gUnknown_03001150
+_080634E0: .4byte gMultiSioRecv
 _080634E4: .4byte gCurTask
 _080634E8: .4byte sub_80634EC
 
@@ -41994,7 +41994,7 @@ _0806359C:
 	cmp r0, #0
 	bne _0806352E
 _080635B0:
-	ldr r3, _08063628 @ =gUnknown_03001150
+	ldr r3, _08063628 @ =gMultiSioRecv
 	mov r2, ip
 	ldr r0, [r2]
 	movs r1, #0x80
@@ -42056,7 +42056,7 @@ _0806361C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08063628: .4byte gUnknown_03001150
+_08063628: .4byte gMultiSioRecv
 _0806362C: .4byte 0x000002D7
 _08063630: .4byte gCurTask
 _08063634: .4byte sub_8063638
@@ -42145,7 +42145,7 @@ _080636DC:
 	cmp r0, #0
 	bne _0806366E
 _080636EE:
-	ldr r4, _080637BC @ =gUnknown_03001150
+	ldr r4, _080637BC @ =gMultiSioRecv
 	ldrh r0, [r4]
 	adds r5, r4, #0
 	ldr r1, _080637C0 @ =gMultiSioSend
@@ -42254,7 +42254,7 @@ _080637AE:
 	lsrs r3, r3, #8
 	b _080637EA
 	.align 2, 0
-_080637BC: .4byte gUnknown_03001150
+_080637BC: .4byte gMultiSioRecv
 _080637C0: .4byte gMultiSioSend
 _080637C4: .4byte sub_80638B0
 _080637C8: .4byte gUnknown_03004FF0
@@ -50181,9 +50181,9 @@ _0806785C: .4byte gCurTask
 _08067860:
 	cmp r6, #0x1e
 	bne _08067872
-	ldr r0, _080678B8 @ =gUnknown_03004FEC
+	ldr r0, _080678B8 @ =gRingCount
 	ldrh r0, [r0]
-	ldr r1, _080678BC @ =gUnknown_03005034
+	ldr r1, _080678BC @ =gCourseTime
 	ldr r1, [r1]
 	bl sub_80573D4
 	str r0, [r4, #0x3c]
@@ -50221,8 +50221,8 @@ _0806787E:
 	str r0, [r1, #8]
 	b _0806791C
 	.align 2, 0
-_080678B8: .4byte gUnknown_03004FEC
-_080678BC: .4byte gUnknown_03005034
+_080678B8: .4byte gRingCount
+_080678BC: .4byte gCourseTime
 _080678C0: .4byte sub_806853C
 _080678C4: .4byte gCurTask
 _080678C8: .4byte sub_8067928
@@ -51766,9 +51766,9 @@ _08068514: .4byte gCurTask
 _08068518:
 	cmp r2, #0x1e
 	bne _0806852A
-	ldr r0, _08068530 @ =gUnknown_03004FEC
+	ldr r0, _08068530 @ =gRingCount
 	ldrh r0, [r0]
-	ldr r1, _08068534 @ =gUnknown_03005034
+	ldr r1, _08068534 @ =gCourseTime
 	ldr r1, [r1]
 	bl sub_80573D4
 	str r0, [r4, #0x3c]
@@ -51777,8 +51777,8 @@ _0806852A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08068530: .4byte gUnknown_03004FEC
-_08068534: .4byte gUnknown_03005034
+_08068530: .4byte gRingCount
+_08068534: .4byte gCourseTime
 
 	thumb_func_start sub_8068538
 sub_8068538: @ 0x08068538
@@ -57406,7 +57406,7 @@ _0806B370:
 	movs r7, #0
 	strh r7, [r0]
 	strh r7, [r0, #4]
-	ldr r4, _0806B3BC @ =gUnknown_03001150
+	ldr r4, _0806B3BC @ =gMultiSioRecv
 	ldrh r0, [r4]
 	cmp r0, #0xa0
 	bne _0806B3C4
@@ -57432,7 +57432,7 @@ _0806B370:
 _0806B3B0: .4byte gDispCnt
 _0806B3B4: .4byte 0x00009FFF
 _0806B3B8: .4byte gBldRegs
-_0806B3BC: .4byte gUnknown_03001150
+_0806B3BC: .4byte gMultiSioRecv
 _0806B3C0: .4byte gMultiSioStatusFlags
 _0806B3C4:
 	cmp r0, #0xa1
@@ -57533,7 +57533,7 @@ _0806B482:
 	lsls r0, r2, #2
 	adds r0, r0, r2
 	lsls r0, r0, #2
-	ldr r1, _0806B4D4 @ =gUnknown_03001150
+	ldr r1, _0806B4D4 @ =gMultiSioRecv
 	adds r4, r0, r1
 	ldrh r0, [r4]
 	cmp r0, #0xa0
@@ -57571,7 +57571,7 @@ _0806B4B4:
 _0806B4C8: .4byte gPressedKeys
 _0806B4CC: .4byte 0x04000128
 _0806B4D0: .4byte gUnknown_03005150
-_0806B4D4: .4byte gUnknown_03001150
+_0806B4D4: .4byte gMultiSioRecv
 _0806B4D8:
 	movs r0, #0xa1
 	strh r0, [r4]
@@ -58498,7 +58498,7 @@ _0806BC74:
 	str r0, [r1]
 	ldr r0, _0806BD18 @ =gUnknown_03002320
 	strb r2, [r0]
-	ldr r0, _0806BD1C @ =gUnknown_03001144
+	ldr r0, _0806BD1C @ =gBgOffsetsHBlank
 	lsls r1, r6, #2
 	ldr r0, [r0]
 	adds r2, r0, r1
@@ -58566,7 +58566,7 @@ _0806BD0C: .4byte gFlags
 _0806BD10: .4byte gUnknown_03002118
 _0806BD14: .4byte 0x04000010
 _0806BD18: .4byte gUnknown_03002320
-_0806BD1C: .4byte gUnknown_03001144
+_0806BD1C: .4byte gBgOffsetsHBlank
 _0806BD20: .4byte 0x000001FF
 
 	thumb_func_start sub_806BD24

@@ -930,7 +930,7 @@ _0801C206:
 	asrs r0, r0, #0x18
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	ldr r1, _0801C294 @ =gUnknown_03004FEC
+	ldr r1, _0801C294 @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, r0
 	strh r0, [r1]
@@ -953,7 +953,7 @@ _0801C206:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0801C268
-	ldr r1, _0801C2A0 @ =gUnknown_03005024
+	ldr r1, _0801C2A0 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -965,7 +965,7 @@ _0801C268:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _0801C27C
-	ldr r1, _0801C294 @ =gUnknown_03004FEC
+	ldr r1, _0801C294 @ =gRingCount
 	ldrh r0, [r1]
 	cmp r0, #0xff
 	bls _0801C27C
@@ -980,10 +980,10 @@ _0801C284: .4byte gUnknown_080BB308
 _0801C288: .4byte gPseudoRandom
 _0801C28C: .4byte 0x00196225
 _0801C290: .4byte 0x3C6EF35F
-_0801C294: .4byte gUnknown_03004FEC
+_0801C294: .4byte gRingCount
 _0801C298: .4byte gCurrentLevel
 _0801C29C: .4byte gGameMode
-_0801C2A0: .4byte gUnknown_03005024
+_0801C2A0: .4byte gNumLives
 _0801C2A4: .4byte gUnknown_03005040
 _0801C2A8:
 	bl sub_80182FC
@@ -1616,7 +1616,7 @@ _0801C792:
 	movs r0, #0x10
 	orrs r3, r0
 	ldr r4, _0801C804 @ =gHBlankCallbacks
-	ldr r2, _0801C808 @ =gUnknown_0300114C
+	ldr r2, _0801C808 @ =gNumHBlankCallbacks
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -1642,7 +1642,7 @@ _0801C7F8: .4byte gUnknown_030045F0
 _0801C7FC: .4byte sub_801C9AC
 _0801C800: .4byte gFlags
 _0801C804: .4byte gHBlankCallbacks
-_0801C808: .4byte gUnknown_0300114C
+_0801C808: .4byte gNumHBlankCallbacks
 _0801C80C: .4byte sub_801C9C0
 
 	thumb_func_start sub_801C810
@@ -1680,7 +1680,7 @@ sub_801C810: @ 0x0801C810
 	movs r0, #0x10
 	orrs r3, r0
 	ldr r5, _0801C8C0 @ =gHBlankCallbacks
-	ldr r2, _0801C8C4 @ =gUnknown_0300114C
+	ldr r2, _0801C8C4 @ =gNumHBlankCallbacks
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -1731,7 +1731,7 @@ _0801C8B4: .4byte gUnknown_030045F0
 _0801C8B8: .4byte sub_801C9AC
 _0801C8BC: .4byte gFlags
 _0801C8C0: .4byte gHBlankCallbacks
-_0801C8C4: .4byte gUnknown_0300114C
+_0801C8C4: .4byte gNumHBlankCallbacks
 _0801C8C8: .4byte sub_801C9C0
 _0801C8CC: .4byte sub_801C8D4
 _0801C8D0: .4byte gUnknown_03005048
@@ -1790,7 +1790,7 @@ _0801C91C:
 	movs r0, #0x10
 	orrs r3, r0
 	ldr r4, _0801C974 @ =gHBlankCallbacks
-	ldr r2, _0801C978 @ =gUnknown_0300114C
+	ldr r2, _0801C978 @ =gNumHBlankCallbacks
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -1813,7 +1813,7 @@ _0801C968: .4byte gUnknown_030045F0
 _0801C96C: .4byte sub_801C9AC
 _0801C970: .4byte gFlags
 _0801C974: .4byte gHBlankCallbacks
-_0801C978: .4byte gUnknown_0300114C
+_0801C978: .4byte gNumHBlankCallbacks
 _0801C97C: .4byte sub_801C9C0
 
 	thumb_func_start sub_801C980
@@ -5245,7 +5245,7 @@ sub_801E46C: @ 0x0801E46C
 	strb r5, [r0]
 	mov r0, r8
 	str r0, [r1, #0x10]
-	ldr r0, _0801E53C @ =gUnknown_03004FEC
+	ldr r0, _0801E53C @ =gRingCount
 	ldrb r1, [r0]
 	movs r0, #1
 	ands r0, r1
@@ -5279,7 +5279,7 @@ _0801E52C: .4byte 0x06011F00
 _0801E530: .4byte 0x03000021
 _0801E534: .4byte 0x03000022
 _0801E538: .4byte 0x03000025
-_0801E53C: .4byte gUnknown_03004FEC
+_0801E53C: .4byte gRingCount
 _0801E540: .4byte 0x03000030
 _0801E544: .4byte gMPlayInfo_SE2
 _0801E548: .4byte 0x87BC790
@@ -6038,7 +6038,7 @@ _0801EB54:
 	lsrs r0, r0, #0x18
 	cmp r0, #1
 	bhi _0801EBEA
-	ldr r0, _0801EBAC @ =gUnknown_03005120
+	ldr r0, _0801EBAC @ =gStageTime
 	ldr r3, [r0]
 	lsrs r0, r3, #5
 	movs r1, #1
@@ -6069,7 +6069,7 @@ _0801EB54:
 	b _0801EBD6
 	.align 2, 0
 _0801EBA8: .4byte gGameMode
-_0801EBAC: .4byte gUnknown_03005120
+_0801EBAC: .4byte gStageTime
 _0801EBB0: .4byte gUnknown_080BB4F0
 _0801EBB4: .4byte gUnknown_03005010
 _0801EBB8: .4byte gCurrentLevel
@@ -6208,7 +6208,7 @@ _0801ECB0: @ jump table
 	.4byte _0801EFD8 @ case 9
 	.4byte _0801EFE8 @ case 10
 _0801ECDC:
-	ldr r1, _0801ECEC @ =gUnknown_03005024
+	ldr r1, _0801ECEC @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -6217,7 +6217,7 @@ _0801ECDC:
 	strb r0, [r1, #3]
 	b _0801EFF6
 	.align 2, 0
-_0801ECEC: .4byte gUnknown_03005024
+_0801ECEC: .4byte gNumLives
 _0801ECF0: .4byte gUnknown_03005040
 _0801ECF4:
 	ldr r2, _0801ED14 @ =gUnknown_03005A20
@@ -6332,7 +6332,7 @@ _0801EDBC:
 	asrs r0, r0, #0x18
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	ldr r1, _0801EE4C @ =gUnknown_03004FEC
+	ldr r1, _0801EE4C @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, r0
 	strh r0, [r1]
@@ -6355,7 +6355,7 @@ _0801EDBC:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0801EE1E
-	ldr r1, _0801EE58 @ =gUnknown_03005024
+	ldr r1, _0801EE58 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -6367,7 +6367,7 @@ _0801EE1E:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _0801EE32
-	ldr r1, _0801EE4C @ =gUnknown_03004FEC
+	ldr r1, _0801EE4C @ =gRingCount
 	ldrh r0, [r1]
 	cmp r0, #0xff
 	bls _0801EE32
@@ -6382,13 +6382,13 @@ _0801EE3C: .4byte gUnknown_080BB308
 _0801EE40: .4byte gPseudoRandom
 _0801EE44: .4byte 0x00196225
 _0801EE48: .4byte 0x3C6EF35F
-_0801EE4C: .4byte gUnknown_03004FEC
+_0801EE4C: .4byte gRingCount
 _0801EE50: .4byte gCurrentLevel
 _0801EE54: .4byte gGameMode
-_0801EE58: .4byte gUnknown_03005024
+_0801EE58: .4byte gNumLives
 _0801EE5C: .4byte gUnknown_03005040
 _0801EE60:
-	ldr r1, _0801EEBC @ =gUnknown_03004FEC
+	ldr r1, _0801EEBC @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, #5
 	strh r0, [r1]
@@ -6411,7 +6411,7 @@ _0801EE60:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0801EEA0
-	ldr r1, _0801EEC8 @ =gUnknown_03005024
+	ldr r1, _0801EEC8 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -6423,7 +6423,7 @@ _0801EEA0:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _0801EEB4
-	ldr r1, _0801EEBC @ =gUnknown_03004FEC
+	ldr r1, _0801EEBC @ =gRingCount
 	ldrh r0, [r1]
 	cmp r0, #0xff
 	bls _0801EEB4
@@ -6434,13 +6434,13 @@ _0801EEB4:
 	bl m4aSongNumStart
 	b _0801EFF6
 	.align 2, 0
-_0801EEBC: .4byte gUnknown_03004FEC
+_0801EEBC: .4byte gRingCount
 _0801EEC0: .4byte gCurrentLevel
 _0801EEC4: .4byte gGameMode
-_0801EEC8: .4byte gUnknown_03005024
+_0801EEC8: .4byte gNumLives
 _0801EECC: .4byte gUnknown_03005040
 _0801EED0:
-	ldr r1, _0801EF30 @ =gUnknown_03004FEC
+	ldr r1, _0801EF30 @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, #0
 	adds r0, #0xa
@@ -6464,7 +6464,7 @@ _0801EED0:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0801EF12
-	ldr r1, _0801EF3C @ =gUnknown_03005024
+	ldr r1, _0801EF3C @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -6476,7 +6476,7 @@ _0801EF12:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _0801EF26
-	ldr r1, _0801EF30 @ =gUnknown_03004FEC
+	ldr r1, _0801EF30 @ =gRingCount
 	ldrh r0, [r1]
 	cmp r0, #0xff
 	bls _0801EF26
@@ -6487,10 +6487,10 @@ _0801EF26:
 	bl m4aSongNumStart
 	b _0801EFF6
 	.align 2, 0
-_0801EF30: .4byte gUnknown_03004FEC
+_0801EF30: .4byte gRingCount
 _0801EF34: .4byte gCurrentLevel
 _0801EF38: .4byte gGameMode
-_0801EF3C: .4byte gUnknown_03005024
+_0801EF3C: .4byte gNumLives
 _0801EF40: .4byte gUnknown_03005040
 _0801EF44:
 	movs r2, #0
@@ -7553,9 +7553,9 @@ _0801F79E:
 	ldr r0, _0801F7C4 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	ldr r0, _0801F7C8 @ =gUnknown_03004FEC
+	ldr r0, _0801F7C8 @ =gRingCount
 	ldrh r0, [r0]
-	ldr r1, _0801F7CC @ =gUnknown_03005034
+	ldr r1, _0801F7CC @ =gCourseTime
 	ldr r1, [r1]
 	bl sub_80573D4
 	b _0801FA1A
@@ -7565,8 +7565,8 @@ _0801F7B8: .4byte gCurrentLevel
 _0801F7BC: .4byte sub_801FE84
 _0801F7C0: .4byte gUnknown_03005048
 _0801F7C4: .4byte gCurTask
-_0801F7C8: .4byte gUnknown_03004FEC
-_0801F7CC: .4byte gUnknown_03005034
+_0801F7C8: .4byte gRingCount
+_0801F7CC: .4byte gCourseTime
 _0801F7D0:
 	cmp r0, #2
 	bne _0801F8A6
@@ -7631,7 +7631,7 @@ _0801F824:
 	movs r1, #4
 	orrs r0, r1
 	strh r0, [r2]
-	ldr r1, _0801F890 @ =gUnknown_03005034
+	ldr r1, _0801F890 @ =gCourseTime
 	movs r0, #0xe1
 	lsls r0, r0, #4
 	str r0, [r1]
@@ -7662,7 +7662,7 @@ _0801F880: .4byte gUnknown_03005130
 _0801F884: .4byte 0x04000128
 _0801F888: .4byte gUnknown_03005A20
 _0801F88C: .4byte gUnknown_03005004
-_0801F890: .4byte gUnknown_03005034
+_0801F890: .4byte gCourseTime
 _0801F894: .4byte gCurTask
 _0801F898: .4byte sub_801FAB8
 _0801F89C: .4byte gCamera
@@ -7808,7 +7808,7 @@ _0801F9AC:
 	movs r4, #4
 	orrs r0, r4
 	strh r0, [r1]
-	ldr r1, _0801F9F0 @ =gUnknown_03005034
+	ldr r1, _0801F9F0 @ =gCourseTime
 	movs r0, #0xe1
 	lsls r0, r0, #4
 	str r0, [r1]
@@ -7835,7 +7835,7 @@ _0801F9AC:
 	.align 2, 0
 _0801F9E8: .4byte gUnknown_03005130
 _0801F9EC: .4byte gUnknown_03005004
-_0801F9F0: .4byte gUnknown_03005034
+_0801F9F0: .4byte gCourseTime
 _0801F9F4: .4byte gUnknown_03005A20
 _0801F9F8: .4byte gCurTask
 _0801F9FC: .4byte sub_801FAB8
@@ -10545,7 +10545,7 @@ sub_8020F2C: @ 0x08020F2C
 	adds r6, r0, #0
 	adds r7, r2, #0
 	adds r5, r3, #0
-	ldr r0, _08020FD0 @ =gUnknown_03005120
+	ldr r0, _08020FD0 @ =gStageTime
 	ldr r4, [r0]
 	movs r0, #0x7f
 	ands r4, r0
@@ -10621,7 +10621,7 @@ _08020FCC:
 	movs r0, #0
 	b _080211F8
 	.align 2, 0
-_08020FD0: .4byte gUnknown_03005120
+_08020FD0: .4byte gStageTime
 _08020FD4: .4byte gCamera
 _08020FD8:
 	cmp r4, #0x3d
@@ -10931,7 +10931,7 @@ sub_8021208: @ 0x08021208
 	adds r6, r0, #0
 	adds r7, r2, #0
 	adds r5, r3, #0
-	ldr r0, _080212AC @ =gUnknown_03005120
+	ldr r0, _080212AC @ =gStageTime
 	ldr r4, [r0]
 	movs r0, #0x7f
 	ands r4, r0
@@ -11007,7 +11007,7 @@ _080212A8:
 	movs r0, #0
 	b _080214C8
 	.align 2, 0
-_080212AC: .4byte gUnknown_03005120
+_080212AC: .4byte gStageTime
 _080212B0: .4byte gCamera
 _080212B4:
 	cmp r4, #0x3d
@@ -17003,7 +17003,7 @@ sub_802417C: @ 0x0802417C
 	lsls r2, r2, #0xb
 	ldr r4, _080242A0 @ =gSineTable
 	adds r3, r0, #0
-	ldr r0, _080242A4 @ =gUnknown_03005120
+	ldr r0, _080242A4 @ =gStageTime
 	ldrh r1, [r6, #0x3c]
 	ldr r0, [r0]
 	adds r0, r0, r1
@@ -17034,7 +17034,7 @@ _080241E2:
 	lsls r2, r2, #0xb
 	ldr r4, _080242A0 @ =gSineTable
 	adds r3, r0, #0
-	ldr r0, _080242A4 @ =gUnknown_03005120
+	ldr r0, _080242A4 @ =gStageTime
 	ldrh r1, [r6, #0x3c]
 	ldr r0, [r0]
 	adds r0, r0, r1
@@ -17119,7 +17119,7 @@ _08024294: .4byte gCurTask
 _08024298: .4byte 0x0300000C
 _0802429C: .4byte 0x03000048
 _080242A0: .4byte gSineTable
-_080242A4: .4byte gUnknown_03005120
+_080242A4: .4byte gStageTime
 _080242A8: .4byte 0x000003FF
 _080242AC: .4byte 0x0300004A
 _080242B0: .4byte gCamera
@@ -18416,7 +18416,7 @@ _08024CBA:
 	ands r0, r1
 	cmp r0, #0
 	bne _08024D26
-	ldr r1, _08024D40 @ =gUnknown_03004FEC
+	ldr r1, _08024D40 @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, #1
 	strh r0, [r1]
@@ -18439,7 +18439,7 @@ _08024CBA:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _08024D04
-	ldr r1, _08024D4C @ =gUnknown_03005024
+	ldr r1, _08024D4C @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -18451,7 +18451,7 @@ _08024D04:
 	ldrb r0, [r0]
 	cmp r0, #6
 	bne _08024D18
-	ldr r1, _08024D40 @ =gUnknown_03004FEC
+	ldr r1, _08024D40 @ =gRingCount
 	ldrh r0, [r1]
 	cmp r0, #0xff
 	bls _08024D18
@@ -18474,10 +18474,10 @@ _08024D30: .4byte gCurTask
 _08024D34: .4byte gUnknown_03005A20
 _08024D38: .4byte gSineTable
 _08024D3C: .4byte gUnknown_03005BE0
-_08024D40: .4byte gUnknown_03004FEC
+_08024D40: .4byte gRingCount
 _08024D44: .4byte gCurrentLevel
 _08024D48: .4byte gGameMode
-_08024D4C: .4byte gUnknown_03005024
+_08024D4C: .4byte gNumLives
 _08024D50: .4byte gUnknown_03005040
 _08024D54:
 	ldr r2, _08024D88 @ =gCamera
@@ -21732,7 +21732,7 @@ _080267C0:
 	movs r0, #0xfe
 	lsls r0, r0, #8
 	strh r0, [r1]
-	ldr r1, _080268BC @ =gUnknown_03005030
+	ldr r1, _080268BC @ =gLevelScore
 	ldr r6, [r1]
 	movs r2, #0xfa
 	lsls r2, r2, #2
@@ -21751,7 +21751,7 @@ _080267C0:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _08026814
-	ldr r1, _080268C8 @ =gUnknown_03005024
+	ldr r1, _080268C8 @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
@@ -21839,10 +21839,10 @@ _0802683A:
 	strh r1, [r0]
 	b _080268EE
 	.align 2, 0
-_080268BC: .4byte gUnknown_03005030
+_080268BC: .4byte gLevelScore
 _080268C0: .4byte 0x0000C350
 _080268C4: .4byte gGameMode
-_080268C8: .4byte gUnknown_03005024
+_080268C8: .4byte gNumLives
 _080268CC: .4byte sub_80271E4
 _080268D0: .4byte sub_8027600
 _080268D4: .4byte 0x00000265
