@@ -44,7 +44,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00001210; gUnknown_03001210 = .;
 . = 0x00001214; gUnknown_03001214 = .;
 . = 0x00001220; gTaskPtrs = .;
-. = 0x00001420; gUnknown_03001420 = .;
+. = 0x00001420; gBgOffsetsBuffer = .; /* SA2: gUnknown_03001B60 (TODO: Find out how it's different from gBgOffsetsHBlank)*/
 . = 0x00001920; gObjPalette = .;
 . = 0x00001B20; gTilemapsRef = .; /* SA2: (ref to gTilemaps - also for Multiboot programs like "Collect Rings"!) */
 . = 0x00001B24; gFrameCount = .;

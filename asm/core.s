@@ -246,7 +246,7 @@ _08000472:
 	mov sl, r1
 	ldr r3, _08000794 @ =gFrameCount
 	mov ip, r3
-	ldr r7, _08000798 @ =gUnknown_03001420
+	ldr r7, _08000798 @ =gBgOffsetsBuffer
 	ldr r6, _0800079C @ =gUnknown_03001FA0
 	movs r5, #0x14
 	ldr r4, _080007A0 @ =gUnknown_030020F0
@@ -423,7 +423,7 @@ _08000788: .4byte gInputRecorder
 _0800078C: .4byte gPhysicalInput
 _08000790: .4byte gUnknown_03004C50
 _08000794: .4byte gFrameCount
-_08000798: .4byte gUnknown_03001420
+_08000798: .4byte gBgOffsetsBuffer
 _0800079C: .4byte gUnknown_03001FA0
 _080007A0: .4byte gUnknown_030020F0
 _080007A4: .4byte gIntrTable
@@ -974,7 +974,7 @@ sub_8000C54: @ 0x08000C54
 	bne _08000CAC
 	ldr r1, _08000C94 @ =gUnknown_03001144
 	ldr r0, [r1]
-	ldr r2, _08000C98 @ =gUnknown_03001420
+	ldr r2, _08000C98 @ =gBgOffsetsBuffer
 	cmp r0, r2
 	bne _08000CA0
 	movs r3, #0xa0
@@ -988,7 +988,7 @@ sub_8000C54: @ 0x08000C54
 _08000C8C: .4byte gUnknown_0300114C
 _08000C90: .4byte gFlags
 _08000C94: .4byte gUnknown_03001144
-_08000C98: .4byte gUnknown_03001420
+_08000C98: .4byte gBgOffsetsBuffer
 _08000C9C: .4byte gUnknown_03001B6C
 _08000CA0:
 	str r2, [r1]
@@ -1929,7 +1929,7 @@ ClearOamBufferCpuSet: @ 0x080013F8
 	bne _08001450
 	ldr r1, _08001438 @ =gUnknown_03001144
 	ldr r0, [r1]
-	ldr r2, _0800143C @ =gUnknown_03001420
+	ldr r2, _0800143C @ =gBgOffsetsBuffer
 	cmp r0, r2
 	bne _08001444
 	movs r3, #0xa0
@@ -1943,7 +1943,7 @@ ClearOamBufferCpuSet: @ 0x080013F8
 _08001430: .4byte gUnknown_0300114C
 _08001434: .4byte gFlags
 _08001438: .4byte gUnknown_03001144
-_0800143C: .4byte gUnknown_03001420
+_0800143C: .4byte gBgOffsetsBuffer
 _08001440: .4byte gUnknown_03001B6C
 _08001444:
 	str r2, [r1]
