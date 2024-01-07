@@ -7924,9 +7924,9 @@ _08052334: .4byte 0x00001F1F
 _08052338: .4byte 0x00003F3F
 _0805233C: .4byte gBldRegs
 
-@ Extra-Boss(?)
-	thumb_func_start CreateEntity_Enemy031
-CreateEntity_Enemy031: @ 0x08052340
+@ Moon Zone Boss / Extra Boss
+	thumb_func_start CreateEntity_SuperEggRobot
+CreateEntity_SuperEggRobot: @ 0x08052340
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}

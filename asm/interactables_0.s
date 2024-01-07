@@ -35,13 +35,13 @@ CreateEntity_Interactable115: @ 0x0801BACC
 	lsrs r0, r2, #4
 	cmp r1, r0
 	bgt _0801BB10
-	ldr r0, _0801BB0C @ =sub_801BD64
+	ldr r0, _0801BB0C @ =Task_Interactable115_Main0
 	b _0801BB12
 	.align 2, 0
 _0801BB08: .4byte gUnknown_03005074
-_0801BB0C: .4byte sub_801BD64
+_0801BB0C: .4byte Task_Interactable115_Main0
 _0801BB10:
-	ldr r0, _0801BC4C @ =sub_801BCC4
+	ldr r0, _0801BC4C @ =Task_Interactable115_Main1
 _0801BB12:
 	movs r2, #0x80
 	lsls r2, r2, #6
@@ -198,7 +198,7 @@ _0801BB34:
 	ldr r1, _0801BC90 @ =gUnknown_080BB4D0
 	b _0801BC96
 	.align 2, 0
-_0801BC4C: .4byte sub_801BCC4
+_0801BC4C: .4byte Task_Interactable115_Main1
 _0801BC50: .4byte sub_801C6E8
 _0801BC54: .4byte gUnknown_03005074
 _0801BC58: .4byte 0x0300000C
@@ -240,8 +240,8 @@ _0801BC96:
 _0801BCBC: .4byte gUnknown_080BB4D4
 _0801BCC0: .4byte 0x0300005C
 
-	thumb_func_start sub_801BCC4
-sub_801BCC4: @ 0x0801BCC4
+	thumb_func_start Task_Interactable115_Main1
+Task_Interactable115_Main1: @ 0x0801BCC4
 	push {r4, r5, r6, r7, lr}
 	ldr r2, _0801BD14 @ =gCurTask
 	ldr r0, [r2]
@@ -323,8 +323,8 @@ _0801BD5A:
 	.align 2, 0
 _0801BD60: .4byte gCamera
 
-	thumb_func_start sub_801BD64
-sub_801BD64: @ 0x0801BD64
+	thumb_func_start Task_Interactable115_Main0
+Task_Interactable115_Main0: @ 0x0801BD64
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1127,12 +1127,12 @@ sub_801C3A0: @ 0x0801C3A0
 	cmp r0, #0x1e
 	bls _0801C3D4
 	ldr r1, [r2]
-	ldr r0, _0801C3D0 @ =sub_801BCC4
+	ldr r0, _0801C3D0 @ =Task_Interactable115_Main1
 	str r0, [r1, #8]
 	b _0801C40E
 	.align 2, 0
 _0801C3CC: .4byte gCurTask
-_0801C3D0: .4byte sub_801BCC4
+_0801C3D0: .4byte Task_Interactable115_Main1
 _0801C3D4:
 	ldrb r2, [r3, #8]
 	lsls r2, r2, #3
@@ -1316,14 +1316,14 @@ sub_801C4EC: @ 0x0801C4EC
 	movs r0, #0x80
 	lsls r0, r0, #1
 	strh r0, [r6, #4]
-	ldr r0, _0801C560 @ =sub_801BD64
+	ldr r0, _0801C560 @ =Task_Interactable115_Main0
 	str r0, [r7, #8]
 	bl _call_via_r0
 	b _0801C5B0
 	.align 2, 0
 _0801C558: .4byte gCurTask
 _0801C55C: .4byte gCamera
-_0801C560: .4byte sub_801BD64
+_0801C560: .4byte Task_Interactable115_Main0
 _0801C564:
 	ldr r0, [r5, #0x1c]
 	movs r3, #0x20
@@ -1418,14 +1418,14 @@ sub_801C5C4: @ 0x0801C5C4
 	movs r0, #0x80
 	lsls r0, r0, #1
 	strh r0, [r6, #4]
-	ldr r0, _0801C638 @ =sub_801BCC4
+	ldr r0, _0801C638 @ =Task_Interactable115_Main1
 	str r0, [r7, #8]
 	bl _call_via_r0
 	b _0801C688
 	.align 2, 0
 _0801C630: .4byte gCurTask
 _0801C634: .4byte gCamera
-_0801C638: .4byte sub_801BCC4
+_0801C638: .4byte Task_Interactable115_Main1
 _0801C63C:
 	ldr r0, [r5, #0x1c]
 	movs r3, #0x20
@@ -6775,8 +6775,8 @@ TaskDestructor_ItemBox: @ 0x0801F164
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable000
-CreateEntity_Interactable000: @ 0x0801F180
+	thumb_func_start CreateEntity_StageGoal
+CreateEntity_StageGoal: @ 0x0801F180
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

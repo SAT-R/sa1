@@ -62,7 +62,7 @@ gSpritePosData_enemies:
 
     .global gSpriteInits_Interactables
 gSpriteInits_Interactables:     @ 0x080BB064
-    .4byte CreateEntity_Interactable000
+    .4byte CreateEntity_StageGoal
     .4byte CreateEntity_Interactable001
     .4byte CreateEntity_Interactable002
     .4byte CreateEntity_Interactable003
@@ -212,7 +212,7 @@ gSpriteInits_Enemies:   @ 80BB234
     .4byte CreateEntity_Enemy028  @ 028 Boss Sonic 1
     .4byte CreateEntity_Enemy029  @ 029 Boss Sonic 2
     .4byte CreateEntity_Enemy030  @ 030 Final Boss
-    .4byte CreateEntity_Enemy031  @ 031 Extra Boss(?)
+    .4byte CreateEntity_SuperEggRobot  @ 031 Extra Boss
 
     .global enemyDefeatScores
 enemyDefeatScores: @ 0x080BB2B4
