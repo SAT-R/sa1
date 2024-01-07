@@ -108,11 +108,11 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00004F70; gMultiSioRecvFuncBuf = .;
 . = 0x00004FB0; gSio32MultiLoadArea = .;
 . = 0x00004FE0; gUnknown_03004FE0 = .;
-. = 0x00004FE4; gUnknown_03004FE4 = .;
-. = 0x00004FE8; gMultiplayerCharRings = .; /* gMultiplayerCharRings[NUM_CHARACTERS] */
+. = 0x00004FE4; gCheckpointTime = .;
+. = 0x00004FE8; gMultiplayerCharRings = .; /* gMultiplayerCharRings[MULTI_SIO_PLAYERS_MAX] */
 . = 0x00004FEC; gRingCount = .;
 . = 0x00004FF0; gUnknown_03004FF0 = .;
-. = 0x00004FFC; gUnknown_03004FFC = .;
+. = 0x00004FFC; gActiveCollectRingEffectCount = .;
 . = 0x00005000; gUnknown_03005000 = .;
 . = 0x00005004; gUnknown_03005004 = .;
 . = 0x00005008; gUnknown_03005008 = .;
@@ -144,23 +144,32 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005078; gUnknown_03005078 = .;
 . = 0x0000507C; gUnknown_0300507C = .;
 . = 0x00005080; gUnknown_03005080 = .;
-. = 0x00005084; gUnknown_03005084 = .;
+. = 0x00005084; gSelectedCharacter = .;
 . = 0x00005088; gUnknown_03005088 = .;
 . = 0x0000508C; gUnknown_0300508C = .;
 . = 0x00005090; gUnknown_03005090 = .;
 . = 0x000050A0; gUnknown_030050A0 = .;
 . = 0x00005120; gStageTime = .;
-. = 0x00005124; gUnknown_03005124 = .;
-. = 0x00005130; gUnknown_03005130 = .;
+/* Maybe gUnknown_03005124 is gMultiplayerCurrentLevel?
+ * NOTE: Sometimes it gets set to be gCurrentLevel, sometimes not.
+ *       Unsure whether it's Multiplayer-related. */
+. = 0x00005124; gUnknown_03005124 = .; 
+. = 0x00005130; gMultiplayerPlayerTasks = .;
 . = 0x00005140; gUnknown_03005140 = .;
 . = 0x00005148; gUnknown_03005148 = .;
 . = 0x0000514C; gCurrentLevel = .;
 . = 0x00005150; gUnknown_03005150 = .;
 . = 0x00005154; gUnknown_03005154 = .;
 . = 0x00005160; gUnknown_03005160 = .;
-. = 0x00005170; gUnknown_03005170 = .;
+. = 0x00005170; gUnknown_03005170 = .; /* Player 1 - Name[6] */
+                  /* gUnknown_03005178 -- Player 1 - Difficulty */
 . = 0x00005180; gUnknown_03005180 = .;
-. = 0x000054E0; gUnknown_030054E0 = .;
+. = 0x000054E0; gUnknown_030054E0 = .; /* Player 2 - ID? */
+                  /* gUnknown_030054E4 -- Player 2 - Name[7] + 0x05 */
+                  /* gUnknown_030054F0 -- Player 3 - ID? */
+                  /* gUnknown_030054F4 -- Player 3 - Name[7] + 0x05 */
+                  /* gUnknown_03005500 -- Player 3 - ID? */
+                  /* gUnknown_03005504 -- Player 4 - Name[7] + 0x05 */
 . = 0x000055A0; gUnknown_030055A0 = .;
 . = 0x000055E0; gUnknown_030055E0 = .;
 . = 0x000055FC; gUnknown_030055FC = .;

@@ -1019,7 +1019,7 @@ _080754F2:
 	ands r0, r1
 	str r0, [r6, #0x10]
 _080754FC:
-	ldr r0, _08075518 @ =gUnknown_03005084
+	ldr r0, _08075518 @ =gSelectedCharacter
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1034,7 +1034,7 @@ _080754FC:
 	str r0, [r5, #0x10]
 	b _08075526
 	.align 2, 0
-_08075518: .4byte gUnknown_03005084
+_08075518: .4byte gSelectedCharacter
 _0807551C:
 	ldr r0, [r6, #0x10]
 	movs r1, #0x80
@@ -12482,7 +12482,7 @@ _0807ACD8:
 	bne _0807AD30
 _0807ACE6:
 	movs r2, #0
-	ldr r1, _0807AD48 @ =gUnknown_03005130
+	ldr r1, _0807AD48 @ =gMultiplayerPlayerTasks
 	ldr r0, [r1]
 	adds r7, r6, #1
 	cmp r0, #0
@@ -12532,7 +12532,7 @@ _0807AD30:
 	b _0807AD64
 	.align 2, 0
 _0807AD44: .4byte gGameMode
-_0807AD48: .4byte gUnknown_03005130
+_0807AD48: .4byte gMultiplayerPlayerTasks
 _0807AD4C: .4byte 0x04000128
 _0807AD50:
 	ldr r0, [r5, #0x10]
@@ -13545,7 +13545,7 @@ _0807B49C:
 	bne _0807B4FA
 _0807B4AA:
 	movs r1, #0
-	ldr r2, _0807B518 @ =gUnknown_03005130
+	ldr r2, _0807B518 @ =gMultiplayerPlayerTasks
 	ldr r0, [r2]
 	mov ip, r0
 	adds r0, r6, #1
@@ -13600,7 +13600,7 @@ _0807B4FA:
 _0807B50C: .4byte gUnknown_03005A20
 _0807B510: .4byte gUnknown_03005AB0
 _0807B514: .4byte gGameMode
-_0807B518: .4byte gUnknown_03005130
+_0807B518: .4byte gMultiplayerPlayerTasks
 _0807B51C: .4byte 0x04000128
 _0807B520:
 	ldr r0, [r5, #0x10]
@@ -64437,7 +64437,7 @@ _080935F0:
 	ldr r0, _080936AC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_8068688
+	bl CreateSpecialStageIntro
 	b _080936EA
 	.align 2, 0
 _0809366C: .4byte gUnknown_03005088

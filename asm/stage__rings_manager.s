@@ -499,7 +499,7 @@ _080080EA:
 	bne _080080FC
 	b _08008332
 _080080FC:
-	ldr r1, _080081E0 @ =gUnknown_03005130
+	ldr r1, _080081E0 @ =gMultiplayerPlayerTasks
 	lsls r0, r2, #2
 	adds r0, r0, r1
 	ldr r0, [r0]
@@ -607,7 +607,7 @@ _080081D0: .4byte gNumLives
 _080081D4: .4byte gUnknown_03005040
 _080081D8: .4byte gUnknown_03005088
 _080081DC: .4byte 0x04000128
-_080081E0: .4byte gUnknown_03005130
+_080081E0: .4byte gMultiplayerPlayerTasks
 _080081E4: .4byte 0x03000052
 _080081E8: .4byte 0x0300002D
 _080081EC: .4byte 0x03000050
