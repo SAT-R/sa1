@@ -64,6 +64,7 @@ SECTIONS {
     .rodata :
     ALIGN(4) {
         build/sa1/data/data.o(.rodata);
+        build/sa1/src/data/entities.o(.rodata);
         build/sa1/src/lib/m4a_tables.o(.rodata);
         build/sa1/data/sound_data.o(.rodata);
         build/sa1/sound/songs/song001.o(.rodata);

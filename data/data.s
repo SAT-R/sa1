@@ -195,22 +195,22 @@ gSpriteInits_Enemies:   @ 80BB234
     .4byte CreateEntity_Enemy011  @ 011 Leon
     .4byte CreateEntity_Enemy012  @ 012 Mirror
     .4byte CreateEntity_Enemy013  @ 013 Wamu
-    .4byte CreateEntity_Enemy014  @ 014 Octo
+    .4byte CreateEntity_Enemy014  @ 014 Oct
     .4byte CreateEntity_Enemy015  @ 015 Mole
     .4byte CreateEntity_Enemy016  @ 016 Yukimaru
     .4byte CreateEntity_Enemy017  @ 017 Yukimaru (sideways)
     .4byte CreateEntity_Enemy018  @ 018 Drisame
-    .4byte CreateEntity_Enemy019  @ 019 Kura
+    .4byte CreateEntity_Enemy019  @ 019 Kuraa
     .4byte CreateEntity_Enemy020  @ 020 Pen
     .4byte CreateEntity_Enemy021  @ 021 Boss 1 Intro
     .4byte CreateEntity_Enemy022  @ 022 Boss 1
     .4byte CreateEntity_Enemy023  @ 023 Boss 2 A
     .4byte CreateEntity_Enemy024  @ 024 Boss 2 B
-    .4byte CreateEntity_Enemy025  @ 025 Boss 3
+    .4byte CreateEntity_Enemy025  @ 025 Boss 4
     .4byte CreateEntity_Enemy026  @ 026 Boss Robo-Knuckles
-    .4byte CreateEntity_Enemy027  @ 027 Boss 4
-    .4byte CreateEntity_Enemy028  @ 028 Boss Sonic 1
-    .4byte CreateEntity_Enemy029  @ 029 Boss Sonic 2
+    .4byte CreateEntity_Enemy027  @ 027 Boss 6
+    .4byte CreateEntity_Enemy028  @ 028 Boss Egg Wrecker (from Green Hill)
+    .4byte CreateEntity_Enemy029  @ 029 Boss Egg Drillster (from Emerald Hill)
     .4byte CreateEntity_Enemy030  @ 030 Final Boss
     .4byte CreateEntity_SuperEggRobot  @ 031 Extra Boss
 
@@ -1851,6 +1851,6 @@ gUnknown_086CEE50:
 gUnknown_086CEE60:
     .incbin "baserom.gba", 0x006CEE60, 0x10
     
-    .global gUnknown_086CEE70
-gUnknown_086CEE70:
-    .incbin "baserom.gba", 0x006CEE70, 0xC764
+@    .global gUnknown_086CEE70
+@gUnknown_086CEE70:
+@    .incbin "baserom.gba", 0x006CEE70, 0xC764
