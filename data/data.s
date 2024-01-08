@@ -218,9 +218,27 @@ gSpriteInits_Enemies:   @ 80BB234
 enemyDefeatScores: @ 0x080BB2B4
     .2byte 100, 200, 400, 800, 1000, 0
 
+    @ Used for the Single Pak, "Collect Rings" stage
     .global gSpriteInits_InteractablesMultiplayer
 gSpriteInits_InteractablesMultiplayer:
-    .incbin "baserom.gba", 0x000BB2C0, 0x48
+    .4byte CreateEntity_Interactable001 @ 000
+    .4byte CreateEntity_Interactable002 @ 001
+    .4byte CreateEntity_Interactable003 @ 002
+    .4byte CreateEntity_Interactable003 @ 003
+    .4byte CreateEntity_Interactable001 @ 004
+    .4byte CreateEntity_Interactable002 @ 005
+    .4byte CreateEntity_Interactable008 @ 006
+    .4byte CreateEntity_Interactable009 @ 007
+    .4byte CreateEntity_Interactable010 @ 008
+    .4byte CreateEntity_Interactable010 @ 009
+    .4byte CreateEntity_Interactable012 @ 010
+    .4byte CreateEntity_Interactable012 @ 011
+    .4byte CreateEntity_Toggle_PlayerLayer @ 012
+    .4byte CreateEntity_Toggle_PlayerLayer @ 013
+    .4byte CreateEntity_Interactable021 @ 014
+    .4byte CreateEntity_Interactable022 @ 015
+    .4byte CreateEntity_Interactable040 @ 016
+    .4byte CreateEntity_Interactable115 @ 017
 
     .global gUnknown_080BB308
 gUnknown_080BB308:
