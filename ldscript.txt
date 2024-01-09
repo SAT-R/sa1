@@ -63,6 +63,9 @@ SECTIONS {
 
     .rodata :
     ALIGN(4) {
+        build/sa1/data/data_0.o(.rodata);
+        build/sa1/data/chao_garden.o(.rodata);
+        build/sa1/src/data/entity_tables.o(.rodata);
         build/sa1/data/data.o(.rodata);
         build/sa1/src/data/entities.o(.rodata);
         build/sa1/src/lib/m4a_tables.o(.rodata);

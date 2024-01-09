@@ -1,6 +1,80 @@
-
-#if 0
 #include "global.h"
+
+extern const u8 zone_1_act_1_rings[];
+extern const u8 zone_1_act_2_rings[];
+extern const u8 zone_2_act_1_rings[];
+extern const u8 zone_2_act_2_rings[];
+extern const u8 zone_3_act_1_rings[];
+extern const u8 zone_3_act_2_rings[];
+extern const u8 zone_4_act_1_rings[];
+extern const u8 zone_4_act_2_rings[];
+extern const u8 zone_5_act_1_rings[];
+extern const u8 zone_5_act_2_rings[];
+extern const u8 zone_6_act_1_rings[];
+extern const u8 zone_6_act_2_rings[];
+extern const u8 zone_7_act_1_rings[];
+extern const u8 zone_7_act_2_rings[];
+extern const u8 chao_hunt_vs_zone_a_rings[];
+extern const u8 chao_hunt_vs_zone_b_rings[];
+extern const u8 chao_hunt_vs_zone_c_rings[];
+extern const u8 chao_hunt_vs_zone_d_rings[];
+
+extern u8 zone_1_act_1_interactables[];
+extern u8 zone_1_act_2_interactables[];
+extern u8 zone_2_act_1_interactables[];
+extern u8 zone_2_act_2_interactables[];
+extern u8 zone_3_act_1_interactables[];
+extern u8 zone_3_act_2_interactables[];
+extern u8 zone_4_act_1_interactables[];
+extern u8 zone_4_act_2_interactables[];
+extern u8 zone_5_act_1_interactables[];
+extern u8 zone_5_act_2_interactables[];
+extern u8 zone_6_act_1_interactables[];
+extern u8 zone_6_act_2_interactables[];
+extern u8 zone_7_act_1_interactables[];
+extern u8 zone_7_act_2_interactables[];
+extern u8 chao_hunt_vs_zone_a_interactables[];
+extern u8 chao_hunt_vs_zone_b_interactables[];
+extern u8 chao_hunt_vs_zone_c_interactables[];
+extern u8 chao_hunt_vs_zone_d_interactables[];
+
+extern u8 zone_1_act_1_itemboxes[];
+extern u8 zone_1_act_2_itemboxes[];
+extern u8 zone_2_act_1_itemboxes[];
+extern u8 zone_2_act_2_itemboxes[];
+extern u8 zone_3_act_1_itemboxes[];
+extern u8 zone_3_act_2_itemboxes[];
+extern u8 zone_4_act_1_itemboxes[];
+extern u8 zone_4_act_2_itemboxes[];
+extern u8 zone_5_act_1_itemboxes[];
+extern u8 zone_5_act_2_itemboxes[];
+extern u8 zone_6_act_1_itemboxes[];
+extern u8 zone_6_act_2_itemboxes[];
+extern u8 zone_7_act_1_itemboxes[];
+extern u8 zone_7_act_2_itemboxes[];
+extern u8 chao_hunt_vs_zone_a_itemboxes[];
+extern u8 chao_hunt_vs_zone_b_itemboxes[];
+extern u8 chao_hunt_vs_zone_c_itemboxes[];
+extern u8 chao_hunt_vs_zone_d_itemboxes[];
+
+extern u8 zone_1_act_1_enemies[];
+extern u8 zone_1_act_2_enemies[];
+extern u8 zone_2_act_1_enemies[];
+extern u8 zone_2_act_2_enemies[];
+extern u8 zone_3_act_1_enemies[];
+extern u8 zone_3_act_2_enemies[];
+extern u8 zone_4_act_1_enemies[];
+extern u8 zone_4_act_2_enemies[];
+extern u8 zone_5_act_1_enemies[];
+extern u8 zone_5_act_2_enemies[];
+extern u8 zone_6_act_1_enemies[];
+extern u8 zone_6_act_2_enemies[];
+extern u8 zone_7_act_1_enemies[];
+extern u8 zone_7_act_2_enemies[];
+extern u8 chao_hunt_vs_zone_a_enemies[];
+extern u8 chao_hunt_vs_zone_b_enemies[];
+extern u8 chao_hunt_vs_zone_c_enemies[];
+extern u8 chao_hunt_vs_zone_d_enemies[];
 
 const RLCompressed *const gSpritePosData_rings[] = {
     (void *)&zone_1_act_1_rings,        (void *)&zone_1_act_2_rings,
@@ -58,4 +132,3 @@ const RLCompressed *const gSpritePosData_enemies[] = {
     (void *)&chao_hunt_vs_zone_a_enemies, (void *)&chao_hunt_vs_zone_b_enemies,
     (void *)&chao_hunt_vs_zone_c_enemies, (void *)&chao_hunt_vs_zone_d_enemies,
 };
-#endif
