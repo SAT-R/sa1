@@ -1,7 +1,7 @@
 #include "global.h"
 
 // 0x0811E574
-const u8 gObjPalettes_4bpp[0] = {};
+const u8 gObjPalettes[0] = {};
 
 const u16 palObj000[] = INCBIN_U16("graphics/obj_palettes/pal_000.gbapal");
 const u16 palObj001[] = INCBIN_U16("graphics/obj_palettes/pal_001.gbapal");

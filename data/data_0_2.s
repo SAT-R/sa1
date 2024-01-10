@@ -1,8 +1,12 @@
 	.section .rodata
 
-    .global gUnknown_08121F74
-gUnknown_08121F74:
-    .incbin "baserom.gba", 0x00121F74, 0x365080
+    .global gObjTiles_4bpp
+gObjTiles_4bpp:
+    .incbin "baserom.gba", 0x00121F74, 0x34A200
+
+    .global gObjTiles_8bpp
+gObjTiles_8bpp:
+    .incbin "baserom.gba", 0x0046C174, 0x1AE80
 
     .global gUnknown_08486FF4
 gUnknown_08486FF4:

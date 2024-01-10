@@ -397,6 +397,10 @@ gUnknown_080BB568:
     .incbin "baserom.gba", 0x000BB568, 0x20C08
 
     .global gSpriteTables
-gSpriteTables:
+gSpriteTables: @ 0x80DC170
     .4byte gAnimations
-    .incbin "baserom.gba", 0x000DC174, 0x14
+    .4byte gSpriteDimensions
+    .4byte gSpriteOamData
+    .4byte gObjPalettes
+    .4byte gObjTiles_4bpp
+    .4byte gObjTiles_8bpp

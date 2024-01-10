@@ -25,7 +25,7 @@
 
 .macro mGetPalette pal_ptr:req, num_colors_to_copy:req, insert_offset:req
 .4byte AnimCmd_GetPalette
-@  .4byte (\pal_ptr - gObjPalettes_4bpp) / 0x20
+@  .4byte (\pal_ptr - gObjPalettes) / 0x20
   .4byte \pal_ptr
   .2byte \num_colors_to_copy
   .2byte \insert_offset

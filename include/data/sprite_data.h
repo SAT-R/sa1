@@ -8,7 +8,7 @@
 
 extern s32 **const gAnimations[NUM_SPRITE_ANIMATIONS];
 extern const SpriteOffset *const gSpriteDimensions[NUM_SPRITE_ANIMATIONS];
-// extern const OamDataShort *const gSpriteOamData[NUM_SPRITE_ANIMATIONS];
-extern const u16 gObjPalettes_4bpp[]; // gSpritePalettes
+extern const OamDataShort *const gSpriteOamData[NUM_SPRITE_ANIMATIONS];
+extern const u16 gObjPalettes[]; // gSpritePalettes
 
 #endif
