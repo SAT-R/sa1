@@ -5,7 +5,7 @@
 #define ANIM_CMD__LOOP            -3
 #define ANIM_CMD__END             -4
 #define ANIM_CMD__PLAY_SFX        -5
-#define ANIM_CMD__6               -6
+#define ANIM_CMD__ADD_HITBOX      -6
 #define ANIM_CMD__TranslateSprite -7
 #define ANIM_CMD__8               -8
 #define ANIM_CMD__SetIdAndVariant -9
