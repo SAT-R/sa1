@@ -68,6 +68,7 @@ SECTIONS {
         build/sa1/src/data/entity_tables.o(.rodata);
         build/sa1/data/data_0_1.o(.rodata);
         build/sa1/data/animations.o(.rodata);
+        build/sa1/src/data/sprite_dimensions.o(.rodata);
         build/sa1/data/data_maybe_8bpp.o(.rodata);
         build/sa1/src/data/obj_palettes.o(.rodata);
         build/sa1/data/data_0_2.o(.rodata);
