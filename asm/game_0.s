@@ -34231,7 +34231,7 @@ sub_801A728: @ 0x0801A728
 	ldr r0, _0801A784 @ =gTilemaps
 	str r0, [r1]
 	ldr r1, _0801A788 @ =gUnknown_03002034
-	ldr r0, _0801A78C @ =gUnknown_080DC170
+	ldr r0, _0801A78C @ =gSpriteTables
 	str r0, [r1]
 	ldr r1, _0801A790 @ =gUnknown_03005060
 	movs r0, #0
@@ -34250,7 +34250,7 @@ _0801A77C: .4byte gMultiSioEnabled
 _0801A780: .4byte gTilemapsRef
 _0801A784: .4byte gTilemaps
 _0801A788: .4byte gUnknown_03002034
-_0801A78C: .4byte gUnknown_080DC170
+_0801A78C: .4byte gSpriteTables
 _0801A790: .4byte gUnknown_03005060
 
 	thumb_func_start sub_801A794

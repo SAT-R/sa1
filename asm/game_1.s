@@ -40936,7 +40936,7 @@ GameStart: @ 0x0803CBC0
 	ldr r0, _0803CC6C @ =gTilemaps
 	str r0, [r1]
 	ldr r1, _0803CC70 @ =gUnknown_03002034
-	ldr r0, _0803CC74 @ =gUnknown_080DC170
+	ldr r0, _0803CC74 @ =gSpriteTables
 	str r0, [r1]
 	ldr r1, _0803CC78 @ =gUnknown_03005004
 	ldr r0, _0803CC7C @ =gUnknown_0300502C
@@ -41018,7 +41018,7 @@ _0803CC54:
 _0803CC68: .4byte gTilemapsRef
 _0803CC6C: .4byte gTilemaps
 _0803CC70: .4byte gUnknown_03002034
-_0803CC74: .4byte gUnknown_080DC170
+_0803CC74: .4byte gSpriteTables
 _0803CC78: .4byte gUnknown_03005004
 _0803CC7C: .4byte gUnknown_0300502C
 _0803CC80: .4byte gUnknown_03005050
