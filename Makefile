@@ -159,13 +159,16 @@ __rom: $(ROM)
 
 tools: $(TOOLDIRS)
 
+FORMAT_SRC_PATHS := $(shell find . -name "*.c" ! -path '*/src/data/*' ! -path '*/build/*' ! -path '*/ext/*')
+FORMAT_H_PATHS   := $(shell find . -name "*.h" ! -path '*/build/*' ! -path '*/ext/*')
+
 format:
 	@echo $(FORMAT) -i -style=file "**/*.c" "**/*.h"
-	@$(FORMAT) -i -style=file $(shell find . -name "*.c" ! -path '*/build/*') $(shell find . -name "*.h" ! -path '*/build/*')
+	@$(FORMAT) -i --verbose -style=file $(FORMAT_SRC_PATHS) $(FORMAT_H_PATHS)
 
 check_format:
 	@echo $(FORMAT) -i -style=file --dry-run --Werror "**/*.c" "**/*.h"
-	@$(FORMAT) -i -style=file --dry-run --Werror $(shell find . -name "*.c" ! -path '*/build/*') $(shell find . -name "*.h" ! -path '*/build/*')
+	@$(FORMAT) -i --verbose -style=file --dry-run --Werror $(FORMAT_SRC_PATHS) $(FORMAT_H_PATHS)
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
