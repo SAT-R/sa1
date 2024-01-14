@@ -25431,7 +25431,7 @@ _08034E80:
 	cmp r1, r0
 	ble _08034EBA
 	ldr r2, _08034ECC @ =gUnknown_03005A0C
-	ldr r1, _08034ED0 @ =gUnknown_084ADEA8
+	ldr r1, _08034ED0 @ =gCollisionTable
 	ldr r0, _08034ED4 @ =gCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -25464,7 +25464,7 @@ _08034EBA:
 	bx r0
 	.align 2, 0
 _08034ECC: .4byte gUnknown_03005A0C
-_08034ED0: .4byte gUnknown_084ADEA8
+_08034ED0: .4byte gCollisionTable
 _08034ED4: .4byte gCurrentLevel
 _08034ED8: .4byte gUnknown_03005040
 _08034EDC: .4byte gCurTask
@@ -28068,7 +28068,7 @@ _08036418:
 	cmp r4, #0
 	bne _08036452
 	ldr r3, _08036464 @ =gUnknown_03005A0C
-	ldr r1, _08036468 @ =gUnknown_084ADEA8
+	ldr r1, _08036468 @ =gCollisionTable
 	ldr r0, _0803646C @ =gCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -28097,7 +28097,7 @@ _08036452:
 	bx r0
 	.align 2, 0
 _08036464: .4byte gUnknown_03005A0C
-_08036468: .4byte gUnknown_084ADEA8
+_08036468: .4byte gCollisionTable
 _0803646C: .4byte gCurrentLevel
 _08036470: .4byte gCamera
 _08036474: .4byte gCurTask
@@ -32194,7 +32194,7 @@ _080385BA:
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
 	ldr r2, _080385E0 @ =gUnknown_03005A0C
-	ldr r1, _080385E4 @ =gUnknown_084ADEA8
+	ldr r1, _080385E4 @ =gCollisionTable
 	ldr r0, _080385E8 @ =gCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -32210,7 +32210,7 @@ _080385BA:
 	.align 2, 0
 _080385DC: .4byte gUnknown_03005A20
 _080385E0: .4byte gUnknown_03005A0C
-_080385E4: .4byte gUnknown_084ADEA8
+_080385E4: .4byte gCollisionTable
 _080385E8: .4byte gCurrentLevel
 _080385EC: .4byte gCamera
 _080385F0:
@@ -32743,7 +32743,7 @@ _08038A14:
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
 	ldr r2, _08038A38 @ =gUnknown_03005A0C
-	ldr r1, _08038A3C @ =gUnknown_084ADEA8
+	ldr r1, _08038A3C @ =gCollisionTable
 	ldr r0, _08038A40 @ =gCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -32759,7 +32759,7 @@ _08038A14:
 	.align 2, 0
 _08038A34: .4byte gUnknown_03005A20
 _08038A38: .4byte gUnknown_03005A0C
-_08038A3C: .4byte gUnknown_084ADEA8
+_08038A3C: .4byte gCollisionTable
 _08038A40: .4byte gCurrentLevel
 _08038A44: .4byte gCamera
 _08038A48:
@@ -43671,7 +43671,7 @@ _0803E322:
 	cmp r0, #6
 	beq _0803E358
 	ldr r2, _0803E350 @ =gUnknown_03005A0C
-	ldr r0, _0803E354 @ =gUnknown_084ADEA8
+	ldr r0, _0803E354 @ =gCollisionTable
 	mov r3, r8
 	lsls r1, r3, #2
 	adds r0, r1, r0
@@ -43686,7 +43686,7 @@ _0803E344: .4byte gUnknown_03005950
 _0803E348: .4byte gUnknown_03005990
 _0803E34C: .4byte gGameMode
 _0803E350: .4byte gUnknown_03005A0C
-_0803E354: .4byte gUnknown_084ADEA8
+_0803E354: .4byte gCollisionTable
 _0803E358:
 	ldr r0, _0803E3F4 @ =gUnknown_03005A0C
 	ldr r1, _0803E3F8 @ =gUnknown_02033004

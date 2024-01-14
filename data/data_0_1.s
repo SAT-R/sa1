@@ -182,7 +182,7 @@ gSpriteInits_InteractablesMultiplayer:
 
     .global gUnknown_080BB308
 gUnknown_080BB308:
-    .incbin "baserom.gba", 0x000BB308, 0x8
+    .byte 1, 5, 10, 20, 30, 40, 0, 0
 
     .global gUnknown_080BB310
 gUnknown_080BB310:
