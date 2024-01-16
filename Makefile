@@ -90,7 +90,7 @@ LDSCRIPT := ldscript.txt
 
 C_SUBDIR = src
 ASM_SUBDIR = asm
-DATA_ASM_SUBDIR = data
+DATA_SUBDIR = data
 
 SONG_SUBDIR = sound/songs
 SOUND_ASM_SUBDIR = sound
@@ -102,7 +102,7 @@ TILESETS_SUBDIR = graphics/tilesets/
 
 C_BUILDDIR = $(OBJ_DIR)/$(C_SUBDIR)
 ASM_BUILDDIR = $(OBJ_DIR)/$(ASM_SUBDIR)
-DATA_ASM_BUILDDIR = $(OBJ_DIR)/$(DATA_ASM_SUBDIR)
+DATA_ASM_BUILDDIR = $(OBJ_DIR)/$(DATA_SUBDIR)
 SONG_BUILDDIR = $(OBJ_DIR)/$(SONG_SUBDIR)
 SOUND_ASM_BUILDDIR = $(OBJ_DIR)/$(SOUND_ASM_SUBDIR)
 MID_BUILDDIR = $(OBJ_DIR)/$(MID_SUBDIR)
@@ -115,8 +115,8 @@ C_OBJS := $(patsubst $(C_SUBDIR)/%.c,$(C_BUILDDIR)/%.o,$(C_SRCS))
 ASM_SRCS := $(wildcard $(ASM_SUBDIR)/*.s)
 ASM_OBJS := $(patsubst $(ASM_SUBDIR)/%.s,$(ASM_BUILDDIR)/%.o,$(ASM_SRCS))
 
-DATA_ASM_SRCS := $(wildcard $(DATA_ASM_SUBDIR)/*.s)
-DATA_ASM_OBJS := $(patsubst $(DATA_ASM_SUBDIR)/%.s,$(DATA_ASM_BUILDDIR)/%.o,$(DATA_ASM_SRCS))
+DATA_ASM_SRCS := $(wildcard $(DATA_SUBDIR)/*.s)
+DATA_ASM_OBJS := $(patsubst $(DATA_SUBDIR)/%.s,$(DATA_ASM_BUILDDIR)/%.o,$(DATA_ASM_SRCS))
 
 SONG_SRCS := $(wildcard $(SONG_SUBDIR)/*.s)
 SONG_OBJS := $(patsubst $(SONG_SUBDIR)/%.s,$(SONG_BUILDDIR)/%.o,$(SONG_SRCS))
@@ -245,7 +245,7 @@ ifeq ($(NODEP),1)
 $(OBJ_DIR)/src/%.o: c_dep :=
 else
 $(OBJ_DIR)/src/%.o: C_FILE = $(*D)/$(*F).c
-$(OBJ_DIR)/src/%.o: c_dep = $(shell $(SCANINC) -I include $(C_FILE:$(OBJ_DIR)/=) 2>/dev/null)
+$(OBJ_DIR)/src/%.o: c_dep = $(shell $(SCANINC) -I . -I include $(C_FILE:$(OBJ_DIR)/=) 2>/dev/null)
 endif
 
 # Build c sources, and ensure alignment
@@ -271,10 +271,10 @@ $(ASM_BUILDDIR)/%.o: $(ASM_SUBDIR)/%.s $$(asm_dep)
 ifeq ($(NODEP),1)
 $(DATA_ASM_BUILDDIR)/%.o: data_dep :=
 else
-$(DATA_ASM_BUILDDIR)/%.o: data_dep = $(shell $(SCANINC) $(DATA_ASM_SUBDIR)/$*.s)
+$(DATA_ASM_BUILDDIR)/%.o: data_dep = $(shell $(SCANINC) $(DATA_SUBDIR)/$*.s)
 endif
 
-$(DATA_ASM_BUILDDIR)/%.o: $(DATA_ASM_SUBDIR)/%.s $$(data_dep)
+$(DATA_ASM_BUILDDIR)/%.o: $(DATA_SUBDIR)/%.s $$(data_dep)
 	@echo "$(AS) <flags> -o $@ $<"
 	@$(PREPROC) $< | $(CPP) $(CPPFLAGS) - | $(AS) $(ASFLAGS) -o $@
 
