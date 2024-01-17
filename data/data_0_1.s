@@ -142,8 +142,8 @@ gSpriteInits_Enemies:   @ 80BB234
     .4byte CreateEntity_Enemy018  @ 018 Drisame
     .4byte CreateEntity_Enemy019  @ 019 Kuraa
     .4byte CreateEntity_Enemy020  @ 020 Pen
-    .4byte CreateEntity_Enemy021  @ 021 Boss 1 Intro
-    .4byte CreateEntity_Enemy022  @ 022 Boss 1
+    .4byte CreateEntity_EggHammerTank_Intro @ 021 Boss 1 Intro
+    .4byte CreateEntity_EggHammerTank @ 022 Boss 1
     .4byte CreateEntity_Enemy023  @ 023 Boss 2 A
     .4byte CreateEntity_Enemy024  @ 024 Boss 2 B
     .4byte CreateEntity_Enemy025  @ 025 Boss 4

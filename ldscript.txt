@@ -29,7 +29,14 @@ SECTIONS {
         build/sa1/asm/stage__rings_manager.o(.text);
         build/sa1/asm/stage__entities_manager.o(.text);
         build/sa1/asm/game_0.o(.text);
+        build/sa1/asm/ia_115.o(.text);
+        build/sa1/asm/game_tasks_0.o(.text);
+        build/sa1/asm/game_tasks_1.o(.text);
+        build/sa1/asm/enemy_kiki.o(.text);
+        build/sa1/asm/enemy_buzzer.o(.text);
         build/sa1/asm/interactables_0.o(.text);
+        build/sa1/asm/boss_1.o(.text);
+        build/sa1/asm/ia_114.o(.text);
         build/sa1/asm/game_1.o(.text);
         build/sa1/asm/interactables_1.o(.text);
         build/sa1/asm/game_2.o(.text);
