@@ -2552,6 +2552,7 @@ sub_804F834: @ 0x0804F834
 	strh r0, [r1]
 _0804F85E:
 	bx lr
+    .align 2, 0
 
 	thumb_func_start sub_804F860
 sub_804F860: @ 0x0804F860
@@ -10486,6 +10487,7 @@ _080536CC:
 	adds r0, r1, #0
 _080536D2:
 	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_80536D4
 sub_80536D4: @ 0x080536D4
@@ -11894,8 +11896,11 @@ sub_80541F0: @ 0x080541F0
 _0805422C: .4byte sub_8053D18
 _08054230: .4byte 0x03000040
 _08054234: .4byte 0x0300004C
-_08054238:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_8054238
+sub_8054238: @ 0x08054238
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_805423C
 sub_805423C: @ 0x0805423C
@@ -15191,8 +15196,11 @@ sub_8055C38: @ 0x08055C38
 	bl VramFree
 	pop {r0}
 	bx r0
-_08055C4C:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_8055C4C
+sub_8055C4C: @ 0x08055C4C
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_8055C50
 sub_8055C50: @ 0x08055C50
@@ -26767,8 +26775,11 @@ sub_805B930: @ 0x0805B930
 	.align 2, 0
 _0805B978: .4byte gUnknown_08688608
 _0805B97C: .4byte gCurTask
-_0805B980:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_805B980
+sub_805B980: @ 0x0805B980
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_805B984
 sub_805B984: @ 0x0805B984
@@ -27126,8 +27137,11 @@ sub_805BC60: @ 0x0805BC60
 	.align 2, 0
 _0805BC88: .4byte gDispCnt
 _0805BC8C: .4byte 0x00001FFF
-_0805BC90:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_805BC90
+sub_805BC90: @ 0x0805BC90
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_805BC94
 sub_805BC94: @ 0x0805BC94
@@ -28676,8 +28690,11 @@ _0805C8F4:
 	bx r0
 	.align 2, 0
 _0805C8F8: .4byte gUnknown_08688650
-_0805C8FC:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_805C8FC
+sub_805C8FC: @ 0x0805C8FC
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_805C900
 sub_805C900: @ 0x0805C900
@@ -31827,8 +31844,11 @@ _0805E1D2:
 	bx r0
 	.align 2, 0
 _0805E1E0: .4byte gUnknown_0868869C
-_0805E1E4:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_805E1E4
+sub_805E1E4: @ 0x0805E1E4
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_805E1E8
 sub_805E1E8: @ 0x0805E1E8
@@ -32771,8 +32791,11 @@ _0805E9A2:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-_0805E9B0:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_805E9B0
+sub_805E9B0:
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_805E9B4
 sub_805E9B4: @ 0x0805E9B4
@@ -37017,8 +37040,12 @@ _08060C74:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-_08060C84:
-	.byte 0x70, 0x47, 0x00, 0x00
+    .align 2, 0
+
+    thumb_func_start sub_8060C84
+sub_8060C84: @ 0x08060C84
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_8060C88
 sub_8060C88: @ 0x08060C88
@@ -41184,8 +41211,11 @@ _08062ECA:
 	.align 2, 0
 _08062ED0: .4byte 0x03000051
 _08062ED4: .4byte gUnknown_0868B220
-_08062ED8:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_8062ED8
+sub_8062ED8: @ 0x08062ED8
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_8062EDC
 sub_8062EDC: @ 0x08062EDC
@@ -42426,8 +42456,17 @@ _08063900: .4byte 0x00001FFF
 _08063904: .4byte gBldRegs
 _08063908: .4byte 0x03000055
 _0806390C: .4byte gCurrentLevel
-_08063910:
-	.byte 0x70, 0x47, 0x00, 0x00, 0x70, 0x47, 0x00, 0x00
+    .align 2, 0
+
+    thumb_func_start sub_8063910
+sub_8063910:
+    bx lr
+    .align 2, 0
+
+    thumb_func_start sub_8063914
+sub_8063914:
+    bx lr
+    .align 2, 0
 
 	thumb_func_start sub_8063918
 sub_8063918: @ 0x08063918

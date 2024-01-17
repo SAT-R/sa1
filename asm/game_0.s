@@ -12166,7 +12166,7 @@ sub_800F318: @ 0x0800F318
 	movs r0, #5
 	bl m4aSongNumStart
 	ldr r0, _0800F5C8 @ =gMultiBootParam
-	ldr r1, _0800F5CC @ =gUnknown_087C0258
+	ldr r1, _0800F5CC @ =gMultiboot_087C0258
 	str r1, [r0, #0x28]
 	adds r1, r0, #0
 	adds r1, #0x4b
@@ -12238,7 +12238,7 @@ _0800F5BC: .4byte 0x0600F000
 _0800F5C0: .4byte 0x0300002A
 _0800F5C4: .4byte gMultiSioEnabled
 _0800F5C8: .4byte gMultiBootParam
-_0800F5CC: .4byte gUnknown_087C0258
+_0800F5CC: .4byte gMultiboot_087C0258
 _0800F5D0: .4byte sub_800F5F0
 _0800F5D4: .4byte 0x04000128
 _0800F5D8: .4byte 0x0000FFFF
@@ -12449,8 +12449,8 @@ _0800F6F0:
 	ands r3, r1
 	strh r3, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	ldr r1, _0800F7E4 @ =gUnknown_087C0318
-	ldr r2, _0800F7E8 @ =gUnknown_087C22F8
+	ldr r1, _0800F7E4 @ =gMultiboot_087C0258 + 0xC0
+	ldr r2, _0800F7E8 @ =gMultiboot_087C22F8
 	subs r2, r2, r1
 	str r5, [sp]
 	mov r0, r8
@@ -12484,8 +12484,8 @@ _0800F7D4: .4byte 0x040000B0
 _0800F7D8: .4byte 0x0000C5FF
 _0800F7DC: .4byte 0x00007FFF
 _0800F7E0: .4byte 0x040000D4
-_0800F7E4: .4byte gUnknown_087C0318
-_0800F7E8: .4byte gUnknown_087C22F8
+_0800F7E4: .4byte gMultiboot_087C0258 + 0xC0
+_0800F7E8: .4byte gMultiboot_087C22F8
 _0800F7EC: .4byte gCurTask
 _0800F7F0:
 	ldr r4, _0800F840 @ =gMultiBootParam

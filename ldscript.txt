@@ -272,7 +272,7 @@ SECTIONS {
         build/sa1/src/lib/agb_flash_mx_512k.o(.rodata);
         build/sa1/src/lib/agb_flash_at_512k.o(.rodata);
         build/sa1/data/data1.o(.rodata);
-        
+        build/sa1/asm/rom_footer.o(.rodata);        
     }
 
     . = 0x2000000;
