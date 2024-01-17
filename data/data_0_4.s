@@ -48,7 +48,7 @@ gUnknown_084AE19A:
 
     .global gUnknown_084AE1AC
 gUnknown_084AE1AC:
-    .incbin "baserom.gba", 0x004AE1AC, 0x4
+    .byte 0x42, 0x43, 0x44, 0x45
 
     .global gUnknown_084AE1B0
 gUnknown_084AE1B0:
@@ -85,8 +85,24 @@ gUnknown_084AE1C4:
 
     .global gUnknown_084AE548
 gUnknown_084AE548:
-    .incbin "baserom.gba", 0x004AE548, 0x18
+    .2byte 0x292
+    .byte 0, 16
+
+    .2byte 0x292
+    .byte 1, 16
+
+    .2byte 0x292
+    .byte 2, 16
+
+    .2byte 0x292
+    .byte 3, 16
+
+    .2byte 0x292
+    .byte 4, 16
+
+    .2byte 0x292
+    .byte 5, 16
 
     .global gUnknown_084AE560
 gUnknown_084AE560:
-    .incbin "baserom.gba", 0x004AE560, 0x14
+    .byte 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0
