@@ -2485,9 +2485,16 @@ sub_804F7DC: @ 0x0804F7DC
 sub_804F7E8: @ 0x0804F7E8
 	bx lr
 	.align 2, 0
-_0804F7EC:
-	.byte 0x70, 0x47, 0x00, 0x00
-	.byte 0x70, 0x47, 0x00, 0x00
+
+	thumb_func_start sub_804F7EC
+sub_804F7EC: @ 0x0804F7EC
+	bx lr
+	.align 2, 0
+
+	thumb_func_start sub_804F7F0
+sub_804F7F0: @ 0x0804F7F0
+	bx lr
+	.align 2, 0
 
 	thumb_func_start sub_804F7F4
 sub_804F7F4: @ 0x0804F7F4

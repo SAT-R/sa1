@@ -87,7 +87,3 @@ gUnknown_08487310:
     .global gUnknown_08487330
 gUnknown_08487330:
     .incbin "baserom.gba", 0x00487330, 0x5674
-
-@    .global gUnknown_0848C9A4
-@gUnknown_0848C9A4:
-@    .incbin "baserom.gba", 0x0048C9A4, 0x203FC
