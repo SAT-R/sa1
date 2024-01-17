@@ -8566,8 +8566,8 @@ _0801FFAA:
 _0801FFBC: .4byte gCurTask
 _0801FFC0: .4byte gCamera
 
-	thumb_func_start CreateEntity_Interactable001
-CreateEntity_Interactable001: @ 0x0801FFC4
+	thumb_func_start CreateEntity_Spikes_Up
+CreateEntity_Spikes_Up: @ 0x0801FFC4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -9251,8 +9251,8 @@ _08020510:
 _08020520: .4byte gGameMode
 _08020524: .4byte gUnknown_03004FE0
 
-	thumb_func_start CreateEntity_Interactable003
-CreateEntity_Interactable003: @ 0x08020528
+	thumb_func_start CreateEntity_Spikes_Horizontal
+CreateEntity_Spikes_Horizontal: @ 0x08020528
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -11899,8 +11899,8 @@ _08021994:
 	.align 2, 0
 _0802199C: .4byte gCurrentLevel
 
-	thumb_func_start CreateEntity_Interactable008
-CreateEntity_Interactable008: @ 0x080219A0
+	thumb_func_start CreateEntity_Spring_Normal_Up
+CreateEntity_Spring_Normal_Up: @ 0x080219A0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -12268,8 +12268,8 @@ _08021C92:
 _08021C98: .4byte gCurTask
 _08021C9C: .4byte sub_8021AE4
 
-	thumb_func_start CreateEntity_Interactable009
-CreateEntity_Interactable009: @ 0x08021CA0
+	thumb_func_start CreateEntity_Spring_Normal_Down
+CreateEntity_Spring_Normal_Down: @ 0x08021CA0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -12601,8 +12601,9 @@ _08021F42:
 _08021F48: .4byte gCurTask
 _08021F4C: .4byte sub_8021D94
 
-	thumb_func_start CreateEntity_Interactable010
-CreateEntity_Interactable010: @ 0x08021F50
+@ Note: IA_010 = Left, IA_011 = Right
+	thumb_func_start CreateEntity_Spring_Horizontal
+CreateEntity_Spring_Horizontal: @ 0x08021F50
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -12899,8 +12900,8 @@ _0802219A:
 _080221A0: .4byte gCurTask
 _080221A4: .4byte sub_8022068
 
-	thumb_func_start CreateEntity_Interactable012
-CreateEntity_Interactable012: @ 0x080221A8
+	thumb_func_start CreateEntity_Spring_Big_Up
+CreateEntity_Spring_Big_Up: @ 0x080221A8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -13197,8 +13198,8 @@ _080223F2:
 _080223F8: .4byte gCurTask
 _080223FC: .4byte sub_80222C0
 
-	thumb_func_start CreateEntity_Interactable014
-CreateEntity_Interactable014: @ 0x08022400
+	thumb_func_start CreateEntity_Spring_Small_Up
+CreateEntity_Spring_Small_Up: @ 0x08022400
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -14976,8 +14977,9 @@ sub_802316C: @ 0x0802316C
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable016
-CreateEntity_Interactable016: @ 0x08023180
+    @ Apparently only stone in SA1(?)
+	thumb_func_start CreateEntity_Decoration
+CreateEntity_Decoration: @ 0x08023180
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -16155,8 +16157,8 @@ _08023AFC: .4byte sub_80238FC
 _08023B00: .4byte 0x03000004
 _08023B04: .4byte 0x03000008
 
-	thumb_func_start sub_8023B08
-sub_8023B08: @ 0x08023B08
+	thumb_func_start Task_GrindRailStart
+Task_GrindRailStart: @ 0x08023B08
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -16346,8 +16348,8 @@ _08023C70:
 _08023C80: .4byte gCamera
 _08023C84: .4byte gCurTask
 
-	thumb_func_start sub_8023C88
-sub_8023C88: @ 0x08023C88
+	thumb_func_start Task_GrindRailEnd
+Task_GrindRailEnd: @ 0x08023C88
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -16630,11 +16632,12 @@ _08023EC4: .4byte 0xFFFFCFFF
 _08023EC8: .4byte gCamera
 _08023ECC: .4byte gCurTask
 
+@ Unused?
 	thumb_func_start sub_8023ED0
 sub_8023ED0: @ 0x08023ED0
 	push {r4, lr}
 	sub sp, #4
-	ldr r0, _08023EF8 @ =sub_8023EFC
+	ldr r0, _08023EF8 @ =Task_8023EFC
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r4, #0
@@ -16652,10 +16655,10 @@ sub_8023ED0: @ 0x08023ED0
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08023EF8: .4byte sub_8023EFC
+_08023EF8: .4byte Task_8023EFC
 
-	thumb_func_start sub_8023EFC
-sub_8023EFC: @ 0x08023EFC
+	thumb_func_start Task_8023EFC
+Task_8023EFC: @ 0x08023EFC
 	push {r4, lr}
 	ldr r4, _08023F2C @ =gCurTask
 	ldr r0, [r4]
@@ -16681,8 +16684,8 @@ _08023F24:
 	.align 2, 0
 _08023F2C: .4byte gCurTask
 
-	thumb_func_start CreateEntity_Interactable019
-CreateEntity_Interactable019: @ 0x08023F30
+	thumb_func_start CreateEntity_GrindRail_Start
+CreateEntity_GrindRail_Start: @ 0x08023F30
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -16692,7 +16695,7 @@ CreateEntity_Interactable019: @ 0x08023F30
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _08023F88 @ =sub_8023B08
+	ldr r0, _08023F88 @ =Task_GrindRailStart
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -16726,12 +16729,12 @@ CreateEntity_Interactable019: @ 0x08023F30
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08023F88: .4byte sub_8023B08
+_08023F88: .4byte Task_GrindRailStart
 _08023F8C: .4byte 0x03000004
 _08023F90: .4byte 0x03000008
 
-	thumb_func_start CreateEntity_Interactable020
-CreateEntity_Interactable020: @ 0x08023F94
+	thumb_func_start CreateEntity_GrindRail_End
+CreateEntity_GrindRail_End: @ 0x08023F94
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -16741,7 +16744,7 @@ CreateEntity_Interactable020: @ 0x08023F94
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _08023FEC @ =sub_8023C88
+	ldr r0, _08023FEC @ =Task_GrindRailEnd
 	movs r2, #0x90
 	lsls r2, r2, #4
 	movs r1, #0
@@ -16775,12 +16778,12 @@ CreateEntity_Interactable020: @ 0x08023F94
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08023FEC: .4byte sub_8023C88
+_08023FEC: .4byte Task_GrindRailEnd
 _08023FF0: .4byte 0x03000004
 _08023FF4: .4byte 0x03000008
 
-	thumb_func_start CreateEntity_Interactable021
-CreateEntity_Interactable021: @ 0x08023FF8
+	thumb_func_start CreateEntity_CommonThinPlatform
+CreateEntity_CommonThinPlatform: @ 0x08023FF8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8

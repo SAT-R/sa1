@@ -8411,7 +8411,7 @@ _0802C37E:
 	strh r0, [r4]
 	ldrh r0, [r7]
 	lsls r0, r0, #2
-	ldr r1, _0802C460 @ =gUnknown_0848728E
+	ldr r1, _0802C460 @ =gUnknown_0848728C+0x2
 	adds r0, r0, r1
 	ldrh r0, [r0]
 	ldr r2, _0802C464 @ =0x03000064
@@ -8496,7 +8496,7 @@ _0802C450: .4byte 0x03000058
 _0802C454: .4byte 0x0300005A
 _0802C458: .4byte 0x0300005C
 _0802C45C: .4byte gUnknown_0848728C
-_0802C460: .4byte gUnknown_0848728E
+_0802C460: .4byte gUnknown_0848728C+0x2
 _0802C464: .4byte 0x03000064
 _0802C468: .4byte 0x03000066
 _0802C46C: .4byte 0x0300000C

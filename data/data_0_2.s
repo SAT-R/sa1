@@ -58,11 +58,7 @@ gUnknown_0848722C:
 
     .global gUnknown_0848728C
 gUnknown_0848728C:
-    .incbin "baserom.gba", 0x0048728C, 0x2
-
-    .global gUnknown_0848728E
-gUnknown_0848728E:
-    .incbin "baserom.gba", 0x0048728E, 0x36
+    .incbin "baserom.gba", 0x0048728C, 0x38
 
     .global gUnknown_084872C4
 gUnknown_084872C4:
