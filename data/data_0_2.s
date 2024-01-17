@@ -1,13 +1,5 @@
 	.section .rodata
 
-    .global gObjTiles_4bpp
-gObjTiles_4bpp:
-    .incbin "baserom.gba", 0x00121F74, 0x34A200
-
-    .global gObjTiles_8bpp
-gObjTiles_8bpp:
-    .incbin "baserom.gba", 0x0046C174, 0x1AE80
-
     .global gUnknown_08486FF4
 gUnknown_08486FF4:
     .incbin "baserom.gba", 0x00486FF4, 0x40
@@ -86,4 +78,32 @@ gUnknown_08487310:
 
     .global gUnknown_08487330
 gUnknown_08487330:
-    .incbin "baserom.gba", 0x00487330, 0x5674
+    .incbin "baserom.gba", 0x00487330, 0x28
+
+    .global gUnknown_08487358
+gUnknown_08487358:
+    .incbin "baserom.gba", 0x00487358, 0x864
+    
+    .global gUnknown_08487BBC
+gUnknown_08487BBC:
+    .incbin "baserom.gba", 0x00487BBC, 0xB70
+    
+    .global gUnknown_0848872C
+gUnknown_0848872C:
+    .incbin "baserom.gba", 0x0048872C, 0xBDC
+    
+    .global gUnknown_08489308
+gUnknown_08489308:
+    .incbin "baserom.gba", 0x00489308, 0xC54
+    
+    .global gUnknown_08489F5C
+gUnknown_08489F5C:
+    .incbin "baserom.gba", 0x00489F5C, 0xE58
+    
+    .global gUnknown_0848ADB4
+gUnknown_0848ADB4:
+    .incbin "baserom.gba", 0x0048ADB4, 0xCCC
+
+    .global gUnknown_0848BA80
+gUnknown_0848BA80:
+    .incbin "baserom.gba", 0x0048BA80, 0xF24

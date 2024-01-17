@@ -8,7 +8,17 @@ gUnknown_087BF8CC:
 
     .global gUnknown_087BF8DC
 gUnknown_087BF8DC:
-    .incbin "baserom.gba", 0x007BF8DC, 0x3C
+    .4byte gUnknown_08487358
+    .4byte gUnknown_08487BBC
+    .4byte gUnknown_0848872C
+    .4byte gUnknown_08489308
+    .4byte gUnknown_08489F5C
+    .4byte gUnknown_0848ADB4
+    .4byte gUnknown_0848BA80
+    .ascii "CODRED\0\0"
+    .ascii "NIMDA \0\0"
+    .ascii "CIRCAM\0\0"
+    .ascii "HAPTIM\0\0"
 
 @@@
 @@@ Compressed Input-recordings for Demo playback

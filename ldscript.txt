@@ -73,6 +73,7 @@ SECTIONS {
         build/sa1/src/data/sprite_dimensions.o(.rodata);
         build/sa1/src/data/oam_data.o(.rodata);
         build/sa1/src/data/obj_palettes.o(.rodata);
+        build/sa1/data/obj_gfx.o(.rodata);
         build/sa1/data/data_0_2.o(.rodata);
         build/sa1/src/data/tilemaps_special_stage.o(.rodata);
         build/sa1/src/data/tilemaps_special_stage.o(.data);
