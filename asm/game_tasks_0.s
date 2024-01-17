@@ -73,7 +73,7 @@ Task_801C770: @ 0x0801C770
 	lsls r1, r1, #0x15
 	cmp r0, r1
 	bne _0801C792
-	ldr r0, _0801C7E4 @ =sub_801C810
+	ldr r0, _0801C7E4 @ =Task_801C810
 	str r0, [r3, #8]
 _0801C792:
 	ldr r1, _0801C7E8 @ =gBldRegs
@@ -116,7 +116,7 @@ _0801C792:
 	bx r0
 	.align 2, 0
 _0801C7E0: .4byte gCurTask
-_0801C7E4: .4byte sub_801C810
+_0801C7E4: .4byte Task_801C810
 _0801C7E8: .4byte gBldRegs
 _0801C7EC: .4byte gWinRegs
 _0801C7F0: .4byte 0x00001190
@@ -128,8 +128,8 @@ _0801C804: .4byte gHBlankCallbacks
 _0801C808: .4byte gNumHBlankCallbacks
 _0801C80C: .4byte sub_801C9C0
 
-	thumb_func_start sub_801C810
-sub_801C810: @ 0x0801C810
+	thumb_func_start Task_801C810
+Task_801C810: @ 0x0801C810
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -181,7 +181,7 @@ sub_801C810: @ 0x0801C810
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _0801C87A
-	ldr r0, _0801C8CC @ =sub_801C8D4
+	ldr r0, _0801C8CC @ =Task_801C8D4
 	str r0, [r7, #8]
 _0801C87A:
 	ldr r1, _0801C8D0 @ =gUnknown_03005048
@@ -216,11 +216,11 @@ _0801C8BC: .4byte gFlags
 _0801C8C0: .4byte gHBlankCallbacks
 _0801C8C4: .4byte gNumHBlankCallbacks
 _0801C8C8: .4byte sub_801C9C0
-_0801C8CC: .4byte sub_801C8D4
+_0801C8CC: .4byte Task_801C8D4
 _0801C8D0: .4byte gUnknown_03005048
 
-	thumb_func_start sub_801C8D4
-sub_801C8D4: @ 0x0801C8D4
+	thumb_func_start Task_801C8D4
+Task_801C8D4: @ 0x0801C8D4
 	push {r4, r5, lr}
 	ldr r0, _0801C910 @ =gCurTask
 	ldr r3, [r0]
