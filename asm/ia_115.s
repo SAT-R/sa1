@@ -432,7 +432,7 @@ _0801BE18:
 	adds r1, r1, r2
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801FED0
+	bl CreateDustCloud
 	mov r0, sl
 	ldr r1, [r0]
 	ldr r0, _0801BE98 @ =sub_801C2FC
@@ -708,7 +708,7 @@ _0801C05A:
 	adds r1, r1, r4
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801FED0
+	bl CreateDustCloud
 	ldr r0, _0801C0A8 @ =gCurTask
 	ldr r1, [r0]
 	ldr r0, _0801C0AC @ =sub_801C130

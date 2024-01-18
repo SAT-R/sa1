@@ -4106,7 +4106,7 @@ _0800B520:
 	asrs r4, r4, #0x10
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_801FED0
+	bl CreateDustCloud
 	adds r0, r5, #0
 	adds r1, r4, #0
 	bl sub_8054954
@@ -4385,7 +4385,7 @@ _0800B742:
 	asrs r5, r5, #0x10
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_801FED0
+	bl CreateDustCloud
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl sub_8054954

@@ -19,6 +19,8 @@
 #define SA1_ANIM_GAMIGAMI  404
 #define SA1_ANIM_RHINOTANK 405
 #define SA1_ANIM_KEROKERO  406
+// Defeating enemies / opening item boxes
+#define SA1_ANIM_DUST_CLOUD 407
 
 #define SA1_ANIM_SENBON   411
 #define SA1_ANIM_TENTOU   412

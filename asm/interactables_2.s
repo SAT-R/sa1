@@ -60621,7 +60621,7 @@ sub_80917F0: @ 0x080917F0
 	bne _080918AC
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_801FED0
+	bl CreateDustCloud
 	movs r0, #0x8a
 	bl m4aSongNumStart
 	ldr r1, _080918A4 @ =gUnknown_0300120C
@@ -60768,7 +60768,7 @@ _0809197E:
 	blt _08091960
 	ldr r0, [sp, #0xc]
 	ldr r1, [sp, #0x10]
-	bl sub_801FED0
+	bl CreateDustCloud
 	movs r0, #0x8a
 	bl m4aSongNumStart
 	ldr r1, _080919F0 @ =gUnknown_0300120C

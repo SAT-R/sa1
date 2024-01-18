@@ -1,4 +1,7 @@
 #ifndef GUARD_CONSTANTS_SONGS_H
 #define GUARD_CONSTANTS_SONGS_H
 
+#define SFX_SELECT 108
+#define SFX_RING   117
+
 #endif
