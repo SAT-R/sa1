@@ -5879,8 +5879,8 @@ _080779E0: .4byte 0x0300002D
 _080779E4: .4byte 0x0300002C
 _080779E8: .4byte sub_8077674
 
-	thumb_func_start CreateEntity_Interactable044
-CreateEntity_Interactable044: @ 0x080779EC
+	thumb_func_start CreateEntity_WallPole_Left
+CreateEntity_WallPole_Left: @ 0x080779EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -6031,8 +6031,8 @@ _08077AD2:
 	.align 2, 0
 _08077B20: .4byte 0x0300002C
 
-	thumb_func_start CreateEntity_Interactable045
-CreateEntity_Interactable045: @ 0x08077B24
+	thumb_func_start CreateEntity_WallPole_Right
+CreateEntity_WallPole_Right: @ 0x08077B24
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -47361,8 +47361,8 @@ sub_808B254: @ 0x0808B254
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable081
-CreateEntity_Interactable081: @ 0x0808B270
+	thumb_func_start CreateEntity_MovingSpring
+CreateEntity_MovingSpring: @ 0x0808B270
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -50164,8 +50164,8 @@ _0808C73C: .4byte gUnknown_03005088
 _0808C740: .4byte gCamera
 _0808C744: .4byte gCurTask
 
-	thumb_func_start CreateEntity_Interactable083
-CreateEntity_Interactable083: @ 0x0808C748
+	thumb_func_start CreateEntity_HangBar
+CreateEntity_HangBar: @ 0x0808C748
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -58532,8 +58532,8 @@ sub_80907C0: @ 0x080907C0
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_SpikedBarrel
-CreateEntity_SpikedBarrel: @ 0x080907DC
+	thumb_func_start CreateEntity_Interactable093
+CreateEntity_Interactable093: @ 0x080907DC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -64510,8 +64510,8 @@ TaskDestructor_SpecialSpring: @ 0x08093704
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable103
-CreateEntity_Interactable103: @ 0x08093718
+	thumb_func_start CreateEntity_SpikedBarrel
+CreateEntity_SpikedBarrel: @ 0x08093718
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -64531,7 +64531,7 @@ CreateEntity_Interactable103: @ 0x08093718
 	lsrs r0, r0, #0x18
 	mov r8, r0
 	ldr r0, _080937EC @ =sub_809380C
-	ldr r1, _080937F0 @ =sub_8093894
+	ldr r1, _080937F0 @ =TaskDestructor_Interactable103
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r2, #0x80
@@ -64618,7 +64618,7 @@ CreateEntity_Interactable103: @ 0x08093718
 	bx r0
 	.align 2, 0
 _080937EC: .4byte sub_809380C
-_080937F0: .4byte sub_8093894
+_080937F0: .4byte TaskDestructor_Interactable103
 _080937F4: .4byte 0x0300000C
 _080937F8: .4byte 0x00000203
 _080937FC: .4byte 0x0300002C
@@ -64695,8 +64695,8 @@ _0809388C:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8093894
-sub_8093894: @ 0x08093894
+	thumb_func_start TaskDestructor_Interactable103
+TaskDestructor_Interactable103: @ 0x08093894
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -64707,8 +64707,8 @@ sub_8093894: @ 0x08093894
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable104
-CreateEntity_Interactable104: @ 0x080938A8
+	thumb_func_start CreateEntity_SmallFallBlock
+CreateEntity_SmallFallBlock: @ 0x080938A8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -67808,8 +67808,8 @@ _08094FC4: .4byte gUnknown_03005AB0
 _08094FC8: .4byte gUnknown_03005088
 _08094FCC: .4byte gCurTask
 
-	thumb_func_start CreateEntity_Interactable108
-CreateEntity_Interactable108: @ 0x08094FD0
+	thumb_func_start CreateEntity_Spring_Hiding
+CreateEntity_Spring_Hiding: @ 0x08094FD0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

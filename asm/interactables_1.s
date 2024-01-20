@@ -1108,8 +1108,8 @@ _0804D9E8: .4byte 0xFFDFFFFF
 _0804D9EC: .4byte gUnknown_030060E0
 _0804D9F0: .4byte gUnknown_03005088
 
-	thumb_func_start CreateEntity_Interactable035
-CreateEntity_Interactable035: @ 0x0804D9F4
+	thumb_func_start CreateEntity_MiniLoop_Base
+CreateEntity_MiniLoop_Base: @ 0x0804D9F4
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -2023,8 +2023,8 @@ _0804E0F8:
 _0804E108: .4byte 0x0000F8C0
 _0804E10C: .4byte gUnknown_03005088
 
-	thumb_func_start CreateEntity_Interactable036
-CreateEntity_Interactable036: @ 0x0804E110
+	thumb_func_start CreateEntity_MiniLoop_StartBoost
+CreateEntity_MiniLoop_StartBoost: @ 0x0804E110
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -2093,8 +2093,8 @@ CreateEntity_Interactable036: @ 0x0804E110
 	.align 2, 0
 _0804E194: .4byte sub_804DF50
 
-	thumb_func_start CreateEntity_Interactable037
-CreateEntity_Interactable037: @ 0x0804E198
+	thumb_func_start CreateEntity_MiniLoop_Exit
+CreateEntity_MiniLoop_Exit: @ 0x0804E198
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -2280,8 +2280,8 @@ _0804E2F2:
 	.align 2, 0
 _0804E300: .4byte gUnknown_03005088
 
-	thumb_func_start CreateEntity_Interactable038
-CreateEntity_Interactable038: @ 0x0804E304
+	thumb_func_start CreateEntity_MiniLoop_Entrance
+CreateEntity_MiniLoop_Entrance: @ 0x0804E304
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}

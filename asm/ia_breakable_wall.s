@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable114
-CreateEntity_Interactable114: @ 0x08027970
+	thumb_func_start CreateEntity_BreakableWall
+CreateEntity_BreakableWall: @ 0x08027970
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

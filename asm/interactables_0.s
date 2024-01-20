@@ -9950,8 +9950,8 @@ _08024D7A:
 	.align 2, 0
 _08024D88: .4byte gCamera
 
-	thumb_func_start CreateEntity_Interactable024
-CreateEntity_Interactable024: @ 0x08024D8C
+	thumb_func_start CreateEntity_Waterfall
+CreateEntity_Waterfall: @ 0x08024D8C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
