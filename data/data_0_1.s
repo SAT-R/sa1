@@ -24,100 +24,100 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_GrindRail_Start     @ 019
     .4byte CreateEntity_GrindRail_End       @ 020
     .4byte CreateEntity_CommonThinPlatform  @ 021
-    .4byte CreateEntity_Interactable022
-    .4byte CreateEntity_Trampoline
-    .4byte CreateEntity_Interactable024
+    .4byte CreateEntity_Interactable022     @
+    .4byte CreateEntity_Trampoline          @ 023
+    .4byte CreateEntity_Interactable024     @
     .4byte CreateEntity_BounceBlock         @ 025
-    .4byte CreateEntity_InclineRamp
-    .4byte CreateEntity_Interactable027
-    .4byte CreateEntity_HalfPipeStart
-    .4byte CreateEntity_HalfPipeEnd
-    .4byte CreateEntity_Interactable030
+    .4byte CreateEntity_InclineRamp         @
+    .4byte CreateEntity_Interactable027     @
+    .4byte CreateEntity_HalfPipeStart       @
+    .4byte CreateEntity_HalfPipeEnd         @
+    .4byte CreateEntity_Copse               @ 030
     .4byte CreateEntity_Booster             @ 031
-    .4byte CreateEntity_Interactable032
-    .4byte CreateEntity_Interactable033
-    .4byte CreateEntity_Interactable034
+    .4byte CreateEntity_Interactable032     @
+    .4byte CreateEntity_Interactable033     @
+    .4byte CreateEntity_Interactable034     @
     .4byte CreateEntity_Interactable035     @ Mini Loop Base
     .4byte CreateEntity_Interactable036     @ Mini Loop Start Boost
     .4byte CreateEntity_Interactable037     @ Mini Loop Exit
     .4byte CreateEntity_Interactable038     @ Mini Loop Entrance
-    .4byte CreateEntity_Interactable039
+    .4byte CreateEntity_Interactable039     @
     .4byte CreateEntity_WaterBridge         @ 040
-    .4byte CreateEntity_Interactable041
+    .4byte CreateEntity_Interactable041     @
     .4byte CreateEntity_RedFlag             @ 042
-    .4byte CreateEntity_Interactable043
-    .4byte CreateEntity_Interactable044
-    .4byte CreateEntity_Interactable045
-    .4byte CreateEntity_Interactable046
-    .4byte CreateEntity_Interactable047
-    .4byte CreateEntity_Interactable048
+    .4byte CreateEntity_Interactable043     @
+    .4byte CreateEntity_Interactable044     @
+    .4byte CreateEntity_Interactable045     @
+    .4byte CreateEntity_ForcedIceSlide      @
+    .4byte CreateEntity_Interactable047     @
+    .4byte CreateEntity_Interactable048     @
     .4byte CreateEntity_BumperRound         @ 049
-    .4byte CreateEntity_Interactable050
+    .4byte CreateEntity_Interactable050     @
     .4byte CreateEntity_BumperTriHorizontal @ 051
     .4byte CreateEntity_BumperTriVertical   @ 052
     .4byte CreateEntity_BumperTriBig        @ 053
     .4byte CreateEntity_Flipper             @ 054
     .4byte CreateEntity_Interactable055     @ 055 Platform-Sqaure
-    .4byte CreateEntity_Interactable056
+    .4byte CreateEntity_Interactable056     @
     .4byte CreateEntity_BarrelOfDoomMini    @ 057
     .4byte CreateEntity_SEGA_SONIC_Letter   @ 058
     .4byte CreateEntity_Baloon              @ 059
-    .4byte CreateEntity_Interactable060
-    .4byte CreateEntity_Interactable061
+    .4byte CreateEntity_Interactable060     @
+    .4byte CreateEntity_Interactable061     @
     .4byte CreateEntity_Bowl                @ 062 - Bowl
-    .4byte CreateEntity_Interactable063
-    .4byte CreateEntity_Interactable064
+    .4byte CreateEntity_PanelGate           @ 063
+    .4byte CreateEntity_Interactable064     @
     .4byte CreateEntity_Interactable065     @ 065 Marble track direction
     .4byte CreateEntity_Interactable066     @ 066 Marble track
     .4byte CreateEntity_Interactable067     @ 067 Marble track entrance
     .4byte CreateEntity_Interactable068     @ 068 Marble track exit
     .4byte CreateEntity_ConveyorBelt        @ 069
-    .4byte CreateEntity_Interactable070
-    .4byte CreateEntity_Interactable071
+    .4byte CreateEntity_Interactable070     @
+    .4byte CreateEntity_Interactable071     @
     .4byte CreateEntity_TeleportOrb         @ 072 (Casino Paradise)
-    .4byte CreateEntity_Interactable073
-    .4byte CreateEntity_Interactable074
-    .4byte CreateEntity_HookRail            @ Hook-Rail
+    .4byte CreateEntity_Interactable073     @
+    .4byte CreateEntity_Carousel            @ 074
+    .4byte CreateEntity_HookRail            @ 075 Hook-Rail
     .4byte CreateEntity_SwingingHook        @ 076
     .4byte CreateEntity_SecurityGate        @ 077
     .4byte CreateEntity_SwingRope           @ 078
     .4byte CreateEntity_SteamExhaust        @ 079
     .4byte CreateEntity_CraneClaw           @ 080
-    .4byte CreateEntity_Interactable081
-    .4byte CreateEntity_Interactable082
-    .4byte CreateEntity_Interactable083
-    .4byte CreateEntity_Interactable084
-    .4byte CreateEntity_Interactable085
-    .4byte CreateEntity_Interactable086
-    .4byte CreateEntity_Interactable087
-    .4byte CreateEntity_Interactable088
-    .4byte CreateEntity_Interactable089
-    .4byte CreateEntity_Interactable090
+    .4byte CreateEntity_Interactable081     @ 081 Moving Spring
+    .4byte CreateEntity_IronBall            @ 082
+    .4byte CreateEntity_Interactable083     @
+    .4byte CreateEntity_Interactable084     @ 084 Platform that falls and slides once the player steps on it
+    .4byte CreateEntity_Interactable085     @
+    .4byte CreateEntity_RunWheel            @ 086
+    .4byte CreateEntity_Torch               @ 087
+    .4byte CreateEntity_Lift                @ 088
+    .4byte CreateEntity_Interactable089     @
+    .4byte CreateEntity_Interactable090     @
     .4byte TaskDestructor_FerrisWheel       @ 091
-    .4byte CreateEntity_Interactable092
-    .4byte CreateEntity_Interactable093
-    .4byte CreateEntity_Interactable094
-    .4byte CreateEntity_Interactable095
-    .4byte CreateEntity_Interactable096
-    .4byte CreateEntity_Interactable097
-    .4byte CreateEntity_Interactable098
-    .4byte CreateEntity_Interactable099
-    .4byte CreateEntity_Interactable100
-    .4byte CreateEntity_Interactable101
-    .4byte CreateEntity_SpecialSpring   @ 102
-    .4byte CreateEntity_Interactable103
-    .4byte CreateEntity_Interactable104 @ Small block that falls down after going on it, in Final stage
-    .4byte CreateEntity_Lava            @ 105
-    .4byte CreateEntity_Interactable106 @ Slide
-    .4byte CreateEntity_Interactable107
-    .4byte CreateEntity_Interactable108
-    .4byte CreateEntity_Interactable109
-    .4byte CreateEntity_Interactable110
-    .4byte CreateEntity_Interactable111
-    .4byte CreateEntity_Interactable112
-    .4byte CreateEntity_Interactable113
-    .4byte CreateEntity_Interactable114
-    .4byte CreateEntity_Interactable115
+    .4byte CreateEntity_Boulder             @ 092
+    .4byte CreateEntity_SpikedBarrel        @ 093
+    .4byte CreateEntity_AirBubbles          @ 094
+    .4byte CreateEntity_IceBlock            @ 095
+    .4byte CreateEntity_Interactable096     @
+    .4byte CreateEntity_Interactable097     @
+    .4byte CreateEntity_Interactable098     @
+    .4byte CreateEntity_Interactable099     @
+    .4byte CreateEntity_Interactable100     @
+    .4byte CreateEntity_Interactable101     @
+    .4byte CreateEntity_SpecialSpring       @ 102
+    .4byte CreateEntity_Interactable103     @
+    .4byte CreateEntity_Interactable104     @ Small block that falls down after going on it, in Final stage
+    .4byte CreateEntity_Lava                @ 105
+    .4byte CreateEntity_Track               @ 106
+    .4byte CreateEntity_Interactable107     @
+    .4byte CreateEntity_Interactable108     @
+    .4byte CreateEntity_Interactable109     @
+    .4byte CreateEntity_Interactable110     @
+    .4byte CreateEntity_Interactable111     @
+    .4byte CreateEntity_Interactable112     @
+    .4byte CreateEntity_Interactable113     @
+    .4byte CreateEntity_Interactable114     @
+    .4byte CreateEntity_Interactable115     @
 
     .global gSpriteInits_Enemies
 gSpriteInits_Enemies:   @ 80BB234

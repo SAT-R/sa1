@@ -3658,8 +3658,8 @@ _08076894:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start CreateEntity_Interactable030
-CreateEntity_Interactable030: @ 0x0807689C
+	thumb_func_start CreateEntity_Copse
+CreateEntity_Copse: @ 0x0807689C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -7072,8 +7072,8 @@ sub_8078338: @ 0x08078338
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable046
-CreateEntity_Interactable046: @ 0x0807834C
+	thumb_func_start CreateEntity_ForcedIceSlide
+CreateEntity_ForcedIceSlide: @ 0x0807834C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -26428,8 +26428,8 @@ sub_80813DC: @ 0x080813DC
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable063
-CreateEntity_Interactable063: @ 0x080813F0
+	thumb_func_start CreateEntity_PanelGate
+CreateEntity_PanelGate: @ 0x080813F0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -35306,8 +35306,8 @@ sub_8085554: @ 0x08085554
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable074
-CreateEntity_Interactable074: @ 0x08085568
+	thumb_func_start CreateEntity_Carousel
+CreateEntity_Carousel: @ 0x08085568
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -46198,8 +46198,8 @@ _0808A8EA:
 	.align 2, 0
 _0808A8FC: .4byte gCamera
 
-	thumb_func_start CreateEntity_Interactable088
-CreateEntity_Interactable088: @ 0x0808A900
+	thumb_func_start CreateEntity_Lift
+CreateEntity_Lift: @ 0x0808A900
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -48700,8 +48700,8 @@ sub_808BC7C: @ 0x0808BC7C
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable082
-CreateEntity_Interactable082: @ 0x0808BC90
+	thumb_func_start CreateEntity_IronBall
+CreateEntity_IronBall: @ 0x0808BC90
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -54430,8 +54430,8 @@ sub_808E768: @ 0x0808E768
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable086
-CreateEntity_Interactable086: @ 0x0808E77C
+	thumb_func_start CreateEntity_RunWheel
+CreateEntity_RunWheel: @ 0x0808E77C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -55617,8 +55617,8 @@ sub_808F0B4: @ 0x0808F0B4
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable087
-CreateEntity_Interactable087: @ 0x0808F0C8
+	thumb_func_start CreateEntity_Torch
+CreateEntity_Torch: @ 0x0808F0C8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -58450,8 +58450,8 @@ _08090734: .4byte 0x030000D8
 _08090738: .4byte 0x03000090
 _0809073C: .4byte 0x030000E4
 
-	thumb_func_start CreateEntity_Interactable092
-CreateEntity_Interactable092: @ 0x08090740
+	thumb_func_start CreateEntity_Boulder
+CreateEntity_Boulder: @ 0x08090740
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -58532,8 +58532,8 @@ sub_80907C0: @ 0x080907C0
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable093
-CreateEntity_Interactable093: @ 0x080907DC
+	thumb_func_start CreateEntity_SpikedBarrel
+CreateEntity_SpikedBarrel: @ 0x080907DC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -59315,8 +59315,8 @@ sub_8090DF0: @ 0x08090DF0
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Interactable094
-CreateEntity_Interactable094: @ 0x08090E04
+	thumb_func_start CreateEntity_AirBubbles
+CreateEntity_AirBubbles: @ 0x08090E04
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -60450,8 +60450,8 @@ _080916F6:
 	.align 2, 0
 _080916FC: .4byte 0x0300003C
 
-	thumb_func_start CreateEntity_Interactable095
-CreateEntity_Interactable095: @ 0x08091700
+	thumb_func_start CreateEntity_IceBlock
+CreateEntity_IceBlock: @ 0x08091700
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -65943,8 +65943,8 @@ _08094228: .4byte 0x03000034
 _0809422C: .4byte 0x0300003D
 _08094230: .4byte 0x0300003C
 
-	thumb_func_start CreateEntity_Interactable106
-CreateEntity_Interactable106: @ 0x08094234
+	thumb_func_start CreateEntity_Track
+CreateEntity_Track: @ 0x08094234
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb
