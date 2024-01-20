@@ -118,8 +118,8 @@ _080200A4: .4byte 0x0300002D
 _080200A8: .4byte 0x0300002E
 _080200AC: .4byte 0x03000031
 
-	thumb_func_start CreateEntity_Interactable002
-CreateEntity_Interactable002: @ 0x080200B0
+	thumb_func_start CreateEntity_Spikes_Down
+CreateEntity_Spikes_Down: @ 0x080200B0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1241,8 +1241,8 @@ _08020940:
 _08020950: .4byte gGameMode
 _08020954: .4byte gUnknown_03004FE0
 
-	thumb_func_start CreateEntity_Interactable005
-CreateEntity_Interactable005: @ 0x08020958
+	thumb_func_start CreateEntity_Spikes_HidingUp
+CreateEntity_Spikes_HidingUp: @ 0x08020958
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1484,8 +1484,8 @@ _08020B40: .4byte gUnknown_03005A20
 _08020B44: .4byte gUnknown_03005AB0
 _08020B48: .4byte gUnknown_03005088
 
-	thumb_func_start CreateEntity_Interactable006
-CreateEntity_Interactable006: @ 0x08020B4C
+	thumb_func_start CreateEntity_Spikes_HidingDown
+CreateEntity_Spikes_HidingDown: @ 0x08020B4C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

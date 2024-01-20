@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start Task_Interactable028
-Task_Interactable028: @ 0x0804D178
+	thumb_func_start Task_WallRunStart
+Task_WallRunStart: @ 0x0804D178
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -210,8 +210,8 @@ _0804D2F6:
 	.align 2, 0
 _0804D304: .4byte gUnknown_03005088
 
-	thumb_func_start sub_804D308
-sub_804D308: @ 0x0804D308
+	thumb_func_start Task_WallRunEnd
+Task_WallRunEnd: @ 0x0804D308
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -602,8 +602,8 @@ _0804D5EC:
 	.align 2, 0
 _0804D5FC: .4byte 0xFFFFFA00
 
-	thumb_func_start CreateEntity_Interactable028
-CreateEntity_Interactable028: @ 0x0804D600
+	thumb_func_start CreateEntity_HalfPipeStart
+CreateEntity_HalfPipeStart: @ 0x0804D600
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -615,7 +615,7 @@ CreateEntity_Interactable028: @ 0x0804D600
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _0804D68C @ =Task_Interactable028
+	ldr r0, _0804D68C @ =Task_WallRunStart
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -674,12 +674,12 @@ CreateEntity_Interactable028: @ 0x0804D600
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804D68C: .4byte Task_Interactable028
+_0804D68C: .4byte Task_WallRunStart
 _0804D690: .4byte 0x03000021
 _0804D694: .4byte 0x03000020
 
-	thumb_func_start CreateEntity_Interactable029
-CreateEntity_Interactable029: @ 0x0804D698
+	thumb_func_start CreateEntity_HalfPipeEnd
+CreateEntity_HalfPipeEnd: @ 0x0804D698
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -691,7 +691,7 @@ CreateEntity_Interactable029: @ 0x0804D698
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _0804D724 @ =sub_804D308
+	ldr r0, _0804D724 @ =Task_WallRunEnd
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -750,7 +750,7 @@ CreateEntity_Interactable029: @ 0x0804D698
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804D724: .4byte sub_804D308
+_0804D724: .4byte Task_WallRunEnd
 _0804D728: .4byte 0x03000021
 _0804D72C: .4byte 0x03000020
 
@@ -1178,8 +1178,8 @@ CreateEntity_Interactable035: @ 0x0804D9F4
 	.align 2, 0
 _0804DA78: .4byte sub_804D8E8
 
-	thumb_func_start CreateEntity_Interactable040
-CreateEntity_Interactable040: @ 0x0804DA7C
+	thumb_func_start CreateEntity_WaterBridge
+CreateEntity_WaterBridge: @ 0x0804DA7C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
