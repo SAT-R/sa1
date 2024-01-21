@@ -8221,8 +8221,9 @@ _08023FEC: .4byte Task_GrindRailEnd
 _08023FF0: .4byte 0x03000004
 _08023FF4: .4byte 0x03000008
 
-	thumb_func_start CreateEntity_CommonThinPlatform
-CreateEntity_CommonThinPlatform: @ 0x08023FF8
+@ SA2: CreateEntity_CommonThinPlatform (US: 0x08010984)
+	thumb_func_start CreateEntity_PlatformThin
+CreateEntity_PlatformThin: @ 0x08023FF8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -8771,8 +8772,8 @@ _08024434:
 	.align 2, 0
 _08024444: .4byte gSineTable
 
-	thumb_func_start CreateEntity_Interactable022
-CreateEntity_Interactable022: @ 0x08024448
+	thumb_func_start CreateEntity_PlatformThin_Falling
+CreateEntity_PlatformThin_Falling: @ 0x08024448
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -9950,8 +9951,8 @@ _08024D7A:
 	.align 2, 0
 _08024D88: .4byte gCamera
 
-	thumb_func_start CreateEntity_Waterfall
-CreateEntity_Waterfall: @ 0x08024D8C
+	thumb_func_start CreateEntity_PlatformCrumbling
+CreateEntity_PlatformCrumbling: @ 0x08024D8C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -11001,8 +11002,8 @@ sub_80255DC: @ 0x080255DC
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80255F0
-sub_80255F0: @ 0x080255F0
+	thumb_func_start Task_ToBeContinuedScreen
+Task_ToBeContinuedScreen: @ 0x080255F0
 	push {r4, r5, r6, r7, lr}
 	ldr r3, _08025668 @ =gCurTask
 	ldr r6, [r3]
@@ -11167,8 +11168,8 @@ _08025748: .4byte gUnknown_03004C30
 _0802574C: .4byte gVramGraphicsCopyCursor
 _08025750: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start CreateEntity_Interactable041
-CreateEntity_Interactable041: @ 0x08025754
+	thumb_func_start CreateEntity_ToBeContinuedScreen
+CreateEntity_ToBeContinuedScreen: @ 0x08025754
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r6, r0, #0
@@ -11178,7 +11179,7 @@ CreateEntity_Interactable041: @ 0x08025754
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _0802579C @ =sub_80255F0
+	ldr r0, _0802579C @ =Task_ToBeContinuedScreen
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -11204,7 +11205,7 @@ CreateEntity_Interactable041: @ 0x08025754
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802579C: .4byte sub_80255F0
+_0802579C: .4byte Task_ToBeContinuedScreen
 
 	thumb_func_start sub_80257A0
 sub_80257A0: @ 0x080257A0

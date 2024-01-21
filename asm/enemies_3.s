@@ -2708,8 +2708,8 @@ _0806D4B4:
 	.align 2, 0
 _0806D4C4: .4byte 0xFFFFFBFF
 
-	thumb_func_start CreateEntity_Enemy008
-CreateEntity_Enemy008: @ 0x0806D4C8
+	thumb_func_start CreateEntity_Hanabii
+CreateEntity_Hanabii: @ 0x0806D4C8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -3667,8 +3667,8 @@ sub_806DC5C: @ 0x0806DC5C
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Enemy010
-CreateEntity_Enemy010: @ 0x0806DC70
+	thumb_func_start CreateEntity_Pierrot
+CreateEntity_Pierrot: @ 0x0806DC70
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4173,8 +4173,8 @@ _0806E04C:
 _0806E05C: .4byte 0x0000FF60
 _0806E060: .4byte 0xFFFFFBFF
 
-	thumb_func_start CreateEntity_Enemy009
-CreateEntity_Enemy009: @ 0x0806E064
+	thumb_func_start CreateEntity_Slot
+CreateEntity_Slot: @ 0x0806E064
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -5304,8 +5304,8 @@ _0806E980:
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Enemy011
-CreateEntity_Enemy011: @ 0x0806E990
+	thumb_func_start CreateEntity_Leon
+CreateEntity_Leon: @ 0x0806E990
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -6224,8 +6224,8 @@ _0806F0D4: .4byte sub_803FF84
 _0806F0D8: .4byte gCurTask
 _0806F0DC: .4byte sub_806EAB8
 
-	thumb_func_start CreateEntity_Enemy013
-CreateEntity_Enemy013: @ 0x0806F0E0
+	thumb_func_start CreateEntity_Wamu
+CreateEntity_Wamu: @ 0x0806F0E0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -7460,8 +7460,8 @@ sub_806FA84: @ 0x0806FA84
 	.align 2, 0
 _0806FAAC: .4byte 0x03000088
 
-	thumb_func_start CreateEntity_Enemy012
-CreateEntity_Enemy012: @ 0x0806FAB0
+	thumb_func_start CreateEntity_Mirror
+CreateEntity_Mirror: @ 0x0806FAB0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -8247,8 +8247,8 @@ _080700CC:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start CreateEntity_Enemy014
-CreateEntity_Enemy014: @ 0x080700D4
+	thumb_func_start CreateEntity_Oct
+CreateEntity_Oct: @ 0x080700D4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -10641,8 +10641,8 @@ _080713E0:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start CreateEntity_Enemy007
-CreateEntity_Enemy007: @ 0x080713E8
+	thumb_func_start CreateEntity_Fireball
+CreateEntity_Fireball: @ 0x080713E8
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
@@ -10687,8 +10687,8 @@ CreateEntity_Enemy007: @ 0x080713E8
 	.align 2, 0
 _0807143C: .4byte sub_8070E94
 
-	thumb_func_start CreateEntity_Enemy015
-CreateEntity_Enemy015: @ 0x08071440
+	thumb_func_start CreateEntity_Mole
+CreateEntity_Mole: @ 0x08071440
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -11126,8 +11126,8 @@ _080717B4:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start CreateEntity_Enemy016
-CreateEntity_Enemy016: @ 0x080717BC
+	thumb_func_start CreateEntity_Yukimaru
+CreateEntity_Yukimaru: @ 0x080717BC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -12050,8 +12050,8 @@ sub_8071F28: @ 0x08071F28
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Enemy017
-CreateEntity_Enemy017: @ 0x08071F44
+	thumb_func_start CreateEntity_Yukimaru_Wall
+CreateEntity_Yukimaru_Wall: @ 0x08071F44
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -13483,8 +13483,8 @@ sub_8072AB4: @ 0x08072AB4
 	pop {r0}
 	bx r0
 
-	thumb_func_start CreateEntity_Enemy018
-CreateEntity_Enemy018: @ 0x08072AD0
+	thumb_func_start CreateEntity_Drisame
+CreateEntity_Drisame: @ 0x08072AD0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -14743,8 +14743,8 @@ sub_80734C0: @ 0x080734C0
 	bx r0
 	.align 2, 0
 
-	thumb_func_start CreateEntity_Enemy019
-CreateEntity_Enemy019: @ 0x080734E4
+	thumb_func_start CreateEntity_Kuraa
+CreateEntity_Kuraa: @ 0x080734E4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -15336,8 +15336,9 @@ _0807398C: .4byte gCurTask
 _08073990: .4byte sub_8073608
 _08073994: .4byte 0xFFFFFBFF
 
-	thumb_func_start CreateEntity_Enemy020
-CreateEntity_Enemy020: @ 0x08073998
+@ NOTE: Not the same Pen enemy as SA2 has
+	thumb_func_start CreateEntity_PenMk1
+CreateEntity_PenMk1: @ 0x08073998
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

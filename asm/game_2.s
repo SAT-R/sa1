@@ -6,8 +6,8 @@
 .arm
 
 @ Robo-Knuckles(?)
-	thumb_func_start CreateEntity_Enemy026
-CreateEntity_Enemy026: @ 0x0804E4FC
+	thumb_func_start CreateEntity_MechaKnuckles
+CreateEntity_MechaKnuckles: @ 0x0804E4FC
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}

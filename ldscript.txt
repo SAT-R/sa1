@@ -29,7 +29,7 @@ SECTIONS {
         build/sa1/asm/stage__rings_manager.o(.text);
         build/sa1/asm/stage__entities_manager.o(.text);
         build/sa1/asm/game_0.o(.text);
-        build/sa1/asm/ia_115.o(.text);
+        build/sa1/asm/ia_itembox_chaohunt.o(.text);
         build/sa1/asm/game_tasks_0.o(.text);
         build/sa1/asm/game_tasks_1.o(.text);
         build/sa1/asm/enemy_kiki.o(.text);

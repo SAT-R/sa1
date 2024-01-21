@@ -2,157 +2,158 @@
 
     .global gSpriteInits_Interactables
 gSpriteInits_Interactables:     @ 0x080BB064
-    .4byte CreateEntity_StageGoal           @ 000
-    .4byte CreateEntity_Spikes_Up           @ 001
-    .4byte CreateEntity_Spikes_Down         @ 002
-    .4byte CreateEntity_Spikes_Horizontal   @ 003 - Left
-    .4byte CreateEntity_Spikes_Horizontal   @ 004 - Right
-    .4byte CreateEntity_Spikes_HidingUp     @ 005
-    .4byte CreateEntity_Spikes_HidingDown   @ 006
-    .4byte CreateEntity_Checkpoint          @ 007
-    .4byte CreateEntity_Spring_Normal_Up    @ 008
-    .4byte CreateEntity_Spring_Normal_Down  @ 009
-    .4byte CreateEntity_Spring_Horizontal   @ 010 - Left
-    .4byte CreateEntity_Spring_Horizontal   @ 011 - Right
-    .4byte CreateEntity_Spring_Big_Up       @ 012 - Up-Left
-    .4byte CreateEntity_Spring_Big_Up       @ 013 - Up-Right
-    .4byte CreateEntity_Spring_Small_Up     @ 014 - Up-Left
-    .4byte CreateEntity_Spring_Small_Up     @ 015 - Up-Right
-    .4byte CreateEntity_Decoration          @ 016
-    .4byte CreateEntity_Toggle_PlayerLayer  @ 017
-    .4byte CreateEntity_Toggle_PlayerLayer  @ 018
-    .4byte CreateEntity_GrindRail_Start     @ 019
-    .4byte CreateEntity_GrindRail_End       @ 020
-    .4byte CreateEntity_CommonThinPlatform  @ 021
-    .4byte CreateEntity_Interactable022     @ 022
-    .4byte CreateEntity_Trampoline          @ 023
-    .4byte CreateEntity_Waterfall           @ 024 (Used for "Sand Falls" as well)
-    .4byte CreateEntity_BounceBlock         @ 025
-    .4byte CreateEntity_InclineRamp         @ 026
-    .4byte CreateEntity_Interactable027     @ 027
-    .4byte CreateEntity_HalfPipeStart       @ 028
-    .4byte CreateEntity_HalfPipeEnd         @ 029
-    .4byte CreateEntity_Copse               @ 030
-    .4byte CreateEntity_Booster             @ 031
-    .4byte CreateEntity_Interactable032     @ 032
-    .4byte CreateEntity_Interactable033     @ 033
-    .4byte CreateEntity_Interactable034     @ 034
-    .4byte CreateEntity_MiniLoop_Base       @ 035
-    .4byte CreateEntity_MiniLoop_StartBoost @ 036
-    .4byte CreateEntity_MiniLoop_Exit       @ 037
-    .4byte CreateEntity_MiniLoop_Entrance   @ 038
-    .4byte CreateEntity_Interactable039     @
-    .4byte CreateEntity_WaterBridge         @ 040
-    .4byte CreateEntity_Interactable041     @
-    .4byte CreateEntity_RedFlag             @ 042
-    .4byte CreateEntity_Interactable043     @
-    .4byte CreateEntity_WallPole_Left       @ 044
-    .4byte CreateEntity_WallPole_Right      @ 045
-    .4byte CreateEntity_ForcedIceSlide      @ 046
-    .4byte CreateEntity_Interactable047     @
-    .4byte CreateEntity_Interactable048     @
-    .4byte CreateEntity_BumperRound         @ 049
-    .4byte CreateEntity_Interactable050     @
-    .4byte CreateEntity_BumperTriHorizontal @ 051
-    .4byte CreateEntity_BumperTriVertical   @ 052
-    .4byte CreateEntity_BumperTriBig        @ 053
-    .4byte CreateEntity_Flipper             @ 054
-    .4byte CreateEntity_Interactable055     @ 055 Platform-Sqaure
-    .4byte CreateEntity_Interactable056     @
-    .4byte CreateEntity_BarrelOfDoomMini    @ 057
-    .4byte CreateEntity_SEGA_SONIC_Letter   @ 058
-    .4byte CreateEntity_Baloon              @ 059
-    .4byte CreateEntity_Interactable060     @
-    .4byte CreateEntity_Interactable061     @
-    .4byte CreateEntity_Bowl                @ 062 - Bowl
-    .4byte CreateEntity_PanelGate           @ 063
-    .4byte CreateEntity_Interactable064     @
-    .4byte CreateEntity_Interactable065     @ 065 Marble track direction
-    .4byte CreateEntity_Interactable066     @ 066 Marble track
-    .4byte CreateEntity_Interactable067     @ 067 Marble track entrance
-    .4byte CreateEntity_Interactable068     @ 068 Marble track exit
-    .4byte CreateEntity_ConveyorBelt        @ 069
-    .4byte CreateEntity_Interactable070     @
-    .4byte CreateEntity_Interactable071     @
-    .4byte CreateEntity_TeleportOrb         @ 072 (Casino Paradise)
-    .4byte CreateEntity_Interactable073     @
-    .4byte CreateEntity_Carousel            @ 074
-    .4byte CreateEntity_HookRail            @ 075 Hook-Rail
-    .4byte CreateEntity_SwingingHook        @ 076
-    .4byte CreateEntity_SecurityGate        @ 077
-    .4byte CreateEntity_SwingRope           @ 078
-    .4byte CreateEntity_SteamExhaust        @ 079
-    .4byte CreateEntity_CraneClaw           @ 080
-    .4byte CreateEntity_MovingSpring        @ 081 Moving Spring
-    .4byte CreateEntity_IronBall            @ 082
-    .4byte CreateEntity_HangBar             @ 083
-    .4byte CreateEntity_Interactable084     @ 084 Platform that falls and slides once the player steps on it
-    .4byte CreateEntity_Interactable085     @
-    .4byte CreateEntity_RunWheel            @ 086
-    .4byte CreateEntity_Torch               @ 087
-    .4byte CreateEntity_Lift                @ 088
-    .4byte CreateEntity_Interactable089     @
-    .4byte CreateEntity_Interactable090     @
-    .4byte TaskDestructor_FerrisWheel       @ 091
-    .4byte CreateEntity_Boulder             @ 092
-    .4byte CreateEntity_Interactable093     @ 093
-    .4byte CreateEntity_AirBubbles          @ 094
-    .4byte CreateEntity_IceBlock            @ 095
-    .4byte CreateEntity_Interactable096     @
-    .4byte CreateEntity_Interactable097     @
-    .4byte CreateEntity_Interactable098     @
-    .4byte CreateEntity_Interactable099     @
-    .4byte CreateEntity_Interactable100     @
-    .4byte CreateEntity_Interactable101     @
-    .4byte CreateEntity_SpecialSpring       @ 102
-    .4byte CreateEntity_SpikedBarrel        @ 103
-    .4byte CreateEntity_SmallFallBlock      @ 104
-    .4byte CreateEntity_Lava                @ 105
-    .4byte CreateEntity_Track               @ 106
-    .4byte CreateEntity_Interactable107     @
-    .4byte CreateEntity_Spring_Hiding     @
-    .4byte CreateEntity_Interactable109     @
-    .4byte CreateEntity_Interactable110     @
-    .4byte CreateEntity_Interactable111     @
-    .4byte CreateEntity_Interactable112     @
-    .4byte CreateEntity_Interactable113     @
-    .4byte CreateEntity_BreakableWall       @ 114
-    .4byte CreateEntity_Interactable115     @ 115 Chao
+    .4byte CreateEntity_StageGoal               @ 000
+    .4byte CreateEntity_Spikes_Up               @ 001
+    .4byte CreateEntity_Spikes_Down             @ 002
+    .4byte CreateEntity_Spikes_Horizontal       @ 003 - Left
+    .4byte CreateEntity_Spikes_Horizontal       @ 004 - Right
+    .4byte CreateEntity_Spikes_HidingUp         @ 005
+    .4byte CreateEntity_Spikes_HidingDown       @ 006
+    .4byte CreateEntity_Checkpoint              @ 007
+    .4byte CreateEntity_Spring_Normal_Up        @ 008
+    .4byte CreateEntity_Spring_Normal_Down      @ 009
+    .4byte CreateEntity_Spring_Horizontal       @ 010 - Left
+    .4byte CreateEntity_Spring_Horizontal       @ 011 - Right
+    .4byte CreateEntity_Spring_Big_Up           @ 012 - Up-Left
+    .4byte CreateEntity_Spring_Big_Up           @ 013 - Up-Right
+    .4byte CreateEntity_Spring_Small_Up         @ 014 - Up-Left
+    .4byte CreateEntity_Spring_Small_Up         @ 015 - Up-Right
+    .4byte CreateEntity_Decoration              @ 016
+    .4byte CreateEntity_Toggle_PlayerLayer      @ 017
+    .4byte CreateEntity_Toggle_PlayerLayer      @ 018
+    .4byte CreateEntity_GrindRail_Start         @ 019
+    .4byte CreateEntity_GrindRail_End           @ 020
+    .4byte CreateEntity_PlatformThin            @ 021
+    .4byte CreateEntity_PlatformThin_Falling    @ 022
+    .4byte CreateEntity_Trampoline              @ 023
+    .4byte CreateEntity_PlatformCrumbling       @ 024
+    .4byte CreateEntity_BounceBlock             @ 025
+    .4byte CreateEntity_InclineRamp             @ 026
+    .4byte CreateEntity_Waterfall               @ 027 (Only particles, used for "Sand Falls" as well)
+    .4byte CreateEntity_HalfPipeStart           @ 028
+    .4byte CreateEntity_HalfPipeEnd             @ 029
+    .4byte CreateEntity_Copse                   @ 030
+    .4byte CreateEntity_Booster                 @ 031
+    .4byte CreateEntity_Booster_SlightLeft      @ 032
+    .4byte CreateEntity_Booster_SlightRight     @ 033
+    .4byte CreateEntity_Interactable034         @ 034
+    .4byte CreateEntity_MiniLoop_Base           @ 035
+    .4byte CreateEntity_MiniLoop_StartBoost     @ 036
+    .4byte CreateEntity_MiniLoop_Exit           @ 037
+    .4byte CreateEntity_MiniLoop_Entrance       @ 038
+    .4byte CreateEntity_Interactable039         @ 039
+    .4byte CreateEntity_WaterBridge             @ 040
+    .4byte CreateEntity_ToBeContinuedScreen     @ 041
+    .4byte CreateEntity_RedFlag                 @ 042
+    .4byte CreateEntity_Interactable043         @ 043
+    .4byte CreateEntity_WallPole_Left           @ 044
+    .4byte CreateEntity_WallPole_Right          @ 045
+    .4byte CreateEntity_ForcedIceSlide          @ 046
+    .4byte CreateEntity_Booster_Wall            @ 047
+    .4byte CreateEntity_BumperHexagon           @ 048
+    .4byte CreateEntity_BumperRound_LinearMov   @ 049
+    .4byte CreateEntity_BumperRound_CircularMov @ 050
+    .4byte CreateEntity_BumperTriHorizontal     @ 051
+    .4byte CreateEntity_BumperTriVertical       @ 052
+    .4byte CreateEntity_BumperTriBig            @ 053
+    .4byte CreateEntity_Flipper                 @ 054
+    .4byte CreateEntity_Platform_Square         @ 055
+    .4byte CreateEntity_Flipper_Vertical        @ 056
+    .4byte CreateEntity_BarrelOfDoomMini        @ 057
+    .4byte CreateEntity_SEGA_SONIC_Letter       @ 058
+    .4byte CreateEntity_Baloon                  @ 059
+    .4byte CreateEntity_ShipSwing               @ 060
+    .4byte CreateEntity_Platform_Spiked         @ 061
+    .4byte CreateEntity_Bowl                    @ 062
+    .4byte CreateEntity_PanelGate_Vertical      @ 063
+    .4byte CreateEntity_PanelGate_Horizontal    @ 064
+    .4byte CreateEntity_MarbleTrack_Dir         @ 065
+    .4byte CreateEntity_MarbleTrack_Unk         @ 066
+    .4byte CreateEntity_MarbleTrack_Entrance    @ 067
+    .4byte CreateEntity_MarbleTrack_Exit        @ 068
+    .4byte CreateEntity_ConveyorBelt            @ 069 Also used for snow in Ice Paradise?
+    .4byte CreateEntity_Toggle_PlayerVisibility @ 070 (data[0]: 0 = Visible, 1 = Invisible)
+    .4byte CreateEntity_WallBumper              @ 071
+    .4byte CreateEntity_TeleportOrb             @ 072 (Casino Paradise)
+    .4byte CreateEntity_Flipper_SmallBlue       @ 073
+    .4byte CreateEntity_Carousel                @ 074
+    .4byte CreateEntity_HookRail                @ 075 Hook-Rail
+    .4byte CreateEntity_SwingingHook            @ 076
+    .4byte CreateEntity_SecurityGate            @ 077
+    .4byte CreateEntity_SwingRope               @ 078
+    .4byte CreateEntity_SteamExhaust            @ 079
+    .4byte CreateEntity_CraneClaw               @ 080
+    .4byte CreateEntity_MovingSpring            @ 081 Moving Spring
+    .4byte CreateEntity_IronBall                @ 082
+    .4byte CreateEntity_HangBar                 @ 083
+    .4byte CreateEntity_Interactable084         @ 084 Platform that falls and slides once the player steps on it
+    .4byte CreateEntity_Interactable085         @ 085
+    .4byte CreateEntity_RunWheel                @ 086
+    .4byte CreateEntity_Torch                   @ 087 (Cosmic Angel: Antigravity field elements)
+    .4byte CreateEntity_Lift                    @ 088
+    .4byte CreateEntity_Interactable089         @ 089
+    .4byte CreateEntity_PlayerFloat             @ 090 (data[0]: 0 = Whirlwind, 1 = Antigravity)
+    .4byte CreateEntity_FerrisWheel             @ 091
+    .4byte CreateEntity_Boulder                 @ 092
+    .4byte CreateEntity_SpikedBarrel            @ 093
+    .4byte CreateEntity_AirBubbles              @ 094
+    .4byte CreateEntity_IceBlock                @ 095
+    .4byte CreateEntity_Interactable096         @ 096
+    .4byte CreateEntity_Interactable097         @ 097
+    .4byte CreateEntity_UnderwaterLavaPlatform  @ 098
+    .4byte CreateEntity_Interactable099         @ 099
+    .4byte CreateEntity_Booster_Steep           @ 100
+    .4byte CreateEntity_Interactable101         @ 101
+    .4byte CreateEntity_SpecialSpring           @ 102
+    .4byte CreateEntity_SpikedBarrel_ChaoHunt   @ 103
+    .4byte CreateEntity_SmallFallBlock          @ 104
+    .4byte CreateEntity_Lava                    @ 105
+    .4byte CreateEntity_Track                   @ 106
+    .4byte CreateEntity_Interactable107         @ 107
+    .4byte CreateEntity_Spring_Hiding           @ 108
+    .4byte CreateEntity_Interactable109         @ 109
+    .4byte CreateEntity_PipeEntrance            @ 110
+    .4byte CreateEntity_PipeExit                @ 111
+    .4byte CreateEntity_Interactable112         @ 112
+    .4byte CreateEntity_Interactable113         @ 113
+    .4byte CreateEntity_BreakableWall           @ 114
+    .4byte CreateEntity_ItemBox_ChaoHunt        @ 115
 
     .global gSpriteInits_Enemies
 gSpriteInits_Enemies:   @ 80BB234
-    .4byte CreateEntity_Kiki      @ 000 Kiki
-    .4byte CreateEntity_Buzzer    @ 001 Buzzer
-    .4byte CreateEntity_GamiGami  @ 002 GamiGami
-    .4byte CreateEntity_Rhinotank @ 003 Rhinotank
-    .4byte CreateEntity_KeroKero  @ 004 KeroKero
-    .4byte CreateEntity_Senbon    @ 005 Senbon
-    .4byte CreateEntity_Tentou    @ 006 Tentou
-    .4byte CreateEntity_Enemy007  @ 007 Fireball
-    .4byte CreateEntity_Enemy008  @ 008 Hanabii
-    .4byte CreateEntity_Enemy009  @ 009 Slot
-    .4byte CreateEntity_Enemy010  @ 010 Pierrot
-    .4byte CreateEntity_Enemy011  @ 011 Leon
-    .4byte CreateEntity_Enemy012  @ 012 Mirror
-    .4byte CreateEntity_Enemy013  @ 013 Wamu
-    .4byte CreateEntity_Enemy014  @ 014 Oct
-    .4byte CreateEntity_Enemy015  @ 015 Mole
-    .4byte CreateEntity_Enemy016  @ 016 Yukimaru
-    .4byte CreateEntity_Enemy017  @ 017 Yukimaru (sideways)
-    .4byte CreateEntity_Enemy018  @ 018 Drisame
-    .4byte CreateEntity_Enemy019  @ 019 Kuraa
-    .4byte CreateEntity_Enemy020  @ 020 Pen
+    .4byte CreateEntity_Kiki            @ 000 Kiki
+    .4byte CreateEntity_Buzzer          @ 001 Buzzer
+    .4byte CreateEntity_GamiGami        @ 002 GamiGami
+    .4byte CreateEntity_Rhinotank       @ 003 Rhinotank
+    .4byte CreateEntity_KeroKero        @ 004 KeroKero
+    .4byte CreateEntity_Senbon          @ 005 Senbon
+    .4byte CreateEntity_Tentou          @ 006 Tentou
+    .4byte CreateEntity_Fireball        @ 007 Fireball
+    .4byte CreateEntity_Hanabii         @ 008 Hanabii
+    .4byte CreateEntity_Slot            @ 009 Slot
+    .4byte CreateEntity_Pierrot         @ 010 Pierrot
+    .4byte CreateEntity_Leon            @ 011 Leon
+    .4byte CreateEntity_Mirror          @ 012 Mirror
+    .4byte CreateEntity_Wamu            @ 013 Wamu
+    .4byte CreateEntity_Oct             @ 014 Oct
+    .4byte CreateEntity_Mole            @ 015 Mole
+    .4byte CreateEntity_Yukimaru        @ 016 Yukimaru
+    .4byte CreateEntity_Yukimaru_Wall   @ 017 Yukimaru on a wall
+    .4byte CreateEntity_Drisame         @ 018 Drisame
+    .4byte CreateEntity_Kuraa           @ 019 Kuraa
+    .4byte CreateEntity_PenMk1          @ 020 Pen
+
     .4byte CreateEntity_EggHammerTank_Intro @ 021 Boss 1 Intro
-    .4byte CreateEntity_EggHammerTank @ 022 Boss 1
-    .4byte CreateEntity_Enemy023  @ 023 Boss 2 A
-    .4byte CreateEntity_Enemy024  @ 024 Boss 2 B
-    .4byte CreateEntity_Enemy025  @ 025 Boss 4
-    .4byte CreateEntity_Enemy026  @ 026 Boss Robo-Knuckles
-    .4byte CreateEntity_Enemy027  @ 027 Boss 6
-    .4byte CreateEntity_Enemy028  @ 028 Boss Egg Wrecker (from Green Hill)
-    .4byte CreateEntity_Enemy029  @ 029 Boss Egg Drillster (from Emerald Hill)
-    .4byte CreateEntity_Enemy030  @ 030 Final Boss
-    .4byte CreateEntity_SuperEggRobot  @ 031 Extra Boss
+    .4byte CreateEntity_EggHammerTank       @ 022 Boss 1
+    .4byte CreateEntity_EggPress            @ 023 Boss 2
+    .4byte CreateEntity_EggBall             @ 024 Boss 3
+    .4byte CreateEntity_EggSpider           @ 025 Boss 4
+    .4byte CreateEntity_MechaKnuckles       @ 026 Boss 5
+    .4byte CreateEntity_EggSnake            @ 027 Boss 6
+    .4byte CreateEntity_EggWrecker          @ 028 Boss Egg Wrecker (Green Hill)
+    .4byte CreateEntity_EggDrillster        @ 029 Boss Egg Drillster (Emerald Hill)
+    .4byte CreateEntity_EggX                @ 030 Final Boss
+    .4byte CreateEntity_SuperEggRobot       @ 031 Extra Boss
 
     .global enemyDefeatScores
 enemyDefeatScores: @ 0x080BB2B4
@@ -175,10 +176,10 @@ gSpriteInits_InteractablesMultiplayer:
     .4byte CreateEntity_Spring_Big_Up @ 011
     .4byte CreateEntity_Toggle_PlayerLayer @ 012
     .4byte CreateEntity_Toggle_PlayerLayer @ 013
-    .4byte CreateEntity_CommonThinPlatform @ 014
-    .4byte CreateEntity_Interactable022 @ 015
+    .4byte CreateEntity_PlatformThin @ 014
+    .4byte CreateEntity_PlatformThin_Falling @ 015
     .4byte CreateEntity_WaterBridge @ 016
-    .4byte CreateEntity_Interactable115 @ 017
+    .4byte CreateEntity_ItemBox_ChaoHunt @ 017
 
     .global gUnknown_080BB308
 gUnknown_080BB308:
