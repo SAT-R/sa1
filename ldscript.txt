@@ -40,7 +40,13 @@ SECTIONS {
         build/sa1/asm/boss_1.o(.text);
         build/sa1/asm/ia_breakable_wall.o(.text);
         build/sa1/asm/game_1.o(.text);
-        build/sa1/asm/interactables_1.o(.text);
+        build/sa1/asm/ia_half_pipe.o(.text);
+        build/sa1/asm/ia_034.o(.text);
+        build/sa1/asm/ia_mini_loop_base.o(.text);
+        build/sa1/asm/ia_water_bridge.o(.text);
+        build/sa1/asm/ia_043.o(.text);
+        build/sa1/asm/ia_mini_loop.o(.text);
+        build/sa1/asm/ia_039.o(.text);
         build/sa1/asm/game_2.o(.text);
         build/sa1/asm/enemies_3.o(.text);
         build/sa1/asm/interactables_2.o(.text);

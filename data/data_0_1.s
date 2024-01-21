@@ -106,7 +106,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Interactable101         @ 101
     .4byte CreateEntity_SpecialSpring           @ 102
     .4byte CreateEntity_SpikedBarrel_ChaoHunt   @ 103
-    .4byte CreateEntity_SmallFallBlock          @ 104
+    .4byte CreateEntity_SmallFallBlock          @ 104 (X-Zone)
     .4byte CreateEntity_Lava                    @ 105
     .4byte CreateEntity_Track                   @ 106
     .4byte CreateEntity_Interactable107         @ 107
