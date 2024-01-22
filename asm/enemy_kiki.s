@@ -297,7 +297,7 @@ _0801D62A:
 	.align 2, 0
 _0801D634: .4byte gCurTask
 _0801D638:
-	ldr r0, _0801D64C @ =gUnknown_03005A20
+	ldr r0, _0801D64C @ =gPlayer
 	ldr r0, [r0]
 	asrs r0, r0, #8
 	cmp r0, r4
@@ -308,7 +308,7 @@ _0801D638:
 	str r0, [r6, #0x10]
 	b _0801D664
 	.align 2, 0
-_0801D64C: .4byte gUnknown_03005A20
+_0801D64C: .4byte gPlayer
 _0801D650: .4byte 0xFFFFFBFF
 _0801D654:
 	ldr r0, [r6, #0x10]
@@ -427,7 +427,7 @@ _0801D72A:
 	.align 2, 0
 _0801D738: .4byte gCurTask
 _0801D73C:
-	ldr r0, _0801D750 @ =gUnknown_03005A20
+	ldr r0, _0801D750 @ =gPlayer
 	ldr r0, [r0]
 	asrs r0, r0, #8
 	cmp r0, r5
@@ -438,7 +438,7 @@ _0801D73C:
 	str r0, [r4, #0x10]
 	b _0801D768
 	.align 2, 0
-_0801D750: .4byte gUnknown_03005A20
+_0801D750: .4byte gPlayer
 _0801D754: .4byte 0xFFFFFBFF
 _0801D758:
 	ldr r0, [r4, #0x10]
@@ -545,7 +545,7 @@ CreateKikiProjectile: @ 0x0801D7F8
 	strh r4, [r5, #0x30]
 	strh r4, [r5, #0x36]
 	strh r6, [r5, #0x38]
-	ldr r0, _0801D864 @ =gUnknown_03005A20
+	ldr r0, _0801D864 @ =gPlayer
 	ldr r0, [r0]
 	asrs r1, r0, #8
 	lsls r0, r6, #0x10
@@ -573,7 +573,7 @@ CreateKikiProjectile: @ 0x0801D7F8
 	b _0801D88C
 	.align 2, 0
 _0801D860: .4byte Task_KikiProjMain
-_0801D864: .4byte gUnknown_03005A20
+_0801D864: .4byte gPlayer
 _0801D868: .4byte 0x0000FFC4
 _0801D86C:
 	subs r1, r1, r0
@@ -874,7 +874,7 @@ CreateKikiProjectilePiece: @ 0x0801DA88
 	lsls r0, r0, #8
 	strh r0, [r6, #0x32]
 	strh r1, [r6, #0x30]
-	ldr r0, _0801DAD8 @ =gUnknown_03005A20
+	ldr r0, _0801DAD8 @ =gPlayer
 	ldr r1, [r0]
 	asrs r1, r1, #8
 	lsls r0, r7, #0x10
@@ -886,7 +886,7 @@ CreateKikiProjectilePiece: @ 0x0801DA88
 	.align 2, 0
 _0801DAD0: .4byte Task_ProjPieceMain
 _0801DAD4: .4byte TaskDestructor_KikiProj
-_0801DAD8: .4byte gUnknown_03005A20
+_0801DAD8: .4byte gPlayer
 _0801DADC: .4byte 0x0000FFFF
 _0801DAE0:
 	movs r0, #1
@@ -973,7 +973,7 @@ Task_ProjPieceMain: @ 0x0801DB40
 	movs r6, #0
 	ldrsb r6, [r1, r6]
 	adds r3, r0, r6
-	ldr r2, _0801DC48 @ =gUnknown_03005A20
+	ldr r2, _0801DC48 @ =gPlayer
 	ldr r0, [r2]
 	asrs r0, r0, #8
 	mov r1, ip
@@ -1071,7 +1071,7 @@ _0801DC16:
 _0801DC3C: .4byte gUnknown_03005BEC
 _0801DC40: .4byte gCurTask
 _0801DC44: .4byte 0x0300002C
-_0801DC48: .4byte gUnknown_03005A20
+_0801DC48: .4byte gPlayer
 _0801DC4C: .4byte 0x0300002E
 _0801DC50: .4byte gCamera
 _0801DC54:

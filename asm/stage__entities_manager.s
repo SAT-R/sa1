@@ -1924,7 +1924,7 @@ CreateEnemyDefeatScoreAndManageLives: @ 0x080095CC
 	ldr r2, _08009654 @ =gLevelScore
 	ldr r6, [r2]
 	ldr r1, _08009658 @ =enemyDefeatScores
-	ldr r0, _0800965C @ =gUnknown_03005A20
+	ldr r0, _0800965C @ =gPlayer
 	adds r0, #0x58
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -1961,7 +1961,7 @@ _08009628:
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
 	bl sub_8012728
-	ldr r0, _0800965C @ =gUnknown_03005A20
+	ldr r0, _0800965C @ =gPlayer
 	adds r1, r0, #0
 	adds r1, #0x58
 	ldrb r2, [r1]
@@ -1980,7 +1980,7 @@ _0800964A:
 	.align 2, 0
 _08009654: .4byte gLevelScore
 _08009658: .4byte enemyDefeatScores
-_0800965C: .4byte gUnknown_03005A20
+_0800965C: .4byte gPlayer
 _08009660: .4byte 0x0000C350
 _08009664: .4byte gGameMode
 _08009668: .4byte gNumLives

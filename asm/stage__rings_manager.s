@@ -135,7 +135,7 @@ Task_RingsMgrMain: @ 0x08007E3C
 	sub sp, #0x54
 	movs r0, #0
 	str r0, [sp, #0x1c]
-	ldr r2, _080081B0 @ =gUnknown_03005A20
+	ldr r2, _080081B0 @ =gPlayer
 	ldrb r4, [r2, #0xe]
 	rsbs r0, r4, #0
 	add r1, sp, #4
@@ -191,7 +191,7 @@ _08007E82:
 	mov r0, sp
 	str r0, [sp, #0x24]
 _08007EBE:
-	ldr r1, _080081B0 @ =gUnknown_03005A20
+	ldr r1, _080081B0 @ =gPlayer
 	mov sb, r1
 	cmp r4, #0
 	beq _08007ECA
@@ -595,7 +595,7 @@ _080081A2:
 	mov r5, r8
 	b _080081F0
 	.align 2, 0
-_080081B0: .4byte gUnknown_03005A20
+_080081B0: .4byte gPlayer
 _080081B4: .4byte gUnknown_03005004
 _080081B8: .4byte gCurTask
 _080081BC: .4byte 0x03000030
@@ -700,8 +700,8 @@ _08008284:
 _08008292:
 	mov r5, sb
 	ldrb r1, [r5, #0xa]
-	ldr r3, _0800845C @ =gUnknown_084AE008
-	ldr r2, _08008460 @ =gUnknown_03005090
+	ldr r3, _0800845C @ =gPlayerCharacterIdleAnims
+	ldr r2, _08008460 @ =gMultiplayerCharacters
 	mov r0, sb
 	adds r0, #0x56
 	ldrb r0, [r0]
@@ -798,7 +798,7 @@ _0800833E:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	str r0, [sp, #8]
-	ldr r0, _08008468 @ =gUnknown_03005A20
+	ldr r0, _08008468 @ =gPlayer
 	adds r0, #0x26
 	ldrb r1, [r0]
 	movs r0, #8
@@ -916,7 +916,7 @@ _080083D6:
 	bgt _08008458
 	adds r1, r2, #0
 	subs r1, #0x40
-	ldr r5, _08008468 @ =gUnknown_03005A20
+	ldr r5, _08008468 @ =gPlayer
 	ldr r0, [r5]
 	asrs r3, r0, #8
 	cmp r1, r3
@@ -944,10 +944,10 @@ _08008458:
 	adds r6, #2
 	b _0800852A
 	.align 2, 0
-_0800845C: .4byte gUnknown_084AE008
-_08008460: .4byte gUnknown_03005090
+_0800845C: .4byte gPlayerCharacterIdleAnims
+_08008460: .4byte gMultiplayerCharacters
 _08008464: .4byte gCamera
-_08008468: .4byte gUnknown_03005A20
+_08008468: .4byte gPlayer
 _0800846C: .4byte gGameMode
 _08008470:
 	adds r6, #2

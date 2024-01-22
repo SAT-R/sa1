@@ -177,12 +177,12 @@ Task_Interactable114: @ 0x08027A84
 	mov r8, r4
 	movs r0, #8
 	mov sl, r0
-	ldr r7, _08027AE0 @ =gUnknown_03005A20
+	ldr r7, _08027AE0 @ =gPlayer
 	b _08027AF4
 	.align 2, 0
 _08027AD8: .4byte gCurTask
 _08027ADC: .4byte gUnknown_03005AB0
-_08027AE0: .4byte gUnknown_03005A20
+_08027AE0: .4byte gPlayer
 _08027AE4:
 	adds r5, #1
 	ldr r0, _08027B1C @ =gUnknown_03005088
@@ -292,7 +292,7 @@ _08027BA4:
 	ldr r4, [sp, #8]
 	lsls r0, r4, #0x10
 	asrs r2, r0, #0x10
-	ldr r4, _08027BF0 @ =gUnknown_03005A20
+	ldr r4, _08027BF0 @ =gPlayer
 	str r1, [sp, #0x10]
 	str r0, [sp, #0x14]
 	cmp r5, #0
@@ -324,7 +324,7 @@ _08027BBC:
 	ldrsh r0, [r2, r4]
 	b _08027C04
 	.align 2, 0
-_08027BF0: .4byte gUnknown_03005A20
+_08027BF0: .4byte gPlayer
 _08027BF4: .4byte gUnknown_03005AB0
 _08027BF8: .4byte gCurTask
 _08027BFC: .4byte sub_8027D88

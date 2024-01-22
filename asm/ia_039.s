@@ -20,7 +20,7 @@ Task_Interactable039Main: @ 0x0804E38C
 	adds r4, r1, r0
 	movs r7, #0
 	mov sb, r2
-	ldr r0, _0804E410 @ =gUnknown_03005A20
+	ldr r0, _0804E410 @ =gPlayer
 	mov r8, r0
 	ldr r1, _0804E414 @ =gCamera
 	mov ip, r1
@@ -74,7 +74,7 @@ _0804E3F2:
 	b _0804E45C
 	.align 2, 0
 _0804E40C: .4byte gCurTask
-_0804E410: .4byte gUnknown_03005A20
+_0804E410: .4byte gPlayer
 _0804E414: .4byte gCamera
 _0804E418: .4byte gUnknown_03005AB0
 _0804E41C: .4byte 0xFFFF7FFF

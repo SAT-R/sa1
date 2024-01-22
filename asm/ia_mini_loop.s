@@ -19,7 +19,7 @@ Task_MiniLoop_StartBoost: @ 0x0804DF50
 	adds r4, r1, r0
 	movs r7, #0
 	mov sb, r2
-	ldr r0, _0804DFD0 @ =gUnknown_03005A20
+	ldr r0, _0804DFD0 @ =gPlayer
 	mov r8, r0
 	ldr r1, _0804DFD4 @ =gCamera
 	mov ip, r1
@@ -73,7 +73,7 @@ _0804DFB4:
 	b _0804E016
 	.align 2, 0
 _0804DFCC: .4byte gCurTask
-_0804DFD0: .4byte gUnknown_03005A20
+_0804DFD0: .4byte gPlayer
 _0804DFD4: .4byte gCamera
 _0804DFD8: .4byte gUnknown_03005AB0
 _0804DFDC: .4byte 0xFFFF7FFF
@@ -131,7 +131,7 @@ Task_MiniLoop_Exit: @ 0x0804E028
 	adds r4, r1, r0
 	movs r7, #0
 	mov sb, r2
-	ldr r0, _0804E0AC @ =gUnknown_03005A20
+	ldr r0, _0804E0AC @ =gPlayer
 	mov r8, r0
 	ldr r1, _0804E0B0 @ =gCamera
 	mov ip, r1
@@ -185,7 +185,7 @@ _0804E08E:
 	b _0804E0F8
 	.align 2, 0
 _0804E0A8: .4byte gCurTask
-_0804E0AC: .4byte gUnknown_03005A20
+_0804E0AC: .4byte gPlayer
 _0804E0B0: .4byte gCamera
 _0804E0B4: .4byte gUnknown_03005AB0
 _0804E0B8: .4byte 0xFFFF7FFF
@@ -387,7 +387,7 @@ Task_MiniLoop_Entrance: @ 0x0804E220
 	adds r4, r1, r0
 	movs r7, #0
 	mov sb, r2
-	ldr r0, _0804E2A0 @ =gUnknown_03005A20
+	ldr r0, _0804E2A0 @ =gPlayer
 	mov r8, r0
 	ldr r1, _0804E2A4 @ =gCamera
 	mov ip, r1
@@ -441,7 +441,7 @@ _0804E284:
 	b _0804E2F2
 	.align 2, 0
 _0804E29C: .4byte gCurTask
-_0804E2A0: .4byte gUnknown_03005A20
+_0804E2A0: .4byte gPlayer
 _0804E2A4: .4byte gCamera
 _0804E2A8: .4byte gUnknown_03005AB0
 _0804E2AC: .4byte 0xFFFF7FFF

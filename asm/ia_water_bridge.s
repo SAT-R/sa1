@@ -142,7 +142,7 @@ Task_WaterBridge: @ 0x0804DB78
 	movs r0, #0
 	mov sl, r0
 _0804DB92:
-	ldr r5, _0804DC00 @ =gUnknown_03005A20
+	ldr r5, _0804DC00 @ =gPlayer
 	mov r1, sl
 	cmp r1, #0
 	beq _0804DB9C
@@ -197,7 +197,7 @@ _0804DBDE:
 	b _0804DDA6
 	.align 2, 0
 _0804DBFC: .4byte gCurTask
-_0804DC00: .4byte gUnknown_03005A20
+_0804DC00: .4byte gPlayer
 _0804DC04: .4byte gUnknown_03005AB0
 _0804DC08: .4byte gCamera
 _0804DC0C: .4byte 0xFFFF7FFF

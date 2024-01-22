@@ -309,7 +309,7 @@ _08025C68:
 	subs r0, r0, r1
 	cmp r0, #0xb0
 	bgt _08025CA6
-	ldr r2, _08025CB0 @ =gUnknown_03005A20
+	ldr r2, _08025CB0 @ =gPlayer
 	movs r3, #0
 	strh r3, [r2, #0xc]
 	ldr r0, [r2, #0x10]
@@ -337,7 +337,7 @@ _08025CA6:
 	bx r0
 	.align 2, 0
 _08025CAC: .4byte gCamera
-_08025CB0: .4byte gUnknown_03005A20
+_08025CB0: .4byte gPlayer
 _08025CB4: .4byte 0x000002B6
 _08025CB8: .4byte gCurTask
 _08025CBC: .4byte sub_8025CC4
@@ -590,7 +590,7 @@ sub_8025E6C: @ 0x08025E6C
 	lsls r0, r0, #1
 	cmp r1, r0
 	ble _08025F1C
-	ldr r2, _08025F0C @ =gUnknown_03005A20
+	ldr r2, _08025F0C @ =gPlayer
 	ldr r0, [r2, #0x10]
 	ldr r1, _08025F10 @ =0xFFDFFFFF
 	ands r0, r1
@@ -614,7 +614,7 @@ _08025EFC: .4byte gCurTask
 _08025F00: .4byte 0x0300000C
 _08025F04: .4byte 0x03000044
 _08025F08: .4byte gCamera
-_08025F0C: .4byte gUnknown_03005A20
+_08025F0C: .4byte gPlayer
 _08025F10: .4byte 0xFFDFFFFF
 _08025F14: .4byte gUnknown_030060E0
 _08025F18: .4byte gUnknown_03005A0C
@@ -966,7 +966,7 @@ _080261C2:
 	ldr r1, _08026268 @ =0xFFFFFE7F
 	ands r0, r1
 	str r0, [r6, #0x10]
-	ldr r3, _0802626C @ =gUnknown_03005A20
+	ldr r3, _0802626C @ =gPlayer
 	mov r8, r3
 	ldr r3, [r3, #0x10]
 	movs r0, #0x80
@@ -1020,7 +1020,7 @@ _0802621A:
 _08026260: .4byte 0x0300008C
 _08026264: .4byte 0xFFFFFF00
 _08026268: .4byte 0xFFFFFE7F
-_0802626C: .4byte gUnknown_03005A20
+_0802626C: .4byte gPlayer
 _08026270: .4byte gDispCnt
 _08026274: .4byte 0x00007FFF
 _08026278: .4byte gWinRegs
@@ -1170,7 +1170,7 @@ _08026374:
 	ands r1, r0
 	cmp r1, #0
 	bne _080263E8
-	ldr r0, _080263CC @ =gUnknown_03005A20
+	ldr r0, _080263CC @ =gPlayer
 	ldr r0, [r0, #0x10]
 	movs r1, #0x80
 	ands r0, r1
@@ -1198,7 +1198,7 @@ _08026374:
 	b _080263E8
 	.align 2, 0
 _080263C8: .4byte 0xFFFFFBFF
-_080263CC: .4byte gUnknown_03005A20
+_080263CC: .4byte gPlayer
 _080263D0: .4byte gDispCnt
 _080263D4: .4byte gWinRegs
 _080263D8: .4byte 0x00003F1F
@@ -1610,7 +1610,7 @@ _080266F6:
 	ldr r1, _08026794 @ =0xFFFFFE7F
 	ands r0, r1
 	str r0, [r7, #0x10]
-	ldr r3, _08026798 @ =gUnknown_03005A20
+	ldr r3, _08026798 @ =gPlayer
 	ldr r4, [r3, #0x10]
 	movs r0, #0x80
 	ands r4, r0
@@ -1662,7 +1662,7 @@ _08026764:
 	.align 2, 0
 _08026790: .4byte 0xFFFFFF00
 _08026794: .4byte 0xFFFFFE7F
-_08026798: .4byte gUnknown_03005A20
+_08026798: .4byte gPlayer
 _0802679C: .4byte gDispCnt
 _080267A0: .4byte 0x00007FFF
 _080267A4: .4byte gWinRegs
@@ -2081,7 +2081,7 @@ _08026AF4:
 	ands r1, r0
 	cmp r1, #0
 	bne _08026B68
-	ldr r0, _08026B4C @ =gUnknown_03005A20
+	ldr r0, _08026B4C @ =gPlayer
 	ldr r0, [r0, #0x10]
 	movs r1, #0x80
 	ands r0, r1
@@ -2109,7 +2109,7 @@ _08026AF4:
 	b _08026B68
 	.align 2, 0
 _08026B48: .4byte 0xFFFFFBFF
-_08026B4C: .4byte gUnknown_03005A20
+_08026B4C: .4byte gPlayer
 _08026B50: .4byte gDispCnt
 _08026B54: .4byte gWinRegs
 _08026B58: .4byte 0x00003F1F
@@ -2310,7 +2310,7 @@ _08026CEE:
 	ands r0, r1
 	mov r2, sl
 	str r0, [r2, #0x10]
-	ldr r0, _08026E90 @ =gUnknown_03005A20
+	ldr r0, _08026E90 @ =gPlayer
 	ldr r3, [r0, #0x10]
 	movs r0, #0x80
 	ands r3, r0
@@ -2501,7 +2501,7 @@ _08026E80: .4byte sub_803FD5C
 _08026E84: .4byte 0xFFFFFF00
 _08026E88: .4byte sub_8026ED0
 _08026E8C: .4byte 0xFFFFFE7F
-_08026E90: .4byte gUnknown_03005A20
+_08026E90: .4byte gPlayer
 _08026E94: .4byte gDispCnt
 _08026E98: .4byte 0x00007FFF
 _08026E9C: .4byte gWinRegs
@@ -3323,7 +3323,7 @@ _0802750C:
 	asrs r5, r0, #0x10
 	lsls r0, r2, #0x10
 	asrs r4, r0, #0x10
-	ldr r3, _080275B0 @ =gUnknown_03005A20
+	ldr r3, _080275B0 @ =gPlayer
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -3348,7 +3348,7 @@ _080275A0: .4byte gUnknown_03001204
 _080275A4: .4byte gUnknown_0300120C
 _080275A8: .4byte gCamera
 _080275AC: .4byte gUnknown_030020C0
-_080275B0: .4byte gUnknown_03005A20
+_080275B0: .4byte gPlayer
 _080275B4: .4byte gUnknown_03005088
 _080275B8: .4byte gUnknown_03005AB0
 _080275BC:
@@ -3358,7 +3358,7 @@ _080275BE:
 	lsls r5, r5, #0xc
 	cmp r6, r5
 	bne _080275D4
-	ldr r0, _080275F8 @ =gUnknown_03005A20
+	ldr r0, _080275F8 @ =gPlayer
 	bl sub_800C558
 	mov r1, r8
 	adds r1, #0x20
@@ -3382,7 +3382,7 @@ _080275E6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080275F8: .4byte gUnknown_03005A20
+_080275F8: .4byte gPlayer
 _080275FC: .4byte gUnknown_03005AB0
 
 	thumb_func_start sub_8027600
@@ -3742,7 +3742,7 @@ sub_80278C8: @ 0x080278C8
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r4, r1, r0
-	ldr r0, _08027904 @ =gUnknown_03005A20
+	ldr r0, _08027904 @ =gPlayer
 	ldr r3, [r0, #0x10]
 	movs r0, #0x80
 	ands r3, r0
@@ -3767,7 +3767,7 @@ _080278F2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08027904: .4byte gUnknown_03005A20
+_08027904: .4byte gPlayer
 _08027908: .4byte gDispCnt
 _0802790C: .4byte 0x00007FFF
 _08027910: .4byte gWinRegs

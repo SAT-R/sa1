@@ -30,9 +30,9 @@ gUnknown_084ADF78:
 gUnknown_084ADFC0:
     .incbin "baserom.gba", 0x004ADFC0, 0x48
 
-    .global gUnknown_084AE008
-gUnknown_084AE008:
-    .incbin "baserom.gba", 0x004AE008, 0x8
+    .global gPlayerCharacterIdleAnims
+gPlayerCharacterIdleAnims:
+    .2byte 0, 99, 199, 298
 
     .global gUnknown_084AE010
 gUnknown_084AE010:

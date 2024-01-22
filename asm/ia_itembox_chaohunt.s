@@ -368,7 +368,7 @@ Task_Interactable115_Main0: @ 0x0801BD64
 	mov r3, sl
 	cmp r1, r0
 	beq _0801BE18
-	ldr r1, _0801BE10 @ =gUnknown_03005A20
+	ldr r1, _0801BE10 @ =gPlayer
 	ldr r2, [r1, #0x10]
 	movs r0, #8
 	ands r0, r2
@@ -409,7 +409,7 @@ _0801BDF6:
 _0801BE04: .4byte gCurTask
 _0801BE08: .4byte 0x0300000C
 _0801BE0C: .4byte gUnknown_03005074
-_0801BE10: .4byte gUnknown_03005A20
+_0801BE10: .4byte gPlayer
 _0801BE14: .4byte sub_801C69C
 _0801BE18:
 	mov r3, sb
@@ -442,7 +442,7 @@ _0801BE18:
 	mov r2, sp
 	ldrb r2, [r2, #8]
 	strb r2, [r0]
-	ldr r2, _0801BEA0 @ =gUnknown_03005A20
+	ldr r2, _0801BEA0 @ =gPlayer
 	ldr r1, [r2, #0x10]
 	movs r0, #8
 	ands r0, r1
@@ -465,7 +465,7 @@ _0801BE76:
 	bne _0801BE82
 	b _0801C11A
 _0801BE82:
-	ldr r2, _0801BEA0 @ =gUnknown_03005A20
+	ldr r2, _0801BEA0 @ =gPlayer
 	ldr r0, [r2, #0x10]
 	subs r1, #0x41
 	ands r0, r1
@@ -477,7 +477,7 @@ _0801BE82:
 _0801BE94: .4byte 0x0300007C
 _0801BE98: .4byte sub_801C2FC
 _0801BE9C: .4byte 0x03000080
-_0801BEA0: .4byte gUnknown_03005A20
+_0801BEA0: .4byte gPlayer
 _0801BEA4:
 	ldr r3, _0801BFD8 @ =0x03000080
 	adds r3, r3, r5
@@ -547,7 +547,7 @@ _0801BF04:
 	adds r4, r2, #0
 	cmp r0, #3
 	beq _0801BF34
-	ldr r1, _0801BFF0 @ =gUnknown_03005A20
+	ldr r1, _0801BFF0 @ =gPlayer
 	mov sl, r1
 	cmp r0, #5
 	bne _0801BF80
@@ -555,7 +555,7 @@ _0801BF34:
 	movs r2, #0
 	ldr r1, _0801BFF4 @ =gMultiplayerPlayerTasks
 	ldr r0, [r1]
-	ldr r3, _0801BFF0 @ =gUnknown_03005A20
+	ldr r3, _0801BFF0 @ =gPlayer
 	mov sl, r3
 	cmp r0, #0
 	beq _0801BF80
@@ -645,7 +645,7 @@ _0801BFE0: .4byte 0x0300007E
 _0801BFE4: .4byte sub_803FF84
 _0801BFE8: .4byte gCamera
 _0801BFEC: .4byte gGameMode
-_0801BFF0: .4byte gUnknown_03005A20
+_0801BFF0: .4byte gPlayer
 _0801BFF4: .4byte gMultiplayerPlayerTasks
 _0801BFF8: .4byte 0x04000128
 _0801BFFC:
@@ -881,7 +881,7 @@ _0801C1BC:
 	strb r4, [r1, #1]
 	b _0801C2B6
 _0801C1CA:
-	ldr r2, _0801C1E0 @ =gUnknown_03005A20
+	ldr r2, _0801C1E0 @ =gPlayer
 	adds r3, r2, #0
 	adds r3, #0x26
 	ldrb r0, [r3]
@@ -893,7 +893,7 @@ _0801C1CA:
 	strh r0, [r2, #0x24]
 	b _0801C2B6
 	.align 2, 0
-_0801C1E0: .4byte gUnknown_03005A20
+_0801C1E0: .4byte gPlayer
 _0801C1E4:
 	ldr r1, _0801C1F8 @ =0x03000081
 	adds r0, r5, r1

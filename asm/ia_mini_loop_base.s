@@ -20,7 +20,7 @@ Task_MiniLoop_Base: @ 0x0804D8E8
 	adds r4, r1, r0
 	movs r7, #0
 	mov sb, r2
-	ldr r0, _0804D968 @ =gUnknown_03005A20
+	ldr r0, _0804D968 @ =gPlayer
 	mov r8, r0
 	ldr r1, _0804D96C @ =gCamera
 	mov ip, r1
@@ -74,7 +74,7 @@ _0804D94C:
 	b _0804D9D6
 	.align 2, 0
 _0804D964: .4byte gCurTask
-_0804D968: .4byte gUnknown_03005A20
+_0804D968: .4byte gPlayer
 _0804D96C: .4byte gCamera
 _0804D970: .4byte gUnknown_03005AB0
 _0804D974: .4byte 0xFFFF7FFF

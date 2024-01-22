@@ -504,7 +504,7 @@ _0801CB10:
 	lsls r0, r0, #3
 	strh r0, [r4, #0x12]
 	strh r2, [r4]
-	ldr r1, _0801CB7C @ =gUnknown_084AE008
+	ldr r1, _0801CB7C @ =gPlayerCharacterIdleAnims
 	lsls r0, r6, #1
 	adds r0, r0, r1
 	ldrh r0, [r0]
@@ -542,7 +542,7 @@ _0801CB6C: .4byte 0x00000432
 _0801CB70: .4byte 0x06008000
 _0801CB74: .4byte 0x0600F000
 _0801CB78: .4byte 0x06010000
-_0801CB7C: .4byte gUnknown_084AE008
+_0801CB7C: .4byte gPlayerCharacterIdleAnims
 
 	thumb_func_start Task_801CB80
 Task_801CB80: @ 0x0801CB80

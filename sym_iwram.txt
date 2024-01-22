@@ -147,7 +147,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005084; gSelectedCharacter = .;
 . = 0x00005088; gUnknown_03005088 = .;
 . = 0x0000508C; gUnknown_0300508C = .;
-. = 0x00005090; gUnknown_03005090 = .;
+. = 0x00005090; gMultiplayerCharacters = .;
 . = 0x000050A0; gUnknown_030050A0 = .;
 . = 0x00005120; gStageTime = .;
 /* Maybe gUnknown_03005124 is gMultiplayerCurrentLevel?
@@ -200,7 +200,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005A0C; gUnknown_03005A0C = .;
 . = 0x00005A10; gUnknown_03005A10 = .;
 . = 0x00005A18; gUnknown_03005A18 = .;
-. = 0x00005A20; gUnknown_03005A20 = .;
+. = 0x00005A20; gPlayer = .;
 . = 0x00005A46; gUnknown_03005A46 = .;
 . = 0x00005A47; gUnknown_03005A47 = .;
 . = 0x00005A5C; gUnknown_03005A5C = .;

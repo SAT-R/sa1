@@ -19,7 +19,7 @@ Task_Interactable034: @ 0x0804D730
 	movs r0, #0
 	mov r8, r0
 _0804D746:
-	ldr r5, _0804D7A8 @ =gUnknown_03005A20
+	ldr r5, _0804D7A8 @ =gPlayer
 	mov r1, r8
 	cmp r1, #0
 	beq _0804D750
@@ -68,7 +68,7 @@ _0804D78A:
 	b _0804D848
 	.align 2, 0
 _0804D7A4: .4byte gCurTask
-_0804D7A8: .4byte gUnknown_03005A20
+_0804D7A8: .4byte gPlayer
 _0804D7AC: .4byte gUnknown_03005AB0
 _0804D7B0: .4byte gCamera
 _0804D7B4: .4byte 0xFFFF7FFF
@@ -119,7 +119,7 @@ _0804D7B8:
 	movs r0, #0x80
 	orrs r0, r1
 	strb r0, [r2]
-	ldr r2, _0804D854 @ =gUnknown_03005A20
+	ldr r2, _0804D854 @ =gPlayer
 	ldr r0, [r2, #0x10]
 	ldr r1, _0804D858 @ =0xFFBFFFFF
 	ands r0, r1
@@ -150,7 +150,7 @@ _0804D848:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804D854: .4byte gUnknown_03005A20
+_0804D854: .4byte gPlayer
 _0804D858: .4byte 0xFFBFFFFF
 _0804D85C: .4byte gUnknown_03005088
 

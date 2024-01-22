@@ -214,7 +214,7 @@ _0801F2C6:
 _0801F324:
 	movs r3, #1
 	str r3, [sp, #8]
-	ldr r1, _0801F378 @ =gUnknown_03005A20
+	ldr r1, _0801F378 @ =gPlayer
 	ldr r0, [r1]
 	asrs r3, r0, #8
 	adds r4, r1, #0
@@ -250,7 +250,7 @@ _0801F368: .4byte 0x04000128
 _0801F36C: .4byte gCurTask
 _0801F370: .4byte 0x0300000C
 _0801F374: .4byte gCamera
-_0801F378: .4byte gUnknown_03005A20
+_0801F378: .4byte gPlayer
 _0801F37C: .4byte gCurrentLevel
 _0801F380:
 	cmp r2, #0xa
@@ -424,7 +424,7 @@ _0801F4B8:
 _0801F4D0: .4byte gUnknown_03005A0C
 _0801F4D4: .4byte gCamera
 _0801F4D8:
-	ldr r1, _0801F510 @ =gUnknown_03005A20
+	ldr r1, _0801F510 @ =gPlayer
 	ldr r0, [r1]
 	asrs r2, r0, #8
 	adds r4, r1, #0
@@ -454,7 +454,7 @@ _0801F4FC:
 	blt _0801F572
 	b _0801F564
 	.align 2, 0
-_0801F510: .4byte gUnknown_03005A20
+_0801F510: .4byte gPlayer
 _0801F514: .4byte gCurrentLevel
 _0801F518:
 	cmp r3, #0xa
@@ -685,7 +685,7 @@ _0801F6D2:
 	asrs r0, r0, #0x18
 	cmp r0, #0xa
 	beq _0801F728
-	ldr r2, _0801F724 @ =gUnknown_03005A20
+	ldr r2, _0801F724 @ =gPlayer
 	ldr r0, [r2, #0x10]
 	movs r1, #0x80
 	lsls r1, r1, #0xe
@@ -717,9 +717,9 @@ _0801F714: .4byte 0x0300000C
 _0801F718: .4byte gCamera
 _0801F71C: .4byte gGameMode
 _0801F720: .4byte gCurrentLevel
-_0801F724: .4byte gUnknown_03005A20
+_0801F724: .4byte gPlayer
 _0801F728:
-	ldr r0, _0801F7B4 @ =gUnknown_03005A20
+	ldr r0, _0801F7B4 @ =gPlayer
 	ldr r1, [r0, #0x10]
 	movs r2, #0x80
 	lsls r2, r2, #0xf
@@ -765,7 +765,7 @@ _0801F76C:
 	bhi _0801F782
 	b _0801FA04
 _0801F782:
-	ldr r0, _0801F7B4 @ =gUnknown_03005A20
+	ldr r0, _0801F7B4 @ =gPlayer
 	adds r0, #0x40
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -790,7 +790,7 @@ _0801F79E:
 	bl sub_80573D4
 	b _0801FA1A
 	.align 2, 0
-_0801F7B4: .4byte gUnknown_03005A20
+_0801F7B4: .4byte gPlayer
 _0801F7B8: .4byte gCurrentLevel
 _0801F7BC: .4byte Task_ShowResults
 _0801F7C0: .4byte gUnknown_03005048
@@ -811,7 +811,7 @@ _0801F7D0:
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
 	adds r6, r0, r7
-	ldr r2, _0801F888 @ =gUnknown_03005A20
+	ldr r2, _0801F888 @ =gPlayer
 	adds r4, r2, #0
 	adds r4, #0x26
 	ldrb r1, [r4]
@@ -866,7 +866,7 @@ _0801F824:
 	lsls r0, r0, #4
 	str r0, [r1]
 _0801F852:
-	ldr r2, _0801F888 @ =gUnknown_03005A20
+	ldr r2, _0801F888 @ =gPlayer
 	ldr r0, [r2, #0x10]
 	movs r1, #0x80
 	lsls r1, r1, #0xe
@@ -890,7 +890,7 @@ _0801F852:
 	.align 2, 0
 _0801F880: .4byte gMultiplayerPlayerTasks
 _0801F884: .4byte 0x04000128
-_0801F888: .4byte gUnknown_03005A20
+_0801F888: .4byte gPlayer
 _0801F88C: .4byte gUnknown_03005004
 _0801F890: .4byte gCourseTime
 _0801F894: .4byte gCurTask
@@ -906,7 +906,7 @@ _0801F8A6:
 	ldr r3, _0801F970 @ =gMultiplayerPlayerTasks
 	ldr r5, _0801F974 @ =0x04000128
 	ldr r0, [r5]
-	ldr r2, _0801F978 @ =gUnknown_03005A20
+	ldr r2, _0801F978 @ =gPlayer
 	adds r4, r2, #0
 	adds r4, #0x26
 	ldrb r1, [r4]
@@ -1008,7 +1008,7 @@ _0801F92C:
 	.align 2, 0
 _0801F970: .4byte gMultiplayerPlayerTasks
 _0801F974: .4byte 0x04000128
-_0801F978: .4byte gUnknown_03005A20
+_0801F978: .4byte gPlayer
 _0801F97C: .4byte gUnknown_03005150
 _0801F980: .4byte gUnknown_03005048
 _0801F984:
@@ -1042,7 +1042,7 @@ _0801F9AC:
 	movs r0, #0xe1
 	lsls r0, r0, #4
 	str r0, [r1]
-	ldr r2, _0801F9F4 @ =gUnknown_03005A20
+	ldr r2, _0801F9F4 @ =gPlayer
 	ldr r0, [r2, #0x10]
 	movs r1, #0x80
 	lsls r1, r1, #0xe
@@ -1066,7 +1066,7 @@ _0801F9AC:
 _0801F9E8: .4byte gMultiplayerPlayerTasks
 _0801F9EC: .4byte gUnknown_03005004
 _0801F9F0: .4byte gCourseTime
-_0801F9F4: .4byte gUnknown_03005A20
+_0801F9F4: .4byte gPlayer
 _0801F9F8: .4byte gCurTask
 _0801F9FC: .4byte Task_StageGoal4
 _0801FA00: .4byte gCamera
@@ -1132,7 +1132,7 @@ Task_StageGoal3: @ 0x0801FA28
 	bls _0801FA8C
 	adds r1, r2, #0
 	adds r1, #0x20
-	ldr r0, _0801FAB0 @ =gUnknown_03005A20
+	ldr r0, _0801FAB0 @ =gPlayer
 	ldr r0, [r0]
 	asrs r0, r0, #8
 	cmp r1, r0
@@ -1155,7 +1155,7 @@ _0801FAA0: .4byte gCurTask
 _0801FAA4: .4byte 0x0300000C
 _0801FAA8: .4byte gCamera
 _0801FAAC: .4byte gGameMode
-_0801FAB0: .4byte gUnknown_03005A20
+_0801FAB0: .4byte gPlayer
 _0801FAB4: .4byte 0x0300002C
 
 	thumb_func_start Task_StageGoal4
@@ -1288,7 +1288,7 @@ _0801FB9A:
 	mov r3, r8
 	asrs r1, r3, #0x10
 	adds r1, #0x20
-	ldr r0, _0801FD4C @ =gUnknown_03005A20
+	ldr r0, _0801FD4C @ =gPlayer
 	ldr r0, [r0]
 	asrs r0, r0, #8
 	cmp r1, r0
@@ -1303,7 +1303,7 @@ _0801FBC0:
 	mov r0, sb
 	bl DisplaySprite
 _0801FBCC:
-	ldr r5, _0801FD4C @ =gUnknown_03005A20
+	ldr r5, _0801FD4C @ =gPlayer
 	movs r1, #8
 	ldrsh r0, [r5, r1]
 	cmp r0, #0
@@ -1425,7 +1425,7 @@ _0801FCAA:
 	beq _0801FD18
 	movs r3, #1
 	mov sl, r3
-	ldr r2, _0801FD4C @ =gUnknown_03005A20
+	ldr r2, _0801FD4C @ =gPlayer
 	movs r6, #0
 _0801FCBC:
 	ldr r1, _0801FD44 @ =gMultiplayerPlayerTasks
@@ -1493,7 +1493,7 @@ _0801FD3C: .4byte gUnknown_03005048
 _0801FD40: .4byte gGameMode
 _0801FD44: .4byte gMultiplayerPlayerTasks
 _0801FD48: .4byte gUnknown_03005150
-_0801FD4C: .4byte gUnknown_03005A20
+_0801FD4C: .4byte gPlayer
 _0801FD50: .4byte 0xFFFFFBFF
 _0801FD54: .4byte 0xFFFFFEFF
 _0801FD58: .4byte 0x03000054
@@ -1619,7 +1619,7 @@ Task_StageGoal6: @ 0x0801FE00
 	beq _0801FE68
 	adds r1, r2, #0
 	adds r1, #0x20
-	ldr r0, _0801FE7C @ =gUnknown_03005A20
+	ldr r0, _0801FE7C @ =gPlayer
 	ldr r0, [r0]
 	asrs r0, r0, #8
 	cmp r1, r0
@@ -1641,13 +1641,13 @@ _0801FE68:
 _0801FE70: .4byte gCurTask
 _0801FE74: .4byte 0x0300000C
 _0801FE78: .4byte gCamera
-_0801FE7C: .4byte gUnknown_03005A20
+_0801FE7C: .4byte gPlayer
 _0801FE80: .4byte 0x0300002C
 
 	thumb_func_start Task_ShowResults
 Task_ShowResults: @ 0x0801FE84
 	push {r4, lr}
-	ldr r4, _0801FEC4 @ =gUnknown_03005A20
+	ldr r4, _0801FEC4 @ =gPlayer
 	ldr r0, [r4, #0x10]
 	movs r1, #2
 	ands r0, r1
@@ -1677,6 +1677,6 @@ _0801FEBC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801FEC4: .4byte gUnknown_03005A20
+_0801FEC4: .4byte gPlayer
 _0801FEC8: .4byte 0x0000023F
 _0801FECC: .4byte gCurTask

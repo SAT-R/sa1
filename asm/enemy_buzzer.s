@@ -5,8 +5,6 @@
 .syntax unified
 .arm
 
-@ --- Start of Buzzer ---
-
 	thumb_func_start CreateEntity_Buzzer
 CreateEntity_Buzzer: @ 0x0801DC84
 	push {r4, r5, r6, r7, lr}
@@ -129,7 +127,7 @@ _0801DCB6:
 	movs r0, #0x80
 	lsls r0, r0, #6
 	str r0, [r7, #0x10]
-	ldr r0, _0801DDE8 @ =gUnknown_03005A20
+	ldr r0, _0801DDE8 @ =gPlayer
 	ldr r2, [r0]
 	asrs r2, r2, #8
 	ldrb r1, [r5, #8]
@@ -174,7 +172,7 @@ _0801DDD8: .4byte 0x0300002C
 _0801DDDC: .4byte 0x0300002D
 _0801DDE0: .4byte 0x0300002E
 _0801DDE4: .4byte 0x03000031
-_0801DDE8: .4byte gUnknown_03005A20
+_0801DDE8: .4byte gPlayer
 
 	thumb_func_start Task_BuzzerMain
 Task_BuzzerMain: @ 0x0801DDEC
@@ -380,7 +378,7 @@ _0801DF80:
 	mov sl, r0
 	cmp r0, #0
 	bne _0801E018
-	ldr r4, _0801E028 @ =gUnknown_03005A20
+	ldr r4, _0801E028 @ =gPlayer
 	ldr r0, [r4, #4]
 	asrs r1, r0, #8
 	cmp r6, r1
@@ -458,7 +456,7 @@ _0801E018:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801E028: .4byte gUnknown_03005A20
+_0801E028: .4byte gPlayer
 _0801E02C: .4byte gCurTask
 _0801E030: .4byte Task_801E034
 
@@ -788,8 +786,6 @@ _0801E2AA:
 _0801E2B8: .4byte gCurTask
 _0801E2BC: .4byte Task_BuzzerMain
 
-@ --- End of Buzzer ---
-@ -- Start of Buzzer Projectile ---
 
 	thumb_func_start CreateBuzzerProjectile
 CreateBuzzerProjectile: @ 0x0801E2C0
@@ -819,7 +815,7 @@ CreateBuzzerProjectile: @ 0x0801E2C0
 	movs r5, #0xc0
 	lsls r5, r5, #0x12
 	add r5, r8
-	ldr r1, _0801E3BC @ =gUnknown_03005A20
+	ldr r1, _0801E3BC @ =gPlayer
 	ldr r0, [r1, #4]
 	asrs r0, r0, #8
 	ldr r2, [sp, #4]
@@ -914,7 +910,7 @@ CreateBuzzerProjectile: @ 0x0801E2C0
 	bx r0
 	.align 2, 0
 _0801E3B8: .4byte Task_BuzzerProjectileMain
-_0801E3BC: .4byte gUnknown_03005A20
+_0801E3BC: .4byte gPlayer
 _0801E3C0: .4byte gSineTable
 _0801E3C4: .4byte 0x06012600
 _0801E3C8: .4byte 0x00000199

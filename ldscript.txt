@@ -38,6 +38,13 @@ SECTIONS {
         build/sa1/asm/item_box.o(.text);
         build/sa1/asm/ia_stage_goal.o(.text);
         build/sa1/src/sakit/dust_cloud.o(.text);
+        build/sa1/asm/ia_spikes.o(.text);
+        build/sa1/asm/ia_checkpoint.o(.text);
+        build/sa1/asm/ia_spring.o(.text);
+        build/sa1/asm/ia_decoration.o(.text);
+        build/sa1/asm/ia_toggle_player_layer.o(.text);
+        build/sa1/asm/ia_grind_rail.o(.text);
+        build/sa1/asm/ia_platform_thin.o(.text);
         build/sa1/asm/interactables_0.o(.text);
         build/sa1/asm/boss_1.o(.text);
         build/sa1/asm/ia_breakable_wall.o(.text);
