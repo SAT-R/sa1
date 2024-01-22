@@ -32,7 +32,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Waterfall               @ 027 (Only particles, used for "Sand Falls" as well)
     .4byte CreateEntity_HalfPipeStart           @ 028
     .4byte CreateEntity_HalfPipeEnd             @ 029
-    .4byte CreateEntity_Copse                   @ 030
+    .4byte CreateEntity_Shrubbery               @ 030
     .4byte CreateEntity_Booster                 @ 031
     .4byte CreateEntity_Booster_SlightLeft      @ 032
     .4byte CreateEntity_Booster_SlightRight     @ 033
@@ -71,7 +71,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_MarbleTrack_Unk         @ 066
     .4byte CreateEntity_MarbleTrack_Entrance    @ 067
     .4byte CreateEntity_MarbleTrack_Exit        @ 068
-    .4byte CreateEntity_ConveyorBelt            @ 069 Also used for snow in Ice Paradise?
+    .4byte CreateEntity_ConveyorBelt            @ 069 Also used for snow in Ice Paradise
     .4byte CreateEntity_Toggle_PlayerVisibility @ 070 (data[0]: 0 = Visible, 1 = Invisible)
     .4byte CreateEntity_WallBumper              @ 071
     .4byte CreateEntity_TeleportOrb             @ 072 (Casino Paradise)
@@ -94,7 +94,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Interactable089         @ 089
     .4byte CreateEntity_PlayerFloat             @ 090 (data[0]: 0 = Whirlwind, 1 = Antigravity)
     .4byte CreateEntity_FerrisWheel             @ 091
-    .4byte CreateEntity_Boulder                 @ 092
+    .4byte CreateEntity_BoulderSpawner          @ 092
     .4byte CreateEntity_SpikedBarrel            @ 093
     .4byte CreateEntity_AirBubbles              @ 094
     .4byte CreateEntity_IceBlock                @ 095
@@ -103,7 +103,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_UnderwaterLavaPlatform  @ 098
     .4byte CreateEntity_Interactable099         @ 099
     .4byte CreateEntity_Booster_Steep           @ 100
-    .4byte CreateEntity_Interactable101         @ 101
+    .4byte CreateEntity_Booster_Steep2          @ 101
     .4byte CreateEntity_SpecialSpring           @ 102
     .4byte CreateEntity_SpikedBarrel_ChaoHunt   @ 103
     .4byte CreateEntity_SmallFallBlock          @ 104 (X-Zone)
@@ -114,7 +114,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Interactable109         @ 109
     .4byte CreateEntity_PipeEntrance            @ 110
     .4byte CreateEntity_PipeExit                @ 111
-    .4byte CreateEntity_Interactable112         @ 112
+    .4byte CreateEntity_TrackAirCorner          @ 112
     .4byte CreateEntity_Interactable113         @ 113
     .4byte CreateEntity_BreakableWall           @ 114
     .4byte CreateEntity_ItemBox_ChaoHunt        @ 115

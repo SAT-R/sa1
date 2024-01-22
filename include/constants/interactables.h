@@ -75,7 +75,7 @@
 #define IA__IA071                      71
 #define IA__IA072                      72
 #define IA__IA073                      73
-#define IA__IA074                      74
+#define IA__CAROUSEL                   74
 #define IA__HOOK_RAIL                  75
 #define IA__IA076                      76
 #define IA__IA077                      77
@@ -92,7 +92,7 @@
 #define IA__IA088                      88
 #define IA__IA089                      89
 #define IA__IA090                      90
-#define IA__IA091                      91
+#define IA__FERRIS_WHEEL               91
 #define IA__IA092                      92
 #define IA__IA093                      93
 #define IA__IA094                      94
