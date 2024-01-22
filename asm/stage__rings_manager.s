@@ -937,7 +937,7 @@ _080083D6:
 	blt _08008470
 	adds r0, r2, #0
 	adds r1, r4, #0
-	bl sub_8024B30
+	bl CreateMagneticRing
 	movs r0, #0xfe
 	strb r0, [r6]
 _08008458:

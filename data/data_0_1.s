@@ -43,7 +43,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_MiniLoop_Entrance       @ 038
     .4byte CreateEntity_Interactable039         @ 039
     .4byte CreateEntity_WaterBridge             @ 040
-    .4byte CreateEntity_ToBeContinuedScreen     @ 041
+    .4byte CreateEntity_ToBeContinuedText       @ 041
     .4byte CreateEntity_RedFlag                 @ 042
     .4byte CreateEntity_Interactable043         @ 043
     .4byte CreateEntity_WallPole_Left           @ 044

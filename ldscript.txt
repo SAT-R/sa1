@@ -45,7 +45,10 @@ SECTIONS {
         build/sa1/asm/ia_toggle_player_layer.o(.text);
         build/sa1/asm/ia_grind_rail.o(.text);
         build/sa1/asm/ia_platform_thin.o(.text);
-        build/sa1/asm/interactables_0.o(.text);
+        build/sa1/asm/sakit__ring__magnetic_ring.o(.text);
+        build/sa1/asm/ia_platform_crumbling.o(.text);
+        build/sa1/asm/ia_to_be_continued_text.o(.text);
+        build/sa1/asm/sound_unk.o(.text);
         build/sa1/asm/boss_1.o(.text);
         build/sa1/asm/ia_breakable_wall.o(.text);
         build/sa1/asm/game_1.o(.text);
