@@ -61,7 +61,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_Flipper_Vertical        @ 056
     .4byte CreateEntity_BarrelOfDoomMini        @ 057
     .4byte CreateEntity_SEGA_SONIC_Letter       @ 058
-    .4byte CreateEntity_Baloon                  @ 059
+    .4byte CreateEntity_PartyBalloon            @ 059
     .4byte CreateEntity_ShipSwing               @ 060
     .4byte CreateEntity_Platform_Spiked         @ 061
     .4byte CreateEntity_Bowl                    @ 062
