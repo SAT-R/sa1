@@ -9906,7 +9906,7 @@ _08024D18:
 	asrs r0, r0, #0x10
 	mov r2, sb
 	asrs r1, r2, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 _08024D26:
 	ldr r0, _08024D30 @ =gCurTask
 	ldr r0, [r0]

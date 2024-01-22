@@ -49240,7 +49240,7 @@ _08040E5A:
 	mov r4, r8
 	lsls r1, r4, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	ldr r1, _08040ED8 @ =gRingCount
 	ldrh r6, [r1]
 	adds r0, r6, #1
@@ -49382,7 +49382,7 @@ _08040F7C:
 	mov r4, r8
 	lsls r1, r4, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	ldr r1, _08040FEC @ =gRingCount
 	ldrh r6, [r1]
 	adds r0, r6, #1
@@ -49801,7 +49801,7 @@ _080412BE:
 	mov r4, r8
 	lsls r1, r4, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	ldr r1, _08041348 @ =gRingCount
 	ldrh r6, [r1]
 	adds r0, r6, #1
@@ -49945,7 +49945,7 @@ _080413E8:
 	mov r4, r8
 	lsls r1, r4, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	ldr r1, _08041458 @ =gRingCount
 	ldrh r6, [r1]
 	adds r0, r6, #1
@@ -50427,7 +50427,7 @@ _080417A4:
 	mov r4, r8
 	lsls r1, r4, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	ldr r1, _08041824 @ =gRingCount
 	ldrh r6, [r1]
 	adds r0, r6, #1
@@ -50623,7 +50623,7 @@ _0804192E:
 	lsls r1, r2, #0x10
 	asrs r0, r0, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	movs r0, #0
 	b _08041AAA
 	.align 2, 0
@@ -51066,7 +51066,7 @@ _08041C8E:
 	asrs r0, r0, #0x10
 	lsls r1, r7, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	ldr r1, _08041D10 @ =gRingCount
 	ldrh r6, [r1]
 	adds r0, r6, #1
@@ -51262,7 +51262,7 @@ _08041E1A:
 	lsls r1, r7, #0x10
 	asrs r0, r0, #0x10
 	asrs r1, r1, #0x10
-	bl sub_801E46C
+	bl CreateCollectRingEffect
 	movs r0, #0
 	b _08041F96
 	.align 2, 0
