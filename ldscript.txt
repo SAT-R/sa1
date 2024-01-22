@@ -73,7 +73,7 @@ SECTIONS {
         build/sa1/asm/ia_flipper.o(.text);
         build/sa1/asm/ia_platform_square.o(.text);
         build/sa1/asm/ia_SEGA_SONIC_letter.o(.text);
-        build/sa1/asm/ia_baloon.o(.text);
+        build/sa1/asm/ia_party_balloon.o(.text);
         build/sa1/asm/ia_ship_swing.o(.text);
         build/sa1/asm/ia_platform_spiked.o(.text);
         build/sa1/asm/ia_bowl.o(.text);

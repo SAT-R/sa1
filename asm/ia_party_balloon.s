@@ -5,12 +5,8 @@
 .syntax unified
 .arm
 
-@ NOTE: This is the balloon in Casino Paradise,
-@       NOT the pufferfish-like enemy "Balloon" from SA2!
-@
-@       It is spelled with one 'l' to differentiate the two.
-	thumb_func_start CreateEntity_Baloon
-CreateEntity_Baloon: @ 0x0807EE34
+	thumb_func_start CreateEntity_PartyBalloon
+CreateEntity_PartyBalloon: @ 0x0807EE34
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -27,10 +23,10 @@ CreateEntity_Baloon: @ 0x0807EE34
 	lsrs r5, r5, #0x10
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
-	ldr r0, _0807EED4 @ =Task_Baloon
+	ldr r0, _0807EED4 @ =Task_PartyBalloon
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _0807EED8 @ =TaskDestructor_Baloon
+	ldr r1, _0807EED8 @ =TaskDestructor_PartyBalloon
 	str r1, [sp]
 	movs r1, #0x44
 	movs r3, #0
@@ -90,8 +86,8 @@ CreateEntity_Baloon: @ 0x0807EE34
 	beq _0807EEEA
 	b _0807EEFE
 	.align 2, 0
-_0807EED4: .4byte Task_Baloon
-_0807EED8: .4byte TaskDestructor_Baloon
+_0807EED4: .4byte Task_PartyBalloon
+_0807EED8: .4byte TaskDestructor_PartyBalloon
 _0807EEDC: .4byte 0x0300000C
 _0807EEE0: .4byte 0x03000040
 _0807EEE4:
@@ -148,8 +144,8 @@ _0807EEFE:
 	.align 2, 0
 _0807EF44: .4byte 0x000001E1
 
-	thumb_func_start Task_Baloon
-Task_Baloon: @ 0x0807EF48
+	thumb_func_start Task_PartyBalloon
+Task_PartyBalloon: @ 0x0807EF48
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -450,7 +446,7 @@ _0807F16E:
 	bl m4aSongNumStart
 	ldr r0, _0807F214 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0807F218 @ =Task_Baloon2
+	ldr r0, _0807F218 @ =Task_PartyBalloon2
 	str r0, [r1, #8]
 	ldr r0, _0807F21C @ =gGameMode
 	ldrb r0, [r0]
@@ -495,7 +491,7 @@ _0807F1A0:
 	bl m4aSongNumStart
 	ldr r0, _0807F214 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0807F218 @ =Task_Baloon2
+	ldr r0, _0807F218 @ =Task_PartyBalloon2
 	str r0, [r1, #8]
 _0807F1DC:
 	adds r4, #1
@@ -525,12 +521,12 @@ _0807F208: .4byte gUnknown_03005BE0
 _0807F20C: .4byte gPlayer
 _0807F210: .4byte gUnknown_03005AB0
 _0807F214: .4byte gCurTask
-_0807F218: .4byte Task_Baloon2
+_0807F218: .4byte Task_PartyBalloon2
 _0807F21C: .4byte gGameMode
 _0807F220: .4byte gUnknown_03005088
 
-	thumb_func_start Task_Baloon2
-Task_Baloon2: @ 0x0807F224
+	thumb_func_start Task_PartyBalloon2
+Task_PartyBalloon2: @ 0x0807F224
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0807F294 @ =gCurTask
 	mov ip, r0
@@ -618,8 +614,8 @@ _0807F2D0:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start TaskDestructor_Baloon
-TaskDestructor_Baloon: @ 0x0807F2D8
+	thumb_func_start TaskDestructor_PartyBalloon
+TaskDestructor_PartyBalloon: @ 0x0807F2D8
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
