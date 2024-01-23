@@ -15366,7 +15366,7 @@ CreateEntity_PenMk1: @ 0x08073998
 	cmp r0, #0
 	bne _08073A80
 _080739CC:
-	ldr r0, _08073A98 @ =Task_Enemy020
+	ldr r0, _08073A98 @ =Task_PenMk1Main
 	ldr r1, _08073A9C @ =TaskDestructor_8009670
 	str r1, [sp]
 	movs r1, #0x4c
@@ -15465,7 +15465,7 @@ _08073A80:
 	.align 2, 0
 _08073A90: .4byte gCurrentLevel
 _08073A94: .4byte gUnknown_03005160
-_08073A98: .4byte Task_Enemy020
+_08073A98: .4byte Task_PenMk1Main
 _08073A9C: .4byte TaskDestructor_8009670
 _08073AA0: .4byte 0x0300000C
 _08073AA4: .4byte 0x03000044
@@ -15476,8 +15476,8 @@ _08073AB4: .4byte 0x0300002C
 _08073AB8: .4byte 0x0300002E
 _08073ABC: .4byte 0x03000031
 
-	thumb_func_start Task_Enemy020
-Task_Enemy020: @ 0x08073AC0
+	thumb_func_start Task_PenMk1Main
+Task_PenMk1Main: @ 0x08073AC0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -15942,7 +15942,7 @@ _08073E2A:
 	strb r1, [r0]
 	ldr r0, _08073E8C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073E90 @ =Task_Enemy020
+	ldr r0, _08073E90 @ =Task_PenMk1Main
 	str r0, [r1, #8]
 _08073E6A:
 	mov r0, sb
@@ -15961,7 +15961,7 @@ _08073E76:
 	.align 2, 0
 _08073E88: .4byte sub_803FF84
 _08073E8C: .4byte gCurTask
-_08073E90: .4byte Task_Enemy020
+_08073E90: .4byte Task_PenMk1Main
 
 	thumb_func_start sub_8073E94
 sub_8073E94: @ 0x08073E94

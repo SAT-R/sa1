@@ -86,7 +86,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .4byte CreateEntity_MovingSpring            @ 081 Moving Spring
     .4byte CreateEntity_IronBall                @ 082
     .4byte CreateEntity_HangBar                 @ 083
-    .4byte CreateEntity_Interactable084         @ 084 Platform that falls and slides once the player steps on it
+    .4byte CreateEntity_SkatingStone            @ 084
     .4byte CreateEntity_Interactable085         @ 085
     .4byte CreateEntity_RunWheel                @ 086
     .4byte CreateEntity_Torch                   @ 087 (Cosmic Angel: Antigravity field elements)

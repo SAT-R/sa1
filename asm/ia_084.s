@@ -6,8 +6,8 @@
 .arm
 
 @ Platform that falls and slides once the player steps on it
-	thumb_func_start CreateEntity_Interactable084
-CreateEntity_Interactable084: @ 0x0808C7B4
+	thumb_func_start CreateEntity_SkatingStone
+CreateEntity_SkatingStone: @ 0x0808C7B4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -25,10 +25,10 @@ CreateEntity_Interactable084: @ 0x0808C7B4
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
 	mov sl, r6
-	ldr r0, _0808C890 @ =Task_Interactable084Main
+	ldr r0, _0808C890 @ =Task_SkatingStoneMain
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _0808C894 @ =TaskDestructor_Interactable084
+	ldr r1, _0808C894 @ =TaskDestructor_SkatingStone
 	str r1, [sp]
 	movs r1, #0xb4
 	movs r3, #0
@@ -116,8 +116,8 @@ CreateEntity_Interactable084: @ 0x0808C7B4
 	strb r6, [r0]
 	b _0808C8D0
 	.align 2, 0
-_0808C890: .4byte Task_Interactable084Main
-_0808C894: .4byte TaskDestructor_Interactable084
+_0808C890: .4byte Task_SkatingStoneMain
+_0808C894: .4byte TaskDestructor_SkatingStone
 _0808C898: .4byte 0x0300000C
 _0808C89C: .4byte 0x0300009C
 _0808C8A0: .4byte 0x030000A0
@@ -177,8 +177,8 @@ _0808C8D0:
 _0808C918: .4byte 0x00000223
 _0808C91C: .4byte 0x0300002C
 
-	thumb_func_start Task_Interactable084Main
-Task_Interactable084Main: @ 0x0808C920
+	thumb_func_start Task_SkatingStoneMain
+Task_SkatingStoneMain: @ 0x0808C920
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2987,8 +2987,8 @@ _0808DE0C: .4byte 0x030000D8
 _0808DE10: .4byte 0x03000090
 _0808DE14: .4byte 0x030000E4
 
-	thumb_func_start TaskDestructor_Interactable084
-TaskDestructor_Interactable084: @ 0x0808DE18
+	thumb_func_start TaskDestructor_SkatingStone
+TaskDestructor_SkatingStone: @ 0x0808DE18
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

@@ -98,7 +98,7 @@ SECTIONS {
         build/sa1/asm/ia_085_089.o(.text);
         build/sa1/asm/ia_run_wheel.o(.text);
         build/sa1/asm/ia_torch.o(.text);
-        build/sa1/asm/ia_player_float.o(.text);
+        build/sa1/asm/ia_toggle_player_float.o(.text);
         build/sa1/asm/ia_ferris_wheel.o(.text);
         build/sa1/asm/ia_boulder_spawner.o(.text);
         build/sa1/asm/ia_spiked_barrel.o(.text);
