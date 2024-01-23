@@ -77,7 +77,7 @@ SECTIONS {
         build/sa1/asm/enemy_drisame.o(.text);
         build/sa1/asm/enemy_kuraa.o(.text);
         build/sa1/asm/enemy_pen.o(.text);
-        build/sa1/asm/enemies_3.o(.text);
+        build/sa1/asm/enemy_tentou.o(.text);
         build/sa1/asm/ia_trampoline.o(.text);
         build/sa1/asm/ia_bounce_block.o(.text);
         build/sa1/asm/ia_incline_ramp.o(.text);
