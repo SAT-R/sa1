@@ -199,7 +199,7 @@ tidy:
 #### Recipes ####
 
 # include songs.mk
-# include graphics.mk
+include graphics.mk
 
 %.s: ;
 %.png: ;
