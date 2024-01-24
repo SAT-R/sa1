@@ -54,7 +54,7 @@ SECTIONS {
         build/sa1/asm/game_1.o(.text);
         build/sa1/asm/bosses.o(.text);
         build/sa1/asm/game_1_1.o(.text);
-        build/sa1/asm/input_recorder.o(.text);
+        build/sa1/src/input_recorder.o(.text);
         build/sa1/asm/game_1_2.o(.text);
         build/sa1/asm/ia_half_pipe.o(.text);
         build/sa1/asm/ia_034.o(.text);

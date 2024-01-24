@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 @ --- Input recorder ---
 	thumb_func_start InputRecorderResetRecordHead
 InputRecorderResetRecordHead: @ 0x0804CC94
@@ -134,3 +135,4 @@ InputRecorderEject: @ 0x0804CD60
 _0804CD78: .4byte gInputRecorderTapeBuffer
 _0804CD7C: .4byte gInputRecorder
 @ --- End of input_recorder.c ---
+.endif
