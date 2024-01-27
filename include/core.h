@@ -2,8 +2,9 @@
 #define GUARD_MAIN_H
 
 #include "global.h"
-#include "task.h"
 #include "sprite.h"
+#include "task.h"
+#include "tilemap.h"
 //#include "input_recorder.h"
 #include "animation_commands.h"
 
@@ -97,39 +98,6 @@ union MultiSioData {
     struct MultiSioData_0_3 pat3;
     struct MultiSioData_0_4 pat4;
 }; /* size = MULTI_SIO_BLOCK_SIZE */
-
-typedef struct {
-    /* 0x00 */ u16 xTiles;
-    /* 0x02 */ u16 yTiles;
-    /* 0x04 */ u16 animTileSize;
-    /* 0x06 */ u8 animFrameCount;
-    /* 0x07 */ u8 animDelay;
-    /* 0x08 */ const u8 *tiles;
-    /* 0x0C */ u32 tilesSize;
-    /* 0x10 */ const u16 *palette;
-    /* 0x14 */ u16 palOffset;
-    /* 0x16 */ u16 palLength;
-
-    // Can be u8* in some instances
-    // map = metatiles, when using with non-background map layers
-    /* 0x18 */ const u16 *map;
-} Tilemap; /* size = 0x1C */
-
-struct SpriteTables {
-    /* 0x00 */ ACmd ***animations;
-    /* 0x04 */ SpriteOffset **dimensions;
-    /* 0x08 */ u16 **oamData;
-    /* 0x0C */ u16 *palettes;
-    /* 0x10 */ u8 *tiles_4bpp;
-    /* 0x14 */ u8 *tiles_8bpp;
-};
-
-struct MapHeader {
-    /* 0x00 */ Tilemap h;
-    /* 0x1C */ const u16 *metatileMap;
-    /* 0x20 */ u16 mapWidth; // in Metatiles
-    /* 0x22 */ u16 mapHeight; // in Metatiles
-};
 
 // Thanks @MainMemory_ for figuring out how collision is stored!
 typedef struct {
@@ -245,12 +213,14 @@ extern u8 gEwramHeap[0x20080];
 extern u32 gVramHeapStartAddr;
 extern u16 gVramHeapMaxTileSlots;
 extern u16 gVramHeapState[256];
+extern struct GraphicsData *gVramGraphicsCopyQueue[32];
+extern u8 gVramGraphicsCopyQueueIndex;
+extern u8 gVramGraphicsCopyCursor;
 
 extern bool8 gExecSoundMain;
 
 extern u16 gDispCnt;
 
-#if 0
 #define WINREG_WIN0H  0
 #define WINREG_WIN1H  1
 #define WINREG_WIN0V  2
@@ -264,13 +234,20 @@ extern u16 gObjPalette[OBJ_PLTT_SIZE / sizeof(u16)];
 extern u16 gBgPalette[BG_PLTT_SIZE / sizeof(u16)];
 extern u16 gBgCntRegs[4];
 
-extern s16 gUnknown_03000408;
+extern u8 gUnknown_03001B40[4][4];
+
+extern Sprite *gUnknown_030045B0[16];
+extern u8 gUnknown_03004620[16];
+extern u8 gUnknown_03004C30;
 
 // TODO: Turn this into a struct-array:
 //       [4]{s16 x, s16 y}
 //       Should we introduce a
 //       "#define NUM_BACKGROUNDS 4" in gba/defines.h?
 extern s16 gBgScrollRegs[4][2];
+
+#if 0
+extern s16 gUnknown_03000408;
 
 extern OamData gUnknown_030022C8;
 extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
@@ -293,34 +270,26 @@ extern u16 gUnknown_03001944;
 extern u8 gUnknown_03001948;
 extern u16 gUnknown_0300194C;
 
-struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
-extern u8 gUnknown_03002280[4][4];
-extern u8 gUnknown_03004D80[16];
 
 extern u16 *gUnknown_030022AC;
 extern void *gUnknown_030022C0;
 extern s16 gMosaicReg;
 extern u8 gUnknown_030026F4;
 extern const struct SpriteTables *gUnknown_03002794;
-extern struct GraphicsData *gVramGraphicsCopyQueue[32];
 extern u16 gUnknown_03002820;
 extern u8 gUnknown_03002874;
 extern void *gUnknown_03002878;
 extern u8 gUnknown_0300287C;
 extern u8 gUnknown_03002A80;
-extern u8 gVramGraphicsCopyQueueIndex;
 extern u16 gUnknown_03002A8C;
 // When paused, the previously-active OAM elements get moved to the end
 // of the OAM. This is the index of the first currently-inactive element
 extern u8 gOamFirstPausedIndex;
 extern u8 gUnknown_03002AE4;
-extern Sprite *gUnknown_03004D10[16];
 extern u8 gUnknown_03004D50;
 extern void *gUnknown_03004D54;
 extern u16 gUnknown_03004D58;
-extern u8 gVramGraphicsCopyCursor;
 extern u8 gUnknown_03004D60[0x20];
-extern u8 gUnknown_03005390;
 extern u16 gUnknown_03005394;
 extern u16 gUnknown_03005398;
 extern FuncType_030053A0 gUnknown_030053A0[4];

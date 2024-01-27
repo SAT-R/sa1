@@ -5,6 +5,9 @@
 .syntax unified
 .arm
 
+@ NOTE: Only move SA2 versions of animation_commands.s and animation_commands_bg.s
+@       over, once they are not using non-matches.
+
 	thumb_func_start UpdateBgAnimationTiles
 UpdateBgAnimationTiles: @ 0x080025B0
 	push {r4, r5, r6, lr}

@@ -5,6 +5,9 @@
 .syntax unified
 .arm
 
+@ NOTE: Only move SA2 versions of animation_commands.s and animation_commands_bg.s
+@       over, once they are not using non-matches.
+
 	thumb_func_start animCmd_GetPalette
 animCmd_GetPalette: @ 0x08004A84
 	push {r4, lr}

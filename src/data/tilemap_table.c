@@ -89,7 +89,7 @@ extern struct MapHeader *intro_created_by_sonic_team;
 extern struct MapHeader *mp_multipak_player_overview;
 extern struct MapHeader *tilemap_89;
 #include "global.h"
-#include "core.h"
+#include "tilemap.h"
 
 #include "constants/tilemaps.h"
 
