@@ -316,7 +316,7 @@ _0801F3D2:
 	adds r7, r1, #0
 	movs r0, #0x10
 	mov ip, r0
-	ldr r1, _0801F4A4 @ =gUnknown_03005150
+	ldr r1, _0801F4A4 @ =gMultiplayerConnections
 	mov sl, r1
 _0801F3FE:
 	ldr r0, [r6]
@@ -402,7 +402,7 @@ _0801F494: .4byte gCurrentLevel
 _0801F498: .4byte gCamera
 _0801F49C: .4byte gMultiplayerPlayerTasks
 _0801F4A0: .4byte 0x04000128
-_0801F4A4: .4byte gUnknown_03005150
+_0801F4A4: .4byte gMultiplayerConnections
 _0801F4A8: .4byte 0x03000054
 _0801F4AC: .4byte gUnknown_03005048
 _0801F4B0: .4byte gCurTask
@@ -920,7 +920,7 @@ _0801F8A6:
 	mov ip, r3
 	cmp r0, #0
 	beq _0801F916
-	ldr r0, _0801F97C @ =gUnknown_03005150
+	ldr r0, _0801F97C @ =gMultiplayerConnections
 	ldrb r3, [r0]
 	movs r7, #0x10
 	adds r6, r5, #0
@@ -979,7 +979,7 @@ _0801F92C:
 	asrs r0, r0, #0x18
 	cmp r0, sb
 	bne _0801F994
-	ldr r0, _0801F97C @ =gUnknown_03005150
+	ldr r0, _0801F97C @ =gMultiplayerConnections
 	ldrb r3, [r0]
 	adds r2, r7, #0
 	lsls r2, r4
@@ -1009,7 +1009,7 @@ _0801F92C:
 _0801F970: .4byte gMultiplayerPlayerTasks
 _0801F974: .4byte 0x04000128
 _0801F978: .4byte gPlayer
-_0801F97C: .4byte gUnknown_03005150
+_0801F97C: .4byte gMultiplayerConnections
 _0801F980: .4byte gUnknown_03005048
 _0801F984:
 	lsrs r0, r5, #0x18
@@ -1242,7 +1242,7 @@ _0801FB40:
 	ldr r1, [sp, #4]
 	cmp r1, sl
 	beq _0801FB9A
-	ldr r0, _0801FD48 @ =gUnknown_03005150
+	ldr r0, _0801FD48 @ =gMultiplayerConnections
 	ldrb r4, [r0]
 	movs r0, #0x10
 	mov ip, r0
@@ -1492,7 +1492,7 @@ _0801FD38: .4byte gCamera
 _0801FD3C: .4byte gUnknown_03005048
 _0801FD40: .4byte gGameMode
 _0801FD44: .4byte gMultiplayerPlayerTasks
-_0801FD48: .4byte gUnknown_03005150
+_0801FD48: .4byte gMultiplayerConnections
 _0801FD4C: .4byte gPlayer
 _0801FD50: .4byte 0xFFFFFBFF
 _0801FD54: .4byte 0xFFFFFEFF

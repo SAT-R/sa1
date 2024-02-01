@@ -59,7 +59,7 @@ _0801CDA8:
 	bne _0801CE58
 _0801CDE4:
 	movs r2, #0
-	ldr r3, _0801CE1C @ =gUnknown_03005150
+	ldr r3, _0801CE1C @ =gMultiplayerConnections
 	ldrb r0, [r3]
 	movs r1, #1
 	b _0801CE2E
@@ -75,7 +75,7 @@ _0801CE0C: .4byte gUnknown_03004C30
 _0801CE10: .4byte gVramGraphicsCopyCursor
 _0801CE14: .4byte gVramGraphicsCopyQueueIndex
 _0801CE18: .4byte gGameMode
-_0801CE1C: .4byte gUnknown_03005150
+_0801CE1C: .4byte gMultiplayerConnections
 _0801CE20:
 	adds r0, r2, #1
 	lsls r0, r0, #0x18
@@ -201,7 +201,7 @@ sub_801CF08: @ 0x0801CF08
 	cmp r0, #1
 	bls _0801CFAA
 	movs r3, #0
-	ldr r0, _0801CF70 @ =gUnknown_03005150
+	ldr r0, _0801CF70 @ =gMultiplayerConnections
 	ldrb r1, [r0]
 	movs r2, #1
 	ands r1, r2
@@ -242,7 +242,7 @@ _0801CF2E:
 	b _0801D0A4
 	.align 2, 0
 _0801CF6C: .4byte gGameMode
-_0801CF70: .4byte gUnknown_03005150
+_0801CF70: .4byte gMultiplayerConnections
 _0801CF74: .4byte gUnknown_03005060
 _0801CF78: .4byte gMultiSioStatusFlags
 _0801CF7C: .4byte 0x0000FFFF
@@ -289,7 +289,7 @@ _0801CFAA:
 	bl sub_800681C
 _0801CFD8:
 	movs r5, #0
-	ldr r0, _0801D0BC @ =gUnknown_03005150
+	ldr r0, _0801D0BC @ =gMultiplayerConnections
 	ldrb r0, [r0]
 	movs r1, #1
 	ands r0, r1
@@ -329,7 +329,7 @@ _0801CFEC:
 	adds r6, r4, #0
 	cmp r5, r0
 	beq _0801D038
-	ldr r0, _0801D0BC @ =gUnknown_03005150
+	ldr r0, _0801D0BC @ =gMultiplayerConnections
 	ldrb r0, [r0]
 	asrs r0, r5
 	movs r1, #1
@@ -363,7 +363,7 @@ _0801D068:
 	adds r5, r6, #0
 	cmp r5, #3
 	bhi _0801D07C
-	ldr r0, _0801D0BC @ =gUnknown_03005150
+	ldr r0, _0801D0BC @ =gMultiplayerConnections
 	ldrb r0, [r0]
 	asrs r0, r5
 	movs r1, #1
@@ -401,7 +401,7 @@ _0801D0A4:
 	.align 2, 0
 _0801D0B4: .4byte gCurTask
 _0801D0B8: .4byte 0x03000432
-_0801D0BC: .4byte gUnknown_03005150
+_0801D0BC: .4byte gMultiplayerConnections
 _0801D0C0: .4byte 0x04000128
 _0801D0C4: .4byte gMultiplayerCharacters
 _0801D0C8: .4byte 0x00000432
@@ -573,13 +573,13 @@ sub_801D200: @ 0x0801D200
 	str r1, [sp]
 	movs r0, #0
 	str r0, [sp, #0x18]
-	ldr r2, _0801D22C @ =gUnknown_03005150
+	ldr r2, _0801D22C @ =gMultiplayerConnections
 	ldrb r0, [r2]
 	movs r1, #1
 	b _0801D244
 	.align 2, 0
 _0801D228: .4byte gCurTask
-_0801D22C: .4byte gUnknown_03005150
+_0801D22C: .4byte gMultiplayerConnections
 _0801D230:
 	ldr r0, [sp, #0x18]
 	adds r0, #1

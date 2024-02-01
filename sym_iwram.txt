@@ -118,7 +118,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005008; gUnknown_03005008 = .;
 . = 0x0000500C; gUnknown_0300500C = .;
 . = 0x00005010; gUnknown_03005010 = .;
-. = 0x00005014; gUnknown_03005014 = .;
+. = 0x00005014; gUnknown_03005014 = .; /* SA2: gUnknown_03005438 */
 . = 0x00005018; gUnknown_03005018 = .;
 . = 0x0000501C; gUnknown_0300501C = .;
 . = 0x00005020; gUnknown_03005020 = .;
@@ -129,7 +129,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005034; gCourseTime = .;
 . = 0x00005038; gUnknown_03005038 = .;
 . = 0x00005040; gUnknown_03005040 = .; /* SA2: gUnknown_030054A8 */
-. = 0x00005048; gUnknown_03005048 = .;
+. = 0x00005048; gUnknown_03005048 = .; /* SA2: gUnknown_030054B4 */
 . = 0x0000504C; gUnknown_0300504C = .;
 . = 0x00005050; gUnknown_03005050 = .;
 . = 0x00005054; gUnknown_03005054 = .;
@@ -148,7 +148,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005088; gUnknown_03005088 = .;
 . = 0x0000508C; gUnknown_0300508C = .;
 . = 0x00005090; gMultiplayerCharacters = .;
-. = 0x000050A0; gUnknown_030050A0 = .;
+. = 0x000050A0; gUnknown_030050A0 = .; /* SA2: gUnknown_03005510 */
 . = 0x00005120; gStageTime = .;
 /* Maybe gUnknown_03005124 is gMultiplayerCurrentLevel?
  * NOTE: Sometimes it gets set to be gCurrentLevel, sometimes not.
@@ -158,7 +158,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x00005140; gUnknown_03005140 = .;
 . = 0x00005148; gUnknown_03005148 = .;
 . = 0x0000514C; gCurrentLevel = .;
-. = 0x00005150; gUnknown_03005150 = .;
+. = 0x00005150; gMultiplayerConnections = .;
 . = 0x00005154; gUnknown_03005154 = .;
 . = 0x00005160; gUnknown_03005160 = .;
 . = 0x00005170; gUnknown_03005170 = .; /* Player 1 - Name[6] */

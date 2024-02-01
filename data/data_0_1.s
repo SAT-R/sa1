@@ -339,6 +339,7 @@ gUnknown_080BB43C:
     .2byte 438, 449, 448, 438, 447, 448, 439, 446
     .2byte 442, 443, 444, 448, 447, 449, 442, 0
 
+@ SA2: gUnknown_080D5744
     .global gUnknown_080BB45C
 gUnknown_080BB45C:
     .4byte sub_8018318

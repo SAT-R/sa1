@@ -406,7 +406,7 @@ sub_801C9D8: @ 0x0801C9D8
 	adds r0, r0, r1
 	strh r4, [r0]
 	movs r6, #0
-	ldr r2, _0801CA90 @ =gUnknown_03005150
+	ldr r2, _0801CA90 @ =gMultiplayerConnections
 	ldrb r0, [r2]
 	movs r1, #1
 	b _0801CA9E
@@ -425,7 +425,7 @@ _0801CA80: .4byte 0x85000010
 _0801CA84: .4byte Task_801CB80
 _0801CA88: .4byte 0x00000434
 _0801CA8C: .4byte 0x03000430
-_0801CA90: .4byte gUnknown_03005150
+_0801CA90: .4byte gMultiplayerConnections
 _0801CA94:
 	adds r6, #1
 	cmp r6, #3
@@ -560,7 +560,7 @@ Task_801CB80: @ 0x0801CB80
 	cmp r0, #1
 	bls _0801CC2E
 	movs r3, #0
-	ldr r0, _0801CBF4 @ =gUnknown_03005150
+	ldr r0, _0801CBF4 @ =gMultiplayerConnections
 	ldrb r1, [r0]
 	movs r2, #1
 	ands r1, r2
@@ -602,7 +602,7 @@ _0801CBAE:
 	.align 2, 0
 _0801CBEC: .4byte gDispCnt
 _0801CBF0: .4byte gGameMode
-_0801CBF4: .4byte gUnknown_03005150
+_0801CBF4: .4byte gMultiplayerConnections
 _0801CBF8: .4byte gUnknown_03005060
 _0801CBFC: .4byte gMultiSioStatusFlags
 _0801CC00: .4byte 0x0000FFFF
@@ -673,12 +673,12 @@ _0801CC74:
 	bl sub_800681C
 _0801CC92:
 	movs r5, #0
-	ldr r0, _0801CCA0 @ =gUnknown_03005150
+	ldr r0, _0801CCA0 @ =gMultiplayerConnections
 	ldrb r0, [r0]
 	b _0801CD3E
 	.align 2, 0
 _0801CC9C: .4byte 0x03000432
-_0801CCA0: .4byte gUnknown_03005150
+_0801CCA0: .4byte gMultiplayerConnections
 _0801CCA4:
 	movs r0, #1
 	ands r0, r5
@@ -754,7 +754,7 @@ _0801CCF4:
 _0801CD34:
 	cmp r5, #3
 	bhi _0801CD46
-	ldr r0, _0801CD7C @ =gUnknown_03005150
+	ldr r0, _0801CD7C @ =gMultiplayerConnections
 	ldrb r0, [r0]
 	asrs r0, r5
 _0801CD3E:
@@ -789,4 +789,4 @@ _0801CD6E:
 	bx r0
 	.align 2, 0
 _0801CD78: .4byte 0x00000432
-_0801CD7C: .4byte gUnknown_03005150
+_0801CD7C: .4byte gMultiplayerConnections
