@@ -5,12 +5,12 @@
 
 #include "constants/animations.h"
 
-static void Task_CreateDustCloud(void);
+static void Task_DustCloud(void);
 
 // Create cloud that appears when defeating enemies / opening item boxes
 void CreateDustCloud(s16 x, s16 y)
 {
-    struct Task *t = TaskCreate(Task_CreateDustCloud, sizeof(Sprite), 0x2000, 0, NULL);
+    struct Task *t = TaskCreate(Task_DustCloud, sizeof(Sprite), 0x2000, 0, NULL);
     Sprite *s = TASK_DATA(t);
 
     s->x = x;
@@ -28,7 +28,7 @@ void CreateDustCloud(s16 x, s16 y)
     s->unk10 = SPRITE_FLAG(PRIORITY, 2);
 }
 
-static void Task_CreateDustCloud(void)
+static void Task_DustCloud(void)
 {
     Sprite *s = TASK_DATA(gCurTask);
     s16 oldX, oldY;
