@@ -36,7 +36,7 @@ CreateEntity_EggHammerTank_Intro: @ 0x080259F0
 _08025A24: .4byte gGameMode
 _08025A28:
 	ldr r0, _08025B94 @ =sub_8025BE0
-	ldr r1, _08025B98 @ =sub_80278C8
+	ldr r1, _08025B98 @ =TaskDestructor_EggHammerTank
 	str r1, [sp]
 	movs r1, #0xa0
 	movs r2, #0x80
@@ -216,7 +216,7 @@ _08025B82:
 	bx r0
 	.align 2, 0
 _08025B94: .4byte sub_8025BE0
-_08025B98: .4byte sub_80278C8
+_08025B98: .4byte TaskDestructor_EggHammerTank
 _08025B9C: .4byte 0x0300000C
 _08025BA0: .4byte 0x03000094
 _08025BA4: .4byte 0x03000098
@@ -661,10 +661,10 @@ CreateEntity_EggHammerTank: @ 0x08025F3C
 	.align 2, 0
 _08025F6C: .4byte gGameMode
 _08025F70:
-	ldr r0, _08025FDC @ =sub_8027868
+	ldr r0, _08025FDC @ =Task_EggHammerTankMain
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08025FE0 @ =sub_80278C8
+	ldr r1, _08025FE0 @ =TaskDestructor_EggHammerTank
 	str r1, [sp]
 	movs r1, #0xa0
 	movs r3, #0
@@ -715,8 +715,8 @@ _08025F70:
 	strb r0, [r1]
 	b _08026002
 	.align 2, 0
-_08025FDC: .4byte sub_8027868
-_08025FE0: .4byte sub_80278C8
+_08025FDC: .4byte Task_EggHammerTankMain
+_08025FE0: .4byte TaskDestructor_EggHammerTank
 _08025FE4: .4byte 0x03000094
 _08025FE8: .4byte 0x03000096
 _08025FEC: .4byte 0x0000FFFC
@@ -859,8 +859,8 @@ _08026110: .4byte 0x0000FFC8
 _08026114: .4byte 0x43B40000
 _08026118: .4byte gUnknown_03005040
 
-	thumb_func_start sub_802611C
-sub_802611C: @ 0x0802611C
+	thumb_func_start Task_802611C
+Task_802611C: @ 0x0802611C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2777,8 +2777,8 @@ _080270F4: .4byte 0x000001FF
 _080270F8: .4byte gCamera
 _080270FC: .4byte 0x0300002C
 
-	thumb_func_start sub_8027100
-sub_8027100: @ 0x08027100
+	thumb_func_start CreateEHTArm
+CreateEHTArm: @ 0x08027100
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb
@@ -2789,13 +2789,13 @@ sub_8027100: @ 0x08027100
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	mov r8, r0
-	ldr r0, _080271C0 @ =sub_8027918
+	ldr r0, _080271C0 @ =Task_EHTArm
 	movs r2, #0x80
 	lsls r2, r2, #6
 	adds r1, r2, #0
 	mov r2, r8
 	orrs r2, r1
-	ldr r1, _080271C4 @ =sub_8027948
+	ldr r1, _080271C4 @ =TaskDestructor_EHTArm
 	str r1, [sp]
 	movs r1, #0x54
 	movs r3, #0
@@ -2872,8 +2872,8 @@ sub_8027100: @ 0x08027100
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080271C0: .4byte sub_8027918
-_080271C4: .4byte sub_8027948
+_080271C0: .4byte Task_EHTArm
+_080271C4: .4byte TaskDestructor_EHTArm
 _080271C8: .4byte 0x03000030
 _080271CC: .4byte 0x03000050
 _080271D0: .4byte 0x03000020
@@ -3135,16 +3135,16 @@ _080273D8: .4byte 0x0300004C
 _080273DC: .4byte sub_803FD5C
 _080273E0: .4byte gCamera
 
-	thumb_func_start sub_80273E4
-sub_80273E4: @ 0x080273E4
+	thumb_func_start CreateEHTHammer
+CreateEHTHammer: @ 0x080273E4
 	push {r4, r5, r6, lr}
 	mov r6, sb
 	mov r5, r8
 	push {r5, r6}
 	sub sp, #8
-	ldr r0, _08027484 @ =sub_80274AC
+	ldr r0, _08027484 @ =Task_EHTHammer
 	ldr r2, _08027488 @ =0x00002005
-	ldr r1, _0802748C @ =sub_802795C
+	ldr r1, _0802748C @ =TaskDestructor_EHTHammer
 	str r1, [sp]
 	movs r1, #0x54
 	movs r3, #0
@@ -3214,9 +3214,9 @@ sub_80273E4: @ 0x080273E4
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08027484: .4byte sub_80274AC
+_08027484: .4byte Task_EHTHammer
 _08027488: .4byte 0x00002005
-_0802748C: .4byte sub_802795C
+_0802748C: .4byte TaskDestructor_EHTHammer
 _08027490: .4byte 0x03000030
 _08027494: .4byte 0x00000261
 _08027498: .4byte 0x03000020
@@ -3225,8 +3225,8 @@ _080274A0: .4byte 0x03000022
 _080274A4: .4byte 0x03000025
 _080274A8: .4byte 0x00002030
 
-	thumb_func_start sub_80274AC
-sub_80274AC: @ 0x080274AC
+	thumb_func_start Task_EHTHammer
+Task_EHTHammer: @ 0x080274AC
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -3687,8 +3687,8 @@ sub_802784C: @ 0x0802784C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8027868
-sub_8027868: @ 0x08027868
+	thumb_func_start Task_EggHammerTankMain
+Task_EggHammerTankMain: @ 0x08027868
 	push {r4, r5, r6, lr}
 	ldr r0, _080278BC @ =gCurTask
 	ldr r0, [r0]
@@ -3710,7 +3710,7 @@ sub_8027868: @ 0x08027868
 	adds r5, r3, r0
 _0802788E:
 	adds r0, r4, #0
-	bl sub_8027100
+	bl CreateEHTArm
 	lsls r1, r4, #2
 	adds r1, r5, r1
 	str r0, [r1]
@@ -3719,11 +3719,11 @@ _0802788E:
 	lsrs r4, r0, #0x18
 	cmp r4, #4
 	bls _0802788E
-	bl sub_80273E4
+	bl CreateEHTHammer
 	str r0, [r6, #0x74]
 	ldr r0, _080278BC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080278C4 @ =sub_802611C
+	ldr r0, _080278C4 @ =Task_802611C
 	str r0, [r1, #8]
 	bl _call_via_r0
 _080278B6:
@@ -3733,10 +3733,10 @@ _080278B6:
 	.align 2, 0
 _080278BC: .4byte gCurTask
 _080278C0: .4byte 0x03000078
-_080278C4: .4byte sub_802611C
+_080278C4: .4byte Task_802611C
 
-	thumb_func_start sub_80278C8
-sub_80278C8: @ 0x080278C8
+	thumb_func_start TaskDestructor_EggHammerTank
+TaskDestructor_EggHammerTank: @ 0x080278C8
 	push {r4, lr}
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
@@ -3773,8 +3773,8 @@ _0802790C: .4byte 0x00007FFF
 _08027910: .4byte gWinRegs
 _08027914: .4byte gBldRegs
 
-	thumb_func_start sub_8027918
-sub_8027918: @ 0x08027918
+	thumb_func_start Task_EHTArm
+Task_EHTArm: @ 0x08027918
 	push {r4, lr}
 	ldr r0, _08027940 @ =gCurTask
 	ldr r0, [r0]
@@ -3797,8 +3797,8 @@ sub_8027918: @ 0x08027918
 _08027940: .4byte gCurTask
 _08027944: .4byte 0x03000030
 
-	thumb_func_start sub_8027948
-sub_8027948: @ 0x08027948
+	thumb_func_start TaskDestructor_EHTArm
+TaskDestructor_EHTArm: @ 0x08027948
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -3809,8 +3809,8 @@ sub_8027948: @ 0x08027948
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_802795C
-sub_802795C: @ 0x0802795C
+	thumb_func_start TaskDestructor_EHTHammer
+TaskDestructor_EHTHammer: @ 0x0802795C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

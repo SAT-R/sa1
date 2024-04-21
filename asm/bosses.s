@@ -3249,10 +3249,10 @@ _0802F19C:
 	ldr r0, _0802F21C @ =gFrameCount
 	ldr r0, [r0]
 	str r0, [r1]
-	ldr r0, _0802F220 @ =sub_802F4A8
+	ldr r0, _0802F220 @ =Task_EggBallMain
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0802F224 @ =sub_8030724
+	ldr r1, _0802F224 @ =TaskDestructor_EggBall
 	str r1, [sp]
 	movs r1, #0x9c
 	movs r3, #0
@@ -3309,8 +3309,8 @@ _0802F19C:
 	.align 2, 0
 _0802F218: .4byte gPseudoRandom
 _0802F21C: .4byte gFrameCount
-_0802F220: .4byte sub_802F4A8
-_0802F224: .4byte sub_8030724
+_0802F220: .4byte Task_EggBallMain
+_0802F224: .4byte TaskDestructor_EggBall
 _0802F228: .4byte 0x0300000C
 _0802F22C: .4byte 0x03000084
 _0802F230: .4byte 0x03000088
@@ -3619,8 +3619,8 @@ _0802F49C: .4byte gUnknown_084ACDD8
 _0802F4A0: .4byte 0xFFFFFEE8
 _0802F4A4: .4byte gUnknown_03005040
 
-	thumb_func_start sub_802F4A8
-sub_802F4A8: @ 0x0802F4A8
+	thumb_func_start Task_EggBallMain
+Task_EggBallMain: @ 0x0802F4A8
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -5850,8 +5850,8 @@ _08030718: .4byte gPlayer
 _0803071C: .4byte gUnknown_03005088
 _08030720: .4byte gUnknown_03005AB0
 
-	thumb_func_start sub_8030724
-sub_8030724: @ 0x08030724
+	thumb_func_start TaskDestructor_EggBall
+TaskDestructor_EggBall: @ 0x08030724
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
