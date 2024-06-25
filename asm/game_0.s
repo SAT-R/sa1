@@ -29162,7 +29162,7 @@ _08017DC8:
 	b _08017F02
 _08017DD6:
 	adds r0, r5, #0
-	bl sub_8042428
+	bl Player_8042428
 	adds r0, r6, #0
 	adds r0, #0x50
 	movs r1, #0
