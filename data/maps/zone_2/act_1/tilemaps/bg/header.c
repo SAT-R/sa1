@@ -2,10 +2,8 @@
 #include "core.h"
 
 extern const u16 Palette_zone_2_act_1_fg[];
-const u8 Tiles_zone_2_act_1_bg[]
-    = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/bg/tiles.4bpp");
-const u8 Tilemap_zone_2_act_1_bg[]
-    = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/bg/tilemap.tilemap2");
+const u8 Tiles_zone_2_act_1_bg[] = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/bg/tiles.4bpp");
+const u8 Tilemap_zone_2_act_1_bg[] = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/bg/tilemap.tilemap2");
 
 const Tilemap zone_2_act_1_bg = {
     .xTiles = 32,

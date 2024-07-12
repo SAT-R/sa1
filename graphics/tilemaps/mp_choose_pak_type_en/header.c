@@ -1,12 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_mp_choose_pak_type_en[]
-    = INCBIN_U16("graphics/tilemaps/mp_choose_pak_type_en/palette.gbapal");
-const u8 Tiles_mp_choose_pak_type_en[]
-    = INCBIN_U8("graphics/tilemaps/mp_choose_pak_type_en/tiles.4bpp");
-const u8 Tilemap_mp_choose_pak_type_en[]
-    = INCBIN_U8("graphics/tilemaps/mp_choose_pak_type_en/tilemap.tilemap2");
+const u16 Palette_mp_choose_pak_type_en[] = INCBIN_U16("graphics/tilemaps/mp_choose_pak_type_en/palette.gbapal");
+const u8 Tiles_mp_choose_pak_type_en[] = INCBIN_U8("graphics/tilemaps/mp_choose_pak_type_en/tiles.4bpp");
+const u8 Tilemap_mp_choose_pak_type_en[] = INCBIN_U8("graphics/tilemaps/mp_choose_pak_type_en/tilemap.tilemap2");
 
 const Tilemap mp_choose_pak_type_en = {
     .xTiles = 30,

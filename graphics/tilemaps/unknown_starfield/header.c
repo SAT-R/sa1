@@ -1,12 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_unknown_starfield[]
-    = INCBIN_U16("graphics/tilemaps/unknown_starfield/palette.gbapal");
-const u8 Tiles_unknown_starfield[]
-    = INCBIN_U8("graphics/tilemaps/unknown_starfield/tiles.4bpp");
-const u8 Tilemap_unknown_starfield[]
-    = INCBIN_U8("graphics/tilemaps/unknown_starfield/tilemap.tilemap2");
+const u16 Palette_unknown_starfield[] = INCBIN_U16("graphics/tilemaps/unknown_starfield/palette.gbapal");
+const u8 Tiles_unknown_starfield[] = INCBIN_U8("graphics/tilemaps/unknown_starfield/tiles.4bpp");
+const u8 Tilemap_unknown_starfield[] = INCBIN_U8("graphics/tilemaps/unknown_starfield/tilemap.tilemap2");
 
 const Tilemap unknown_starfield = {
     .xTiles = 32,

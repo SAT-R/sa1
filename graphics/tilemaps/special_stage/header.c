@@ -5,117 +5,69 @@ u16 Palette_tilemap_54[] = INCBIN_U16("graphics/tilemaps/special_stage/palette.g
 u8 Tiles_tilemap_54[] = INCBIN_U8("graphics/tilemaps/special_stage/tiles.4bpp");
 u8 Tilemap_tilemap_54[] = INCBIN_U8("graphics/tilemaps/special_stage/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_0[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_0/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_0[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_0/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_0[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_0/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_0[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_0/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_0[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_0/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_0[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_0/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_1[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_1/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_1[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_1/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_1[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_1/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_1[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_1/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_1[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_1/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_1[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_1/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_2[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_2/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_2[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_2/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_2[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_2/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_2[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_2/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_2[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_2/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_2[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_2/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_3[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_3/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_3[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_3/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_3[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_3/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_3[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_3/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_3[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_3/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_3[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_3/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_4[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_4/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_4[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_4/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_4[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_4/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_4[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_4/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_4[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_4/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_4[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_4/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_5[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_5/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_5[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_5/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_5[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_5/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_5[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_5/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_5[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_5/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_5[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_5/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_6[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_6/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_6[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_6/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_6[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_6/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_6[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_6/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_6[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_6/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_6[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_6/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_7[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_7/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_7[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_7/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_7[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_7/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_7[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_7/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_7[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_7/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_7[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_7/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_8[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_8/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_8[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_8/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_8[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_8/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_8[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_8/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_8[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_8/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_8[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_8/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_9[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_9/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_9[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_9/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_9[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_9/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_9[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_9/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_9[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_9/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_9[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_9/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_10[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_10/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_10[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_10/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_10[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_10/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_10[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_10/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_10[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_10/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_10[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_10/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_11[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_11/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_11[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_11/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_11[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_11/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_11[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_11/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_11[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_11/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_11[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_11/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_12[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_12/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_12[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_12/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_12[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_12/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_12[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_12/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_12[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_12/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_12[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_12/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_13[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_13/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_13[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_13/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_13[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_13/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_13[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_13/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_13[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_13/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_13[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_13/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_14[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_14/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_14[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_14/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_14[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_14/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_14[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_14/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_14[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_14/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_14[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_14/tilemap.tilemap2");
 
-u16 Palette_special_stage_bg_frame_15[]
-    = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_15/palette.gbapal");
-u8 Tiles_special_stage_bg_frame_15[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_15/tiles.4bpp");
-u8 Tilemap_special_stage_bg_frame_15[]
-    = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_15/tilemap.tilemap2");
+u16 Palette_special_stage_bg_frame_15[] = INCBIN_U16("graphics/tilemaps/special_stage_bg_frame_15/palette.gbapal");
+u8 Tiles_special_stage_bg_frame_15[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_15/tiles.4bpp");
+u8 Tilemap_special_stage_bg_frame_15[] = INCBIN_U8("graphics/tilemaps/special_stage_bg_frame_15/tilemap.tilemap2");
 
 const Tilemap tilemap_54 = {
     .xTiles = 32,

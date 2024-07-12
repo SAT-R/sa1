@@ -1,12 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_tilemap_unused_mp_3[]
-    = INCBIN_U16("graphics/tilemaps/tilemap_unused_mp_3/palette.gbapal");
-const u8 Tiles_tilemap_unused_mp_3[]
-    = INCBIN_U8("graphics/tilemaps/tilemap_unused_mp_3/tiles.4bpp");
-const u8 Tilemap_tilemap_unused_mp_3[]
-    = INCBIN_U8("graphics/tilemaps/tilemap_unused_mp_3/tilemap.tilemap2");
+const u16 Palette_tilemap_unused_mp_3[] = INCBIN_U16("graphics/tilemaps/tilemap_unused_mp_3/palette.gbapal");
+const u8 Tiles_tilemap_unused_mp_3[] = INCBIN_U8("graphics/tilemaps/tilemap_unused_mp_3/tiles.4bpp");
+const u8 Tilemap_tilemap_unused_mp_3[] = INCBIN_U8("graphics/tilemaps/tilemap_unused_mp_3/tilemap.tilemap2");
 
 // 0x080D6F58
 const Tilemap tilemap_unused_mp_3 = {

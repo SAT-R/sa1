@@ -1,12 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_mp_multipak_player_overview[]
-    = INCBIN_U16("graphics/tilemaps/mp_multipak_player_overview/palette.gbapal");
-const u8 Tiles_mp_multipak_player_overview[]
-    = INCBIN_U8("graphics/tilemaps/mp_multipak_player_overview/tiles.4bpp");
-const u8 Tilemap_mp_multipak_player_overview[]
-    = INCBIN_U8("graphics/tilemaps/mp_multipak_player_overview/tilemap.tilemap2");
+const u16 Palette_mp_multipak_player_overview[] = INCBIN_U16("graphics/tilemaps/mp_multipak_player_overview/palette.gbapal");
+const u8 Tiles_mp_multipak_player_overview[] = INCBIN_U8("graphics/tilemaps/mp_multipak_player_overview/tiles.4bpp");
+const u8 Tilemap_mp_multipak_player_overview[] = INCBIN_U8("graphics/tilemaps/mp_multipak_player_overview/tilemap.tilemap2");
 
 const Tilemap mp_multipak_player_overview = {
     .xTiles = 30,

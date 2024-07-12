@@ -2,10 +2,8 @@
 #include "core.h"
 
 extern const u16 Palette_zone_chao_hunt_act_vs_zone_d_fg[];
-const u8 Tiles_zone_chao_hunt_act_vs_zone_d_bg[]
-    = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/bg/tiles.4bpp");
-const u8 Tilemap_zone_chao_hunt_act_vs_zone_d_bg[]
-    = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/bg/tilemap.tilemap2");
+const u8 Tiles_zone_chao_hunt_act_vs_zone_d_bg[] = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/bg/tiles.4bpp");
+const u8 Tilemap_zone_chao_hunt_act_vs_zone_d_bg[] = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/bg/tilemap.tilemap2");
 
 const Tilemap zone_chao_hunt_act_vs_zone_d_bg = {
     .xTiles = 64,

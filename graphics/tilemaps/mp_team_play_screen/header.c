@@ -1,12 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_mp_team_play_screen[]
-    = INCBIN_U16("graphics/tilemaps/mp_team_play_screen/palette.gbapal");
-const u8 Tiles_mp_team_play_screen[]
-    = INCBIN_U8("graphics/tilemaps/mp_team_play_screen/tiles.4bpp");
-const u8 Tilemap_mp_team_play_screen[]
-    = INCBIN_U8("graphics/tilemaps/mp_team_play_screen/tilemap.tilemap2");
+const u16 Palette_mp_team_play_screen[] = INCBIN_U16("graphics/tilemaps/mp_team_play_screen/palette.gbapal");
+const u8 Tiles_mp_team_play_screen[] = INCBIN_U8("graphics/tilemaps/mp_team_play_screen/tiles.4bpp");
+const u8 Tilemap_mp_team_play_screen[] = INCBIN_U8("graphics/tilemaps/mp_team_play_screen/tilemap.tilemap2");
 
 const Tilemap mp_team_play_screen = {
     .xTiles = 30,

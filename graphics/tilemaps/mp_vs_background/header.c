@@ -1,12 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_mp_vs_background[]
-    = INCBIN_U16("graphics/tilemaps/mp_vs_background/palette.gbapal");
-const u8 Tiles_mp_vs_background[]
-    = INCBIN_U8("graphics/tilemaps/mp_vs_background/tiles.4bpp");
-const u8 Tilemap_mp_vs_background[]
-    = INCBIN_U8("graphics/tilemaps/mp_vs_background/tilemap.tilemap2");
+const u16 Palette_mp_vs_background[] = INCBIN_U16("graphics/tilemaps/mp_vs_background/palette.gbapal");
+const u8 Tiles_mp_vs_background[] = INCBIN_U8("graphics/tilemaps/mp_vs_background/tiles.4bpp");
+const u8 Tilemap_mp_vs_background[] = INCBIN_U8("graphics/tilemaps/mp_vs_background/tilemap.tilemap2");
 
 const Tilemap mp_vs_background = {
     .xTiles = 32,

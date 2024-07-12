@@ -1,12 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_mp_singlepak_program_is_being_sent[]
-    = INCBIN_U16("graphics/tilemaps/mp_singlepak_program_is_being_sent/palette.gbapal");
-const u8 Tiles_mp_singlepak_program_is_being_sent[]
-    = INCBIN_U8("graphics/tilemaps/mp_singlepak_program_is_being_sent/tiles.4bpp");
-const u8 Tilemap_mp_singlepak_program_is_being_sent[]
-    = INCBIN_U8("graphics/tilemaps/mp_singlepak_program_is_being_sent/tilemap.tilemap2");
+const u16 Palette_mp_singlepak_program_is_being_sent[] = INCBIN_U16("graphics/tilemaps/mp_singlepak_program_is_being_sent/palette.gbapal");
+const u8 Tiles_mp_singlepak_program_is_being_sent[] = INCBIN_U8("graphics/tilemaps/mp_singlepak_program_is_being_sent/tiles.4bpp");
+const u8 Tilemap_mp_singlepak_program_is_being_sent[] = INCBIN_U8("graphics/tilemaps/mp_singlepak_program_is_being_sent/tilemap.tilemap2");
 
 const Tilemap mp_singlepak_program_is_being_sent = {
     .xTiles = 30,

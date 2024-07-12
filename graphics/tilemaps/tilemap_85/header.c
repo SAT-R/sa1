@@ -1,11 +1,9 @@
 #include "global.h"
 #include "core.h"
 
-const u16 Palette_tilemap_85[]
-    = INCBIN_U16("graphics/tilemaps/tilemap_85/palette.gbapal");
+const u16 Palette_tilemap_85[] = INCBIN_U16("graphics/tilemaps/tilemap_85/palette.gbapal");
 const u8 Tiles_tilemap_85[] = INCBIN_U8("graphics/tilemaps/tilemap_85/tiles.4bpp");
-const u8 Tilemap_tilemap_85[]
-    = INCBIN_U8("graphics/tilemaps/tilemap_85/tilemap.tilemap2");
+const u8 Tilemap_tilemap_85[] = INCBIN_U8("graphics/tilemaps/tilemap_85/tilemap.tilemap2");
 
 const Tilemap tilemap_85 = {
     .xTiles = 30,
