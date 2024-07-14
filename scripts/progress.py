@@ -26,7 +26,7 @@ def parse_map(non_matching_funcs):
     data = 0
     non_matching = 0
 
-    with open('sa3.map', 'r') as map:
+    with open('sa1.map', 'r') as map:
         # Skip to the linker script section
         line = map.readline()
         while not line.startswith('Linker script and memory map'):
@@ -44,7 +44,7 @@ def parse_map(non_matching_funcs):
                 section = arr[0]
                 size = int(arr[2], 16)
                 filepath = arr[3]
-                # build/sa3/../
+                # build/sa1/../
                 #           ^ 
                 #   0    1  2          
                 dir = filepath.split('/')[2]
