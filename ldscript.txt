@@ -4,7 +4,7 @@ gMaxLines = 0;
 
 SECTIONS {
     . = 0x8000000;
-    .text :
+    ROM
     ALIGN(4) {
         /* Engine */
         build/sa1/asm/rom_header.o(.text);
@@ -165,8 +165,9 @@ SECTIONS {
         *libc.a:memcpy.o(.text);
         *libc.a:memset.o(.text);
     }
+    
+    /* Data */
 
-    .rodata :
     ALIGN(4) {
         build/sa1/data/data_0.o(.rodata);
         build/sa1/data/chao_garden.o(.rodata);
