@@ -164,11 +164,9 @@ SECTIONS {
         *libgcc.a:_udivsi3.o(.text);
         *libc.a:memcpy.o(.text);
         *libc.a:memset.o(.text);
-    }
     
     /* Data */
 
-    ALIGN(4) {
         build/sa1/data/data_0.o(.rodata);
         build/sa1/data/chao_garden.o(.rodata);
         build/sa1/src/data/entity_tables.o(.rodata);
@@ -380,7 +378,7 @@ SECTIONS {
         build/sa1/src/lib/agb_flash_at_512k.o(.rodata);
         build/sa1/data/data1.o(.rodata);
         build/sa1/asm/rom_footer.o(.rodata);        
-    }
+    } = 0
 
     . = 0x2000000;
     EWRAM (NOLOAD) :
