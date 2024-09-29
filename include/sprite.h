@@ -157,7 +157,7 @@ typedef struct {
 
     /* 0x1A */ u16 unk1A; // bit 6-10: OAM order index
 
-    /* 0x1C */ s16 timeUntilNextFrame; // Q_8_8, in frames
+    /* 0x1C */ s16 qAnimDelay; // Q_8_8, in frames
     /* 0x1E */ u16 prevAnim;
     /* 0x20 */ u8 variant;
     /* 0x21 */ u8 prevVariant;
@@ -232,7 +232,7 @@ s16 sub_8004418(s16 x, s16 y);
         (_sprite)->prevVariant = (_sprite)->variant;                                                                                       \
         (_sprite)->prevAnim = (_sprite)->graphics.anim;                                                                                    \
         (_sprite)->animCursor = 0;                                                                                                         \
-        (_sprite)->timeUntilNextFrame = 0;                                                                                                 \
+        (_sprite)->qAnimDelay = 0;                                                                                                 \
         SPRITE_FLAG_CLEAR(_sprite, ANIM_OVER);                                                                                             \
     }
 
@@ -244,7 +244,7 @@ s16 sub_8004418(s16 x, s16 y);
 
 #define SPRITE_INIT_SCRIPT(_sprite, _speed)                                                                                                \
     _sprite->animCursor = 0;                                                                                                               \
-    _sprite->timeUntilNextFrame = 0;                                                                                                       \
+    _sprite->qAnimDelay = 0;                                                                                                       \
     _sprite->prevVariant = -1;                                                                                                             \
     _sprite->animSpeed = SPRITE_ANIM_SPEED(_speed);                                                                                        \
     _sprite->palId = 0;                                                                                                                    \
