@@ -232,7 +232,7 @@ s16 sub_8004418(s16 x, s16 y);
         (_sprite)->prevVariant = (_sprite)->variant;                                                                                       \
         (_sprite)->prevAnim = (_sprite)->graphics.anim;                                                                                    \
         (_sprite)->animCursor = 0;                                                                                                         \
-        (_sprite)->qAnimDelay = 0;                                                                                                 \
+        (_sprite)->qAnimDelay = 0;                                                                                                         \
         SPRITE_FLAG_CLEAR(_sprite, ANIM_OVER);                                                                                             \
     }
 
@@ -244,7 +244,7 @@ s16 sub_8004418(s16 x, s16 y);
 
 #define SPRITE_INIT_SCRIPT(_sprite, _speed)                                                                                                \
     _sprite->animCursor = 0;                                                                                                               \
-    _sprite->qAnimDelay = 0;                                                                                                       \
+    _sprite->qAnimDelay = 0;                                                                                                               \
     _sprite->prevVariant = -1;                                                                                                             \
     _sprite->animSpeed = SPRITE_ANIM_SPEED(_speed);                                                                                        \
     _sprite->palId = 0;                                                                                                                    \
