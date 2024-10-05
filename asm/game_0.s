@@ -8321,6 +8321,8 @@ _0800D4D4: .4byte gFlags
 _0800D4D8: .4byte 0xFFFF7FFF
 _0800D4DC: .4byte gCurTask
 
+@ Create(?)TitleScreen
+@ Definitely titlescreen-adjacent!
 	thumb_func_start sub_800D4E0
 sub_800D4E0: @ 0x0800D4E0
 	push {r4, r5, r6, r7, lr}

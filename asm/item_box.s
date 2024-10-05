@@ -836,7 +836,7 @@ _0801ECB0: @ jump table
 	.4byte _0801ECF4 @ case 1
 	.4byte _0801ED18 @ case 2
 	.4byte _0801ED3C @ case 3
-	.4byte _0801ED78 @ case 4
+	.4byte _0801ED78 @ case 4 - Speed Shoes
 	.4byte _0801EDBC @ case 5
 	.4byte _0801EE60 @ case 6
 	.4byte _0801EED0 @ case 7

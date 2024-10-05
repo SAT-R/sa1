@@ -33808,6 +33808,7 @@ _0805F27C: .4byte gMPlayInfo_SE1
 _0805F280: .4byte gMPlayInfo_SE2
 _0805F284: .4byte gMPlayInfo_SE3
 
+@ Sound test / Soundtest
 	thumb_func_start sub_805F288
 sub_805F288: @ 0x0805F288
 	push {r4, r5, r6, r7, lr}
