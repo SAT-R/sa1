@@ -1072,9 +1072,26 @@ gUnknown_086CECF4:
 gUnknown_086CECFC:
     .incbin "baserom.gba", 0x006CECFC, 0x8
 
-    .global gUnknown_086CED04
-gUnknown_086CED04:
-    .incbin "baserom.gba", 0x006CED04, 0x24
+    .global sBounceBlockAnims
+sBounceBlockAnims:
+    .2byte 0x01CE @ SA1_ANIM_BOUNCE_BLOCK_1   @ Neo Green Hill 1
+    .2byte 0x01CE @ SA1_ANIM_BOUNCE_BLOCK_1   @ Neo Green Hill 2
+    .2byte 0x01F3 @ SA1_ANIM_BOUNCE_BLOCK_2   @ Secret Base 1
+    .2byte 0x01F3 @ SA1_ANIM_BOUNCE_BLOCK_2   @ Secret Base 2
+    .2byte 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ Casino Paradise 1
+    .2byte 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ Casino Paradise 2
+    .2byte 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ Ice Mountain 1
+    .2byte 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ Ice Mountain 2
+    .2byte 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ Angel Island 1
+    .2byte 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ Angel Island 2
+    .2byte 0x01FB @ SA1_ANIM_BOUNCE_BLOCK_6_1 @ Egg Rocket
+    .2byte 0x0259 @ SA1_ANIM_BOUNCE_BLOCK_6_2 @ Cosmic Angel
+    .2byte 0x01FB @ SA1_ANIM_BOUNCE_BLOCK_6_1 @ X-Zone
+    .2byte 0x01FB @ SA1_ANIM_BOUNCE_BLOCK_6_1 @ Moon Zone
+    .2byte 0x01CE @ SA1_ANIM_BOUNCE_BLOCK_1   @ 2-Player Neo Green Hill
+    .2byte 0x01F3 @ SA1_ANIM_BOUNCE_BLOCK_2   @ 2-Player Secret Base
+    .2byte 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ 2-Player Casino Paradise
+    .2byte 0x0259 @ SA1_ANIM_BOUNCE_BLOCK_6_2 @ 2-Player Cosmic Angel
 
     .global gUnknown_086CED28
 gUnknown_086CED28:

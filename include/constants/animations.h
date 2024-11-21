@@ -50,31 +50,32 @@
 #define SA1_ANIM_FALLING_BOULDER 457
 #define SA1_ANIM_ROCK            458
 
-#define SA1_ANIM_TRAMPOLINE      461
-#define SA1_ANIM_PLATFORM_WOODEN 462
-#define SA1_ANIM_PLATFORM_NGH    463
+#define SA1_ANIM_TRAMPOLINE     461
+#define SA1_ANIM_BOUNCE_BLOCK_1 462
+#define SA1_ANIM_PLATFORM_NGH   463
 
-#define SA1_ANIM_BOUNCE_BAR       468
-#define SA1_ANIM_FLAG_H           469
-#define SA1_ANIM_FLAG_V           470
-#define SA1_ANIM_BOOSTER          471
-#define SA1_ANIM_BOOSTER_VERT     472
-#define SA1_ANIM_SPLASH_NGH_ACT2  473
-#define SA1_ANIM_SPLASH_ON_PLAYER 474
-#define SA1_ANIM_BUMPER_RIGHTANG  475
-#define SA1_ANIM_BUMPER_TRI_H     476
-#define SA1_ANIM_BUMPER_TRI_V     477
-#define SA1_ANIM_FLIPPER          478
-#define SA1_ANIM_BALLOON_BLUE     479
-#define SA1_ANIM_BALLOON_RED      480
-#define SA1_ANIM_BALLOON_YELLOW   481
-
-#define SA1_ANIM_BUMPER_BIG       484
-#define SA1_ANIM_BUMPER_ROUND     485
-#define SA1_ANIM_BIG_BOWL_CAS_PAR 486
-#define SA1_ANIM_GOROUND_CAS_PAR  487
-#define SA1_ANIM_CHAR_RESIZER     488
-
+#define SA1_ANIM_BOUNCE_BAR              468
+#define SA1_ANIM_FLAG_H                  469
+#define SA1_ANIM_FLAG_V                  470
+#define SA1_ANIM_BOOSTER                 471
+#define SA1_ANIM_BOOSTER_VERT            472
+#define SA1_ANIM_SPLASH_NGH_ACT2         473
+#define SA1_ANIM_SPLASH_ON_PLAYER        474
+#define SA1_ANIM_BUMPER_RIGHTANG         475
+#define SA1_ANIM_BUMPER_TRI_H            476
+#define SA1_ANIM_BUMPER_TRI_V            477
+#define SA1_ANIM_FLIPPER                 478
+#define SA1_ANIM_BALLOON_BLUE            479
+#define SA1_ANIM_BALLOON_RED             480
+#define SA1_ANIM_BALLOON_YELLOW          481
+#define SA1_ANIM_FIREWORKS               482 // Casino Paradise BG
+#define SA1_ANIM_FIREWORKS_SMALL         483
+#define SA1_ANIM_BUMPER_BIG              484
+#define SA1_ANIM_BUMPER_ROUND            485
+#define SA1_ANIM_BIG_BOWL_CAS_PAR        486
+#define SA1_ANIM_GOROUND_CAS_PAR         487
+#define SA1_ANIM_CHAR_RESIZER            488
+#define SA1_ANIM_VIKING_SHIP_SEGMENT     489
 #define SA1_ANIM_VIKING_SHIP_HOOK        490
 #define SA1_ANIM_VIKING_SHIP             491
 #define SA1_ANIM_SONIC_CHARS             492
@@ -84,16 +85,16 @@
 #define SA1_ANIM_ONEWAY_TURN_SIDEWAYS    496
 #define SA1_ANIM_ONEWAY_TURN_UPDOWN      497
 #define SA1_ANIM_GRABBER_SEC_BAS         498
-
-#define SA1_ANIM_GRABBER_SEC_BAS_COPY 500
-#define SA1_ANIM_PRESSURE_LID         501
+#define SA1_ANIM_BOUNCE_BLOCK_2          499
+#define SA1_ANIM_GRABBER_SEC_BAS_COPY    500
+#define SA1_ANIM_PRESSURE_LID            501
 
 #define SA1_ANIM_HANDLES_SEC_BAS_ANCHOR 503
 #define SA1_ANIM_HANDLES_SEC_BAS        504
-
-#define SA1_ANIM_CONVEYOR_BIG      508
-#define SA1_ANIM_CONVEYOR_SMALL    509
-#define SA1_ANIM_SPIKE_BALL_YELLOW 510
+#define SA1_ANIM_BOUNCE_BLOCK_6_1       507
+#define SA1_ANIM_CONVEYOR_BIG           508
+#define SA1_ANIM_CONVEYOR_SMALL         509
+#define SA1_ANIM_SPIKE_BALL_YELLOW      510
 
 #define SA1_ANIM_PROPELLOR    516
 #define SA1_ANIM_SPIKY_BARREL 516
@@ -112,7 +113,7 @@
 #define SA1_ANIM_SPRING_PLATFORM_ANG_ISL       540
 #define SA1_ANIM_SPIKE_BALL_BLACK              541
 #define SA1_ANIM_WOODWHEEL_ANG_ISL             542
-#define SA1_ANIM_PLATFORM_CLOUD                543
+#define SA1_ANIM_BOUNCE_BLOCK_5                543
 #define SA1_ANIM_PLATFORM_SQUARE_ARROW_ANG_ISL 544
 #define SA1_ANIM_SILVER_HANDLE                 545
 #define SA1_ANIM_BIG_BOWL_ANG_ISL              546
@@ -138,6 +139,7 @@
 #define SA1_ANIM_MAZE_LAUNCHER_VERT 589
 
 #define SA1_ANIM_MAZE_LAUNCHER_CORNER 592
+#define SA1_ANIM_BOUNCE_BLOCK_6_2     601
 
 #define SA1_ANIM_BOSS_1 607
 

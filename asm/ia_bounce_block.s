@@ -80,7 +80,7 @@ CreateEntity_BounceBlock: @ 0x080750C0
 	strh r0, [r5, #0x1a]
 	ldr r3, [sp, #8]
 	strh r3, [r5, #8]
-	ldr r1, _080751C0 @ =gUnknown_086CED04
+	ldr r1, _080751C0 @ =sBounceBlockAnims
 	ldr r0, _080751C4 @ =gCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -129,7 +129,7 @@ _080751B0: .4byte Task_BounceBlock
 _080751B4: .4byte TaskDestructor_BounceBlock
 _080751B8: .4byte 0x0300000C
 _080751BC: .4byte 0x03000040
-_080751C0: .4byte gUnknown_086CED04
+_080751C0: .4byte sBounceBlockAnims
 _080751C4: .4byte gCurrentLevel
 _080751C8: .4byte 0x0300002C
 _080751CC: .4byte 0x0300002D
