@@ -53,6 +53,7 @@
 #define SA1_ANIM_TRAMPOLINE     461
 #define SA1_ANIM_BOUNCE_BLOCK_1 462
 #define SA1_ANIM_PLATFORM_NGH   463
+#define SA1_ANIM_WATER_SPLASH_1 464
 
 #define SA1_ANIM_BOUNCE_BAR              468
 #define SA1_ANIM_FLAG_H                  469
@@ -118,6 +119,8 @@
 #define SA1_ANIM_SILVER_HANDLE                 545
 #define SA1_ANIM_BIG_BOWL_ANG_ISL              546
 #define SA1_ANIM_ACCEL_PLATFORM_ANG_ISL        547
+
+#define SA1_ANIM_WATER_SPLASH_5 464
 
 #define SA1_ANIM_ICE_PLATFORM_SQUARE 555
 

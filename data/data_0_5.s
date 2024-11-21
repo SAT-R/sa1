@@ -1095,7 +1095,24 @@ sBounceBlockAnims:
 
     .global gUnknown_086CED28
 gUnknown_086CED28:
-    .incbin "baserom.gba", 0x006CED28, 0x24
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Neo Green Hill 1
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Neo Green Hill 2
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Secret Base 1
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Secret Base 2
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Casino Paradise 1
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Casino Paradise 2
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Ice Mountain 1
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Ice Mountain 2
+    .2byte 0x0x228 @ SA1_ANIM_WATER_SPLASH_5  @ Angel Island 1
+    .2byte 0x0x228 @ SA1_ANIM_WATER_SPLASH_5  @ Angel Island 2
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Egg Rocket
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Cosmic Angel
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ X-Zone
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ Moon Zone
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ 2-Player Neo Green Hill
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ 2-Player Secret Base
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ 2-Player Casino Paradise
+    .2byte 0x0x1D0 @ SA1_ANIM_WATER_SPLASH_1  @ 2-Player Cosmic Angel
 
     .global gUnknown_086CED4C
 gUnknown_086CED4C:
