@@ -1,6 +1,6 @@
 #include "global.h"
-#include "gba/flash_internal.h"
-#include "lib/agb_flash.h"
+#include "lib/agb_flash/flash_internal.h"
+#include "lib/agb_flash/agb_flash.h"
 
 /* TODO: Revert these back to how they were originally!
          We're using a hack in sym_iwram.txt right now,

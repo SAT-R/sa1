@@ -1,6 +1,6 @@
 
 /**** bss ****/
-build/sa1/src/lib/m4a.o(.bss.code);
+build/sa1/src/lib/m4a/m4a.o(.bss.code);
 
 /* *** TODO: Do these without hard-coding! *** */
 gFlashMaxTime = 0x00000424;
@@ -12,8 +12,8 @@ gTimerReg = 0x00000434;
 gSavedIme = 0x00000438;
 
 . = 0x0000042C;
-/*build/sa1/src/lib/agb_flash.o(COMMON);*/
-build/sa1/src/lib/agb_flash.o(.bss);
+/*build/sa1/src/lib/agb_flash/agb_flash.o(COMMON);*/
+build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 
 . = 0x00000440; 
 *libgcc.a:(.bss);
@@ -255,7 +255,7 @@ build/sa1/src/lib/agb_flash.o(.bss);
 . = 0x000063F0; gUnknown_030063F0 = .;
 
 . = 0x00006408;
-build/sa1/src/lib/agb_flash.o(.data);
+build/sa1/src/lib/agb_flash/agb_flash.o(.data);
 
 /* TODO: Remove this after inserting library .o files */
 . = 0x0000642C;

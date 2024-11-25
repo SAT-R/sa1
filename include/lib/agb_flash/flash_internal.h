@@ -16,8 +16,7 @@
 
 #define SECTORS_PER_BANK 16
 
-struct FlashSector
-{
+struct FlashSector {
     u32 size;
     u8 shift;
     u16 count;
@@ -32,15 +31,14 @@ struct FlashType {
     // TODO: add support for anonymous unions/structs if possible
     union {
         struct {
-        u8 makerId;
-        u8 deviceId;
+            u8 makerId;
+            u8 deviceId;
         } separate;
         u16 joined;
     } ids;
 };
 
-struct FlashSetupInfo
-{
+struct FlashSetupInfo {
     u16 (*programFlashSector)(u16, void *);
     u16 (*eraseFlashChip)(void);
     u16 (*eraseFlashSector)(u16);
@@ -56,7 +54,6 @@ extern u16 (*EraseFlashChip)(void);
 extern u16 (*EraseFlashSector)(u16);
 extern const u16 *gFlashMaxTime;
 extern const struct FlashType *gFlash;
-
 
 extern u8 gFlashTimeoutFlag;
 extern u8 (*PollFlashStatus)(u8 *);
@@ -96,12 +93,11 @@ u16 ProgramFlashSector_LE(u16 sectorNum, void *src);
 u16 ProgramFlashSector_MX(u16 sectorNum, void *src);
 u16 ProgramFlashSector_AT(u16 sectorNum, void *src);
 
-
 // agb_flash_1m
 u16 IdentifyFlash(void);
 
 /* Manufacturers and chips */
-#define MANUFACTURER_ATMEL	 0x1F
+#define MANUFACTURER_ATMEL   0x1F
 #define CHIP_ATMEL_AT29LV512 0x3D
 
 #endif // GUARD_GBA_FLASH_INTERNAL_H

@@ -1,6 +1,6 @@
 . = 0x00001400; gSoundInfo = .;
 
-build/sa1/src/lib/m4a.o(ewram_data);
+build/sa1/src/lib/m4a/m4a.o(ewram_data);
 
 . = 0x00002650; gEwramHeap = .;
 . = 0x000226D0; ewram_end = .;
