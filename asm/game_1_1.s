@@ -4314,8 +4314,8 @@ _0803CBB0:
 _0803CBB8: .4byte gMPlayInfo_BGM
 _0803CBBC: .4byte gPlayer
 
-	thumb_func_start GameStart
-GameStart: @ 0x0803CBC0
+	thumb_func_start GameInit
+GameInit: @ 0x0803CBC0
 	push {r4, r5, r6, lr}
 	movs r4, #0
 	ldr r1, _0803CC68 @ =gTilemapsRef

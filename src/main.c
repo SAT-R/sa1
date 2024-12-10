@@ -1,10 +1,10 @@
 #include "core.h"
 
-extern void GameStart(void);
+extern void GameInit(void);
 
 void AgbMain(void)
 {
     EngineInit();
-    GameStart();
+    GameInit();
     EngineMainLoop();
 }
