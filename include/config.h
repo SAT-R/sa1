@@ -1,5 +1,5 @@
-#ifndef GUARD_SA2_CONFIG_H
-#define GUARD_SA2_CONFIG_H
+#ifndef GUARD_SA1_CONFIG_H
+#define GUARD_SA1_CONFIG_H
 
 /* TODO: Move config.h into a different location? */
 
@@ -27,4 +27,4 @@
 #define USE_NEW_DMA 1
 #endif
 
-#endif // GUARD_SA2_CONFIG_H
+#endif // GUARD_SA1_CONFIG_H
