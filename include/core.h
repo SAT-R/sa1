@@ -298,7 +298,7 @@ extern u8 gUnknown_03002710[128];
 extern struct MultiBootParam gMultiBootParam;
 #endif
 
-void GameInit(void);
-void GameLoop(void);
+void EngineInit(void);
+void EngineMainLoop(void);
 
 #endif

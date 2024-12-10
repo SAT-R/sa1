@@ -1,12 +1,10 @@
+#include "core.h"
 
-// TODO: Move the function prototypes somewhere else
-void GameInit(void);
-void GameStart(void);
-void GameLoop(void);
+extern void GameStart(void);
 
 void AgbMain(void)
 {
-    GameInit();
+    EngineInit();
     GameStart();
-    GameLoop();
+    EngineMainLoop();
 }

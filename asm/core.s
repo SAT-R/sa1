@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start GameInit
-GameInit: @ 0x080003EC
+	thumb_func_start EngineInit
+EngineInit: @ 0x080003EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -516,8 +516,8 @@ _08000890: .4byte 0x85000014
 _08000894: .4byte gMultiSioStatusFlags
 _08000898: .4byte gMultiSioEnabled
 
-	thumb_func_start GameLoop
-GameLoop: @ 0x0800089C
+	thumb_func_start EngineMainLoop
+EngineMainLoop: @ 0x0800089C
 	push {r4, r5, r6, lr}
 	ldr r6, _0800090C @ =gFlags
 	movs r5, #0x80
