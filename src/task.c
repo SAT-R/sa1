@@ -398,11 +398,7 @@ static void UNUSED sa2__sub_80028DC(void)
 
 // NOTE: This non-match is fixed when using old_agbcc ("prologue issue"),
 //       but other functions will result in a nonmatch with it.
-#if (GAME == GAME_SA1)
-NONMATCH("asm/non_matching/task__TaskGetNextSlot.inc", static struct Task *TaskGetNextSlot(void))
-#else
 static struct Task *TaskGetNextSlot(void)
-#endif
 {
     if (gNumTasks >= MAX_TASK_NUM) {
         return NULL;
@@ -410,9 +406,6 @@ static struct Task *TaskGetNextSlot(void)
         return gTaskPtrs[gNumTasks++];
     }
 }
-#if (GAME == GAME_SA1)
-END_NONMATCH
-#endif
 
 void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
 {

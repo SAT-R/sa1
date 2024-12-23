@@ -9,7 +9,7 @@ SECTIONS {
         /* Engine */
         build/sa1/asm/rom_header.o(.text);
         build/sa1/asm/crt0.o(.text);
-        build/sa1/asm/multi_sio_asm.o(.text);
+        build/sa1/src/multi_sio_asm.o(.text);
         build/sa1/asm/rom_header_old.o(.text);
         build/sa1/asm/core.o(.text);
         build/sa1/src/main.o(.text);
@@ -21,7 +21,7 @@ SECTIONS {
         build/sa1/asm/sprite_4.o(.text);
         build/sa1/asm/malloc_ewram.o(.text);
         build/sa1/asm/malloc_vram.o(.text);
-        build/sa1/asm/multi_sio.o(.text);
+        build/sa1/src/multi_sio.o(.text);
         build/sa1/asm/multi_boot.o(.text);
         build/sa1/asm/sio32_multi_load.o(.text);
 
