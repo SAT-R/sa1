@@ -396,7 +396,6 @@ static void UNUSED sa2__sub_80028DC(void)
     }
 }
 
-#if 01
 // NOTE: This non-match is fixed when using old_agbcc ("prologue issue"),
 //       but other functions will result in a nonmatch with it.
 #if (GAME == GAME_SA1)
@@ -472,5 +471,3 @@ static void TaskMainDummy1(void) { }
 static void TaskMainDummy2(void) { }
 
 static void TaskMainDummy3(void) { }
-
-#endif // #if 0
