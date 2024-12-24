@@ -286,7 +286,7 @@ _0801CFAA:
 	movs r0, #3
 	movs r1, #0
 	movs r3, #0xf0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0801CFD8:
 	movs r5, #0
 	ldr r0, _0801D0BC @ =gMultiplayerConnections
@@ -321,7 +321,7 @@ _0801CFEC:
 	str r3, [sp]
 	movs r0, #3
 	movs r3, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	ldr r0, _0801D0C0 @ =0x04000128
 	ldr r0, [r0]
 	lsls r0, r0, #0x1a
@@ -389,7 +389,7 @@ _0801D07C:
 	movs r0, #3
 	movs r2, #0xa0
 	movs r3, #0xf0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0801D0A4:
 	add sp, #4
 	pop {r3, r4}

@@ -35,7 +35,3 @@ animCmdTable:
     .global gOamShapesSizes
 gOamShapesSizes:
     .incbin "baserom.gba", 0x0009C120, 0x18
-
-    .global gUnknown_0809C138
-gUnknown_0809C138:
-    .incbin "baserom.gba", 0x0009C138, 0x20

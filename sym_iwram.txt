@@ -78,10 +78,10 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x000020F0; gKeysContinuedRepeatIntervals = .;
 . = 0x00002100; gMultiSioSend = .;
 . = 0x00002114; gUnknown_03002114 = .; /* SA2: gUnknown_03002874 */
-. = 0x00002118; gUnknown_03002118 = .; /* SA2: gUnknown_03002878 */
+. = 0x00002118; sa2__gUnknown_03002878 = .;
 . = 0x0000211C; gUnknown_0300211C = .; /* SA2: gUnknown_0300287C */
 . = 0x00002120; gBgPalette = .;
-. = 0x00002320; gUnknown_03002320 = .; /* SA2: gUnknown_03002A80 */
+. = 0x00002320; sa2__gUnknown_03002A80 = .; /* SA2: gUnknown_03002A80 */
 . = 0x00002324; gVramGraphicsCopyQueueIndex = .;
 . = 0x00002328; gPrevInput = .;
 . = 0x0000232C; gUnknown_0300232C = .; /* SA2: gUnknown_03002A8C */

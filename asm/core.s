@@ -306,9 +306,9 @@ _08000610:
 	adds r1, r7, r3
 	ldr r3, _080007B4 @ =gUnknown_03001B6C
 	str r1, [r3]
-	ldr r1, _080007B8 @ =gUnknown_03002118
+	ldr r1, _080007B8 @ =sa2__gUnknown_03002878
 	str r2, [r1]
-	ldr r3, _080007BC @ =gUnknown_03002320
+	ldr r3, _080007BC @ =sa2__gUnknown_03002A80
 	strb r2, [r3]
 	ldr r1, _080007C0 @ =gNumHBlankCallbacks
 	strb r2, [r1]
@@ -431,8 +431,8 @@ _080007A8: .4byte gIntrTableTemplate
 _080007AC: .4byte 0x85000140
 _080007B0: .4byte gBgOffsetsHBlank
 _080007B4: .4byte gUnknown_03001B6C
-_080007B8: .4byte gUnknown_03002118
-_080007BC: .4byte gUnknown_03002320
+_080007B8: .4byte sa2__gUnknown_03002878
+_080007BC: .4byte sa2__gUnknown_03002A80
 _080007C0: .4byte gNumHBlankCallbacks
 _080007C4: .4byte gNumHBlankIntrs
 _080007C8: .4byte gHBlankCallbacks
@@ -789,10 +789,10 @@ _08000ADE:
 	ldr r0, _08000BCC @ =gBgOffsetsHBlank
 	ldr r0, [r0]
 	str r0, [r2]
-	ldr r0, _08000BD0 @ =gUnknown_03002118
+	ldr r0, _08000BD0 @ =sa2__gUnknown_03002878
 	ldr r0, [r0]
 	str r0, [r2, #4]
-	ldr r0, _08000BD4 @ =gUnknown_03002320
+	ldr r0, _08000BD4 @ =sa2__gUnknown_03002A80
 	ldrb r0, [r0]
 	lsrs r0, r0, #1
 	movs r1, #0x80
@@ -899,8 +899,8 @@ _08000BC0: .4byte 0x0000FFFD
 _08000BC4: .4byte gNumHBlankIntrs
 _08000BC8: .4byte 0x040000D4
 _08000BCC: .4byte gBgOffsetsHBlank
-_08000BD0: .4byte gUnknown_03002118
-_08000BD4: .4byte gUnknown_03002320
+_08000BD0: .4byte sa2__gUnknown_03002878
+_08000BD4: .4byte sa2__gUnknown_03002A80
 _08000BD8: .4byte gUnknown_03001F94
 _08000BDC: .4byte gOamBuffer
 _08000BE0: .4byte 0x80000080
@@ -1332,8 +1332,8 @@ VBlankIntr: @ 0x08000F44
 	lsls r1, r1, #0x18
 	adds r6, r5, #0
 	ldr r4, _08000FEC @ =gBgOffsetsHBlank
-	ldr r5, _08000FF0 @ =gUnknown_03002118
-	ldr r3, _08000FF4 @ =gUnknown_03002320
+	ldr r5, _08000FF0 @ =sa2__gUnknown_03002878
+	ldr r3, _08000FF4 @ =sa2__gUnknown_03002A80
 	cmp r0, #0
 	bge _08000F9E
 _08000F96:
@@ -1376,11 +1376,11 @@ _08000FE0: .4byte gExecSoundMain
 _08000FE4: .4byte gFlagsPreVBlank
 _08000FE8: .4byte 0x04000200
 _08000FEC: .4byte gBgOffsetsHBlank
-_08000FF0: .4byte gUnknown_03002118
-_08000FF4: .4byte gUnknown_03002320
+_08000FF0: .4byte sa2__gUnknown_03002878
+_08000FF4: .4byte sa2__gUnknown_03002A80
 _08000FF8: .4byte 0xA2600000
 _08000FFC:
-	ldr r4, _08001054 @ =gUnknown_03002118
+	ldr r4, _08001054 @ =sa2__gUnknown_03002878
 	ldr r0, [r4]
 	adds r6, r5, #0
 	cmp r0, #0
@@ -1426,7 +1426,7 @@ _08001012:
 	strh r0, [r2]
 	b _08001088
 	.align 2, 0
-_08001054: .4byte gUnknown_03002118
+_08001054: .4byte sa2__gUnknown_03002878
 _08001058: .4byte 0x04000200
 _0800105C: .4byte 0x0000FFFD
 _08001060: .4byte 0x04000004

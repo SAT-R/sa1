@@ -7873,7 +7873,7 @@ _080522AA:
 	movs r0, #0
 	mov r1, sp
 	movs r2, #0
-	bl sub_8005CFC
+	bl sa2__sub_8006DB4
 	cmp r5, #0
 	blt _080522DC
 	adds r4, r5, #0
@@ -37827,10 +37827,10 @@ _08061334:
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _080613BC @ =gUnknown_03002118
+	ldr r1, _080613BC @ =sa2__gUnknown_03002878
 	ldr r0, _080613C0 @ =0x04000010
 	str r0, [r1]
-	ldr r0, _080613C4 @ =gUnknown_03002320
+	ldr r0, _080613C4 @ =sa2__gUnknown_03002A80
 	strb r2, [r0]
 	ldr r0, _080613C8 @ =gBgOffsetsHBlank
 	lsls r1, r7, #2
@@ -37891,9 +37891,9 @@ _080613A8:
 	bx r0
 	.align 2, 0
 _080613B8: .4byte gFlags
-_080613BC: .4byte gUnknown_03002118
+_080613BC: .4byte sa2__gUnknown_03002878
 _080613C0: .4byte 0x04000010
-_080613C4: .4byte gUnknown_03002320
+_080613C4: .4byte sa2__gUnknown_03002A80
 _080613C8: .4byte gBgOffsetsHBlank
 _080613CC: .4byte 0x000001FF
 
@@ -39370,10 +39370,10 @@ _08061F64:
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _08062114 @ =gUnknown_03002118
+	ldr r1, _08062114 @ =sa2__gUnknown_03002878
 	ldr r0, _08062118 @ =0x04000010
 	str r0, [r1]
-	ldr r0, _0806211C @ =gUnknown_03002320
+	ldr r0, _0806211C @ =sa2__gUnknown_03002A80
 	strb r2, [r0]
 	ldr r0, _08062120 @ =gBgOffsetsHBlank
 	ldr r1, [r0]
@@ -39523,9 +39523,9 @@ _08062104: .4byte 0x06010020
 _08062108: .4byte 0x000002D7
 _0806210C: .4byte 0x000002D9
 _08062110: .4byte gFlags
-_08062114: .4byte gUnknown_03002118
+_08062114: .4byte sa2__gUnknown_03002878
 _08062118: .4byte 0x04000010
-_0806211C: .4byte gUnknown_03002320
+_0806211C: .4byte sa2__gUnknown_03002A80
 _08062120: .4byte gBgOffsetsHBlank
 _08062124: .4byte 0x000001FF
 _08062128: .4byte gPressedKeys
@@ -58540,10 +58540,10 @@ _0806BC74:
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _0806BD10 @ =gUnknown_03002118
+	ldr r1, _0806BD10 @ =sa2__gUnknown_03002878
 	ldr r0, _0806BD14 @ =0x04000010
 	str r0, [r1]
-	ldr r0, _0806BD18 @ =gUnknown_03002320
+	ldr r0, _0806BD18 @ =sa2__gUnknown_03002A80
 	strb r2, [r0]
 	ldr r0, _0806BD1C @ =gBgOffsetsHBlank
 	lsls r1, r6, #2
@@ -58610,9 +58610,9 @@ _0806BCF6:
 	.align 2, 0
 _0806BD08: .4byte gPressedKeys
 _0806BD0C: .4byte gFlags
-_0806BD10: .4byte gUnknown_03002118
+_0806BD10: .4byte sa2__gUnknown_03002878
 _0806BD14: .4byte 0x04000010
-_0806BD18: .4byte gUnknown_03002320
+_0806BD18: .4byte sa2__gUnknown_03002A80
 _0806BD1C: .4byte gBgOffsetsHBlank
 _0806BD20: .4byte 0x000001FF
 

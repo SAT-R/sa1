@@ -2626,7 +2626,7 @@ sub_803BE0C: @ 0x0803BE0C
 	str r0, [sp]
 	movs r1, #0
 	movs r3, #0xf0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0803BE3A:
 	movs r6, #0
 	ldr r1, _0803BEB0 @ =0x03000054
@@ -2660,7 +2660,7 @@ _0803BE48:
 	lsrs r0, r0, #0x10
 	str r0, [sp]
 	movs r0, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	adds r6, #1
 	adds r0, r7, #0
 	adds r0, #0x54
@@ -2678,7 +2678,7 @@ _0803BE88:
 	str r0, [sp]
 	movs r2, #0xa0
 	movs r3, #0xf0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0803BEA0:
 	add sp, #4
 	pop {r4, r5, r6, r7}
@@ -7656,10 +7656,10 @@ StageBgUpdate_Zone1Acts12: @ 0x0803E78C
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _0803E864 @ =gUnknown_03002118
+	ldr r1, _0803E864 @ =sa2__gUnknown_03002878
 	ldr r0, _0803E868 @ =0x0400001C
 	str r0, [r1]
-	ldr r0, _0803E86C @ =gUnknown_03002320
+	ldr r0, _0803E86C @ =sa2__gUnknown_03002A80
 	strb r2, [r0]
 	ldr r0, _0803E870 @ =gBgOffsetsHBlank
 	ldr r1, [r0]
@@ -7746,9 +7746,9 @@ _0803E854: .4byte gCamera
 _0803E858: .4byte gUnknown_03005990
 _0803E85C: .4byte gBgScrollRegs
 _0803E860: .4byte gFlags
-_0803E864: .4byte gUnknown_03002118
+_0803E864: .4byte sa2__gUnknown_03002878
 _0803E868: .4byte 0x0400001C
-_0803E86C: .4byte gUnknown_03002320
+_0803E86C: .4byte sa2__gUnknown_03002A80
 _0803E870: .4byte gBgOffsetsHBlank
 _0803E874: .4byte gStageTime
 
@@ -7779,10 +7779,10 @@ StageBgUpdate_Zone2_Interior: @ 0x0803E878
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _0803EA14 @ =gUnknown_03002118
+	ldr r1, _0803EA14 @ =sa2__gUnknown_03002878
 	ldr r0, _0803EA18 @ =0x0400001C
 	str r0, [r1]
-	ldr r0, _0803EA1C @ =gUnknown_03002320
+	ldr r0, _0803EA1C @ =sa2__gUnknown_03002A80
 	strb r2, [r0]
 	ldr r0, _0803EA20 @ =gBgOffsetsHBlank
 	ldr r5, [r0]
@@ -7973,9 +7973,9 @@ _0803E9F6:
 _0803EA08: .4byte gCamera
 _0803EA0C: .4byte gBgScrollRegs
 _0803EA10: .4byte gFlags
-_0803EA14: .4byte gUnknown_03002118
+_0803EA14: .4byte sa2__gUnknown_03002878
 _0803EA18: .4byte 0x0400001C
-_0803EA1C: .4byte gUnknown_03002320
+_0803EA1C: .4byte sa2__gUnknown_03002A80
 _0803EA20: .4byte gBgOffsetsHBlank
 
 	thumb_func_start sub_803EA24
@@ -8104,10 +8104,10 @@ StageBgUpdate_Zone3Acts12: @ 0x0803EAC0
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _0803ED44 @ =gUnknown_03002118
+	ldr r1, _0803ED44 @ =sa2__gUnknown_03002878
 	ldr r0, _0803ED48 @ =0x0400001C
 	str r0, [r1]
-	ldr r0, _0803ED4C @ =gUnknown_03002320
+	ldr r0, _0803ED4C @ =sa2__gUnknown_03002A80
 	strb r2, [r0]
 	ldr r0, _0803ED50 @ =gBgOffsetsHBlank
 	ldr r6, [r0]
@@ -8388,9 +8388,9 @@ _0803ED34: .4byte gCamera
 _0803ED38: .4byte gUnknown_03005A0C
 _0803ED3C: .4byte gBgScrollRegs
 _0803ED40: .4byte gFlags
-_0803ED44: .4byte gUnknown_03002118
+_0803ED44: .4byte sa2__gUnknown_03002878
 _0803ED48: .4byte 0x0400001C
-_0803ED4C: .4byte gUnknown_03002320
+_0803ED4C: .4byte sa2__gUnknown_03002A80
 _0803ED50: .4byte gBgOffsetsHBlank
 _0803ED54: .4byte 0x040000D4
 _0803ED58: .4byte 0x850000A0
@@ -9120,14 +9120,14 @@ _0803F358:
 	movs r0, #0
 	movs r1, #0
 	movs r2, #0x64
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	movs r0, #0xa0
 	str r0, [sp]
 	movs r0, #0
 	movs r1, #0x64
 	movs r2, #0x68
 	movs r3, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	ldr r6, _0803F3B4 @ =gStageTime
 	ldr r0, [r6]
 	lsrs r2, r0, #5
@@ -9146,7 +9146,7 @@ _0803F358:
 	movs r1, #0x68
 	movs r2, #0xa0
 	movs r3, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	b _0803F3F0
 	.align 2, 0
 _0803F3B4: .4byte gStageTime
@@ -9163,7 +9163,7 @@ _0803F3B8:
 	movs r0, #0
 	movs r1, #0x68
 	movs r3, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	ldr r0, [r6]
 	lsrs r0, r0, #5
 	ands r0, r5
@@ -9176,7 +9176,7 @@ _0803F3B8:
 	adds r1, r4, #0
 	movs r2, #0xa0
 	movs r3, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0803F3F0:
 	add sp, #4
 	pop {r3, r4, r5}
@@ -9237,10 +9237,10 @@ StageBgUpdate_Zone6Act2: @ 0x0803F400
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _0803F50C @ =gUnknown_03002118
+	ldr r1, _0803F50C @ =sa2__gUnknown_03002878
 	ldr r0, _0803F510 @ =0x0400001C
 	str r0, [r1]
-	ldr r0, _0803F514 @ =gUnknown_03002320
+	ldr r0, _0803F514 @ =sa2__gUnknown_03002A80
 	strb r2, [r0]
 	ldr r0, _0803F518 @ =gBgOffsetsHBlank
 	ldr r5, [r0]
@@ -9324,9 +9324,9 @@ _0803F4FC: .4byte gCamera
 _0803F500: .4byte gUnknown_03005A0C
 _0803F504: .4byte gBgScrollRegs
 _0803F508: .4byte gFlags
-_0803F50C: .4byte gUnknown_03002118
+_0803F50C: .4byte sa2__gUnknown_03002878
 _0803F510: .4byte 0x0400001C
-_0803F514: .4byte gUnknown_03002320
+_0803F514: .4byte sa2__gUnknown_03002A80
 _0803F518: .4byte gBgOffsetsHBlank
 _0803F51C: .4byte 0x040000D4
 _0803F520: .4byte 0x850000A0
@@ -36897,12 +36897,12 @@ _0804C7CC:
 	movs r0, #3
 	movs r1, #0
 	movs r2, #0x20
-	bl sub_8006680
+	bl sa2__sub_8007738
 	movs r5, #0x20
 	ldr r2, _0804C884 @ =0x040000D4
 	ldr r0, _0804C888 @ =gBgOffsetsHBlank
 	ldr r4, [r0]
-	ldr r0, _0804C88C @ =gUnknown_03002320
+	ldr r0, _0804C88C @ =sa2__gUnknown_03002A80
 	ldrb r3, [r0]
 	lsls r0, r3, #5
 	adds r1, r0, r4
@@ -36945,7 +36945,7 @@ _0804C87C: .4byte gBgScrollRegs
 _0804C880: .4byte 0x000003FF
 _0804C884: .4byte 0x040000D4
 _0804C888: .4byte gBgOffsetsHBlank
-_0804C88C: .4byte gUnknown_03002320
+_0804C88C: .4byte sa2__gUnknown_03002A80
 _0804C890: .4byte gFlags
 
 	thumb_func_start sub_804C894
@@ -37133,7 +37133,7 @@ sub_804C9D4: @ 0x0804C9D4
 	str r0, [r2]
 	ldr r0, _0804CA50 @ =0x0400001C
 	str r0, [r2, #4]
-	ldr r0, _0804CA54 @ =gUnknown_03002320
+	ldr r0, _0804CA54 @ =sa2__gUnknown_03002A80
 	ldrb r0, [r0]
 	lsrs r0, r0, #1
 	ldr r1, _0804CA58 @ =0xA2600000
@@ -37155,7 +37155,7 @@ _0804CA44: .4byte 0x0000FEFF
 _0804CA48: .4byte gFlags
 _0804CA4C: .4byte gUnknown_03001B6C
 _0804CA50: .4byte 0x0400001C
-_0804CA54: .4byte gUnknown_03002320
+_0804CA54: .4byte sa2__gUnknown_03002A80
 _0804CA58: .4byte 0xA2600000
 _0804CA5C: .4byte 0x04000202
 

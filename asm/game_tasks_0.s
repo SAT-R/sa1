@@ -670,7 +670,7 @@ _0801CC74:
 	movs r0, #3
 	movs r1, #0
 	movs r3, #0xf0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0801CC92:
 	movs r5, #0
 	ldr r0, _0801CCA0 @ =gMultiplayerConnections
@@ -715,7 +715,7 @@ _0801CCA4:
 	ands r4, r0
 	str r4, [sp]
 	movs r0, #3
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	b _0801CD34
 	.align 2, 0
 _0801CCF0: .4byte 0x00000432
@@ -750,7 +750,7 @@ _0801CCF4:
 	ands r4, r0
 	str r4, [sp]
 	movs r0, #3
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0801CD34:
 	cmp r5, #3
 	bhi _0801CD46
@@ -781,7 +781,7 @@ _0801CD46:
 	movs r0, #3
 	movs r2, #0xa0
 	movs r3, #0xf0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0801CD6E:
 	add sp, #4
 	pop {r4, r5, r6}

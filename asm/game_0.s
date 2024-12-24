@@ -7827,7 +7827,7 @@ sub_800D098: @ 0x0800D098
 	str r0, [sp]
 	movs r0, #2
 	movs r1, #0
-	bl sub_80067A0
+	bl sa2__sub_8007858
 	ldrb r0, [r6]
 	subs r4, r4, r0
 	lsls r4, r4, #0x18
@@ -7838,7 +7838,7 @@ sub_800D098: @ 0x0800D098
 	movs r0, #2
 	adds r1, r4, #0
 	movs r2, #0xa0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	ldrh r0, [r6]
 	cmp r0, #0xa0
 	bne _0800D104
@@ -7881,7 +7881,7 @@ sub_800D11C: @ 0x0800D11C
 	str r0, [sp]
 	movs r0, #2
 	movs r1, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	ldrh r1, [r6]
 	subs r4, r4, r1
 	lsls r4, r4, #0x18
@@ -7896,7 +7896,7 @@ sub_800D11C: @ 0x0800D11C
 	movs r0, #2
 	adds r1, r4, #0
 	movs r2, #0xa0
-	bl sub_80067A0
+	bl sa2__sub_8007858
 	ldrh r0, [r6]
 	cmp r0, #0xa0
 	bne _0800D17E
@@ -8040,14 +8040,14 @@ sub_800D268: @ 0x0800D268
 	movs r0, #2
 	movs r1, #0
 	movs r2, #0x28
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	ldrh r3, [r5, #8]
 	ldrh r0, [r5, #0xa]
 	str r0, [sp]
 	movs r0, #2
 	movs r1, #0x78
 	movs r2, #0xa0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	ldrh r0, [r6]
 	cmp r0, #0xc7
 	bhi _0800D2F4
@@ -8067,7 +8067,7 @@ sub_800D268: @ 0x0800D268
 	movs r0, #2
 	movs r1, #0x28
 	movs r2, #0x78
-	bl sub_80068A0
+	bl sa2__sub_8007958
 	b _0800D354
 	.align 2, 0
 _0800D2E4: .4byte gCurTask
@@ -8094,7 +8094,7 @@ _0800D2F4:
 	str r0, [sp, #8]
 	movs r0, #2
 	movs r1, #0x28
-	bl sub_80068A0
+	bl sa2__sub_8007958
 	ldrb r0, [r6]
 	subs r4, r4, r0
 	lsls r4, r4, #0x18
@@ -8105,7 +8105,7 @@ _0800D2F4:
 	movs r0, #2
 	adds r1, r4, #0
 	movs r2, #0x78
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	b _0800D354
 _0800D338:
 	movs r0, #0x66
@@ -17520,7 +17520,7 @@ _080121BE:
 	str r4, [sp]
 	movs r4, #0
 	str r4, [sp, #4]
-	bl sub_8005170
+	bl sa2__sub_8006228
 	b _080122BA
 	.align 2, 0
 _080121DC: .4byte gWinRegs
@@ -17551,7 +17551,7 @@ _08012200:
 _0801220E:
 	ldrb r0, [r4, #0xa]
 	add r1, sp, #8
-	bl sub_8006194
+	bl sa2__sub_800724C
 	b _080122BA
 	.align 2, 0
 _08012218: .4byte gWinRegs
@@ -17604,7 +17604,7 @@ _08012262:
 	str r4, [sp]
 	movs r4, #0
 	str r4, [sp, #4]
-	bl sub_80053F0
+	bl sa2__sub_80064A8
 	b _080122BA
 	.align 2, 0
 _08012280: .4byte gWinRegs
@@ -17635,7 +17635,7 @@ _080122A4:
 _080122B2:
 	ldrb r0, [r4, #0xa]
 	add r1, sp, #8
-	bl sub_8006194
+	bl sa2__sub_800724C
 _080122BA:
 	add sp, #0x1c
 	pop {r3, r4, r5}
@@ -32512,7 +32512,7 @@ _08019952:
 	movs r1, #0x74
 	movs r2, #0
 	movs r3, #0x7c
-	bl sub_80053F0
+	bl sa2__sub_80064A8
 	movs r0, #0x10
 	str r0, [sp]
 	str r4, [sp, #4]
@@ -32520,11 +32520,11 @@ _08019952:
 	movs r1, #0x7c
 	movs r2, #8
 	movs r3, #0x74
-	bl sub_80053F0
+	bl sa2__sub_80064A8
 	ldr r2, _08019AC0 @ =0x040000D4
 	ldr r0, _08019AC4 @ =gBgOffsetsHBlank
 	ldr r4, [r0]
-	ldr r0, _08019AC8 @ =gUnknown_03002320
+	ldr r0, _08019AC8 @ =sa2__gUnknown_03002A80
 	ldrb r3, [r0]
 	lsls r0, r3, #4
 	adds r1, r0, r4
@@ -32691,7 +32691,7 @@ _08019AAA:
 	.align 2, 0
 _08019AC0: .4byte 0x040000D4
 _08019AC4: .4byte gBgOffsetsHBlank
-_08019AC8: .4byte gUnknown_03002320
+_08019AC8: .4byte sa2__gUnknown_03002A80
 _08019ACC: .4byte 0x000003FF
 _08019AD0: .4byte 0x00000236
 _08019AD4: .4byte gSineTable
@@ -35033,7 +35033,7 @@ _0801ADE4:
 	lsrs r0, r0, #0x10
 	str r0, [sp]
 	movs r0, #3
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	b _0801AE72
 _0801ADFA:
 	ldr r0, _0801AE3C @ =gUnknown_03005048
@@ -35066,7 +35066,7 @@ _0801ADFA:
 	lsrs r0, r0, #0x10
 	str r0, [sp]
 	movs r0, #3
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	b _0801AE70
 	.align 2, 0
 _0801AE3C: .4byte gUnknown_03005048
@@ -35093,7 +35093,7 @@ _0801AE40:
 	lsrs r0, r0, #0x10
 	str r0, [sp]
 	movs r0, #3
-	bl sub_800681C
+	bl sa2__sub_80078D4
 _0801AE70:
 	adds r4, r6, #1
 _0801AE72:
@@ -35618,7 +35618,7 @@ _0801B266:
 	str r0, [sp]
 	movs r0, #3
 	movs r3, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	b _0801B4E6
 	.align 2, 0
 _0801B2AC: .4byte gCurTask
@@ -35650,7 +35650,7 @@ _0801B2B8:
 	str r3, [sp]
 	movs r0, #3
 	movs r3, #0
-	bl sub_800681C
+	bl sa2__sub_80078D4
 	lsls r4, r4, #2
 	ldr r0, _0801B430 @ =gMultiSioRecv
 	adds r4, r4, r0
