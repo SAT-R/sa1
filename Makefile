@@ -132,11 +132,11 @@ SOUND_ASM_OBJS := $(patsubst $(SOUND_ASM_SUBDIR)/%.s,$(SOUND_ASM_BUILDDIR)/%.o,$
 OBJS := $(C_OBJS) $(ASM_OBJS) $(C_ASM_OBJS) $(DATA_ASM_OBJS) $(SONG_OBJS) $(MID_OBJS)
 OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(OBJS))
 
-# Use old gcc because of the "prologue issue" bugfix
+# Fix "prologue issue" bugfix in select files
+# TODO: Maybe we can enable this globally for SA1?
+$(C_BUILDDIR)/malloc_vram.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/multi_boot.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/multi_sio.o: CC1FLAGS += -fprologue-bugfix
-
-# Use old gcc because of the "prologue issue" bugfix
 $(C_BUILDDIR)/task.o: CC1FLAGS += -fprologue-bugfix
 
 # Use old gcc because of the "prologue issue" bugfix
