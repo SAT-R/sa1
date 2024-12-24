@@ -19,7 +19,7 @@ SECTIONS {
         build/sa1/asm/sprite.o(.text);
         build/sa1/asm/animation_commands.o(.text);
         build/sa1/asm/sprite_4.o(.text);
-        build/sa1/asm/malloc_ewram.o(.text);
+        build/sa1/src/malloc_ewram.o(.text);
         build/sa1/src/malloc_vram.o(.text);
         build/sa1/src/multi_sio.o(.text);
         build/sa1/src/multi_boot.o(.text);

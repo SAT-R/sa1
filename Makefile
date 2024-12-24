@@ -134,6 +134,7 @@ OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(OBJS))
 
 # Fix "prologue issue" bugfix in select files
 # TODO: Maybe we can enable this globally for SA1?
+$(C_BUILDDIR)/malloc_ewram.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/malloc_vram.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/multi_boot.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/multi_sio.o: CC1FLAGS += -fprologue-bugfix

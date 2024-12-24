@@ -2,8 +2,9 @@
 
 build/sa1/src/lib/m4a/m4a.o(ewram_data);
 
-. = 0x00002650; gEwramHeap = .;
-. = 0x000226D0; ewram_end = .;
+build/sa1/src/malloc_ewram.o(COMMON);
+ewram_end = .;
+
 . = 0x00033000; gUnknown_02033000 = .;
 . = 0x00033004; gUnknown_02033004 = .;
 . = 0x00033008; gUnknown_02033008 = .;
