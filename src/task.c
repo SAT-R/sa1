@@ -396,8 +396,6 @@ static void UNUSED sa2__sub_80028DC(void)
     }
 }
 
-// NOTE: This non-match is fixed when using old_agbcc ("prologue issue"),
-//       but other functions will result in a nonmatch with it.
 static struct Task *TaskGetNextSlot(void)
 {
     if (gNumTasks >= MAX_TASK_NUM) {

@@ -106,7 +106,8 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00004C60; gMultiSioIntrFuncBuf = .;
 . = 0x00004D80; gMultiSioArea = .;
 . = 0x00004F70; gMultiSioRecvFuncBuf = .;
-. = 0x00004FB0; gSio32MultiLoadArea = .;
+. = 0x00004FB0;
+build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00004FE0; gUnknown_03004FE0 = .;
 . = 0x00004FE4; gCheckpointTime = .;
 . = 0x00004FE8; gMultiplayerCharRings = .; /* gMultiplayerCharRings[MULTI_SIO_PLAYERS_MAX] */

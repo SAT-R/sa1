@@ -23,7 +23,7 @@ SECTIONS {
         build/sa1/asm/malloc_vram.o(.text);
         build/sa1/src/multi_sio.o(.text);
         build/sa1/asm/multi_boot.o(.text);
-        build/sa1/asm/sio32_multi_load.o(.text);
+        build/sa1/src/sio32_multi_load.o(.text);
 
         /* Game */
         build/sa1/asm/stage__rings_manager.o(.text);
@@ -168,6 +168,7 @@ SECTIONS {
     /* Data */
 
         build/sa1/data/data_0.o(.rodata);
+        build/sa1/src/sio32_multi_load.o(.rodata);
         build/sa1/data/chao_garden.o(.rodata);
         build/sa1/src/data/entity_tables.o(.rodata);
         build/sa1/data/data_0_1.o(.rodata);

@@ -38,4 +38,4 @@ gOamShapesSizes:
 
     .global gUnknown_0809C138
 gUnknown_0809C138:
-    .incbin "baserom.gba", 0x0009C138, 0x38
+    .incbin "baserom.gba", 0x0009C138, 0x20
