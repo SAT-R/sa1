@@ -296,6 +296,8 @@ extern u8 sa2__gUnknown_03002A80;
 // extern u8 gUnknown_03002710[128];
 // extern struct MultiBootParam gMultiBootParam;
 
+extern struct SpriteTables *gRefSpriteTables;
+
 void EngineInit(void);
 void EngineMainLoop(void);
 

@@ -1735,7 +1735,7 @@ _0800269C:
 	.align 2, 0
 _080026B4: .4byte 0xFFFFBFFF
 _080026B8:
-	ldr r0, _0800275C @ =gUnknown_03002034
+	ldr r0, _0800275C @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r4, #0xa]
 	ldr r1, [r1]
@@ -1768,7 +1768,7 @@ _080026DC:
 	rsbs r0, r0, #0
 	cmp r1, r0
 	bne _08002764
-	ldr r0, _0800275C @ =gUnknown_03002034
+	ldr r0, _0800275C @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r4, #0xa]
 	ldr r1, [r1]
@@ -1806,7 +1806,7 @@ _08002722:
 	rsbs r0, r0, #0
 	cmp r2, r0
 	beq _08002768
-	ldr r0, _0800275C @ =gUnknown_03002034
+	ldr r0, _0800275C @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r4, #0xa]
 	ldr r1, [r1, #4]
@@ -1820,7 +1820,7 @@ _08002722:
 	str r0, [r4, #0xc]
 	b _0800276A
 	.align 2, 0
-_0800275C: .4byte gUnknown_03002034
+_0800275C: .4byte gRefSpriteTables
 _08002760: .4byte animCmdTable_BG
 _08002764:
 	adds r0, r1, #0
@@ -1854,7 +1854,7 @@ animCmd_GetTiles_BG: @ 0x08002778
 	ldr r1, [r2, #4]
 	cmp r1, #0
 	bge _080027AC
-	ldr r0, _080027A8 @ =gUnknown_03002034
+	ldr r0, _080027A8 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #6
 	ldr r0, [r0, #0x14]
@@ -1864,9 +1864,9 @@ animCmd_GetTiles_BG: @ 0x08002778
 	lsls r0, r0, #6
 	b _080027BC
 	.align 2, 0
-_080027A8: .4byte gUnknown_03002034
+_080027A8: .4byte gRefSpriteTables
 _080027AC:
-	ldr r0, _080027D8 @ =gUnknown_03002034
+	ldr r0, _080027D8 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0x10]
@@ -1891,7 +1891,7 @@ _080027D4:
 	movs r0, #1
 	bx lr
 	.align 2, 0
-_080027D8: .4byte gUnknown_03002034
+_080027D8: .4byte gRefSpriteTables
 _080027DC: .4byte gVramGraphicsCopyQueue
 _080027E0: .4byte gVramGraphicsCopyQueueIndex
 
@@ -2177,7 +2177,7 @@ _080029F8:
 	lsls r0, r1
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0x10]
-	ldr r0, _08002B28 @ =gUnknown_03002034
+	ldr r0, _08002B28 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldr r2, [sp, #0xc]
 	ldrh r0, [r2, #0xa]
@@ -2323,7 +2323,7 @@ _08002B18: .4byte gUnknown_03004C30
 _08002B1C: .4byte gUnknown_030045B0
 _08002B20: .4byte gBgCntRegs
 _08002B24: .4byte gDispCnt
-_08002B28: .4byte gUnknown_03002034
+_08002B28: .4byte gRefSpriteTables
 _08002B2C: .4byte 0x040000D4
 _08002B30: .4byte 0x80000003
 _08002B34: .4byte gOamShapesSizes
@@ -2397,7 +2397,7 @@ _08002BA0:
 	movs r7, #0x40
 	str r7, [sp, #0x10]
 _08002BBA:
-	ldr r0, _08002C88 @ =gUnknown_03002034
+	ldr r0, _08002C88 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldr r2, [sp, #0xc]
 	ldrh r0, [r2, #0xa]
@@ -2502,7 +2502,7 @@ _08002BEE:
 	ldrsh r1, [r7, r2]
 	b _08002CB0
 	.align 2, 0
-_08002C88: .4byte gUnknown_03002034
+_08002C88: .4byte gRefSpriteTables
 _08002C8C: .4byte 0x040000D4
 _08002C90: .4byte 0x80000003
 _08002C94: .4byte gOamShapesSizes
@@ -3302,7 +3302,7 @@ animCmd_GetPalette_BG: @ 0x08003288
 	bne _080032DC
 	ldr r1, [r4, #4]
 	ldr r2, _080032E4 @ =0x040000D4
-	ldr r0, _080032E8 @ =gUnknown_03002034
+	ldr r0, _080032E8 @ =gRefSpriteTables
 	ldr r0, [r0]
 	lsls r1, r1, #5
 	ldr r0, [r0, #0xc]
@@ -3337,7 +3337,7 @@ _080032DC:
 	bx r1
 	.align 2, 0
 _080032E4: .4byte 0x040000D4
-_080032E8: .4byte gUnknown_03002034
+_080032E8: .4byte gRefSpriteTables
 _080032EC: .4byte gBgPalette
 _080032F0: .4byte gFlags
 

@@ -596,7 +596,7 @@ _0802524C: .4byte gCamera
 _08025250: .4byte gPlayer
 _08025254: .4byte gUnknown_03005AB0
 _08025258:
-	ldr r0, _0802530C @ =gUnknown_03002034
+	ldr r0, _0802530C @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r6, #0xa]
 	ldr r1, [r1, #8]
@@ -690,7 +690,7 @@ _080252E2:
 	bl TaskDestroy
 	b _080253E4
 	.align 2, 0
-_0802530C: .4byte gUnknown_03002034
+_0802530C: .4byte gRefSpriteTables
 _08025310: .4byte 0x0000FFE1
 _08025314: .4byte gPlayer
 _08025318: .4byte gUnknown_03005088
@@ -889,7 +889,7 @@ _08025498: .4byte gCurTask
 _0802549C: .4byte 0x0300000C
 _080254A0: .4byte gCamera
 _080254A4:
-	ldr r0, _08025504 @ =gUnknown_03002034
+	ldr r0, _08025504 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r5, #0xa]
 	ldr r1, [r1, #8]
@@ -938,7 +938,7 @@ _080254CC:
 	strb r0, [r2]
 	b _080255C0
 	.align 2, 0
-_08025504: .4byte gUnknown_03002034
+_08025504: .4byte gRefSpriteTables
 _08025508: .4byte 0x0000FFE1
 _0802550C: .4byte gCurTask
 _08025510:

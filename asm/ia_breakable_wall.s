@@ -615,7 +615,7 @@ _08027DFA:
 _08027E18: .4byte gCurTask
 _08027E1C: .4byte gCamera
 _08027E20:
-	ldr r0, _08027E68 @ =gUnknown_03002034
+	ldr r0, _08027E68 @ =gRefSpriteTables
 	ldr r1, [r0]
 	ldrh r0, [r7, #0xa]
 	ldr r1, [r1, #8]
@@ -654,7 +654,7 @@ _08027E4A:
 	mov sb, r0
 	b _08027E6E
 	.align 2, 0
-_08027E68: .4byte gUnknown_03002034
+_08027E68: .4byte gRefSpriteTables
 _08027E6C:
 	mov sb, sl
 _08027E6E:

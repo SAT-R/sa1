@@ -132,30 +132,30 @@ typedef struct {
     /* 0x0C */ SpriteOffset *dimensions;
 
     // Bitfield description from KATAM decomp
-    /* 0x10 */ u32 unk10; // bit 0-4: affine-index / rotscale param selection
-                          // bit 5: rotscale enable
-                          // bit 6: rotscale double-size
-                          // bit 7-8: obj mode
-                          // bit 9
-                          // bit 10 X-Flip
-                          // bit 11 Y-Flip
-                          // bit 12-13: priority
-                          // bit 14
-                          // bit 15-16: Background ID
-                          // bit 17
-                          // bit 18
-                          // bit 19-25(?)
-                          // bit 26
-                          // bit 27-29(?)
-                          // bit 30
-                          // bit 31
+    /* 0x10 */ u32 frameFlags; // bit 0-4: affine-index / rotscale param selection
+                               // bit 5: rotscale enable
+                               // bit 6: rotscale double-size
+                               // bit 7-8: obj mode
+                               // bit 9
+                               // bit 10 X-Flip
+                               // bit 11 Y-Flip
+                               // bit 12-13: priority
+                               // bit 14
+                               // bit 15-16: Background ID
+                               // bit 17
+                               // bit 18
+                               // bit 19-25(?)
+                               // bit 26
+                               // bit 27-29(?)
+                               // bit 30
+                               // bit 31
 
     /* 0x14 */ u16 animCursor;
 
     /* 0x16 */ s16 x;
     /* 0x18 */ s16 y;
 
-    /* 0x1A */ u16 unk1A; // bit 6-10: OAM order index
+    /* 0x1A */ u16 oamFlags; // bit 6-10: OAM order index
 
     /* 0x1C */ s16 qAnimDelay; // Q_8_8, in frames
     /* 0x1E */ u16 prevAnim;
@@ -198,7 +198,13 @@ typedef struct PACKED {
 
 extern const u8 gOamShapesSizes[12][2];
 
-s32 UpdateSpriteAnimation(Sprite *);
+typedef enum {
+    ACMD_RESULT__ANIM_CHANGED = -1,
+    ACMD_RESULT__ENDED = 0,
+    ACMD_RESULT__RUNNING = +1,
+} AnimCmdResult;
+
+AnimCmdResult UpdateSpriteAnimation(Sprite *);
 
 void DisplaySprite(Sprite *);
 void DrawBackground(Background *);
@@ -280,15 +286,15 @@ s16 sub_8004418(s16 x, s16 y);
 
 #define SPRITE_FLAG(flagName, value) ((value) << SF_SHIFT(flagName))
 
-#define SPRITE_FLAG_GET(sprite, flagName) (((sprite)->unk10 & (SPRITE_FLAG_MASK_##flagName)) >> (SF_SHIFT(flagName)))
+#define SPRITE_FLAG_GET(sprite, flagName) (((sprite)->frameFlags & (SPRITE_FLAG_MASK_##flagName)) >> (SF_SHIFT(flagName)))
 
-#define SPRITE_FLAG_CLEAR(sprite, flagName) (sprite)->unk10 &= ~(SPRITE_FLAG_MASK_##flagName)
+#define SPRITE_FLAG_CLEAR(sprite, flagName) (sprite)->frameFlags &= ~(SPRITE_FLAG_MASK_##flagName)
 
-#define SPRITE_FLAG_SET(sprite, flagName) (sprite)->unk10 |= (SPRITE_FLAG_MASK_##flagName)
+#define SPRITE_FLAG_SET(sprite, flagName) (sprite)->frameFlags |= (SPRITE_FLAG_MASK_##flagName)
 
-#define SPRITE_FLAG_FLIP(sprite, flagName) (sprite)->unk10 ^= (SPRITE_FLAG_MASK_##flagName)
+#define SPRITE_FLAG_FLIP(sprite, flagName) (sprite)->frameFlags ^= (SPRITE_FLAG_MASK_##flagName)
 
-#define SPRITE_FLAG_SET_VALUE(sprite, flagName, value) (sprite)->unk10 |= SPRITE_FLAG(flagName, value)
+#define SPRITE_FLAG_SET_VALUE(sprite, flagName, value) (sprite)->frameFlags |= SPRITE_FLAG(flagName, value)
 
 #define SPRITE_FLAG_SHIFT_ROT_SCALE             0
 #define SPRITE_FLAG_SHIFT_ROT_SCALE_ENABLE      5

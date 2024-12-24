@@ -16,6 +16,7 @@ SECTIONS {
         build/sa1/src/task.o(.text);
         build/sa1/asm/background.o(.text);
         build/sa1/asm/sprite.o(.text);
+        build/sa1/src/sprite.o(.text);
         build/sa1/src/bg_triangles.o(.text);
         build/sa1/src/malloc_ewram.o(.text);
         build/sa1/src/malloc_vram.o(.text);
@@ -180,6 +181,7 @@ SECTIONS {
     /* Data */
 
         build/sa1/data/data_0.o(.rodata);
+        build/sa1/src/sprite.o(.rodata);
         build/sa1/src/bg_triangles.o(.rodata);
         build/sa1/src/multi_sio.o(.rodata);
         build/sa1/src/sio32_multi_load.o(.rodata);

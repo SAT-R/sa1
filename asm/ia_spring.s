@@ -104,7 +104,7 @@ CreateEntity_Spring_Normal_Up: @ 0x080219A0
 	cmp r0, #0
 	bne _08021AC8
 	ldr r1, _08021AB4 @ =0x040000D4
-	ldr r0, _08021AB8 @ =gUnknown_03002034
+	ldr r0, _08021AB8 @ =gRefSpriteTables
 	ldr r0, [r0]
 	ldr r0, [r0, #0xc]
 	movs r4, #0x90
@@ -136,7 +136,7 @@ _08021AA8: .4byte 0x0300002D
 _08021AAC: .4byte 0x0300002E
 _08021AB0: .4byte 0x03000031
 _08021AB4: .4byte 0x040000D4
-_08021AB8: .4byte gUnknown_03002034
+_08021AB8: .4byte gRefSpriteTables
 _08021ABC: .4byte gObjPalette+0x100
 _08021AC0: .4byte 0x84000008
 _08021AC4: .4byte gFlags

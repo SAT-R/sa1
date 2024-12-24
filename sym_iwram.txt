@@ -70,7 +70,7 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00001FAC; gReleasedKeys = .;
 . = 0x00001FB0; gUnknown_03001FB0 = .; /* SA2: gUnknown_03002710 */
 . = 0x00002030; gFlagsPreVBlank = .;
-. = 0x00002034; gUnknown_03002034 = .; /* SA2: gUnknown_03002794 */
+. = 0x00002034; gRefSpriteTables = .; /* SA2: gUnknown_03002794 */
 . = 0x00002040; gVramGraphicsCopyQueue = .;
 . = 0x000020C0; gUnknown_030020C0 = .; /* SA2: gUnknown_03002820 */
 . = 0x000020D0; gBgScrollRegs = .;
