@@ -2,6 +2,9 @@
 /**** bss ****/
 build/sa1/src/lib/m4a/m4a.o(.bss.code);
 
+. = 0x0000400;
+build/sa1/src/multi_boot.o(.bss);
+
 /* *** TODO: Do these without hard-coding! *** */
 gFlashMaxTime = 0x00000424;
 PollFlashStatus = 0x00000428;

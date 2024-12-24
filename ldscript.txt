@@ -22,7 +22,7 @@ SECTIONS {
         build/sa1/asm/malloc_ewram.o(.text);
         build/sa1/asm/malloc_vram.o(.text);
         build/sa1/src/multi_sio.o(.text);
-        build/sa1/asm/multi_boot.o(.text);
+        build/sa1/src/multi_boot.o(.text);
         build/sa1/src/sio32_multi_load.o(.text);
 
         /* Game */

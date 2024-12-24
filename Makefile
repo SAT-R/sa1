@@ -133,6 +133,7 @@ OBJS := $(C_OBJS) $(ASM_OBJS) $(C_ASM_OBJS) $(DATA_ASM_OBJS) $(SONG_OBJS) $(MID_
 OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(OBJS))
 
 # Use old gcc because of the "prologue issue" bugfix
+$(C_BUILDDIR)/multi_boot.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/multi_sio.o: CC1FLAGS += -fprologue-bugfix
 
 # Use old gcc because of the "prologue issue" bugfix
