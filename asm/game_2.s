@@ -2039,7 +2039,7 @@ _0804F464:
 	bl UpdateSpriteAnimation
 	ldr r0, [sp]
 	ldr r1, [sp, #4]
-	bl sub_80037D0
+	bl TransformSprite
 	ldr r0, [sp]
 	bl DisplaySprite
 _0804F4A6:
@@ -2348,7 +2348,7 @@ _0804F6F0:
 	bl UpdateSpriteAnimation
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r4, #0
 	bl DisplaySprite
 _0804F72E:
@@ -5278,7 +5278,7 @@ _08050D46:
 	bl UpdateSpriteAnimation
 	mov r0, sb
 	ldr r1, [sp]
-	bl sub_80037D0
+	bl TransformSprite
 	mov r0, sb
 	bl DisplaySprite
 	ldr r1, [sp, #0xc]
@@ -5654,7 +5654,7 @@ sub_8050FB4: @ 0x08050FB4
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	ldr r1, [sp]
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 	mov r0, sb
@@ -6099,7 +6099,7 @@ sub_8051344: @ 0x08051344
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	mov r1, sb
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 	ldr r0, [sp]
@@ -6508,7 +6508,7 @@ _0805173E:
 	bl UpdateSpriteAnimation
 	mov r0, sb
 	mov r1, r8
-	bl sub_80037D0
+	bl TransformSprite
 	mov r0, sb
 	bl DisplaySprite
 	ldr r0, [sp]
@@ -6915,7 +6915,7 @@ sub_80519E8: @ 0x080519E8
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	mov r1, sl
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 	ldr r0, [sp, #4]
@@ -7198,7 +7198,7 @@ sub_8051C44: @ 0x08051C44
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	mov r1, sb
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 	ldr r0, [sp]
@@ -7430,7 +7430,7 @@ sub_8051E38: @ 0x08051E38
 	bl UpdateSpriteAnimation
 	adds r0, r6, #0
 	mov r1, sb
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 	ldr r0, [sp]
@@ -9161,7 +9161,7 @@ _08052CC4:
 	movs r3, #2
 	ldrsh r2, [r4, r3]
 	ldrh r3, [r4, #6]
-	bl sub_8003710
+	bl sa2__sub_80047A0
 	ldrh r7, [r4, #6]
 	mov sl, r7
 	movs r0, #3
@@ -9264,7 +9264,7 @@ sub_8052D64: @ 0x08052D64
 	movs r3, #2
 	ldrsh r2, [r4, r3]
 	ldrh r3, [r4, #6]
-	bl sub_8003710
+	bl sa2__sub_80047A0
 	ldrh r7, [r4, #6]
 	mov r8, r7
 	mov r2, sp
@@ -15993,7 +15993,7 @@ _080562AE:
 	strh r2, [r0, #8]
 	adds r0, r6, #0
 	mov r1, sp
-	bl sub_80037D0
+	bl TransformSprite
 	mov r0, sp
 	mov r1, sl
 	strh r1, [r0]
@@ -16013,7 +16013,7 @@ _080562DC:
 	mov r2, sb
 	strh r2, [r0, #8]
 	mov r0, r8
-	bl sub_80037D0
+	bl TransformSprite
 _080562F2:
 	ldr r1, [sp, #0xc]
 	lsls r0, r1, #0x10
@@ -16120,7 +16120,7 @@ _080563B6:
 	movs r3, #0x3c
 	strh r3, [r0, #8]
 	adds r0, r5, #0
-	bl sub_80037D0
+	bl TransformSprite
 	ldrb r0, [r7]
 	adds r1, r0, #1
 	strb r1, [r7]
@@ -16152,7 +16152,7 @@ _080563F6:
 	movs r3, #0x3c
 	strh r3, [r0, #8]
 	adds r0, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	ldr r0, [sp, #0xc]
 	adds r0, #1
 	lsls r0, r0, #0x10
@@ -16284,7 +16284,7 @@ _0805650C:
 	strh r2, [r0, #8]
 	adds r0, r6, #0
 	str r3, [sp, #0x10]
-	bl sub_80037D0
+	bl TransformSprite
 	ldr r3, [sp, #0x10]
 	ldrb r0, [r3]
 	adds r1, r0, #1
@@ -16317,7 +16317,7 @@ _08056552:
 	strh r2, [r0, #8]
 	adds r0, r7, #0
 	mov r1, sp
-	bl sub_80037D0
+	bl TransformSprite
 	ldr r0, [sp, #0xc]
 	adds r0, #1
 	lsls r0, r0, #0x10
@@ -16454,7 +16454,7 @@ _0805666C:
 	mov r2, sb
 	strh r2, [r0, #8]
 	adds r0, r5, #0
-	bl sub_80037D0
+	bl TransformSprite
 	mov r0, sp
 	movs r3, #0
 	strh r3, [r0]
@@ -16475,7 +16475,7 @@ _08056696:
 	mov r2, sb
 	strh r2, [r0, #8]
 	adds r0, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 _080566AE:
 	mov r3, sl
 	lsls r0, r3, #0x10
@@ -18753,7 +18753,7 @@ _080578E2:
 	movs r0, #0
 	movs r1, #0x80
 	lsls r1, r1, #1
-	bl sub_8003710
+	bl sa2__sub_80047A0
 	b _0805791E
 	.align 2, 0
 _08057904: .4byte gPlayer
@@ -18765,7 +18765,7 @@ _08057910:
 	lsls r1, r1, #1
 	movs r2, #1
 	movs r3, #0x14
-	bl sub_8003710
+	bl sa2__sub_80047A0
 _0805791E:
 	adds r0, r4, #1
 	lsls r0, r0, #0x18
@@ -33167,7 +33167,7 @@ _0805EAFE:
 	strh r1, [r2, #8]
 	adds r0, r7, #0
 	adds r1, r2, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
 	adds r0, r7, #0
@@ -33221,7 +33221,7 @@ _0805EAFE:
 	strh r0, [r2, #8]
 	adds r0, r7, #0
 	adds r1, r2, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
 	adds r0, r7, #0
@@ -33275,7 +33275,7 @@ _0805EAFE:
 	strh r0, [r2, #8]
 	adds r0, r7, #0
 	adds r1, r2, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
 	adds r0, r7, #0
@@ -33329,7 +33329,7 @@ _0805EAFE:
 	strh r1, [r2, #8]
 	adds r0, r7, #0
 	adds r1, r2, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
 	adds r0, r7, #0
@@ -34947,7 +34947,7 @@ _0805FB52:
 	strh r5, [r7, #0x18]
 	adds r0, r7, #0
 	adds r1, r3, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl DisplaySprite
 	mov r7, sl
@@ -34980,7 +34980,7 @@ _0805FB52:
 	strh r5, [r7, #0x18]
 	adds r0, r7, #0
 	adds r1, r3, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl DisplaySprite
 	adds r7, #0x3c
@@ -35012,7 +35012,7 @@ _0805FB52:
 	strh r5, [r7, #0x18]
 	adds r0, r7, #0
 	adds r1, r3, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl DisplaySprite
 	adds r7, #0x3c
@@ -35044,7 +35044,7 @@ _0805FB52:
 	strh r5, [r7, #0x18]
 	adds r0, r7, #0
 	adds r1, r3, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl DisplaySprite
 	pop {r3, r4, r5}
@@ -48378,7 +48378,7 @@ _08066964:
 	str r0, [r5, #0x10]
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_80037D0
+	bl TransformSprite
 	b _08066986
 	.align 2, 0
 _08066974: .4byte gSineTable
@@ -51571,7 +51571,7 @@ _080682DC:
 	strh r0, [r6, #0x18]
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r6, #0
 	bl DisplaySprite
 _08068348:

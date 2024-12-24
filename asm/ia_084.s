@@ -1473,11 +1473,11 @@ _0808D2A2:
 _0808D2B2:
 	movs r0, #0xc6
 	bl m4aSongNumStop
-	ldr r0, _0808D308 @ =gUnknown_0300120C
+	ldr r0, _0808D308 @ =sa2__gUnknown_0300194C
 	ldr r3, [sp, #0xc]
 	ldrh r2, [r3, #0x16]
 	strh r2, [r0]
-	ldr r0, _0808D30C @ =gUnknown_030020C0
+	ldr r0, _0808D30C @ =sa2__gUnknown_03002820
 	ldrh r3, [r3, #0x18]
 	strh r3, [r0]
 	ldr r4, [sp, #0x24]
@@ -1511,8 +1511,8 @@ _0808D2F8:
 	b _0808D9C0
 	.align 2, 0
 _0808D304: .4byte gUnknown_03005088
-_0808D308: .4byte gUnknown_0300120C
-_0808D30C: .4byte gUnknown_030020C0
+_0808D308: .4byte sa2__gUnknown_0300194C
+_0808D30C: .4byte sa2__gUnknown_03002820
 _0808D310: .4byte gCurTask
 _0808D314:
 	movs r6, #0
@@ -2781,7 +2781,7 @@ _0808DC2A:
 	adds r0, r3, #0
 	adds r1, r7, #0
 	str r3, [sp, #8]
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	ldr r3, [sp, #8]
 	adds r0, r3, #0
 	bl DisplaySprite
@@ -2841,7 +2841,7 @@ _0808DC2A:
 	adds r0, r3, #0
 	adds r1, r7, #0
 	str r3, [sp, #8]
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	ldr r3, [sp, #8]
 	adds r0, r3, #0
 	bl DisplaySprite
@@ -2902,7 +2902,7 @@ _0808DC2A:
 	adds r0, r3, #0
 	adds r1, r7, #0
 	str r3, [sp, #8]
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	ldr r3, [sp, #8]
 	adds r0, r3, #0
 	bl DisplaySprite
@@ -2958,7 +2958,7 @@ _0808DC2A:
 	adds r0, r3, #0
 	adds r1, r7, #0
 	str r3, [sp, #8]
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	ldr r3, [sp, #8]
 	adds r0, r3, #0
 	bl DisplaySprite

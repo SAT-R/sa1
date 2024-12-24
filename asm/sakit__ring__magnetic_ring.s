@@ -103,7 +103,7 @@ Task_MagneticRing: @ 0x08024BC8
 	asrs r0, r0, #0x10
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_800338C
+	bl sa2__sub_8004418
 	ldrh r1, [r5, #0x30]
 	adds r1, #0x40
 	strh r1, [r5, #0x30]

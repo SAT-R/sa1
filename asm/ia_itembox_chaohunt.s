@@ -1349,12 +1349,12 @@ _0801C564:
 	adds r5, r4, r0
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	ldr r0, _0801C5C0 @ =0x0300003C
 	adds r4, r4, r0
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r5, #0
 	bl DisplaySprite
 	adds r0, r4, #0
@@ -1451,12 +1451,12 @@ _0801C63C:
 	adds r5, r4, r0
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	ldr r0, _0801C698 @ =0x0300003C
 	adds r4, r4, r0
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r5, #0
 	bl DisplaySprite
 	adds r0, r4, #0

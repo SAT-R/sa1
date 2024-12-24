@@ -136,7 +136,7 @@ _0804CE54:
 	bl UpdateSpriteAnimation
 	adds r0, r4, #0
 	mov r1, r8
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r4, #0
 	bl DisplaySprite
 	ldr r1, _0804CED0 @ =0x03000058

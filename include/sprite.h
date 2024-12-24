@@ -2,6 +2,7 @@
 #define GUARD_SPRITE_H
 
 #include "global.h"
+#include "rect.h"
 
 // Version: January 10th, 2024
 
@@ -116,20 +117,17 @@ typedef struct {
 typedef struct {
     // index: -1 on init; lower 4 bits = index (in anim-cmds)
     /* 0x00 */ s32 index;
-    /* 0x04 */ s8 left;
-    /* 0x05 */ s8 top;
-    /* 0x06 */ s8 right;
-    /* 0x07 */ s8 bottom;
+    /* 0x04 */ Rect8 b;
 } Hitbox;
 
 #define SPRITE_ANIM_SPEED(speed) ((int)((float)(speed)*0x10))
 #define SPRITE_OAM_ORDER(index)  ((index) << 6)
-#define GET_SPRITE_OAM_ORDER(s)  ((((s)->unk1A) & 0x7C0) >> 6)
+#define GET_SPRITE_OAM_ORDER(s)  ((((s)->oamFlags) & 0x7C0) >> 6)
 
 // TODO: work out what makes this struct different from the above
 typedef struct {
     /* 0x00 */ struct GraphicsData graphics;
-    /* 0x0C */ SpriteOffset *dimensions;
+    /* 0x0C */ const SpriteOffset *dimensions;
 
     // Bitfield description from KATAM decomp
     /* 0x10 */ u32 frameFlags; // bit 0-4: affine-index / rotscale param selection
@@ -185,6 +183,20 @@ typedef struct {
 } SpriteTransform; /* size 0xA */
 
 typedef struct {
+    /* 0x00 */ s16 unk0[4];
+    /* 0x08 */ s16 qDirX;
+    /* 0x0A */ s16 qDirY;
+
+    /* 0x0C */ s16 unkC[2];
+
+    /* 0x10 */ s32 posX;
+    /* 0x14 */ s32 posY;
+
+    /* 0x18 */ s16 unk18[2][2];
+    /* 0x20 */ u16 affineIndex;
+} UnkSpriteStruct;
+
+typedef struct {
     /* 0x00 */ u32 numTiles;
     /* 0x04 */ AnimId anim;
     /* 0x06 */ u8 variant;
@@ -229,10 +241,15 @@ void sub_80047A0(u16, s16, s16, u16);
 
 s16 sub_8004418(s16 x, s16 y);
 
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
+#define GET_SPRITE_ANIM(s) ((s)->graphics.anim)
+#else
+#define GET_SPRITE_ANIM(s) ((s)->anim)
+#endif
+
 #define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->graphics.anim))
 
-// TODO: Maybe rename this and move if out?
-#define SPRITE_MAYBE_SWITCH_ANIM(_sprite)                                                                                                  \
+#define SPRITE_INIT_ANIM_IF_CHANGED(_sprite)                                                                                                  \
     if (SpriteShouldUpdate(_sprite)) {                                                                                                     \
         (_sprite)->graphics.size = 0;                                                                                                      \
         (_sprite)->prevVariant = (_sprite)->variant;                                                                                       \

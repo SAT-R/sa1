@@ -435,10 +435,10 @@ _080901E6:
 	adds r4, #0xa0
 	b _080902F8
 _080901EC:
-	ldr r1, _0809024C @ =gUnknown_0300120C
+	ldr r1, _0809024C @ =sa2__gUnknown_0300194C
 	ldrh r0, [r7, #0x16]
 	strh r0, [r1]
-	ldr r2, _08090250 @ =gUnknown_030020C0
+	ldr r2, _08090250 @ =sa2__gUnknown_03002820
 	ldrh r0, [r7, #0x18]
 	strh r0, [r2]
 	ldr r3, [sp, #0x10]
@@ -482,8 +482,8 @@ _08090242:
 	bl TaskDestroy
 	b _0809031C
 	.align 2, 0
-_0809024C: .4byte gUnknown_0300120C
-_08090250: .4byte gUnknown_030020C0
+_0809024C: .4byte sa2__gUnknown_0300194C
+_08090250: .4byte sa2__gUnknown_03002820
 _08090254: .4byte gCurTask
 _08090258:
 	mov r3, sb
@@ -890,7 +890,7 @@ _08090586:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]
@@ -942,7 +942,7 @@ _08090586:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]
@@ -995,7 +995,7 @@ _08090586:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]
@@ -1047,7 +1047,7 @@ _08090586:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]

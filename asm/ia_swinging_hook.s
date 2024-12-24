@@ -1700,7 +1700,7 @@ _0808830C:
 _08088320:
 	mov r0, sb
 	ldr r1, [sp]
-	bl sub_80037D0
+	bl TransformSprite
 	mov r0, sb
 	bl UpdateSpriteAnimation
 	mov r0, sb

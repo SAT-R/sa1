@@ -778,7 +778,7 @@ _08078FA4:
 	lsls r0, r0, #0x10
 	asrs r1, r0, #0x10
 	adds r0, r2, #0
-	bl sub_800338C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	asrs r2, r0, #0x10
 	adds r1, r2, #0
@@ -1873,7 +1873,7 @@ _080797FC:
 	lsls r0, r0, #0x10
 	asrs r1, r0, #0x10
 	adds r0, r2, #0
-	bl sub_800338C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	asrs r4, r0, #0x10
 	movs r1, #0x80
@@ -2979,7 +2979,7 @@ _0807A098:
 	lsls r0, r0, #0x10
 	asrs r1, r0, #0x10
 	adds r0, r2, #0
-	bl sub_800338C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	asrs r4, r0, #0x10
 	movs r1, #0x80
@@ -4850,7 +4850,7 @@ _0807AF26:
 	lsls r0, r0, #0x10
 	asrs r1, r0, #0x10
 	adds r0, r2, #0
-	bl sub_800338C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	asrs r2, r0, #0x10
 	ldr r1, [sp]
@@ -5347,7 +5347,7 @@ _0807B2BC:
 	lsls r0, r0, #0x10
 	asrs r1, r0, #0x10
 	adds r0, r2, #0
-	bl sub_800338C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	asrs r2, r0, #0x10
 	ldr r1, [sp]

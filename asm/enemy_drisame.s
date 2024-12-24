@@ -252,7 +252,7 @@ _08072CA0:
 	subs r1, r1, r3
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_800338C
+	bl sa2__sub_8004418
 	ldr r1, _08072D44 @ =0x000003FF
 	ands r1, r0
 	str r1, [sp]

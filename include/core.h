@@ -213,9 +213,44 @@ extern u8 gEwramHeap[0x20080];
 extern u32 gVramHeapStartAddr;
 extern u16 gVramHeapMaxTileSlots;
 extern u16 gVramHeapState[256];
+
 extern struct GraphicsData *gVramGraphicsCopyQueue[32];
 extern u8 gVramGraphicsCopyQueueIndex;
-extern u8 gVramGraphicsCopyCursor;
+// Because the graphics in the queue only get copied if
+// (gVramGraphicsCopyCursor != gVramGraphicsCopyQueueIndex),
+// just making them equal will pause the queue.
+#define PAUSE_GRAPHICS_QUEUE() gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+
+#define INC_GRAPHICS_QUEUE_CURSOR(cursor) cursor = (cursor + 1) % ARRAY_COUNT(gVramGraphicsCopyQueue);
+
+#if PORTABLE
+// On the GBA we use a fixed heap to allocate memory
+// but on other OS's we malloc and free memory which
+// the graphics queue may be referring to. Instead we
+// make a separate copy of the graphics queue with the
+// pointers we need to copy so that a race condition
+// happens where sprite has been freed but the copy
+// has not happened we don't get invalid memory access
+extern struct GraphicsData gVramGraphicsCopyQueueBuffer[32];
+#define ADD_TO_GRAPHICS_QUEUE(gfx)                                                                                                         \
+    memcpy(&gVramGraphicsCopyQueueBuffer[gVramGraphicsCopyQueueIndex], gfx, sizeof(struct GraphicsData));                                  \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = &gVramGraphicsCopyQueueBuffer[gVramGraphicsCopyQueueIndex];                      \
+    /* Log has to happen before gVramGraphicsCopyQueueIndex increment */                                                                   \
+    INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
+#else
+#define ADD_TO_GRAPHICS_QUEUE(gfx)                                                                                                         \
+    gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = gfx;                                                                             \
+    /* Log has to happen before gVramGraphicsCopyQueueIndex increment */                                                                   \
+    INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
+#endif
+
+#define PAUSE_BACKGROUNDS_QUEUE() gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+
+#define INC_BACKGROUNDS_QUEUE_CURSOR(cursor) cursor = (cursor + 1) % ARRAY_COUNT(gBackgroundsCopyQueue);
+
+#define ADD_TO_BACKGROUNDS_QUEUE(_bg)                                                                                                      \
+    gBackgroundsCopyQueue[gBackgroundsCopyQueueIndex] = _bg;                                                                               \
+    INC_BACKGROUNDS_QUEUE_CURSOR(gBackgroundsCopyQueueIndex);
 
 extern bool8 gExecSoundMain;
 
@@ -249,8 +284,8 @@ extern s16 gBgScrollRegs[4][2];
 // extern s16 gUnknown_03000408;
 //
 // extern OamData gUnknown_030022C8;
-// extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
-// extern OamData gOamBuffer[OAM_ENTRY_COUNT];
+extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
+extern OamData gOamBuffer[OAM_ENTRY_COUNT];
 //
 //// NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)
 // extern u32 gBgOffsetsBuffer[2][DISPLAY_HEIGHT];
@@ -259,15 +294,15 @@ extern s16 gBgScrollRegs[4][2];
 //// This is used to buffer the xy-shift for each background scanline
 extern void *gBgOffsetsHBlank;
 //
-// extern u16 gUnknown_030017F0;
-// extern s16 gUnknown_030017F4[2];
-// extern u8 gUnknown_03001850[32];
+extern u16 sa2__gUnknown_030017F0;
+extern s16 sa2__gUnknown_030017F4[2];
+extern u8 sa2__gUnknown_03001850[32];
 // extern FuncType_030053A0 gUnknown_03001870[4];
 //
-// extern u8 gOamFreeIndex;
-// extern u16 gUnknown_03001944;
+extern u8 gOamFreeIndex;
+extern u16 sa2__gUnknown_03001944;
 // extern u8 gUnknown_03001948;
-// extern u16 gUnknown_0300194C;
+extern u16 sa2__gUnknown_0300194C;
 //
 //
 // extern u16 *gUnknown_030022AC;
@@ -275,7 +310,7 @@ extern void *gBgOffsetsHBlank;
 // extern s16 gMosaicReg;
 // extern u8 gUnknown_030026F4;
 // extern const struct SpriteTables *gUnknown_03002794;
-// extern u16 gUnknown_03002820;
+extern u16 sa2__gUnknown_03002820;
 // extern u8 gUnknown_03002874;
 extern void *sa2__gUnknown_03002878;
 // extern u8 gUnknown_0300287C;
@@ -283,17 +318,17 @@ extern u8 sa2__gUnknown_03002A80;
 // extern u16 gUnknown_03002A8C;
 //// When paused, the previously-active OAM elements get moved to the end
 //// of the OAM. This is the index of the first currently-inactive element
-// extern u8 gOamFirstPausedIndex;
+extern u8 gOamFirstPausedIndex;
 // extern u8 gUnknown_03002AE4;
 // extern u8 gUnknown_03004D50;
 // extern void *gUnknown_03004D54;
 // extern u16 gUnknown_03004D58;
-// extern u8 gUnknown_03004D60[0x20];
-// extern u16 gUnknown_03005394;
-// extern u16 gUnknown_03005398;
-// extern FuncType_030053A0 gUnknown_030053A0[4];
+extern u8 sa2__gUnknown_03004D60[0x20];
+extern u16 sa2__gUnknown_03005394;
+extern u16 sa2__gUnknown_03005398;
+extern FuncType_030053A0 gUnknown_030053A0[4];
 // extern s32 gPseudoRandom;
-// extern u8 gUnknown_03002710[128];
+extern u8 sa2__gUnknown_03002710[128];
 // extern struct MultiBootParam gMultiBootParam;
 
 extern struct SpriteTables *gRefSpriteTables;

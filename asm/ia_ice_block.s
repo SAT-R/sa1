@@ -179,10 +179,10 @@ Task_IceBlock: @ 0x080917F0
 	bl CreateDustCloud
 	movs r0, #0x8a
 	bl m4aSongNumStart
-	ldr r1, _080918A4 @ =gUnknown_0300120C
+	ldr r1, _080918A4 @ =sa2__gUnknown_0300194C
 	ldrh r0, [r7, #0x16]
 	strh r0, [r1]
-	ldr r2, _080918A8 @ =gUnknown_030020C0
+	ldr r2, _080918A8 @ =sa2__gUnknown_03002820
 	ldrh r1, [r7, #0x18]
 	strh r1, [r2]
 	subs r0, r5, r0
@@ -202,8 +202,8 @@ _08091894: .4byte gCurTask
 _08091898: .4byte 0x0300000C
 _0809189C: .4byte gCamera
 _080918A0: .4byte gGameMode
-_080918A4: .4byte gUnknown_0300120C
-_080918A8: .4byte gUnknown_030020C0
+_080918A4: .4byte sa2__gUnknown_0300194C
+_080918A8: .4byte sa2__gUnknown_03002820
 _080918AC:
 	lsls r6, r6, #0x10
 	mov sl, r6
@@ -326,10 +326,10 @@ _0809197E:
 	bl CreateDustCloud
 	movs r0, #0x8a
 	bl m4aSongNumStart
-	ldr r1, _080919F0 @ =gUnknown_0300120C
+	ldr r1, _080919F0 @ =sa2__gUnknown_0300194C
 	ldrh r0, [r7, #0x16]
 	strh r0, [r1]
-	ldr r2, _080919F4 @ =gUnknown_030020C0
+	ldr r2, _080919F4 @ =sa2__gUnknown_03002820
 	ldrh r1, [r7, #0x18]
 	strh r1, [r2]
 	ldr r3, [sp, #0xc]
@@ -366,8 +366,8 @@ _080919DC:
 _080919E4: .4byte gPlayer
 _080919E8: .4byte gUnknown_03005088
 _080919EC: .4byte gUnknown_03005AB0
-_080919F0: .4byte gUnknown_0300120C
-_080919F4: .4byte gUnknown_030020C0
+_080919F0: .4byte sa2__gUnknown_0300194C
+_080919F4: .4byte sa2__gUnknown_03002820
 _080919F8: .4byte gGameMode
 _080919FC:
 	adds r0, r7, #0
@@ -735,7 +735,7 @@ _08091CCE:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]
@@ -787,7 +787,7 @@ _08091CCE:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]
@@ -840,7 +840,7 @@ _08091CCE:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]
@@ -892,7 +892,7 @@ _08091CCE:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_8003D84
+	bl sa2__sub_8004E14
 	adds r0, r7, #0
 	bl DisplaySprite
 	strh r5, [r6, #6]

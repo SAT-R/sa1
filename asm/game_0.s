@@ -9881,7 +9881,7 @@ _0800E1F4:
 _0800E1F6:
 	ldrb r1, [r4, #6]
 	add r0, sp, #0xc
-	bl numToTileIndices
+	bl numToASCII
 	ldr r0, [r4]
 	ldr r1, _0800E21C @ =gMultiBootProgram_TinyChaoGarden
 	movs r2, #0
@@ -20816,7 +20816,7 @@ _08013C24:
 _08013C38:
 	adds r0, r7, #0
 	ldr r1, [sp]
-	bl sub_80037D0
+	bl TransformSprite
 	b _08013C88
 _08013C42:
 	ldr r2, [r7, #0x10]
@@ -24691,7 +24691,7 @@ _08015A02:
 	movs r4, #0
 	b _08015A1A
 _08015A12:
-	bl sub_800338C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
 _08015A1A:
@@ -24973,7 +24973,7 @@ _08015C0A:
 	bl UpdateSpriteAnimation
 	ldr r0, [sp]
 	mov r1, sl
-	bl sub_80037D0
+	bl TransformSprite
 	ldr r0, [sp]
 	bl DisplaySprite
 _08015C42:
@@ -25618,7 +25618,7 @@ _080161A8:
 	bl UpdateSpriteAnimation
 	adds r0, r7, #0
 	adds r1, r4, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl DisplaySprite
 	ldr r0, _08016228 @ =0x03000074
@@ -26788,7 +26788,7 @@ _08016B24:
 	str r0, [r6, #0x10]
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_80037D0
+	bl TransformSprite
 	b _08016B60
 	.align 2, 0
 _08016B54: .4byte gUnknown_0300504C
@@ -27586,7 +27586,7 @@ _08017158:
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r5, #0
 	bl DisplaySprite
 	pop {r4, r5, r6}
@@ -35721,7 +35721,7 @@ _0801B318:
 	ldr r0, _0801B440 @ =gMultiplayerCharRings
 	adds r0, r6, r0
 	ldrb r0, [r0]
-	bl sub_800348C
+	bl Base10DigitsToHexNibbles
 	lsls r4, r0, #0x10
 	lsrs r1, r4, #0x10
 	mov sl, r1
@@ -35842,7 +35842,7 @@ _0801B444:
 _0801B474: .4byte gUnknown_0300500C
 _0801B478:
 	ldrb r0, [r1]
-	bl sub_800348C
+	bl Base10DigitsToHexNibbles
 	lsls r0, r0, #0x10
 	lsrs r7, r0, #0x10
 _0801B482:
@@ -36272,7 +36272,7 @@ _0801B754:
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
 	adds r0, r1, #0
-	bl sub_800348C
+	bl Base10DigitsToHexNibbles
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 	lsrs r0, r0, #0x14
@@ -36311,7 +36311,7 @@ _0801B754:
 	lsls r4, r4, #0x10
 	lsrs r1, r4, #0x10
 	adds r0, r1, #0
-	bl sub_800348C
+	bl Base10DigitsToHexNibbles
 	ands r6, r0
 	lsls r0, r6, #1
 	adds r0, r0, r6
@@ -36469,7 +36469,7 @@ _0801B988:
 	adds r0, r5, r0
 	ldrb r0, [r0]
 _0801B98E:
-	bl sub_800348C
+	bl Base10DigitsToHexNibbles
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
 	cmp r4, #0xff

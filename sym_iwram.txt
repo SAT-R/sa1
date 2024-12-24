@@ -24,11 +24,11 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00000470; gIntrTable = .;
 . = 0x000004B0; gIntrMainBuf = .;
 . = 0x000006B0; gTasks = .;
-. = 0x000010B0; gUnknown_030010B0 = .; /* SA2: gUnknown_030017F0 */
-. = 0x000010B4; gUnknown_030010B4 = .; /* SA2: gUnknown_030017F4 (some on-screen window rect? Sprites with flag 17 set get moved by this pos) */
+. = 0x000010B0; sa2__gUnknown_030017F0 = .;
+. = 0x000010B4; sa2__gUnknown_030017F4 = .;
 . = 0x000010C0; gUnknown_030010C0 = .; /* SA2: gUnknown_03001800 */
 . = 0x00001100; gFlags = .;
-. = 0x00001110; gUnknown_03001110 = .;
+. = 0x00001110; sa2__gUnknown_03001850 = .;
 . = 0x00001130; gUnknown_03001130 = .;
 . = 0x00001140; gPhysicalInput = .;
 . = 0x00001144; gBgOffsetsHBlank = .;
@@ -41,9 +41,9 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x000011C0; gEmptyTask = .;
 . = 0x000011E0; gBgAffineRegs = .;
 . = 0x00001200; gVramHeapStartAddr = .;
-. = 0x00001204; gUnknown_03001204 = .; /* SA2: gUnknown_03001944 */
+. = 0x00001204; sa2__gUnknown_03001944 = .; /* SA2: gUnknown_03001944 */
 . = 0x00001208; gUnknown_03001208 = .; /* SA2: gUnknown_03001948 */
-. = 0x0000120C; gUnknown_0300120C = .; /* SA2: gUnknown_0300194C */
+. = 0x0000120C; sa2__gUnknown_0300194C = .;
 . = 0x00001210; gMultiSioStatusFlags = .;
 . = 0x00001214; gMultiSioEnabled = .;
 . = 0x00001220; gTaskPtrs = .;
@@ -65,14 +65,14 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 /* SA2: gMosaicReg(size:0x10?) - not reserved/used in SA1 */
 . = 0x00001F80; gHBlankCallbacks = .;
 . = 0x00001F90; gCurTask = .;
-. = 0x00001F94; gUnknown_03001F94 = .; /* SA": gUnknown_030026F4 */
+. = 0x00001F94; sa2__gUnknown_030026F4 = .; /* SA": gUnknown_030026F4 */
 . = 0x00001FA0; gKeysFirstRepeatIntervals = .;
 . = 0x00001FAC; gReleasedKeys = .;
-. = 0x00001FB0; gUnknown_03001FB0 = .; /* SA2: gUnknown_03002710 */
+. = 0x00001FB0; sa2__gUnknown_03002710 = .;
 . = 0x00002030; gFlagsPreVBlank = .;
-. = 0x00002034; gRefSpriteTables = .; /* SA2: gUnknown_03002794 */
+. = 0x00002034; gRefSpriteTables = .;
 . = 0x00002040; gVramGraphicsCopyQueue = .;
-. = 0x000020C0; gUnknown_030020C0 = .; /* SA2: gUnknown_03002820 */
+. = 0x000020C0; sa2__gUnknown_03002820 = .;
 . = 0x000020D0; gBgScrollRegs = .;
 . = 0x000020E0; gDispCnt = .;
 . = 0x000020F0; gKeysContinuedRepeatIntervals = .;
@@ -95,14 +95,14 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x000045F0; gUnknown_030045F0 = .;
 . = 0x000045F4; gUnknown_030045F4 = .;
 . = 0x000045F8; gVramGraphicsCopyCursor = .;
-. = 0x00004600; gUnknown_03004600 = .; /* SA2: gUnknown_03004D60 */
+. = 0x00004600; sa2__gUnknown_03004D60 = .; /* SA2: gUnknown_03004D60 */
 . = 0x00004620; gUnknown_03004620 = .; /* SA2: gUnknown_03004D80 */
 . = 0x00004630; gOamBuffer = .;
 . = 0x00004A30; gVramHeapState = .;
 . = 0x00004C30; gUnknown_03004C30 = .; /* SA2: gUnknown_03005390 */
-. = 0x00004C34; gUnknown_03004C34 = .;
-. = 0x00004C38; gUnknown_03004C38 = .;
-. = 0x00004C40; gUnknown_03004C40 = .;
+. = 0x00004C34; sa2__gUnknown_03005394 = .;
+. = 0x00004C38; sa2__gUnknown_03005398 = .;
+. = 0x00004C40; sa2__gUnknown_030053A0 = .;
 . = 0x00004C50; gInputPlaybackData = .;
 . = 0x00004C54; gExecSoundMain = .;
 . = 0x00004C58; gPseudoRandom = .;

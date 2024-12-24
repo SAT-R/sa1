@@ -833,7 +833,7 @@ CreateBuzzerProjectile: @ 0x0801E2C0
 	subs r1, r1, r6
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_800338C
+	bl sa2__sub_8004418
 	adds r4, r0, #0
 	ldr r7, _0801E3C0 @ =gSineTable
 	lsls r4, r4, #0x10

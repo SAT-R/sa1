@@ -11690,7 +11690,7 @@ sub_80335C0: @ 0x080335C0
 	lsrs r3, r3, #0x1f
 	adds r1, r1, r3
 	asrs r1, r1, #1
-	bl sub_800338C
+	bl sa2__sub_8004418
 	ldr r3, _0803371C @ =gSineTable
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
@@ -22547,7 +22547,7 @@ _08038EAA:
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r5, #0
 	bl DisplaySprite
 	ldrh r0, [r5, #0x3c]
@@ -24132,7 +24132,7 @@ _08039B38:
 	bl UpdateSpriteAnimation
 	mov r0, sl
 	ldr r1, [sp, #4]
-	bl sub_80037D0
+	bl TransformSprite
 	mov r0, sl
 	bl DisplaySprite
 	ldr r0, [sp]
@@ -24305,7 +24305,7 @@ _08039CFA:
 	asrs r0, r0, #0x10
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_800338C
+	bl sa2__sub_8004418
 	lsls r0, r0, #0x10
 	lsrs r6, r0, #0x10
 	ldr r1, _08039D4C @ =0xFF1F0000
@@ -25186,7 +25186,7 @@ _0803A36C:
 	bl UpdateSpriteAnimation
 	adds r0, r7, #0
 	mov r1, sb
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r7, #0
 	bl DisplaySprite
 	ldr r1, [r7, #0x40]
@@ -25317,7 +25317,7 @@ _0803A4D0:
 	bl UpdateSpriteAnimation
 	adds r0, r4, #0
 	mov r1, r8
-	bl sub_80037D0
+	bl TransformSprite
 	adds r0, r4, #0
 	bl DisplaySprite
 	ldrh r0, [r4, #0x3c]
