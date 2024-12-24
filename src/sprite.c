@@ -217,19 +217,19 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
 
 #if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
             {
-            if (frame != -1) {
-                const struct SpriteTables *sprTables = gRefSpriteTables;
+                if (frame != -1) {
+                    const struct SpriteTables *sprTables = gRefSpriteTables;
 
-                s->dimensions = &sprTables->dimensions[GET_SPRITE_ANIM(s)][frame];
-            } else {
-                s->dimensions = (void *)-1;
-            }
+                    s->dimensions = &sprTables->dimensions[GET_SPRITE_ANIM(s)][frame];
+                } else {
+                    s->dimensions = (void *)-1;
+                }
             }
 #else
             {
-            s->frameNum = cmd->show.index;
-            s->frameFlags |= SPRITE_FLAG_MASK_26;
-        }
+                s->frameNum = cmd->show.index;
+                s->frameFlags |= SPRITE_FLAG_MASK_26;
+            }
 #endif
         }
 

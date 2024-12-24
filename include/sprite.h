@@ -249,7 +249,7 @@ s16 sub_8004418(s16 x, s16 y);
 
 #define SpriteShouldUpdate(sprite) (((sprite)->prevVariant != (sprite)->variant) || ((sprite)->prevAnim != (sprite)->graphics.anim))
 
-#define SPRITE_INIT_ANIM_IF_CHANGED(_sprite)                                                                                                  \
+#define SPRITE_INIT_ANIM_IF_CHANGED(_sprite)                                                                                               \
     if (SpriteShouldUpdate(_sprite)) {                                                                                                     \
         (_sprite)->graphics.size = 0;                                                                                                      \
         (_sprite)->prevVariant = (_sprite)->variant;                                                                                       \
