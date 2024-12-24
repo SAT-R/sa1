@@ -148,7 +148,21 @@ SECTIONS {
         build/sa1/src/lib/agb_flash/agb_flash_le_512k.o(.text);
         build/sa1/src/lib/agb_flash/agb_flash_mx_512k.o(.text);
         build/sa1/src/lib/agb_flash/agb_flash_at_512k.o(.text);
-        build/sa1/asm/libagbsyscall.o(.text);
+
+        /*build/sa1/asm/libagbsyscall.o(.text);*/
+        *libagbsyscall.a:ArcTan2.o(.text);
+        *libagbsyscall.a:CpuFastSet.o(.text);
+        *libagbsyscall.a:CpuSet.o(.text);
+        *libagbsyscall.a:Div.o(.text);
+        *libagbsyscall.a:Mod.o(.text);
+        *libagbsyscall.a:LZ77UnCompWram.o(.text);
+        *libagbsyscall.a:MultiBoot.o(.text);
+        *libagbsyscall.a:RLUnCompWram.o(.text);
+        *libagbsyscall.a:SoftReset.o(.text);
+        *libagbsyscall.a:Sqrt.o(.text);
+        *libagbsyscall.a:VBlankIntrWait.o(.text);
+        *libagbsyscall.a:SoftResetExram.o(.text);
+
         *libgcc.a:_call_via_rX.o(.text);
         *libgcc.a:_divdi3.o(.text);
         *libgcc.a:_divsi3.o(.text);
