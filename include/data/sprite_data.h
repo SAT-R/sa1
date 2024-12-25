@@ -21,7 +21,6 @@ struct SpriteTables {
     /* 0x14 */ const u8 *tiles_8bpp;
 };
 
-// SA2: gUnknown_03002794
-extern const struct SpriteTables *gUnknown_03002034;
+extern const struct SpriteTables *gRefSpriteTables;
 
 #endif

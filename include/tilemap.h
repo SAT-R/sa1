@@ -1,6 +1,19 @@
 #ifndef GUARD_TILEMAP_H
 #define GUARD_TILEMAP_H
 
+#define TILE_MASK_INDEX   0x03FF
+#define TILE_MASK_X_FLIP  0x0400
+#define TILE_MASK_Y_FLIP  0x0800
+#define TILE_MASK_PALETTE 0xF000
+
+// TODO: This should be the type of Collision::metatiles, if that matches anywhere...
+typedef struct {
+    u16 index : 10;
+    u16 xFlip : 1;
+    u16 yFlip : 1;
+    u16 pal : 4;
+} Tile;
+
 typedef struct {
     /* 0x00 */ u16 xTiles;
     /* 0x02 */ u16 yTiles;
@@ -19,13 +32,10 @@ typedef struct {
 } Tilemap; /* size = 0x1C */
 
 struct MapHeader {
-    /* 0x00 */ Tilemap h;
+    /* 0x00 */ Tilemap tileset;
     /* 0x1C */ const u16 *metatileMap;
     /* 0x20 */ u16 mapWidth; // in Metatiles
     /* 0x22 */ u16 mapHeight; // in Metatiles
 };
-
-extern const Tilemap *const gTilemaps[];
-struct MapHeader **gTilemapsRef; // TODO: make this an array and add size
 
 #endif // GUARD_TILEMAP_H

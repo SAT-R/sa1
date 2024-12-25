@@ -101,7 +101,7 @@ _08000472:
 	strb r1, [r3]
 	ldr r1, _080006F8 @ =gUnknown_03002384
 	strb r2, [r1]
-	ldr r1, _080006FC @ =gUnknown_0300211C
+	ldr r1, _080006FC @ =gBackgroundsCopyQueueIndex
 	strb r2, [r1]
 	ldr r1, _08000700 @ =gUnknown_03004C30
 	strb r2, [r1]
@@ -112,12 +112,12 @@ _08000472:
 	str r2, [sp]
 	mov r3, sp
 	str r3, [r0]
-	ldr r1, _0800070C @ =gUnknown_03001B40
+	ldr r1, _0800070C @ =sa2__gUnknown_03002280
 	str r1, [r0, #4]
 	ldr r3, _08000710 @ =0x85000004
 	str r3, [r0, #8]
 	ldr r1, [r0, #8]
-	ldr r1, _08000714 @ =gUnknown_03004620
+	ldr r1, _08000714 @ =sa2__gUnknown_03004D80
 	str r2, [r1]
 	str r2, [sp]
 	mov r1, sp
@@ -384,13 +384,13 @@ _080006EC: .4byte 0x85006000
 _080006F0: .4byte 0x85000100
 _080006F4: .4byte sa2__gUnknown_030026F4
 _080006F8: .4byte gUnknown_03002384
-_080006FC: .4byte gUnknown_0300211C
+_080006FC: .4byte gBackgroundsCopyQueueIndex
 _08000700: .4byte gUnknown_03004C30
 _08000704: .4byte gVramGraphicsCopyCursor
 _08000708: .4byte gVramGraphicsCopyQueueIndex
-_0800070C: .4byte gUnknown_03001B40
+_0800070C: .4byte sa2__gUnknown_03002280
 _08000710: .4byte 0x85000004
-_08000714: .4byte gUnknown_03004620
+_08000714: .4byte sa2__gUnknown_03004D80
 _08000718: .4byte gBgScrollRegs
 _0800071C: .4byte sa2__gUnknown_030017F4
 _08000720: .4byte gDispCnt

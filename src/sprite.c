@@ -15,12 +15,12 @@ extern const AnimationCommandFunc animCmdTable[];
 
 #define ReadInstruction(script, cursor) ((void *)(script) + (cursor * sizeof(s32)))
 
-AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_End(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_PlaySoundEffect(void *cursor, Sprite *s);
-AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s);
+static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_TranslateSprite(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_8(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_SetIdAndVariant(void *cursor, Sprite *s);
@@ -313,7 +313,7 @@ AnimCmdResult sub_80BF540(Sprite *s, u16 param1)
 #endif // (GAME == GAME_SA3)
 
 // (-1)
-AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_GetTiles(void *cursor, Sprite *s)
 {
     ACmd_GetTiles *cmd = (ACmd_GetTiles *)cursor;
     s->animCursor += AnimCommandSizeInWords(ACmd_GetTiles);
@@ -367,7 +367,7 @@ static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
 
 // (-6)
 // TODO: Remove volatile pointer
-AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
 {
     ACmd_Hitbox *cmd = (ACmd_Hitbox *)cursor;
     s32 hitboxId = cmd->hitbox.index % 16u;

@@ -3357,7 +3357,7 @@ sub_8029AC4: @ 0x08029AC4
 	movs r0, #0
 	bl TasksDestroyInPriorityRange
 	ldr r1, _08029B34 @ =gUnknown_03002384
-	ldr r0, _08029B38 @ =gUnknown_0300211C
+	ldr r0, _08029B38 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
 	ldr r1, _08029B3C @ =gUnknown_03004C30
@@ -3385,7 +3385,7 @@ _08029B28: .4byte 0x00003F9F
 _08029B2C: .4byte 0x0FFF0000
 _08029B30: .4byte 0x0000FFFF
 _08029B34: .4byte gUnknown_03002384
-_08029B38: .4byte gUnknown_0300211C
+_08029B38: .4byte gBackgroundsCopyQueueIndex
 _08029B3C: .4byte gUnknown_03004C30
 _08029B40: .4byte gVramGraphicsCopyCursor
 _08029B44: .4byte gVramGraphicsCopyQueueIndex

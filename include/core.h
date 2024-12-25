@@ -6,6 +6,7 @@
 #include "task.h"
 #include "tilemap.h"
 //#include "input_recorder.h"
+#include "data/sprite_data.h"
 #include "animation_commands.h"
 
 /* More or less copy-pasted from SA2 on January 15th, 2024 */
@@ -269,10 +270,10 @@ extern u16 gObjPalette[OBJ_PLTT_SIZE / sizeof(u16)];
 extern u16 gBgPalette[BG_PLTT_SIZE / sizeof(u16)];
 extern u16 gBgCntRegs[4];
 
-extern u8 gUnknown_03001B40[4][4];
+extern u8 sa2__gUnknown_03002280[4][4];
 
 extern Sprite *gUnknown_030045B0[16];
-extern u8 gUnknown_03004620[16];
+extern u8 sa2__gUnknown_03004D80[16];
 extern u8 gUnknown_03004C30;
 
 // TODO: Turn this into a struct-array:
@@ -287,9 +288,9 @@ extern s16 gBgScrollRegs[4][2];
 extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
 extern OamData gOamBuffer[OAM_ENTRY_COUNT];
 //
-//// NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)
-// extern u32 gBgOffsetsBuffer[2][DISPLAY_HEIGHT];
-// extern Background *gUnknown_03001800[16];
+// NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)
+extern int_vcount gBgOffsetsBuffer[2][DISPLAY_HEIGHT][4];
+extern Background *gBackgroundsCopyQueue[16];
 //
 //// This is used to buffer the xy-shift for each background scanline
 extern void *gBgOffsetsHBlank;
@@ -305,33 +306,37 @@ extern u16 sa2__gUnknown_03001944;
 extern u16 sa2__gUnknown_0300194C;
 //
 //
+extern Tilemap **gTilemapsRef;
+extern u8 sa2__gUnknown_03002280[4][4];
+extern u8 sa2__gUnknown_03004D80[16]; // TODO: Is this 4 (# backgrounds), instead of 16?
 // extern u16 *gUnknown_030022AC;
 // extern void *gUnknown_030022C0;
 // extern s16 gMosaicReg;
 // extern u8 gUnknown_030026F4;
-// extern const struct SpriteTables *gUnknown_03002794;
+extern const struct SpriteTables *gRefSpriteTables;
 extern u16 sa2__gUnknown_03002820;
 // extern u8 gUnknown_03002874;
 extern void *sa2__gUnknown_03002878;
-// extern u8 gUnknown_0300287C;
+extern u8 gBackgroundsCopyQueueIndex;
 extern u8 sa2__gUnknown_03002A80;
 // extern u16 gUnknown_03002A8C;
 //// When paused, the previously-active OAM elements get moved to the end
 //// of the OAM. This is the index of the first currently-inactive element
 extern u8 gOamFirstPausedIndex;
-// extern u8 gUnknown_03002AE4;
+extern u8 gBackgroundsCopyQueueCursor;
+extern Sprite *sa2__gUnknown_03004D10[16];
 // extern u8 gUnknown_03004D50;
 // extern void *gUnknown_03004D54;
 // extern u16 gUnknown_03004D58;
+extern u8 gVramGraphicsCopyCursor;
 extern u8 sa2__gUnknown_03004D60[0x20];
+extern u8 sa2__gUnknown_03005390;
 extern u16 sa2__gUnknown_03005394;
 extern u16 sa2__gUnknown_03005398;
 extern FuncType_030053A0 gUnknown_030053A0[4];
 // extern s32 gPseudoRandom;
 extern u8 sa2__gUnknown_03002710[128];
 // extern struct MultiBootParam gMultiBootParam;
-
-extern struct SpriteTables *gRefSpriteTables;
 
 void EngineInit(void);
 void EngineMainLoop(void);
