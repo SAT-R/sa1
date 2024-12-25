@@ -14,7 +14,7 @@ const u16 Map_zone_6_act_2_fg1[] = INCBIN_U16("data/maps/zone_6/act_2/tilemaps/f
 const u8 CollFlags_zone_6_act_2_fg[] = INCBIN_U8("data/maps/zone_6/act_2/tilemaps/fg/flags.coll");
 ALIGNED(4) const struct MapHeader zone_6_act_2_fg0 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x60,
@@ -34,7 +34,7 @@ ALIGNED(4) const struct MapHeader zone_6_act_2_fg0 =
 
 ALIGNED(4) const struct MapHeader zone_6_act_2_fg1 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,

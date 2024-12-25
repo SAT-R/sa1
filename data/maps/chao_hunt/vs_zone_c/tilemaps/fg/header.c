@@ -14,7 +14,7 @@ const u16 Map_zone_chao_hunt_act_vs_zone_c_fg1[] = INCBIN_U16("data/maps/chao_hu
 const u8 CollFlags_zone_chao_hunt_act_vs_zone_c_fg[] = INCBIN_U8("data/maps/chao_hunt/vs_zone_c/tilemaps/fg/flags.coll");
 ALIGNED(4) const struct MapHeader zone_chao_hunt_act_vs_zone_c_fg0 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,
@@ -34,7 +34,7 @@ ALIGNED(4) const struct MapHeader zone_chao_hunt_act_vs_zone_c_fg0 =
 
 ALIGNED(4) const struct MapHeader zone_chao_hunt_act_vs_zone_c_fg1 = 
 {
-    .h = {
+    .tileset = {
         .xTiles = 12,
         .yTiles = 12,
         .animTileSize = 0x00,
