@@ -587,11 +587,11 @@ _0801CBAE:
 	movs r0, #0
 	ldr r1, _0801CC00 @ =0x0000FFFF
 	bl TasksDestroyInPriorityRange
-	ldr r1, _0801CC04 @ =gUnknown_03002384
+	ldr r1, _0801CC04 @ =gBackgroundsCopyQueueCursor
 	ldr r0, _0801CC08 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _0801CC0C @ =gUnknown_03004C30
+	ldr r0, _0801CC0C @ =sa2__gUnknown_03005390
 	strb r4, [r0]
 	ldr r1, _0801CC10 @ =gVramGraphicsCopyCursor
 	ldr r0, _0801CC14 @ =gVramGraphicsCopyQueueIndex
@@ -606,9 +606,9 @@ _0801CBF4: .4byte gMultiplayerConnections
 _0801CBF8: .4byte gUnknown_03005060
 _0801CBFC: .4byte gMultiSioStatusFlags
 _0801CC00: .4byte 0x0000FFFF
-_0801CC04: .4byte gUnknown_03002384
+_0801CC04: .4byte gBackgroundsCopyQueueCursor
 _0801CC08: .4byte gBackgroundsCopyQueueIndex
-_0801CC0C: .4byte gUnknown_03004C30
+_0801CC0C: .4byte sa2__gUnknown_03005390
 _0801CC10: .4byte gVramGraphicsCopyCursor
 _0801CC14: .4byte gVramGraphicsCopyQueueIndex
 _0801CC18:

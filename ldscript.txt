@@ -14,7 +14,6 @@ SECTIONS {
         build/sa1/asm/core.o(.text);
         build/sa1/src/main.o(.text);
         build/sa1/src/task.o(.text);
-        build/sa1/asm/background.o(.text);
         build/sa1/src/background.o(.text);
         build/sa1/src/sprite.o(.text);
         build/sa1/src/bg_triangles.o(.text);
@@ -181,6 +180,8 @@ SECTIONS {
     /* Data */
 
         build/sa1/data/data_0.o(.rodata);
+        build/sa1/src/background.o(.rodata);
+        build/sa1/src/trig.o(.rodata);
         build/sa1/src/sprite.o(.rodata);
         build/sa1/src/bg_triangles.o(.rodata);
         build/sa1/src/multi_sio.o(.rodata);

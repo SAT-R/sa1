@@ -88,10 +88,10 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00002330; gMultiBootParam = .;
 . = 0x0000237C; gPressedKeys = .;
 . = 0x00002380; gOamFirstPausedIndex = .;
-. = 0x00002384; gUnknown_03002384 = .;
+. = 0x00002384; gBackgroundsCopyQueueCursor = .;
 . = 0x00002390; gHBlankIntrs = .;
 . = 0x000023A0; gIwramHeap = .;
-. = 0x000045B0; gUnknown_030045B0 = .; /* SA2: sa2__gUnknown_03004D10 */
+. = 0x000045B0; sa2__gUnknown_03004D10 = .; /* SA2: sa2__gUnknown_03004D10 */
 . = 0x000045F0; gUnknown_030045F0 = .;
 . = 0x000045F4; gUnknown_030045F4 = .;
 . = 0x000045F8; gVramGraphicsCopyCursor = .;
@@ -99,7 +99,7 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00004620; sa2__gUnknown_03004D80 = .; /* SA2: gUnknown_03004D80 */
 . = 0x00004630; gOamBuffer = .;
 . = 0x00004A30; gVramHeapState = .;
-. = 0x00004C30; gUnknown_03004C30 = .; /* SA2: sa2__gUnknown_03005390 */
+. = 0x00004C30; sa2__gUnknown_03005390 = .; /* SA2: sa2__gUnknown_03005390 */
 . = 0x00004C34; sa2__gUnknown_03005394 = .;
 . = 0x00004C38; sa2__gUnknown_03005398 = .;
 . = 0x00004C40; sa2__gUnknown_030053A0 = .;

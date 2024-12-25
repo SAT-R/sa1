@@ -21,7 +21,7 @@ AnimCmdResult animCmd_10_BG(void *, Sprite *);
 AnimCmdResult animCmd_SetSpritePriority_BG(void *, Sprite *);
 AnimCmdResult animCmd_SetOamOrder_BG(void *, Sprite *);
 
-const AnimationCommandFunc animCmdTable_BG_tobeincluded[12] = {
+const AnimationCommandFunc animCmdTable_BG[12] = {
     animCmd_GetTiles_BG,        animCmd_GetPalette_BG, animCmd_JumpBack_BG,          animCmd_End_BG,
     animCmd_PlaySoundEffect_BG, animCmd_AddHitbox_BG,  animCmd_TranslateSprite_BG,   animCmd_8_BG,
     animCmd_SetIdAndVariant_BG, animCmd_10_BG,         animCmd_SetSpritePriority_BG, animCmd_SetOamOrder_BG,
@@ -32,6 +32,7 @@ const AnimationCommandFunc animCmdTable_BG_tobeincluded[12] = {
 #define CastPointer(ptr, index) (void *)&(((u8 *)(ptr))[(index)])
 
 #if 0
+#endif
 
 void DrawBackground(Background *background)
 {
@@ -73,9 +74,8 @@ void DrawBackground(Background *background)
     ADD_TO_BACKGROUNDS_QUEUE(background);
 }
 
-// (85.37%) https://decomp.me/scratch/617Jb
-// (87.46%) https://decomp.me/scratch/1CFim
-NONMATCH("asm/non_matching/engine/sub_8002B20.inc", bool32 sub_8002B20(void))
+// TODO: The assembly is not the same between SA1 and SA2!
+NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20(void))
 {
     u16 sp00;
     s32 sp04 = 0;
@@ -668,7 +668,7 @@ void UpdateBgAnimationTiles(Background *bg)
 // Differences to UpdateSpriteAnimation:
 // - SPRITE_INIT_ANIM_IF_CHANGED gets executed *after* the if.
 // - Uses animCmdTable_BG instead of animCmdTable
-s32 sub_80036E0(Sprite *s)
+s32 sa2__sub_80036E0(Sprite *s)
 {
     if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER)
         return 0;
@@ -786,7 +786,7 @@ AnimCmdResult animCmd_AddHitbox_BG(void *cursor, Sprite *s)
     return 1;
 }
 
-void sub_8003914(Sprite *s)
+void sa2__sub_8003914(Sprite *s)
 {
     const SpriteOffset *dims;
 
@@ -830,7 +830,7 @@ void sub_8003914(Sprite *s)
 
 // Some VBlank function
 // (21.30%) https://decomp.me/scratch/UfJX7
-NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sub_80039E4(void))
+NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sa2__sub_80039E4(void))
 {
     // tilesize (could be 32 and get optimized out?)
     s32 sp28 = 5;
@@ -990,8 +990,6 @@ NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sub_80039E4(void))
     return TRUE;
 }
 END_NONMATCH
-
-#endif
 
 void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, BgAffineReg *affine)
 {
