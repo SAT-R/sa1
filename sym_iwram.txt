@@ -29,7 +29,7 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x000010C0; gBackgroundsCopyQueue = .; /* SA2: gUnknown_03001800 */
 . = 0x00001100; gFlags = .;
 . = 0x00001110; sa2__gUnknown_03001850 = .;
-. = 0x00001130; gUnknown_03001130 = .;
+. = 0x00001130; sa2__gUnknown_03001870 = .;
 . = 0x00001140; gPhysicalInput = .;
 . = 0x00001144; gBgOffsetsHBlank = .;
 . = 0x00001148; gVramHeapMaxTileSlots = .;
@@ -42,7 +42,7 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x000011E0; gBgAffineRegs = .;
 . = 0x00001200; gVramHeapStartAddr = .;
 . = 0x00001204; sa2__gUnknown_03001944 = .; /* SA2: gUnknown_03001944 */
-. = 0x00001208; gUnknown_03001208 = .; /* SA2: gUnknown_03001948 */
+. = 0x00001208; sa2__gUnknown_03001948 = .; /* SA2: gUnknown_03001948 */
 . = 0x0000120C; sa2__gUnknown_0300194C = .;
 . = 0x00001210; gMultiSioStatusFlags = .;
 . = 0x00001214; gMultiSioEnabled = .;
@@ -56,7 +56,7 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00001B40; sa2__gUnknown_03002280 = .; /* SA2: sa2__gUnknown_03002280 */
 . = 0x00001B50; gInput = .;
 . = 0x00001B60; gRepeatedKeysTestCounter = .;
-. = 0x00001B6C; gUnknown_03001B6C = .; /* SA2: gUnknown_030022AC */
+. = 0x00001B6C; sa2__gUnknown_030022AC = .; /* SA2: gUnknown_030022AC */
 . = 0x00001B70; gBgCntRegs = .;
 . = 0x00001B78; gRepeatedKeys = .;
 . = 0x00001B7C; gNextTask = .;
@@ -65,7 +65,7 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 /* SA2: gMosaicReg(size:0x10?) - not reserved/used in SA1 */
 . = 0x00001F80; gHBlankCallbacks = .;
 . = 0x00001F90; gCurTask = .;
-. = 0x00001F94; sa2__gUnknown_030026F4 = .; /* SA": gUnknown_030026F4 */
+. = 0x00001F94; sLastCalledVblankFuncId = .; /* SA": gUnknown_030026F4 */
 . = 0x00001FA0; gKeysFirstRepeatIntervals = .;
 . = 0x00001FAC; gReleasedKeys = .;
 . = 0x00001FB0; sa2__gUnknown_03002710 = .;
@@ -77,14 +77,14 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x000020E0; gDispCnt = .;
 . = 0x000020F0; gKeysContinuedRepeatIntervals = .;
 . = 0x00002100; gMultiSioSend = .;
-. = 0x00002114; gUnknown_03002114 = .; /* SA2: gUnknown_03002874 */
+. = 0x00002114; sa2__gUnknown_03002874 = .; /* SA2: gUnknown_03002874 */
 . = 0x00002118; sa2__gUnknown_03002878 = .;
 . = 0x0000211C; gBackgroundsCopyQueueIndex = .; /* SA2: gUnknown_0300287C */
 . = 0x00002120; gBgPalette = .;
 . = 0x00002320; sa2__gUnknown_03002A80 = .; /* SA2: gUnknown_03002A80 */
 . = 0x00002324; gVramGraphicsCopyQueueIndex = .;
 . = 0x00002328; gPrevInput = .;
-. = 0x0000232C; gUnknown_0300232C = .; /* SA2: gUnknown_03002A8C */
+. = 0x0000232C; sa2__gUnknown_03002A8C = .; /* SA2: gUnknown_03002A8C */
 . = 0x00002330; gMultiBootParam = .;
 . = 0x0000237C; gPressedKeys = .;
 . = 0x00002380; gOamFirstPausedIndex = .;
@@ -92,8 +92,8 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00002390; gHBlankIntrs = .;
 . = 0x000023A0; gIwramHeap = .;
 . = 0x000045B0; sa2__gUnknown_03004D10 = .; /* SA2: sa2__gUnknown_03004D10 */
-. = 0x000045F0; gUnknown_030045F0 = .;
-. = 0x000045F4; gUnknown_030045F4 = .;
+. = 0x000045F0; sa2__gUnknown_03004D50 = .;
+. = 0x000045F4; sa2__gUnknown_03004D58 = .;
 . = 0x000045F8; gVramGraphicsCopyCursor = .;
 . = 0x00004600; sa2__gUnknown_03004D60 = .; /* SA2: gUnknown_03004D60 */
 . = 0x00004620; sa2__gUnknown_03004D80 = .; /* SA2: gUnknown_03004D80 */
@@ -106,11 +106,11 @@ build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
 . = 0x00004C50; gInputPlaybackData = .;
 . = 0x00004C54; gExecSoundMain = .;
 . = 0x00004C58; gPseudoRandom = .;
-. = 0x00004C60; gMultiSioIntrFuncBuf = .;
-. = 0x00004D80; gMultiSioArea = .;
-. = 0x00004F70; gMultiSioRecvFuncBuf = .;
-. = 0x00004FB0;
+
+. = 0x00004C60;
+build/sa1/src/multi_sio.o(.data);
 build/sa1/src/sio32_multi_load.o(.data);
+
 . = 0x00004FE0; gUnknown_03004FE0 = .;
 . = 0x00004FE4; gCheckpointTime = .;
 . = 0x00004FE8; gMultiplayerCharRings = .; /* gMultiplayerCharRings[MULTI_SIO_PLAYERS_MAX] */
@@ -139,8 +139,8 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005054; gUnknown_03005054 = .;
 . = 0x00005058; gUnknown_03005058 = .;
 . = 0x0000505C; gGameMode = .;
-. = 0x00005060; gUnknown_03005060 = .;
-. = 0x00005064; gUnknown_03005064 = .;
+. = 0x00005060; gMultiplayerMissingHeartbeats = .;
+. = 0x00005064; gMultiplayerUnlockedLevels = .;
 . = 0x00005068; gEntitiesManagerTask = .;
 . = 0x0000506C; gUnknown_0300506C = .;
 . = 0x00005070; gUnknown_03005070 = .;

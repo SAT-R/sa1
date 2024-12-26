@@ -6527,7 +6527,7 @@ _0800C6D0:
 _0800C6F4: .4byte gUnknown_03005004
 _0800C6F8: .4byte gGameMode
 _0800C6FC:
-	movs r0, #0x77
+	movs r0, #0x77      @ SE_LIFE_LOST
 	bl m4aSongNumStart
 	ldrb r1, [r6]
 	movs r0, #0xf6
@@ -6577,7 +6577,7 @@ _0800C72C:
 	strb r2, [r0]
 	adds r0, #1
 	strb r2, [r0]
-	movs r0, #0x77
+	movs r0, #0x77      @ SE_LIFE_LOST
 	bl m4aSongNumStart
 	movs r0, #1
 _0800C75C:
@@ -6689,7 +6689,7 @@ _0800C808:
 	strb r1, [r0]
 	strb r4, [r0, #1]
 _0800C826:
-	movs r0, #0x77
+	movs r0, #0x77      @ SE_LIFE_LOST
 	bl m4aSongNumStart
 	movs r0, #1
 _0800C82E:
@@ -6810,7 +6810,7 @@ _0800C8F6:
 	strb r1, [r0]
 	strb r4, [r0, #1]
 _0800C914:
-	movs r0, #0x77
+	movs r0, #0x77      @ SE_LIFE_LOST
 	bl m4aSongNumStart
 	movs r0, #1
 _0800C91C:
@@ -8108,7 +8108,7 @@ _0800D2F4:
 	bl sa2__sub_80078D4
 	b _0800D354
 _0800D338:
-	movs r0, #0x66
+	movs r0, #0x66      @ SE_RING
 	bl m4aSongNumStart
 	ldr r2, _0800D35C @ =gFlags
 	ldr r0, [r2]
@@ -8535,7 +8535,7 @@ sub_800D4E0: @ 0x0800D4E0
 	ldrb r0, [r1]
 	cmp r0, #0
 	beq _0800D698
-	movs r0, #2
+	movs r0, #2     @ MUS_TITLE_FANFARE
 	bl m4aSongNumStart
 _0800D698:
 	add sp, #0xc
@@ -9545,7 +9545,7 @@ _0800DEF8:
 	ldr r0, _0800DF3C @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	movs r0, #0x1d
+	movs r0, #0x1d      @ MUS_BOSS_FIGHT
 	bl m4aSongNumStart
 	ldr r0, _0800DF48 @ =gMPlayInfo_BGM
 	bl m4aMPlayImmInit
@@ -9747,7 +9747,7 @@ sub_800E0C4: @ 0x0800E0C4
 	movs r1, #8
 	movs r3, #0
 	bl TaskCreate
-	ldr r1, _0800E114 @ =gUnknown_03005060
+	ldr r1, _0800E114 @ =gMultiplayerMissingHeartbeats
 	strb r4, [r1, #3]
 	strb r4, [r1, #2]
 	strb r4, [r1, #1]
@@ -9775,7 +9775,7 @@ sub_800E0C4: @ 0x0800E0C4
 	bx r0
 	.align 2, 0
 _0800E110: .4byte sub_800E404
-_0800E114: .4byte gUnknown_03005060
+_0800E114: .4byte gMultiplayerMissingHeartbeats
 _0800E118: .4byte gDispCnt
 _0800E11C: .4byte gBgCntRegs
 _0800E120: .4byte 0x00001F06
@@ -9923,7 +9923,7 @@ sub_800E220: @ 0x0800E220
 	cmp r1, #0
 	beq _0800E2CE
 	movs r5, #1
-	ldr r2, _0800E298 @ =gUnknown_03005060
+	ldr r2, _0800E298 @ =gMultiplayerMissingHeartbeats
 _0800E24C:
 	ldr r1, _0800E29C @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -9952,13 +9952,13 @@ _0800E24C:
 	ldr r0, _0800E2B4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0800E334
 	.align 2, 0
 _0800E28C: .4byte gCurTask
 _0800E290: .4byte gGameMode
 _0800E294: .4byte gMultiplayerConnections
-_0800E298: .4byte gUnknown_03005060
+_0800E298: .4byte gMultiplayerMissingHeartbeats
 _0800E29C: .4byte gMultiSioStatusFlags
 _0800E2A0: .4byte 0x0000FFFF
 _0800E2A4: .4byte gBackgroundsCopyQueueCursor
@@ -10101,13 +10101,13 @@ _0800E3BA:
 	cmp r4, #0xf9
 	bne _0800E3C6
 	movs r0, #0
-	bl sub_803C1AC
+	bl CreateMultipackOutcomeScreen
 	b _0800E3FC
 _0800E3C6:
 	cmp r4, #0xf8
 	bne _0800E3D2
 	movs r0, #1
-	bl sub_803C1AC
+	bl CreateMultipackOutcomeScreen
 	b _0800E3FC
 _0800E3D2:
 	cmp r5, #0x12
@@ -10195,7 +10195,7 @@ sub_800E470: @ 0x0800E470
 	ldr r0, [r7, #4]
 	cmp r0, #0
 	bne _0800E4A0
-	movs r0, #3
+	movs r0, #3     @ MUS_CHARACTER_SELECTION
 	bl m4aSongNumStartOrChange
 	ldr r1, _0800E49C @ =gGameMode
 	movs r0, #2
@@ -10356,7 +10356,7 @@ _0800E4A0:
 	strh r6, [r5, #0x2e]
 	adds r0, r5, #0
 	bl DrawBackground
-	movs r0, #3
+	movs r0, #3     @ MUS_CHARACTER_SELECTION
 	bl m4aSongNumStartOrChange
 _0800E5DA:
 	add sp, #4
@@ -10742,7 +10742,7 @@ sub_800E934: @ 0x0800E934
 	mov r5, r8
 	push {r5, r6, r7}
 	ldr r6, _0800EB18 @ =0x06010000
-	movs r0, #5
+	movs r0, #5     @ MUS_VS_PLEASE_WAIT
 	bl m4aSongNumStart
 	ldr r0, _0800EB1C @ =gCurTask
 	ldr r0, [r0]
@@ -10828,7 +10828,7 @@ _0800E96A:
 	strh r3, [r2, #0x1a]
 	strh r4, [r2, #8]
 	movs r0, #0xde
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ SA1_ANIM_MP_CHAO_SEARCHING
 	strh r0, [r2, #0xa]
 	adds r0, r7, #0
 	adds r0, #0x90
@@ -11020,7 +11020,7 @@ sub_800EB4C: @ 0x0800EB4C
 	ands r2, r0
 	cmp r2, #0
 	bne _0800EBD8
-	ldr r1, _0800EBC4 @ =gUnknown_03005060
+	ldr r1, _0800EBC4 @ =gMultiplayerMissingHeartbeats
 	ldr r0, [r3]
 	lsls r0, r0, #0x1a
 	lsrs r0, r0, #0x1e
@@ -11046,13 +11046,13 @@ sub_800EB4C: @ 0x0800EB4C
 	.align 2, 0
 _0800EBBC: .4byte gMultiSioStatusFlags
 _0800EBC0: .4byte 0x04000128
-_0800EBC4: .4byte gUnknown_03005060
+_0800EBC4: .4byte gMultiplayerMissingHeartbeats
 _0800EBC8: .4byte 0x0000FFFF
 _0800EBCC: .4byte gBackgroundsCopyQueueCursor
 _0800EBD0: .4byte gBackgroundsCopyQueueIndex
 _0800EBD4: .4byte sa2__gUnknown_03005390
 _0800EBD8:
-	ldr r1, _0800EC78 @ =gUnknown_03005060
+	ldr r1, _0800EC78 @ =gMultiplayerMissingHeartbeats
 	ldr r0, [r3]
 	lsls r0, r0, #0x1a
 	lsrs r0, r0, #0x1e
@@ -11137,7 +11137,7 @@ _0800EC54:
 	mov sb, r7
 	b _0800ED00
 	.align 2, 0
-_0800EC78: .4byte gUnknown_03005060
+_0800EC78: .4byte gMultiplayerMissingHeartbeats
 _0800EC7C: .4byte gCurTask
 _0800EC80: .4byte 0x03000208
 _0800EC84: .4byte gBldRegs
@@ -11351,7 +11351,7 @@ _0800EE14:
 	ldr r0, _0800EE50 @ =0x00000206
 	add r0, r8
 	strb r1, [r0]
-	ldr r0, _0800EE54 @ =gUnknown_03005060
+	ldr r0, _0800EE54 @ =gMultiplayerMissingHeartbeats
 	strb r1, [r0, #3]
 	strb r1, [r0, #2]
 	strb r1, [r0, #1]
@@ -11367,7 +11367,7 @@ _0800EE14:
 	b _0800F032
 	.align 2, 0
 _0800EE50: .4byte 0x00000206
-_0800EE54: .4byte gUnknown_03005060
+_0800EE54: .4byte gMultiplayerMissingHeartbeats
 _0800EE58: .4byte 0x00000219
 _0800EE5C: .4byte gCurTask
 _0800EE60: .4byte sub_800F058
@@ -11391,7 +11391,7 @@ _0800EE82:
 	ldr r0, _0800EEA4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0800F032
 	.align 2, 0
 _0800EE90: .4byte 0x0000FFFF
@@ -11630,7 +11630,7 @@ sub_800F058: @ 0x0800F058
 	cmp r1, #0
 	beq _0800F0E8
 	movs r5, #1
-	ldr r2, _0800F0C4 @ =gUnknown_03005060
+	ldr r2, _0800F0C4 @ =gMultiplayerMissingHeartbeats
 _0800F094:
 	ldr r1, _0800F0C8 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -11653,7 +11653,7 @@ _0800F094:
 _0800F0B8: .4byte gCurTask
 _0800F0BC: .4byte gGameMode
 _0800F0C0: .4byte gMultiplayerConnections
-_0800F0C4: .4byte gUnknown_03005060
+_0800F0C4: .4byte gMultiplayerMissingHeartbeats
 _0800F0C8: .4byte gMultiSioStatusFlags
 _0800F0CC: .4byte 0x0000FFFF
 _0800F0D0:
@@ -11683,7 +11683,7 @@ _0800F0E8:
 	ldr r0, [r1]
 	bl TaskDestroy
 	movs r0, #0
-	bl sub_803C1AC
+	bl CreateMultipackOutcomeScreen
 	b _0800F2FA
 	.align 2, 0
 _0800F108: .4byte gMultiSioRecv
@@ -11765,7 +11765,7 @@ _0800F1A2:
 	ldr r0, _0800F1D8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0800F2FA
 	.align 2, 0
 _0800F1C0: .4byte 0x00000219
@@ -12165,7 +12165,7 @@ sub_800F318: @ 0x0800F318
 	bl DrawBackground
 	ldr r0, _0800F5C4 @ =gMultiSioEnabled
 	strb r7, [r0]
-	movs r0, #5
+	movs r0, #5     @ MUS_VS_PLEASE_WAIT
 	bl m4aSongNumStart
 	ldr r0, _0800F5C8 @ =gMultiBootParam
 	ldr r1, _0800F5CC @ =gMultiboot_087C0258
@@ -12197,7 +12197,7 @@ sub_800F318: @ 0x0800F318
 	ldr r0, _0800F5EC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 _0800F538:
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -12524,7 +12524,7 @@ _0800F808:
 	ands r0, r1
 	str r0, [r2]
 	bl m4aSoundVSyncOn
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0800F986
 	.align 2, 0
 _0800F840: .4byte gMultiBootParam
@@ -12768,7 +12768,7 @@ _0800FA34:
 	ands r4, r1
 	cmp r4, #0
 	bne _0800FAE4
-	ldr r0, _0800FABC @ =gUnknown_03005060
+	ldr r0, _0800FABC @ =gMultiplayerMissingHeartbeats
 	adds r0, r3, r0
 	ldrb r1, [r0]
 	adds r2, r1, #1
@@ -12798,7 +12798,7 @@ _0800FA34:
 	ands r1, r0
 	str r1, [r2]
 	bl m4aSoundVSyncOn
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0800FBD8
 	.align 2, 0
 _0800FA98: .4byte gCurTask
@@ -12810,7 +12810,7 @@ _0800FAAC: .4byte gMultiSioSend
 _0800FAB0: .4byte gUnknown_03005160
 _0800FAB4: .4byte gMultiSioRecv
 _0800FAB8: .4byte 0x00000205
-_0800FABC: .4byte gUnknown_03005060
+_0800FABC: .4byte gMultiplayerMissingHeartbeats
 _0800FAC0: .4byte 0x0000FFFF
 _0800FAC4: .4byte gBackgroundsCopyQueueCursor
 _0800FAC8: .4byte gBackgroundsCopyQueueIndex
@@ -12821,7 +12821,7 @@ _0800FAD8: .4byte gFlags
 _0800FADC: .4byte 0xFFFFBFFF
 _0800FAE0: .4byte 0xFFFF7FFF
 _0800FAE4:
-	ldr r0, _0800FB40 @ =gUnknown_03005060
+	ldr r0, _0800FB40 @ =gMultiplayerMissingHeartbeats
 	adds r0, r3, r0
 	movs r1, #0
 	strb r1, [r0]
@@ -12841,7 +12841,7 @@ _0800FAEC:
 	movs r1, #0
 	ldr r2, _0800FB48 @ =gCurTask
 	mov r8, r2
-	ldr r6, _0800FB40 @ =gUnknown_03005060
+	ldr r6, _0800FB40 @ =gMultiplayerMissingHeartbeats
 	ldr r7, _0800FB4C @ =sub_8010048
 	ldr r0, _0800FB50 @ =gDispCnt
 	mov ip, r0
@@ -12869,7 +12869,7 @@ _0800FB1A:
 	strh r0, [r2]
 	b _0800FBD8
 	.align 2, 0
-_0800FB40: .4byte gUnknown_03005060
+_0800FB40: .4byte gMultiplayerMissingHeartbeats
 _0800FB44: .4byte gMultiSioRecv
 _0800FB48: .4byte gCurTask
 _0800FB4C: .4byte sub_8010048
@@ -12979,7 +12979,7 @@ sub_800FBF8: @ 0x0800FBF8
 	movs r2, #0
 	ldr r5, _0800FC98 @ =gUnknown_0300500C
 	ldr r4, _0800FC9C @ =gUnknown_03005048
-	ldr r3, _0800FCA0 @ =gUnknown_03005060
+	ldr r3, _0800FCA0 @ =gMultiplayerMissingHeartbeats
 _0800FC32:
 	adds r0, r1, r6
 	strb r2, [r0]
@@ -13026,7 +13026,7 @@ _0800FC90: .4byte gMultiSioStatusFlags
 _0800FC94: .4byte gMultiplayerCharacters
 _0800FC98: .4byte gUnknown_0300500C
 _0800FC9C: .4byte gUnknown_03005048
-_0800FCA0: .4byte gUnknown_03005060
+_0800FCA0: .4byte gMultiplayerMissingHeartbeats
 _0800FCA4: .4byte sub_8010048
 _0800FCA8: .4byte gDispCnt
 _0800FCAC:
@@ -13289,7 +13289,7 @@ sub_800FEB0: @ 0x0800FEB0
 	movs r2, #0
 	ldr r5, _0800FEE8 @ =gUnknown_0300500C
 	ldr r4, _0800FEEC @ =gUnknown_03005048
-	ldr r3, _0800FEF0 @ =gUnknown_03005060
+	ldr r3, _0800FEF0 @ =gMultiplayerMissingHeartbeats
 _0800FEBE:
 	adds r0, r1, r6
 	strb r2, [r0]
@@ -13304,7 +13304,7 @@ _0800FEBE:
 	bls _0800FEBE
 	bl MultiSioStart
 	movs r0, #0
-	bl sub_801A794
+	bl CreateMultiplayerSinglePakResultsScreen
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
@@ -13312,7 +13312,7 @@ _0800FEBE:
 _0800FEE4: .4byte gMultiplayerCharacters
 _0800FEE8: .4byte gUnknown_0300500C
 _0800FEEC: .4byte gUnknown_03005048
-_0800FEF0: .4byte gUnknown_03005060
+_0800FEF0: .4byte gMultiplayerMissingHeartbeats
 
 	thumb_func_start sub_800FEF4
 sub_800FEF4: @ 0x0800FEF4
@@ -13350,7 +13350,7 @@ _0800FF34: .4byte gBldRegs
 	thumb_func_start sub_800FF38
 sub_800FF38: @ 0x0800FF38
 	push {lr}
-	ldr r1, _0800FF5C @ =gUnknown_03005060
+	ldr r1, _0800FF5C @ =gMultiplayerMissingHeartbeats
 	movs r0, #0
 	strb r0, [r1, #3]
 	strb r0, [r1, #2]
@@ -13365,14 +13365,14 @@ sub_800FF38: @ 0x0800FF38
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800FF5C: .4byte gUnknown_03005060
+_0800FF5C: .4byte gMultiplayerMissingHeartbeats
 _0800FF60: .4byte gCurTask
 _0800FF64: .4byte sub_800F9BC
 
 	thumb_func_start sub_800FF68
 sub_800FF68: @ 0x0800FF68
 	push {lr}
-	ldr r1, _0800FF88 @ =gUnknown_03005060
+	ldr r1, _0800FF88 @ =gMultiplayerMissingHeartbeats
 	movs r0, #0
 	strb r0, [r1, #3]
 	strb r0, [r1, #2]
@@ -13386,7 +13386,7 @@ sub_800FF68: @ 0x0800FF68
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0800FF88: .4byte gUnknown_03005060
+_0800FF88: .4byte gMultiplayerMissingHeartbeats
 _0800FF8C: .4byte gCurTask
 _0800FF90: .4byte sub_800FFE0
 
@@ -13486,7 +13486,7 @@ sub_8010048: @ 0x08010048
 	ldr r0, [r0]
 	bl TaskDestroy
 	movs r0, #0
-	bl sub_801A794
+	bl CreateMultiplayerSinglePakResultsScreen
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -13739,7 +13739,7 @@ _08010244:
 	strb r0, [r7, #0xa]
 	adds r0, r7, #0
 	bl sub_805423C
-	movs r0, #3
+	movs r0, #3     @ MUS_CHARACTER_SELECTION
 	bl m4aSongNumStartOrContinue
 	add sp, #0x34
 	pop {r3, r4, r5}
@@ -14176,8 +14176,8 @@ sub_80105F8: @ 0x080105F8
 _08010614: .4byte gGameMode
 _08010618: .4byte gCurTask
 
-	thumb_func_start sub_801061C
-sub_801061C: @ 0x0801061C
+	thumb_func_start CreateOptionsMenu
+CreateOptionsMenu: @ 0x0801061C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -14757,7 +14757,7 @@ _080108E2:
 	mov r1, r8
 	strb r1, [r0, #0xa]
 	bl sub_805423C
-	movs r0, #0xb
+	movs r0, #0xb       @ MUS_OPTIONS
 	bl m4aSongNumStart
 	add sp, #0x48
 	pop {r3, r4, r5}
@@ -16686,7 +16686,7 @@ _08011B1E:
 	strb r0, [r4, #0xa]
 	adds r0, r4, #0
 	bl sub_805423C
-	movs r0, #0x30
+	movs r0, #0x30      @ MUS_PLAYER_DATA
 	bl m4aSongNumStart
 	add sp, #0x44
 	pop {r3, r4, r5}
@@ -16981,7 +16981,7 @@ sub_8011DA0: @ 0x08011DA0
 	ldr r0, _08011DB4 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	bl sub_80604EC
+	bl CreateVsRecord
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -16993,7 +16993,7 @@ sub_8011DB8: @ 0x08011DB8
 	ldr r0, _08011DCC @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	bl sub_801061C
+	bl CreateOptionsMenu
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -20334,7 +20334,7 @@ _08013810:
 	strb r0, [r1]
 	ldr r0, _0801388C @ =gGameMode
 	ldrb r0, [r0]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _08013DB4
 	.align 2, 0
 _08013874: .4byte 0x0000FFFF
@@ -24275,7 +24275,7 @@ sub_8015674: @ 0x08015674
 	strb r0, [r6, #0xe]
 	movs r0, #0xe
 	strb r0, [r6, #0xf]
-	movs r0, #0xaa
+	movs r0, #0xaa      @ SE_SPRING
 	bl m4aSongNumStart
 	ldrh r0, [r4]
 	strh r0, [r6, #0xa]
@@ -25412,8 +25412,8 @@ _08015FF4:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8015FFC
-sub_8015FFC: @ 0x08015FFC
+	thumb_func_start CreateBossCapsule
+CreateBossCapsule: @ 0x08015FFC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -25637,7 +25637,7 @@ _080161A8:
 	ble _08016204
 	mov r2, r8
 	ldr r1, [r2]
-	ldr r0, _0801622C @ =sub_801623C
+	ldr r0, _0801622C @ =Task_801623C
 	str r0, [r1, #8]
 	ldr r0, _08016230 @ =0x03000076
 	adds r1, r5, r0
@@ -25668,13 +25668,13 @@ _0801621C: .4byte gCamera
 _08016220: .4byte 0x0300006E
 _08016224: .4byte 0x03000072
 _08016228: .4byte 0x03000074
-_0801622C: .4byte sub_801623C
+_0801622C: .4byte Task_801623C
 _08016230: .4byte 0x03000076
 _08016234: .4byte 0x0000023F
 _08016238: .4byte 0x03000020
 
-	thumb_func_start sub_801623C
-sub_801623C: @ 0x0801623C
+	thumb_func_start Task_801623C
+Task_801623C: @ 0x0801623C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -25769,7 +25769,7 @@ _080162EE:
 	strh r0, [r6]
 	mov r0, sb
 	ldr r1, [r0]
-	ldr r0, _080163C8 @ =sub_8016490
+	ldr r0, _080163C8 @ =Task_BossCapsuleUpdate
 	str r0, [r1, #8]
 	mov r1, r8
 	ldrh r0, [r1]
@@ -25863,7 +25863,7 @@ _080163B8: .4byte gCamera
 _080163BC: .4byte 0x03000072
 _080163C0: .4byte 0x03000074
 _080163C4: .4byte sub_803FD5C
-_080163C8: .4byte sub_8016490
+_080163C8: .4byte Task_BossCapsuleUpdate
 _080163CC: .4byte 0x0300006C
 _080163D0: .4byte gPlayer
 _080163D4: .4byte gUnknown_03005AB0
@@ -25963,8 +25963,8 @@ _08016484: .4byte 0xFFFFFBFF
 _08016488: .4byte 0xFFFFFEFF
 _0801648C: .4byte gUnknown_03005088
 
-	thumb_func_start sub_8016490
-sub_8016490: @ 0x08016490
+	thumb_func_start Task_BossCapsuleUpdate
+Task_BossCapsuleUpdate: @ 0x08016490
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -30126,7 +30126,7 @@ sub_8018538: @ 0x08018538
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #4
-	ldr r0, _080186DC @ =gUnknown_03005060
+	ldr r0, _080186DC @ =gMultiplayerMissingHeartbeats
 	movs r5, #0
 	strb r5, [r0, #3]
 	strb r5, [r0, #2]
@@ -30325,7 +30325,7 @@ sub_8018538: @ 0x08018538
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080186DC: .4byte gUnknown_03005060
+_080186DC: .4byte gMultiplayerMissingHeartbeats
 _080186E0: .4byte gDispCnt
 _080186E4: .4byte 0x00001141
 _080186E8: .4byte gBgCntRegs
@@ -30380,7 +30380,7 @@ sub_801874C: @ 0x0801874C
 	cmp r1, #0
 	beq _080187FE
 	movs r5, #1
-	ldr r2, _080187C8 @ =gUnknown_03005060
+	ldr r2, _080187C8 @ =gMultiplayerMissingHeartbeats
 _0801877E:
 	ldr r1, _080187CC @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -30409,13 +30409,13 @@ _0801877E:
 	ldr r0, _080187E4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _08018AC2
 	.align 2, 0
 _080187BC: .4byte gCurTask
 _080187C0: .4byte gGameMode
 _080187C4: .4byte gMultiplayerConnections
-_080187C8: .4byte gUnknown_03005060
+_080187C8: .4byte gMultiplayerMissingHeartbeats
 _080187CC: .4byte gMultiSioStatusFlags
 _080187D0: .4byte 0x0000FFFF
 _080187D4: .4byte gBackgroundsCopyQueueCursor
@@ -30800,7 +30800,7 @@ sub_8018AE0: @ 0x08018AE0
 	sub sp, #8
 	ldr r0, _08018DF8 @ =0x06010000
 	str r0, [sp, #4]
-	ldr r0, _08018DFC @ =gUnknown_03005060
+	ldr r0, _08018DFC @ =gMultiplayerMissingHeartbeats
 	movs r4, #0
 	strb r4, [r0, #3]
 	strb r4, [r0, #2]
@@ -31151,7 +31151,7 @@ sub_8018AE0: @ 0x08018AE0
 	movs r2, #1
 	strh r2, [r0, #0x2e]
 	bl DrawBackground
-	movs r0, #3
+	movs r0, #3     @ MUS_CHARACTER_SELECTION
 	bl m4aSongNumStartOrChange
 	ldr r0, _08018EB4 @ =gRepeatedKeys
 	strh r4, [r0]
@@ -31180,7 +31180,7 @@ sub_8018AE0: @ 0x08018AE0
 	bx r0
 	.align 2, 0
 _08018DF8: .4byte 0x06010000
-_08018DFC: .4byte gUnknown_03005060
+_08018DFC: .4byte gMultiplayerMissingHeartbeats
 _08018E00: .4byte gDispCnt
 _08018E04: .4byte gBgCntRegs
 _08018E08: .4byte 0x00001E03
@@ -31264,7 +31264,7 @@ sub_8018ECC: @ 0x08018ECC
 	cmp r1, #0
 	beq _08018F7C
 	movs r5, #1
-	ldr r2, _08018F4C @ =gUnknown_03005060
+	ldr r2, _08018F4C @ =gMultiplayerMissingHeartbeats
 _08018F08:
 	ldr r1, _08018F50 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -31295,7 +31295,7 @@ _08018F3C: .4byte gCurTask
 _08018F40: .4byte 0x03000234
 _08018F44: .4byte gGameMode
 _08018F48: .4byte gMultiplayerConnections
-_08018F4C: .4byte gUnknown_03005060
+_08018F4C: .4byte gMultiplayerMissingHeartbeats
 _08018F50: .4byte gMultiSioStatusFlags
 _08018F54: .4byte 0x0000FFFF
 _08018F58: .4byte gBackgroundsCopyQueueCursor
@@ -31470,7 +31470,7 @@ _080190AC:
 	ldr r0, _080190D0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0801933A
 	.align 2, 0
 _080190BC: .4byte 0x0000FFFF
@@ -32288,7 +32288,7 @@ _08019782:
 	cmp r0, #0
 	beq _0801980A
 	movs r5, #1
-	ldr r2, _080197DC @ =gUnknown_03005060
+	ldr r2, _080197DC @ =gMultiplayerMissingHeartbeats
 _0801979C:
 	ldr r1, _080197E0 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -32318,7 +32318,7 @@ _0801979C:
 _080197D0: .4byte 0x03000246
 _080197D4: .4byte gGameMode
 _080197D8: .4byte gMultiplayerConnections
-_080197DC: .4byte gUnknown_03005060
+_080197DC: .4byte gMultiplayerMissingHeartbeats
 _080197E0: .4byte gMultiSioStatusFlags
 _080197E4: .4byte 0x0000FFFF
 _080197E8: .4byte gBackgroundsCopyQueueCursor
@@ -32719,7 +32719,7 @@ _08019B0E:
 	ldr r0, _08019B30 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _08019BEA
 	.align 2, 0
 _08019B1C: .4byte 0x0000FFFF
@@ -33087,7 +33087,7 @@ sub_8019DB0: @ 0x08019DB0
 	movs r1, #0xff
 	strb r1, [r0]
 	movs r0, #0x98
-	lsls r0, r0, #1
+	lsls r0, r0, #1     @ SE_VS_MULTIPAK_ROUND_OVER
 	bl m4aSongNumStart
 _08019E04:
 	ldrb r3, [r4]
@@ -33783,7 +33783,7 @@ _0801A354:
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
 	movs r0, #1
-	bl sub_801A794
+	bl CreateMultiplayerSinglePakResultsScreen
 _0801A36E:
 	add sp, #0xc
 	pop {r3, r4, r5}
@@ -34186,7 +34186,7 @@ _0801A6D0:
 	adds r4, #1
 	cmp r4, #3
 	bls _0801A6C4
-	movs r0, #0x8e
+	movs r0, #0x8e      @ SE_PAUSE
 	bl m4aSongNumStart
 	ldr r2, _0801A700 @ =gFlags
 	ldr r0, [r2]
@@ -34223,8 +34223,8 @@ sub_801A70C: @ 0x0801A70C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_801A728
-sub_801A728: @ 0x0801A728
+	thumb_func_start MultiPakCommunicationError
+MultiPakCommunicationError: @ 0x0801A728
 	push {lr}
 	bl m4aMPlayAllStop
 	ldr r2, _0801A774 @ =gFlags
@@ -34248,14 +34248,14 @@ sub_801A728: @ 0x0801A728
 	ldr r1, _0801A788 @ =gRefSpriteTables
 	ldr r0, _0801A78C @ =gSpriteTables
 	str r0, [r1]
-	ldr r1, _0801A790 @ =gUnknown_03005060
+	ldr r1, _0801A790 @ =gMultiplayerMissingHeartbeats
 	movs r0, #0
 	strb r0, [r1]
 	strb r0, [r1, #1]
 	strb r0, [r1, #2]
 	strb r0, [r1, #3]
 	movs r0, #1
-	bl sub_803C1AC
+	bl CreateMultipackOutcomeScreen
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -34266,10 +34266,10 @@ _0801A780: .4byte gTilemapsRef
 _0801A784: .4byte gTilemaps
 _0801A788: .4byte gRefSpriteTables
 _0801A78C: .4byte gSpriteTables
-_0801A790: .4byte gUnknown_03005060
+_0801A790: .4byte gMultiplayerMissingHeartbeats
 
-	thumb_func_start sub_801A794
-sub_801A794: @ 0x0801A794
+	thumb_func_start CreateMultiplayerSinglePakResultsScreen
+CreateMultiplayerSinglePakResultsScreen: @ 0x0801A794
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -34277,7 +34277,7 @@ sub_801A794: @ 0x0801A794
 	push {r5, r6, r7}
 	sub sp, #0x18
 	mov sl, r0
-	ldr r0, _0801AA0C @ =gUnknown_03005060
+	ldr r0, _0801AA0C @ =gMultiplayerMissingHeartbeats
 	movs r5, #0
 	strb r5, [r0, #3]
 	strb r5, [r0, #2]
@@ -34369,7 +34369,7 @@ sub_801A794: @ 0x0801A794
 	str r0, [r2, #4]
 	str r3, [r2, #8]
 	ldr r0, [r2, #8]
-	ldr r0, _0801AA64 @ =sub_801AB34
+	ldr r0, _0801AA64 @ =sa2__Task_808207C
 	movs r1, #0x88
 	lsls r1, r1, #3
 	str r5, [sp]
@@ -34582,7 +34582,7 @@ _0801A9C0:
 	bls _0801A9C0
 	b _0801AAEE
 	.align 2, 0
-_0801AA0C: .4byte gUnknown_03005060
+_0801AA0C: .4byte gMultiplayerMissingHeartbeats
 _0801AA10: .4byte gWinRegs
 _0801AA14: .4byte gUnknown_03005004
 _0801AA18: .4byte gMultiSioEnabled
@@ -34604,7 +34604,7 @@ _0801AA54: .4byte 0x040000D4
 _0801AA58: .4byte 0x06009FE0
 _0801AA5C: .4byte 0x85000010
 _0801AA60: .4byte 0x06000FE0
-_0801AA64: .4byte sub_801AB34
+_0801AA64: .4byte sa2__Task_808207C
 _0801AA68: .4byte 0x03000434
 _0801AA6C: .4byte 0x03000430
 _0801AA70: .4byte gUnknown_03005160
@@ -34664,7 +34664,7 @@ _0801AAEE:
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _0801AB10
-	movs r0, #0x36
+	movs r0, #0x36      @ MUS_VS_RESULT
 	bl m4aSongNumStart
 	b _0801AB16
 	.align 2, 0
@@ -34673,7 +34673,7 @@ _0801AB04: .4byte 0x00000361
 _0801AB08: .4byte 0x00000365
 _0801AB0C: .4byte 0x00000434
 _0801AB10:
-	movs r0, #0x34
+	movs r0, #0x34      @ MUS_VS_SCORE_OVERVIEW
 	bl m4aSongNumStart
 _0801AB16:
 	ldr r0, _0801AB30 @ =gBldRegs
@@ -34692,8 +34692,8 @@ _0801AB16:
 	.align 2, 0
 _0801AB30: .4byte gBldRegs
 
-	thumb_func_start sub_801AB34
-sub_801AB34: @ 0x0801AB34
+	thumb_func_start sa2__Task_808207C
+sa2__Task_808207C: @ 0x0801AB34
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -34724,7 +34724,7 @@ sub_801AB34: @ 0x0801AB34
 	cmp r0, #0
 	beq _0801ABF2
 	movs r7, #1
-	ldr r5, _0801ABC0 @ =gUnknown_03005060
+	ldr r5, _0801ABC0 @ =gMultiplayerMissingHeartbeats
 _0801AB72:
 	adds r0, r7, #0
 	lsls r0, r6
@@ -34752,14 +34752,14 @@ _0801AB72:
 	ldr r0, _0801ABD8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0801AE7A
 	.align 2, 0
 _0801ABB0: .4byte gDispCnt
 _0801ABB4: .4byte gMultiplayerConnections
 _0801ABB8: .4byte gMultiSioStatusFlags
 _0801ABBC: .4byte gGameMode
-_0801ABC0: .4byte gUnknown_03005060
+_0801ABC0: .4byte gMultiplayerMissingHeartbeats
 _0801ABC4: .4byte 0x0000FFFF
 _0801ABC8: .4byte gBackgroundsCopyQueueCursor
 _0801ABCC: .4byte gBackgroundsCopyQueueIndex
@@ -35198,7 +35198,7 @@ _0801AF10:
 	strh r0, [r1]
 	mov r2, sb
 	ldr r1, [r2]
-	ldr r0, _0801AF70 @ =sub_801B06C
+	ldr r0, _0801AF70 @ =sa2__Task_8082630
 	b _0801AF7A
 	.align 2, 0
 _0801AF38: .4byte gCurTask
@@ -35215,7 +35215,7 @@ _0801AF60: .4byte 0x0300006A
 _0801AF64: .4byte gDispCnt
 _0801AF68: .4byte 0x03000430
 _0801AF6C: .4byte gBldRegs
-_0801AF70: .4byte sub_801B06C
+_0801AF70: .4byte sa2__Task_8082630
 _0801AF74:
 	mov r3, sb
 	ldr r1, [r3]
@@ -35227,7 +35227,7 @@ _0801AF7A:
 	.align 2, 0
 _0801AF84: .4byte sub_801B500
 _0801AF88:
-	bl sub_801B1B4
+	bl sa2__sub_8082788
 	ldr r0, [r6]
 	movs r1, #0x80
 	ands r0, r1
@@ -35345,8 +35345,8 @@ _0801B060: .4byte 0x04000128
 _0801B064: .4byte gUnknown_03005160
 _0801B068: .4byte gPressedKeys
 
-	thumb_func_start sub_801B06C
-sub_801B06C: @ 0x0801B06C
+	thumb_func_start sa2__Task_8082630
+sa2__Task_8082630: @ 0x0801B06C
 	push {r4, r5, lr}
 	ldr r5, _0801B0A8 @ =gCurTask
 	ldr r0, [r5]
@@ -35356,7 +35356,7 @@ sub_801B06C: @ 0x0801B06C
 	ldrh r0, [r4]
 	adds r0, #0x20
 	strh r0, [r4]
-	bl sub_801B1B4
+	bl sa2__sub_8082788
 	ldrh r0, [r4]
 	movs r1, #0x80
 	lsls r1, r1, #5
@@ -35367,7 +35367,7 @@ sub_801B06C: @ 0x0801B06C
 	movs r0, #0x10
 	strh r0, [r1, #4]
 	ldr r1, [r5]
-	ldr r0, _0801B0B4 @ =sub_801B0B8
+	ldr r0, _0801B0B4 @ =sa2__sub_808267C
 	str r0, [r1, #8]
 _0801B09A:
 	ldr r1, _0801B0B0 @ =gBldRegs
@@ -35381,10 +35381,10 @@ _0801B09A:
 _0801B0A8: .4byte gCurTask
 _0801B0AC: .4byte 0x03000430
 _0801B0B0: .4byte gBldRegs
-_0801B0B4: .4byte sub_801B0B8
+_0801B0B4: .4byte sa2__sub_808267C
 
-	thumb_func_start sub_801B0B8
-sub_801B0B8: @ 0x0801B0B8
+	thumb_func_start sa2__sub_808267C
+sa2__sub_808267C: @ 0x0801B0B8
 	push {r4, r5, r6, r7, lr}
 	ldr r2, _0801B110 @ =gCurTask
 	ldr r0, [r2]
@@ -35426,7 +35426,7 @@ _0801B0E0:
 	ldr r0, [r6]
 	bl TaskDestroy
 	movs r0, #0
-	bl sub_801A794
+	bl CreateMultiplayerSinglePakResultsScreen
 	b _0801B198
 	.align 2, 0
 _0801B110: .4byte gCurTask
@@ -35447,7 +35447,7 @@ _0801B12C:
 	.align 2, 0
 _0801B140: .4byte gBldRegs
 _0801B144:
-	bl sub_801B1B4
+	bl sa2__sub_8082788
 	ldr r3, _0801B1A0 @ =gMultiSioSend
 	movs r1, #0
 	movs r0, #0x51
@@ -35501,8 +35501,8 @@ _0801B1A8: .4byte gMultiplayerConnections
 _0801B1AC: .4byte gMultiSioRecv
 _0801B1B0: .4byte 0x0000043C
 
-	thumb_func_start sub_801B1B4
-sub_801B1B4: @ 0x0801B1B4
+	thumb_func_start sa2__sub_8082788
+sa2__sub_8082788: @ 0x0801B1B4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -35522,7 +35522,7 @@ sub_801B1B4: @ 0x0801B1B4
 	cmp r1, #0
 	beq _0801B256
 	movs r6, #1
-	ldr r3, _0801B224 @ =gUnknown_03005060
+	ldr r3, _0801B224 @ =gMultiplayerMissingHeartbeats
 _0801B1DC:
 	adds r0, r6, #0
 	lsls r0, r5
@@ -35550,13 +35550,13 @@ _0801B1DC:
 	ldr r0, _0801B23C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0801B4EE
 	.align 2, 0
 _0801B218: .4byte gGameMode
 _0801B21C: .4byte gMultiplayerConnections
 _0801B220: .4byte gMultiSioStatusFlags
-_0801B224: .4byte gUnknown_03005060
+_0801B224: .4byte gMultiplayerMissingHeartbeats
 _0801B228: .4byte 0x0000FFFF
 _0801B22C: .4byte gBackgroundsCopyQueueCursor
 _0801B230: .4byte gBackgroundsCopyQueueIndex
@@ -35917,7 +35917,7 @@ sub_801B500: @ 0x0801B500
 	ldr r5, _0801B554 @ =gCurTask
 	ldr r0, [r5]
 	ldrh r4, [r0, #6]
-	bl sub_801B1B4
+	bl sa2__sub_8082788
 	ldr r0, _0801B558 @ =0x03000430
 	adds r4, r4, r0
 	ldrh r0, [r4]
@@ -35945,7 +35945,7 @@ sub_801B500: @ 0x0801B500
 	movs r0, #0xff
 	strh r0, [r1]
 	ldr r1, [r5]
-	ldr r0, _0801B570 @ =sub_801B06C
+	ldr r0, _0801B570 @ =sa2__Task_8082630
 	str r0, [r1, #8]
 _0801B54E:
 	pop {r4, r5}
@@ -35959,7 +35959,7 @@ _0801B560: .4byte gMPlayInfo_SE1
 _0801B564: .4byte gMPlayInfo_SE2
 _0801B568: .4byte gMPlayInfo_SE3
 _0801B56C: .4byte gBldRegs
-_0801B570: .4byte sub_801B06C
+_0801B570: .4byte sa2__Task_8082630
 
 	thumb_func_start sub_801B574
 sub_801B574: @ 0x0801B574
@@ -36196,7 +36196,7 @@ _0801B72E:
 	bl Mod
 	cmp r0, #0
 	bne _0801B754
-	movs r0, #0x8b
+	movs r0, #0x8b      @ SE_WARNING
 	bl m4aSongNumStart
 _0801B754:
 	movs r7, #0xf0

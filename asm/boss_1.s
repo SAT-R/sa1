@@ -1240,10 +1240,10 @@ _08026402:
 	strh r1, [r0]
 	ldr r0, _08026450 @ =sa2__gUnknown_03005394
 	strh r1, [r0]
-	ldr r0, _08026454 @ =gUnknown_0300232C
+	ldr r0, _08026454 @ =sa2__gUnknown_03002A8C
 	movs r1, #0
 	strh r1, [r0]
-	ldr r0, _08026458 @ =gUnknown_030045F4
+	ldr r0, _08026458 @ =sa2__gUnknown_03004D58
 	strh r1, [r0]
 	ldr r1, _0802645C @ =sa2__gUnknown_0300194C
 	mov r3, sb
@@ -1257,8 +1257,8 @@ _08026444: .4byte sa2__gUnknown_03001944
 _08026448: .4byte 0x000003FF
 _0802644C: .4byte sa2__gUnknown_030017F0
 _08026450: .4byte sa2__gUnknown_03005394
-_08026454: .4byte gUnknown_0300232C
-_08026458: .4byte gUnknown_030045F4
+_08026454: .4byte sa2__gUnknown_03002A8C
+_08026458: .4byte sa2__gUnknown_03004D58
 _0802645C: .4byte sa2__gUnknown_0300194C
 _08026460: .4byte sa2__gUnknown_03002820
 _08026464:
@@ -1276,9 +1276,9 @@ _08026464:
 	strh r1, [r0]
 	ldr r0, _080264B4 @ =sa2__gUnknown_03005394
 	strh r1, [r0]
-	ldr r0, _080264B8 @ =gUnknown_0300232C
+	ldr r0, _080264B8 @ =sa2__gUnknown_03002A8C
 	strh r3, [r0]
-	ldr r0, _080264BC @ =gUnknown_030045F4
+	ldr r0, _080264BC @ =sa2__gUnknown_03004D58
 	strh r3, [r0]
 	ldr r1, _080264C0 @ =sa2__gUnknown_0300194C
 	mov r2, sb
@@ -1302,8 +1302,8 @@ _080264A8: .4byte sa2__gUnknown_03001944
 _080264AC: .4byte 0x000003FF
 _080264B0: .4byte sa2__gUnknown_030017F0
 _080264B4: .4byte sa2__gUnknown_03005394
-_080264B8: .4byte gUnknown_0300232C
-_080264BC: .4byte gUnknown_030045F4
+_080264B8: .4byte sa2__gUnknown_03002A8C
+_080264BC: .4byte sa2__gUnknown_03004D58
 _080264C0: .4byte sa2__gUnknown_0300194C
 _080264C4: .4byte sa2__gUnknown_03002820
 
@@ -2150,10 +2150,10 @@ _08026B82:
 	strh r1, [r0]
 	ldr r0, _08026BCC @ =sa2__gUnknown_03005394
 	strh r1, [r0]
-	ldr r0, _08026BD0 @ =gUnknown_0300232C
+	ldr r0, _08026BD0 @ =sa2__gUnknown_03002A8C
 	movs r1, #0
 	strh r1, [r0]
-	ldr r0, _08026BD4 @ =gUnknown_030045F4
+	ldr r0, _08026BD4 @ =sa2__gUnknown_03004D58
 	strh r1, [r0]
 	ldr r1, _08026BD8 @ =sa2__gUnknown_0300194C
 	mov r3, r8
@@ -2167,8 +2167,8 @@ _08026BC0: .4byte sa2__gUnknown_03001944
 _08026BC4: .4byte 0x000003FF
 _08026BC8: .4byte sa2__gUnknown_030017F0
 _08026BCC: .4byte sa2__gUnknown_03005394
-_08026BD0: .4byte gUnknown_0300232C
-_08026BD4: .4byte gUnknown_030045F4
+_08026BD0: .4byte sa2__gUnknown_03002A8C
+_08026BD4: .4byte sa2__gUnknown_03004D58
 _08026BD8: .4byte sa2__gUnknown_0300194C
 _08026BDC: .4byte sa2__gUnknown_03002820
 _08026BE0:
@@ -2185,9 +2185,9 @@ _08026BE0:
 	strh r1, [r0]
 	ldr r0, _08026C30 @ =sa2__gUnknown_03005394
 	strh r1, [r0]
-	ldr r0, _08026C34 @ =gUnknown_0300232C
+	ldr r0, _08026C34 @ =sa2__gUnknown_03002A8C
 	strh r3, [r0]
-	ldr r0, _08026C38 @ =gUnknown_030045F4
+	ldr r0, _08026C38 @ =sa2__gUnknown_03004D58
 	strh r3, [r0]
 	ldr r1, _08026C3C @ =sa2__gUnknown_0300194C
 	mov r6, r8
@@ -2212,8 +2212,8 @@ _08026C24: .4byte sa2__gUnknown_03001944
 _08026C28: .4byte 0x000003FF
 _08026C2C: .4byte sa2__gUnknown_030017F0
 _08026C30: .4byte sa2__gUnknown_03005394
-_08026C34: .4byte gUnknown_0300232C
-_08026C38: .4byte gUnknown_030045F4
+_08026C34: .4byte sa2__gUnknown_03002A8C
+_08026C38: .4byte sa2__gUnknown_03004D58
 _08026C3C: .4byte sa2__gUnknown_0300194C
 _08026C40: .4byte sa2__gUnknown_03002820
 
@@ -2590,7 +2590,7 @@ sub_8026ED0: @ 0x08026ED0
 	bl sub_8015C5C
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_8015FFC
+	bl CreateBossCapsule
 	ldr r1, _08026F88 @ =gUnknown_03005040
 	movs r0, #0x30
 	strb r0, [r1, #1]

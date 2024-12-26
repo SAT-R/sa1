@@ -96,7 +96,7 @@ _08000472:
 	str r1, [r0, #4]
 	str r3, [r0, #8]
 	ldr r1, [r0, #8]
-	ldr r3, _080006F4 @ =sa2__gUnknown_030026F4
+	ldr r3, _080006F4 @ =sLastCalledVblankFuncId
 	movs r1, #0xff
 	strb r1, [r3]
 	ldr r1, _080006F8 @ =gBackgroundsCopyQueueCursor
@@ -215,9 +215,9 @@ _08000472:
 	strh r1, [r0]
 	ldr r0, _08000764 @ =sa2__gUnknown_03005394
 	strh r1, [r0]
-	ldr r0, _08000768 @ =gUnknown_0300232C
+	ldr r0, _08000768 @ =sa2__gUnknown_03002A8C
 	strh r2, [r0]
-	ldr r0, _0800076C @ =gUnknown_030045F4
+	ldr r0, _0800076C @ =sa2__gUnknown_03004D58
 	strh r2, [r0]
 	ldr r0, _08000770 @ =sa2__gUnknown_0300194C
 	strh r2, [r0]
@@ -304,7 +304,7 @@ _08000610:
 	movs r3, #0xa0
 	lsls r3, r3, #2
 	adds r1, r7, r3
-	ldr r3, _080007B4 @ =gUnknown_03001B6C
+	ldr r3, _080007B4 @ =sa2__gUnknown_030022AC
 	str r1, [r3]
 	ldr r1, _080007B8 @ =sa2__gUnknown_03002878
 	str r2, [r1]
@@ -329,14 +329,14 @@ _08000610:
 	str r3, [r0, #4]
 	str r1, [r0, #8]
 	ldr r3, [r0, #8]
-	ldr r3, _080007D0 @ =gUnknown_030045F0
+	ldr r3, _080007D0 @ =sa2__gUnknown_03004D50
 	strb r2, [r3]
-	ldr r3, _080007D4 @ =gUnknown_03001208
+	ldr r3, _080007D4 @ =sa2__gUnknown_03001948
 	strb r2, [r3]
 	str r2, [sp]
 	mov r3, sp
 	str r3, [r0]
-	ldr r3, _080007D8 @ =gUnknown_03001130
+	ldr r3, _080007D8 @ =sa2__gUnknown_03001870
 	str r3, [r0, #4]
 	str r1, [r0, #8]
 	ldr r3, [r0, #8]
@@ -382,7 +382,7 @@ _080006E4: .4byte 0xFFFFEFFF
 _080006E8: .4byte 0x040000D4
 _080006EC: .4byte 0x85006000
 _080006F0: .4byte 0x85000100
-_080006F4: .4byte sa2__gUnknown_030026F4
+_080006F4: .4byte sLastCalledVblankFuncId
 _080006F8: .4byte gBackgroundsCopyQueueCursor
 _080006FC: .4byte gBackgroundsCopyQueueIndex
 _08000700: .4byte sa2__gUnknown_03005390
@@ -411,8 +411,8 @@ _08000758: .4byte gBgAffineRegs
 _0800075C: .4byte sa2__gUnknown_03001944
 _08000760: .4byte sa2__gUnknown_030017F0
 _08000764: .4byte sa2__gUnknown_03005394
-_08000768: .4byte gUnknown_0300232C
-_0800076C: .4byte gUnknown_030045F4
+_08000768: .4byte sa2__gUnknown_03002A8C
+_0800076C: .4byte sa2__gUnknown_03004D58
 _08000770: .4byte sa2__gUnknown_0300194C
 _08000774: .4byte sa2__gUnknown_03002820
 _08000778: .4byte sa2__gUnknown_03005398
@@ -430,16 +430,16 @@ _080007A4: .4byte gIntrTable
 _080007A8: .4byte gIntrTableTemplate
 _080007AC: .4byte 0x85000140
 _080007B0: .4byte gBgOffsetsHBlank
-_080007B4: .4byte gUnknown_03001B6C
+_080007B4: .4byte sa2__gUnknown_030022AC
 _080007B8: .4byte sa2__gUnknown_03002878
 _080007BC: .4byte sa2__gUnknown_03002A80
 _080007C0: .4byte gNumHBlankCallbacks
 _080007C4: .4byte gNumHBlankIntrs
 _080007C8: .4byte gHBlankCallbacks
 _080007CC: .4byte gHBlankIntrs
-_080007D0: .4byte gUnknown_030045F0
-_080007D4: .4byte gUnknown_03001208
-_080007D8: .4byte gUnknown_03001130
+_080007D0: .4byte sa2__gUnknown_03004D50
+_080007D4: .4byte sa2__gUnknown_03001948
+_080007D8: .4byte sa2__gUnknown_03001870
 _080007DC: .4byte sa2__gUnknown_030053A0
 _080007E0: .4byte 0x0093F500
 _080007E4: .4byte gExecSoundMain
@@ -534,7 +534,7 @@ _080008A4:
 	bne _080008BA
 	bl m4aSoundMain
 _080008BA:
-	ldr r0, _08000914 @ =sa2__gUnknown_030026F4
+	ldr r0, _08000914 @ =sLastCalledVblankFuncId
 	ldrb r0, [r0]
 	cmp r0, #0xff
 	bne _080008E0
@@ -573,7 +573,7 @@ _080008E0:
 	.align 2, 0
 _0800090C: .4byte gFlags
 _08000910: .4byte gExecSoundMain
-_08000914: .4byte sa2__gUnknown_030026F4
+_08000914: .4byte sLastCalledVblankFuncId
 _08000918: .4byte gMultiSioEnabled
 _0800091C: .4byte gMultiSioSend
 _08000920: .4byte gMultiSioRecv
@@ -801,7 +801,7 @@ _08000ADE:
 	str r0, [r2, #8]
 	ldr r0, [r2, #8]
 _08000B06:
-	ldr r0, _08000BD8 @ =sa2__gUnknown_030026F4
+	ldr r0, _08000BD8 @ =sLastCalledVblankFuncId
 	ldrb r0, [r0]
 	cmp r0, #0xff
 	bne _08000B54
@@ -841,7 +841,7 @@ _08000B06:
 	ldr r0, [r0, #8]
 _08000B54:
 	movs r4, #0
-	ldr r0, _08000BF0 @ =gUnknown_03001208
+	ldr r0, _08000BF0 @ =sa2__gUnknown_03001948
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _08000B78
@@ -875,11 +875,11 @@ _08000B78:
 	ldr r0, _08000BFC @ =0x85000004
 	str r0, [r2, #8]
 	ldr r0, [r2, #8]
-	ldr r3, _08000C00 @ =gUnknown_030045F0
+	ldr r3, _08000C00 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r3]
 	cmp r0, #0
 	beq _08000BB2
-	ldr r0, _08000C04 @ =gUnknown_03001130
+	ldr r0, _08000C04 @ =sa2__gUnknown_03001870
 	str r0, [r2]
 	str r1, [r2, #4]
 	ldrb r0, [r3]
@@ -889,7 +889,7 @@ _08000B78:
 	str r0, [r2, #8]
 	ldr r0, [r2, #8]
 _08000BB2:
-	ldr r1, _08000BF0 @ =gUnknown_03001208
+	ldr r1, _08000BF0 @ =sa2__gUnknown_03001948
 	ldrb r0, [r3]
 	strb r0, [r1]
 	b _08000C0C
@@ -901,23 +901,23 @@ _08000BC8: .4byte 0x040000D4
 _08000BCC: .4byte gBgOffsetsHBlank
 _08000BD0: .4byte sa2__gUnknown_03002878
 _08000BD4: .4byte sa2__gUnknown_03002A80
-_08000BD8: .4byte sa2__gUnknown_030026F4
+_08000BD8: .4byte sLastCalledVblankFuncId
 _08000BDC: .4byte gOamBuffer
 _08000BE0: .4byte 0x80000080
 _08000BE4: .4byte 0x07000100
 _08000BE8: .4byte 0x07000200
 _08000BEC: .4byte 0x07000300
-_08000BF0: .4byte gUnknown_03001208
+_08000BF0: .4byte sa2__gUnknown_03001948
 _08000BF4: .4byte sa2__gUnknown_030053A0
 _08000BF8: .4byte gFlags
 _08000BFC: .4byte 0x85000004
-_08000C00: .4byte gUnknown_030045F0
-_08000C04: .4byte gUnknown_03001130
+_08000C00: .4byte sa2__gUnknown_03004D50
+_08000C04: .4byte sa2__gUnknown_03001870
 _08000C08:
-	ldr r0, _08000C20 @ =gUnknown_03001208
+	ldr r0, _08000C20 @ =sa2__gUnknown_03001948
 	strb r1, [r0]
 _08000C0C:
-	ldr r1, _08000C24 @ =sa2__gUnknown_030026F4
+	ldr r1, _08000C24 @ =sLastCalledVblankFuncId
 	ldrb r4, [r1]
 	cmp r4, #0xff
 	bne _08000C16
@@ -928,8 +928,8 @@ _08000C16:
 	ldr r5, _08000C28 @ =spriteUpdateFuncs
 	b _08000C32
 	.align 2, 0
-_08000C20: .4byte gUnknown_03001208
-_08000C24: .4byte sa2__gUnknown_030026F4
+_08000C20: .4byte sa2__gUnknown_03001948
+_08000C24: .4byte sLastCalledVblankFuncId
 _08000C28: .4byte spriteUpdateFuncs
 _08000C2C:
 	adds r0, r4, #1
@@ -944,7 +944,7 @@ _08000C32:
 	bl _call_via_r0
 	cmp r0, #0
 	bne _08000C2C
-	ldr r0, _08000C50 @ =sa2__gUnknown_030026F4
+	ldr r0, _08000C50 @ =sLastCalledVblankFuncId
 	strb r4, [r0]
 _08000C48:
 	add sp, #4
@@ -952,7 +952,7 @@ _08000C48:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08000C50: .4byte sa2__gUnknown_030026F4
+_08000C50: .4byte sLastCalledVblankFuncId
 
 	thumb_func_start ClearOamBufferDma
 ClearOamBufferDma: @ 0x08000C54
@@ -981,7 +981,7 @@ ClearOamBufferDma: @ 0x08000C54
 	lsls r3, r3, #2
 	adds r0, r2, r3
 	str r0, [r1]
-	ldr r0, _08000C9C @ =gUnknown_03001B6C
+	ldr r0, _08000C9C @ =sa2__gUnknown_030022AC
 	str r2, [r0]
 	b _08000CAC
 	.align 2, 0
@@ -989,10 +989,10 @@ _08000C8C: .4byte gNumHBlankCallbacks
 _08000C90: .4byte gFlags
 _08000C94: .4byte gBgOffsetsHBlank
 _08000C98: .4byte gBgOffsetsBuffer
-_08000C9C: .4byte gUnknown_03001B6C
+_08000C9C: .4byte sa2__gUnknown_030022AC
 _08000CA0:
 	str r2, [r1]
-	ldr r1, _08000D20 @ =gUnknown_03001B6C
+	ldr r1, _08000D20 @ =sa2__gUnknown_030022AC
 	movs r3, #0xa0
 	lsls r3, r3, #2
 	adds r0, r2, r3
@@ -1044,7 +1044,7 @@ _08000CAC:
 	str r1, [r0, #4]
 	str r2, [r0, #8]
 	ldr r0, [r0, #8]
-	ldr r1, _08000D30 @ =gUnknown_030045F0
+	ldr r1, _08000D30 @ =sa2__gUnknown_03004D50
 	movs r0, #0
 	strb r0, [r1]
 	ldr r0, [r4]
@@ -1057,11 +1057,11 @@ _08000CAC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08000D20: .4byte gUnknown_03001B6C
+_08000D20: .4byte sa2__gUnknown_030022AC
 _08000D24: .4byte 0x040000D4
 _08000D28: .4byte gOamBuffer
 _08000D2C: .4byte 0x81000080
-_08000D30: .4byte gUnknown_030045F0
+_08000D30: .4byte sa2__gUnknown_03004D50
 
 	thumb_func_start UpdateScreenCpuSet
 UpdateScreenCpuSet: @ 0x08000D34
@@ -1184,7 +1184,7 @@ _08000E48:
 	ldr r0, _08000ED4 @ =gNumHBlankIntrs
 	strb r4, [r0]
 _08000E56:
-	ldr r0, _08000ED8 @ =sa2__gUnknown_030026F4
+	ldr r0, _08000ED8 @ =sLastCalledVblankFuncId
 	ldrb r0, [r0]
 	cmp r0, #0xff
 	bne _08000E70
@@ -1197,7 +1197,7 @@ _08000E56:
 	bl CpuFastSet
 _08000E70:
 	movs r4, #0
-	ldr r0, _08000EE0 @ =gUnknown_03001208
+	ldr r0, _08000EE0 @ =sa2__gUnknown_03001948
 	ldrb r1, [r0]
 	cmp r4, r1
 	bhs _08000E94
@@ -1228,16 +1228,16 @@ _08000E94:
 	ldr r2, _08000EEC @ =0x01000004
 	adds r1, r5, #0
 	bl CpuFastSet
-	ldr r4, _08000EF0 @ =gUnknown_030045F0
+	ldr r4, _08000EF0 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r4]
 	cmp r0, #0
 	beq _08000EC2
-	ldr r0, _08000EF4 @ =gUnknown_03001130
+	ldr r0, _08000EF4 @ =sa2__gUnknown_03001870
 	ldrb r2, [r4]
 	adds r1, r5, #0
 	bl CpuFastSet
 _08000EC2:
-	ldr r1, _08000EE0 @ =gUnknown_03001208
+	ldr r1, _08000EE0 @ =sa2__gUnknown_03001948
 	ldrb r0, [r4]
 	strb r0, [r1]
 	b _08000EFC
@@ -1245,19 +1245,19 @@ _08000EC2:
 _08000ECC: .4byte 0x04000200
 _08000ED0: .4byte 0x0000FFFD
 _08000ED4: .4byte gNumHBlankIntrs
-_08000ED8: .4byte sa2__gUnknown_030026F4
+_08000ED8: .4byte sLastCalledVblankFuncId
 _08000EDC: .4byte gOamBuffer
-_08000EE0: .4byte gUnknown_03001208
+_08000EE0: .4byte sa2__gUnknown_03001948
 _08000EE4: .4byte sa2__gUnknown_030053A0
 _08000EE8: .4byte gFlags
 _08000EEC: .4byte 0x01000004
-_08000EF0: .4byte gUnknown_030045F0
-_08000EF4: .4byte gUnknown_03001130
+_08000EF0: .4byte sa2__gUnknown_03004D50
+_08000EF4: .4byte sa2__gUnknown_03001870
 _08000EF8:
-	ldr r0, _08000F10 @ =gUnknown_03001208
+	ldr r0, _08000F10 @ =sa2__gUnknown_03001948
 	strb r1, [r0]
 _08000EFC:
-	ldr r1, _08000F14 @ =sa2__gUnknown_030026F4
+	ldr r1, _08000F14 @ =sLastCalledVblankFuncId
 	ldrb r4, [r1]
 	cmp r4, #0xff
 	bne _08000F06
@@ -1268,8 +1268,8 @@ _08000F06:
 	ldr r5, _08000F18 @ =spriteUpdateFuncs
 	b _08000F22
 	.align 2, 0
-_08000F10: .4byte gUnknown_03001208
-_08000F14: .4byte sa2__gUnknown_030026F4
+_08000F10: .4byte sa2__gUnknown_03001948
+_08000F14: .4byte sLastCalledVblankFuncId
 _08000F18: .4byte spriteUpdateFuncs
 _08000F1C:
 	adds r0, r4, #1
@@ -1284,7 +1284,7 @@ _08000F22:
 	bl _call_via_r0
 	cmp r0, #0
 	bne _08000F1C
-	ldr r0, _08000F40 @ =sa2__gUnknown_030026F4
+	ldr r0, _08000F40 @ =sLastCalledVblankFuncId
 	strb r4, [r0]
 _08000F38:
 	add sp, #8
@@ -1292,7 +1292,7 @@ _08000F38:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08000F40: .4byte sa2__gUnknown_030026F4
+_08000F40: .4byte sLastCalledVblankFuncId
 
 	thumb_func_start VBlankIntr
 VBlankIntr: @ 0x08000F44
@@ -1406,7 +1406,7 @@ _08001012:
 	movs r0, #0xff
 	ands r0, r1
 	strh r0, [r2]
-	ldr r0, _08001064 @ =gUnknown_03002114
+	ldr r0, _08001064 @ =sa2__gUnknown_03002874
 	ldrb r0, [r0]
 	lsls r0, r0, #8
 	ldrh r1, [r2]
@@ -1430,7 +1430,7 @@ _08001054: .4byte sa2__gUnknown_03002878
 _08001058: .4byte 0x04000200
 _0800105C: .4byte 0x0000FFFD
 _08001060: .4byte 0x04000004
-_08001064: .4byte gUnknown_03002114
+_08001064: .4byte sa2__gUnknown_03002874
 _08001068: .4byte 0x0000FFFB
 _0800106C:
 	ldr r2, _08001138 @ =0x04000004
@@ -1936,7 +1936,7 @@ ClearOamBufferCpuSet: @ 0x080013F8
 	lsls r3, r3, #2
 	adds r0, r2, r3
 	str r0, [r1]
-	ldr r0, _08001440 @ =gUnknown_03001B6C
+	ldr r0, _08001440 @ =sa2__gUnknown_030022AC
 	str r2, [r0]
 	b _08001450
 	.align 2, 0
@@ -1944,10 +1944,10 @@ _08001430: .4byte gNumHBlankCallbacks
 _08001434: .4byte gFlags
 _08001438: .4byte gBgOffsetsHBlank
 _0800143C: .4byte gBgOffsetsBuffer
-_08001440: .4byte gUnknown_03001B6C
+_08001440: .4byte sa2__gUnknown_030022AC
 _08001444:
 	str r2, [r1]
-	ldr r1, _08001484 @ =gUnknown_03001B6C
+	ldr r1, _08001484 @ =sa2__gUnknown_030022AC
 	movs r3, #0xa0
 	lsls r3, r3, #2
 	adds r0, r2, r3
@@ -1965,7 +1965,7 @@ _08001450:
 	ldr r2, _0800148C @ =0x01000100
 	mov r0, sp
 	bl CpuFastSet
-	ldr r1, _08001490 @ =gUnknown_030045F0
+	ldr r1, _08001490 @ =sa2__gUnknown_03004D50
 	movs r0, #0
 	strb r0, [r1]
 	ldr r0, [r4]
@@ -1978,7 +1978,7 @@ _08001450:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08001484: .4byte gUnknown_03001B6C
+_08001484: .4byte sa2__gUnknown_030022AC
 _08001488: .4byte gOamBuffer
 _0800148C: .4byte 0x01000100
-_08001490: .4byte gUnknown_030045F0
+_08001490: .4byte sa2__gUnknown_03004D50

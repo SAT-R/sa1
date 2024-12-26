@@ -31,10 +31,10 @@ CreateEntity_MechaKnuckles: @ 0x0804E4FC
 	.align 2, 0
 _0804E524: .4byte gGameMode
 _0804E528:
-	ldr r0, _0804E584 @ =sub_804E594
+	ldr r0, _0804E584 @ =Task_MechaKnucklesInit
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _0804E588 @ =sub_804FDB8
+	ldr r1, _0804E588 @ =TaskDestructor_MechaKnuckles
 	str r1, [sp]
 	movs r1, #0x9c
 	movs r3, #0
@@ -76,13 +76,13 @@ _0804E576:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E584: .4byte sub_804E594
-_0804E588: .4byte sub_804FDB8
+_0804E584: .4byte Task_MechaKnucklesInit
+_0804E588: .4byte TaskDestructor_MechaKnuckles
 _0804E58C: .4byte gUnknown_03005A18
 _0804E590: .4byte 0x03000336
 
-	thumb_func_start sub_804E594
-sub_804E594: @ 0x0804E594
+	thumb_func_start Task_MechaKnucklesInit
+Task_MechaKnucklesInit: @ 0x0804E594
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1529,7 +1529,7 @@ _0804F04C:
 	adds r1, r1, r2
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8015FFC
+	bl CreateBossCapsule
 	ldr r1, _0804F098 @ =gUnknown_03005040
 	movs r0, #0x32
 	strb r0, [r1, #1]
@@ -3320,8 +3320,8 @@ _0804FDA8:
 _0804FDB0: .4byte gCamera
 _0804FDB4: .4byte gCurTask
 
-	thumb_func_start sub_804FDB8
-sub_804FDB8: @ 0x0804FDB8
+	thumb_func_start TaskDestructor_MechaKnuckles
+TaskDestructor_MechaKnuckles: @ 0x0804FDB8
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -22656,7 +22656,7 @@ sub_80597DC: @ 0x080597DC
 	ldr r1, _08059BD8 @ =gUnknown_03005050
 	movs r0, #0
 	strb r0, [r1]
-	ldr r0, _08059BDC @ =gUnknown_03005060
+	ldr r0, _08059BDC @ =gMultiplayerMissingHeartbeats
 	movs r5, #0
 	strb r5, [r0, #3]
 	strb r5, [r0, #2]
@@ -23143,7 +23143,7 @@ sub_80597DC: @ 0x080597DC
 	b _08059C5C
 	.align 2, 0
 _08059BD8: .4byte gUnknown_03005050
-_08059BDC: .4byte gUnknown_03005060
+_08059BDC: .4byte gMultiplayerMissingHeartbeats
 _08059BE0: .4byte gDispCnt
 _08059BE4: .4byte gBgCntRegs
 _08059BE8: .4byte 0x00001907
@@ -23686,7 +23686,7 @@ sub_805A060: @ 0x0805A060
 	cmp r1, #0
 	beq _0805A13E
 	movs r6, #1
-	ldr r2, _0805A108 @ =gUnknown_03005060
+	ldr r2, _0805A108 @ =gMultiplayerMissingHeartbeats
 _0805A0BC:
 	ldr r1, _0805A10C @ =gMultiSioStatusFlags
 	adds r0, r6, #0
@@ -23715,13 +23715,13 @@ _0805A0BC:
 	ldr r0, _0805A124 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0805A52C
 	.align 2, 0
 _0805A0FC: .4byte gCurTask
 _0805A100: .4byte gGameMode
 _0805A104: .4byte gMultiplayerConnections
-_0805A108: .4byte gUnknown_03005060
+_0805A108: .4byte gMultiplayerMissingHeartbeats
 _0805A10C: .4byte gMultiSioStatusFlags
 _0805A110: .4byte 0x0000FFFF
 _0805A114: .4byte gBackgroundsCopyQueueCursor
@@ -24311,7 +24311,7 @@ sub_805A54C: @ 0x0805A54C
 	cmp r1, #0
 	beq _0805A60C
 	movs r6, #1
-	ldr r2, _0805A5D4 @ =gUnknown_03005060
+	ldr r2, _0805A5D4 @ =gMultiplayerMissingHeartbeats
 _0805A58A:
 	ldr r1, _0805A5D8 @ =gMultiSioStatusFlags
 	adds r0, r6, #0
@@ -24340,13 +24340,13 @@ _0805A58A:
 	ldr r0, _0805A5F0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0805A788
 	.align 2, 0
 _0805A5C8: .4byte gCurTask
 _0805A5CC: .4byte gGameMode
 _0805A5D0: .4byte gMultiplayerConnections
-_0805A5D4: .4byte gUnknown_03005060
+_0805A5D4: .4byte gMultiplayerMissingHeartbeats
 _0805A5D8: .4byte gMultiSioStatusFlags
 _0805A5DC: .4byte 0x0000FFFF
 _0805A5E0: .4byte gBackgroundsCopyQueueCursor
@@ -24591,7 +24591,7 @@ sub_805A798: @ 0x0805A798
 	cmp r1, #0
 	beq _0805A84C
 	movs r5, #1
-	ldr r2, _0805A814 @ =gUnknown_03005060
+	ldr r2, _0805A814 @ =gMultiplayerMissingHeartbeats
 _0805A7C8:
 	ldr r1, _0805A818 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -24620,13 +24620,13 @@ _0805A7C8:
 	ldr r0, _0805A830 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0805A992
 	.align 2, 0
 _0805A808: .4byte gCurTask
 _0805A80C: .4byte gGameMode
 _0805A810: .4byte gMultiplayerConnections
-_0805A814: .4byte gUnknown_03005060
+_0805A814: .4byte gMultiplayerMissingHeartbeats
 _0805A818: .4byte gMultiSioStatusFlags
 _0805A81C: .4byte 0x0000FFFF
 _0805A820: .4byte gBackgroundsCopyQueueCursor
@@ -30297,7 +30297,7 @@ _0805D586:
 	ldrh r0, [r0]
 	mov r1, sb
 	strh r0, [r1]
-	ldr r0, _0805D628 @ =gUnknown_03005064
+	ldr r0, _0805D628 @ =gMultiplayerUnlockedLevels
 	ldrh r0, [r0]
 	mov r1, r8
 	strh r0, [r1]
@@ -30319,7 +30319,7 @@ _0805D618: .4byte gVramGraphicsCopyCursor
 _0805D61C: .4byte gVramGraphicsCopyQueueIndex
 _0805D620: .4byte gCourseTime
 _0805D624: .4byte gUnknown_03005058
-_0805D628: .4byte gUnknown_03005064
+_0805D628: .4byte gMultiplayerUnlockedLevels
 _0805D62C:
 	movs r0, #0x28
 	ldrsh r1, [r5, r0]
@@ -35211,7 +35211,7 @@ sub_805FDB0: @ 0x0805FDB0
 	ldr r0, _0805FDE0 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	bl sub_801061C
+	bl CreateOptionsMenu
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -36107,8 +36107,8 @@ _080604E0: .4byte gUnknown_0868DFD4
 _080604E4: .4byte gUnknown_0868E5F4
 _080604E8: .4byte 0x06010000
 
-	thumb_func_start sub_80604EC
-sub_80604EC: @ 0x080604EC
+	thumb_func_start CreateVsRecord
+CreateVsRecord: @ 0x080604EC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -36121,7 +36121,7 @@ sub_80604EC: @ 0x080604EC
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	movs r0, #0x30
+	movs r0, #0x30      @ MUS_PLAYER_DATA
 	bl m4aSongNumStop
 	movs r0, #0xa
 	bl m4aSongNumStart
@@ -38568,7 +38568,7 @@ sub_8061948: @ 0x08061948
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	str r0, [sp, #0x34]
-	ldr r1, _08061980 @ =gUnknown_03005060
+	ldr r1, _08061980 @ =gMultiplayerMissingHeartbeats
 	movs r0, #0
 	strb r0, [r1, #3]
 	strb r0, [r1, #2]
@@ -38585,7 +38585,7 @@ sub_8061948: @ 0x08061948
 	str r1, [sp, #0x3c]
 	b _08061A20
 	.align 2, 0
-_08061980: .4byte gUnknown_03005060
+_08061980: .4byte gMultiplayerMissingHeartbeats
 _08061984:
 	ldr r0, _080619A0 @ =gGameMode
 	ldrb r1, [r0]
@@ -39576,7 +39576,7 @@ sub_8062140: @ 0x08062140
 	cmp r1, #0
 	beq _08062210
 	movs r6, #1
-	ldr r3, _080621DC @ =gUnknown_03005060
+	ldr r3, _080621DC @ =gMultiplayerMissingHeartbeats
 _08062190:
 	adds r0, r6, #0
 	lsls r0, r5
@@ -39604,14 +39604,14 @@ _08062190:
 	ldr r0, _080621F4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _08062514
 	.align 2, 0
 _080621CC: .4byte gCurTask
 _080621D0: .4byte gGameMode
 _080621D4: .4byte gMultiplayerConnections
 _080621D8: .4byte gMultiSioStatusFlags
-_080621DC: .4byte gUnknown_03005060
+_080621DC: .4byte gMultiplayerMissingHeartbeats
 _080621E0: .4byte 0x0000FFFF
 _080621E4: .4byte gBackgroundsCopyQueueCursor
 _080621E8: .4byte gBackgroundsCopyQueueIndex
@@ -40066,7 +40066,7 @@ sub_8062540: @ 0x08062540
 	cmp r1, #0
 	beq _0806260A
 	movs r5, #1
-	ldr r2, _080625D4 @ =gUnknown_03005060
+	ldr r2, _080625D4 @ =gMultiplayerMissingHeartbeats
 _0806258A:
 	ldr r1, _080625D8 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -40095,13 +40095,13 @@ _0806258A:
 	ldr r0, _080625F0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _08062884
 	.align 2, 0
 _080625C8: .4byte gCurTask
 _080625CC: .4byte gGameMode
 _080625D0: .4byte gMultiplayerConnections
-_080625D4: .4byte gUnknown_03005060
+_080625D4: .4byte gMultiplayerMissingHeartbeats
 _080625D8: .4byte gMultiSioStatusFlags
 _080625DC: .4byte 0x0000FFFF
 _080625E0: .4byte gBackgroundsCopyQueueCursor
@@ -40461,7 +40461,7 @@ sub_80628A4: @ 0x080628A4
 	cmp r1, #0
 	beq _0806295A
 	movs r2, #1
-	ldr r3, _08062928 @ =gUnknown_03005060
+	ldr r3, _08062928 @ =gMultiplayerMissingHeartbeats
 _080628DA:
 	adds r0, r2, #0
 	lsls r0, r5
@@ -40489,14 +40489,14 @@ _080628DA:
 	ldr r0, _08062940 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _080629DA
 	.align 2, 0
 _08062918: .4byte gCurTask
 _0806291C: .4byte gGameMode
 _08062920: .4byte gMultiSioStatusFlags
 _08062924: .4byte gMultiplayerConnections
-_08062928: .4byte gUnknown_03005060
+_08062928: .4byte gMultiplayerMissingHeartbeats
 _0806292C: .4byte 0x0000FFFF
 _08062930: .4byte gBackgroundsCopyQueueCursor
 _08062934: .4byte gBackgroundsCopyQueueIndex
@@ -41312,7 +41312,7 @@ sub_8062F90: @ 0x08062F90
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0xc
-	ldr r0, _08063188 @ =gUnknown_03005060
+	ldr r0, _08063188 @ =gMultiplayerMissingHeartbeats
 	movs r4, #0
 	strb r4, [r0, #3]
 	strb r4, [r0, #2]
@@ -41550,7 +41550,7 @@ _080630B0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08063188: .4byte gUnknown_03005060
+_08063188: .4byte gMultiplayerMissingHeartbeats
 _0806318C: .4byte gDispCnt
 _08063190: .4byte gBgCntRegs
 _08063194: .4byte 0x00001D83
@@ -41705,7 +41705,7 @@ sub_80632B4: @ 0x080632B4
 	cmp r1, #0
 	beq _0806337A
 	movs r6, #1
-	ldr r3, _08063348 @ =gUnknown_03005060
+	ldr r3, _08063348 @ =gMultiplayerMissingHeartbeats
 _080632F8:
 	adds r0, r6, #0
 	lsls r0, r5
@@ -41734,14 +41734,14 @@ _080632F8:
 	ldr r0, _08063360 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _080634BC
 	.align 2, 0
 _08063338: .4byte gCurTask
 _0806333C: .4byte gGameMode
 _08063340: .4byte gMultiSioStatusFlags
 _08063344: .4byte gMultiplayerConnections
-_08063348: .4byte gUnknown_03005060
+_08063348: .4byte gMultiplayerMissingHeartbeats
 _0806334C: .4byte 0x0000FFFF
 _08063350: .4byte gBackgroundsCopyQueueCursor
 _08063354: .4byte gBackgroundsCopyQueueIndex
@@ -41974,7 +41974,7 @@ sub_80634EC: @ 0x080634EC
 	cmp r1, #0
 	beq _080635B0
 	movs r2, #1
-	ldr r3, _0806357C @ =gUnknown_03005060
+	ldr r3, _0806357C @ =gMultiplayerMissingHeartbeats
 _0806352E:
 	adds r0, r2, #0
 	lsls r0, r5
@@ -42003,14 +42003,14 @@ _0806352E:
 	ldr r0, _08063594 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0806361C
 	.align 2, 0
 _0806356C: .4byte gCurTask
 _08063570: .4byte gGameMode
 _08063574: .4byte gMultiSioStatusFlags
 _08063578: .4byte gMultiplayerConnections
-_0806357C: .4byte gUnknown_03005060
+_0806357C: .4byte gMultiplayerMissingHeartbeats
 _08063580: .4byte 0x0000FFFF
 _08063584: .4byte gBackgroundsCopyQueueCursor
 _08063588: .4byte gBackgroundsCopyQueueIndex
@@ -42127,7 +42127,7 @@ sub_8063638: @ 0x08063638
 	cmp r1, #0
 	beq _080636EE
 	movs r2, #1
-	ldr r3, _080636BC @ =gUnknown_03005060
+	ldr r3, _080636BC @ =gMultiplayerMissingHeartbeats
 _0806366E:
 	adds r0, r2, #0
 	lsls r0, r5
@@ -42155,14 +42155,14 @@ _0806366E:
 	ldr r0, _080636D4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _08063818
 	.align 2, 0
 _080636AC: .4byte gCurTask
 _080636B0: .4byte gGameMode
 _080636B4: .4byte gMultiSioStatusFlags
 _080636B8: .4byte gMultiplayerConnections
-_080636BC: .4byte gUnknown_03005060
+_080636BC: .4byte gMultiplayerMissingHeartbeats
 _080636C0: .4byte 0x0000FFFF
 _080636C4: .4byte gBackgroundsCopyQueueCursor
 _080636C8: .4byte gBackgroundsCopyQueueIndex
@@ -57003,7 +57003,7 @@ sub_806AFA4: @ 0x0806AFA4
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x10
-	ldr r0, _0806B224 @ =gUnknown_03005060
+	ldr r0, _0806B224 @ =gMultiplayerMissingHeartbeats
 	movs r1, #0
 	strb r1, [r0, #3]
 	strb r1, [r0, #2]
@@ -57311,7 +57311,7 @@ _0806B074:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806B224: .4byte gUnknown_03005060
+_0806B224: .4byte gMultiplayerMissingHeartbeats
 _0806B228: .4byte gUnknown_03005160
 _0806B22C: .4byte gKeysFirstRepeatIntervals
 _0806B230: .4byte gKeysContinuedRepeatIntervals
@@ -57371,7 +57371,7 @@ sub_806B290: @ 0x0806B290
 	cmp r1, #0
 	beq _0806B35C
 	movs r5, #1
-	ldr r2, _0806B320 @ =gUnknown_03005060
+	ldr r2, _0806B320 @ =gMultiplayerMissingHeartbeats
 _0806B2CE:
 	ldr r1, _0806B324 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -57400,7 +57400,7 @@ _0806B2CE:
 	ldr r0, _0806B33C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0806B520
 	.align 2, 0
 _0806B30C: .4byte gCurTask
@@ -57408,7 +57408,7 @@ _0806B310: .4byte 0x03000160
 _0806B314: .4byte 0x0300016E
 _0806B318: .4byte gGameMode
 _0806B31C: .4byte gMultiplayerConnections
-_0806B320: .4byte gUnknown_03005060
+_0806B320: .4byte gMultiplayerMissingHeartbeats
 _0806B324: .4byte gMultiSioStatusFlags
 _0806B328: .4byte 0x0000FFFF
 _0806B32C: .4byte gBackgroundsCopyQueueCursor

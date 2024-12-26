@@ -207,7 +207,7 @@ gUnknown_080BB327:
 
     .global gUnknown_080BB32C
 gUnknown_080BB32C:
-    .4byte sub_800E470, sub_80100A8, sub_801061C, sub_800E060
+    .4byte sub_800E470, sub_80100A8, CreateOptionsMenu, sub_800E060
 
     .global gUnknown_080BB33C
 gUnknown_080BB33C:

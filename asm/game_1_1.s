@@ -21,7 +21,7 @@ sub_803A950: @ 0x0803A950
 	strb r0, [r1, #1]
 	strb r0, [r1, #2]
 	strb r0, [r1, #3]
-	ldr r1, _0803AAA8 @ =gUnknown_03005060
+	ldr r1, _0803AAA8 @ =gMultiplayerMissingHeartbeats
 	strb r0, [r1, #3]
 	strb r0, [r1, #2]
 	strb r0, [r1, #1]
@@ -177,7 +177,7 @@ _0803A994:
 	b _0803AB4E
 	.align 2, 0
 _0803AAA4: .4byte gUnknown_030058B8
-_0803AAA8: .4byte gUnknown_03005060
+_0803AAA8: .4byte gMultiplayerMissingHeartbeats
 _0803AAAC: .4byte gUnknown_030058B4
 _0803AAB0: .4byte sub_803B570
 _0803AAB4: .4byte gMultiplayerConnections
@@ -1568,7 +1568,7 @@ sub_803B570: @ 0x0803B570
 	cmp r1, #0
 	beq _0803B616
 	movs r5, #1
-	ldr r2, _0803B5E0 @ =gUnknown_03005060
+	ldr r2, _0803B5E0 @ =gMultiplayerMissingHeartbeats
 _0803B598:
 	ldr r1, _0803B5E4 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -1597,12 +1597,12 @@ _0803B598:
 	ldr r0, _0803B5FC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0803B790
 	.align 2, 0
 _0803B5D8: .4byte gGameMode
 _0803B5DC: .4byte gMultiplayerConnections
-_0803B5E0: .4byte gUnknown_03005060
+_0803B5E0: .4byte gMultiplayerMissingHeartbeats
 _0803B5E4: .4byte gMultiSioStatusFlags
 _0803B5E8: .4byte 0x0000FFFF
 _0803B5EC: .4byte gBackgroundsCopyQueueCursor
@@ -1831,7 +1831,7 @@ sub_803B7AC: @ 0x0803B7AC
 	cmp r1, #0
 	beq _0803B84A
 	movs r5, #1
-	ldr r2, _0803B814 @ =gUnknown_03005060
+	ldr r2, _0803B814 @ =gMultiplayerMissingHeartbeats
 _0803B7CC:
 	ldr r1, _0803B818 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -1860,12 +1860,12 @@ _0803B7CC:
 	ldr r0, _0803B830 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0803B936
 	.align 2, 0
 _0803B80C: .4byte gGameMode
 _0803B810: .4byte gMultiplayerConnections
-_0803B814: .4byte gUnknown_03005060
+_0803B814: .4byte gMultiplayerMissingHeartbeats
 _0803B818: .4byte gMultiSioStatusFlags
 _0803B81C: .4byte 0x0000FFFF
 _0803B820: .4byte gBackgroundsCopyQueueCursor
@@ -2037,7 +2037,7 @@ sub_803B944: @ 0x0803B944
 	cmp r1, #0
 	beq _0803B9E2
 	movs r5, #1
-	ldr r2, _0803B9AC @ =gUnknown_03005060
+	ldr r2, _0803B9AC @ =gMultiplayerMissingHeartbeats
 _0803B964:
 	ldr r1, _0803B9B0 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -2066,12 +2066,12 @@ _0803B964:
 	ldr r0, _0803B9C8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0803BACE
 	.align 2, 0
 _0803B9A4: .4byte gGameMode
 _0803B9A8: .4byte gMultiplayerConnections
-_0803B9AC: .4byte gUnknown_03005060
+_0803B9AC: .4byte gMultiplayerMissingHeartbeats
 _0803B9B0: .4byte gMultiSioStatusFlags
 _0803B9B4: .4byte 0x0000FFFF
 _0803B9B8: .4byte gBackgroundsCopyQueueCursor
@@ -2230,7 +2230,7 @@ sub_803BAD4: @ 0x0803BAD4
 	cmp r1, #0
 	beq _0803BB72
 	movs r5, #1
-	ldr r2, _0803BB3C @ =gUnknown_03005060
+	ldr r2, _0803BB3C @ =gMultiplayerMissingHeartbeats
 _0803BAF4:
 	ldr r1, _0803BB40 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -2259,12 +2259,12 @@ _0803BAF4:
 	ldr r0, _0803BB58 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0803BC5A
 	.align 2, 0
 _0803BB34: .4byte gGameMode
 _0803BB38: .4byte gMultiplayerConnections
-_0803BB3C: .4byte gUnknown_03005060
+_0803BB3C: .4byte gMultiplayerMissingHeartbeats
 _0803BB40: .4byte gMultiSioStatusFlags
 _0803BB44: .4byte 0x0000FFFF
 _0803BB48: .4byte gBackgroundsCopyQueueCursor
@@ -3069,8 +3069,8 @@ sub_803C198: @ 0x0803C198
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803C1AC
-sub_803C1AC: @ 0x0803C1AC
+	thumb_func_start CreateMultipackOutcomeScreen
+CreateMultipackOutcomeScreen: @ 0x0803C1AC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4374,7 +4374,7 @@ _0803CC1E:
 	ldr r6, _0803CCC4 @ =gMultiplayerCharacters
 	movs r2, #0
 	ldr r5, _0803CCC8 @ =gUnknown_03005048
-	ldr r3, _0803CCCC @ =gUnknown_03005060
+	ldr r3, _0803CCCC @ =gMultiplayerMissingHeartbeats
 _0803CC34:
 	adds r0, r1, r6
 	strb r2, [r0]
@@ -4426,7 +4426,7 @@ _0803CCBC: .4byte gUnknown_03006240
 _0803CCC0: .4byte gMultiplayerPlayerTasks
 _0803CCC4: .4byte gMultiplayerCharacters
 _0803CCC8: .4byte gUnknown_03005048
-_0803CCCC: .4byte gUnknown_03005060
+_0803CCCC: .4byte gMultiplayerMissingHeartbeats
 _0803CCD0: .4byte gFlags
 _0803CCD4:
 	movs r0, #0x80
@@ -4976,10 +4976,10 @@ _0803D14C:
 	strh r1, [r0]
 	ldr r0, _0803D1F8 @ =sa2__gUnknown_03005394
 	strh r1, [r0]
-	ldr r0, _0803D1FC @ =gUnknown_0300232C
+	ldr r0, _0803D1FC @ =sa2__gUnknown_03002A8C
 	movs r2, #0x78
 	strh r2, [r0]
-	ldr r0, _0803D200 @ =gUnknown_030045F4
+	ldr r0, _0803D200 @ =sa2__gUnknown_03004D58
 	movs r1, #0x50
 	strh r1, [r0]
 	ldr r0, _0803D204 @ =sa2__gUnknown_0300194C
@@ -5051,8 +5051,8 @@ _0803D1D4:
 _0803D1F0: .4byte sa2__gUnknown_03001944
 _0803D1F4: .4byte sa2__gUnknown_030017F0
 _0803D1F8: .4byte sa2__gUnknown_03005394
-_0803D1FC: .4byte gUnknown_0300232C
-_0803D200: .4byte gUnknown_030045F4
+_0803D1FC: .4byte sa2__gUnknown_03002A8C
+_0803D200: .4byte sa2__gUnknown_03004D58
 _0803D204: .4byte sa2__gUnknown_0300194C
 _0803D208: .4byte sa2__gUnknown_03002820
 _0803D20C: .4byte sa2__gUnknown_03005398
@@ -9423,8 +9423,8 @@ _0803F5AC:
 	ldr r3, [r5]
 	movs r0, #8
 	orrs r3, r0
-	ldr r4, _0803F638 @ =gUnknown_03001130
-	ldr r2, _0803F63C @ =gUnknown_030045F0
+	ldr r4, _0803F638 @ =sa2__gUnknown_03001870
+	ldr r2, _0803F63C @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -9455,8 +9455,8 @@ _0803F628: .4byte gHBlankCallbacks
 _0803F62C: .4byte gNumHBlankCallbacks
 _0803F630: .4byte sub_803F92C
 _0803F634: .4byte gFlags
-_0803F638: .4byte gUnknown_03001130
-_0803F63C: .4byte gUnknown_030045F0
+_0803F638: .4byte sa2__gUnknown_03001870
+_0803F63C: .4byte sa2__gUnknown_03004D50
 _0803F640: .4byte sub_803F920
 
 	thumb_func_start sub_803F644
@@ -9827,7 +9827,7 @@ sub_803F92C: @ 0x0803F92C
 	blt _0803F95C
 	cmp r0, #0x9f
 	beq _0803F95C
-	ldr r0, _0803F954 @ =gUnknown_03001B6C
+	ldr r0, _0803F954 @ =sa2__gUnknown_030022AC
 	ldr r1, [r0]
 	movs r0, #0xb4
 	lsls r0, r0, #1
@@ -9839,7 +9839,7 @@ sub_803F92C: @ 0x0803F92C
 	str r0, [r2]
 	b _0803F962
 	.align 2, 0
-_0803F954: .4byte gUnknown_03001B6C
+_0803F954: .4byte sa2__gUnknown_030022AC
 _0803F958: .4byte 0x04000014
 _0803F95C:
 	ldr r1, _0803F964 @ =0x04000014
@@ -36735,8 +36735,8 @@ _0804C6D2:
 	movs r0, #0xff
 _0804C6D4:
 	strb r0, [r7, #1]
-	ldr r3, _0804C77C @ =gUnknown_03001130
-	ldr r2, _0804C780 @ =gUnknown_030045F0
+	ldr r3, _0804C77C @ =sa2__gUnknown_03001870
+	ldr r2, _0804C780 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -36809,7 +36809,7 @@ _0804C756:
 	ldr r1, _0804C78C @ =gIntrTable
 	ldr r0, _0804C790 @ =sub_804C9D4
 	str r0, [r1, #0xc]
-	ldr r1, _0804C794 @ =gUnknown_03002114
+	ldr r1, _0804C794 @ =sa2__gUnknown_03002874
 	subs r0, r3, #1
 	strb r0, [r1]
 	ldr r2, _0804C788 @ =gFlags
@@ -36818,13 +36818,13 @@ _0804C756:
 	orrs r0, r1
 	b _0804C7AA
 	.align 2, 0
-_0804C77C: .4byte gUnknown_03001130
-_0804C780: .4byte gUnknown_030045F0
+_0804C77C: .4byte sa2__gUnknown_03001870
+_0804C780: .4byte sa2__gUnknown_03004D50
 _0804C784: .4byte sub_804C960
 _0804C788: .4byte gFlags
 _0804C78C: .4byte gIntrTable
 _0804C790: .4byte sub_804C9D4
-_0804C794: .4byte gUnknown_03002114
+_0804C794: .4byte sa2__gUnknown_03002874
 _0804C798:
 	ldr r1, _0804C7C0 @ =gIntrTable
 	ldr r0, _0804C7C4 @ =gIntrTableTemplate
@@ -37128,7 +37128,7 @@ sub_804C9D4: @ 0x0804C9D4
 	movs r1, #3
 	orrs r0, r1
 	str r0, [r3]
-	ldr r0, _0804CA4C @ =gUnknown_03001B6C
+	ldr r0, _0804CA4C @ =sa2__gUnknown_030022AC
 	ldr r0, [r0]
 	str r0, [r2]
 	ldr r0, _0804CA50 @ =0x0400001C
@@ -37153,7 +37153,7 @@ _0804CA3C: .4byte 0x05000200
 _0804CA40: .4byte 0x84000080
 _0804CA44: .4byte 0x0000FEFF
 _0804CA48: .4byte gFlags
-_0804CA4C: .4byte gUnknown_03001B6C
+_0804CA4C: .4byte sa2__gUnknown_030022AC
 _0804CA50: .4byte 0x0400001C
 _0804CA54: .4byte sa2__gUnknown_03002A80
 _0804CA58: .4byte 0xA2600000

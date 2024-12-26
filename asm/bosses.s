@@ -2753,7 +2753,7 @@ sub_802ECFC: @ 0x0802ECFC
 	bl sub_8015C5C
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_8015FFC
+	bl CreateBossCapsule
 	ldr r1, _0802EDB4 @ =gUnknown_03005040
 	movs r0, #0x30
 	strb r0, [r1, #1]
@@ -4856,7 +4856,7 @@ sub_802FE88: @ 0x0802FE88
 	bl sub_8015C5C
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_8015FFC
+	bl CreateBossCapsule
 	ldr r1, _0802FF74 @ =gUnknown_03005040
 	movs r6, #0
 	movs r0, #0x30
@@ -7895,7 +7895,7 @@ _08031784:
 	bl sub_8015C5C
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_8015FFC
+	bl CreateBossCapsule
 	ldr r1, _080317E8 @ =gUnknown_03005040
 	movs r0, #0x30
 	strb r0, [r1, #1]

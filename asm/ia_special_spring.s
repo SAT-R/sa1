@@ -553,7 +553,7 @@ _080935F0:
 	adds r3, #0x48
 	ldrh r0, [r3]
 	strh r0, [r1]
-	ldr r2, _08093690 @ =gUnknown_03005064
+	ldr r2, _08093690 @ =gMultiplayerUnlockedLevels
 	adds r1, r4, #0
 	adds r1, #0x4a
 	ldrh r0, [r1]
@@ -591,7 +591,7 @@ _08093680: .4byte gPlayer
 _08093684: .4byte gCamera
 _08093688: .4byte 0xFFFFF880
 _0809368C: .4byte gUnknown_03005058
-_08093690: .4byte gUnknown_03005064
+_08093690: .4byte gMultiplayerUnlockedLevels
 _08093694: .4byte gCurTask
 _08093698: .4byte 0x0000FFFF
 _0809369C: .4byte gBackgroundsCopyQueueCursor

@@ -209,7 +209,7 @@ sub_801CF08: @ 0x0801CF08
 	cmp r1, #0
 	beq _0801CFAA
 	movs r5, #1
-	ldr r2, _0801CF74 @ =gUnknown_03005060
+	ldr r2, _0801CF74 @ =gMultiplayerMissingHeartbeats
 _0801CF2E:
 	ldr r1, _0801CF78 @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -238,12 +238,12 @@ _0801CF2E:
 	ldr r0, _0801CF90 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0801D0A4
 	.align 2, 0
 _0801CF6C: .4byte gGameMode
 _0801CF70: .4byte gMultiplayerConnections
-_0801CF74: .4byte gUnknown_03005060
+_0801CF74: .4byte gMultiplayerMissingHeartbeats
 _0801CF78: .4byte gMultiSioStatusFlags
 _0801CF7C: .4byte 0x0000FFFF
 _0801CF80: .4byte gBackgroundsCopyQueueCursor

@@ -84,8 +84,8 @@ _0801C792:
 	ldr r1, _0801C7EC @ =gWinRegs
 	ldr r0, _0801C7F0 @ =0x00001190
 	strh r0, [r1, #4]
-	ldr r3, _0801C7F4 @ =gUnknown_03001130
-	ldr r2, _0801C7F8 @ =gUnknown_030045F0
+	ldr r3, _0801C7F4 @ =sa2__gUnknown_03001870
+	ldr r2, _0801C7F8 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -120,8 +120,8 @@ _0801C7E4: .4byte Task_801C810
 _0801C7E8: .4byte gBldRegs
 _0801C7EC: .4byte gWinRegs
 _0801C7F0: .4byte 0x00001190
-_0801C7F4: .4byte gUnknown_03001130
-_0801C7F8: .4byte gUnknown_030045F0
+_0801C7F4: .4byte sa2__gUnknown_03001870
+_0801C7F8: .4byte sa2__gUnknown_03004D50
 _0801C7FC: .4byte sub_801C9AC
 _0801C800: .4byte gFlags
 _0801C804: .4byte gHBlankCallbacks
@@ -148,8 +148,8 @@ Task_801C810: @ 0x0801C810
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x18
 	strh r0, [r1, #4]
-	ldr r3, _0801C8B0 @ =gUnknown_03001130
-	ldr r2, _0801C8B4 @ =gUnknown_030045F0
+	ldr r3, _0801C8B0 @ =sa2__gUnknown_03001870
+	ldr r2, _0801C8B4 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -209,8 +209,8 @@ _0801C89A:
 _0801C8A4: .4byte gCurTask
 _0801C8A8: .4byte 0x04000128
 _0801C8AC: .4byte gBldRegs
-_0801C8B0: .4byte gUnknown_03001130
-_0801C8B4: .4byte gUnknown_030045F0
+_0801C8B0: .4byte sa2__gUnknown_03001870
+_0801C8B4: .4byte sa2__gUnknown_03004D50
 _0801C8B8: .4byte sub_801C9AC
 _0801C8BC: .4byte gFlags
 _0801C8C0: .4byte gHBlankCallbacks
@@ -258,8 +258,8 @@ _0801C91C:
 	ldr r1, _0801C960 @ =gBldRegs
 	asrs r0, r2, #0x18
 	strh r0, [r1, #4]
-	ldr r3, _0801C964 @ =gUnknown_03001130
-	ldr r2, _0801C968 @ =gUnknown_030045F0
+	ldr r3, _0801C964 @ =sa2__gUnknown_03001870
+	ldr r2, _0801C968 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -291,8 +291,8 @@ _0801C958:
 	bx r0
 	.align 2, 0
 _0801C960: .4byte gBldRegs
-_0801C964: .4byte gUnknown_03001130
-_0801C968: .4byte gUnknown_030045F0
+_0801C964: .4byte sa2__gUnknown_03001870
+_0801C968: .4byte sa2__gUnknown_03004D50
 _0801C96C: .4byte sub_801C9AC
 _0801C970: .4byte gFlags
 _0801C974: .4byte gHBlankCallbacks
@@ -367,7 +367,7 @@ sub_801C9D8: @ 0x0801C9D8
 	ldr r0, _0801CA68 @ =gBldRegs
 	strh r4, [r0]
 	strh r4, [r0, #4]
-	ldr r0, _0801CA6C @ =gUnknown_03005060
+	ldr r0, _0801CA6C @ =gMultiplayerMissingHeartbeats
 	strb r2, [r0, #3]
 	strb r2, [r0, #2]
 	strb r2, [r0, #1]
@@ -416,7 +416,7 @@ _0801CA5C: .4byte gDispCnt
 _0801CA60: .4byte gBgCntRegs
 _0801CA64: .4byte 0x00005E0B
 _0801CA68: .4byte gBldRegs
-_0801CA6C: .4byte gUnknown_03005060
+_0801CA6C: .4byte gMultiplayerMissingHeartbeats
 _0801CA70: .4byte sa2__gUnknown_03004D80
 _0801CA74: .4byte sa2__gUnknown_03002280
 _0801CA78: .4byte 0x040000D4
@@ -568,7 +568,7 @@ Task_801CB80: @ 0x0801CB80
 	cmp r1, #0
 	beq _0801CC2E
 	movs r5, #1
-	ldr r2, _0801CBF8 @ =gUnknown_03005060
+	ldr r2, _0801CBF8 @ =gMultiplayerMissingHeartbeats
 _0801CBAE:
 	ldr r1, _0801CBFC @ =gMultiSioStatusFlags
 	adds r0, r5, #0
@@ -597,13 +597,13 @@ _0801CBAE:
 	ldr r0, _0801CC14 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_801A728
+	bl MultiPakCommunicationError
 	b _0801CD6E
 	.align 2, 0
 _0801CBEC: .4byte gDispCnt
 _0801CBF0: .4byte gGameMode
 _0801CBF4: .4byte gMultiplayerConnections
-_0801CBF8: .4byte gUnknown_03005060
+_0801CBF8: .4byte gMultiplayerMissingHeartbeats
 _0801CBFC: .4byte gMultiSioStatusFlags
 _0801CC00: .4byte 0x0000FFFF
 _0801CC04: .4byte gBackgroundsCopyQueueCursor
