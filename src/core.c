@@ -338,17 +338,9 @@ void EngineInit(void)
     TasksInit();
     EwramInitHeap();
 
-#if (ENGINE == ENGINE_1)
-    // 156 / 256 max useable segments
-    gVramHeapMaxTileSlots = 156 * VRAM_TILE_SLOTS_PER_SEGMENT;
-    // Would be good to know where this number comes from
-    gVramHeapStartAddr = OBJ_VRAM1 - (112 * TILE_SIZE_4BPP);
-#elif (ENGINE == ENGINE_2)
-    // 140 / 256 max useable segments
-    gVramHeapMaxTileSlots = 140 * VRAM_TILE_SLOTS_PER_SEGMENT;
-    // Would be good to know where this number comes from
-    gVramHeapStartAddr = OBJ_VRAM1 - (TILE_SIZE_4BPP * 48);
-#endif
+    // VRAM_TILE_SEGMENTS / 256 max useable segments
+    gVramHeapMaxTileSlots = VRAM_TILE_SEGMENTS * VRAM_TILE_SLOTS_PER_SEGMENT;
+    gVramHeapStartAddr = OBJ_VRAM1 - (VRAM_HEAP_TILE_COUNT * TILE_SIZE_4BPP);
 
     VramResetHeapState();
 

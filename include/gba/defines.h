@@ -77,7 +77,9 @@ typedef uint16_t winreg_t;
 #define TILE_SIZE_8BPP 64
 
 // NOTE/TODO: Maybe this should somewhere else?
-#define GET_TILE_NUM_COMMON(vramPtr, tileSize) (((size_t)(vramPtr) - OBJ_VRAM0) / (tileSize))
+// NOTE: This appears to not match when using pointers, but with integers it's fine.
+//       uintptr_t should always be defined to be as big as a pointer, so there should be no issues.
+#define GET_TILE_NUM_COMMON(vramPtr, tileSize) (((uintptr_t)(vramPtr) - (uintptr_t)OBJ_VRAM0) / (tileSize))
 #define GET_TILE_NUM(vramPtr) GET_TILE_NUM_COMMON((vramPtr), TILE_SIZE_4BPP) 
 
 #define TOTAL_OBJ_TILE_COUNT 1024

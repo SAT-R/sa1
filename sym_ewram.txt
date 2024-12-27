@@ -1,7 +1,6 @@
 . = 0x00001400; gSoundInfo = .;
 
 build/sa1/src/lib/m4a/m4a.o(ewram_data);
-
 build/sa1/src/malloc_ewram.o(COMMON);
 ewram_end = .;
 
