@@ -204,6 +204,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005A0C; gUnknown_03005A0C = .;
 . = 0x00005A10; gUnknown_03005A10 = .;
 . = 0x00005A18; gUnknown_03005A18 = .;
+
 . = 0x00005A20; gPlayer = .; /* size: 0x90 */
 . = 0x00005A46; gUnknown_03005A46 = .;
 . = 0x00005A47; gUnknown_03005A47 = .;
@@ -217,6 +218,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005A7B; gUnknown_03005A7B = .;
 . = 0x00005A84; gUnknown_03005A84 = .;
 . = 0x00005A8D; gUnknown_03005A8D = .;
+
 . = 0x00005AB0; gPartner = .;          /* CPU Tails (0x90) */
 . = 0x00005AD6; gUnknown_03005AD6 = .;
 . = 0x00005AD7; gUnknown_03005AD7 = .;
@@ -231,15 +233,12 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005B0B; gUnknown_03005B0B = .;
 . = 0x00005B14; gUnknown_03005B14 = .;
 . = 0x00005B1D; gUnknown_03005B1D = .;
+
 . = 0x00005B40; gUnknown_03005B40 = .;
 . = 0x00005B90; gUnknown_03005B90 = .;
-. = 0x00005BE0; gUnknown_03005BE0 = .; /* SA2: gUnknown_03005AF0 */
-. = 0x00005BEC; gUnknown_03005BEC = .;
-. = 0x00005C0D; gUnknown_03005C0D = .;
-. = 0x00005C14; gUnknown_03005C14 = .;
-. = 0x00005C30; gUnknown_03005C30 = .;
-. = 0x00005C5D; gUnknown_03005C5D = .;
-. = 0x00005C64; gUnknown_03005C64 = .;
+. = 0x00005BE0; gUnknown_03005BE0 = .; /* (PlayerSpriteInfo player PSI) SA2: gUnknown_03005AA0|gUnknown_03005AF0 */
+. = 0x00005C30; gUnknown_03005C30 = .; /* (PlayerSpriteInfo partner PSI) SA2: gUnknown_03005AA0|gUnknown_03005AF0 */
+
 . = 0x00005C74; gUnknown_03005C74 = .;
 . = 0x00005C78; gUnknown_03005C78 = .;
 . = 0x00005C80; gUnknown_03005C80 = .;
