@@ -211,7 +211,7 @@ extern u8 gNumHBlankIntrs;
 extern u8 gIwramHeap[0x2204];
 extern u8 gEwramHeap[0x20080];
 
-extern u32 gVramHeapStartAddr;
+extern void *gVramHeapStartAddr;
 extern u16 gVramHeapMaxTileSlots;
 extern u16 gVramHeapState[256];
 
@@ -298,24 +298,24 @@ extern void *gBgOffsetsHBlank;
 extern u16 sa2__gUnknown_030017F0;
 extern s16 sa2__gUnknown_030017F4[2];
 extern u8 sa2__gUnknown_03001850[32];
-// extern FuncType_030053A0 gUnknown_03001870[4];
+extern FuncType_030053A0 sa2__gUnknown_03001870[4];
 //
 extern u8 gOamFreeIndex;
 extern u16 sa2__gUnknown_03001944;
-// extern u8 gUnknown_03001948;
+extern u8 sa2__gUnknown_03001948;
 extern u16 sa2__gUnknown_0300194C;
 //
 //
 extern Tilemap **gTilemapsRef;
 extern u8 sa2__gUnknown_03002280[4][4];
 extern u8 sa2__gUnknown_03004D80[16]; // TODO: Is this 4 (# backgrounds), instead of 16?
-// extern u16 *gUnknown_030022AC;
-// extern void *gUnknown_030022C0;
+extern void *sa2__gUnknown_030022AC;
+extern void *sa2__gUnknown_030022C0;
 // extern s16 gMosaicReg;
 // extern u8 gUnknown_030026F4;
 extern const struct SpriteTables *gRefSpriteTables;
 extern u16 sa2__gUnknown_03002820;
-// extern u8 gUnknown_03002874;
+extern u8 sa2__gUnknown_03002874;
 extern void *sa2__gUnknown_03002878;
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 sa2__gUnknown_03002A80;
@@ -325,15 +325,15 @@ extern u8 sa2__gUnknown_03002A80;
 extern u8 gOamFirstPausedIndex;
 extern u8 gBackgroundsCopyQueueCursor;
 extern Sprite *sa2__gUnknown_03004D10[16];
-// extern u8 gUnknown_03004D50;
-// extern void *gUnknown_03004D54;
+extern u8 sa2__gUnknown_03004D50;
+extern void *sa2__gUnknown_03004D54;
 // extern u16 gUnknown_03004D58;
 extern u8 gVramGraphicsCopyCursor;
 extern u8 sa2__gUnknown_03004D60[0x20];
 extern u8 sa2__gUnknown_03005390;
 extern u16 sa2__gUnknown_03005394;
 extern u16 sa2__gUnknown_03005398;
-extern FuncType_030053A0 gUnknown_030053A0[4];
+extern FuncType_030053A0 sa2__gUnknown_030053A0[4];
 // extern s32 gPseudoRandom;
 extern u8 sa2__gUnknown_03002710[128];
 // extern struct MultiBootParam gMultiBootParam;

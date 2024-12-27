@@ -807,8 +807,8 @@ ply_port: @ 0x080973E4
 	.align 2, 0
 _080973F8: .4byte 0x04000060
 
-	thumb_func_start sub_80973FC
-sub_80973FC: @ 0x080973FC
+	thumb_func_start m4aSoundVSync
+m4aSoundVSync: @ 0x080973FC
 	ldr r0, _080976A8 @ =gUnknown_03007FF0
 	ldr r0, [r0]
 	ldr r2, _080976AC @ =0x68736D53

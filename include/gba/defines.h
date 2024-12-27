@@ -2,6 +2,7 @@
 #define GUARD_GBA_DEFINES
 
 #include <stddef.h>
+#include <stdint.h> // for uint16_t
 
 #define TRUE  1
 #define FALSE 0
@@ -44,11 +45,11 @@
 #define BG_TILE_ADDR(n)   (BG_VRAM + (0x80 * (n)))
 
 // text-mode BG
-#define OBJ_VRAM0      (VRAM + 0x10000)
+#define OBJ_VRAM0      (u8*)(VRAM + 0x10000)
 #define OBJ_VRAM0_SIZE 0x8000
 
 // bitmap-mode BG
-#define OBJ_VRAM1      (VRAM + 0x14000)
+#define OBJ_VRAM1      (u8*)(VRAM + 0x14000)
 #define OBJ_VRAM1_SIZE 0x4000
 
 #define OAM      0x7000000
@@ -57,6 +58,20 @@
 
 #define DISPLAY_WIDTH  240
 #define DISPLAY_HEIGHT 160
+
+#if 0 // WIDESCREEN_HACK
+#define WIN_REG_SIZE 4
+#define WIN_RANGE(a, b) (((a) << 16) | (b))
+#define WIN_GET_LOWER(win_reg)  (((win_reg) & 0xFFFF0000) >> 16)
+#define WIN_GET_HIGHER(win_reg) (((win_reg) & 0x0000FFFF) >> 0)
+typedef uint32_t winreg_t;
+#else
+#define WIN_REG_SIZE 2
+#define WIN_RANGE(a, b) (((a) << 8) | (b))
+#define WIN_GET_LOWER(win_reg)  (((win_reg) & 0xFF00) >> 8)
+#define WIN_GET_HIGHER(win_reg) (((win_reg) & 0x00FF) >> 0)
+typedef uint16_t winreg_t;
+#endif
 
 #define TILE_SIZE_4BPP 32
 #define TILE_SIZE_8BPP 64

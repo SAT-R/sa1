@@ -12,6 +12,7 @@ SECTIONS {
         build/sa1/src/multi_sio_asm.o(.text);
         build/sa1/asm/rom_header_old.o(.text);
         build/sa1/asm/core.o(.text);
+        build/sa1/src/core.o(.text);
         build/sa1/src/main.o(.text);
         build/sa1/src/task.o(.text);
         build/sa1/src/background.o(.text);
@@ -187,7 +188,7 @@ SECTIONS {
     
     /* Data */
 
-        build/sa1/data/data_0.o(.rodata);
+        build/sa1/src/core.o(.rodata);
         build/sa1/src/background.o(.rodata);
         build/sa1/src/trig.o(.rodata);
         build/sa1/src/sprite.o(.rodata);
@@ -403,7 +404,7 @@ SECTIONS {
         build/sa1/src/lib/agb_flash/agb_flash_mx_512k.o(.rodata);
         build/sa1/src/lib/agb_flash/agb_flash_at_512k.o(.rodata);
         build/sa1/data/data1.o(.rodata);
-        build/sa1/data/build_info.o(.rodata);        
+        build/sa1/data/build_info.o(.rodata);
     } = 0
 
     . = 0x2000000;
