@@ -127,7 +127,7 @@ Task_Interactable107: @ 0x08094A4C
 	lsrs r2, r2, #0x10
 	str r2, [sp, #0xc]
 	movs r5, #0
-	ldr r6, _08094AD8 @ =gUnknown_03005AB0
+	ldr r6, _08094AD8 @ =gPartner
 	ldr r2, _08094ADC @ =gPlayer
 	mov r8, r2
 	movs r3, #0
@@ -149,7 +149,7 @@ _08094AB6:
 	.align 2, 0
 _08094AD0: .4byte gCurTask
 _08094AD4: .4byte gCamera
-_08094AD8: .4byte gUnknown_03005AB0
+_08094AD8: .4byte gPartner
 _08094ADC: .4byte gPlayer
 _08094AE0:
 	mov r3, r8
@@ -408,7 +408,7 @@ _08094CB0:
 	ldr r0, _08094CC8 @ =gPlayer
 	cmp r5, #0
 	beq _08094CB8
-	ldr r0, _08094CCC @ =gUnknown_03005AB0
+	ldr r0, _08094CCC @ =gPartner
 _08094CB8:
 	bl sub_8046CEC
 	cmp r5, #0
@@ -419,7 +419,7 @@ _08094CB8:
 	b _08094CDA
 	.align 2, 0
 _08094CC8: .4byte gPlayer
-_08094CCC: .4byte gUnknown_03005AB0
+_08094CCC: .4byte gPartner
 _08094CD0: .4byte gUnknown_03005AF0
 _08094CD4:
 	movs r0, #5
@@ -429,14 +429,14 @@ _08094CDA:
 	ldr r0, _08094D14 @ =gPlayer
 	cmp r5, #0
 	beq _08094CE2
-	ldr r0, _08094D18 @ =gUnknown_03005AB0
+	ldr r0, _08094D18 @ =gPartner
 _08094CE2:
 	movs r1, #0xe
 	bl sub_804516C
 	ldr r1, _08094D14 @ =gPlayer
 	cmp r5, #0
 	beq _08094CF0
-	ldr r1, _08094D18 @ =gUnknown_03005AB0
+	ldr r1, _08094D18 @ =gPartner
 _08094CF0:
 	movs r0, #6
 	strb r0, [r1, #0xe]
@@ -444,7 +444,7 @@ _08094CF0:
 	adds r1, r7, #0
 	cmp r5, #0
 	beq _08094CFE
-	ldr r1, _08094D18 @ =gUnknown_03005AB0
+	ldr r1, _08094D18 @ =gPartner
 _08094CFE:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
@@ -458,7 +458,7 @@ _08094CFE:
 	.align 2, 0
 _08094D10: .4byte gUnknown_03005A60
 _08094D14: .4byte gPlayer
-_08094D18: .4byte gUnknown_03005AB0
+_08094D18: .4byte gPartner
 _08094D1C:
 	mov r3, r8
 	ldr r0, [r3, #0x10]
@@ -759,21 +759,21 @@ _08094F1C:
 	ldr r0, _08094FC0 @ =gPlayer
 	cmp r5, #0
 	beq _08094F24
-	ldr r0, _08094FC4 @ =gUnknown_03005AB0
+	ldr r0, _08094FC4 @ =gPartner
 _08094F24:
 	movs r1, #0xe
 	bl sub_804516C
 	ldr r1, _08094FC0 @ =gPlayer
 	cmp r5, #0
 	beq _08094F32
-	ldr r1, _08094FC4 @ =gUnknown_03005AB0
+	ldr r1, _08094FC4 @ =gPartner
 _08094F32:
 	movs r0, #6
 	strb r0, [r1, #0xe]
 	ldr r1, _08094FC0 @ =gPlayer
 	cmp r5, #0
 	beq _08094F3E
-	ldr r1, _08094FC4 @ =gUnknown_03005AB0
+	ldr r1, _08094FC4 @ =gPartner
 _08094F3E:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
@@ -843,6 +843,6 @@ _08094FAE:
 	bx r0
 	.align 2, 0
 _08094FC0: .4byte gPlayer
-_08094FC4: .4byte gUnknown_03005AB0
+_08094FC4: .4byte gPartner
 _08094FC8: .4byte gUnknown_03005088
 _08094FCC: .4byte gCurTask

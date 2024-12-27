@@ -23,7 +23,7 @@ _0804D746:
 	mov r1, r8
 	cmp r1, #0
 	beq _0804D750
-	ldr r5, _0804D7AC @ =gUnknown_03005AB0
+	ldr r5, _0804D7AC @ =gPartner
 _0804D750:
 	ldr r0, [r5]
 	asrs r4, r0, #8
@@ -69,7 +69,7 @@ _0804D78A:
 	.align 2, 0
 _0804D7A4: .4byte gCurTask
 _0804D7A8: .4byte gPlayer
-_0804D7AC: .4byte gUnknown_03005AB0
+_0804D7AC: .4byte gPartner
 _0804D7B0: .4byte gCamera
 _0804D7B4: .4byte 0xFFFF7FFF
 _0804D7B8:

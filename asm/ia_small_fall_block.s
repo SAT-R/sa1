@@ -188,7 +188,7 @@ Task_SmallFallBlockMain: @ 0x080939B0
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08093A30
-	ldr r3, _08093AE8 @ =gUnknown_03005AB0
+	ldr r3, _08093AE8 @ =gPartner
 	adds r0, r7, #0
 	adds r1, r6, #0
 	adds r2, r5, #0
@@ -286,7 +286,7 @@ _08093AD8: .4byte 0x0300000C
 _08093ADC: .4byte gCamera
 _08093AE0: .4byte gPlayer
 _08093AE4: .4byte gUnknown_03005088
-_08093AE8: .4byte gUnknown_03005AB0
+_08093AE8: .4byte gPartner
 _08093AEC: .4byte Task_SmallFallBlock1
 _08093AF0: .4byte gGameMode
 _08093AF4: .4byte Task_SmallFallBlock2
@@ -307,7 +307,7 @@ _08093B0A:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08093B48
-	ldr r1, _08093B44 @ =gUnknown_03005AB0
+	ldr r1, _08093B44 @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r2
 	cmp r0, #0
@@ -330,7 +330,7 @@ _08093B26:
 	.align 2, 0
 _08093B3C: .4byte gPlayer
 _08093B40: .4byte gUnknown_03005088
-_08093B44: .4byte gUnknown_03005AB0
+_08093B44: .4byte gPartner
 _08093B48:
 	mov r0, r8
 	adds r0, #0x4c
@@ -422,7 +422,7 @@ Task_SmallFallBlock1: @ 0x08093B88
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08093C00
-	ldr r3, _08093C3C @ =gUnknown_03005AB0
+	ldr r3, _08093C3C @ =gPartner
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -453,7 +453,7 @@ _08093C2C: .4byte 0x0300000C
 _08093C30: .4byte gCamera
 _08093C34: .4byte gPlayer
 _08093C38: .4byte gUnknown_03005088
-_08093C3C: .4byte gUnknown_03005AB0
+_08093C3C: .4byte gPartner
 _08093C40: .4byte gGameMode
 _08093C44: .4byte Task_SmallFallBlock2
 _08093C48:
@@ -560,7 +560,7 @@ _08093D0A:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08093D48
-	ldr r1, _08093D44 @ =gUnknown_03005AB0
+	ldr r1, _08093D44 @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r2
 	cmp r0, #0
@@ -583,7 +583,7 @@ _08093D26:
 	.align 2, 0
 _08093D3C: .4byte gPlayer
 _08093D40: .4byte gUnknown_03005088
-_08093D44: .4byte gUnknown_03005AB0
+_08093D44: .4byte gPartner
 _08093D48:
 	adds r0, r6, #0
 	adds r0, #0x4c
@@ -682,7 +682,7 @@ _08093DF8:
 	ldr r3, _08093E38 @ =gPlayer
 	cmp r4, #0
 	beq _08093E00
-	ldr r3, _08093E3C @ =gUnknown_03005AB0
+	ldr r3, _08093E3C @ =gPartner
 _08093E00:
 	ldr r1, [r3, #0x10]
 	movs r0, #8
@@ -710,7 +710,7 @@ _08093E2C: .4byte gCurTask
 _08093E30: .4byte 0x0300004A
 _08093E34: .4byte gCamera
 _08093E38: .4byte gPlayer
-_08093E3C: .4byte gUnknown_03005AB0
+_08093E3C: .4byte gPartner
 _08093E40:
 	adds r0, r5, #0
 	adds r0, #0x48
@@ -795,7 +795,7 @@ _08093EDA:
 	ldrsb r0, [r2, r0]
 	cmp r0, #2
 	bne _08093F10
-	ldr r1, _08093F0C @ =gUnknown_03005AB0
+	ldr r1, _08093F0C @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r3
 	cmp r0, #0
@@ -817,7 +817,7 @@ _08093EF2:
 	b _08093F20
 	.align 2, 0
 _08093F08: .4byte gPlayer
-_08093F0C: .4byte gUnknown_03005AB0
+_08093F0C: .4byte gPartner
 _08093F10:
 	adds r0, r5, #0
 	adds r0, #0x4c

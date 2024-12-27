@@ -45,7 +45,7 @@ sub_80238FC: @ 0x080238FC
 	asrs r0, r2, #0x10
 	mov sb, r0
 	str r2, [sp, #8]
-	ldr r7, _0802397C @ =gUnknown_03005AB0
+	ldr r7, _0802397C @ =gPartner
 	ldr r2, _08023980 @ =gPlayer
 	mov r1, sb
 	str r1, [sp, #4]
@@ -70,7 +70,7 @@ _08023960:
 _08023970: .4byte gCurTask
 _08023974: .4byte 0x03000008
 _08023978: .4byte 0x03000004
-_0802397C: .4byte gUnknown_03005AB0
+_0802397C: .4byte gPartner
 _08023980: .4byte gPlayer
 _08023984:
 	ldr r0, [r2]

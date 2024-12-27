@@ -1010,7 +1010,7 @@ _0802621A:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08026288
-	ldr r3, _08026284 @ =gUnknown_03005AB0
+	ldr r3, _08026284 @ =gPartner
 	adds r0, r6, #0
 	adds r1, r4, #0
 	adds r2, r5, #0
@@ -1026,7 +1026,7 @@ _08026274: .4byte 0x00007FFF
 _08026278: .4byte gWinRegs
 _0802627C: .4byte gBldRegs
 _08026280: .4byte gUnknown_03005088
-_08026284: .4byte gUnknown_03005AB0
+_08026284: .4byte gPartner
 _08026288:
 	movs r0, #0
 _0802628A:
@@ -1653,7 +1653,7 @@ _08026764:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _080267B4
-	ldr r3, _080267B0 @ =gUnknown_03005AB0
+	ldr r3, _080267B0 @ =gPartner
 	adds r0, r7, #0
 	adds r1, r4, #0
 	adds r2, r5, #0
@@ -1668,7 +1668,7 @@ _080267A0: .4byte 0x00007FFF
 _080267A4: .4byte gWinRegs
 _080267A8: .4byte gBldRegs
 _080267AC: .4byte gUnknown_03005088
-_080267B0: .4byte gUnknown_03005AB0
+_080267B0: .4byte gPartner
 _080267B4:
 	movs r0, #0
 _080267B6:
@@ -3335,7 +3335,7 @@ _0802750C:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _080275BC
-	ldr r3, _080275B8 @ =gUnknown_03005AB0
+	ldr r3, _080275B8 @ =gPartner
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -3350,7 +3350,7 @@ _080275A8: .4byte gCamera
 _080275AC: .4byte sa2__gUnknown_03002820
 _080275B0: .4byte gPlayer
 _080275B4: .4byte gUnknown_03005088
-_080275B8: .4byte gUnknown_03005AB0
+_080275B8: .4byte gPartner
 _080275BC:
 	movs r4, #0
 _080275BE:
@@ -3367,7 +3367,7 @@ _080275BE:
 _080275D4:
 	cmp r4, r5
 	bne _080275E6
-	ldr r0, _080275FC @ =gUnknown_03005AB0
+	ldr r0, _080275FC @ =gPartner
 	bl sub_800C558
 	mov r1, r8
 	adds r1, #0x20
@@ -3383,7 +3383,7 @@ _080275E6:
 	bx r0
 	.align 2, 0
 _080275F8: .4byte gPlayer
-_080275FC: .4byte gUnknown_03005AB0
+_080275FC: .4byte gPartner
 
 	thumb_func_start sub_8027600
 sub_8027600: @ 0x08027600

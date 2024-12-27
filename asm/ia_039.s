@@ -28,7 +28,7 @@ _0804E3AE:
 	mov r2, r8
 	cmp r7, #0
 	beq _0804E3B6
-	ldr r2, _0804E418 @ =gUnknown_03005AB0
+	ldr r2, _0804E418 @ =gPartner
 _0804E3B6:
 	ldr r0, [r2]
 	asrs r5, r0, #8
@@ -76,7 +76,7 @@ _0804E3F2:
 _0804E40C: .4byte gCurTask
 _0804E410: .4byte gPlayer
 _0804E414: .4byte gCamera
-_0804E418: .4byte gUnknown_03005AB0
+_0804E418: .4byte gPartner
 _0804E41C: .4byte 0xFFFF7FFF
 _0804E420:
 	ldr r0, [r4, #0xc]

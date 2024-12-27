@@ -162,7 +162,7 @@ Task_Track: @ 0x08094308
 	ldr r2, _080943A0 @ =0x0300006C
 	adds r2, r4, r2
 	str r2, [sp, #0x1c]
-	ldr r4, _080943A4 @ =gUnknown_03005AB0
+	ldr r4, _080943A4 @ =gPartner
 	mov r8, r4
 	ldr r5, _080943A8 @ =gPlayer
 	mov sb, r5
@@ -188,7 +188,7 @@ _0809438C:
 _08094398: .4byte gCurTask
 _0809439C: .4byte gCamera
 _080943A0: .4byte 0x0300006C
-_080943A4: .4byte gUnknown_03005AB0
+_080943A4: .4byte gPartner
 _080943A8: .4byte gPlayer
 _080943AC:
 	mov r2, sb
@@ -466,7 +466,7 @@ _08094598:
 	ldr r0, _080945BC @ =gPlayer
 	cmp r3, #0
 	beq _080945A0
-	ldr r0, _080945C0 @ =gUnknown_03005AB0
+	ldr r0, _080945C0 @ =gPartner
 _080945A0:
 	str r3, [sp, #0x24]
 	bl sub_8046CEC
@@ -482,7 +482,7 @@ _080945A0:
 	b _080945D0
 	.align 2, 0
 _080945BC: .4byte gPlayer
-_080945C0: .4byte gUnknown_03005AB0
+_080945C0: .4byte gPartner
 _080945C4:
 	mov r5, sb
 	ldr r0, [r5, #0x10]
@@ -528,7 +528,7 @@ _0809460E:
 	ldr r0, _08094654 @ =gPlayer
 	cmp r3, #0
 	beq _08094618
-	ldr r0, _08094658 @ =gUnknown_03005AB0
+	ldr r0, _08094658 @ =gPartner
 _08094618:
 	movs r1, #0xe
 	str r3, [sp, #0x24]
@@ -537,14 +537,14 @@ _08094618:
 	ldr r3, [sp, #0x24]
 	cmp r3, #0
 	beq _0809462A
-	ldr r1, _08094658 @ =gUnknown_03005AB0
+	ldr r1, _08094658 @ =gPartner
 _0809462A:
 	movs r0, #6
 	strb r0, [r1, #0xe]
 	ldr r1, _08094654 @ =gPlayer
 	cmp r3, #0
 	beq _08094636
-	ldr r1, _08094658 @ =gUnknown_03005AB0
+	ldr r1, _08094658 @ =gPartner
 _08094636:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
@@ -564,7 +564,7 @@ _08094644:
 	b _08094660
 	.align 2, 0
 _08094654: .4byte gPlayer
-_08094658: .4byte gUnknown_03005AB0
+_08094658: .4byte gPartner
 _0809465C:
 	mov r2, sb
 	ldr r0, [r2]
@@ -766,7 +766,7 @@ _080947B8:
 	ldr r0, _080947E4 @ =gPlayer
 	cmp r3, #0
 	beq _080947CA
-	ldr r0, _080947E8 @ =gUnknown_03005AB0
+	ldr r0, _080947E8 @ =gPartner
 _080947CA:
 	str r3, [sp, #0x24]
 	bl sub_8046CEC
@@ -781,7 +781,7 @@ _080947CA:
 	b _080947F6
 	.align 2, 0
 _080947E4: .4byte gPlayer
-_080947E8: .4byte gUnknown_03005AB0
+_080947E8: .4byte gPartner
 _080947EC:
 	mov r1, sb
 	ldr r0, [r1, #0x10]
@@ -884,7 +884,7 @@ _08094892:
 	ldr r0, _080948FC @ =gPlayer
 	cmp r3, #0
 	beq _0809489C
-	ldr r0, _08094900 @ =gUnknown_03005AB0
+	ldr r0, _08094900 @ =gPartner
 _0809489C:
 	movs r1, #0xe
 	str r3, [sp, #0x24]
@@ -893,14 +893,14 @@ _0809489C:
 	ldr r3, [sp, #0x24]
 	cmp r3, #0
 	beq _080948AE
-	ldr r1, _08094900 @ =gUnknown_03005AB0
+	ldr r1, _08094900 @ =gPartner
 _080948AE:
 	movs r0, #6
 	strb r0, [r1, #0xe]
 	ldr r1, _080948FC @ =gPlayer
 	cmp r3, #0
 	beq _080948BA
-	ldr r1, _08094900 @ =gUnknown_03005AB0
+	ldr r1, _08094900 @ =gPartner
 _080948BA:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
@@ -936,7 +936,7 @@ _080948E0:
 	b _08094940
 	.align 2, 0
 _080948FC: .4byte gPlayer
-_08094900: .4byte gUnknown_03005AB0
+_08094900: .4byte gPartner
 _08094904: .4byte gUnknown_03005A8D
 _08094908: .4byte gUnknown_03005B1D
 _0809490C: .4byte gUnknown_03005AD6

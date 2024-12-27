@@ -4133,7 +4133,7 @@ _0800B55E:
 	ldr r0, [sp, #4]
 	cmp r0, #0
 	beq _0800B568
-	ldr r7, _0800B66C @ =gUnknown_03005AB0
+	ldr r7, _0800B66C @ =gPartner
 _0800B568:
 	ldr r5, [r7, #0x64]
 	movs r1, #0xc
@@ -4270,7 +4270,7 @@ _0800B654:
 	.align 2, 0
 _0800B664: .4byte gCurTask
 _0800B668: .4byte gPlayer
-_0800B66C: .4byte gUnknown_03005AB0
+_0800B66C: .4byte gPartner
 _0800B670: .4byte gGameMode
 _0800B674:
 	mov r2, ip
@@ -4456,7 +4456,7 @@ _0800B7CA:
 	mov r0, r8
 	cmp r0, #0
 	beq _0800B7D4
-	ldr r7, _0800B8AC @ =gUnknown_03005AB0
+	ldr r7, _0800B8AC @ =gPartner
 _0800B7D4:
 	ldr r0, [r7, #0x64]
 	mov ip, r0
@@ -4571,7 +4571,7 @@ _0800B896:
 	bx r1
 	.align 2, 0
 _0800B8A8: .4byte gPlayer
-_0800B8AC: .4byte gUnknown_03005AB0
+_0800B8AC: .4byte gPartner
 _0800B8B0: .4byte gUnknown_03005088
 
 	thumb_func_start sub_800B8B4
@@ -9556,7 +9556,7 @@ _0800DEF8:
 	ldr r0, _0800DF4C @ =gGameMode
 	strb r6, [r0]
 	movs r0, #0
-	bl sub_80597DC
+	bl CreateCharacterSelectionScreen
 	b _0800DF70
 	.align 2, 0
 _0800DF3C: .4byte gCurTask
@@ -9843,7 +9843,7 @@ _0800E198:
 	ldr r0, [r6]
 	bl TaskDestroy
 	movs r0, #0
-	bl sub_80597DC
+	bl CreateCharacterSelectionScreen
 	ldr r0, _0800E1C8 @ =sa2__gUnknown_03004D80
 	strb r5, [r0]
 	ldr r1, _0800E1CC @ =sa2__gUnknown_03002280
@@ -10183,8 +10183,8 @@ _0800E464: .4byte gMultiBootProgram_TinyChaoGarden
 _0800E468: .4byte gUnknown_080BB340
 _0800E46C: .4byte sub_800E128
 
-	thumb_func_start sub_800E470
-sub_800E470: @ 0x0800E470
+	thumb_func_start CreateMultiplayerModeSelectScreen
+CreateMultiplayerModeSelectScreen: @ 0x0800E470
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -11433,7 +11433,7 @@ _0800EEA8:
 	ldr r0, _0800EF0C @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	bl sub_800E470
+	bl CreateMultiplayerModeSelectScreen
 	b _0800F032
 	.align 2, 0
 _0800EEF8: .4byte gPressedKeys
@@ -11731,7 +11731,7 @@ _0800F12C:
 	ldr r0, _0800F188 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	bl sub_800E470
+	bl CreateMultiplayerModeSelectScreen
 	b _0800F2FA
 	.align 2, 0
 _0800F170: .4byte gMultiSioStatusFlags
@@ -12473,7 +12473,7 @@ _0800F796:
 	ldr r0, _0800F7EC @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	bl sub_800E470
+	bl CreateMultiplayerModeSelectScreen
 	b _0800F986
 	.align 2, 0
 _0800F7BC: .4byte 0x00000207
@@ -13079,7 +13079,7 @@ sub_800FCFC: @ 0x0800FCFC
 	str r1, [r0]
 	ldr r0, _0800FD74 @ =gPlayer
 	str r1, [r0, #0x60]
-	ldr r0, _0800FD78 @ =gUnknown_03005AB0
+	ldr r0, _0800FD78 @ =gPartner
 	str r1, [r0, #0x60]
 	ldr r0, _0800FD7C @ =gCamera
 	str r1, [r0, #0x30]
@@ -13125,7 +13125,7 @@ _0800FD68: .4byte gUnknown_03005A18
 _0800FD6C: .4byte gUnknown_030058BC
 _0800FD70: .4byte gUnknown_030058C0
 _0800FD74: .4byte gPlayer
-_0800FD78: .4byte gUnknown_03005AB0
+_0800FD78: .4byte gPartner
 _0800FD7C: .4byte gCamera
 _0800FD80: .4byte gUnknown_03005018
 _0800FD84: .4byte gEntitiesManagerTask
@@ -14152,7 +14152,7 @@ sub_80105D4: @ 0x080105D4
 	ldr r0, [r0]
 	bl TaskDestroy
 	movs r0, #0
-	bl sub_80597DC
+	bl CreateCharacterSelectionScreen
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -25800,7 +25800,7 @@ _08016334:
 	mov r1, r8
 	cmp r1, #0
 	beq _0801633E
-	ldr r4, _080163D4 @ =gUnknown_03005AB0
+	ldr r4, _080163D4 @ =gPartner
 _0801633E:
 	mov r5, sl
 	movs r2, #0
@@ -25866,7 +25866,7 @@ _080163C4: .4byte sub_803FD5C
 _080163C8: .4byte Task_BossCapsuleUpdate
 _080163CC: .4byte 0x0300006C
 _080163D0: .4byte gPlayer
-_080163D4: .4byte gUnknown_03005AB0
+_080163D4: .4byte gPartner
 _080163D8:
 	movs r0, #0x80
 	lsls r0, r0, #2
@@ -26020,7 +26020,7 @@ _080164FC:
 	mov r0, sl
 	cmp r0, #0
 	beq _08016506
-	ldr r6, _0801663C @ =gUnknown_03005AB0
+	ldr r6, _0801663C @ =gPartner
 _08016506:
 	adds r0, r6, #0
 	adds r0, #0x40
@@ -26140,7 +26140,7 @@ _080165EA:
 	ldr r2, _08016638 @ =gPlayer
 	cmp r4, #0
 	beq _080165F2
-	ldr r2, _0801663C @ =gUnknown_03005AB0
+	ldr r2, _0801663C @ =gPartner
 _080165F2:
 	strh r5, [r2, #0xc]
 	ldr r0, [r2, #0x10]
@@ -26174,7 +26174,7 @@ _0801662C: .4byte 0x0300006C
 _08016630: .4byte gCamera
 _08016634: .4byte 0x0300006E
 _08016638: .4byte gPlayer
-_0801663C: .4byte gUnknown_03005AB0
+_0801663C: .4byte gPartner
 _08016640: .4byte gUnknown_03005088
 _08016644: .4byte sub_8016650
 _08016648: .4byte gUnknown_03005004
@@ -26231,7 +26231,7 @@ _080166AE:
 	ldr r5, _08016830 @ =gPlayer
 	cmp r6, #0
 	beq _080166B6
-	ldr r5, _08016834 @ =gUnknown_03005AB0
+	ldr r5, _08016834 @ =gPartner
 _080166B6:
 	adds r0, r5, #0
 	adds r0, #0x40
@@ -26295,7 +26295,7 @@ _0801672E:
 	ldr r2, _08016830 @ =gPlayer
 	cmp r3, #0
 	beq _08016736
-	ldr r2, _08016834 @ =gUnknown_03005AB0
+	ldr r2, _08016834 @ =gPartner
 _08016736:
 	ldr r1, [r2, #0x10]
 	adds r0, r1, #0
@@ -26419,7 +26419,7 @@ _08016824: .4byte 0x0300006C
 _08016828: .4byte gCamera
 _0801682C: .4byte 0x0300006E
 _08016830: .4byte gPlayer
-_08016834: .4byte gUnknown_03005AB0
+_08016834: .4byte gPartner
 _08016838: .4byte gUnknown_03005088
 _0801683C: .4byte sub_801685C
 _08016840: .4byte 0x0000023F
@@ -26460,7 +26460,7 @@ _0801688E:
 	ldr r3, _080168E4 @ =gPlayer
 	cmp r5, #0
 	beq _08016896
-	ldr r3, _080168E8 @ =gUnknown_03005AB0
+	ldr r3, _080168E8 @ =gPartner
 _08016896:
 	adds r0, r3, #0
 	adds r0, #0x40
@@ -26497,7 +26497,7 @@ _080168D8: .4byte 0x0300006C
 _080168DC: .4byte gCamera
 _080168E0: .4byte 0x0300006E
 _080168E4: .4byte gPlayer
-_080168E8: .4byte gUnknown_03005AB0
+_080168E8: .4byte gPartner
 _080168EC: .4byte gUnknown_03005088
 
 	thumb_func_start sub_80168F0
@@ -27955,7 +27955,7 @@ _08017422:
 	ldrh r0, [r0]
 	ldr r1, _08017498 @ =gCourseTime
 	ldr r1, [r1]
-	bl sub_80573D4
+	bl CreateStageResults
 	ldr r0, [r5]
 	bl TaskDestroy
 _0801745E:
@@ -27974,7 +27974,7 @@ _0801745E:
 	ldrh r0, [r0]
 	ldr r1, _08017498 @ =gCourseTime
 	ldr r1, [r1]
-	bl sub_80573D4
+	bl CreateStageResults
 	ldr r0, _08017490 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
@@ -28176,7 +28176,7 @@ sub_80175D8: @ 0x080175D8
 	ldrh r0, [r0]
 	ldr r1, _08017654 @ =gCourseTime
 	ldr r1, [r1]
-	bl sub_80573D4
+	bl CreateStageResults
 	ldr r0, [r5]
 	bl TaskDestroy
 _08017616:
@@ -28195,7 +28195,7 @@ _08017616:
 	ldrh r0, [r0]
 	ldr r1, _08017654 @ =gCourseTime
 	ldr r1, [r1]
-	bl sub_80573D4
+	bl CreateStageResults
 	ldr r0, _08017648 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
@@ -30523,7 +30523,7 @@ _080188AE:
 	adds r0, r0, r1
 	movs r1, #3
 	ands r0, r1
-	bl sub_80597DC
+	bl CreateCharacterSelectionScreen
 	b _08018AC2
 	.align 2, 0
 _080188C4: .4byte gGameMode
@@ -36196,7 +36196,7 @@ _0801B72E:
 	bl Mod
 	cmp r0, #0
 	bne _0801B754
-	movs r0, #0x8b      @ SE_WARNING
+	movs r0, #0x8b      @ SE_TIMER
 	bl m4aSongNumStart
 _0801B754:
 	movs r7, #0xf0

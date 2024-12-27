@@ -47,10 +47,16 @@ SECTIONS {
         build/sa1/asm/ia_platform_crumbling.o(.text);
         build/sa1/asm/ia_to_be_continued_text.o(.text);
         build/sa1/asm/sound_unk.o(.text);
-        build/sa1/asm/boss_1.o(.text);
+        build/sa1/asm/ia_boss_1_egg_hammer_tank.o(.text);
         build/sa1/asm/ia_breakable_wall.o(.text);
         build/sa1/asm/game_1.o(.text);
-        build/sa1/asm/bosses.o(.text);
+        build/sa1/asm/ia_boss_2_egg_press.o(.text);
+        build/sa1/asm/ia_boss_3_egg_ball.o(.text);
+        build/sa1/asm/ia_boss_4_egg_spider.o(.text);
+        build/sa1/asm/ia_boss_6_egg_snake.o(.text);
+        build/sa1/asm/ia_boss_egg_wrecker.o(.text);
+        build/sa1/asm/ia_boss_egg_drillster.o(.text);
+        build/sa1/asm/ia_boss_egg_x.o(.text);
         build/sa1/asm/game_1_1.o(.text);
         build/sa1/src/input_recorder.o(.text);
         build/sa1/asm/game_1_2.o(.text);
@@ -61,6 +67,8 @@ SECTIONS {
         build/sa1/asm/ia_043.o(.text);
         build/sa1/asm/ia_mini_loop.o(.text);
         build/sa1/asm/ia_039.o(.text);
+        build/sa1/asm/ia_boss_5_mecha_knuckles.o(.text);
+        build/sa1/asm/ia_boss_super_egg_robo.o(.text);
         build/sa1/asm/game_2.o(.text);
         build/sa1/asm/enemy_gamigami.o(.text);
         build/sa1/asm/enemy_rhinotank.o(.text);

@@ -45,7 +45,7 @@ Task_HangBar: @ 0x0808C038
 	ldr r0, _0808C0B4 @ =0x0300003C
 	adds r0, r0, r2
 	mov sl, r0
-	ldr r4, _0808C0B8 @ =gUnknown_03005AB0
+	ldr r4, _0808C0B8 @ =gPartner
 	ldr r5, _0808C0BC @ =gPlayer
 	movs r1, #0
 	str r1, [sp, #0xc]
@@ -71,7 +71,7 @@ _0808C09E:
 	.align 2, 0
 _0808C0B0: .4byte gCurTask
 _0808C0B4: .4byte 0x0300003C
-_0808C0B8: .4byte gUnknown_03005AB0
+_0808C0B8: .4byte gPartner
 _0808C0BC: .4byte gPlayer
 _0808C0C0:
 	ldr r0, [r5, #0x10]
@@ -325,7 +325,7 @@ _0808C27A:
 	ldr r0, _0808C294 @ =gPlayer
 	cmp r7, #0
 	beq _0808C282
-	ldr r0, _0808C298 @ =gUnknown_03005AB0
+	ldr r0, _0808C298 @ =gPartner
 _0808C282:
 	bl sub_8046CEC
 	cmp r7, #0
@@ -337,7 +337,7 @@ _0808C282:
 	b _0808C2A8
 	.align 2, 0
 _0808C294: .4byte gPlayer
-_0808C298: .4byte gUnknown_03005AB0
+_0808C298: .4byte gPartner
 _0808C29C: .4byte 0xFFBFFFFF
 _0808C2A0:
 	ldr r0, [r5, #0x10]
@@ -699,7 +699,7 @@ _0808C50A:
 	ldr r0, _0808C528 @ =gPlayer
 	cmp r7, #0
 	beq _0808C512
-	ldr r0, _0808C52C @ =gUnknown_03005AB0
+	ldr r0, _0808C52C @ =gPartner
 _0808C512:
 	bl sub_8046CEC
 	cmp r7, #0
@@ -712,7 +712,7 @@ _0808C512:
 	b _0808C53A
 	.align 2, 0
 _0808C528: .4byte gPlayer
-_0808C52C: .4byte gUnknown_03005AB0
+_0808C52C: .4byte gPartner
 _0808C530:
 	ldr r0, [r5, #0x10]
 	movs r1, #0x80
@@ -911,21 +911,21 @@ _0808C688:
 	ldr r0, _0808C734 @ =gPlayer
 	cmp r7, #0
 	beq _0808C692
-	ldr r0, _0808C738 @ =gUnknown_03005AB0
+	ldr r0, _0808C738 @ =gPartner
 _0808C692:
 	movs r1, #0xe
 	bl sub_804516C
 	ldr r1, _0808C734 @ =gPlayer
 	cmp r7, #0
 	beq _0808C6A0
-	ldr r1, _0808C738 @ =gUnknown_03005AB0
+	ldr r1, _0808C738 @ =gPartner
 _0808C6A0:
 	movs r0, #6
 	strb r0, [r1, #0xe]
 	ldr r1, _0808C734 @ =gPlayer
 	cmp r7, #0
 	beq _0808C6AC
-	ldr r1, _0808C738 @ =gUnknown_03005AB0
+	ldr r1, _0808C738 @ =gPartner
 _0808C6AC:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
@@ -1000,7 +1000,7 @@ _0808C724:
 	bx r0
 	.align 2, 0
 _0808C734: .4byte gPlayer
-_0808C738: .4byte gUnknown_03005AB0
+_0808C738: .4byte gPartner
 _0808C73C: .4byte gUnknown_03005088
 _0808C740: .4byte gCamera
 _0808C744: .4byte gCurTask

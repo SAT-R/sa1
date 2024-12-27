@@ -823,7 +823,7 @@ Task_Booster: @ 0x08076F88
 	mov r3, sl
 	strh r1, [r3, #0x18]
 	movs r7, #0
-	ldr r6, _08077004 @ =gUnknown_03005AB0
+	ldr r6, _08077004 @ =gPartner
 	ldr r5, _08077008 @ =gPlayer
 	mov sb, sp
 _08076FEE:
@@ -835,7 +835,7 @@ _08076FEE:
 _08076FF8: .4byte gCurTask
 _08076FFC: .4byte 0x0300000C
 _08077000: .4byte gCamera
-_08077004: .4byte gUnknown_03005AB0
+_08077004: .4byte gPartner
 _08077008: .4byte gPlayer
 _0807700C:
 	ldr r0, [r5, #0x10]
@@ -1135,7 +1135,7 @@ _08077210:
 _0807721E:
 	cmp r7, #0
 	beq _08077224
-	ldr r0, _08077254 @ =gUnknown_03005AB0
+	ldr r0, _08077254 @ =gPartner
 _08077224:
 	bl sub_8046CEC
 	movs r0, #0xac
@@ -1159,7 +1159,7 @@ _0807723E:
 	b _08077282
 	.align 2, 0
 _08077250: .4byte gPlayer
-_08077254: .4byte gUnknown_03005AB0
+_08077254: .4byte gPartner
 _08077258: .4byte gUnknown_03005AF0
 _0807725C:
 	ldr r3, _08077274 @ =gUnknown_03005A60

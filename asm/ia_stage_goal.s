@@ -787,7 +787,7 @@ _0801F79E:
 	ldrh r0, [r0]
 	ldr r1, _0801F7CC @ =gCourseTime
 	ldr r1, [r1]
-	bl sub_80573D4
+	bl CreateStageResults
 	b _0801FA1A
 	.align 2, 0
 _0801F7B4: .4byte gPlayer

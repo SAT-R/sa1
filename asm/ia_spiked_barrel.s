@@ -361,7 +361,7 @@ _08090AB2:
 	ldr r0, [sp, #0x14]
 	cmp r0, #0
 	beq _08090ABC
-	ldr r6, _08090D10 @ =gUnknown_03005AB0
+	ldr r6, _08090D10 @ =gPartner
 _08090ABC:
 	ldr r0, [r6, #0x10]
 	movs r1, #8
@@ -659,7 +659,7 @@ _08090CF8:
 	.align 2, 0
 _08090D08: .4byte gCamera
 _08090D0C: .4byte gPlayer
-_08090D10: .4byte gUnknown_03005AB0
+_08090D10: .4byte gPartner
 _08090D14: .4byte gUnknown_03005088
 _08090D18: .4byte gCurTask
 _08090D1C:
@@ -677,7 +677,7 @@ _08090D2E:
 	ldrsb r0, [r3, r0]
 	cmp r0, #2
 	bne _08090D64
-	ldr r1, _08090D60 @ =gUnknown_03005AB0
+	ldr r1, _08090D60 @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r2
 	cmp r0, #0
@@ -699,7 +699,7 @@ _08090D46:
 	b _08090D74
 	.align 2, 0
 _08090D5C: .4byte gPlayer
-_08090D60: .4byte gUnknown_03005AB0
+_08090D60: .4byte gPartner
 _08090D64:
 	adds r0, r7, #0
 	adds r0, #0x54

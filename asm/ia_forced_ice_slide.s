@@ -187,7 +187,7 @@ Task_ForcedIceSlide: @ 0x0807847C
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0xc]
 	movs r6, #0
-	ldr r5, _080784DC @ =gUnknown_03005AB0
+	ldr r5, _080784DC @ =gPartner
 	ldr r7, _080784E0 @ =gPlayer
 _080784CC:
 	cmp r6, #0
@@ -197,7 +197,7 @@ _080784CC:
 	.align 2, 0
 _080784D4: .4byte gCurTask
 _080784D8: .4byte 0x0300000C
-_080784DC: .4byte gUnknown_03005AB0
+_080784DC: .4byte gPartner
 _080784E0: .4byte gPlayer
 _080784E4:
 	ldr r0, [r7, #0x10]
@@ -377,7 +377,7 @@ _08078610:
 	ldr r0, _08078638 @ =gPlayer
 	cmp r6, #0
 	beq _08078620
-	ldr r0, _0807863C @ =gUnknown_03005AB0
+	ldr r0, _0807863C @ =gPartner
 _08078620:
 	bl sub_8046CEC
 	cmp r6, #0
@@ -391,7 +391,7 @@ _08078620:
 	.align 2, 0
 _08078634: .4byte gCurrentLevel
 _08078638: .4byte gPlayer
-_0807863C: .4byte gUnknown_03005AB0
+_0807863C: .4byte gPartner
 _08078640:
 	ldr r0, [r7, #0x10]
 	movs r1, #9
@@ -582,14 +582,14 @@ _0807877C:
 	ldr r0, _080787B4 @ =gPlayer
 	cmp r6, #0
 	beq _08078784
-	ldr r0, _080787B8 @ =gUnknown_03005AB0
+	ldr r0, _080787B8 @ =gPartner
 _08078784:
 	movs r1, #0xe
 	bl sub_804516C
 	ldr r1, _080787B4 @ =gPlayer
 	cmp r6, #0
 	beq _08078792
-	ldr r1, _080787B8 @ =gUnknown_03005AB0
+	ldr r1, _080787B8 @ =gPartner
 _08078792:
 	movs r0, #6
 	strb r0, [r1, #0xe]
@@ -597,7 +597,7 @@ _08078792:
 	adds r1, r3, #0
 	cmp r6, #0
 	beq _080787A0
-	ldr r1, _080787B8 @ =gUnknown_03005AB0
+	ldr r1, _080787B8 @ =gPartner
 _080787A0:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
@@ -611,7 +611,7 @@ _080787A0:
 	b _080787C2
 	.align 2, 0
 _080787B4: .4byte gPlayer
-_080787B8: .4byte gUnknown_03005AB0
+_080787B8: .4byte gPartner
 _080787BC: .4byte gCamera
 _080787C0:
 	ldr r0, [r3]
@@ -793,7 +793,7 @@ _0807890C:
 	movs r2, #0x3d
 	add r2, sb
 	mov r8, r2
-	ldr r7, _08078948 @ =gUnknown_03005AB0
+	ldr r7, _08078948 @ =gPartner
 	ldr r6, _0807894C @ =gPlayer
 	ldr r2, _08078950 @ =0xFFDFFFFF
 _0807891A:
@@ -817,7 +817,7 @@ _0807891A:
 	.align 2, 0
 _08078940: .4byte gUnknown_03005088
 _08078944: .4byte gCamera
-_08078948: .4byte gUnknown_03005AB0
+_08078948: .4byte gPartner
 _0807894C: .4byte gPlayer
 _08078950: .4byte 0xFFDFFFFF
 _08078954:

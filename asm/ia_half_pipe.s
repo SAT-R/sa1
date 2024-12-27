@@ -27,7 +27,7 @@ _0804D196:
 	mov r7, r8
 	cmp r7, #0
 	beq _0804D1A0
-	ldr r2, _0804D208 @ =gUnknown_03005AB0
+	ldr r2, _0804D208 @ =gPartner
 _0804D1A0:
 	ldr r0, [r2]
 	asrs r6, r0, #8
@@ -79,7 +79,7 @@ _0804D1E0:
 _0804D1FC: .4byte gCurTask
 _0804D200: .4byte 0xFFFF7FFF
 _0804D204: .4byte gPlayer
-_0804D208: .4byte gUnknown_03005AB0
+_0804D208: .4byte gPartner
 _0804D20C: .4byte gCamera
 _0804D210: .4byte 0xFFFFFCE0
 _0804D214:
@@ -232,7 +232,7 @@ _0804D326:
 	mov r0, sb
 	cmp r0, #0
 	beq _0804D330
-	ldr r2, _0804D398 @ =gUnknown_03005AB0
+	ldr r2, _0804D398 @ =gPartner
 _0804D330:
 	ldr r0, [r2]
 	asrs r7, r0, #8
@@ -284,7 +284,7 @@ _0804D370:
 _0804D38C: .4byte gCurTask
 _0804D390: .4byte 0xFFFF7FFF
 _0804D394: .4byte gPlayer
-_0804D398: .4byte gUnknown_03005AB0
+_0804D398: .4byte gPartner
 _0804D39C: .4byte gCamera
 _0804D3A0:
 	ldr r6, [r4, #0xc]

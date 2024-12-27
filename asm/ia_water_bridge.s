@@ -146,7 +146,7 @@ _0804DB92:
 	mov r1, sl
 	cmp r1, #0
 	beq _0804DB9C
-	ldr r5, _0804DC04 @ =gUnknown_03005AB0
+	ldr r5, _0804DC04 @ =gPartner
 _0804DB9C:
 	ldr r0, [r5]
 	asrs r0, r0, #8
@@ -198,7 +198,7 @@ _0804DBDE:
 	.align 2, 0
 _0804DBFC: .4byte gCurTask
 _0804DC00: .4byte gPlayer
-_0804DC04: .4byte gUnknown_03005AB0
+_0804DC04: .4byte gPartner
 _0804DC08: .4byte gCamera
 _0804DC0C: .4byte 0xFFFF7FFF
 _0804DC10:

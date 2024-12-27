@@ -294,7 +294,7 @@ _0808E9D4: .4byte 0x00001770
 _0808E9D8: .4byte gCamera
 _0808E9DC:
 	movs r4, #0
-	ldr r6, _0808E9F8 @ =gUnknown_03005AB0
+	ldr r6, _0808E9F8 @ =gPartner
 	ldr r5, _0808E9FC @ =gPlayer
 	movs r2, #8
 	mov r8, r2
@@ -308,7 +308,7 @@ _0808E9E6:
 	bne _0808EA0A
 	b _0808EA34
 	.align 2, 0
-_0808E9F8: .4byte gUnknown_03005AB0
+_0808E9F8: .4byte gPartner
 _0808E9FC: .4byte gPlayer
 _0808EA00:
 	ldr r0, [r5, #0x10]

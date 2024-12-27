@@ -45,7 +45,7 @@ Task_ShrubberyMain: @ 0x08076524
 	subs r0, r5, r0
 	strh r0, [r3, #0x18]
 	movs r4, #0
-	ldr r0, _08076598 @ =gUnknown_03005AB0
+	ldr r0, _08076598 @ =gPartner
 	mov r8, r0
 	ldr r3, _0807659C @ =gPlayer
 	ldr r1, _080765A0 @ =0x0300003C
@@ -64,7 +64,7 @@ _0807657C:
 _0807658C: .4byte gCurTask
 _08076590: .4byte 0x0300000C
 _08076594: .4byte gCamera
-_08076598: .4byte gUnknown_03005AB0
+_08076598: .4byte gPartner
 _0807659C: .4byte gPlayer
 _080765A0: .4byte 0x0300003C
 _080765A4:

@@ -41,7 +41,7 @@ Task_WallBumper: @ 0x080845C8
 	lsrs r0, r0, #0x10
 	str r0, [sp]
 	movs r6, #0
-	ldr r5, _08084624 @ =gUnknown_03005AB0
+	ldr r5, _08084624 @ =gPartner
 	ldr r4, _08084628 @ =gPlayer
 _08084610:
 	cmp r6, #0
@@ -54,7 +54,7 @@ _08084610:
 	b _08084636
 	.align 2, 0
 _08084620: .4byte gCurTask
-_08084624: .4byte gUnknown_03005AB0
+_08084624: .4byte gPartner
 _08084628: .4byte gPlayer
 _0808462C:
 	ldr r1, [r4, #0x10]
@@ -299,7 +299,7 @@ _080847D6:
 	ldr r0, _080847F4 @ =gPlayer
 	cmp r6, #0
 	beq _080847DE
-	ldr r0, _080847F8 @ =gUnknown_03005AB0
+	ldr r0, _080847F8 @ =gPartner
 _080847DE:
 	bl sub_8046CEC
 	cmp r6, #0
@@ -311,7 +311,7 @@ _080847DE:
 	.align 2, 0
 _080847F0: .4byte gUnknown_03005A5D
 _080847F4: .4byte gPlayer
-_080847F8: .4byte gUnknown_03005AB0
+_080847F8: .4byte gPartner
 _080847FC: .4byte gUnknown_03005AF0
 _08084800:
 	movs r0, #5
@@ -338,14 +338,14 @@ _08084828:
 	adds r1, r2, #0
 	cmp r6, #0
 	beq _08084830
-	ldr r1, _080848A8 @ =gUnknown_03005AB0
+	ldr r1, _080848A8 @ =gPartner
 _08084830:
 	movs r0, #6
 	strb r0, [r1, #0xe]
 	adds r1, r2, #0
 	cmp r6, #0
 	beq _0808483C
-	ldr r1, _080848A8 @ =gUnknown_03005AB0
+	ldr r1, _080848A8 @ =gPartner
 _0808483C:
 	movs r0, #9
 	strb r0, [r1, #0xf]
@@ -404,7 +404,7 @@ _08084896:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080848A8: .4byte gUnknown_03005AB0
+_080848A8: .4byte gPartner
 _080848AC: .4byte gUnknown_03005088
 _080848B0: .4byte gCamera
 _080848B4: .4byte gCurTask

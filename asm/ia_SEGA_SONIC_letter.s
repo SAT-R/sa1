@@ -362,14 +362,14 @@ _0807ED54:
 	strb r0, [r1]
 _0807ED70:
 	movs r4, #0
-	ldr r6, _0807EDA8 @ =gUnknown_03005AB0
+	ldr r6, _0807EDA8 @ =gPartner
 	movs r5, #9
 	rsbs r5, r5, #0
 _0807ED78:
 	ldr r3, _0807EDAC @ =gPlayer
 	cmp r4, #0
 	beq _0807ED80
-	ldr r3, _0807EDA8 @ =gUnknown_03005AB0
+	ldr r3, _0807EDA8 @ =gPartner
 _0807ED80:
 	adds r0, r7, #0
 	mov r1, sb
@@ -387,7 +387,7 @@ _0807ED80:
 _0807ED9C: .4byte 0x0300002D
 _0807EDA0: .4byte 0x0300003C
 _0807EDA4: .4byte 0x0300002C
-_0807EDA8: .4byte gUnknown_03005AB0
+_0807EDA8: .4byte gPartner
 _0807EDAC: .4byte gPlayer
 _0807EDB0:
 	ldr r1, _0807EE14 @ =gPlayer
@@ -417,7 +417,7 @@ _0807EDC8:
 	ldr r3, _0807EE14 @ =gPlayer
 	cmp r4, #0
 	beq _0807EDE2
-	ldr r3, _0807EE1C @ =gUnknown_03005AB0
+	ldr r3, _0807EE1C @ =gPartner
 _0807EDE2:
 	adds r0, r7, #0
 	bl sub_80096B0
@@ -445,7 +445,7 @@ _0807EE02:
 	.align 2, 0
 _0807EE14: .4byte gPlayer
 _0807EE18: .4byte gUnknown_03005088
-_0807EE1C: .4byte gUnknown_03005AB0
+_0807EE1C: .4byte gPartner
 
 	thumb_func_start TaskDestructor_SEGA_SONIC_Letter
 TaskDestructor_SEGA_SONIC_Letter: @ 0x0807EE20

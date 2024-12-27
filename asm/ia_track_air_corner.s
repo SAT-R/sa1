@@ -190,7 +190,7 @@ Task_TrackAirCorner: @ 0x080969C8
 	subs r1, r1, r0
 	strh r1, [r5, #0x18]
 	movs r4, #0
-	ldr r7, _08096A3C @ =gUnknown_03005AB0
+	ldr r7, _08096A3C @ =gPartner
 	ldr r6, _08096A40 @ =gPlayer
 _08096A26:
 	cmp r4, #0
@@ -201,7 +201,7 @@ _08096A26:
 _08096A30: .4byte gCurTask
 _08096A34: .4byte 0x0300000C
 _08096A38: .4byte gCamera
-_08096A3C: .4byte gUnknown_03005AB0
+_08096A3C: .4byte gPartner
 _08096A40: .4byte gPlayer
 _08096A44:
 	ldr r0, [r6, #0x10]
@@ -239,7 +239,7 @@ _08096A76:
 	asrs r2, r0, #0x10
 	cmp r4, #0
 	beq _08096A88
-	ldr r3, _08096AAC @ =gUnknown_03005AB0
+	ldr r3, _08096AAC @ =gPartner
 _08096A88:
 	adds r0, r5, #0
 	bl sub_800B2BC
@@ -257,7 +257,7 @@ _08096A88:
 	b _08096ABA
 	.align 2, 0
 _08096AA8: .4byte gPlayer
-_08096AAC: .4byte gUnknown_03005AB0
+_08096AAC: .4byte gPartner
 _08096AB0:
 	ldr r0, [r6, #4]
 	movs r1, #0x80

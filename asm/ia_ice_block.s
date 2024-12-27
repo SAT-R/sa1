@@ -220,7 +220,7 @@ _080918C0:
 	ldr r0, [sp, #8]
 	cmp r0, #0
 	beq _080918CA
-	ldr r6, _08091918 @ =gUnknown_03005AB0
+	ldr r6, _08091918 @ =gPartner
 _080918CA:
 	ldr r0, [r6, #0x10]
 	movs r1, #0x80
@@ -261,7 +261,7 @@ _080918D6:
 	b _08091920
 	.align 2, 0
 _08091914: .4byte gPlayer
-_08091918: .4byte gUnknown_03005AB0
+_08091918: .4byte gPartner
 _0809191C:
 	movs r3, #0
 	mov r8, r3
@@ -301,7 +301,7 @@ _08091960:
 	mov r2, sb
 	cmp r3, #0
 	beq _08091968
-	ldr r2, _080919EC @ =gUnknown_03005AB0
+	ldr r2, _080919EC @ =gPartner
 _08091968:
 	ldr r1, [r2, #0x10]
 	adds r0, r1, #0
@@ -365,7 +365,7 @@ _080919DC:
 	.align 2, 0
 _080919E4: .4byte gPlayer
 _080919E8: .4byte gUnknown_03005088
-_080919EC: .4byte gUnknown_03005AB0
+_080919EC: .4byte gPartner
 _080919F0: .4byte sa2__gUnknown_0300194C
 _080919F4: .4byte sa2__gUnknown_03002820
 _080919F8: .4byte gGameMode

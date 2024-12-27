@@ -390,7 +390,7 @@ sub_80753D0: @ 0x080753D0
 	mov r8, r2
 	movs r7, #0
 	movs r4, #0
-	ldr r5, _080753FC @ =gUnknown_03005AB0
+	ldr r5, _080753FC @ =gPartner
 	ldr r6, _08075400 @ =gPlayer
 _080753E8:
 	cmp r4, #0
@@ -405,7 +405,7 @@ _080753F8:
 	ldr r3, _08075400 @ =gPlayer
 	b _08075412
 	.align 2, 0
-_080753FC: .4byte gUnknown_03005AB0
+_080753FC: .4byte gPartner
 _08075400: .4byte gPlayer
 _08075404:
 	ldr r1, [r6, #0x10]
@@ -424,7 +424,7 @@ _08075412:
 	asrs r2, r0, #0x10
 	cmp r4, #0
 	beq _08075424
-	ldr r3, _08075450 @ =gUnknown_03005AB0
+	ldr r3, _08075450 @ =gPartner
 _08075424:
 	mov r0, sb
 	bl sub_80096B0
@@ -448,7 +448,7 @@ _08075440:
 	b _0807545C
 	.align 2, 0
 _0807544C: .4byte gPlayer
-_08075450: .4byte gUnknown_03005AB0
+_08075450: .4byte gPartner
 _08075454: .4byte gGameMode
 _08075458:
 	movs r0, #0x1e
@@ -457,7 +457,7 @@ _0807545C:
 	ldr r0, _08075478 @ =gPlayer
 	cmp r4, #0
 	beq _08075464
-	ldr r0, _0807547C @ =gUnknown_03005AB0
+	ldr r0, _0807547C @ =gPartner
 _08075464:
 	bl sub_8046CEC
 	cmp r4, #0
@@ -470,7 +470,7 @@ _08075464:
 	b _0807548A
 	.align 2, 0
 _08075478: .4byte gPlayer
-_0807547C: .4byte gUnknown_03005AB0
+_0807547C: .4byte gPartner
 _08075480:
 	ldr r0, [r6, #0x10]
 	movs r1, #9
@@ -650,21 +650,21 @@ _080755B2:
 	ldr r0, _080755FC @ =gPlayer
 	cmp r4, #0
 	beq _080755BC
-	ldr r0, _08075600 @ =gUnknown_03005AB0
+	ldr r0, _08075600 @ =gPartner
 _080755BC:
 	movs r1, #0xe
 	bl sub_804516C
 	ldr r1, _080755FC @ =gPlayer
 	cmp r4, #0
 	beq _080755CA
-	ldr r1, _08075600 @ =gUnknown_03005AB0
+	ldr r1, _08075600 @ =gPartner
 _080755CA:
 	movs r0, #6
 	strb r0, [r1, #0xe]
 	ldr r1, _080755FC @ =gPlayer
 	cmp r4, #0
 	beq _080755D6
-	ldr r1, _08075600 @ =gUnknown_03005AB0
+	ldr r1, _08075600 @ =gPartner
 _080755D6:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
@@ -689,7 +689,7 @@ _080755EC:
 	bx r1
 	.align 2, 0
 _080755FC: .4byte gPlayer
-_08075600: .4byte gUnknown_03005AB0
+_08075600: .4byte gPartner
 _08075604: .4byte gUnknown_03005088
 
 	thumb_func_start TaskDestructor_BounceBlock

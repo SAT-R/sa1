@@ -195,7 +195,7 @@ Task_PlatformCrumbling: @ 0x08024EA0
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08024F34
-	ldr r3, _08024FE0 @ =gUnknown_03005AB0
+	ldr r3, _08024FE0 @ =gPartner
 	adds r0, r6, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -294,7 +294,7 @@ _08024FD0: .4byte 0x0300000C
 _08024FD4: .4byte gCamera
 _08024FD8: .4byte gPlayer
 _08024FDC: .4byte gUnknown_03005088
-_08024FE0: .4byte gUnknown_03005AB0
+_08024FE0: .4byte gPartner
 _08024FE4: .4byte sub_8025008
 _08024FE8: .4byte gGameMode
 _08024FEC: .4byte sub_8025190
@@ -361,7 +361,7 @@ sub_8025008: @ 0x08025008
 	adds r1, r5, #0
 	adds r2, r4, #0
 	bl sub_800B2BC
-	ldr r3, _080250B0 @ =gUnknown_03005AB0
+	ldr r3, _080250B0 @ =gPartner
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -391,7 +391,7 @@ _080250A0: .4byte gCurTask
 _080250A4: .4byte 0x0300000C
 _080250A8: .4byte gCamera
 _080250AC: .4byte gPlayer
-_080250B0: .4byte gUnknown_03005AB0
+_080250B0: .4byte gPartner
 _080250B4: .4byte gGameMode
 _080250B8: .4byte sub_8025190
 _080250BC:
@@ -557,7 +557,7 @@ sub_8025190: @ 0x08025190
 	adds r1, r7, #0
 	adds r2, r4, #0
 	bl sub_800B2BC
-	ldr r3, _08025254 @ =gUnknown_03005AB0
+	ldr r3, _08025254 @ =gPartner
 	adds r0, r6, #0
 	adds r1, r7, #0
 	adds r2, r4, #0
@@ -594,7 +594,7 @@ _08025244: .4byte gCurTask
 _08025248: .4byte 0x0300000C
 _0802524C: .4byte gCamera
 _08025250: .4byte gPlayer
-_08025254: .4byte gUnknown_03005AB0
+_08025254: .4byte gPartner
 _08025258:
 	ldr r0, _0802530C @ =gRefSpriteTables
 	ldr r1, [r0]
@@ -650,7 +650,7 @@ _080252B4:
 	ldrsb r2, [r0, r2]
 	cmp r2, #2
 	bne _080252DA
-	ldr r3, _0802531C @ =gUnknown_03005AB0
+	ldr r3, _0802531C @ =gPartner
 	ldr r1, [r3, #0x10]
 	movs r0, #8
 	ands r0, r1
@@ -694,7 +694,7 @@ _0802530C: .4byte gRefSpriteTables
 _08025310: .4byte 0x0000FFE1
 _08025314: .4byte gPlayer
 _08025318: .4byte gUnknown_03005088
-_0802531C: .4byte gUnknown_03005AB0
+_0802531C: .4byte gPartner
 _08025320: .4byte gCurTask
 _08025324: .4byte sub_8025400
 _08025328:

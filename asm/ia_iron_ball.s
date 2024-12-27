@@ -305,7 +305,7 @@ _0808BEDE:
 	mov r0, r8
 	cmp r0, #0
 	beq _0808BF20
-	ldr r0, _0808BF18 @ =gUnknown_03005AB0
+	ldr r0, _0808BF18 @ =gPartner
 	ldr r1, [r0, #0x10]
 	movs r0, #0x80
 	ands r1, r0
@@ -324,7 +324,7 @@ _0808BF08: .4byte gStageTime
 _0808BF0C: .4byte 0x000003FF
 _0808BF10: .4byte 0x0300004A
 _0808BF14: .4byte gCamera
-_0808BF18: .4byte gUnknown_03005AB0
+_0808BF18: .4byte gPartner
 _0808BF1C: .4byte gPlayer
 _0808BF20:
 	ldr r2, _0808BFF8 @ =gPlayer
@@ -358,7 +358,7 @@ _0808BF32:
 	mov r0, r8
 	cmp r0, #0
 	beq _0808BF5E
-	ldr r3, _0808BFFC @ =gUnknown_03005AB0
+	ldr r3, _0808BFFC @ =gPartner
 _0808BF5E:
 	ldr r0, [sp]
 	adds r1, r5, #0
@@ -370,7 +370,7 @@ _0808BF5E:
 	mov r1, r8
 	cmp r1, #0
 	beq _0808BF76
-	ldr r0, _0808BFFC @ =gUnknown_03005AB0
+	ldr r0, _0808BFFC @ =gPartner
 _0808BF76:
 	bl sub_800C558
 _0808BF7A:
@@ -439,7 +439,7 @@ _0808BFE6:
 	b _0808C012
 	.align 2, 0
 _0808BFF8: .4byte gPlayer
-_0808BFFC: .4byte gUnknown_03005AB0
+_0808BFFC: .4byte gPartner
 _0808C000: .4byte gUnknown_03005088
 _0808C004: .4byte gCamera
 _0808C008: .4byte gCurTask

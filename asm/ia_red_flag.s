@@ -328,7 +328,7 @@ _080777DC:
 	adds r2, r4, #0
 	cmp r0, #0
 	beq _080777EC
-	ldr r2, _08077820 @ =gUnknown_03005AB0
+	ldr r2, _08077820 @ =gPartner
 _080777EC:
 	ldr r0, [r4, #0x10]
 	movs r1, #0x80
@@ -356,7 +356,7 @@ _080777F8:
 	.align 2, 0
 _08077818: .4byte 0x0300003F
 _0807781C: .4byte gPlayer
-_08077820: .4byte gUnknown_03005AB0
+_08077820: .4byte gPartner
 _08077824: .4byte 0x0300003D
 _08077828: .4byte 0xFFFFF600
 _0807782C:
@@ -1062,7 +1062,7 @@ _08077DA0:
 	adds r4, r2, #0
 	cmp r0, #0
 	beq _08077DB0
-	ldr r4, _08077DDC @ =gUnknown_03005AB0
+	ldr r4, _08077DDC @ =gPartner
 _08077DB0:
 	ldr r0, [r2, #0x10]
 	movs r1, #0x80
@@ -1085,7 +1085,7 @@ _08077DB0:
 	.align 2, 0
 _08077DD4: .4byte 0x0300003F
 _08077DD8: .4byte gPlayer
-_08077DDC: .4byte gUnknown_03005AB0
+_08077DDC: .4byte gPartner
 _08077DE0: .4byte 0x0300003D
 _08077DE4:
 	ldrb r0, [r1]
@@ -1336,7 +1336,7 @@ _08077FD0:
 	mov r1, sb
 	cmp r1, #0
 	beq _08077FDA
-	ldr r4, _0807801C @ =gUnknown_03005AB0
+	ldr r4, _0807801C @ =gPartner
 _08077FDA:
 	ldr r0, [sp]
 	lsls r1, r0, #0x10
@@ -1368,7 +1368,7 @@ _08077FDA:
 	.align 2, 0
 _08078014: .4byte gUnknown_03005A46
 _08078018: .4byte gPlayer
-_0807801C: .4byte gUnknown_03005AB0
+_0807801C: .4byte gPartner
 _08078020: .4byte 0xFFFFFD00
 _08078024:
 	movs r0, #0xc
@@ -1496,7 +1496,7 @@ _0807810E:
 	asrs r0, r0, #0x18
 	cmp r6, r0
 	bge _080781C4
-	ldr r4, _080781DC @ =gUnknown_03005AB0
+	ldr r4, _080781DC @ =gPartner
 	cmp r6, #0
 	bne _08078130
 _08078122:
@@ -1592,7 +1592,7 @@ _080781C4:
 	bx r1
 	.align 2, 0
 _080781D8: .4byte gUnknown_03005088
-_080781DC: .4byte gUnknown_03005AB0
+_080781DC: .4byte gPartner
 _080781E0: .4byte gPlayer
 
 	thumb_func_start sub_80781E4
@@ -1636,7 +1636,7 @@ _0807822C:
 	ldr r4, _080782BC @ =gPlayer
 	cmp r6, #0
 	beq _08078234
-	ldr r4, _080782C0 @ =gUnknown_03005AB0
+	ldr r4, _080782C0 @ =gPartner
 _08078234:
 	lsls r1, r7, #0x10
 	mov r0, r8
@@ -1704,7 +1704,7 @@ _0807826E:
 	.align 2, 0
 _080782B8: .4byte gUnknown_03005088
 _080782BC: .4byte gPlayer
-_080782C0: .4byte gUnknown_03005AB0
+_080782C0: .4byte gPartner
 _080782C4:
 	adds r0, r7, #0
 	adds r0, #8

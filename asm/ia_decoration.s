@@ -254,7 +254,7 @@ _0802337C:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08023448
-	ldr r3, _08023438 @ =gUnknown_03005AB0
+	ldr r3, _08023438 @ =gPartner
 	adds r0, r6, #0
 	mov r1, r8
 	adds r2, r7, #0
@@ -286,7 +286,7 @@ _080233BE:
 	ldrsb r3, [r0, r3]
 	cmp r3, #2
 	bne _080233E4
-	ldr r2, _08023438 @ =gUnknown_03005AB0
+	ldr r2, _08023438 @ =gPartner
 	ldr r1, [r2, #0x10]
 	movs r0, #8
 	ands r0, r1
@@ -339,7 +339,7 @@ _080233E4:
 	.align 2, 0
 _08023430: .4byte gPlayer
 _08023434: .4byte gUnknown_03005088
-_08023438: .4byte gUnknown_03005AB0
+_08023438: .4byte gPartner
 _0802343C: .4byte sa2__gUnknown_0300194C
 _08023440: .4byte sa2__gUnknown_03002820
 _08023444: .4byte gGameMode
@@ -357,7 +357,7 @@ _08023448:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _08023470
-	ldr r3, _080234B0 @ =gUnknown_03005AB0
+	ldr r3, _080234B0 @ =gPartner
 	adds r0, r6, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -394,7 +394,7 @@ _0802349C:
 	.align 2, 0
 _080234A8: .4byte gPlayer
 _080234AC: .4byte gUnknown_03005088
-_080234B0: .4byte gUnknown_03005AB0
+_080234B0: .4byte gPartner
 _080234B4: .4byte gCurTask
 _080234B8:
 	adds r0, r6, #0

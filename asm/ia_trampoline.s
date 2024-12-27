@@ -366,7 +366,7 @@ _08074FD2:
 	ldr r4, _08075090 @ =gPlayer
 	cmp r6, #0
 	beq _08074FDA
-	ldr r4, _08075094 @ =gUnknown_03005AB0
+	ldr r4, _08075094 @ =gPartner
 _08074FDA:
 	movs r1, #0xa
 	ldrsh r5, [r4, r1]
@@ -464,7 +464,7 @@ _0807506C:
 	.align 2, 0
 _0807508C: .4byte 0xF5020000
 _08075090: .4byte gPlayer
-_08075094: .4byte gUnknown_03005AB0
+_08075094: .4byte gPartner
 _08075098: .4byte 0xFFFFFEFF
 _0807509C: .4byte 0xFFFFF800
 _080750A0: .4byte 0xFC400000

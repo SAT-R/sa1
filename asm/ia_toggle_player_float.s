@@ -81,7 +81,7 @@ Task_PlayerFloatMain: @ 0x0808F288
 	ble _0808F3A4
 _0808F318:
 	movs r4, #0
-	ldr r6, _0808F354 @ =gUnknown_03005AB0
+	ldr r6, _0808F354 @ =gPartner
 	ldr r5, _0808F358 @ =gPlayer
 _0808F31E:
 	ldr r0, _0808F33C @ =gCurTask
@@ -105,7 +105,7 @@ _0808F344: .4byte 0x03000034
 _0808F348: .4byte 0x03000036
 _0808F34C: .4byte 0x0300003E
 _0808F350: .4byte gCamera
-_0808F354: .4byte gUnknown_03005AB0
+_0808F354: .4byte gPartner
 _0808F358: .4byte gPlayer
 _0808F35C: .4byte 0x0300003A
 _0808F360:
@@ -153,7 +153,7 @@ _0808F3A4:
 	lsrs r0, r0, #0x10
 	str r0, [sp, #8]
 	movs r6, #0
-	ldr r4, _0808F3D8 @ =gUnknown_03005AB0
+	ldr r4, _0808F3D8 @ =gPartner
 	movs r0, #0x40
 	adds r0, r0, r4
 	mov sl, r0
@@ -171,7 +171,7 @@ _0808F3C6:
 	bne _0808F3EA
 	b _0808F3F8
 	.align 2, 0
-_0808F3D8: .4byte gUnknown_03005AB0
+_0808F3D8: .4byte gPartner
 _0808F3DC: .4byte gPlayer
 _0808F3E0:
 	mov r3, sb
@@ -379,7 +379,7 @@ _0808F540:
 	adds r0, r2, #0
 	cmp r6, #0
 	beq _0808F552
-	ldr r0, _0808F560 @ =gUnknown_03005AB0
+	ldr r0, _0808F560 @ =gPartner
 _0808F552:
 	bl sub_8046CEC
 	cmp r6, #0
@@ -388,7 +388,7 @@ _0808F552:
 	mov r2, sl
 	b _0808F58C
 	.align 2, 0
-_0808F560: .4byte gUnknown_03005AB0
+_0808F560: .4byte gPartner
 _0808F564:
 	movs r0, #0x25
 	mov r3, sb
@@ -398,7 +398,7 @@ _0808F56C:
 	adds r0, r2, #0
 	cmp r6, #0
 	beq _0808F574
-	ldr r0, _0808F584 @ =gUnknown_03005AB0
+	ldr r0, _0808F584 @ =gPartner
 _0808F574:
 	bl sub_8046CEC
 	cmp r6, #0
@@ -408,7 +408,7 @@ _0808F574:
 	strb r0, [r1]
 	b _0808F58E
 	.align 2, 0
-_0808F584: .4byte gUnknown_03005AB0
+_0808F584: .4byte gPartner
 _0808F588:
 	movs r0, #0x11
 	mov r2, sb

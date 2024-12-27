@@ -446,7 +446,7 @@ _0808FB32:
 	mov r3, sb
 	adds r3, #0xb6
 	str r3, [sp, #0x24]
-	ldr r4, _0808FBA0 @ =gUnknown_03005AB0
+	ldr r4, _0808FBA0 @ =gPartner
 	mov r8, r4
 	ldr r4, _0808FBA4 @ =gPlayer
 	mov sl, r3
@@ -488,7 +488,7 @@ _0808FB90: .4byte 0x030000B3
 _0808FB94: .4byte 0x030000A8
 _0808FB98: .4byte gCamera
 _0808FB9C: .4byte gCurrentLevel
-_0808FBA0: .4byte gUnknown_03005AB0
+_0808FBA0: .4byte gPartner
 _0808FBA4: .4byte gPlayer
 _0808FBA8:
 	mov r0, sb
@@ -549,7 +549,7 @@ _0808FBF2:
 	adds r7, r1, #0
 	cmp r6, #0
 	beq _0808FC14
-	ldr r3, _0808FC34 @ =gUnknown_03005AB0
+	ldr r3, _0808FC34 @ =gPartner
 _0808FC14:
 	ldr r0, [sp]
 	adds r1, r5, #0
@@ -565,7 +565,7 @@ _0808FC14:
 	b _0808FCD0
 	.align 2, 0
 _0808FC30: .4byte gPlayer
-_0808FC34: .4byte gUnknown_03005AB0
+_0808FC34: .4byte gPartner
 _0808FC38:
 	ldr r0, [r4, #0x10]
 	movs r1, #8

@@ -376,7 +376,7 @@ Task_PipeEntrance: @ 0x080959AC
 	ldr r5, _08095A7C @ =gPlayer
 	cmp r0, #0
 	beq _080959E0
-	ldr r5, _08095A80 @ =gUnknown_03005AB0
+	ldr r5, _08095A80 @ =gPartner
 _080959E0:
 	mov r0, sl
 	ldrb r1, [r0, #8]
@@ -456,7 +456,7 @@ _08095A70: .4byte gCurTask
 _08095A74: .4byte 0x0300000C
 _08095A78: .4byte 0x0300003C
 _08095A7C: .4byte gPlayer
-_08095A80: .4byte gUnknown_03005AB0
+_08095A80: .4byte gPartner
 _08095A84: .4byte gCamera
 _08095A88: .4byte 0x03000059
 _08095A8C: .4byte gCurrentLevel
@@ -811,7 +811,7 @@ sub_8095D28: @ 0x08095D28
 	ldr r4, _08095DC0 @ =gPlayer
 	cmp r0, #0
 	beq _08095D52
-	ldr r4, _08095DC4 @ =gUnknown_03005AB0
+	ldr r4, _08095DC4 @ =gPartner
 _08095D52:
 	ldrb r1, [r6, #8]
 	lsls r1, r1, #3
@@ -866,7 +866,7 @@ _08095DB4: .4byte gCurTask
 _08095DB8: .4byte 0x0300000C
 _08095DBC: .4byte 0x0300003C
 _08095DC0: .4byte gPlayer
-_08095DC4: .4byte gUnknown_03005AB0
+_08095DC4: .4byte gPartner
 _08095DC8: .4byte gCamera
 _08095DCC: .4byte 0x0300003F
 _08095DD0:
@@ -996,7 +996,7 @@ sub_8095E90: @ 0x08095E90
 	ldr r7, _08095FE0 @ =gPlayer
 	cmp r0, #0
 	beq _08095EC4
-	ldr r7, _08095FE4 @ =gUnknown_03005AB0
+	ldr r7, _08095FE4 @ =gPartner
 _08095EC4:
 	mov r3, r8
 	ldrb r2, [r3, #8]
@@ -1141,7 +1141,7 @@ _08095FD4: .4byte gCurTask
 _08095FD8: .4byte 0x0300000C
 _08095FDC: .4byte 0x0300003C
 _08095FE0: .4byte gPlayer
-_08095FE4: .4byte gUnknown_03005AB0
+_08095FE4: .4byte gPartner
 _08095FE8: .4byte gCamera
 _08095FEC: .4byte 0x03000058
 _08095FF0: .4byte 0x0300003D
@@ -1656,7 +1656,7 @@ Task_PipeExit: @ 0x080963A0
 	ldr r4, _080964C4 @ =gPlayer
 	cmp r0, #0
 	beq _080963D2
-	ldr r4, _080964C8 @ =gUnknown_03005AB0
+	ldr r4, _080964C8 @ =gPartner
 _080963D2:
 	ldr r3, [sp]
 	ldrb r1, [r3, #8]
@@ -1775,7 +1775,7 @@ _080964B8: .4byte gCurTask
 _080964BC: .4byte 0x0300000C
 _080964C0: .4byte 0x0300003C
 _080964C4: .4byte gPlayer
-_080964C8: .4byte gUnknown_03005AB0
+_080964C8: .4byte gPartner
 _080964CC: .4byte gCamera
 _080964D0: .4byte 0x0300003D
 _080964D4: .4byte 0x0300003E
@@ -1878,7 +1878,7 @@ sub_809656C: @ 0x0809656C
 	mov sb, r1
 	cmp r0, #0
 	beq _08096598
-	ldr r4, _08096608 @ =gUnknown_03005AB0
+	ldr r4, _08096608 @ =gPartner
 _08096598:
 	ldrb r1, [r7, #8]
 	lsls r1, r1, #3
@@ -1934,7 +1934,7 @@ _080965D6:
 _080965FC: .4byte gCurTask
 _08096600: .4byte 0x0300003C
 _08096604: .4byte gPlayer
-_08096608: .4byte gUnknown_03005AB0
+_08096608: .4byte gPartner
 _0809660C: .4byte gCamera
 _08096610: .4byte 0x0300003E
 _08096614:
@@ -2107,7 +2107,7 @@ sub_8096724: @ 0x08096724
 	ldr r4, _08096800 @ =gPlayer
 	cmp r0, #0
 	beq _08096754
-	ldr r4, _08096804 @ =gUnknown_03005AB0
+	ldr r4, _08096804 @ =gPartner
 _08096754:
 	ldrb r2, [r6, #8]
 	lsls r2, r2, #3
@@ -2194,7 +2194,7 @@ _08096754:
 _080967F8: .4byte gCurTask
 _080967FC: .4byte 0x0300003C
 _08096800: .4byte gPlayer
-_08096804: .4byte gUnknown_03005AB0
+_08096804: .4byte gPartner
 _08096808: .4byte gCamera
 _0809680C: .4byte 0x0300003E
 _08096810: .4byte 0xFFDFFFFF

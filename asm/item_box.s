@@ -442,7 +442,7 @@ _0801E974:
 	adds r2, r2, r0
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
-	ldr r3, _0801E9F8 @ =gUnknown_03005AB0
+	ldr r3, _0801E9F8 @ =gPartner
 	adds r0, r4, #0
 	bl sub_80096B0
 _0801E998:
@@ -490,7 +490,7 @@ _0801E9E8: .4byte gMultiplayerPlayerTasks
 _0801E9EC: .4byte 0x04000128
 _0801E9F0: .4byte gPlayer
 _0801E9F4: .4byte gUnknown_03005088
-_0801E9F8: .4byte gUnknown_03005AB0
+_0801E9F8: .4byte gPartner
 _0801E9FC:
 	mov r2, r8
 	asrs r1, r2, #0x10
@@ -543,7 +543,7 @@ _0801EA32:
 	orrs r1, r0
 	str r1, [r2, #0x10]
 _0801EA5E:
-	ldr r2, _0801EACC @ =gUnknown_03005AB0
+	ldr r2, _0801EACC @ =gPartner
 	ldr r1, [r2, #0x10]
 	movs r0, #8
 	ands r0, r1
@@ -597,7 +597,7 @@ _0801EAB2:
 	b _0801EC0A
 	.align 2, 0
 _0801EAC8: .4byte gPlayer
-_0801EACC: .4byte gUnknown_03005AB0
+_0801EACC: .4byte gPartner
 _0801EAD0: .4byte gCurTask
 _0801EAD4: .4byte Task_Itembox2
 _0801EAD8: .4byte gGameMode

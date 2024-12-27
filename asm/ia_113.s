@@ -53,7 +53,7 @@ Task_Interactable113: @ 0x08096B20
 	str r1, [sp]
 	movs r5, #0
 	adds r7, r2, #0
-	ldr r6, _08096B98 @ =gUnknown_03005AB0
+	ldr r6, _08096B98 @ =gPartner
 	ldr r4, _08096B9C @ =gPlayer
 _08096B80:
 	cmp r5, #0
@@ -66,7 +66,7 @@ _08096B80:
 	.align 2, 0
 _08096B90: .4byte gCurTask
 _08096B94: .4byte gCamera
-_08096B98: .4byte gUnknown_03005AB0
+_08096B98: .4byte gPartner
 _08096B9C: .4byte gPlayer
 _08096BA0:
 	ldr r0, [r4]

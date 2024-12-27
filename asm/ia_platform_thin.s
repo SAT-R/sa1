@@ -315,7 +315,7 @@ _0802425C:
 	mov r0, sb
 	cmp r0, #0
 	beq _08024266
-	ldr r3, _080242B8 @ =gUnknown_03005AB0
+	ldr r3, _080242B8 @ =gPartner
 _08024266:
 	ldr r1, [r3, #0x10]
 	movs r0, #8
@@ -350,7 +350,7 @@ _080242A8: .4byte 0x000003FF
 _080242AC: .4byte 0x0300004A
 _080242B0: .4byte gCamera
 _080242B4: .4byte gPlayer
-_080242B8: .4byte gUnknown_03005AB0
+_080242B8: .4byte gPartner
 _080242BC: .4byte gUnknown_03005004
 _080242C0:
 	ldr r0, [r3, #4]
@@ -471,7 +471,7 @@ _080243A0:
 	ldrsb r0, [r4, r0]
 	cmp r0, #2
 	bne _080243D8
-	ldr r1, _080243D4 @ =gUnknown_03005AB0
+	ldr r1, _080243D4 @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r3
 	cmp r0, #0
@@ -493,7 +493,7 @@ _080243BA:
 	b _080243E8
 	.align 2, 0
 _080243D0: .4byte gPlayer
-_080243D4: .4byte gUnknown_03005AB0
+_080243D4: .4byte gPartner
 _080243D8:
 	adds r0, r6, #0
 	adds r0, #0x4c
@@ -750,7 +750,7 @@ sub_8024574: @ 0x08024574
 	ands r0, r3
 	cmp r0, #0
 	bne _080245F0
-	ldr r3, _0802469C @ =gUnknown_03005AB0
+	ldr r3, _0802469C @ =gPartner
 	adds r0, r6, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -846,7 +846,7 @@ _0802468C: .4byte gCurTask
 _08024690: .4byte 0x0300000C
 _08024694: .4byte gCamera
 _08024698: .4byte gPlayer
-_0802469C: .4byte gUnknown_03005AB0
+_0802469C: .4byte gPartner
 _080246A0: .4byte sub_802473C
 _080246A4: .4byte gGameMode
 _080246A8: .4byte sub_802492C
@@ -867,7 +867,7 @@ _080246BE:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _080246FC
-	ldr r1, _080246F8 @ =gUnknown_03005AB0
+	ldr r1, _080246F8 @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r2
 	cmp r0, #0
@@ -890,7 +890,7 @@ _080246DA:
 	.align 2, 0
 _080246F0: .4byte gPlayer
 _080246F4: .4byte gUnknown_03005088
-_080246F8: .4byte gUnknown_03005AB0
+_080246F8: .4byte gPartner
 _080246FC:
 	adds r0, r7, #0
 	adds r0, #0x4c
@@ -976,7 +976,7 @@ sub_802473C: @ 0x0802473C
 	adds r1, r5, #0
 	adds r2, r4, #0
 	bl sub_800B2BC
-	ldr r3, _080247DC @ =gUnknown_03005AB0
+	ldr r3, _080247DC @ =gPartner
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
@@ -1004,7 +1004,7 @@ _080247CC: .4byte gCurTask
 _080247D0: .4byte 0x0300000C
 _080247D4: .4byte gCamera
 _080247D8: .4byte gPlayer
-_080247DC: .4byte gUnknown_03005AB0
+_080247DC: .4byte gPartner
 _080247E0: .4byte gGameMode
 _080247E4: .4byte sub_802492C
 _080247E8:
@@ -1113,7 +1113,7 @@ _080248AE:
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _080248EC
-	ldr r1, _080248E8 @ =gUnknown_03005AB0
+	ldr r1, _080248E8 @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r2
 	cmp r0, #0
@@ -1136,7 +1136,7 @@ _080248CA:
 	.align 2, 0
 _080248E0: .4byte gPlayer
 _080248E4: .4byte gUnknown_03005088
-_080248E8: .4byte gUnknown_03005AB0
+_080248E8: .4byte gPartner
 _080248EC:
 	adds r0, r6, #0
 	adds r0, #0x4c
@@ -1240,7 +1240,7 @@ _080249A4:
 	mov r1, r8
 	cmp r1, #0
 	beq _080249AE
-	ldr r4, _08024A00 @ =gUnknown_03005AB0
+	ldr r4, _08024A00 @ =gPartner
 _080249AE:
 	ldr r0, [r4, #0x10]
 	movs r1, #8
@@ -1280,7 +1280,7 @@ _080249F0: .4byte gCurTask
 _080249F4: .4byte 0x0300000C
 _080249F8: .4byte gCamera
 _080249FC: .4byte gPlayer
-_08024A00: .4byte gUnknown_03005AB0
+_08024A00: .4byte gPartner
 _08024A04:
 	adds r0, r5, #0
 	adds r0, #0x48
@@ -1368,7 +1368,7 @@ _08024AA6:
 	ldrsb r0, [r2, r0]
 	cmp r0, #2
 	bne _08024ADC
-	ldr r1, _08024AD8 @ =gUnknown_03005AB0
+	ldr r1, _08024AD8 @ =gPartner
 	ldr r0, [r1, #0x10]
 	ands r0, r3
 	cmp r0, #0
@@ -1390,7 +1390,7 @@ _08024ABE:
 	b _08024AEC
 	.align 2, 0
 _08024AD4: .4byte gPlayer
-_08024AD8: .4byte gUnknown_03005AB0
+_08024AD8: .4byte gPartner
 _08024ADC:
 	adds r0, r5, #0
 	adds r0, #0x4c

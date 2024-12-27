@@ -53,7 +53,7 @@ Task_Toggle_PlayerVisibility: @ 0x080843B8
 	lsrs r2, r2, #0x10
 	str r2, [sp]
 	movs r5, #0
-	ldr r4, _0808442C @ =gUnknown_03005AB0
+	ldr r4, _0808442C @ =gPartner
 	ldr r2, _08084430 @ =gPlayer
 	ldr r6, _08084434 @ =0xFFEFFFFF
 _0808441A:
@@ -64,7 +64,7 @@ _0808441A:
 	.align 2, 0
 _08084424: .4byte gCurTask
 _08084428: .4byte gCamera
-_0808442C: .4byte gUnknown_03005AB0
+_0808442C: .4byte gPartner
 _08084430: .4byte gPlayer
 _08084434: .4byte 0xFFEFFFFF
 _08084438:

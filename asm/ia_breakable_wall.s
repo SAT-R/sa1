@@ -173,7 +173,7 @@ Task_Interactable114: @ 0x08027A84
 	lsrs r0, r0, #0x10
 	str r0, [sp, #8]
 	movs r5, #0
-	ldr r4, _08027ADC @ =gUnknown_03005AB0
+	ldr r4, _08027ADC @ =gPartner
 	mov r8, r4
 	movs r0, #8
 	mov sl, r0
@@ -181,7 +181,7 @@ Task_Interactable114: @ 0x08027A84
 	b _08027AF4
 	.align 2, 0
 _08027AD8: .4byte gCurTask
-_08027ADC: .4byte gUnknown_03005AB0
+_08027ADC: .4byte gPartner
 _08027AE0: .4byte gPlayer
 _08027AE4:
 	adds r5, #1
@@ -297,7 +297,7 @@ _08027BA4:
 	str r0, [sp, #0x14]
 	cmp r5, #0
 	beq _08027BBC
-	ldr r4, _08027BF4 @ =gUnknown_03005AB0
+	ldr r4, _08027BF4 @ =gPartner
 _08027BBC:
 	movs r0, #1
 	str r0, [sp]
@@ -325,7 +325,7 @@ _08027BBC:
 	b _08027C04
 	.align 2, 0
 _08027BF0: .4byte gPlayer
-_08027BF4: .4byte gUnknown_03005AB0
+_08027BF4: .4byte gPartner
 _08027BF8: .4byte gCurTask
 _08027BFC: .4byte sub_8027D88
 _08027C00:
@@ -425,7 +425,7 @@ _08027C9A:
 	ldrsb r3, [r0, r3]
 	cmp r3, #2
 	bne _08027CC2
-	ldr r2, _08027D60 @ =gUnknown_03005AB0
+	ldr r2, _08027D60 @ =gPartner
 	ldr r1, [r2, #0x10]
 	adds r0, r1, #0
 	mov r4, sl
@@ -520,7 +520,7 @@ _08027D4A:
 	b _08027D76
 	.align 2, 0
 _08027D5C: .4byte gUnknown_03005088
-_08027D60: .4byte gUnknown_03005AB0
+_08027D60: .4byte gPartner
 _08027D64: .4byte gGameMode
 _08027D68: .4byte gCamera
 _08027D6C: .4byte gCurTask

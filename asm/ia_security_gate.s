@@ -474,7 +474,7 @@ _0808872C:
 	ldr r3, _080887E8 @ =gPlayer
 	cmp r4, #0
 	beq _08088734
-	ldr r3, _080887EC @ =gUnknown_03005AB0
+	ldr r3, _080887EC @ =gPartner
 _08088734:
 	ldr r1, [r3, #0x10]
 	movs r0, #0x80
@@ -564,7 +564,7 @@ _080887DC: .4byte 0x0300000C
 _080887E0: .4byte gCamera
 _080887E4: .4byte 0x0300003C
 _080887E8: .4byte gPlayer
-_080887EC: .4byte gUnknown_03005AB0
+_080887EC: .4byte gPartner
 _080887F0: .4byte gUnknown_03005088
 _080887F4:
 	adds r0, r6, #0

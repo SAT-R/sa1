@@ -432,7 +432,7 @@ _0807D49E:
 	ldr r3, [sp, #0x10]
 	strh r2, [r3, #0x18]
 	movs r5, #0
-	ldr r7, _0807D524 @ =gUnknown_03005AB0
+	ldr r7, _0807D524 @ =gPartner
 	ldr r6, _0807D528 @ =gPlayer
 
 	thumb_func_start sub_807D4EC
@@ -456,7 +456,7 @@ _0807D514: .4byte 0x03000048
 _0807D518: .4byte 0x000003FF
 _0807D51C: .4byte 0x0300004C
 _0807D520: .4byte gCamera
-_0807D524: .4byte gUnknown_03005AB0
+_0807D524: .4byte gPartner
 _0807D528: .4byte gPlayer
 _0807D52C:
 	ldr r0, [r6, #0x10]
@@ -1015,7 +1015,7 @@ _0807D8D4:
 	str r2, [sp, #0x30]
 	cmp r5, #0
 	beq _0807D902
-	ldr r3, _0807D928 @ =gUnknown_03005AB0
+	ldr r3, _0807D928 @ =gPartner
 _0807D902:
 	ldr r0, [sp, #0x10]
 	mov r1, ip
@@ -1033,7 +1033,7 @@ _0807D914:
 	bl sub_807E168
 	.align 2, 0
 _0807D924: .4byte gPlayer
-_0807D928: .4byte gUnknown_03005AB0
+_0807D928: .4byte gPartner
 _0807D92C:
 	add r2, sp, #8
 	cmp r5, #0
@@ -1283,7 +1283,7 @@ _0807DAB4:
 	str r2, [sp, #0x34]
 	cmp r5, #0
 	beq _0807DAE8
-	ldr r2, _0807DB38 @ =gUnknown_03005AB0
+	ldr r2, _0807DB38 @ =gPartner
 	mov ip, r2
 _0807DAE8:
 	ldr r0, [sp, #0x10]
@@ -1329,7 +1329,7 @@ _0807DB2C:
 	b _0807DB3E
 	.align 2, 0
 _0807DB34: .4byte gPlayer
-_0807DB38: .4byte gUnknown_03005AB0
+_0807DB38: .4byte gPartner
 _0807DB3C:
 	ldr r0, [r6]
 _0807DB3E:
@@ -2125,7 +2125,7 @@ _0807E08E:
 	adds r0, r3, #0
 	cmp r5, #0
 	beq _0807E098
-	ldr r0, _0807E0B0 @ =gUnknown_03005AB0
+	ldr r0, _0807E0B0 @ =gPartner
 _0807E098:
 	bl sub_8046CEC
 	cmp r5, #0
@@ -2138,7 +2138,7 @@ _0807E098:
 	b _0807E0BE
 	.align 2, 0
 _0807E0AC: .4byte gPlayer
-_0807E0B0: .4byte gUnknown_03005AB0
+_0807E0B0: .4byte gPartner
 _0807E0B4:
 	ldr r0, [r6, #0x10]
 	movs r1, #0x21
@@ -2398,7 +2398,7 @@ _0807E258:
 	asrs r2, r0, #0x10
 	cmp r5, #0
 	beq _0807E27E
-	ldr r3, _0807E2B4 @ =gUnknown_03005AB0
+	ldr r3, _0807E2B4 @ =gPartner
 _0807E27E:
 	ldr r0, [sp, #0x10]
 	adds r1, r4, #0
@@ -2425,7 +2425,7 @@ _0807E27E:
 	b _0807E2DE
 	.align 2, 0
 _0807E2B0: .4byte gPlayer
-_0807E2B4: .4byte gUnknown_03005AB0
+_0807E2B4: .4byte gPartner
 _0807E2B8:
 	ldr r0, [r6, #4]
 	movs r2, #0x80
@@ -2730,7 +2730,7 @@ _0807E4F0:
 	movs r4, #0
 	str r3, [sp, #0xc]
 	str r2, [sp, #0x10]
-	ldr r6, _0807E538 @ =gUnknown_03005AB0
+	ldr r6, _0807E538 @ =gPartner
 	ldr r7, _0807E53C @ =gPlayer
 	movs r1, #0
 	str r1, [sp, #0x14]
@@ -2747,7 +2747,7 @@ _0807E526:
 	b _0807E544
 	.align 2, 0
 _0807E534: .4byte gCamera
-_0807E538: .4byte gUnknown_03005AB0
+_0807E538: .4byte gPartner
 _0807E53C: .4byte gPlayer
 _0807E540:
 	movs r2, #0xa
@@ -2940,21 +2940,21 @@ _0807E68A:
 	ldr r0, _0807E6B8 @ =gPlayer
 	cmp r4, #0
 	beq _0807E692
-	ldr r0, _0807E6BC @ =gUnknown_03005AB0
+	ldr r0, _0807E6BC @ =gPartner
 _0807E692:
 	movs r1, #9
 	bl sub_804516C
 	ldr r1, _0807E6B8 @ =gPlayer
 	cmp r4, #0
 	beq _0807E6A0
-	ldr r1, _0807E6BC @ =gUnknown_03005AB0
+	ldr r1, _0807E6BC @ =gPartner
 _0807E6A0:
 	movs r0, #6
 	strb r0, [r1, #0xe]
 	ldr r1, _0807E6B8 @ =gPlayer
 	cmp r4, #0
 	beq _0807E6AC
-	ldr r1, _0807E6BC @ =gUnknown_03005AB0
+	ldr r1, _0807E6BC @ =gPartner
 _0807E6AC:
 	movs r0, #9
 	strb r0, [r1, #0xf]
@@ -2962,7 +2962,7 @@ _0807E6AC:
 	.align 2, 0
 _0807E6B4: .4byte gUnknown_03005A79
 _0807E6B8: .4byte gPlayer
-_0807E6BC: .4byte gUnknown_03005AB0
+_0807E6BC: .4byte gPartner
 _0807E6C0:
 	cmp r4, #0
 	beq _0807E6CE
@@ -3067,7 +3067,7 @@ _0807E756:
 	asrs r2, r0, #0x10
 	cmp r4, #0
 	beq _0807E77C
-	ldr r3, _0807E798 @ =gUnknown_03005AB0
+	ldr r3, _0807E798 @ =gPartner
 _0807E77C:
 	mov r0, sl
 	adds r1, r5, #0
@@ -3082,7 +3082,7 @@ _0807E77C:
 	str r0, [r6, #0x10]
 	b _0807E7A4
 	.align 2, 0
-_0807E798: .4byte gUnknown_03005AB0
+_0807E798: .4byte gPartner
 _0807E79C:
 	ldr r0, [r7, #0x10]
 	mov r1, sb
@@ -3133,7 +3133,7 @@ _0807E7D4:
 	asrs r2, r0, #0x10
 	cmp r4, #0
 	beq _0807E7FA
-	ldr r3, _0807E8DC @ =gUnknown_03005AB0
+	ldr r3, _0807E8DC @ =gPartner
 _0807E7FA:
 	mov r0, sl
 	adds r1, r5, #0
@@ -3250,7 +3250,7 @@ _0807E8CA:
 	bl TaskDestroy
 	b _0807E902
 	.align 2, 0
-_0807E8DC: .4byte gUnknown_03005AB0
+_0807E8DC: .4byte gPartner
 _0807E8E0: .4byte gUnknown_03005088
 _0807E8E4: .4byte 0x000026AC
 _0807E8E8: .4byte 0x00002710

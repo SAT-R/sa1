@@ -10,14 +10,21 @@
 #define MUS_VS_RECORD 10
 #define MUS_OPTIONS   11 // Scrap Brain Zone remix
 
-#define MUS_BOSS_FIGHT 29
-#define MUS_BOSS_INTRO 30
+#define MUS_BOSS_FIGHT       29
+#define MUS_BOSS_INTRO       30
+#define MUS_BOSS_EGG_WRECKER 31
+#define MUS_BOSS_EGG_SNAKE   32
+#define MUS_ACT_CLEAR        33
+#define MUS_BOSS_CLEAR       34
+#define MUS_FINAL_CLEAR      35
+#define MUS_EXTRA_CLEAR      36
+#define MUS_GAME_OVER        37
+
+#define MUS_PLAYER_DATA 48 // Star Light Zone remix
 
 #define MUS_VS_SCORE_OVERVIEW 52
 #define MUS_VS_RING_RUSH_MODE 53
 #define MUS_VS_RESULT         54
-
-#define MUS_PLAYER_DATA 48 // Star Light Zone remix
 
 #define SE_RING                    102
 #define SE_SHIFT                   103
@@ -42,8 +49,10 @@
 
 #define SE_AMY_ROLLS 133
 
-#define SE_WARNING 139 // Almost Time Up / Extra Boss Rings low
-#define SE_PAUSE   142
+#define SE_TIMER                     139 // Almost Time Up / Extra Boss Rings low
+#define SE_STAGE_RESULT_COUNTER      140
+#define SE_STAGE_RESULT_COUNTER_DONE 141
+#define SE_PAUSE                     142
 
 #define SE_IMPACT 145 // Boss 1 Hammer hits ground
 

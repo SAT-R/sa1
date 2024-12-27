@@ -4783,7 +4783,8 @@ _0802A5DC:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x1a
 	strh r0, [r4, #0x10]
-	ldr r0, _0802A638 @ =gUnknown_030060E0
+    @ inline of sub_802D6B4?
+	ldr r0, _0802A638 @ =gUnknown_030060E0 
 	ldrh r1, [r7]
 	ldrh r0, [r0]
 	ands r0, r1
@@ -6575,7 +6576,7 @@ _0802B50C:
 	b _0802B59A
 _0802B514:
 	str r6, [sp]
-	ldr r0, _0802B5C8 @ =sub_802BEDC
+	ldr r0, _0802B5C8 @ =Task_802BEDC
 	movs r1, #0x74
 	movs r2, #0xa8
 	lsls r2, r2, #5
@@ -6667,7 +6668,7 @@ _0802B5BA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802B5C8: .4byte sub_802BEDC
+_0802B5C8: .4byte Task_802BEDC
 _0802B5CC: .4byte 0x03000060
 _0802B5D0: .4byte 0x03000068
 _0802B5D4: .4byte 0x0300006D
@@ -7169,6 +7170,7 @@ _0802B94C:
 	strh r2, [r0]
 	adds r0, #2
 	strh r2, [r0]
+    @ inline of sub_802D6FC?
 	ldr r1, _0802B9DC @ =gUnknown_084872C4
 	ldrh r0, [r3]
 	lsls r0, r0, #1
@@ -7240,6 +7242,7 @@ _0802B9E8:
 	strh r2, [r0]
 	adds r0, #2
 	strh r2, [r0]
+    @ inline of sub_802D6FC?
 	ldr r1, _0802BA78 @ =gUnknown_084872C4
 	ldrh r0, [r3]
 	lsls r0, r0, #1
@@ -7395,6 +7398,7 @@ _0802BB2C:
 	strh r2, [r0]
 	adds r0, #2
 	strh r2, [r0]
+    @ inline of sub_802D6FC?
 	ldr r1, _0802BBDC @ =gUnknown_084872C4
 	ldrh r0, [r3]
 	lsls r0, r0, #1
@@ -7821,8 +7825,8 @@ _0802BEC6:
 _0802BED4: .4byte gUnknown_030057E0
 _0802BED8: .4byte gOamBuffer+0x6
 
-	thumb_func_start sub_802BEDC
-sub_802BEDC: @ 0x0802BEDC
+	thumb_func_start Task_802BEDC
+Task_802BEDC: @ 0x0802BEDC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -7884,6 +7888,7 @@ sub_802BEDC: @ 0x0802BEDC
 	strb r1, [r0]
 	ldr r0, _0802C020 @ =0x0300000C
 	adds r5, r4, r0
+    @ inline of sub_802D6FC?
 	ldr r1, _0802C024 @ =gUnknown_084872C4
 	ldrh r0, [r2]
 	lsls r0, r0, #1
@@ -7998,7 +8003,7 @@ sub_802C04C: @ 0x0802C04C
 _0802C056:
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0802C0BC @ =sub_802BEDC
+	ldr r0, _0802C0BC @ =Task_802BEDC
 	movs r1, #0x74
 	ldr r2, _0802C0C0 @ =0x00001510
 	movs r3, #0
@@ -8045,7 +8050,7 @@ _0802C056:
 	bx r0
 	.align 2, 0
 _0802C0B8: .4byte gUnknown_084872E0
-_0802C0BC: .4byte sub_802BEDC
+_0802C0BC: .4byte Task_802BEDC
 _0802C0C0: .4byte 0x00001510
 _0802C0C4: .4byte 0x03000068
 _0802C0C8: .4byte 0x03000070
@@ -8429,6 +8434,7 @@ _0802C37E:
 	strb r0, [r1]
 	ldr r0, _0802C46C @ =0x0300000C
 	adds r2, r6, r0
+    @ inline of sub_802D6FC?
 	ldr r1, _0802C470 @ =gUnknown_084872C4
 	ldrh r0, [r7]
 	lsls r0, r0, #1
@@ -8561,6 +8567,7 @@ _0802C4E4:
 	movs r0, #2
 _0802C4F4:
 	strh r0, [r1]
+    @ inline of sub_802D6FC?
 	ldr r1, _0802C560 @ =gUnknown_084872C4
 	adds r0, r4, #0
 	adds r0, #0x60
@@ -8722,7 +8729,7 @@ _0802C620:
 	movs r0, #0x78
 _0802C642:
 	strb r0, [r1]
-_0802C644:
+_0802C644: @ inline of sub_802D6FC?
 	ldr r1, _0802C6BC @ =gUnknown_084872C4
 	adds r0, r5, #0
 	adds r0, #0x60
@@ -8888,6 +8895,7 @@ _0802C748:
 	strb r0, [r3]
 	ldr r0, _0802C878 @ =0x0300000C
 	adds r4, r7, r0
+    @ inline of sub_802D6FC
 	ldr r1, _0802C87C @ =gUnknown_084872C4
 	ldr r2, _0802C880 @ =0x03000060
 	adds r0, r7, r2
@@ -9657,6 +9665,7 @@ _0802CDCE:
 	strb r1, [r0]
 	adds r2, r5, #0
 	adds r2, #0xc
+    @ inline of sub_802D6FC
 	ldr r1, _0802CE90 @ =gUnknown_084872C4
 	subs r0, #7
 	ldrh r0, [r0]
@@ -10763,5 +10772,83 @@ _0802D6A6:
 _0802D6AC: .4byte gUnknown_03005004
 _0802D6B0: .4byte gPressedKeys
 
-@ --- bosses.s
-@ --- game_1_1.s
+@ inline?
+	thumb_func_start sub_802D6B4
+sub_802D6B4: @ 0x0802D6B4
+	adds r2, r0, #0
+	adds r1, r2, #0
+	adds r1, #0x42
+	ldr r0, _0802D6DC @ =gUnknown_030060E0
+	ldrh r1, [r1]
+	ldrh r0, [r0]
+	ands r0, r1
+	cmp r0, #0
+	beq _0802D6E0
+	adds r0, r2, #0
+	adds r0, #0x29
+	ldrb r1, [r0]
+	movs r0, #1
+	ands r0, r1
+	cmp r0, #0
+	bne _0802D6E0
+	movs r0, #0x80
+	lsls r0, r0, #1
+	b _0802D6F6
+	.align 2, 0
+_0802D6DC: .4byte gUnknown_030060E0
+_0802D6E0:
+	adds r0, r2, #0
+	adds r0, #0x29
+	ldrb r1, [r0]
+	movs r0, #2
+	ands r0, r1
+	lsls r0, r0, #0x18
+	lsrs r0, r0, #0x18
+	cmp r0, #0
+	beq _0802D6F6
+	movs r0, #0xff
+	lsls r0, r0, #8
+_0802D6F6:
+	strh r0, [r2, #0x20]
+	bx lr
+	.align 2, 0
+
+@ inline?
+	thumb_func_start sub_802D6FC
+sub_802D6FC: @ 0x0802D6FC
+	mov ip, r0
+	adds r3, r1, #0
+	ldr r1, _0802D740 @ =gUnknown_084872C4
+	adds r0, #0x60
+	ldrh r0, [r0]
+	lsls r0, r0, #1
+	adds r0, r0, r1
+	ldrh r0, [r0]
+	lsls r0, r0, #5
+	ldr r1, _0802D744 @ =0x06010000
+	adds r0, r0, r1
+	str r0, [r3, #4]
+	movs r2, #0
+	strh r2, [r3, #8]
+	mov r0, ip
+	adds r0, #0x62
+	ldrh r0, [r0]
+	strh r0, [r3, #0xa]
+	mov r0, ip
+	adds r0, #0x64
+	ldrh r1, [r0]
+	adds r0, r3, #0
+	adds r0, #0x20
+	strb r1, [r0]
+	adds r1, r3, #0
+	adds r1, #0x21
+	movs r0, #0xff
+	strb r0, [r1]
+	strh r2, [r3, #0x1c]
+	adds r1, #1
+	movs r0, #0x10
+	strb r0, [r1]
+	bx lr
+	.align 2, 0
+_0802D740: .4byte gUnknown_084872C4
+_0802D744: .4byte 0x06010000

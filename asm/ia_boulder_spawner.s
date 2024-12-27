@@ -321,7 +321,7 @@ _080900E0:
 _08090104:
 	cmp r5, #0
 	beq _08090120
-	ldr r0, _08090118 @ =gUnknown_03005AB0
+	ldr r0, _08090118 @ =gPartner
 	ldr r0, [r0, #0x10]
 	movs r1, #0x80
 	ands r0, r1
@@ -330,7 +330,7 @@ _08090104:
 	ldr r6, _0809011C @ =gPlayer
 	b _0809012E
 	.align 2, 0
-_08090118: .4byte gUnknown_03005AB0
+_08090118: .4byte gPartner
 _0809011C: .4byte gPlayer
 _08090120:
 	ldr r2, _080901C0 @ =gPlayer
@@ -360,7 +360,7 @@ _0809012E:
 	adds r3, r6, #0
 	cmp r5, #0
 	beq _08090156
-	ldr r3, _080901C4 @ =gUnknown_03005AB0
+	ldr r3, _080901C4 @ =gPartner
 _08090156:
 	adds r0, r7, #0
 	adds r1, r4, #0
@@ -370,7 +370,7 @@ _08090156:
 	adds r0, r6, #0
 	cmp r5, #0
 	beq _0809016A
-	ldr r0, _080901C4 @ =gUnknown_03005AB0
+	ldr r0, _080901C4 @ =gPartner
 _0809016A:
 	bl sub_800C558
 _0809016E:
@@ -415,7 +415,7 @@ _0809016E:
 	b _080901E6
 	.align 2, 0
 _080901C0: .4byte gPlayer
-_080901C4: .4byte gUnknown_03005AB0
+_080901C4: .4byte gPartner
 _080901C8: .4byte gUnknown_03005088
 _080901CC: .4byte sub_803FF84
 _080901D0:

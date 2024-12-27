@@ -135,7 +135,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005040; gUnknown_03005040 = .; /* SA2: gUnknown_030054A8 */
 . = 0x00005048; gUnknown_03005048 = .; /* SA2: gUnknown_030054B4 */
 . = 0x0000504C; gUnknown_0300504C = .;
-. = 0x00005050; gUnknown_03005050 = .;
+. = 0x00005050; gTailsEnabled = .;
 . = 0x00005054; gUnknown_03005054 = .;
 . = 0x00005058; gUnknown_03005058 = .;
 . = 0x0000505C; gGameMode = .;
@@ -204,7 +204,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005A0C; gUnknown_03005A0C = .;
 . = 0x00005A10; gUnknown_03005A10 = .;
 . = 0x00005A18; gUnknown_03005A18 = .;
-. = 0x00005A20; gPlayer = .;
+. = 0x00005A20; gPlayer = .; /* size: 0x90 */
 . = 0x00005A46; gUnknown_03005A46 = .;
 . = 0x00005A47; gUnknown_03005A47 = .;
 . = 0x00005A5C; gUnknown_03005A5C = .;
@@ -217,7 +217,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005A7B; gUnknown_03005A7B = .;
 . = 0x00005A84; gUnknown_03005A84 = .;
 . = 0x00005A8D; gUnknown_03005A8D = .;
-. = 0x00005AB0; gUnknown_03005AB0 = .;
+. = 0x00005AB0; gPartner = .;          /* CPU Tails (0x90) */
 . = 0x00005AD6; gUnknown_03005AD6 = .;
 . = 0x00005AD7; gUnknown_03005AD7 = .;
 . = 0x00005AEC; gUnknown_03005AEC = .;

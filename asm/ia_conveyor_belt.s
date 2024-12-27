@@ -41,7 +41,7 @@ Task_ConveyorBelt: @ 0x08083E74
 	lsrs r0, r0, #0x10
 	mov r8, r0
 	movs r4, #0
-	ldr r6, _08083ED8 @ =gUnknown_03005AB0
+	ldr r6, _08083ED8 @ =gPartner
 	ldr r5, _08083EDC @ =gPlayer
 _08083EBC:
 	cmp r4, #0
@@ -57,7 +57,7 @@ _08083EBC:
 	b _08083EF0
 	.align 2, 0
 _08083ED4: .4byte gCurTask
-_08083ED8: .4byte gUnknown_03005AB0
+_08083ED8: .4byte gPartner
 _08083EDC: .4byte gPlayer
 _08083EE0:
 	ldr r1, [r5, #0x10]
@@ -470,7 +470,7 @@ Task_SlowingSnow: @ 0x08084184
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 	movs r6, #0
-	ldr r2, _080841E0 @ =gUnknown_03005AB0
+	ldr r2, _080841E0 @ =gPartner
 	ldr r7, _080841E4 @ =gPlayer
 _080841CA:
 	cmp r6, #0
@@ -483,7 +483,7 @@ _080841CA:
 	b _080841F2
 	.align 2, 0
 _080841DC: .4byte gCurTask
-_080841E0: .4byte gUnknown_03005AB0
+_080841E0: .4byte gPartner
 _080841E4: .4byte gPlayer
 _080841E8:
 	ldr r1, [r7, #0x10]

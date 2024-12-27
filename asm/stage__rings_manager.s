@@ -195,7 +195,7 @@ _08007EBE:
 	mov sb, r1
 	cmp r4, #0
 	beq _08007ECA
-	ldr r2, _080081C0 @ =gUnknown_03005AB0
+	ldr r2, _080081C0 @ =gPartner
 	mov sb, r2
 _08007ECA:
 	mov r3, sb
@@ -599,7 +599,7 @@ _080081B0: .4byte gPlayer
 _080081B4: .4byte gUnknown_03005004
 _080081B8: .4byte gCurTask
 _080081BC: .4byte 0x03000030
-_080081C0: .4byte gUnknown_03005AB0
+_080081C0: .4byte gPartner
 _080081C4: .4byte gRingCount
 _080081C8: .4byte gCurrentLevel
 _080081CC: .4byte gGameMode

@@ -202,7 +202,7 @@ _08093338:
 	mov r3, sb
 	lsls r2, r3, #0x10
 	asrs r2, r2, #0x10
-	ldr r4, _080934C0 @ =gUnknown_03005AB0
+	ldr r4, _080934C0 @ =gPartner
 	adds r0, r5, #0
 	adds r3, r4, #0
 	bl sub_80096B0
@@ -378,7 +378,7 @@ _080934B0: .4byte gCamera
 _080934B4: .4byte 0x0300002C
 _080934B8: .4byte 0x0300002D
 _080934BC: .4byte gUnknown_03005088
-_080934C0: .4byte gUnknown_03005AB0
+_080934C0: .4byte gPartner
 _080934C4: .4byte 0x0000F880
 _080934C8: .4byte gPlayer
 _080934CC: .4byte 0xFFFFFEFF
@@ -479,7 +479,7 @@ _08093588:
 	ldrsb r7, [r0, r7]
 	cmp r7, #2
 	bne _080935F0
-	ldr r4, _08093670 @ =gUnknown_03005AB0
+	ldr r4, _08093670 @ =gPartner
 	adds r0, r5, #0
 	mov r1, ip
 	adds r2, r3, #0
@@ -583,7 +583,7 @@ _080935F0:
 	b _080936EA
 	.align 2, 0
 _0809366C: .4byte gUnknown_03005088
-_08093670: .4byte gUnknown_03005AB0
+_08093670: .4byte gPartner
 _08093674: .4byte 0x0000F880
 _08093678: .4byte 0x0300002C
 _0809367C: .4byte 0x0300002D

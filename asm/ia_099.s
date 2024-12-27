@@ -264,7 +264,7 @@ Task_Interactable099: @ 0x080930E0
 	asrs r0, r0, #0x18
 	cmp r0, #2
 	bne _0809314A
-	ldr r3, _08093190 @ =gUnknown_03005AB0
+	ldr r3, _08093190 @ =gPartner
 	adds r0, r4, #0
 	adds r1, r6, #0
 	adds r2, r5, #0
@@ -301,7 +301,7 @@ _08093180: .4byte gCurTask
 _08093184: .4byte gCamera
 _08093188: .4byte gPlayer
 _0809318C: .4byte gUnknown_03005088
-_08093190: .4byte gUnknown_03005AB0
+_08093190: .4byte gPartner
 _08093194:
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
