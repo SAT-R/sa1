@@ -150,9 +150,9 @@
 
 #define SA1_ANIM_BOSS_1_INTRO 693
 
-#define SA1_ANIM_ITEMBOX      705
-#define SA1_ANIM_ITEMBOX_TYPE 706
-#define SA1_ANIM_RING         707
+#define SA1_ANIM_ITEMBOX             705
+#define SA1_ANIM_ITEMBOX_TYPE        706
+#define SA1_ANIM_RING                707
 #define SA2_ANIM_RING_COLLECT_EFFECT 708
 
 #define SA1_ANIM_TRIANGLE_BLUE 767

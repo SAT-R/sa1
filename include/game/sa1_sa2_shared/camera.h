@@ -94,4 +94,3 @@ extern struct Camera gCamera;
 #define IS_OUT_OF_LOOP_TRIGGER_RANGE(x, y) IS_OUT_OF_RANGE_3(x, y, (CAM_REGION_WIDTH / 2), (CAM_REGION_WIDTH / 2))
 
 #endif // GUARD_SAKIT_CAMERA_H
-
