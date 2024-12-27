@@ -5,8 +5,8 @@
 	@********************** Track  1 **********************@
 
 	.align 2
-	.global song117_1
-song117_1:	@ 0x087BC780
+	.global se_ring_copy_1
+se_ring_copy_1:	@ 0x087BC780
 	.byte	KEYSH	, 0
 	.byte	TEMPO	, 75
 	.byte	VOICE	, 2
@@ -16,8 +16,8 @@ song117_1:	@ 0x087BC780
 	.byte	FINE
 
 	.align 2
-	.global song117
-song117:	@ 0x087BC790
+	.global se_ring_copy
+se_ring_copy:	@ 0x087BC790
 	.byte	1		@ trackCount
 	.byte	0		@ blockCount
 	.byte	20		@ priority
@@ -25,4 +25,4 @@ song117:	@ 0x087BC790
 
 	.word	voicegroup004		@ voicegroup/tone
 
-	.word	song117_1		@ track
+	.word	se_ring_copy_1		@ track

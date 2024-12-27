@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 @ SA2: src/sakit/collect_ring_effect.c
 	thumb_func_start CreateCollectRingEffect
 CreateCollectRingEffect: @ 0x0801E46C
@@ -76,7 +77,7 @@ CreateCollectRingEffect: @ 0x0801E46C
 	cmp r0, #0
 	beq _0801E550
 	ldr r4, _0801E544 @ =gMPlayInfo_SE2
-	ldr r1, _0801E548 @ =song117
+	ldr r1, _0801E548 @ =se_ring_copy
 	adds r0, r4, #0
 	bl MPlayStart
 	adds r0, r4, #0
@@ -103,11 +104,11 @@ _0801E538: .4byte 0x03000025
 _0801E53C: .4byte gRingCount
 _0801E540: .4byte 0x03000030
 _0801E544: .4byte gMPlayInfo_SE2
-_0801E548: .4byte song117
+_0801E548: .4byte se_ring_copy
 _0801E54C: .4byte 0x0000FFFF
 _0801E550:
 	ldr r4, _0801E58C @ =gMPlayInfo_SE1
-	ldr r1, _0801E590 @ =song117
+	ldr r1, _0801E590 @ =se_ring_copy
 	adds r0, r4, #0
 	bl MPlayStart
 	adds r0, r4, #0
@@ -135,7 +136,7 @@ _0801E57E:
 	bx r0
 	.align 2, 0
 _0801E58C: .4byte gMPlayInfo_SE1
-_0801E590: .4byte song117
+_0801E590: .4byte se_ring_copy
 _0801E594: .4byte 0x0000FFFF
 _0801E598: .4byte gActiveCollectRingEffectCount
 
@@ -190,3 +191,4 @@ _0801E5E8:
 _0801E5FC: .4byte gCurTask
 _0801E600: .4byte gCamera
 _0801E604: .4byte gActiveCollectRingEffectCount
+.endif

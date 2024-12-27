@@ -118,7 +118,7 @@ gSongTable:	@ 0x086DD790
 	song song114, 2, 2
 	song song115, 2, 2
 	song song116, 2, 2
-	song song117, 3, 3
+	song se_ring_copy, 3, 3
 	song song118, 3, 3
 	song song119, 2, 2
 	song song120, 3, 3

@@ -139,6 +139,7 @@ _0804CE54:
 	bl TransformSprite
 	adds r0, r4, #0
 	bl DisplaySprite
+    @ inline of sub_804CFA0?
 	ldr r1, _0804CED0 @ =0x03000058
 	adds r3, r5, r1
 	movs r7, #0
