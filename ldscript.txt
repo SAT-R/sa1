@@ -34,7 +34,6 @@ SECTIONS {
         build/sa1/asm/enemy_kiki.o(.text);
         build/sa1/asm/enemy_buzzer.o(.text);
         build/sa1/src/sa1_sa2_shared/collect_ring_effect.o(.text);
-        build/sa1/asm/collect_ring_effect.o(.text);
         build/sa1/asm/item_box.o(.text);
         build/sa1/asm/ia_stage_goal.o(.text);
         build/sa1/src/sa1_sa2_shared/dust_cloud.o(.text);
