@@ -317,7 +317,7 @@ _0809340E:
 	lsls r1, r1, #0xf
 	orrs r0, r1
 	str r0, [r4, #0x10]
-	ldr r2, _080934D0 @ =gUnknown_03005004
+	ldr r2, _080934D0 @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #1
 	orrs r0, r1
@@ -382,7 +382,7 @@ _080934C0: .4byte gPartner
 _080934C4: .4byte 0x0000F880
 _080934C8: .4byte gPlayer
 _080934CC: .4byte 0xFFFFFEFF
-_080934D0: .4byte gUnknown_03005004
+_080934D0: .4byte gStageFlags
 _080934D4: .4byte sub_80934F4
 _080934D8:
 	adds r0, r5, #0

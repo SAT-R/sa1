@@ -2854,7 +2854,7 @@ _0802967E:
 	movs r0, #0xae
 	lsls r0, r0, #5
 	strh r0, [r5, #0x16]
-	ldr r3, _08029758 @ =gUnknown_03005004
+	ldr r3, _08029758 @ =gStageFlags
 	ldrh r0, [r3]
 	ldr r2, _0802975C @ =0x0000FFFE
 	ands r2, r0
@@ -2877,7 +2877,7 @@ _080296C8:
 	movs r0, #0xcc
 	lsls r0, r0, #4
 	strh r0, [r6, #0x16]
-	ldr r3, _08029758 @ =gUnknown_03005004
+	ldr r3, _08029758 @ =gStageFlags
 	ldrh r0, [r3]
 	ldr r2, _0802975C @ =0x0000FFFE
 	ands r2, r0
@@ -2930,7 +2930,7 @@ _08029748: .4byte sub_80177EC
 _0802974C: .4byte 0x03000040
 _08029750: .4byte 0x000001FF
 _08029754: .4byte gUnknown_03005148
-_08029758: .4byte gUnknown_03005004
+_08029758: .4byte gStageFlags
 _0802975C: .4byte 0x0000FFFE
 _08029760: .4byte gGameMode
 _08029764: .4byte gCourseTime
@@ -3020,7 +3020,7 @@ _08029806:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0802982C
-	ldr r2, _0802984C @ =gUnknown_03005004
+	ldr r2, _0802984C @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #4
 	orrs r0, r1
@@ -3044,7 +3044,7 @@ _0802983E:
 	.align 2, 0
 _08029844: .4byte gCurTask
 _08029848: .4byte gGameMode
-_0802984C: .4byte gUnknown_03005004
+_0802984C: .4byte gStageFlags
 _08029850: .4byte gCourseTime
 _08029854: .4byte 0x00004650
 _08029858: .4byte gPlayer
@@ -3315,7 +3315,7 @@ _08029A94: .4byte gUnknown_03005078
 _08029A98: .4byte gCurTask
 _08029A9C: .4byte sub_80299B0
 _08029AA0:
-	ldr r2, _08029AB8 @ =gUnknown_03005004
+	ldr r2, _08029AB8 @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #0x20
 	orrs r0, r1
@@ -3329,7 +3329,7 @@ _08029AB2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08029AB8: .4byte gUnknown_03005004
+_08029AB8: .4byte gStageFlags
 _08029ABC: .4byte gCurTask
 _08029AC0: .4byte sub_8029AC4
 
@@ -10237,7 +10237,7 @@ sub_802D274: @ 0x0802D274
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bgt _0802D294
-	ldr r2, _0802D29C @ =gUnknown_03005004
+	ldr r2, _0802D29C @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #0x20
 	orrs r0, r1
@@ -10250,7 +10250,7 @@ _0802D294:
 	bx lr
 	.align 2, 0
 _0802D298: .4byte gUnknown_030055E0
-_0802D29C: .4byte gUnknown_03005004
+_0802D29C: .4byte gStageFlags
 _0802D2A0: .4byte gCurTask
 _0802D2A4: .4byte sub_8029AC4
 
@@ -10748,7 +10748,7 @@ _0802D67C: .4byte gCurTask
 	thumb_func_start sub_802D680
 sub_802D680: @ 0x0802D680
 	push {lr}
-	ldr r0, _0802D6AC @ =gUnknown_03005004
+	ldr r0, _0802D6AC @ =gStageFlags
 	ldrh r2, [r0]
 	movs r0, #0x20
 	ands r0, r2
@@ -10769,7 +10769,7 @@ _0802D6A6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0802D6AC: .4byte gUnknown_03005004
+_0802D6AC: .4byte gStageFlags
 _0802D6B0: .4byte gPressedKeys
 
 @ inline?

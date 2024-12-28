@@ -1634,7 +1634,7 @@ _08032A52:
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	bl sub_80174DC
-	ldr r2, _08032ADC @ =gUnknown_03005004
+	ldr r2, _08032ADC @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #3
 	orrs r0, r1
@@ -1679,7 +1679,7 @@ _08032AB6:
 	.align 2, 0
 _08032AD4: .4byte 0x03000044
 _08032AD8: .4byte gCamera
-_08032ADC: .4byte gUnknown_03005004
+_08032ADC: .4byte gStageFlags
 _08032AE0: .4byte gLevelScore
 _08032AE4: .4byte 0x0000C350
 _08032AE8: .4byte gGameMode

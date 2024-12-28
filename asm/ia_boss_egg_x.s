@@ -1847,7 +1847,7 @@ _080380AA:
 	str r0, [r3, #0x10]
 	strh r5, [r3, #0x38]
 	strh r5, [r3, #0x3a]
-	ldr r2, _0803813C @ =gUnknown_03005004
+	ldr r2, _0803813C @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #3
 	orrs r0, r1
@@ -1898,7 +1898,7 @@ _0803812C: .4byte 0x00007FFF
 _08038130: .4byte gWinRegs
 _08038134: .4byte gBldRegs
 _08038138: .4byte 0x00001FFF
-_0803813C: .4byte gUnknown_03005004
+_0803813C: .4byte gStageFlags
 _08038140: .4byte gLevelScore
 _08038144: .4byte 0x0000C350
 _08038148: .4byte gGameMode

@@ -1697,7 +1697,7 @@ _08050BC2:
 	mov r0, sl
 	adds r0, #0x54
 	strh r3, [r0]
-	ldr r2, _08050C78 @ =gUnknown_03005004
+	ldr r2, _08050C78 @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #1
 	orrs r0, r1
@@ -1740,7 +1740,7 @@ _08050C68: .4byte gDispCnt
 _08050C6C: .4byte 0x0000DFFF
 _08050C70: .4byte gBldRegs
 _08050C74: .4byte gFlags
-_08050C78: .4byte gUnknown_03005004
+_08050C78: .4byte gStageFlags
 _08050C7C: .4byte gLevelScore
 _08050C80: .4byte 0x0000C350
 _08050C84: .4byte gGameMode

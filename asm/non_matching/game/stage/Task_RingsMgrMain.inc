@@ -28,7 +28,7 @@
 	movs r2, #4
 	bl memcpy
 	movs r4, #0
-	ldr r0, _080081B4 @ =gUnknown_03005004
+	ldr r0, _080081B4 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #2
 	ands r0, r1
@@ -471,7 +471,7 @@ _080081A2:
 	b _080081F0
 	.align 2, 0
 _080081B0: .4byte gPlayer
-_080081B4: .4byte gUnknown_03005004
+_080081B4: .4byte gStageFlags
 _080081B8: .4byte gCurTask
 _080081BC: .4byte 0x03000030
 _080081C0: .4byte gPartner

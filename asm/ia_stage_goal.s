@@ -548,7 +548,7 @@ _0801F5C4: .4byte gUnknown_03005048
 _0801F5C8: .4byte gCurTask
 _0801F5CC: .4byte Task_StageGoal3
 _0801F5D0:
-	ldr r0, _0801F610 @ =gUnknown_03005004
+	ldr r0, _0801F610 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r2, #3
 	orrs r1, r2
@@ -581,7 +581,7 @@ _0801F606:
 	bl _call_via_r0
 	b _0801F670
 	.align 2, 0
-_0801F610: .4byte gUnknown_03005004
+_0801F610: .4byte gStageFlags
 _0801F614: .4byte gCurrentLevel
 _0801F618: .4byte gCurTask
 _0801F61C: .4byte Task_StageGoal2
@@ -856,7 +856,7 @@ _0801F824:
 	str r0, [r6, #0x5c]
 	cmp r5, #0
 	bne _0801F852
-	ldr r2, _0801F88C @ =gUnknown_03005004
+	ldr r2, _0801F88C @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #4
 	orrs r0, r1
@@ -891,7 +891,7 @@ _0801F852:
 _0801F880: .4byte gMultiplayerPlayerTasks
 _0801F884: .4byte 0x04000128
 _0801F888: .4byte gPlayer
-_0801F88C: .4byte gUnknown_03005004
+_0801F88C: .4byte gStageFlags
 _0801F890: .4byte gCourseTime
 _0801F894: .4byte gCurTask
 _0801F898: .4byte Task_StageGoal4
@@ -1033,7 +1033,7 @@ _0801F994:
 	cmp r0, #0
 	bne _0801F92C
 _0801F9AC:
-	ldr r1, _0801F9EC @ =gUnknown_03005004
+	ldr r1, _0801F9EC @ =gStageFlags
 	ldrh r0, [r1]
 	movs r4, #4
 	orrs r0, r4
@@ -1064,7 +1064,7 @@ _0801F9AC:
 	b _0801FA1A
 	.align 2, 0
 _0801F9E8: .4byte gMultiplayerPlayerTasks
-_0801F9EC: .4byte gUnknown_03005004
+_0801F9EC: .4byte gStageFlags
 _0801F9F0: .4byte gCourseTime
 _0801F9F4: .4byte gPlayer
 _0801F9F8: .4byte gCurTask

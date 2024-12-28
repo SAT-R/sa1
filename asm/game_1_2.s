@@ -368,7 +368,7 @@ sub_804D02C: @ 0x0804D02C
 	ldr r3, _0804D04C @ =gUnknown_030060E0
 	cmp r2, #0
 	beq _0804D040
-	ldr r0, _0804D050 @ =gUnknown_03005004
+	ldr r0, _0804D050 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x40
 	ands r0, r1
@@ -382,7 +382,7 @@ _0804D040:
 	b _0804D05E
 	.align 2, 0
 _0804D04C: .4byte gUnknown_030060E0
-_0804D050: .4byte gUnknown_03005004
+_0804D050: .4byte gStageFlags
 _0804D054:
 	cmp r2, #1
 	bne _0804D05E

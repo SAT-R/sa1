@@ -35,7 +35,7 @@ Task_ToBeContinuedText: @ 0x080255F0
 	mov ip, r3
 	cmp r0, r2
 	ble _0802568C
-	ldr r2, _08025670 @ =gUnknown_03005004
+	ldr r2, _08025670 @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #1
 	orrs r0, r1
@@ -65,7 +65,7 @@ Task_ToBeContinuedText: @ 0x080255F0
 	.align 2, 0
 _08025668: .4byte gCurTask
 _0802566C: .4byte gPlayer
-_08025670: .4byte gUnknown_03005004
+_08025670: .4byte gStageFlags
 _08025674: .4byte gBldRegs
 _08025678: .4byte sub_80256D4
 _0802567C: .4byte gMPlayInfo_BGM

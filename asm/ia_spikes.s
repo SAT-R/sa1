@@ -281,7 +281,7 @@ Task_Spikes_Up: @ 0x08020190
 _080201F4:
 	movs r4, #0
 _080201F6:
-	ldr r0, _08020228 @ =gUnknown_03005004
+	ldr r0, _08020228 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -302,7 +302,7 @@ _08020218: .4byte gCurTask
 _0802021C: .4byte gCamera
 _08020220: .4byte gGameMode
 _08020224: .4byte gUnknown_03004FE0
-_08020228: .4byte gUnknown_03005004
+_08020228: .4byte gStageFlags
 _0802022C: .4byte gPlayer
 _08020230: .4byte gPartner
 _08020234:
@@ -513,7 +513,7 @@ Task_Spikes_Down: @ 0x0802035C
 _080203C0:
 	movs r4, #0
 _080203C2:
-	ldr r0, _080203F4 @ =gUnknown_03005004
+	ldr r0, _080203F4 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -534,7 +534,7 @@ _080203E4: .4byte gCurTask
 _080203E8: .4byte gCamera
 _080203EC: .4byte gGameMode
 _080203F0: .4byte gUnknown_03004FE0
-_080203F4: .4byte gUnknown_03005004
+_080203F4: .4byte gStageFlags
 _080203F8: .4byte gPlayer
 _080203FC: .4byte gPartner
 _08020400:
@@ -1427,7 +1427,7 @@ _08020AD0:
 	movs r4, #0
 	add r7, sp, #4
 _08020AD4:
-	ldr r0, _08020AF8 @ =gUnknown_03005004
+	ldr r0, _08020AF8 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -1445,7 +1445,7 @@ _08020AE8:
 	bl sub_8020F2C
 	b _08020B18
 	.align 2, 0
-_08020AF8: .4byte gUnknown_03005004
+_08020AF8: .4byte gStageFlags
 _08020AFC: .4byte gPlayer
 _08020B00: .4byte gPartner
 _08020B04:
@@ -1671,7 +1671,7 @@ _08020CC8:
 	movs r4, #0
 	add r7, sp, #4
 _08020CCC:
-	ldr r0, _08020CF0 @ =gUnknown_03005004
+	ldr r0, _08020CF0 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -1689,7 +1689,7 @@ _08020CE0:
 	bl sub_8021208
 	b _08020D10
 	.align 2, 0
-_08020CF0: .4byte gUnknown_03005004
+_08020CF0: .4byte gStageFlags
 _08020CF4: .4byte gPlayer
 _08020CF8: .4byte gPartner
 _08020CFC:
@@ -1814,7 +1814,7 @@ sub_8020D44: @ 0x08020D44
 	mov r0, sp
 	movs r2, #4
 	bl memcpy
-	ldr r0, _08020E20 @ =gUnknown_03005004
+	ldr r0, _08020E20 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -1836,7 +1836,7 @@ sub_8020D44: @ 0x08020D44
 _08020E14: .4byte gCamera
 _08020E18: .4byte gGameMode
 _08020E1C: .4byte gUnknown_03004FE0
-_08020E20: .4byte gUnknown_03005004
+_08020E20: .4byte gStageFlags
 _08020E24:
 	adds r0, r7, #0
 	adds r0, #0x2f
@@ -2186,7 +2186,7 @@ _08021076:
 	mov r0, sp
 	movs r2, #4
 	bl memcpy
-	ldr r0, _080210E8 @ =gUnknown_03005004
+	ldr r0, _080210E8 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -2205,7 +2205,7 @@ _08021076:
 	subs r0, r0, r1
 	b _08021102
 	.align 2, 0
-_080210E8: .4byte gUnknown_03005004
+_080210E8: .4byte gStageFlags
 _080210EC:
 	adds r0, r6, #0
 	adds r0, #0x2f
@@ -2572,7 +2572,7 @@ _08021376:
 	mov r0, sp
 	movs r2, #4
 	bl memcpy
-	ldr r0, _080213C4 @ =gUnknown_03005004
+	ldr r0, _080213C4 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -2591,7 +2591,7 @@ _08021376:
 	subs r0, r0, r1
 	b _080213DE
 	.align 2, 0
-_080213C4: .4byte gUnknown_03005004
+_080213C4: .4byte gStageFlags
 _080213C8:
 	adds r0, r6, #0
 	adds r0, #0x2d

@@ -441,7 +441,7 @@ _08095A42:
 	asrs r0, r0, #0x18
 	cmp r0, #0xb
 	bne _08095AA4
-	ldr r0, _08095A90 @ =gUnknown_03005004
+	ldr r0, _08095A90 @ =gStageFlags
 	ldrh r1, [r0]
 	adds r0, r4, #0
 	ands r0, r1
@@ -460,7 +460,7 @@ _08095A80: .4byte gPartner
 _08095A84: .4byte gCamera
 _08095A88: .4byte 0x03000059
 _08095A8C: .4byte gCurrentLevel
-_08095A90: .4byte gUnknown_03005004
+_08095A90: .4byte gStageFlags
 _08095A94: .4byte 0x00100008
 _08095A98:
 	ldr r0, _08095AC8 @ =gCurrentLevel
@@ -470,7 +470,7 @@ _08095A98:
 	cmp r0, #0xb
 	bne _08095AD4
 _08095AA4:
-	ldr r0, _08095ACC @ =gUnknown_03005004
+	ldr r0, _08095ACC @ =gStageFlags
 	ldrh r1, [r0]
 	adds r0, r4, #0
 	ands r0, r1
@@ -490,10 +490,10 @@ _08095AB6:
 	b _08095B02
 	.align 2, 0
 _08095AC8: .4byte gCurrentLevel
-_08095ACC: .4byte gUnknown_03005004
+_08095ACC: .4byte gStageFlags
 _08095AD0: .4byte 0x00100008
 _08095AD4:
-	ldr r0, _08095B50 @ =gUnknown_03005004
+	ldr r0, _08095B50 @ =gStageFlags
 	ldrh r1, [r0]
 	adds r0, r4, #0
 	ands r0, r1
@@ -557,7 +557,7 @@ _08095B02:
 	strh r2, [r5, #0xc]
 	b _08095C54
 	.align 2, 0
-_08095B50: .4byte gUnknown_03005004
+_08095B50: .4byte gStageFlags
 _08095B54: .4byte 0x00100008
 _08095B58:
 	ldr r1, [r5]

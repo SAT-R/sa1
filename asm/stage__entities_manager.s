@@ -145,7 +145,7 @@ sub_80088A8: @ 0x080088A8
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	ldr r0, _08008A30 @ =gUnknown_03005004
+	ldr r0, _08008A30 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #2
 	ands r0, r1
@@ -352,7 +352,7 @@ _08008A06:
 	movs r6, #0
 	b _08008AA8
 	.align 2, 0
-_08008A30: .4byte gUnknown_03005004
+_08008A30: .4byte gStageFlags
 _08008A34: .4byte gCurTask
 _08008A38: .4byte gGameMode
 _08008A3C: .4byte gCamera
@@ -716,7 +716,7 @@ Task_8008CEC: @ 0x08008CEC
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x34
-	ldr r0, _08008D38 @ =gUnknown_03005004
+	ldr r0, _08008D38 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #2
 	ands r0, r1
@@ -748,7 +748,7 @@ _08008D08:
 	bgt _08008DDC
 	b _08008D4A
 	.align 2, 0
-_08008D38: .4byte gUnknown_03005004
+_08008D38: .4byte gStageFlags
 _08008D3C: .4byte gCurTask
 _08008D40: .4byte gCamera
 _08008D44:

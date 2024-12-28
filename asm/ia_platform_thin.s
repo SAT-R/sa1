@@ -330,7 +330,7 @@ _08024266:
 	ldr r1, [sp]
 	adds r0, r0, r1
 	str r0, [r3]
-	ldr r0, _080242BC @ =gUnknown_03005004
+	ldr r0, _080242BC @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -351,7 +351,7 @@ _080242AC: .4byte 0x0300004A
 _080242B0: .4byte gCamera
 _080242B4: .4byte gPlayer
 _080242B8: .4byte gPartner
-_080242BC: .4byte gUnknown_03005004
+_080242BC: .4byte gStageFlags
 _080242C0:
 	ldr r0, [r3, #4]
 	ldr r4, _08024374 @ =0xFFFFFE00
@@ -506,7 +506,7 @@ _080243D8:
 _080243E8:
 	strh r0, [r2]
 _080243EA:
-	ldr r0, _08024410 @ =gUnknown_03005004
+	ldr r0, _08024410 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #0x80
 	ands r0, r1
@@ -526,7 +526,7 @@ _080243EA:
 	strh r0, [r2, #0x18]
 	b _0802442E
 	.align 2, 0
-_08024410: .4byte gUnknown_03005004
+_08024410: .4byte gStageFlags
 _08024414: .4byte gSineTable
 _08024418:
 	ldr r1, _08024444 @ =gSineTable

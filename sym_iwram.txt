@@ -35,7 +35,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00004FF0; gUnknown_03004FF0 = .;
 . = 0x00004FFC; gActiveCollectRingEffectCount = .;
 . = 0x00005000; gUnknown_03005000 = .;
-. = 0x00005004; gUnknown_03005004 = .;
+. = 0x00005004; gStageFlags = .;
 . = 0x00005008; gUnknown_03005008 = .;
 . = 0x0000500C; gUnknown_0300500C = .;
 . = 0x00005010; gUnknown_03005010 = .;

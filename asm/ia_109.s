@@ -92,7 +92,7 @@ _08095538:
 	cmp r2, #3
 	bne _08095560
 _08095546:
-	ldr r2, _0809555C @ =gUnknown_03005004
+	ldr r2, _0809555C @ =gStageFlags
 	ldrh r1, [r2]
 	adds r0, r6, #0
 	ands r0, r1
@@ -103,12 +103,12 @@ _08095546:
 	strh r0, [r2]
 	b _08095582
 	.align 2, 0
-_0809555C: .4byte gUnknown_03005004
+_0809555C: .4byte gStageFlags
 _08095560:
 	cmp r2, #4
 	bne _08095578
 _08095564:
-	ldr r2, _08095570 @ =gUnknown_03005004
+	ldr r2, _08095570 @ =gStageFlags
 	ldrh r1, [r2]
 _08095568:
 	ldr r0, _08095574 @ =0x0000FF7F
@@ -116,10 +116,10 @@ _08095568:
 	strh r0, [r2]
 	b _08095582
 	.align 2, 0
-_08095570: .4byte gUnknown_03005004
+_08095570: .4byte gStageFlags
 _08095574: .4byte 0x0000FF7F
 _08095578:
-	ldr r0, _08095588 @ =gUnknown_03005004
+	ldr r0, _08095588 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r2, #0x80
 	orrs r1, r2
@@ -128,7 +128,7 @@ _08095582:
 	ldr r0, [r5, #4]
 	b _08095614
 	.align 2, 0
-_08095588: .4byte gUnknown_03005004
+_08095588: .4byte gStageFlags
 _0809558C:
 	mov r3, ip
 	lsls r0, r3, #0x10
@@ -169,7 +169,7 @@ _080955C8:
 	cmp r2, #0
 	bne _080955F0
 _080955D6:
-	ldr r2, _080955EC @ =gUnknown_03005004
+	ldr r2, _080955EC @ =gStageFlags
 	ldrh r1, [r2]
 	adds r0, r6, #0
 	ands r0, r1
@@ -180,12 +180,12 @@ _080955D6:
 	strh r0, [r2]
 	b _08095612
 	.align 2, 0
-_080955EC: .4byte gUnknown_03005004
+_080955EC: .4byte gStageFlags
 _080955F0:
 	cmp r2, #1
 	bne _08095608
 _080955F4:
-	ldr r2, _08095600 @ =gUnknown_03005004
+	ldr r2, _08095600 @ =gStageFlags
 	ldrh r1, [r2]
 _080955F8:
 	ldr r0, _08095604 @ =0x0000FF7F
@@ -193,10 +193,10 @@ _080955F8:
 	strh r0, [r2]
 	b _08095612
 	.align 2, 0
-_08095600: .4byte gUnknown_03005004
+_08095600: .4byte gStageFlags
 _08095604: .4byte 0x0000FF7F
 _08095608:
-	ldr r0, _08095670 @ =gUnknown_03005004
+	ldr r0, _08095670 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r2, #0x80
 	orrs r1, r2
@@ -253,7 +253,7 @@ _08095664:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08095670: .4byte gUnknown_03005004
+_08095670: .4byte gStageFlags
 _08095674: .4byte gCamera
 
 	thumb_func_start CreateEntity_Interactable109

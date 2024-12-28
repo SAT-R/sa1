@@ -2055,7 +2055,7 @@ _0805382A:
 	cmp r0, #0
 	beq _080538A8
 _08053840:
-	ldr r0, _08053878 @ =gUnknown_03005004
+	ldr r0, _08053878 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #4
 	ands r0, r1
@@ -2080,7 +2080,7 @@ _08053840:
 	.align 2, 0
 _08053870: .4byte gUnknown_03005160
 _08053874: .4byte gGameMode
-_08053878: .4byte gUnknown_03005004
+_08053878: .4byte gStageFlags
 _0805387C: .4byte gCourseTime
 _08053880: .4byte 0x000004AF
 _08053884:
@@ -2347,7 +2347,7 @@ sub_8053A90: @ 0x08053A90
 	ldrh r0, [r0, #6]
 	ldr r1, _08053ABC @ =0x03000020
 	adds r5, r0, r1
-	ldr r0, _08053AC0 @ =gUnknown_03005004
+	ldr r0, _08053AC0 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r0, #4
 	ands r0, r1
@@ -2363,7 +2363,7 @@ sub_8053A90: @ 0x08053A90
 	.align 2, 0
 _08053AB8: .4byte gCurTask
 _08053ABC: .4byte 0x03000020
-_08053AC0: .4byte gUnknown_03005004
+_08053AC0: .4byte gStageFlags
 _08053AC4: .4byte gCourseTime
 _08053AC8: .4byte 0x00000E0F
 _08053ACC:
@@ -5747,7 +5747,7 @@ _080555D4:
 	ldrb r0, [r0]
 	ldr r1, _080556BC @ =gPlayer
 	mov r8, r1
-	ldr r2, _080556C0 @ =gUnknown_03005004
+	ldr r2, _080556C0 @ =gStageFlags
 	mov sb, r2
 	ldr r1, _080556C4 @ =gPartner
 	mov sl, r1
@@ -5851,7 +5851,7 @@ _080556B0: .4byte 0x00001FFF
 _080556B4: .4byte gBldRegs
 _080556B8: .4byte gGameMode
 _080556BC: .4byte gPlayer
-_080556C0: .4byte gUnknown_03005004
+_080556C0: .4byte gStageFlags
 _080556C4: .4byte gPartner
 _080556C8: .4byte gUnknown_03005020
 _080556CC: .4byte gMultiplayerPlayerTasks
@@ -8569,7 +8569,7 @@ _08056C6C:
 	ldr r0, _08056CB0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_800CFB8
+	bl CreateSegaLogo
 _08056C8E:
 	add sp, #8
 	pop {r3, r4, r5}
@@ -9515,7 +9515,7 @@ CreateStageResults: @ 0x080573D4
 	ldr r1, [r2]
 	adds r1, r1, r0
 	str r1, [r2]
-	ldr r2, _08057438 @ =gUnknown_03005004
+	ldr r2, _08057438 @ =gStageFlags
 	ldrh r0, [r2]
 	movs r1, #0x20
 	orrs r0, r1
@@ -9544,7 +9544,7 @@ _08057420:
 	b _08057844
 	.align 2, 0
 _08057434: .4byte gUnknown_03005160
-_08057438: .4byte gUnknown_03005004
+_08057438: .4byte gStageFlags
 _0805743C: .4byte gCurrentLevel
 _08057440: .4byte gCamera
 _08057444: .4byte gGameMode
@@ -19704,7 +19704,7 @@ _0805C5F6:
 	ldr r0, _0805C678 @ =gBldRegs
 	strh r3, [r0]
 	strh r3, [r0, #4]
-	ldr r2, _0805C67C @ =gUnknown_03005004
+	ldr r2, _0805C67C @ =gStageFlags
 	ldrh r1, [r2]
 	ldr r0, _0805C680 @ =0x0000FFFE
 	ands r0, r1
@@ -19748,7 +19748,7 @@ _0805C664:
 _0805C670: .4byte gDispCnt
 _0805C674: .4byte 0x00001FFF
 _0805C678: .4byte gBldRegs
-_0805C67C: .4byte gUnknown_03005004
+_0805C67C: .4byte gStageFlags
 _0805C680: .4byte 0x0000FFFE
 _0805C684: .4byte gPlayer
 _0805C688: .4byte 0xFFDFFFFF
@@ -23863,7 +23863,7 @@ _0805E740: .4byte gBldRegs
 _0805E744: .4byte gCurTask
 _0805E748: .4byte gUnknown_03005160
 _0805E74C:
-	bl sub_800CFB8
+	bl CreateSegaLogo
 _0805E750:
 	pop {r4}
 	pop {r0}
@@ -36591,7 +36591,7 @@ sub_8064FA0: @ 0x08064FA0
 	strh r0, [r1, #0xa]
 	strh r0, [r1, #0xc]
 	strh r0, [r1, #0xe]
-	bl sub_800D4E0
+	bl CreateTitleScreen
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -36633,7 +36633,7 @@ sub_8064FF8: @ 0x08064FF8
 	strh r0, [r1, #0xc]
 	strh r0, [r1, #0xe]
 	movs r0, #1
-	bl sub_800D4E0
+	bl CreateTitleScreen
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -45642,7 +45642,7 @@ sub_80698F4: @ 0x080698F4
 	strh r0, [r1, #4]
 	adds r0, r3, #0
 	bl TaskDestroy
-	bl sub_800CFB8
+	bl CreateSegaLogo
 	b _0806995E
 	.align 2, 0
 _08069930: .4byte gCurTask
@@ -47270,7 +47270,7 @@ sub_806A680: @ 0x0806A680
 sub_806A68C: @ 0x0806A68C
 	push {lr}
 	movs r0, #1
-	bl sub_800D4E0
+	bl CreateTitleScreen
 	pop {r0}
 	bx r0
 

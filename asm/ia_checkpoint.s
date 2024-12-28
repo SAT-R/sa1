@@ -328,7 +328,7 @@ _08021772:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0802178A
-	ldr r0, _08021800 @ =gUnknown_03005004
+	ldr r0, _08021800 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r2, #1
 	orrs r1, r2
@@ -345,7 +345,7 @@ _08021790:
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _080217AA
-	ldr r0, _08021800 @ =gUnknown_03005004
+	ldr r0, _08021800 @ =gStageFlags
 	ldrh r1, [r0]
 	movs r2, #1
 	orrs r1, r2
@@ -388,7 +388,7 @@ _080217F0: .4byte gCurTask
 _080217F4: .4byte Task_Checkpoint1
 _080217F8: .4byte gCurrentLevel
 _080217FC: .4byte gGameMode
-_08021800: .4byte gUnknown_03005004
+_08021800: .4byte gStageFlags
 _08021804: .4byte 0x000015BF
 _08021808: .4byte 0x00000CBF
 _0802180C:
