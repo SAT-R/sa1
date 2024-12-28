@@ -258,7 +258,7 @@ Task_Interactable099: @ 0x080930E0
 	adds r1, r6, #0
 	adds r2, r5, #0
 	bl sub_80096B0
-	ldr r0, _0809318C @ =gUnknown_03005088
+	ldr r0, _0809318C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -300,7 +300,7 @@ _0809316E:
 _08093180: .4byte gCurTask
 _08093184: .4byte gCamera
 _08093188: .4byte gPlayer
-_0809318C: .4byte gUnknown_03005088
+_0809318C: .4byte gNumSingleplayerCharacters
 _08093190: .4byte gPartner
 _08093194:
 	adds r0, r4, #0

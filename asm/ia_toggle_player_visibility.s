@@ -182,7 +182,7 @@ _080844F8:
 	str r0, [r2, #0x10]
 _080844FA:
 	adds r5, #1
-	ldr r3, _0808454C @ =gUnknown_03005088
+	ldr r3, _0808454C @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r3, r0]
 	cmp r5, r0
@@ -224,7 +224,7 @@ _0808453C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0808454C: .4byte gUnknown_03005088
+_0808454C: .4byte gNumSingleplayerCharacters
 _08084550: .4byte gCurTask
 
 @ (data[0]: 0 = Visible, 1 = Invisible)

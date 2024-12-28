@@ -185,7 +185,7 @@ _08027ADC: .4byte gPartner
 _08027AE0: .4byte gPlayer
 _08027AE4:
 	adds r5, #1
-	ldr r0, _08027B1C @ =gUnknown_03005088
+	ldr r0, _08027B1C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -214,7 +214,7 @@ _08027AF4:
 	bne _08027B2E
 	b _08027B78
 	.align 2, 0
-_08027B1C: .4byte gUnknown_03005088
+_08027B1C: .4byte gNumSingleplayerCharacters
 _08027B20: .4byte gGameMode
 _08027B24:
 	ldr r0, [r7, #0x10]
@@ -420,7 +420,7 @@ _08027C92:
 	orrs r0, r1
 	str r0, [r7, #0x10]
 _08027C9A:
-	ldr r0, _08027D5C @ =gUnknown_03005088
+	ldr r0, _08027D5C @ =gNumSingleplayerCharacters
 	movs r3, #0
 	ldrsb r3, [r0, r3]
 	cmp r3, #2
@@ -519,7 +519,7 @@ _08027D4A:
 	bl TaskDestroy
 	b _08027D76
 	.align 2, 0
-_08027D5C: .4byte gUnknown_03005088
+_08027D5C: .4byte gNumSingleplayerCharacters
 _08027D60: .4byte gPartner
 _08027D64: .4byte gGameMode
 _08027D68: .4byte gCamera

@@ -742,7 +742,7 @@ _080788A8:
 	strb r0, [r4]
 _080788B0:
 	adds r6, #1
-	ldr r0, _08078940 @ =gUnknown_03005088
+	ldr r0, _08078940 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	adds r3, r0, #0
@@ -815,7 +815,7 @@ _0807891A:
 	str r0, [r7, #0x10]
 	b _0807895A
 	.align 2, 0
-_08078940: .4byte gUnknown_03005088
+_08078940: .4byte gNumSingleplayerCharacters
 _08078944: .4byte gCamera
 _08078948: .4byte gPartner
 _0807894C: .4byte gPlayer
@@ -842,7 +842,7 @@ _08078974:
 	orrs r1, r0
 	strh r1, [r6, #0x38]
 _0807897A:
-	ldr r3, _080789A8 @ =gUnknown_03005088
+	ldr r3, _080789A8 @ =gNumSingleplayerCharacters
 _0807897C:
 	adds r5, #1
 	movs r0, #0
@@ -866,7 +866,7 @@ _08078996:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080789A8: .4byte gUnknown_03005088
+_080789A8: .4byte gNumSingleplayerCharacters
 _080789AC: .4byte gCurTask
 
 	thumb_func_start TaskDestructor_ForcedIceSlide

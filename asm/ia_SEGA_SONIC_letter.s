@@ -396,7 +396,7 @@ _0807EDB0:
 	str r0, [r1, #0x10]
 _0807EDB8:
 	adds r4, #1
-	ldr r0, _0807EE18 @ =gUnknown_03005088
+	ldr r0, _0807EE18 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -423,7 +423,7 @@ _0807EDE2:
 	bl sub_80096B0
 _0807EDE8:
 	adds r4, #1
-	ldr r0, _0807EE18 @ =gUnknown_03005088
+	ldr r0, _0807EE18 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -444,7 +444,7 @@ _0807EE02:
 	bx r0
 	.align 2, 0
 _0807EE14: .4byte gPlayer
-_0807EE18: .4byte gUnknown_03005088
+_0807EE18: .4byte gNumSingleplayerCharacters
 _0807EE1C: .4byte gPartner
 
 	thumb_func_start TaskDestructor_SEGA_SONIC_Letter

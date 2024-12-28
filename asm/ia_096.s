@@ -198,7 +198,7 @@ _0809237C:
 	strb r0, [r1, #0xf]
 _08092380:
 	adds r4, #1
-	ldr r0, _080923E0 @ =gUnknown_03005088
+	ldr r0, _080923E0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -245,7 +245,7 @@ _080923C6:
 	.align 2, 0
 _080923D8: .4byte gPlayer
 _080923DC: .4byte gPartner
-_080923E0: .4byte gUnknown_03005088
+_080923E0: .4byte gNumSingleplayerCharacters
 _080923E4: .4byte gCurTask
 
 	thumb_func_start CreateEntity_Interactable096

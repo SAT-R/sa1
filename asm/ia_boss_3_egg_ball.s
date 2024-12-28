@@ -62,7 +62,7 @@ _0802EFD8:
 	bl sub_800B8B4
 	mov r8, r0
 	movs r1, #0
-	ldr r0, _0802F084 @ =gUnknown_03005088
+	ldr r0, _0802F084 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -121,7 +121,7 @@ _0802F074: .4byte 0x00007FFF
 _0802F078: .4byte gWinRegs
 _0802F07C: .4byte gBldRegs
 _0802F080: .4byte 0x0300008B
-_0802F084: .4byte gUnknown_03005088
+_0802F084: .4byte gNumSingleplayerCharacters
 _0802F088: .4byte gPartner
 _0802F08C: .4byte 0x0300003C
 _0802F090: .4byte 0x0300008A
@@ -2307,7 +2307,7 @@ _08030260:
 	adds r2, r5, #0
 	bl sub_800BF10
 	mov r8, r0
-	ldr r0, _080302E4 @ =gUnknown_03005088
+	ldr r0, _080302E4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2324,7 +2324,7 @@ _080302D4: .4byte gCurTask
 _080302D8: .4byte 0xFFFF3000
 _080302DC: .4byte sub_8030120
 _080302E0: .4byte gPlayer
-_080302E4: .4byte gUnknown_03005088
+_080302E4: .4byte gNumSingleplayerCharacters
 _080302E8: .4byte gPartner
 _080302EC:
 	movs r0, #0
@@ -2828,7 +2828,7 @@ _08030678:
 	adds r1, r5, #0
 	adds r2, r4, #0
 	bl sub_80096B0
-	ldr r0, _0803071C @ =gUnknown_03005088
+	ldr r0, _0803071C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2855,7 +2855,7 @@ _0803070C: .4byte 0x03000040
 _08030710: .4byte 0x03000042
 _08030714: .4byte gCamera
 _08030718: .4byte gPlayer
-_0803071C: .4byte gUnknown_03005088
+_0803071C: .4byte gNumSingleplayerCharacters
 _08030720: .4byte gPartner
 
 	thumb_func_start TaskDestructor_EggBall
@@ -2925,7 +2925,7 @@ sub_8030778: @ 0x08030778
 	adds r2, r4, #0
 	bl sub_800BF10
 	adds r7, r0, #0
-	ldr r0, _080307C0 @ =gUnknown_03005088
+	ldr r0, _080307C0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2940,7 +2940,7 @@ sub_8030778: @ 0x08030778
 	.align 2, 0
 _080307B8: .4byte gCurTask
 _080307BC: .4byte gPlayer
-_080307C0: .4byte gUnknown_03005088
+_080307C0: .4byte gNumSingleplayerCharacters
 _080307C4: .4byte gPartner
 _080307C8:
 	movs r0, #0

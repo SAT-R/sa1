@@ -498,7 +498,7 @@ _08088734:
 	bl sub_800AFDC
 _0808875E:
 	adds r4, #1
-	ldr r0, _080887F0 @ =gUnknown_03005088
+	ldr r0, _080887F0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -565,7 +565,7 @@ _080887E0: .4byte gCamera
 _080887E4: .4byte 0x0300003C
 _080887E8: .4byte gPlayer
 _080887EC: .4byte gPartner
-_080887F0: .4byte gUnknown_03005088
+_080887F0: .4byte gNumSingleplayerCharacters
 _080887F4:
 	adds r0, r6, #0
 	bl UpdateSpriteAnimation

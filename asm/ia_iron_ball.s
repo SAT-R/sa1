@@ -376,7 +376,7 @@ _0808BF76:
 _0808BF7A:
 	movs r2, #1
 	add r8, r2
-	ldr r0, _0808C000 @ =gUnknown_03005088
+	ldr r0, _0808C000 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -440,7 +440,7 @@ _0808BFE6:
 	.align 2, 0
 _0808BFF8: .4byte gPlayer
 _0808BFFC: .4byte gPartner
-_0808C000: .4byte gUnknown_03005088
+_0808C000: .4byte gNumSingleplayerCharacters
 _0808C004: .4byte gCamera
 _0808C008: .4byte gCurTask
 _0808C00C:

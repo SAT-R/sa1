@@ -7,6 +7,13 @@
 #define PLAYER_IS_ALIVE  (!(gPlayer.moveState & MOVESTATE_DEAD))
 #define IS_ALIVE(player) (!(player->moveState & MOVESTATE_DEAD))
 
+// TODO: Make NUM_CHARACTERS the last element of an enum!
+#if (GAME == GAME_SA1)
+#define NUM_CHARACTERS 4
+#else
+#define NUM_CHARACTERS 5
+#endif
+
 // Declared beforehand because it's used inside Player struct
 struct Player;
 typedef void (*PlayerCallback)(struct Player *);
@@ -30,15 +37,24 @@ typedef void (*PlayerCallback)(struct Player *);
 #define FLAG_PLAYER_x38__LAYER_BACKGROUND 0x01
 #define FLAG_PLAYER_x38__80               0x80
 
-// Not sure what these are yet
 typedef struct Player {
-    u8 filler0[0x10];
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
+    /* 0x08 */ u8 filler8[0x6];
+    /* 0x0E */ s8 spriteOffsetX;
+    /* 0x0F */ s8 spriteOffsetY;
 
     // set/compare to values in "include/constants/move_states.h"
     /* 0x10 */ u32 moveState;
 
+    /* 0x26 */ u8 itemEffect;
 } Player;
 
 extern Player gPlayer;
+#if (GAME == GAME_SA1)
+extern Player gPartner;
+#endif
+
+extern const AnimId gPlayerCharacterIdleAnims[NUM_CHARACTERS];
 
 #endif // GUARD_SAKIT_PLAYER_H

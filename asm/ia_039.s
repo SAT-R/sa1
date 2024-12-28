@@ -104,7 +104,7 @@ _0804E420:
 	strh r0, [r2, #0xc]
 _0804E44E:
 	adds r7, #1
-	ldr r0, _0804E470 @ =gUnknown_03005088
+	ldr r0, _0804E470 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -120,7 +120,7 @@ _0804E45C:
 	bx r0
 	.align 2, 0
 _0804E46C: .4byte 0x0000FB80
-_0804E470: .4byte gUnknown_03005088
+_0804E470: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_Interactable039
 CreateEntity_Interactable039: @ 0x0804E474

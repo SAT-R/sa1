@@ -1613,7 +1613,7 @@ _08080514:
 	str r0, [r1, #4]
 _08080520:
 	adds r6, #1
-	ldr r0, _080805A4 @ =gUnknown_03005088
+	ldr r0, _080805A4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1679,7 +1679,7 @@ _08080590:
 	bl TaskDestroy
 	b _080805B6
 	.align 2, 0
-_080805A4: .4byte gUnknown_03005088
+_080805A4: .4byte gNumSingleplayerCharacters
 _080805A8: .4byte gCamera
 _080805AC: .4byte gCurTask
 _080805B0:

@@ -902,7 +902,7 @@ _0808280A:
 	adds r5, #4
 	str r5, [sp, #0x1c]
 	adds r7, #1
-	ldr r0, _08082878 @ =gUnknown_03005088
+	ldr r0, _08082878 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -955,7 +955,7 @@ _08082864:
 	bx r0
 	.align 2, 0
 _08082874: .4byte gUnknown_03005A46
-_08082878: .4byte gUnknown_03005088
+_08082878: .4byte gNumSingleplayerCharacters
 _0808287C: .4byte gCurTask
 
 	thumb_func_start CreateEntity_MarbleTrack_Unk
@@ -1722,7 +1722,7 @@ _08082E00:
 	adds r0, #4
 	str r0, [sp, #0x14]
 	adds r4, #1
-	ldr r0, _08082E90 @ =gUnknown_03005088
+	ldr r0, _08082E90 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	mov ip, r0
@@ -1794,7 +1794,7 @@ _08082E66:
 	b _08082EAA
 	.align 2, 0
 _08082E8C: .4byte 0xFFBFFFFF
-_08082E90: .4byte gUnknown_03005088
+_08082E90: .4byte gNumSingleplayerCharacters
 _08082E94: .4byte gCurTask
 _08082E98: .4byte gUnknown_03005A8D
 _08082E9C: .4byte gPartner
@@ -2748,7 +2748,7 @@ _080835A6:
 	adds r4, #4
 	str r4, [sp, #0x20]
 	adds r6, #1
-	ldr r0, _08083640 @ =gUnknown_03005088
+	ldr r0, _08083640 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	mov sb, r0
@@ -2824,7 +2824,7 @@ _08083622:
 	b _08083664
 	.align 2, 0
 _0808363C: .4byte gUnknown_03005A46
-_08083640: .4byte gUnknown_03005088
+_08083640: .4byte gNumSingleplayerCharacters
 _08083644: .4byte gCurTask
 _08083648: .4byte gPartner
 _0808364C: .4byte 0xFFBFFFFF
@@ -3792,7 +3792,7 @@ _08083D6A:
 	movs r3, #4
 	add sl, r3
 	adds r6, #1
-	ldr r0, _08083DE0 @ =gUnknown_03005088
+	ldr r0, _08083DE0 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	mov sb, r0
@@ -3850,7 +3850,7 @@ _08083DBC:
 	.align 2, 0
 _08083DD8: .4byte gPlayer
 _08083DDC: .4byte gPartner
-_08083DE0: .4byte gUnknown_03005088
+_08083DE0: .4byte gNumSingleplayerCharacters
 _08083DE4: .4byte gCurTask
 _08083DE8: .4byte 0xFFDFFFFF
 _08083DEC: .4byte 0xFFBFFFFF

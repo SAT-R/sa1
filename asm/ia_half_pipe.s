@@ -192,7 +192,7 @@ _0804D2D4:
 _0804D2E4:
 	movs r0, #1
 	add r8, r0
-	ldr r0, _0804D304 @ =gUnknown_03005088
+	ldr r0, _0804D304 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -208,7 +208,7 @@ _0804D2F6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804D304: .4byte gUnknown_03005088
+_0804D304: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_HalfPipeEnd
 Task_HalfPipeEnd: @ 0x0804D308
@@ -398,7 +398,7 @@ _0804D460:
 _0804D478:
 	movs r0, #1
 	add sb, r0
-	ldr r0, _0804D49C @ =gUnknown_03005088
+	ldr r0, _0804D49C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -415,7 +415,7 @@ _0804D48A:
 	bx r0
 	.align 2, 0
 _0804D498: .4byte 0xFFFFFDC0
-_0804D49C: .4byte gUnknown_03005088
+_0804D49C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_804D4A0
 sub_804D4A0: @ 0x0804D4A0

@@ -972,7 +972,7 @@ _08094940:
 	adds r4, #4
 	str r4, [sp, #0x20]
 	adds r3, #1
-	ldr r0, _080949B0 @ =gUnknown_03005088
+	ldr r0, _080949B0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1025,5 +1025,5 @@ _0809499A:
 	bx r0
 	.align 2, 0
 _080949AC: .4byte 0xFFEFFFFF
-_080949B0: .4byte gUnknown_03005088
+_080949B0: .4byte gNumSingleplayerCharacters
 _080949B4: .4byte gCurTask

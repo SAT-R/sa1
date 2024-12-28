@@ -122,7 +122,7 @@ _0804D9BE:
 	strb r0, [r2]
 _0804D9C8:
 	adds r7, #1
-	ldr r0, _0804D9F0 @ =gUnknown_03005088
+	ldr r0, _0804D9F0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -139,7 +139,7 @@ _0804D9D6:
 _0804D9E4: .4byte 0xFFFFFDFF
 _0804D9E8: .4byte 0xFFDFFFFF
 _0804D9EC: .4byte gUnknown_030060E0
-_0804D9F0: .4byte gUnknown_03005088
+_0804D9F0: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_MiniLoop_Base
 CreateEntity_MiniLoop_Base: @ 0x0804D9F4

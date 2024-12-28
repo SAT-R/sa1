@@ -202,12 +202,6 @@ typedef struct {
     /* 0x06 */ u8 variant;
 } TileInfo;
 
-typedef struct PACKED {
-    /* 0x00 */ u16 numTiles;
-    /* 0x02 */ AnimId anim;
-    /* 0x04 */ u16 variant;
-} TileInfo16;
-
 extern const u8 gOamShapesSizes[12][2];
 
 typedef enum {

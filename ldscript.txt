@@ -24,7 +24,7 @@ SECTIONS {
         build/sa1/src/sio32_multi_load.o(.text);
 
         /* Game */
-        build/sa1/asm/stage__rings_manager.o(.text);
+        build/sa1/src/game/sa1_sa2_shared/rings_manager.o(.text);
         build/sa1/asm/stage__entities_manager.o(.text);
         build/sa1/asm/game_0.o(.text);
         build/sa1/asm/ia_itembox_chaohunt.o(.text);
@@ -32,10 +32,10 @@ SECTIONS {
         build/sa1/asm/game_tasks_1.o(.text);
         build/sa1/asm/enemy_kiki.o(.text);
         build/sa1/asm/enemy_buzzer.o(.text);
-        build/sa1/src/sa1_sa2_shared/collect_ring_effect.o(.text);
+        build/sa1/src/game/sa1_sa2_shared/collect_ring_effect.o(.text);
         build/sa1/asm/item_box.o(.text);
         build/sa1/asm/ia_stage_goal.o(.text);
-        build/sa1/src/sa1_sa2_shared/dust_cloud.o(.text);
+        build/sa1/src/game/sa1_sa2_shared/dust_cloud.o(.text);
         build/sa1/asm/ia_spikes.o(.text);
         build/sa1/asm/ia_checkpoint.o(.text);
         build/sa1/asm/ia_spring.o(.text);

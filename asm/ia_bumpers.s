@@ -940,7 +940,7 @@ _080790E4:
 	str r0, [r6]
 _080790E8:
 	adds r5, #1
-	ldr r0, _0807910C @ =gUnknown_03005088
+	ldr r0, _0807910C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -958,7 +958,7 @@ _080790F8:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0807910C: .4byte gUnknown_03005088
+_0807910C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start TaskDestructor_BumperHexagon
 TaskDestructor_BumperHexagon: @ 0x08079110
@@ -2013,7 +2013,7 @@ _08079918:
 _0807991E:
 	movs r2, #1
 	add r8, r2
-	ldr r0, _08079944 @ =gUnknown_03005088
+	ldr r0, _08079944 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2031,7 +2031,7 @@ _08079930:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08079944: .4byte gUnknown_03005088
+_08079944: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_BumperRound_CircularMov
 CreateEntity_BumperRound_CircularMov: @ 0x08079948
@@ -3102,7 +3102,7 @@ _0807A182:
 _0807A192:
 	movs r2, #1
 	add sb, r2
-	ldr r0, _0807A1CC @ =gUnknown_03005088
+	ldr r0, _0807A1CC @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -3125,7 +3125,7 @@ _0807A1BC: .4byte 0x0000C350
 _0807A1C0: .4byte gGameMode
 _0807A1C4: .4byte gNumLives
 _0807A1C8: .4byte gUnknown_03005040
-_0807A1CC: .4byte gUnknown_03005088
+_0807A1CC: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_BumperTriHorizontal
 CreateEntity_BumperTriHorizontal: @ 0x0807A1D0
@@ -5029,7 +5029,7 @@ _0807B074:
 	str r0, [r5]
 _0807B078:
 	adds r6, r7, #0
-	ldr r0, _0807B09C @ =gUnknown_03005088
+	ldr r0, _0807B09C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -5047,7 +5047,7 @@ _0807B088:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0807B09C: .4byte gUnknown_03005088
+_0807B09C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_807B0A0
 sub_807B0A0: @ 0x0807B0A0
@@ -5515,7 +5515,7 @@ _0807B408:
 	str r2, [r6]
 _0807B40C:
 	adds r5, #1
-	ldr r0, _0807B430 @ =gUnknown_03005088
+	ldr r0, _0807B430 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -5533,7 +5533,7 @@ _0807B41C:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0807B430: .4byte gUnknown_03005088
+_0807B430: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_807B434
 sub_807B434: @ 0x0807B434
@@ -6673,7 +6673,7 @@ _0807BC74:
 	str r2, [r5]
 _0807BC78:
 	ldr r6, [sp, #0x10]
-	ldr r0, _0807BC9C @ =gUnknown_03005088
+	ldr r0, _0807BC9C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -6691,4 +6691,4 @@ _0807BC8A:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0807BC9C: .4byte gUnknown_03005088
+_0807BC9C: .4byte gNumSingleplayerCharacters

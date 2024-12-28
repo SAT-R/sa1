@@ -1019,7 +1019,7 @@ _08088F54:
 	movs r3, #4
 	add sl, r3
 	adds r7, #1
-	ldr r0, _08088FDC @ =gUnknown_03005088
+	ldr r0, _08088FDC @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1085,7 +1085,7 @@ _08088FC6:
 	bx r0
 	.align 2, 0
 _08088FD8: .4byte 0xFFBFFFFF
-_08088FDC: .4byte gUnknown_03005088
+_08088FDC: .4byte gNumSingleplayerCharacters
 _08088FE0: .4byte gCamera
 _08088FE4: .4byte gCurTask
 

@@ -671,7 +671,7 @@ _080755D6:
 	movs r7, #1
 _080755DC:
 	adds r4, #1
-	ldr r0, _08075604 @ =gUnknown_03005088
+	ldr r0, _08075604 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -690,7 +690,7 @@ _080755EC:
 	.align 2, 0
 _080755FC: .4byte gPlayer
 _08075600: .4byte gPartner
-_08075604: .4byte gUnknown_03005088
+_08075604: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start TaskDestructor_BounceBlock
 TaskDestructor_BounceBlock: @ 0x08075608

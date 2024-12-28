@@ -12,7 +12,6 @@
 
 #define NAKED __attribute__((naked))
 #define UNUSED __attribute__((unused))
-#define PACKED __attribute__((packed))
 
 #define ALIGNED(n) __attribute__((aligned(n)))
 

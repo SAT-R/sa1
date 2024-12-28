@@ -1145,7 +1145,7 @@ _0808BB14:
 	strb r0, [r2]
 _0808BB1A:
 	adds r4, #1
-	ldr r0, _0808BB40 @ =gUnknown_03005088
+	ldr r0, _0808BB40 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1164,7 +1164,7 @@ _0808BB2A:
 	bx r1
 	.align 2, 0
 _0808BB3C: .4byte gUnknown_03005A60
-_0808BB40: .4byte gUnknown_03005088
+_0808BB40: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_808BB44
 sub_808BB44: @ 0x0808BB44

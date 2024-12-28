@@ -4629,8 +4629,9 @@ sub_803CE48: @ 0x0803CE48
 	.align 2, 0
 _0803CE50: .4byte gUnknown_030058BC
 
-	thumb_func_start sub_803CE54
-sub_803CE54: @ 0x0803CE54
+@ --- Start of stage.c ? ---
+	thumb_func_start GameStageStart
+GameStageStart: @ 0x0803CE54
 	push {r4, r5, r6, lr}
 	ldr r0, _0803CE88 @ =gUnknown_0300501C
 	movs r1, #0
@@ -4640,7 +4641,7 @@ sub_803CE54: @ 0x0803CE54
 	ldr r1, _0803CE90 @ =gRingCount
 	movs r0, #0
 	strh r0, [r1]
-	ldr r6, _0803CE94 @ =gUnknown_03005088
+	ldr r6, _0803CE94 @ =gNumSingleplayerCharacters
 	movs r0, #1
 	strb r0, [r6]
 	ldr r0, _0803CE98 @ =gGameMode
@@ -4660,7 +4661,7 @@ sub_803CE54: @ 0x0803CE54
 _0803CE88: .4byte gUnknown_0300501C
 _0803CE8C: .4byte gUnknown_03005148
 _0803CE90: .4byte gRingCount
-_0803CE94: .4byte gUnknown_03005088
+_0803CE94: .4byte gNumSingleplayerCharacters
 _0803CE98: .4byte gGameMode
 _0803CE9C: .4byte gSelectedCharacter
 _0803CEA0: .4byte gCurrentLevel
@@ -4770,18 +4771,18 @@ _0803CF88:
 	ldr r0, _0803CF98 @ =gCourseTime
 	str r3, [r0]
 _0803CF8C:
-	bl sub_803CF9C
+	bl CreateGameStage
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
 	.align 2, 0
 _0803CF98: .4byte gCourseTime
 
-	thumb_func_start sub_803CF9C
-sub_803CF9C: @ 0x0803CF9C
+	thumb_func_start CreateGameStage
+CreateGameStage: @ 0x0803CF9C
 	push {r4, r5, r6, lr}
 	sub sp, #4
-	ldr r0, _0803D008 @ =sub_803D290
+	ldr r0, _0803D008 @ =Task_GameStage
 	movs r2, #0xff
 	lsls r2, r2, #8
 	ldr r1, _0803D00C @ =sub_803DC84
@@ -4830,7 +4831,7 @@ _0803CFEE:
 	asrs r1, r1, #0x18
 	b _0803D046
 	.align 2, 0
-_0803D008: .4byte sub_803D290
+_0803D008: .4byte Task_GameStage
 _0803D00C: .4byte sub_803DC84
 _0803D010: .4byte gUnknown_030058C0
 _0803D014: .4byte gActiveCollectRingEffectCount
@@ -4869,7 +4870,7 @@ _0803D05C:
 	ldrsb r1, [r4, r1]
 	ldr r2, _0803D0A0 @ =gPlayer
 	bl sub_804202C
-	ldr r0, _0803D0A4 @ =gUnknown_03005088
+	ldr r0, _0803D0A4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -4894,7 +4895,7 @@ _0803D086:
 	.align 2, 0
 _0803D09C: .4byte gSelectedCharacter
 _0803D0A0: .4byte gPlayer
-_0803D0A4: .4byte gUnknown_03005088
+_0803D0A4: .4byte gNumSingleplayerCharacters
 _0803D0A8: .4byte gPartner
 _0803D0AC: .4byte gGameMode
 _0803D0B0: .4byte gCurrentLevel
@@ -5116,8 +5117,8 @@ _0803D284:
 	.align 2, 0
 _0803D28C: .4byte gUnknown_03005048
 
-	thumb_func_start sub_803D290
-sub_803D290: @ 0x0803D290
+	thumb_func_start Task_GameStage
+Task_GameStage: @ 0x0803D290
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	ldr r0, _0803D2D8 @ =0x04000128
@@ -5574,7 +5575,7 @@ _0803D62C:
 	ldr r0, _0803D668 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_803CF9C
+	bl CreateGameStage
 _0803D64E:
 	pop {r0}
 	bx r0
@@ -5797,7 +5798,7 @@ sub_803D724: @ 0x0803D724
 	asrs r0, r0, #0x18
 	cmp r0, #0x11
 	bgt _0803D878
-	bl sub_803CE54
+	bl GameStageStart
 	b _0803D878
 	.align 2, 0
 _0803D830: .4byte 0x0000FFFF
@@ -6241,7 +6242,7 @@ _0803DC0E:
 _0803DC18:
 	ldrb r0, [r1, #0x1c]
 	bl sub_804D02C
-	bl sub_803CE54
+	bl GameStageStart
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -6783,6 +6784,7 @@ sub_803E094: @ 0x0803E094
 _0803E0DC: .4byte 0x0000032E
 _0803E0E0: .4byte 0x0000032F
 
+@ --- Start of camera.c ---
 	thumb_func_start InitCamera
 InitCamera: @ 0x0803E0E4
 	push {r4, r5, r6, r7, lr}
@@ -7124,10 +7126,10 @@ _0803E364:
 	ldrsb r0, [r2, r0]
 	subs r0, #4
 	strh r0, [r7, #0x38]
-	ldr r0, _0803E400 @ =sub_803F6C4
+	ldr r0, _0803E400 @ =Task_803F6C4
 	movs r2, #0xf0
 	lsls r2, r2, #4
-	ldr r1, _0803E404 @ =sub_803F65C
+	ldr r1, _0803E404 @ =TaskDestructor_803F65C
 	str r1, [sp]
 	movs r1, #0
 	movs r3, #0
@@ -7156,13 +7158,13 @@ _0803E3E4:
 _0803E3F4: .4byte gUnknown_03005A0C
 _0803E3F8: .4byte gUnknown_02033004
 _0803E3FC: .4byte gPlayer
-_0803E400: .4byte sub_803F6C4
-_0803E404: .4byte sub_803F65C
+_0803E400: .4byte Task_803F6C4
+_0803E404: .4byte TaskDestructor_803F65C
 _0803E408: .4byte sStageBgUpdateFuncs
 _0803E40C: .4byte sStageBgInitProcedures
 
-	thumb_func_start sub_803E410
-sub_803E410: @ 0x0803E410
+	thumb_func_start UpdateCamera
+UpdateCamera: @ 0x0803E410
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -7524,7 +7526,7 @@ _0803E692:
 	strh r7, [r4, #2]
 	adds r0, r6, #0
 	adds r1, r7, #0
-	bl sub_803E6C4
+	bl RenderMetatileLayers
 	ldr r2, [r4, #0x2c]
 	cmp r2, #0
 	beq _0803E6B8
@@ -7539,8 +7541,8 @@ _0803E6B8:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_803E6C4
-sub_803E6C4: @ 0x0803E6C4
+	thumb_func_start RenderMetatileLayers
+RenderMetatileLayers: @ 0x0803E6C4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -7552,7 +7554,7 @@ sub_803E6C4: @ 0x0803E6C4
 	ldrsb r0, [r4, r0]
 	cmp r0, #0xd
 	bne _0803E73C
-	ldr r0, _0803E72C @ =gStageTime
+	ldr r0, _0803E72C @ =gStageTime     @ The Moon Zone scrolling
 	ldr r0, [r0]
 	lsls r0, r0, #3
 	adds r5, r6, r0
@@ -9473,8 +9475,8 @@ sub_803F644: @ 0x0803F644
 	.align 2, 0
 _0803F658: .4byte gCamera
 
-	thumb_func_start sub_803F65C
-sub_803F65C: @ 0x0803F65C
+	thumb_func_start TaskDestructor_803F65C
+TaskDestructor_803F65C: @ 0x0803F65C
 	push {r4, lr}
 	ldr r1, _0803F6AC @ =gCamera
 	movs r0, #0
@@ -9525,8 +9527,8 @@ _0803F6B8: .4byte gBgScrollRegs
 _0803F6BC: .4byte gIntrTable
 _0803F6C0: .4byte gIntrTableTemplate
 
-	thumb_func_start sub_803F6C4
-sub_803F6C4: @ 0x0803F6C4
+	thumb_func_start Task_803F6C4
+Task_803F6C4: @ 0x0803F6C4
 	ldr r2, _0803F6EC @ =gDispCnt
 	ldrh r1, [r2]
 	movs r3, #0xf0
@@ -9557,7 +9559,7 @@ _0803F6FC: .4byte sub_803F700
 	thumb_func_start sub_803F700
 sub_803F700: @ 0x0803F700
 	push {lr}
-	bl sub_803E410
+	bl UpdateCamera
 	ldr r1, _0803F710 @ =gUnknown_0300504C
 	movs r0, #4
 	strb r0, [r1]
@@ -12681,7 +12683,7 @@ _08040EE0: .4byte gGameMode
 _08040EE4: .4byte gNumLives
 _08040EE8: .4byte gUnknown_03005040
 _08040EEC:
-	ldr r0, _08040FE4 @ =gUnknown_03005088
+	ldr r0, _08040FE4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -12811,7 +12813,7 @@ _08040FDE:
 	movs r0, #0
 	b _08041152
 	.align 2, 0
-_08040FE4: .4byte gUnknown_03005088
+_08040FE4: .4byte gNumSingleplayerCharacters
 _08040FE8: .4byte gPartner
 _08040FEC: .4byte gRingCount
 _08040FF0: .4byte gCurrentLevel
@@ -13244,7 +13246,7 @@ _0804134C: .4byte gGameMode
 _08041350: .4byte gNumLives
 _08041354: .4byte gUnknown_03005040
 _08041358:
-	ldr r0, _08041450 @ =gUnknown_03005088
+	ldr r0, _08041450 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -13374,7 +13376,7 @@ _0804144A:
 	movs r0, #0
 	b _080415BE
 	.align 2, 0
-_08041450: .4byte gUnknown_03005088
+_08041450: .4byte gNumSingleplayerCharacters
 _08041454: .4byte gPartner
 _08041458: .4byte gRingCount
 _0804145C: .4byte gCurrentLevel
@@ -13719,7 +13721,7 @@ _080416FA:
 	cmp r0, r2
 	bge _080417A4
 _08041706:
-	ldr r0, _0804181C @ =gUnknown_03005088
+	ldr r0, _0804181C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -13863,7 +13865,7 @@ _08041806:
 	.align 2, 0
 _08041814: .4byte gCamera
 _08041818: .4byte gPlayer
-_0804181C: .4byte gUnknown_03005088
+_0804181C: .4byte gNumSingleplayerCharacters
 _08041820: .4byte gPartner
 _08041824: .4byte gRingCount
 _08041828: .4byte gCurrentLevel
@@ -14358,7 +14360,7 @@ _08041BE4:
 	cmp r0, r2
 	bge _08041C8E
 _08041BF0:
-	ldr r0, _08041D08 @ =gUnknown_03005088
+	ldr r0, _08041D08 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -14502,7 +14504,7 @@ _08041CF0:
 	.align 2, 0
 _08041D00: .4byte gCamera
 _08041D04: .4byte gPlayer
-_08041D08: .4byte gUnknown_03005088
+_08041D08: .4byte gNumSingleplayerCharacters
 _08041D0C: .4byte gPartner
 _08041D10: .4byte gRingCount
 _08041D14: .4byte gCurrentLevel
@@ -19078,7 +19080,7 @@ Player_8043EC0: @ 0x08043EC0
 	ldrsh r3, [r0, r2]
 	lsls r2, r3, #8
 	adds r7, r7, r2
-	ldr r0, _08043FE0 @ =gUnknown_03005088
+	ldr r0, _08043FE0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -19127,7 +19129,7 @@ _08043F3E:
 	lsls r3, r0, #8
 	lsls r2, r0, #0x10
 	adds r6, r6, r2
-	ldr r0, _08043FE0 @ =gUnknown_03005088
+	ldr r0, _08043FE0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -19175,7 +19177,7 @@ _08043FD0: .4byte gCamera
 _08043FD4: .4byte gUnknown_084ADF78
 _08043FD8: .4byte gCurrentLevel
 _08043FDC: .4byte gUnknown_084ADFC0
-_08043FE0: .4byte gUnknown_03005088
+_08043FE0: .4byte gNumSingleplayerCharacters
 _08043FE4: .4byte gPartner
 _08043FE8: .4byte 0x80000080
 _08043FEC: .4byte gUnknown_03005004

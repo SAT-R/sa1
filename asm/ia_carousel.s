@@ -805,7 +805,7 @@ _08085B6C:
 	strb r0, [r2]
 _08085B78:
 	adds r5, #1
-	ldr r0, _08085BA8 @ =gUnknown_03005088
+	ldr r0, _08085BA8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -828,7 +828,7 @@ _08085B94:
 	bx r0
 	.align 2, 0
 _08085BA4: .4byte gUnknown_03005A46
-_08085BA8: .4byte gUnknown_03005088
+_08085BA8: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_Carousel2
 Task_Carousel2: @ 0x08085BAC
@@ -1272,7 +1272,7 @@ _08085EDC:
 	strb r0, [r1]
 _08085EE8:
 	adds r5, #1
-	ldr r0, _08085F20 @ =gUnknown_03005088
+	ldr r0, _08085F20 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	adds r2, r0, #0
@@ -1300,7 +1300,7 @@ _08085F12:
 	b _08085F32
 	.align 2, 0
 _08085F1C: .4byte gUnknown_03005A46
-_08085F20: .4byte gUnknown_03005088
+_08085F20: .4byte gNumSingleplayerCharacters
 _08085F24: .4byte 0x003C2A57
 _08085F28: .4byte gPartner
 _08085F2C: .4byte gPlayer
@@ -1352,7 +1352,7 @@ _08085F84: .4byte 0xFFFFF830
 _08085F88:
 	strh r0, [r5, #0xc]
 _08085F8A:
-	ldr r2, _08085F98 @ =gUnknown_03005088
+	ldr r2, _08085F98 @ =gNumSingleplayerCharacters
 _08085F8C:
 	adds r4, #1
 	movs r0, #0
@@ -1361,7 +1361,7 @@ _08085F8C:
 	blt _08085F12
 	b _08085FAC
 	.align 2, 0
-_08085F98: .4byte gUnknown_03005088
+_08085F98: .4byte gNumSingleplayerCharacters
 _08085F9C:
 	mov r1, sb
 	adds r1, #0x6e
@@ -1908,7 +1908,7 @@ _08086366:
 	str r0, [r1, #8]
 _0808637A:
 	adds r5, #1
-	ldr r0, _080863C0 @ =gUnknown_03005088
+	ldr r0, _080863C0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1939,7 +1939,7 @@ _0808638A:
 _080863B4: .4byte 0xFFBFFFFF
 _080863B8: .4byte gCurTask
 _080863BC: .4byte Task_Carousel3
-_080863C0: .4byte gUnknown_03005088
+_080863C0: .4byte gNumSingleplayerCharacters
 _080863C4: .4byte 0x000031FF
 _080863C8:
 	ldr r0, _080863E4 @ =0x00004AFF
@@ -2094,7 +2094,7 @@ _080864F6:
 	bl sub_800B2BC
 _080864FE:
 	adds r6, #1
-	ldr r0, _08086580 @ =gUnknown_03005088
+	ldr r0, _08086580 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2158,7 +2158,7 @@ _08086566:
 	.align 2, 0
 _08086578: .4byte gPlayer
 _0808657C: .4byte gPartner
-_08086580: .4byte gUnknown_03005088
+_08086580: .4byte gNumSingleplayerCharacters
 _08086584: .4byte gCamera
 _08086588: .4byte gCurTask
 _0808658C:

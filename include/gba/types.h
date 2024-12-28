@@ -3,6 +3,19 @@
 
 #include <stdint.h>
 
+#if defined(_MSC_VER)
+#define PACKED(name, struct_body)                                                       \
+    __pragma(pack(push, 1)) typedef struct struct_body name;                            \
+    __pragma(pack(pop))
+#else
+// NOTE: Please make sure NOT to add a ; to the end
+//       of the structs you enclose with this macro.
+//       PACKED(struct test { char a; int b; }); - good
+//       PACKED(struct test { char a; int b; };); - bad
+#define PACKED(name, struct_body)                                                       \
+    typedef struct __attribute__((packed)) name struct_body name;
+#endif
+
 typedef uint8_t   u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -63,7 +76,7 @@ struct PlttData
 //       usually generated during runtime, anyway.
 //       That's what this variation of 'OamData' is for,
 //       as well using this to determine the size for some DMAs to gOamBuffer.
-typedef struct PACKED {
+PACKED(OamDataShort, {
     /*0x00*/
     u32 y : 8;
 
@@ -83,7 +96,7 @@ typedef struct PACKED {
     u16 tileNum : 10; // 0x3FF
     u16 priority : 2; // 0x400, 0x800 -> 0xC00
     u16 paletteNum : 4;
-} OamDataShort; /* size: 0x6 (important to not be 0x8, see comment above struct!) */
+}); /* size: 0x6 (important to not be 0x8, see comment above struct!) */
 
 typedef union {
     struct {

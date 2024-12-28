@@ -407,7 +407,7 @@ _0804DD8C:
 _0804DD94:
 	movs r0, #1
 	add sl, r0
-	ldr r0, _0804DDC0 @ =gUnknown_03005088
+	ldr r0, _0804DDC0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -426,7 +426,7 @@ _0804DDA6:
 _0804DDB4: .4byte 0xFFDFFFFF
 _0804DDB8: .4byte gUnknown_030060E0
 _0804DDBC: .4byte 0xFFFF7FFF
-_0804DDC0: .4byte gUnknown_03005088
+_0804DDC0: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start TaskDestructor_WaterBridge
 TaskDestructor_WaterBridge: @ 0x0804DDC4

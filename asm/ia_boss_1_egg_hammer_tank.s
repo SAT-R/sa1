@@ -1004,7 +1004,7 @@ _0802621A:
 	mov r3, r8
 	bl sub_800BA5C
 	mov r8, r0
-	ldr r0, _08026280 @ =gUnknown_03005088
+	ldr r0, _08026280 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1025,7 +1025,7 @@ _08026270: .4byte gDispCnt
 _08026274: .4byte 0x00007FFF
 _08026278: .4byte gWinRegs
 _0802627C: .4byte gBldRegs
-_08026280: .4byte gUnknown_03005088
+_08026280: .4byte gNumSingleplayerCharacters
 _08026284: .4byte gPartner
 _08026288:
 	movs r0, #0
@@ -1647,7 +1647,7 @@ _08026764:
 	adds r2, r5, #0
 	bl sub_800BA5C
 	adds r6, r0, #0
-	ldr r0, _080267AC @ =gUnknown_03005088
+	ldr r0, _080267AC @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1667,7 +1667,7 @@ _0802679C: .4byte gDispCnt
 _080267A0: .4byte 0x00007FFF
 _080267A4: .4byte gWinRegs
 _080267A8: .4byte gBldRegs
-_080267AC: .4byte gUnknown_03005088
+_080267AC: .4byte gNumSingleplayerCharacters
 _080267B0: .4byte gPartner
 _080267B4:
 	movs r0, #0
@@ -3329,7 +3329,7 @@ _0802750C:
 	adds r2, r4, #0
 	bl sub_800CE34
 	adds r6, r0, #0
-	ldr r0, _080275B4 @ =gUnknown_03005088
+	ldr r0, _080275B4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -3349,7 +3349,7 @@ _080275A4: .4byte sa2__gUnknown_0300194C
 _080275A8: .4byte gCamera
 _080275AC: .4byte sa2__gUnknown_03002820
 _080275B0: .4byte gPlayer
-_080275B4: .4byte gUnknown_03005088
+_080275B4: .4byte gNumSingleplayerCharacters
 _080275B8: .4byte gPartner
 _080275BC:
 	movs r4, #0

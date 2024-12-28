@@ -464,7 +464,7 @@ _080893F0:
 	str r0, [r5, #4]
 _080893F2:
 	adds r6, #1
-	ldr r0, _0808946C @ =gUnknown_03005088
+	ldr r0, _0808946C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -527,7 +527,7 @@ _0808945A:
 	bl TaskDestroy
 	b _080894DE
 	.align 2, 0
-_0808946C: .4byte gUnknown_03005088
+_0808946C: .4byte gNumSingleplayerCharacters
 _08089470: .4byte gCamera
 _08089474: .4byte gCurTask
 _08089478:
@@ -827,7 +827,7 @@ _080896CA:
 	bl sub_80096B0
 	movs r1, #1
 	add r8, r1
-	ldr r0, _08089718 @ =gUnknown_03005088
+	ldr r0, _08089718 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -859,7 +859,7 @@ _080896E2:
 	.align 2, 0
 _08089710: .4byte gPlayer
 _08089714: .4byte gPartner
-_08089718: .4byte gUnknown_03005088
+_08089718: .4byte gNumSingleplayerCharacters
 _0808971C:
 	ldr r1, [sp, #8]
 	adds r1, #0x21
@@ -1216,7 +1216,7 @@ _0808999E:
 	bl sub_800C558
 _080899A2:
 	adds r4, #1
-	ldr r0, _080899C4 @ =gUnknown_03005088
+	ldr r0, _080899C4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1230,7 +1230,7 @@ _080899B2:
 	.align 2, 0
 _080899BC: .4byte gPlayer
 _080899C0: .4byte gPartner
-_080899C4: .4byte gUnknown_03005088
+_080899C4: .4byte gNumSingleplayerCharacters
 _080899C8:
 	cmp r2, #0x2f
 	bgt _080899F2

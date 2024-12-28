@@ -1491,7 +1491,7 @@ _080774C4:
 	strb r7, [r0]
 _080774C8:
 	adds r7, #1
-	ldr r0, _08077518 @ =gUnknown_03005088
+	ldr r0, _08077518 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1530,7 +1530,7 @@ _08077500:
 	b _0807752C
 	.align 2, 0
 _08077514: .4byte gUnknown_03005A5E
-_08077518: .4byte gUnknown_03005088
+_08077518: .4byte gNumSingleplayerCharacters
 _0807751C: .4byte gCurTask
 _08077520:
 	mov r0, sl

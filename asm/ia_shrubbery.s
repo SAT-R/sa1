@@ -225,7 +225,7 @@ _080766BE:
 	strb r0, [r7]
 _080766CA:
 	adds r4, #1
-	ldr r0, _08076724 @ =gUnknown_03005088
+	ldr r0, _08076724 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -272,7 +272,7 @@ _08076714:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08076724: .4byte gUnknown_03005088
+_08076724: .4byte gNumSingleplayerCharacters
 _08076728: .4byte gCamera
 _0807672C: .4byte gCurTask
 

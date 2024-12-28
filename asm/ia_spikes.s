@@ -317,7 +317,7 @@ _0802023C:
 	bl sub_8020E98
 _08020246:
 	adds r4, #1
-	ldr r0, _080202A8 @ =gUnknown_03005088
+	ldr r0, _080202A8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -338,7 +338,7 @@ _08020254:
 	cmp r0, #0
 	bne _080202EA
 	movs r3, #0
-	ldr r0, _080202A8 @ =gUnknown_03005088
+	ldr r0, _080202A8 @ =gNumSingleplayerCharacters
 	mov sl, r0
 	ldr r5, _080202A4 @ =gPartner
 	movs r1, #0x21
@@ -366,7 +366,7 @@ _08020288:
 	.align 2, 0
 _080202A0: .4byte gPlayer
 _080202A4: .4byte gPartner
-_080202A8: .4byte gUnknown_03005088
+_080202A8: .4byte gNumSingleplayerCharacters
 _080202AC: .4byte gGameMode
 _080202B0: .4byte gUnknown_03004FE0
 _080202B4:
@@ -549,7 +549,7 @@ _08020408:
 	bl sub_8020D44
 _08020412:
 	adds r4, #1
-	ldr r0, _08020474 @ =gUnknown_03005088
+	ldr r0, _08020474 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -570,7 +570,7 @@ _08020420:
 	cmp r0, #0
 	bne _080204B6
 	movs r3, #0
-	ldr r0, _08020474 @ =gUnknown_03005088
+	ldr r0, _08020474 @ =gNumSingleplayerCharacters
 	mov sl, r0
 	ldr r5, _08020470 @ =gPartner
 	movs r1, #0x21
@@ -598,7 +598,7 @@ _08020454:
 	.align 2, 0
 _0802046C: .4byte gPlayer
 _08020470: .4byte gPartner
-_08020474: .4byte gUnknown_03005088
+_08020474: .4byte gNumSingleplayerCharacters
 _08020478: .4byte gGameMode
 _0802047C: .4byte gUnknown_03004FE0
 _08020480:
@@ -1102,7 +1102,7 @@ _08020846:
 	str r0, [r5]
 _08020848:
 	adds r4, #1
-	ldr r0, _080208A0 @ =gUnknown_03005088
+	ldr r0, _080208A0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1124,7 +1124,7 @@ _08020858:
 	cmp r0, #0
 	bne _080208E4
 	movs r3, #0
-	ldr r0, _080208A0 @ =gUnknown_03005088
+	ldr r0, _080208A0 @ =gNumSingleplayerCharacters
 	mov ip, r0
 	ldr r5, _080208AC @ =gPartner
 	movs r7, #0x21
@@ -1147,7 +1147,7 @@ _08020888:
 	str r0, [r5, #0x10]
 	b _080208BA
 	.align 2, 0
-_080208A0: .4byte gUnknown_03005088
+_080208A0: .4byte gNumSingleplayerCharacters
 _080208A4: .4byte gGameMode
 _080208A8: .4byte gUnknown_03004FE0
 _080208AC: .4byte gPartner
@@ -1462,7 +1462,7 @@ _08020B0C:
 _08020B18:
 	adds r1, r0, #0
 	adds r4, #1
-	ldr r0, _08020B48 @ =gUnknown_03005088
+	ldr r0, _08020B48 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1482,7 +1482,7 @@ _08020B32:
 	.align 2, 0
 _08020B40: .4byte gPlayer
 _08020B44: .4byte gPartner
-_08020B48: .4byte gUnknown_03005088
+_08020B48: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_Spikes_HidingDown
 CreateEntity_Spikes_HidingDown: @ 0x08020B4C
@@ -1706,7 +1706,7 @@ _08020D04:
 _08020D10:
 	adds r1, r0, #0
 	adds r4, #1
-	ldr r0, _08020D40 @ =gUnknown_03005088
+	ldr r0, _08020D40 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1726,7 +1726,7 @@ _08020D2A:
 	.align 2, 0
 _08020D38: .4byte gPlayer
 _08020D3C: .4byte gPartner
-_08020D40: .4byte gUnknown_03005088
+_08020D40: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_8020D44
 sub_8020D44: @ 0x08020D44

@@ -136,7 +136,7 @@ _0804D7B8:
 _0804D836:
 	movs r0, #1
 	add r8, r0
-	ldr r0, _0804D85C @ =gUnknown_03005088
+	ldr r0, _0804D85C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -152,7 +152,7 @@ _0804D848:
 	.align 2, 0
 _0804D854: .4byte gPlayer
 _0804D858: .4byte 0xFFBFFFFF
-_0804D85C: .4byte gUnknown_03005088
+_0804D85C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_Interactable034
 CreateEntity_Interactable034: @ 0x0804D860

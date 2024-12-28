@@ -75,7 +75,7 @@ _08084F6E:
 	strb r1, [r0]
 	adds r2, #4
 	adds r3, #1
-	ldr r0, _08085014 @ =gUnknown_03005088
+	ldr r0, _08085014 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -142,7 +142,7 @@ _08085004: .4byte TaskDestructor_Flipper_SmallBlue
 _08085008: .4byte 0x0300003D
 _0808500C: .4byte 0x0300003C
 _08085010: .4byte 0x03000058
-_08085014: .4byte gUnknown_03005088
+_08085014: .4byte gNumSingleplayerCharacters
 _08085018: .4byte 0x0000020A
 _0808501C:
 	movs r0, #0x80
@@ -758,7 +758,7 @@ _08085488:
 	adds r2, #4
 	str r2, [sp, #0x10]
 	adds r4, #1
-	ldr r0, _08085508 @ =gUnknown_03005088
+	ldr r0, _08085508 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -800,7 +800,7 @@ _080854CE:
 	ldr r3, _080854FC @ =gPlayer
 	movs r7, #1
 	mov r8, r7
-	ldr r0, _08085508 @ =gUnknown_03005088
+	ldr r0, _08085508 @ =gNumSingleplayerCharacters
 	mov sl, r0
 _080854E4:
 	ldrb r0, [r1]
@@ -819,7 +819,7 @@ _080854E4:
 _080854FC: .4byte gPlayer
 _08085500: .4byte gPartner
 _08085504: .4byte 0x0000020A
-_08085508: .4byte gUnknown_03005088
+_08085508: .4byte gNumSingleplayerCharacters
 _0808550C: .4byte gCurTask
 _08085510: .4byte 0xFFBFFFFF
 _08085514:

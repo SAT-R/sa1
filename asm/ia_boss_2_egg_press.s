@@ -63,7 +63,7 @@ _0802D792:
 	mov r3, ip
 	bl sub_800BCBC
 	mov r8, r0
-	ldr r0, _0802D7F4 @ =gUnknown_03005088
+	ldr r0, _0802D7F4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -84,7 +84,7 @@ _0802D7E4: .4byte 0x00007FFF
 _0802D7E8: .4byte gWinRegs
 _0802D7EC: .4byte gBldRegs
 _0802D7F0: .4byte 0x030000AF
-_0802D7F4: .4byte gUnknown_03005088
+_0802D7F4: .4byte gNumSingleplayerCharacters
 _0802D7F8: .4byte gPartner
 _0802D7FC:
 	movs r0, #0
@@ -1778,7 +1778,7 @@ _0802E5D8:
 	mov r1, r8
 	str r0, [r1, #0x10]
 _0802E5F2:
-	ldr r0, _0802E6A0 @ =gUnknown_03005088
+	ldr r0, _0802E6A0 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	cmp r1, #2
@@ -1851,7 +1851,7 @@ _0802E690: .4byte 0x0300002C
 _0802E694: .4byte 0x0300002D
 _0802E698: .4byte sub_802E714
 _0802E69C: .4byte 0xFFFFBFFF
-_0802E6A0: .4byte gUnknown_03005088
+_0802E6A0: .4byte gNumSingleplayerCharacters
 _0802E6A4: .4byte gPartner
 _0802E6A8:
 	ldr r0, _0802E700 @ =gCurTask

@@ -65,7 +65,7 @@ _08031DD2:
 	mov r3, ip
 	bl sub_800BCBC
 	mov r8, r0
-	ldr r0, _08031E34 @ =gUnknown_03005088
+	ldr r0, _08031E34 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -86,7 +86,7 @@ _08031E24: .4byte 0x00007FFF
 _08031E28: .4byte gWinRegs
 _08031E2C: .4byte gBldRegs
 _08031E30: .4byte 0x0300009C
-_08031E34: .4byte gUnknown_03005088
+_08031E34: .4byte gNumSingleplayerCharacters
 _08031E38: .4byte gPartner
 _08031E3C:
 	movs r0, #0
@@ -4307,7 +4307,7 @@ _08033FFA:
 	strh r0, [r5, #0xa]
 	ldr r0, [r4, #0x10]
 	str r0, [r5, #0xc]
-	ldr r6, _08034090 @ =gUnknown_03005088
+	ldr r6, _08034090 @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r6, r0]
 	cmp r0, #2
@@ -4368,7 +4368,7 @@ _08034072:
 _08034084: .4byte gUnknown_03005870
 _08034088: .4byte gPlayer
 _0803408C: .4byte gUnknown_03005860
-_08034090: .4byte gUnknown_03005088
+_08034090: .4byte gNumSingleplayerCharacters
 _08034094: .4byte gPartner
 
 	thumb_func_start sub_8034098
@@ -4686,7 +4686,7 @@ _080342E4:
 	bl sub_800B8B4
 	mov r8, r0
 	movs r1, #0
-	ldr r0, _08034388 @ =gUnknown_03005088
+	ldr r0, _08034388 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -4740,7 +4740,7 @@ _08034378: .4byte 0x00007FFF
 _0803437C: .4byte gWinRegs
 _08034380: .4byte gBldRegs
 _08034384: .4byte 0x03000087
-_08034388: .4byte gUnknown_03005088
+_08034388: .4byte gNumSingleplayerCharacters
 _0803438C: .4byte gPartner
 _08034390: .4byte 0x0300003C
 _08034394: .4byte 0x03000086

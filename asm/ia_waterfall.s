@@ -262,7 +262,7 @@ _08075D00:
 	ldr r7, _08075D20 @ =gCurTask
 _08075D02:
 	adds r4, #1
-	ldr r0, _08075D24 @ =gUnknown_03005088
+	ldr r0, _08075D24 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -276,7 +276,7 @@ _08075D02:
 	b _08075ED4
 	.align 2, 0
 _08075D20: .4byte gCurTask
-_08075D24: .4byte gUnknown_03005088
+_08075D24: .4byte gNumSingleplayerCharacters
 _08075D28:
 	adds r0, r4, r5
 	lsls r0, r0, #0x10
@@ -485,7 +485,7 @@ _08075EA2:
 	strb r0, [r1]
 _08075EA6:
 	adds r5, #1
-	ldr r0, _08075EF0 @ =gUnknown_03005088
+	ldr r0, _08075EF0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -521,7 +521,7 @@ _08075ED4:
 _08075EE4: .4byte gCurTask
 _08075EE8: .4byte 0x03000038
 _08075EEC: .4byte 0x0300003A
-_08075EF0: .4byte gUnknown_03005088
+_08075EF0: .4byte gNumSingleplayerCharacters
 _08075EF4: .4byte 0x0300003D
 _08075EF8: .4byte 0x0300003E
 
@@ -644,7 +644,7 @@ _08075FEA:
 	strh r0, [r5, #0xa]
 _08075FEC:
 	adds r4, #1
-	ldr r0, _08076018 @ =gUnknown_03005088
+	ldr r0, _08076018 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -664,7 +664,7 @@ _08076008:
 	bl TaskDestroy
 	b _080764E4
 	.align 2, 0
-_08076018: .4byte gUnknown_03005088
+_08076018: .4byte gNumSingleplayerCharacters
 _0807601C: .4byte gMPlayInfo_SE2
 _08076020: .4byte gCurTask
 _08076024:
@@ -1327,7 +1327,7 @@ _080764B4:
 	strb r0, [r1]
 _080764B8:
 	adds r5, #1
-	ldr r0, _08076500 @ =gUnknown_03005088
+	ldr r0, _08076500 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1362,7 +1362,7 @@ _080764E4:
 _080764F4: .4byte gCurTask
 _080764F8: .4byte 0x03000038
 _080764FC: .4byte 0x0300003A
-_08076500: .4byte gUnknown_03005088
+_08076500: .4byte gNumSingleplayerCharacters
 _08076504: .4byte 0x0300003D
 _08076508: .4byte 0x0300003E
 

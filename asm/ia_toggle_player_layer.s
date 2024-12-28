@@ -177,7 +177,7 @@ _08023A34:
 	strb r0, [r1]
 _08023A36:
 	adds r4, #1
-	ldr r1, _08023A98 @ =gUnknown_03005088
+	ldr r1, _08023A98 @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r1, r0]
 	cmp r4, r0
@@ -227,7 +227,7 @@ _08023A88:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08023A98: .4byte gUnknown_03005088
+_08023A98: .4byte gNumSingleplayerCharacters
 _08023A9C: .4byte gCamera
 _08023AA0: .4byte gCurTask
 

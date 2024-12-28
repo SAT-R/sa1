@@ -599,7 +599,7 @@ _08095448:
 	mov sl, r0
 _08095456:
 	adds r5, #1
-	ldr r0, _08095484 @ =gUnknown_03005088
+	ldr r0, _08095484 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -620,7 +620,7 @@ _08095466:
 _08095478: .4byte gUnknown_03005BE0+0xC+0x21
 _0809547C: .4byte gPlayer
 _08095480: .4byte gPartner
-_08095484: .4byte gUnknown_03005088
+_08095484: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start TaskDestructor_Spring_Hiding
 TaskDestructor_Spring_Hiding: @ 0x08095488

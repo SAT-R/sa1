@@ -266,7 +266,7 @@ _08096AB0:
 	str r0, [r6, #4]
 _08096ABA:
 	adds r4, #1
-	ldr r0, _08096B00 @ =gUnknown_03005088
+	ldr r0, _08096B00 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -300,7 +300,7 @@ _08096AEC:
 	bl TaskDestroy
 	b _08096B0E
 	.align 2, 0
-_08096B00: .4byte gUnknown_03005088
+_08096B00: .4byte gNumSingleplayerCharacters
 _08096B04: .4byte gCurTask
 _08096B08:
 	adds r0, r5, #0

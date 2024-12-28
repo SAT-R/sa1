@@ -122,7 +122,7 @@ _0808F372:
 	strh r0, [r5, #0xa]
 _0808F374:
 	adds r4, #1
-	ldr r0, _0808F39C @ =gUnknown_03005088
+	ldr r0, _0808F39C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -141,7 +141,7 @@ _0808F38C:
 	bl TaskDestroy
 	b _0808F6E6
 	.align 2, 0
-_0808F39C: .4byte gUnknown_03005088
+_0808F39C: .4byte gNumSingleplayerCharacters
 _0808F3A0: .4byte gCurTask
 _0808F3A4:
 	adds r0, r3, r4
@@ -578,7 +578,7 @@ _0808F6B8:
 	strb r0, [r1]
 _0808F6BC:
 	adds r6, #1
-	ldr r0, _0808F704 @ =gUnknown_03005088
+	ldr r0, _0808F704 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -612,7 +612,7 @@ _0808F6E6:
 _0808F6F8: .4byte gCurTask
 _0808F6FC: .4byte 0x03000038
 _0808F700: .4byte 0x0300003A
-_0808F704: .4byte gUnknown_03005088
+_0808F704: .4byte gNumSingleplayerCharacters
 _0808F708: .4byte 0x0300003D
 _0808F70C: .4byte 0x0300003E
 

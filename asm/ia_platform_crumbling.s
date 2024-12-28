@@ -189,7 +189,7 @@ Task_PlatformCrumbling: @ 0x08024EA0
 	ands r0, r3
 	cmp r0, #0
 	bne _08024F28
-	ldr r0, _08024FDC @ =gUnknown_03005088
+	ldr r0, _08024FDC @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -293,7 +293,7 @@ _08024FCC: .4byte gCurTask
 _08024FD0: .4byte 0x0300000C
 _08024FD4: .4byte gCamera
 _08024FD8: .4byte gPlayer
-_08024FDC: .4byte gUnknown_03005088
+_08024FDC: .4byte gNumSingleplayerCharacters
 _08024FE0: .4byte gPartner
 _08024FE4: .4byte sub_8025008
 _08024FE8: .4byte gGameMode
@@ -645,7 +645,7 @@ _0802527A:
 	orrs r1, r0
 	str r1, [r2, #0x10]
 _080252B4:
-	ldr r0, _08025318 @ =gUnknown_03005088
+	ldr r0, _08025318 @ =gNumSingleplayerCharacters
 	movs r2, #0
 	ldrsb r2, [r0, r2]
 	cmp r2, #2
@@ -693,7 +693,7 @@ _080252E2:
 _0802530C: .4byte gRefSpriteTables
 _08025310: .4byte 0x0000FFE1
 _08025314: .4byte gPlayer
-_08025318: .4byte gUnknown_03005088
+_08025318: .4byte gNumSingleplayerCharacters
 _0802531C: .4byte gPartner
 _08025320: .4byte gCurTask
 _08025324: .4byte sub_8025400

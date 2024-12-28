@@ -192,7 +192,7 @@ Task_SpecialSpringMain: @ 0x080932BC
 	movs r0, #0xff
 	strb r0, [r1]
 _08093338:
-	ldr r0, _080934BC @ =gUnknown_03005088
+	ldr r0, _080934BC @ =gNumSingleplayerCharacters
 	movs r6, #0
 	ldrsb r6, [r0, r6]
 	cmp r6, #2
@@ -377,7 +377,7 @@ _080934AC: .4byte 0x0300000C
 _080934B0: .4byte gCamera
 _080934B4: .4byte 0x0300002C
 _080934B8: .4byte 0x0300002D
-_080934BC: .4byte gUnknown_03005088
+_080934BC: .4byte gNumSingleplayerCharacters
 _080934C0: .4byte gPartner
 _080934C4: .4byte 0x0000F880
 _080934C8: .4byte gPlayer
@@ -474,7 +474,7 @@ _0809357C: .4byte gCurTask
 _08093580: .4byte 0x0300000C
 _08093584: .4byte gCamera
 _08093588:
-	ldr r0, _0809366C @ =gUnknown_03005088
+	ldr r0, _0809366C @ =gNumSingleplayerCharacters
 	movs r7, #0
 	ldrsb r7, [r0, r7]
 	cmp r7, #2
@@ -582,7 +582,7 @@ _080935F0:
 	bl CreateSpecialStageIntro
 	b _080936EA
 	.align 2, 0
-_0809366C: .4byte gUnknown_03005088
+_0809366C: .4byte gNumSingleplayerCharacters
 _08093670: .4byte gPartner
 _08093674: .4byte 0x0000F880
 _08093678: .4byte 0x0300002C

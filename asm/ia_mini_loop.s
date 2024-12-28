@@ -100,7 +100,7 @@ _0804DFE0:
 	strh r0, [r2, #0xc]
 _0804E008:
 	adds r7, #1
-	ldr r0, _0804E024 @ =gUnknown_03005088
+	ldr r0, _0804E024 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -114,7 +114,7 @@ _0804E016:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E024: .4byte gUnknown_03005088
+_0804E024: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_MiniLoop_Exit
 Task_MiniLoop_Exit: @ 0x0804E028
@@ -215,7 +215,7 @@ _0804E0BC:
 	strh r0, [r2, #0xc]
 _0804E0EA:
 	adds r7, #1
-	ldr r0, _0804E10C @ =gUnknown_03005088
+	ldr r0, _0804E10C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -231,7 +231,7 @@ _0804E0F8:
 	bx r0
 	.align 2, 0
 _0804E108: .4byte 0x0000F8C0
-_0804E10C: .4byte gUnknown_03005088
+_0804E10C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_MiniLoop_StartBoost
 CreateEntity_MiniLoop_StartBoost: @ 0x0804E110
@@ -474,7 +474,7 @@ _0804E2B0:
 	strh r0, [r2, #0xc]
 _0804E2E4:
 	adds r7, #1
-	ldr r0, _0804E300 @ =gUnknown_03005088
+	ldr r0, _0804E300 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -488,7 +488,7 @@ _0804E2F2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804E300: .4byte gUnknown_03005088
+_0804E300: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_MiniLoop_Entrance
 CreateEntity_MiniLoop_Entrance: @ 0x0804E304

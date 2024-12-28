@@ -1424,7 +1424,7 @@ _0807802A:
 _0807808A:
 	movs r0, #1
 	add sb, r0
-	ldr r0, _080780B0 @ =gUnknown_03005088
+	ldr r0, _080780B0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1441,7 +1441,7 @@ _0807808A:
 	bx r1
 	.align 2, 0
 _080780AC: .4byte 0xFFFFFAC0
-_080780B0: .4byte gUnknown_03005088
+_080780B0: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_80780B4
 sub_80780B4: @ 0x080780B4
@@ -1490,7 +1490,7 @@ _080780E8:
 	b _08078180
 _0807810E:
 	adds r6, #1
-	ldr r0, _080781D8 @ =gUnknown_03005088
+	ldr r0, _080781D8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1591,7 +1591,7 @@ _080781C4:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080781D8: .4byte gUnknown_03005088
+_080781D8: .4byte gNumSingleplayerCharacters
 _080781DC: .4byte gPartner
 _080781E0: .4byte gPlayer
 
@@ -1625,7 +1625,7 @@ _08078214: .4byte gCurrentLevel
 _08078218: .4byte gUnknown_03005A46
 _0807821C:
 	adds r6, #1
-	ldr r0, _080782B8 @ =gUnknown_03005088
+	ldr r0, _080782B8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1702,7 +1702,7 @@ _0807826E:
 	ands r0, r1
 	b _080782D2
 	.align 2, 0
-_080782B8: .4byte gUnknown_03005088
+_080782B8: .4byte gNumSingleplayerCharacters
 _080782BC: .4byte gPlayer
 _080782C0: .4byte gPartner
 _080782C4:

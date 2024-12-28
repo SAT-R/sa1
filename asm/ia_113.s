@@ -235,7 +235,7 @@ _08096CC0:
 	strh r1, [r4, #0x38]
 _08096CC6:
 	adds r5, #1
-	ldr r1, _08096D24 @ =gUnknown_03005088
+	ldr r1, _08096D24 @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r1, r0]
 	cmp r5, r0
@@ -284,7 +284,7 @@ _08096D14:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08096D24: .4byte gUnknown_03005088
+_08096D24: .4byte gNumSingleplayerCharacters
 _08096D28: .4byte gCurTask
 
 	thumb_func_start CreateEntity_Interactable113

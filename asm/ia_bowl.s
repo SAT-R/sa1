@@ -539,7 +539,7 @@ _08080B42:
 	adds r0, #2
 	str r0, [sp, #8]
 	adds r4, #1
-	ldr r0, _08080B74 @ =gUnknown_03005088
+	ldr r0, _08080B74 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -560,7 +560,7 @@ _08080B5E:
 	bx r0
 	.align 2, 0
 _08080B70: .4byte gUnknown_03005A46
-_08080B74: .4byte gUnknown_03005088
+_08080B74: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_Bowl2
 Task_Bowl2: @ 0x08080B78
@@ -902,7 +902,7 @@ _08080DE8:
 	strb r0, [r2]
 _08080DF2:
 	adds r5, #1
-	ldr r0, _08080E50 @ =gUnknown_03005088
+	ldr r0, _08080E50 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	cmp r5, r1
@@ -950,7 +950,7 @@ _08080E08:
 	b _08080E64
 	.align 2, 0
 _08080E4C: .4byte gUnknown_03005A46
-_08080E50: .4byte gUnknown_03005088
+_08080E50: .4byte gNumSingleplayerCharacters
 _08080E54: .4byte gPlayer
 _08080E58: .4byte 0x000003FF
 _08080E5C: .4byte gPartner
@@ -1014,7 +1014,7 @@ _08080ECC:
 	movs r2, #4
 	add r8, r2
 	adds r5, #1
-	ldr r4, _08080F0C @ =gUnknown_03005088
+	ldr r4, _08080F0C @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	cmp r5, r0
@@ -1044,7 +1044,7 @@ _08080EE2:
 	ldr r0, _08080F14 @ =gPartner
 	b _08080F1A
 	.align 2, 0
-_08080F0C: .4byte gUnknown_03005088
+_08080F0C: .4byte gNumSingleplayerCharacters
 _08080F10: .4byte 0x000D8107
 _08080F14: .4byte gPartner
 _08080F18:
@@ -1131,7 +1131,7 @@ _08080FB0:
 	movs r2, #4
 	add sb, r2
 	adds r5, #1
-	ldr r4, _08081030 @ =gUnknown_03005088
+	ldr r4, _08081030 @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	cmp r5, r0
@@ -1192,7 +1192,7 @@ _08081020:
 	bl TaskDestroy
 	b _0808126E
 	.align 2, 0
-_08081030: .4byte gUnknown_03005088
+_08081030: .4byte gNumSingleplayerCharacters
 _08081034: .4byte gCamera
 _08081038: .4byte gCurTask
 _0808103C:
@@ -1420,7 +1420,7 @@ _080811C0:
 	strb r0, [r2]
 _080811CA:
 	adds r4, #1
-	ldr r1, _08081200 @ =gUnknown_03005088
+	ldr r1, _08081200 @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r1, r0]
 	cmp r4, r0
@@ -1450,7 +1450,7 @@ _080811F8:
 	ldr r0, _08081204 @ =gPartner
 	b _0808120A
 	.align 2, 0
-_08081200: .4byte gUnknown_03005088
+_08081200: .4byte gNumSingleplayerCharacters
 _08081204: .4byte gPartner
 _08081208:
 	ldr r0, _08081228 @ =gPlayer
@@ -1463,7 +1463,7 @@ _0808120A:
 	bl m4aSongNumStart
 _08081218:
 	adds r4, #1
-	ldr r0, _0808122C @ =gUnknown_03005088
+	ldr r0, _0808122C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1472,7 +1472,7 @@ _08081218:
 	b _08081262
 	.align 2, 0
 _08081228: .4byte gPlayer
-_0808122C: .4byte gUnknown_03005088
+_0808122C: .4byte gNumSingleplayerCharacters
 _08081230:
 	cmp r0, #0x70
 	bne _08081262
@@ -1496,7 +1496,7 @@ _08081246:
 	bl m4aSongNumStart
 _08081254:
 	adds r4, #1
-	ldr r0, _08081284 @ =gUnknown_03005088
+	ldr r0, _08081284 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1518,7 +1518,7 @@ _0808126E:
 	bx r0
 	.align 2, 0
 _08081280: .4byte gPlayer
-_08081284: .4byte gUnknown_03005088
+_08081284: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_Bowl3
 Task_Bowl3: @ 0x08081288
@@ -1646,7 +1646,7 @@ _0808136A:
 	bl m4aSongNumStart
 _08081378:
 	adds r4, #1
-	ldr r0, _0808138C @ =gUnknown_03005088
+	ldr r0, _0808138C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1655,7 +1655,7 @@ _08081378:
 	b _080813C2
 	.align 2, 0
 _08081388: .4byte gPlayer
-_0808138C: .4byte gUnknown_03005088
+_0808138C: .4byte gNumSingleplayerCharacters
 _08081390:
 	cmp r0, #0x70
 	bne _080813C2
@@ -1679,7 +1679,7 @@ _080813A6:
 	bl m4aSongNumStart
 _080813B4:
 	adds r4, #1
-	ldr r0, _080813D8 @ =gUnknown_03005088
+	ldr r0, _080813D8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1696,7 +1696,7 @@ _080813C8:
 	bx r0
 	.align 2, 0
 _080813D4: .4byte gPlayer
-_080813D8: .4byte gUnknown_03005088
+_080813D8: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start TaskDestructor_Bowl
 TaskDestructor_Bowl: @ 0x080813DC

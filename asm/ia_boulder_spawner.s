@@ -375,7 +375,7 @@ _0809016A:
 	bl sub_800C558
 _0809016E:
 	adds r5, #1
-	ldr r0, _080901C8 @ =gUnknown_03005088
+	ldr r0, _080901C8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -416,7 +416,7 @@ _0809016E:
 	.align 2, 0
 _080901C0: .4byte gPlayer
 _080901C4: .4byte gPartner
-_080901C8: .4byte gUnknown_03005088
+_080901C8: .4byte gNumSingleplayerCharacters
 _080901CC: .4byte sub_803FF84
 _080901D0:
 	ldr r0, [sp, #0xc]

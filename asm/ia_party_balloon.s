@@ -495,7 +495,7 @@ _0807F1A0:
 	str r0, [r1, #8]
 _0807F1DC:
 	adds r4, #1
-	ldr r0, _0807F220 @ =gUnknown_03005088
+	ldr r0, _0807F220 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -523,7 +523,7 @@ _0807F210: .4byte gPartner
 _0807F214: .4byte gCurTask
 _0807F218: .4byte Task_PartyBalloon2
 _0807F21C: .4byte gGameMode
-_0807F220: .4byte gUnknown_03005088
+_0807F220: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_PartyBalloon2
 Task_PartyBalloon2: @ 0x0807F224

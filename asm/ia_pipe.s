@@ -326,7 +326,7 @@ _08095976:
 	bl UpdateSpriteAnimation
 	movs r1, #1
 	add r8, r1
-	ldr r0, _080959A8 @ =gUnknown_03005088
+	ldr r0, _080959A8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -347,7 +347,7 @@ _0809598E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080959A8: .4byte gUnknown_03005088
+_080959A8: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_PipeEntrance
 Task_PipeEntrance: @ 0x080959AC
@@ -1607,7 +1607,7 @@ _0809636C:
 	bl UpdateSpriteAnimation
 	movs r0, #1
 	add r8, r0
-	ldr r0, _0809639C @ =gUnknown_03005088
+	ldr r0, _0809639C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1628,7 +1628,7 @@ _08096384:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0809639C: .4byte gUnknown_03005088
+_0809639C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_PipeExit
 Task_PipeExit: @ 0x080963A0

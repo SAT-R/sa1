@@ -10330,7 +10330,7 @@ _08057A58:
 	ldr r0, _08057B30 @ =gPlayer
 	strh r2, [r0, #8]
 	strh r2, [r0, #0xc]
-	ldr r0, _08057B34 @ =gUnknown_03005088
+	ldr r0, _08057B34 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -10418,7 +10418,7 @@ _08057B28:
 	b _08057B62
 	.align 2, 0
 _08057B30: .4byte gPlayer
-_08057B34: .4byte gUnknown_03005088
+_08057B34: .4byte gNumSingleplayerCharacters
 _08057B38: .4byte gPartner
 _08057B3C: .4byte gCurrentLevel
 _08057B40: .4byte gCurTask
@@ -18435,7 +18435,7 @@ _0805BB8A:
 	ldr r1, _0805BBFC @ =gRingCount
 	movs r0, #0
 	strh r0, [r1]
-	bl sub_803CF9C
+	bl CreateGameStage
 _0805BBD0:
 	pop {r4, r5}
 	pop {r0}
@@ -21679,7 +21679,7 @@ _0805D586:
 	strb r0, [r1]
 	ldr r5, _0805D620 @ =gCourseTime
 	ldr r6, [r5]
-	bl sub_803CF9C
+	bl CreateGameStage
 	ldr r0, _0805D624 @ =gUnknown_03005058
 	ldrh r0, [r0]
 	mov r1, sb

@@ -182,7 +182,7 @@ Task_SmallFallBlockMain: @ 0x080939B0
 	adds r2, r5, #0
 	bl sub_800B2BC
 	adds r4, r0, #0
-	ldr r0, _08093AE4 @ =gUnknown_03005088
+	ldr r0, _08093AE4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -285,7 +285,7 @@ _08093AD4: .4byte gCurTask
 _08093AD8: .4byte 0x0300000C
 _08093ADC: .4byte gCamera
 _08093AE0: .4byte gPlayer
-_08093AE4: .4byte gUnknown_03005088
+_08093AE4: .4byte gNumSingleplayerCharacters
 _08093AE8: .4byte gPartner
 _08093AEC: .4byte Task_SmallFallBlock1
 _08093AF0: .4byte gGameMode
@@ -301,7 +301,7 @@ _08093AF8:
 	cmp r0, r7
 	beq _08093B26
 _08093B0A:
-	ldr r0, _08093B40 @ =gUnknown_03005088
+	ldr r0, _08093B40 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -329,7 +329,7 @@ _08093B26:
 	b _08093B58
 	.align 2, 0
 _08093B3C: .4byte gPlayer
-_08093B40: .4byte gUnknown_03005088
+_08093B40: .4byte gNumSingleplayerCharacters
 _08093B44: .4byte gPartner
 _08093B48:
 	mov r0, r8
@@ -416,7 +416,7 @@ Task_SmallFallBlock1: @ 0x08093B88
 	adds r1, r5, #0
 	adds r2, r4, #0
 	bl sub_800B2BC
-	ldr r0, _08093C38 @ =gUnknown_03005088
+	ldr r0, _08093C38 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -452,7 +452,7 @@ _08093C28: .4byte gCurTask
 _08093C2C: .4byte 0x0300000C
 _08093C30: .4byte gCamera
 _08093C34: .4byte gPlayer
-_08093C38: .4byte gUnknown_03005088
+_08093C38: .4byte gNumSingleplayerCharacters
 _08093C3C: .4byte gPartner
 _08093C40: .4byte gGameMode
 _08093C44: .4byte Task_SmallFallBlock2
@@ -554,7 +554,7 @@ _08093CF8:
 	cmp r0, r7
 	beq _08093D26
 _08093D0A:
-	ldr r0, _08093D40 @ =gUnknown_03005088
+	ldr r0, _08093D40 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -582,7 +582,7 @@ _08093D26:
 	b _08093D58
 	.align 2, 0
 _08093D3C: .4byte gPlayer
-_08093D40: .4byte gUnknown_03005088
+_08093D40: .4byte gNumSingleplayerCharacters
 _08093D44: .4byte gPartner
 _08093D48:
 	adds r0, r6, #0
@@ -746,7 +746,7 @@ _08093E62:
 	bl sub_800B2BC
 _08093E80:
 	adds r4, #1
-	ldr r2, _08093EC0 @ =gUnknown_03005088
+	ldr r2, _08093EC0 @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r2, r0]
 	cmp r4, r0
@@ -778,7 +778,7 @@ _08093EB0:
 	bl TaskDestroy
 	b _08093F3C
 	.align 2, 0
-_08093EC0: .4byte gUnknown_03005088
+_08093EC0: .4byte gNumSingleplayerCharacters
 _08093EC4: .4byte gCurTask
 _08093EC8:
 	ldr r1, _08093F08 @ =gPlayer

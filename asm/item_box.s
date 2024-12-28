@@ -428,7 +428,7 @@ _0801E95E:
 	bne _0801E974
 	b _0801EADC
 _0801E974:
-	ldr r0, _0801E9F4 @ =gUnknown_03005088
+	ldr r0, _0801E9F4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -489,7 +489,7 @@ _0801E9E4: .4byte gGameMode
 _0801E9E8: .4byte gMultiplayerPlayerTasks
 _0801E9EC: .4byte 0x04000128
 _0801E9F0: .4byte gPlayer
-_0801E9F4: .4byte gUnknown_03005088
+_0801E9F4: .4byte gNumSingleplayerCharacters
 _0801E9F8: .4byte gPartner
 _0801E9FC:
 	mov r2, r8

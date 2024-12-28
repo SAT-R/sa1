@@ -547,7 +547,7 @@ _08075A02:
 	bl m4aSongNumStart
 _08075A08:
 	adds r4, #1
-	ldr r0, _08075A78 @ =gUnknown_03005088
+	ldr r0, _08075A78 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -604,7 +604,7 @@ _08075A64:
 	bx r0
 	.align 2, 0
 _08075A74: .4byte gUnknown_03005A60
-_08075A78: .4byte gUnknown_03005088
+_08075A78: .4byte gNumSingleplayerCharacters
 _08075A7C: .4byte gCamera
 _08075A80: .4byte gCurTask
 

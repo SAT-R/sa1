@@ -211,7 +211,7 @@ _08081570:
 	str r0, [r1, #8]
 _08081590:
 	adds r4, #1
-	ldr r0, _080815E0 @ =gUnknown_03005088
+	ldr r0, _080815E0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -247,7 +247,7 @@ _080815C2:
 _080815D4: .4byte gPlayer
 _080815D8: .4byte gCurTask
 _080815DC: .4byte Task_PanelGate_Vertical2
-_080815E0: .4byte gUnknown_03005088
+_080815E0: .4byte gNumSingleplayerCharacters
 _080815E4:
 	adds r0, r5, #0
 	bl DisplaySprite
@@ -476,7 +476,7 @@ _08081796:
 	bl sub_800AFDC
 _080817A0:
 	adds r7, #1
-	ldr r0, _080817F4 @ =gUnknown_03005088
+	ldr r0, _080817F4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -516,7 +516,7 @@ _080817DA:
 	.align 2, 0
 _080817EC: .4byte gPlayer
 _080817F0: .4byte gPartner
-_080817F4: .4byte gUnknown_03005088
+_080817F4: .4byte gNumSingleplayerCharacters
 _080817F8: .4byte gCurTask
 _080817FC: .4byte Task_PanelGate_Vertical
 
@@ -725,7 +725,7 @@ _08081980:
 	str r0, [r1, #8]
 _080819A0:
 	adds r4, #1
-	ldr r0, _080819F0 @ =gUnknown_03005088
+	ldr r0, _080819F0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -761,7 +761,7 @@ _080819D2:
 _080819E4: .4byte gPlayer
 _080819E8: .4byte gCurTask
 _080819EC: .4byte Task_PanelGate_Horizontal2
-_080819F0: .4byte gUnknown_03005088
+_080819F0: .4byte gNumSingleplayerCharacters
 _080819F4:
 	adds r0, r5, #0
 	bl DisplaySprite
@@ -984,7 +984,7 @@ _08081B9E:
 	bl sub_80096B0
 _08081BA4:
 	adds r7, #1
-	ldr r0, _08081BF8 @ =gUnknown_03005088
+	ldr r0, _08081BF8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1024,7 +1024,7 @@ _08081BDE:
 	.align 2, 0
 _08081BF0: .4byte gPlayer
 _08081BF4: .4byte gPartner
-_08081BF8: .4byte gUnknown_03005088
+_08081BF8: .4byte gNumSingleplayerCharacters
 _08081BFC: .4byte gCurTask
 _08081C00: .4byte Task_PanelGate_Horizontal
 
@@ -1476,7 +1476,7 @@ _08081F24:
 	str r1, [r6, #4]
 _08081F28:
 	adds r4, #1
-	ldr r0, _08081F4C @ =gUnknown_03005088
+	ldr r0, _08081F4C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1494,7 +1494,7 @@ _08081F38:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08081F4C: .4byte gUnknown_03005088
+_08081F4C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_8081F50
 sub_8081F50: @ 0x08081F50
@@ -1789,7 +1789,7 @@ _0808216A:
 	bl sub_80096B0
 _08082170:
 	adds r4, #1
-	ldr r0, _08082194 @ =gUnknown_03005088
+	ldr r0, _08082194 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1807,7 +1807,7 @@ _08082180:
 	bx r1
 	.align 2, 0
 _08082190: .4byte gPartner
-_08082194: .4byte gUnknown_03005088
+_08082194: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start TaskDestructor_PanelGate
 TaskDestructor_PanelGate: @ 0x08082198

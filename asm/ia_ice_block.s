@@ -291,7 +291,7 @@ _0809194E:
 	movs r3, #0
 	ldr r0, _080919E4 @ =gPlayer
 	mov sb, r0
-	ldr r1, _080919E8 @ =gUnknown_03005088
+	ldr r1, _080919E8 @ =gNumSingleplayerCharacters
 	mov r8, r1
 	movs r6, #8
 	movs r5, #9
@@ -364,7 +364,7 @@ _080919DC:
 	b _08091A4E
 	.align 2, 0
 _080919E4: .4byte gPlayer
-_080919E8: .4byte gUnknown_03005088
+_080919E8: .4byte gNumSingleplayerCharacters
 _080919EC: .4byte gPartner
 _080919F0: .4byte sa2__gUnknown_0300194C
 _080919F4: .4byte sa2__gUnknown_03002820
@@ -380,7 +380,7 @@ _080919FC:
 	ldr r0, [sp, #8]
 	adds r0, #1
 	str r0, [sp, #8]
-	ldr r0, _08091A58 @ =gUnknown_03005088
+	ldr r0, _08091A58 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -418,7 +418,7 @@ _08091A4E:
 	bl TaskDestroy
 	b _08091A66
 	.align 2, 0
-_08091A58: .4byte gUnknown_03005088
+_08091A58: .4byte gNumSingleplayerCharacters
 _08091A5C: .4byte gCurTask
 _08091A60:
 	adds r0, r7, #0

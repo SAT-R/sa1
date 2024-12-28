@@ -761,7 +761,7 @@ _08084E76:
 	mov ip, r2
 _08084E8C:
 	adds r5, #1
-	ldr r0, _08084EF4 @ =gUnknown_03005088
+	ldr r0, _08084EF4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -813,5 +813,5 @@ _08084EDE:
 	bx r0
 	.align 2, 0
 _08084EF0: .4byte gCamera
-_08084EF4: .4byte gUnknown_03005088
+_08084EF4: .4byte gNumSingleplayerCharacters
 _08084EF8: .4byte gCurTask

@@ -2450,7 +2450,7 @@ _0807E2DA:
 	str r0, [r6]
 _0807E2DE:
 	adds r5, #1
-	ldr r0, _0807E360 @ =gUnknown_03005088
+	ldr r0, _0807E360 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2516,7 +2516,7 @@ _0807E34E:
 	bl TaskDestroy
 	b _0807E378
 	.align 2, 0
-_0807E360: .4byte gUnknown_03005088
+_0807E360: .4byte gNumSingleplayerCharacters
 _0807E364: .4byte gCamera
 _0807E368: .4byte gCurTask
 _0807E36C:
@@ -3159,7 +3159,7 @@ _0807E824:
 	adds r0, #4
 	str r0, [sp, #0x14]
 	adds r4, #1
-	ldr r0, _0807E8E0 @ =gUnknown_03005088
+	ldr r0, _0807E8E0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -3251,7 +3251,7 @@ _0807E8CA:
 	b _0807E902
 	.align 2, 0
 _0807E8DC: .4byte gPartner
-_0807E8E0: .4byte gUnknown_03005088
+_0807E8E0: .4byte gNumSingleplayerCharacters
 _0807E8E4: .4byte 0x000026AC
 _0807E8E8: .4byte 0x00002710
 _0807E8EC: .4byte 0xFFFFFD00

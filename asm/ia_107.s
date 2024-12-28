@@ -49,7 +49,7 @@ CreateEntity_Interactable107: @ 0x080949B8
 	ldr r0, _08094A44 @ =0x0300003E
 	adds r4, r2, r0
 	movs r3, #0
-	ldr r5, _08094A48 @ =gUnknown_03005088
+	ldr r5, _08094A48 @ =gNumSingleplayerCharacters
 	adds r0, #2
 	adds r2, r2, r0
 _08094A14:
@@ -75,7 +75,7 @@ _08094A38: .4byte Task_Interactable107
 _08094A3C: .4byte 0x0300003C
 _08094A40: .4byte 0x0300003D
 _08094A44: .4byte 0x0300003E
-_08094A48: .4byte gUnknown_03005088
+_08094A48: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_Interactable107
 Task_Interactable107: @ 0x08094A4C
@@ -790,7 +790,7 @@ _08094F54:
 	adds r3, #2
 	str r3, [sp, #0x24]
 	adds r5, #1
-	ldr r0, _08094FC8 @ =gUnknown_03005088
+	ldr r0, _08094FC8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -844,5 +844,5 @@ _08094FAE:
 	.align 2, 0
 _08094FC0: .4byte gPlayer
 _08094FC4: .4byte gPartner
-_08094FC8: .4byte gUnknown_03005088
+_08094FC8: .4byte gNumSingleplayerCharacters
 _08094FCC: .4byte gCurTask

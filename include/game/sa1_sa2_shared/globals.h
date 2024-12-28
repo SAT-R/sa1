@@ -10,7 +10,7 @@
 
 #define GAME_MODE_MULTI_PLAYER               3
 #define GAME_MODE_TEAM_PLAY                  4
-#define GAME_MODE_MULTI_PLAYER_COLLECT_RINGS 5
+#define GAME_MODE_MULTI_PLAYER_COLLECT_RINGS 6
 
 #define IS_SINGLE_PLAYER                                                                                                                   \
     ((gGameMode == GAME_MODE_SINGLE_PLAYER) || (gGameMode == GAME_MODE_TIME_ATTACK) || (gGameMode == GAME_MODE_BOSS_TIME_ATTACK))
@@ -75,6 +75,9 @@ extern u8 gGameMode;
 
 extern s8 gCurrentLevel;
 extern s8 gSelectedCharacter;
+#if (GAME == GAME_SA1)
+extern s8 gNumSingleplayerCharacters;
+#endif
 
 extern u8 gMultiplayerLanguage;
 

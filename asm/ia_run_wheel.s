@@ -356,7 +356,7 @@ _0808EA3E:
 	bl sub_808EA80
 _0808EA4A:
 	adds r4, #1
-	ldr r0, _0808EA7C @ =gUnknown_03005088
+	ldr r0, _0808EA7C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -381,7 +381,7 @@ _0808EA6C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0808EA7C: .4byte gUnknown_03005088
+_0808EA7C: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_808EA80
 sub_808EA80: @ 0x0808EA80

@@ -111,7 +111,7 @@ _0809402C:
 	ldr r3, _08094048 @ =gCurTask
 _0809402E:
 	adds r4, #1
-	ldr r0, _0809404C @ =gUnknown_03005088
+	ldr r0, _0809404C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -124,7 +124,7 @@ _0809402E:
 	b _0809417E
 	.align 2, 0
 _08094048: .4byte gCurTask
-_0809404C: .4byte gUnknown_03005088
+_0809404C: .4byte gNumSingleplayerCharacters
 _08094050:
 	adds r0, r4, r5
 	lsls r0, r0, #0x10
@@ -285,7 +285,7 @@ _08094168:
 	str r0, [r5, #0x10]
 _0809416E:
 	adds r4, #1
-	ldr r0, _08094190 @ =gUnknown_03005088
+	ldr r0, _08094190 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -302,7 +302,7 @@ _0809417E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08094190: .4byte gUnknown_03005088
+_08094190: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_Lava
 CreateEntity_Lava: @ 0x08094194

@@ -761,7 +761,7 @@ _080913D4:
 	strb r0, [r1]
 _080913EA:
 	adds r4, #1
-	ldr r0, _08091418 @ =gUnknown_03005088
+	ldr r0, _08091418 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -782,7 +782,7 @@ _08091400:
 	.align 2, 0
 _08091410: .4byte gCurTask
 _08091414: .4byte sub_809141C
-_08091418: .4byte gUnknown_03005088
+_08091418: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start sub_809141C
 sub_809141C: @ 0x0809141C

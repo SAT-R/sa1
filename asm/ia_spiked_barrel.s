@@ -593,7 +593,7 @@ _08090C88:
 	ldr r4, [sp, #0x14]
 	adds r4, #1
 	str r4, [sp, #0x14]
-	ldr r0, _08090D14 @ =gUnknown_03005088
+	ldr r0, _08090D14 @ =gNumSingleplayerCharacters
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	adds r3, r0, #0
@@ -660,7 +660,7 @@ _08090CF8:
 _08090D08: .4byte gCamera
 _08090D0C: .4byte gPlayer
 _08090D10: .4byte gPartner
-_08090D14: .4byte gUnknown_03005088
+_08090D14: .4byte gNumSingleplayerCharacters
 _08090D18: .4byte gCurTask
 _08090D1C:
 	ldr r1, _08090D5C @ =gPlayer

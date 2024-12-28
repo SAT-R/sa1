@@ -288,7 +288,7 @@ _08089C88: .4byte gCamera
 _08089C8C:
 	movs r3, #1
 	add r8, r3
-	ldr r0, _08089D70 @ =gUnknown_03005088
+	ldr r0, _08089D70 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -402,7 +402,7 @@ _08089D5E:
 	bl TaskDestroy
 	b _08089DCA
 	.align 2, 0
-_08089D70: .4byte gUnknown_03005088
+_08089D70: .4byte gNumSingleplayerCharacters
 _08089D74: .4byte gPlayer
 _08089D78: .4byte gPartner
 _08089D7C: .4byte gUnknown_03005A46
@@ -2054,7 +2054,7 @@ _0808AAEC: .4byte gCamera
 _0808AAF0:
 	movs r3, #1
 	add sb, r3
-	ldr r0, _0808ABDC @ =gUnknown_03005088
+	ldr r0, _0808ABDC @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2171,7 +2171,7 @@ _0808ABCA:
 	bl TaskDestroy
 	b _0808AC34
 	.align 2, 0
-_0808ABDC: .4byte gUnknown_03005088
+_0808ABDC: .4byte gNumSingleplayerCharacters
 _0808ABE0: .4byte gPlayer
 _0808ABE4: .4byte gPartner
 _0808ABE8: .4byte gCurTask

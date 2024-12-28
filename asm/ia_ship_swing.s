@@ -786,7 +786,7 @@ _0807F91A:
 	adds r3, #4
 	str r3, [sp, #0x34]
 	adds r6, #1
-	ldr r0, _0807F960 @ =gUnknown_03005088
+	ldr r0, _0807F960 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -818,7 +818,7 @@ _0807F950:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807F960: .4byte gUnknown_03005088
+_0807F960: .4byte gNumSingleplayerCharacters
 _0807F964: .4byte 0xFFFFFBFF
 
 	thumb_func_start TaskDestructor_ShipSwing

@@ -934,7 +934,7 @@ _0808C6B0:
 	adds r0, #4
 	str r0, [sp, #0xc]
 	adds r7, #1
-	ldr r0, _0808C73C @ =gUnknown_03005088
+	ldr r0, _0808C73C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1001,7 +1001,7 @@ _0808C724:
 	.align 2, 0
 _0808C734: .4byte gPlayer
 _0808C738: .4byte gPartner
-_0808C73C: .4byte gUnknown_03005088
+_0808C73C: .4byte gNumSingleplayerCharacters
 _0808C740: .4byte gCamera
 _0808C744: .4byte gCurTask
 

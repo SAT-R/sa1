@@ -177,7 +177,7 @@ _0804E62A:
 	mov r3, sl
 	bl sub_800BFEC
 	adds r5, r0, #0
-	ldr r3, _0804E71C @ =gUnknown_03005088
+	ldr r3, _0804E71C @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r3, r0]
 	cmp r0, #2
@@ -230,7 +230,7 @@ _0804E69A:
 	mov r3, sl
 	bl sub_800C0E0
 	adds r5, r0, #0
-	ldr r3, _0804E71C @ =gUnknown_03005088
+	ldr r3, _0804E71C @ =gNumSingleplayerCharacters
 	movs r0, #0
 	ldrsb r0, [r3, r0]
 	cmp r0, #2
@@ -265,7 +265,7 @@ _0804E70C: .4byte 0x0300009A
 _0804E710: .4byte 0x03000088
 _0804E714: .4byte 0x0300008C
 _0804E718: .4byte 0x03000090
-_0804E71C: .4byte gUnknown_03005088
+_0804E71C: .4byte gNumSingleplayerCharacters
 _0804E720: .4byte gPartner
 _0804E724: .4byte 0x03000097
 _0804E728:
@@ -1869,7 +1869,7 @@ _0804F310:
 	ldr r3, _0804F354 @ =gPlayer
 	bl sub_800BF10
 	adds r6, r0, #0
-	ldr r0, _0804F358 @ =gUnknown_03005088
+	ldr r0, _0804F358 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -1884,7 +1884,7 @@ _0804F310:
 	.align 2, 0
 _0804F350: .4byte gSineTable
 _0804F354: .4byte gPlayer
-_0804F358: .4byte gUnknown_03005088
+_0804F358: .4byte gNumSingleplayerCharacters
 _0804F35C: .4byte gPartner
 _0804F360:
 	movs r0, #0

@@ -446,7 +446,7 @@ _0807506A:
 	movs r7, #1
 _0807506C:
 	adds r6, #1
-	ldr r0, _080750A8 @ =gUnknown_03005088
+	ldr r0, _080750A8 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -469,7 +469,7 @@ _08075098: .4byte 0xFFFFFEFF
 _0807509C: .4byte 0xFFFFF800
 _080750A0: .4byte 0xFC400000
 _080750A4: .4byte gGameMode
-_080750A8: .4byte gUnknown_03005088
+_080750A8: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start TaskDestructor_Trampoline
 TaskDestructor_Trampoline: @ 0x080750AC
