@@ -1,6 +1,5 @@
 #include "global.h"
 #include "task.h"
-#include "sprite.h"
 #include "lib/m4a/m4a.h"
 
 #include "game/sa1_sa2_shared/globals.h"
@@ -33,7 +32,7 @@ void CreateCollectRingEffect(s16 x, s16 y)
 
         s->x = x;
         s->y = y;
-        s->graphics.dest = RESERVED_RING_TILES_VRAM;
+        s->graphics.dest = RESERVED_RING_EFFECT_TILES_VRAM;
         s->oamFlags = SPRITE_OAM_ORDER(15);
         s->graphics.size = 0;
         s->graphics.anim = SA2_ANIM_RING_COLLECT_EFFECT;
