@@ -30,7 +30,7 @@ CreateEntity_PenMk1: @ 0x08073998
 	asrs r0, r0, #0x19
 	cmp r0, #3
 	bne _080739CC
-	ldr r0, _08073A94 @ =gUnknown_03005160
+	ldr r0, _08073A94 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	bne _08073A80
@@ -133,7 +133,7 @@ _08073A80:
 	bx r0
 	.align 2, 0
 _08073A90: .4byte gCurrentLevel
-_08073A94: .4byte gUnknown_03005160
+_08073A94: .4byte gLoadedSaveGame
 _08073A98: .4byte Task_PenMk1Main
 _08073A9C: .4byte TaskDestructor_8009670
 _08073AA0: .4byte 0x0300000C

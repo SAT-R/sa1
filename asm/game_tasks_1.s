@@ -143,7 +143,7 @@ _0801CE58:
 	strb r5, [r0, #0xd]
 	strb r1, [r0, #0xe]
 	strb r2, [r0, #0xf]
-	bl sub_800E0C4
+	bl CreateUnusedLevelSelect
 	b _0801CEFC
 	.align 2, 0
 _0801CEA8: .4byte gInput
@@ -153,7 +153,7 @@ _0801CEB4:
 	ldrb r0, [r4]
 	cmp r0, #0
 	bne _0801CEE8
-	ldr r1, _0801CEDC @ =gUnknown_03005160
+	ldr r1, _0801CEDC @ =gLoadedSaveGame
 	ldr r0, _0801CEE0 @ =gSelectedCharacter
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -169,7 +169,7 @@ _0801CEB4:
 	bl sub_803DBD4
 	b _0801CEFC
 	.align 2, 0
-_0801CEDC: .4byte gUnknown_03005160
+_0801CEDC: .4byte gLoadedSaveGame
 _0801CEE0: .4byte gSelectedCharacter
 _0801CEE4: .4byte gCurrentLevel
 _0801CEE8:
@@ -615,7 +615,7 @@ _0801D25A:
 	ldr r3, [sp]
 	adds r3, #0x62
 	str r3, [sp, #0x14]
-	ldr r4, _0801D2DC @ =gUnknown_03005160
+	ldr r4, _0801D2DC @ =gLoadedSaveGame
 	str r4, [sp, #8]
 	str r0, [sp, #4]
 _0801D274:
@@ -673,7 +673,7 @@ _0801D2D2:
 	bl sub_8052F78
 	b _0801D320
 	.align 2, 0
-_0801D2DC: .4byte gUnknown_03005160
+_0801D2DC: .4byte gLoadedSaveGame
 _0801D2E0: .4byte 0x04000128
 _0801D2E4: .4byte gUnknown_03005170
 _0801D2E8:

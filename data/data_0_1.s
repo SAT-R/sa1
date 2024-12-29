@@ -207,7 +207,7 @@ gUnknown_080BB327:
 
     .global gUnknown_080BB32C
 gUnknown_080BB32C:
-    .4byte CreateMultiplayerModeSelectScreen, sub_80100A8, CreateOptionsMenu, sub_800E060
+    .4byte CreateMultiplayerModeSelectScreen, CreateTimeAttackMenu, CreateOptionsMenu, LoadTinyChaoGarden
 
     .global gUnknown_080BB33C
 gUnknown_080BB33C:
@@ -215,7 +215,8 @@ gUnknown_080BB33C:
 
     .global gUnknown_080BB340
 gUnknown_080BB340:
-    .incbin "baserom.gba", 0x000BB340, 0x8
+    .ascii "STAGE\0"
+    .byte 0, 0
 
     .global gUnknown_080BB348
 gUnknown_080BB348:

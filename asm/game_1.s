@@ -3176,7 +3176,7 @@ sub_8029908: @ 0x08029908
 	movs r0, #0xfb
 	ands r0, r2
 	strb r0, [r1]
-	ldr r0, _080299AC @ =gUnknown_03005160
+	ldr r0, _080299AC @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x1c]
 	bl sub_804D02C
 	bl sub_802D158
@@ -3200,7 +3200,7 @@ _0802999C: .4byte gCurrentLevel
 _080299A0: .4byte gUnknown_03005070
 _080299A4: .4byte gUnknown_03005154
 _080299A8: .4byte gPlayer
-_080299AC: .4byte gUnknown_03005160
+_080299AC: .4byte gLoadedSaveGame
 
 	thumb_func_start sub_80299B0
 sub_80299B0: @ 0x080299B0

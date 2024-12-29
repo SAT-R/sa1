@@ -343,7 +343,7 @@ _0802D994:
 	adds r1, #0x1d
 	adds r0, r3, r1
 	strb r4, [r0]
-	ldr r0, _0802DA24 @ =gUnknown_03005160
+	ldr r0, _0802DA24 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	beq _0802DA2C
@@ -360,7 +360,7 @@ _0802DA14: .4byte 0x030000A8
 _0802DA18: .4byte 0x030000AA
 _0802DA1C: .4byte 0x0000FFF8
 _0802DA20: .4byte 0x030000AF
-_0802DA24: .4byte gUnknown_03005160
+_0802DA24: .4byte gLoadedSaveGame
 _0802DA28: .4byte 0x030000AE
 _0802DA2C:
 	ldr r1, _0802DB3C @ =0x030000AE

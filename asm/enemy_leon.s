@@ -29,7 +29,7 @@ CreateEntity_Leon: @ 0x0806E990
 	asrs r0, r0, #0x19
 	cmp r0, #4
 	bne _0806E9C4
-	ldr r0, _0806EA8C @ =gUnknown_03005160
+	ldr r0, _0806EA8C @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	bne _0806EA76
@@ -131,7 +131,7 @@ _0806EA76:
 	bx r0
 	.align 2, 0
 _0806EA88: .4byte gCurrentLevel
-_0806EA8C: .4byte gUnknown_03005160
+_0806EA8C: .4byte gLoadedSaveGame
 _0806EA90: .4byte sub_806EAB8
 _0806EA94: .4byte TaskDestructor_8009670
 _0806EA98: .4byte 0x0300000C

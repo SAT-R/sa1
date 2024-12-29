@@ -1012,7 +1012,7 @@ sub_804EC60: @ 0x0804EC60
 	strb r6, [r0]
 	adds r3, #9
 	movs r1, #8
-	ldr r0, _0804ED7C @ =gUnknown_03005160
+	ldr r0, _0804ED7C @ =gLoadedSaveGame
 	ldrb r2, [r0, #0x18]
 	lsls r0, r2, #1
 	subs r1, r1, r0
@@ -1104,7 +1104,7 @@ sub_804EC60: @ 0x0804EC60
 	bx r0
 	.align 2, 0
 _0804ED78: .4byte 0xFFFFE000
-_0804ED7C: .4byte gUnknown_03005160
+_0804ED7C: .4byte gLoadedSaveGame
 
 	thumb_func_start sub_804ED80
 sub_804ED80: @ 0x0804ED80

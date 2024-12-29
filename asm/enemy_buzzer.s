@@ -28,7 +28,7 @@ CreateEntity_Buzzer: @ 0x0801DC84
 	lsrs r0, r0, #1
 	cmp r0, #0
 	bne _0801DCB6
-	ldr r0, _0801DDB8 @ =gUnknown_03005160
+	ldr r0, _0801DDB8 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	bne _0801DDA2
@@ -160,7 +160,7 @@ _0801DDA2:
 	bx r0
 	.align 2, 0
 _0801DDB4: .4byte gCurrentLevel
-_0801DDB8: .4byte gUnknown_03005160
+_0801DDB8: .4byte gLoadedSaveGame
 _0801DDBC: .4byte Task_BuzzerMain
 _0801DDC0: .4byte TaskDestructor_8009670
 _0801DDC4: .4byte 0x0300000C

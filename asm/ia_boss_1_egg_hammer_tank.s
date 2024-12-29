@@ -705,7 +705,7 @@ _08025F70:
 	adds r1, #0x10
 	adds r0, r3, r1
 	strb r4, [r0]
-	ldr r0, _08025FF4 @ =gUnknown_03005160
+	ldr r0, _08025FF4 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	beq _08025FFC
@@ -721,7 +721,7 @@ _08025FE4: .4byte 0x03000094
 _08025FE8: .4byte 0x03000096
 _08025FEC: .4byte 0x0000FFFC
 _08025FF0: .4byte 0x0300009B
-_08025FF4: .4byte gUnknown_03005160
+_08025FF4: .4byte gLoadedSaveGame
 _08025FF8: .4byte 0x0300009A
 _08025FFC:
 	ldr r1, _08026100 @ =0x0300009A

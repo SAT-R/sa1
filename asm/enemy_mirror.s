@@ -29,7 +29,7 @@ CreateEntity_Mirror: @ 0x0806FAB0
 	asrs r0, r0, #0x19
 	cmp r0, #5
 	bne _0806FAE4
-	ldr r0, _0806FBB0 @ =gUnknown_03005160
+	ldr r0, _0806FBB0 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	bne _0806FB9C
@@ -134,7 +134,7 @@ _0806FB9C:
 	bx r0
 	.align 2, 0
 _0806FBAC: .4byte gCurrentLevel
-_0806FBB0: .4byte gUnknown_03005160
+_0806FBB0: .4byte gLoadedSaveGame
 _0806FBB4: .4byte sub_806FBDC
 _0806FBB8: .4byte TaskDestructor_8009670
 _0806FBBC: .4byte 0x0300000C

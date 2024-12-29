@@ -29,7 +29,7 @@ CreateEntity_Slot: @ 0x0806E064
 	asrs r0, r0, #0x19
 	cmp r0, #2
 	bne _0806E098
-	ldr r0, _0806E164 @ =gUnknown_03005160
+	ldr r0, _0806E164 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	bne _0806E150
@@ -134,7 +134,7 @@ _0806E150:
 	bx r0
 	.align 2, 0
 _0806E160: .4byte gCurrentLevel
-_0806E164: .4byte gUnknown_03005160
+_0806E164: .4byte gLoadedSaveGame
 _0806E168: .4byte sub_806E190
 _0806E16C: .4byte TaskDestructor_8009670
 _0806E170: .4byte 0x0300000C

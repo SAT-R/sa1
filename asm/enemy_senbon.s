@@ -29,7 +29,7 @@ CreateEntity_Senbon: @ 0x080709A0
 	asrs r0, r0, #0x19
 	cmp r0, #1
 	bne _080709D4
-	ldr r0, _08070A9C @ =gUnknown_03005160
+	ldr r0, _08070A9C @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	bne _08070A86
@@ -131,7 +131,7 @@ _08070A86:
 	bx r0
 	.align 2, 0
 _08070A98: .4byte gCurrentLevel
-_08070A9C: .4byte gUnknown_03005160
+_08070A9C: .4byte gLoadedSaveGame
 _08070AA0: .4byte sub_8070ACC
 _08070AA4: .4byte TaskDestructor_8009670
 _08070AA8: .4byte 0x0300000C

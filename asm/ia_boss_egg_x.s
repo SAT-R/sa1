@@ -86,7 +86,7 @@ _080371FC:
 	adds r1, #0x12
 	adds r0, r3, r1
 	strh r2, [r0]
-	ldr r0, _08037288 @ =gUnknown_03005160
+	ldr r0, _08037288 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	beq _08037290
@@ -100,7 +100,7 @@ _08037278: .4byte Task_EggXMain
 _0803727C: .4byte TaskDestructor_EggX
 _08037280: .4byte 0x03000092
 _08037284: .4byte 0x03000095
-_08037288: .4byte gUnknown_03005160
+_08037288: .4byte gLoadedSaveGame
 _0803728C: .4byte 0x03000094
 _08037290:
 	ldr r1, _080373C8 @ =0x03000094
@@ -2096,7 +2096,7 @@ _080382B4:
 	asrs r0, r0, #0x18
 	cmp r0, #0xb
 	ble _0803832C
-	ldr r1, _08038324 @ =gUnknown_03005160
+	ldr r1, _08038324 @ =gLoadedSaveGame
 	ldrb r0, [r1, #0x1d]
 	cmp r0, #0x7f
 	bne _0803832C
@@ -2128,7 +2128,7 @@ _08038314: .4byte sub_803FD5C
 _08038318: .4byte 0xFFFFFF00
 _0803831C: .4byte gSelectedCharacter
 _08038320: .4byte gCurrentLevel
-_08038324: .4byte gUnknown_03005160
+_08038324: .4byte gLoadedSaveGame
 _08038328: .4byte gUnknown_03005124
 _0803832C:
 	bl sub_803A594
@@ -2156,7 +2156,7 @@ _08038332:
 	asrs r0, r0, #0x18
 	cmp r0, #0xb
 	ble _080383A2
-	ldr r1, _080383F4 @ =gUnknown_03005160
+	ldr r1, _080383F4 @ =gLoadedSaveGame
 	ldrb r0, [r1, #0x1d]
 	cmp r0, #0x7f
 	bne _080383A2
@@ -2227,7 +2227,7 @@ _080383A2:
 	.align 2, 0
 _080383EC: .4byte gSelectedCharacter
 _080383F0: .4byte gCurrentLevel
-_080383F4: .4byte gUnknown_03005160
+_080383F4: .4byte gLoadedSaveGame
 _080383F8: .4byte gUnknown_03005124
 _080383FC: .4byte 0xFFF80000
 _08038400: .4byte gUnknown_03005040
@@ -6354,7 +6354,7 @@ TaskDestructor_EggX: @ 0x0803A530
 sub_803A54C: @ 0x0803A54C
 	push {r4, lr}
 	sub sp, #4
-	ldr r2, _0803A588 @ =gUnknown_03005160
+	ldr r2, _0803A588 @ =gLoadedSaveGame
 	ldrh r0, [r2, #8]
 	cmp r0, #0xd
 	bhi _0803A55A
@@ -6383,7 +6383,7 @@ _0803A55A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803A588: .4byte gUnknown_03005160
+_0803A588: .4byte gLoadedSaveGame
 _0803A58C: .4byte sub_8038554
 _0803A590: .4byte 0x00001FFF
 

@@ -27,6 +27,9 @@ SECTIONS {
         build/sa1/src/game/sa1_sa2_shared/rings_manager.o(.text);
         build/sa1/asm/stage__entities_manager.o(.text);
         build/sa1/asm/game_0.o(.text);
+        build/sa1/asm/title_screen.o(.text);
+        build/sa1/asm/unused_level_select.o(.text);
+        build/sa1/asm/game_0_1.o(.text);
         build/sa1/asm/ia_itembox_chaohunt.o(.text);
         build/sa1/asm/game_tasks_0.o(.text);
         build/sa1/asm/game_tasks_1.o(.text);
@@ -43,7 +46,7 @@ SECTIONS {
         build/sa1/asm/ia_toggle_player_layer.o(.text);
         build/sa1/asm/ia_grind_rail.o(.text);
         build/sa1/asm/ia_platform_thin.o(.text);
-        build/sa1/asm/sakit__ring__magnetic_ring.o(.text);
+        build/sa1/asm/sa1_sa2_shared__ring__magnetic_ring.o(.text);
         build/sa1/asm/ia_platform_crumbling.o(.text);
         build/sa1/asm/ia_to_be_continued_text.o(.text);
         build/sa1/asm/sound_unk.o(.text);
@@ -194,6 +197,7 @@ SECTIONS {
         build/sa1/src/bg_triangles.o(.rodata);
         build/sa1/src/multi_sio.o(.rodata);
         build/sa1/src/sio32_multi_load.o(.rodata);
+        build/sa1/src/game/sa1_sa2_shared/unused_level_select.o(.rodata);
         build/sa1/data/chao_garden.o(.rodata);
         build/sa1/src/data/entity_tables.o(.rodata);
         build/sa1/data/data_0_1.o(.rodata);

@@ -81,7 +81,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x0000514C; gCurrentLevel = .;
 . = 0x00005150; gMultiplayerConnections = .;
 . = 0x00005154; gUnknown_03005154 = .;
-. = 0x00005160; gUnknown_03005160 = .;
+. = 0x00005160; gLoadedSaveGame = .;
 . = 0x00005170; gUnknown_03005170 = .; /* Player 1 - Name[6] */
                   /* gUnknown_03005178 -- Player 1 - Difficulty */
 . = 0x00005180; gUnknown_03005180 = .;

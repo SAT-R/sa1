@@ -875,7 +875,7 @@ sub_80504DC: @ 0x080504DC
 	movs r0, #0xf0
 	strh r0, [r1]
 	subs r1, #4
-	ldr r0, _08050854 @ =gUnknown_03005160
+	ldr r0, _08050854 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	lsls r0, r0, #1
 	movs r3, #8
@@ -1248,7 +1248,7 @@ _08050836:
 _08050848: .4byte 0xFFFF0000
 _0805084C: .4byte 0xFFFFCA00
 _08050850: .4byte 0x00400002
-_08050854: .4byte gUnknown_03005160
+_08050854: .4byte gLoadedSaveGame
 _08050858: .4byte gUnknown_030061F0
 _0805085C: .4byte 0xFFFFE400
 _08050860: .4byte 0xFFFFE900

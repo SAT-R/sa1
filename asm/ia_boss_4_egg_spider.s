@@ -297,7 +297,7 @@ _08030A98:
 	str r0, [r3, #0x70]
 	str r4, [r3, #0x74]
 	str r4, [r3, #0x78]
-	ldr r0, _08030B30 @ =gUnknown_03005160
+	ldr r0, _08030B30 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	beq _08030B38
@@ -313,7 +313,7 @@ _08030B20: .4byte sub_804C40C
 _08030B24: .4byte 0x0000FFFD
 _08030B28: .4byte 0x03000084
 _08030B2C: .4byte 0x03000087
-_08030B30: .4byte gUnknown_03005160
+_08030B30: .4byte gLoadedSaveGame
 _08030B34: .4byte 0x03000086
 _08030B38:
 	ldr r1, _08030C58 @ =0x03000086

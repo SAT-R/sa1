@@ -305,7 +305,7 @@ _0802F19C:
 	ldr r2, _0802F23C @ =0x0300008E
 	adds r0, r3, r2
 	strb r4, [r0]
-	ldr r0, _0802F240 @ =gUnknown_03005160
+	ldr r0, _0802F240 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x18]
 	cmp r0, #0
 	beq _0802F248
@@ -325,7 +325,7 @@ _0802F230: .4byte 0x03000088
 _0802F234: .4byte 0x0000FFF8
 _0802F238: .4byte 0x0300008B
 _0802F23C: .4byte 0x0300008E
-_0802F240: .4byte gUnknown_03005160
+_0802F240: .4byte gLoadedSaveGame
 _0802F244: .4byte 0x0300008A
 _0802F248:
 	ldr r5, _0802F3A8 @ =0x0300008A
