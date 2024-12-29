@@ -23495,8 +23495,8 @@ _0805E3F4: .4byte gUnknown_08687B54
 _0805E3F8: .4byte 0x00000694
 _0805E3FC: .4byte gUnknown_0868483C
 
-	thumb_func_start sub_805E400
-sub_805E400: @ 0x0805E400
+	thumb_func_start CreateStaffCredits
+CreateStaffCredits: @ 0x0805E400
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -23948,7 +23948,7 @@ _0805E7E6:
 	mov r1, r8
 	adds r0, r1, r6
 	lsls r1, r0, #5
-	ldr r3, _0805E80C @ =gUnknown_086886B8
+	ldr r3, _0805E80C @ =sCreditsEntries
 	adds r2, r1, r3
 	ldrb r1, [r2]
 	adds r3, r0, #0
@@ -23964,7 +23964,7 @@ _0805E7E6:
 	subs r0, r0, r1
 	b _0805E81C
 	.align 2, 0
-_0805E80C: .4byte gUnknown_086886B8
+_0805E80C: .4byte sCreditsEntries
 _0805E810:
 	movs r0, #2
 	ldrsb r0, [r2, r0]
@@ -23981,7 +23981,7 @@ _0805E81C:
 	cmp r0, #0x8a
 	bgt _0805E86E
 	lsls r0, r3, #5
-	ldr r3, _0805E880 @ =gUnknown_086886B8
+	ldr r3, _0805E880 @ =sCreditsEntries @ Length of Entry String
 	adds r4, r0, r3
 	ldrb r3, [r4]
 	lsls r2, r3, #2
@@ -24001,7 +24001,7 @@ _0805E81C:
 	adds r2, r5, #0
 	adds r2, #0x72
 	strh r1, [r2]
-	ldr r1, _0805E884 @ =gUnknown_086886BB
+	ldr r1, _0805E884 @ =sCreditsEntries+0x3 @ Entry String
 	adds r0, r0, r1
 	adds r1, r5, #0
 	adds r1, #0x60
@@ -24024,8 +24024,8 @@ _0805E86E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805E880: .4byte gUnknown_086886B8
-_0805E884: .4byte gUnknown_086886BB
+_0805E880: .4byte sCreditsEntries
+_0805E884: .4byte sCreditsEntries+0x3
 
 	thumb_func_start sub_805E888
 sub_805E888: @ 0x0805E888
@@ -25512,7 +25512,7 @@ _0805F4D2:
 	ldr r0, _0805F564 @ =gMPlayInfo_SE3
 	movs r1, #1
 	bl m4aMPlayFadeOut
-	ldr r1, _0805F584 @ =gUnknown_0868B078
+	ldr r1, _0805F584 @ =sSoundTestSongIds
 	lsls r0, r5, #1
 	adds r0, r0, r1
 	ldrh r0, [r0]
@@ -25555,7 +25555,7 @@ _0805F574: .4byte 0x0300010E
 _0805F578: .4byte 0x03000021
 _0805F57C: .4byte 0x00000357
 _0805F580: .4byte 0x03000020
-_0805F584: .4byte gUnknown_0868B078
+_0805F584: .4byte sSoundTestSongIds
 _0805F588:
 	movs r4, #0
 	adds r0, r6, #0
@@ -39296,7 +39296,7 @@ sub_8066520: @ 0x08066520
 	ldr r0, _080665C8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_805E400
+	bl CreateStaffCredits
 	b _08066614
 	.align 2, 0
 _080665AC: .4byte gCurTask
@@ -42409,7 +42409,7 @@ sub_8067E68: @ 0x08067E68
 	ldr r0, _08067EE4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_805E400
+	bl CreateStaffCredits
 	b _08067F28
 	.align 2, 0
 _08067ECC: .4byte gCurTask

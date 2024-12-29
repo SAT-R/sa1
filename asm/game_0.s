@@ -10066,7 +10066,7 @@ _0800E374: .4byte gCurrentLevel
 _0800E378:
 	cmp r4, #0xff
 	bne _0800E382
-	bl sub_805E400
+	bl CreateStaffCredits
 	b _0800E3FC
 _0800E382:
 	cmp r4, #0xfe
