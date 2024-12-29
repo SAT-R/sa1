@@ -5,6 +5,633 @@
 .syntax unified
 .arm
 
+	thumb_func_start CreateSegaLogo
+CreateSegaLogo: @ 0x0800CFB8
+	push {r4, r5, r6, lr}
+	sub sp, #8
+	ldr r0, _0800D060 @ =gBldRegs
+	movs r5, #0
+	movs r4, #0
+	strh r4, [r0]
+	strh r4, [r0, #4]
+	ldr r2, _0800D064 @ =gFlags
+	ldr r0, [r2]
+	movs r1, #0x80
+	lsls r1, r1, #8
+	orrs r0, r1
+	str r0, [r2]
+	ldr r0, _0800D068 @ =gDispCnt
+	movs r2, #0x40
+	strh r2, [r0]
+	ldr r1, _0800D06C @ =gBgCntRegs
+	ldr r0, _0800D070 @ =0x00005E01
+	strh r0, [r1, #4]
+	ldr r0, _0800D074 @ =gBgScrollRegs
+	strh r4, [r0, #8]
+	strh r4, [r0, #0xa]
+	str r4, [sp, #4]
+	ldr r1, _0800D078 @ =0x040000D4
+	add r0, sp, #4
+	str r0, [r1]
+	movs r6, #0xc0
+	lsls r6, r6, #0x13
+	str r6, [r1, #4]
+	ldr r0, _0800D07C @ =0x85000010
+	str r0, [r1, #8]
+	ldr r0, [r1, #8]
+	ldr r0, _0800D080 @ =sa2__gUnknown_03004D80
+	strb r5, [r0, #2]
+	ldr r0, _0800D084 @ =sa2__gUnknown_03002280
+	strb r5, [r0, #8]
+	strb r5, [r0, #9]
+	movs r1, #0xff
+	strb r1, [r0, #0xa]
+	strb r2, [r0, #0xb]
+	ldr r0, _0800D088 @ =sub_800D3C4
+	movs r2, #0x80
+	lsls r2, r2, #6
+	str r4, [sp]
+	movs r1, #0x44
+	movs r3, #0
+	bl TaskCreate
+	ldrh r2, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r0, r2, r0
+	strh r4, [r0]
+	ldr r1, _0800D08C @ =0x03000004
+	adds r0, r2, r1
+	str r6, [r0, #4]
+	strh r4, [r0, #0xa]
+	ldr r1, _0800D090 @ =0x0600F000
+	str r1, [r0, #0xc]
+	strh r4, [r0, #0x18]
+	strh r4, [r0, #0x1a]
+	movs r1, #0x56
+	strh r1, [r0, #0x1c]
+	strh r4, [r0, #0x1e]
+	strh r4, [r0, #0x20]
+	movs r1, #5
+	strh r1, [r0, #0x22]
+	strh r1, [r0, #0x24]
+	movs r1, #0x14
+	strh r1, [r0, #0x26]
+	movs r1, #0xa
+	strh r1, [r0, #0x28]
+	ldr r1, _0800D094 @ =0x0300002E
+	adds r2, r2, r1
+	strb r5, [r2]
+	movs r1, #2
+	strh r1, [r0, #0x2e]
+	bl DrawBackground
+	add sp, #8
+	pop {r4, r5, r6}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D060: .4byte gBldRegs
+_0800D064: .4byte gFlags
+_0800D068: .4byte gDispCnt
+_0800D06C: .4byte gBgCntRegs
+_0800D070: .4byte 0x00005E01
+_0800D074: .4byte gBgScrollRegs
+_0800D078: .4byte 0x040000D4
+_0800D07C: .4byte 0x85000010
+_0800D080: .4byte sa2__gUnknown_03004D80
+_0800D084: .4byte sa2__gUnknown_03002280
+_0800D088: .4byte sub_800D3C4
+_0800D08C: .4byte 0x03000004
+_0800D090: .4byte 0x0600F000
+_0800D094: .4byte 0x0300002E
+
+	thumb_func_start Task_800D098
+Task_800D098: @ 0x0800D098
+	push {r4, r5, r6, r7, lr}
+	sub sp, #4
+	ldr r7, _0800D10C @ =gCurTask
+	ldr r0, [r7]
+	ldrh r1, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r6, r1, r0
+	ldr r2, _0800D110 @ =gDispCnt
+	ldrh r0, [r2]
+	movs r3, #0x80
+	lsls r3, r3, #3
+	adds r1, r3, #0
+	orrs r0, r1
+	strh r0, [r2]
+	ldrh r1, [r6]
+	adds r1, #1
+	strh r1, [r6]
+	movs r4, #0xa0
+	subs r2, r4, r1
+	lsls r2, r2, #0x18
+	lsrs r2, r2, #0x18
+	ldr r5, _0800D114 @ =gBgScrollRegs
+	ldrh r3, [r5, #8]
+	ldrh r0, [r5, #0xa]
+	adds r0, #0xa0
+	subs r0, r0, r1
+	lsls r0, r0, #0x10
+	lsrs r0, r0, #0x10
+	str r0, [sp]
+	movs r0, #2
+	movs r1, #0
+	bl sa2__sub_8007858
+	ldrb r0, [r6]
+	subs r4, r4, r0
+	lsls r4, r4, #0x18
+	lsrs r4, r4, #0x18
+	ldrh r3, [r5, #8]
+	ldrh r0, [r5, #0xa]
+	str r0, [sp]
+	movs r0, #2
+	adds r1, r4, #0
+	movs r2, #0xa0
+	bl sa2__sub_80078D4
+	ldrh r0, [r6]
+	cmp r0, #0xa0
+	bne _0800D104
+	ldr r0, [r7]
+	ldr r1, _0800D118 @ =sub_800D3E0
+	str r1, [r0, #8]
+	movs r0, #0
+	strh r0, [r6]
+_0800D104:
+	add sp, #4
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D10C: .4byte gCurTask
+_0800D110: .4byte gDispCnt
+_0800D114: .4byte gBgScrollRegs
+_0800D118: .4byte sub_800D3E0
+
+	thumb_func_start sub_800D11C
+sub_800D11C: @ 0x0800D11C
+	push {r4, r5, r6, lr}
+	sub sp, #4
+	ldr r0, _0800D188 @ =gCurTask
+	ldr r0, [r0]
+	ldrh r6, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r6, r6, r0
+	ldrh r2, [r6]
+	adds r2, #1
+	strh r2, [r6]
+	movs r4, #0xa0
+	subs r2, r4, r2
+	lsls r2, r2, #0x18
+	lsrs r2, r2, #0x18
+	ldr r5, _0800D18C @ =gBgScrollRegs
+	ldrh r3, [r5, #8]
+	ldrh r0, [r5, #0xa]
+	str r0, [sp]
+	movs r0, #2
+	movs r1, #0
+	bl sa2__sub_80078D4
+	ldrh r1, [r6]
+	subs r4, r4, r1
+	lsls r4, r4, #0x18
+	lsrs r4, r4, #0x18
+	ldrh r3, [r5, #8]
+	ldrh r0, [r5, #0xa]
+	adds r0, #0xa0
+	subs r0, r0, r1
+	lsls r0, r0, #0x10
+	lsrs r0, r0, #0x10
+	str r0, [sp]
+	movs r0, #2
+	adds r1, r4, #0
+	movs r2, #0xa0
+	bl sa2__sub_8007858
+	ldrh r0, [r6]
+	cmp r0, #0xa0
+	bne _0800D17E
+	ldr r0, _0800D190 @ =gFlags
+	ldr r1, [r0]
+	ldr r2, _0800D194 @ =0xFFFF7FFF
+	ands r1, r2
+	str r1, [r0]
+	bl sub_800D40C
+_0800D17E:
+	add sp, #4
+	pop {r4, r5, r6}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D188: .4byte gCurTask
+_0800D18C: .4byte gBgScrollRegs
+_0800D190: .4byte gFlags
+_0800D194: .4byte 0xFFFF7FFF
+
+	thumb_func_start CreateSonicTeamLogo
+CreateSonicTeamLogo: @ 0x0800D198
+	push {r4, r5, r6, lr}
+	sub sp, #8
+	ldr r0, _0800D234 @ =gBldRegs
+	movs r5, #0
+	movs r4, #0
+	strh r4, [r0]
+	strh r4, [r0, #4]
+	ldr r0, _0800D238 @ =gDispCnt
+	movs r2, #0x40
+	strh r2, [r0]
+	ldr r1, _0800D23C @ =gBgCntRegs
+	ldr r0, _0800D240 @ =0x00005E01
+	strh r0, [r1, #4]
+	ldr r0, _0800D244 @ =gBgScrollRegs
+	strh r4, [r0, #8]
+	strh r4, [r0, #0xa]
+	str r4, [sp, #4]
+	ldr r1, _0800D248 @ =0x040000D4
+	add r0, sp, #4
+	str r0, [r1]
+	movs r6, #0xc0
+	lsls r6, r6, #0x13
+	str r6, [r1, #4]
+	ldr r0, _0800D24C @ =0x85000010
+	str r0, [r1, #8]
+	ldr r0, [r1, #8]
+	ldr r0, _0800D250 @ =sa2__gUnknown_03004D80
+	strb r5, [r0, #2]
+	ldr r0, _0800D254 @ =sa2__gUnknown_03002280
+	strb r5, [r0, #8]
+	strb r5, [r0, #9]
+	movs r1, #0xff
+	strb r1, [r0, #0xa]
+	strb r2, [r0, #0xb]
+	ldr r0, _0800D258 @ =Task_SonicTeamLogoInit
+	movs r2, #0x80
+	lsls r2, r2, #6
+	str r4, [sp]
+	movs r1, #0x48
+	movs r3, #0
+	bl TaskCreate
+	ldrh r2, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r0, r2, r0
+	strh r4, [r0]
+	ldr r1, _0800D25C @ =0x03000004
+	adds r0, r2, r1
+	str r6, [r0, #4]
+	strh r4, [r0, #0xa]
+	ldr r1, _0800D260 @ =0x0600F000
+	str r1, [r0, #0xc]
+	strh r4, [r0, #0x18]
+	strh r4, [r0, #0x1a]
+	movs r1, #0x57
+	strh r1, [r0, #0x1c]
+	strh r4, [r0, #0x1e]
+	strh r4, [r0, #0x20]
+	movs r1, #5
+	strh r1, [r0, #0x22]
+	strh r1, [r0, #0x24]
+	movs r1, #0x14
+	strh r1, [r0, #0x26]
+	movs r1, #0xa
+	strh r1, [r0, #0x28]
+	ldr r1, _0800D264 @ =0x0300002E
+	adds r2, r2, r1
+	strb r5, [r2]
+	movs r1, #2
+	strh r1, [r0, #0x2e]
+	bl DrawBackground
+	add sp, #8
+	pop {r4, r5, r6}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D234: .4byte gBldRegs
+_0800D238: .4byte gDispCnt
+_0800D23C: .4byte gBgCntRegs
+_0800D240: .4byte 0x00005E01
+_0800D244: .4byte gBgScrollRegs
+_0800D248: .4byte 0x040000D4
+_0800D24C: .4byte 0x85000010
+_0800D250: .4byte sa2__gUnknown_03004D80
+_0800D254: .4byte sa2__gUnknown_03002280
+_0800D258: .4byte Task_SonicTeamLogoInit
+_0800D25C: .4byte 0x03000004
+_0800D260: .4byte 0x0600F000
+_0800D264: .4byte 0x0300002E
+
+	thumb_func_start Task_800D268
+Task_800D268: @ 0x0800D268
+	push {r4, r5, r6, lr}
+	sub sp, #0xc
+	ldr r4, _0800D2E4 @ =gCurTask
+	ldr r0, [r4]
+	ldrh r1, [r0, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r6, r1, r0
+	ldr r2, _0800D2E8 @ =gDispCnt
+	ldrh r0, [r2]
+	movs r3, #0x80
+	lsls r3, r3, #3
+	adds r1, r3, #0
+	orrs r0, r1
+	strh r0, [r2]
+	ldrh r0, [r6]
+	adds r0, #2
+	strh r0, [r6]
+	lsls r0, r0, #0x10
+	ldr r1, _0800D2EC @ =0x01170000
+	cmp r0, r1
+	bhi _0800D338
+	ldr r5, _0800D2F0 @ =gBgScrollRegs
+	ldrh r3, [r5, #8]
+	ldrh r0, [r5, #0xa]
+	str r0, [sp]
+	movs r0, #2
+	movs r1, #0
+	movs r2, #0x28
+	bl sa2__sub_80078D4
+	ldrh r3, [r5, #8]
+	ldrh r0, [r5, #0xa]
+	str r0, [sp]
+	movs r0, #2
+	movs r1, #0x78
+	movs r2, #0xa0
+	bl sa2__sub_80078D4
+	ldrh r0, [r6]
+	cmp r0, #0xc7
+	bhi _0800D2F4
+	movs r1, #0x8c
+	lsls r1, r1, #1
+	adds r3, r1, #0
+	subs r3, r3, r0
+	lsls r3, r3, #0x10
+	asrs r3, r3, #0x10
+	movs r0, #1
+	rsbs r0, r0, #0
+	str r0, [sp]
+	ldrh r0, [r5, #8]
+	str r0, [sp, #4]
+	ldrh r0, [r5, #0xa]
+	str r0, [sp, #8]
+	movs r0, #2
+	movs r1, #0x28
+	movs r2, #0x78
+	bl sa2__sub_8007958
+	b _0800D354
+	.align 2, 0
+_0800D2E4: .4byte gCurTask
+_0800D2E8: .4byte gDispCnt
+_0800D2EC: .4byte 0x01170000
+_0800D2F0: .4byte gBgScrollRegs
+_0800D2F4:
+	movs r4, #0x40
+	subs r2, r4, r0
+	lsls r2, r2, #0x18
+	lsrs r2, r2, #0x18
+	movs r1, #0x8c
+	lsls r1, r1, #1
+	adds r3, r1, #0
+	subs r3, r3, r0
+	lsls r3, r3, #0x10
+	asrs r3, r3, #0x10
+	movs r0, #1
+	rsbs r0, r0, #0
+	str r0, [sp]
+	ldrh r0, [r5, #8]
+	str r0, [sp, #4]
+	ldrh r0, [r5, #0xa]
+	str r0, [sp, #8]
+	movs r0, #2
+	movs r1, #0x28
+	bl sa2__sub_8007958
+	ldrb r0, [r6]
+	subs r4, r4, r0
+	lsls r4, r4, #0x18
+	lsrs r4, r4, #0x18
+	ldrh r3, [r5, #8]
+	ldrh r0, [r5, #0xa]
+	str r0, [sp]
+	movs r0, #2
+	adds r1, r4, #0
+	movs r2, #0x78
+	bl sa2__sub_80078D4
+	b _0800D354
+_0800D338:
+	movs r0, #0x66      @ SE_RING
+	bl m4aSongNumStart
+	ldr r2, _0800D35C @ =gFlags
+	ldr r0, [r2]
+	movs r1, #5
+	rsbs r1, r1, #0
+	ands r0, r1
+	str r0, [r2]
+	ldr r1, [r4]
+	ldr r0, _0800D360 @ =Task_800D450
+	str r0, [r1, #8]
+	movs r0, #0
+	strh r0, [r6]
+_0800D354:
+	add sp, #0xc
+	pop {r4, r5, r6}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D35C: .4byte gFlags
+_0800D360: .4byte Task_800D450
+
+	thumb_func_start sub_800D364
+sub_800D364: @ 0x0800D364
+	push {lr}
+	ldr r0, _0800D380 @ =gCurTask
+	ldr r2, [r0]
+	ldrh r3, [r2, #6]
+	ldr r0, _0800D384 @ =gPressedKeys
+	ldrh r1, [r0]
+	movs r0, #9
+	ands r0, r1
+	cmp r0, #0
+	beq _0800D38C
+	ldr r0, _0800D388 @ =sub_800D4B0
+	str r0, [r2, #8]
+	b _0800D3BA
+	.align 2, 0
+_0800D380: .4byte gCurTask
+_0800D384: .4byte gPressedKeys
+_0800D388: .4byte sub_800D4B0
+_0800D38C:
+	ldr r1, _0800D3AC @ =0x03000044
+	adds r0, r3, r1
+	ldrh r1, [r0]
+	adds r1, #0x80
+	strh r1, [r0]
+	lsls r2, r1, #0x10
+	asrs r0, r2, #0x10
+	movs r1, #0x80
+	lsls r1, r1, #5
+	cmp r0, r1
+	ble _0800D3B4
+	ldr r0, _0800D3B0 @ =gBldRegs
+	strh r1, [r0, #4]
+	bl sub_800D498
+	b _0800D3BA
+	.align 2, 0
+_0800D3AC: .4byte 0x03000044
+_0800D3B0: .4byte gBldRegs
+_0800D3B4:
+	ldr r1, _0800D3C0 @ =gBldRegs
+	asrs r0, r2, #0x18
+	strh r0, [r1, #4]
+_0800D3BA:
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D3C0: .4byte gBldRegs
+
+	thumb_func_start sub_800D3C4
+sub_800D3C4: @ 0x0800D3C4
+	push {lr}
+	ldr r0, _0800D3D8 @ =gCurTask
+	ldr r1, [r0]
+	ldr r0, _0800D3DC @ =Task_800D098
+	str r0, [r1, #8]
+	bl _call_via_r0
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D3D8: .4byte gCurTask
+_0800D3DC: .4byte Task_800D098
+
+	thumb_func_start sub_800D3E0
+sub_800D3E0: @ 0x0800D3E0
+	ldr r0, _0800D404 @ =gCurTask
+	ldr r2, [r0]
+	ldrh r1, [r2, #6]
+	movs r0, #0xc0
+	lsls r0, r0, #0x12
+	adds r1, r1, r0
+	ldrh r0, [r1]
+	adds r0, #1
+	strh r0, [r1]
+	lsls r0, r0, #0x10
+	lsrs r0, r0, #0x10
+	cmp r0, #0x78
+	bne _0800D402
+	ldr r0, _0800D408 @ =sub_800D11C
+	str r0, [r2, #8]
+	movs r0, #0
+	strh r0, [r1]
+_0800D402:
+	bx lr
+	.align 2, 0
+_0800D404: .4byte gCurTask
+_0800D408: .4byte sub_800D11C
+
+	thumb_func_start sub_800D40C
+sub_800D40C: @ 0x0800D40C
+	push {lr}
+	ldr r2, _0800D42C @ =gFlags
+	ldr r0, [r2]
+	movs r1, #5
+	rsbs r1, r1, #0
+	ands r0, r1
+	str r0, [r2]
+	ldr r0, _0800D430 @ =gCurTask
+	ldr r0, [r0]
+	bl TaskDestroy
+	bl CreateSonicTeamLogo
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D42C: .4byte gFlags
+_0800D430: .4byte gCurTask
+
+	thumb_func_start Task_SonicTeamLogoInit
+Task_SonicTeamLogoInit: @ 0x0800D434
+	push {lr}
+	ldr r0, _0800D448 @ =gCurTask
+	ldr r1, [r0]
+	ldr r0, _0800D44C @ =Task_800D268
+	str r0, [r1, #8]
+	bl _call_via_r0
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D448: .4byte gCurTask
+_0800D44C: .4byte Task_800D268
+
+	thumb_func_start Task_800D450
+Task_800D450: @ 0x0800D450
+	push {r4, lr}
+	ldr r0, _0800D488 @ =gCurTask
+	ldr r4, [r0]
+	ldrh r3, [r4, #6]
+	movs r1, #0xc0
+	lsls r1, r1, #0x12
+	adds r1, r3, r1
+	ldrh r0, [r1]
+	adds r2, r0, #1
+	strh r2, [r1]
+	lsls r0, r0, #0x10
+	lsrs r0, r0, #0x10
+	cmp r0, #0x78
+	bls _0800D480
+	ldr r1, _0800D48C @ =0x03000044
+	adds r0, r3, r1
+	movs r2, #0
+	strh r2, [r0]
+	ldr r0, _0800D490 @ =sub_800D364
+	str r0, [r4, #8]
+	ldr r1, _0800D494 @ =gBldRegs
+	movs r0, #0xff
+	strh r0, [r1]
+	strh r2, [r1, #4]
+_0800D480:
+	pop {r4}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D488: .4byte gCurTask
+_0800D48C: .4byte 0x03000044
+_0800D490: .4byte sub_800D364
+_0800D494: .4byte gBldRegs
+
+	thumb_func_start sub_800D498
+sub_800D498: @ 0x0800D498
+	push {lr}
+	ldr r0, _0800D4AC @ =gCurTask
+	ldr r0, [r0]
+	bl TaskDestroy
+	bl sub_8063918
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D4AC: .4byte gCurTask
+
+	thumb_func_start sub_800D4B0
+sub_800D4B0: @ 0x0800D4B0
+	push {lr}
+	ldr r2, _0800D4D4 @ =gFlags
+	ldr r0, [r2]
+	ldr r1, _0800D4D8 @ =0xFFFF7FFF
+	ands r0, r1
+	movs r1, #5
+	rsbs r1, r1, #0
+	ands r0, r1
+	str r0, [r2]
+	ldr r0, _0800D4DC @ =gCurTask
+	ldr r0, [r0]
+	bl TaskDestroy
+	movs r0, #1
+	bl CreateTitleScreen
+	pop {r0}
+	bx r0
+	.align 2, 0
+_0800D4D4: .4byte gFlags
+_0800D4D8: .4byte 0xFFFF7FFF
+_0800D4DC: .4byte gCurTask
+
 @ R0 = bool32 playMusic
 	thumb_func_start CreateTitleScreen
 CreateTitleScreen: @ 0x0800D4E0
@@ -77,7 +704,7 @@ CreateTitleScreen: @ 0x0800D4E0
 	ldr r0, _0800D6D8 @ =Task_LoadGameLogo
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _0800D6DC @ =sub_800E020
+	ldr r1, _0800D6DC @ =TaskDestructor_TitleScreen
 	str r1, [sp]
 	movs r1, #0xec
 	movs r3, #0
@@ -243,7 +870,7 @@ _0800D6CC: .4byte 0x85000010
 _0800D6D0: .4byte 0x0600FFC0
 _0800D6D4: .4byte 0x85000020
 _0800D6D8: .4byte Task_LoadGameLogo
-_0800D6DC: .4byte sub_800E020
+_0800D6DC: .4byte TaskDestructor_TitleScreen
 _0800D6E0: .4byte 0x030000E2
 _0800D6E4: .4byte 0x030000E0
 _0800D6E8: .4byte gBldRegs
@@ -836,7 +1463,7 @@ _0800DBA4:
 	lsls r0, r0, #3
 	str r0, [r5, #0x10]
 	ldr r1, [r6]
-	ldr r0, _0800DCD4 @ =sub_800E044
+	ldr r0, _0800DCD4 @ =Task_SwitchTo_Task_800DCFC
 	str r0, [r1, #8]
 _0800DBF0:
 	movs r6, #0
@@ -946,7 +1573,7 @@ _0800DCC4: .4byte 0x000002BB
 _0800DCC8: .4byte 0x03000020
 _0800DCCC: .4byte 0x03000021
 _0800DCD0: .4byte 0x03000025
-_0800DCD4: .4byte sub_800E044
+_0800DCD4: .4byte Task_SwitchTo_Task_800DCFC
 _0800DCD8: .4byte gLoadedSaveGame
 _0800DCDC: .4byte gUnknown_080BB31E
 _0800DCE0: .4byte gUnknown_080BB310
@@ -957,8 +1584,8 @@ _0800DCF0: .4byte gKeysFirstRepeatIntervals
 _0800DCF4: .4byte gKeysContinuedRepeatIntervals
 _0800DCF8: .4byte 0x00009FFF
 
-	thumb_func_start sub_800DCFC
-sub_800DCFC: @ 0x0800DCFC
+	thumb_func_start Task_800DCFC
+Task_800DCFC: @ 0x0800DCFC
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0800DD3C @ =gCurTask
 	ldr r0, [r0]
@@ -1340,8 +1967,8 @@ sub_800E008: @ 0x0800E008
 	.align 2, 0
 _0800E01C: .4byte gCurTask
 
-	thumb_func_start sub_800E020
-sub_800E020: @ 0x0800E020
+	thumb_func_start TaskDestructor_TitleScreen
+TaskDestructor_TitleScreen: @ 0x0800E020
 	push {r4, lr}
 	ldr r0, _0800E040 @ =gCurTask
 	ldr r0, [r0]
@@ -1359,19 +1986,19 @@ sub_800E020: @ 0x0800E020
 	.align 2, 0
 _0800E040: .4byte gCurTask
 
-	thumb_func_start sub_800E044
-sub_800E044: @ 0x0800E044
+	thumb_func_start Task_SwitchTo_Task_800DCFC
+Task_SwitchTo_Task_800DCFC: @ 0x0800E044
 	push {lr}
 	ldr r0, _0800E058 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0800E05C @ =sub_800DCFC
+	ldr r0, _0800E05C @ =Task_800DCFC
 	str r0, [r1, #8]
 	bl _call_via_r0
 	pop {r0}
 	bx r0
 	.align 2, 0
 _0800E058: .4byte gCurTask
-_0800E05C: .4byte sub_800DCFC
+_0800E05C: .4byte Task_800DCFC
 
 	thumb_func_start LoadTinyChaoGarden
 LoadTinyChaoGarden: @ 0x0800E060
