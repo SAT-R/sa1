@@ -17,13 +17,14 @@ def get_entry_name(rom):
 
     result = "\""
 
-    for char in entry_name:
-        if char == 0:
+    for char_hex in entry_name:
+        if char_hex == 0:
             result += "\\x000"
         else:
-            if str(f"{char:c}") in escape_chars:
+            char = str(f"{char_hex:c}")
+            if char in escape_chars:
                 result += "\\"
-            result += f"{char:c}"
+            result += char
     result += "\""
 
     return result
