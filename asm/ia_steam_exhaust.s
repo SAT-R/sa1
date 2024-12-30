@@ -1213,7 +1213,7 @@ _08089998:
 	beq _0808999E
 	ldr r0, _080899C0 @ =gPartner
 _0808999E:
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _080899A2:
 	adds r4, #1
 	ldr r0, _080899C4 @ =gNumSingleplayerCharacters

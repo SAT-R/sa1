@@ -584,7 +584,7 @@ _08090C6C:
 	cmp r0, #0
 	bne _08090C88
 	adds r0, r6, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	cmp r0, #0
 	beq _08090C88
 	movs r0, #0xab

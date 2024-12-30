@@ -351,7 +351,7 @@ _0806FD56:
 	blt _0806FD6E
 _0806FD68:
 	mov r0, sl
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _0806FD6E:
 	ldr r0, [r7, #0x3c]
 	asrs r2, r0, #8

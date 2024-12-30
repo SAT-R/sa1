@@ -56,7 +56,7 @@ _0804E528:
 	strb r1, [r4]
 	adds r1, r4, #0
 	bl sub_804EC60
-	ldr r0, _0804E58C @ =gUnknown_03005A18
+	ldr r0, _0804E58C @ =gRingsScatterTask
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _0804E576
@@ -77,7 +77,7 @@ _0804E576:
 	.align 2, 0
 _0804E584: .4byte Task_MechaKnucklesInit
 _0804E588: .4byte TaskDestructor_MechaKnuckles
-_0804E58C: .4byte gUnknown_03005A18
+_0804E58C: .4byte gRingsScatterTask
 _0804E590: .4byte 0x03000336
 
 	thumb_func_start Task_MechaKnucklesInit

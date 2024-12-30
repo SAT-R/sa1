@@ -324,7 +324,7 @@ _080500AC:
 	ldr r0, _080500FC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_80670F8
+	bl CreateExtraStageResults
 	b _08050182
 	.align 2, 0
 _080500D4: .4byte gDispCnt

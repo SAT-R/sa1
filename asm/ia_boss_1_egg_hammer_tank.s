@@ -3359,7 +3359,7 @@ _080275BE:
 	cmp r6, r5
 	bne _080275D4
 	ldr r0, _080275F8 @ =gPlayer
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	mov r1, r8
 	adds r1, #0x20
 	movs r0, #1
@@ -3368,7 +3368,7 @@ _080275D4:
 	cmp r4, r5
 	bne _080275E6
 	ldr r0, _080275FC @ =gPartner
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	mov r1, r8
 	adds r1, #0x20
 	movs r0, #1

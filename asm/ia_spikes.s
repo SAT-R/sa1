@@ -1021,7 +1021,7 @@ _080207AE:
 	beq _080207B6
 	ldr r0, _080207CC @ =gPartner
 _080207B6:
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	cmp r0, #0
 	beq _08020848
 	movs r0, #0xab
@@ -1853,7 +1853,7 @@ _08020E3A:
 	lsls r0, r0, #8
 	str r0, [r5, #4]
 	adds r0, r5, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	cmp r0, #0
 	bne _08020E7A
 _08020E48:
@@ -1877,7 +1877,7 @@ _08020E48:
 	cmp r1, #0
 	beq _08020E84
 	adds r0, r5, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	cmp r0, #0
 	beq _08020E84
 _08020E7A:
@@ -1955,7 +1955,7 @@ sub_8020E98: @ 0x08020E98
 	cmp r1, #0
 	beq _08020F20
 	adds r0, r6, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	cmp r0, #0
 	beq _08020F20
 	movs r0, #0xab
@@ -2251,7 +2251,7 @@ _08021134:
 	beq _080211F6
 _0802113C:
 	adds r0, r5, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	cmp r0, #0
 	beq _080211F6
 	movs r0, #0xab
@@ -2630,7 +2630,7 @@ _080213E4:
 	beq _080214C6
 _0802140C:
 	adds r0, r5, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	cmp r0, #0
 	beq _080214C6
 	movs r0, #0xab

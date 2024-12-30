@@ -372,7 +372,7 @@ _08090156:
 	beq _0809016A
 	ldr r0, _080901C4 @ =gPartner
 _0809016A:
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _0809016E:
 	adds r5, #1
 	ldr r0, _080901C8 @ =gNumSingleplayerCharacters

@@ -588,7 +588,7 @@ _08070E28:
 	blt _08070E40
 _08070E3A:
 	adds r0, r2, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _08070E40:
 	mov r1, r8
 	adds r1, #0x44

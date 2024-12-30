@@ -2892,10 +2892,10 @@ sub_800FCFC: @ 0x0800FCFC
 	push {lr}
 	ldr r3, _0800FD64 @ =gGameMode
 	movs r2, #6
-	ldr r0, _0800FD68 @ =gUnknown_03005A18
+	ldr r0, _0800FD68 @ =gRingsScatterTask
 	movs r1, #0
 	str r1, [r0]
-	ldr r0, _0800FD6C @ =gUnknown_030058BC
+	ldr r0, _0800FD6C @ =gSomeDebugTask
 	str r1, [r0]
 	ldr r0, _0800FD70 @ =gUnknown_030058C0
 	str r1, [r0]
@@ -2943,8 +2943,8 @@ _0800FD2A:
 	bx r0
 	.align 2, 0
 _0800FD64: .4byte gGameMode
-_0800FD68: .4byte gUnknown_03005A18
-_0800FD6C: .4byte gUnknown_030058BC
+_0800FD68: .4byte gRingsScatterTask
+_0800FD6C: .4byte gSomeDebugTask
 _0800FD70: .4byte gUnknown_030058C0
 _0800FD74: .4byte gPlayer
 _0800FD78: .4byte gPartner
@@ -12346,7 +12346,7 @@ _08014934:
 	str r3, [sp]
 	mov r0, sb
 	adds r3, r5, #0
-	bl sub_800A6A4
+	bl CheckRectCollision_SpritePlayer
 	cmp r0, #0
 	bne _08014954
 	b _08014A6A
@@ -19801,7 +19801,7 @@ sub_8018428: @ 0x08018428
 	ldrsh r1, [r0, r2]
 	ldrb r2, [r0, #0xf]
 	adds r0, r3, #0
-	bl sub_8040B10
+	bl InitScatteringRings
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -23580,7 +23580,7 @@ _0801A2EA:
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
 	movs r0, #1
-	bl sub_803A950
+	bl CreateChaoMessageMP
 	b _0801A36E
 	.align 2, 0
 _0801A32C: .4byte 0x0000FFFF

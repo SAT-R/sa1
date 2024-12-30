@@ -5818,7 +5818,7 @@ _0803A0EA:
 	ldr r1, [r3, #4]
 	asrs r1, r1, #8
 	adds r2, r4, #0
-	bl sub_8040B10
+	bl InitScatteringRings
 	ldrh r0, [r6]
 	subs r0, r0, r4
 	strh r0, [r6]

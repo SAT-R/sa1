@@ -266,7 +266,7 @@ _08094142:
 	ldr r0, _08094158 @ =gPartner
 _0809414A:
 	str r3, [sp]
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	ldr r3, [sp]
 	b _0809416E
 	.align 2, 0

@@ -1155,7 +1155,7 @@ _080801DA:
 	beq _080801E2
 	ldr r0, _080801EC @ =gPartner
 _080801E2:
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	b _080803AE
 	.align 2, 0
 _080801E8: .4byte gPlayer
@@ -1584,7 +1584,7 @@ _080804C6:
 	beq _080804E8
 	ldr r0, _080804F4 @ =gPartner
 _080804E8:
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	b _08080520
 	.align 2, 0
 _080804F0: .4byte gPlayer

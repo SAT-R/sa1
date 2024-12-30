@@ -1048,7 +1048,7 @@ _0801DBFE:
 	blt _0801DC16
 _0801DC10:
 	mov r0, sl
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _0801DC16:
 	ldr r2, _0801DC50 @ =gCamera
 	ldrh r0, [r4, #0x16]

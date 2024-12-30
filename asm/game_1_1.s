@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_803A950
-sub_803A950: @ 0x0803A950
+	thumb_func_start CreateChaoMessageMP
+CreateChaoMessageMP: @ 0x0803A950
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -29,7 +29,7 @@ sub_803A950: @ 0x0803A950
 	ldr r1, _0803AAAC @ =gUnknown_030058B4
 	strb r0, [r1]
 	movs r2, #0
-	ldr r6, _0803AAB0 @ =sub_803B570
+	ldr r6, _0803AAB0 @ =Task_ChaoMessageInit
 	ldr r0, _0803AAB4 @ =gMultiplayerConnections
 	ldrb r3, [r0]
 	movs r4, #1
@@ -179,7 +179,7 @@ _0803A994:
 _0803AAA4: .4byte gUnknown_030058B8
 _0803AAA8: .4byte gMultiplayerMissingHeartbeats
 _0803AAAC: .4byte gUnknown_030058B4
-_0803AAB0: .4byte sub_803B570
+_0803AAB0: .4byte Task_ChaoMessageInit
 _0803AAB4: .4byte gMultiplayerConnections
 _0803AAB8: .4byte 0x03000055
 _0803AABC: .4byte 0x03000054
@@ -233,7 +233,7 @@ _0803AB40:
 	bl m4aSongNumStart
 	b _0803AB4E
 _0803AB48:
-	ldr r0, _0803AB5C @ =0x0000012F
+	ldr r0, _0803AB5C @ =0x0000012F @ SE_VS_MULTIPAK_CONN_CLOSE
 	bl m4aSongNumStart
 _0803AB4E:
 	add sp, #8
@@ -1547,8 +1547,8 @@ _0803B55E:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_803B570
-sub_803B570: @ 0x0803B570
+	thumb_func_start Task_ChaoMessageInit
+Task_ChaoMessageInit: @ 0x0803B570
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1644,9 +1644,9 @@ _0803B632:
 	movs r1, #0
 	mov sb, r1
 _0803B63A:
-	ldr r2, _0803B6FC @ =sub_803C184
+	ldr r2, _0803B6FC @ =TaskDestructor_803C184
 	str r2, [sp]
-	ldr r0, _0803B700 @ =sub_803C130
+	ldr r0, _0803B700 @ =Task_803C130
 	movs r1, #0x38
 	movs r2, #0x84
 	lsls r2, r2, #6
@@ -1703,9 +1703,9 @@ _0803B63A:
 	movs r0, #0xc0
 	lsls r0, r0, #6
 	str r0, [r6, #0x10]
-	ldr r0, _0803B6FC @ =sub_803C184
+	ldr r0, _0803B6FC @ =TaskDestructor_803C184
 	str r0, [sp]
-	ldr r0, _0803B700 @ =sub_803C130
+	ldr r0, _0803B700 @ =Task_803C130
 	movs r1, #0x38
 	movs r2, #0x84
 	lsls r2, r2, #6
@@ -1735,8 +1735,8 @@ _0803B63A:
 	.align 2, 0
 _0803B6F4: .4byte gCurTask
 _0803B6F8: .4byte 0x03000054
-_0803B6FC: .4byte sub_803C184
-_0803B700: .4byte sub_803C130
+_0803B6FC: .4byte TaskDestructor_803C184
+_0803B700: .4byte Task_803C130
 _0803B704: .4byte 0x03000034
 _0803B708: .4byte 0x00000377
 _0803B70C: .4byte 0x03000020
@@ -3004,8 +3004,8 @@ _0803C11C:
 	.align 2, 0
 _0803C12C: .4byte gUnknown_03005008
 
-	thumb_func_start sub_803C130
-sub_803C130: @ 0x0803C130
+	thumb_func_start Task_803C130
+Task_803C130: @ 0x0803C130
 	push {r4, lr}
 	ldr r0, _0803C178 @ =gCurTask
 	ldr r0, [r0]
@@ -3045,8 +3045,8 @@ _0803C178: .4byte gCurTask
 _0803C17C: .4byte 0x03000034
 _0803C180: .4byte 0x03000048
 
-	thumb_func_start sub_803C184
-sub_803C184: @ 0x0803C184
+	thumb_func_start TaskDestructor_803C184
+TaskDestructor_803C184: @ 0x0803C184
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -3505,7 +3505,7 @@ _0803C524:
 	cmp r4, #0
 	bne _0803C570
 	movs r0, #0
-	bl sub_803A950
+	bl CreateChaoMessageMP
 	b _0803C58A
 	.align 2, 0
 _0803C554: .4byte 0x00000203
@@ -4331,9 +4331,9 @@ GameInit: @ 0x0803CBC0
 	strh r4, [r1]
 	ldr r0, _0803CC80 @ =gTailsEnabled
 	strb r2, [r0]
-	ldr r0, _0803CC84 @ =gUnknown_03005A18
+	ldr r0, _0803CC84 @ =gRingsScatterTask
 	str r4, [r0]
-	ldr r0, _0803CC88 @ =gUnknown_030058BC
+	ldr r0, _0803CC88 @ =gSomeDebugTask
 	str r4, [r0]
 	ldr r0, _0803CC8C @ =gUnknown_030058C0
 	str r4, [r0]
@@ -4408,8 +4408,8 @@ _0803CC74: .4byte gSpriteTables
 _0803CC78: .4byte gStageFlags
 _0803CC7C: .4byte gUnknown_0300502C
 _0803CC80: .4byte gTailsEnabled
-_0803CC84: .4byte gUnknown_03005A18
-_0803CC88: .4byte gUnknown_030058BC
+_0803CC84: .4byte gRingsScatterTask
+_0803CC88: .4byte gSomeDebugTask
 _0803CC8C: .4byte gUnknown_030058C0
 _0803CC90: .4byte gPlayer
 _0803CC94: .4byte gPartner
@@ -4583,7 +4583,7 @@ _0803CDFC: .4byte 0x850000D8
 sub_803CE00: @ 0x0803CE00
 	push {lr}
 	sub sp, #4
-	ldr r0, _0803CE20 @ =sub_803CE44
+	ldr r0, _0803CE20 @ =Task_803CE44
 	movs r2, #0x80
 	lsls r2, r2, #1
 	ldr r1, _0803CE24 @ =sub_803CE48
@@ -4591,20 +4591,20 @@ sub_803CE00: @ 0x0803CE00
 	movs r1, #0
 	movs r3, #0
 	bl TaskCreate
-	ldr r1, _0803CE28 @ =gUnknown_030058BC
+	ldr r1, _0803CE28 @ =gSomeDebugTask
 	str r0, [r1]
 	add sp, #4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803CE20: .4byte sub_803CE44
+_0803CE20: .4byte Task_803CE44
 _0803CE24: .4byte sub_803CE48
-_0803CE28: .4byte gUnknown_030058BC
+_0803CE28: .4byte gSomeDebugTask
 
 	thumb_func_start sub_803CE2C
 sub_803CE2C: @ 0x0803CE2C
 	push {r4, lr}
-	ldr r4, _0803CE40 @ =gUnknown_030058BC
+	ldr r4, _0803CE40 @ =gSomeDebugTask
 	ldr r0, [r4]
 	bl TaskDestroy
 	movs r0, #0
@@ -4613,21 +4613,21 @@ sub_803CE2C: @ 0x0803CE2C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803CE40: .4byte gUnknown_030058BC
+_0803CE40: .4byte gSomeDebugTask
 
-	thumb_func_start sub_803CE44
-sub_803CE44: @ 0x0803CE44
+	thumb_func_start Task_803CE44
+Task_803CE44: @ 0x0803CE44
 	bx lr
 	.align 2, 0
 
 	thumb_func_start sub_803CE48
 sub_803CE48: @ 0x0803CE48
-	ldr r1, _0803CE50 @ =gUnknown_030058BC
+	ldr r1, _0803CE50 @ =gSomeDebugTask
 	movs r0, #0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_0803CE50: .4byte gUnknown_030058BC
+_0803CE50: .4byte gSomeDebugTask
 
 @ --- Start of stage.c ? ---
 	thumb_func_start GameStageStart
@@ -12059,29 +12059,31 @@ sub_80409E4: @ 0x080409E4
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80409F8
-sub_80409F8: @ 0x080409F8
+@ --- Start of game/stage/rings_scatter.c ---
+
+	thumb_func_start InitPlayerHitRingsScatter
+InitPlayerHitRingsScatter: @ 0x080409F8
 	push {r4, r5, lr}
 	sub sp, #8
 	ldr r0, _08040A0C @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _08040A18
-	ldr r4, _08040A10 @ =gUnknown_03005A18
-	ldr r0, _08040A14 @ =sub_8042000
+	ldr r4, _08040A10 @ =gRingsScatterTask
+	ldr r0, _08040A14 @ =Task_8042000
 	b _08040A1C
 	.align 2, 0
 _08040A0C: .4byte gGameMode
-_08040A10: .4byte gUnknown_03005A18
-_08040A14: .4byte sub_8042000
+_08040A10: .4byte gRingsScatterTask
+_08040A14: .4byte Task_8042000
 _08040A18:
-	ldr r4, _08040A98 @ =gUnknown_03005A18
-	ldr r0, _08040A9C @ =sub_8041FE0
+	ldr r4, _08040A98 @ =gRingsScatterTask
+	ldr r0, _08040A9C @ =Task_8041FE0
 _08040A1C:
 	movs r1, #0xce
 	lsls r1, r1, #2
 	ldr r2, _08040AA0 @ =0x00002001
-	ldr r3, _08040AA4 @ =sub_8042020
+	ldr r3, _08040AA4 @ =Task_8042020
 	str r3, [sp]
 	movs r3, #0
 	bl TaskCreate
@@ -12139,10 +12141,10 @@ _08040A1C:
 	movs r0, #0x12
 	b _08040ADE
 	.align 2, 0
-_08040A98: .4byte gUnknown_03005A18
-_08040A9C: .4byte sub_8041FE0
+_08040A98: .4byte gRingsScatterTask
+_08040A9C: .4byte Task_8041FE0
 _08040AA0: .4byte 0x00002001
-_08040AA4: .4byte sub_8042020
+_08040AA4: .4byte Task_8042020
 _08040AA8: .4byte 0x06011D00
 _08040AAC: .4byte 0x000002C3
 _08040AB0: .4byte 0x03000020
@@ -12184,8 +12186,8 @@ _08040B04: .4byte 0x03000330
 _08040B08: .4byte 0x040000D4
 _08040B0C: .4byte 0x81000180
 
-	thumb_func_start sub_8040B10
-sub_8040B10: @ 0x08040B10
+	thumb_func_start InitScatteringRings
+InitScatteringRings: @ 0x08040B10
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -12195,7 +12197,7 @@ sub_8040B10: @ 0x08040B10
 	str r0, [sp]
 	str r1, [sp, #4]
 	adds r7, r2, #0
-	ldr r0, _08040B94 @ =gUnknown_03005A18
+	ldr r0, _08040B94 @ =gRingsScatterTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
 	ldr r1, _08040B98 @ =0x03000030
@@ -12255,7 +12257,7 @@ _08040B64:
 	adds r0, #9
 	b _08040BAA
 	.align 2, 0
-_08040B94: .4byte gUnknown_03005A18
+_08040B94: .4byte gRingsScatterTask
 _08040B98: .4byte 0x03000030
 _08040B9C: .4byte gPlayer
 _08040BA0: .4byte gGameMode
@@ -12324,6 +12326,7 @@ _08040C06:
 	.align 2, 0
 _08040C18: .4byte gStageFlags
 
+@ TODO: Either not in SA2, or in a different place!
 	thumb_func_start sub_8040C1C
 sub_8040C1C: @ 0x08040C1C
 	push {r4, r5, r6, r7, lr}
@@ -12335,7 +12338,7 @@ sub_8040C1C: @ 0x08040C1C
 	str r0, [sp]
 	str r1, [sp, #4]
 	mov ip, r2
-	ldr r0, _08040D38 @ =gUnknown_03005A18
+	ldr r0, _08040D38 @ =gRingsScatterTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
 	ldr r1, _08040D3C @ =0x03000030
@@ -12474,7 +12477,7 @@ _08040D26:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08040D38: .4byte gUnknown_03005A18
+_08040D38: .4byte gRingsScatterTask
 _08040D3C: .4byte 0x03000030
 _08040D40: .4byte gPlayer
 _08040D44: .4byte gGameMode
@@ -12484,8 +12487,8 @@ _08040D50: .4byte 0x3C6EF35F
 _08040D54: .4byte gSineTable
 _08040D58: .4byte gStageFlags
 
-	thumb_func_start sub_8040D5C
-sub_8040D5C: @ 0x08040D5C
+	thumb_func_start RingsScatterSingleplayer_FlippedGravity
+RingsScatterSingleplayer_FlippedGravity: @ 0x08040D5C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -13015,8 +13018,8 @@ _0804117C: .4byte 0x040000D4
 _08041180: .4byte 0x80000003
 _08041184: .4byte 0x000001FF
 
-	thumb_func_start sub_8041188
-sub_8041188: @ 0x08041188
+	thumb_func_start RingsScatterSingleplayer_NormalGravity
+RingsScatterSingleplayer_NormalGravity: @ 0x08041188
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -14859,7 +14862,7 @@ _08041FC4: .4byte 0x000001FF
 	thumb_func_start sub_8041FC8
 sub_8041FC8: @ 0x08041FC8
 	push {r4, lr}
-	ldr r4, _08041FDC @ =gUnknown_03005A18
+	ldr r4, _08041FDC @ =gRingsScatterTask
 	ldr r0, [r4]
 	bl TaskDestroy
 	movs r0, #0
@@ -14868,10 +14871,10 @@ sub_8041FC8: @ 0x08041FC8
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08041FDC: .4byte gUnknown_03005A18
+_08041FDC: .4byte gRingsScatterTask
 
-	thumb_func_start sub_8041FE0
-sub_8041FE0: @ 0x08041FE0
+	thumb_func_start Task_8041FE0
+Task_8041FE0: @ 0x08041FE0
 	push {lr}
 	ldr r0, _08041FF4 @ =gStageFlags
 	ldrh r1, [r0]
@@ -14879,18 +14882,18 @@ sub_8041FE0: @ 0x08041FE0
 	ands r0, r1
 	cmp r0, #0
 	beq _08041FF8
-	bl sub_8040D5C
+	bl RingsScatterSingleplayer_FlippedGravity
 	b _08041FFC
 	.align 2, 0
 _08041FF4: .4byte gStageFlags
 _08041FF8:
-	bl sub_8041188
+	bl RingsScatterSingleplayer_NormalGravity
 _08041FFC:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8042000
-sub_8042000: @ 0x08042000
+	thumb_func_start Task_8042000
+Task_8042000: @ 0x08042000
 	push {lr}
 	ldr r0, _08042014 @ =gStageFlags
 	ldrh r1, [r0]
@@ -14908,14 +14911,14 @@ _0804201C:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8042020
-sub_8042020: @ 0x08042020
-	ldr r1, _08042028 @ =gUnknown_03005A18
+	thumb_func_start Task_8042020
+Task_8042020: @ 0x08042020
+	ldr r1, _08042028 @ =gRingsScatterTask
 	movs r0, #0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_08042028: .4byte gUnknown_03005A18
+_08042028: .4byte gRingsScatterTask
 
 	thumb_func_start sub_804202C
 sub_804202C: @ 0x0804202C
@@ -14963,7 +14966,7 @@ _08042068:
 	adds r0, r5, #0
 	bl Player_8042428
 	bl sub_80405E4
-	bl sub_80409F8
+	bl InitPlayerHitRingsScatter
 	ldr r6, _080420AC @ =gInputRecorder
 	ldrb r4, [r6, #8]
 	cmp r4, #1
@@ -21752,7 +21755,7 @@ _080452D8:
 	ldr r1, [r4, #4]
 	asrs r1, r1, #8
 	movs r2, #1
-	bl sub_8040B10
+	bl InitScatteringRings
 _080452FA:
 	pop {r4}
 	pop {r0}
@@ -34171,7 +34174,7 @@ sub_804B1FC: @ 0x0804B1FC
 	asrs r0, r0, #0x18
 	cmp r0, #0
 	beq _0804B26C
-	movs r0, #0x8a
+	movs r0, #0x8a      @ SE_ITEM_BOX
 	bl m4aSongNumStart
 	ldr r0, [r4, #0x50]
 	asrs r0, r0, #8

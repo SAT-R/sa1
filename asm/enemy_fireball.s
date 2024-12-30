@@ -298,7 +298,7 @@ _080710C8:
 	cmp r0, #0
 	beq _080710F2
 	adds r0, r6, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _080710F2:
 	movs r7, #0x3c
 	ldrsh r0, [r5, r7]
@@ -455,7 +455,7 @@ _0807120C:
 	cmp r0, #0
 	beq _08071236
 	adds r0, r6, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _08071236:
 	movs r7, #0x3c
 	ldrsh r1, [r5, r7]

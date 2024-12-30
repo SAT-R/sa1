@@ -424,7 +424,7 @@ _0806DF9C:
 	b _0806DFB6
 _0806DFB0:
 	adds r0, r2, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _0806DFB6:
 	ldr r2, [sp, #0x10]
 	asrs r1, r2, #0x10

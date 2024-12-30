@@ -1070,7 +1070,7 @@ _08092E38:
 	beq _08092E40
 	ldr r0, _08092E60 @ =gPartner
 _08092E40:
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _08092E44:
 	adds r5, #1
 	ldr r0, _08092E64 @ =gNumSingleplayerCharacters

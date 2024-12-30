@@ -372,7 +372,7 @@ _0808BF5E:
 	beq _0808BF76
 	ldr r0, _0808BFFC @ =gPartner
 _0808BF76:
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _0808BF7A:
 	movs r2, #1
 	add r8, r2

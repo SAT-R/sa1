@@ -61,6 +61,7 @@
 
 #define SE_SPRING 170
 
+#define SE_VS_MULTIPAK_CONN_CLOSE 303
 #define SE_VS_MULTIPAK_ROUND_OVER 304
 
 #endif

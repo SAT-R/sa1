@@ -10427,7 +10427,7 @@ _08057B48:
 	cmp r0, #0xd
 	beq _08057B62
 _08057B4C:
-	bl sub_8065884
+	bl CreateCongratulationsAnimation
 	b _08057B62
 _08057B52:
 	movs r0, #0
@@ -37718,8 +37718,8 @@ _08065866:
 	.align 2, 0
 _08065880: .4byte gCurTask
 
-	thumb_func_start sub_8065884
-sub_8065884: @ 0x08065884
+	thumb_func_start CreateCongratulationsAnimation
+CreateCongratulationsAnimation: @ 0x08065884
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -40735,8 +40735,8 @@ _080670EC: .4byte gSelectedCharacter
 _080670F0: .4byte 0x03000020
 _080670F4: .4byte 0x03000021
 
-	thumb_func_start sub_80670F8
-sub_80670F8: @ 0x080670F8
+	thumb_func_start CreateExtraStageResults
+CreateExtraStageResults: @ 0x080670F8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -49093,7 +49093,7 @@ _0806B588: .4byte gBldRegs
 _0806B58C: .4byte 0x0300016C
 _0806B590:
 	movs r0, #2
-	bl sub_803A950
+	bl CreateChaoMessageMP
 	b _0806B59C
 _0806B598:
 	bl sub_806B5A4

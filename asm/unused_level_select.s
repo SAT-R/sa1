@@ -344,30 +344,30 @@ _0800E378:
 _0800E382:
 	cmp r4, #0xfe
 	bne _0800E38C
-	bl sub_8065884
+	bl CreateCongratulationsAnimation
 	b _0800E3FC
 _0800E38C:
 	cmp r4, #0xfd
 	bne _0800E396
-	bl sub_80670F8
+	bl CreateExtraStageResults
 	b _0800E3FC
 _0800E396:
 	cmp r4, #0xfc
 	bne _0800E3A2
 	movs r0, #0
-	bl sub_803A950
+	bl CreateChaoMessageMP
 	b _0800E3FC
 _0800E3A2:
 	cmp r4, #0xfb
 	bne _0800E3AE
 	movs r0, #1
-	bl sub_803A950
+	bl CreateChaoMessageMP
 	b _0800E3FC
 _0800E3AE:
 	cmp r4, #0xfa
 	bne _0800E3BA
 	movs r0, #2
-	bl sub_803A950
+	bl CreateChaoMessageMP
 	b _0800E3FC
 _0800E3BA:
 	cmp r4, #0xf9

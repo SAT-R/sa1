@@ -111,7 +111,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x000058A8; gUnknown_030058A8 = .;
 . = 0x000058B4; gUnknown_030058B4 = .;
 . = 0x000058B8; gUnknown_030058B8 = .;
-. = 0x000058BC; gUnknown_030058BC = .;
+. = 0x000058BC; gSomeDebugTask = .;
 . = 0x000058C0; gUnknown_030058C0 = .;
 . = 0x000058D0; gUnknown_030058D0 = .;
 . = 0x00005910; gUnknown_03005910 = .;
@@ -120,7 +120,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x000059D0; gCamera = .;
 . = 0x00005A0C; gUnknown_03005A0C = .;
 . = 0x00005A10; gUnknown_03005A10 = .;
-. = 0x00005A18; gUnknown_03005A18 = .;
+. = 0x00005A18; gRingsScatterTask = .;
 
 . = 0x00005A20; gPlayer = .; /* size: 0x90 */
 . = 0x00005A46; gUnknown_03005A46 = .;

@@ -470,7 +470,7 @@ _08030C6C:
 	movs r0, #0
 	strh r0, [r1, #0x38]
 _08030C72:
-	ldr r0, _08030C9C @ =gUnknown_03005A18
+	ldr r0, _08030C9C @ =gRingsScatterTask
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _08030C88
@@ -492,7 +492,7 @@ _08030C88:
 	bx r0
 	.align 2, 0
 _08030C98: .4byte gPlayer
-_08030C9C: .4byte gUnknown_03005A18
+_08030C9C: .4byte gRingsScatterTask
 _08030CA0: .4byte 0x03000336
 
 	thumb_func_start sub_8030CA4

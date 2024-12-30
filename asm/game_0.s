@@ -2126,8 +2126,11 @@ _0800A694:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_800A6A4
-sub_800A6A4: @ 0x0800A6A4
+@ --- Start of game/sa1_sa2_shared/collision.c ---
+
+@ NOTE: parameters 1 and 2 are s16 in SA1, s32 in SA2!
+	thumb_func_start CheckRectCollision_SpritePlayer
+CheckRectCollision_SpritePlayer: @ 0x0800A6A4
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -4398,7 +4401,7 @@ _0800B742:
 _0800B764: .4byte gGameMode
 _0800B768:
 	adds r0, r7, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _0800B76E:
 	ldr r1, [sp, #4]
 	adds r1, #1
@@ -4547,7 +4550,7 @@ _0800B86A:
 	blt _0800B886
 _0800B87C:
 	adds r0, r7, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	movs r0, #1
 	mov sb, r0
 _0800B886:
@@ -4790,7 +4793,7 @@ _0800BA32:
 	blt _0800BA4E
 _0800BA44:
 	adds r0, r3, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	movs r0, #2
 	b _0800BA50
 _0800BA4E:
@@ -5116,7 +5119,7 @@ _0800BC8E:
 	blt _0800BCAA
 _0800BCA0:
 	adds r0, r5, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	movs r0, #2
 	b _0800BCAC
 _0800BCAA:
@@ -5437,7 +5440,7 @@ _0800BEE6:
 	blt _0800BF02
 _0800BEF8:
 	adds r0, r3, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	movs r0, #2
 	b _0800BF04
 _0800BF02:
@@ -5555,7 +5558,7 @@ _0800BFC2:
 	blt _0800BFDE
 _0800BFD4:
 	adds r0, r6, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	movs r0, #2
 	b _0800BFE0
 _0800BFDE:
@@ -5679,7 +5682,7 @@ _0800C0B0:
 	cmp r0, #0xd
 	beq _0800C0C8
 	adds r0, r6, #0
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	b _0800C0CE
 	.align 2, 0
 _0800C0C4: .4byte gCurrentLevel
@@ -5941,7 +5944,7 @@ _0800C28E:
 	blt _0800C2AA
 _0800C2A0:
 	mov r0, r8
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 	movs r0, #2
 	b _0800C2AC
 _0800C2AA:
@@ -6315,8 +6318,9 @@ _0800C548:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_800C558
-sub_800C558: @ 0x0800C558
+@ NOTE: Not a 1:1 match with SA2!
+	thumb_func_start sa2__sub_800CBA4
+sa2__sub_800CBA4: @ 0x0800C558
 	push {r4, r5, r6, r7, lr}
 	adds r4, r0, #0
 	movs r1, #0x1e
@@ -6485,7 +6489,7 @@ _0800C694:
 	ldr r1, [r4, #4]
 	asrs r1, r1, #8
 	adds r2, r5, #0
-	bl sub_8040B10
+	bl InitScatteringRings
 	ldr r0, _0800C6CC @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
@@ -6541,6 +6545,7 @@ _0800C70C:
 	bx r1
 	.align 2, 0
 
+    @ TODO: Only in SA1?
 	thumb_func_start sub_800C714
 sub_800C714: @ 0x0800C714
 	push {lr}
@@ -6680,7 +6685,7 @@ _0800C808:
 	ldr r1, [r5, #4]
 	asrs r1, r1, #8
 	adds r2, r4, #0
-	bl sub_8040B10
+	bl InitScatteringRings
 	ldrh r0, [r6]
 	subs r0, r0, r4
 	strh r0, [r6]
@@ -6801,7 +6806,7 @@ _0800C8F6:
 	ldr r1, [r5, #4]
 	asrs r1, r1, #8
 	adds r2, r4, #0
-	bl sub_8040B10
+	bl InitScatteringRings
 	ldrh r0, [r6]
 	subs r0, r0, r4
 	strh r0, [r6]
@@ -7540,7 +7545,7 @@ sub_800CE34: @ 0x0800CE34
 	adds r1, r4, #0
 	adds r2, r5, #0
 	mov r3, r8
-	bl sub_800A6A4
+	bl CheckRectCollision_SpritePlayer
 	add sp, #0xc
 	pop {r3, r4}
 	mov r8, r3
@@ -7595,7 +7600,7 @@ sub_800CE98: @ 0x0800CE98
 	adds r1, r4, #0
 	adds r2, r5, #0
 	mov r3, r8
-	bl sub_800A6A4
+	bl CheckRectCollision_SpritePlayer
 	add sp, #0xc
 	pop {r3, r4}
 	mov r8, r3

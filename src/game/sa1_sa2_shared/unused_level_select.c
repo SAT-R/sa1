@@ -27,7 +27,7 @@ static void Task_LoadStage(void);
 #if 01
 const u8 Tileset_Language[0] ALIGNED(8) = {};
 #else
-const u8 Tileset_Language[0] ALIGNED(8) = INCBIN8("graphics/tilesets/debug_ascii/debug_ascii.4bpp");
+const u8 Tileset_Language[0] ALIGNED(8) = INCBIN_U8("graphics/tilesets/debug_ascii/debug_ascii.4bpp");
 #endif
 
 #if 0
@@ -77,21 +77,25 @@ static void Task_Poll(void)
     if (gPressedKeys & (START_BUTTON | A_BUTTON)) {
         m4aSongNumStart(SE_SELECT);
 
-        gUnknown_03004D80[0] = 0;
-        gUnknown_03002280[0][0] = 0;
-        gUnknown_03002280[0][1] = 0;
-        gUnknown_03002280[0][2] = 0xFF;
-        gUnknown_03002280[0][3] = 0x20;
+#if (GAME == GAME_SA1)
+        m4aSongNumStop(MUS_CHARACTER_SELECTION);
+#endif
+
+        sa2__gUnknown_03004D80[0] = 0;
+        sa2__gUnknown_03002280[0][0] = 0;
+        sa2__gUnknown_03002280[0][1] = 0;
+        sa2__gUnknown_03002280[0][2] = 0xFF;
+        sa2__gUnknown_03002280[0][3] = 0x20;
         gCurTask->main = Task_LoadStage;
     } else if (gPressedKeys & B_BUTTON) {
         m4aSongNumStart(SE_RETURN);
         TaskDestroy(gCurTask);
 
-        gUnknown_03004D80[0] = 0;
-        gUnknown_03002280[0][0] = 0;
-        gUnknown_03002280[0][1] = 0;
-        gUnknown_03002280[0][2] = 0xFF;
-        gUnknown_03002280[0][3] = 0x20;
+        sa2__gUnknown_03004D80[0] = 0;
+        sa2__gUnknown_03002280[0][0] = 0;
+        sa2__gUnknown_03002280[0][1] = 0;
+        sa2__gUnknown_03002280[0][2] = 0xFF;
+        sa2__gUnknown_03002280[0][3] = 0x20;
     } else {
         if (gRepeatedKeys & DPAD_LEFT) {
             levelSelect->levelId--;
@@ -116,6 +120,7 @@ static void Task_UnusedLevelSelectInit(void)
     gCurTask->main();
 }
 
+#if (GAME == GAME_SA2)
 static void Task_LoadStage(void)
 {
     LevelSelect *levelSelect = TASK_DATA(gCurTask);
@@ -135,7 +140,6 @@ static void Task_LoadStage(void)
     }
 }
 
-#if (GAME == GAME_SA2)
 static void nullsub_8009910(void) { }
 static void nullsub_8009914(void) { }
 #endif

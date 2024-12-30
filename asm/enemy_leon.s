@@ -854,7 +854,7 @@ _0806F032:
 	blt _0806F04A
 _0806F044:
 	ldr r0, _0806F06C @ =gPlayer
-	bl sub_800C558
+	bl sa2__sub_800CBA4
 _0806F04A:
 	ldr r0, [sp, #0xc]
 	asrs r5, r0, #0x10
