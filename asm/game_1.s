@@ -1182,9 +1182,9 @@ _08028958:
 	movs r3, #1
 	ands r2, r3
 	subs r3, #9
-	ldr r4, _080289A0 @ =sub_803FD5C
+	ldr r4, _080289A0 @ =sa2__sub_801EC3C
 	str r4, [sp]
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _080289DC
 	lsls r1, r0, #8
@@ -1192,7 +1192,7 @@ _08028958:
 	subs r0, r0, r1
 	b _080289C6
 	.align 2, 0
-_080289A0: .4byte sub_803FD5C
+_080289A0: .4byte sa2__sub_801EC3C
 _080289A4:
 	asrs r0, r3, #8
 	asrs r1, r4, #8
@@ -1201,10 +1201,10 @@ _080289A4:
 	lsrs r2, r2, #7
 	movs r3, #1
 	ands r2, r3
-	ldr r3, _08028A08 @ =sub_803FD5C
+	ldr r3, _08028A08 @ =sa2__sub_801EC3C
 	str r3, [sp]
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _080289DC
 	lsls r1, r0, #8
@@ -1243,7 +1243,7 @@ _080289DC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08028A08: .4byte sub_803FD5C
+_08028A08: .4byte sa2__sub_801EC3C
 _08028A0C: .4byte 0x000002BA
 _08028A10: .4byte gCurTask
 _08028A14: .4byte sub_8028A1C
@@ -3137,7 +3137,7 @@ _08029904: .4byte sub_80297E8
 	thumb_func_start sub_8029908
 sub_8029908: @ 0x08029908
 	push {r4, r5, lr}
-	bl sub_8040160
+	bl sa2__sub_801F044
 	ldr r1, _08029984 @ =gUnknown_03005730
 	movs r0, #0
 	strb r0, [r1]

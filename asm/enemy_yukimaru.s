@@ -397,13 +397,13 @@ _08071AF4: .4byte gCurTask
 _08071AF8:
 	add r0, sp, #8
 	str r0, [sp]
-	ldr r0, _08071B3C @ =sub_803FF84
+	ldr r0, _08071B3C @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r6, #0
 	adds r1, r4, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r5, #0
 	adds r2, #0x7c
 	ldrh r1, [r2]
@@ -428,7 +428,7 @@ _08071AF8:
 	strh r0, [r1]
 	b _08071BAC
 	.align 2, 0
-_08071B3C: .4byte sub_803FF84
+_08071B3C: .4byte sa2__sub_801EE64
 _08071B40:
 	mov r3, sb
 	ldrb r0, [r3, #5]
@@ -674,13 +674,13 @@ _08071D2C: .4byte gCurTask
 _08071D30:
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r0, _08071DCC @ =sub_803FF84
+	ldr r0, _08071DCC @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r5, #0
 	adds r1, r6, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r7, #0
 	adds r2, #0x7c
 	ldrh r1, [r2]
@@ -748,7 +748,7 @@ _08071DBC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08071DCC: .4byte sub_803FF84
+_08071DCC: .4byte sa2__sub_801EE64
 _08071DD0: .4byte gCurTask
 _08071DD4: .4byte sub_80719B8
 _08071DD8: .4byte 0xFFFFFBFF
@@ -1354,13 +1354,13 @@ _08072298:
 _080722BC: .4byte gCurTask
 _080722C0:
 	str r0, [sp]
-	ldr r0, _08072300 @ =sub_803FE44
+	ldr r0, _08072300 @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r6, #0
 	adds r1, r4, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r5, #0
 	adds r2, #0x7a
 	ldrh r1, [r2]
@@ -1385,7 +1385,7 @@ _080722C0:
 	strh r0, [r1]
 	b _08072370
 	.align 2, 0
-_08072300: .4byte sub_803FE44
+_08072300: .4byte sa2__sub_801ED24
 _08072304:
 	mov r3, sb
 	ldrb r0, [r3, #6]
@@ -1846,12 +1846,12 @@ _080726B0:
 	movs r3, #8
 	rsbs r3, r3, #0
 	str r0, [sp]
-	ldr r0, _080726F4 @ =sub_803FE44
+	ldr r0, _080726F4 @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r6, #0
 	adds r1, r4, #0
 	movs r2, #1
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r5, #0
 	adds r2, #0x7a
 	ldrh r1, [r2]
@@ -1876,7 +1876,7 @@ _080726B0:
 	strh r0, [r1]
 	b _08072764
 	.align 2, 0
-_080726F4: .4byte sub_803FE44
+_080726F4: .4byte sa2__sub_801ED24
 _080726F8:
 	mov r3, sb
 	ldrb r0, [r3, #6]

@@ -1001,11 +1001,11 @@ _0803635A:
 	mov r7, sl
 	lsls r1, r7, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _0803639C @ =sub_803FD5C
+	ldr r2, _0803639C @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _08036452
 	lsls r1, r0, #8
@@ -1021,7 +1021,7 @@ _0803635A:
 	strb r0, [r1]
 	b _08036452
 	.align 2, 0
-_0803639C: .4byte sub_803FD5C
+_0803639C: .4byte sa2__sub_801EC3C
 _080363A0:
 	adds r7, r5, #0
 	adds r7, #0x84
@@ -1087,7 +1087,7 @@ _08036418:
 	lsrs r4, r0, #0x10
 	cmp r4, #0
 	bne _08036452
-	ldr r3, _08036464 @ =gUnknown_03005A0C
+	ldr r3, _08036464 @ =gRefCollision
 	ldr r1, _08036468 @ =gCollisionTable
 	ldr r0, _0803646C @ =gCurrentLevel
 	ldrb r0, [r0]
@@ -1116,7 +1116,7 @@ _08036452:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08036464: .4byte gUnknown_03005A0C
+_08036464: .4byte gRefCollision
 _08036468: .4byte gCollisionTable
 _0803646C: .4byte gCurrentLevel
 _08036470: .4byte gCamera
@@ -1676,12 +1676,12 @@ _080368B6:
 	lsrs r2, r1, #0x10
 	mov r8, r2
 	asrs r6, r1, #0x10
-	ldr r1, _0803693C @ =sub_803FD5C
+	ldr r1, _0803693C @ =sa2__sub_801EC3C
 	str r1, [sp]
 	adds r1, r6, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _08036956
 	lsls r1, r0, #8
@@ -1711,7 +1711,7 @@ _0803692E:
 	b _0803697A
 	.align 2, 0
 _08036938: .4byte 0x0000FE60
-_0803693C: .4byte sub_803FD5C
+_0803693C: .4byte sa2__sub_801EC3C
 _08036940: .4byte gCamera
 _08036944: .4byte gCurTask
 _08036948:

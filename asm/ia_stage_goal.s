@@ -408,7 +408,7 @@ _0801F4AC: .4byte gUnknown_03005048
 _0801F4B0: .4byte gCurTask
 _0801F4B4: .4byte Task_StageGoal3
 _0801F4B8:
-	ldr r0, _0801F4D0 @ =gUnknown_03005A0C
+	ldr r0, _0801F4D0 @ =gRefCollision
 	ldr r0, [r0]
 	ldrh r0, [r0, #0x1c]
 	ldr r1, _0801F4D4 @ =gCamera
@@ -421,7 +421,7 @@ _0801F4B8:
 	str r0, [r2, #0x5c]
 	b _0801F620
 	.align 2, 0
-_0801F4D0: .4byte gUnknown_03005A0C
+_0801F4D0: .4byte gRefCollision
 _0801F4D4: .4byte gCamera
 _0801F4D8:
 	ldr r1, _0801F510 @ =gPlayer

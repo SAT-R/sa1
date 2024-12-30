@@ -10,6 +10,8 @@
 #define MUS_VS_RECORD 10
 #define MUS_OPTIONS   11 // Scrap Brain Zone remix
 
+#define MUS_DROWNING         27
+#define MUS_INVINCIBILITY    28
 #define MUS_BOSS_FIGHT       29
 #define MUS_BOSS_INTRO       30
 #define MUS_BOSS_EGG_WRECKER 31

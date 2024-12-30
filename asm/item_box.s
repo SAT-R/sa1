@@ -342,11 +342,11 @@ _0801E890:
 	mov r5, r8
 	asrs r1, r5, #0x10
 	str r2, [sp]
-	ldr r2, _0801E9DC @ =sub_803FF84
+	ldr r2, _0801E9DC @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r1, r0, #0
 	cmp r1, #0
 	bge _0801E8F0
@@ -483,7 +483,7 @@ _0801E9B6:
 _0801E9DA:
 	b _0801EA20
 	.align 2, 0
-_0801E9DC: .4byte sub_803FF84
+_0801E9DC: .4byte sa2__sub_801EE64
 _0801E9E0: .4byte gCamera
 _0801E9E4: .4byte gGameMode
 _0801E9E8: .4byte gMultiplayerPlayerTasks

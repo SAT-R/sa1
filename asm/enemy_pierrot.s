@@ -447,11 +447,11 @@ _0806DFD8:
 	asrs r1, r2, #0x10
 	add r3, sp, #8
 	str r3, [sp]
-	ldr r2, _0806E020 @ =sub_803FF84
+	ldr r2, _0806E020 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	mov r2, r8
 	adds r2, #0x4a
 	ldrh r1, [r2]
@@ -476,7 +476,7 @@ _0806DFD8:
 	orrs r0, r1
 	b _0806E03E
 	.align 2, 0
-_0806E020: .4byte sub_803FF84
+_0806E020: .4byte sa2__sub_801EE64
 _0806E024:
 	ldr r3, [sp, #0xc]
 	ldrb r0, [r3, #5]

@@ -160,7 +160,7 @@ _0808774E:
 	str r4, [sp, #0x20]
 	cmp r0, #0
 	beq _080877F0
-	ldr r2, _080877EC @ =gUnknown_0300504C
+	ldr r2, _080877EC @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -174,9 +174,9 @@ _0808774E:
 	.align 2, 0
 _080877E4: .4byte 0x030000B2
 _080877E8: .4byte gCamera
-_080877EC: .4byte gUnknown_0300504C
+_080877EC: .4byte sa2__gUnknown_030054B8
 _080877F0:
-	ldr r2, _0808792C @ =gUnknown_0300504C
+	ldr r2, _0808792C @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -331,7 +331,7 @@ _08087804:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0808792C: .4byte gUnknown_0300504C
+_0808792C: .4byte sa2__gUnknown_030054B8
 _08087930: .4byte gCamera
 _08087934: .4byte 0x000001F7
 
@@ -1670,7 +1670,7 @@ _080882A4:
 	ldrsb r0, [r4, r0]
 	cmp r0, #0
 	beq _0808830C
-	ldr r2, _08088308 @ =gUnknown_0300504C
+	ldr r2, _08088308 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -1685,9 +1685,9 @@ _080882A4:
 _080882FC: .4byte gNumSingleplayerCharacters
 _08088300: .4byte 0x000003FF
 _08088304: .4byte gCamera
-_08088308: .4byte gUnknown_0300504C
+_08088308: .4byte sa2__gUnknown_030054B8
 _0808830C:
-	ldr r2, _08088360 @ =gUnknown_0300504C
+	ldr r2, _08088360 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -1728,7 +1728,7 @@ _08088350:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08088360: .4byte gUnknown_0300504C
+_08088360: .4byte sa2__gUnknown_030054B8
 _08088364: .4byte 0xFFFFFBFF
 
 	thumb_func_start TaskDestructor_SwingingHook

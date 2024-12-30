@@ -279,13 +279,13 @@ _08073BA0:
 _08073BC4: .4byte gCurTask
 _08073BC8:
 	str r0, [sp]
-	ldr r0, _08073C28 @ =sub_803FF84
+	ldr r0, _08073C28 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r6, #0
 	adds r1, r4, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldr r1, [r5, #0x40]
 	adds r1, r1, r0
 	str r1, [r5, #0x40]
@@ -326,7 +326,7 @@ _08073BC8:
 	strh r0, [r1]
 	b _08073C9C
 	.align 2, 0
-_08073C28: .4byte sub_803FF84
+_08073C28: .4byte sa2__sub_801EE64
 _08073C2C: .4byte gPlayer
 _08073C30:
 	mov r6, r8
@@ -462,11 +462,11 @@ sub_8073CC4: @ 0x08073CC4
 	strh r2, [r3, #0x18]
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _08073DB8 @ =sub_803FF84
+	ldr r2, _08073DB8 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldr r1, [r7, #0x40]
 	adds r1, r1, r0
 	str r1, [r7, #0x40]
@@ -527,7 +527,7 @@ _08073DA8:
 	.align 2, 0
 _08073DB0: .4byte gCurTask
 _08073DB4: .4byte gCamera
-_08073DB8: .4byte sub_803FF84
+_08073DB8: .4byte sa2__sub_801EE64
 _08073DBC: .4byte 0x03000046
 _08073DC0:
 	ldr r2, [sp, #0x10]
@@ -587,11 +587,11 @@ _08073E2A:
 	asrs r1, r2, #0x10
 	add r3, sp, #8
 	str r3, [sp]
-	ldr r2, _08073E88 @ =sub_803FF84
+	ldr r2, _08073E88 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldr r1, [r7, #0x40]
 	adds r1, r1, r0
 	str r1, [r7, #0x40]
@@ -628,7 +628,7 @@ _08073E76:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08073E88: .4byte sub_803FF84
+_08073E88: .4byte sa2__sub_801EE64
 _08073E8C: .4byte gCurTask
 _08073E90: .4byte Task_PenMk1Main
 
@@ -699,11 +699,11 @@ _08073EE4:
 	strh r2, [r3]
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _08073F7C @ =sub_803FF84
+	ldr r2, _08073F7C @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldr r1, [r7, #0x38]
 	adds r1, r1, r0
 	str r1, [r7, #0x38]
@@ -750,7 +750,7 @@ _08073EE4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08073F7C: .4byte sub_803FF84
+_08073F7C: .4byte sa2__sub_801EE64
 _08073F80: .4byte 0x060125A0
 
 	thumb_func_start sub_8073F84
@@ -910,13 +910,13 @@ _080740B0:
 	strh r0, [r6, #0x18]
 	add r1, sp, #8
 	str r1, [sp]
-	ldr r0, _080740F4 @ =sub_803FF84
+	ldr r0, _080740F4 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	mov r0, sl
 	mov r1, sb
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r3, r0, #0
 	cmp r3, #0
 	ble _080740F8
@@ -933,7 +933,7 @@ _080740EC:
 	b _0807411E
 	.align 2, 0
 _080740F0: .4byte gCamera
-_080740F4: .4byte sub_803FF84
+_080740F4: .4byte sa2__sub_801EE64
 _080740F8:
 	mov r0, r8
 	adds r0, #0x4b
@@ -1117,11 +1117,11 @@ sub_80741E8: @ 0x080741E8
 	mov r3, sl
 	strb r3, [r2]
 	str r6, [sp]
-	ldr r2, _080742CC @ =sub_803FF84
+	ldr r2, _080742CC @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldr r1, [r4, #0x38]
 	adds r1, r1, r0
 	str r1, [r4, #0x38]
@@ -1175,7 +1175,7 @@ sub_80741E8: @ 0x080741E8
 _080742C0: .4byte sub_80742E0
 _080742C4: .4byte 0x0000FC40
 _080742C8: .4byte 0x0300004B
-_080742CC: .4byte sub_803FF84
+_080742CC: .4byte sa2__sub_801EE64
 _080742D0: .4byte 0x06012620
 _080742D4: .4byte 0x03000020
 _080742D8: .4byte 0x03000021

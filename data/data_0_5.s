@@ -22,7 +22,23 @@ gUnknown_0865F174:
 
     .global gUnknown_0865F178
 gUnknown_0865F178:
-    .incbin "baserom.gba", 0x0065F178, 0x24E64
+    .incbin "baserom.gba", 0x0065F178, 0x4
+    
+    .global gUnknown_0865F17C
+gUnknown_0865F17C:
+    .incbin "graphics/tilesets/ascii/ascii.4bpp"
+    
+    .global gUnknown_0866117C
+gUnknown_0866117C:
+    .incbin "graphics/tilesets/ascii/ascii.gbapal"
+    
+    .global gUnknown_0866119C
+gUnknown_0866119C:
+    .incbin "baserom.gba", 0x0066119C, 0x80
+    
+    .global gUnknown_0866121C
+gUnknown_0866121C:
+    .incbin "baserom.gba", 0x0066121C, 0x22DC0
 
     .global gUnknown_08683FDC
 gUnknown_08683FDC:
@@ -58,7 +74,7 @@ gUnknown_0868653C:
 
     .global gUnknown_08687B3C
 gUnknown_08687B3C:
-    .incbin "baserom.gba", 0x00687B3C, 0x4
+    .4byte gUnknown_0865F17C
 
     .global gUnknown_08687B40
 gUnknown_08687B40:

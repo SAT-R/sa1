@@ -318,11 +318,11 @@ _080785A8:
 _080785AC:
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _080785D0 @ =sub_803FF84
+	ldr r0, _080785D0 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	cmp r0, #3
 	ble _080785C2
 	b _0807883E
@@ -333,7 +333,7 @@ _080785C2:
 	b _080785D6
 	.align 2, 0
 _080785CC: .4byte gUnknown_03005A47
-_080785D0: .4byte sub_803FF84
+_080785D0: .4byte sa2__sub_801EE64
 _080785D4:
 	ldr r0, [r7, #0x10]
 _080785D6:

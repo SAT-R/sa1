@@ -318,11 +318,11 @@ _0808E0BE:
 	ldrb r2, [r0]
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0808E120 @ =sub_803FF84
+	ldr r0, _0808E120 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	mov sl, r0
@@ -362,7 +362,7 @@ _0808E0FE:
 	b _0808E136
 	.align 2, 0
 _0808E11C: .4byte gUnknown_03005A47
-_0808E120: .4byte sub_803FF84
+_0808E120: .4byte sa2__sub_801EE64
 _0808E124: .4byte gPlayer
 _0808E128: .4byte gPartner
 _0808E12C:
@@ -441,11 +441,11 @@ _0808E1A6:
 	ldrb r2, [r0]
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0808E1D4 @ =sub_803FF84
+	ldr r0, _0808E1D4 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
 	cmp r0, #0
@@ -459,7 +459,7 @@ _0808E1A6:
 	b _0808E1DE
 	.align 2, 0
 _0808E1D0: .4byte gUnknown_03005A47
-_0808E1D4: .4byte sub_803FF84
+_0808E1D4: .4byte sa2__sub_801EE64
 _0808E1D8:
 	ldr r0, [r6, #4]
 	adds r0, r0, r1
@@ -584,11 +584,11 @@ _0808E29E:
 	asrs r1, r3, #0x10
 	movs r2, #0
 	str r2, [sp]
-	ldr r2, _0808E2E0 @ =sub_803FF84
+	ldr r2, _0808E2E0 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	ldr r2, [sp, #0x18]
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	blt _0808E2F0
@@ -600,7 +600,7 @@ _0808E29E:
 	.align 2, 0
 _0808E2D8: .4byte gUnknown_03005A47
 _0808E2DC: .4byte gNumSingleplayerCharacters
-_0808E2E0: .4byte sub_803FF84
+_0808E2E0: .4byte sa2__sub_801EE64
 _0808E2E4:
 	mov r1, r8
 	ldr r0, [r1, #0x44]

@@ -51,7 +51,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005038; gUnknown_03005038 = .;
 . = 0x00005040; gUnknown_03005040 = .; /* SA2: gUnknown_030054A8 */
 . = 0x00005048; gUnknown_03005048 = .; /* SA2: gUnknown_030054B4 */
-. = 0x0000504C; gUnknown_0300504C = .;
+. = 0x0000504C; sa2__gUnknown_030054B8 = .;
 . = 0x00005050; gTailsEnabled = .;
 . = 0x00005054; gUnknown_03005054 = .;
 . = 0x00005058; gUnknown_03005058 = .;
@@ -111,14 +111,14 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x000058A8; gUnknown_030058A8 = .;
 . = 0x000058B4; gUnknown_030058B4 = .;
 . = 0x000058B8; gUnknown_030058B8 = .;
-. = 0x000058BC; gSomeDebugTask = .;
+. = 0x000058BC; gDummyTask = .;
 . = 0x000058C0; gUnknown_030058C0 = .;
 . = 0x000058D0; gUnknown_030058D0 = .;
 . = 0x00005910; gUnknown_03005910 = .;
 . = 0x00005950; gUnknown_03005950 = .;
 . = 0x00005990; gUnknown_03005990 = .;
 . = 0x000059D0; gCamera = .;
-. = 0x00005A0C; gUnknown_03005A0C = .;
+. = 0x00005A0C; gRefCollision = .;
 . = 0x00005A10; gUnknown_03005A10 = .;
 . = 0x00005A18; gRingsScatterTask = .;
 

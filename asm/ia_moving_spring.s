@@ -1282,10 +1282,10 @@ _0808BC08:
 	ldrb r2, [r5]
 	movs r7, #0
 	str r7, [sp]
-	ldr r6, _0808BC68 @ =sub_803FF84
+	ldr r6, _0808BC68 @ =sa2__sub_801EE64
 	str r6, [sp, #4]
 	movs r3, #8
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bge _0808BC32
 	lsls r1, r0, #8
@@ -1302,7 +1302,7 @@ _0808BC32:
 	rsbs r3, r3, #0
 	str r7, [sp]
 	str r6, [sp, #4]
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bge _0808BC54
 	lsls r1, r0, #8
@@ -1320,7 +1320,7 @@ _0808BC54:
 	movs r0, #1
 	b _0808BC6E
 	.align 2, 0
-_0808BC68: .4byte sub_803FF84
+_0808BC68: .4byte sa2__sub_801EE64
 _0808BC6C:
 	movs r0, #0
 _0808BC6E:

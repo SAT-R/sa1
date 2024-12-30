@@ -1563,11 +1563,11 @@ sub_802FC14: @ 0x0802FC14
 	lsrs r2, r1, #0x10
 	mov r8, r2
 	asrs r1, r1, #0x10
-	ldr r2, _0802FE38 @ =sub_803FD5C
+	ldr r2, _0802FE38 @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _0802FCB4
 	lsls r1, r0, #8
@@ -1777,7 +1777,7 @@ _0802FDD6:
 _0802FE2C: .4byte gCurTask
 _0802FE30: .4byte 0x0300000C
 _0802FE34: .4byte 0x0300003C
-_0802FE38: .4byte sub_803FD5C
+_0802FE38: .4byte sa2__sub_801EC3C
 _0802FE3C: .4byte 0xFFFFFF00
 _0802FE40: .4byte sub_802FE88
 _0802FE44: .4byte 0xFFFFFE7F
@@ -2553,12 +2553,12 @@ _08030458:
 	ble _080304CC
 	adds r0, r1, #0
 	adds r0, #0x18
-	ldr r1, _0803052C @ =sub_803FD5C
+	ldr r1, _0803052C @ =sa2__sub_801EC3C
 	str r1, [sp]
 	adds r1, r2, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _080304CC
 	lsls r1, r0, #8
@@ -2616,7 +2616,7 @@ _0803051A:
 	bx r0
 	.align 2, 0
 _08030528: .4byte gCamera
-_0803052C: .4byte sub_803FD5C
+_0803052C: .4byte sa2__sub_801EC3C
 _08030530: .4byte gPseudoRandom
 _08030534: .4byte 0x00196225
 _08030538: .4byte 0x3C6EF35F

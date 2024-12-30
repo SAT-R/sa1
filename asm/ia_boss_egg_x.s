@@ -2052,11 +2052,11 @@ _08038270:
 	adds r0, #0x14
 	lsls r1, r5, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _08038314 @ =sub_803FD5C
+	ldr r2, _08038314 @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	blt _08038298
 	b _0803840C
@@ -2124,7 +2124,7 @@ _0803830C:
 	bl sub_803A54C
 	b _0803840C
 	.align 2, 0
-_08038314: .4byte sub_803FD5C
+_08038314: .4byte sa2__sub_801EC3C
 _08038318: .4byte 0xFFFFFF00
 _0803831C: .4byte gSelectedCharacter
 _08038320: .4byte gCurrentLevel
@@ -2441,7 +2441,7 @@ _080385AC:
 _080385BA:
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
-	ldr r2, _080385E0 @ =gUnknown_03005A0C
+	ldr r2, _080385E0 @ =gRefCollision
 	ldr r1, _080385E4 @ =gCollisionTable
 	ldr r0, _080385E8 @ =gCurrentLevel
 	ldrb r0, [r0]
@@ -2457,7 +2457,7 @@ _080385BA:
 	b _08038804
 	.align 2, 0
 _080385DC: .4byte gPlayer
-_080385E0: .4byte gUnknown_03005A0C
+_080385E0: .4byte gRefCollision
 _080385E4: .4byte gCollisionTable
 _080385E8: .4byte gCurrentLevel
 _080385EC: .4byte gCamera
@@ -2990,7 +2990,7 @@ _08038A06:
 _08038A14:
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
-	ldr r2, _08038A38 @ =gUnknown_03005A0C
+	ldr r2, _08038A38 @ =gRefCollision
 	ldr r1, _08038A3C @ =gCollisionTable
 	ldr r0, _08038A40 @ =gCurrentLevel
 	ldrb r0, [r0]
@@ -3006,7 +3006,7 @@ _08038A14:
 	b _08038A7E
 	.align 2, 0
 _08038A34: .4byte gPlayer
-_08038A38: .4byte gUnknown_03005A0C
+_08038A38: .4byte gRefCollision
 _08038A3C: .4byte gCollisionTable
 _08038A40: .4byte gCurrentLevel
 _08038A44: .4byte gCamera
@@ -4682,11 +4682,11 @@ sub_80397A8: @ 0x080397A8
 	adds r0, #8
 	lsrs r6, r1, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _08039894 @ =sub_803FD5C
+	ldr r2, _08039894 @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _08039838
 	lsls r0, r0, #8
@@ -4747,7 +4747,7 @@ _08039838:
 _08039888: .4byte gCurTask
 _0803988C: .4byte 0x03000040
 _08039890: .4byte 0x03000042
-_08039894: .4byte sub_803FD5C
+_08039894: .4byte sa2__sub_801EC3C
 _08039898: .4byte gPlayer
 _0803989C: .4byte gNumSingleplayerCharacters
 _080398A0: .4byte gPartner
@@ -6276,12 +6276,12 @@ sub_803A46C: @ 0x0803A46C
 	adds r0, r7, #0
 	adds r0, #8
 	asrs r6, r1, #0x10
-	ldr r1, _0803A528 @ =sub_803FD5C
+	ldr r1, _0803A528 @ =sa2__sub_801EC3C
 	str r1, [sp]
 	adds r1, r6, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _0803A4D0
 	lsls r1, r0, #8
@@ -6332,7 +6332,7 @@ _0803A510:
 	.align 2, 0
 _0803A520: .4byte gCurTask
 _0803A524: .4byte 0x03000048
-_0803A528: .4byte sub_803FD5C
+_0803A528: .4byte sa2__sub_801EC3C
 _0803A52C: .4byte gCamera
 
 	thumb_func_start TaskDestructor_EggX

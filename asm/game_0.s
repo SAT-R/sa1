@@ -495,11 +495,11 @@ _08009A40:
 	subs r0, r0, r1
 	movs r3, #8
 	rsbs r3, r3, #0
-	ldr r1, _08009B00 @ =sub_803FD5C
+	ldr r1, _08009B00 @ =sa2__sub_801EC3C
 	str r1, [sp]
 	adds r1, r7, #0
 	ldr r2, [sp, #0x28]
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _08009B04
@@ -565,7 +565,7 @@ _08009AD6:
 	.align 2, 0
 _08009AF8: .4byte gPlayer
 _08009AFC: .4byte 0xFFFFFF00
-_08009B00: .4byte sub_803FD5C
+_08009B00: .4byte sa2__sub_801EC3C
 _08009B04:
 	movs r0, #8
 	ldr r5, [sp, #0x30]
@@ -651,12 +651,12 @@ _08009B78:
 	movs r1, #0xf
 	ldrsb r1, [r6, r1]
 	adds r0, r0, r1
-	ldr r1, _08009C34 @ =sub_803FD5C
+	ldr r1, _08009C34 @ =sa2__sub_801EC3C
 	str r1, [sp]
 	adds r1, r7, #0
 	ldr r2, [sp, #0x28]
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _08009C38
@@ -722,7 +722,7 @@ _08009C0C:
 	.align 2, 0
 _08009C2C: .4byte gPlayer
 _08009C30: .4byte 0xFFFFFF00
-_08009C34: .4byte sub_803FD5C
+_08009C34: .4byte sa2__sub_801EC3C
 _08009C38:
 	movs r0, #8
 	ldr r1, [sp, #0x30]
@@ -839,12 +839,12 @@ _08009CFE:
 	movs r0, #0xf
 	ldrsb r0, [r4, r0]
 	add r0, r8
-	ldr r1, _08009D94 @ =sub_803FD5C
+	ldr r1, _08009D94 @ =sa2__sub_801EC3C
 	str r1, [sp]
 	adds r1, r7, #0
 	ldr r2, [sp, #0x28]
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _08009D98
@@ -907,7 +907,7 @@ _08009D6E:
 	b _08009DA0
 	.align 2, 0
 _08009D90: .4byte gPlayer
-_08009D94: .4byte sub_803FD5C
+_08009D94: .4byte sa2__sub_801EC3C
 _08009D98:
 	ldr r0, [sp, #0x38]
 	str r0, [r4]
@@ -930,11 +930,11 @@ _08009DB0:
 	subs r0, r6, r0
 	movs r3, #8
 	rsbs r3, r3, #0
-	ldr r1, _08009E44 @ =sub_803FD5C
+	ldr r1, _08009E44 @ =sa2__sub_801EC3C
 	str r1, [sp]
 	adds r1, r7, #0
 	ldr r2, [sp, #0x28]
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _08009E48
@@ -997,7 +997,7 @@ _08009E1E:
 	b _08009E50
 	.align 2, 0
 _08009E40: .4byte gPlayer
-_08009E44: .4byte sub_803FD5C
+_08009E44: .4byte sa2__sub_801EC3C
 _08009E48:
 	ldr r0, [sp, #0x38]
 	str r0, [r4]
@@ -1220,10 +1220,10 @@ _08009FD6:
 	subs r1, r2, r1
 	movs r3, #8
 	rsbs r3, r3, #0
-	ldr r2, _0800A060 @ =sub_803FC64
+	ldr r2, _0800A060 @ =sa2__sub_801EB44
 	str r2, [sp]
 	ldr r2, [sp, #0x28]
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _0800A068
@@ -1283,7 +1283,7 @@ _0800A042:
 	str r0, [r4]
 	b _0800A372
 	.align 2, 0
-_0800A060: .4byte sub_803FC64
+_0800A060: .4byte sa2__sub_801EB44
 _0800A064: .4byte gPlayer
 _0800A068:
 	ldr r1, [r4, #0x10]
@@ -1509,11 +1509,11 @@ _0800A206:
 	movs r1, #0xe
 	ldrsb r1, [r5, r1]
 	add r1, r8
-	ldr r2, _0800A290 @ =sub_803FC64
+	ldr r2, _0800A290 @ =sa2__sub_801EB44
 	str r2, [sp]
 	ldr r2, [sp, #0x28]
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _0800A29C
@@ -1575,7 +1575,7 @@ _0800A272:
 	str r0, [r4]
 	b _0800A372
 	.align 2, 0
-_0800A290: .4byte sub_803FC64
+_0800A290: .4byte sa2__sub_801EB44
 _0800A294: .4byte gUnknown_03005A5E
 _0800A298: .4byte gPlayer
 _0800A29C:

@@ -310,13 +310,13 @@ _0806C814: .4byte gCurTask
 _0806C818:
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r0, _0806C888 @ =sub_803FF84
+	ldr r0, _0806C888 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r6, #0
 	adds r1, r7, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldrh r1, [r4, #0x3c]
 	adds r1, r1, r0
 	strh r1, [r4, #0x3c]
@@ -365,7 +365,7 @@ _0806C866:
 	ldr r0, _0806C890 @ =sub_806C9A0
 	b _0806C978
 	.align 2, 0
-_0806C888: .4byte sub_803FF84
+_0806C888: .4byte sa2__sub_801EE64
 _0806C88C: .4byte gCurTask
 _0806C890: .4byte sub_806C9A0
 _0806C894:
@@ -631,13 +631,13 @@ _0806CA94: .4byte gCurTask
 _0806CA98:
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r0, _0806CAFC @ =sub_803FF84
+	ldr r0, _0806CAFC @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r4, #0
 	adds r1, r7, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldrh r1, [r5, #0x3c]
 	adds r1, r1, r0
 	strh r1, [r5, #0x3c]
@@ -678,7 +678,7 @@ _0806CAC2:
 	adds r1, r1, r0
 	b _0806CB2E
 	.align 2, 0
-_0806CAFC: .4byte sub_803FF84
+_0806CAFC: .4byte sa2__sub_801EE64
 _0806CB00: .4byte gSineTable
 _0806CB04:
 	ldr r2, _0806CB6C @ =gSineTable
@@ -911,13 +911,13 @@ _0806CCC4: .4byte gCurTask
 _0806CCC8:
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r0, _0806CD20 @ =sub_803FF84
+	ldr r0, _0806CD20 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r5, #0
 	adds r1, r7, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	ldrh r1, [r4, #0x3c]
 	adds r1, r1, r0
 	strh r1, [r4, #0x3c]
@@ -953,6 +953,6 @@ _0806CD10:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806CD20: .4byte sub_803FF84
+_0806CD20: .4byte sa2__sub_801EE64
 _0806CD24: .4byte gCurTask
 _0806CD28: .4byte sub_806C6D0

@@ -512,11 +512,11 @@ _0801BEA4:
 	asrs r1, r3, #0x10
 	ldr r2, [sp, #8]
 	str r2, [sp]
-	ldr r2, _0801BFE4 @ =sub_803FF84
+	ldr r2, _0801BFE4 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r1, r0, #0
 	cmp r1, #0
 	bge _0801BF04
@@ -642,7 +642,7 @@ _0801BFB0:
 _0801BFD8: .4byte 0x03000080
 _0801BFDC: .4byte 0x0300007C
 _0801BFE0: .4byte 0x0300007E
-_0801BFE4: .4byte sub_803FF84
+_0801BFE4: .4byte sa2__sub_801EE64
 _0801BFE8: .4byte gCamera
 _0801BFEC: .4byte gGameMode
 _0801BFF0: .4byte gPlayer
@@ -1330,7 +1330,7 @@ _0801C564:
 	rsbs r3, r3, #0
 	ands r0, r3
 	str r0, [r5, #0x1c]
-	ldr r2, _0801C5B8 @ =gUnknown_0300504C
+	ldr r2, _0801C5B8 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	orrs r0, r1
 	str r0, [r5, #0x1c]
@@ -1364,7 +1364,7 @@ _0801C5B0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801C5B8: .4byte gUnknown_0300504C
+_0801C5B8: .4byte sa2__gUnknown_030054B8
 _0801C5BC: .4byte 0x0300000C
 _0801C5C0: .4byte 0x0300003C
 
@@ -1432,7 +1432,7 @@ _0801C63C:
 	rsbs r3, r3, #0
 	ands r0, r3
 	str r0, [r5, #0x1c]
-	ldr r2, _0801C690 @ =gUnknown_0300504C
+	ldr r2, _0801C690 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	orrs r0, r1
 	str r0, [r5, #0x1c]
@@ -1466,7 +1466,7 @@ _0801C688:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0801C690: .4byte gUnknown_0300504C
+_0801C690: .4byte sa2__gUnknown_030054B8
 _0801C694: .4byte 0x0300000C
 _0801C698: .4byte 0x0300003C
 

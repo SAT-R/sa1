@@ -475,11 +475,11 @@ _0808F5F4:
 	ldr r0, _0808F618 @ =gUnknown_03005A47
 _0808F5F6:
 	ldrb r2, [r0]
-	ldr r0, _0808F61C @ =sub_803FD5C
+	ldr r0, _0808F61C @ =sa2__sub_801EC3C
 	str r0, [sp]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #4
 	ble _0808F67C
 	cmp r6, #0
@@ -491,7 +491,7 @@ _0808F5F6:
 	b _0808F628
 	.align 2, 0
 _0808F618: .4byte gUnknown_03005A47
-_0808F61C: .4byte sub_803FD5C
+_0808F61C: .4byte sa2__sub_801EC3C
 _0808F620:
 	ldr r0, [r5, #0x10]
 	movs r1, #2

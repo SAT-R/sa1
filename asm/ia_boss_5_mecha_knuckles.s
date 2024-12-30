@@ -887,12 +887,12 @@ sub_804EB90: @ 0x0804EB90
 	adds r0, r6, r0
 	movs r1, #0
 	str r1, [sp]
-	ldr r1, _0804EBEC @ =sub_803FF84
+	ldr r1, _0804EBEC @ =sa2__sub_801EE64
 	str r1, [sp, #4]
 	adds r1, r7, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	adds r2, r0, #0
 	ldr r0, [r5]
 	movs r1, #0x10
@@ -903,7 +903,7 @@ sub_804EB90: @ 0x0804EB90
 	bge _0804EC04
 	b _0804EBF4
 	.align 2, 0
-_0804EBEC: .4byte sub_803FF84
+_0804EBEC: .4byte sa2__sub_801EE64
 _0804EBF0:
 	cmp r2, #0xa
 	bgt _0804EC04
@@ -940,11 +940,11 @@ _0804EC04:
 	rsbs r3, r3, #0
 	movs r1, #0
 	str r1, [sp]
-	ldr r1, _0804EC5C @ =sub_803FF84
+	ldr r1, _0804EC5C @ =sa2__sub_801EE64
 	str r1, [sp, #4]
 	adds r1, r7, #0
 	movs r2, #1
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	adds r2, r0, #0
 	cmp r2, #0
 	bge _0804EC54
@@ -962,7 +962,7 @@ _0804EC54:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804EC5C: .4byte sub_803FF84
+_0804EC5C: .4byte sa2__sub_801EE64
 
 	thumb_func_start sub_804EC60
 sub_804EC60: @ 0x0804EC60
@@ -2022,7 +2022,7 @@ _0804F464:
 	lsls r0, r0, #6
 	ldr r2, [sp]
 	str r0, [r2, #0x10]
-	ldr r2, _0804F4B8 @ =gUnknown_0300504C
+	ldr r2, _0804F4B8 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -2051,7 +2051,7 @@ _0804F4A6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F4B8: .4byte gUnknown_0300504C
+_0804F4B8: .4byte sa2__gUnknown_030054B8
 
 	thumb_func_start sub_804F4BC
 sub_804F4BC: @ 0x0804F4BC
@@ -2332,7 +2332,7 @@ _0804F6F0:
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r4, #0x10]
-	ldr r2, _0804F738 @ =gUnknown_0300504C
+	ldr r2, _0804F738 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -2357,7 +2357,7 @@ _0804F72E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F738: .4byte gUnknown_0300504C
+_0804F738: .4byte sa2__gUnknown_030054B8
 
 	thumb_func_start sub_804F73C
 sub_804F73C: @ 0x0804F73C
@@ -2632,7 +2632,7 @@ sub_804F8DC: @ 0x0804F8DC
 	str r0, [r2, #0x74]
 	ldr r0, _0804F924 @ =0xFFFF9C00
 	str r0, [r2, #0x78]
-	ldr r0, _0804F928 @ =gUnknown_03005A0C
+	ldr r0, _0804F928 @ =gRefCollision
 	ldr r0, [r0]
 	ldrh r0, [r0, #0x1c]
 	strh r0, [r1, #0x1a]
@@ -2662,7 +2662,7 @@ sub_804F8DC: @ 0x0804F8DC
 	.align 2, 0
 _0804F920: .4byte gCamera
 _0804F924: .4byte 0xFFFF9C00
-_0804F928: .4byte gUnknown_03005A0C
+_0804F928: .4byte gRefCollision
 _0804F92C: .4byte 0xFFFFFBFF
 _0804F930: .4byte 0x000002B6
 

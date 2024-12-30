@@ -26,8 +26,8 @@ gUnknown_084ADA1A:
 gUnknown_084ADA1E:
     .incbin "baserom.gba", 0x004ADA1E, 0x6
 
-    .global gUnknown_084ADA24
-gUnknown_084ADA24:
+    .global sHeartOffsets
+sHeartOffsets:
     .incbin "baserom.gba", 0x004ADA24, 0xC0
 
     .global gUnknown_084ADAE4

@@ -283,12 +283,12 @@ _0806EBCC:
 	adds r0, r4, #3
 	add r1, sp, #8
 	str r1, [sp]
-	ldr r1, _0806EC34 @ =sub_803FF84
+	ldr r1, _0806EC34 @ =sa2__sub_801EE64
 	str r1, [sp, #4]
 	adds r1, r7, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r5, #0
 	adds r2, #0x4c
 	ldrh r1, [r2]
@@ -332,7 +332,7 @@ _0806EC0A:
 	str r0, [r6, #0x10]
 	b _0806ED20
 	.align 2, 0
-_0806EC34: .4byte sub_803FF84
+_0806EC34: .4byte sa2__sub_801EE64
 _0806EC38: .4byte gCurTask
 _0806EC3C: .4byte sub_806ED3C
 _0806EC40:
@@ -593,12 +593,12 @@ _0806EE3C:
 	adds r0, r4, #3
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r1, _0806EE98 @ =sub_803FF84
+	ldr r1, _0806EE98 @ =sa2__sub_801EE64
 	str r1, [sp, #4]
 	adds r1, r6, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r5, #0
 	adds r2, #0x4c
 	ldrh r1, [r2]
@@ -636,7 +636,7 @@ _0806EE88:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806EE98: .4byte sub_803FF84
+_0806EE98: .4byte sa2__sub_801EE64
 _0806EE9C: .4byte gCurTask
 _0806EEA0: .4byte sub_806EAB8
 
@@ -878,12 +878,12 @@ _0806F078:
 	adds r0, r4, #3
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r1, _0806F0D4 @ =sub_803FF84
+	ldr r1, _0806F0D4 @ =sa2__sub_801EE64
 	str r1, [sp, #4]
 	adds r1, r5, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	mov r2, sb
 	adds r2, #0x4c
 	ldrh r1, [r2]
@@ -921,6 +921,6 @@ _0806F0C4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806F0D4: .4byte sub_803FF84
+_0806F0D4: .4byte sa2__sub_801EE64
 _0806F0D8: .4byte gCurTask
 _0806F0DC: .4byte sub_806EAB8

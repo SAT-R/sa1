@@ -377,12 +377,12 @@ _0808934E:
 	ldrb r2, [r0]
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _08089374 @ =sub_803FF84
+	ldr r0, _08089374 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bge _080893F2
 	lsls r1, r0, #8
@@ -391,7 +391,7 @@ _0808934E:
 	b _080893EC
 	.align 2, 0
 _08089370: .4byte gUnknown_03005A47
-_08089374: .4byte sub_803FF84
+_08089374: .4byte sa2__sub_801EE64
 _08089378:
 	mov r0, sl
 	asrs r1, r0, #0x10
@@ -437,12 +437,12 @@ _080893BE:
 	ldrb r2, [r0]
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _080893E8 @ =sub_803FF84
+	ldr r0, _080893E8 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	bge _080893F2
 	lsls r1, r0, #8
@@ -456,7 +456,7 @@ _080893DE:
 	b _080893F2
 	.align 2, 0
 _080893E4: .4byte gUnknown_03005A47
-_080893E8: .4byte sub_803FF84
+_080893E8: .4byte sa2__sub_801EE64
 _080893EC:
 	ldr r0, [r5, #4]
 	adds r0, r0, r1

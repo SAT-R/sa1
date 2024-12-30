@@ -1890,8 +1890,9 @@ sub_80536D8: @ 0x080536D8
 	.align 2, 0
 _080536E0: .4byte gUnknown_03006240
 
-	thumb_func_start sub_80536E4
-sub_80536E4: @ 0x080536E4
+@ --- Start of game/stage/ui.c ---
+	thumb_func_start Task_StageUIMain
+Task_StageUIMain: @ 0x080536E4
 	push {r4, r5, r6, lr}
 	sub sp, #0x18
 	mov r1, sp
@@ -3216,13 +3217,13 @@ _08054198: .4byte 0x0000050C
 _0805419C: .4byte 0x06017BE0
 _080541A0: .4byte 0x00000514
 
-	thumb_func_start sub_80541A4
-sub_80541A4: @ 0x080541A4
+	thumb_func_start CreateStageUI
+CreateStageUI: @ 0x080541A4
 	push {r4, lr}
 	sub sp, #4
 	movs r1, #0
 	movs r4, #0
-	ldr r0, _080541E4 @ =sub_80536E4
+	ldr r0, _080541E4 @ =Task_StageUIMain
 	movs r2, #0x86
 	lsls r2, r2, #6
 	str r1, [sp]
@@ -3247,7 +3248,7 @@ sub_80541A4: @ 0x080541A4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080541E4: .4byte sub_80536E4
+_080541E4: .4byte Task_StageUIMain
 _080541E8: .4byte 0x03000040
 _080541EC: .4byte 0x03000020
 
@@ -3948,11 +3949,11 @@ _08054740:
 	asrs r0, r5, #8
 	asrs r1, r1, #8
 	str r2, [sp]
-	ldr r2, _080547B8 @ =sub_803FF84
+	ldr r2, _080547B8 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	lsls r0, r0, #8
 	adds r1, r5, r0
 	ldr r0, [r4, #0x34]
@@ -4007,7 +4008,7 @@ _080547AE:
 	bl TaskDestroy
 	b _080547D4
 	.align 2, 0
-_080547B8: .4byte sub_803FF84
+_080547B8: .4byte sa2__sub_801EE64
 _080547BC: .4byte 0x0300003C
 _080547C0: .4byte gCamera
 _080547C4: .4byte gCurTask
@@ -4146,11 +4147,11 @@ _080548D4:
 	asrs r0, r6, #8
 	asrs r1, r1, #8
 	str r5, [sp]
-	ldr r2, _08054934 @ =sub_803FF84
+	ldr r2, _08054934 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	lsls r0, r0, #8
 	adds r1, r6, r0
 	ldr r0, [r4, #0x34]
@@ -4191,7 +4192,7 @@ _08054928:
 	bl TaskDestroy
 	b _0805494C
 	.align 2, 0
-_08054934: .4byte sub_803FF84
+_08054934: .4byte sa2__sub_801EE64
 _08054938: .4byte gCamera
 _0805493C: .4byte gCurTask
 _08054940:
@@ -5843,7 +5844,7 @@ _08055672:
 	ldrb r0, [r0]
 	cmp r0, #3
 	bhi _080556E4
-	bl sub_80541A4
+	bl CreateStageUI
 	b _080556E8
 	.align 2, 0
 _080556AC: .4byte gDispCnt
@@ -7320,7 +7321,7 @@ sub_8056218: @ 0x08056218
 	asrs r4, r1, #0x10
 	cmp r4, #0xd8
 	ble _080562F2
-	ldr r2, _08056314 @ =gUnknown_0300504C
+	ldr r2, _08056314 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -7417,7 +7418,7 @@ _080562F2:
 	.align 2, 0
 _0805630C: .4byte gCurTask
 _08056310: .4byte 0x0300003C
-_08056314: .4byte gUnknown_0300504C
+_08056314: .4byte sa2__gUnknown_030054B8
 _08056318: .4byte gSineTable
 _0805631C: .4byte sub_8056AC8
 _08056320:
@@ -7465,7 +7466,7 @@ sub_8056348: @ 0x08056348
 	adds r0, r0, r3
 	lsrs r0, r0, #8
 	lsls r2, r0, #0xc
-	ldr r7, _08056474 @ =gUnknown_0300504C
+	ldr r7, _08056474 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r7]
 	adds r1, r0, #1
 	strb r1, [r7]
@@ -7586,7 +7587,7 @@ _08056458:
 _08056468: .4byte gCurTask
 _0805646C: .4byte 0x0300003C
 _08056470: .4byte 0xFF880000
-_08056474: .4byte gUnknown_0300504C
+_08056474: .4byte sa2__gUnknown_030054B8
 _08056478: .4byte gSineTable
 _0805647C: .4byte 0x000002CB
 _08056480: .4byte 0x03000020
@@ -7617,7 +7618,7 @@ sub_805648C: @ 0x0805648C
 	adds r0, r0, r1
 	lsrs r0, r0, #8
 	lsls r2, r0, #0xc
-	ldr r3, _080565B8 @ =gUnknown_0300504C
+	ldr r3, _080565B8 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r3]
 	adds r1, r0, #1
 	strb r1, [r3]
@@ -7740,7 +7741,7 @@ _0805659C:
 _080565AC: .4byte gCurTask
 _080565B0: .4byte 0x0300003C
 _080565B4: .4byte 0xFF780000
-_080565B8: .4byte gUnknown_0300504C
+_080565B8: .4byte sa2__gUnknown_030054B8
 _080565BC: .4byte gSineTable
 _080565C0: .4byte sub_80565C4
 
@@ -7785,7 +7786,7 @@ sub_80565C4: @ 0x080565C4
 	lsls r0, r0, #3
 	cmp r4, r0
 	ble _080566AE
-	ldr r2, _080566DC @ =gUnknown_0300504C
+	ldr r2, _080566DC @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -7884,7 +7885,7 @@ _080566AE:
 	.align 2, 0
 _080566D4: .4byte gCurTask
 _080566D8: .4byte 0x0300003C
-_080566DC: .4byte gUnknown_0300504C
+_080566DC: .4byte sa2__gUnknown_030054B8
 _080566E0: .4byte 0xFFFFFA48
 _080566E4: .4byte gSineTable
 _080566E8: .4byte sub_8056AC8
@@ -8024,7 +8025,7 @@ sub_805676C: @ 0x0805676C
 	mov r3, r8
 	strh r3, [r0, #4]
 	mov r3, sp
-	ldr r2, _08056818 @ =gUnknown_0300504C
+	ldr r2, _08056818 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -8037,7 +8038,7 @@ sub_805676C: @ 0x0805676C
 	b _0805689E
 	.align 2, 0
 _08056814: .4byte gCurTask
-_08056818: .4byte gUnknown_0300504C
+_08056818: .4byte sa2__gUnknown_030054B8
 _0805681C:
 	cmp r1, #0x14
 	ble _08056864
@@ -8055,7 +8056,7 @@ _0805681C:
 	mov r1, r8
 	strh r1, [r0, #4]
 	mov r3, sp
-	ldr r2, _08056860 @ =gUnknown_0300504C
+	ldr r2, _08056860 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -8072,7 +8073,7 @@ _0805681C:
 	b _0805689E
 	.align 2, 0
 _0805685C: .4byte 0x000001F1
-_08056860: .4byte gUnknown_0300504C
+_08056860: .4byte sa2__gUnknown_030054B8
 _08056864:
 	mov r4, sp
 	movs r0, #0x74
@@ -8091,7 +8092,7 @@ _08056864:
 	mov r3, r8
 	strh r3, [r0, #4]
 	mov r3, sp
-	ldr r2, _08056918 @ =gUnknown_0300504C
+	ldr r2, _08056918 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -8165,7 +8166,7 @@ _080568F8:
 	strb r0, [r1]
 	b _08056940
 	.align 2, 0
-_08056918: .4byte gUnknown_0300504C
+_08056918: .4byte sa2__gUnknown_030054B8
 _0805691C: .4byte 0x000004AF
 _08056920: .4byte gCurTask
 _08056924: .4byte sub_8056FD0
@@ -8261,7 +8262,7 @@ sub_8056970: @ 0x08056970
 	strh r1, [r0, #2]
 	strh r7, [r0, #4]
 	mov r3, sp
-	ldr r2, _08056A00 @ =gUnknown_0300504C
+	ldr r2, _08056A00 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -8274,7 +8275,7 @@ sub_8056970: @ 0x08056970
 	b _08056A84
 	.align 2, 0
 _080569FC: .4byte gCurTask
-_08056A00: .4byte gUnknown_0300504C
+_08056A00: .4byte sa2__gUnknown_030054B8
 _08056A04:
 	cmp r1, #0x14
 	ble _08056A4C
@@ -8291,7 +8292,7 @@ _08056A04:
 	mov r0, sp
 	strh r7, [r0, #4]
 	mov r3, sp
-	ldr r2, _08056A48 @ =gUnknown_0300504C
+	ldr r2, _08056A48 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -8308,7 +8309,7 @@ _08056A04:
 	b _08056A84
 	.align 2, 0
 _08056A44: .4byte 0x000001F1
-_08056A48: .4byte gUnknown_0300504C
+_08056A48: .4byte sa2__gUnknown_030054B8
 _08056A4C:
 	mov r4, sp
 	movs r0, #0x74
@@ -8326,7 +8327,7 @@ _08056A4C:
 	strh r1, [r0, #2]
 	strh r7, [r0, #4]
 	mov r3, sp
-	ldr r2, _08056AB8 @ =gUnknown_0300504C
+	ldr r2, _08056AB8 @ =sa2__gUnknown_030054B8
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -8364,7 +8365,7 @@ _08056AA2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08056AB8: .4byte gUnknown_0300504C
+_08056AB8: .4byte sa2__gUnknown_030054B8
 _08056ABC: .4byte gCurTask
 _08056AC0: .4byte sub_8056FD0
 _08056AC4: .4byte 0x00000566

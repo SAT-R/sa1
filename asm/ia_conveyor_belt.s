@@ -215,11 +215,11 @@ _08083FE8:
 	ldr r0, _08084004 @ =gUnknown_03005A47
 _08083FEA:
 	ldrb r2, [r0]
-	ldr r0, _08084008 @ =sub_803FC64
+	ldr r0, _08084008 @ =sa2__sub_801EB44
 	str r0, [sp]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _0808406C
 	cmp r4, #0
@@ -228,7 +228,7 @@ _08083FEA:
 	b _0808400E
 	.align 2, 0
 _08084004: .4byte gUnknown_03005A47
-_08084008: .4byte sub_803FC64
+_08084008: .4byte sa2__sub_801EB44
 _0808400C:
 	ldr r0, [r5]
 _0808400E:
@@ -253,11 +253,11 @@ _0808402C:
 	ldr r0, _0808404C @ =gUnknown_03005A47
 _0808402E:
 	ldrb r2, [r0]
-	ldr r0, _08084050 @ =sub_803FC64
+	ldr r0, _08084050 @ =sa2__sub_801EB44
 	str r0, [sp]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	lsls r1, r0, #8
 	cmp r4, #0
 	beq _08084054
@@ -267,7 +267,7 @@ _0808402E:
 	b _0808406C
 	.align 2, 0
 _0808404C: .4byte gUnknown_03005A47
-_08084050: .4byte sub_803FC64
+_08084050: .4byte sa2__sub_801EB44
 _08084054:
 	ldr r0, [r5]
 	adds r0, r0, r1
@@ -313,12 +313,12 @@ _08084094:
 	ldr r0, _080840B4 @ =gUnknown_03005A47
 _08084096:
 	ldrb r2, [r0]
-	ldr r0, _080840B8 @ =sub_803FC64
+	ldr r0, _080840B8 @ =sa2__sub_801EB44
 	str r0, [sp]
 	adds r0, r3, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _0808410A
 	cmp r4, #0
@@ -327,7 +327,7 @@ _08084096:
 	b _080840BE
 	.align 2, 0
 _080840B4: .4byte gUnknown_03005A47
-_080840B8: .4byte sub_803FC64
+_080840B8: .4byte sa2__sub_801EB44
 _080840BC:
 	ldr r0, [r5]
 _080840BE:
@@ -352,12 +352,12 @@ _080840DC:
 	ldr r0, _080840FC @ =gUnknown_03005A47
 _080840DE:
 	ldrb r2, [r0]
-	ldr r0, _08084100 @ =sub_803FC64
+	ldr r0, _08084100 @ =sa2__sub_801EB44
 	str r0, [sp]
 	adds r0, r3, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_804021C
+	bl sa2__sub_801F100
 	lsls r1, r0, #8
 	cmp r4, #0
 	beq _08084104
@@ -367,7 +367,7 @@ _080840DE:
 	b _0808410A
 	.align 2, 0
 _080840FC: .4byte gUnknown_03005A47
-_08084100: .4byte sub_803FC64
+_08084100: .4byte sa2__sub_801EB44
 _08084104:
 	ldr r0, [r5]
 	subs r0, r0, r1

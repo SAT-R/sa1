@@ -62,9 +62,20 @@ SECTIONS {
         build/sa1/asm/ia_boss_egg_wrecker.o(.text);
         build/sa1/asm/ia_boss_egg_drillster.o(.text);
         build/sa1/asm/ia_boss_egg_x.o(.text);
+
         build/sa1/asm/game_1_1.o(.text);
+        build/sa1/asm/game__multiplayer__communication_outcome.o(.text);
+        build/sa1/asm/game__stage__amy_attack_heart_effect.o(.text);
+        build/sa1/asm/game__stage__music_manager.o(.text);
+        build/sa1/asm/game__game.o(.text);
+        build/sa1/src/game/dummy_task.o(.text);
+        build/sa1/asm/game__stage__stage.o(.text);
+        build/sa1/asm/game__stage__camera.o(.text);
+        build/sa1/asm/game__stage__collision.o(.text);
+        build/sa1/asm/game_1_3.o(.text);
+        build/sa1/asm/game_1_4.o(.text);
         build/sa1/src/input_recorder.o(.text);
-        build/sa1/asm/game_1_2.o(.text);
+        build/sa1/asm/game_1_x.o(.text);
         build/sa1/asm/ia_half_pipe.o(.text);
         build/sa1/asm/ia_034.o(.text);
         build/sa1/asm/ia_mini_loop_base.o(.text);

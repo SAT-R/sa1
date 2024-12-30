@@ -5184,16 +5184,16 @@ _0800CC86:
 	rsbs r3, r3, #0
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0800CCC8 @ =sub_803FE44
+	ldr r0, _0800CCC8 @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r5, #0
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	blt _0800CCCC
 	lsls r0, r5, #8
 	b _0800CCE2
 	.align 2, 0
-_0800CCC8: .4byte sub_803FE44
+_0800CCC8: .4byte sa2__sub_801ED24
 _0800CCCC:
 	adds r0, r6, #0
 	adds r0, #0x2e
@@ -5283,17 +5283,17 @@ _0800CD58:
 	ldrb r2, [r0]
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0800CD8C @ =sub_803FE44
+	ldr r0, _0800CD8C @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r5, #0
 	movs r3, #8
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	cmp r0, #0
 	blt _0800CD90
 	lsls r0, r5, #8
 	b _0800CDA4
 	.align 2, 0
-_0800CD8C: .4byte sub_803FE44
+_0800CD8C: .4byte sa2__sub_801ED24
 _0800CD90:
 	adds r0, r6, #0
 	adds r0, #0x2c

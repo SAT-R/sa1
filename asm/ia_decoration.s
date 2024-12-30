@@ -699,7 +699,7 @@ _08023726:
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r7, #0x10]
-	ldr r2, _080238C4 @ =gUnknown_0300504C
+	ldr r2, _080238C4 @ =sa2__gUnknown_030054B8
 	mov sl, r2
 	ldrb r1, [r2]
 	adds r0, r1, #1
@@ -887,7 +887,7 @@ _080238A8:
 _080238B8: .4byte 0x030000F2
 _080238BC: .4byte 0x030000C0
 _080238C0: .4byte gCamera
-_080238C4: .4byte gUnknown_0300504C
+_080238C4: .4byte sa2__gUnknown_030054B8
 _080238C8: .4byte 0x03000030
 _080238CC: .4byte 0x030000CC
 _080238D0: .4byte 0x03000060

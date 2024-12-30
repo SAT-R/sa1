@@ -480,13 +480,13 @@ _080501DC:
 	adds r6, r3, r0
 	adds r1, r7, #0
 	adds r1, #0x10
-	ldr r2, _080504C8 @ =sub_803FD5C
+	ldr r2, _080504C8 @ =sa2__sub_801EC3C
 	mov sl, r2
 	str r2, [sp]
 	adds r0, r6, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	mov sb, r0
 	mov r0, r8
 	ldr r3, [r0, #0x54]
@@ -523,7 +523,7 @@ _080501DC:
 	adds r0, r4, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	mov sl, r0
 	cmp sl, sb
 	ble _08050278
@@ -632,12 +632,12 @@ _0805030C:
 	adds r5, r3, r0
 	adds r1, r7, #0
 	adds r1, #0x10
-	ldr r2, _080504C8 @ =sub_803FD5C
+	ldr r2, _080504C8 @ =sa2__sub_801EC3C
 	str r2, [sp]
 	adds r0, r5, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	mov sb, r0
 	mov r0, r8
 	ldr r3, [r0, #0x54]
@@ -669,12 +669,12 @@ _0805030C:
 	adds r4, r3, r1
 	adds r1, r7, #0
 	adds r1, #0x15
-	ldr r2, _080504C8 @ =sub_803FD5C
+	ldr r2, _080504C8 @ =sa2__sub_801EC3C
 	str r2, [sp]
 	adds r0, r4, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r6, r0, #0
 	cmp r6, sb
 	ble _080503A6
@@ -794,13 +794,13 @@ _080503FE:
 	adds r4, r0, #0
 	adds r4, #0x48
 _08050488:
-	ldr r0, _080504C8 @ =sub_803FD5C
+	ldr r0, _080504C8 @ =sa2__sub_801EC3C
 	str r0, [sp]
 	adds r0, r7, #0
 	adds r1, r4, #0
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r1, r6, #0
 	cmp r1, sl
 	ble _080504A0
@@ -824,7 +824,7 @@ _080504B8: .4byte gUnknown_030061F0
 _080504BC: .4byte gStageTime
 _080504C0: .4byte 0x00000A7F
 _080504C4: .4byte gSineTable
-_080504C8: .4byte sub_803FD5C
+_080504C8: .4byte sa2__sub_801EC3C
 _080504CC: .4byte gPseudoRandom
 _080504D0: .4byte 0x00196225
 _080504D4: .4byte 0x3C6EF35F
@@ -1862,7 +1862,7 @@ _08050D46:
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r4, #0x10]
-	ldr r2, _08050DD0 @ =gUnknown_0300504C
+	ldr r2, _08050DD0 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -1903,7 +1903,7 @@ _08050DC0: .4byte gWinRegs
 _08050DC4: .4byte gBldRegs
 _08050DC8: .4byte gStageTime
 _08050DCC: .4byte 0x00003F1F
-_08050DD0: .4byte gUnknown_0300504C
+_08050DD0: .4byte sa2__gUnknown_030054B8
 _08050DD4: .4byte _08050DD8
 _08050DD8: @ jump table
 	.4byte _08050E0C @ case 0
@@ -2238,7 +2238,7 @@ sub_8050FB4: @ 0x08050FB4
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r6, #0x10]
-	ldr r2, _080510F0 @ =gUnknown_0300504C
+	ldr r2, _080510F0 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -2280,7 +2280,7 @@ _080510E0: .4byte gSineTable
 _080510E4: .4byte 0x03000076
 _080510E8: .4byte 0x03000070
 _080510EC: .4byte gCamera
-_080510F0: .4byte gUnknown_0300504C
+_080510F0: .4byte sa2__gUnknown_030054B8
 _080510F4: .4byte _080510F8
 _080510F8: @ jump table
 	.4byte _0805112C @ case 0
@@ -2683,7 +2683,7 @@ sub_8051344: @ 0x08051344
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r6, #0x10]
-	ldr r2, _08051480 @ =gUnknown_0300504C
+	ldr r2, _08051480 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -2725,7 +2725,7 @@ _08051470: .4byte gSineTable
 _08051474: .4byte 0x03000076
 _08051478: .4byte 0x03000070
 _0805147C: .4byte gCamera
-_08051480: .4byte gUnknown_0300504C
+_08051480: .4byte sa2__gUnknown_030054B8
 _08051484: .4byte _08051488
 _08051488: @ jump table
 	.4byte _080514BC @ case 0
@@ -3092,7 +3092,7 @@ _0805173E:
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r5, #0x10]
-	ldr r2, _080517D8 @ =gUnknown_0300504C
+	ldr r2, _080517D8 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -3137,7 +3137,7 @@ _080517C8: .4byte 0x03000070
 _080517CC: .4byte gCamera
 _080517D0: .4byte gPlayer
 _080517D4: .4byte 0xFFFFC000
-_080517D8: .4byte gUnknown_0300504C
+_080517D8: .4byte sa2__gUnknown_030054B8
 _080517DC: .4byte _080517E0
 _080517E0: @ jump table
 	.4byte _08051814 @ case 0
@@ -3499,7 +3499,7 @@ sub_80519E8: @ 0x080519E8
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r6, #0x10]
-	ldr r2, _08051B2C @ =gUnknown_0300504C
+	ldr r2, _08051B2C @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -3540,7 +3540,7 @@ _08051B1C: .4byte gSineTable
 _08051B20: .4byte 0x03000076
 _08051B24: .4byte 0x03000070
 _08051B28: .4byte gCamera
-_08051B2C: .4byte gUnknown_0300504C
+_08051B2C: .4byte sa2__gUnknown_030054B8
 _08051B30: .4byte _08051B34
 _08051B34: @ jump table
 	.4byte _08051BCC @ case 0
@@ -3782,7 +3782,7 @@ sub_8051C44: @ 0x08051C44
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r6, #0x10]
-	ldr r2, _08051D84 @ =gUnknown_0300504C
+	ldr r2, _08051D84 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -3821,7 +3821,7 @@ _08051D74: .4byte gSineTable
 _08051D78: .4byte 0x03000076
 _08051D7C: .4byte 0x03000070
 _08051D80: .4byte gCamera
-_08051D84: .4byte gUnknown_0300504C
+_08051D84: .4byte sa2__gUnknown_030054B8
 _08051D88: .4byte _08051D8C
 _08051D8C: @ jump table
 	.4byte _08051DDC @ case 0
@@ -4014,7 +4014,7 @@ sub_8051E38: @ 0x08051E38
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r6, #0x10]
-	ldr r2, _08051F78 @ =gUnknown_0300504C
+	ldr r2, _08051F78 @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -4053,7 +4053,7 @@ _08051F68: .4byte gSineTable
 _08051F6C: .4byte 0x03000076
 _08051F70: .4byte 0x03000070
 _08051F74: .4byte gCamera
-_08051F78: .4byte gUnknown_0300504C
+_08051F78: .4byte sa2__gUnknown_030054B8
 _08051F7C: .4byte _08051F80
 _08051F80: @ jump table
 	.4byte _08051FD8 @ case 0

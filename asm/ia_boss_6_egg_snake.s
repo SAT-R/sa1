@@ -1738,13 +1738,13 @@ sub_8032AF8: @ 0x08032AF8
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
 	mov sl, r2
-	ldr r0, _08032B8C @ =sub_803FD5C
+	ldr r0, _08032B8C @ =sa2__sub_801EC3C
 	str r0, [sp]
 	mov r0, sb
 	mov r1, sl
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _08032B98
 	ldr r5, _08032B90 @ =0x03000098
@@ -1760,7 +1760,7 @@ sub_8032AF8: @ 0x08032AF8
 _08032B80: .4byte gCurTask
 _08032B84: .4byte 0x0300000C
 _08032B88: .4byte 0x03000044
-_08032B8C: .4byte sub_803FD5C
+_08032B8C: .4byte sa2__sub_801EC3C
 _08032B90: .4byte 0x03000098
 _08032B94: .4byte sub_8032D44
 _08032B98:

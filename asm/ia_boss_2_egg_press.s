@@ -2374,11 +2374,11 @@ sub_802EA8C: @ 0x0802EA8C
 	lsrs r3, r1, #0x10
 	mov sb, r3
 	asrs r1, r1, #0x10
-	ldr r2, _0802ECAC @ =sub_803FD5C
+	ldr r2, _0802ECAC @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _0802EB36
 	lsls r1, r0, #8
@@ -2579,7 +2579,7 @@ _0802EC9C: .4byte 0x0300000C
 _0802ECA0: .4byte 0x030000B2
 _0802ECA4: .4byte 0x03000098
 _0802ECA8: .4byte 0x03000094
-_0802ECAC: .4byte sub_803FD5C
+_0802ECAC: .4byte sa2__sub_801EC3C
 _0802ECB0: .4byte 0xFFFFFF00
 _0802ECB4: .4byte sub_802ECFC
 _0802ECB8: .4byte 0xFFFFFE7F

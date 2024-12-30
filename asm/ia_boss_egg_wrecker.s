@@ -1239,7 +1239,7 @@ _08034E80:
 	lsls r0, r0, #9
 	cmp r1, r0
 	ble _08034EBA
-	ldr r2, _08034ECC @ =gUnknown_03005A0C
+	ldr r2, _08034ECC @ =gRefCollision
 	ldr r1, _08034ED0 @ =gCollisionTable
 	ldr r0, _08034ED4 @ =gCurrentLevel
 	ldrb r0, [r0]
@@ -1272,7 +1272,7 @@ _08034EBA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08034ECC: .4byte gUnknown_03005A0C
+_08034ECC: .4byte gRefCollision
 _08034ED0: .4byte gCollisionTable
 _08034ED4: .4byte gCurrentLevel
 _08034ED8: .4byte gUnknown_03005040

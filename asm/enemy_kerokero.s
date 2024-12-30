@@ -298,25 +298,25 @@ _0806CF7C:
 	beq _0806CF9C
 	add r0, sp, #0x10
 	str r0, [sp]
-	ldr r0, _0806CF98 @ =sub_803FF84
+	ldr r0, _0806CF98 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r7, #0
 	mov r1, r8
 	movs r2, #1
 	b _0806CFAA
 	.align 2, 0
-_0806CF98: .4byte sub_803FF84
+_0806CF98: .4byte sa2__sub_801EE64
 _0806CF9C:
 	add r0, sp, #0x10
 	str r0, [sp]
-	ldr r0, _0806CFD4 @ =sub_803FF84
+	ldr r0, _0806CFD4 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r7, #0
 	mov r1, r8
 	movs r2, #0
 _0806CFAA:
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r6, #0
 	adds r2, #0x42
 	ldrh r1, [r2]
@@ -336,7 +336,7 @@ _0806CFAA:
 	orrs r0, r1
 	b _0806CFE4
 	.align 2, 0
-_0806CFD4: .4byte sub_803FF84
+_0806CFD4: .4byte sa2__sub_801EE64
 _0806CFD8: .4byte gPlayer
 _0806CFDC:
 	mov r1, sb
@@ -644,25 +644,25 @@ _0806D22C:
 	beq _0806D24C
 	add r0, sp, #8
 	str r0, [sp]
-	ldr r0, _0806D248 @ =sub_803FF84
+	ldr r0, _0806D248 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r4, #0
 	adds r1, r5, #0
 	movs r2, #1
 	b _0806D25A
 	.align 2, 0
-_0806D248: .4byte sub_803FF84
+_0806D248: .4byte sa2__sub_801EE64
 _0806D24C:
 	add r1, sp, #8
 	str r1, [sp]
-	ldr r0, _0806D2AC @ =sub_803FF84
+	ldr r0, _0806D2AC @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r4, #0
 	adds r1, r5, #0
 	movs r2, #0
 _0806D25A:
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r6, #0
 	adds r2, #0x42
 	ldrh r1, [r2]
@@ -701,7 +701,7 @@ _0806D29A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806D2AC: .4byte sub_803FF84
+_0806D2AC: .4byte sa2__sub_801EE64
 _0806D2B0: .4byte gCurTask
 _0806D2B4: .4byte Task_KeroKero
 
@@ -888,25 +888,25 @@ _0806D414:
 	beq _0806D434
 	add r0, sp, #8
 	str r0, [sp]
-	ldr r0, _0806D430 @ =sub_803FF84
+	ldr r0, _0806D430 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r5, #0
 	adds r1, r7, #0
 	movs r2, #1
 	b _0806D442
 	.align 2, 0
-_0806D430: .4byte sub_803FF84
+_0806D430: .4byte sa2__sub_801EE64
 _0806D434:
 	add r1, sp, #8
 	str r1, [sp]
-	ldr r0, _0806D490 @ =sub_803FF84
+	ldr r0, _0806D490 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r5, #0
 	adds r1, r7, #0
 	movs r2, #0
 _0806D442:
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r2, r0, #0
 	cmp r2, #0
 	bgt _0806D4A8
@@ -943,7 +943,7 @@ _0806D442:
 	orrs r0, r1
 	b _0806D4A6
 	.align 2, 0
-_0806D490: .4byte sub_803FF84
+_0806D490: .4byte sa2__sub_801EE64
 _0806D494: .4byte gCurTask
 _0806D498: .4byte Task_KeroKero
 _0806D49C: .4byte gPlayer

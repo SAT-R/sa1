@@ -245,12 +245,12 @@ _080889C8:
 	ldr r0, _080889F0 @ =gUnknown_03005A47
 _080889CA:
 	ldrb r2, [r0]
-	ldr r0, _080889F4 @ =sub_803FC64
+	ldr r0, _080889F4 @ =sa2__sub_801EB44
 	str r0, [sp]
 	adds r0, r3, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_804021C
+	bl sa2__sub_801F100
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
 	cmp r0, #0
@@ -264,7 +264,7 @@ _080889CA:
 	b _080889FE
 	.align 2, 0
 _080889F0: .4byte gUnknown_03005A47
-_080889F4: .4byte sub_803FC64
+_080889F4: .4byte sa2__sub_801EB44
 _080889F8:
 	ldr r0, [r6]
 	subs r0, r0, r1

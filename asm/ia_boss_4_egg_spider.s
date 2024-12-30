@@ -1517,11 +1517,11 @@ sub_8031480: @ 0x08031480
 	lsrs r3, r1, #0x10
 	mov sb, r3
 	asrs r1, r1, #0x10
-	ldr r2, _080316B8 @ =sub_803FD5C
+	ldr r2, _080316B8 @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	adds r1, r0, #0
 	ldr r0, _080316BC @ =0x03000084
 	adds r4, r4, r0
@@ -1741,7 +1741,7 @@ _080316A8: .4byte gCurTask
 _080316AC: .4byte 0x0300000C
 _080316B0: .4byte 0x0300003C
 _080316B4: .4byte 0x03000088
-_080316B8: .4byte sub_803FD5C
+_080316B8: .4byte sa2__sub_801EC3C
 _080316BC: .4byte 0x03000084
 _080316C0: .4byte sub_803170C
 _080316C4: .4byte 0xFFFFFE7F

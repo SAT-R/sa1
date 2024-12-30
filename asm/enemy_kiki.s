@@ -677,11 +677,11 @@ Task_KikiProjMain: @ 0x0801D8E4
 	movs r2, #0x16
 	ldrsh r1, [r4, r2]
 	str r5, [sp]
-	ldr r2, _0801D964 @ =sub_803FF84
+	ldr r2, _0801D964 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r1, r0, #0
 	cmp r1, #0
 	bge _0801D972
@@ -701,7 +701,7 @@ Task_KikiProjMain: @ 0x0801D8E4
 	b _0801D972
 	.align 2, 0
 _0801D960: .4byte gCurTask
-_0801D964: .4byte sub_803FF84
+_0801D964: .4byte sa2__sub_801EE64
 _0801D968:
 	ldr r1, [r6]
 	ldr r0, _0801D9B4 @ =Task_KikiProjSplit

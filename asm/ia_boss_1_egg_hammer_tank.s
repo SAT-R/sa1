@@ -604,7 +604,7 @@ sub_8025E6C: @ 0x08025E6C
 	strh r0, [r2, #0x38]
 	adds r0, r7, #0
 	bl TaskDestroy
-	ldr r0, _08025F18 @ =gUnknown_03005A0C
+	ldr r0, _08025F18 @ =gRefCollision
 	ldr r0, [r0]
 	ldrh r0, [r0, #0x1c]
 	strh r0, [r4, #0x1a]
@@ -617,7 +617,7 @@ _08025F08: .4byte gCamera
 _08025F0C: .4byte gPlayer
 _08025F10: .4byte 0xFFDFFFFF
 _08025F14: .4byte gUnknown_030060E0
-_08025F18: .4byte gUnknown_03005A0C
+_08025F18: .4byte gRefCollision
 _08025F1C:
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
@@ -2276,11 +2276,11 @@ sub_8026C44: @ 0x08026C44
 	lsrs r3, r1, #0x10
 	mov sb, r3
 	asrs r1, r1, #0x10
-	ldr r2, _08026E80 @ =sub_803FD5C
+	ldr r2, _08026E80 @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _08026CEE
 	lsls r1, r0, #8
@@ -2497,7 +2497,7 @@ _08026E70: .4byte 0x0300000C
 _08026E74: .4byte 0x0300009E
 _08026E78: .4byte 0x03000090
 _08026E7C: .4byte 0x0300008C
-_08026E80: .4byte sub_803FD5C
+_08026E80: .4byte sa2__sub_801EC3C
 _08026E84: .4byte 0xFFFFFF00
 _08026E88: .4byte sub_8026ED0
 _08026E8C: .4byte 0xFFFFFE7F
@@ -3050,11 +3050,11 @@ _08027300:
 	ldrsh r1, [r5, r3]
 	asrs r2, r2, #8
 	adds r1, r1, r2
-	ldr r2, _080273DC @ =sub_803FD5C
+	ldr r2, _080273DC @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _0802735C
 	lsls r1, r0, #8
@@ -3132,7 +3132,7 @@ _080273CC:
 	.align 2, 0
 _080273D4: .4byte 0x0300004E
 _080273D8: .4byte 0x0300004C
-_080273DC: .4byte sub_803FD5C
+_080273DC: .4byte sa2__sub_801EC3C
 _080273E0: .4byte gCamera
 
 	thumb_func_start CreateEHTHammer
@@ -3582,11 +3582,11 @@ _08027754:
 	ldrsh r1, [r4, r3]
 	asrs r2, r2, #8
 	adds r1, r1, r2
-	ldr r2, _0802783C @ =sub_803FD5C
+	ldr r2, _0802783C @ =sa2__sub_801EC3C
 	str r2, [sp]
 	movs r2, #1
 	movs r3, #8
-	bl sub_804021C
+	bl sa2__sub_801F100
 	cmp r0, #0
 	bge _080277BA
 	lsls r1, r0, #8
@@ -3667,7 +3667,7 @@ _08027828:
 	.align 2, 0
 _08027834: .4byte 0x0300004E
 _08027838: .4byte 0x0300004C
-_0802783C: .4byte sub_803FD5C
+_0802783C: .4byte sa2__sub_801EC3C
 _08027840: .4byte 0x03000042
 _08027844: .4byte gCamera
 _08027848: .4byte 0x000003FF

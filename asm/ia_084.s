@@ -841,11 +841,11 @@ _0808CE08:
 	adds r1, r1, r2
 	movs r4, #0
 	str r4, [sp]
-	ldr r7, _0808CE40 @ =sub_803FF84
+	ldr r7, _0808CE40 @ =sa2__sub_801EE64
 	str r7, [sp, #4]
 	ldr r2, [sp, #0x14]
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	cmp r0, #0
 	blt _0808CE44
 	mov r1, sl
@@ -855,7 +855,7 @@ _0808CE08:
 	str r0, [r1]
 	b _0808D15E
 	.align 2, 0
-_0808CE40: .4byte sub_803FF84
+_0808CE40: .4byte sa2__sub_801EE64
 _0808CE44:
 	mov r0, sl
 	adds r0, #0xa4
@@ -1057,11 +1057,11 @@ _0808CF88:
 	adds r1, r1, r2
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r3, _0808CFEC @ =sub_803FF84
+	ldr r3, _0808CFEC @ =sa2__sub_801EE64
 	str r3, [sp, #4]
 	ldr r2, [sp, #0x14]
 	movs r3, #8
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	cmp r0, #5
 	ble _0808D03E
 	movs r0, #0xc6
@@ -1090,7 +1090,7 @@ _0808CF88:
 	adds r0, r0, r1
 	b _0808D02C
 	.align 2, 0
-_0808CFEC: .4byte sub_803FF84
+_0808CFEC: .4byte sa2__sub_801EE64
 _0808CFF0: .4byte gCurrentLevel
 _0808CFF4:
 	mov r4, sb
@@ -1296,11 +1296,11 @@ _0808D15E:
 	subs r1, #0x1e
 	add r4, sp, #8
 	str r4, [sp]
-	ldr r2, _0808D1A8 @ =sub_803FE44
+	ldr r2, _0808D1A8 @ =sa2__sub_801ED24
 	str r2, [sp, #4]
 	ldr r2, [sp, #0x14]
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	cmp r0, #0
 	blt _0808D190
 	b _0808D314
@@ -1318,7 +1318,7 @@ _0808D19E:
 	ldr r0, [r6, #0x10]
 	b _0808D1B6
 	.align 2, 0
-_0808D1A8: .4byte sub_803FE44
+_0808D1A8: .4byte sa2__sub_801ED24
 _0808D1AC: .4byte gPartner
 _0808D1B0: .4byte gPlayer
 _0808D1B4:
@@ -1648,11 +1648,11 @@ _0808D3F0:
 _0808D3F4:
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0808D420 @ =sub_803FE44
+	ldr r0, _0808D420 @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _0808D464
@@ -1666,7 +1666,7 @@ _0808D3F4:
 	b _0808D42E
 	.align 2, 0
 _0808D41C: .4byte gUnknown_03005A47
-_0808D420: .4byte sub_803FE44
+_0808D420: .4byte sa2__sub_801ED24
 _0808D424:
 	ldr r0, [r4, #0x10]
 	movs r2, #9
@@ -1734,12 +1734,12 @@ _0808D48C:
 _0808D490:
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0808D4BC @ =sub_803FE44
+	ldr r0, _0808D4BC @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _0808D500
@@ -1753,7 +1753,7 @@ _0808D490:
 	b _0808D4CA
 	.align 2, 0
 _0808D4B8: .4byte gUnknown_03005A47
-_0808D4BC: .4byte sub_803FE44
+_0808D4BC: .4byte sa2__sub_801ED24
 _0808D4C0:
 	ldr r0, [r4, #0x10]
 	movs r2, #9
@@ -1871,11 +1871,11 @@ _0808D588:
 _0808D58C:
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0808D5C4 @ =sub_803FE44
+	ldr r0, _0808D5C4 @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _0808D67A
@@ -1895,7 +1895,7 @@ _0808D5AA:
 	b _0808D5DA
 	.align 2, 0
 _0808D5C0: .4byte gUnknown_03005A47
-_0808D5C4: .4byte sub_803FE44
+_0808D5C4: .4byte sa2__sub_801ED24
 _0808D5C8: .4byte gPlayer
 _0808D5CC: .4byte gPartner
 _0808D5D0:
@@ -2032,12 +2032,12 @@ _0808D6A8:
 _0808D6AC:
 	movs r0, #0
 	str r0, [sp]
-	ldr r0, _0808D6E4 @ =sub_803FE44
+	ldr r0, _0808D6E4 @ =sa2__sub_801ED24
 	str r0, [sp, #4]
 	adds r0, r3, #0
 	movs r3, #8
 	rsbs r3, r3, #0
-	bl sub_803FA74
+	bl sa2__sub_801E4E4
 	adds r7, r0, #0
 	cmp r7, #0
 	bge _0808D79E
@@ -2057,7 +2057,7 @@ _0808D6CC:
 	b _0808D6FA
 	.align 2, 0
 _0808D6E0: .4byte gUnknown_03005A47
-_0808D6E4: .4byte sub_803FE44
+_0808D6E4: .4byte sa2__sub_801ED24
 _0808D6E8: .4byte gPlayer
 _0808D6EC: .4byte gPartner
 _0808D6F0:
@@ -2768,7 +2768,7 @@ _0808DC2A:
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r3, #0x10]
-	ldr r2, _0808DDFC @ =gUnknown_0300504C
+	ldr r2, _0808DDFC @ =sa2__gUnknown_030054B8
 	mov sb, r2
 	ldrb r1, [r2]
 	adds r0, r1, #1
@@ -2979,7 +2979,7 @@ _0808DDEC: .4byte 0x030000F2
 _0808DDF0: .4byte 0x030000C0
 _0808DDF4: .4byte gCamera
 _0808DDF8: .4byte 0x000003FF
-_0808DDFC: .4byte gUnknown_0300504C
+_0808DDFC: .4byte sa2__gUnknown_030054B8
 _0808DE00: .4byte 0x03000030
 _0808DE04: .4byte 0x030000CC
 _0808DE08: .4byte 0x03000060

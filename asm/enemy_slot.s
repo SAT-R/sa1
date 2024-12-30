@@ -728,13 +728,13 @@ _0806E630: .4byte gCamera
 _0806E634:
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r0, _0806E794 @ =sub_803FF84
+	ldr r0, _0806E794 @ =sa2__sub_801EE64
 	str r0, [sp, #4]
 	adds r0, r7, #0
 	mov r1, sb
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	mov sb, r0
 	cmp r0, #0
 	ble _0806E656
@@ -900,7 +900,7 @@ _0806E782:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806E794: .4byte sub_803FF84
+_0806E794: .4byte sa2__sub_801EE64
 _0806E798: .4byte 0x0300004C
 _0806E79C: .4byte 0x03000058
 _0806E7A0: .4byte 0x03000064
@@ -1059,11 +1059,11 @@ _0806E8E4:
 	asrs r1, r1, #0x10
 	add r2, sp, #8
 	str r2, [sp]
-	ldr r2, _0806E958 @ =sub_803FF84
+	ldr r2, _0806E958 @ =sa2__sub_801EE64
 	str r2, [sp, #4]
 	movs r2, #1
 	movs r3, #8
-	bl sub_8040198
+	bl sa2__sub_801F07C
 	adds r1, r0, #0
 	cmp r1, #0
 	bgt _0806E93C
@@ -1106,7 +1106,7 @@ _0806E93C:
 	bl DisplaySprite
 	b _0806E966
 	.align 2, 0
-_0806E958: .4byte sub_803FF84
+_0806E958: .4byte sa2__sub_801EE64
 _0806E95C: .4byte gSineTable
 _0806E960:
 	adds r0, r5, #0

@@ -121,7 +121,7 @@ _0804CE54:
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r4, #0x10]
-	ldr r2, _0804CECC @ =gUnknown_0300504C
+	ldr r2, _0804CECC @ =sa2__gUnknown_030054B8
 	ldrb r1, [r2]
 	adds r0, r1, #1
 	strb r0, [r2]
@@ -173,7 +173,7 @@ _0804CEC2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804CECC: .4byte gUnknown_0300504C
+_0804CECC: .4byte sa2__gUnknown_030054B8
 _0804CED0: .4byte 0x03000058
 _0804CED4: .4byte 0x0300005A
 _0804CED8: .4byte 0x0300005C
