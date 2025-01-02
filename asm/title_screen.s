@@ -1114,8 +1114,8 @@ _0800D8EC:
 _0800D8F4: .4byte gCurTask
 _0800D8F8: .4byte sub_800DF88
 
-	thumb_func_start sub_800D8FC
-sub_800D8FC: @ 0x0800D8FC
+	thumb_func_start CreateMainMenu
+CreateMainMenu: @ 0x0800D8FC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1126,7 +1126,7 @@ sub_800D8FC: @ 0x0800D8FC
 	ldr r0, _0800DAEC @ =gGameMode
 	movs r1, #0
 	strb r1, [r0]
-	ldr r0, _0800DAF0 @ =gUnknown_03005018
+	ldr r0, _0800DAF0 @ =sa2__gUnknown_0300543C
 	strb r1, [r0]
 	ldr r1, _0800DAF4 @ =gDispCnt
 	ldr r2, _0800DAF8 @ =0x00001541
@@ -1148,7 +1148,7 @@ sub_800D8FC: @ 0x0800D8FC
 	strh r5, [r0, #6]
 	strh r5, [r0, #8]
 	strh r5, [r0, #0xa]
-	ldr r0, _0800DB0C @ =sub_800DB6C
+	ldr r0, _0800DB0C @ =Task_MainMenuInit
 	movs r1, #0xda
 	lsls r1, r1, #1
 	movs r2, #0x80
@@ -1365,14 +1365,14 @@ _0800DADC:
 	bx r0
 	.align 2, 0
 _0800DAEC: .4byte gGameMode
-_0800DAF0: .4byte gUnknown_03005018
+_0800DAF0: .4byte sa2__gUnknown_0300543C
 _0800DAF4: .4byte gDispCnt
 _0800DAF8: .4byte 0x00001541
 _0800DAFC: .4byte gBgCntRegs
 _0800DB00: .4byte 0x0000568D
 _0800DB04: .4byte 0x00001482
 _0800DB08: .4byte gBgScrollRegs
-_0800DB0C: .4byte sub_800DB6C
+_0800DB0C: .4byte Task_MainMenuInit
 _0800DB10: .4byte 0x030001AC
 _0800DB14: .4byte 0x030001AF
 _0800DB18: .4byte 0x06000040
@@ -1397,8 +1397,8 @@ _0800DB60: .4byte 0x0300018A
 _0800DB64: .4byte gBgAffineRegs
 _0800DB68: .4byte 0x030001A0
 
-	thumb_func_start sub_800DB6C
-sub_800DB6C: @ 0x0800DB6C
+	thumb_func_start Task_MainMenuInit
+Task_MainMenuInit: @ 0x0800DB6C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1912,7 +1912,7 @@ sub_800DF88: @ 0x0800DF88
 	strb r0, [r1, #8]
 	ldr r3, _0800DFE8 @ =gInputPlaybackData
 	ldr r1, _0800DFEC @ =gUnknown_087BF8CC
-	ldr r2, _0800DFF0 @ =gUnknown_03005054
+	ldr r2, _0800DFF0 @ =gDemoPlayCounter
 	ldrb r0, [r2]
 	lsls r0, r0, #2
 	adds r0, r0, r1
@@ -1947,7 +1947,7 @@ _0800DFE0: .4byte gCurTask
 _0800DFE4: .4byte gInputRecorder
 _0800DFE8: .4byte gInputPlaybackData
 _0800DFEC: .4byte gUnknown_087BF8CC
-_0800DFF0: .4byte gUnknown_03005054
+_0800DFF0: .4byte gDemoPlayCounter
 _0800DFF4: .4byte gSelectedCharacter
 _0800DFF8: .4byte gUnknown_080BB327
 _0800DFFC: .4byte gCurrentLevel
@@ -1961,7 +1961,7 @@ sub_800E008: @ 0x0800E008
 	ldr r0, [r0]
 	bl TaskDestroy
 	movs r0, #0
-	bl sub_800D8FC
+	bl CreateMainMenu
 	pop {r0}
 	bx r0
 	.align 2, 0

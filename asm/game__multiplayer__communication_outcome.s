@@ -463,7 +463,7 @@ _0803C570:
 	ldr r0, _0803C5A4 @ =gTilemaps
 	str r0, [r1]
 	movs r0, #1
-	bl sub_800D8FC
+	bl CreateMainMenu
 _0803C58A:
 	add sp, #4
 	pop {r3, r4, r5}

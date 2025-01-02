@@ -25,8 +25,12 @@ typedef void (*BgUpdate)(s32, s32);
 // NOTE: This was copy-pasted from SA2.
 //       There are type differences for members
 struct Camera {
-    /* 0x00 */ CamCoord x;
-    /* 0x04 */ CamCoord y;
+    /* 0x00|0x04 */ CamCoord x;
+    /* 0x02|0x04 */ CamCoord y;
+#if (GAME == GAME_SA1)
+    u8 filler4[0x2C];
+    /* 0x30 */ struct Task *movementTask;
+#elif (GAME == GAME_SA2)
     /* 0x08 */ s32 unk8;
     /* 0x0C */ s32 unkC;
     /* 0x10 */ s32 unk10;
@@ -59,6 +63,7 @@ struct Camera {
     /* 0x62 */ s16 unk62;
     /* 0x64 */ s16 unk64;
     /* 0x66 */ u8 spectatorTarget;
+#endif
 }; /* size 0x80(in SA2) */
 
 extern struct Camera gCamera;

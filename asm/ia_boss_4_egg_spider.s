@@ -1410,7 +1410,7 @@ _080313D6:
 	mov r0, sb
 	strh r0, [r4, #0x14]
 	strh r7, [r4, #0x16]
-	ldr r1, _08031464 @ =gUnknown_03006080
+	ldr r1, _08031464 @ =gWater
 	ldrh r0, [r1, #4]
 	adds r0, #0xa0
 	strh r0, [r1, #4]
@@ -1454,7 +1454,7 @@ _0803143E:
 	.align 2, 0
 _0803145C: .4byte 0x03000044
 _08031460: .4byte gCamera
-_08031464: .4byte gUnknown_03006080
+_08031464: .4byte gWater
 _08031468: .4byte gLevelScore
 _0803146C: .4byte 0x0000C350
 _08031470: .4byte gGameMode
@@ -2225,7 +2225,7 @@ sub_8031AB4: @ 0x08031AB4
 	asrs r0, r2, #8
 	adds r1, r1, r0
 	subs r1, #0x11
-	ldr r0, _08031B10 @ =gUnknown_03006080
+	ldr r0, _08031B10 @ =gWater
 	movs r6, #2
 	ldrsh r0, [r0, r6]
 	cmp r1, r0
@@ -2241,7 +2241,7 @@ sub_8031AB4: @ 0x08031AB4
 	.align 2, 0
 _08031B08: .4byte gCurTask
 _08031B0C: .4byte 0x03000046
-_08031B10: .4byte gUnknown_03006080
+_08031B10: .4byte gWater
 _08031B14:
 	movs r0, #1
 	str r0, [sp, #4]

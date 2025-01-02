@@ -184,7 +184,7 @@ Task_801C810: @ 0x0801C810
 	ldr r0, _0801C8CC @ =Task_801C8D4
 	str r0, [r7, #8]
 _0801C87A:
-	ldr r1, _0801C8D0 @ =gUnknown_03005048
+	ldr r1, _0801C8D0 @ =sa2__gUnknown_030054B4
 	mov r2, ip
 	ldr r0, [r2]
 	lsls r0, r0, #0x1a
@@ -217,7 +217,7 @@ _0801C8C0: .4byte gHBlankCallbacks
 _0801C8C4: .4byte gNumHBlankCallbacks
 _0801C8C8: .4byte sub_801C9C0
 _0801C8CC: .4byte Task_801C8D4
-_0801C8D0: .4byte gUnknown_03005048
+_0801C8D0: .4byte sa2__gUnknown_030054B4
 
 	thumb_func_start Task_801C8D4
 Task_801C8D4: @ 0x0801C8D4
@@ -234,7 +234,7 @@ Task_801C8D4: @ 0x0801C8D4
 	lsls r2, r0, #0x10
 	cmp r2, #0
 	blt _0801C906
-	ldr r1, _0801C914 @ =gUnknown_03005048
+	ldr r1, _0801C914 @ =sa2__gUnknown_030054B4
 	ldr r0, _0801C918 @ =0x04000128
 	ldr r0, [r0]
 	lsls r0, r0, #0x1a
@@ -252,7 +252,7 @@ _0801C906:
 	b _0801C958
 	.align 2, 0
 _0801C910: .4byte gCurTask
-_0801C914: .4byte gUnknown_03005048
+_0801C914: .4byte sa2__gUnknown_030054B4
 _0801C918: .4byte 0x04000128
 _0801C91C:
 	ldr r1, _0801C960 @ =gBldRegs

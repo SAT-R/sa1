@@ -441,7 +441,7 @@ sub_8091118: @ 0x08091118
 	lsls r0, r0, #0x11
 	cmp r1, r0
 	bgt _080911AE
-	ldr r2, _080911D4 @ =gUnknown_03006080
+	ldr r2, _080911D4 @ =gWater
 	movs r4, #2
 	ldrsh r0, [r2, r4]
 	cmp r0, #0
@@ -468,7 +468,7 @@ _080911C4: .4byte gCamera
 _080911C8: .4byte gSineTable
 _080911CC: .4byte 0x000003FF
 _080911D0: .4byte 0x03000042
-_080911D4: .4byte gUnknown_03006080
+_080911D4: .4byte gWater
 _080911D8:
 	ldr r0, _080911F8 @ =0x0300003C
 	adds r2, r6, r0
@@ -849,7 +849,7 @@ sub_809141C: @ 0x0809141C
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	blt _080914B6
-	ldr r2, _080914E0 @ =gUnknown_03006080
+	ldr r2, _080914E0 @ =gWater
 	movs r1, #2
 	ldrsh r0, [r2, r1]
 	cmp r0, #0
@@ -876,7 +876,7 @@ _080914D0: .4byte gSineTable
 _080914D4: .4byte 0x000003FF
 _080914D8: .4byte 0x03000042
 _080914DC: .4byte 0x0300003D
-_080914E0: .4byte gUnknown_03006080
+_080914E0: .4byte gWater
 _080914E4:
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
@@ -1067,7 +1067,7 @@ sub_80915F0: @ 0x080915F0
 	lsls r0, r0, #0x11
 	cmp r1, r0
 	bgt _08091682
-	ldr r4, _080916AC @ =gUnknown_03006080
+	ldr r4, _080916AC @ =gWater
 	movs r1, #2
 	ldrsh r0, [r4, r1]
 	cmp r0, #0
@@ -1094,7 +1094,7 @@ _0809169C: .4byte gSineTable
 _080916A0: .4byte 0x000003FF
 _080916A4: .4byte 0x0300003C
 _080916A8: .4byte 0x03000042
-_080916AC: .4byte gUnknown_03006080
+_080916AC: .4byte gWater
 _080916B0:
 	adds r0, r2, #1
 	strh r0, [r6, #0x3e]

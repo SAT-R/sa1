@@ -1696,7 +1696,7 @@ StageBgUpdate_Zone4Acts12: @ 0x0803ED84
 	mov r1, sb
 	strh r0, [r1, #0x2a]
 	strh r0, [r6, #0xe]
-	ldr r0, _0803EE44 @ =gUnknown_03006080
+	ldr r0, _0803EE44 @ =gWater
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0803EE50
@@ -1715,7 +1715,7 @@ _0803EE34: .4byte gUnknown_030058D0
 _0803EE38: .4byte gBgScrollRegs
 _0803EE3C: .4byte gStageTime
 _0803EE40: .4byte gRefCollision
-_0803EE44: .4byte gUnknown_03006080
+_0803EE44: .4byte gWater
 _0803EE48: .4byte gDispCnt
 _0803EE4C: .4byte 0x0000FEFF
 _0803EE50:
@@ -1724,7 +1724,7 @@ _0803EE50:
 	orrs r0, r7
 	strh r0, [r1]
 _0803EE58:
-	ldr r0, _0803EE7C @ =gUnknown_03006080
+	ldr r0, _0803EE7C @ =gWater
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0803EE6C
@@ -1743,7 +1743,7 @@ _0803EE6C:
 	bx r0
 	.align 2, 0
 _0803EE78: .4byte gDispCnt
-_0803EE7C: .4byte gUnknown_03006080
+_0803EE7C: .4byte gWater
 _0803EE80: .4byte 0x0000FEFF
 
 	thumb_func_start StageBgUpdate_Zone6Act1

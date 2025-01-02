@@ -90,7 +90,7 @@ _0804030C:
 _08040318: .4byte gPlayer
 _0804031C: .4byte gPartner
 _08040320:
-	ldr r0, _0804033C @ =gUnknown_03006080
+	ldr r0, _0804033C @ =gWater
 	movs r2, #2
 	ldrsh r0, [r0, r2]
 _08040326:
@@ -106,7 +106,7 @@ _08040328:
 	subs r0, r0, r1
 	b _08040362
 	.align 2, 0
-_0804033C: .4byte gUnknown_03006080
+_0804033C: .4byte gWater
 _08040340: .4byte gCamera
 _08040344:
 	ldr r2, _08040358 @ =gCamera
@@ -291,7 +291,7 @@ sub_80404A0: @ 0x080404A0
 	sub sp, #4
 	adds r4, r0, #0
 	adds r7, r1, #0
-	ldr r1, _080404C0 @ =gUnknown_03005A10
+	ldr r1, _080404C0 @ =gDustEffectBrakingTask
 	ldr r0, [r1, #4]
 	cmp r0, #0
 	beq _080404BA
@@ -304,7 +304,7 @@ _080404BA:
 	movs r0, #0
 	b _0804053C
 	.align 2, 0
-_080404C0: .4byte gUnknown_03005A10
+_080404C0: .4byte gDustEffectBrakingTask
 _080404C4:
 	subs r0, r2, #1
 	movs r5, #0
@@ -386,7 +386,7 @@ _0804056C: .4byte 0x3C6EF35F
 	thumb_func_start sub_8040570
 sub_8040570: @ 0x08040570
 	push {r4, r5, lr}
-	ldr r2, _080405A4 @ =gUnknown_03005A10
+	ldr r2, _080405A4 @ =gDustEffectBrakingTask
 	ldr r0, _080405A8 @ =gCurTask
 	ldr r3, [r0]
 	ldrh r1, [r3, #6]
@@ -412,7 +412,7 @@ _08040596:
 	bl TaskDestroy
 	b _080405DA
 	.align 2, 0
-_080405A4: .4byte gUnknown_03005A10
+_080405A4: .4byte gDustEffectBrakingTask
 _080405A8: .4byte gCurTask
 _080405AC:
 	ldr r2, _080405E0 @ =gCamera
@@ -447,7 +447,7 @@ _080405E0: .4byte gCamera
 sub_80405E4: @ 0x080405E4
 	push {r4, lr}
 	sub sp, #4
-	ldr r4, _08040610 @ =gUnknown_03005A10
+	ldr r4, _08040610 @ =gDustEffectBrakingTask
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	bne _08040608
@@ -468,14 +468,14 @@ _08040608:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08040610: .4byte gUnknown_03005A10
+_08040610: .4byte gDustEffectBrakingTask
 _08040614: .4byte Task_8040644
 _08040618: .4byte sub_8040638
 
 	thumb_func_start sub_804061C
 sub_804061C: @ 0x0804061C
 	push {r4, lr}
-	ldr r4, _08040634 @ =gUnknown_03005A10
+	ldr r4, _08040634 @ =gDustEffectBrakingTask
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _0804062E
@@ -487,16 +487,16 @@ _0804062E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08040634: .4byte gUnknown_03005A10
+_08040634: .4byte gDustEffectBrakingTask
 
 	thumb_func_start sub_8040638
 sub_8040638: @ 0x08040638
-	ldr r1, _08040640 @ =gUnknown_03005A10
+	ldr r1, _08040640 @ =gDustEffectBrakingTask
 	movs r0, #0
 	str r0, [r1, #4]
 	bx lr
 	.align 2, 0
-_08040640: .4byte gUnknown_03005A10
+_08040640: .4byte gDustEffectBrakingTask
 
     thumb_func_start Task_8040644
 Task_8040644:

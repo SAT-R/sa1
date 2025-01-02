@@ -67,6 +67,7 @@ SECTIONS {
         build/sa1/asm/game__multiplayer__communication_outcome.o(.text);
         build/sa1/asm/game__stage__amy_attack_heart_effect.o(.text);
         build/sa1/asm/game__stage__music_manager.o(.text);
+        build/sa1/src/game/game.o(.text);
         build/sa1/asm/game__game.o(.text);
         build/sa1/src/game/dummy_task.o(.text);
         build/sa1/asm/game__stage__stage.o(.text);
@@ -85,6 +86,7 @@ SECTIONS {
         build/sa1/asm/ia_039.o(.text);
         build/sa1/asm/ia_boss_5_mecha_knuckles.o(.text);
         build/sa1/asm/ia_boss_super_egg_robo.o(.text);
+        build/sa1/asm/game__gTask_03006240.o(.text);
         build/sa1/asm/game_2.o(.text);
         build/sa1/asm/enemy_gamigami.o(.text);
         build/sa1/asm/enemy_rhinotank.o(.text);

@@ -8555,7 +8555,7 @@ sub_8044A6C: @ 0x08044A6C
 	ldr r0, _08044B18 @ =0xFFFFEFFF
 	ands r2, r0
 	str r2, [r4, #0x10]
-	ldr r0, _08044B1C @ =gUnknown_03006080
+	ldr r0, _08044B1C @ =gWater
 	movs r3, #2
 	ldrsh r1, [r0, r3]
 	adds r3, r0, #0
@@ -8639,7 +8639,7 @@ _08044AFE:
 	b _08044B2C
 	.align 2, 0
 _08044B18: .4byte 0xFFFFEFFF
-_08044B1C: .4byte gUnknown_03006080
+_08044B1C: .4byte gWater
 _08044B20:
 	movs r0, #0xf0
 	lsls r0, r0, #2
@@ -9656,7 +9656,7 @@ _08045290:
 	adds r0, r0, r1
 	str r0, [r4]
 	ldr r2, _080452C8 @ =gStageFlags
-	ldr r1, _080452CC @ =gUnknown_0300502C
+	ldr r1, _080452CC @ =sa2__gUnknown_0300544C
 	ldrh r0, [r2]
 	ldrh r1, [r1]
 	eors r0, r1
@@ -9680,7 +9680,7 @@ _080452B2:
 	b _080452D8
 	.align 2, 0
 _080452C8: .4byte gStageFlags
-_080452CC: .4byte gUnknown_0300502C
+_080452CC: .4byte sa2__gUnknown_0300544C
 _080452D0:
 	movs r0, #0xa
 	ldrsh r1, [r4, r0]
@@ -9906,7 +9906,7 @@ _08045494:
 	ldr r0, [r4]
 	adds r0, r0, r1
 	str r0, [r4]
-	ldr r1, _080454C8 @ =gUnknown_0300502C
+	ldr r1, _080454C8 @ =sa2__gUnknown_0300544C
 	ldrh r0, [r2]
 	ldrh r1, [r1]
 	eors r0, r1
@@ -9929,7 +9929,7 @@ _080454B4:
 	subs r0, r0, r1
 	b _080454D4
 	.align 2, 0
-_080454C8: .4byte gUnknown_0300502C
+_080454C8: .4byte sa2__gUnknown_0300544C
 _080454CC:
 	movs r0, #0xa
 	ldrsh r1, [r4, r0]
@@ -10653,7 +10653,7 @@ _08045A60:
 	ldr r0, [r4]
 	adds r0, r0, r1
 	str r0, [r4]
-	ldr r1, _08045A94 @ =gUnknown_0300502C
+	ldr r1, _08045A94 @ =sa2__gUnknown_0300544C
 	ldrh r0, [r2]
 	ldrh r1, [r1]
 	eors r0, r1
@@ -10676,7 +10676,7 @@ _08045A80:
 	subs r0, r0, r1
 	b _08045AA0
 	.align 2, 0
-_08045A94: .4byte gUnknown_0300502C
+_08045A94: .4byte sa2__gUnknown_0300544C
 _08045A98:
 	movs r0, #0xa
 	ldrsh r1, [r4, r0]
@@ -13708,7 +13708,7 @@ Player_80470E8: @ 0x080470E8
 	adds r0, r0, r1
 	str r0, [r2]
 	ldr r3, _08047120 @ =gStageFlags
-	ldr r1, _08047124 @ =gUnknown_0300502C
+	ldr r1, _08047124 @ =sa2__gUnknown_0300544C
 	ldrh r0, [r3]
 	ldrh r1, [r1]
 	eors r0, r1
@@ -13732,7 +13732,7 @@ _0804710C:
 	b _08047130
 	.align 2, 0
 _08047120: .4byte gStageFlags
-_08047124: .4byte gUnknown_0300502C
+_08047124: .4byte sa2__gUnknown_0300544C
 _08047128:
 	movs r0, #0xa
 	ldrsh r1, [r2, r0]
@@ -13997,7 +13997,7 @@ sub_80472B8: @ 0x080472B8
 	adds r0, r0, r1
 	str r0, [r4]
 	ldr r2, _08047308 @ =gStageFlags
-	ldr r1, _0804730C @ =gUnknown_0300502C
+	ldr r1, _0804730C @ =sa2__gUnknown_0300544C
 	ldrh r0, [r2]
 	ldrh r1, [r1]
 	eors r0, r1
@@ -14021,7 +14021,7 @@ _080472F2:
 	b _08047318
 	.align 2, 0
 _08047308: .4byte gStageFlags
-_0804730C: .4byte gUnknown_0300502C
+_0804730C: .4byte sa2__gUnknown_0300544C
 _08047310:
 	movs r0, #0xa
 	ldrsh r1, [r4, r0]
@@ -17455,7 +17455,7 @@ _08048D6E:
 sub_8048D74: @ 0x08048D74
 	push {r4, r5, lr}
 	adds r4, r0, #0
-	ldr r5, _08048D98 @ =gUnknown_03006080
+	ldr r5, _08048D98 @ =gWater
 	ldrh r1, [r4, #0x38]
 	movs r0, #0x80
 	ands r0, r1
@@ -17471,7 +17471,7 @@ sub_8048D74: @ 0x08048D74
 	strb r2, [r0]
 	b _08048E2E
 	.align 2, 0
-_08048D98: .4byte gUnknown_03006080
+_08048D98: .4byte gWater
 _08048D9C:
 	ldr r1, [r4, #0x10]
 	movs r0, #0x40
@@ -17887,7 +17887,7 @@ sub_80490E8: @ 0x080490E8
 	beq _0804910E
 	ldr r5, _0804913C @ =gPartner
 _0804910E:
-	ldr r7, _08049140 @ =gUnknown_03006080
+	ldr r7, _08049140 @ =gWater
 	adds r0, r5, #0
 	adds r0, #0x40
 	ldrb r0, [r0]
@@ -17906,7 +17906,7 @@ _08049130: .4byte gCamera
 _08049134: .4byte gGameMode
 _08049138: .4byte gPlayer
 _0804913C: .4byte gPartner
-_08049140: .4byte gUnknown_03006080
+_08049140: .4byte gWater
 _08049144:
 	ldr r0, [r5]
 	asrs r0, r0, #8
@@ -23848,7 +23848,7 @@ sub_804C02C: @ 0x0804C02C
 	adds r7, r1, #0
 	mov r8, r2
 	mov sb, r3
-	ldr r1, _0804C050 @ =gUnknown_03005C78
+	ldr r1, _0804C050 @ =gSmallAirBubbleCount
 	ldrb r2, [r1]
 	movs r0, #0
 	ldrsb r0, [r1, r0]
@@ -23857,7 +23857,7 @@ sub_804C02C: @ 0x0804C02C
 	movs r0, #0
 	b _0804C106
 	.align 2, 0
-_0804C050: .4byte gUnknown_03005C78
+_0804C050: .4byte gSmallAirBubbleCount
 _0804C054:
 	adds r0, r2, #1
 	strb r0, [r1]
@@ -24109,7 +24109,7 @@ _0804C236:
 	lsrs r0, r0, #0x10
 	cmp r0, #0xe0
 	bhi _0804C26E
-	ldr r2, _0804C288 @ =gUnknown_03006080
+	ldr r2, _0804C288 @ =gWater
 	movs r1, #2
 	ldrsh r0, [r2, r1]
 	cmp r0, #0
@@ -24133,7 +24133,7 @@ _0804C278: .4byte gCurTask
 _0804C27C: .4byte 0x03000048
 _0804C280: .4byte gSineTable
 _0804C284: .4byte gCamera
-_0804C288: .4byte gUnknown_03006080
+_0804C288: .4byte gWater
 _0804C28C:
 	movs r4, #8
 	ldrsh r1, [r6, r4]
@@ -24318,13 +24318,13 @@ _0804C3F8: .4byte 0x00004001
 
 	thumb_func_start sub_804C3FC
 sub_804C3FC: @ 0x0804C3FC
-	ldr r1, _0804C408 @ =gUnknown_03005C78
+	ldr r1, _0804C408 @ =gSmallAirBubbleCount
 	ldrb r0, [r1]
 	subs r0, #1
 	strb r0, [r1]
 	bx lr
 	.align 2, 0
-_0804C408: .4byte gUnknown_03005C78
+_0804C408: .4byte gSmallAirBubbleCount
 
 	thumb_func_start sub_804C40C
 sub_804C40C: @ 0x0804C40C
@@ -24332,7 +24332,7 @@ sub_804C40C: @ 0x0804C40C
 	mov r7, sb
 	mov r6, r8
 	push {r6, r7}
-	ldr r0, _0804C580 @ =gUnknown_03006080
+	ldr r0, _0804C580 @ =gWater
 	mov ip, r0
 	ldr r5, _0804C584 @ =gUnknown_03005C80
 	ldr r6, _0804C588 @ =gObjPalette
@@ -24516,7 +24516,7 @@ _0804C4DA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804C580: .4byte gUnknown_03006080
+_0804C580: .4byte gWater
 _0804C584: .4byte gUnknown_03005C80
 _0804C588: .4byte gObjPalette
 _0804C58C: .4byte gBgPalette
@@ -24561,7 +24561,7 @@ sub_804C598: @ 0x0804C598
 sub_804C5D8: @ 0x0804C5D8
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
-	ldr r4, _0804C650 @ =gUnknown_03006080
+	ldr r4, _0804C650 @ =gWater
 	movs r7, #0
 	movs r5, #0
 	strh r0, [r4, #2]
@@ -24618,7 +24618,7 @@ _0804C646:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804C650: .4byte gUnknown_03006080
+_0804C650: .4byte gWater
 _0804C654: .4byte 0x06012660
 _0804C658: .4byte 0x00000233
 _0804C65C: .4byte sub_804C668
@@ -24631,7 +24631,7 @@ sub_804C668: @ 0x0804C668
 	mov r7, r8
 	push {r7}
 	sub sp, #0x1c
-	ldr r7, _0804C698 @ =gUnknown_03006080
+	ldr r7, _0804C698 @ =gWater
 	ldr r5, _0804C69C @ =gCamera
 	ldr r0, _0804C6A0 @ =gStageTime
 	ldr r1, [r0]
@@ -24652,7 +24652,7 @@ sub_804C668: @ 0x0804C668
 	adds r0, #1
 	b _0804C6AA
 	.align 2, 0
-_0804C698: .4byte gUnknown_03006080
+_0804C698: .4byte gWater
 _0804C69C: .4byte gCamera
 _0804C6A0: .4byte gStageTime
 _0804C6A4:
@@ -24902,7 +24902,7 @@ _0804C890: .4byte gFlags
 	thumb_func_start sub_804C894
 sub_804C894: @ 0x0804C894
 	push {r4, lr}
-	ldr r4, _0804C8A8 @ =gUnknown_03006080
+	ldr r4, _0804C8A8 @ =gWater
 	ldr r0, [r4, #0x10]
 	bl TaskDestroy
 	movs r0, #0
@@ -24911,7 +24911,7 @@ sub_804C894: @ 0x0804C894
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804C8A8: .4byte gUnknown_03006080
+_0804C8A8: .4byte gWater
 
 	thumb_func_start sub_804C8AC
 sub_804C8AC: @ 0x0804C8AC
@@ -24962,7 +24962,7 @@ _0804C90C: .4byte 0x03000038
 	thumb_func_start sub_804C910
 sub_804C910: @ 0x0804C910
 	sub sp, #4
-	ldr r3, _0804C944 @ =gUnknown_03006080
+	ldr r3, _0804C944 @ =gWater
 	ldr r2, _0804C948 @ =gFlags
 	ldr r0, [r2]
 	movs r1, #0x41
@@ -24987,7 +24987,7 @@ sub_804C910: @ 0x0804C910
 	add sp, #4
 	bx lr
 	.align 2, 0
-_0804C944: .4byte gUnknown_03006080
+_0804C944: .4byte gWater
 _0804C948: .4byte gFlags
 _0804C94C: .4byte gIntrTable
 _0804C950: .4byte gIntrTableTemplate
@@ -24997,7 +24997,7 @@ _0804C95C: .4byte 0x850000F0
 
 	thumb_func_start sub_804C960
 sub_804C960: @ 0x0804C960
-	ldr r2, _0804C9B0 @ =gUnknown_03006080
+	ldr r2, _0804C9B0 @ =gWater
 	ldrb r3, [r2, #1]
 	strb r3, [r2]
 	ldr r0, [r2, #8]
@@ -25039,7 +25039,7 @@ sub_804C960: @ 0x0804C960
 _0804C9AE:
 	bx lr
 	.align 2, 0
-_0804C9B0: .4byte gUnknown_03006080
+_0804C9B0: .4byte gWater
 _0804C9B4: .4byte 0x040000D4
 _0804C9B8: .4byte gUnknown_03005E80
 _0804C9BC: .4byte 0x84000074

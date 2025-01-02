@@ -46,8 +46,13 @@ typedef struct Player {
 
     // set/compare to values in "include/constants/move_states.h"
     /* 0x10 */ u32 moveState;
+    /* 0x14 */ u8 filler14[0x12];
 
     /* 0x26 */ u8 itemEffect;
+    /* 0x27 */ u8 layer; // TODO: Double-Check the name!
+    /* 0x28 */ u8 filler28[0x38];
+
+    /* 0x60 */ struct Task *spriteTask;
 } Player;
 
 extern Player gPlayer;

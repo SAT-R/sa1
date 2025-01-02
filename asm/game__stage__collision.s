@@ -277,7 +277,7 @@ _0803FC54:
 	pop {r1}
 	bx r1
 
-@ In SA2 there's another function here: sub_801E6D4
+@ In SA2 there is another function here: sub_801E6D4
 
 	thumb_func_start sa2__sub_801EB44
 sa2__sub_801EB44: @ 0x0803FC64
@@ -994,8 +994,6 @@ _08040188: .4byte 0x040000D4
 _0804018C: .4byte 0x03000408
 _08040190: .4byte 0x85000003
 _08040194: .4byte 0x03000418
-
-@ --- End of stage.c ? No! Part of collision.c! ---
 
 	thumb_func_start sa2__sub_801F07C
 sa2__sub_801F07C: @ 0x08040198

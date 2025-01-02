@@ -166,7 +166,7 @@ CreateGameStage: @ 0x0803CF9C
 	movs r1, #0
 	movs r3, #0
 	bl TaskCreate
-	ldr r1, _0803D010 @ =gUnknown_030058C0
+	ldr r1, _0803D010 @ =gGameStageTask
 	str r0, [r1]
 	ldr r0, _0803D014 @ =gActiveCollectRingEffectCount
 	movs r5, #0
@@ -209,7 +209,7 @@ _0803CFEE:
 	.align 2, 0
 _0803D008: .4byte Task_GameStage
 _0803D00C: .4byte sub_803DC84
-_0803D010: .4byte gUnknown_030058C0
+_0803D010: .4byte gGameStageTask
 _0803D014: .4byte gActiveCollectRingEffectCount
 _0803D018: .4byte gStageFlags
 _0803D01C: .4byte 0x0000FF7F
@@ -398,7 +398,7 @@ _0803D190:
 	adds r0, r4, #0
 	bl sub_8015810
 _0803D1BE:
-	ldr r0, _0803D224 @ =gUnknown_03005048
+	ldr r0, _0803D224 @ =sa2__gUnknown_030054B4
 	adds r0, r4, r0
 	movs r1, #0xff
 	strb r1, [r0]
@@ -438,7 +438,7 @@ _0803D214: .4byte gUnknown_03005074
 _0803D218: .4byte gMultiplayerCharRings
 _0803D21C: .4byte gMultiplayerConnections
 _0803D220: .4byte 0x04000128
-_0803D224: .4byte gUnknown_03005048
+_0803D224: .4byte sa2__gUnknown_030054B4
 _0803D228: .4byte gMultiplayerCharacters
 _0803D22C: .4byte gUnknown_03004FF0
 _0803D230:
@@ -473,7 +473,7 @@ _0803D264: .4byte gGameMode
 _0803D268: .4byte gPlayer
 _0803D26C:
 	movs r4, #0
-	ldr r3, _0803D28C @ =gUnknown_03005048
+	ldr r3, _0803D28C @ =sa2__gUnknown_030054B4
 	movs r2, #0xff
 _0803D272:
 	adds r0, r4, r3
@@ -491,7 +491,7 @@ _0803D284:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803D28C: .4byte gUnknown_03005048
+_0803D28C: .4byte sa2__gUnknown_030054B4
 
 	thumb_func_start Task_GameStage
 Task_GameStage: @ 0x0803D290
@@ -699,7 +699,7 @@ _0803D428:
 	subs r0, #1
 	strb r0, [r1]
 _0803D434:
-	ldr r0, _0803D4A4 @ =gUnknown_0300502C
+	ldr r0, _0803D4A4 @ =sa2__gUnknown_0300544C
 	ldr r3, _0803D4A8 @ =gStageFlags
 	ldrh r2, [r3]
 	strh r2, [r0]
@@ -756,7 +756,7 @@ _0803D484:
 	.align 2, 0
 _0803D49C: .4byte gMultiplayerConnections
 _0803D4A0: .4byte gUnknown_03004FE0
-_0803D4A4: .4byte gUnknown_0300502C
+_0803D4A4: .4byte sa2__gUnknown_0300544C
 _0803D4A8: .4byte gStageFlags
 _0803D4AC: .4byte gCheckpointTime
 _0803D4B0: .4byte gCourseTime
@@ -918,7 +918,7 @@ _0803D5EC:
 	movs r0, #1
 	orrs r2, r0
 	strh r2, [r3]
-	ldr r1, _0803D620 @ =gUnknown_03005018
+	ldr r1, _0803D620 @ =sa2__gUnknown_0300543C
 	ldrb r2, [r1]
 	movs r0, #0
 	ldrsb r0, [r1, r0]
@@ -931,7 +931,7 @@ _0803D5EC:
 	b _0803D64E
 	.align 2, 0
 _0803D61C: .4byte gNumLives
-_0803D620: .4byte gUnknown_03005018
+_0803D620: .4byte sa2__gUnknown_0300543C
 _0803D624:
 	movs r0, #2
 	bl sub_8055DD0
@@ -1008,7 +1008,7 @@ _0803D6C4:
 	lsls r0, r0, #0x18
 	cmp r0, #0
 	bne _0803D71C
-	ldr r1, _0803D6F0 @ =gUnknown_03005018
+	ldr r1, _0803D6F0 @ =sa2__gUnknown_0300543C
 	ldrb r2, [r1]
 	movs r0, #0
 	ldrsb r0, [r1, r0]
@@ -1021,7 +1021,7 @@ _0803D6C4:
 	b _0803D720
 	.align 2, 0
 _0803D6EC: .4byte gNumLives
-_0803D6F0: .4byte gUnknown_03005018
+_0803D6F0: .4byte sa2__gUnknown_0300543C
 _0803D6F4:
 	ldr r0, _0803D714 @ =gLoadedSaveGame
 	movs r1, #0x84
@@ -1634,7 +1634,7 @@ _0803DC44: .4byte gUnknown_03005080
 	thumb_func_start sub_803DC48
 sub_803DC48: @ 0x0803DC48
 	push {r4, lr}
-	ldr r4, _0803DC74 @ =gUnknown_030058C0
+	ldr r4, _0803DC74 @ =gGameStageTask
 	ldr r0, [r4]
 	bl TaskDestroy
 	movs r0, #0
@@ -1653,7 +1653,7 @@ _0803DC6A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803DC74: .4byte gUnknown_030058C0
+_0803DC74: .4byte gGameStageTask
 _0803DC78: .4byte gPlayer
 _0803DC7C: .4byte gGameMode
 _0803DC80: .4byte gPartner
@@ -1680,7 +1680,7 @@ _0803DCA0:
 	ldrb r1, [r1]
 	strb r1, [r0, #0x18]
 _0803DCA8:
-	ldr r1, _0803DCC8 @ =gUnknown_030058C0
+	ldr r1, _0803DCC8 @ =gGameStageTask
 	movs r0, #0
 	str r0, [r1]
 	bl m4aMPlayAllStop
@@ -1691,7 +1691,7 @@ _0803DCB8: .4byte gGameMode
 _0803DCBC: .4byte gStageFlags
 _0803DCC0: .4byte gLoadedSaveGame
 _0803DCC4: .4byte gUnknown_03005080
-_0803DCC8: .4byte gUnknown_030058C0
+_0803DCC8: .4byte gGameStageTask
 
 	thumb_func_start sub_803DCCC
 sub_803DCCC: @ 0x0803DCCC

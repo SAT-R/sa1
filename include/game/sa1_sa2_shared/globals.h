@@ -76,6 +76,7 @@ extern u8 gGameMode;
 extern s8 gCurrentLevel;
 extern s8 gSelectedCharacter;
 #if (GAME == GAME_SA1)
+extern bool8 gTailsEnabled;
 extern s8 gNumSingleplayerCharacters;
 #endif
 
@@ -102,17 +103,17 @@ extern u16 gBossCameraClampYUpper;
 extern u8 gRandomItemBox;
 extern u8 gUnknown_030053E0;
 
-extern u8 gUnknown_0300543C;
+extern u8 sa2__gUnknown_0300543C;
 extern struct Task *gEntitiesManagerTask;
 
-extern u8 gUnknown_030054E4;
+extern u8 gDestroySpotlights;
 
 extern u8 gUnknown_03005420;
 
 // "Extra State" (see above #defines for states)
 // TODO: Find better name. Put somewhere else?
 extern u16 gStageFlags;
-extern u16 gUnknown_0300544C;
+extern u16 sa2__gUnknown_0300544C;
 
 extern u8 gDifficultyLevel;
 
@@ -136,7 +137,7 @@ extern bool8 gUnknown_030055BC;
 
 extern struct Task *gMultiplayerPlayerTasks[4];
 extern s8 gMultiplayerCharacters[4];
-extern s8 gUnknown_030054B4[4];
+extern s8 sa2__gUnknown_030054B4[4];
 extern u8 gUnknown_030054B8;
 
 extern u8 gMultiplayerMissingHeartbeats[4];
