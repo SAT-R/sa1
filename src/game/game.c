@@ -35,7 +35,8 @@
 
 #include "data/sprite_tables.h"
 
-#if 01
+void CreateEmptySaveGame(void);
+
 void GameInit(void)
 {
     u32 i;
@@ -96,7 +97,7 @@ void GameInit(void)
 #endif
 
     if (SaveGameExists() != TRUE) {
-        LoadSaveGame();
+        CreateEmptySaveGame();
         hasProfile = TRUE;
     }
 
@@ -148,4 +149,34 @@ void GameInit(void)
     CreateTitleScreen();
 #endif
 }
-#endif
+
+void CreateEmptySaveGame(void)
+{
+    u32 i;
+
+    DmaFill32(3, 0, &gLoadedSaveGame, sizeof(gLoadedSaveGame));
+    gLoadedSaveGame.unk4 = 0;
+    gLoadedSaveGame.unk420 = 0xC350;
+    gLoadedSaveGame.unk18 = 0;
+
+    for (i = 0; i < ARRAY_COUNT(gLoadedSaveGame.unk8); i++) {
+        gLoadedSaveGame.unk8[i] = 0;
+    }
+
+    for (i = 0; i < 10; i++) {
+        u32 charIndex;
+
+        gLoadedSaveGame.multiplayerScores[i].wins |= 0xFF;
+        for (charIndex = 0; charIndex < (s32)ARRAY_COUNT(gLoadedSaveGame.multiplayerScores[i].playerName); charIndex++) {
+            gLoadedSaveGame.multiplayerScores[i].playerName[charIndex] = ' ';
+        }
+    }
+
+    DmaFill32(3, 0x8CA0, &gLoadedSaveGame.timeRecords, sizeof(gLoadedSaveGame.timeRecords));
+
+    gLoadedSaveGame.unk19 = 1;
+    gLoadedSaveGame.language = LANG_JAPANESE;
+    gLoadedSaveGame.unk1B = 0;
+    gLoadedSaveGame.unk1C = 0;
+    gLoadedSaveGame.score = 0;
+}

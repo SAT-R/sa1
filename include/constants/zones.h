@@ -34,8 +34,15 @@
 #define ACT_TRUE_AREA_53  ACT_2
 #endif
 
-#define NUM_COURSE_ZONES   7
-#define ACTS_PER_ZONE      3
+#if (GAME == GAME_SA1)
+#define NUM_COURSE_ZONES      7
+#define NUM_TIME_ATTACK_ZONES 6
+#define ACTS_PER_ZONE         2
+#elif (GAME == GAME_SA2)
+#define NUM_COURSE_ZONES      7
+#define NUM_TIME_ATTACK_ZONES NUM_COURSE_ZONES
+#define ACTS_PER_ZONE         3
+#endif
 #define ACT_SLOTS_PER_ZONE (ACTS_PER_ZONE + 1)
 
 #define LEVEL_INDEX(zone, act) ((zone)*ACT_SLOTS_PER_ZONE) + (act)

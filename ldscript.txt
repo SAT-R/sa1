@@ -68,7 +68,6 @@ SECTIONS {
         build/sa1/asm/game__stage__amy_attack_heart_effect.o(.text);
         build/sa1/asm/game__stage__music_manager.o(.text);
         build/sa1/src/game/game.o(.text);
-        build/sa1/asm/game__game.o(.text);
         build/sa1/src/game/dummy_task.o(.text);
         build/sa1/asm/game__stage__stage.o(.text);
         build/sa1/asm/game__stage__camera.o(.text);

@@ -18,8 +18,8 @@ typedef struct EditLanguageScreen {
 } EditLanguageScreen; /* size: 0x290 */
 
 #elif (GAME == GAME_SA2)
-#include "game/stage/player_controls.h"
-#include "game/stage/screen_fade.h"
+//#include "game/stage/player_controls.h"
+//#include "game/stage/screen_fade.h"
 
 #define RENDER_TARGET_SCREEN   0
 #define RENDER_TARGET_SUB_MENU 1

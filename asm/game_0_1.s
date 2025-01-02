@@ -5662,7 +5662,7 @@ _08011348:
 	str r0, [r3]
 	movs r0, #0x6a
 	bl m4aSongNumStart
-	bl LoadSaveGame
+	bl CreateEmptySaveGame
 	mov r4, sp
 	ldrb r0, [r4, #4]
 	ldr r4, _08011464 @ =gLoadedSaveGame
