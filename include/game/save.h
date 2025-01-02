@@ -31,6 +31,7 @@ struct TimeRecords {
 
 struct MultiplayerScore {
     u32 playerId;
+    // TODO/NOTE: Only 6 chars are displayed, but the string is treated 8-char wide
     PlayerNameChar playerName[MAX_PLAYER_NAME_LENGTH + 2];
 
     u8 wins;

@@ -8654,7 +8654,7 @@ _08012C9C: .4byte gDestroySpotlights
 _08012CA0: .4byte gStageFlags
 _08012CA4: .4byte 0x0000FFBF
 
-@ SaveInit?
+@ TODO: Is the name correct?
 	thumb_func_start SaveGameExists
 SaveGameExists: @ 0x08012CA8
 	push {r4, r5, r6, r7, lr}

@@ -172,7 +172,7 @@ void CreateEmptySaveGame(void)
         }
     }
 
-    DmaFill32(3, 0x8CA0, &gLoadedSaveGame.timeRecords, sizeof(gLoadedSaveGame.timeRecords));
+    DmaFill32(3, MAX_COURSE_TIME, &gLoadedSaveGame.timeRecords, sizeof(gLoadedSaveGame.timeRecords));
 
     gLoadedSaveGame.unk19 = 1;
     gLoadedSaveGame.language = LANG_JAPANESE;

@@ -87,6 +87,8 @@ SECTIONS {
         build/sa1/asm/ia_boss_super_egg_robo.o(.text);
         build/sa1/asm/game__gTask_03006240.o(.text);
         build/sa1/asm/game_2.o(.text);
+        build/sa1/asm/game__edit_language_screen.o(.text);
+        build/sa1/asm/game_3.o(.text);
         build/sa1/asm/enemy_gamigami.o(.text);
         build/sa1/asm/enemy_rhinotank.o(.text);
         build/sa1/asm/enemy_kerokero.o(.text);
