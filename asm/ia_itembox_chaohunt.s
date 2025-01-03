@@ -957,7 +957,7 @@ _0801C206:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _0801C2A4 @ =gUnknown_03005040
+	ldr r1, _0801C2A4 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _0801C268:
@@ -984,7 +984,7 @@ _0801C294: .4byte gRingCount
 _0801C298: .4byte gCurrentLevel
 _0801C29C: .4byte gGameMode
 _0801C2A0: .4byte gNumLives
-_0801C2A4: .4byte gUnknown_03005040
+_0801C2A4: .4byte sa2__gUnknown_030054A8
 _0801C2A8:
 	bl sub_80182FC
 	adds r1, r0, #0

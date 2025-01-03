@@ -113,7 +113,7 @@ _08023BC4:
 	movs r1, #1
 	eors r0, r1
 	strb r0, [r2]
-	ldr r2, _08023C18 @ =gUnknown_03005BE0
+	ldr r2, _08023C18 @ =sa2__gUnknown_03005AF0
 	ldr r0, [r2, #0x1c]
 	ldr r1, _08023C1C @ =0xFFFFCFFF
 	ands r0, r1
@@ -141,7 +141,7 @@ _08023C08: .4byte gCurTask
 _08023C0C: .4byte 0x03000008
 _08023C10: .4byte 0x03000004
 _08023C14: .4byte 0x03000006
-_08023C18: .4byte gUnknown_03005BE0
+_08023C18: .4byte sa2__gUnknown_03005AF0
 _08023C1C: .4byte 0xFFFFCFFF
 _08023C20:
 	movs r0, #0x72
@@ -348,7 +348,7 @@ _08023D7E:
 	movs r0, #0x7f
 	ands r0, r1
 	strb r0, [r4]
-	ldr r2, _08023DD0 @ =gUnknown_03005BE0
+	ldr r2, _08023DD0 @ =sa2__gUnknown_03005AF0
 	ldr r0, [r2, #0x1c]
 	ldr r1, _08023DD4 @ =0xFFFFCFFF
 	ands r0, r1
@@ -360,7 +360,7 @@ _08023D7E:
 	.align 2, 0
 _08023DC8: .4byte gPlayer
 _08023DCC: .4byte 0xFEFFFFFF
-_08023DD0: .4byte gUnknown_03005BE0
+_08023DD0: .4byte sa2__gUnknown_03005AF0
 _08023DD4: .4byte 0xFFFFCFFF
 _08023DD8:
 	ldr r0, _08023E00 @ =gInput
@@ -398,7 +398,7 @@ _08023E0E:
 	movs r2, #0
 	movs r0, #0x14
 	strb r0, [r1]
-	ldr r3, _08023EBC @ =gUnknown_03005BE0
+	ldr r3, _08023EBC @ =sa2__gUnknown_03005AF0
 	adds r0, r3, #0
 	adds r0, #0x2c
 	strb r2, [r0]
@@ -474,7 +474,7 @@ _08023EA6:
 	bx r0
 	.align 2, 0
 _08023EB8: .4byte gPlayer
-_08023EBC: .4byte gUnknown_03005BE0
+_08023EBC: .4byte sa2__gUnknown_03005AF0
 _08023EC0: .4byte 0xFEFFFFFF
 _08023EC4: .4byte 0xFFFFCFFF
 _08023EC8: .4byte gCamera

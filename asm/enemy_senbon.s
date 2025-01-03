@@ -514,7 +514,7 @@ _08070D90:
 	ldr r2, _08070E84 @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _08070E88 @ =gUnknown_03005BE0
+	ldr r3, _08070E88 @ =sa2__gUnknown_03005AF0
 	adds r0, r3, #0
 	adds r0, #0x38
 	ldrb r0, [r0]
@@ -625,6 +625,6 @@ _08070E74:
 	bx r0
 	.align 2, 0
 _08070E84: .4byte gPlayer
-_08070E88: .4byte gUnknown_03005BE0
+_08070E88: .4byte sa2__gUnknown_03005AF0
 _08070E8C: .4byte gCurTask
 _08070E90: .4byte sub_8070ACC

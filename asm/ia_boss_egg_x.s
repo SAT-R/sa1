@@ -414,7 +414,7 @@ _080374C4:
 	movs r1, #4
 	movs r3, #0x7a
 	bl sub_804CC14
-	ldr r1, _08037538 @ =gUnknown_03005040
+	ldr r1, _08037538 @ =sa2__gUnknown_030054A8
 	movs r0, #0x16
 	strb r0, [r1, #1]
 _08037518:
@@ -429,7 +429,7 @@ _08037528: .4byte 0x03000088
 _0803752C: .4byte 0x0300008A
 _08037530: .4byte 0x0300008E
 _08037534: .4byte sub_803753C
-_08037538: .4byte gUnknown_03005040
+_08037538: .4byte sa2__gUnknown_030054A8
 
 	thumb_func_start sub_803753C
 sub_803753C: @ 0x0803753C
@@ -2191,7 +2191,7 @@ _0803838E:
 	adds r6, r5, #0
 	adds r2, r4, #0
 _080383A2:
-	ldr r1, _08038400 @ =gUnknown_03005040
+	ldr r1, _08038400 @ =sa2__gUnknown_030054A8
 	movs r0, #0x36
 	strb r0, [r1, #1]
 	asrs r4, r6, #0x10
@@ -2230,7 +2230,7 @@ _080383F0: .4byte gCurrentLevel
 _080383F4: .4byte gLoadedSaveGame
 _080383F8: .4byte gUnknown_03005124
 _080383FC: .4byte 0xFFF80000
-_08038400: .4byte gUnknown_03005040
+_08038400: .4byte sa2__gUnknown_030054A8
 _08038404:
 	ldr r0, _0803841C @ =gCurTask
 	ldr r0, [r0]

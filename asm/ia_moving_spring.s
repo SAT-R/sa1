@@ -860,7 +860,7 @@ _0808B8F6:
 _0808B900: .4byte gUnknown_03005A60
 _0808B904: .4byte gUnknown_03005C30
 _0808B908:
-	ldr r0, _0808B91C @ =gUnknown_03005BE0
+	ldr r0, _0808B91C @ =sa2__gUnknown_03005AF0
 _0808B90A:
 	adds r0, #0x2d
 	movs r1, #0xff
@@ -872,7 +872,7 @@ _0808B90A:
 	strh r0, [r2, #0xa]
 	b _0808B928
 	.align 2, 0
-_0808B91C: .4byte gUnknown_03005BE0
+_0808B91C: .4byte sa2__gUnknown_03005AF0
 _0808B920: .4byte 0x0000F880
 _0808B924:
 	ldr r0, _0808B938 @ =0x0000F880

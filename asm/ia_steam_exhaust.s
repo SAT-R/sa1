@@ -907,7 +907,7 @@ _0808976C:
 	b _080899C8
 _08089776:
 	movs r4, #0
-	ldr r5, _080897C4 @ =gUnknown_03005BE0+0xC+0x28
+	ldr r5, _080897C4 @ =sa2__gUnknown_03005AF0+0xC+0x28
 	mov r2, sl
 	asrs r2, r2, #0x10
 	mov sb, r2
@@ -917,7 +917,7 @@ _08089776:
 	asrs r0, r0, #0x10
 	mov r8, r0
 _0808978A:
-	ldr r1, _080897C4 @ =gUnknown_03005BE0+0xC+0x28
+	ldr r1, _080897C4 @ =sa2__gUnknown_03005AF0+0xC+0x28
 	cmp r4, #0
 	beq _08089792
 	ldr r1, _080897D0 @ =gUnknown_03005C30+0xC+0x28
@@ -950,7 +950,7 @@ _080897A6:
 	ble _080897DE
 	b _0808980A
 	.align 2, 0
-_080897C4: .4byte gUnknown_03005BE0+0xC+0x28
+_080897C4: .4byte sa2__gUnknown_03005AF0+0xC+0x28
 _080897C8: .4byte gPartner
 _080897CC: .4byte gPlayer
 _080897D0: .4byte gUnknown_03005C30+0xC+0x28

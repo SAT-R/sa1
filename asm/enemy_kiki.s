@@ -944,7 +944,7 @@ Task_ProjPieceMain: @ 0x0801DB40
 	mov r6, sb
 	mov r5, r8
 	push {r5, r6, r7}
-	ldr r0, _0801DC3C @ =gUnknown_03005BE0+0xC
+	ldr r0, _0801DC3C @ =sa2__gUnknown_03005AF0+0xC
 	mov ip, r0          @ ip = sprPlayer
 	ldr r0, _0801DC40 @ =gCurTask
 	ldr r0, [r0]
@@ -1068,7 +1068,7 @@ _0801DC16:
 	bl TaskDestroy
 	b _0801DC62
 	.align 2, 0
-_0801DC3C: .4byte gUnknown_03005BE0+0xC
+_0801DC3C: .4byte sa2__gUnknown_03005AF0+0xC
 _0801DC40: .4byte gCurTask
 _0801DC44: .4byte 0x0300002C
 _0801DC48: .4byte gPlayer

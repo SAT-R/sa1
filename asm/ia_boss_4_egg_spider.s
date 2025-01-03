@@ -619,7 +619,7 @@ _08030D9C:
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08030DC8
-	ldr r1, _08030DE4 @ =gUnknown_03005040
+	ldr r1, _08030DE4 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #1]
 	mov r1, sb
@@ -649,7 +649,7 @@ _08030DC8:
 	strh r0, [r1, #0x38]
 	b _08030EBC
 	.align 2, 0
-_08030DE4: .4byte gUnknown_03005040
+_08030DE4: .4byte sa2__gUnknown_030054A8
 _08030DE8: .4byte 0xFFFFFF00
 _08030DEC: .4byte gPlayer
 _08030DF0:
@@ -1850,7 +1850,7 @@ _08031784:
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl CreateBossCapsule
-	ldr r1, _080317E8 @ =gUnknown_03005040
+	ldr r1, _080317E8 @ =sa2__gUnknown_030054A8
 	movs r0, #0x30
 	strb r0, [r1, #1]
 	ldr r3, _080317C8 @ =gCurTask
@@ -1866,7 +1866,7 @@ _080317D8: .4byte gDispCnt
 _080317DC: .4byte 0x00007FFF
 _080317E0: .4byte 0xFFFFFE7F
 _080317E4: .4byte 0x03000084
-_080317E8: .4byte gUnknown_03005040
+_080317E8: .4byte sa2__gUnknown_030054A8
 _080317EC:
 	movs r4, #7
 	ands r3, r4

@@ -316,7 +316,7 @@ _080346BC:
 	ldr r1, [r0]
 	ldr r0, _08034710 @ =sub_8034718
 	str r0, [r1, #8]
-	ldr r1, _08034714 @ =gUnknown_03005040
+	ldr r1, _08034714 @ =sa2__gUnknown_030054A8
 	movs r0, #0x14
 	strb r0, [r1, #1]
 _080346FE:
@@ -328,7 +328,7 @@ _08034704: .4byte 0x0300007E
 _08034708: .4byte gCamera
 _0803470C: .4byte gCurTask
 _08034710: .4byte sub_8034718
-_08034714: .4byte gUnknown_03005040
+_08034714: .4byte sa2__gUnknown_030054A8
 
 	thumb_func_start sub_8034718
 sub_8034718: @ 0x08034718
@@ -1256,7 +1256,7 @@ _08034E80:
 	strh r0, [r2, #0x16]
 	ldrh r0, [r1, #0x1c]
 	strh r0, [r2, #0x1a]
-	ldr r1, _08034ED8 @ =gUnknown_03005040
+	ldr r1, _08034ED8 @ =sa2__gUnknown_030054A8
 	movs r0, #0x34
 	strb r0, [r1, #1]
 	ldr r3, _08034EDC @ =gCurTask
@@ -1275,7 +1275,7 @@ _08034EBA:
 _08034ECC: .4byte gRefCollision
 _08034ED0: .4byte gCollisionTable
 _08034ED4: .4byte gCurrentLevel
-_08034ED8: .4byte gUnknown_03005040
+_08034ED8: .4byte sa2__gUnknown_030054A8
 _08034EDC: .4byte gCurTask
 
 	thumb_func_start sub_8034EE0

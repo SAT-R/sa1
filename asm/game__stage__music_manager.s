@@ -12,7 +12,7 @@ Task_StageMusicManager: @ 0x0803C974
 	ldr r0, _0803C9C0 @ =gMPlayTable
 	ldr r0, [r0]
 	ldr r3, [r0]
-	ldr r0, _0803C9C4 @ =gUnknown_03005040
+	ldr r0, _0803C9C4 @ =sa2__gUnknown_030054A8
 	ldrb r1, [r0]
 	adds r5, r0, #0
 	cmp r1, #0
@@ -50,7 +50,7 @@ _0803C998:
 	b _0803CB38
 	.align 2, 0
 _0803C9C0: .4byte gMPlayTable
-_0803C9C4: .4byte gUnknown_03005040
+_0803C9C4: .4byte sa2__gUnknown_030054A8
 _0803C9C8: .4byte gPlayer
 _0803C9CC: .4byte gSongTable
 _0803C9D0: .4byte gMPlayInfo_BGM
@@ -249,7 +249,7 @@ CreateStageMusicManager: @ 0x0803CB48
 	movs r1, #0
 	movs r3, #0
 	bl TaskCreate
-	ldr r0, _0803CB78 @ =gUnknown_03005040
+	ldr r0, _0803CB78 @ =sa2__gUnknown_030054A8
 	strb r4, [r0]
 	strb r4, [r0, #1]
 	strb r4, [r0, #2]
@@ -261,7 +261,7 @@ CreateStageMusicManager: @ 0x0803CB48
 	bx r0
 	.align 2, 0
 _0803CB74: .4byte Task_StageMusicManager
-_0803CB78: .4byte gUnknown_03005040
+_0803CB78: .4byte sa2__gUnknown_030054A8
 
 	thumb_func_start sub_803CB7C
 sub_803CB7C: @ 0x0803CB7C

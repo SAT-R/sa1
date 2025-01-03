@@ -155,6 +155,7 @@
 #define SA1_ANIM_RING                707
 #define SA2_ANIM_RING_COLLECT_EFFECT 708
 
+#define SA1_ANIM_HEART         759
 #define SA1_ANIM_TRIANGLE_BLUE 767
 
 #define SA1_ANIM_RING_2 795

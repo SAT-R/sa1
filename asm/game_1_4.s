@@ -602,7 +602,7 @@ _08040E5A:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08040EE8 @ =gUnknown_03005040
+	ldr r1, _08040EE8 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _08040EA8:
@@ -630,7 +630,7 @@ _08040ED8: .4byte gRingCount
 _08040EDC: .4byte gCurrentLevel
 _08040EE0: .4byte gGameMode
 _08040EE4: .4byte gNumLives
-_08040EE8: .4byte gUnknown_03005040
+_08040EE8: .4byte sa2__gUnknown_030054A8
 _08040EEC:
 	ldr r0, _08040FE4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -744,7 +744,7 @@ _08040F7C:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08040FFC @ =gUnknown_03005040
+	ldr r1, _08040FFC @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _08040FCA:
@@ -768,7 +768,7 @@ _08040FEC: .4byte gRingCount
 _08040FF0: .4byte gCurrentLevel
 _08040FF4: .4byte gGameMode
 _08040FF8: .4byte gNumLives
-_08040FFC: .4byte gUnknown_03005040
+_08040FFC: .4byte sa2__gUnknown_030054A8
 _08041000:
 	movs r1, #0xa
 	ldrsh r0, [r5, r1]
@@ -1163,7 +1163,7 @@ _080412BE:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08041354 @ =gUnknown_03005040
+	ldr r1, _08041354 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _0804130C:
@@ -1193,7 +1193,7 @@ _08041344: .4byte gPlayer
 _08041348: .4byte gRingCount
 _0804134C: .4byte gGameMode
 _08041350: .4byte gNumLives
-_08041354: .4byte gUnknown_03005040
+_08041354: .4byte sa2__gUnknown_030054A8
 _08041358:
 	ldr r0, _08041450 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -1307,7 +1307,7 @@ _080413E8:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08041468 @ =gUnknown_03005040
+	ldr r1, _08041468 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _08041436:
@@ -1331,7 +1331,7 @@ _08041458: .4byte gRingCount
 _0804145C: .4byte gCurrentLevel
 _08041460: .4byte gGameMode
 _08041464: .4byte gNumLives
-_08041468: .4byte gUnknown_03005040
+_08041468: .4byte sa2__gUnknown_030054A8
 _0804146C:
 	movs r1, #0xa
 	ldrsh r0, [r5, r1]
@@ -1789,7 +1789,7 @@ _080417A4:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08041834 @ =gUnknown_03005040
+	ldr r1, _08041834 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _080417F2:
@@ -1820,7 +1820,7 @@ _08041824: .4byte gRingCount
 _08041828: .4byte gCurrentLevel
 _0804182C: .4byte gGameMode
 _08041830: .4byte gNumLives
-_08041834: .4byte gUnknown_03005040
+_08041834: .4byte sa2__gUnknown_030054A8
 _08041838:
 	adds r1, r5, #0
 	adds r1, #0x10
@@ -2428,7 +2428,7 @@ _08041C8E:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08041D20 @ =gUnknown_03005040
+	ldr r1, _08041D20 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _08041CDC:
@@ -2459,7 +2459,7 @@ _08041D10: .4byte gRingCount
 _08041D14: .4byte gCurrentLevel
 _08041D18: .4byte gGameMode
 _08041D1C: .4byte gNumLives
-_08041D20: .4byte gUnknown_03005040
+_08041D20: .4byte sa2__gUnknown_030054A8
 _08041D24:
 	adds r1, r5, #0
 	adds r1, #0x10
@@ -3354,7 +3354,7 @@ _080423DA:
 	ldr r2, [sp]
 	cmp r2, #0
 	bne _08042404
-	ldr r0, _080423FC @ =gUnknown_03005BE0
+	ldr r0, _080423FC @ =sa2__gUnknown_03005AF0
 	str r0, [r1, #0x64]
 	ldr r0, _08042400 @ =gUnknown_03005B90
 	str r0, [r1, #0x68]
@@ -3362,7 +3362,7 @@ _080423DA:
 	.align 2, 0
 _080423F4: .4byte 0x00000631
 _080423F8: .4byte 0x00000117
-_080423FC: .4byte gUnknown_03005BE0
+_080423FC: .4byte sa2__gUnknown_03005AF0
 _08042400: .4byte gUnknown_03005B90
 _08042404:
 	ldr r0, _08042420 @ =gUnknown_03005C30
@@ -8696,12 +8696,12 @@ _08044B90:
 	asrs r0, r0, #0x18
 	cmp r0, #0
 	bne _08044BE6
-	ldr r1, _08044BA8 @ =gUnknown_03005040
+	ldr r1, _08044BA8 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #4]
 	b _08044BE6
 	.align 2, 0
-_08044BA8: .4byte gUnknown_03005040
+_08044BA8: .4byte sa2__gUnknown_030054A8
 _08044BAC:
 	adds r0, r4, #0
 	movs r1, #5

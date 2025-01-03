@@ -49,7 +49,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005030; gLevelScore = .;
 . = 0x00005034; gCourseTime = .;
 . = 0x00005038; gUnknown_03005038 = .;
-. = 0x00005040; gUnknown_03005040 = .; /* SA2: gUnknown_030054A8 */
+. = 0x00005040; sa2__gUnknown_030054A8 = .; /* SA2: gUnknown_030054A8 */
 . = 0x00005048; sa2__gUnknown_030054B4 = .; /* SA2: gUnknown_030054B4 */
 . = 0x0000504C; sa2__gUnknown_030054B8 = .;
 . = 0x00005050; gTailsEnabled = .;
@@ -102,7 +102,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005740; gUnknown_03005740 = .;
 . = 0x00005780; gUnknown_03005780 = .;
 . = 0x000057A0; gUnknown_030057A0 = .;
-. = 0x000057E0; gUnknown_030057E0 = .;
+. = 0x000057E0; gUnknown_030057E0 = .; /* s8[] */
 . = 0x00005800; gUnknown_03005800 = .;
 . = 0x00005840; gUnknown_03005840 = .;
 . = 0x00005860; gUnknown_03005860 = .;
@@ -153,7 +153,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 
 . = 0x00005B40; gUnknown_03005B40 = .;
 . = 0x00005B90; gUnknown_03005B90 = .;
-. = 0x00005BE0; gUnknown_03005BE0 = .; /* (PlayerSpriteInfo player PSI) SA2: gUnknown_03005AA0|gUnknown_03005AF0 */
+. = 0x00005BE0; sa2__gUnknown_03005AF0 = .; /* (PlayerSpriteInfo player PSI) SA2: gUnknown_03005AA0|gUnknown_03005AF0 */
 . = 0x00005C30; gUnknown_03005C30 = .; /* (PlayerSpriteInfo partner PSI) SA2: gUnknown_03005AA0|gUnknown_03005AF0 */
 
 . = 0x00005C74; gUnknown_03005C74 = .;

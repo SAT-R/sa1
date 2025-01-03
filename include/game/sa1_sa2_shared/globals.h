@@ -12,8 +12,12 @@
 #define GAME_MODE_TEAM_PLAY                  4
 #define GAME_MODE_MULTI_PLAYER_COLLECT_RINGS 6
 
+#if (GAME == GAME_SA1)
+#define IS_SINGLE_PLAYER ((gGameMode == GAME_MODE_SINGLE_PLAYER) || (gGameMode == GAME_MODE_TIME_ATTACK))
+#elif (GAME == GAME_SA2)
 #define IS_SINGLE_PLAYER                                                                                                                   \
     ((gGameMode == GAME_MODE_SINGLE_PLAYER) || (gGameMode == GAME_MODE_TIME_ATTACK) || (gGameMode == GAME_MODE_BOSS_TIME_ATTACK))
+#endif
 
 #define IS_MULTI_PLAYER (!(IS_SINGLE_PLAYER))
 

@@ -274,7 +274,7 @@ _0806FCB4:
 	ldr r2, _0806FD88 @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _0806FD8C @ =gUnknown_03005BE0
+	ldr r3, _0806FD8C @ =sa2__gUnknown_03005AF0
 	adds r0, r3, #0
 	adds r0, #0x38
 	ldrb r0, [r0]
@@ -368,7 +368,7 @@ _0806FD6E:
 	b _0806FE04
 	.align 2, 0
 _0806FD88: .4byte gPlayer
-_0806FD8C: .4byte gUnknown_03005BE0
+_0806FD8C: .4byte sa2__gUnknown_03005AF0
 _0806FD90:
 	mov r3, sb
 	ldrb r0, [r3, #5]

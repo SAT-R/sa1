@@ -145,7 +145,7 @@ Task_MagneticRing: @ 0x08024BC8
 	subs r2, #8
 	ldr r1, [r4]
 	asrs r1, r1, #8
-	ldr r6, _08024D3C @ =gUnknown_03005BE0
+	ldr r6, _08024D3C @ =sa2__gUnknown_03005AF0
 	adds r0, r6, #0
 	adds r0, #0x38
 	movs r4, #0
@@ -178,7 +178,7 @@ _08024C7C:
 	ldr r1, _08024D34 @ =gPlayer
 	ldr r0, [r1, #4]
 	asrs r0, r0, #8
-	ldr r6, _08024D3C @ =gUnknown_03005BE0
+	ldr r6, _08024D3C @ =sa2__gUnknown_03005AF0
 	mov ip, r6
 	mov r3, ip
 	adds r3, #0x39
@@ -235,7 +235,7 @@ _08024CBA:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08024D50 @ =gUnknown_03005040
+	ldr r1, _08024D50 @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _08024D04:
@@ -265,12 +265,12 @@ _08024D26:
 _08024D30: .4byte gCurTask
 _08024D34: .4byte gPlayer
 _08024D38: .4byte gSineTable
-_08024D3C: .4byte gUnknown_03005BE0
+_08024D3C: .4byte sa2__gUnknown_03005AF0
 _08024D40: .4byte gRingCount
 _08024D44: .4byte gCurrentLevel
 _08024D48: .4byte gGameMode
 _08024D4C: .4byte gNumLives
-_08024D50: .4byte gUnknown_03005040
+_08024D50: .4byte sa2__gUnknown_030054A8
 _08024D54:
 	ldr r2, _08024D88 @ =gCamera
 	ldrh r0, [r5, #0x16]

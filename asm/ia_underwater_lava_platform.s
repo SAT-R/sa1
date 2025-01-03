@@ -778,7 +778,7 @@ _08092C24:
 	b _08092E68
 _08092C2E:
 	movs r5, #0
-	ldr r6, _08092C80 @ =gUnknown_03005BE0+0xC+0x28
+	ldr r6, _08092C80 @ =sa2__gUnknown_03005AF0+0xC+0x28
 	ldr r0, [sp, #0x14]
 	asrs r0, r0, #0x10
 	str r0, [sp, #0xc]
@@ -788,7 +788,7 @@ _08092C2E:
 	asrs r1, r1, #0x10
 	mov r8, r1
 _08092C42:
-	ldr r1, _08092C80 @ =gUnknown_03005BE0+0xC+0x28
+	ldr r1, _08092C80 @ =sa2__gUnknown_03005AF0+0xC+0x28
 	cmp r5, #0
 	beq _08092C4A
 	ldr r1, _08092C8C @ =gUnknown_03005C30+0xC+0x28
@@ -822,7 +822,7 @@ _08092C5E:
 	ble _08092C9A
 	b _08092CCA
 	.align 2, 0
-_08092C80: .4byte gUnknown_03005BE0+0xC+0x28
+_08092C80: .4byte sa2__gUnknown_03005AF0+0xC+0x28
 _08092C84: .4byte gPartner
 _08092C88: .4byte gPlayer
 _08092C8C: .4byte gUnknown_03005C30+0xC+0x28

@@ -328,7 +328,7 @@ _08025C68:
 	ldr r1, [r0]
 	ldr r0, _08025CBC @ =sub_8025CC4
 	str r0, [r1, #8]
-	ldr r1, _08025CC0 @ =gUnknown_03005040
+	ldr r1, _08025CC0 @ =sa2__gUnknown_030054A8
 	movs r0, #0x11
 	strb r0, [r1, #1]
 _08025CA6:
@@ -341,7 +341,7 @@ _08025CB0: .4byte gPlayer
 _08025CB4: .4byte 0x000002B6
 _08025CB8: .4byte gCurTask
 _08025CBC: .4byte sub_8025CC4
-_08025CC0: .4byte gUnknown_03005040
+_08025CC0: .4byte sa2__gUnknown_030054A8
 
 	thumb_func_start sub_8025CC4
 sub_8025CC4: @ 0x08025CC4
@@ -838,7 +838,7 @@ _08026002:
 	bl __subsf3
 	bl __fixsfsi
 	strh r0, [r4, #0x18]
-	ldr r0, _08026118 @ =gUnknown_03005040
+	ldr r0, _08026118 @ =sa2__gUnknown_030054A8
 	movs r1, #0x10
 	strb r1, [r0, #1]
 _080260EE:
@@ -857,7 +857,7 @@ _08026108: .4byte 0x00000262
 _0802610C: .4byte gCamera
 _08026110: .4byte 0x0000FFC8
 _08026114: .4byte 0x43B40000
-_08026118: .4byte gUnknown_03005040
+_08026118: .4byte sa2__gUnknown_030054A8
 
 	thumb_func_start Task_802611C
 Task_802611C: @ 0x0802611C
@@ -2591,7 +2591,7 @@ sub_8026ED0: @ 0x08026ED0
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl CreateBossCapsule
-	ldr r1, _08026F88 @ =gUnknown_03005040
+	ldr r1, _08026F88 @ =sa2__gUnknown_030054A8
 	movs r0, #0x30
 	strb r0, [r1, #1]
 	ldr r0, [r6]
@@ -2604,7 +2604,7 @@ _08026F78: .4byte 0x03000044
 _08026F7C: .4byte 0x0300008C
 _08026F80: .4byte 0x03000090
 _08026F84: .4byte 0xFFE00000
-_08026F88: .4byte gUnknown_03005040
+_08026F88: .4byte sa2__gUnknown_030054A8
 _08026F8C:
 	movs r4, #7
 	ands r2, r4

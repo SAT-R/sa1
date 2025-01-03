@@ -469,7 +469,7 @@ _08073874:
 	ldr r2, _08073984 @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _08073988 @ =gUnknown_03005BE0
+	ldr r3, _08073988 @ =sa2__gUnknown_03005AF0
 	adds r0, r3, #0
 	adds r0, #0x38
 	ldrb r0, [r0]
@@ -593,7 +593,7 @@ _08073974:
 	bx r0
 	.align 2, 0
 _08073984: .4byte gPlayer
-_08073988: .4byte gUnknown_03005BE0
+_08073988: .4byte sa2__gUnknown_03005AF0
 _0807398C: .4byte gCurTask
 _08073990: .4byte sub_8073608
 _08073994: .4byte 0xFFFFFBFF

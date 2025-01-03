@@ -608,7 +608,7 @@ _0802F458:
 	movs r4, #0x16
 	ldrsh r3, [r3, r4]
 	bl sub_80171BC
-	ldr r0, _0802F4A4 @ =gUnknown_03005040
+	ldr r0, _0802F4A4 @ =sa2__gUnknown_030054A8
 	mov r5, r8
 	strb r5, [r0, #1]
 _0802F484:
@@ -625,7 +625,7 @@ _0802F494: .4byte 0x00000251
 _0802F498: .4byte gUnknown_084ACDD2
 _0802F49C: .4byte gUnknown_084ACDD8
 _0802F4A0: .4byte 0xFFFFFEE8
-_0802F4A4: .4byte gUnknown_03005040
+_0802F4A4: .4byte sa2__gUnknown_030054A8
 
 	thumb_func_start Task_EggBallMain
 Task_EggBallMain: @ 0x0802F4A8
@@ -1865,7 +1865,7 @@ sub_802FE88: @ 0x0802FE88
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl CreateBossCapsule
-	ldr r1, _0802FF74 @ =gUnknown_03005040
+	ldr r1, _0802FF74 @ =sa2__gUnknown_030054A8
 	movs r6, #0
 	movs r0, #0x30
 	strb r0, [r1, #1]
@@ -1911,7 +1911,7 @@ _0802FF64: .4byte 0x0300000C
 _0802FF68: .4byte 0x0300003C
 _0802FF6C: .4byte 0x03000088
 _0802FF70: .4byte 0xFFF80000
-_0802FF74: .4byte gUnknown_03005040
+_0802FF74: .4byte sa2__gUnknown_030054A8
 _0802FF78: .4byte 0x0000026F
 _0802FF7C: .4byte 0x03000046
 _0802FF80: .4byte 0x03000048

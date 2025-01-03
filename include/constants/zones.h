@@ -1,8 +1,6 @@
 #ifndef GUARD_ZONES_H
 #define GUARD_ZONES_H
 
-#include "config.h"
-
 #define ZONE_1     0
 #define ZONE_2     1
 #define ZONE_3     2
@@ -17,12 +15,12 @@
 
 #define ACT_1 0
 #define ACT_2 1
-#if (GAME == SA1)
+#if (GAME == GAME_SA1)
 #define ACT_BOSS ACT_2
-#elif (GAME == SA2)
+#elif (GAME == GAME_SA2)
 #define ACT_BOSS   2
 #define ACT_UNUSED 3
-#elif (GAME == SA3)
+#elif (GAME == GAME_SA3)
 #define ACT_BOSS 7
 #endif
 

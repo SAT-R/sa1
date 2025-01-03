@@ -2,17 +2,17 @@
 #define GUARD_SAKIT_PLAYER_H
 
 #include "core.h"
+#include "constants/characters.h" // for NUM_CHARACTERS
 #include "constants/move_states.h"
 
 #define PLAYER_IS_ALIVE  (!(gPlayer.moveState & MOVESTATE_DEAD))
 #define IS_ALIVE(player) (!(player->moveState & MOVESTATE_DEAD))
 
-// TODO: Make NUM_CHARACTERS the last element of an enum!
-#if (GAME == GAME_SA1)
-#define NUM_CHARACTERS 4
-#else
-#define NUM_CHARACTERS 5
-#endif
+typedef struct {
+    /*0x00 */ SpriteTransform transform;
+    /*0x0C */ Sprite s;
+    /*0x3C */ Hitbox reserved; // TODO: Maybe 3 hitboxes (Player, Action, Shield)?
+} PlayerSpriteInfo; /* size: 0x44 */
 
 // Declared beforehand because it's used inside Player struct
 struct Player;
@@ -50,9 +50,20 @@ typedef struct Player {
 
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
-    /* 0x28 */ u8 filler28[0x38];
+    /* 0x28 */ u8 filler28[0x18];
+
+    /* 0x40 */ s8 charState;
+    /* 0x41 */ s8 prevCharState;
+    /* 0x42 */ u8 anim;
+    /* 0x43 */ u8 filler43[0x5];
+    /* 0x48 */ u16 unk48; // Special Stage-related. random?
+    /* 0x4A */ u8 filler4A[0xF];
+
+    /* 0x59 */ s8 character;
+    /* 0x5B */ u8 filler5B[0x5];
 
     /* 0x60 */ struct Task *spriteTask;
+    /* 0x64 */ PlayerSpriteInfo *sa2__unk90;
 } Player;
 
 extern Player gPlayer;

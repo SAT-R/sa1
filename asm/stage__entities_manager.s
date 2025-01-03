@@ -1951,7 +1951,7 @@ CreateEnemyDefeatScoreAndManageLives: @ 0x080095CC
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _0800966C @ =gUnknown_03005040
+	ldr r1, _0800966C @ =sa2__gUnknown_030054A8
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _08009628:
@@ -1984,7 +1984,7 @@ _0800965C: .4byte gPlayer
 _08009660: .4byte 0x0000C350
 _08009664: .4byte gGameMode
 _08009668: .4byte gNumLives
-_0800966C: .4byte gUnknown_03005040
+_0800966C: .4byte sa2__gUnknown_030054A8
 
 	thumb_func_start TaskDestructor_8009670
 TaskDestructor_8009670: @ 0x08009670
