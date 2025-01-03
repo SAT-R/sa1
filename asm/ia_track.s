@@ -532,7 +532,7 @@ _0809460E:
 _08094618:
 	movs r1, #0xe
 	str r3, [sp, #0x24]
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _08094654 @ =gPlayer
 	ldr r3, [sp, #0x24]
 	cmp r3, #0
@@ -888,7 +888,7 @@ _08094892:
 _0809489C:
 	movs r1, #0xe
 	str r3, [sp, #0x24]
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _080948FC @ =gPlayer
 	ldr r3, [sp, #0x24]
 	cmp r3, #0

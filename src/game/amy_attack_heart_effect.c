@@ -85,11 +85,10 @@ const s16 sHeartOffsets[AMY_HEART_PATTERN_COUNT][8][3] = {
     },
 };
 
-#if 01
 #if (GAME == GAME_SA1)
 extern void CreateAmyAttackHeartEffect(void)
 #elif (GAME == GAME_SA2)
-extern void CreateAmyAttackHeartEffect(u16)
+extern void CreateAmyAttackHeartEffect(u16 kind)
 #endif
 {
     u8 i;
@@ -133,8 +132,9 @@ extern void CreateAmyAttackHeartEffect(u16)
         }
     }
 }
-#endif
 
+// NOTE: Fakematch
+// (99.97%) https://decomp.me/scratch/Z3oDP
 void Task_AmyAttackHeartEffect(void)
 {
 #ifndef NON_MATCHING
@@ -177,7 +177,7 @@ void Task_AmyAttackHeartEffect(void)
 
             if (r2 != (u16)-1) {
                 u16 old106 = hearts->unk106;
-                hearts->unk106 += gPlayer.sa2__unk90->s.animSpeed;
+                hearts->unk106 += gPlayer.spriteInfoBody->s.animSpeed;
 
                 if (old106 >= r2) {
                     u32 v;
@@ -260,12 +260,17 @@ void sa2__sub_8015E28(u16 p0)
         s->graphics.dest = VramMalloc(4);
         s->oamFlags = SPRITE_OAM_ORDER(16);
         s->graphics.size = 0;
+#if (GAME == GAME_SA1)
+        // TODO: Unify name!
         s->graphics.anim = SA1_ANIM_HEART;
+#elif (GAME == GAME_SA2)
+        s->graphics.anim = SA2_ANIM_HEART;
+#endif
         s->variant = 0;
         s->animCursor = 0;
         s->qAnimDelay = 0;
         s->prevVariant = -1;
-        s->animSpeed = gPlayer.sa2__unk90->s.animSpeed;
+        s->animSpeed = gPlayer.spriteInfoBody->s.animSpeed;
         s->palId = 0;
         s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 

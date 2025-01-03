@@ -11,7 +11,7 @@
 #if (GAME == GAME_SA1)
 extern void CreateAmyAttackHeartEffect(void);
 #elif (GAME == GAME_SA2)
-extern void CreateAmyAttackHeartEffect(u16);
+extern void CreateAmyAttackHeartEffect(u16 kind);
 #endif
 
 #endif

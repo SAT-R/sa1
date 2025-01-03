@@ -567,7 +567,7 @@ _08050278:
 _080502BE:
 	subs r1, r0, #2
 	adds r0, r2, #0
-	bl sub_80404A0
+	bl CreateBrakingDustEffect
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
@@ -717,7 +717,7 @@ _080503A6:
 _080503EA:
 	subs r1, r0, #2
 	adds r0, r2, #0
-	bl sub_80404A0
+	bl CreateBrakingDustEffect
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12

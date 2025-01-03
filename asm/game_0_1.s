@@ -9304,7 +9304,7 @@ _080131AE:
 	str r5, [sp, #0xc]
 	cmp r0, #3
 	bhi _080131F8
-	ldr r1, _080131F0 @ =gUnknown_084ADEF0
+	ldr r1, _080131F0 @ =gSpawnPositions
 	ldr r2, _080131F4 @ =gCurrentLevel
 	movs r0, #0
 	ldrsb r0, [r2, r0]
@@ -9324,7 +9324,7 @@ _080131AE:
 	.align 2, 0
 _080131E8: .4byte 0x03000060
 _080131EC: .4byte gGameMode
-_080131F0: .4byte gUnknown_084ADEF0
+_080131F0: .4byte gSpawnPositions
 _080131F4: .4byte gCurrentLevel
 _080131F8:
 	cmp r0, #4
@@ -9333,7 +9333,7 @@ _080131F8:
 	ldr r1, [r0]
 	lsls r1, r1, #0x1a
 	lsrs r1, r1, #0x1e
-	ldr r2, _08013230 @ =gUnknown_084ADF38
+	ldr r2, _08013230 @ =gSpawnPositions_Modes_4_and_5
 	lsls r1, r1, #2
 	ldr r3, _08013234 @ =gCurrentLevel
 	movs r0, #0
@@ -9355,7 +9355,7 @@ _080131F8:
 	b _08013366
 	.align 2, 0
 _0801322C: .4byte 0x04000128
-_08013230: .4byte gUnknown_084ADF38
+_08013230: .4byte gSpawnPositions_Modes_4_and_5
 _08013234: .4byte gCurrentLevel
 _08013238:
 	cmp r0, #5
@@ -9370,7 +9370,7 @@ _08013238:
 	mov sb, r0
 	cmp r1, #0x10
 	bne _08013294
-	ldr r2, _08013290 @ =gUnknown_084ADF38
+	ldr r2, _08013290 @ =gSpawnPositions_Modes_4_and_5
 	ldr r0, [r3]
 	lsls r0, r0, #0x1a
 	lsrs r0, r0, #0x1e
@@ -9400,7 +9400,7 @@ _08013238:
 	.align 2, 0
 _08013288: .4byte 0x04000128
 _0801328C: .4byte gCurrentLevel
-_08013290: .4byte gUnknown_084ADF38
+_08013290: .4byte gSpawnPositions_Modes_4_and_5
 _08013294:
 	ldr r0, _0801330C @ =gMultiplayerConnections
 	ldrb r1, [r0]
@@ -9411,7 +9411,7 @@ _08013294:
 	asrs r2, r0
 	movs r4, #0
 	movs r3, #0
-	ldr r0, _08013310 @ =gUnknown_084ADF38
+	ldr r0, _08013310 @ =gSpawnPositions_Modes_4_and_5
 	mov sl, r0
 	mov r5, ip
 	adds r5, #0x38
@@ -9467,7 +9467,7 @@ _080132D4:
 	b _0801336C
 	.align 2, 0
 _0801330C: .4byte gMultiplayerConnections
-_08013310: .4byte gUnknown_084ADF38
+_08013310: .4byte gSpawnPositions_Modes_4_and_5
 _08013314:
 	ldr r0, _0801332C @ =0x04000128
 	ldr r0, [r0]
@@ -9846,7 +9846,7 @@ _08013598:
 	str r0, [r4, #0x10]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -11669,7 +11669,7 @@ _080143D6:
 	str r0, [r7, #0x5c]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -12418,7 +12418,7 @@ _080149C2:
 	str r0, [r4, #0x10]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -14095,7 +14095,7 @@ sub_8015674: @ 0x08015674
 	strb r0, [r1]
 	adds r0, r6, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r6, #0xe]
 	movs r0, #0xe
@@ -15752,7 +15752,7 @@ _08016412:
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -18989,7 +18989,7 @@ _08017DC8:
 	b _08017F02
 _08017DD6:
 	adds r0, r5, #0
-	bl Player_8042428
+	bl InitializePlayer
 	adds r0, r6, #0
 	adds r0, #0x50
 	movs r1, #0
@@ -19358,7 +19358,7 @@ _08018040:
 	strb r0, [r4]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe

@@ -533,7 +533,7 @@ _0808256E:
 _08082576:
 	movs r1, #0xe
 	str r3, [sp, #0x20]
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _080825B0 @ =gPlayer
 	ldr r3, [sp, #0x20]
 	cmp r7, #0
@@ -840,7 +840,7 @@ _08082788:
 _08082790:
 	movs r1, #0xe
 	str r3, [sp, #0x20]
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _080827EC @ =gPlayer
 	ldr r3, [sp, #0x20]
 	cmp r7, #0
@@ -1417,7 +1417,7 @@ _08082BCA:
 	ldr r0, _08082C04 @ =gPartner
 _08082BD2:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _08082C00 @ =gPlayer
 	cmp r4, #0
 	beq _08082BE0
@@ -1632,7 +1632,7 @@ _08082D4A:
 	ldr r0, _08082DA8 @ =gPartner
 _08082D52:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _08082DA4 @ =gPlayer
 	cmp r4, #0
 	beq _08082D60
@@ -2378,7 +2378,7 @@ _080832FA:
 	ldr r0, _08083334 @ =gPartner
 _08083304:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _08083330 @ =gPlayer
 	cmp r6, #0
 	beq _08083312
@@ -2689,7 +2689,7 @@ _08083532:
 	ldr r0, _0808357C @ =gPartner
 _0808353A:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _08083578 @ =gPlayer
 	cmp r6, #0
 	beq _08083548
@@ -3701,7 +3701,7 @@ _08083CAE:
 	ldr r0, _08083D0C @ =gPartner
 _08083CB6:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _08083D08 @ =gPlayer
 	cmp r6, #0
 	beq _08083CC4

@@ -1720,7 +1720,7 @@ _08022730:
 	strh r0, [r4, #0x1c]
 _08022734:
 	adds r0, r4, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	ldr r0, [r4, #0x10]
 	movs r1, #9
 	rsbs r1, r1, #0
@@ -1801,7 +1801,7 @@ _080227C0:
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -1919,7 +1919,7 @@ _080228B8:
 	cmp r0, #0
 	beq _080228C6
 	adds r0, r5, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 _080228C6:
 	movs r0, #0
 _080228C8:
@@ -2049,7 +2049,7 @@ _080229AA:
 	b _08022A62
 _080229B6:
 	adds r0, r5, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	movs r1, #0x20
 	ands r4, r1
 	cmp r4, #0
@@ -2154,7 +2154,7 @@ _08022A62:
 	b _08022AA6
 _08022A7C:
 	adds r0, r5, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	movs r1, #0x20
 	ands r4, r1
 	cmp r4, #0
@@ -2167,7 +2167,7 @@ _08022A7C:
 _08022A94:
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe
@@ -2591,7 +2591,7 @@ _08022DB4:
 	strb r0, [r1]
 	adds r0, r6, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r6, #0xe]
 	movs r0, #0xe
@@ -3033,7 +3033,7 @@ _0802310C:
 	strb r0, [r1]
 	adds r0, r6, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r6, #0xe]
 	movs r0, #0xe

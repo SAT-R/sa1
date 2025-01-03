@@ -1119,7 +1119,7 @@ _08077DF4:
 	str r0, [r4, #0x10]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe

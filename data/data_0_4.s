@@ -14,12 +14,12 @@ gCollisionTable: @ 0x84ADEA8
     .4byte CollHeader_zone_chao_hunt_act_vs_zone_c_fg
     .4byte CollHeader_zone_chao_hunt_act_vs_zone_d_fg
 
-    .global gUnknown_084ADEF0
-gUnknown_084ADEF0:
+    .global gSpawnPositions
+gSpawnPositions:
     .incbin "baserom.gba", 0x004ADEF0, 0x48
 
-    .global gUnknown_084ADF38
-gUnknown_084ADF38:
+    .global gSpawnPositions_Modes_4_and_5
+gSpawnPositions_Modes_4_and_5:
     .incbin "baserom.gba", 0x004ADF38, 0x40
 
     .global gUnknown_084ADF78

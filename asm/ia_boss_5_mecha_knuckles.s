@@ -1971,7 +1971,7 @@ _0804F3A8:
 	ldr r2, [sp, #0xc]
 	adds r1, r2, r1
 	asrs r1, r1, #8
-	bl sub_80404A0
+	bl CreateBrakingDustEffect
 	adds r1, r5, #0
 	adds r1, #0x20
 	ldr r0, _0804F444 @ =0x0000012F

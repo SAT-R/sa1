@@ -386,7 +386,7 @@ _080952BE:
 	beq _080952C6
 	ldr r0, _080952E0 @ =gPartner
 _080952C6:
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	cmp r5, #0
 	beq _080952E4
 	ldr r0, [r7, #0x10]
@@ -578,7 +578,7 @@ _08095416:
 	ldr r0, _08095480 @ =gPartner
 _0809542E:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _0809547C @ =gPlayer
 	cmp r5, #0
 	beq _0809543C

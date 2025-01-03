@@ -40,13 +40,18 @@ typedef void (*PlayerCallback)(struct Player *);
 typedef struct Player {
     /* 0x00 */ s32 qWorldX;
     /* 0x04 */ s32 qWorldY;
-    /* 0x08 */ u8 filler8[0x6];
+    /* 0x08 */ s16 qSpeedAirX;
+    /* 0x0A */ s16 qSpeedAirY;
+    /* 0x0C */ s16 qSpeedGround;
     /* 0x0E */ s8 spriteOffsetX;
     /* 0x0F */ s8 spriteOffsetY;
 
     // set/compare to values in "include/constants/move_states.h"
     /* 0x10 */ u32 moveState;
-    /* 0x14 */ u8 filler14[0x12];
+    /* 0x14 */ u8 filler14[0x4];
+    /* 0x18 */ u8 sa2__unk28;
+    /* 0x19 */ u8 sa2__unk29;
+    /* 0x1A */ u8 filler1A[0xC];
 
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
@@ -63,7 +68,8 @@ typedef struct Player {
     /* 0x5B */ u8 filler5B[0x5];
 
     /* 0x60 */ struct Task *spriteTask;
-    /* 0x64 */ PlayerSpriteInfo *sa2__unk90;
+    /* 0x64 */ PlayerSpriteInfo *spriteInfoBody; // for character sprites
+    /* 0x68 */ PlayerSpriteInfo *spriteInfoLimbs; // SpriteInfo for Tails' tails / Cream's ears, when rolling
 } Player;
 
 extern Player gPlayer;

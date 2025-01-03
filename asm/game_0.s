@@ -550,7 +550,7 @@ _08009AC8:
 _08009AD6:
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -707,7 +707,7 @@ _08009BFE:
 _08009C0C:
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -783,7 +783,7 @@ _08009C90:
 	b _0800A378
 _08009CA4:
 	adds r0, r4, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	ldrh r0, [r4, #8]
 	strh r0, [r4, #0xc]
 	movs r0, #0
@@ -893,7 +893,7 @@ _08009D6E:
 	ldr r4, _08009D90 @ =gPlayer
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -983,7 +983,7 @@ _08009E1E:
 	ldr r4, _08009E40 @ =gPlayer
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -1169,7 +1169,7 @@ _08009F5A:
 	strh r0, [r4, #8]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -1270,7 +1270,7 @@ _0800A034:
 _0800A042:
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -1302,7 +1302,7 @@ _0800A068:
 	str r3, [sp, #0x30]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -1371,7 +1371,7 @@ _0800A0EC:
 	strh r0, [r4, #8]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -1458,7 +1458,7 @@ _0800A184:
 	strh r0, [r5, #8]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe
@@ -1562,7 +1562,7 @@ _0800A264:
 _0800A272:
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -1599,7 +1599,7 @@ _0800A29C:
 	strb r4, [r0]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	strb r4, [r5, #0xf]
@@ -1662,7 +1662,7 @@ _0800A316:
 	strh r0, [r5, #8]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe

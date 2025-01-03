@@ -1350,7 +1350,7 @@ _0801FBF0:
 	strb r0, [r4]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe
@@ -1659,7 +1659,7 @@ Task_ShowResults: @ 0x0801FE84
 	cmp r1, r0
 	ble _0801FEBC
 	adds r0, r4, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #0x1c

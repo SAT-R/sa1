@@ -231,7 +231,7 @@ _0803D030:
 	ldrsb r1, [r4, r1]
 _0803D046:
 	ldr r2, _0803D058 @ =gPlayer
-	bl sub_804202C
+	bl sa2__sub_80213C0
 	b _0803D086
 	.align 2, 0
 _0803D050: .4byte gCurrentLevel
@@ -245,7 +245,7 @@ _0803D05C:
 	movs r1, #0
 	ldrsb r1, [r4, r1]
 	ldr r2, _0803D0A0 @ =gPlayer
-	bl sub_804202C
+	bl sa2__sub_80213C0
 	ldr r0, _0803D0A4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -255,8 +255,8 @@ _0803D05C:
 	movs r1, #0
 	ldrsb r1, [r4, r1]
 	ldr r2, _0803D0A8 @ =gPartner
-	movs r0, #1
-	bl sub_804202C
+	movs r0, #1 @ CHARACTER_TAILS
+	bl sa2__sub_80213C0
 _0803D086:
 	ldr r0, _0803D0AC @ =gGameMode
 	ldrb r0, [r0]
@@ -307,7 +307,7 @@ _0803D0D8:
 	rsbs r0, r0, #0
 	movs r1, #0
 	movs r2, #0
-	bl sub_804C5D8
+	bl CreateStageWaterTask
 _0803D0F8:
 	ldrb r0, [r5]
 	cmp r0, #6
@@ -1848,7 +1848,7 @@ sub_803DE00: @ 0x0803DE00
 	ldr r0, _0803DE3C @ =0x0000060A
 	ldr r1, _0803DE40 @ =0x7F207F20
 	movs r2, #0
-	bl sub_804C5D8
+	bl CreateStageWaterTask
 	movs r0, #0x12
 	bl m4aSongNumStart
 	pop {r4}
@@ -1879,7 +1879,7 @@ sub_803DE44: @ 0x0803DE44
 	lsls r0, r0, #3
 	ldr r1, _0803DE84 @ =0x7F207F20
 	movs r2, #0
-	bl sub_804C5D8
+	bl CreateStageWaterTask
 	movs r0, #0x13
 	bl m4aSongNumStart
 	pop {r4}

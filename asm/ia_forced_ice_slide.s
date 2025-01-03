@@ -585,7 +585,7 @@ _0807877C:
 	ldr r0, _080787B8 @ =gPartner
 _08078784:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _080787B4 @ =gPlayer
 	cmp r6, #0
 	beq _08078792

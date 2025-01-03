@@ -1574,11 +1574,11 @@ _0803EC8A:
 	asrs r1, r1, #0x10
 	ldr r2, _0803ED74 @ =sub_803EA24
 	str r2, [sp]
-	ldr r2, _0803ED78 @ =sub_8040488
+	ldr r2, _0803ED78 @ =sa2__TaskDestructor_801F550
 	str r2, [sp, #4]
 	movs r2, #0
 	movs r3, #0
-	bl sub_80403DC
+	bl sa2__sub_801F15C
 	ldrh r5, [r0, #6]
 	ldr r0, _0803ED7C @ =0x03000018
 	adds r6, r5, r0
@@ -1624,7 +1624,7 @@ _0803ED68: .4byte 0x3C6EF35F
 _0803ED6C: .4byte gUnknown_084ADD38
 _0803ED70: .4byte 0xFFF80000
 _0803ED74: .4byte sub_803EA24
-_0803ED78: .4byte sub_8040488
+_0803ED78: .4byte sa2__TaskDestructor_801F550
 _0803ED7C: .4byte 0x03000018
 _0803ED80: .4byte 0x03000038
 
@@ -3124,11 +3124,11 @@ sub_803F9A8: @ 0x0803F9A8
 	asrs r1, r1, #0x10
 	ldr r2, _0803FA0C @ =sub_803EA24
 	str r2, [sp]
-	ldr r2, _0803FA10 @ =sub_8040488
+	ldr r2, _0803FA10 @ =sa2__TaskDestructor_801F550
 	str r2, [sp, #4]
 	movs r2, #0
 	movs r3, #0
-	bl sub_80403DC
+	bl sa2__sub_801F15C
 	mov r8, r0
 	ldrh r5, [r0, #6]
 	ldr r0, _0803FA14 @ =0x03000018
@@ -3158,7 +3158,7 @@ sub_803F9A8: @ 0x0803F9A8
 	.align 2, 0
 _0803FA08: .4byte gUnknown_084ADD38
 _0803FA0C: .4byte sub_803EA24
-_0803FA10: .4byte sub_8040488
+_0803FA10: .4byte sa2__TaskDestructor_801F550
 _0803FA14: .4byte 0x03000018
 _0803FA18: .4byte 0x03000038
 

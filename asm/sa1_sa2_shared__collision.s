@@ -1874,7 +1874,7 @@ _0800B43A:
 	beq _0800B464
 _0800B45A:
 	adds r0, r5, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	ldrh r0, [r5, #8]
 	strh r0, [r5, #0xc]
 _0800B464:
@@ -4272,7 +4272,7 @@ _0800C5B0:
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -4302,7 +4302,7 @@ _0800C5B0:
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	adds r1, r4, #0
-	bl sub_8043AD8
+	bl sa2__sub_8022F58
 	cmp r0, #3
 	bgt _0800C638
 	ldrb r0, [r5]
@@ -4538,7 +4538,7 @@ _0800C7AC:
 	strb r0, [r1]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe
@@ -4659,7 +4659,7 @@ _0800C89A:
 	strb r0, [r1]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe
@@ -4972,7 +4972,7 @@ _0800CB00:
 	beq _0800CB2E
 _0800CB24:
 	adds r0, r4, #0
-	bl sub_8042848
+	bl sa2__sub_8021BE0
 	ldrh r0, [r4, #8]
 	strh r0, [r4, #0xc]
 _0800CB2E:
@@ -5260,7 +5260,7 @@ _0800CCEE:
 	strh r3, [r4, #8]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -5364,7 +5364,7 @@ _0800CDD8:
 	strh r3, [r4, #8]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe

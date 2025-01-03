@@ -349,7 +349,7 @@ _0804DD06:
 	str r0, [r5, #0x10]
 	adds r0, r5, #0
 	movs r1, #9
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #9

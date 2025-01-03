@@ -470,7 +470,7 @@ _0808CB44:
 	ldr r0, _0808CB80 @ =gPartner
 _0808CB4C:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _0808CB7C @ =gPlayer
 	cmp r5, #0
 	beq _0808CB5A
@@ -2416,7 +2416,7 @@ _0808D95E:
 	ldr r0, _0808D9D8 @ =gPartner
 _0808D966:
 	movs r1, #0xe
-	bl sub_804516C
+	bl sa2__sub_8023B5C
 	ldr r1, _0808D9D4 @ =gPlayer
 	cmp r6, #0
 	beq _0808D974
