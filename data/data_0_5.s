@@ -24,21 +24,22 @@ gUnknown_0865F174:
 gUnknown_0865F178:
     .incbin "baserom.gba", 0x0065F178, 0x4
     
-    .global gTilesetAscii
-gTilesetAscii:
-    .incbin "graphics/tilesets/ascii/ascii.4bpp"
+    .global gTilesetStageUi
+gTilesetStageUi:
+    .incbin "graphics/tilesets/stage_ui/AsciiChars.4bpp"
     
-    .global gPaletteAscii
-gPaletteAscii:
-    .incbin "graphics/tilesets/ascii/ascii.gbapal"
+    .global gPaletteStageUi
+gPaletteStageUi:
+    .incbin "graphics/tilesets/stage_ui/AsciiChars.gbapal"
     
-    .global gUnknown_0866119C
-gUnknown_0866119C:
-    .incbin "baserom.gba", 0x0066119C, 0x80
+    .global gTilesetIconLivesSonic
+gTilesetIconLivesSonic:
+    .incbin "graphics/tilesets/icon_lives/sonic.4bpp"
     
-    .global gUnknown_0866121C
-gUnknown_0866121C:
-    .incbin "baserom.gba", 0x0066121C, 0x22DC0
+    .global gPaletteIconLivesSonic
+gPaletteIconLivesSonic:
+    .incbin "graphics/tilesets/icon_lives/sonic.gbapal"
+    .incbin "baserom.gba", 0x0066123C, 0x22DA0
 
     .global gUnknown_08683FDC
 gUnknown_08683FDC:
@@ -72,33 +73,21 @@ gUnknown_08685D5A:
 gUnknown_0868653C:
     .incbin "baserom.gba", 0x0068653C, 0x1600
 
-    .global gUnknown_08687B3C
-gUnknown_08687B3C:
-    .4byte gTilesetAscii
+    .global gTilesets
+gTilesets: @ 0x08687B3C
+    @ 0 - StageUI
+    .int gTilesetStageUi
+    .int gPaletteStageUi
+    .4byte 2
+    .4byte 0
+    .4byte 2
+    .4byte 1
+    .4byte 2
 
-    .global gUnknown_08687B40
-gUnknown_08687B40:
-    .4byte gPaletteAscii
-
-    .global gUnknown_08687B44
-gUnknown_08687B44:
-    .incbin "baserom.gba", 0x00687B44, 0x4
-
-    .global gUnknown_08687B48
-gUnknown_08687B48:
-    .incbin "baserom.gba", 0x00687B48, 0x4
-
-    .global gUnknown_08687B4C
-gUnknown_08687B4C:
-    .incbin "baserom.gba", 0x00687B4C, 0x4
-
-    .global gUnknown_08687B50
-gUnknown_08687B50:
-    .incbin "baserom.gba", 0x00687B50, 0x4
-
-    .global gUnknown_08687B54
-gUnknown_08687B54:
-    .incbin "baserom.gba", 0x00687B54, 0x198
+    @ 1 - IconLivesSonic
+    .int gTilesetIconLivesSonic
+    .int gPaletteIconLivesSonic
+    .incbin "baserom.gba", 0x00687B60, 0x18c
 
     .global gUnknown_08687CEC
 gUnknown_08687CEC:

@@ -431,7 +431,7 @@ sub_801D0CC: @ 0x0801D0CC
 	adds r1, #0x2f
 	movs r0, #1
 	strb r0, [r1]
-	ldr r6, _0801D1F0 @ =gUnknown_08687B3C
+	ldr r6, _0801D1F0 @ =gTilesets
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -551,7 +551,7 @@ _0801D1B8:
 	.align 2, 0
 _0801D1E8: .4byte sub_801D200
 _0801D1EC: .4byte TaskDestructor_801D3C8
-_0801D1F0: .4byte gUnknown_08687B3C
+_0801D1F0: .4byte gTilesets
 _0801D1F4: .4byte 0x00000694
 _0801D1F8: .4byte 0x03000060
 _0801D1FC: .4byte 0x03000062

@@ -6293,7 +6293,7 @@ _08011966:
 	movs r5, #1
 	mov r1, sb
 	strb r5, [r1]
-	ldr r3, _08011B60 @ =gUnknown_08687B3C
+	ldr r3, _08011B60 @ =gTilesets
 	ldrb r1, [r6]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -6305,7 +6305,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _08011B64 @ =gUnknown_08687B40
+	ldr r2, _08011B64 @ =gTilesets + 0x4
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -6328,7 +6328,7 @@ _08011966:
 	subs r0, r0, r1
 	lsls r0, r0, #2
 	ldr r3, [sp, #0x40]
-	ldr r2, _08011B68 @ =gUnknown_08687B44
+	ldr r2, _08011B68 @ =gTilesets + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -6337,7 +6337,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08011B6C @ =gUnknown_08687B48
+	ldr r1, _08011B6C @ =gTilesets + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -6345,7 +6345,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08011B70 @ =gUnknown_08687B4C
+	ldr r1, _08011B70 @ =gTilesets + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -6353,7 +6353,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08011B74 @ =gUnknown_08687B50
+	ldr r1, _08011B74 @ =gTilesets + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -6391,7 +6391,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08011B64 @ =gUnknown_08687B40
+	ldr r1, _08011B64 @ =gTilesets + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -6408,7 +6408,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _08011B68 @ =gUnknown_08687B44
+	ldr r2, _08011B68 @ =gTilesets + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -6417,7 +6417,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08011B6C @ =gUnknown_08687B48
+	ldr r1, _08011B6C @ =gTilesets + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -6425,7 +6425,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08011B70 @ =gUnknown_08687B4C
+	ldr r1, _08011B70 @ =gTilesets + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -6433,7 +6433,7 @@ _08011966:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08011B74 @ =gUnknown_08687B50
+	ldr r1, _08011B74 @ =gTilesets + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -6522,12 +6522,12 @@ _08011B1E:
 	bx r0
 	.align 2, 0
 _08011B5C: .4byte gUnknown_086CD8F4
-_08011B60: .4byte gUnknown_08687B3C
-_08011B64: .4byte gUnknown_08687B40
-_08011B68: .4byte gUnknown_08687B44
-_08011B6C: .4byte gUnknown_08687B48
-_08011B70: .4byte gUnknown_08687B4C
-_08011B74: .4byte gUnknown_08687B50
+_08011B60: .4byte gTilesets
+_08011B64: .4byte gTilesets + 0x4
+_08011B68: .4byte gTilesets + 0x8
+_08011B6C: .4byte gTilesets + 0xC
+_08011B70: .4byte gTilesets + 0x10
+_08011B74: .4byte gTilesets + 0x14
 _08011B78: .4byte gUnknown_03005170
 
 	thumb_func_start sub_8011B7C
