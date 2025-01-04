@@ -76,7 +76,7 @@ SECTIONS {
         build/sa1/asm/game__stage__dust_effect_braking.o(.text);
         build/sa1/asm/game_1_3_2.o(.text);
         build/sa1/asm/game__stage__rings_scatter.o(.text);
-        build/sa1/asm/game_1_4.o(.text);
+        build/sa1/asm/game__stage__player.o(.text);
         build/sa1/asm/game__stage__underwater_effects.o(.text);
         build/sa1/asm/game__water_effects.o(.text);
         build/sa1/src/input_recorder.o(.text);

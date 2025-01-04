@@ -17166,6 +17166,8 @@ _0804A1A6:
 	bx r0
 	.align 2, 0
 
+@ Called when Super Sonic is initialized
+@ TODO: Find split point for Super Sonic module!
 	thumb_func_start sub_804A1B8
 sub_804A1B8: @ 0x0804A1B8
 	push {r4, lr}
@@ -17190,7 +17192,7 @@ _0804A1D2:
 	subs r1, #1
 	cmp r1, #0
 	bge _0804A1D2
-	movs r0, #0x32
+	movs r0, #0x32  @ EXTRA_BOSS__INITIAL_RING_COUNT (50)
 	strh r0, [r4]
 	ldr r2, [r3, #0x64]
 	ldr r0, [r2, #0x1c]
