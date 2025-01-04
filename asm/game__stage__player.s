@@ -4411,7 +4411,7 @@ _080440D8:
 	strb r4, [r2]
 	movs r0, #0x6d
 	bl m4aSongNumStart
-	bl sub_8040648
+	bl CreateSpindashDustEffect
 	ldr r0, [r6, #0x10]
 	orrs r0, r5
 	str r0, [r6, #0x10]
