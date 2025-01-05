@@ -184,7 +184,7 @@ def write_header(ui_graphics_h):
     ui_graphics_h.write(f"#ifndef {header_guard}\n")
     ui_graphics_h.write(f"#define {header_guard}\n")
     ui_graphics_h.write("#include \"global.h\"\n")
-    ui_graphics_h.write(f"\n/* {autogen_disclaimer} */\n\n")
+    ui_graphics_h.write(f"\n/* {autogen_disclaimer} */\n")
     ui_graphics_h.write(graphic_cstruct)
 
     for named in graphic_names:

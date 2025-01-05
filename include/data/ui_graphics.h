@@ -7,7 +7,6 @@
    please change it in there and run the script again,
    so that they are adjusted in all auto-generated files! */
 
-
 typedef struct UiGraphics {
     const u8 *tiles;
     const u16 *palette;
