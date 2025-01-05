@@ -78,7 +78,7 @@ SECTIONS {
         build/sa1/src/game/stage/grind_effect_1.o(.text);
         build/sa1/asm/game__stage__rings_scatter.o(.text);
         build/sa1/asm/game__stage__player.o(.text);
-        build/sa1/asm/game__stage__underwater_effects.o(.text);
+        build/sa1/src/game/stage/underwater_effects.o(.text);
         build/sa1/asm/game__water_effects.o(.text);
         build/sa1/src/input_recorder.o(.text);
         build/sa1/asm/game_1_x.o(.text);

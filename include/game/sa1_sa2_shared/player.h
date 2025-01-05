@@ -59,7 +59,9 @@ typedef struct Player {
 
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
-    /* 0x28 */ u8 filler28[0x18];
+    /* 0x28 */ u8 filler28[0x14];
+    /* 0x3C */ s8 sa2__unk60;
+    /* 0x3D */ u8 filler3D[0x3];
 
     /* 0x40 */ s8 charState;
     /* 0x41 */ s8 prevCharState;

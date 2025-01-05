@@ -142,7 +142,7 @@ extern bool8 gUnknown_030055BC;
 extern struct Task *gMultiplayerPlayerTasks[4];
 extern s8 gMultiplayerCharacters[4];
 extern s8 sa2__gUnknown_030054B4[4];
-extern u8 gUnknown_030054B8;
+extern u8 sa2__gUnknown_030054B8;
 
 extern u8 gMultiplayerMissingHeartbeats[4];
 extern u8 gActiveCollectRingEffectCount;

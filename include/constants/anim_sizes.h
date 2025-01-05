@@ -9,8 +9,13 @@
     VramMalloc(((_animName##_VAR##_variant##_WIDTH / 8) * (_animName##_VAR##_variant##_HEIGHT / 8)))
 
 #if (GAME == GAME_SA1)
+// 749
 #define SA1_ANIM_GRIND_EFFECT_WIDTH  32
 #define SA1_ANIM_GRIND_EFFECT_HEIGHT 32
+
+// 781
+#define SA1_ANIM_DROWN_COUNTDOWN_WIDTH  16
+#define SA1_ANIM_DROWN_COUNTDOWN_HEIGHT 16
 #elif (GAME == GAME_SA2)
 #elif (GAME == GAME_SA3)
 // 858
