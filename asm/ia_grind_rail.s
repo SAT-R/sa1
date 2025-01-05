@@ -147,7 +147,7 @@ _08023C20:
 	movs r0, #0x72
 	bl m4aSongNumStart
 _08023C26:
-	bl sub_80408C0
+	bl CreateGrindEffect
 _08023C2A:
 	ldr r2, _08023C80 @ =gCamera
 	ldrh r0, [r2]

@@ -59,8 +59,9 @@ typedef struct Player {
 
     /* 0x40 */ s8 charState;
     /* 0x41 */ s8 prevCharState;
-    /* 0x42 */ u8 anim;
-    /* 0x43 */ u8 filler43[0x5];
+    /* 0x42 */ u16 anim;
+    /* 0x44 */ u16 variant;
+    /* 0x46 */ u8 filler46[0x2];
     /* 0x48 */ u16 unk48; // Special Stage-related. random?
     /* 0x4A */ u8 filler4A[0xF];
 
@@ -74,6 +75,7 @@ typedef struct Player {
 
 extern Player gPlayer;
 #if (GAME == GAME_SA1)
+// "Cheat Code" Tails
 extern Player gPartner;
 #endif
 

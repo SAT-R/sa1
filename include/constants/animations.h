@@ -8,6 +8,7 @@
 // "x_PROJ" means "projectile belonging to x"
 
 #define SA1_ANIM_SONIC_IDLE    0
+#define SA1_CHAR_ANIM_GRINDING 44
 #define SA1_ANIM_TAILS_IDLE    99
 #define SA1_ANIM_KNUCKLES_IDLE 199
 #define SA1_ANIM_AMY_IDLE      298
@@ -156,6 +157,7 @@
 #define SA2_ANIM_RING_COLLECT_EFFECT 708
 
 #define SA1_ANIM_SMALL_DUST_PARTICLE 748
+#define SA1_ANIM_GRIND_EFFECT        749
 
 #define SA1_ANIM_HEART         759
 #define SA1_ANIM_TRIANGLE_BLUE 767
