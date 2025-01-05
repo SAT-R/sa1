@@ -2512,7 +2512,7 @@ sub_804F7F4: @ 0x0804F7F4
 	str r1, [sp]
 	movs r1, #0x10
 	adds r3, r4, #0
-	bl sub_804CC14
+	bl CreateScreenShake
 	movs r0, #0x80
 	lsls r0, r0, #3
 	movs r1, #0x40
@@ -2520,7 +2520,7 @@ sub_804F7F4: @ 0x0804F7F4
 	movs r1, #0x10
 	movs r2, #0x80
 	adds r3, r4, #0
-	bl sub_804CC14
+	bl CreateScreenShake
 	add sp, #4
 	pop {r4}
 	pop {r0}

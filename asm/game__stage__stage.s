@@ -782,7 +782,7 @@ _0803D4C6:
 	str r1, [sp]
 	movs r1, #8
 	movs r2, #0x10
-	bl sub_804CC14
+	bl CreateScreenShake
 _0803D4E8:
 	ldr r0, _0803D4FC @ =gPlayer
 	ldr r1, [r0, #0x10]

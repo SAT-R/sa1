@@ -1733,7 +1733,7 @@ _0802E554:
 	movs r1, #0x80
 	str r1, [sp]
 	movs r1, #0x40
-	bl sub_804CC14
+	bl CreateScreenShake
 	ldr r2, _0802E688 @ =gPlayer
 	ldr r1, [r2, #0x10]
 	adds r0, r1, #0

@@ -1086,7 +1086,7 @@ _0803112C:
 	str r1, [sp]
 	movs r1, #0
 	movs r3, #0x78
-	bl sub_804CC14
+	bl CreateScreenShake
 	b _080311BA
 	.align 2, 0
 _0803115C: .4byte gPlayer

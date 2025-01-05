@@ -1870,7 +1870,7 @@ _08028E9A:
 	movs r1, #8
 	movs r2, #0x10
 	movs r3, #0xa
-	bl sub_804CC14
+	bl CreateScreenShake
 	ldr r4, [sp, #4]
 	str r0, [r4]
 	movs r0, #0xad
@@ -2118,7 +2118,7 @@ sub_8029070: @ 0x08029070
 	str r1, [sp]
 	movs r1, #8
 	movs r2, #0x10
-	bl sub_804CC14
+	bl CreateScreenShake
 	str r0, [r6]
 	movs r0, #0
 	strh r0, [r6, #0xc]
@@ -3075,7 +3075,7 @@ sub_8029860: @ 0x08029860
 	movs r1, #8
 	movs r2, #0x10
 	movs r3, #0xa
-	bl sub_804CC14
+	bl CreateScreenShake
 	ldr r1, _080298B4 @ =gCamera
 	ldr r0, _080298B8 @ =0x00000422
 	strh r0, [r1, #0x18]
@@ -3121,7 +3121,7 @@ sub_80298C0: @ 0x080298C0
 	str r1, [sp]
 	movs r1, #8
 	movs r2, #0x10
-	bl sub_804CC14
+	bl CreateScreenShake
 	ldr r1, [r4]
 	ldr r0, _08029904 @ =sub_80297E8
 	str r0, [r1, #8]

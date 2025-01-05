@@ -31,6 +31,10 @@ extern Water gWater;
 
 void InitWaterPalettes(void);
 void CreateRunOnWaterEffect(void);
+#if (GAME == GAME_SA1)
+struct Task *CreateWaterfallSurfaceHitEffect(s16 x, s16 y);
+#elif (GAME == GAME_SA2)
 struct Task *CreateWaterfallSurfaceHitEffect(s32 x, s32 y);
+#endif
 
 #endif // GUARD_WATER_EFFECT_H

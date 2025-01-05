@@ -136,6 +136,7 @@ OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(OBJS))
 
 # Fix "prologue issue" bugfix in select files
 # TODO: Maybe we can enable this globally for SA1?
+$(C_BUILDDIR)/game/stage/screen_shake.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/background.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/sprite.o: CC1FLAGS += -fprologue-bugfix
 $(C_BUILDDIR)/malloc_ewram.o: CC1FLAGS += -fprologue-bugfix

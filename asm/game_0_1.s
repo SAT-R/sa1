@@ -15611,7 +15611,7 @@ _080162EE:
 	movs r1, #0x80
 	str r1, [sp]
 	movs r1, #0x40
-	bl sub_804CC14
+	bl CreateScreenShake
 	movs r0, #0x88
 	bl m4aSongNumStart
 	movs r3, #0

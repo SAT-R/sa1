@@ -413,7 +413,7 @@ _080374C4:
 	str r1, [sp]
 	movs r1, #4
 	movs r3, #0x7a
-	bl sub_804CC14
+	bl CreateScreenShake
 	ldr r1, _08037538 @ =gMusicManagerState
 	movs r0, #0x16
 	strb r0, [r1, #1]

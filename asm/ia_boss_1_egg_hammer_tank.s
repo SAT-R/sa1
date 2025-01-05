@@ -909,7 +909,7 @@ Task_802611C: @ 0x0802611C
 	movs r1, #0x80
 	str r1, [sp]
 	movs r1, #0x40
-	bl sub_804CC14
+	bl CreateScreenShake
 _08026182:
 	ldr r0, [r6, #0x10]
 	movs r1, #0x80
@@ -1456,7 +1456,7 @@ _080265C4:
 	movs r1, #0x80
 	str r1, [sp]
 	movs r1, #0x40
-	bl sub_804CC14
+	bl CreateScreenShake
 _080265FA:
 	ldr r1, [sp, #0x10]
 	ldrh r0, [r1]
@@ -1512,7 +1512,7 @@ _08026644:
 	movs r1, #0x80
 	str r1, [sp]
 	movs r1, #0x40
-	bl sub_804CC14
+	bl CreateScreenShake
 _08026672:
 	ldr r3, [sp, #0x10]
 	ldrh r4, [r3]
