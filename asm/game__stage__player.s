@@ -5841,12 +5841,12 @@ _08044B90:
 	asrs r0, r0, #0x18
 	cmp r0, #0
 	bne _08044BE6
-	ldr r1, _08044BA8 @ =sa2__gUnknown_030054A8
+	ldr r1, _08044BA8 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #4]
 	b _08044BE6
 	.align 2, 0
-_08044BA8: .4byte sa2__gUnknown_030054A8
+_08044BA8: .4byte gMusicManagerState
 _08044BAC:
 	adds r0, r4, #0
 	movs r1, #5

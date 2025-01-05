@@ -684,14 +684,14 @@ _080322DE:
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _0803235E
-	ldr r1, _080322FC @ =sa2__gUnknown_030054A8
+	ldr r1, _080322FC @ =gMusicManagerState
 	movs r0, #0x13
 	strb r0, [r1, #1]
 	movs r0, #0x3c
 	strh r0, [r2]
 	b _08032336
 	.align 2, 0
-_080322FC: .4byte sa2__gUnknown_030054A8
+_080322FC: .4byte gMusicManagerState
 _08032300:
 	adds r1, r5, #0
 	adds r1, #0x98
@@ -2002,7 +2002,7 @@ _08032D7C:
 	movs r0, #0x94
 	lsls r0, r0, #4
 	strh r0, [r1, #0x16]
-	ldr r1, _08032EAC @ =sa2__gUnknown_030054A8
+	ldr r1, _08032EAC @ =gMusicManagerState
 	movs r0, #0x33
 	strb r0, [r1, #1]
 	ldrb r1, [r4, #8]
@@ -2128,7 +2128,7 @@ _08032E9C: .4byte 0x03000044
 _08032EA0: .4byte 0x03000058
 _08032EA4: .4byte gPlayer
 _08032EA8: .4byte gCamera
-_08032EAC: .4byte sa2__gUnknown_030054A8
+_08032EAC: .4byte gMusicManagerState
 _08032EB0: .4byte 0x03000094
 _08032EB4: .4byte 0x03000080
 _08032EB8: .4byte 0x030000A9

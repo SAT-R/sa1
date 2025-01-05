@@ -278,7 +278,7 @@ _08008014:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _080081D4 @ =sa2__gUnknown_030054A8
+	ldr r1, _080081D4 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _08008054:
@@ -479,7 +479,7 @@ _080081C4: .4byte gRingCount
 _080081C8: .4byte gCurrentLevel
 _080081CC: .4byte gGameMode
 _080081D0: .4byte gNumLives
-_080081D4: .4byte sa2__gUnknown_030054A8
+_080081D4: .4byte gMusicManagerState
 _080081D8: .4byte gNumSingleplayerCharacters
 _080081DC: .4byte 0x04000128
 _080081E0: .4byte gMultiplayerPlayerTasks

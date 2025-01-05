@@ -1529,7 +1529,7 @@ _0804F04C:
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	bl CreateBossCapsule
-	ldr r1, _0804F098 @ =sa2__gUnknown_030054A8
+	ldr r1, _0804F098 @ =gMusicManagerState
 	movs r0, #0x32
 	strb r0, [r1, #1]
 _0804F08C:
@@ -1539,7 +1539,7 @@ _0804F08C:
 	bx r1
 	.align 2, 0
 _0804F094: .4byte gCamera
-_0804F098: .4byte sa2__gUnknown_030054A8
+_0804F098: .4byte gMusicManagerState
 
 	thumb_func_start sub_804F09C
 sub_804F09C: @ 0x0804F09C
@@ -2424,12 +2424,12 @@ sub_804F790: @ 0x0804F790
 	lsls r2, r2, #0x10
 	orrs r0, r2
 	str r0, [r1, #0x10]
-	ldr r1, _0804F7AC @ =sa2__gUnknown_030054A8
+	ldr r1, _0804F7AC @ =gMusicManagerState
 	movs r0, #0x11
 	strb r0, [r1, #1]
 	bx lr
 	.align 2, 0
-_0804F7AC: .4byte sa2__gUnknown_030054A8
+_0804F7AC: .4byte gMusicManagerState
 
 	thumb_func_start sub_804F7B0
 sub_804F7B0: @ 0x0804F7B0
@@ -2569,13 +2569,13 @@ sub_804F860: @ 0x0804F860
 	adds r1, #0x94
 	movs r0, #1
 	strb r0, [r1]
-	ldr r1, _0804F884 @ =sa2__gUnknown_030054A8
+	ldr r1, _0804F884 @ =gMusicManagerState
 	movs r0, #0x12
 	strb r0, [r1, #1]
 _0804F882:
 	bx lr
 	.align 2, 0
-_0804F884: .4byte sa2__gUnknown_030054A8
+_0804F884: .4byte gMusicManagerState
 
 	thumb_func_start sub_804F888
 sub_804F888: @ 0x0804F888

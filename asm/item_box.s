@@ -848,13 +848,13 @@ _0801ECDC:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _0801ECF0 @ =sa2__gUnknown_030054A8
+	ldr r1, _0801ECF0 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #3]
 	b _0801EFF6
 	.align 2, 0
 _0801ECEC: .4byte gNumLives
-_0801ECF0: .4byte sa2__gUnknown_030054A8
+_0801ECF0: .4byte gMusicManagerState
 _0801ECF4:
 	ldr r2, _0801ED14 @ =gPlayer
 	adds r3, r2, #0
@@ -904,7 +904,7 @@ _0801ED3C:
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
 	bl sub_804B678
-	ldr r1, _0801ED74 @ =sa2__gUnknown_030054A8
+	ldr r1, _0801ED74 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #2]
 _0801ED60:
@@ -918,7 +918,7 @@ _0801ED60:
 	b _0801EFF6
 	.align 2, 0
 _0801ED70: .4byte gPlayer
-_0801ED74: .4byte sa2__gUnknown_030054A8
+_0801ED74: .4byte gMusicManagerState
 _0801ED78:
 	ldr r2, _0801EDB0 @ =gPlayer
 	adds r5, r2, #0
@@ -995,7 +995,7 @@ _0801EDBC:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _0801EE5C @ =sa2__gUnknown_030054A8
+	ldr r1, _0801EE5C @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _0801EE1E:
@@ -1022,7 +1022,7 @@ _0801EE4C: .4byte gRingCount
 _0801EE50: .4byte gCurrentLevel
 _0801EE54: .4byte gGameMode
 _0801EE58: .4byte gNumLives
-_0801EE5C: .4byte sa2__gUnknown_030054A8
+_0801EE5C: .4byte gMusicManagerState
 _0801EE60:
 	ldr r1, _0801EEBC @ =gRingCount
 	ldrh r5, [r1]
@@ -1051,7 +1051,7 @@ _0801EE60:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _0801EECC @ =sa2__gUnknown_030054A8
+	ldr r1, _0801EECC @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _0801EEA0:
@@ -1074,7 +1074,7 @@ _0801EEBC: .4byte gRingCount
 _0801EEC0: .4byte gCurrentLevel
 _0801EEC4: .4byte gGameMode
 _0801EEC8: .4byte gNumLives
-_0801EECC: .4byte sa2__gUnknown_030054A8
+_0801EECC: .4byte gMusicManagerState
 _0801EED0:
 	ldr r1, _0801EF30 @ =gRingCount
 	ldrh r5, [r1]
@@ -1104,7 +1104,7 @@ _0801EED0:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _0801EF40 @ =sa2__gUnknown_030054A8
+	ldr r1, _0801EF40 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _0801EF12:
@@ -1127,7 +1127,7 @@ _0801EF30: .4byte gRingCount
 _0801EF34: .4byte gCurrentLevel
 _0801EF38: .4byte gGameMode
 _0801EF3C: .4byte gNumLives
-_0801EF40: .4byte sa2__gUnknown_030054A8
+_0801EF40: .4byte gMusicManagerState
 _0801EF44:
 	movs r2, #0
 	mov sb, r2

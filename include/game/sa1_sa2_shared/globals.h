@@ -48,7 +48,7 @@ typedef struct {
     u8 unk4;
     u8 unk5;
     u16 fadeoutSpeed;
-} UNK_30054A8; /* size: 8 */
+} MusicManagerState; /* size: 8 */
 
 typedef struct {
     s32 squarePlayerDistance;
@@ -90,7 +90,7 @@ extern u8 gMultiplayerLanguage;
 // If you encounter it being loaded as s16, please cast it.
 extern u16 gRingCount;
 
-extern UNK_30054A8 sa2__gUnknown_030054A8;
+extern MusicManagerState gMusicManagerState;
 
 // Time that is being used to score the player (or in Time Attack)
 extern u32 gCourseTime;
@@ -237,7 +237,7 @@ extern u8 gUnknown_030055D8;
                 gNumLives = lives;                                                                                                         \
             }                                                                                                                              \
                                                                                                                                            \
-            sa2__gUnknown_030054A8.unk3 = _unk3;                                                                                           \
+            gMusicManagerState.unk3 = _unk3;                                                                                               \
         }                                                                                                                                  \
     }
 
@@ -245,7 +245,7 @@ extern u8 gUnknown_030055D8;
 
 #define INCREMENT_SCORE_C(incVal)                                                                                                          \
     INCREMENT_SCORE_A(incVal)                                                                                                              \
-    sa2__gUnknown_030054A8.unk1 = 48;
+    gMusicManagerState.unk1 = 48;
 
 #define INCREMENT_SCORE(incVal)                                                                                                            \
     {                                                                                                                                      \
@@ -262,7 +262,7 @@ extern u8 gUnknown_030055D8;
                                                                                                                                            \
             gNumLives = LIVES_BOUND_CHECK(lives);                                                                                          \
                                                                                                                                            \
-            sa2__gUnknown_030054A8.unk3 = 16;                                                                                              \
+            gMusicManagerState.unk3 = 16;                                                                                                  \
         }                                                                                                                                  \
     }
 
@@ -281,7 +281,7 @@ extern u8 gUnknown_030055D8;
                                                                                                                                            \
                 gNumLives = LIVES_BOUND_CHECK(lives);                                                                                      \
                                                                                                                                            \
-                sa2__gUnknown_030054A8.unk3 = 16;                                                                                          \
+                gMusicManagerState.unk3 = 16;                                                                                              \
             }                                                                                                                              \
         }                                                                                                                                  \
     }
@@ -302,7 +302,7 @@ extern u8 gUnknown_030055D8;
                                                                                                                                            \
                 gNumLives = LIVES_BOUND_CHECK(lives);                                                                                      \
                                                                                                                                            \
-                sa2__gUnknown_030054A8.unk3 = 16;                                                                                          \
+                gMusicManagerState.unk3 = 16;                                                                                              \
             }                                                                                                                              \
         }                                                                                                                                  \
     }

@@ -1982,7 +1982,7 @@ _080798B0:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _08079914 @ =sa2__gUnknown_030054A8
+	ldr r1, _08079914 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _080798E6:
@@ -2005,7 +2005,7 @@ _08079904: .4byte gLevelScore
 _08079908: .4byte 0x0000C350
 _0807990C: .4byte gGameMode
 _08079910: .4byte gNumLives
-_08079914: .4byte sa2__gUnknown_030054A8
+_08079914: .4byte gMusicManagerState
 _08079918:
 	ldr r0, [sp, #0xc]
 	mov r1, sb
@@ -3088,7 +3088,7 @@ _0807A14C:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	ldr r1, _0807A1C8 @ =sa2__gUnknown_030054A8
+	ldr r1, _0807A1C8 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #3]
 _0807A182:
@@ -3124,7 +3124,7 @@ _0807A1B8: .4byte gLevelScore
 _0807A1BC: .4byte 0x0000C350
 _0807A1C0: .4byte gGameMode
 _0807A1C4: .4byte gNumLives
-_0807A1C8: .4byte sa2__gUnknown_030054A8
+_0807A1C8: .4byte gMusicManagerState
 _0807A1CC: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_BumperTriHorizontal

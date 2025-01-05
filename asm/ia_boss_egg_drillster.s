@@ -301,7 +301,7 @@ _08035D90:
 	ldr r1, [r0]
 	ldr r0, _08035DCC @ =sub_8035DD4
 	str r0, [r1, #8]
-	ldr r1, _08035DD0 @ =sa2__gUnknown_030054A8
+	ldr r1, _08035DD0 @ =gMusicManagerState
 	movs r0, #0x15
 	strb r0, [r1, #1]
 _08035DB4:
@@ -314,7 +314,7 @@ _08035DC0: .4byte gCamera
 _08035DC4: .4byte 0xFFFFFE80
 _08035DC8: .4byte gCurTask
 _08035DCC: .4byte sub_8035DD4
-_08035DD0: .4byte sa2__gUnknown_030054A8
+_08035DD0: .4byte gMusicManagerState
 
 	thumb_func_start sub_8035DD4
 sub_8035DD4: @ 0x08035DD4
@@ -1040,7 +1040,7 @@ _080363A0:
 	adds r0, r5, #0
 	adds r1, r6, #0
 	bl sub_8015C5C
-	ldr r1, _08036414 @ =sa2__gUnknown_030054A8
+	ldr r1, _08036414 @ =gMusicManagerState
 	movs r0, #0x35
 	strb r0, [r1, #1]
 	adds r0, r5, #0
@@ -1076,7 +1076,7 @@ _080363A0:
 	strb r0, [r7]
 	b _08036452
 	.align 2, 0
-_08036414: .4byte sa2__gUnknown_030054A8
+_08036414: .4byte gMusicManagerState
 _08036418:
 	adds r1, r5, #0
 	adds r1, #0x84

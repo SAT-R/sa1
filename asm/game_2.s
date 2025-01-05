@@ -7770,7 +7770,7 @@ _08057514:
 	movs r0, #0x21      @ MUS_ACT_CLEAR
 	bl m4aSongNumStart
 _0805751A:
-	ldr r0, _0805752C @ =sa2__gUnknown_030054A8
+	ldr r0, _0805752C @ =gMusicManagerState
 	movs r1, #0xff
 	strb r1, [r0]
 	ldr r0, _08057530 @ =0x0000545F
@@ -7779,7 +7779,7 @@ _0805751A:
 	movs r6, #0
 	b _080575BA
 	.align 2, 0
-_0805752C: .4byte sa2__gUnknown_030054A8
+_0805752C: .4byte gMusicManagerState
 _08057530: .4byte 0x0000545F
 _08057534:
 	ldr r0, _08057540 @ =0x0000464F
@@ -44242,7 +44242,7 @@ _08069D10:
 	adds r0, r5, r1
 	strb r4, [r0]
 _08069D1E:
-	ldr r1, _08069E4C @ =sa2__gUnknown_030054A8
+	ldr r1, _08069E4C @ =gMusicManagerState
 	movs r0, #0xff
 	strb r0, [r1]
 	mov r0, sl
@@ -44387,7 +44387,7 @@ _08069D1E:
 	bx r0
 	.align 2, 0
 _08069E48: .4byte 0x030000CC
-_08069E4C: .4byte sa2__gUnknown_030054A8
+_08069E4C: .4byte gMusicManagerState
 
 	thumb_func_start sub_8069E50
 sub_8069E50: @ 0x08069E50

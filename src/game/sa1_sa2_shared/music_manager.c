@@ -81,15 +81,15 @@ const u16 gLevelSongs[] = {
 #endif
 
 #if (GAME == GAME_SA1)
-const u16 sa2__gUnknown_080D5254[7] = { 0x001D, 0x001E, 0x001F, 0x0020, 0x0031, 0x0032, 0x0019 };
+const u16 gUnkMusicMgrData[7] = { 0x001D, 0x001E, 0x001F, 0x0020, 0x0031, 0x0032, 0x0019 };
 #elif (GAME == GAME_SA2)
-const u16 gUnknown_080D5254[7] = { SE_260, 0xF000, 0x1008, 0x8F0, 0xF000, 0x1008, 0x1F0 };
+const u16 gUnkMusicMgrData[7] = { SE_260, 0xF000, 0x1008, 0x8F0, 0xF000, 0x1008, 0x1F0 };
 #endif
 
 #if (GAME == GAME_SA1)
 #define SET_UNK5(v)
-#elif (GAME == GAME_SA1)
-#define SET_UNK5(v) sa2__gUnknown_030054A8.unk5 = (v);
+#elif (GAME == GAME_SA2)
+#define SET_UNK5(v) gMusicManagerState.unk5 = (v);
 #endif
 
 void Task_StageMusicManager(void)
@@ -101,28 +101,28 @@ void Task_StageMusicManager(void)
     struct MP2KSongHeader *songHeader = gMPlayTable[0].info->songHeader;
 #endif
 
-    if ((sa2__gUnknown_030054A8.unk0 == 0) && PLAYER_IS_ALIVE) {
+    if ((gMusicManagerState.unk0 == 0) && PLAYER_IS_ALIVE) {
 #if (GAME == GAME_SA2)
-        if ((sa2__gUnknown_030054A8.unk1 & 0xF0) == 0x30) {
+        if ((gMusicManagerState.unk1 & 0xF0) == 0x30) {
             MPlayStop(&gMPlayInfo_BGM);
 
-            sa2__gUnknown_030054A8.unk0 = 0xFF;
-            sa2__gUnknown_030054A8.unk1 &= 0x0F;
-        } else if (sa2__gUnknown_030054A8.fadeoutSpeed != 0) {
-            // MusManager_Fadeout(sa2__gUnknown_030054A8.fadeoutSpeed);
+            gMusicManagerState.unk0 = 0xFF;
+            gMusicManagerState.unk1 &= 0x0F;
+        } else if (gMusicManagerState.fadeoutSpeed != 0) {
+            MusManager_Fadeout(gMusicManagerState.fadeoutSpeed);
 
-            sa2__gUnknown_030054A8.unk0 = 0xFF;
-            sa2__gUnknown_030054A8.fadeoutSpeed = 0;
+            gMusicManagerState.unk0 = 0xFF;
+            gMusicManagerState.fadeoutSpeed = 0;
             SET_UNK5(1);
         } else
 #endif
             if ((songHeader == gSongTable[MUS_DROWNING].header) && (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK)
                 && !(gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)) {
             SET_UNK5(1);
-            sa2__gUnknown_030054A8.unk2 = 0;
-            sa2__gUnknown_030054A8.unk3 = 0;
-        } else if (sa2__gUnknown_030054A8.unk4 != 0) {
-            sa2__gUnknown_030054A8.unk4 = 0;
+            gMusicManagerState.unk2 = 0;
+            gMusicManagerState.unk3 = 0;
+        } else if (gMusicManagerState.unk4 != 0) {
+            gMusicManagerState.unk4 = 0;
             SET_UNK5(1);
 
             m4aSongNumStart(MUS_DROWNING);
@@ -131,47 +131,47 @@ void Task_StageMusicManager(void)
             SET_UNK5(1);
             m4aSongNumStop(MUS_INVINCIBILITY);
         } else if ((songHeader != gSongTable[MUS_1_UP].header) && (songHeader != gSongTable[MUS_INVINCIBILITY].header)
-                   && (gPlayer.itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY) && (sa2__gUnknown_030054A8.unk2 == 0)) {
-            sa2__gUnknown_030054A8.unk2 = 0;
+                   && (gPlayer.itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY) && (gMusicManagerState.unk2 == 0)) {
+            gMusicManagerState.unk2 = 0;
             SET_UNK5(1);
             m4aSongNumStart(MUS_INVINCIBILITY);
             MusManager_UpdateBgmParams();
-        } else if (sa2__gUnknown_030054A8.unk2 != 0) {
-            sa2__gUnknown_030054A8.unk2 = 0;
+        } else if (gMusicManagerState.unk2 != 0) {
+            gMusicManagerState.unk2 = 0;
             SET_UNK5(1);
             m4aSongNumStart(MUS_INVINCIBILITY);
-        } else if (sa2__gUnknown_030054A8.unk3 != 0) {
-            sa2__gUnknown_030054A8.unk3 = 0;
+        } else if (gMusicManagerState.unk3 != 0) {
+            gMusicManagerState.unk3 = 0;
             SET_UNK5(1);
             m4aSongNumStart(MUS_1_UP);
-        } else if ((sa2__gUnknown_030054A8.unk1 & 0xF0) == 0x10) {
-            u32 unk1 = (sa2__gUnknown_030054A8.unk1 &= 0x0F);
+        } else if ((gMusicManagerState.unk1 & 0xF0) == 0x10) {
+            u32 unk1 = (gMusicManagerState.unk1 &= 0x0F);
 
 #if (GAME == GAME_SA1)
-            m4aSongNumStart(sa2__gUnknown_080D5254[sa2__gUnknown_030054A8.unk1]);
-            sa2__gUnknown_030054A8.unk1 |= 0x20;
+            m4aSongNumStart(gUnkMusicMgrData[gMusicManagerState.unk1]);
+            gMusicManagerState.unk1 |= 0x20;
 #else
             m4aSongNumStart(gLevelSongs[gCurrentLevel + unk1]);
 #endif
 #if (GAME == GAME_SA1)
-        } else if ((sa2__gUnknown_030054A8.unk1 & 0xF0) == 0x30) {
-            sa2__gUnknown_030054A8.unk1 &= 0xF;
-            m4aSongNumStop(sa2__gUnknown_080D5254[sa2__gUnknown_030054A8.unk1]);
+        } else if ((gMusicManagerState.unk1 & 0xF0) == 0x30) {
+            gMusicManagerState.unk1 &= 0xF;
+            m4aSongNumStop(gUnkMusicMgrData[gMusicManagerState.unk1]);
 
             m4aSongNumStart(gLevelSongs[gCurrentLevel]);
             MusManager_UpdateBgmParams();
 
-            if ((u8)(sa2__gUnknown_030054A8.unk1 - 4) > 1) {
-                sa2__gUnknown_030054A8.unk0 = 0xFF;
+            if ((u8)(gMusicManagerState.unk1 - 4) > 1) {
+                gMusicManagerState.unk0 = 0xFF;
             }
-            sa2__gUnknown_030054A8.unk1 = 0;
+            gMusicManagerState.unk1 = 0;
 #endif
         } else if (((gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK) == 0) || (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)) {
-            if ((sa2__gUnknown_030054A8.unk1 & 0xF0) == 0x20) {
+            if ((gMusicManagerState.unk1 & 0xF0) == 0x20) {
 #if (GAME == GAME_SA1)
-                m4aSongNumStart(sa2__gUnknown_080D5254[sa2__gUnknown_030054A8.unk1 & 0xF]);
+                m4aSongNumStart(gUnkMusicMgrData[gMusicManagerState.unk1 & 0xF]);
 #else
-                m4aSongNumStart(sa2__gUnknown_080D5254[sa2__gUnknown_030054A8.unk1]);
+                m4aSongNumStart(gUnkMusicMgrData[gMusicManagerState.unk1]);
 #endif
                 MusManager_UpdateBgmParams();
             } else {
@@ -179,8 +179,8 @@ void Task_StageMusicManager(void)
                 m4aSongNumStart(gLevelSongs[gCurrentLevel]);
                 MusManager_UpdateBgmParams();
 #elif (GAME == GAME_SA2)
-                m4aSongNumStartOrContinue(gLevelSongs[gCurrentLevel + (sa2__gUnknown_030054A8.unk1 & 0x0F)]);
-                if (sa2__gUnknown_030054A8.unk5 != 0) {
+                m4aSongNumStartOrContinue(gLevelSongs[gCurrentLevel + (gMusicManagerState.unk1 & 0x0F)]);
+                if (gMusicManagerState.unk5 != 0) {
                     SET_UNK5(0)
                     MusManager_UpdateBgmParams();
                 }
@@ -194,14 +194,14 @@ void CreateStageMusicManager(void)
 {
     TaskCreate(Task_StageMusicManager, 0, 0x4000, 0, NULL);
 
-    sa2__gUnknown_030054A8.unk0 = 0;
-    sa2__gUnknown_030054A8.unk1 = 0;
-    sa2__gUnknown_030054A8.unk2 = 0;
-    sa2__gUnknown_030054A8.unk3 = 0;
-    sa2__gUnknown_030054A8.unk4 = 0;
+    gMusicManagerState.unk0 = 0;
+    gMusicManagerState.unk1 = 0;
+    gMusicManagerState.unk2 = 0;
+    gMusicManagerState.unk3 = 0;
+    gMusicManagerState.unk4 = 0;
 #if (GAME == GAME_SA2)
     SET_UNK5(0)
-    sa2__gUnknown_030054A8.fadeoutSpeed = 0;
+    gMusicManagerState.fadeoutSpeed = 0;
 #endif
 }
 

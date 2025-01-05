@@ -8415,7 +8415,7 @@ sub_8012A38: @ 0x08012A38
 	movs r0, #0xbf
 	strh r0, [r1]
 	strh r3, [r1, #4]
-	ldr r1, _08012AC8 @ =sa2__gUnknown_030054A8
+	ldr r1, _08012AC8 @ =gMusicManagerState
 	movs r0, #0xff
 	strb r0, [r1]
 	ldr r0, _08012ACC @ =gMPlayInfo_BGM
@@ -8439,7 +8439,7 @@ _08012AB8: .4byte gDestroySpotlights
 _08012ABC: .4byte 0x03000064
 _08012AC0: .4byte sub_8012C34
 _08012AC4: .4byte gBldRegs
-_08012AC8: .4byte sa2__gUnknown_030054A8
+_08012AC8: .4byte gMusicManagerState
 _08012ACC: .4byte gMPlayInfo_BGM
 _08012AD0: .4byte gMPlayInfo_SE1
 _08012AD4: .4byte gMPlayInfo_SE2
@@ -8461,7 +8461,7 @@ _08012ADC:
 	movs r0, #0xbf
 	strh r0, [r1]
 	strh r2, [r1, #4]
-	ldr r1, _08012B50 @ =sa2__gUnknown_030054A8
+	ldr r1, _08012B50 @ =gMusicManagerState
 	movs r0, #0xff
 	strb r0, [r1]
 	ldr r0, _08012B54 @ =gMPlayInfo_BGM
@@ -8497,7 +8497,7 @@ _08012B40: .4byte gCheckpointTime
 _08012B44: .4byte 0x03000064
 _08012B48: .4byte sub_8012C34
 _08012B4C: .4byte gBldRegs
-_08012B50: .4byte sa2__gUnknown_030054A8
+_08012B50: .4byte gMusicManagerState
 _08012B54: .4byte gMPlayInfo_BGM
 _08012B58: .4byte gMPlayInfo_SE1
 _08012B5C: .4byte gMPlayInfo_SE2
@@ -22908,7 +22908,7 @@ sub_8019DB0: @ 0x08019DB0
 	mov sb, r5
 	cmp r0, #6
 	beq _08019E04
-	ldr r0, _08019E9C @ =sa2__gUnknown_030054A8
+	ldr r0, _08019E9C @ =gMusicManagerState
 	movs r1, #0xff
 	strb r1, [r0]
 	movs r0, #0x98
@@ -22994,7 +22994,7 @@ _08019E78:
 _08019E90: .4byte gUnknown_080BB490
 _08019E94: .4byte sub_801A110
 _08019E98: .4byte gGameMode
-_08019E9C: .4byte sa2__gUnknown_030054A8
+_08019E9C: .4byte gMusicManagerState
 _08019EA0: .4byte gMultiplayerCharRings
 _08019EA4: .4byte sa2__gUnknown_030054B4
 _08019EA8:

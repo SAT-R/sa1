@@ -483,7 +483,7 @@ _0802DA32:
 	adds r1, r4, #0
 	adds r3, r7, #0
 	bl sub_80171BC
-	ldr r0, _0802DB48 @ =sa2__gUnknown_030054A8
+	ldr r0, _0802DB48 @ =gMusicManagerState
 	movs r1, #0x10
 	strb r1, [r0, #1]
 _0802DB2C:
@@ -499,7 +499,7 @@ _0802DB2C:
 _0802DB3C: .4byte 0x030000AE
 _0802DB40: .4byte 0x0000026A
 _0802DB44: .4byte 0x43960000
-_0802DB48: .4byte sa2__gUnknown_030054A8
+_0802DB48: .4byte gMusicManagerState
 
 	thumb_func_start Task_EggPressMain
 Task_EggPressMain: @ 0x0802DB4C
@@ -2671,7 +2671,7 @@ sub_802ECFC: @ 0x0802ECFC
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl CreateBossCapsule
-	ldr r1, _0802EDB4 @ =sa2__gUnknown_030054A8
+	ldr r1, _0802EDB4 @ =gMusicManagerState
 	movs r0, #0x30
 	strb r0, [r1, #1]
 	ldr r0, [r6]
@@ -2685,7 +2685,7 @@ _0802EDA4: .4byte 0x03000094
 _0802EDA8: .4byte 0x03000098
 _0802EDAC: .4byte 0x030000AC
 _0802EDB0: .4byte 0xFFFC0000
-_0802EDB4: .4byte sa2__gUnknown_030054A8
+_0802EDB4: .4byte gMusicManagerState
 _0802EDB8:
 	movs r4, #7
 	ands r1, r4
