@@ -2716,7 +2716,7 @@ sub_803BEB8: @ 0x0803BEB8
 	adds r0, #0x2f
 	movs r6, #1
 	strb r6, [r0]
-	ldr r7, _0803BFD8 @ =gTilesets
+	ldr r7, _0803BFD8 @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -2833,7 +2833,7 @@ _0803BFA4:
 	.align 2, 0
 _0803BFD0: .4byte sub_803BFE8
 _0803BFD4: .4byte sub_803C198
-_0803BFD8: .4byte gTilesets
+_0803BFD8: .4byte gUiGraphics
 _0803BFDC: .4byte 0x00000694
 _0803BFE0: .4byte 0x03000060
 _0803BFE4: .4byte 0x03000062

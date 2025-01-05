@@ -839,7 +839,7 @@ sub_806B670: @ 0x0806B670
 	str r1, [sp, #0x30]
 	movs r2, #1
 	strb r2, [r1]
-	ldr r4, _0806B810 @ =gTilesets
+	ldr r4, _0806B810 @ =gUiGraphics
 	ldrb r2, [r5]
 	lsls r1, r2, #3
 	subs r1, r1, r2
@@ -1031,7 +1031,7 @@ sub_806B670: @ 0x0806B670
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806B810: .4byte gTilesets
+_0806B810: .4byte gUiGraphics
 _0806B814: .4byte gUnknown_0868B794
 _0806B818: .4byte gSelectedCharacter
 

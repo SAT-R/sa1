@@ -240,7 +240,7 @@ sub_80538BC: @ 0x080538BC
 	mov r4, sp
 	adds r4, #0x2b
 	strb r0, [r4]
-	ldr r7, _08053A78 @ =gTilesets
+	ldr r7, _08053A78 @ =gUiGraphics
 	ldr r0, [r7]
 	movs r1, #0xe0
 	lsls r1, r1, #5
@@ -447,7 +447,7 @@ sub_80538BC: @ 0x080538BC
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08053A78: .4byte gTilesets
+_08053A78: .4byte gUiGraphics
 _08053A7C: .4byte 0x06010D40
 _08053A80: .4byte 0x06010A80
 _08053A84: .4byte gSelectedCharacter
@@ -1194,7 +1194,7 @@ sub_8054068: @ 0x08054068
 	add r0, sp
 	mov sl, r0
 	strb r5, [r0]
-	ldr r4, _0805418C @ =gTilesets
+	ldr r4, _0805418C @ =gUiGraphics
 	ldr r0, [r4]
 	movs r1, #0xf8
 	lsls r1, r1, #4
@@ -1325,7 +1325,7 @@ sub_8054068: @ 0x08054068
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805418C: .4byte gTilesets
+_0805418C: .4byte gUiGraphics
 _08054190: .4byte 0x060178A0
 _08054194: .4byte 0x060175E0
 _08054198: .4byte 0x0000050C
@@ -2505,7 +2505,7 @@ sub_8054A80: @ 0x08054A80
 	str r2, [sp, #0x38]
 	movs r0, #6
 	strb r0, [r2]
-	ldr r7, _08054E18 @ =gTilesets
+	ldr r7, _08054E18 @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -2517,7 +2517,7 @@ sub_8054A80: @ 0x08054A80
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08054E1C @ =gTilesets + 0x4
+	ldr r1, _08054E1C @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -2543,7 +2543,7 @@ sub_8054A80: @ 0x08054A80
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _08054E20 @ =gTilesets + 0x8
+	ldr r2, _08054E20 @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -2552,7 +2552,7 @@ sub_8054A80: @ 0x08054A80
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08054E24 @ =gTilesets + 0xC
+	ldr r1, _08054E24 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -2560,7 +2560,7 @@ sub_8054A80: @ 0x08054A80
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08054E28 @ =gTilesets + 0x10
+	ldr r1, _08054E28 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -2568,7 +2568,7 @@ sub_8054A80: @ 0x08054A80
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08054E2C @ =gTilesets + 0x14
+	ldr r1, _08054E2C @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -2576,7 +2576,7 @@ sub_8054A80: @ 0x08054A80
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08054E30 @ =gTilesets + 0x18
+	ldr r1, _08054E30 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -2708,13 +2708,13 @@ _08054C3A:
 	movs r1, #0x2b
 	add r1, sp
 	strb r0, [r1]
-	ldr r2, _08054E38 @ =gUnknown_08687D18
+	ldr r2, _08054E38 @ =gUiGraphics + ((17 * 0x1C) + 0)
 	ldr r0, [r2]
 	movs r1, #0x92
 	lsls r1, r1, #4
 	adds r0, r0, r1
 	str r0, [sp, #0x14]
-	ldr r2, _08054E3C @ =gUnknown_08687D1C
+	ldr r2, _08054E3C @ =gUiGraphics + ((17 * 0x1C) + 0x4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	ldr r1, _08054E10 @ =gCurrentLevel
@@ -2739,20 +2739,20 @@ _08054C3A:
 	movs r0, #0x2a
 	add r0, sp
 	strb r2, [r0]
-	ldr r1, _08054E44 @ =gUnknown_08687D20
+	ldr r1, _08054E44 @ =gUiGraphics + ((17 * 0x1C) + 0x8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _08054E48 @ =gUnknown_08687D24
+	ldr r2, _08054E48 @ =gUiGraphics + ((17 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r2, _08054E4C @ =gUnknown_08687D28
+	ldr r2, _08054E4C @ =gUiGraphics + ((17 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r2, _08054E50 @ =gUnknown_08687D2C
+	ldr r2, _08054E50 @ =gUiGraphics + ((17 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
-	ldr r2, _08054E54 @ =gUnknown_08687D30
+	ldr r2, _08054E54 @ =gUiGraphics + ((17 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -2764,13 +2764,13 @@ _08054C3A:
 	movs r0, #0x2b
 	add r0, sp
 	strb r2, [r0]
-	ldr r1, _08054E38 @ =gUnknown_08687D18
+	ldr r1, _08054E38 @ =gUiGraphics + ((17 * 0x1C) + 0)
 	ldr r0, [r1]
 	movs r7, #0x80
 	lsls r7, r7, #1
 	adds r0, r0, r7
 	str r0, [sp, #0x14]
-	ldr r2, _08054E3C @ =gUnknown_08687D1C
+	ldr r2, _08054E3C @ =gUiGraphics + ((17 * 0x1C) + 0x4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	movs r0, #0x80
@@ -2790,20 +2790,20 @@ _08054C3A:
 	movs r1, #0x2a
 	add r1, sp
 	strb r0, [r1]
-	ldr r2, _08054E44 @ =gUnknown_08687D20
+	ldr r2, _08054E44 @ =gUiGraphics + ((17 * 0x1C) + 0x8)
 	ldr r0, [r2]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _08054E48 @ =gUnknown_08687D24
+	ldr r2, _08054E48 @ =gUiGraphics + ((17 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r2, _08054E4C @ =gUnknown_08687D28
+	ldr r2, _08054E4C @ =gUiGraphics + ((17 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r2, _08054E50 @ =gUnknown_08687D2C
+	ldr r2, _08054E50 @ =gUiGraphics + ((17 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
-	ldr r2, _08054E54 @ =gUnknown_08687D30
+	ldr r2, _08054E54 @ =gUiGraphics + ((17 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -2822,11 +2822,11 @@ _08054C3A:
 	adds r0, r0, r1
 	ldrb r1, [r0]
 	lsls r1, r1, #5
-	ldr r2, _08054E38 @ =gUnknown_08687D18
+	ldr r2, _08054E38 @ =gUiGraphics + ((17 * 0x1C) + 0)
 	ldr r0, [r2]
 	adds r0, r0, r1
 	str r0, [sp, #0x14]
-	ldr r1, _08054E3C @ =gUnknown_08687D1C
+	ldr r1, _08054E3C @ =gUiGraphics + ((17 * 0x1C) + 0x4)
 	ldr r0, [r1]
 	str r0, [sp, #0x20]
 	ldr r2, _08054E10 @ =gCurrentLevel
@@ -2858,20 +2858,20 @@ _08054C3A:
 	movs r1, #0x2a
 	add r1, sp
 	strb r0, [r1]
-	ldr r2, _08054E44 @ =gUnknown_08687D20
+	ldr r2, _08054E44 @ =gUiGraphics + ((17 * 0x1C) + 0x8)
 	ldr r0, [r2]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _08054E48 @ =gUnknown_08687D24
+	ldr r2, _08054E48 @ =gUiGraphics + ((17 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r2, _08054E4C @ =gUnknown_08687D28
+	ldr r2, _08054E4C @ =gUiGraphics + ((17 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r2, _08054E50 @ =gUnknown_08687D2C
+	ldr r2, _08054E50 @ =gUiGraphics + ((17 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
-	ldr r2, _08054E54 @ =gUnknown_08687D30
+	ldr r2, _08054E54 @ =gUiGraphics + ((17 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -2883,11 +2883,11 @@ _08054C3A:
 	movs r0, #0x2b
 	add r0, sp
 	strb r2, [r0]
-	ldr r1, _08054E38 @ =gUnknown_08687D18
+	ldr r1, _08054E38 @ =gUiGraphics + ((17 * 0x1C) + 0)
 	ldr r0, [r1]
 	adds r0, r0, r7
 	str r0, [sp, #0x14]
-	ldr r2, _08054E3C @ =gUnknown_08687D1C
+	ldr r2, _08054E3C @ =gUiGraphics + ((17 * 0x1C) + 0x4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	movs r0, #0x20
@@ -2903,20 +2903,20 @@ _08054C3A:
 	movs r0, #0x2a
 	add r0, sp
 	strb r2, [r0]
-	ldr r1, _08054E44 @ =gUnknown_08687D20
+	ldr r1, _08054E44 @ =gUiGraphics + ((17 * 0x1C) + 0x8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _08054E48 @ =gUnknown_08687D24
+	ldr r2, _08054E48 @ =gUiGraphics + ((17 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r2, _08054E4C @ =gUnknown_08687D28
+	ldr r2, _08054E4C @ =gUiGraphics + ((17 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r2, _08054E50 @ =gUnknown_08687D2C
+	ldr r2, _08054E50 @ =gUiGraphics + ((17 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
-	ldr r2, _08054E54 @ =gUnknown_08687D30
+	ldr r2, _08054E54 @ =gUiGraphics + ((17 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -2935,22 +2935,22 @@ _08054C3A:
 	.align 2, 0
 _08054E10: .4byte gCurrentLevel
 _08054E14: .4byte gSelectedCharacter
-_08054E18: .4byte gTilesets
-_08054E1C: .4byte gTilesets + 0x4
-_08054E20: .4byte gTilesets + 0x8
-_08054E24: .4byte gTilesets + 0xC
-_08054E28: .4byte gTilesets + 0x10
-_08054E2C: .4byte gTilesets + 0x14
-_08054E30: .4byte gTilesets + 0x18
+_08054E18: .4byte gUiGraphics
+_08054E1C: .4byte gUiGraphics + 0x4
+_08054E20: .4byte gUiGraphics + 0x8
+_08054E24: .4byte gUiGraphics + 0xC
+_08054E28: .4byte gUiGraphics + 0x10
+_08054E2C: .4byte gUiGraphics + 0x14
+_08054E30: .4byte gUiGraphics + 0x18
 _08054E34: .4byte 0x06010800
-_08054E38: .4byte gUnknown_08687D18
-_08054E3C: .4byte gUnknown_08687D1C
+_08054E38: .4byte gUiGraphics + ((17 * 0x1C) + 0)
+_08054E3C: .4byte gUiGraphics + ((17 * 0x1C) + 0x4)
 _08054E40: .4byte gUnknown_08688378
-_08054E44: .4byte gUnknown_08687D20
-_08054E48: .4byte gUnknown_08687D24
-_08054E4C: .4byte gUnknown_08687D28
-_08054E50: .4byte gUnknown_08687D2C
-_08054E54: .4byte gUnknown_08687D30
+_08054E44: .4byte gUiGraphics + ((17 * 0x1C) + 0x8)
+_08054E48: .4byte gUiGraphics + ((17 * 0x1C) + 0xC)
+_08054E4C: .4byte gUiGraphics + ((17 * 0x1C) + 0x10)
+_08054E50: .4byte gUiGraphics + ((17 * 0x1C) + 0x14)
+_08054E54: .4byte gUiGraphics + ((17 * 0x1C) + 0x18)
 _08054E58: .4byte gUnknown_08688386
 _08054E5C:
 	movs r0, #0x12
@@ -2978,7 +2978,7 @@ _08054E5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080550C8 @ =gTilesets + 0x4
+	ldr r1, _080550C8 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -3001,7 +3001,7 @@ _08054E5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080550CC @ =gTilesets + 0x8
+	ldr r1, _080550CC @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -3011,7 +3011,7 @@ _08054E5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080550D0 @ =gTilesets + 0xC
+	ldr r1, _080550D0 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -3020,7 +3020,7 @@ _08054E5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080550D4 @ =gTilesets + 0x10
+	ldr r1, _080550D4 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -3029,7 +3029,7 @@ _08054E5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080550D8 @ =gTilesets + 0x14
+	ldr r1, _080550D8 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -3038,7 +3038,7 @@ _08054E5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080550DC @ =gTilesets + 0x18
+	ldr r1, _080550DC @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -3052,7 +3052,7 @@ _08054F14:
 	movs r2, #0x2b
 	add r2, sp
 	strb r1, [r2]
-	ldr r7, _080550E0 @ =gTilesets
+	ldr r7, _080550E0 @ =gUiGraphics
 	movs r0, #0xd2
 	lsls r0, r0, #1
 	adds r6, r7, r0
@@ -3080,16 +3080,16 @@ _08054F14:
 	ldr r0, [r5]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _080550E4 @ =gUnknown_08687CEC
+	ldr r2, _080550E4 @ =gUiGraphics + ((15 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r2, _080550E8 @ =gUnknown_08687CF0
+	ldr r2, _080550E8 @ =gUiGraphics + ((15 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r2, _080550EC @ =gUnknown_08687CF4
+	ldr r2, _080550EC @ =gUiGraphics + ((15 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
-	ldr r2, _080550F0 @ =gUnknown_08687CF8
+	ldr r2, _080550F0 @ =gUiGraphics + ((15 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -3127,16 +3127,16 @@ _08054F14:
 	ldr r0, [r5]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _080550E4 @ =gUnknown_08687CEC
+	ldr r2, _080550E4 @ =gUiGraphics + ((15 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r2, _080550E8 @ =gUnknown_08687CF0
+	ldr r2, _080550E8 @ =gUiGraphics + ((15 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r2, _080550EC @ =gUnknown_08687CF4
+	ldr r2, _080550EC @ =gUiGraphics + ((15 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
-	ldr r2, _080550F0 @ =gUnknown_08687CF8
+	ldr r2, _080550F0 @ =gUiGraphics + ((15 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -3258,17 +3258,17 @@ _08054F14:
 	bx r0
 	.align 2, 0
 _080550C4: .4byte gCurrentLevel
-_080550C8: .4byte gTilesets + 0x4
-_080550CC: .4byte gTilesets + 0x8
-_080550D0: .4byte gTilesets + 0xC
-_080550D4: .4byte gTilesets + 0x10
-_080550D8: .4byte gTilesets + 0x14
-_080550DC: .4byte gTilesets + 0x18
-_080550E0: .4byte gTilesets
-_080550E4: .4byte gUnknown_08687CEC
-_080550E8: .4byte gUnknown_08687CF0
-_080550EC: .4byte gUnknown_08687CF4
-_080550F0: .4byte gUnknown_08687CF8
+_080550C8: .4byte gUiGraphics + 0x4
+_080550CC: .4byte gUiGraphics + 0x8
+_080550D0: .4byte gUiGraphics + 0xC
+_080550D4: .4byte gUiGraphics + 0x10
+_080550D8: .4byte gUiGraphics + 0x14
+_080550DC: .4byte gUiGraphics + 0x18
+_080550E0: .4byte gUiGraphics
+_080550E4: .4byte gUiGraphics + ((15 * 0x1C) + 0xC)
+_080550E8: .4byte gUiGraphics + ((15 * 0x1C) + 0x10)
+_080550EC: .4byte gUiGraphics + ((15 * 0x1C) + 0x14)
+_080550F0: .4byte gUiGraphics + ((15 * 0x1C) + 0x18)
 _080550F4: .4byte gUnknown_08688398
 
 	thumb_func_start sub_80550F8
@@ -4724,7 +4724,7 @@ sub_8055C50: @ 0x08055C50
 	adds r5, #0x2b
 	movs r0, #4
 	strb r0, [r5]
-	ldr r7, _08055DBC @ =gTilesets
+	ldr r7, _08055DBC @ =gUiGraphics
 	movs r2, #0xe0
 	lsls r2, r2, #2
 	adds r0, r7, r2
@@ -4868,7 +4868,7 @@ sub_8055C50: @ 0x08055C50
 	adds r0, r7, r2
 	ldr r0, [r0]
 	strb r0, [r1, #9]
-	ldr r2, _08055DC8 @ =gUnknown_0868803C
+	ldr r2, _08055DC8 @ =gUiGraphics + ((45 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
 	ldr r2, _08055DCC @ =0x00000504
@@ -4886,10 +4886,10 @@ sub_8055C50: @ 0x08055C50
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08055DBC: .4byte gTilesets
+_08055DBC: .4byte gUiGraphics
 _08055DC0: .4byte 0x000004EC
 _08055DC4: .4byte 0x000004F4
-_08055DC8: .4byte gUnknown_0868803C
+_08055DC8: .4byte gUiGraphics + ((45 * 0x1C) + 0x14)
 _08055DCC: .4byte 0x00000504
 
 	thumb_func_start sub_8055DD0
@@ -7136,7 +7136,7 @@ sub_8056FE4: @ 0x08056FE4
 	adds r4, #0x2b
 	movs r0, #8
 	strb r0, [r4]
-	ldr r0, _080570A4 @ =gTilesets
+	ldr r0, _080570A4 @ =gUiGraphics
 	mov sb, r0
 	movs r0, #0xe0
 	lsls r0, r0, #1
@@ -7214,7 +7214,7 @@ sub_8056FE4: @ 0x08056FE4
 	adds r0, r0, r1
 	b _080570F0
 	.align 2, 0
-_080570A4: .4byte gTilesets
+_080570A4: .4byte gUiGraphics
 _080570A8: .4byte 0x06011000
 _080570AC: .4byte gCurrentLevel
 _080570B0:
@@ -7254,12 +7254,12 @@ _080570E4:
 	ldr r0, [r1]
 _080570F0:
 	str r0, [sp, #0x14]
-	ldr r4, _080573BC @ =gTilesets
+	ldr r4, _080573BC @ =gUiGraphics
 	ldrb r1, [r7]
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C0 @ =gTilesets + 0x4
+	ldr r1, _080573C0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -7286,7 +7286,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C4 @ =gTilesets + 0x8
+	ldr r1, _080573C4 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -7295,7 +7295,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C8 @ =gTilesets + 0xC
+	ldr r1, _080573C8 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -7323,7 +7323,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573CC @ =gTilesets + 0x18
+	ldr r1, _080573CC @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -7348,7 +7348,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C0 @ =gTilesets + 0x4
+	ldr r1, _080573C0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -7369,7 +7369,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C4 @ =gTilesets + 0x8
+	ldr r1, _080573C4 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -7378,7 +7378,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C8 @ =gTilesets + 0xC
+	ldr r1, _080573C8 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -7400,7 +7400,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573CC @ =gTilesets + 0x18
+	ldr r1, _080573CC @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -7426,7 +7426,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C0 @ =gTilesets + 0x4
+	ldr r1, _080573C0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -7450,7 +7450,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C4 @ =gTilesets + 0x8
+	ldr r1, _080573C4 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -7459,7 +7459,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573C8 @ =gTilesets + 0xC
+	ldr r1, _080573C8 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -7481,7 +7481,7 @@ _080570F0:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080573CC @ =gTilesets + 0x18
+	ldr r1, _080573CC @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -7602,11 +7602,11 @@ _080570F0:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080573BC: .4byte gTilesets
-_080573C0: .4byte gTilesets + 0x4
-_080573C4: .4byte gTilesets + 0x8
-_080573C8: .4byte gTilesets + 0xC
-_080573CC: .4byte gTilesets + 0x18
+_080573BC: .4byte gUiGraphics
+_080573C0: .4byte gUiGraphics + 0x4
+_080573C4: .4byte gUiGraphics + 0x8
+_080573C8: .4byte gUiGraphics + 0xC
+_080573CC: .4byte gUiGraphics + 0x18
 _080573D0: .4byte gSelectedCharacter
 
 	thumb_func_start CreateStageResults
@@ -9896,7 +9896,7 @@ _0805855A:
 	movs r2, #0
 	ldr r1, [sp, #0x40]
 	strb r2, [r1]
-	ldr r3, _08058810 @ =gTilesets
+	ldr r3, _08058810 @ =gUiGraphics
 	mov sl, r3
 	ldrb r1, [r7]
 	lsls r0, r1, #3
@@ -9909,7 +9909,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08058814 @ =gTilesets + 0x4
+	ldr r1, _08058814 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -9936,7 +9936,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805881C @ =gTilesets + 0x8
+	ldr r1, _0805881C @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -9945,7 +9945,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08058820 @ =gTilesets + 0xC
+	ldr r3, _08058820 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -9963,7 +9963,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08058824 @ =gTilesets + 0x14
+	ldr r3, _08058824 @ =gUiGraphics + 0x14
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -9994,7 +9994,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08058814 @ =gTilesets + 0x4
+	ldr r1, _08058814 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -10020,7 +10020,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805881C @ =gTilesets + 0x8
+	ldr r1, _0805881C @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -10029,7 +10029,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08058820 @ =gTilesets + 0xC
+	ldr r3, _08058820 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -10044,7 +10044,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08058824 @ =gTilesets + 0x14
+	ldr r1, _08058824 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -10065,7 +10065,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08058814 @ =gTilesets + 0x4
+	ldr r3, _08058814 @ =gUiGraphics + 0x4
 	adds r0, r0, r3
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -10083,7 +10083,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805881C @ =gTilesets + 0x8
+	ldr r2, _0805881C @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -10092,7 +10092,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08058820 @ =gTilesets + 0xC
+	ldr r3, _08058820 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -10107,7 +10107,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08058824 @ =gTilesets + 0x14
+	ldr r1, _08058824 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -10136,7 +10136,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08058814 @ =gTilesets + 0x4
+	ldr r3, _08058814 @ =gUiGraphics + 0x4
 	adds r0, r0, r3
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -10157,7 +10157,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805881C @ =gTilesets + 0x8
+	ldr r1, _0805881C @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -10166,7 +10166,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08058820 @ =gTilesets + 0xC
+	ldr r3, _08058820 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -10181,7 +10181,7 @@ _0805855A:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08058824 @ =gTilesets + 0x14
+	ldr r1, _08058824 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -10216,12 +10216,12 @@ _08058800: .4byte 0x00001015
 _08058804: .4byte 0x030000E2
 _08058808: .4byte 0x00001016
 _0805880C: .4byte 0x030000F8
-_08058810: .4byte gTilesets
-_08058814: .4byte gTilesets + 0x4
+_08058810: .4byte gUiGraphics
+_08058814: .4byte gUiGraphics + 0x4
 _08058818: .4byte gUnknown_08684D3C
-_0805881C: .4byte gTilesets + 0x8
-_08058820: .4byte gTilesets + 0xC
-_08058824: .4byte gTilesets + 0x14
+_0805881C: .4byte gUiGraphics + 0x8
+_08058820: .4byte gUiGraphics + 0xC
+_08058824: .4byte gUiGraphics + 0x14
 _08058828: .4byte gUnknown_08685D3C
 _0805882C: .4byte 0x06012000
 
@@ -11480,7 +11480,7 @@ _0805924A:
 _0805924C:
 	lsls r5, r6, #1
 	str r5, [sp, #0x48]
-	ldr r1, _080593BC @ =gUnknown_08687F4C
+	ldr r1, _080593BC @ =gUiGraphics + ((37 * 0x1C) + 0x4)
 	ldr r0, [r1]
 	adds r0, r0, r5
 	ldrh r0, [r0]
@@ -11493,7 +11493,7 @@ _0805924C:
 	movs r1, #0x20
 	bl Div
 	adds r4, r0, #0
-	ldr r3, _080593BC @ =gUnknown_08687F4C
+	ldr r3, _080593BC @ =gUiGraphics + ((37 * 0x1C) + 0x4)
 	ldr r0, [r3]
 	adds r0, r0, r5
 	ldrh r0, [r0]
@@ -11506,7 +11506,7 @@ _0805924C:
 	movs r1, #0x20
 	bl Div
 	adds r5, r0, #0
-	ldr r1, _080593BC @ =gUnknown_08687F4C
+	ldr r1, _080593BC @ =gUiGraphics + ((37 * 0x1C) + 0x4)
 	ldr r0, [r1]
 	ldr r2, [sp, #0x48]
 	adds r0, r0, r2
@@ -11554,7 +11554,7 @@ _0805924C:
 	movs r0, #4
 	ldr r5, [sp, #0x5c]
 	strb r0, [r5]
-	ldr r3, _080593C8 @ =gTilesets
+	ldr r3, _080593C8 @ =gUiGraphics
 	mov r7, r8
 	ldrb r1, [r7]
 	lsls r0, r1, #3
@@ -11657,10 +11657,10 @@ _0805924C:
 	b _080593E2
 	.align 2, 0
 _080593B8: .4byte gSineTable
-_080593BC: .4byte gUnknown_08687F4C
+_080593BC: .4byte gUiGraphics + ((37 * 0x1C) + 0x4)
 _080593C0: .4byte gCurTask
 _080593C4: .4byte 0x03000034
-_080593C8: .4byte gTilesets
+_080593C8: .4byte gUiGraphics
 _080593CC: .4byte 0x030000F8
 _080593D0: .4byte 0x03000028
 _080593D4: .4byte 0x03000024
@@ -11785,7 +11785,7 @@ _080593F2:
 	adds r0, r6, #0
 	ldr r2, _08059530 @ =0x000007FF
 	ands r0, r2
-	ldr r3, _0805954C @ =gUnknown_08685D5A
+	ldr r3, _0805954C @ =gUnknown_08685D3C + 0x1E
 	adds r0, r0, r3
 	str r0, [r7]
 	subs r0, r1, #2
@@ -11840,7 +11840,7 @@ _0805953C: .4byte gVramGraphicsCopyQueueIndex
 _08059540: .4byte 0x030000A4
 _08059544: .4byte 0x030000E0
 _08059548: .4byte 0x030000B0
-_0805954C: .4byte gUnknown_08685D5A
+_0805954C: .4byte gUnknown_08685D3C + 0x1E
 _08059550: .4byte 0x030000BC
 _08059554: .4byte 0x03000028
 _08059558:
@@ -12427,7 +12427,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	str r1, [sp, #0x3c]
 	movs r2, #0
 	strb r2, [r1]
-	ldr r6, _08059C34 @ =gTilesets
+	ldr r6, _08059C34 @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -12439,7 +12439,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C38 @ =gTilesets + 0x4
+	ldr r3, _08059C38 @ =gUiGraphics + 0x4
 	adds r0, r0, r3
 	ldr r1, [sp, #0x34]
 	lsls r1, r1, #1
@@ -12472,7 +12472,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _08059C40 @ =gTilesets + 0x8
+	ldr r2, _08059C40 @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -12481,7 +12481,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C44 @ =gTilesets + 0xC
+	ldr r3, _08059C44 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -12489,7 +12489,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059C48 @ =gTilesets + 0x10
+	ldr r1, _08059C48 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -12497,7 +12497,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C4C @ =gTilesets + 0x14
+	ldr r3, _08059C4C @ =gUiGraphics + 0x14
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -12505,7 +12505,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059C50 @ =gTilesets + 0x18
+	ldr r1, _08059C50 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -12527,7 +12527,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059C38 @ =gTilesets + 0x4
+	ldr r1, _08059C38 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -12548,7 +12548,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C40 @ =gTilesets + 0x8
+	ldr r3, _08059C40 @ =gUiGraphics + 0x8
 	adds r0, r0, r3
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -12557,7 +12557,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059C44 @ =gTilesets + 0xC
+	ldr r1, _08059C44 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -12565,7 +12565,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C48 @ =gTilesets + 0x10
+	ldr r3, _08059C48 @ =gUiGraphics + 0x10
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -12573,7 +12573,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059C4C @ =gTilesets + 0x14
+	ldr r1, _08059C4C @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -12581,7 +12581,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C50 @ =gTilesets + 0x18
+	ldr r3, _08059C50 @ =gUiGraphics + 0x18
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -12607,7 +12607,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C38 @ =gTilesets + 0x4
+	ldr r3, _08059C38 @ =gUiGraphics + 0x4
 	adds r0, r0, r3
 	ldr r0, [r0]
 	str r0, [sp, #0x24]
@@ -12628,7 +12628,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059C40 @ =gTilesets + 0x8
+	ldr r1, _08059C40 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -12637,7 +12637,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059C44 @ =gTilesets + 0xC
+	ldr r3, _08059C44 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -12668,20 +12668,20 @@ _08059C24: .4byte 0x03000022
 _08059C28: .4byte 0x03000025
 _08059C2C: .4byte 0x000002D3
 _08059C30: .4byte 0x03000020
-_08059C34: .4byte gTilesets
-_08059C38: .4byte gTilesets + 0x4
+_08059C34: .4byte gUiGraphics
+_08059C38: .4byte gUiGraphics + 0x4
 _08059C3C: .4byte 0x06010020
-_08059C40: .4byte gTilesets + 0x8
-_08059C44: .4byte gTilesets + 0xC
-_08059C48: .4byte gTilesets + 0x10
-_08059C4C: .4byte gTilesets + 0x14
-_08059C50: .4byte gTilesets + 0x18
+_08059C40: .4byte gUiGraphics + 0x8
+_08059C44: .4byte gUiGraphics + 0xC
+_08059C48: .4byte gUiGraphics + 0x10
+_08059C4C: .4byte gUiGraphics + 0x14
+_08059C50: .4byte gUiGraphics + 0x18
 _08059C54: .4byte 0x06010420
 _08059C58: .4byte 0x06011120
 _08059C5C:
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059F10 @ =gTilesets + 0x10
+	ldr r1, _08059F10 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -12689,7 +12689,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059F14 @ =gTilesets + 0x14
+	ldr r3, _08059F14 @ =gUiGraphics + 0x14
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -12697,7 +12697,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059F18 @ =gTilesets + 0x18
+	ldr r1, _08059F18 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -12732,7 +12732,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _08059F20 @ =gTilesets + 0x8
+	ldr r2, _08059F20 @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -12741,7 +12741,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059F24 @ =gTilesets + 0xC
+	ldr r3, _08059F24 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -12749,7 +12749,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059F10 @ =gTilesets + 0x10
+	ldr r1, _08059F10 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -12757,7 +12757,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059F14 @ =gTilesets + 0x14
+	ldr r3, _08059F14 @ =gUiGraphics + 0x14
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -12765,7 +12765,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059F18 @ =gTilesets + 0x18
+	ldr r1, _08059F18 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -12800,7 +12800,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059F20 @ =gTilesets + 0x8
+	ldr r1, _08059F20 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #8]
@@ -12809,7 +12809,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059F24 @ =gTilesets + 0xC
+	ldr r3, _08059F24 @ =gUiGraphics + 0xC
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -12817,7 +12817,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08059F10 @ =gTilesets + 0x10
+	ldr r1, _08059F10 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -12825,7 +12825,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r3, _08059F14 @ =gTilesets + 0x14
+	ldr r3, _08059F14 @ =gUiGraphics + 0x14
 	adds r0, r0, r3
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -12833,7 +12833,7 @@ _08059C5C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r4, _08059F18 @ =gTilesets + 0x18
+	ldr r4, _08059F18 @ =gUiGraphics + 0x18
 	adds r0, r0, r4
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -13018,12 +13018,12 @@ _08059C5C:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08059F10: .4byte gTilesets + 0x10
-_08059F14: .4byte gTilesets + 0x14
-_08059F18: .4byte gTilesets + 0x18
+_08059F10: .4byte gUiGraphics + 0x10
+_08059F14: .4byte gUiGraphics + 0x14
+_08059F18: .4byte gUiGraphics + 0x18
 _08059F1C: .4byte 0x06010820
-_08059F20: .4byte gTilesets + 0x8
-_08059F24: .4byte gTilesets + 0xC
+_08059F20: .4byte gUiGraphics + 0x8
+_08059F24: .4byte gUiGraphics + 0xC
 _08059F28: .4byte 0x06010920
 _08059F2C: .4byte 0x00002010
 _08059F30: .4byte Task_805B980
@@ -14385,7 +14385,7 @@ sub_805A9A4: @ 0x0805A9A4
 	adds r1, #0x2b
 	movs r0, #4
 	strb r0, [r1]
-	ldr r4, _0805AAEC @ =gTilesets
+	ldr r4, _0805AAEC @ =gUiGraphics
 	ldrb r1, [r2]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -14474,7 +14474,7 @@ _0805AADC: .4byte sub_805B880
 _0805AAE0: .4byte sub_805B930
 _0805AAE4: .4byte 0x03000040
 _0805AAE8: .4byte gBldRegs
-_0805AAEC: .4byte gTilesets
+_0805AAEC: .4byte gUiGraphics
 _0805AAF0: .4byte 0x06010920
 _0805AAF4: .4byte sub_805AAF8
 
@@ -15125,7 +15125,7 @@ _0805B022:
 	adds r1, #0x2b
 	movs r0, #2
 	strb r0, [r1]
-	ldr r0, _0805B0E8 @ =gTilesets
+	ldr r0, _0805B0E8 @ =gUiGraphics
 	mov ip, r0
 	ldrb r1, [r2]
 	lsls r0, r1, #3
@@ -15211,7 +15211,7 @@ _0805B0C6:
 	.align 2, 0
 _0805B0E0: .4byte gUnknown_086885CE
 _0805B0E4: .4byte gCurTask
-_0805B0E8: .4byte gTilesets
+_0805B0E8: .4byte gUiGraphics
 _0805B0EC: .4byte 0x06011120
 _0805B0F0: .4byte gUnknown_08688570
 _0805B0F4:
@@ -15815,7 +15815,7 @@ _0805B5A6:
 	adds r2, #0x3b
 	movs r1, #0
 	strb r1, [r2]
-	ldr r1, _0805B68C @ =gTilesets
+	ldr r1, _0805B68C @ =gUiGraphics
 	mov ip, r1
 	ldrb r2, [r4]
 	lsls r1, r2, #3
@@ -15904,7 +15904,7 @@ _0805B666:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805B68C: .4byte gTilesets
+_0805B68C: .4byte gUiGraphics
 _0805B690: .4byte 0x06010020
 
 	thumb_func_start sub_805B694
@@ -15967,7 +15967,7 @@ _0805B6F4:
 	adds r1, #0x2b
 	movs r0, #0
 	strb r0, [r1]
-	ldr r0, _0805B7A8 @ =gTilesets
+	ldr r0, _0805B7A8 @ =gUiGraphics
 	mov ip, r0
 	ldrb r1, [r2]
 	lsls r0, r1, #3
@@ -16046,7 +16046,7 @@ _0805B79A:
 	.align 2, 0
 _0805B7A0: .4byte gUnknown_08688608
 _0805B7A4: .4byte gCurTask
-_0805B7A8: .4byte gTilesets
+_0805B7A8: .4byte gUiGraphics
 _0805B7AC: .4byte 0x06010020
 _0805B7B0:
 	movs r0, #0x70
@@ -16688,7 +16688,7 @@ _0805BCCE:
 	movs r0, #4
 	ldr r1, [sp, #0x40]
 	strb r0, [r1]
-	ldr r7, _0805BE00 @ =gTilesets
+	ldr r7, _0805BE00 @ =gUiGraphics
 	ldrb r1, [r3]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -16828,7 +16828,7 @@ _0805BCCE:
 	movs r0, #0x2f
 	b _0805BE1C
 	.align 2, 0
-_0805BE00: .4byte gTilesets
+_0805BE00: .4byte gUiGraphics
 _0805BE04: .4byte 0x06015DA0
 _0805BE08: .4byte 0x060177A0
 _0805BE0C:
@@ -16850,7 +16850,7 @@ _0805BE20:
 	str r2, [sp, #0x44]
 	movs r0, #2
 	strb r0, [r2]
-	ldr r7, _0805C160 @ =gTilesets
+	ldr r7, _0805C160 @ =gUiGraphics
 	add r6, sp, #0x2c
 	ldrb r1, [r6]
 	lsls r0, r1, #3
@@ -16960,11 +16960,11 @@ _0805BED6:
 	ldr r0, [sp, #0x44]
 	strb r1, [r0]
 	lsls r4, r5, #7
-	ldr r1, _0805C168 @ =gUnknown_08687EBC
+	ldr r1, _0805C168 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r1]
 	adds r0, r0, r4
 	str r0, [sp, #0x14]
-	ldr r2, _0805C16C @ =gUnknown_08687EC0
+	ldr r2, _0805C16C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C170 @ =0x060169E0
@@ -16979,14 +16979,14 @@ _0805BED6:
 	movs r0, #0xd
 	ldr r3, [sp, #0x4c]
 	strb r0, [r3]
-	ldr r1, _0805C174 @ =gUnknown_08687EC4
+	ldr r1, _0805C174 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _0805C178 @ =gUnknown_08687EC8
+	ldr r2, _0805C178 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r3, _0805C17C @ =gUnknown_08687ECC
+	ldr r3, _0805C17C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
 	movs r0, #0xe5
@@ -16994,7 +16994,7 @@ _0805BED6:
 	adds r5, r7, r0
 	ldr r0, [r5]
 	strb r0, [r1, #0xa]
-	ldr r2, _0805C180 @ =gUnknown_08687ED4
+	ldr r2, _0805C180 @ =gUiGraphics + ((32 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -17005,12 +17005,12 @@ _0805BED6:
 	ldrb r1, [r0]
 	ldr r0, [sp, #0x44]
 	strb r1, [r0]
-	ldr r1, _0805C168 @ =gUnknown_08687EBC
+	ldr r1, _0805C168 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r1]
 	adds r0, r0, r4
 	adds r0, #0x40
 	str r0, [sp, #0x14]
-	ldr r2, _0805C16C @ =gUnknown_08687EC0
+	ldr r2, _0805C16C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C184 @ =0x06016A60
@@ -17025,19 +17025,19 @@ _0805BED6:
 	movs r0, #0xd
 	ldr r3, [sp, #0x4c]
 	strb r0, [r3]
-	ldr r1, _0805C174 @ =gUnknown_08687EC4
+	ldr r1, _0805C174 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _0805C178 @ =gUnknown_08687EC8
+	ldr r2, _0805C178 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r3, _0805C17C @ =gUnknown_08687ECC
+	ldr r3, _0805C17C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
 	ldr r0, [r5]
 	strb r0, [r1, #0xa]
-	ldr r2, _0805C180 @ =gUnknown_08687ED4
+	ldr r2, _0805C180 @ =gUiGraphics + ((32 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -17070,11 +17070,11 @@ _0805BFD6:
 	strb r3, [r2]
 	lsls r5, r5, #7
 	mov sb, r5
-	ldr r3, _0805C168 @ =gUnknown_08687EBC
+	ldr r3, _0805C168 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r3]
 	add r0, sb
 	str r0, [sp, #0x14]
-	ldr r1, _0805C16C @ =gUnknown_08687EC0
+	ldr r1, _0805C16C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r1]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C188 @ =0x06016BA0
@@ -17089,14 +17089,14 @@ _0805BFD6:
 	movs r3, #0xd
 	ldr r2, [sp, #0x4c]
 	strb r3, [r2]
-	ldr r1, _0805C174 @ =gUnknown_08687EC4
+	ldr r1, _0805C174 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _0805C178 @ =gUnknown_08687EC8
+	ldr r2, _0805C178 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r3, _0805C17C @ =gUnknown_08687ECC
+	ldr r3, _0805C17C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
 	movs r0, #0xe5
@@ -17117,12 +17117,12 @@ _0805BFD6:
 	ldrb r1, [r0]
 	ldr r0, [sp, #0x44]
 	strb r1, [r0]
-	ldr r1, _0805C168 @ =gUnknown_08687EBC
+	ldr r1, _0805C168 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r1]
 	add r0, sb
 	adds r0, #0x40
 	str r0, [sp, #0x14]
-	ldr r2, _0805C16C @ =gUnknown_08687EC0
+	ldr r2, _0805C16C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C18C @ =0x06016C20
@@ -17137,14 +17137,14 @@ _0805BFD6:
 	movs r0, #0xd
 	ldr r3, [sp, #0x4c]
 	strb r0, [r3]
-	ldr r1, _0805C174 @ =gUnknown_08687EC4
+	ldr r1, _0805C174 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _0805C178 @ =gUnknown_08687EC8
+	ldr r2, _0805C178 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r3, _0805C17C @ =gUnknown_08687ECC
+	ldr r3, _0805C17C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
 	ldr r0, [r5]
@@ -17171,13 +17171,13 @@ _0805C0A6:
 	movs r2, #0x2b
 	add r2, sp
 	strb r1, [r2]
-	ldr r2, _0805C160 @ =gTilesets
+	ldr r2, _0805C160 @ =gUiGraphics
 	lsls r7, r5, #7
-	ldr r3, _0805C168 @ =gUnknown_08687EBC
+	ldr r3, _0805C168 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r3]
 	adds r0, r0, r7
 	str r0, [sp, #0x14]
-	ldr r1, _0805C16C @ =gUnknown_08687EC0
+	ldr r1, _0805C16C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r1]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C190 @ =0x06016BE0
@@ -17193,17 +17193,17 @@ _0805C0A6:
 	movs r1, #0x2a
 	add r1, sp
 	strb r0, [r1]
-	ldr r3, _0805C174 @ =gUnknown_08687EC4
+	ldr r3, _0805C174 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r3]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r3, _0805C178 @ =gUnknown_08687EC8
+	ldr r3, _0805C178 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r3]
 	strb r0, [r1, #8]
-	ldr r3, _0805C17C @ =gUnknown_08687ECC
+	ldr r3, _0805C17C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
-	ldr r3, _0805C194 @ =gUnknown_08687ED0
+	ldr r3, _0805C194 @ =gUiGraphics + ((32 * 0x1C) + 0x14)
 	ldr r0, [r3]
 	strb r0, [r1, #0xa]
 	movs r0, #0xe6
@@ -17220,12 +17220,12 @@ _0805C0A6:
 	movs r0, #0x2b
 	add r0, sp
 	strb r3, [r0]
-	ldr r1, _0805C168 @ =gUnknown_08687EBC
+	ldr r1, _0805C168 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r1]
 	adds r0, r0, r7
 	adds r0, #0x40
 	str r0, [sp, #0x14]
-	ldr r2, _0805C16C @ =gUnknown_08687EC0
+	ldr r2, _0805C16C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C198 @ =0x06016C60
@@ -17241,36 +17241,36 @@ _0805C0A6:
 	movs r0, #0x2a
 	add r0, sp
 	strb r3, [r0]
-	ldr r1, _0805C174 @ =gUnknown_08687EC4
+	ldr r1, _0805C174 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _0805C178 @ =gUnknown_08687EC8
+	ldr r2, _0805C178 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r3, _0805C17C @ =gUnknown_08687ECC
+	ldr r3, _0805C17C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
-	ldr r2, _0805C194 @ =gUnknown_08687ED0
+	ldr r2, _0805C194 @ =gUiGraphics + ((32 * 0x1C) + 0x14)
 	ldr r0, [r2]
 	strb r0, [r1, #0xa]
 	ldr r0, [r5]
 	b _0805C318
 	.align 2, 0
-_0805C160: .4byte gTilesets
+_0805C160: .4byte gUiGraphics
 _0805C164: .4byte 0x060167A0
-_0805C168: .4byte gUnknown_08687EBC
-_0805C16C: .4byte gUnknown_08687EC0
+_0805C168: .4byte gUiGraphics + ((32 * 0x1C) + 0)
+_0805C16C: .4byte gUiGraphics + ((32 * 0x1C) + 4)
 _0805C170: .4byte 0x060169E0
-_0805C174: .4byte gUnknown_08687EC4
-_0805C178: .4byte gUnknown_08687EC8
-_0805C17C: .4byte gUnknown_08687ECC
-_0805C180: .4byte gUnknown_08687ED4
+_0805C174: .4byte gUiGraphics + ((32 * 0x1C) + 8)
+_0805C178: .4byte gUiGraphics + ((32 * 0x1C) + 0xC)
+_0805C17C: .4byte gUiGraphics + ((32 * 0x1C) + 0x10)
+_0805C180: .4byte gUiGraphics + ((32 * 0x1C) + 0x18)
 _0805C184: .4byte 0x06016A60
 _0805C188: .4byte 0x06016BA0
 _0805C18C: .4byte 0x06016C20
 _0805C190: .4byte 0x06016BE0
-_0805C194: .4byte gUnknown_08687ED0
+_0805C194: .4byte gUiGraphics + ((32 * 0x1C) + 0x14)
 _0805C198: .4byte 0x06016C60
 _0805C19C:
 	ldr r3, [sp, #0x38]
@@ -17296,11 +17296,11 @@ _0805C1A4:
 	strb r2, [r1]
 	lsls r5, r5, #7
 	mov r8, r5
-	ldr r3, _0805C324 @ =gUnknown_08687EBC
+	ldr r3, _0805C324 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r3]
 	add r0, r8
 	str r0, [sp, #0x14]
-	ldr r1, _0805C328 @ =gUnknown_08687EC0
+	ldr r1, _0805C328 @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r1]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C32C @ =0x060169E0
@@ -17315,14 +17315,14 @@ _0805C1A4:
 	movs r3, #0xd
 	ldr r2, [sp, #0x4c]
 	strb r3, [r2]
-	ldr r1, _0805C330 @ =gUnknown_08687EC4
+	ldr r1, _0805C330 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _0805C334 @ =gUnknown_08687EC8
+	ldr r2, _0805C334 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r3, _0805C338 @ =gUnknown_08687ECC
+	ldr r3, _0805C338 @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
 	movs r0, #0xe5
@@ -17330,7 +17330,7 @@ _0805C1A4:
 	adds r5, r7, r0
 	ldr r0, [r5]
 	strb r0, [r1, #0xa]
-	ldr r2, _0805C33C @ =gUnknown_08687ED4
+	ldr r2, _0805C33C @ =gUiGraphics + ((32 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -17340,12 +17340,12 @@ _0805C1A4:
 	movs r1, #3
 	ldr r0, [sp, #0x44]
 	strb r1, [r0]
-	ldr r2, _0805C324 @ =gUnknown_08687EBC
+	ldr r2, _0805C324 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r2]
 	add r0, r8
 	adds r0, #0x40
 	str r0, [sp, #0x14]
-	ldr r3, _0805C328 @ =gUnknown_08687EC0
+	ldr r3, _0805C328 @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r3]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C340 @ =0x06016A60
@@ -17360,19 +17360,19 @@ _0805C1A4:
 	movs r1, #0xd
 	ldr r0, [sp, #0x4c]
 	strb r1, [r0]
-	ldr r2, _0805C330 @ =gUnknown_08687EC4
+	ldr r2, _0805C330 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r2]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r3, _0805C334 @ =gUnknown_08687EC8
+	ldr r3, _0805C334 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r3]
 	strb r0, [r1, #8]
-	ldr r2, _0805C338 @ =gUnknown_08687ECC
+	ldr r2, _0805C338 @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
 	ldr r0, [r5]
 	strb r0, [r1, #0xa]
-	ldr r3, _0805C33C @ =gUnknown_08687ED4
+	ldr r3, _0805C33C @ =gUiGraphics + ((32 * 0x1C) + 0x18)
 	ldr r0, [r3]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -17384,11 +17384,11 @@ _0805C1A4:
 	strb r2, [r1]
 	ldr r3, [sp, #0x30]
 	lsls r7, r3, #7
-	ldr r1, _0805C324 @ =gUnknown_08687EBC
+	ldr r1, _0805C324 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r1]
 	adds r0, r0, r7
 	str r0, [sp, #0x14]
-	ldr r2, _0805C328 @ =gUnknown_08687EC0
+	ldr r2, _0805C328 @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r2]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C344 @ =0x06016BA0
@@ -17403,19 +17403,19 @@ _0805C1A4:
 	movs r0, #0xd
 	ldr r3, [sp, #0x4c]
 	strb r0, [r3]
-	ldr r1, _0805C330 @ =gUnknown_08687EC4
+	ldr r1, _0805C330 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r1]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r2, _0805C334 @ =gUnknown_08687EC8
+	ldr r2, _0805C334 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r2]
 	strb r0, [r1, #8]
-	ldr r3, _0805C338 @ =gUnknown_08687ECC
+	ldr r3, _0805C338 @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r3]
 	strb r0, [r1, #9]
 	ldr r0, [r5]
 	strb r0, [r1, #0xa]
-	ldr r2, _0805C33C @ =gUnknown_08687ED4
+	ldr r2, _0805C33C @ =gUiGraphics + ((32 * 0x1C) + 0x18)
 	ldr r0, [r2]
 	strb r0, [r1, #0xb]
 	mov r0, sp
@@ -17425,12 +17425,12 @@ _0805C1A4:
 	movs r1, #3
 	ldr r0, [sp, #0x44]
 	strb r1, [r0]
-	ldr r2, _0805C324 @ =gUnknown_08687EBC
+	ldr r2, _0805C324 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r2]
 	adds r0, r0, r7
 	adds r0, #0x40
 	str r0, [sp, #0x14]
-	ldr r3, _0805C328 @ =gUnknown_08687EC0
+	ldr r3, _0805C328 @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r3]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C348 @ =0x06016C20
@@ -17445,19 +17445,19 @@ _0805C1A4:
 	movs r1, #0xd
 	ldr r0, [sp, #0x4c]
 	strb r1, [r0]
-	ldr r2, _0805C330 @ =gUnknown_08687EC4
+	ldr r2, _0805C330 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r2]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r3, _0805C334 @ =gUnknown_08687EC8
+	ldr r3, _0805C334 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r3]
 	strb r0, [r1, #8]
-	ldr r2, _0805C338 @ =gUnknown_08687ECC
+	ldr r2, _0805C338 @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
 	ldr r0, [r5]
 	strb r0, [r1, #0xa]
-	ldr r3, _0805C33C @ =gUnknown_08687ED4
+	ldr r3, _0805C33C @ =gUiGraphics + ((32 * 0x1C) + 0x18)
 	ldr r0, [r3]
 _0805C318:
 	strb r0, [r1, #0xb]
@@ -17465,13 +17465,13 @@ _0805C318:
 	bl sub_80528AC
 	b _0805C416
 	.align 2, 0
-_0805C324: .4byte gUnknown_08687EBC
-_0805C328: .4byte gUnknown_08687EC0
+_0805C324: .4byte gUiGraphics + ((32 * 0x1C) + 0)
+_0805C328: .4byte gUiGraphics + ((32 * 0x1C) + 4)
 _0805C32C: .4byte 0x060169E0
-_0805C330: .4byte gUnknown_08687EC4
-_0805C334: .4byte gUnknown_08687EC8
-_0805C338: .4byte gUnknown_08687ECC
-_0805C33C: .4byte gUnknown_08687ED4
+_0805C330: .4byte gUiGraphics + ((32 * 0x1C) + 8)
+_0805C334: .4byte gUiGraphics + ((32 * 0x1C) + 0xC)
+_0805C338: .4byte gUiGraphics + ((32 * 0x1C) + 0x10)
+_0805C33C: .4byte gUiGraphics + ((32 * 0x1C) + 0x18)
 _0805C340: .4byte 0x06016A60
 _0805C344: .4byte 0x06016BA0
 _0805C348: .4byte 0x06016C20
@@ -17489,11 +17489,11 @@ _0805C34C:
 	ldr r1, [sp, #0x50]
 	lsrs r1, r1, #0x11
 	str r1, [sp, #0x54]
-	ldr r2, _0805C428 @ =gUnknown_08687EBC
+	ldr r2, _0805C428 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r2]
 	adds r0, r0, r1
 	str r0, [sp, #0x14]
-	ldr r3, _0805C42C @ =gUnknown_08687EC0
+	ldr r3, _0805C42C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r3]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C430 @ =0x060169E0
@@ -17509,17 +17509,17 @@ _0805C34C:
 	movs r1, #0x2a
 	add r1, sp
 	strb r0, [r1]
-	ldr r2, _0805C434 @ =gUnknown_08687EC4
+	ldr r2, _0805C434 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r2]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r3, _0805C438 @ =gUnknown_08687EC8
+	ldr r3, _0805C438 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r3]
 	strb r0, [r1, #8]
-	ldr r2, _0805C43C @ =gUnknown_08687ECC
+	ldr r2, _0805C43C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r3, _0805C440 @ =gUnknown_08687ED0
+	ldr r3, _0805C440 @ =gUiGraphics + ((32 * 0x1C) + 0x14)
 	ldr r0, [r3]
 	strb r0, [r1, #0xa]
 	movs r0, #0xe6
@@ -17536,13 +17536,13 @@ _0805C34C:
 	movs r0, #0x2b
 	add r0, sp
 	strb r3, [r0]
-	ldr r1, _0805C428 @ =gUnknown_08687EBC
+	ldr r1, _0805C428 @ =gUiGraphics + ((32 * 0x1C) + 0)
 	ldr r0, [r1]
 	ldr r2, [sp, #0x54]
 	adds r0, r0, r2
 	adds r0, #0x40
 	str r0, [sp, #0x14]
-	ldr r3, _0805C42C @ =gUnknown_08687EC0
+	ldr r3, _0805C42C @ =gUiGraphics + ((32 * 0x1C) + 4)
 	ldr r0, [r3]
 	str r0, [sp, #0x20]
 	ldr r0, _0805C444 @ =0x06016A60
@@ -17558,17 +17558,17 @@ _0805C34C:
 	movs r1, #0x2a
 	add r1, sp
 	strb r0, [r1]
-	ldr r2, _0805C434 @ =gUnknown_08687EC4
+	ldr r2, _0805C434 @ =gUiGraphics + ((32 * 0x1C) + 8)
 	ldr r0, [r2]
 	str r0, [sp, #4]
 	mov r1, sp
-	ldr r3, _0805C438 @ =gUnknown_08687EC8
+	ldr r3, _0805C438 @ =gUiGraphics + ((32 * 0x1C) + 0xC)
 	ldr r0, [r3]
 	strb r0, [r1, #8]
-	ldr r2, _0805C43C @ =gUnknown_08687ECC
+	ldr r2, _0805C43C @ =gUiGraphics + ((32 * 0x1C) + 0x10)
 	ldr r0, [r2]
 	strb r0, [r1, #9]
-	ldr r3, _0805C440 @ =gUnknown_08687ED0
+	ldr r3, _0805C440 @ =gUiGraphics + ((32 * 0x1C) + 0x14)
 	ldr r0, [r3]
 	strb r0, [r1, #0xa]
 	ldr r0, [r5]
@@ -17585,13 +17585,13 @@ _0805C416:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805C428: .4byte gUnknown_08687EBC
-_0805C42C: .4byte gUnknown_08687EC0
+_0805C428: .4byte gUiGraphics + ((32 * 0x1C) + 0)
+_0805C42C: .4byte gUiGraphics + ((32 * 0x1C) + 4)
 _0805C430: .4byte 0x060169E0
-_0805C434: .4byte gUnknown_08687EC4
-_0805C438: .4byte gUnknown_08687EC8
-_0805C43C: .4byte gUnknown_08687ECC
-_0805C440: .4byte gUnknown_08687ED0
+_0805C434: .4byte gUiGraphics + ((32 * 0x1C) + 8)
+_0805C438: .4byte gUiGraphics + ((32 * 0x1C) + 0xC)
+_0805C43C: .4byte gUiGraphics + ((32 * 0x1C) + 0x10)
+_0805C440: .4byte gUiGraphics + ((32 * 0x1C) + 0x14)
 _0805C444: .4byte 0x06016A60
 
 	thumb_func_start sub_805C448
@@ -18300,7 +18300,7 @@ sub_805C994: @ 0x0805C994
 	add r2, sp
 	movs r0, #8
 	strb r0, [r2]
-	ldr r7, _0805CB78 @ =gTilesets
+	ldr r7, _0805CB78 @ =gUiGraphics
 	movs r1, #0xe0
 	lsls r1, r1, #1
 	adds r0, r7, r1
@@ -18375,7 +18375,7 @@ _0805CA2E:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805CB80 @ =gTilesets + 0x4
+	ldr r2, _0805CB80 @ =gUiGraphics + 0x4
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -18396,7 +18396,7 @@ _0805CA2E:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CB88 @ =gTilesets + 0x8
+	ldr r1, _0805CB88 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -18462,7 +18462,7 @@ _0805CA2E:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CB80 @ =gTilesets + 0x4
+	ldr r1, _0805CB80 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -18484,7 +18484,7 @@ _0805CA2E:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CB88 @ =gTilesets + 0x8
+	ldr r1, _0805CB88 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -18522,11 +18522,11 @@ _0805CA2E:
 	bl sub_80528AC
 	b _0805CC3C
 	.align 2, 0
-_0805CB78: .4byte gTilesets
+_0805CB78: .4byte gUiGraphics
 _0805CB7C: .4byte 0x060177A0
-_0805CB80: .4byte gTilesets + 0x4
+_0805CB80: .4byte gUiGraphics + 0x4
 _0805CB84: .4byte 0x060169A0
-_0805CB88: .4byte gTilesets + 0x8
+_0805CB88: .4byte gUiGraphics + 0x8
 _0805CB8C: .4byte gSelectedCharacter
 _0805CB90: .4byte 0x060163A0
 _0805CB94:
@@ -18621,7 +18621,7 @@ _0805CC3C:
 	movs r1, #0x2b
 	add r1, sp
 	strb r0, [r1]
-	ldr r4, _0805CFBC @ =gTilesets
+	ldr r4, _0805CFBC @ =gUiGraphics
 	ldrb r1, [r3]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -18633,7 +18633,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805CFC0 @ =gTilesets + 0x4
+	ldr r2, _0805CFC0 @ =gUiGraphics + 0x4
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -18655,7 +18655,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFC8 @ =gTilesets + 0x8
+	ldr r1, _0805CFC8 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -18664,7 +18664,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFCC @ =gTilesets + 0xC
+	ldr r1, _0805CFCC @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -18672,7 +18672,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD0 @ =gTilesets + 0x10
+	ldr r1, _0805CFD0 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -18680,7 +18680,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD4 @ =gTilesets + 0x14
+	ldr r1, _0805CFD4 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -18688,7 +18688,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD8 @ =gTilesets + 0x18
+	ldr r1, _0805CFD8 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -18713,7 +18713,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFC0 @ =gTilesets + 0x4
+	ldr r1, _0805CFC0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -18733,7 +18733,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFC8 @ =gTilesets + 0x8
+	ldr r1, _0805CFC8 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -18742,7 +18742,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFCC @ =gTilesets + 0xC
+	ldr r1, _0805CFCC @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -18750,7 +18750,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD0 @ =gTilesets + 0x10
+	ldr r1, _0805CFD0 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -18758,7 +18758,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD4 @ =gTilesets + 0x14
+	ldr r1, _0805CFD4 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -18766,7 +18766,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD8 @ =gTilesets + 0x18
+	ldr r1, _0805CFD8 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -18793,7 +18793,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805CFC0 @ =gTilesets + 0x4
+	ldr r2, _0805CFC0 @ =gUiGraphics + 0x4
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -18811,7 +18811,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFC8 @ =gTilesets + 0x8
+	ldr r1, _0805CFC8 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -18820,7 +18820,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFCC @ =gTilesets + 0xC
+	ldr r1, _0805CFCC @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -18828,7 +18828,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD0 @ =gTilesets + 0x10
+	ldr r1, _0805CFD0 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -18836,7 +18836,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD4 @ =gTilesets + 0x14
+	ldr r1, _0805CFD4 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -18844,7 +18844,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD8 @ =gTilesets + 0x18
+	ldr r1, _0805CFD8 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -18869,7 +18869,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFC0 @ =gTilesets + 0x4
+	ldr r1, _0805CFC0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -18887,7 +18887,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805CFC8 @ =gTilesets + 0x8
+	ldr r2, _0805CFC8 @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -18896,7 +18896,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFCC @ =gTilesets + 0xC
+	ldr r1, _0805CFCC @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -18904,7 +18904,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD0 @ =gTilesets + 0x10
+	ldr r1, _0805CFD0 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -18912,7 +18912,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD4 @ =gTilesets + 0x14
+	ldr r1, _0805CFD4 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -18920,7 +18920,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD8 @ =gTilesets + 0x18
+	ldr r1, _0805CFD8 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -18945,7 +18945,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFC0 @ =gTilesets + 0x4
+	ldr r1, _0805CFC0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -18963,7 +18963,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805CFC8 @ =gTilesets + 0x8
+	ldr r2, _0805CFC8 @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -18972,7 +18972,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFCC @ =gTilesets + 0xC
+	ldr r1, _0805CFCC @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -18980,7 +18980,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD0 @ =gTilesets + 0x10
+	ldr r1, _0805CFD0 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -18988,7 +18988,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD4 @ =gTilesets + 0x14
+	ldr r1, _0805CFD4 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -18996,7 +18996,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFD8 @ =gTilesets + 0x18
+	ldr r1, _0805CFD8 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -19024,7 +19024,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805CFC0 @ =gTilesets + 0x4
+	ldr r1, _0805CFC0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -19045,7 +19045,7 @@ _0805CC3C:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805CFC8 @ =gTilesets + 0x8
+	ldr r2, _0805CFC8 @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -19056,19 +19056,19 @@ _0805CC3C:
 	b _0805CFE4
 	.align 2, 0
 _0805CFB8: .4byte 0x060163A0
-_0805CFBC: .4byte gTilesets
-_0805CFC0: .4byte gTilesets + 0x4
+_0805CFBC: .4byte gUiGraphics
+_0805CFC0: .4byte gUiGraphics + 0x4
 _0805CFC4: .4byte 0x060152A0
-_0805CFC8: .4byte gTilesets + 0x8
-_0805CFCC: .4byte gTilesets + 0xC
-_0805CFD0: .4byte gTilesets + 0x10
-_0805CFD4: .4byte gTilesets + 0x14
-_0805CFD8: .4byte gTilesets + 0x18
+_0805CFC8: .4byte gUiGraphics + 0x8
+_0805CFCC: .4byte gUiGraphics + 0xC
+_0805CFD0: .4byte gUiGraphics + 0x10
+_0805CFD4: .4byte gUiGraphics + 0x14
+_0805CFD8: .4byte gUiGraphics + 0x18
 _0805CFDC: .4byte 0x06014CA0
 _0805CFE0: .4byte 0x06014A20
 _0805CFE4:
 	lsls r0, r0, #2
-	ldr r1, _0805D038 @ =gTilesets + 0xC
+	ldr r1, _0805D038 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -19078,7 +19078,7 @@ _0805CFE4:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805D03C @ =gTilesets + 0x10
+	ldr r1, _0805D03C @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r3, #9]
@@ -19086,7 +19086,7 @@ _0805CFE4:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805D040 @ =gTilesets + 0x14
+	ldr r1, _0805D040 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r3, #0xa]
@@ -19094,7 +19094,7 @@ _0805CFE4:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _0805D044 @ =gTilesets + 0x18
+	ldr r2, _0805D044 @ =gUiGraphics + 0x18
 	adds r0, r0, r2
 	ldr r0, [r0]
 	strb r0, [r3, #0xb]
@@ -19109,10 +19109,10 @@ _0805CFE4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805D038: .4byte gTilesets + 0xC
-_0805D03C: .4byte gTilesets + 0x10
-_0805D040: .4byte gTilesets + 0x14
-_0805D044: .4byte gTilesets + 0x18
+_0805D038: .4byte gUiGraphics + 0xC
+_0805D03C: .4byte gUiGraphics + 0x10
+_0805D040: .4byte gUiGraphics + 0x14
+_0805D044: .4byte gUiGraphics + 0x18
 
 	thumb_func_start sub_805D048
 sub_805D048: @ 0x0805D048
@@ -21372,7 +21372,7 @@ sub_805E1E8: @ 0x0805E1E8
 	adds r6, #0x2a
 	movs r0, #0xd
 	strb r0, [r6]
-	ldr r5, _0805E3D8 @ =gTilesets
+	ldr r5, _0805E3D8 @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -21390,7 +21390,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E0 @ =gTilesets + 0x4
+	ldr r1, _0805E3E0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -21404,7 +21404,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E4 @ =gTilesets + 0x8
+	ldr r1, _0805E3E4 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -21413,7 +21413,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E8 @ =gTilesets + 0xC
+	ldr r1, _0805E3E8 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -21421,7 +21421,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3EC @ =gTilesets + 0x10
+	ldr r1, _0805E3EC @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -21429,7 +21429,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3F0 @ =gTilesets + 0x14
+	ldr r1, _0805E3F0 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -21437,7 +21437,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3F4 @ =gTilesets + 0x18
+	ldr r1, _0805E3F4 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -21474,7 +21474,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E4 @ =gTilesets + 0x8
+	ldr r1, _0805E3E4 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -21483,7 +21483,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E8 @ =gTilesets + 0xC
+	ldr r1, _0805E3E8 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -21491,7 +21491,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3EC @ =gTilesets + 0x10
+	ldr r1, _0805E3EC @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -21499,7 +21499,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3F0 @ =gTilesets + 0x14
+	ldr r1, _0805E3F0 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -21507,7 +21507,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3F4 @ =gTilesets + 0x18
+	ldr r1, _0805E3F4 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -21528,7 +21528,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E0 @ =gTilesets + 0x4
+	ldr r1, _0805E3E0 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -21552,7 +21552,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E4 @ =gTilesets + 0x8
+	ldr r1, _0805E3E4 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -21561,7 +21561,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3E8 @ =gTilesets + 0xC
+	ldr r1, _0805E3E8 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -21569,7 +21569,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3EC @ =gTilesets + 0x10
+	ldr r1, _0805E3EC @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -21577,7 +21577,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3F0 @ =gTilesets + 0x14
+	ldr r1, _0805E3F0 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -21585,7 +21585,7 @@ sub_805E1E8: @ 0x0805E1E8
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0805E3F4 @ =gTilesets + 0x18
+	ldr r1, _0805E3F4 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -21600,14 +21600,14 @@ sub_805E1E8: @ 0x0805E1E8
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0805E3D8: .4byte gTilesets
+_0805E3D8: .4byte gUiGraphics
 _0805E3DC: .4byte 0x06010400
-_0805E3E0: .4byte gTilesets + 0x4
-_0805E3E4: .4byte gTilesets + 0x8
-_0805E3E8: .4byte gTilesets + 0xC
-_0805E3EC: .4byte gTilesets + 0x10
-_0805E3F0: .4byte gTilesets + 0x14
-_0805E3F4: .4byte gTilesets + 0x18
+_0805E3E0: .4byte gUiGraphics + 0x4
+_0805E3E4: .4byte gUiGraphics + 0x8
+_0805E3E8: .4byte gUiGraphics + 0xC
+_0805E3EC: .4byte gUiGraphics + 0x10
+_0805E3F0: .4byte gUiGraphics + 0x14
+_0805E3F4: .4byte gUiGraphics + 0x18
 _0805E3F8: .4byte 0x00000694
 _0805E3FC: .4byte gUnknown_0868483C
 
@@ -22319,7 +22319,7 @@ sub_805E9B4: @ 0x0805E9B4
 	movs r0, #1
 	mov r1, sl
 	strb r0, [r1]
-	ldr r7, _0805EADC @ =gTilesets
+	ldr r7, _0805EADC @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -22447,7 +22447,7 @@ sub_805E9B4: @ 0x0805E9B4
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0805EADC: .4byte gTilesets
+_0805EADC: .4byte gUiGraphics
 _0805EAE0: .4byte gUnknown_0868403C
 _0805EAE4: .4byte 0x06013480
 
@@ -25198,12 +25198,12 @@ _08060146:
 	adds r5, #0x2a
 	movs r1, #0x15
 	strb r1, [r5]
-	ldr r3, _0806027C @ =gTilesets
+	ldr r3, _0806027C @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r2, _08060280 @ =gTilesets + 0x8
+	ldr r2, _08060280 @ =gUiGraphics + 0x8
 	adds r0, r0, r2
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -25212,7 +25212,7 @@ _08060146:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08060284 @ =gTilesets + 0xC
+	ldr r1, _08060284 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -25220,7 +25220,7 @@ _08060146:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08060288 @ =gTilesets + 0x10
+	ldr r1, _08060288 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -25273,7 +25273,7 @@ _08060146:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08060280 @ =gTilesets + 0x8
+	ldr r1, _08060280 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -25282,7 +25282,7 @@ _08060146:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08060284 @ =gTilesets + 0xC
+	ldr r1, _08060284 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -25290,7 +25290,7 @@ _08060146:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08060288 @ =gTilesets + 0x10
+	ldr r1, _08060288 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -25316,10 +25316,10 @@ _0806026C: .4byte gLoadedSaveGame
 _08060270: .4byte gUnknown_0868B8F4
 _08060274: .4byte gUnknown_0868B8D4
 _08060278: .4byte gUnknown_0868C0B4
-_0806027C: .4byte gTilesets
-_08060280: .4byte gTilesets + 0x8
-_08060284: .4byte gTilesets + 0xC
-_08060288: .4byte gTilesets + 0x10
+_0806027C: .4byte gUiGraphics
+_08060280: .4byte gUiGraphics + 0x8
+_08060284: .4byte gUiGraphics + 0xC
+_08060288: .4byte gUiGraphics + 0x10
 _0806028C: .4byte gUnknown_0868D434
 _08060290: .4byte gUnknown_0868D414
 _08060294: .4byte gUnknown_0868DA54
@@ -25356,12 +25356,12 @@ _08060298:
 	adds r5, #0x2a
 	movs r0, #0x15
 	strb r0, [r5]
-	ldr r3, _080604CC @ =gTilesets
+	ldr r3, _080604CC @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080604D0 @ =gTilesets + 0x8
+	ldr r1, _080604D0 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -25370,7 +25370,7 @@ _08060298:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080604D4 @ =gTilesets + 0xC
+	ldr r1, _080604D4 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -25378,7 +25378,7 @@ _08060298:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080604D8 @ =gTilesets + 0x10
+	ldr r1, _080604D8 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -25431,7 +25431,7 @@ _08060298:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080604D0 @ =gTilesets + 0x8
+	ldr r1, _080604D0 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -25440,7 +25440,7 @@ _08060298:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080604D4 @ =gTilesets + 0xC
+	ldr r1, _080604D4 @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -25448,7 +25448,7 @@ _08060298:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _080604D8 @ =gTilesets + 0x10
+	ldr r1, _080604D8 @ =gUiGraphics + 0x10
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #9]
@@ -25477,7 +25477,7 @@ _080603BC:
 	movs r5, #2
 	mov r2, sb
 	strb r5, [r2]
-	ldr r0, _080604CC @ =gTilesets
+	ldr r0, _080604CC @ =gUiGraphics
 	mov r8, r0
 	ldr r0, [r0]
 	str r0, [sp, #0x14]
@@ -25601,10 +25601,10 @@ _080603BC:
 _080604C0: .4byte gUnknown_0868C5D4
 _080604C4: .4byte gUnknown_0868C5B4
 _080604C8: .4byte gUnknown_0868CF14
-_080604CC: .4byte gTilesets
-_080604D0: .4byte gTilesets + 0x8
-_080604D4: .4byte gTilesets + 0xC
-_080604D8: .4byte gTilesets + 0x10
+_080604CC: .4byte gUiGraphics
+_080604D0: .4byte gUiGraphics + 0x8
+_080604D4: .4byte gUiGraphics + 0xC
+_080604D8: .4byte gUiGraphics + 0x10
 _080604DC: .4byte gUnknown_0868DFF4
 _080604E0: .4byte gUnknown_0868DFD4
 _080604E4: .4byte gUnknown_0868E5F4
@@ -26627,7 +26627,7 @@ sub_8060C88: @ 0x08060C88
 	strb r2, [r6]
 	movs r1, #2
 	strb r1, [r5]
-	ldr r3, _08060DA4 @ =gTilesets
+	ldr r3, _08060DA4 @ =gUiGraphics
 	movs r4, #0xe0
 	lsls r4, r4, #2
 	adds r0, r3, r4
@@ -26686,7 +26686,7 @@ _08060D94: .4byte gUnknown_08698BF4
 _08060D98: .4byte gUnknown_086958F4
 _08060D9C: .4byte gUnknown_086956F4
 _08060DA0: .4byte gUnknown_086962B4
-_08060DA4: .4byte gTilesets
+_08060DA4: .4byte gUiGraphics
 _08060DA8: .4byte 0x06010020
 
 	thumb_func_start sub_8060DAC
@@ -28595,7 +28595,7 @@ _08061D2C:
 	mov r0, sp
 	adds r0, #0x2f
 	strb r3, [r0]
-	ldr r2, _08061E78 @ =gTilesets
+	ldr r2, _08061E78 @ =gUiGraphics
 	movs r3, #0xd9
 	lsls r3, r3, #3
 	adds r0, r2, r3
@@ -28689,7 +28689,7 @@ _08061E68: .4byte 0x00009D83
 _08061E6C: .4byte sub_8062140
 _08061E70: .4byte sub_8062B38
 _08061E74: .4byte sub_8062CB4
-_08061E78: .4byte gTilesets
+_08061E78: .4byte gUiGraphics
 _08061E7C: .4byte 0x000006CC
 _08061E80: .4byte 0x06010020
 
@@ -28762,7 +28762,7 @@ _08061EEE:
 	subs r1, #1
 	movs r0, #0
 	strb r0, [r1]
-	ldr r2, _080620FC @ =gTilesets
+	ldr r2, _080620FC @ =gUiGraphics
 	movs r1, #0xd9
 	lsls r1, r1, #3
 	adds r0, r2, r1
@@ -29020,7 +29020,7 @@ _080620EC:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080620FC: .4byte gTilesets
+_080620FC: .4byte gUiGraphics
 _08062100: .4byte 0x000006CC
 _08062104: .4byte 0x06010020
 _08062108: .4byte 0x000002D7
@@ -40226,7 +40226,7 @@ sub_8067C24: @ 0x08067C24
 _08067C64:
 	mov r0, r8
 	lsls r2, r0, #1
-	ldr r1, _08067CB0 @ =gUnknown_08683FDC
+	ldr r1, _08067CB0 @ =gUiPaletteSoundTestBox3
 	adds r0, r2, r1
 	ldrh r1, [r0]
 	movs r3, #0x1f
@@ -40238,7 +40238,7 @@ _08067C64:
 	mov r0, sl
 	ands r0, r1
 	lsrs r4, r0, #0xa
-	ldr r0, _08067CB4 @ =gUnknown_0868401C
+	ldr r0, _08067CB4 @ =gUiPaletteSoundTestBox4
 	adds r2, r2, r0
 	ldrh r1, [r2]
 	movs r2, #0x1f
@@ -40261,8 +40261,8 @@ _08067C64:
 	b _08067CC4
 	.align 2, 0
 _08067CAC: .4byte gCurTask
-_08067CB0: .4byte gUnknown_08683FDC
-_08067CB4: .4byte gUnknown_0868401C
+_08067CB0: .4byte gUiPaletteSoundTestBox3
+_08067CB4: .4byte gUiPaletteSoundTestBox4
 _08067CB8:
 	subs r0, r2, r3
 	muls r0, r7, r0
@@ -43469,7 +43469,7 @@ sub_806968C: @ 0x0806968C
 	strb r4, [r0]
 	movs r1, #0x2b
 	strb r1, [r2]
-	ldr r2, _080696FC @ =gTilesets
+	ldr r2, _080696FC @ =gUiGraphics
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
@@ -43511,7 +43511,7 @@ sub_806968C: @ 0x0806968C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080696FC: .4byte gTilesets
+_080696FC: .4byte gUiGraphics
 _08069700: .4byte gUnknown_086CC774
 _08069704: .4byte gUnknown_086CC834
 _08069708: .4byte sa2__gUnknown_03004D80
@@ -43829,7 +43829,7 @@ sub_8069994: @ 0x08069994
 	mov r8, r1
 	movs r0, #0xf
 	strb r0, [r1]
-	ldr r7, _08069B10 @ =gTilesets
+	ldr r7, _08069B10 @ =gUiGraphics
 	ldrb r1, [r4]
 	lsls r0, r1, #3
 	subs r0, r0, r1
@@ -43841,7 +43841,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B14 @ =gTilesets + 0x4
+	ldr r1, _08069B14 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -43863,7 +43863,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B18 @ =gTilesets + 0x8
+	ldr r1, _08069B18 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -43872,7 +43872,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B1C @ =gTilesets + 0xC
+	ldr r1, _08069B1C @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -43899,7 +43899,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B20 @ =gTilesets + 0x18
+	ldr r1, _08069B20 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -43920,7 +43920,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B14 @ =gTilesets + 0x4
+	ldr r1, _08069B14 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -43940,7 +43940,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B18 @ =gTilesets + 0x8
+	ldr r1, _08069B18 @ =gUiGraphics + 0x8
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -43949,7 +43949,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B1C @ =gTilesets + 0xC
+	ldr r1, _08069B1C @ =gUiGraphics + 0xC
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #8]
@@ -43971,7 +43971,7 @@ sub_8069994: @ 0x08069994
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069B20 @ =gTilesets + 0x18
+	ldr r1, _08069B20 @ =gUiGraphics + 0x18
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xb]
@@ -44000,11 +44000,11 @@ sub_8069994: @ 0x08069994
 	adds r0, r0, r1
 	b _08069B38
 	.align 2, 0
-_08069B10: .4byte gTilesets
-_08069B14: .4byte gTilesets + 0x4
-_08069B18: .4byte gTilesets + 0x8
-_08069B1C: .4byte gTilesets + 0xC
-_08069B20: .4byte gTilesets + 0x18
+_08069B10: .4byte gUiGraphics
+_08069B14: .4byte gUiGraphics + 0x4
+_08069B18: .4byte gUiGraphics + 0x8
+_08069B1C: .4byte gUiGraphics + 0xC
+_08069B20: .4byte gUiGraphics + 0x18
 _08069B24: .4byte 0x06011000
 _08069B28: .4byte gCurrentLevel
 _08069B2C:
@@ -44016,12 +44016,12 @@ _08069B2C:
 	ldr r0, [r1]
 _08069B38:
 	str r0, [sp, #0x14]
-	ldr r7, _08069C7C @ =gTilesets
+	ldr r7, _08069C7C @ =gUiGraphics
 	ldrb r1, [r3]
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069C80 @ =gTilesets + 0x4
+	ldr r1, _08069C80 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -44073,7 +44073,7 @@ _08069B38:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069C88 @ =gTilesets + 0x14
+	ldr r1, _08069C88 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -44109,7 +44109,7 @@ _08069B38:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069C80 @ =gTilesets + 0x4
+	ldr r1, _08069C80 @ =gUiGraphics + 0x4
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0x20]
@@ -44153,7 +44153,7 @@ _08069B38:
 	lsls r0, r1, #3
 	subs r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _08069C88 @ =gTilesets + 0x14
+	ldr r1, _08069C88 @ =gUiGraphics + 0x14
 	adds r0, r0, r1
 	ldr r0, [r0]
 	strb r0, [r2, #0xa]
@@ -44175,10 +44175,10 @@ _08069B38:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08069C7C: .4byte gTilesets
-_08069C80: .4byte gTilesets + 0x4
+_08069C7C: .4byte gUiGraphics
+_08069C80: .4byte gUiGraphics + 0x4
 _08069C84: .4byte 0x06011800
-_08069C88: .4byte gTilesets + 0x14
+_08069C88: .4byte gUiGraphics + 0x14
 _08069C8C: .4byte gSelectedCharacter
 _08069C90: .4byte 0x06011200
 

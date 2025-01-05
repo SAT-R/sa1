@@ -241,7 +241,11 @@ SECTIONS {
         build/sa1/src/data/tilemap_table.o(.rodata);
         build/sa1/data/data_0_4.o(.rodata);
         build/sa1/src/data/tilemap_data_3.o(.rodata);
+        build/sa1/data/data_0_5_0.o(.rodata);
+        build/sa1/src/data/ui_graphics_data.o(.rodata);
         build/sa1/data/data_0_5.o(.rodata);
+        build/sa1/src/data/ui_graphics_table.o(.rodata);
+        build/sa1/data/data_0_5_2.o(.rodata);
         build/sa1/src/data/credits.o(.rodata);
         build/sa1/data/data_sound_test.o(.rodata);
         build/sa1/data/data_0_6.o(.rodata);
