@@ -48,7 +48,8 @@ typedef struct Player {
 
     // set/compare to values in "include/constants/move_states.h"
     /* 0x10 */ u32 moveState;
-    /* 0x14 */ u8 filler14[0x4];
+    /* 0x14 */ u8 filler14[0x2];
+    /* 0x16 */ s16 spindashAccel;
     /* 0x18 */ u8 sa2__unk28;
     /* 0x19 */ u8 sa2__unk29;
     /* 0x1A */ u8 filler1A[0xC];
