@@ -90,7 +90,7 @@ extern u8 gMultiplayerLanguage;
 // If you encounter it being loaded as s16, please cast it.
 extern u16 gRingCount;
 
-extern UNK_30054A8 gUnknown_030054A8;
+extern UNK_30054A8 sa2__gUnknown_030054A8;
 
 // Time that is being used to score the player (or in Time Attack)
 extern u32 gCourseTime;
@@ -189,6 +189,17 @@ extern struct InputCounters gNewInputCounters[32];
 
 extern u8 gUnknown_030055D8;
 
+#if (GAME == GAME_SA1)
+#define LIVES_BOUND_CHECK(lives) (lives)
+#else
+#define LIVES_BOUND_CHECK(lives)                                                                                                           \
+    ({                                                                                                                                     \
+        if ((lives) > 255)                                                                                                                 \
+            (lives) = 255;                                                                                                                 \
+        (lives);                                                                                                                           \
+    })
+#endif
+
 #define INCREMENT_SCORE_A(incVal)                                                                                                          \
     {                                                                                                                                      \
         s32 divResA, divResB;                                                                                                              \
@@ -202,11 +213,7 @@ extern u8 gUnknown_030055D8;
             u16 lives = divResA - divResB;                                                                                                 \
             lives += gNumLives;                                                                                                            \
                                                                                                                                            \
-            gNumLives = ({                                                                                                                 \
-                if (lives > 255)                                                                                                           \
-                    lives = 255;                                                                                                           \
-                lives;                                                                                                                     \
-            });                                                                                                                            \
+            gNumLives = LIVES_BOUND_CHECK(lives);                                                                                          \
         }                                                                                                                                  \
     }
 
@@ -230,7 +237,7 @@ extern u8 gUnknown_030055D8;
                 gNumLives = lives;                                                                                                         \
             }                                                                                                                              \
                                                                                                                                            \
-            gUnknown_030054A8.unk3 = _unk3;                                                                                                \
+            sa2__gUnknown_030054A8.unk3 = _unk3;                                                                                           \
         }                                                                                                                                  \
     }
 
@@ -238,7 +245,7 @@ extern u8 gUnknown_030055D8;
 
 #define INCREMENT_SCORE_C(incVal)                                                                                                          \
     INCREMENT_SCORE_A(incVal)                                                                                                              \
-    gUnknown_030054A8.unk1 = 48;
+    sa2__gUnknown_030054A8.unk1 = 48;
 
 #define INCREMENT_SCORE(incVal)                                                                                                            \
     {                                                                                                                                      \
@@ -253,13 +260,9 @@ extern u8 gUnknown_030055D8;
             u16 lives = divResA - divResB;                                                                                                 \
             lives += gNumLives;                                                                                                            \
                                                                                                                                            \
-            gNumLives = ({                                                                                                                 \
-                if (lives > 255)                                                                                                           \
-                    lives = 255;                                                                                                           \
-                lives;                                                                                                                     \
-            });                                                                                                                            \
+            gNumLives = LIVES_BOUND_CHECK(lives);                                                                                          \
                                                                                                                                            \
-            gUnknown_030054A8.unk3 = 16;                                                                                                   \
+            sa2__gUnknown_030054A8.unk3 = 16;                                                                                              \
         }                                                                                                                                  \
     }
 
@@ -276,13 +279,9 @@ extern u8 gUnknown_030055D8;
             if ((newLives != prevLives) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {                                                       \
                 u16 lives = gNumLives + 1;                                                                                                 \
                                                                                                                                            \
-                gNumLives = ({                                                                                                             \
-                    if (lives > 255)                                                                                                       \
-                        lives = 255;                                                                                                       \
-                    lives;                                                                                                                 \
-                });                                                                                                                        \
+                gNumLives = LIVES_BOUND_CHECK(lives);                                                                                      \
                                                                                                                                            \
-                gUnknown_030054A8.unk3 = 16;                                                                                               \
+                sa2__gUnknown_030054A8.unk3 = 16;                                                                                          \
             }                                                                                                                              \
         }                                                                                                                                  \
     }
@@ -301,13 +300,9 @@ extern u8 gUnknown_030055D8;
             if ((newLives != prevLives) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {                                                       \
                 u16 lives = gNumLives + 1;                                                                                                 \
                                                                                                                                            \
-                gNumLives = ({                                                                                                             \
-                    if (lives > 255)                                                                                                       \
-                        lives = 255;                                                                                                       \
-                    lives;                                                                                                                 \
-                });                                                                                                                        \
+                gNumLives = LIVES_BOUND_CHECK(lives);                                                                                      \
                                                                                                                                            \
-                gUnknown_030054A8.unk3 = 16;                                                                                               \
+                sa2__gUnknown_030054A8.unk3 = 16;                                                                                          \
             }                                                                                                                              \
         }                                                                                                                                  \
     }
