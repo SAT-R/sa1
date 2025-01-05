@@ -73,7 +73,7 @@ SECTIONS {
         build/sa1/asm/game__stage__camera.o(.text);
         build/sa1/asm/game__stage__collision.o(.text);
         build/sa1/asm/game_1_3.o(.text);
-        build/sa1/asm/game__stage__dust_effect_braking.o(.text);
+        build/sa1/src/game/stage/dust_effect_braking.o(.text);
         build/sa1/asm/game__stage__dust_effect_spindash.o(.text);
         build/sa1/asm/game__stage__grind_effect_1.o(.text);
         build/sa1/asm/game__stage__rings_scatter.o(.text);

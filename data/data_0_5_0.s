@@ -8,12 +8,12 @@ gUnknown_0865EFF4:
 gUnknown_0865F06C:
     .incbin "baserom.gba", 0x0065F06C, 0x78
 
-    .global gUnknown_0865F0E4
-gUnknown_0865F0E4:
+    .global sZoneTimeSecondsTable
+sZoneTimeSecondsTable:
     .incbin "baserom.gba", 0x0065F0E4, 0x7A
 
-    .global gUnknown_0865F15E
-gUnknown_0865F15E:
+    .global sZoneTimeMinutesTable
+sZoneTimeMinutesTable:
     .incbin "baserom.gba", 0x0065F15E, 0x16
 
     .global gUnknown_0865F174

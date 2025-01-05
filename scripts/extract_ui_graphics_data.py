@@ -6,8 +6,9 @@ rom_end   = 0x08800000 # SA1 is only 8MB!
 #graphic_table_start = ??? # US ROM
 graphic_table_start = 0x08687B3C # EU ROM
 graphic_table_end   = 0
+
 table_entry_count = 0
-table_entry_size    = 0x1C
+table_entry_size  = 0x1C
 
 graphic_offsets = []
 palette_offsets = []

@@ -1779,7 +1779,7 @@ _0806BE48:
 	adds r4, r0, #0
 	movs r1, #0x3c
 	bl Div
-	ldr r2, _0806BEE0 @ =gUnknown_0865F0E4
+	ldr r2, _0806BEE0 @ =sZoneTimeSecondsTable
 	lsls r0, r0, #1
 	adds r1, r0, r2
 	movs r3, #0
@@ -1790,7 +1790,7 @@ _0806BE48:
 	movs r1, #0
 	ldrsh r2, [r2, r1]
 	subs r2, r6, r2
-	ldr r1, _0806BEE4 @ =gUnknown_0865F15E
+	ldr r1, _0806BEE4 @ =sZoneTimeMinutesTable
 	adds r1, r0, r1
 	ldrh r1, [r1]
 	subs r2, r2, r1
@@ -1848,8 +1848,8 @@ _0806BEC2:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806BEE0: .4byte gUnknown_0865F0E4
-_0806BEE4: .4byte gUnknown_0865F15E
+_0806BEE0: .4byte sZoneTimeSecondsTable
+_0806BEE4: .4byte sZoneTimeMinutesTable
 _0806BEE8: .4byte 0x030000EA
 _0806BEEC: .4byte gUnknown_0865EFF4
 _0806BEF0: .4byte 0x030000E9

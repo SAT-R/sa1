@@ -535,7 +535,7 @@ _08053B2C:
 	adds r4, r0, #0
 	movs r1, #0x3c
 	bl Div
-	ldr r2, _08053B9C @ =gUnknown_0865F0E4
+	ldr r2, _08053B9C @ =sZoneTimeSecondsTable
 	lsls r0, r0, #1
 	adds r1, r0, r2
 	movs r3, #0
@@ -546,7 +546,7 @@ _08053B2C:
 	movs r1, #0
 	ldrsh r2, [r2, r1]
 	subs r2, r7, r2
-	ldr r1, _08053BA0 @ =gUnknown_0865F15E
+	ldr r1, _08053BA0 @ =sZoneTimeMinutesTable
 	adds r1, r0, r1
 	ldrh r1, [r1]
 	subs r2, r2, r1
@@ -585,8 +585,8 @@ _08053B8E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08053B9C: .4byte gUnknown_0865F0E4
-_08053BA0: .4byte gUnknown_0865F15E
+_08053B9C: .4byte sZoneTimeSecondsTable
+_08053BA0: .4byte sZoneTimeMinutesTable
 _08053BA4: .4byte gUnknown_0865EFF4
 _08053BA8: .4byte gUnknown_0865F06C
 
@@ -27858,7 +27858,7 @@ _080617A0:
 	adds r4, r0, #0
 	movs r1, #0x3c
 	bl Div
-	ldr r2, _08061820 @ =gUnknown_0865F0E4
+	ldr r2, _08061820 @ =sZoneTimeSecondsTable
 	lsls r0, r0, #1
 	adds r1, r0, r2
 	movs r3, #0
@@ -27869,7 +27869,7 @@ _080617A0:
 	movs r1, #0
 	ldrsh r2, [r2, r1]
 	subs r2, r5, r2
-	ldr r1, _08061824 @ =gUnknown_0865F15E
+	ldr r1, _08061824 @ =sZoneTimeMinutesTable
 	adds r1, r0, r1
 	ldrh r1, [r1]
 	subs r2, r2, r1
@@ -27915,8 +27915,8 @@ _080617F6:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08061820: .4byte gUnknown_0865F0E4
-_08061824: .4byte gUnknown_0865F15E
+_08061820: .4byte sZoneTimeSecondsTable
+_08061824: .4byte sZoneTimeMinutesTable
 _08061828: .4byte gUnknown_0865EFF4
 
 	thumb_func_start sub_806182C
@@ -44665,7 +44665,7 @@ _0806A080:
 	adds r5, r0, #0
 	movs r1, #0x3c
 	bl Div
-	ldr r2, _0806A104 @ =gUnknown_0865F0E4
+	ldr r2, _0806A104 @ =sZoneTimeSecondsTable
 	lsls r0, r0, #1
 	adds r1, r0, r2
 	movs r3, #0
@@ -44676,7 +44676,7 @@ _0806A080:
 	movs r7, #0
 	ldrsh r2, [r2, r7]
 	subs r2, r4, r2
-	ldr r1, _0806A108 @ =gUnknown_0865F15E
+	ldr r1, _0806A108 @ =sZoneTimeMinutesTable
 	adds r1, r0, r1
 	ldrh r1, [r1]
 	subs r2, r2, r1
@@ -44724,8 +44724,8 @@ _0806A0EA:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0806A104: .4byte gUnknown_0865F0E4
-_0806A108: .4byte gUnknown_0865F15E
+_0806A104: .4byte sZoneTimeSecondsTable
+_0806A108: .4byte sZoneTimeMinutesTable
 _0806A10C: .4byte gUnknown_0865EFF4
 _0806A110: .4byte 0x030000BA
 _0806A114: .4byte 0x030000B9
