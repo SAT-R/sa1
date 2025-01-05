@@ -24,12 +24,14 @@ struct Task *CreateGrindEffect()
 
     GrindEffect *spark = TASK_DATA(t);
     Sprite *s = &spark->s;
+#if (GAME == GAME_SA1)
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_GRIND_EFFECT);
     s->graphics.size = 0;
-#if (GAME == GAME_SA1)
     s->graphics.anim = SA1_ANIM_GRIND_EFFECT;
 #elif (GAME == GAME_SA2)
-    s->graphics.anim = SA1_ANIM_GRIND_EFFECT;
+    s->graphics.dest = ALLOC_TILES(SA2_ANIM_GRIND_EFFECT);
+    s->graphics.size = 0;
+    s->graphics.anim = SA2_ANIM_GRIND_EFFECT;
 #endif
     s->variant = 0;
     s->prevVariant = -1;

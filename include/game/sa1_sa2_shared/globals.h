@@ -47,7 +47,7 @@ typedef struct {
     u8 unk3;
     u8 unk4;
     u8 unk5;
-    u16 unk6;
+    u16 fadeoutSpeed;
 } UNK_30054A8; /* size: 8 */
 
 typedef struct {

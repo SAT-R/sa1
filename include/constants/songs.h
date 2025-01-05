@@ -7,20 +7,34 @@
 #define MUS_COURSE_SELECTION    4
 #define MUS_VS_PLEASE_WAIT      5
 
-#define MUS_VS_RECORD 10
-#define MUS_OPTIONS   11 // Scrap Brain Zone remix
-
-#define MUS_DROWNING         27
-#define MUS_INVINCIBILITY    28
-#define MUS_BOSS_FIGHT       29
-#define MUS_BOSS_INTRO       30
-#define MUS_BOSS_EGG_WRECKER 31
-#define MUS_BOSS_EGG_SNAKE   32
-#define MUS_ACT_CLEAR        33
-#define MUS_BOSS_CLEAR       34
-#define MUS_FINAL_CLEAR      35
-#define MUS_EXTRA_CLEAR      36
-#define MUS_GAME_OVER        37
+#define MUS_VS_RECORD              10
+#define MUS_OPTIONS                11 // Scrap Brain Zone remix
+#define MUS_NEO_GREEN_HILL__ACT_1  12
+#define MUS_NEO_GREEN_HILL__ACT_2  13
+#define MUS_SECRET_BASE__ACT_1     14
+#define MUS_SECRET_BASE__ACT_2     15
+#define MUS_CASINO_PARADISE__ACT_1 16
+#define MUS_CASINO_PARADISE__ACT_2 17
+#define MUS_ICE_MOUNTAIN__ACT_1    18
+#define MUS_ICE_MOUNTAIN__ACT_2    19
+#define MUS_ANGEL_ISLAND__ACT_1    20
+#define MUS_ANGEL_ISLAND__ACT_2    21
+#define MUS_EGG_ROCKET             22
+#define MUS_COSMIC_ANGEL           23
+#define MUS_X_ZONE                 24
+#define MUS_FINAL_BOSS             25
+#define MUS_EXTRA_BOSS             26
+#define MUS_DROWNING               27
+#define MUS_INVINCIBILITY          28
+#define MUS_BOSS_FIGHT             29
+#define MUS_BOSS_INTRO             30
+#define MUS_BOSS_EGG_WRECKER       31
+#define MUS_BOSS_EGG_SNAKE         32
+#define MUS_ACT_CLEAR              33
+#define MUS_BOSS_CLEAR             34
+#define MUS_FINAL_CLEAR            35
+#define MUS_EXTRA_CLEAR            36
+#define MUS_GAME_OVER              37
 
 #define MUS_PLAYER_DATA 48 // Star Light Zone remix
 
@@ -65,5 +79,6 @@
 
 #define SE_VS_MULTIPAK_CONN_CLOSE 303
 #define SE_VS_MULTIPAK_ROUND_OVER 304
+#define MUS_1_UP                  307
 
 #endif

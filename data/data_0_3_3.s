@@ -1,13 +1,6 @@
 .section .rodata
 
-    .global gUnknown_084ADAE4
-gUnknown_084ADAE4:
-    .incbin "baserom.gba", 0x004ADAE4, 0x24
-
-    .global gUnknown_084ADB08
-gUnknown_084ADB08:
-    .incbin "baserom.gba", 0x004ADB08, 0x10
-
+.align 2, 0
     .global gUnknown_084ADB18
 gUnknown_084ADB18:
     .4byte sub_803DCCC, sub_803DD00
