@@ -70,7 +70,8 @@
 #define SE_STAGE_RESULT_COUNTER_DONE 141
 #define SE_PAUSE                     142
 
-#define SE_IMPACT 145 // Boss 1 Hammer hits ground
+#define SE_EXPLOSION 144
+#define SE_IMPACT    145 // Boss 1 Hammer hits ground
 
 #define SE_KNOCK_TEAMMATE 161
 #define SE_KNOCK_OPPONENT 162 // also EXTRA_BOSS_LASER

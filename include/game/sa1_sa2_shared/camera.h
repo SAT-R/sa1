@@ -28,7 +28,9 @@ struct Camera {
     /* 0x00|0x04 */ CamCoord x;
     /* 0x02|0x04 */ CamCoord y;
 #if (GAME == GAME_SA1)
-    u8 filler4[0x2C];
+    u8 filler4[0x14];
+    /* 0x18 */ u16 unk18;
+    u8 filler1A[0x12];
     /* 0x30 */ struct Task *movementTask;
     /* 0x34 */ s16 shakeOffsetX;
     /* 0x36 */ s16 shakeOffsetY;

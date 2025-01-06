@@ -56,7 +56,7 @@ SECTIONS {
         build/sa1/asm/ia_breakable_wall.o(.text);
         build/sa1/asm/game__mp_chao.o(.text);
         build/sa1/asm/game_1.o(.text);
-        build/sa1/asm/game__some_screen_shake_effect.o(.text);
+        build/sa1/src/game/some_unknown_screen_shake.o(.text);
         build/sa1/asm/game__special_stage.o(.text);
         build/sa1/asm/ia_boss_2_egg_press.o(.text);
         build/sa1/asm/ia_boss_3_egg_ball.o(.text);
