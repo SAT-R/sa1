@@ -1,11 +1,13 @@
 #ifndef GUARD_MAIN_H
 #define GUARD_MAIN_H
+// for memcpy
+#include <string.h>
 
 #include "global.h"
 #include "sprite.h"
 #include "task.h"
 #include "tilemap.h"
-//#include "input_recorder.h"
+#include "input_recorder.h"
 #include "data/sprite_data.h"
 #include "animation_commands.h"
 
