@@ -54,7 +54,10 @@ SECTIONS {
         build/sa1/asm/sound_unk.o(.text);
         build/sa1/asm/ia_boss_1_egg_hammer_tank.o(.text);
         build/sa1/asm/ia_breakable_wall.o(.text);
+        build/sa1/asm/game__mp_chao.o(.text);
         build/sa1/asm/game_1.o(.text);
+        build/sa1/asm/game__some_screen_shake_effect.o(.text);
+        build/sa1/asm/game__special_stage.o(.text);
         build/sa1/asm/ia_boss_2_egg_press.o(.text);
         build/sa1/asm/ia_boss_3_egg_ball.o(.text);
         build/sa1/asm/ia_boss_4_egg_spider.o(.text);
@@ -182,7 +185,6 @@ SECTIONS {
         build/sa1/src/lib/agb_flash/agb_flash_mx_512k.o(.text);
         build/sa1/src/lib/agb_flash/agb_flash_at_512k.o(.text);
 
-        /*build/sa1/asm/libagbsyscall.o(.text);*/
         *libagbsyscall.a:ArcTan2.o(.text);
         *libagbsyscall.a:CpuFastSet.o(.text);
         *libagbsyscall.a:CpuSet.o(.text);

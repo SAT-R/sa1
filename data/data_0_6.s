@@ -304,7 +304,7 @@ gUnknown_0868B78B:
 gUnknown_0868B790:
     .incbin "baserom.gba", 0x0068B790, 0x4
 
-    .global gUnknown_0868B794
+    .global gUnknown_0868B794 @ ptrs 0x0868EB74 - 0x08699E74
 gUnknown_0868B794:
     .incbin "baserom.gba", 0x0068B794, 0x80
 

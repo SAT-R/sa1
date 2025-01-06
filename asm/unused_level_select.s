@@ -400,7 +400,7 @@ _0800E3D2:
 _0800E3F0: .4byte gCurrentLevel
 _0800E3F4: .4byte gInput
 _0800E3F8:
-	bl sub_8029908
+	bl CreateSpecialStage
 _0800E3FC:
 	pop {r4, r5}
 	pop {r0}

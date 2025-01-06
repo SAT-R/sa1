@@ -851,7 +851,7 @@ _08053D84:
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r6, r1, r0
-	ldr r2, _08053DE8 @ =gUnknown_03005078
+	ldr r2, _08053DE8 @ =gSpecialStageCollectedRings
 	ldrh r1, [r2]
 	ldr r0, _08053DEC @ =0x000003E7
 	mov r8, r4
@@ -872,7 +872,7 @@ _08053D84:
 _08053DDC: .4byte 0x0000FFBA
 _08053DE0: .4byte gUnknown_0865F178
 _08053DE4: .4byte gCurTask
-_08053DE8: .4byte gUnknown_03005078
+_08053DE8: .4byte gSpecialStageCollectedRings
 _08053DEC: .4byte 0x000003E7
 _08053DF0:
 	ldrh r4, [r2]
@@ -907,7 +907,7 @@ _08053E24:
 	ldrh r0, [r0, #6]
 	ldr r2, _08053E58 @ =0x03000044
 	adds r0, r0, r2
-	ldr r1, _08053E5C @ =gUnknown_03005078
+	ldr r1, _08053E5C @ =gSpecialStageCollectedRings
 	ldrh r1, [r1]
 	strh r1, [r0]
 	mov r4, sb
@@ -927,7 +927,7 @@ _08053E24:
 	.align 2, 0
 _08053E54: .4byte gCurTask
 _08053E58: .4byte 0x03000044
-_08053E5C: .4byte gUnknown_03005078
+_08053E5C: .4byte gSpecialStageCollectedRings
 _08053E60:
 	cmp r2, #0x27
 	ble _08053E6A
@@ -949,7 +949,7 @@ _08053E6E:
 	strh r2, [r0, #0x10]
 	movs r3, #1
 	strb r3, [r0, #0x16]
-	ldr r0, _08053EC8 @ =gUnknown_03005078
+	ldr r0, _08053EC8 @ =gSpecialStageCollectedRings
 	ldrh r2, [r0]
 	cmp r2, #9
 	bhi _08053EE2
@@ -981,7 +981,7 @@ _08053E6E:
 	b _08053F10
 	.align 2, 0
 _08053EC4: .4byte 0x0000FFC0
-_08053EC8: .4byte gUnknown_03005078
+_08053EC8: .4byte gSpecialStageCollectedRings
 _08053ECC: .4byte gUnknown_0865F174
 _08053ED0: .4byte gCurTask
 _08053ED4: .4byte 0x03000048
@@ -19136,7 +19136,7 @@ sub_805D048: @ 0x0805D048
 	strh r0, [r1, #0xa]
 	strh r0, [r1, #0xc]
 	strh r0, [r1, #0xe]
-	ldr r0, _0805D0B4 @ =gUnknown_03005078
+	ldr r0, _0805D0B4 @ =gSpecialStageCollectedRings
 	ldr r1, _0805D0B8 @ =gUnknown_03005154
 	ldrh r0, [r0]
 	ldrh r1, [r1]
@@ -19168,7 +19168,7 @@ sub_805D048: @ 0x0805D048
 	b _0805D0EC
 	.align 2, 0
 _0805D0B0: .4byte gBgScrollRegs
-_0805D0B4: .4byte gUnknown_03005078
+_0805D0B4: .4byte gSpecialStageCollectedRings
 _0805D0B8: .4byte gUnknown_03005154
 _0805D0BC: .4byte 0x00002710
 _0805D0C0: .4byte gLoadedSaveGame
@@ -19195,7 +19195,7 @@ _0805D0EC:
 	ldr r0, _0805D164 @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x1d]
 	mov sb, r0
-	ldr r0, _0805D168 @ =gUnknown_03005078
+	ldr r0, _0805D168 @ =gSpecialStageCollectedRings
 	ldrh r0, [r0]
 	mov sl, r0
 	ldr r0, _0805D16C @ =gUnknown_0300507C
@@ -19251,7 +19251,7 @@ _0805D146:
 	b _0805D186
 	.align 2, 0
 _0805D164: .4byte gLoadedSaveGame
-_0805D168: .4byte gUnknown_03005078
+_0805D168: .4byte gSpecialStageCollectedRings
 _0805D16C: .4byte gUnknown_0300507C
 _0805D170: .4byte sa2__gUnknown_0300543C
 _0805D174: .4byte gLevelScore
@@ -42002,7 +42002,7 @@ sub_8068A78: @ 0x08068A78
 	ldr r0, _08068AD4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_8029908
+	bl CreateSpecialStage
 	b _08068B0A
 	.align 2, 0
 _08068ABC: .4byte gCurTask

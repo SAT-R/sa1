@@ -4,7 +4,10 @@
 
     .global gUnknown_087BF8CC
 gUnknown_087BF8CC:
-    .incbin "baserom.gba", 0x007BF8CC, 0x10
+    .int demo1
+    .int demo2
+    .int demo3
+    .int demo4
 
     .global gUnknown_087BF8DC
 gUnknown_087BF8DC:

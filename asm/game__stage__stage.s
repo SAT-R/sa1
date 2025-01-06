@@ -450,7 +450,7 @@ _0803D234:
 	ldrb r0, [r4]
 	lsls r1, r5, #0x18
 	lsrs r1, r1, #0x18
-	bl sub_8028034
+	bl CreateMultiplayerChao
 	str r0, [r4]
 	ldr r0, _0803D264 @ =gGameMode
 	ldrb r0, [r0]

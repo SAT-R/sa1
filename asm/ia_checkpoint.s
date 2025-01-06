@@ -319,7 +319,7 @@ _0802170E:
 	bne _08021772
 	strh r4, [r7, #8]
 	strh r4, [r7, #0xc]
-	bl sub_8029860
+	bl CreateSomeScreenShakeEffect
 _08021772:
 	ldrb r0, [r5]
 	cmp r0, #2

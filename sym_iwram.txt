@@ -62,7 +62,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x0000506C; gDestroySpotlights = .;
 . = 0x00005070; gUnknown_03005070 = .;
 . = 0x00005074; gUnknown_03005074 = .;
-. = 0x00005078; gUnknown_03005078 = .;
+. = 0x00005078; gSpecialStageCollectedRings = .;
 . = 0x0000507C; gUnknown_0300507C = .;
 . = 0x00005080; gUnknown_03005080 = .;
 . = 0x00005084; gSelectedCharacter = .;

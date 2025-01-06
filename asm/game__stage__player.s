@@ -11981,8 +11981,11 @@ _0804797C: .4byte sub_8040278
 _08047980: .4byte sa2__TaskDestructor_801F550
 _08047984: .4byte 0x03000018
 _08047988: .4byte 0x03000038
-_0804798C:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_804798C
+sub_804798C:
+    bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_8047990
 sub_8047990: @ 0x08047990
@@ -15316,8 +15319,11 @@ sub_8049348: @ 0x08049348
 	orrs r0, r1
 	strb r0, [r2]
 	bx lr
-_0804936C:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_804936C
+sub_804936C:
+	bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_8049370
 sub_8049370: @ 0x08049370

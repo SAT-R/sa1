@@ -14267,7 +14267,7 @@ sub_8015810: @ 0x08015810
 	lsrs r4, r0, #0x18
 	ldr r0, _08015870 @ =sub_80158D4
 	ldr r2, _08015874 @ =0x00002001
-	ldr r1, _08015878 @ =0x08015C59
+	ldr r1, _08015878 @ =sub_8015C58
 	str r1, [sp]
 	movs r1, #0x40
 	movs r3, #0
@@ -14311,7 +14311,7 @@ sub_8015810: @ 0x08015810
 	.align 2, 0
 _08015870: .4byte sub_80158D4
 _08015874: .4byte 0x00002001
-_08015878: .4byte 0x08015C59
+_08015878: .4byte sub_8015C58
 _0801587C: .4byte 0x03000010
 _08015880: .4byte 0x06012500
 _08015884: .4byte 0x03000031
@@ -14812,8 +14812,11 @@ _08015C42:
 	bx r0
 	.align 2, 0
 _08015C54: .4byte sa2__gUnknown_030054B8
-_08015C58:
-	.byte 0x70, 0x47, 0x00, 0x00
+
+    thumb_func_start sub_8015C58
+sub_8015C58:
+	bx lr
+    .align 2 , 0
 
 	thumb_func_start sub_8015C5C
 sub_8015C5C: @ 0x08015C5C
@@ -18072,6 +18075,9 @@ sub_801766C: @ 0x0801766C
 	.align 2, 0
 _08017698: .4byte sub_8017334
 
+@ Input:
+@ R0: flags 0x2000
+@ R1: vram*
 	thumb_func_start sub_801769C
 sub_801769C: @ 0x0801769C
 	push {r4, r5, r6, lr}

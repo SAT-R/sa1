@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_80257A0
-sub_80257A0: @ 0x080257A0
+	thumb_func_start Task_80257A0
+Task_80257A0: @ 0x080257A0
 	push {r4, r5, r6, r7, lr}
 	ldr r7, _0802581C @ =gCurTask
 	ldr r0, [r7]
@@ -108,16 +108,16 @@ _08025878: .4byte gPlayer
 _0802587C: .4byte gMPlayInfo_BGM
 _08025880: .4byte gCurTask
 
-	thumb_func_start sub_8025884
-sub_8025884: @ 0x08025884
+	thumb_func_start Task_8025884
+Task_8025884: @ 0x08025884
 	ldr r0, _08025890 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08025894 @ =sub_80257A0
+	ldr r0, _08025894 @ =Task_80257A0
 	str r0, [r1, #8]
 	bx lr
 	.align 2, 0
 _08025890: .4byte gCurTask
-_08025894: .4byte sub_80257A0
+_08025894: .4byte Task_80257A0
 
 	thumb_func_start sub_8025898
 sub_8025898: @ 0x08025898
@@ -204,7 +204,7 @@ sub_8025920: @ 0x08025920
 	ldr r0, [r2]
 	cmp r6, r0
 	beq _0802596A
-	ldr r0, _0802597C @ =sub_8025884
+	ldr r0, _0802597C @ =Task_8025884
 	movs r2, #0xc0
 	lsls r2, r2, #6
 	movs r1, #0
@@ -229,7 +229,7 @@ _0802596A:
 	.align 2, 0
 _08025974: .4byte gMPlayTable
 _08025978: .4byte gSongTable
-_0802597C: .4byte sub_8025884
+_0802597C: .4byte Task_8025884
 
 	thumb_func_start sub_8025980
 sub_8025980: @ 0x08025980
