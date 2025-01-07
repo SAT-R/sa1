@@ -601,13 +601,13 @@ CreateWaterfallSurfaceHitEffect: @ 0x0804C8AC
 	asrs r0, r0, #0x10
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _0804C8FC @ =sa2__Task_801F214
+	ldr r2, _0804C8FC @ =Task_StageGoalBonusPoints
 	str r2, [sp]
-	ldr r2, _0804C900 @ =sa2__TaskDestructor_801F550
+	ldr r2, _0804C900 @ =TaskDestructor_MultiplayerSpriteTask
 	str r2, [sp, #4]
 	movs r2, #0x10
 	movs r3, #0
-	bl sa2__sub_801F15C
+	bl CreateMultiplayerSpriteTask
 	adds r6, r0, #0
 	ldrh r4, [r6, #6]
 	ldr r0, _0804C904 @ =0x03000018
@@ -633,8 +633,8 @@ CreateWaterfallSurfaceHitEffect: @ 0x0804C8AC
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0804C8FC: .4byte sa2__Task_801F214
-_0804C900: .4byte sa2__TaskDestructor_801F550
+_0804C8FC: .4byte Task_StageGoalBonusPoints
+_0804C900: .4byte TaskDestructor_MultiplayerSpriteTask
 _0804C904: .4byte 0x03000018
 _0804C908: .4byte 0x00000245
 _0804C90C: .4byte 0x03000038

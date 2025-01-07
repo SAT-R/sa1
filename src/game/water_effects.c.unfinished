@@ -5,7 +5,7 @@
 #include "task.h"
 
 #include "game/sa1_sa2_shared/globals.h"
-//#include "game/boost_effect.h"
+#include "game/boost_effect.h"
 
 #include "game/stage/player.h"
 #include "game/stage/camera.h"
@@ -50,12 +50,10 @@ Water gWater = {};
         temp2 >>= 1;                                                                                                                       \
     })
 
-#if (GAME == GAME_SA2)
 static const u16 gUnknown_080D550C[NUM_CHARACTERS] = {
     SA2_ANIM_UNDERWATER_1UP_SONIC,    SA2_ANIM_UNDERWATER_1UP_CREAM, SA2_ANIM_UNDERWATER_1UP_TAILS,
     SA2_ANIM_UNDERWATER_1UP_KNUCKLES, SA2_ANIM_UNDERWATER_1UP_AMY,
 };
-#endif
 
 static void inline CopyPalette(u32 *dst, u32 *src, s32 length)
 {
@@ -88,7 +86,6 @@ static inline void MaskPaletteWithUnderwaterColor_inline(u32 *dst, u32 *src, u32
     }
 }
 
-#if 01
 void InitWaterPalettes(void)
 {
     u16 animId, character;
@@ -292,14 +289,10 @@ static void Task_RunOnWaterEffect(void)
     DisplaySprite(s);
 }
 
-#if (GAME == GAME_SA1)
-struct Task *CreateWaterfallSurfaceHitEffect(s16 x, s16 y)
-#elif (GAME == GAME_SA2)
 struct Task *CreateWaterfallSurfaceHitEffect(s32 x, s32 y)
-#endif
 {
     struct Task *t = sub_801F15C(x, y, 0x10, 0, Task_801F214, TaskDestructor_801F550);
-    TaskStrc_801F15C *ts = TASK_DATA(t);
+    MultiplayerSpriteTask *ts = TASK_DATA(t);
     Sprite *s = &ts->s;
 
     s->graphics.dest = VramMalloc(12);
@@ -390,5 +383,3 @@ static void TaskDestructor_8011B3C(struct Task *t)
 }
 
 static void sub_8011B54(u32 *dst, u32 *src, s32 size) { CopyPalette(dst, src, size); }
-
-#endif // MATCH

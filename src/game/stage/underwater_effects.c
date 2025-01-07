@@ -5,9 +5,9 @@
 #include "trig.h"
 
 #include "game/sa1_sa2_shared/globals.h"
-#include "game/stage/grind_effect_2.h"
-#include "game/stage/player.h"
 #include "game/stage/camera.h"
+#include "game/stage/mp_sprite_task.h"
+#include "game/stage/player.h"
 #include "game/stage/underwater_effects.h"
 #include "game/water_effects.h"
 
@@ -71,7 +71,7 @@ void Task_DrowningCountdown(void)
 struct Task *SpawnDrowningCountdownNum(Player *p, s32 countdown)
 {
     struct Camera *cam = &gCamera;
-    struct Task *t = sa2__sub_801F15C(0, 0, 0, 0, Task_DrowningCountdown, sa2__TaskDestructor_801F550);
+    struct Task *t = CreateMultiplayerSpriteTask(0, 0, 0, 0, Task_DrowningCountdown, TaskDestructor_MultiplayerSpriteTask);
     MultiplayerSpriteTask *ts = TASK_DATA(t);
     Sprite *s;
     SpriteTransform *transform;
@@ -115,7 +115,7 @@ struct Task *SpawnAirBubbles(s32 x, s32 y, s32 p2, s32 p3)
 
         gSmallAirBubbleCount++;
 
-        t = sa2__sub_801F15C(0, 0, 0, 0, Task_SpawnAirBubbles, TaskDestructor_SpawnAirBubbles);
+        t = CreateMultiplayerSpriteTask(0, 0, 0, 0, Task_SpawnAirBubbles, TaskDestructor_SpawnAirBubbles);
 
         ts = TASK_DATA(t);
         s = &ts->s;
