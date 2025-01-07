@@ -18,6 +18,7 @@ typedef struct {
 #elif (GAME == GAME_SA2)
     /* 0x16 */ AnimId playerAnim;
     /* 0x18 */ u16 playerVariant;
+    /* 0x1A */ u8 mpPlayerID;
 #endif
     /* 0x1C */ Sprite s;
     /* 0x4C */ SpriteTransform transform;
