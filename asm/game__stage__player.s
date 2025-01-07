@@ -11944,7 +11944,7 @@ sub_804792C: @ 0x0804792C
 	adds r0, #0x3c
 	movs r3, #0
 	ldrsb r3, [r0, r3]
-	ldr r0, _0804797C @ =sub_8040278
+	ldr r0, _0804797C @ =sa2__Task_801F214
 	str r0, [sp]
 	ldr r0, _08047980 @ =sa2__TaskDestructor_801F550
 	str r0, [sp, #4]
@@ -11977,7 +11977,7 @@ sub_804792C: @ 0x0804792C
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0804797C: .4byte sub_8040278
+_0804797C: .4byte sa2__Task_801F214
 _08047980: .4byte sa2__TaskDestructor_801F550
 _08047984: .4byte 0x03000018
 _08047988: .4byte 0x03000038
@@ -12840,7 +12840,7 @@ sub_8048060: @ 0x08048060
 	adds r0, #0x3c
 	movs r3, #0
 	ldrsb r3, [r0, r3]
-	ldr r0, _080480B0 @ =sub_8040278
+	ldr r0, _080480B0 @ =sa2__Task_801F214
 	str r0, [sp]
 	ldr r0, _080480B4 @ =sa2__TaskDestructor_801F550
 	str r0, [sp, #4]
@@ -12873,7 +12873,7 @@ sub_8048060: @ 0x08048060
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080480B0: .4byte sub_8040278
+_080480B0: .4byte sa2__Task_801F214
 _080480B4: .4byte sa2__TaskDestructor_801F550
 _080480B8: .4byte 0x03000018
 _080480BC: .4byte 0x00000309
@@ -15215,7 +15215,7 @@ sub_8049284: @ 0x08049284
 	adds r0, #0x3c
 	movs r3, #0
 	ldrsb r3, [r0, r3]
-	ldr r0, _080492D4 @ =sub_8040278
+	ldr r0, _080492D4 @ =sa2__Task_801F214
 	str r0, [sp]
 	ldr r0, _080492D8 @ =sa2__TaskDestructor_801F550
 	str r0, [sp, #4]
@@ -15248,7 +15248,7 @@ sub_8049284: @ 0x08049284
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080492D4: .4byte sub_8040278
+_080492D4: .4byte sa2__Task_801F214
 _080492D8: .4byte sa2__TaskDestructor_801F550
 _080492DC: .4byte 0x03000018
 _080492E0: .4byte 0x03000038
@@ -20580,7 +20580,7 @@ _0804BC52:
 	add r1, ip
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _0804BD48 @ =sub_8040278
+	ldr r2, _0804BD48 @ =sa2__Task_801F214
 	str r2, [sp]
 	ldr r2, _0804BD4C @ =sa2__TaskDestructor_801F550
 	str r2, [sp, #4]
@@ -20629,7 +20629,7 @@ _0804BD38: .4byte gPseudoRandom
 _0804BD3C: .4byte 0x00196225
 _0804BD40: .4byte 0x3C6EF35F
 _0804BD44: .4byte gSineTable
-_0804BD48: .4byte sub_8040278
+_0804BD48: .4byte sa2__Task_801F214
 _0804BD4C: .4byte sa2__TaskDestructor_801F550
 _0804BD50: .4byte 0x03000018
 _0804BD54: .4byte 0x03000038

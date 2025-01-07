@@ -601,7 +601,7 @@ CreateWaterfallSurfaceHitEffect: @ 0x0804C8AC
 	asrs r0, r0, #0x10
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _0804C8FC @ =sub_8040278
+	ldr r2, _0804C8FC @ =sa2__Task_801F214
 	str r2, [sp]
 	ldr r2, _0804C900 @ =sa2__TaskDestructor_801F550
 	str r2, [sp, #4]
@@ -633,7 +633,7 @@ CreateWaterfallSurfaceHitEffect: @ 0x0804C8AC
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0804C8FC: .4byte sub_8040278
+_0804C8FC: .4byte sa2__Task_801F214
 _0804C900: .4byte sa2__TaskDestructor_801F550
 _0804C904: .4byte 0x03000018
 _0804C908: .4byte 0x00000245
