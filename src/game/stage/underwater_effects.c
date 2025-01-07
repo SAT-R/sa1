@@ -29,7 +29,7 @@ static void TaskDestructor_SpawnAirBubbles(struct Task *t);
 
 void Task_DrowningCountdown(void)
 {
-    TaskStrc_801F15C *ts = TASK_DATA(gCurTask);
+    MultiplayerSpriteTask *ts = TASK_DATA(gCurTask);
     Sprite *s = &ts->s;
     SpriteTransform *transform = &ts->transform;
 
@@ -72,7 +72,7 @@ struct Task *SpawnDrowningCountdownNum(Player *p, s32 countdown)
 {
     struct Camera *cam = &gCamera;
     struct Task *t = sa2__sub_801F15C(0, 0, 0, 0, Task_DrowningCountdown, sa2__TaskDestructor_801F550);
-    TaskStrc_801F15C *ts = TASK_DATA(t);
+    MultiplayerSpriteTask *ts = TASK_DATA(t);
     Sprite *s;
     SpriteTransform *transform;
     s32 temp;
@@ -82,7 +82,7 @@ struct Task *SpawnDrowningCountdownNum(Player *p, s32 countdown)
     ts->unk8 = 0;
     ts->unkA = 0x120;
     ts->unk10 = 0;
-    ts->sa2__unk1A = p->sa2__unk60;
+    ts->mpPlayerID = p->sa2__unk60;
 
     s = &ts->s;
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_DROWN_COUNTDOWN);
@@ -109,7 +109,7 @@ struct Task *SpawnAirBubbles(s32 x, s32 y, s32 p2, s32 p3)
         return NULL;
     } else {
         struct Task *t;
-        TaskStrc_801F15C *ts;
+        MultiplayerSpriteTask *ts;
         Sprite *s;
         SpriteTransform *transform;
 
@@ -179,7 +179,7 @@ bool32 RandomlySpawnAirBubbles(Player *p)
 
 static void Task_SpawnAirBubbles(void)
 {
-    TaskStrc_801F15C *ts = TASK_DATA(gCurTask);
+    MultiplayerSpriteTask *ts = TASK_DATA(gCurTask);
     Sprite *s = &ts->s;
     SpriteTransform *transform = &ts->transform;
 

@@ -27,15 +27,15 @@ const u16 sAnimData_StageGoalScoreBonus[][3] = {
 // This function was reordered in SA2, it exists twice in this file!
 struct Task *sub_801F15C(s16 x, s16 y, u8 param2, s8 param3, TaskMain main, TaskDestructor dtor)
 {
-    struct Task *t = TaskCreate(main, sizeof(TaskStrc_801F15C), 0x4001, 0, dtor);
+    struct Task *t = TaskCreate(main, sizeof(MultiplayerSpriteTask), 0x4001, 0, dtor);
 
-    TaskStrc_801F15C *strc = TASK_DATA(t);
+    MultiplayerSpriteTask *strc = TASK_DATA(t);
     Sprite *s = &strc->s;
 
     strc->x = x;
     strc->y = y;
     strc->unk14 = param2;
-    strc->unk1A = param3;
+    strc->mpPlayerID = param3;
 
 #if (GAME == GAME_SA2)
     strc->playerAnim = 0;
@@ -63,7 +63,7 @@ void sa2__Task_801F214(void)
 void Task_801F214(void)
 #endif
 {
-    TaskStrc_801F15C *ts = TASK_DATA(gCurTask);
+    MultiplayerSpriteTask *ts = TASK_DATA(gCurTask);
     Sprite *s = &ts->s;
 
 #if (GAME == GAME_SA2)
@@ -75,109 +75,108 @@ void Task_801F214(void)
     if ((ts->unk14 & 0x8) && ((ts->playerAnim != gPlayer.anim) || (ts->playerVariant != gPlayer.variant))) {
         TaskDestroy(gCurTask);
         return;
-    } else
-#endif
-    {
-        if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
-            TaskDestroy(gCurTask);
-            return;
-        }
-
-        switch (ts->unk14 & 0x3) {
-            case 0: {
-                switch (ts->unk14 & 0x30) {
-                    case 0x20: {
-#if (GAME == GAME_SA1)
-                        s8 id = ts->sa2__unk1A;
-#endif
-                        if (IS_MULTI_PLAYER) {
-#if (GAME == GAME_SA2)
-                            s8 id = SIO_MULTI_CNT->id;
-#endif
-                            struct Task *tmpp = gMultiplayerPlayerTasks[id];
-                            MultiplayerPlayer *mpp = TASK_DATA(tmpp);
-#if (GAME == GAME_SA1)
-                            s->x = mpp->pos.x;
-                            s->y = mpp->pos.y;
-#elif (GAME == GAME_SA2)
-                            ts->x = mpp->pos.x;
-                            ts->y = mpp->pos.y;
-#endif
-                        } else {
-#if (GAME == GAME_SA1)
-                            Player *p = ((id != 0) ? &gPartner : &gPlayer);
-#elif (GAME == GAME_SA2)
-                            Player *p = &gPlayer;
-#endif
-
-                            ts->x = I(p->qWorldX);
-                            ts->y = I(p->qWorldY);
-                        }
-                    } break;
-
-                    case 0x10: {
-                        ts->y = gWater.currentWaterLevel;
-                    } break;
-                }
-
-                {
-                    struct Camera *cam = &gCamera;
-                    s->x = ts->x - cam->x;
-                    s->y = ts->y - cam->y;
-                }
-            } break;
-
-            case 1: {
-                struct Camera *cam = &gCamera;
-#if (GAME == GAME_SA1)
-                s->x = ts->x - cam->sa2__unk52;
-                s->y = ts->y - cam->sa2__unk54;
-#else
-                s->x = ts->x - cam->unk52;
-                s->y = ts->y - cam->unk54;
-#endif
-            } break;
-
-            case 2: {
-                s->x = ts->x;
-                s->y = ts->y;
-            } break;
-        }
-
-        if (ts->unk14 & 0x40) {
-            if (!(gPlayer.moveState & MOVESTATE_FACING_LEFT)) {
-                s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
-            } else {
-                s->frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
-            }
-        }
-
-        if (ts->unk14 & 0x80) {
-            if (GRAVITY_IS_INVERTED) {
-                s->frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
-            } else {
-                s->frameFlags &= ~SPRITE_FLAG_MASK_Y_FLIP;
-            }
-        }
-
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
     }
+#endif
+
+    if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    switch (ts->unk14 & 0x3) {
+        case 0: {
+            switch (ts->unk14 & 0x30) {
+                case 0x20: {
+#if (GAME == GAME_SA1)
+                    s8 id = ts->mpPlayerID;
+#endif
+                    if (IS_MULTI_PLAYER) {
+#if (GAME == GAME_SA2)
+                        s8 id = SIO_MULTI_CNT->id;
+#endif
+                        struct Task *tmpp = gMultiplayerPlayerTasks[id];
+                        MultiplayerPlayer *mpp = TASK_DATA(tmpp);
+#if (GAME == GAME_SA1)
+                        s->x = mpp->pos.x;
+                        s->y = mpp->pos.y;
+#elif (GAME == GAME_SA2)
+                        ts->x = mpp->pos.x;
+                        ts->y = mpp->pos.y;
+#endif
+                    } else {
+#if (GAME == GAME_SA1)
+                        Player *p = ((id != 0) ? &gPartner : &gPlayer);
+#elif (GAME == GAME_SA2)
+                        Player *p = &gPlayer;
+#endif
+
+                        ts->x = I(p->qWorldX);
+                        ts->y = I(p->qWorldY);
+                    }
+                } break;
+
+                case 0x10: {
+                    ts->y = gWater.currentWaterLevel;
+                } break;
+            }
+
+            {
+                struct Camera *cam = &gCamera;
+                s->x = ts->x - cam->x;
+                s->y = ts->y - cam->y;
+            }
+        } break;
+
+        case 1: {
+            struct Camera *cam = &gCamera;
+#if (GAME == GAME_SA1)
+            s->x = ts->x - cam->sa2__unk52;
+            s->y = ts->y - cam->sa2__unk54;
+#else
+            s->x = ts->x - cam->unk52;
+            s->y = ts->y - cam->unk54;
+#endif
+        } break;
+
+        case 2: {
+            s->x = ts->x;
+            s->y = ts->y;
+        } break;
+    }
+
+    if (ts->unk14 & 0x40) {
+        if (!(gPlayer.moveState & MOVESTATE_FACING_LEFT)) {
+            s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
+        } else {
+            s->frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
+        }
+    }
+
+    if (ts->unk14 & 0x80) {
+        if (GRAVITY_IS_INVERTED) {
+            s->frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
+        } else {
+            s->frameFlags &= ~SPRITE_FLAG_MASK_Y_FLIP;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
 #if (GAME == GAME_SA1)
 // This function was reordered in SA2, it exists twice in this file!
 struct Task *sa2__sub_801F15C(s16 x, s16 y, u8 param2, s8 param3, TaskMain main, TaskDestructor dtor)
 {
-    struct Task *t = TaskCreate(main, sizeof(TaskStrc_801F15C), 0x4001, 0, dtor);
+    struct Task *t = TaskCreate(main, sizeof(MultiplayerSpriteTask), 0x4001, 0, dtor);
 
-    TaskStrc_801F15C *strc = TASK_DATA(t);
+    MultiplayerSpriteTask *strc = TASK_DATA(t);
     Sprite *s = &strc->s;
 
     strc->x = x;
     strc->y = y;
     strc->unk14 = param2;
-    strc->sa2__unk1A = param3;
+    strc->mpPlayerID = param3;
 
 #if (GAME == GAME_SA2)
     strc->playerAnim = 0;
@@ -206,7 +205,7 @@ struct Task *CreateStageGoalBonusPointsAnim(s32 x, s32 y, u16 score)
         return NULL;
     } else {
         struct Task *t;
-        TaskStrc_801F15C *ts;
+        MultiplayerSpriteTask *ts;
         Sprite *s;
         t = sub_801F15C(x, y, 32, 0, Task_801F214, TaskDestructor_801F550);
         ts = TASK_DATA(t);
@@ -248,7 +247,7 @@ void CreateGrindEffect2(void)
     Player *p = &gPlayer;
     if ((gStageTime & 0x7) == 0) {
         struct Task *t;
-        TaskStrc_801F15C *ts;
+        MultiplayerSpriteTask *ts;
         Sprite *s;
         s32 x, y;
         s32 x2, y2;
@@ -287,7 +286,7 @@ void sa2__TaskDestructor_801F550(struct Task *t)
 void TaskDestructor_801F550(struct Task *t)
 #endif
 {
-    TaskStrc_801F15C *ts = TASK_DATA(t);
+    MultiplayerSpriteTask *ts = TASK_DATA(t);
     Sprite *s = &ts->s;
 
     VramFree(s->graphics.dest);
@@ -297,7 +296,7 @@ void TaskDestructor_801F550(struct Task *t)
 struct Task *sub_801F568(s16 x, s16 y)
 {
     struct Task *t = sub_801F15C(x, y, 192, 0, Task_801F214, TaskDestructor_801F550);
-    TaskStrc_801F15C *ts = TASK_DATA(t);
+    MultiplayerSpriteTask *ts = TASK_DATA(t);
     Sprite *s = &ts->s;
 
     s->graphics.dest = VramMalloc(20);
