@@ -229,7 +229,7 @@ _0808677E:
 	mov r1, r8
 	adds r2, r6, #0
 	adds r3, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _0808680C
 	adds r0, r4, #0
@@ -769,7 +769,7 @@ _08086BC2:
 	mov r1, r8
 	adds r2, r6, #0
 	adds r3, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _08086C44
 	movs r1, #0xc
@@ -1575,7 +1575,7 @@ _08087212:
 	mov r1, r8
 	adds r2, r6, #0
 	adds r3, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _08087290
 	movs r1, #0xc

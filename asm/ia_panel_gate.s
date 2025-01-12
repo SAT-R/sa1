@@ -392,7 +392,7 @@ _080816D6:
 	ldr r3, _08081718 @ =gPartner
 _080816FA:
 	adds r0, r6, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _080817A0
 	cmp r7, #0
@@ -443,7 +443,7 @@ _08081748:
 	ldr r3, _0808177C @ =gPartner
 _08081760:
 	adds r0, r6, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _080817A0
 	cmp r7, #0
@@ -904,7 +904,7 @@ _08081AE2:
 	ldr r3, _08081B24 @ =gPartner
 _08081B06:
 	adds r0, r6, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _08081BA4
 	cmp r7, #0
@@ -953,7 +953,7 @@ _08081B50:
 	ldr r3, _08081B84 @ =gPartner
 _08081B68:
 	adds r0, r6, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _08081BA4
 	cmp r7, #0

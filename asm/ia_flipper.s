@@ -275,7 +275,7 @@ _0807BEB6:
 	mov r0, sl
 	adds r1, r3, #0
 	adds r3, r7, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _0807BEC8
 	bl _0807C9CE
@@ -2350,7 +2350,7 @@ _0807CDF2:
 	adds r0, r5, #0
 	mov r1, sb
 	adds r2, r7, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _0807CE02
 	b _0807D044
@@ -2476,7 +2476,7 @@ _0807CED2:
 	ldr r3, _0807CF04 @ =gPartner
 _0807CEE0:
 	adds r0, r5, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _0807CEEC
 	b _0807D044
@@ -2546,7 +2546,7 @@ _0807CF52:
 	ldr r3, _0807CF80 @ =gPartner
 _0807CF62:
 	adds r0, r5, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _0807D044
 	cmp r6, #0

@@ -321,7 +321,7 @@ _0808098A:
 	ldr r3, _080809DC @ =gPartner
 _080809A8:
 	mov r0, sl
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _080809B4
 	b _08080B42
@@ -716,7 +716,7 @@ _08080C76:
 	ldr r3, _08080CC0 @ =gPartner
 _08080C96:
 	ldr r0, [sp]
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _08080CA2
 	b _08080DF2

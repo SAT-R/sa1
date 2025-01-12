@@ -363,7 +363,7 @@ _0808BF5E:
 	ldr r0, [sp]
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _0808BF7A
 	mov r0, sb

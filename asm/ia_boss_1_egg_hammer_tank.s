@@ -3327,7 +3327,7 @@ _0802750C:
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	adds r6, r0, #0
 	ldr r0, _080275B4 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -3339,7 +3339,7 @@ _0802750C:
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	adds r4, r0, #0
 	b _080275BE
 	.align 2, 0

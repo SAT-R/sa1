@@ -573,7 +573,7 @@ _08085320:
 	ldr r3, _08085370 @ =gPartner
 _08085334:
 	adds r0, r7, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _08085340
 	b _08085488

@@ -364,7 +364,7 @@ _0809012E:
 _08090156:
 	adds r0, r7, #0
 	adds r1, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _0809016E
 	adds r0, r6, #0

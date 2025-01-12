@@ -10327,7 +10327,7 @@ _080139B8:
 	mov r4, sl
 	cmp r4, #0
 	beq _080139C6
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #7
 	strb r1, [r0]
 _080139C6:
@@ -10535,7 +10535,7 @@ _08013B10:
 	ands r0, r1
 	str r0, [r2, #0x10]
 _08013B66:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r2, #0
 	movs r1, #8
 	strb r1, [r0]
@@ -11674,7 +11674,7 @@ _080143D6:
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
 	strb r0, [r4, #0xf]
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #8
 	strb r1, [r0]
 	adds r1, r7, #0
@@ -11984,7 +11984,7 @@ _08014670:
 	cmp r0, #0
 	bne _0801468E
 _0801467A:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r2, #0
 	movs r1, #8
 	strb r1, [r0]
@@ -12461,7 +12461,7 @@ _08014A1C:
 	ands r0, r1
 	cmp r0, #0
 	bne _08014A62
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #8
 	strb r1, [r0]
 	adds r1, r7, #0
@@ -12742,7 +12742,7 @@ _08014C4C:
 	cmp r0, #0
 	bne _08014C6C
 _08014C58:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r2, #0
 	movs r1, #8
 	strb r1, [r0]
@@ -13812,7 +13812,7 @@ _08015494:
 _08015498:
 	str r0, [r3, #0x10]
 	adds r0, r3, #0
-	bl sub_800C848
+	bl sa2__sub_800DE44
 	b _080154D0
 _080154A2:
 	adds r0, r5, #0
@@ -13897,7 +13897,7 @@ _0801551E:
 	ldr r2, _08015554 @ =0x03000041
 	adds r0, r0, r2
 	strb r1, [r0]
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #9
 	strb r1, [r0]
 	strb r4, [r0, #1]
@@ -15638,7 +15638,7 @@ _0801633E:
 	ldrsh r2, [r3, r0]
 	adds r0, r7, #0
 	adds r3, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	movs r6, #0x80
 	lsls r6, r6, #0xc
 	ands r0, r6
@@ -15651,7 +15651,7 @@ _0801633E:
 	ldrsh r2, [r3, r0]
 	ldr r0, [sp, #4]
 	adds r3, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	ands r0, r6
 	cmp r0, #0
 	beq _0801645E
@@ -19134,7 +19134,7 @@ _08017EF0: .4byte gMultiplayerConnections
 _08017EF4: .4byte 0x04000128
 _08017EF8: .4byte gMPlayInfo_BGM
 _08017EFC:
-	ldr r1, _08017F0C @ =gUnknown_03004FE0
+	ldr r1, _08017F0C @ =sa2__gUnknown_030053E0
 	movs r0, #0x1e
 	strb r0, [r1]
 _08017F02:
@@ -19144,7 +19144,7 @@ _08017F02:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08017F0C: .4byte gUnknown_03004FE0
+_08017F0C: .4byte sa2__gUnknown_030053E0
 
 @ SA2: sub_8018E00
 	thumb_func_start sub_8017F10
@@ -19634,8 +19634,8 @@ _080182F8: .4byte gUnknown_03005014
 
 @ Start of player_unk_1.c
 @ SA2: sub_8019224
-	thumb_func_start sub_80182FC
-sub_80182FC: @ 0x080182FC
+	thumb_func_start sa2__sub_8019224
+sa2__sub_8019224: @ 0x080182FC
 	ldr r3, _08018310 @ =gUnknown_03005014
 	ldrb r1, [r3]
 	lsls r0, r1, #3

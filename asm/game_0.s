@@ -5,6 +5,11 @@
 .syntax unified
 .arm
 
+@ Input:
+@ R0 = Sprite *
+@ R1 = s16 x
+@ R2 = s16 y
+@ R3 = Player *
 	thumb_func_start sub_80096B0
 sub_80096B0: @ 0x080096B0
 	push {r4, r5, r6, r7, lr}
@@ -13,14 +18,14 @@ sub_80096B0: @ 0x080096B0
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x20
-	mov r8, r0
-	adds r7, r3, #0
+	mov r8, r0          @ r8 = s
+	adds r7, r3, #0     @ r7 = p
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
-	str r1, [sp, #0x1c]
+	str r1, [sp, #0x1c] @ sp1C = x
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
-	mov sl, r2
+	mov sl, r2          @ sl = y
 	ldrb r3, [r7, #0xe]
 	adds r3, #5
 	rsbs r0, r3, #0
@@ -1682,7 +1687,7 @@ _0800A358:
 _0800A360:
 	adds r0, r5, #0
 _0800A362:
-	bl sub_800C848
+	bl sa2__sub_800DE44
 _0800A366:
 	movs r0, #0xa2
 	bl m4aSongNumStart

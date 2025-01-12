@@ -274,7 +274,7 @@ Task_Spikes_Up: @ 0x08020190
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _080201F4
-	ldr r0, _08020224 @ =gUnknown_03004FE0
+	ldr r0, _08020224 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _08020254
@@ -301,7 +301,7 @@ _0802020A:
 _08020218: .4byte gCurTask
 _0802021C: .4byte gCamera
 _08020220: .4byte gGameMode
-_08020224: .4byte gUnknown_03004FE0
+_08020224: .4byte sa2__gUnknown_030053E0
 _08020228: .4byte gStageFlags
 _0802022C: .4byte gPlayer
 _08020230: .4byte gPartner
@@ -333,7 +333,7 @@ _08020254:
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _080202EA
-	ldr r0, _080202B0 @ =gUnknown_03004FE0
+	ldr r0, _080202B0 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _080202EA
@@ -368,7 +368,7 @@ _080202A0: .4byte gPlayer
 _080202A4: .4byte gPartner
 _080202A8: .4byte gNumSingleplayerCharacters
 _080202AC: .4byte gGameMode
-_080202B0: .4byte gUnknown_03004FE0
+_080202B0: .4byte sa2__gUnknown_030053E0
 _080202B4:
 	ldr r0, [r4, #0x10]
 	mov r1, sb
@@ -439,7 +439,7 @@ _08020324:
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _0802033E
-	ldr r0, _08020358 @ =gUnknown_03004FE0
+	ldr r0, _08020358 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _08020344
@@ -456,7 +456,7 @@ _08020344:
 	bx r0
 	.align 2, 0
 _08020354: .4byte gGameMode
-_08020358: .4byte gUnknown_03004FE0
+_08020358: .4byte sa2__gUnknown_030053E0
 
 	thumb_func_start Task_Spikes_Down
 Task_Spikes_Down: @ 0x0802035C
@@ -506,7 +506,7 @@ Task_Spikes_Down: @ 0x0802035C
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _080203C0
-	ldr r0, _080203F0 @ =gUnknown_03004FE0
+	ldr r0, _080203F0 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _08020420
@@ -533,7 +533,7 @@ _080203D6:
 _080203E4: .4byte gCurTask
 _080203E8: .4byte gCamera
 _080203EC: .4byte gGameMode
-_080203F0: .4byte gUnknown_03004FE0
+_080203F0: .4byte sa2__gUnknown_030053E0
 _080203F4: .4byte gStageFlags
 _080203F8: .4byte gPlayer
 _080203FC: .4byte gPartner
@@ -565,7 +565,7 @@ _08020420:
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _080204B6
-	ldr r0, _0802047C @ =gUnknown_03004FE0
+	ldr r0, _0802047C @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _080204B6
@@ -600,7 +600,7 @@ _0802046C: .4byte gPlayer
 _08020470: .4byte gPartner
 _08020474: .4byte gNumSingleplayerCharacters
 _08020478: .4byte gGameMode
-_0802047C: .4byte gUnknown_03004FE0
+_0802047C: .4byte sa2__gUnknown_030053E0
 _08020480:
 	ldr r0, [r4, #0x10]
 	mov r1, sb
@@ -671,7 +671,7 @@ _080204F0:
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _0802050A
-	ldr r0, _08020524 @ =gUnknown_03004FE0
+	ldr r0, _08020524 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _08020510
@@ -688,7 +688,7 @@ _08020510:
 	bx r0
 	.align 2, 0
 _08020520: .4byte gGameMode
-_08020524: .4byte gUnknown_03004FE0
+_08020524: .4byte sa2__gUnknown_030053E0
 
 	thumb_func_start CreateEntity_Spikes_Horizontal
 CreateEntity_Spikes_Horizontal: @ 0x08020528
@@ -883,7 +883,7 @@ Task_Spikes_Horizontal: @ 0x08020644
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _080206BA
-	ldr r0, _08020720 @ =gUnknown_03004FE0
+	ldr r0, _08020720 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _080206BA
@@ -940,7 +940,7 @@ _08020710: .4byte gCurTask
 _08020714: .4byte 0x0300000C
 _08020718: .4byte gCamera
 _0802071C: .4byte gGameMode
-_08020720: .4byte gUnknown_03004FE0
+_08020720: .4byte sa2__gUnknown_030053E0
 _08020724: .4byte gPartner
 _08020728: .4byte gPlayer
 _0802072C: .4byte 0x00010008
@@ -1119,7 +1119,7 @@ _08020858:
 	ldrsb r0, [r2, r0]
 	cmp r0, #0
 	bne _080208E4
-	ldr r0, _080208A8 @ =gUnknown_03004FE0
+	ldr r0, _080208A8 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _080208E4
@@ -1149,7 +1149,7 @@ _08020888:
 	.align 2, 0
 _080208A0: .4byte gNumSingleplayerCharacters
 _080208A4: .4byte gGameMode
-_080208A8: .4byte gUnknown_03004FE0
+_080208A8: .4byte sa2__gUnknown_030053E0
 _080208AC: .4byte gPartner
 _080208B0: .4byte gPlayer
 _080208B4:
@@ -1221,7 +1221,7 @@ _08020920:
 	ldrsb r0, [r1, r0]
 	cmp r0, #0
 	bne _0802093A
-	ldr r0, _08020954 @ =gUnknown_03004FE0
+	ldr r0, _08020954 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _08020940
@@ -1239,7 +1239,7 @@ _08020940:
 	bx r0
 	.align 2, 0
 _08020950: .4byte gGameMode
-_08020954: .4byte gUnknown_03004FE0
+_08020954: .4byte sa2__gUnknown_030053E0
 
 	thumb_func_start CreateEntity_Spikes_HidingUp
 CreateEntity_Spikes_HidingUp: @ 0x08020958
@@ -1781,7 +1781,7 @@ sub_8020D44: @ 0x08020D44
 	ldrsb r0, [r4, r0]
 	cmp r0, #0
 	bne _08020E48
-	ldr r0, _08020E1C @ =gUnknown_03004FE0
+	ldr r0, _08020E1C @ =sa2__gUnknown_030053E0
 	ldrb r0, [r0]
 	cmp r0, #0x1e
 	bne _08020E48
@@ -1789,7 +1789,7 @@ sub_8020D44: @ 0x08020D44
 	adds r1, r2, #0
 	adds r2, r6, #0
 	adds r3, r5, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	movs r1, #0x80
 	lsls r1, r1, #0xc
 	cmp r0, r1
@@ -1835,7 +1835,7 @@ sub_8020D44: @ 0x08020D44
 	.align 2, 0
 _08020E14: .4byte gCamera
 _08020E18: .4byte gGameMode
-_08020E1C: .4byte gUnknown_03004FE0
+_08020E1C: .4byte sa2__gUnknown_030053E0
 _08020E20: .4byte gStageFlags
 _08020E24:
 	adds r0, r7, #0
@@ -2161,7 +2161,7 @@ _08021076:
 	mov r1, r8
 	mov r2, sb
 	adds r3, r5, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	movs r1, #0x80
 	lsls r1, r1, #0xc
 	cmp r0, r1
@@ -2545,7 +2545,7 @@ _08021350:
 	mov r1, sl
 	mov r2, r8
 	adds r3, r5, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	movs r1, #0x80
 	lsls r1, r1, #0xc
 	cmp r0, r1

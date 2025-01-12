@@ -232,7 +232,7 @@ _0807EFDE:
 	ldr r3, _0807F004 @ =gPartner
 _0807EFEE:
 	adds r0, r7, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _0807EFFA
 	b _0807F1A0
@@ -452,7 +452,7 @@ _0807F16E:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0807F1DC
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	mov r1, sb
 	strb r1, [r0]
 	ldrh r1, [r6, #4]

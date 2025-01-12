@@ -15,6 +15,6 @@ void sub_8019350(union MultiSioData *, u8);
 void sub_8019368(union MultiSioData *, u8);
 void VoidReturnSIOControl32(union MultiSioData *, u8);
 
-struct UNK_3005510 *sub_8019224(void);
+struct UNK_3005510 *sa2__sub_8019224(void);
 
 #endif // GUARD_MULTIPLAYER_PLAYER_UNK_1_H

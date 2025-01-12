@@ -1020,7 +1020,7 @@ _0807D902:
 	ldr r0, [sp, #0x10]
 	mov r1, ip
 	adds r2, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _0807D914
 	bl _0807E16A

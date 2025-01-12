@@ -1033,7 +1033,7 @@ _08085D14:
 _08085D30:
 	ldr r0, [sp]
 	adds r1, r6, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _08085D6A
 	ldr r3, [sp, #0x1c]
