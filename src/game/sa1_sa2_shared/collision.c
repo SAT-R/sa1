@@ -716,68 +716,36 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
-// TODO
 #if 0
-u32 sub_800C394(Sprite *s, s16 sx, s16 sy, Player *p)
+#endif
+
+// SA1-only ?
+// (48.33%) https://decomp.me/scratch/OX8oM
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C394.inc", u32 sub_800C394(Sprite *s, s16 sx, s16 sy, Player *p))
 {
-    s8 rectPlayer[4] = {
-        -(p->spriteOffsetX),
-        -(p->spriteOffsetY),
-        +p->spriteOffsetX,
-        -p->spriteOffsetY
-    };
+    s8 rectPlayer[4] = { -(p->spriteOffsetX + 5), -(p->spriteOffsetY + 1), +(p->spriteOffsetX + 5), +(p->spriteOffsetY + 1) };
 
     u32 result = COLL_NONE;
     bool32 ip = FALSE;
 
     if (!HITBOX_IS_ACTIVE(s->hitboxes[0]) || !IS_ALIVE(p)) {
-        return result;
+        return FALSE;
     }
 
-    if ((p->moveState & MOVESTATE_8) /*&& (p->unk3C == s)*/) {
+    if (((p->moveState & MOVESTATE_JUMPING) == MOVESTATE_JUMPING) && (p->qSpeedAirY > 0)
+        && RECT_COLLISION_2(sx, sy, &s->hitboxes[0].b, p->qWorldX, p->qWorldY, (struct Rect8 *)rectPlayer) && (p->qSpeedAirY >= 0)) {
         p->moveState &= ~MOVESTATE_8;
         ip = TRUE;
-    }
-
-    if (RECT_COLLISION_2(sx, sy, &s->hitboxes[0].b, p->qWorldX, p->qWorldY, (struct Rect8 *)rectPlayer) && (p->qSpeedAirY >= 0)) {
-
-#ifndef NON_MATCHING
-        register s32 y asm("r1");
-#else
-        s32 y;
-#endif
-
-        rectPlayer[1] = -p->spriteOffsetY;
-        rectPlayer[3] = +p->spriteOffsetY;
-        p->moveState |= MOVESTATE_8;
-        result |= COLL_FLAG_8;
-
-        if (!ip) {
-            p->rotation = 0;
+    } else {
+        if (p->qSpeedAirY > 0) {
+            p->qSpeedAirY = -p->qSpeedAirY;
         }
-
-        //p->sa2__unk60 = s;
-        p->qSpeedAirY = 0;
-
-        if (GRAVITY_IS_INVERTED) {
-            y = s->hitboxes[0].b.bottom;
-            y += sy;
-            y += rectPlayer[3];
-        } else {
-            y = s->hitboxes[0].b.top;
-            y += sy;
-            y -= rectPlayer[3];
-        }
-        y = Q(y);
-        p->qWorldY = Q_24_8_FRAC(p->qWorldY) + (y);
-    } else if (ip && !(p->moveState & MOVESTATE_8)) {
-        p->moveState &= ~MOVESTATE_20;
-        p->moveState |= MOVESTATE_IN_AIR;
+        return TRUE;
     }
 
     return FALSE;
 }
-#endif
+END_NONMATCH
 
 bool32 sa2__sub_800CBA4(Player *p)
 {
