@@ -200,13 +200,13 @@ u32 sub_800DF38(Sprite *s, s32 x, s32 y, Player *p);
     }
 
 #define ENEMY_DESTROY_IF_PLAYER_HIT(_s, _pos)                                                                                              \
-    if (sub_800C4FC(_s, _pos.x, _pos.y, 0) == TRUE) {                                                                                      \
+    if (sa2__sub_800C4FC(_s, _pos.x, _pos.y, 0) == TRUE) {                                                                                 \
         TaskDestroy(gCurTask);                                                                                                             \
         return;                                                                                                                            \
     }
 
 #define ENEMY_DESTROY_IF_PLAYER_HIT_2(_s, _pos)                                                                                            \
-    if (sub_800C4FC(_s, _pos.x, _pos.y, 0)) {                                                                                              \
+    if (sa2__sub_800C4FC(_s, _pos.x, _pos.y, 0)) {                                                                                         \
         TaskDestroy(gCurTask);                                                                                                             \
         return;                                                                                                                            \
     }

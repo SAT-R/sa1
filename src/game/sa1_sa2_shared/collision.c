@@ -171,35 +171,37 @@ bool32 IsColliding_Cheese(Sprite *sprTarget, s32 sx, s32 sy, s16 hbIndex, Player
     return FALSE;
 }
 
-// (92.68%) https://decomp.me/scratch/CcZm5
-NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C4FC.inc", bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex))
+#if (GAME == GAME_SA1)
+bool32 sa2__sub_800C4FC(Sprite *s, s16 sx, s16 sy, u8 hbIndex)
+#elif (GAME == GAME_SA2)
+bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex)
+#endif
 {
-    PlayerSpriteInfo *psi = gPlayer.spriteInfoBody;
-    Sprite *sprPlayer = &psi->s;
-    EnemyBase *eb;
+    Player *player = &gPlayer;
+    Sprite *sprPlayer = &player->spriteInfoBody->s;
+
+    bool32 dead;
     u32 movestate;
+    EnemyBase *eb;
 
     if (!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex])) {
         return FALSE;
     }
 
     eb = TASK_DATA(gCurTask);
+    dead = player->moveState & MOVESTATE_DEAD;
+    movestate = player->moveState;
 
-    movestate = gPlayer.moveState;
-    if (PLAYER_IS_ALIVE) {
-        if (IS_MULTI_PLAYER && ((s8)eb->base.me->x == (s8)MAP_ENTITY_STATE_MINUS_THREE)) {
-            // _0800C550 + 0x1C
+    if (!dead) {
+        if (IS_MULTI_PLAYER && ((s8)eb->base.me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
             CreateDustCloud(sx, sy);
             CreateTrappedAnimal(sx, sy);
-
             return TRUE;
         }
+
         if (!(movestate & MOVESTATE_IN_SCRIPTED)) {
             if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[1])) {
-                // _0800C5A4 + 0xC
-
-                if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(gPlayer.qWorldX), I(gPlayer.qWorldY), sprPlayer->hitboxes[1])) {
-                    // _0800C648
+                if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(player->qWorldX), I(player->qWorldY), sprPlayer->hitboxes[1])) {
                     if (IS_MULTI_PLAYER) {
                         struct UNK_3005510 *v = sub_8019224();
                         v->unk0 = 3;
@@ -208,7 +210,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C4FC.inc", bool
                         v->unk3 = eb->base.id;
                     }
 
-                    Collision_AdjustPlayerSpeed(&gPlayer);
+                    Collision_AdjustPlayerSpeed(player);
 
                     CreateDustCloud(sx, sy);
                     CreateTrappedAnimal(sx, sy);
@@ -217,12 +219,11 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C4FC.inc", bool
                     return TRUE;
                 }
             }
-            // _0800C674:
 
             if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[0])
-                && (HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(gPlayer.qWorldX), I(gPlayer.qWorldY), sprPlayer->hitboxes[0]))) {
-                if (!(gPlayer.itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
-                    sub_800CBA4(&gPlayer);
+                && (HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(player->qWorldX), I(player->qWorldY), sprPlayer->hitboxes[0]))) {
+                if (!(player->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
+                    sub_800CBA4(player);
                 } else {
                     if (IS_MULTI_PLAYER) {
                         struct UNK_3005510 *v = sub_8019224();
@@ -264,7 +265,6 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C4FC.inc", bool
 
     return FALSE;
 }
-END_NONMATCH
 
 bool32 sub_800C84C(Sprite *s, s32 sx, s32 sy)
 {
@@ -716,8 +716,20 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
-#if 0
-#endif
+u32 sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
+{
+    PlayerSpriteInfo *psi = p->spriteInfoBody;
+    Sprite *sprBody = &psi->s;
+
+    if (HITBOX_IS_ACTIVE(s->hitboxes[0]) && IS_ALIVE(p) && ((p->timerInvulnerability == 0) && (p->timerInvincibility == 0))
+        && (HITBOX_IS_ACTIVE(sprBody->hitboxes[0]))) {
+        if (HB_COLLISION(sx, sy, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
+            return 2;
+        }
+    }
+
+    return 0;
+}
 
 // SA1-only ?
 // (48.33%) https://decomp.me/scratch/OX8oM
