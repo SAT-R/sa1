@@ -283,7 +283,7 @@ _0806E290:
 	adds r0, r6, #0
 	adds r1, r7, #0
 	mov r2, r8
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _0806E2B8
 _0806E2AA:
@@ -505,7 +505,7 @@ _0806E454:
 	lsls r2, r0, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	adds r1, r0, #0
 	cmp r1, #0
 	beq _0806E47C

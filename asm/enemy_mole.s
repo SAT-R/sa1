@@ -345,7 +345,7 @@ _080716CC:
 _080716EE:
 	adds r0, r5, #0
 	mov r1, ip
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _0807170C
 	ldr r1, _08071728 @ =0x0300002C

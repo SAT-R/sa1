@@ -1957,8 +1957,8 @@ _0800B4E6:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_800B4F8
-sub_800B4F8: @ 0x0800B4F8
+	thumb_func_start sa2__sub_800C4FC
+sa2__sub_800C4FC: @ 0x0800B4F8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -3836,124 +3836,5 @@ _0800C2AC:
 	pop {r1}
 	bx r1
 
-	thumb_func_start sub_800C2B8
-sub_800C2B8: @ 0x0800C2B8
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	adds r6, r0, #0
-	adds r4, r3, #0
-	lsls r1, r1, #0x10
-	lsrs r5, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	ldr r0, [r4, #0x64]
-	mov ip, r0
-	mov r7, ip
-	adds r7, #0xc
-	ldr r0, [r6, #0x28]
-	movs r3, #1
-	rsbs r3, r3, #0
-	cmp r0, r3
-	beq _0800C388
-	ldr r0, [r4, #0x10]
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _0800C388
-	ldr r0, [r4, #0x1c]
-	cmp r0, #0
-	bne _0800C388
-	ldr r0, [r7, #0x28]
-	cmp r0, r3
-	beq _0800C388
-	lsls r0, r5, #0x10
-	asrs r0, r0, #0x10
-	adds r1, r6, #0
-	adds r1, #0x2c
-	movs r3, #0
-	ldrsb r3, [r1, r3]
-	adds r2, r0, r3
-	ldr r0, [r4]
-	asrs r0, r0, #8
-	mov r1, ip
-	adds r1, #0x38
-	movs r5, #0
-	ldrsb r5, [r1, r5]
-	adds r1, r0, r5
-	cmp r2, r1
-	bgt _0800C32A
-	adds r0, r6, #0
-	adds r0, #0x2e
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	subs r0, r0, r3
-	adds r0, r2, r0
-	cmp r0, r1
-	bge _0800C33C
-	cmp r2, r1
-	blt _0800C388
-_0800C32A:
-	mov r0, ip
-	adds r0, #0x3a
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	subs r0, r0, r5
-	adds r0, r1, r0
-	cmp r0, r2
-	blt _0800C388
-_0800C33C:
-	mov r1, r8
-	lsls r0, r1, #0x10
-	asrs r0, r0, #0x10
-	adds r1, r6, #0
-	adds r1, #0x2d
-	ldrb r1, [r1]
-	lsls r1, r1, #0x18
-	asrs r1, r1, #0x18
-	adds r2, r0, r1
-	ldr r0, [r4, #4]
-	asrs r0, r0, #8
-	movs r3, #0x2d
-	ldrsb r4, [r3, r7]
-	adds r3, r0, r4
-	cmp r2, r3
-	bgt _0800C372
-	adds r0, r6, #0
-	adds r0, #0x2f
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	subs r0, r0, r1
-	adds r0, r2, r0
-	cmp r0, r3
-	bge _0800C384
-	cmp r2, r3
-	blt _0800C388
-_0800C372:
-	adds r0, r7, #0
-	adds r0, #0x2f
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	subs r0, r0, r4
-	adds r0, r3, r0
-	cmp r0, r2
-	blt _0800C388
-_0800C384:
-	movs r0, #2
-	b _0800C38A
-_0800C388:
-	movs r0, #0
-_0800C38A:
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-    
 .if 0
 .endif

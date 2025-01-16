@@ -274,7 +274,7 @@ _0806C194:
 	lsls r2, r6, #0x10
 	asrs r2, r2, #0x10
 	mov r0, r8
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _0806C1B4
 _0806C1A6:
@@ -530,7 +530,7 @@ _0806C398:
 	lsls r2, r5, #0x10
 	asrs r2, r2, #0x10
 	mov r0, r8
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _0806C3B8
 _0806C3AA:

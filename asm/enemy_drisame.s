@@ -417,7 +417,7 @@ _08072E18:
 	ldr r4, [sp, #8]
 	asrs r2, r4, #0x10
 	mov r0, sb
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _08072E4C
 	ldr r0, _08072E38 @ =gCurTask
@@ -561,7 +561,7 @@ _08072F40:
 	lsls r2, r4, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r7, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _08072F64
 	ldr r0, _08072F60 @ =gCurTask

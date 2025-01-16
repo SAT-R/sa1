@@ -268,7 +268,7 @@ _08073BA0:
 	adds r0, r7, #0
 	adds r1, r4, #0
 	adds r2, r6, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _08073BC8
 	ldr r0, _08073BC4 @ =gCurTask
@@ -540,7 +540,7 @@ _08073DC0:
 	mov r0, sb
 	adds r1, r6, #0
 	mov r2, r8
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	mov sl, r5
 	adds r5, r4, #0
 	cmp r0, #0
