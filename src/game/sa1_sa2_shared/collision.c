@@ -716,6 +716,26 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
+// (97.67%)
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc", u32 sub_800C1E8(Sprite *inSprite, Rect8 rectB, s16 sx, s16 sy, Player *p))
+{
+    register Sprite *s asm("r4") = inSprite; // NOTE: type isn't certain
+    PlayerSpriteInfo *psi = p->spriteInfoBody;
+    Sprite *sprBody = &psi->s;
+
+    if (IS_ALIVE(p) && (HITBOX_IS_ACTIVE(sprBody->hitboxes[0]))) {
+        if (HB_COLLISION(sx, sy, rectB, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
+            sa2__sub_800CBA4(p);
+            return 2;
+        }
+    }
+
+    asm("" :: "r"(s));
+
+    return 0;
+}
+END_NONMATCH
+
 u32 sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
 {
     PlayerSpriteInfo *psi = p->spriteInfoBody;
