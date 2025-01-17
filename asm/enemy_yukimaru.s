@@ -385,7 +385,7 @@ _08071AD0:
 	adds r0, r7, #0
 	adds r1, r4, #0
 	adds r2, r6, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _08071AF8
 	ldr r0, _08071AF4 @ =gCurTask
@@ -662,7 +662,7 @@ _08071D08:
 	mov r0, r8
 	adds r1, r6, #0
 	adds r2, r5, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _08071D30
 	ldr r0, _08071D2C @ =gCurTask
@@ -1343,7 +1343,7 @@ _08072298:
 	adds r0, r7, #0
 	adds r1, r6, #0
 	adds r2, r4, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _080722C0
 	ldr r0, _080722BC @ =gCurTask
@@ -1616,7 +1616,7 @@ _080724C4:
 	adds r0, r5, #0
 	adds r1, r7, #0
 	mov r2, r8
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _080724F0
 	ldr r0, _080724EC @ =gCurTask
@@ -1833,7 +1833,7 @@ _08072688:
 	adds r0, r7, #0
 	adds r1, r6, #0
 	adds r2, r4, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _080726B0
 	ldr r0, _080726AC @ =gCurTask
@@ -2119,7 +2119,7 @@ _080728D8:
 	lsls r2, r0, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _080728FC
 _080728EE:

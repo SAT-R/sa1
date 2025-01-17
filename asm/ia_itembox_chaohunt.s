@@ -721,7 +721,7 @@ _0801C05A:
 	ldrb r0, [r3, #4]
 	adds r0, #1
 	strb r0, [r3, #4]
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #5
 	strb r1, [r0]
 	ldrh r1, [r6, #4]
@@ -862,7 +862,7 @@ _0801C184:
 	cmp r4, #2
 	beq _0801C1CA
 _0801C19E:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	adds r1, r0, #0
 	movs r0, #6
 	strb r0, [r1]
@@ -874,7 +874,7 @@ _0801C1B0: .4byte 0x03000080
 _0801C1B4: .4byte gGameMode
 _0801C1B8: .4byte 0x03000081
 _0801C1BC:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	adds r1, r0, #0
 	movs r0, #6
 	strb r0, [r1]
@@ -986,7 +986,7 @@ _0801C29C: .4byte gGameMode
 _0801C2A0: .4byte gNumLives
 _0801C2A4: .4byte gMusicManagerState
 _0801C2A8:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	adds r1, r0, #0
 	movs r0, #6
 	strb r0, [r1]

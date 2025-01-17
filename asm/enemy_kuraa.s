@@ -256,7 +256,7 @@ _080736E0:
 	lsls r2, r3, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _08073704
 	ldr r0, _08073700 @ =gCurTask

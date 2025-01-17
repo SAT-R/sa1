@@ -187,7 +187,7 @@ CreateGameStage: @ 0x0803CF9C
 	bl sub_80550F8
 	adds r6, r0, #0
 _0803CFE0:
-	ldr r0, _0803D024 @ =gUnknown_03004FE0
+	ldr r0, _0803D024 @ =sa2__gUnknown_030053E0
 	strb r5, [r0]
 	ldrb r0, [r4]
 	cmp r0, #6
@@ -214,7 +214,7 @@ _0803D014: .4byte gActiveCollectRingEffectCount
 _0803D018: .4byte gStageFlags
 _0803D01C: .4byte 0x0000FF7F
 _0803D020: .4byte gGameMode
-_0803D024: .4byte gUnknown_03004FE0
+_0803D024: .4byte sa2__gUnknown_030053E0
 _0803D028: .4byte gSelectedCharacter
 _0803D02C: .4byte gCurrentLevel
 _0803D030:
@@ -692,7 +692,7 @@ _0803D414:
 	bne _0803D428
 	strb r7, [r2]
 _0803D428:
-	ldr r1, _0803D4A0 @ =gUnknown_03004FE0
+	ldr r1, _0803D4A0 @ =sa2__gUnknown_030053E0
 	ldrb r0, [r1]
 	cmp r0, #0
 	beq _0803D434
@@ -755,7 +755,7 @@ _0803D484:
 	b _0803D4C6
 	.align 2, 0
 _0803D49C: .4byte gMultiplayerConnections
-_0803D4A0: .4byte gUnknown_03004FE0
+_0803D4A0: .4byte sa2__gUnknown_030053E0
 _0803D4A4: .4byte sa2__gUnknown_0300544C
 _0803D4A8: .4byte gStageFlags
 _0803D4AC: .4byte gCheckpointTime

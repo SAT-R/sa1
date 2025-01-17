@@ -261,7 +261,7 @@ _0806D6C8:
 	adds r0, r7, #0
 	adds r1, r4, #0
 	adds r2, r6, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _0806D6F0
 	ldr r0, _0806D6EC @ =gCurTask
@@ -524,7 +524,7 @@ _0806D8D4:
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r6, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _0806D8FC
 	ldr r0, _0806D8F8 @ =gCurTask

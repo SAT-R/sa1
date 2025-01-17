@@ -323,7 +323,7 @@ _080233E4:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0802349C
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r2, #0
 	movs r1, #1
 	strb r1, [r0]

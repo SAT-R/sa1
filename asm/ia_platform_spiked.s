@@ -675,7 +675,7 @@ _0807FE86:
 	ldr r0, [sp, #0x10]
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	beq _0807FE96
 	b _080803AE

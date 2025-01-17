@@ -292,7 +292,7 @@ _0801DEC0:
 	adds r0, r5, #0
 	mov r1, sb
 	adds r2, r6, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	cmp r0, #0
 	beq _0801DEEC
 	ldr r0, _0801DEE8 @ =gCurTask
@@ -584,7 +584,7 @@ _0801E118:
 	lsls r2, r4, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r6, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	adds r2, r0, #0
 	cmp r2, #0
 	beq _0801E140
@@ -743,7 +743,7 @@ _0801E258:
 	lsls r2, r4, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r6, #0
-	bl sub_800B4F8
+	bl sa2__sub_800C4FC
 	adds r2, r0, #0
 	cmp r2, #0
 	beq _0801E280

@@ -585,7 +585,7 @@ _0801EA80:
 	bhi _0801EAB2
 	b _0801EC0A
 _0801EAB2:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #2
 	strb r1, [r0]
 	ldrh r1, [r6, #4]
@@ -1185,7 +1185,7 @@ _0801EFA0:
 	cmp r0, #0
 	bne _0801EF5E
 _0801EFAE:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	adds r2, r0, #0
 	movs r0, #6
 	strb r0, [r2]
@@ -1201,7 +1201,7 @@ _0801EFCC: .4byte 0x04000128
 _0801EFD0: .4byte 0x03000050
 _0801EFD4: .4byte 0x03000052
 _0801EFD8:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	adds r2, r0, #0
 	movs r1, #0
 	movs r0, #6
@@ -1209,7 +1209,7 @@ _0801EFD8:
 	strb r1, [r2, #1]
 	b _0801EFF6
 _0801EFE8:
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	adds r2, r0, #0
 	movs r0, #6
 	strb r0, [r2]

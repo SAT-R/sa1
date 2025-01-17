@@ -80,10 +80,12 @@ const u16 gLevelSongs[] = {
 };
 #endif
 
+// TODO: Name this gBossSongIndices
 #if (GAME == GAME_SA1)
-const u16 gUnkMusicMgrData[7] = { 0x001D, 0x001E, 0x001F, 0x0020, 0x0031, 0x0032, 0x0019 };
+const static u16 sBossSongIndices[7] = { MUS_BOSS_FIGHT,       MUS_BOSS_INTRO,         MUS_BOSS_MECHA_KNUCKLES, MUS_BOSS_EGG_SNAKE,
+                                         MUS_BOSS_EGG_WRECKER, MUS_BOSS_EGG_DRILLSTER, MUS_FINAL_BOSS };
 #elif (GAME == GAME_SA2)
-const u16 gUnkMusicMgrData[7] = { SE_260, 0xF000, 0x1008, 0x8F0, 0xF000, 0x1008, 0x1F0 };
+const static u16 sBossSongIndices[0] = {};
 #endif
 
 #if (GAME == GAME_SA1)
@@ -148,7 +150,7 @@ void Task_StageMusicManager(void)
             u32 unk1 = (gMusicManagerState.unk1 &= 0x0F);
 
 #if (GAME == GAME_SA1)
-            m4aSongNumStart(gUnkMusicMgrData[gMusicManagerState.unk1]);
+            m4aSongNumStart(sBossSongIndices[gMusicManagerState.unk1]);
             gMusicManagerState.unk1 |= 0x20;
 #else
             m4aSongNumStart(gLevelSongs[gCurrentLevel + unk1]);
@@ -156,7 +158,7 @@ void Task_StageMusicManager(void)
 #if (GAME == GAME_SA1)
         } else if ((gMusicManagerState.unk1 & 0xF0) == 0x30) {
             gMusicManagerState.unk1 &= 0xF;
-            m4aSongNumStop(gUnkMusicMgrData[gMusicManagerState.unk1]);
+            m4aSongNumStop(sBossSongIndices[gMusicManagerState.unk1]);
 
             m4aSongNumStart(gLevelSongs[gCurrentLevel]);
             MusManager_UpdateBgmParams();
@@ -169,9 +171,9 @@ void Task_StageMusicManager(void)
         } else if (((gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_TRACK) == 0) || (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE)) {
             if ((gMusicManagerState.unk1 & 0xF0) == 0x20) {
 #if (GAME == GAME_SA1)
-                m4aSongNumStart(gUnkMusicMgrData[gMusicManagerState.unk1 & 0xF]);
+                m4aSongNumStart(sBossSongIndices[gMusicManagerState.unk1 & 0xF]);
 #else
-                m4aSongNumStart(gUnkMusicMgrData[gMusicManagerState.unk1]);
+                m4aSongNumStart(sBossSongIndices[gMusicManagerState.unk1]);
 #endif
                 MusManager_UpdateBgmParams();
             } else {

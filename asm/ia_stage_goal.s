@@ -874,7 +874,7 @@ _0801F852:
 	str r0, [r2, #0x10]
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #7
 	strb r1, [r0]
 	ldr r0, _0801F894 @ =gCurTask
@@ -1050,7 +1050,7 @@ _0801F9AC:
 	str r0, [r2, #0x10]
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r1, #7
 	strb r1, [r0]
 	ldr r0, _0801F9F8 @ =gCurTask

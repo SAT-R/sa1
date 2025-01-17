@@ -523,7 +523,7 @@ _0808CB8A:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0808CBEA
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	mov r1, sl
 	strb r1, [r0]
 	ldrh r1, [r6, #4]
@@ -1816,7 +1816,7 @@ _0808D500:
 _0808D52A:
 	ldr r0, [sp, #0xc]
 	adds r1, r7, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _0808D538
 	b _0808D7F6

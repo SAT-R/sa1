@@ -29,6 +29,10 @@ typedef void (*PlayerCallback)(struct Player *);
 #define PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC 0x08
 #define PLAYER_ITEM_EFFECT__10              0x10
 #define PLAYER_ITEM_EFFECT__20              0x20
+#define PLAYER_ITEM_EFFECT__CONFUSION       0x40
+#define PLAYER_ITEM_EFFECT__TELEPORT        0x80
+
+#define HAS_SHIELD(p) ((p)->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC | PLAYER_ITEM_EFFECT__SHIELD_NORMAL))
 
 // Confusion
 #define PLAYER_ITEM_EFFECT__40 0x40
@@ -36,9 +40,10 @@ typedef void (*PlayerCallback)(struct Player *);
 // Teleport
 #define PLAYER_ITEM_EFFECT__80 0x80
 
-#define FLAG_PLAYER_x38__LAYER_FOREGROUND 0x00
-#define FLAG_PLAYER_x38__LAYER_BACKGROUND 0x01
-#define FLAG_PLAYER_x38__80               0x80
+#define PLAYER_LAYER__FRONT 0x00
+#define PLAYER_LAYER__BACK  0x01
+#define PLAYER_LAYER__MASK  0x01
+#define PLAYER_LAYER__80    0x80
 
 #define PLAYER_1 0
 #define PLAYER_2 1
@@ -68,20 +73,25 @@ typedef struct Player {
 
     // set/compare to values in "include/constants/move_states.h"
     /* 0x10 */ u32 moveState;
-    /* 0x14 */ u8 filler14[0x2];
+    /* 0x14 */ u8 rotation;
+    /* 0x15 */ u8 unk15;
     /* 0x16 */ s16 spindashAccel;
     /* 0x18 */ u8 sa2__unk28;
     /* 0x19 */ u8 sa2__unk29;
-    /* 0x1A */ u8 filler1A[0xC];
-
+    /* 0x1A */ s16 sa2__unk2A;
+    /* 0x1C */ s16 timerInvulnerability;
+    /* 0x1E */ s16 timerInvincibility;
+    /* 0x20 */ u16 timerSpeedup;
+    /* 0x22 */ u8 filler22[0x4];
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
     /* 0x28 */ u8 filler28[0x10];
     /* 0x38 */ u16 unk38;
     /* 0x3A */ u8 filler3A[0x2];
     /* 0x3C */ s8 sa2__unk60;
-    /* 0x3D */ u8 filler3D[0x3];
-
+    /* 0x3D */ u8 sa2__unk61;
+    /* 0x3E */ u8 sa2__unk62;
+    /* 0x3F */ u8 unk3F;
     /* 0x40 */ s8 charState;
     /* 0x41 */ s8 prevCharState;
     /* 0x42 */ u16 anim;
@@ -97,6 +107,8 @@ typedef struct Player {
     /* 0x64 */ PlayerSpriteInfo *spriteInfoBody; // for character sprites
     /* 0x68 */ PlayerSpriteInfo *spriteInfoLimbs; // SpriteInfo for Tails' tails / Cream's ears, when rolling
 } Player;
+
+extern s32 sa2__sub_8022F58(u8 param0, Player *p);
 
 extern Player gPlayer;
 #if (GAME == GAME_SA1)

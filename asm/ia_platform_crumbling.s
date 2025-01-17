@@ -414,7 +414,7 @@ _080250BC:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _080250FA
-	bl sub_80182FC
+	bl sa2__sub_8019224
 	movs r2, #1
 	strb r2, [r0]
 	ldrh r1, [r6, #4]

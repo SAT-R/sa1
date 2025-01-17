@@ -754,7 +754,7 @@ _0808963C:
 	adds r1, r6, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sub_800CE34
+	bl sa2__sub_800DF38
 	cmp r0, #0
 	bne _0808965A
 	movs r1, #1

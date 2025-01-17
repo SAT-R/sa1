@@ -28,7 +28,7 @@ build/sa1/src/core.o(.data);
 build/sa1/src/multi_sio.o(.data);
 build/sa1/src/sio32_multi_load.o(.data);
 
-. = 0x00004FE0; gUnknown_03004FE0 = .;
+. = 0x00004FE0; sa2__gUnknown_030053E0 = .;
 . = 0x00004FE4; gCheckpointTime = .;
 . = 0x00004FE8; gMultiplayerCharRings = .; /* gMultiplayerCharRings[MULTI_SIO_PLAYERS_MAX] */
 . = 0x00004FEC; gRingCount = .;
