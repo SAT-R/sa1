@@ -25,21 +25,6 @@
 
 #if 0 // MATCH
 
-u32 CheckRectCollision_SpritePlayer(Sprite *s, s32 sx, s32 sy, Player *p, struct Rect8 *rectPlayer)
-{
-    u32 result = 0;
-
-    if (!HITBOX_IS_ACTIVE(s->hitboxes[0]) || !IS_ALIVE(p)) {
-        return result;
-    }
-
-    if (RECT_COLLISION(sx, sy, &s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), rectPlayer)) {
-        result |= COLL_FLAG_80000;
-    }
-
-    return result;
-}
-
 // (Link included because of register-match)
 // (100.00%) https://decomp.me/scratch/0Ro0I
 u32 sub_800C060(Sprite *s, s32 sx, s32 sy, Player *p)
@@ -716,10 +701,15 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
-// (97.67%)
-NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc", u32 sub_800C1E8(Sprite *inSprite, Rect8 rectB, s16 sx, s16 sy, Player *p))
+// (97.67%) https://decomp.me/scratch/e4jLp
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc",
+         u32 sub_800C1E8(Sprite *inSprite, Rect8 rectB, s16 sx, s16 sy, Player *p))
 {
+#ifndef NONMATCHING
     register Sprite *s asm("r4") = inSprite; // NOTE: type isn't certain
+#else
+    Sprite *s = inSprite; // NOTE: type isn't certain
+#endif
     PlayerSpriteInfo *psi = p->spriteInfoBody;
     Sprite *sprBody = &psi->s;
 
@@ -730,7 +720,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc", u32 
         }
     }
 
-    asm("" :: "r"(s));
+    asm("" ::"r"(s));
 
     return 0;
 }

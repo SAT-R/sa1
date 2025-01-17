@@ -27,6 +27,7 @@ SECTIONS {
         build/sa1/src/game/sa1_sa2_shared/rings_manager.o(.text);
         build/sa1/asm/game__stage__entities_manager.o(.text);
         build/sa1/asm/game_0.o(.text);
+        build/sa1/src/game/sa1_sa2_shared/collision_0.o(.text);
         build/sa1/asm/game__sa1_sa2_shared__collision.o(.text);
         build/sa1/src/game/sa1_sa2_shared/collision.o(.text);
         build/sa1/src/game/sa1_sa2_shared/palette_loader.o(.text);
