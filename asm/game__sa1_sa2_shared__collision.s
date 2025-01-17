@@ -7,115 +7,8 @@
 
 @ --- Start of game/sa1_sa2_shared/collision.c ---
 
-@ NOTE: parameters 1 and 2 are s16 in SA1, s32 in SA2!
-	thumb_func_start CheckRectCollision_SpritePlayer
-CheckRectCollision_SpritePlayer: @ 0x0800A6A4
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	mov ip, r0
-	adds r5, r3, #0
-	ldr r6, [sp, #0x18]
-	lsls r1, r1, #0x10
-	lsrs r3, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	movs r7, #0
-	ldr r1, [r0, #0x28]
-	movs r0, #1
-	rsbs r0, r0, #0
-	cmp r1, r0
-	beq _0800A6D0
-	ldr r0, [r5, #0x10]
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _0800A6D4
-_0800A6D0:
-	movs r0, #0
-	b _0800A75C
-_0800A6D4:
-	lsls r0, r3, #0x10
-	asrs r0, r0, #0x10
-	mov r1, ip
-	adds r1, #0x2c
-	movs r3, #0
-	ldrsb r3, [r1, r3]
-	adds r2, r0, r3
-	ldr r0, [r5]
-	asrs r0, r0, #8
-	movs r4, #0
-	ldrsb r4, [r6, r4]
-	adds r1, r0, r4
-	cmp r2, r1
-	bgt _0800A706
-	mov r0, ip
-	adds r0, #0x2e
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	subs r0, r0, r3
-	adds r0, r2, r0
-	cmp r0, r1
-	bge _0800A712
-	cmp r2, r1
-	blt _0800A75A
-_0800A706:
-	movs r0, #2
-	ldrsb r0, [r6, r0]
-	subs r0, r0, r4
-	adds r0, r1, r0
-	cmp r0, r2
-	blt _0800A75A
-_0800A712:
-	mov r1, r8
-	lsls r0, r1, #0x10
-	asrs r0, r0, #0x10
-	mov r1, ip
-	adds r1, #0x2d
-	ldrb r1, [r1]
-	lsls r1, r1, #0x18
-	asrs r1, r1, #0x18
-	adds r2, r0, r1
-	ldr r0, [r5, #4]
-	asrs r0, r0, #8
-	movs r4, #1
-	ldrsb r4, [r6, r4]
-	adds r3, r0, r4
-	cmp r2, r3
-	bgt _0800A748
-	mov r0, ip
-	adds r0, #0x2f
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	subs r0, r0, r1
-	adds r0, r2, r0
-	cmp r0, r3
-	bge _0800A754
-	cmp r2, r3
-	blt _0800A75A
-_0800A748:
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	subs r0, r0, r4
-	adds r0, r3, r0
-	cmp r0, r2
-	blt _0800A75A
-_0800A754:
-	movs r0, #0x80
-	lsls r0, r0, #0xc
-	orrs r7, r0
-_0800A75A:
-	adds r0, r7, #0
-_0800A75C:
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
+.if 0
+.endif
 
 	thumb_func_start sub_800A768
 sub_800A768: @ 0x0800A768
@@ -3580,7 +3473,8 @@ _0800C0D4:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
+    
+.if 01
 	thumb_func_start sub_800C0E0
 sub_800C0E0: @ 0x0800C0E0
 	push {r4, r5, r6, r7, lr}
@@ -3723,6 +3617,4 @@ _0800C1DC:
 	pop {r1}
 	bx r1
 	.align 2, 0
-    
-.if 0
 .endif
