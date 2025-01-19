@@ -8080,8 +8080,8 @@ _0805775E:
 	cmp r2, #0
 	bge _0805775E
 	movs r5, #0xb
-	ldr r7, _08057870 @ =sub_8057888
-	ldr r6, _08057874 @ =sub_8058344
+	ldr r7, _08057870 @ =Task_8057888
+	ldr r6, _08057874 @ =TaskDestructor_8058344
 	mov r3, r8
 	movs r4, #0x2b
 _08057794:
@@ -8188,15 +8188,15 @@ _08057860: .4byte sub_8057D30
 _08057864: .4byte 0x03000020
 _08057868: .4byte sub_805803C
 _0805786C: .4byte gUnknown_08688404
-_08057870: .4byte sub_8057888
-_08057874: .4byte sub_8058344
+_08057870: .4byte Task_8057888
+_08057874: .4byte TaskDestructor_8058344
 _08057878: .4byte gUnknown_0868840F
 _0805787C: .4byte 0x03000036
 _08057880: .4byte 0x0300001C
 _08057884: .4byte 0x0000011D
 
-	thumb_func_start sub_8057888
-sub_8057888: @ 0x08057888
+	thumb_func_start Task_8057888
+Task_8057888: @ 0x08057888
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -9628,8 +9628,8 @@ _08058332:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8058344
-sub_8058344: @ 0x08058344
+	thumb_func_start TaskDestructor_8058344
+TaskDestructor_8058344: @ 0x08058344
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -9643,8 +9643,8 @@ sub_8058344: @ 0x08058344
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8058360
-sub_8058360: @ 0x08058360
+	thumb_func_start CreatePlayerNameInputMenu
+CreatePlayerNameInputMenu: @ 0x08058360
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -12134,7 +12134,7 @@ _080597BC: .4byte sa2__gUnknown_03004D80
 _080597C0: .4byte sa2__gUnknown_03002280
 _080597C4: .4byte gGameMode
 _080597C8:
-	bl sub_80117A8
+	bl CreatePlayerDataMenu
 _080597CC:
 	add sp, #4
 	pop {r3, r4, r5}
@@ -22451,8 +22451,8 @@ _0805EADC: .4byte gUiGraphics
 _0805EAE0: .4byte gUnknown_0868403C
 _0805EAE4: .4byte 0x06013480
 
-	thumb_func_start sub_805EAE8
-sub_805EAE8: @ 0x0805EAE8
+	thumb_func_start CreateSoundTest
+CreateSoundTest: @ 0x0805EAE8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -25980,7 +25980,7 @@ _080607C4:
 	rsbs r1, r1, #0
 	strb r1, [r0, #0xa]
 	strb r3, [r0, #0xb]
-	bl sub_80117A8
+	bl CreatePlayerDataMenu
 	b _0806086A
 	.align 2, 0
 _08060814: .4byte 0x000041FF
@@ -33360,7 +33360,7 @@ _080644C0:
 _080644C6:
 	cmp r1, #0xe1
 	bne _0806454C
-	bl sub_8011E08
+	bl CreateSpotlightBeamTask
 	str r0, [r6, #0x10]
 	ldrh r0, [r0, #6]
 	mov r2, sl
@@ -33380,7 +33380,7 @@ _080644C6:
 	strb r0, [r7, #0xa]
 	movs r4, #6
 	strb r4, [r7, #0xb]
-	bl sub_8011E08
+	bl CreateSpotlightBeamTask
 	str r0, [r6, #0x14]
 	ldrh r0, [r0, #6]
 	mov r3, sl
@@ -44796,8 +44796,8 @@ _0806A198: .4byte gUnknown_086CE4F4
 _0806A19C: .4byte gUnknown_086CE7F4
 _0806A1A0: .4byte gUnknown_086CE2F4
 
-	thumb_func_start sub_806A1A4
-sub_806A1A4: @ 0x0806A1A4
+	thumb_func_start CreateTimeAttackRetryMenu
+CreateTimeAttackRetryMenu: @ 0x0806A1A4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

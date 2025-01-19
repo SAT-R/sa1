@@ -282,10 +282,11 @@ gUnknown_080BB38A:
 gUnknown_080BB38E:
     .incbin "baserom.gba", 0x000BB38E, 0x12
 
-    .global gUnknown_080BB3A0
-gUnknown_080BB3A0:
-    .int sub_801166C, sub_8011684, sub_80116A0, sub_80116BC
-    .int sub_80116D8, sub_801171C, sub_801104C, sub_8011738
+@ These functions get called when pressing A inside the options menu main screen
+    .global sOptionsSelectFuncs
+sOptionsSelectFuncs:
+    .int OptionsSelectPlayerData, OptionsSelectDifficulty, OptionsSelectTimeUp, OptionsSelectSoundTest
+    .int OptionsSelectLanguage, OptionsSelectButtonConfig, OptionsSelectDeleteGameData, OptionsSelectEnd
 
     .global gUnknown_080BB3C0
 gUnknown_080BB3C0:
@@ -305,7 +306,7 @@ gUnknown_080BB3CA:
 
     .global gUnknown_080BB3D0
 gUnknown_080BB3D0:
-    .int sub_8011D88, sub_8011DA0, sub_8011DB8
+    .int PlayerDataSelectName, PlayerDataSelectVsRecord, PlayerDataSelectOK
 
     .global gUnknown_080BB3DC
 gUnknown_080BB3DC:

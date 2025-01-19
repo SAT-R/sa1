@@ -894,7 +894,7 @@ sub_803D590: @ 0x0803D590
 	ldr r0, _0803D5E8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_806A1A4
+	bl CreateTimeAttackRetryMenu
 	b _0803D64E
 	.align 2, 0
 _0803D5CC: .4byte gStageFlags
@@ -989,7 +989,7 @@ sub_803D66C: @ 0x0803D66C
 	ldr r0, _0803D6C0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_806A1A4
+	bl CreateTimeAttackRetryMenu
 	b _0803D720
 	.align 2, 0
 _0803D6A4: .4byte gStageFlags
@@ -1195,7 +1195,7 @@ _0803D868: .4byte 0xFFFF7FFF
 _0803D86C: .4byte gGameMode
 _0803D870: .4byte gCurrentLevel
 _0803D874:
-	bl sub_806A1A4
+	bl CreateTimeAttackRetryMenu
 _0803D878:
 	pop {r3, r4, r5}
 	mov r8, r3
