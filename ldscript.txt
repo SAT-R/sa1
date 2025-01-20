@@ -57,7 +57,7 @@ SECTIONS {
         build/sa1/src/game/sa1_sa2_shared/magnetic_ring.o(.text);
         build/sa1/asm/ia_platform_crumbling.o(.text);
         build/sa1/asm/ia_to_be_continued_text.o(.text);
-        build/sa1/asm/game__special_stage__trick_field.o(.text);
+        build/sa1/src/game/special_stage/temporary_sound_play_task.o(.text);
         build/sa1/asm/ia_boss_1_egg_hammer_tank.o(.text);
         build/sa1/asm/ia_breakable_wall.o(.text);
         build/sa1/asm/game__mp_chao.o(.text);

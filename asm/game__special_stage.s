@@ -842,7 +842,7 @@ _08029FC4:
 	bl MPlayStop
 	movs r0, #0x2b
 	movs r1, #0x2a
-	bl sub_8025980
+	bl CreateSpStageTrickSoundTask
 	movs r0, #1
 	b _0802A062
 	.align 2, 0

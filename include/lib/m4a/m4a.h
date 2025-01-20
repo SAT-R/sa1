@@ -33,4 +33,10 @@ void m4aMPlayPanpotControl(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s8 
 
 #define DEFAULT_SOUND_MODE (SOUND_MODE_DA_BIT_8 | SOUND_MODE_FREQ_10512 | (15 << SOUND_MODE_MASVOL_SHIFT) | (5 << SOUND_MODE_MAXCHN_SHIFT))
 
+#define IS_ACTIVE_SONG(music_player_ID, song_ID) (gMPlayTable[music_player_ID].info->songHeader == gSongTable[song_ID].header)
+#define MUSIC_PLAYER_BGM                         0
+#define MUSIC_PLAYER_SE1                         1
+#define MUSIC_PLAYER_SE2                         2
+#define MUSIC_PLAYER_SE3                         3
+
 #endif // GUARD_M4A_H

@@ -98,7 +98,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005670; gUnknown_03005670 = .;
 . = 0x00005690; gUnknown_03005690 = .;
 . = 0x000056F0; gUnknown_030056F0 = .;
-. = 0x00005730; gUnknown_03005730 = .;
+. = 0x00005730; gUnknown_03005730 = .; /* Special Stage Trick Field (sound related) */
 . = 0x00005740; gUnknown_03005740 = .;
 . = 0x00005780; gUnknown_03005780 = .;
 . = 0x000057A0; gUnknown_030057A0 = .;
