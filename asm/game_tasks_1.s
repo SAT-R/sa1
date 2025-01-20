@@ -166,7 +166,7 @@ _0801CEB4:
 	bne _0801CEE8
 	ldr r0, _0801CEE4 @ =gCurrentLevel
 	strb r5, [r0]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	b _0801CEFC
 	.align 2, 0
 _0801CEDC: .4byte gLoadedSaveGame

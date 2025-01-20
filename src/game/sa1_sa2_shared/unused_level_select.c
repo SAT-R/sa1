@@ -1,18 +1,37 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "task.h"
 
 #include "game/sa1_sa2_shared/globals.h"
+#include "game/character_select.h"
 
 #include "game/stage/stage.h"
-//#include "game/bosses/common.h"
-//#include "game/title_screen.h"
+#include "game/multiplayer/communication_outcome.h"
+#include "game/multiplayer/multipak_connection.h"
+
+#if (GAME == GAME_SA2)
+#include "game/bosses/common.h"
+#include "game/title_screen.h"
+#endif
+
+#if PORTABLE
+#include "game/special_stage/main.h"
+#endif
 
 #include "animation_commands_bg.h"
 #include "data/tileset_language.h"
 
 #include "constants/songs.h"
+
+#if (GAME == GAME_SA1)
+#define LEFT_INPUT(value)  (value)++
+#define RIGHT_INPUT(value) (value)--
+#else
+#define LEFT_INPUT(value)  (value)--
+#define RIGHT_INPUT(value) (value)++
+#endif
 
 typedef struct {
     void *vram;
@@ -20,17 +39,19 @@ typedef struct {
     u8 levelId;
 } LevelSelect;
 
+// TODO: static
 static void Task_UnusedLevelSelectInit(void);
 static void Task_Poll(void);
-static void Task_LoadStage(void);
+static void Task_CreateMultiplayer(void);
+static void Task_CreateSelectedTask(void);
 
-#if 01
-const u8 Tileset_Language[0] ALIGNED(8) = {};
-#else
-const u8 Tileset_Language[0] ALIGNED(8) = INCBIN_U8("graphics/tilesets/debug_ascii/debug_ascii.4bpp");
-#endif
+// TODO: Move these into header files
+extern void CreateChaoMessageMP(u8);
+extern void CreateStaffCredits();
+extern void CreateCongratulationsAnimation();
+extern void CreateExtraStageResults();
+extern void CreateSpecialStage(); // SA2: has 2 params
 
-#if 0
 void CreateUnusedLevelSelect(void)
 {
     struct Task *t = TaskCreate(Task_UnusedLevelSelectInit, sizeof(LevelSelect), 0x2000, 0, NULL);
@@ -49,6 +70,7 @@ void CreateUnusedLevelSelect(void)
         levelSelect->levelId = 0;
         levelSelect->vram = (void *)(BG_CHAR_ADDR(1) + 1 * TILE_SIZE_4BPP);
 
+#if (GAME == GAME_SA2)
         gBldRegs.bldY = 0;
         gBldRegs.bldCnt = BLDCNT_EFFECT_NONE;
         gBldRegs.bldAlpha = BLDCNT_EFFECT_NONE;
@@ -65,10 +87,11 @@ void CreateUnusedLevelSelect(void)
         gDispCnt &= ~(DISPCNT_OBJWIN_ON | DISPCNT_WIN1_ON | DISPCNT_WIN0_ON);
         gBgScrollRegs[0][0] = 0;
         gBgScrollRegs[0][1] = 0;
+#endif
     }
 }
 
-static void Task_Poll(void)
+void Task_Poll(void)
 {
     LevelSelect *levelSelect = TASK_DATA(gCurTask);
 
@@ -86,10 +109,22 @@ static void Task_Poll(void)
         sa2__gUnknown_03002280[0][1] = 0;
         sa2__gUnknown_03002280[0][2] = 0xFF;
         sa2__gUnknown_03002280[0][3] = 0x20;
+#if (GAME == GAME_SA1)
+        if (IS_MULTI_PLAYER) {
+            gCurTask->main = Task_CreateMultiplayer;
+        } else {
+            gCurTask->main = Task_CreateSelectedTask;
+        }
+#else
         gCurTask->main = Task_LoadStage;
+#endif
     } else if (gPressedKeys & B_BUTTON) {
         m4aSongNumStart(SE_RETURN);
         TaskDestroy(gCurTask);
+
+#if (GAME == GAME_SA1)
+        CreateCharacterSelectionScreen(0);
+#endif
 
         sa2__gUnknown_03004D80[0] = 0;
         sa2__gUnknown_03002280[0][0] = 0;
@@ -98,15 +133,104 @@ static void Task_Poll(void)
         sa2__gUnknown_03002280[0][3] = 0x20;
     } else {
         if (gRepeatedKeys & DPAD_LEFT) {
-            levelSelect->levelId--;
+            LEFT_INPUT(levelSelect->levelId);
         } else if (gRepeatedKeys & DPAD_RIGHT) {
-            levelSelect->levelId++;
+            RIGHT_INPUT(levelSelect->levelId);
         }
 
         numToASCII(digits, levelSelect->levelId);
-        RenderText(levelSelect->vram, Tileset_Language, 0xC, 0xE, 0, (char *)digits, 0);
+        RenderText(levelSelect->vram, Tileset_Language, 12, 14, 0, (char *)digits, 0);
     }
 }
+
+#if (GAME == GAME_SA1)
+// (95.38%) https://decomp.me/scratch/JguNX
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/unused_lvl_select__Task_CreateMultiplayer.inc", void Task_CreateMultiplayer(void))
+{
+    LevelSelect *levelSelect = TASK_DATA(gCurTask);
+    u32 i;
+
+    if (IS_MULTI_PLAYER) {
+        for (i = 0; i < 4 && GetBit(gMultiplayerConnections, i); i++) {
+            if (!(gMultiSioStatusFlags & (1 << i))) {
+                if (++gMultiplayerMissingHeartbeats[i] > 180) {
+                    TasksDestroyAll();
+
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    sa2__gUnknown_03005390 = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[i] = 0;
+            }
+        }
+    }
+    // _0800E2CE
+
+    if (gMultiSioRecv->pat0.unk0 == 82) {
+        levelSelect->levelId = gMultiSioRecv->pat0.unk2;
+        gCurTask->main = Task_CreateSelectedTask;
+        return;
+    }
+
+    gMultiSioSend.pat0.unk0 = 81;
+    gMultiSioSend.pat0.unk2 = levelSelect->levelId;
+
+    if (gMultiSioStatusFlags & MULTI_SIO_PARENT) {
+        u8 j;
+        for (j = 0; j < 4; j++) {
+            if (GetBit(gMultiplayerConnections, j)) {
+                if (gMultiSioRecv[j].pat0.unk0 != 81) {
+                    return;
+                }
+            }
+        }
+        gMultiSioSend.pat0.unk0 = 82;
+    }
+}
+END_NONMATCH
+
+void Task_CreateSelectedTask(void)
+{
+    LevelSelect *levelSelect = TASK_DATA(gCurTask);
+    u8 levelId = levelSelect->levelId;
+
+    TaskDestroy(gCurTask);
+
+    if (levelId == LEVEL_INDEX(ZONE_1, ACT_1)) {
+        gCurrentLevel = LEVEL_INDEX(ZONE_1, ACT_1);
+        ApplyGameStageSettings();
+    } else if (levelId == 0xFF) {
+        CreateStaffCredits();
+    } else if (levelId == 0xFE) {
+        CreateCongratulationsAnimation();
+    } else if (levelId == 0xFD) {
+        CreateExtraStageResults();
+    } else if (levelId == 0xFC) {
+        CreateChaoMessageMP(0);
+    } else if (levelId == 0xFB) {
+        CreateChaoMessageMP(1);
+    } else if (levelId == 0xFA) {
+        CreateChaoMessageMP(2);
+    } else if (levelId == 0xF9) {
+        CreateMultipackOutcomeScreen(0);
+    } else if (levelId == 0xF8) {
+        CreateMultipackOutcomeScreen(1);
+    } else if (levelId < NUM_LEVEL_IDS + 1) {
+        gCurrentLevel = levelId - 1;
+
+        if (!(gInput & R_BUTTON)) {
+            ApplyGameStageSettings();
+        } else {
+            CreateSpecialStage();
+        }
+    }
+}
+
+#endif // (GAME == GAME_SA1)
 
 static void Task_UnusedLevelSelectInit(void)
 {
@@ -114,7 +238,7 @@ static void Task_UnusedLevelSelectInit(void)
     gBgPalette[1] = RGB_WHITE;
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 
-    levelSelect->vram += RenderText(levelSelect->vram, Tileset_Language, 0x6, 0xE, 0, "STAGE", 0);
+    levelSelect->vram += RenderText(levelSelect->vram, Tileset_Language, 6, 14, 0, "STAGE", 0);
 
     gCurTask->main = Task_Poll;
     gCurTask->main();
@@ -132,15 +256,26 @@ static void Task_LoadStage(void)
 
     if (levelId == 0) {
         gCurrentLevel = levelId;
+#if PORTABLE
+        ApplyGameStageSettings();
+        CreateSpecialStage(-1, -1);
+#else
         GameStageStart();
+#endif
     } else if (levelId2 <= NUM_LEVEL_IDS) {
+#if (GAME == GAME_SA2)
         gActiveBossTask = NULL;
+#endif
         gCurrentLevel = levelId2 - 1;
+#if PORTABLE
+        ApplyGameStageSettings();
+        CreateSpecialStage(-1, -1);
+#else
         GameStageStart();
+#endif
     }
 }
 
 static void nullsub_8009910(void) { }
 static void nullsub_8009914(void) { }
-#endif
 #endif

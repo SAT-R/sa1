@@ -2921,7 +2921,7 @@ _0800FD2A:
 	lsrs r1, r0, #0x18
 	cmp r1, #3
 	bls _0800FD2A
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	ldr r2, _0800FD8C @ =gStageFlags
 	ldrh r1, [r2]
 	ldr r0, _0800FD90 @ =0x0000FFFE

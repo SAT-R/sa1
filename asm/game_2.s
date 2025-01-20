@@ -6645,7 +6645,7 @@ _08056B10:
 	ldr r0, _08056C68 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	b _08056C8E
 	.align 2, 0
 _08056C14: .4byte gCurTask
@@ -14564,7 +14564,7 @@ _0805AB94:
 	strb r5, [r0]
 	ldr r0, _0805ABD0 @ =gCurrentgUnknown_03005124Level
 	strb r5, [r0]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	b _0805ABF2
 	.align 2, 0
 _0805ABC0: .4byte gTailsEnabled
@@ -29839,7 +29839,7 @@ _08062780:
 	strb r7, [r0]
 	ldr r0, _080627D4 @ =gUnknown_03005124
 	strb r7, [r0]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	b _080627EA
 	.align 2, 0
 _080627C8: .4byte sa2__gUnknown_03004D80
@@ -29854,7 +29854,7 @@ _080627D8:
 	strb r1, [r0]
 	ldr r0, _0806280C @ =gUnknown_03005124
 	strb r1, [r0]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 _080627EA:
 	ldr r0, [r6, #0x18]
 	bl TaskDestroy
@@ -30123,7 +30123,7 @@ sub_80629E8: @ 0x080629E8
 	strb r2, [r0]
 	ldr r0, _08062A3C @ =gUnknown_03005124
 	strb r2, [r0]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	b _08062A52
 	.align 2, 0
 _08062A24: .4byte gCurTask
@@ -30141,7 +30141,7 @@ _08062A40:
 	strb r1, [r0]
 	ldr r0, _08062A78 @ =gUnknown_03005124
 	strb r1, [r0]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 _08062A52:
 	ldr r0, [r4, #0x18]
 	bl TaskDestroy
@@ -31943,7 +31943,7 @@ sub_80638B0: @ 0x080638B0
 	ldr r1, _0806390C @ =gCurrentLevel
 	adds r0, #0xe
 	strb r0, [r1]
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	ldr r0, [r4, #0xc]
 	bl TaskDestroy
 	ldr r0, [r4, #0x10]

@@ -1577,8 +1577,8 @@ _0803DBC8: .4byte 0x00000339
 _0803DBCC: .4byte 0x0000033B
 _0803DBD0: .4byte 0x0000034B
 
-	thumb_func_start sub_803DBD4
-sub_803DBD4: @ 0x0803DBD4
+	thumb_func_start ApplyGameStageSettings
+ApplyGameStageSettings: @ 0x0803DBD4
 	push {lr}
 	ldr r0, _0803DC28 @ =gLevelScore
 	movs r3, #0

@@ -1510,7 +1510,7 @@ Task_806BBC0: @ 0x0806BBC0
 	strh r6, [r0, #4]
 	ldr r0, [r5]
 	bl TaskDestroy
-	bl sub_803DBD4
+	bl ApplyGameStageSettings
 	b _0806BCF6
 	.align 2, 0
 _0806BC30: .4byte gCurTask

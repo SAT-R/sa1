@@ -276,7 +276,6 @@ extern u8 sa2__gUnknown_03002280[4][4];
 
 extern Sprite *sa2__gUnknown_03004D10[16];
 extern u8 sa2__gUnknown_03004D80[16];
-extern u8 sa2__gUnknown_03005390;
 
 // TODO: Turn this into a struct-array:
 //       [4]{s16 x, s16 y}

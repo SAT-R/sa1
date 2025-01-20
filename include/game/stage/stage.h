@@ -12,6 +12,8 @@ void CreateGameStage(void);
 void HandleLifeLost(void);
 void HandleDeath(void);
 
+void ApplyGameStageSettings(void);
+
 extern struct Task *gGameStageTask;
 
 #endif // GUARD_STAGE_H
