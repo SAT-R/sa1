@@ -96,12 +96,7 @@ const static u16 sBossSongIndices[0] = {};
 
 void Task_StageMusicManager(void)
 {
-#if (GAME == GAME_SA1)
-    // TODO: Integrate SA2 version of sound lib!
-    struct SongHeader *songHeader = gMPlayTable[0].info->songHeader;
-#else
     struct MP2KSongHeader *songHeader = gMPlayTable[0].info->songHeader;
-#endif
 
     if ((gMusicManagerState.unk0 == 0) && PLAYER_IS_ALIVE) {
 #if (GAME == GAME_SA2)
@@ -209,11 +204,7 @@ void CreateStageMusicManager(void)
 
 static void MusManager_UpdateBgmParams(void)
 {
-#if (GAME == GAME_SA1)
-    struct MusicPlayerInfo *bgmInfo = &gMPlayInfo_BGM;
-#else
     struct MP2KPlayerState *bgmInfo = &gMPlayInfo_BGM;
-#endif
 
     m4aMPlayImmInit(bgmInfo);
     m4aMPlayVolumeControl(bgmInfo, 0xFF, 4);
