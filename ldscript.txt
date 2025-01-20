@@ -35,7 +35,7 @@ SECTIONS {
         build/sa1/asm/unused_level_select.o(.text);
         build/sa1/asm/game_0_1.o(.text);
         build/sa1/src/game/sa1_sa2_shared/spot_light_beam_task.o(.text);
-        build/sa1/asm/game__spot_light_subtask.o(.text);
+       /* build/sa1/asm/game__spot_light_subtask.o(.text); */
         build/sa1/asm/game_0_2.o(.text);
         build/sa1/asm/game_0_3.o(.text);
         build/sa1/asm/ia_itembox_chaohunt.o(.text);
@@ -305,7 +305,7 @@ SECTIONS {
         build/sa1/sound/songs/song040.o(.rodata);
         build/sa1/sound/songs/song041.o(.rodata);
         build/sa1/sound/songs/song042.o(.rodata);
-        build/sa1/sound/songs/song043.o(.rodata);
+        build/sa1/sound/songs/se_sp_stage_trick.o(.rodata);
         build/sa1/sound/songs/song044.o(.rodata);
         build/sa1/sound/songs/song045.o(.rodata);
         build/sa1/sound/songs/song046.o(.rodata);

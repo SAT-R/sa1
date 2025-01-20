@@ -5,8 +5,8 @@
 	@********************** Track  1 **********************@
 
 	.align 2
-	.global song043_1
-song043_1:	@ 0x087B8E44
+	.global se_sp_stage_trick_1
+se_sp_stage_trick_1:	@ 0x087B8E44
 	.byte	KEYSH	, 0
 	.byte	TEMPO	, 65
 	.byte	VOICE	, 127
@@ -40,8 +40,8 @@ song043_1:	@ 0x087B8E44
 
 	@********************** Track  2 **********************@
 
-	.global song043_2
-song043_2:	@ 0x087B8E7B
+	.global se_sp_stage_trick_2
+se_sp_stage_trick_2:	@ 0x087B8E7B
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 45
 	.byte	VOL	, v115
@@ -76,8 +76,8 @@ song043_2:	@ 0x087B8E7B
 
 	@********************** Track  3 **********************@
 
-	.global song043_3
-song043_3:	@ 0x087B8EA6
+	.global se_sp_stage_trick_3
+se_sp_stage_trick_3:	@ 0x087B8EA6
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 87
 	.byte	VOL	, v082
@@ -107,8 +107,8 @@ song043_3:	@ 0x087B8EA6
 
 	@********************** Track  4 **********************@
 
-	.global song043_4
-song043_4:	@ 0x087B8ED9
+	.global se_sp_stage_trick_4
+se_sp_stage_trick_4:	@ 0x087B8ED9
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 74
 	.byte	VOL	, v115
@@ -138,8 +138,8 @@ song043_4:	@ 0x087B8ED9
 
 	@********************** Track  5 **********************@
 
-	.global song043_5
-song043_5:	@ 0x087B8F07
+	.global se_sp_stage_trick_5
+se_sp_stage_trick_5:	@ 0x087B8F07
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 80
 	.byte	VOL	, v115
@@ -156,17 +156,17 @@ song043_5:	@ 0x087B8F07
 	.byte	FINE
 
 	.align 2
-	.global song043
-song043:	@ 0x087B8F20
+	.global se_sp_stage_trick
+se_sp_stage_trick:	@ 0x087B8F20
 	.byte	5		@ trackCount
 	.byte	0		@ blockCount
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song043_1		@ track
-	.word	song043_2		@ track
-	.word	song043_3		@ track
-	.word	song043_4		@ track
-	.word	song043_5		@ track
+	.int	se_sp_stage_trick_1		@ track
+	.int	se_sp_stage_trick_2		@ track
+	.int	se_sp_stage_trick_3		@ track
+	.int	se_sp_stage_trick_4		@ track
+	.int	se_sp_stage_trick_5		@ track

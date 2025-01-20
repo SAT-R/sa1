@@ -17,7 +17,7 @@ void Task_TempSound(void);
 void Task_8025884(void);
 void Task_8025898(void);
 void Task_SpStageTrick(void);
-extern struct SongHeader song043;
+extern struct SongHeader se_sp_stage_trick;
 
 void Task_TempSound(void)
 {
@@ -109,6 +109,6 @@ void CreateSpStageTrickSoundTask(u16 expectedSongId, u16 resumeSongId)
         field->resumeSongId = resumeSongId;
 
         gUnknown_03005730 = 0xFF;
-        MPlayStart(&gMPlayInfo_SE3, &song043);
+        MPlayStart(&gMPlayInfo_SE3, &se_sp_stage_trick);
     }
 }

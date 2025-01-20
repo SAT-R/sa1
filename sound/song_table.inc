@@ -44,7 +44,7 @@ gSongTable:	@ 0x086DD790
 	song song040, 1, 1
 	song song041, 0, 0
 	song song042, 0, 0
-	song song043, 0, 0
+	song se_sp_stage_trick, 0, 0
 	song song044, 0, 0
 	song song045, 0, 0
 	song song046, 0, 0
