@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 @ --- Start of game/stage/rings_scatter.c ---
 @ NOTE: It is possible that rings_scatter.c was part of
 @       player.c originally, due to it being directly above it in both,
@@ -26,7 +27,7 @@ _08040A10: .4byte gRingsScatterTask
 _08040A14: .4byte Task_8042000
 _08040A18:
 	ldr r4, _08040A98 @ =gRingsScatterTask
-	ldr r0, _08040A9C @ =Task_8041FE0
+	ldr r0, _08040A9C @ =Task_RingsScatter_Singleplayer
 _08040A1C:
 	movs r1, #0xce
 	lsls r1, r1, #2
@@ -90,7 +91,7 @@ _08040A1C:
 	b _08040ADE
 	.align 2, 0
 _08040A98: .4byte gRingsScatterTask
-_08040A9C: .4byte Task_8041FE0
+_08040A9C: .4byte Task_RingsScatter_Singleplayer
 _08040AA0: .4byte 0x00002001
 _08040AA4: .4byte TaskDestructor_RingsScatter
 _08040AA8: .4byte 0x06011D00
@@ -1530,8 +1531,8 @@ _080415E8: .4byte 0x040000D4
 _080415EC: .4byte 0x80000003
 _080415F0: .4byte 0x000001FF
 
-	thumb_func_start sub_80415F4
-sub_80415F4: @ 0x080415F4
+	thumb_func_start RingsScatterMultipak_FlippedGravity
+RingsScatterMultipak_FlippedGravity: @ 0x080415F4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2168,8 +2169,8 @@ _08041AD0: .4byte 0x040000D4
 _08041AD4: .4byte 0x80000003
 _08041AD8: .4byte 0x000001FF
 
-	thumb_func_start sub_8041ADC
-sub_8041ADC: @ 0x08041ADC
+	thumb_func_start RingsScatterMultipak_NormalGravity
+RingsScatterMultipak_NormalGravity: @ 0x08041ADC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2807,8 +2808,8 @@ _08041FBC: .4byte 0x040000D4
 _08041FC0: .4byte 0x80000003
 _08041FC4: .4byte 0x000001FF
 
-	thumb_func_start sub_8041FC8
-sub_8041FC8: @ 0x08041FC8
+	thumb_func_start DestroyRingsScatterTask
+DestroyRingsScatterTask: @ 0x08041FC8
 	push {r4, lr}
 	ldr r4, _08041FDC @ =gRingsScatterTask
 	ldr r0, [r4]
@@ -2821,8 +2822,8 @@ sub_8041FC8: @ 0x08041FC8
 	.align 2, 0
 _08041FDC: .4byte gRingsScatterTask
 
-	thumb_func_start Task_8041FE0
-Task_8041FE0: @ 0x08041FE0
+	thumb_func_start Task_RingsScatter_Singleplayer
+Task_RingsScatter_Singleplayer: @ 0x08041FE0
 	push {lr}
 	ldr r0, _08041FF4 @ =gStageFlags
 	ldrh r1, [r0]
@@ -2849,12 +2850,12 @@ Task_8042000: @ 0x08042000
 	ands r0, r1
 	cmp r0, #0
 	beq _08042018
-	bl sub_80415F4
+	bl RingsScatterMultipak_FlippedGravity
 	b _0804201C
 	.align 2, 0
 _08042014: .4byte gStageFlags
 _08042018:
-	bl sub_8041ADC
+	bl RingsScatterMultipak_NormalGravity
 _0804201C:
 	pop {r0}
 	bx r0
@@ -2869,3 +2870,4 @@ TaskDestructor_RingsScatter: @ 0x08042020
 _08042028: .4byte gRingsScatterTask
 
 @ --- End of game/stage/rings_scatter.c ---
+.endif

@@ -1746,7 +1746,7 @@ sub_80535C8: @ 0x080535C8
 	ldrh r3, [r2, #6]
 	movs r2, #0xc0
 	lsls r2, r2, #0x12
-	adds r3, r3, r2
+	adds r3, r3, r2     @ r3
 	lsls r2, r1, #1
 	adds r2, r2, r1
 	lsls r2, r2, #2
@@ -1776,9 +1776,9 @@ sub_80535FC: @ 0x080535FC
 	ldr r2, _08053660 @ =gUnknown_03006250
 	ldr r4, _08053664 @ =gUnknown_030063F0
 	ldr r5, _08053668 @ =gUnknown_030063C0
-	ldr r0, _0805366C @ =sub_80536D4
+	ldr r0, _0805366C @ =Task_80536D4
 	mov ip, r0
-	ldr r6, _08053670 @ =sub_80536D8
+	ldr r6, _08053670 @ =TaskDestructor_80536D8
 	adds r3, r2, #0
 	movs r7, #0xa2
 	lsls r7, r7, #1
@@ -1819,73 +1819,5 @@ _0805365C: .4byte gTask_03006240
 _08053660: .4byte gUnknown_03006250
 _08053664: .4byte gUnknown_030063F0
 _08053668: .4byte gUnknown_030063C0
-_0805366C: .4byte sub_80536D4
-_08053670: .4byte sub_80536D8
-
-	thumb_func_start sub_8053674
-sub_8053674: @ 0x08053674
-	ldr r0, _080536A4 @ =gTask_03006240
-	ldr r1, [r0]
-	ldrh r1, [r1, #6]
-	ldr r3, _080536A8 @ =0x0300016C
-	adds r2, r1, r3
-	adds r3, #0x10
-	adds r1, r1, r3
-	movs r3, #0xd
-_08053684:
-	str r1, [r2]
-	adds r2, #0x10
-	adds r1, #0x10
-	subs r3, #1
-	cmp r3, #0
-	bge _08053684
-	str r1, [r2]
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	ldr r1, _080536AC @ =0x03000168
-	adds r2, r0, r1
-	ldr r3, _080536A8 @ =0x0300016C
-	adds r1, r0, r3
-	str r1, [r2]
-	bx lr
-	.align 2, 0
-_080536A4: .4byte gTask_03006240
-_080536A8: .4byte 0x0300016C
-_080536AC: .4byte 0x03000168
-
-	thumb_func_start sub_80536B0
-sub_80536B0: @ 0x080536B0
-	ldr r0, _080536C4 @ =gTask_03006240
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	ldr r1, _080536C8 @ =0x03000168
-	adds r2, r0, r1
-	ldr r1, [r2]
-	cmp r1, #0
-	bne _080536CC
-	movs r0, #0
-	b _080536D2
-	.align 2, 0
-_080536C4: .4byte gTask_03006240
-_080536C8: .4byte 0x03000168
-_080536CC:
-	ldm r1!, {r0}
-	str r0, [r2]
-	adds r0, r1, #0
-_080536D2:
-	bx lr
-	.align 2, 0
-
-	thumb_func_start sub_80536D4
-sub_80536D4: @ 0x080536D4
-	bx lr
-	.align 2, 0
-
-	thumb_func_start sub_80536D8
-sub_80536D8: @ 0x080536D8
-	ldr r1, _080536E0 @ =gTask_03006240
-	movs r0, #0
-	str r0, [r1]
-	bx lr
-	.align 2, 0
-_080536E0: .4byte gTask_03006240
+_0805366C: .4byte Task_80536D4
+_08053670: .4byte TaskDestructor_80536D8

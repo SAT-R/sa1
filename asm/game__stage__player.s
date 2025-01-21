@@ -10258,7 +10258,7 @@ sub_8046CC4: @ 0x08046CC4
 	cmp r0, #0
 	bne _08046CE4
 	bl DestroyBrakingDustEffectRelatedTask
-	bl sub_8041FC8
+	bl DestroyRingsScatterTask
 _08046CE4:
 	pop {r4}
 	pop {r0}
