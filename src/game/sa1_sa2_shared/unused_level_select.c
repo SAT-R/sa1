@@ -7,7 +7,10 @@
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/character_select.h"
 
+#include "game/credits.h"
+#include "game/stage/extra_stage.h"
 #include "game/stage/stage.h"
+#include "game/multiplayer/chao_message.h"
 #include "game/multiplayer/communication_outcome.h"
 #include "game/multiplayer/multipak_connection.h"
 
@@ -16,7 +19,7 @@
 #include "game/title_screen.h"
 #endif
 
-#if PORTABLE
+#if (GAME == GAME_SA1) || PORTABLE
 #include "game/special_stage/main.h"
 #endif
 
@@ -46,11 +49,6 @@ static void Task_CreateMultiplayer(void);
 static void Task_CreateSelectedTask(void);
 
 // TODO: Move these into header files
-extern void CreateChaoMessageMP(u8);
-extern void CreateStaffCredits();
-extern void CreateCongratulationsAnimation();
-extern void CreateExtraStageResults();
-extern void CreateSpecialStage(); // SA2: has 2 params
 
 void CreateUnusedLevelSelect(void)
 {

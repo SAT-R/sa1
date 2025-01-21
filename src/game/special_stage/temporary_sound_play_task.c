@@ -1,7 +1,7 @@
 #include "global.h"
 #include "task.h"
 #include "lib/m4a/m4a.h"
-#include "game/special_stage/special_stage.h"
+#include "game/special_stage/main.h"
 #include "game/sa1_sa2_shared/player.h"
 
 #include "constants/songs.h"

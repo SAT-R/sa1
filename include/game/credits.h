@@ -9,4 +9,7 @@ typedef struct CreditsString {
     char padding[3];
 } CreditsString;
 
+extern void CreateStaffCredits();
+extern void CreateCongratulationsAnimation();
+
 #endif // GUARD_SA1_CREDITS_H

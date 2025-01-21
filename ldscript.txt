@@ -33,7 +33,6 @@ SECTIONS {
         build/sa1/src/game/sa1_sa2_shared/palette_loader.o(.text);
         build/sa1/asm/title_screen.o(.text);
         build/sa1/src/game/sa1_sa2_shared/unused_level_select.o(.text);
-        build/sa1/asm/unused_level_select.o(.text);
         build/sa1/asm/game_0_1.o(.text);
         build/sa1/src/game/sa1_sa2_shared/spot_light_beam_task.o(.text);
        /* build/sa1/asm/game__spot_light_subtask.o(.text); */
@@ -230,7 +229,6 @@ SECTIONS {
         build/sa1/src/bg_triangles.o(.rodata);
         build/sa1/src/multi_sio.o(.rodata);
         build/sa1/src/sio32_multi_load.o(.rodata);
-       /* build/sa1/src/game/sa1_sa2_shared/unused_level_select.o(.rodata); */
         build/sa1/src/data/tileset_debug_text.o(.rodata);
         build/sa1/data/chao_garden.o(.rodata);
         build/sa1/src/data/entity_tables.o(.rodata);
