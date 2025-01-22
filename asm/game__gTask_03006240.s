@@ -252,6 +252,8 @@ _08052A98: .4byte 0x040000D4
 _08052A9C: .4byte gBgPalette
 _08052AA0: .4byte gFlags
 
+@ TODO: Big parts of this function look like sub_8053520.
+@       Maybe it was inlined here?
 	thumb_func_start sub_8052AA4
 sub_8052AA4: @ 0x08052AA4
 	push {r4, r5, r6, r7, lr}
@@ -1646,121 +1648,5 @@ _0805350E:
 	.align 2, 0
 _0805351C: .4byte iwram_end
 
-	thumb_func_start sub_8053520
-sub_8053520: @ 0x08053520
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	adds r6, r0, #0
-	mov sb, r1
-	mov sl, r2
-	ldr r0, [sp, #0x20]
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov r8, r3
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov ip, r0
-	ldr r0, _08053598 @ =gUnknown_030063F0
-	ldr r1, [r0]
-	cmp r1, #0
-	beq _080535B4
-	adds r3, r1, #0
-	movs r1, #0
-	ldrb r0, [r6]
-	cmp r0, #0x20
-	beq _0805355E
-_08053550:
-	adds r1, #1
-	cmp r1, #9
-	bgt _0805355E
-	adds r0, r6, r1
-	ldrb r0, [r0]
-	cmp r0, #0x20
-	bne _08053550
-_0805355E:
-	adds r4, r3, #0
-	adds r4, #0x20
-	strb r1, [r4]
-	cmp r1, #0
-	ble _080535B4
-	movs r2, #0
-	ldr r7, _0805359C @ =gUnknown_030063C0
-	cmp r2, r1
-	bge _08053582
-	adds r5, r3, #4
-_08053572:
-	adds r0, r5, r2
-	adds r1, r6, r2
-	ldrb r1, [r1]
-	strb r1, [r0]
-	adds r2, #1
-	ldrb r0, [r4]
-	cmp r2, r0
-	blt _08053572
-_08053582:
-	mov r1, sb
-	str r1, [r3, #0x10]
-	mov r0, sl
-	str r0, [r3, #0x14]
-	mov r1, r8
-	str r1, [r3, #0x18]
-	mov r0, ip
-	str r0, [r3, #0x1c]
-	adds r1, r7, #0
-	b _080535A2
-	.align 2, 0
-_08053598: .4byte gUnknown_030063F0
-_0805359C: .4byte gUnknown_030063C0
-_080535A0:
-	ldr r1, [r1]
-_080535A2:
-	ldr r0, [r1]
-	cmp r0, #0
-	bne _080535A0
-	str r3, [r1]
-	ldr r0, [r3]
-	ldr r1, _080535C4 @ =gUnknown_030063F0
-	str r0, [r1]
-	movs r0, #0
-	str r0, [r3]
-_080535B4:
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080535C4: .4byte gUnknown_030063F0
-
-	thumb_func_start sub_80535C8
-sub_80535C8: @ 0x080535C8
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	ldr r2, _080535F8 @ =gTask_03006240
-	ldr r2, [r2]
-	ldrh r3, [r2, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r3, r3, r2     @ r3
-	lsls r2, r1, #1
-	adds r2, r2, r1
-	lsls r2, r2, #2
-	adds r3, r3, r2
-	ldr r1, [r0, #4]
-	str r1, [r3, #4]
-	ldrb r1, [r0, #8]
-	strb r1, [r3, #8]
-	ldrb r1, [r0, #9]
-	strb r1, [r3, #9]
-	ldrb r1, [r0, #0xa]
-	strb r1, [r3, #0xa]
-	ldrb r0, [r0, #0xb]
-	strb r0, [r3, #0xb]
-	bx lr
-	.align 2, 0
-_080535F8: .4byte gTask_03006240
+.if 0
+.endif
