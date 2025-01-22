@@ -83,7 +83,7 @@ void GameInit(void)
     }
 
 #if (GAME == GAME_SA1)
-    gTask_03006240 = 0;
+    gTask_03006240 = NULL;
 #endif
 
     for (i = 0; i < 4; i++) {
