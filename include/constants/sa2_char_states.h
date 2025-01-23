@@ -27,7 +27,11 @@
 #define CHARSTATE_BOOST_ATTACK                  17
 #define CHARSTATE_SOME_ATTACK                   18
 #define CHARSTATE_SOME_OTHER_ATTACK             19
+#if (GAME == GAME_SA1)
+#define CHARSTATE_HIT_AIR                       15
+#else
 #define CHARSTATE_HIT_AIR                       20
+#endif
 #define CHARSTATE_HIT_STUNNED                   21
 #define CHARSTATE_DEAD                          22
 #define CHARSTATE_UNUSED_A                      23

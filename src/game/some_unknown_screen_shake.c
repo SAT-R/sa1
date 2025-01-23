@@ -36,7 +36,7 @@ void Task_80297E8(void)
         }
 
         gPlayer.moveState &= ~MOVESTATE_IGNORE_INPUT;
-        gPlayer.unk38 = 0;
+        gPlayer.heldInput = 0;
 
         TaskDestroy(gCurTask);
         return;
@@ -54,7 +54,7 @@ void CreateSomeScreenShakeEffect()
 
     gCamera.unk18 = 0x422;
     gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
-    gPlayer.unk38 = 0;
+    gPlayer.heldInput = 0;
 }
 
 void Task_80298C0()
