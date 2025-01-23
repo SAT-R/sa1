@@ -2,6 +2,8 @@
 #include "core.h"
 #include "game/gTask_03006240.h"
 
+/* Work In Progress module */
+
 struct GfxSubstruct {
     struct GfxSubstruct *next;
     void *rom;
@@ -26,6 +28,11 @@ typedef struct {
     /* 0x26C */ u8 filler26C[0xE0];
 } Task_3006240; /* 0x34C */
 
+struct Strc_3006250 {
+    struct Strc_3006250 *next;
+    u8 unk4[0x20];
+}; /* 0x24 */
+
 struct Strc_30063F0 {
     struct Strc_30063F0 *next;
     u8 unk4[10];
@@ -36,11 +43,6 @@ struct Strc_30063F0 {
     u8 unk20;
 }; /* 0x30 ?? */
 
-struct Strc_3006250 {
-    struct Strc_3006250 *next;
-    u8 unk4[0x20];
-}; /* 0x24 */
-
 u16 sub_8053674(void);
 void Task_80536D4(void);
 void TaskDestructor_80536D8(struct Task *t);
@@ -49,6 +51,13 @@ void TaskDestructor_80536D8(struct Task *t);
 extern struct Strc_3006250 gUnknown_03006250[10];
 extern struct Strc_30063F0 gUnknown_030063C0;
 extern struct Strc_30063F0 *gUnknown_030063F0;
+
+#if 0
+void sub_805345C(void *param0, void *param1)
+{
+    Task_3006240 *strc = TASK_DATA(gTask_03006240);
+}
+#endif
 
 void sub_8053520(u8 *param0, void *param1, void *param2, u8 param3, u8 param4)
 {

@@ -1548,6 +1548,7 @@ _0805344A:
 	.align 2, 0
 _08053458: .4byte 0x0000F3FF
 
+.if 01
 	thumb_func_start sub_805345C
 sub_805345C: @ 0x0805345C
 	push {r4, r5, r6, r7, lr}
@@ -1555,14 +1556,14 @@ sub_805345C: @ 0x0805345C
 	mov r6, r8
 	push {r6, r7}
 	sub sp, #8
-	mov sb, r0
-	adds r7, r1, #0
+	mov sb, r0      @ sb = param0
+	adds r7, r1, #0 @ r7 = param1
 	ldr r0, _080534C0 @ =gTask_03006240
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r6, r1, r0
+	adds r6, r1, r0         @ r6 = strc
 	ldrh r1, [r7, #0x10]
 	lsls r0, r1, #1
 	adds r0, r0, r1
@@ -1647,6 +1648,4 @@ _0805350E:
 	bx r0
 	.align 2, 0
 _0805351C: .4byte iwram_end
-
-.if 0
 .endif

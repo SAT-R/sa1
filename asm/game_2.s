@@ -25712,7 +25712,7 @@ CreateVsRecord: @ 0x080604EC
 	ldr r0, _080606D0 @ =0x06017080
 	str r0, [r3, #4]
 	movs r0, #0xda
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ "LOSE" text (anim 872)
 	strh r0, [r3, #0xa]
 	ldr r1, _080606D4 @ =0x030000D8
 	adds r0, r2, r1
