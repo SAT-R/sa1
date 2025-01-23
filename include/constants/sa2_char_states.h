@@ -6,31 +6,31 @@
    Some are shared between characters (CHARSTATE_xyz)
 */
 
-#define CHARSTATE_INVALID                       -1
-#define CHARSTATE_IDLE                          0
-#define CHARSTATE_TAUNT                         1
-#define CHARSTATE_CROUCH                        2
-#define CHARSTATE_SPIN_DASH                     3
-#define CHARSTATE_SPIN_ATTACK                   4
-#define CHARSTATE_TURN_SLOW                     5
-#define CHARSTATE_TURN_AFTER_BRAKE              6
-#define CHARSTATE_BRAKE                         7
-#define CHARSTATE_BRAKE_GOAL                    8
-#define CHARSTATE_WALK_A                        9
-#define CHARSTATE_JUMP_1                        10
-#define CHARSTATE_JUMP_2                        11
-#define CHARSTATE_HIT_GROUND                    12
-#define CHARSTATE_FALLING_VULNERABLE_A          13
-#define CHARSTATE_FALLING_VULNERABLE_B          14
-#define CHARSTATE_BOOSTLESS_ATTACK              15
-#define CHARSTATE_AIR_ATTACK                    16
-#define CHARSTATE_BOOST_ATTACK                  17
-#define CHARSTATE_SOME_ATTACK                   18
-#define CHARSTATE_SOME_OTHER_ATTACK             19
+#define CHARSTATE_INVALID              -1
+#define CHARSTATE_IDLE                 0
+#define CHARSTATE_TAUNT                1
+#define CHARSTATE_CROUCH               2
+#define CHARSTATE_SPIN_DASH            3
+#define CHARSTATE_SPIN_ATTACK          4
+#define CHARSTATE_TURN_SLOW            5
+#define CHARSTATE_TURN_AFTER_BRAKE     6
+#define CHARSTATE_BRAKE                7
+#define CHARSTATE_BRAKE_GOAL           8
+#define CHARSTATE_WALK_A               9
+#define CHARSTATE_JUMP_1               10
+#define CHARSTATE_JUMP_2               11
+#define CHARSTATE_HIT_GROUND           12
+#define CHARSTATE_FALLING_VULNERABLE_A 13
+#define CHARSTATE_FALLING_VULNERABLE_B 14
+#define CHARSTATE_BOOSTLESS_ATTACK     15
+#define CHARSTATE_AIR_ATTACK           16
+#define CHARSTATE_BOOST_ATTACK         17
+#define CHARSTATE_SOME_ATTACK          18
+#define CHARSTATE_SOME_OTHER_ATTACK    19
 #if (GAME == GAME_SA1)
-#define CHARSTATE_HIT_AIR                       15
+#define CHARSTATE_HIT_AIR 15
 #else
-#define CHARSTATE_HIT_AIR                       20
+#define CHARSTATE_HIT_AIR 20
 #endif
 #define CHARSTATE_HIT_STUNNED                   21
 #define CHARSTATE_DEAD                          22
