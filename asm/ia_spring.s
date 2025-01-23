@@ -1773,7 +1773,7 @@ _08022798:
 	cmp r0, #0
 	beq _080227B4
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #0x15
@@ -1782,7 +1782,7 @@ _08022798:
 _080227B0: .4byte gUnknown_080BB4F4
 _080227B4:
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #0x11
@@ -2023,7 +2023,7 @@ _08022980:
 	rsbs r0, r0, #0
 	strh r0, [r5, #0xc]
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r5, #0x10]
 	movs r1, #4
 	ands r0, r1
@@ -2115,7 +2115,7 @@ _08022A14:
 _08022A2E:
 	strh r0, [r5, #0xc]
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r5, #0x10]
 	movs r1, #4
 	ands r0, r1
@@ -2457,7 +2457,7 @@ _08022CB6:
 	cmp r0, #0
 	beq _08022DA8
 	adds r0, r6, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r6, #0
 	adds r1, #0x40
 	movs r0, #0x15
@@ -2565,7 +2565,7 @@ _08022D84:
 	cmp r0, #0
 	beq _08022DA8
 	adds r0, r6, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r6, #0
 	adds r1, #0x40
 	movs r0, #0x15
@@ -2575,7 +2575,7 @@ _08022DA0: .4byte gUnknown_080BB4F4
 _08022DA4: .4byte gStageFlags
 _08022DA8:
 	adds r0, r6, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r6, #0
 	adds r1, #0x40
 	movs r0, #0x11
@@ -2897,7 +2897,7 @@ _0802300A:
 	cmp r0, #0
 	beq _08023100
 	adds r0, r6, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r6, #0
 	adds r1, #0x40
 	movs r0, #0x15
@@ -3007,7 +3007,7 @@ _080230DC:
 	cmp r0, #0
 	beq _08023100
 	adds r0, r6, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r6, #0
 	adds r1, #0x40
 	movs r0, #0x15
@@ -3017,7 +3017,7 @@ _080230F8: .4byte gUnknown_080BB4F4
 _080230FC: .4byte gStageFlags
 _08023100:
 	adds r0, r6, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r6, #0
 	adds r1, #0x40
 	movs r0, #0x11

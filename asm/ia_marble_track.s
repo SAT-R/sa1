@@ -2320,7 +2320,7 @@ _08083298:
 	beq _080832A0
 	ldr r0, _080832B8 @ =gPartner
 _080832A0:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _080832BC
 	ldr r0, [r7, #0x10]
@@ -2537,7 +2537,7 @@ _0808340E:
 	beq _0808342C
 	ldr r0, _0808344C @ =gPartner
 _0808342C:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _08083450
 	ldr r0, [r7, #0x10]
@@ -3305,7 +3305,7 @@ _080839E0:
 	beq _080839E8
 	ldr r0, _080839FC @ =gPartner
 _080839E8:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _08083A04
 	movs r0, #5
@@ -3561,7 +3561,7 @@ _08083BBC:
 	beq _08083BC4
 	ldr r0, _08083BDC @ =gPartner
 _08083BC4:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _08083BE4
 	ldr r0, [r4, #0x10]

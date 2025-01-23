@@ -469,7 +469,7 @@ _08094598:
 	ldr r0, _080945C0 @ =gPartner
 _080945A0:
 	str r3, [sp, #0x24]
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r3, [sp, #0x24]
 	cmp r3, #0
 	beq _080945C4
@@ -769,7 +769,7 @@ _080947B8:
 	ldr r0, _080947E8 @ =gPartner
 _080947CA:
 	str r3, [sp, #0x24]
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r3, [sp, #0x24]
 	cmp r3, #0
 	beq _080947EC

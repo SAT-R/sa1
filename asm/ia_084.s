@@ -523,7 +523,7 @@ _0808CB8A:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0808CBEA
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	mov r1, sl
 	strb r1, [r0]
 	ldrh r1, [r6, #4]
@@ -945,7 +945,7 @@ _0808CED8:
 	ldr r0, _0808CEF8 @ =gPartner
 _0808CEE0:
 	str r3, [sp, #0x30]
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r3, [sp, #0x30]
 	cmp r5, #0
 	beq _0808CEFC
@@ -1377,7 +1377,7 @@ _0808D208:
 	ldr r0, _0808D228 @ =gPartner
 _0808D210:
 	str r3, [sp, #0x30]
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r3, [sp, #0x30]
 	cmp r5, #0
 	beq _0808D22C
@@ -1884,7 +1884,7 @@ _0808D58C:
 	beq _0808D5AA
 	ldr r0, _0808D5CC @ =gPartner
 _0808D5AA:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _0808D5D0
 	ldr r0, [r5, #0x10]
@@ -2046,7 +2046,7 @@ _0808D6AC:
 	beq _0808D6CC
 	ldr r0, _0808D6EC @ =gPartner
 _0808D6CC:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _0808D6F0
 	ldr r0, [r5, #0x10]
@@ -2219,7 +2219,7 @@ _0808D7F6:
 	beq _0808D7FE
 	ldr r0, _0808D818 @ =gPartner
 _0808D7FE:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _0808D81C
 	ldr r0, [r5, #0x10]
@@ -2318,7 +2318,7 @@ _0808D8A6:
 	beq _0808D8BA
 	ldr r0, _0808D8D0 @ =gPartner
 _0808D8BA:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r6, #0
 	beq _0808D8D4
 	ldr r0, [r5, #0x10]

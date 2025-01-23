@@ -346,7 +346,7 @@ _0809197E:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _080919DC
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r2, #0
 	movs r1, #1
 	strb r1, [r0]

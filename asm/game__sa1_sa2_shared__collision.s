@@ -2023,7 +2023,7 @@ _0800B636:
 	ldrb r0, [r1]
 	cmp r0, #1
 	bls _0800B654
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r1, #3
 	strb r1, [r0]
 	mov r2, r8
@@ -2144,7 +2144,7 @@ _0800B716:
 	ldrb r0, [r1]
 	cmp r0, #1
 	bls _0800B742
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r1, #3
 	strb r1, [r0]
 	mov r2, r8

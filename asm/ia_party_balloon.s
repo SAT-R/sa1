@@ -260,7 +260,7 @@ _0807F01C:
 	beq _0807F024
 	ldr r0, _0807F03C @ =gPartner
 _0807F024:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r4, #0
 	beq _0807F040
 	ldr r0, [r5, #0x10]
@@ -452,7 +452,7 @@ _0807F16E:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0807F1DC
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	mov r1, sb
 	strb r1, [r0]
 	ldrh r1, [r6, #4]

@@ -5467,7 +5467,7 @@ _08039E2A:
 	strb r0, [r1]
 	ldr r5, _08039E90 @ =gPlayer
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	lsls r0, r6, #8
 	str r0, [r5]
 	lsls r0, r7, #8

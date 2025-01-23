@@ -1024,7 +1024,7 @@ _080247E8:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0802481E
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r2, #1
 	strb r2, [r0]
 	ldrh r1, [r6, #4]
@@ -1257,7 +1257,7 @@ _080249AE:
 	cmp r0, #0xe
 	bne _080249D4
 	mov r0, sb
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #4
 	strb r0, [r6]
 _080249D4:

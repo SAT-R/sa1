@@ -384,7 +384,7 @@ _08074FDA:
 	cmp r1, #0
 	beq _0807506C
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r4, #0x10]
 	movs r1, #9
 	rsbs r1, r1, #0

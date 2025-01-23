@@ -477,7 +477,7 @@ _08080AC2:
 	beq _08080ACA
 	ldr r0, _08080ADC @ =gPartner
 _08080ACA:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r4, #0
 	beq _08080AE4
 	movs r0, #5
@@ -850,7 +850,7 @@ _08080D86:
 	beq _08080D8E
 	ldr r0, _08080DA0 @ =gPartner
 _08080D8E:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r5, #0
 	beq _08080DA8
 	movs r0, #5

@@ -337,7 +337,7 @@ _0804DD04:
 _0804DD06:
 	strh r0, [r5, #0xa]
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r5, #0
 	adds r1, #0x40
 	movs r0, #0xf

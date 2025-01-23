@@ -326,7 +326,7 @@ _08023D7E:
 	bl m4aSongNumStart
 	ldr r4, _08023DC8 @ =gPlayer
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #0x11
@@ -392,7 +392,7 @@ _08023E0E:
 	bl m4aSongNumStart
 	ldr r4, _08023EB8 @ =gPlayer
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r2, #0

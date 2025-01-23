@@ -553,7 +553,7 @@ _08089E8A:
 	strh r0, [r4, #0xc]
 	strh r0, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #0x26
@@ -799,7 +799,7 @@ _0808A08C:
 	strh r0, [r4, #0xc]
 	strh r0, [r4, #0xa]
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #0x26
@@ -1021,7 +1021,7 @@ _0808A260:
 	strh r3, [r5, #0xc]
 	strh r3, [r5, #0xa]
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r5, #0
 	adds r1, #0x40
 	movs r0, #0x12
@@ -2098,7 +2098,7 @@ _0808AB0A:
 	strh r6, [r5, #0xc]
 	strh r6, [r5, #0xa]
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r5, #0
 	adds r1, #0x40
 	movs r0, #0x26
@@ -2619,7 +2619,7 @@ _0808AF48:
 	strh r0, [r4, #0xa]
 	adds r0, r4, #0
 	str r3, [sp]
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r0, r7, #0
 	adds r0, #0x9c
 	strh r6, [r0]

@@ -445,7 +445,7 @@ _08027CC2:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _08027CE0
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r2, #1
 	strb r2, [r0]
 	ldrh r1, [r6, #4]

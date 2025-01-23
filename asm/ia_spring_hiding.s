@@ -506,7 +506,7 @@ _08095390:
 	beq _080953A4
 	ldr r0, _080953B8 @ =gPartner
 _080953A4:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r5, #0
 	beq _080953C0
 	movs r0, #0x15
@@ -533,7 +533,7 @@ _080953D0:
 	beq _080953D8
 	ldr r0, _080953EC @ =gPartner
 _080953D8:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r5, #0
 	beq _080953F4
 	movs r0, #0x11

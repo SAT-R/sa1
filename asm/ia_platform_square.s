@@ -2127,7 +2127,7 @@ _0807E08E:
 	beq _0807E098
 	ldr r0, _0807E0B0 @ =gPartner
 _0807E098:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r5, #0
 	beq _0807E0B4
 	ldr r0, [r7, #0x10]

@@ -124,11 +124,14 @@ gUnknown_080BB43C:
     .2byte 438, 449, 448, 438, 447, 448, 439, 446
     .2byte 442, 443, 444, 448, 447, 449, 442, 0
 
-    .global sa2__gUnknown_080D5744
-sa2__gUnknown_080D5744:
-    .int sub_8018318
-    .int sub_8018380, sub_80183D4, sub_8018428, sub_8018440
-    .int sub_8017C04, sub_8017F10, sub_8018490, sub_80184D0
+    .global gRoomEventHandlers
+gRoomEventHandlers:
+    .int ReceiveRoomEvent_PlatformChange
+    .int ReceiveRoomEvent_ItemBoxBreak
+    .int ReceiveRoomEvent_EnemyDestroyed
+    .int ReceiveRoomEvent_PlayerRingLoss
+    .int ReceiveRoomEvent_MysteryItemBoxBreak
+    .int ReceiveRoomEvent_ItemEffect, ReceiveRoomEvent_ReachedStageGoal, ReceiveRoomEvent_7, ReceiveRoomEvent_8
     .int 0
 
     .global gUnknown_080BB484

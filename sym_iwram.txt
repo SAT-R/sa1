@@ -34,12 +34,12 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00004FEC; gRingCount = .;
 . = 0x00004FF0; gUnknown_03004FF0 = .;
 . = 0x00004FFC; gActiveCollectRingEffectCount = .;
-. = 0x00005000; gUnknown_03005000 = .;
+. = 0x00005000; gRoomEventQueueSendPos = .;
 . = 0x00005004; gStageFlags = .;
 . = 0x00005008; gUnknown_03005008 = .;
 . = 0x0000500C; gUnknown_0300500C = .;
 . = 0x00005010; gUnknown_03005010 = .;
-. = 0x00005014; gUnknown_03005014 = .; /* SA2: gUnknown_03005438 */
+. = 0x00005014; gRoomEventQueueWritePos = .; /* SA2: gRoomEventQueueWritePos */
 . = 0x00005018; sa2__gUnknown_0300543C = .;
 . = 0x0000501C; gUnknown_0300501C = .;
 . = 0x00005020; gUnknown_03005020 = .;
@@ -50,7 +50,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005034; gCourseTime = .;
 . = 0x00005038; gUnknown_03005038 = .;
 . = 0x00005040; gMusicManagerState = .; /* SA2: gUnknown_030054A8 */
-. = 0x00005048; sa2__gUnknown_030054B4 = .; /* SA2: gUnknown_030054B4 */
+. = 0x00005048; sa2__gUnknown_030054B4 = .; /* SA2: sa2__gUnknown_030054B4 */
 . = 0x0000504C; sa2__gUnknown_030054B8 = .;
 . = 0x00005050; gTailsEnabled = .;
 . = 0x00005054; gDemoPlayCounter = .;
@@ -69,7 +69,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x00005088; gNumSingleplayerCharacters = .;
 . = 0x0000508C; gUnknown_0300508C = .;
 . = 0x00005090; gMultiplayerCharacters = .;
-. = 0x000050A0; gUnknown_030050A0 = .; /* SA2: gUnknown_03005510 */
+. = 0x000050A0; gRoomEventQueue = .; /* SA2: gRoomEventQueue */
 . = 0x00005120; gStageTime = .;
 /* Maybe gUnknown_03005124 is gMultiplayerCurrentLevel?
  * NOTE: Sometimes it gets set to be gCurrentLevel, sometimes not.

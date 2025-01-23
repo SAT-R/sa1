@@ -1382,7 +1382,7 @@ _0807802A:
 	cmp r2, #0
 	beq _0807808A
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0xaf
 	bl m4aSongNumStart
 	ldr r1, [sp, #8]
@@ -1482,7 +1482,7 @@ _080780E8:
 	cmp r2, #0
 	bne _0807810E
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0xaf
 	bl m4aSongNumStart
 	ldr r0, [sp, #0xc]
@@ -1540,7 +1540,7 @@ _08078130:
 	cmp r2, #0
 	bne _0807810E
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0xaf
 	bl m4aSongNumStart
 	ldr r1, [sp, #0xc]
@@ -1668,7 +1668,7 @@ _08078234:
 	bne _0807821C
 _0807826E:
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0xaf
 	bl m4aSongNumStart
 	ldr r0, [r4, #0x10]

@@ -370,8 +370,8 @@ _0803D14C:
 	ldrb r0, [r0]
 	cmp r0, #1
 	bls _0803D26C
-	bl sub_801827C
-	bl sub_80181F8
+	bl CreateMultiplayerReceiveEventMgr
+	bl CreateMultiplayerSendEventMgr
 	ldr r0, _0803D214 @ =gUnknown_03005074
 	strb r4, [r0]
 	movs r4, #0

@@ -91,7 +91,7 @@ _0804D7B8:
 	cmp r4, #0
 	bne _0804D848
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r1, [r5, #0x10]
 	movs r0, #0x81
 	lsls r0, r0, #2

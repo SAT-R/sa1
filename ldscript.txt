@@ -38,6 +38,10 @@ SECTIONS {
        /* build/sa1/asm/game__spot_light_subtask.o(.text); */
         build/sa1/asm/game_0_2.o(.text);
         build/sa1/asm/game_0_3.o(.text);
+        build/sa1/src/game/multiplayer/multiplayer_event_mgr.o(.text);
+        build/sa1/src/game/multiplayer/multiplayer_event_recv_mgr.o(.text);
+        build/sa1/asm/game__multiplayer_event_recv_mgr.o(.text);
+        build/sa1/asm/game_0_4.o(.text);
         build/sa1/asm/ia_itembox_chaohunt.o(.text);
         build/sa1/asm/game_tasks_0.o(.text);
         build/sa1/asm/game_tasks_1.o(.text);

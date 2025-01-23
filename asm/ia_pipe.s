@@ -519,7 +519,7 @@ _08095AFA:
 	b _08095CA0
 _08095B02:
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	mov r1, sl
 	adds r1, #0x3f
 	movs r2, #0
@@ -586,7 +586,7 @@ _08095B78:
 	cmp r4, #2
 	bne _08095BF4
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r1, _08095BEC @ =0x0300003F
 	add r1, r8
 	movs r0, #0x5a
@@ -652,7 +652,7 @@ _08095BF4:
 	movs r0, #0x5a
 	strb r0, [r1]
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r5, #0x10]
 	movs r1, #9
 	rsbs r1, r1, #0
@@ -711,7 +711,7 @@ _08095C84: .4byte gCurTask
 _08095C88: .4byte sub_8095D28
 _08095C8C:
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r5, #0x10]
 	orrs r0, r4
 	str r0, [r5, #0x10]
@@ -936,7 +936,7 @@ _08095E2C:
 	str r0, [r1, #8]
 _08095E4A:
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #5
@@ -1149,7 +1149,7 @@ _08095FF4: .4byte 0x0300003F
 _08095FF8: .4byte 0xFFBFFFFF
 _08095FFC:
 	adds r0, r7, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r7, #0x10]
 	movs r1, #0x80
 	lsls r1, r1, #0xf
@@ -1716,7 +1716,7 @@ _080963D2:
 	movs r0, #0
 	strb r0, [r1]
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r4, #0x10]
 	movs r1, #9
 	rsbs r1, r1, #0
@@ -1789,7 +1789,7 @@ _080964DC:
 	b _08096500
 _080964EA:
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r4, #0x10]
 	mov r1, sb
 	orrs r0, r1
@@ -2052,7 +2052,7 @@ _080966D2:
 	str r0, [r1, #8]
 _080966E2:
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	adds r1, r4, #0
 	adds r1, #0x40
 	movs r0, #5

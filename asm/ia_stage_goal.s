@@ -849,7 +849,7 @@ _0801F824:
 	lsrs r0, r0, #0x1e
 	lsls r1, r5, #0x18
 	lsrs r1, r1, #0x18
-	bl sub_8019C14
+	bl sa2__sub_8019CCC
 	ldr r0, [r6, #0x5c]
 	movs r1, #1
 	orrs r0, r1
@@ -874,7 +874,7 @@ _0801F852:
 	str r0, [r2, #0x10]
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r1, #7
 	strb r1, [r0]
 	ldr r0, _0801F894 @ =gCurTask
@@ -1003,7 +1003,7 @@ _0801F92C:
 	mov r2, r8
 	lsls r1, r2, #0x18
 	lsrs r1, r1, #0x18
-	bl sub_8019C14
+	bl sa2__sub_8019CCC
 	b _0801F994
 	.align 2, 0
 _0801F970: .4byte gMultiplayerPlayerTasks
@@ -1018,7 +1018,7 @@ _0801F984:
 	eors r1, r2
 	lsls r1, r1, #0x18
 	lsrs r1, r1, #0x18
-	bl sub_8019C14
+	bl sa2__sub_8019CCC
 _0801F994:
 	movs r0, #0x80
 	lsls r0, r0, #0x11
@@ -1050,7 +1050,7 @@ _0801F9AC:
 	str r0, [r2, #0x10]
 	movs r0, #0x10
 	strh r0, [r2, #0x38]
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r1, #7
 	strb r1, [r0]
 	ldr r0, _0801F9F8 @ =gCurTask
@@ -1326,7 +1326,7 @@ _0801FBF0:
 	lsls r0, r1, #8
 	str r0, [r5]
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r5, #0x10]
 	movs r1, #9
 	rsbs r1, r1, #0
@@ -1452,7 +1452,7 @@ _0801FCBC:
 	lsls r1, r1, #0x18
 	lsrs r1, r1, #0x18
 	str r2, [sp, #0xc]
-	bl sub_8019C14
+	bl sa2__sub_8019CCC
 	ldr r0, [r5, #0x5c]
 	mov r3, sl
 	orrs r0, r3

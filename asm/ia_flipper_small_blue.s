@@ -413,7 +413,7 @@ _08085206:
 	beq _0808520E
 	ldr r0, _08085228 @ =gPartner
 _0808520E:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r4, #0
 	beq _0808522C
 	ldr r0, [r6, #0x10]
@@ -588,7 +588,7 @@ _08085340:
 	beq _08085352
 	ldr r0, _08085370 @ =gPartner
 _08085352:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r4, #0
 	beq _08085374
 	ldr r0, [r6, #0x10]

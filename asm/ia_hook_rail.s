@@ -233,7 +233,7 @@ _0808677E:
 	cmp r0, #0
 	beq _0808680C
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0x80
 	lsls r0, r0, #0xf
 	str r0, [r4, #0x10]
@@ -407,7 +407,7 @@ _080868D8:
 	cmp r0, #0x26
 	beq _080868EE
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0x26
 	strb r0, [r7]
 _080868EE:
@@ -424,7 +424,7 @@ _080868EE:
 	movs r0, #0xb4
 	bl m4aSongNumStop
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r4, #0x10]
 	ldr r1, _08086978 @ =0xFFBFFFFF
 	ands r0, r1
@@ -503,7 +503,7 @@ _08086984:
 	adds r0, r0, r1
 	str r0, [r4, #4]
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0x26
 	strb r0, [r7]
 _080869BC:
@@ -791,7 +791,7 @@ _08086BDC:
 	str r0, [r4]
 	str r0, [r7, #0x48]
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0x80
 	lsls r0, r0, #0xf
 	str r0, [r4, #0x10]
@@ -946,7 +946,7 @@ _08086D14:
 	adds r0, r5, #0
 	str r2, [sp, #4]
 	str r3, [sp, #8]
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0x26
 	mov r1, sb
 	strb r0, [r1]
@@ -998,7 +998,7 @@ _08086D38:
 	movs r0, #0xb4
 	bl m4aSongNumStop
 	adds r0, r5, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r5, #0x10]
 	ldr r1, _08086E1C @ =0xFFBFFFFF
 	ands r0, r1
@@ -1598,7 +1598,7 @@ _0808722C:
 	movs r0, #0
 	strb r0, [r4, #0x14]
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, _080872EC @ =0x00400001
 	str r0, [r4, #0x10]
 	mov r0, sb
@@ -1744,7 +1744,7 @@ _0808735A:
 	cmp r0, #0x26
 	beq _08087376
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0x26
 	mov r1, r8
 	strb r0, [r1]
@@ -1761,7 +1761,7 @@ _08087376:
 	movs r0, #0xb4
 	bl m4aSongNumStop
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	ldr r0, [r4, #0x10]
 	ldr r1, _08087400 @ =0xFFBFFFFF
 	ands r0, r1
@@ -1841,7 +1841,7 @@ _0808740C:
 	adds r0, r0, r1
 	str r0, [r4, #4]
 	adds r0, r4, #0
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0x26
 	mov r2, r8
 	strb r0, [r2]

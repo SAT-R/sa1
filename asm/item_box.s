@@ -585,7 +585,7 @@ _0801EA80:
 	bhi _0801EAB2
 	b _0801EC0A
 _0801EAB2:
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	movs r1, #2
 	strb r1, [r0]
 	ldrh r1, [r6, #4]
@@ -832,18 +832,18 @@ _0801ECA4: .4byte 0x03000070
 _0801ECA8: .4byte 0x03000071
 _0801ECAC: .4byte _0801ECB0
 _0801ECB0: @ jump table
-	.4byte _0801ECDC @ case 0
-	.4byte _0801ECF4 @ case 1
-	.4byte _0801ED18 @ case 2
-	.4byte _0801ED3C @ case 3
-	.4byte _0801ED78 @ case 4 - Speed Shoes
-	.4byte _0801EDBC @ case 5
-	.4byte _0801EE60 @ case 6
-	.4byte _0801EED0 @ case 7
-	.4byte _0801EF44 @ case 8
-	.4byte _0801EFD8 @ case 9
-	.4byte _0801EFE8 @ case 10
-_0801ECDC:
+	.4byte _0801ECDC_case_0 @ case 0
+	.4byte _0801ECF4_case_1 @ case 1
+	.4byte _0801ED18_case_2 @ case 2
+	.4byte _0801ED3C_case_3 @ case 3
+	.4byte _0801ED78_case_4 @ case 4 - Speed Shoes
+	.4byte _0801EDBC_case_5 @ case 5
+	.4byte _0801EE60_case_6 @ case 6
+	.4byte _0801EED0_case_7 @ case 7
+	.4byte _0801EF44_case_8 @ case 8
+	.4byte _0801EFD8_case_9 @ case 9
+	.4byte _0801EFE8_case_10 @ case 10
+_0801ECDC_case_0:
 	ldr r1, _0801ECEC @ =gNumLives
 	ldrb r0, [r1]
 	adds r0, #1
@@ -855,7 +855,7 @@ _0801ECDC:
 	.align 2, 0
 _0801ECEC: .4byte gNumLives
 _0801ECF0: .4byte gMusicManagerState
-_0801ECF4:
+_0801ECF4_case_1:
 	ldr r2, _0801ED14 @ =gPlayer
 	adds r3, r2, #0
 	adds r3, #0x26
@@ -872,7 +872,7 @@ _0801ECF4:
 	b _0801EFF6
 	.align 2, 0
 _0801ED14: .4byte gPlayer
-_0801ED18:
+_0801ED18_case_2:
 	ldr r2, _0801ED38 @ =gPlayer
 	adds r3, r2, #0
 	adds r3, #0x26
@@ -889,7 +889,7 @@ _0801ED18:
 	b _0801EFF6
 	.align 2, 0
 _0801ED38: .4byte gPlayer
-_0801ED3C:
+_0801ED3C_case_3:
 	ldr r4, _0801ED70 @ =gPlayer
 	adds r5, r4, #0
 	adds r5, #0x26
@@ -919,7 +919,7 @@ _0801ED60:
 	.align 2, 0
 _0801ED70: .4byte gPlayer
 _0801ED74: .4byte gMusicManagerState
-_0801ED78:
+_0801ED78_case_4:
 	ldr r2, _0801EDB0 @ =gPlayer
 	adds r5, r2, #0
 	adds r5, #0x26
@@ -951,7 +951,7 @@ _0801EDA4:
 _0801EDB0: .4byte gPlayer
 _0801EDB4: .4byte gMPlayInfo_BGM
 _0801EDB8: .4byte gGameMode
-_0801EDBC:
+_0801EDBC_case_5:
 	ldr r4, _0801EE3C @ =gUnknown_080BB308
 	ldr r2, _0801EE40 @ =gPseudoRandom
 	ldr r1, [r2]
@@ -1023,7 +1023,7 @@ _0801EE50: .4byte gCurrentLevel
 _0801EE54: .4byte gGameMode
 _0801EE58: .4byte gNumLives
 _0801EE5C: .4byte gMusicManagerState
-_0801EE60:
+_0801EE60_case_6:
 	ldr r1, _0801EEBC @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, #5
@@ -1075,7 +1075,7 @@ _0801EEC0: .4byte gCurrentLevel
 _0801EEC4: .4byte gGameMode
 _0801EEC8: .4byte gNumLives
 _0801EECC: .4byte gMusicManagerState
-_0801EED0:
+_0801EED0_case_7:
 	ldr r1, _0801EF30 @ =gRingCount
 	ldrh r5, [r1]
 	adds r0, r5, #0
@@ -1128,7 +1128,7 @@ _0801EF34: .4byte gCurrentLevel
 _0801EF38: .4byte gGameMode
 _0801EF3C: .4byte gNumLives
 _0801EF40: .4byte gMusicManagerState
-_0801EF44:
+_0801EF44_case_8:
 	movs r2, #0
 	mov sb, r2
 	mov r8, r2
@@ -1185,7 +1185,7 @@ _0801EFA0:
 	cmp r0, #0
 	bne _0801EF5E
 _0801EFAE:
-	bl sa2__sub_8019224
+	bl CreateRoomEvent
 	adds r2, r0, #0
 	movs r0, #6
 	strb r0, [r2]
@@ -1200,16 +1200,16 @@ _0801EFC8: .4byte gPlayer
 _0801EFCC: .4byte 0x04000128
 _0801EFD0: .4byte 0x03000050
 _0801EFD4: .4byte 0x03000052
-_0801EFD8:
-	bl sa2__sub_8019224
+_0801EFD8_case_9:
+	bl CreateRoomEvent
 	adds r2, r0, #0
 	movs r1, #0
 	movs r0, #6
 	strb r0, [r2]
 	strb r1, [r2, #1]
 	b _0801EFF6
-_0801EFE8:
-	bl sa2__sub_8019224
+_0801EFE8_case_10:
+	bl CreateRoomEvent
 	adds r2, r0, #0
 	movs r0, #6
 	strb r0, [r2]

@@ -12,7 +12,7 @@
 #include "game/cheese.h"
 #endif
 #include "game/entity.h"
-#include "game/multiplayer/player_unk_1.h"
+#include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/parameters/characters.h"
 #include "game/stage/player.h"
 #include "game/stage/rings_scatter.h"
@@ -38,8 +38,8 @@ u32 sub_800C060(Sprite *s, s32 sx, s32 sy, Player *p)
         return result;
     }
 
-    if ((p->moveState & MOVESTATE_8) && (p->unk3C == s)) {
-        p->moveState &= ~MOVESTATE_8;
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->unk3C == s)) {
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
         ip = TRUE;
     }
 
@@ -53,7 +53,7 @@ u32 sub_800C060(Sprite *s, s32 sx, s32 sy, Player *p)
 
         rectPlayer[1] = -p->spriteOffsetY;
         rectPlayer[3] = +p->spriteOffsetY;
-        p->moveState |= MOVESTATE_8;
+        p->moveState |= MOVESTATE_STOOD_ON_OBJ;
         result |= COLL_FLAG_8;
 
         if (!ip) {
@@ -74,7 +74,7 @@ u32 sub_800C060(Sprite *s, s32 sx, s32 sy, Player *p)
         }
         y = Q(y);
         p->qWorldY = Q_24_8_FRAC(p->qWorldY) + (y);
-    } else if (ip && !(p->moveState & MOVESTATE_8)) {
+    } else if (ip && !(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
         p->moveState &= ~MOVESTATE_20;
         p->moveState |= MOVESTATE_IN_AIR;
     }
@@ -188,7 +188,7 @@ bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex)
             if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[1])) {
                 if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(player->qWorldX), I(player->qWorldY), sprPlayer->hitboxes[1])) {
                     if (IS_MULTI_PLAYER) {
-                        struct UNK_3005510 *v = sub_8019224();
+                        RoomEvent *v = CreateRoomEvent();
                         v->unk0 = 3;
                         v->unk1 = eb->base.regionX;
                         v->unk2 = eb->base.regionY;
@@ -211,7 +211,7 @@ bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex)
                     sub_800CBA4(player);
                 } else {
                     if (IS_MULTI_PLAYER) {
-                        struct UNK_3005510 *v = sub_8019224();
+                        RoomEvent *v = CreateRoomEvent();
                         v->unk0 = 3;
                         v->unk1 = eb->base.regionX;
                         v->unk2 = eb->base.regionY;
@@ -232,7 +232,7 @@ bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex)
             if (cheese->s.hitboxes[1].index != -1
                 && ((HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(cheese->posX), I(cheese->posY), cheese->s.hitboxes[1])))) {
                 if (IS_MULTI_PLAYER) {
-                    struct UNK_3005510 *v = sub_8019224();
+                    RoomEvent *v = CreateRoomEvent();
                     v->unk0 = 3;
                     v->unk1 = eb->base.regionX;
                     v->unk2 = eb->base.regionY;
@@ -382,7 +382,7 @@ bool32 sub_800CBA4(Player *p)
             InitScatteringRings(I(p->qWorldX), I(p->qWorldY), rings);
 
             if (IS_MULTI_PLAYER) {
-                struct UNK_3005510 *unk = sub_8019224();
+                RoomEvent *unk = CreateRoomEvent();
                 unk->unk0 = 4;
                 unk->unk1 = rings;
             }
@@ -418,9 +418,9 @@ u32 sub_800CCB8(Sprite *s, s32 sx, s32 sy, Player *p)
         return COLL_NONE;
     }
 
-    if ((p->moveState & MOVESTATE_8) && (p->unk3C == s)) {
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->unk3C == s)) {
         r4 = COLL_FLAG_1;
-        p->moveState &= ~MOVESTATE_8;
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
         p->moveState |= MOVESTATE_IN_AIR;
     }
 
@@ -428,7 +428,7 @@ u32 sub_800CCB8(Sprite *s, s32 sx, s32 sy, Player *p)
 
     if (mask) {
         if (mask & 0x10000) {
-            p->moveState |= MOVESTATE_8;
+            p->moveState |= MOVESTATE_STOOD_ON_OBJ;
             p->moveState &= ~MOVESTATE_IN_AIR;
             p->unk3C = s;
 
@@ -437,7 +437,7 @@ u32 sub_800CCB8(Sprite *s, s32 sx, s32 sy, Player *p)
             }
         }
     } else if (r4) {
-        if (!(p->moveState & MOVESTATE_8)) {
+        if (!(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
             p->moveState &= ~MOVESTATE_20;
             p->moveState |= MOVESTATE_IN_AIR;
             p->unk3C = NULL;
@@ -468,15 +468,15 @@ u32 sub_800CDBC(Sprite *s, s32 sx, s32 sy, Player *p)
         return COLL_NONE;
     }
 
-    if ((p->moveState & MOVESTATE_8) && (p->unk3C == s)) {
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->unk3C == s)) {
         r4 = COLL_FLAG_1;
-        p->moveState &= ~MOVESTATE_8;
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
     }
 
     mask = sub_800CE94(s, sx, sy, (struct Rect8 *)rectPlayer, p);
 
     if (mask & 0x10000) {
-        p->moveState |= MOVESTATE_8;
+        p->moveState |= MOVESTATE_STOOD_ON_OBJ;
         p->unk3C = s;
     } else if (r4) {
         p->unk3C = NULL;
@@ -653,15 +653,15 @@ bool32 sub_800DD54(Player *p)
 
     p->speedAirY = -Q(3.0);
 
-    if (p->moveState & MOVESTATE_40) {
+    if (p->moveState & MOVESTATE_IN_WATER) {
         HALVE(p->speedAirY);
         HALVE(p->speedAirX);
     }
 
-    p->moveState &= ~MOVESTATE_8;
+    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
     p->moveState &= ~MOVESTATE_20;
     p->moveState &= ~MOVESTATE_4;
-    p->moveState &= ~MOVESTATE_10;
+    p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
     p->moveState |= MOVESTATE_IN_AIR;
     p->moveState &= ~MOVESTATE_400;
     p->moveState &= ~MOVESTATE_100;
@@ -675,7 +675,7 @@ bool32 sub_800DD54(Player *p)
     p->transition = 9;
 
     if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        struct UNK_3005510 *unk;
+        RoomEvent *unk;
 #ifndef NON_MATCHING
         register u32 rings asm("r4") = gRingCount;
 #else
@@ -689,7 +689,7 @@ bool32 sub_800DD54(Player *p)
         InitScatteringRings(I(p->qWorldX), I(p->qWorldY), rings);
         gRingCount -= rings;
 
-        unk = sub_8019224();
+        unk = CreateRoomEvent();
         unk->unk0 = 4;
         unk->unk1 = rings;
     }
@@ -756,7 +756,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C394.inc", u32 
 
     if (((p->moveState & MOVESTATE_JUMPING) == MOVESTATE_JUMPING) && (p->qSpeedAirY > 0)
         && RECT_COLLISION_2(sx, sy, &s->hitboxes[0].b, p->qWorldX, p->qWorldY, (struct Rect8 *)rectPlayer) && (p->qSpeedAirY >= 0)) {
-        p->moveState &= ~MOVESTATE_8;
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
         ip = TRUE;
     } else {
         if (p->qSpeedAirY > 0) {
@@ -787,15 +787,15 @@ bool32 sa2__sub_800CBA4(Player *p)
 
     p->qSpeedAirY = -Q(3.0);
 
-    if (p->moveState & MOVESTATE_40) {
+    if (p->moveState & MOVESTATE_IN_WATER) {
         HALVE(p->qSpeedAirY);
         HALVE(p->qSpeedAirX);
     }
 
-    p->moveState &= ~MOVESTATE_8;
+    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
     p->moveState &= ~MOVESTATE_20;
     p->moveState &= ~MOVESTATE_4;
-    p->moveState &= ~MOVESTATE_10;
+    p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
     p->moveState |= MOVESTATE_IN_AIR;
     p->moveState &= ~MOVESTATE_400;
     p->moveState &= ~MOVESTATE_100;
@@ -837,6 +837,7 @@ bool32 sa2__sub_800CBA4(Player *p)
     if (p->sa2__unk60 == 0) {
         if (!HAS_SHIELD(p)) {
             if (gRingCount != 0) {
+                RoomEvent_RingLoss *roomEvent;
                 u32 rings = gRingCount;
                 if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
 #ifndef NON_MATCHING
@@ -854,9 +855,9 @@ bool32 sa2__sub_800CBA4(Player *p)
                 InitScatteringRings(I(p->qWorldX), I(p->qWorldY), rings);
 
                 if (IS_MULTI_PLAYER) {
-                    struct UNK_3005510 *unk = sa2__sub_8019224();
-                    unk->unk0 = 4;
-                    unk->unk1 = rings;
+                    RoomEvent_RingLoss *roomEvent = CreateRoomEvent();
+                    roomEvent->type = ROOMEVENT_TYPE_PLAYER_RING_LOSS;
+                    roomEvent->ringCount = rings;
                 }
 
                 gRingCount -= rings;
@@ -918,15 +919,15 @@ bool32 sub_800C760(Player *p)
 
     p->qSpeedAirY = -Q(3.0);
 
-    if (p->moveState & MOVESTATE_40) {
+    if (p->moveState & MOVESTATE_IN_WATER) {
         HALVE(p->qSpeedAirY);
         HALVE(p->qSpeedAirX);
     }
 
-    p->moveState &= ~MOVESTATE_8;
+    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
     p->moveState &= ~MOVESTATE_20;
     p->moveState &= ~MOVESTATE_4;
-    p->moveState &= ~MOVESTATE_10;
+    p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
     p->moveState |= MOVESTATE_IN_AIR;
     p->moveState &= ~MOVESTATE_400;
     p->moveState &= ~MOVESTATE_100;
@@ -952,7 +953,6 @@ bool32 sub_800C760(Player *p)
     }
 
     if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        struct UNK_3005510 *unk;
 #ifndef NON_MATCHING
         register u32 rings asm("r4") = gRingCount;
 #else
@@ -966,9 +966,11 @@ bool32 sub_800C760(Player *p)
         InitScatteringRings(I(p->qWorldX), I(p->qWorldY), rings);
         gRingCount -= rings;
 
-        unk = sa2__sub_8019224();
-        unk->unk0 = 4;
-        unk->unk1 = rings;
+        {
+            RoomEvent_RingLoss *roomEvent = CreateRoomEvent();
+            roomEvent->type = ROOMEVENT_TYPE_PLAYER_RING_LOSS;
+            roomEvent->ringCount = rings;
+        }
     }
 
     m4aSongNumStart(SE_LIFE_LOST);
@@ -996,15 +998,15 @@ bool32 sub_800DE44(Player *p)
 
     p->qSpeedAirY = -Q(3.0);
 
-    if (p->moveState & MOVESTATE_40) {
+    if (p->moveState & MOVESTATE_IN_WATER) {
         HALVE(p->qSpeedAirY);
         HALVE(p->qSpeedAirX);
     }
 
-    p->moveState &= ~MOVESTATE_8;
+    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
     p->moveState &= ~MOVESTATE_20;
     p->moveState &= ~MOVESTATE_4;
-    p->moveState &= ~MOVESTATE_10;
+    p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
     p->moveState |= MOVESTATE_IN_AIR;
     p->moveState &= ~MOVESTATE_400;
     p->moveState &= ~MOVESTATE_100;
@@ -1034,7 +1036,6 @@ bool32 sub_800DE44(Player *p)
 #endif
 
     if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        struct UNK_3005510 *unk;
 #ifndef NON_MATCHING
         register u32 rings asm("r4") = gRingCount;
 #else
@@ -1048,9 +1049,11 @@ bool32 sub_800DE44(Player *p)
         InitScatteringRings(I(p->qWorldX), I(p->qWorldY), rings);
         gRingCount -= rings;
 
-        unk = sa2__sub_8019224();
-        unk->unk0 = 4;
-        unk->unk1 = rings;
+        {
+            RoomEvent_RingLoss *roomEvent = CreateRoomEvent();
+            roomEvent->type = ROOMEVENT_TYPE_PLAYER_RING_LOSS;
+            roomEvent->ringCount = rings;
+        }
     }
 
     m4aSongNumStart(SE_LIFE_LOST);

@@ -10265,8 +10265,8 @@ _08046CE4:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8046CEC
-sub_8046CEC: @ 0x08046CEC
+	thumb_func_start Player_TransitionCancelFlyingAndBoost
+Player_TransitionCancelFlyingAndBoost: @ 0x08046CEC
 	push {r4, r5, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #0x10]

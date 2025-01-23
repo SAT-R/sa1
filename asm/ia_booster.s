@@ -1137,7 +1137,7 @@ _0807721E:
 	beq _08077224
 	ldr r0, _08077254 @ =gPartner
 _08077224:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0xac
 	bl m4aSongNumStart
 	mov r1, sl

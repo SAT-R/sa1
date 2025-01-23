@@ -545,7 +545,7 @@ _0809125C:
 	beq _08091264
 	ldr r0, _08091274 @ =gPartner
 _08091264:
-	bl sub_8046CEC
+	bl Player_TransitionCancelFlyingAndBoost
 	cmp r4, #0
 	beq _08091284
 	movs r0, #0x1b
