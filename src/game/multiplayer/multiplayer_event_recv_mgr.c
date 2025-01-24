@@ -1,9 +1,14 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/multiplayer/chao.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/stage/rings_scatter.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
+
+#include "constants/songs.h"
 
 void *CreateRoomEvent(void)
 {
@@ -14,7 +19,7 @@ void *CreateRoomEvent(void)
     return result;
 }
 
-void ReceiveRoomEvent_PlatformChange(union MultiSioData *msioData, u8 someId)
+void ReceiveRoomEvent_PlatformChange(union MultiSioData *msioData, u8 mppId)
 {
     if (gEntitiesManagerTask != NULL) {
         EntitiesManager *em = TASK_DATA(gEntitiesManagerTask);
@@ -44,7 +49,7 @@ void ReceiveRoomEvent_PlatformChange(union MultiSioData *msioData, u8 someId)
     }
 }
 
-void ReceiveRoomEvent_ItemBoxBreak(union MultiSioData *msioData, u8 UNUSED someId)
+void ReceiveRoomEvent_ItemBoxBreak(union MultiSioData *msioData, u8 UNUSED mppId)
 {
     if (gEntitiesManagerTask != NULL) {
         EntitiesManager *em = TASK_DATA(gEntitiesManagerTask);
@@ -79,7 +84,7 @@ void ReceiveRoomEvent_ItemBoxBreak(union MultiSioData *msioData, u8 UNUSED someI
     }
 }
 
-void ReceiveRoomEvent_EnemyDestroyed(union MultiSioData *msioData, u8 UNUSED someId)
+void ReceiveRoomEvent_EnemyDestroyed(union MultiSioData *msioData, u8 UNUSED mppId)
 {
     if (gEntitiesManagerTask != NULL) {
         EntitiesManager *em = TASK_DATA(gEntitiesManagerTask);
@@ -113,12 +118,12 @@ void ReceiveRoomEvent_EnemyDestroyed(union MultiSioData *msioData, u8 UNUSED som
     }
 }
 
-void ReceiveRoomEvent_PlayerRingLoss(union MultiSioData *msioData, u8 UNUSED someId)
+void ReceiveRoomEvent_PlayerRingLoss(union MultiSioData *msioData, u8 UNUSED mppId)
 {
     InitScatteringRings(msioData->pat4.x, msioData->pat4.y, msioData->pat4.numRings);
 }
 
-void ReceiveRoomEvent_MysteryItemBoxBreak(union MultiSioData *msioData, u8 UNUSED someId)
+void ReceiveRoomEvent_MysteryItemBoxBreak(union MultiSioData *msioData, u8 UNUSED mppId)
 {
     if (gEntitiesManagerTask != NULL) {
         EntitiesManager *em = TASK_DATA(gEntitiesManagerTask);
@@ -151,7 +156,32 @@ void ReceiveRoomEvent_MysteryItemBoxBreak(union MultiSioData *msioData, u8 UNUSE
     }
 }
 
-#if (GAME == GAME_SA2)
-// Type of this is determined by it being referenced in a C func-array
-void ReceiveRoomEvent_Unknown(union MultiSioData *msioData, u8 UNUSED someId) { REG_SIOCNT_32; }
+void ReceiveRoomEvent_8(union MultiSioData *msioData, u8 UNUSED mppId)
+{
+    if (SIO_MULTI_CNT->id == msioData->pat5.sioId) {
+#if (GAME == GAME_SA1)
+        if (msioData->pat5.unk10 != 0) {
+            gPlayer.moveState |= MOVESTATE_10000;
+        } else {
+            gPlayer.moveState &= ~MOVESTATE_10000;
+        }
+#endif
+    }
+}
+
+#if (GAME == GAME_SA1)
+void ReceiveRoomEvent_CollectChao(union MultiSioData *msioData, u8 mppId)
+{
+    ChaoTask *chao = TASK_DATA(gUnknown_03004FF0[msioData->pat5.sioId]);
+    MultiplayerPlayer *mpp;
+
+    chao->unk41 = msioData->pat5.unk10;
+    mpp = TASK_DATA(gMultiplayerPlayerTasks[mppId]);
+    mpp->unk5C &= ~(0x10000 << msioData->pat5.sioId);
+
+    mpp = TASK_DATA(gMultiplayerPlayerTasks[msioData->pat5.unk10]);
+    mpp->unk5C |= (0x10000 << msioData->pat5.sioId);
+
+    m4aSongNumStart(SE_CHAO_HUH);
+}
 #endif

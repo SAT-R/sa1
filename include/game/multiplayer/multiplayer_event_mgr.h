@@ -93,7 +93,7 @@ void ReceiveRoomEvent_ItemBoxBreak(union MultiSioData *, u8);
 void ReceiveRoomEvent_EnemyDestroyed(union MultiSioData *, u8);
 void ReceiveRoomEvent_PlayerRingLoss(union MultiSioData *, u8);
 void ReceiveRoomEvent_MysteryItemBoxBreak(union MultiSioData *, u8);
-void ReceiveRoomEvent_Unknown(union MultiSioData *, u8);
+void ReceiveRoomEvent_8(union MultiSioData *, u8);
 
 // Creates and sends a room event for multiplayer
 void *CreateRoomEvent(void);

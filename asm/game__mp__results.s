@@ -5,95 +5,7 @@
 .syntax unified
 .arm
 
-@ SA2: VoidReturnSIOControl32 (but most code must be ifdefd out there)
-@      void fn(union MultiSioData *msioData, u32 UNUSED someId)
-	thumb_func_start ReceiveRoomEvent_8
-ReceiveRoomEvent_8: @ 0x08018490
-	adds r1, r0, #0
-	ldr r0, _080184B4 @ =0x04000128
-	ldr r0, [r0]
-	lsls r0, r0, #0x1a
-	lsrs r0, r0, #0x1e
-	ldrb r2, [r1, #0xf]
-	cmp r0, r2
-	bne _080184C6
-	ldrb r0, [r1, #0x10]
-	cmp r0, #0
-	beq _080184BC
-	ldr r0, _080184B8 @ =gPlayer
-	ldr r1, [r0, #0x10]
-	movs r2, #0x80
-	lsls r2, r2, #9
-	orrs r1, r2
-	b _080184C4
-	.align 2, 0
-_080184B4: .4byte 0x04000128
-_080184B8: .4byte gPlayer
-_080184BC:
-	ldr r0, _080184C8 @ =gPlayer
-	ldr r1, [r0, #0x10]
-	ldr r2, _080184CC @ =0xFFFEFFFF
-	ands r1, r2
-_080184C4:
-	str r1, [r0, #0x10]
-_080184C6:
-	bx lr
-	.align 2, 0
-_080184C8: .4byte gPlayer
-_080184CC: .4byte 0xFFFEFFFF
-
-@ SA2: Not available
-@      void fn(union MultiSioData *msioData, u32 UNUSED someId)
-	thumb_func_start ReceiveRoomEvent_9
-ReceiveRoomEvent_9: @ 0x080184D0
-	push {r4, r5, r6, lr}
-	lsls r1, r1, #0x18
-	ldr r3, _0801852C @ =gUnknown_03004FF0
-	ldrb r2, [r0, #0xf]
-	lsls r2, r2, #2
-	adds r2, r2, r3
-	ldr r2, [r2]
-	ldrh r2, [r2, #6]
-	movs r5, #0xc0
-	lsls r5, r5, #0x12
-	ldrb r3, [r0, #0x10]
-	ldr r4, _08018530 @ =0x03000041
-	adds r2, r2, r4
-	strb r3, [r2]
-	ldr r4, _08018534 @ =gMultiplayerPlayerTasks
-	lsrs r1, r1, #0x16
-	adds r1, r1, r4
-	ldr r1, [r1]
-	ldrh r1, [r1, #6]
-	adds r6, r1, r5
-	movs r3, #0x80
-	lsls r3, r3, #9
-	adds r2, r3, #0
-	ldrb r1, [r0, #0xf]
-	lsls r2, r1
-	ldr r1, [r6, #0x5c]
-	bics r1, r2
-	str r1, [r6, #0x5c]
-	ldrb r1, [r0, #0x10]
-	lsls r1, r1, #2
-	adds r1, r1, r4
-	ldr r1, [r1]
-	ldrh r1, [r1, #6]
-	adds r6, r1, r5
-	ldrb r0, [r0, #0xf]
-	lsls r3, r0
-	ldr r0, [r6, #0x5c]
-	orrs r0, r3
-	str r0, [r6, #0x5c]
-	movs r0, #0xa3
-	bl m4aSongNumStart
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801852C: .4byte gUnknown_03004FF0
-_08018530: .4byte 0x03000041
-_08018534: .4byte gMultiplayerPlayerTasks
+@ NOTE: Not sure whether this module is only about the result screen
 
 	thumb_func_start sub_8018538
 sub_8018538: @ 0x08018538
@@ -133,7 +45,7 @@ sub_8018538: @ 0x08018538
 	ldrh r4, [r0, #6]
 	movs r6, #0xc0
 	lsls r6, r6, #0x12
-	adds r6, r4, r6
+	adds r6, r4, r6     @ r6 = struct Background*
 	ldr r3, _080186F8 @ =0x03000200
 	adds r0, r4, r3
 	strh r5, [r0]
@@ -1050,7 +962,7 @@ sub_8018AE0: @ 0x08018AE0
 	movs r0, #0x80
 	strh r0, [r2, #0x1a]
 	strh r4, [r2, #8]
-	ldr r0, _08018E8C @ =0x00000389
+	ldr r0, _08018E8C @ =0x00000389 @ SA1_ANIM_VS_MENU_WAIT
 	strh r0, [r2, #0xa]
 	adds r1, #0x20
 	adds r0, r5, r1
@@ -2879,7 +2791,7 @@ _08019C78:
 	adds r4, r2, #0
 	strh r1, [r4, #8]
 	movs r0, #0xe2
-	lsls r0, r0, #2
+	lsls r0, r0, #2     @ SA1_ANIM_VS_RESULT
 	strh r0, [r4, #0xa]
 	cmp r5, #5
 	bne _08019CA4

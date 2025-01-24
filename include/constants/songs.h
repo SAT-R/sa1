@@ -86,6 +86,7 @@
 
 #define SE_KNOCK_TEAMMATE 161
 #define SE_KNOCK_OPPONENT 162 // also EXTRA_BOSS_LASER
+#define SE_CHAO_HUH       163
 
 #define SE_SPRING 170
 

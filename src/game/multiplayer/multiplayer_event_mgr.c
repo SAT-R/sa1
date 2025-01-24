@@ -23,7 +23,7 @@ void Task_MultiplayerEventMgr_Receive(void);
 void ReceiveRoomEvent_ReachedStageGoal(union MultiSioData *recv, u8 i);
 void ReceiveRoomEvent_ItemEffect(union MultiSioData *recv, u8 i);
 void ReceiveRoomEvent_8(union MultiSioData *recv, u8 i);
-void ReceiveRoomEvent_9(union MultiSioData *recv, u8 i);
+void ReceiveRoomEvent_CollectChao(union MultiSioData *recv, u8 i);
 typedef void (*RoomEventHandler)(union MultiSioData *recv, u8 i);
 
 // TODO: Put into header
@@ -38,7 +38,6 @@ extern void sub_801C704(void);
 #define MPEVTMGR_RECV_PAT0_UNKE_MAX 8
 #endif
 
-#if (GAME == GAME_SA1)
 const RoomEventHandler gRoomEventHandlers[] = {
     [ROOMEVENT_TYPE_PLATFORM_CHANGE - 1] = ReceiveRoomEvent_PlatformChange,
     [ROOMEVENT_TYPE_ITEMBOX_BREAK - 1] = ReceiveRoomEvent_ItemBoxBreak,
@@ -48,24 +47,12 @@ const RoomEventHandler gRoomEventHandlers[] = {
     [ROOMEVENT_TYPE_ITEMEFFECT_APPLIED - 1] = ReceiveRoomEvent_ItemEffect,
     [ROOMEVENT_TYPE_REACHED_STAGE_GOAL - 1] = ReceiveRoomEvent_ReachedStageGoal,
     [ROOMEVENT_TYPE_8 - 1] = ReceiveRoomEvent_8,
-    [ROOMEVENT_TYPE_9 - 1] = ReceiveRoomEvent_9,
-
-    NULL,
-};
-#elif (GAME == GAME_SA2)
-const RoomEventHandler gRoomEventHandlers[] = {
-    [ROOMEVENT_TYPE_PLATFORM_CHANGE - 1] = ReceiveRoomEvent_PlatformChange,
-    [ROOMEVENT_TYPE_ITEMBOX_BREAK - 1] = ReceiveRoomEvent_ItemBoxBreak,
-    [ROOMEVENT_TYPE_ENEMY_DESTROYED - 1] = ReceiveRoomEvent_EnemyDestroyed,
-    [ROOMEVENT_TYPE_PLAYER_RING_LOSS - 1] = ReceiveRoomEvent_PlayerRingLoss,
-    [ROOMEVENT_TYPE_MYSTERY_ITEMBOX_BREAK - 1] = ReceiveRoomEvent_MysteryItemBoxBreak,
-    [ROOMEVENT_TYPE_ITEMEFFECT_APPLIED - 1] = ReceiveRoomEvent_ItemEffect,
-    [ROOMEVENT_TYPE_REACHED_STAGE_GOAL - 1] = ReceiveRoomEvent_ReachedStageGoal,
-    [ROOMEVENT_TYPE_UNKNOWN - 1] = ReceiveRoomEvent_Unknown,
-
-    NULL,
-};
+#if (GAME == GAME_SA1)
+    [ROOMEVENT_TYPE_9 - 1] = ReceiveRoomEvent_CollectChao,
 #endif
+
+    NULL,
+};
 
 void Task_MultiplayerEventMgr_Send(void)
 {
@@ -323,7 +310,7 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
 
     if (count2 == 0 && !(gStageFlags & 1)) {
         gStageFlags |= 4;
-        gCourseTime = 3600; // max?
+        gCourseTime = ZONE_TIME_TO_INT(1, 0);
     };
 
     if ((count3 + 1) >= (u32)(count - 1) || gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
