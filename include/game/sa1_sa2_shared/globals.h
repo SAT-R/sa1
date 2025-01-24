@@ -9,12 +9,16 @@
 #define GAME_MODE_BOSS_TIME_ATTACK 2
 
 #define GAME_MODE_MULTI_PLAYER 3
-#define GAME_MODE_TEAM_PLAY    4
 #if (GAME == GAME_SA1)
+#define GAME_MODE_TEAM_PLAY                  5
 #define GAME_MODE_MULTI_PLAYER_COLLECT_RINGS 6
 #elif (GAME == GAME_SA2)
+#define GAME_MODE_TEAM_PLAY                  4
 #define GAME_MODE_MULTI_PLAYER_COLLECT_RINGS 5
 #endif
+
+// TODO: Improve this name
+#define IS_MP_OR_TEAM_PLAY ((gGameMode == GAME_MODE_MULTI_PLAYER) || (gGameMode == GAME_MODE_TEAM_PLAY))
 
 #if (GAME == GAME_SA1)
 #define IS_SINGLE_PLAYER ((gGameMode == GAME_MODE_SINGLE_PLAYER) || (gGameMode == GAME_MODE_TIME_ATTACK))
@@ -108,7 +112,7 @@ extern s32 gUnknown_030054FC;
 extern u16 gBossCameraClampYLower;
 extern u16 gBossCameraClampYUpper;
 extern u8 gRandomItemBox;
-extern u8 gUnknown_030053E0;
+extern u8 sa2__gUnknown_030053E0;
 
 extern u8 sa2__gUnknown_0300543C;
 extern struct Task *gEntitiesManagerTask;

@@ -9,6 +9,18 @@
 #include "game/sa1_sa2_shared/globals.h"
 
 // RoomEvent types
+#if (GAME == GAME_SA1)
+#define ROOMEVENT_TYPE_NONE                  0
+#define ROOMEVENT_TYPE_PLATFORM_CHANGE       1
+#define ROOMEVENT_TYPE_ITEMBOX_BREAK         2
+#define ROOMEVENT_TYPE_ENEMY_DESTROYED       3
+#define ROOMEVENT_TYPE_PLAYER_RING_LOSS      4
+#define ROOMEVENT_TYPE_MYSTERY_ITEMBOX_BREAK 5
+#define ROOMEVENT_TYPE_ITEMEFFECT_APPLIED    6
+#define ROOMEVENT_TYPE_REACHED_STAGE_GOAL    7
+#define ROOMEVENT_TYPE_8                     8
+#define ROOMEVENT_TYPE_9                     9
+#elif (GAME == GAME_SA2)
 #define ROOMEVENT_TYPE_NONE                  0
 #define ROOMEVENT_TYPE_PLATFORM_CHANGE       1
 #define ROOMEVENT_TYPE_ITEMBOX_BREAK         2
@@ -18,6 +30,7 @@
 #define ROOMEVENT_TYPE_ITEMEFFECT_APPLIED    6
 #define ROOMEVENT_TYPE_REACHED_STAGE_GOAL    7
 #define ROOMEVENT_TYPE_UNKNOWN               8
+#endif
 
 // RoomEvent variable structs
 typedef struct {

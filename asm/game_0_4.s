@@ -7,8 +7,8 @@
 
 @ SA2: VoidReturnSIOControl32 (but most code must be ifdefd out there)
 @      void fn(union MultiSioData *msioData, u32 UNUSED someId)
-	thumb_func_start ReceiveRoomEvent_7
-ReceiveRoomEvent_7: @ 0x08018490
+	thumb_func_start ReceiveRoomEvent_8
+ReceiveRoomEvent_8: @ 0x08018490
 	adds r1, r0, #0
 	ldr r0, _080184B4 @ =0x04000128
 	ldr r0, [r0]
@@ -44,8 +44,8 @@ _080184CC: .4byte 0xFFFEFFFF
 
 @ SA2: Not available
 @      void fn(union MultiSioData *msioData, u32 UNUSED someId)
-	thumb_func_start ReceiveRoomEvent_8
-ReceiveRoomEvent_8: @ 0x080184D0
+	thumb_func_start ReceiveRoomEvent_9
+ReceiveRoomEvent_9: @ 0x080184D0
 	push {r4, r5, r6, lr}
 	lsls r1, r1, #0x18
 	ldr r3, _0801852C @ =gUnknown_03004FF0

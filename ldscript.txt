@@ -40,7 +40,6 @@ SECTIONS {
         build/sa1/asm/game_0_3.o(.text);
         build/sa1/src/game/multiplayer/multiplayer_event_mgr.o(.text);
         build/sa1/src/game/multiplayer/multiplayer_event_recv_mgr.o(.text);
-        build/sa1/asm/game__multiplayer_event_recv_mgr.o(.text);
         build/sa1/asm/game_0_4.o(.text);
         build/sa1/asm/ia_itembox_chaohunt.o(.text);
         build/sa1/asm/game_tasks_0.o(.text);
@@ -240,6 +239,8 @@ SECTIONS {
         build/sa1/data/data_0_1.o(.rodata);
         build/sa1/src/game/sa1_sa2_shared/unused_level_select.o(.rodata);
         build/sa1/data/data_0_1_2.o(.rodata);
+        build/sa1/src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
+        build/sa1/data/data_0_1_3.o(.rodata);
         build/sa1/src/data/tilemap_data_0.o(.rodata);
         build/sa1/data/gSpriteTables.o(.rodata);
         build/sa1/data/animations.o(.rodata);

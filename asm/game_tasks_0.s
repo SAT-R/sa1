@@ -779,8 +779,8 @@ _0801CD46:
 	movs r0, #0
 	str r0, [sp]
 	movs r0, #3
-	movs r2, #0xa0
-	movs r3, #0xf0
+	movs r2, #0xa0 @ DISPLAY_HEIGHT ?
+	movs r3, #0xf0 @ DISPLAY_WIDTH  ?
 	bl sa2__sub_80078D4
 _0801CD6E:
 	add sp, #4

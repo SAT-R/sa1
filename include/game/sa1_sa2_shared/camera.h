@@ -28,9 +28,15 @@ struct Camera {
     /* 0x00|0x04 */ CamCoord x;
     /* 0x02|0x04 */ CamCoord y;
 #if (GAME == GAME_SA1)
-    u8 filler4[0x14];
+    u8 filler4[0x8];
+    /* 0x0C */ u16 shiftX;
+    /* 0x0E */ u16 shiftY;
+    u8 filler10[0x8];
     /* 0x18 */ u16 unk18;
-    u8 filler1A[0xE];
+    u8 filler1A[0x6];
+    /* 0x20 */ u16 unk20;
+    u8 filler22[0x4];
+    /* 0x26 */ u16 sa2__unk50;
     /* 0x28 */ u16 sa2__unk52;
     /* 0x2A */ u16 sa2__unk54;
     u8 filler2C[0x4];

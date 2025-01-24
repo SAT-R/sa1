@@ -21,13 +21,12 @@ extern PlayerSpriteInfo sa2__gUnknown_03005AF0;
 struct Player;
 typedef void (*PlayerCallback)(struct Player *);
 
-// TODO: Double-check these for SA1!
 #define PLAYER_ITEM_EFFECT__NONE            0x00
 #define PLAYER_ITEM_EFFECT__SHIELD_NORMAL   0x01
 #define PLAYER_ITEM_EFFECT__INVINCIBILITY   0x02
 #define PLAYER_ITEM_EFFECT__SPEED_UP        0x04
 #define PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC 0x08
-#define PLAYER_ITEM_EFFECT__10              0x10
+#define PLAYER_ITEM_EFFECT__MP_SLOW_DOWN    0x10
 #define PLAYER_ITEM_EFFECT__20              0x20
 #define PLAYER_ITEM_EFFECT__CONFUSION       0x40
 #define PLAYER_ITEM_EFFECT__TELEPORT        0x80
@@ -82,7 +81,8 @@ typedef struct Player {
     /* 0x1C */ s16 timerInvulnerability;
     /* 0x1E */ s16 timerInvincibility;
     /* 0x20 */ u16 timerSpeedup;
-    /* 0x22 */ u8 filler22[0x4];
+    /* 0x22 */ u16 timerConfusion;
+    /* 0x24 */ u8 filler24[0x2];
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
     /* 0x28 */ u8 filler28[0x10];

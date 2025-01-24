@@ -19950,9 +19950,8 @@ _0804B7BC: .4byte 0x03000021
 _0804B7C0: .4byte 0x03000022
 _0804B7C4: .4byte 0x03000025
 
-@ SA2: Maybe CreateItemTask_Confusion
-	thumb_func_start sub_804B7C8
-sub_804B7C8: @ 0x0804B7C8
+	thumb_func_start CreateItemTask_Confusion
+CreateItemTask_Confusion: @ 0x0804B7C8
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}
