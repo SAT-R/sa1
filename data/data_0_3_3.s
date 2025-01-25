@@ -9,8 +9,8 @@ gUnknown_084ADB18:
     .4byte sub_803D9F8, sub_803DEC8, sub_803DF58, sub_803DF64
     .4byte sub_803DF70, sub_803DFC0, sub_803DB2C, sub_803E004
 
-    .global gUnknown_084ADB60
-gUnknown_084ADB60:
+    .global gStageCameraBgTemplates 
+gStageCameraBgTemplates :
     .incbin "baserom.gba", 0x004ADB60, 0x100
 
     .global sStageBgInitProcedures
@@ -38,8 +38,8 @@ sStageBgUpdateFuncs: @ 0x084ADCA8
     .4byte StageBgUpdate_Zone3Acts12, StageBgUpdate_Zone6Act2
 
 @ SA2: gUnknown_080D5A98 from camera.c
-    .global gUnknown_084ADCF0
-gUnknown_084ADCF0:
+    .global sStageBgDimensions
+sStageBgDimensions:
     .incbin "baserom.gba", 0x004ADCF0, 0x48
 
     .global gUnknown_084ADD38

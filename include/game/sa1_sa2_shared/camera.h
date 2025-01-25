@@ -28,21 +28,35 @@ struct Camera {
     /* 0x00|0x04 */ CamCoord x;
     /* 0x02|0x04 */ CamCoord y;
 #if (GAME == GAME_SA1)
-    u8 filler4[0x8];
+    /* 0x04 */ u16 sa2__unk8;
+    /* 0x06 */ u16 sa2__unkC;
+    /* 0x08 */ CamCoord unk8;
+    /* 0x0A */ CamCoord unkA;
     /* 0x0C */ u16 shiftX;
     /* 0x0E */ u16 shiftY;
-    u8 filler10[0x8];
-    /* 0x18 */ u16 unk18;
-    u8 filler1A[0x6];
-    /* 0x20 */ u16 unk20;
-    u8 filler22[0x4];
+    /* 0x10 */ u16 sa2__unk20;
+    /* 0x12 */ u16 sa2__unk24;
+
+    // TODO: Why are X/Y swapped?
+    //       Did they make this a matrix or sth.?
+    //       (Used to calc min/max cam pos in UpdateCamera())
+    /* 0x14 */ u16 minY;
+    /* 0x16 */ u16 maxY;
+    /* 0x18 */ u16 minX;
+    /* 0x1A */ u16 maxX;
+    /* 0x1C */ u16 sa2__unk40;
+    /* 0x1E */ u16 sa2__unk44;
+    /* 0x20 */ u16 sa2__unk48;
+    /* 0x22 */ u16 sa2__unk4C;
+    /* 0x24 */ u16 unk24;
     /* 0x26 */ u16 sa2__unk50;
     /* 0x28 */ u16 sa2__unk52;
     /* 0x2A */ u16 sa2__unk54;
-    u8 filler2C[0x4];
+    /* 0x2C */ BgUpdate fnBgUpdate;
     /* 0x30 */ struct Task *movementTask;
     /* 0x34 */ s16 shakeOffsetX;
     /* 0x36 */ s16 shakeOffsetY;
+    /* 0x38 */ s16 sa2__unk64;
 #elif (GAME == GAME_SA2)
     /* 0x08 */ s32 unk8;
     /* 0x0C */ s32 unkC;

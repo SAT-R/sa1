@@ -5,384 +5,8 @@
 .syntax unified
 .arm
 
-@ --- Start of camera.c ---
-	thumb_func_start InitCamera
-InitCamera: @ 0x0803E0E4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov r8, r0
-	ldr r7, _0803E2C4 @ =gCamera
-	lsls r0, r0, #2
-	ldr r1, _0803E2C8 @ =gUnknown_084ADCF0
-	adds r6, r0, r1
-	ldr r1, _0803E2CC @ =gDispCnt
-	movs r2, #0xf9
-	lsls r2, r2, #6
-	adds r0, r2, #0
-	strh r0, [r1]
-	mov r3, r8
-	cmp r3, #0xd
-	bne _0803E110
-	ldr r2, _0803E2D0 @ =0x00003741
-	adds r0, r2, #0
-	strh r0, [r1]
-_0803E110:
-	ldr r3, _0803E2D4 @ =gBgCntRegs
-	mov sl, r3
-	ldr r0, _0803E2D8 @ =0x00001E01
-	strh r0, [r3, #2]
-	ldr r3, _0803E2DC @ =0x00001F02
-	mov r0, sl
-	strh r3, [r0, #4]
-	movs r1, #0
-	ldrsb r1, [r6, r1]
-	adds r1, #0x1f
-	asrs r1, r1, #6
-	movs r0, #1
-	ldrsb r0, [r6, r0]
-	adds r0, #0x1f
-	asrs r0, r0, #6
-	lsls r0, r0, #1
-	orrs r1, r0
-	lsls r1, r1, #0xe
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #8
-	movs r2, #3
-	orrs r0, r2
-	orrs r1, r0
-	movs r0, #2
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #2
-	orrs r1, r0
-	mov r0, sl
-	strh r1, [r0, #6]
-	mov r1, r8
-	cmp r1, #0xd
-	bne _0803E180
-	strh r3, [r0]
-	movs r1, #0
-	ldrsb r1, [r6, r1]
-	adds r1, #0x1f
-	asrs r1, r1, #6
-	movs r0, #1
-	ldrsb r0, [r6, r0]
-	adds r0, #0x1f
-	asrs r0, r0, #6
-	lsls r0, r0, #1
-	orrs r1, r0
-	lsls r1, r1, #0xe
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #8
-	orrs r0, r2
-	orrs r1, r0
-	movs r0, #2
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #2
-	orrs r1, r0
-	mov r2, sl
-	strh r1, [r2, #2]
-_0803E180:
-	ldr r4, _0803E2E0 @ =gUnknown_030058D0
-	ldr r3, _0803E2E4 @ =gUnknown_084ADB60
-	mov sb, r3
-	ldr r0, _0803E2E8 @ =gUnknown_03005910
-	mov r1, sb
-	movs r2, #0x40
-	bl memcpy
-	mov r1, r8
-	lsls r0, r1, #1
-	adds r5, r0, r1
-	adds r0, r4, #0
-	adds r0, #0x5c
-	strh r5, [r0]
-	mov r1, sb
-	adds r1, #0x40
-	ldr r0, _0803E2EC @ =gUnknown_03005950
-	movs r2, #0x40
-	bl memcpy
-	adds r1, r5, #1
-	adds r0, r4, #0
-	adds r0, #0x9c
-	strh r1, [r0]
-	mov r2, r8
-	cmp r2, #0xd
-	bne _0803E1C2
-	adds r2, r4, #0
-	adds r2, #0xae
-	ldrh r1, [r2]
-	ldr r0, _0803E2F0 @ =0x0000FFFC
-	ands r0, r1
-	strh r0, [r2]
-_0803E1C2:
-	mov r1, sb
-	adds r1, #0x80
-	ldr r0, _0803E2F4 @ =gUnknown_03005990
-	movs r2, #0x40
-	bl memcpy
-	adds r1, r5, #2
-	adds r0, r4, #0
-	adds r0, #0xdc
-	strh r1, [r0]
-	adds r1, r4, #0
-	adds r1, #0xc4
-	movs r0, #2
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #0xe
-	movs r3, #0xc0
-	lsls r3, r3, #0x13
-	mov sb, r3
-	add r0, sb
-	str r0, [r1]
-	adds r5, r4, #0
-	adds r5, #0xcc
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	lsls r0, r0, #0xb
-	add r0, sb
-	str r0, [r5]
-	movs r0, #0
-	ldrsb r0, [r6, r0]
-	adds r1, #0x22
-	strh r0, [r1]
-	movs r1, #1
-	ldrsb r1, [r6, r1]
-	adds r0, r4, #0
-	adds r0, #0xe8
-	strh r1, [r0]
-	mov r0, r8
-	cmp r0, #0xd
-	bne _0803E220
-	adds r2, r4, #0
-	adds r2, #0xee
-	ldrh r0, [r2]
-	ldr r1, _0803E2F0 @ =0x0000FFFC
-	ands r1, r0
-	movs r0, #1
-	orrs r1, r0
-	strh r1, [r2]
-_0803E220:
-	ldr r3, _0803E2F8 @ =sa2__gUnknown_03004D80
-	movs r1, #0
-	strb r1, [r3, #1]
-	ldr r0, _0803E2FC @ =sa2__gUnknown_03002280
-	strb r1, [r0, #4]
-	strb r1, [r0, #5]
-	movs r1, #0xff
-	strb r1, [r0, #6]
-	movs r2, #0x20
-	strb r2, [r0, #7]
-	movs r1, #0
-	strb r1, [r3, #2]
-	strb r1, [r0, #8]
-	strb r1, [r0, #9]
-	movs r1, #1
-	rsbs r1, r1, #0
-	strb r1, [r0, #0xa]
-	strb r2, [r0, #0xb]
-	mov r2, r8
-	cmp r2, #0xa
-	bne _0803E28E
-	ldr r0, _0803E2F4 @ =gUnknown_03005990
-	bl DrawBackground
-	ldr r1, _0803E300 @ =0x040000D4
-	adds r0, r4, #0
-	adds r0, #0xd0
-	ldr r0, [r0]
-	str r0, [r1]
-	ldr r0, [r5]
-	str r0, [r1, #4]
-	ldr r0, _0803E304 @ =0x80000800
-	str r0, [r1, #8]
-	ldr r0, [r1, #8]
-	mov r3, sl
-	ldrh r0, [r3, #6]
-	ldr r1, _0803E308 @ =0x0000E0FF
-	ands r1, r0
-	strh r1, [r3, #6]
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	adds r0, #2
-	lsls r0, r0, #8
-	orrs r0, r1
-	strh r0, [r3, #6]
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	adds r0, #2
-	lsls r0, r0, #0xb
-	add r0, sb
-	str r0, [r5]
-	adds r1, r4, #0
-	adds r1, #0xe0
-	movs r0, #0x40
-	strh r0, [r1]
-_0803E28E:
-	ldr r0, _0803E30C @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #6
-	bne _0803E2AE
-	adds r1, r4, #0
-	adds r1, #0x6e
-	ldrh r0, [r1]
-	movs r3, #0x82
-	lsls r3, r3, #2
-	adds r2, r3, #0
-	orrs r0, r2
-	strh r0, [r1]
-	adds r1, #0x40
-	ldrh r0, [r1]
-	orrs r0, r2
-	strh r0, [r1]
-_0803E2AE:
-	mov r0, r8
-	cmp r0, #0xd
-	bne _0803E310
-	ldr r0, _0803E2EC @ =gUnknown_03005950
-	bl DrawBackground
-	ldr r0, _0803E2F4 @ =gUnknown_03005990
-	bl DrawBackground
-	b _0803E322
-	.align 2, 0
-_0803E2C4: .4byte gCamera
-_0803E2C8: .4byte gUnknown_084ADCF0
-_0803E2CC: .4byte gDispCnt
-_0803E2D0: .4byte 0x00003741
-_0803E2D4: .4byte gBgCntRegs
-_0803E2D8: .4byte 0x00001E01
-_0803E2DC: .4byte 0x00001F02
-_0803E2E0: .4byte gUnknown_030058D0
-_0803E2E4: .4byte gUnknown_084ADB60
-_0803E2E8: .4byte gUnknown_03005910
-_0803E2EC: .4byte gUnknown_03005950
-_0803E2F0: .4byte 0x0000FFFC
-_0803E2F4: .4byte gUnknown_03005990
-_0803E2F8: .4byte sa2__gUnknown_03004D80
-_0803E2FC: .4byte sa2__gUnknown_03002280
-_0803E300: .4byte 0x040000D4
-_0803E304: .4byte 0x80000800
-_0803E308: .4byte 0x0000E0FF
-_0803E30C: .4byte gGameMode
-_0803E310:
-	ldr r0, _0803E340 @ =gUnknown_03005910
-	bl DrawBackground
-	ldr r0, _0803E344 @ =gUnknown_03005950
-	bl DrawBackground
-	ldr r0, _0803E348 @ =gUnknown_03005990
-	bl DrawBackground
-_0803E322:
-	ldr r0, _0803E34C @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #6
-	beq _0803E358
-	ldr r2, _0803E350 @ =gRefCollision
-	ldr r0, _0803E354 @ =gCollisionTable
-	mov r3, r8
-	lsls r1, r3, #2
-	adds r0, r1, r0
-	ldr r0, [r0]
-	str r0, [r2]
-	adds r4, r1, #0
-	adds r0, r2, #0
-	b _0803E364
-	.align 2, 0
-_0803E340: .4byte gUnknown_03005910
-_0803E344: .4byte gUnknown_03005950
-_0803E348: .4byte gUnknown_03005990
-_0803E34C: .4byte gGameMode
-_0803E350: .4byte gRefCollision
-_0803E354: .4byte gCollisionTable
-_0803E358:
-	ldr r0, _0803E3F4 @ =gRefCollision
-	ldr r1, _0803E3F8 @ =gUnknown_02033004
-	ldr r1, [r1]
-	str r1, [r0]
-	mov r1, r8
-	lsls r4, r1, #2
-_0803E364:
-	movs r1, #0
-	strh r1, [r7, #0x14]
-	ldr r2, [r0]
-	ldrh r0, [r2, #0x1e]
-	strh r0, [r7, #0x16]
-	strh r1, [r7, #0x18]
-	ldrh r0, [r2, #0x1c]
-	strh r0, [r7, #0x1a]
-	ldr r2, _0803E3FC @ =gPlayer
-	ldr r0, [r2]
-	asrs r0, r0, #8
-	subs r0, #0x78
-	strh r0, [r7, #8]
-	strh r0, [r7]
-	ldr r0, [r2, #4]
-	asrs r0, r0, #8
-	ldrh r3, [r7, #0x22]
-	adds r0, r0, r3
-	subs r0, #0x54
-	strh r0, [r7, #0xa]
-	strh r0, [r7, #2]
-	movs r0, #0x10
-	strh r0, [r7, #4]
-	movs r0, #0xc
-	strh r0, [r7, #6]
-	strh r1, [r7, #0xc]
-	strh r1, [r7, #0xe]
-	strh r1, [r7, #0x10]
-	strh r1, [r7, #0x12]
-	strh r1, [r7, #0x1c]
-	movs r0, #8
-	strh r0, [r7, #0x1e]
-	strh r1, [r7, #0x20]
-	strh r1, [r7, #0x22]
-	strh r1, [r7, #0x26]
-	strh r1, [r7, #0x28]
-	strh r1, [r7, #0x2a]
-	strh r1, [r7, #0x34]
-	strh r1, [r7, #0x36]
-	movs r0, #0xf
-	ldrsb r0, [r2, r0]
-	subs r0, #4
-	strh r0, [r7, #0x38]
-	ldr r0, _0803E400 @ =Task_CallUpdateCamera
-	movs r2, #0xf0
-	lsls r2, r2, #4
-	ldr r1, _0803E404 @ =sa2__TaskDestructor_801E040
-	str r1, [sp]
-	movs r1, #0
-	movs r3, #0
-	bl TaskCreate
-	str r0, [r7, #0x30]
-	ldr r0, _0803E408 @ =sStageBgUpdateFuncs
-	adds r0, r4, r0
-	ldr r0, [r0]
-	str r0, [r7, #0x2c] @ camera->(Background-update-proc)
-	ldr r0, _0803E40C @ =sStageBgInitProcedures
-	adds r0, r4, r0
-	ldr r0, [r0]        @ movementTask
-	cmp r0, #0
-	beq _0803E3E4
-	bl _call_via_r0
-_0803E3E4:
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803E3F4: .4byte gRefCollision
-_0803E3F8: .4byte gUnknown_02033004
-_0803E3FC: .4byte gPlayer
-_0803E400: .4byte Task_CallUpdateCamera
-_0803E404: .4byte sa2__TaskDestructor_801E040
-_0803E408: .4byte sStageBgUpdateFuncs
-_0803E40C: .4byte sStageBgInitProcedures
+.if 0
+.endif
 
 	thumb_func_start UpdateCamera
 UpdateCamera: @ 0x0803E410
@@ -819,7 +443,7 @@ _0803E730: .4byte 0x00000A7F
 _0803E734: .4byte gUnknown_03005950
 _0803E738: .4byte gBgScrollRegs
 _0803E73C:
-	ldr r7, _0803E784 @ =gUnknown_03005910
+	ldr r7, _0803E784 @ =gStageBackgroundsRam+0x40
 	ldr r1, _0803E788 @ =gBgScrollRegs
 	mov r8, r1
 	movs r0, #7
@@ -853,7 +477,7 @@ _0803E776:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803E784: .4byte gUnknown_03005910
+_0803E784: .4byte gStageBackgroundsRam+0x40
 _0803E788: .4byte gBgScrollRegs
 
 	thumb_func_start StageBgUpdate_Zone1Acts12
@@ -1650,7 +1274,7 @@ StageBgUpdate_Zone4Acts12: @ 0x0803ED84
 	movs r2, #0x12
 	ldrsh r0, [r1, r2]
 	subs r5, r5, r0
-	ldr r0, _0803EE34 @ =gUnknown_030058D0
+	ldr r0, _0803EE34 @ =gStageBackgroundsRam 
 	mov r8, r0
 	ldr r6, _0803EE38 @ =gBgScrollRegs
 	asrs r0, r4, #2
@@ -1711,7 +1335,7 @@ _0803EE24: .4byte gCamera
 _0803EE28: .4byte gBldRegs
 _0803EE2C: .4byte 0x00003F41
 _0803EE30: .4byte 0x00001010
-_0803EE34: .4byte gUnknown_030058D0
+_0803EE34: .4byte gStageBackgroundsRam 
 _0803EE38: .4byte gBgScrollRegs
 _0803EE3C: .4byte gStageTime
 _0803EE40: .4byte gRefCollision
@@ -2696,8 +2320,8 @@ sub_803F644: @ 0x0803F644
 	.align 2, 0
 _0803F658: .4byte gCamera
 
-	thumb_func_start sa2__TaskDestructor_801E040
-sa2__TaskDestructor_801E040: @ 0x0803F65C
+	thumb_func_start TaskDestructor_Camera
+TaskDestructor_Camera: @ 0x0803F65C
 	push {r4, lr}
 	ldr r1, _0803F6AC @ =gCamera
 	movs r0, #0
@@ -2795,14 +2419,14 @@ _0803F710: .4byte sa2__gUnknown_030054B8
 	thumb_func_start CreateStageBg_Zone4
 CreateStageBg_Zone4: @ 0x0803F714
 	push {r4, lr}
-	ldr r4, _0803F750 @ =gUnknown_030058D0
+	ldr r4, _0803F750 @ =gStageBackgroundsRam 
 	ldr r1, _0803F754 @ =gBldRegs
 	ldr r0, _0803F758 @ =0x00001010
 	strh r0, [r1, #2]
 	ldr r1, _0803F75C @ =gBgCntRegs
 	ldr r0, _0803F760 @ =0x00001B0C
 	strh r0, [r1]
-	ldr r1, _0803F764 @ =gUnknown_084ADB60
+	ldr r1, _0803F764 @ =gStageCameraBgTemplates 
 	adds r1, #0xc0
 	adds r0, r4, #0
 	movs r2, #0x40
@@ -2822,23 +2446,23 @@ CreateStageBg_Zone4: @ 0x0803F714
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803F750: .4byte gUnknown_030058D0
+_0803F750: .4byte gStageBackgroundsRam 
 _0803F754: .4byte gBldRegs
 _0803F758: .4byte 0x00001010
 _0803F75C: .4byte gBgCntRegs
 _0803F760: .4byte 0x00001B0C
-_0803F764: .4byte gUnknown_084ADB60
+_0803F764: .4byte gStageCameraBgTemplates 
 _0803F768: .4byte 0x0600C000
 _0803F76C: .4byte 0x0600D800
 
 	thumb_func_start CreateStageBg_Zone5
 CreateStageBg_Zone5: @ 0x0803F770
 	push {r4, lr}
-	ldr r4, _0803F798 @ =gUnknown_030058D0
+	ldr r4, _0803F798 @ =gStageBackgroundsRam 
 	ldr r1, _0803F79C @ =gBgCntRegs
 	ldr r0, _0803F7A0 @ =0x00001C0F
 	strh r0, [r1]
-	ldr r1, _0803F7A4 @ =gUnknown_084ADB60
+	ldr r1, _0803F7A4 @ =gStageCameraBgTemplates 
 	adds r1, #0xc0
 	adds r0, r4, #0
 	movs r2, #0x40
@@ -2851,10 +2475,10 @@ CreateStageBg_Zone5: @ 0x0803F770
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803F798: .4byte gUnknown_030058D0
+_0803F798: .4byte gStageBackgroundsRam 
 _0803F79C: .4byte gBgCntRegs
 _0803F7A0: .4byte 0x00001C0F
-_0803F7A4: .4byte gUnknown_084ADB60
+_0803F7A4: .4byte gStageCameraBgTemplates 
 
 	thumb_func_start StageBgUpdate_Zone7Act1
 StageBgUpdate_Zone7Act1: @ 0x0803F7A8
@@ -3008,7 +2632,7 @@ StageBgUpdate_Zone5Acts12: @ 0x0803F8C0
 	strh r0, [r2]
 	ldr r0, _0803F910 @ =0x0000100C
 	strh r0, [r2, #2]
-	ldr r4, _0803F914 @ =gUnknown_030058D0
+	ldr r4, _0803F914 @ =gStageBackgroundsRam 
 	ldr r2, _0803F918 @ =gBgScrollRegs
 	ldr r0, _0803F91C @ =gStageTime
 	ldr r0, [r0]
@@ -3030,7 +2654,7 @@ _0803F904: .4byte gDispCnt
 _0803F908: .4byte gBldRegs
 _0803F90C: .4byte 0x00003F41
 _0803F910: .4byte 0x0000100C
-_0803F914: .4byte gUnknown_030058D0
+_0803F914: .4byte gStageBackgroundsRam 
 _0803F918: .4byte gBgScrollRegs
 _0803F91C: .4byte gStageTime
 

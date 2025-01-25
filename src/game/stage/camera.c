@@ -5,12 +5,16 @@
 
 #include "game/sa1_sa2_shared/globals.h"
 
+#if (GAME == GAME_SA2)
 #include "game/stage/player_super_sonic.h"
+#endif
 
 #include "game/stage/camera.h"
 #include "game/stage/stage.h"
 #include "game/stage/player.h"
 #include "game/stage/collision.h"
+
+#if (GAME == GAME_SA2)
 #include "game/stage/background/dummy.h"
 #include "game/stage/background/zone_1.h"
 #include "game/stage/background/zone_2.h"
@@ -20,6 +24,7 @@
 #include "game/stage/background/zone_6.h"
 #include "game/stage/background/zone_7.h"
 #include "game/stage/background/zone_final.h"
+#endif
 
 #include "constants/tilemaps.h"
 #include "constants/zones.h"
@@ -37,10 +42,27 @@ static void RenderMetatileLayers(s32, s32);
 
 // camera_destroy.h
 void Task_CallUpdateCamera(void);
-void TaskDestructor_801E040(struct Task *);
+void TaskDestructor_Camera(struct Task *);
 
 #define BOSS_CAM_FRAME_DELTA_PIXELS 5
 
+#if (GAME == GAME_SA1)
+extern const Background gStageCameraBgTemplates[4];
+extern const u16 gBossCameraYClamps[][2];
+extern const VoidFn sStageBgInitProcedures[];
+extern const BgUpdate sStageBgUpdateFuncs[NUM_LEVEL_IDS];
+
+#define STGBG_SCRN_DIM(w, h, charBase, screenBase)                                                                                         \
+    {                                                                                                                                      \
+        ((w) / TILE_WIDTH), ((h) / TILE_WIDTH), charBase, screenBase                                                                       \
+    }
+#define STGBG_WIDTH(arr)      ((arr)[0])
+#define STGBG_HEIGHT(arr)     ((arr)[1])
+#define STGBG_CHARBASE(arr)   ((arr)[2])
+#define STGBG_SCREENBASE(arr) ((arr)[3])
+extern const s8 sStageBgDimensions[NUM_LEVEL_IDS][4];
+
+#elif (GAME == GAME_SA2)
 const Background gStageCameraBgTemplates[4] = {
     [CAMBG_MAP_FRONT_LAYER] = {
         .graphics = {  
@@ -313,6 +335,7 @@ static const s8 sStageBgDimensions[NUM_LEVEL_IDS][4] = {
     [LEVEL_INDEX(ZONE_UNUSED, ACT_1)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
     [LEVEL_INDEX(ZONE_UNUSED, ACT_2)] = STGBG_SCRN_DIM(512, 256, 2, CAM_SCREENBASE_BACK_A),
 };
+#endif
 
 void InitCamera(u32 level)
 {
@@ -324,7 +347,7 @@ void InitCamera(u32 level)
     const s8 *bgDim = sStageBgDimensions[level];
 
     gDispCnt = (DISPCNT_OBJ_ON | DISPCNT_WIN0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_BG3_ON | DISPCNT_OBJ_1D_MAP);
-    if (level == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53)) {
+    if (IS_EXTRA_STAGE(level)) {
         gDispCnt
             = (DISPCNT_OBJ_ON | DISPCNT_WIN0_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1);
     }
@@ -340,7 +363,14 @@ void InitCamera(u32 level)
     gBgCntRegs[3] = txtSize | BGCNT_PRIORITY(3) | BGCNT_SCREENBASE(STGBG_SCREENBASE(bgDim)) | BGCNT_CHARBASE(STGBG_CHARBASE(bgDim));
 
     if (IS_EXTRA_STAGE(level)) {
+#if (GAME == GAME_SA1)
+        gBgCntRegs[0]
+            = BGCNT_TXT256x256 | (BGCNT_PRIORITY(2) | BGCNT_SCREENBASE(CAM_SCREENBASE_MAP_BACK) | BGCNT_16COLOR | BGCNT_CHARBASE(0));
+        txtSize = ((STGBG_WIDTH(bgDim) + 0x1F) >> 6 | ((STGBG_HEIGHT(bgDim) + 0x1F) >> 6) << 1) << 0xE;
+        gBgCntRegs[1] = txtSize | BGCNT_PRIORITY(3) | BGCNT_SCREENBASE(STGBG_SCREENBASE(bgDim)) | BGCNT_CHARBASE(STGBG_CHARBASE(bgDim));
+#elif (GAME == GAME_SA2)
         gDispCnt = (DISPCNT_OBJ_ON | DISPCNT_WIN0_ON | DISPCNT_BG1_ON | DISPCNT_BG2_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1);
+#endif
     }
 
     bgs = &gStageBackgroundsRam;
@@ -350,6 +380,12 @@ void InitCamera(u32 level)
     memcpy(&gStageBackgroundsRam.unk80, &gStageCameraBgTemplates[1], sizeof(Background));
     bgs->unk80.tilemapId = TM_LEVEL_METATILES_1(level);
 
+#if (GAME == GAME_SA1)
+    if (IS_EXTRA_STAGE(level)) {
+        gStageBackgroundsRam.unk80.flags &= ~BACKGROUND_FLAGS_MASK_BG_ID;
+    }
+#endif
+
     memcpy(&gStageBackgroundsRam.unkC0, &gStageCameraBgTemplates[2], sizeof(Background));
     bgs->unkC0.tilemapId = TM_LEVEL_BG(level);
 
@@ -358,6 +394,23 @@ void InitCamera(u32 level)
     bgs->unkC0.targetTilesX = STGBG_WIDTH(bgDim);
     bgs->unkC0.targetTilesY = STGBG_HEIGHT(bgDim);
 
+#if (GAME == GAME_SA1)
+    if (IS_EXTRA_STAGE(level)) {
+        gStageBackgroundsRam.unkC0.flags &= ~BACKGROUND_FLAGS_MASK_BG_ID;
+        gStageBackgroundsRam.unkC0.flags |= BACKGROUND_FLAGS_BG_ID(1);
+    }
+
+    sa2__gUnknown_03004D80[1] = 0;
+    sa2__gUnknown_03002280[1][0] = 0;
+    sa2__gUnknown_03002280[1][1] = 0;
+    sa2__gUnknown_03002280[1][2] = 0xff;
+    sa2__gUnknown_03002280[1][3] = 0x20;
+    sa2__gUnknown_03004D80[2] = 0;
+    sa2__gUnknown_03002280[2][0] = 0;
+    sa2__gUnknown_03002280[2][1] = 0;
+    sa2__gUnknown_03002280[2][2] = 0xff;
+    sa2__gUnknown_03002280[2][3] = 0x20;
+#elif (GAME == GAME_SA2)
     gUnknown_03004D80[1] = 0;
     gUnknown_03002280[1][0] = 0;
     gUnknown_03002280[1][1] = 0;
@@ -368,17 +421,40 @@ void InitCamera(u32 level)
     gUnknown_03002280[2][1] = 0;
     gUnknown_03002280[2][2] = 0xff;
     gUnknown_03002280[2][3] = 0x20;
+#endif
 
+#if (GAME == GAME_SA1)
+    if (level == LEVEL_INDEX(ZONE_6, ACT_1)) {
+        DrawBackground(&bgs->unkC0);
+        DmaCopy16(3, gStageBackgroundsRam.unkC0.layout, gStageBackgroundsRam.unkC0.layoutVram, 4096);
+
+        gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
+        gBgCntRegs[3] |= BGCNT_SCREENBASE(STGBG_SCREENBASE(bgDim) + 2);
+        gStageBackgroundsRam.unkC0.layoutVram = (void *)((uintptr_t)BG_SCREEN_ADDR(STGBG_SCREENBASE(bgDim) + 2));
+        gStageBackgroundsRam.unkC0.unk20 = 0x40;
+    }
+#endif
     if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
         bgs->unk40.flags |= BACKGROUND_UPDATE_ANIMATIONS | BACKGROUND_DISABLE_TILESET_UPDATE;
         bgs->unk80.flags |= BACKGROUND_UPDATE_ANIMATIONS | BACKGROUND_DISABLE_TILESET_UPDATE;
     }
 
-    if (level != LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53)) {
+#if (GAME == GAME_SA1)
+    if (IS_EXTRA_STAGE(level)) {
+        DrawBackground(&bgs->unk80);
+        DrawBackground(&bgs->unkC0);
+    } else {
         DrawBackground(&bgs->unk40);
         DrawBackground(&bgs->unk80);
         DrawBackground(&bgs->unkC0);
     }
+#elif (GAME == GAME_SA2)
+    if (!IS_EXTRA_STAGE(level)) {
+        DrawBackground(&bgs->unk40);
+        DrawBackground(&bgs->unk80);
+        DrawBackground(&bgs->unkC0);
+    }
+#endif
 
     if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
         gRefCollision = gCollisionTable[level];
@@ -391,9 +467,32 @@ void InitCamera(u32 level)
     camera->minX = 0;
     camera->maxX = gRefCollision->pxWidth;
 
+#if (GAME == GAME_SA1)
+    camera->unk8 = I(gPlayer.qWorldX) - (DISPLAY_WIDTH / 2);
+    camera->x = I(gPlayer.qWorldX) - (DISPLAY_WIDTH / 2);
+    camera->unkA = (I(gPlayer.qWorldY) + camera->sa2__unk4C) - ((DISPLAY_HEIGHT / 2) + 4);
+    camera->y = (I(gPlayer.qWorldY) + camera->sa2__unk4C) - ((DISPLAY_HEIGHT / 2) + 4);
+
+    camera->sa2__unk8 = 16;
+    camera->sa2__unkC = 12;
+    camera->shiftX = 0;
+    camera->shiftY = 0;
+    camera->sa2__unk20 = 0;
+    camera->sa2__unk24 = 0;
+    camera->sa2__unk40 = 0;
+    camera->sa2__unk44 = 8;
+    camera->sa2__unk48 = 0;
+    camera->sa2__unk4C = 0;
+    camera->sa2__unk50 = 0;
+    camera->sa2__unk52 = 0;
+    camera->sa2__unk54 = 0;
+    camera->shakeOffsetX = 0;
+    camera->shakeOffsetY = 0;
+    camera->sa2__unk64 = gPlayer.spriteOffsetY - 4;
+#elif (GAME == GAME_SA2)
     if (IS_BOSS_STAGE(gCurrentLevel)) {
-        if (gCurrentLevel == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53)) {
-            SuperSonicGetPos(&player->x, &player->y);
+        if (IS_EXTRA_STAGE(gCurrentLevel)) {
+            SuperSonicGetPos(&player->qWorldX, &player->qWorldY);
             gBossCameraClampYLower = gBossCameraYClamps[ZONE_FINAL + 1][0];
             gBossCameraClampYUpper = gBossCameraYClamps[ZONE_FINAL + 1][1];
             camera->x = 600;
@@ -402,18 +501,18 @@ void InitCamera(u32 level)
             camera->y = 0;
             camera->unk64 = -4;
         } else {
-            camera->x = I(player->x);
+            camera->x = I(player->qWorldX);
             // TODO: Handle boss camera restrictions for large screen sizes
             // for now we use the original GBA values as otherwise the boss
             // goes off the screen (not sure why yet)
-            camera->unk10 = I(player->x) - (2 * 240);
-            camera->y = I(player->y) - ((DISPLAY_HEIGHT / 2) + 4);
+            camera->unk10 = I(player->qWorldX) - (2 * 240);
+            camera->y = I(player->qWorldY) - ((DISPLAY_HEIGHT / 2) + 4);
             camera->unk14 = camera->y;
             camera->unk64 = player->spriteOffsetY - 4;
         }
     } else {
-        camera->x = I(player->x) - (DISPLAY_WIDTH / 2);
-        camera->y = I(player->y) - ((DISPLAY_HEIGHT / 2) + 4);
+        camera->x = I(player->qWorldX) - (DISPLAY_WIDTH / 2);
+        camera->y = I(player->qWorldY) - ((DISPLAY_HEIGHT / 2) + 4);
 
         if (camera->x < 0) {
             camera->x = 0;
@@ -428,8 +527,8 @@ void InitCamera(u32 level)
         camera->unk64 = player->spriteOffsetY - 4;
     }
 
-    camera->unk8 = 0x1000;
-    camera->unkC = 0xc;
+    camera->unk8 = Q(16);
+    camera->unkC = 12;
     camera->unk56 = 0;
     camera->shiftX = 0;
     camera->shiftY = 0;
@@ -442,10 +541,11 @@ void InitCamera(u32 level)
     camera->unk50 = 0;
     camera->unk52 = 0;
     camera->unk54 = 0;
-    camera->unk60 = 0;
-    camera->unk62 = 0;
+    camera->shakeOffsetX = 0;
+    camera->shakeOffsetY = 0;
+#endif
 
-    camera->movementTask = TaskCreate(Task_CallUpdateCamera, 0, 0xF00, 0, TaskDestructor_801E040);
+    camera->movementTask = TaskCreate(Task_CallUpdateCamera, 0, 0xF00, 0, TaskDestructor_Camera);
 
     camera->fnBgUpdate = sStageBgUpdateFuncs[level];
 
@@ -453,6 +553,8 @@ void InitCamera(u32 level)
         sStageBgInitProcedures[level]();
     }
 }
+
+#if 0
 
 // Only need to use the original value for these zones
 #define DISPLAY_WIDTH_FOR_BOSS_TAS                                                                                                         \
@@ -481,7 +583,7 @@ void UpdateCamera(void)
         }
 
         if (gCurrentLevel == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53)) {
-            SuperSonicGetPos(&player->x, &player->y);
+            SuperSonicGetPos(&player->qWorldX, &player->qWorldY);
         }
 
         camera->unk10 += BOSS_CAM_FRAME_DELTA_PIXELS;
@@ -493,12 +595,12 @@ void UpdateCamera(void)
 // So we need to emulate that behaviour on some specific
 // levels
 #if TAS_TESTING && TAS_TESTING_WIDESCREEN_HACK && DISPLAY_WIDTH > 240
-        if (newX + (DISPLAY_WIDTH_FOR_BOSS_TAS + 1) < I(player->x)) {
+        if (newX + (DISPLAY_WIDTH_FOR_BOSS_TAS + 1) < I(player->qWorldX)) {
 #else
-        if (newX + ((DISPLAY_WIDTH / 2) + 1) < I(player->x)) {
+        if (newX + ((DISPLAY_WIDTH / 2) + 1) < I(player->qWorldX)) {
 #endif
             if ((camera->unk10 + (DISPLAY_HEIGHT / 2)) > newX) {
-                s32 playerScreenX = I(player->x);
+                s32 playerScreenX = I(player->qWorldX);
 #if TAS_TESTING && TAS_TESTING_WIDESCREEN_HACK && DISPLAY_WIDTH > 240
                 playerScreenX -= DISPLAY_WIDTH_FOR_BOSS_TAS;
 #else
@@ -511,8 +613,8 @@ void UpdateCamera(void)
             }
         } else {
             camera->shiftX = 0;
-            if ((newX + 96) > I(player->x)) {
-                newX = I(player->x);
+            if ((newX + 96) > I(player->qWorldX)) {
+                newX = I(player->qWorldX);
                 newX -= 96;
                 if (newX < camera->unk10) {
                     newX = camera->unk10;
@@ -520,7 +622,7 @@ void UpdateCamera(void)
             }
         }
 
-        playerY = I(player->y);
+        playerY = I(player->qWorldY);
         delta = playerY - newY;
         if (gCurrentLevel == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53)) {
             if (delta <= 48) {
@@ -545,16 +647,16 @@ void UpdateCamera(void)
 
         newX = newX + camera->shiftX;
         newY = newY + camera->shiftY;
-        newX += camera->unk60;
-        newY += camera->unk62;
+        newX += camera->shakeOffsetX;
+        newY += camera->shakeOffsetY;
 
     } else {
         if (camera->unk40 != 0) {
             camera->unk40--;
         } else {
             if (!(camera->unk50 & 1)) {
-                s16 airSpeedX = player->speedAirX;
-                camera->unk10 = I(player->x) + camera->shiftX - (DISPLAY_WIDTH / 2);
+                s16 airSpeedX = player->qSpeedAirX;
+                camera->unk10 = I(player->qWorldX) + camera->shiftX - (DISPLAY_WIDTH / 2);
                 camera->unk56 = (airSpeedX + (camera->unk56 * 15)) >> 4;
                 camera->unk10 += (camera->unk56 >> 5);
             }
@@ -580,7 +682,7 @@ void UpdateCamera(void)
                     camera->unk64 = unk64;
                 }
 
-                camera->unk14 = I(player->y) + camera->shiftY - (DISPLAY_HEIGHT / 2) + camera->unk4C + unk64;
+                camera->unk14 = I(player->qWorldY) + camera->shiftY - (DISPLAY_HEIGHT / 2) + camera->unk4C + unk64;
             }
         }
 
@@ -626,8 +728,8 @@ void UpdateCamera(void)
         // maybe a macro, these values are already clamped
         newX = CLAMP(newX, camera->minX, camera->maxX - DISPLAY_WIDTH);
         newY = CLAMP(newY, camera->minY, camera->maxY - DISPLAY_HEIGHT);
-        newX = newX + camera->unk60;
-        newY = newY + camera->unk62;
+        newX = newX + camera->shakeOffsetX;
+        newY = newY + camera->shakeOffsetY;
     }
 
     camera->x = newX;
@@ -662,3 +764,5 @@ static void RenderMetatileLayers(s32 x, s32 y)
         DrawBackground(layer);
     }
 }
+
+#endif
