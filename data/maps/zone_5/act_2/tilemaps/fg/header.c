@@ -60,7 +60,5 @@ const Collision CollHeader_zone_5_act_2_fg = { CollHeightMap_zone_5_act_2_fg,
                                                CollFlags_zone_5_act_2_fg,
                                                100,
                                                18,
-                                               0x80,
-                                               0x25,
-                                               0xC0,
-                                               0x06 };
+                                               0x2580,
+                                               0x06C0 };

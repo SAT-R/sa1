@@ -52,7 +52,7 @@ void CreateSomeScreenShakeEffect()
 
     CreateScreenShake(0x800, 8, 16, 10, SCREENSHAKE_VERTICAL);
 
-    gCamera.unk18 = 0x422;
+    gCamera.minX = 0x422;
     gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
     gPlayer.heldInput = 0;
 }

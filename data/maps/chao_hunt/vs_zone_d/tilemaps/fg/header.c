@@ -60,7 +60,5 @@ const Collision CollHeader_zone_chao_hunt_act_vs_zone_d_fg = { CollHeightMap_zon
                                                                CollFlags_zone_chao_hunt_act_vs_zone_d_fg,
                                                                20,
                                                                14,
-                                                               0x80,
-                                                               0x07,
-                                                               0x40,
-                                                               0x05 };
+                                                               0x0780,
+                                                               0x0540 };
