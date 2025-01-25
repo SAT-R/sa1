@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable043
-CreateEntity_Interactable043: @ 0x0804DDDC
+	thumb_func_start CreateEntity_WaterBridgeSplash
+CreateEntity_WaterBridgeSplash: @ 0x0804DDDC
 	push {r4, r5, r6, lr}
 	mov r6, sb
 	mov r5, r8

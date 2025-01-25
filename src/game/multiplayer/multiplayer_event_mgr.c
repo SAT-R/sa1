@@ -204,7 +204,6 @@ void ReceiveRoomEvent_ItemEffect(union MultiSioData *recv, u8 i)
             }
 
             case 2: {
-
                 break;
             }
 

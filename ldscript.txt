@@ -82,6 +82,7 @@ SECTIONS {
         build/sa1/src/game/game.o(.text);
         build/sa1/src/game/dummy_task.o(.text);
         build/sa1/asm/game__stage__stage.o(.text);
+        build/sa1/src/game/stage/camera.o(.text);
         build/sa1/asm/game__stage__camera.o(.text);
         build/sa1/asm/game__stage__collision.o(.text);
         build/sa1/src/game/stage/mp_sprite_task.o(.text);
@@ -100,7 +101,7 @@ SECTIONS {
         build/sa1/asm/ia_034.o(.text);
         build/sa1/asm/ia_mini_loop_base.o(.text);
         build/sa1/asm/ia_water_bridge.o(.text);
-        build/sa1/asm/ia_043.o(.text);
+        build/sa1/asm/ia_water_bridge_splash.o(.text);
         build/sa1/asm/ia_mini_loop.o(.text);
         build/sa1/asm/ia_039.o(.text);
         build/sa1/asm/ia_boss_5_mecha_knuckles.o(.text);

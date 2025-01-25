@@ -1,6 +1,11 @@
 #ifndef GUARD_TILEMAPS
 #define GUARD_TILEMAPS
 
+// NOTE: * 0-53 are MapHeaders
+#define TM_LEVEL_METATILES_0(level) (((level)*3) + 0)
+#define TM_LEVEL_METATILES_1(level) (((level)*3) + 1)
+#define TM_LEVEL_BG(level)          (((level)*3) + 2)
+
 #define TM_TILEMAP_54                         54
 #define TM_SPECIAL_STAGE_BG_FRAME_0           55
 #define TM_SPECIAL_STAGE_BG_FRAME_1           56
@@ -31,8 +36,8 @@
 #define TM_MP_TEAM_PLAY_SCREEN                81
 #define TM_MP_VS_BACKGROUND                   82
 #define TM_MP_SINGLEPAK_PROGRAM_IS_BEING_SENT 83
-#define TM_TILEMAP_84                         84
-#define TM_TILEMAP_85                         85
+#define TM_VS_MODE_SELECT_JP                  84
+#define TM_VS_MODE_SELECT                     85
 #define TM_INTRO_PRESENTED_BY_SEGA            86
 #define TM_INTRO_CREATED_BY_SONIC_TEAM        87
 #define TM_MP_MULTIPAK_PLAYER_OVERVIEW        88

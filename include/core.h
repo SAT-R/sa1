@@ -127,7 +127,7 @@ typedef struct {
     const u16 *map_back;
     const u8 *flags;
     u16 levelX, levelY;
-    u8 unk1C[4];
+    u16 pxWidth, pxHeight;
 
     // unk20/unk22 are not in SA1
 } Collision;

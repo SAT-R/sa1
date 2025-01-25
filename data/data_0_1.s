@@ -45,7 +45,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     .int CreateEntity_WaterBridge             @ 040
     .int CreateEntity_ToBeContinuedText       @ 041
     .int CreateEntity_RedFlag                 @ 042
-    .int CreateEntity_Interactable043         @ 043
+    .int CreateEntity_WaterBridgeSplash         @ 043
     .int CreateEntity_WallPole_Left           @ 044
     .int CreateEntity_WallPole_Right          @ 045
     .int CreateEntity_ForcedIceSlide          @ 046
