@@ -37,8 +37,7 @@ UNUSED u32 unused_3005950[3] = {};
 struct Camera ALIGNED(8) gCamera = {};
 const Collision *gRefCollision = NULL;
 
-// TODO: static
-void RenderMetatileLayers(s32, s32);
+static void RenderMetatileLayers(s32, s32);
 
 // camera_destroy.h
 void Task_CallUpdateCamera(void);
@@ -814,11 +813,35 @@ void UpdateCamera(void)
     }
 }
 
-#if 0
 static void RenderMetatileLayers(s32 x, s32 y)
 {
+    Background *layer;
+
+#if (GAME == GAME_SA1)
+    if (IS_EXTRA_STAGE(gCurrentLevel)) {
+        s32 scrollX;
+        scrollX = (x + gStageTime * 8);
+
+        if (scrollX - 72 >= Q(10.5)) {
+            scrollX -= 72;
+            scrollX = Mod(scrollX, Q(10.5)) + 72;
+        }
+
+        x = scrollX;
+        if (IS_EXTRA_STAGE(gCurrentLevel)) {
+            layer = &gStageBackgroundsRam.unk80;
+            gBgScrollRegs[0][0] = x % 8u;
+            gBgScrollRegs[0][1] = y % 8u;
+            layer->scrollX = x;
+            layer->scrollY = y;
+            DrawBackground(layer);
+            return;
+        }
+    }
+#endif
+
     if (!IS_EXTRA_STAGE(gCurrentLevel)) {
-        Background *layer = &gStageBackgroundsRam.unk40;
+        layer = &gStageBackgroundsRam.unk40;
         gBgScrollRegs[1][0] = x % 8u;
         gBgScrollRegs[1][1] = y % 8u;
         layer->scrollX = x;
@@ -834,5 +857,3 @@ static void RenderMetatileLayers(s32 x, s32 y)
         DrawBackground(layer);
     }
 }
-
-#endif
