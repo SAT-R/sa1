@@ -89,7 +89,7 @@ typedef struct Player {
     /* 0x38 */ u16 heldInput;
     /* 0x3A */ u16 frameInput;
     /* 0x3C */ s8 sa2__unk60;
-    /* 0x3D */ u8 sa2__unk61;
+    /* 0x3D */ s8 sa2__unk61;
     /* 0x3E */ u8 sa2__unk62;
     /* 0x3F */ u8 unk3F;
     /* 0x40 */ s8 charState;

@@ -14,11 +14,15 @@ typedef struct {
     s32 unk44;
     s32 unk48;
     u32 unk4C;
+#if (GAME == GAME_SA1)
     Vec2_16 pos;
+#elif (GAME == GAME_SA2)
+    Vec2_16 qPos;
+#endif
     u16 unk54;
     u8 unk56;
     u8 unk57;
-    u8 unk58[4];
+    s8 unk58[4];
     u32 unk5C; // flags?
     u8 unk60;
     u8 unk61;

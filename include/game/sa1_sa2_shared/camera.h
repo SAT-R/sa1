@@ -28,26 +28,26 @@ struct Camera {
     /* 0x00|0x04 */ CamCoord x;
     /* 0x02|0x04 */ CamCoord y;
 #if (GAME == GAME_SA1)
-    /* 0x04 */ u16 sa2__unk8;
-    /* 0x06 */ u16 sa2__unkC;
-    /* 0x08 */ CamCoord unk8;
-    /* 0x0A */ CamCoord unkA;
-    /* 0x0C */ u16 shiftX;
-    /* 0x0E */ u16 shiftY;
-    /* 0x10 */ u16 sa2__unk20;
-    /* 0x12 */ u16 sa2__unk24;
+    /* 0x04 */ s16 sa2__unk8;
+    /* 0x06 */ s16 sa2__unkC;
+    /* 0x08 */ CamCoord sa2__unk10;
+    /* 0x0A */ CamCoord sa2__unk14;
+    /* 0x0C */ s16 shiftX;
+    /* 0x0E */ s16 shiftY;
+    /* 0x10 */ s16 sa2__unk20;
+    /* 0x12 */ s16 sa2__unk24;
 
     // TODO: Why are X/Y swapped?
     //       Did they make this a matrix or sth.?
     //       (Used to calc min/max cam pos in UpdateCamera())
-    /* 0x14 */ u16 minY;
-    /* 0x16 */ u16 maxY;
-    /* 0x18 */ u16 minX;
-    /* 0x1A */ u16 maxX;
-    /* 0x1C */ u16 sa2__unk40;
-    /* 0x1E */ u16 sa2__unk44;
-    /* 0x20 */ u16 sa2__unk48;
-    /* 0x22 */ u16 sa2__unk4C;
+    /* 0x14 */ s16 minY;
+    /* 0x16 */ s16 maxY;
+    /* 0x18 */ s16 minX;
+    /* 0x1A */ s16 maxX;
+    /* 0x1C */ s16 sa2__unk40;
+    /* 0x1E */ s16 sa2__unk44;
+    /* 0x20 */ s16 sa2__unk48;
+    /* 0x22 */ s16 sa2__unk4C;
     /* 0x24 */ u16 unk24;
     /* 0x26 */ u16 sa2__unk50;
     /* 0x28 */ u16 sa2__unk52;
@@ -57,6 +57,8 @@ struct Camera {
     /* 0x34 */ s16 shakeOffsetX;
     /* 0x36 */ s16 shakeOffsetY;
     /* 0x38 */ s16 sa2__unk64;
+    /* 0x3A */ u8 spectatorTarget;
+    /* 0x3B */ u8 filler3B[0x2];
 #elif (GAME == GAME_SA2)
     /* 0x08 */ s32 unk8;
     /* 0x0C */ s32 unkC;

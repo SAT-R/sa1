@@ -5,16 +5,15 @@
 
 #include "game/sa1_sa2_shared/globals.h"
 
-#if (GAME == GAME_SA2)
-#include "game/stage/player_super_sonic.h"
-#endif
-
 #include "game/stage/camera.h"
 #include "game/stage/stage.h"
 #include "game/stage/player.h"
 #include "game/stage/collision.h"
 
-#if (GAME == GAME_SA2)
+#if (GAME == GAME_SA1)
+#include "game/multiplayer/mp_player.h"
+#elif (GAME == GAME_SA2)
+#include "game/stage/player_super_sonic.h"
 #include "game/stage/background/dummy.h"
 #include "game/stage/background/zone_1.h"
 #include "game/stage/background/zone_2.h"
@@ -38,13 +37,22 @@ UNUSED u32 unused_3005950[3] = {};
 struct Camera ALIGNED(8) gCamera = {};
 const Collision *gRefCollision = NULL;
 
-static void RenderMetatileLayers(s32, s32);
+// TODO: static
+void RenderMetatileLayers(s32, s32);
 
 // camera_destroy.h
 void Task_CallUpdateCamera(void);
 void TaskDestructor_Camera(struct Task *);
 
 #define BOSS_CAM_FRAME_DELTA_PIXELS 5
+
+// NOTE:
+// unk8 is a regular integer in SA1, but Q_24_8 in SA2
+#if (GAME == GAME_SA1)
+#define CAM_UNK8_INT(_val) (_val)
+#else
+#define CAM_UNK8_INT(_val) (I(_val))
+#endif
 
 #if (GAME == GAME_SA1)
 extern const Background gStageCameraBgTemplates[4];
@@ -468,9 +476,9 @@ void InitCamera(u32 level)
     camera->maxX = gRefCollision->pxWidth;
 
 #if (GAME == GAME_SA1)
-    camera->unk8 = I(gPlayer.qWorldX) - (DISPLAY_WIDTH / 2);
+    camera->sa2__unk10 = I(gPlayer.qWorldX) - (DISPLAY_WIDTH / 2);
     camera->x = I(gPlayer.qWorldX) - (DISPLAY_WIDTH / 2);
-    camera->unkA = (I(gPlayer.qWorldY) + camera->sa2__unk4C) - ((DISPLAY_HEIGHT / 2) + 4);
+    camera->sa2__unk14 = (I(gPlayer.qWorldY) + camera->sa2__unk4C) - ((DISPLAY_HEIGHT / 2) + 4);
     camera->y = (I(gPlayer.qWorldY) + camera->sa2__unk4C) - ((DISPLAY_HEIGHT / 2) + 4);
 
     camera->sa2__unk8 = 16;
@@ -554,8 +562,6 @@ void InitCamera(u32 level)
     }
 }
 
-#if 0
-
 // Only need to use the original value for these zones
 #define DISPLAY_WIDTH_FOR_BOSS_TAS                                                                                                         \
     ((LEVEL_TO_ZONE(gCurrentLevel) == ZONE_2 || LEVEL_TO_ZONE(gCurrentLevel) == ZONE_6) ? (240 / 2) : (DISPLAY_WIDTH / 2))
@@ -567,12 +573,16 @@ void UpdateCamera(void)
     s32 newX, newY;
     newX = camera->x;
     newY = camera->y;
+
+#if (GAME == GAME_SA2)
     camera->dx = camera->x;
     camera->dy = camera->y;
+#endif
 
     newX = CLAMP(newX, camera->minX, camera->maxX - (DISPLAY_WIDTH + 1));
     newY = CLAMP(newY, camera->minY, camera->maxY - (DISPLAY_HEIGHT + 1));
 
+#if (GAME == GAME_SA2)
     if (IS_BOSS_STAGE(gCurrentLevel)) {
         s32 delta, playerY;
         if (!IS_ALIVE(player)) {
@@ -582,11 +592,11 @@ void UpdateCamera(void)
             return;
         }
 
-        if (gCurrentLevel == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53)) {
+        if (IS_EXTRA_STAGE(gCurrentLevel)) {
             SuperSonicGetPos(&player->qWorldX, &player->qWorldY);
         }
 
-        camera->unk10 += BOSS_CAM_FRAME_DELTA_PIXELS;
+        camera->sa2__unk20 += BOSS_CAM_FRAME_DELTA_PIXELS;
         newX += BOSS_CAM_FRAME_DELTA_PIXELS;
 
 // Most TASes were written with the expection that
@@ -595,11 +605,12 @@ void UpdateCamera(void)
 // So we need to emulate that behaviour on some specific
 // levels
 #if TAS_TESTING && TAS_TESTING_WIDESCREEN_HACK && DISPLAY_WIDTH > 240
-        if (newX + (DISPLAY_WIDTH_FOR_BOSS_TAS + 1) < I(player->qWorldX)) {
+        if (newX + (DISPLAY_WIDTH_FOR_BOSS_TAS + 1) < I(player->qWorldX))
 #else
-        if (newX + ((DISPLAY_WIDTH / 2) + 1) < I(player->qWorldX)) {
+        if (newX + ((DISPLAY_WIDTH / 2) + 1) < I(player->qWorldX))
 #endif
-            if ((camera->unk10 + (DISPLAY_HEIGHT / 2)) > newX) {
+        {
+            if ((camera->sa2__unk20 + (DISPLAY_HEIGHT / 2)) > newX) {
                 s32 playerScreenX = I(player->qWorldX);
 #if TAS_TESTING && TAS_TESTING_WIDESCREEN_HACK && DISPLAY_WIDTH > 240
                 playerScreenX -= DISPLAY_WIDTH_FOR_BOSS_TAS;
@@ -608,7 +619,7 @@ void UpdateCamera(void)
 #endif
                 camera->shiftX = playerScreenX - newX;
             } else {
-                newX = (camera->unk10 + (DISPLAY_HEIGHT / 2));
+                newX = (camera->sa2__unk20 + (DISPLAY_HEIGHT / 2));
                 camera->shiftX = 0;
             }
         } else {
@@ -616,15 +627,15 @@ void UpdateCamera(void)
             if ((newX + 96) > I(player->qWorldX)) {
                 newX = I(player->qWorldX);
                 newX -= 96;
-                if (newX < camera->unk10) {
-                    newX = camera->unk10;
+                if (newX < camera->sa2__unk20) {
+                    newX = camera->sa2__unk20;
                 }
             }
         }
 
         playerY = I(player->qWorldY);
         delta = playerY - newY;
-        if (gCurrentLevel == LEVEL_INDEX(ZONE_FINAL, ACT_TRUE_AREA_53)) {
+        if (IS_EXTRA_STAGE(gCurrentLevel)) {
             if (delta <= 48) {
                 s32 temp = newY - 48;
                 newY = delta + temp;
@@ -650,52 +661,99 @@ void UpdateCamera(void)
         newX += camera->shakeOffsetX;
         newY += camera->shakeOffsetY;
 
-    } else {
-        if (camera->unk40 != 0) {
-            camera->unk40--;
+    } else // if !IS_BOSS_STAGE(gCurrentLevel) ->
+#endif
+    {
+        if (camera->sa2__unk40 != 0) {
+            camera->sa2__unk40--;
         } else {
-            if (!(camera->unk50 & 1)) {
-                s16 airSpeedX = player->qSpeedAirX;
-                camera->unk10 = I(player->qWorldX) + camera->shiftX - (DISPLAY_WIDTH / 2);
-                camera->unk56 = (airSpeedX + (camera->unk56 * 15)) >> 4;
-                camera->unk10 += (camera->unk56 >> 5);
-            }
-            if (!(camera->unk50 & 2)) {
-                s32 unk64 = camera->unk64;
-                s32 temp8 = player->spriteOffsetY - 4;
-                if (GRAVITY_IS_INVERTED) {
-                    temp8 = -temp8;
+            s32 unk64, temp8;
+#if (GAME == GAME_SA1)
+            if (IS_MULTI_PLAYER) {
+                MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[camera->spectatorTarget]);
+
+                if (!(camera->sa2__unk50 & 0x1)) {
+                    camera->sa2__unk10 = (mpp->pos.x + camera->shiftX) - (DISPLAY_WIDTH / 2);
                 }
 
-                if (unk64 != temp8) {
-                    if (unk64 < temp8) {
-                        unk64 += 5;
-                        if (unk64 > temp8) {
-                            unk64 = temp8;
-                        }
-                    } else {
-                        unk64 -= 5;
-                        if (unk64 < temp8) {
-                            unk64 = temp8;
-                        }
+                if (!(camera->sa2__unk50 & 2)) {
+                    unk64 = camera->sa2__unk64;
+                    temp8 = mpp->unk58[0] - 4;
+                    if (GRAVITY_IS_INVERTED) {
+                        temp8 = -temp8;
                     }
-                    camera->unk64 = unk64;
-                }
 
-                camera->unk14 = I(player->qWorldY) + camera->shiftY - (DISPLAY_HEIGHT / 2) + camera->unk4C + unk64;
+                    if (unk64 != temp8) {
+                        if (unk64 < temp8) {
+                            unk64 += 5;
+                            if (unk64 > temp8) {
+                                unk64 = temp8;
+                            }
+                        } else {
+                            unk64 -= 5;
+                            if (unk64 < temp8) {
+                                unk64 = temp8;
+                            }
+                        }
+                        camera->sa2__unk64 = unk64;
+                    }
+
+                    camera->sa2__unk14 = ((mpp->pos.y) + camera->shiftY) - (DISPLAY_HEIGHT / 2) + camera->sa2__unk4C + unk64;
+                }
+            } else
+#elif (GAME == GAME_SA2)
+            camera->unk14 = I(player->qWorldY) + camera->shiftY - (DISPLAY_HEIGHT / 2) + camera->unk4C + unk64;
+#endif
+            {
+                if (!(camera->sa2__unk50 & 1)) {
+                    s16 airSpeedX = player->qSpeedAirX;
+                    camera->sa2__unk10 = I(player->qWorldX) + camera->shiftX - (DISPLAY_WIDTH / 2);
+#if (GAME == GAME_SA2)
+                    camera->unk56 = (airSpeedX + (camera->unk56 * 15)) >> 4;
+                    camera->unk10 += (camera->unk56 >> 5);
+#endif
+                }
+                if (!(camera->sa2__unk50 & 2)) {
+                    unk64 = camera->sa2__unk64;
+                    temp8 = player->spriteOffsetY - 4;
+                    if (GRAVITY_IS_INVERTED) {
+                        temp8 = -temp8;
+                    }
+
+                    if (unk64 != temp8) {
+                        if (unk64 < temp8) {
+                            unk64 += 5;
+                            if (unk64 > temp8) {
+                                unk64 = temp8;
+                            }
+                        } else {
+                            unk64 -= 5;
+                            if (unk64 < temp8) {
+                                unk64 = temp8;
+                            }
+                        }
+                        camera->sa2__unk64 = unk64;
+                    }
+
+#if (GAME == GAME_SA1)
+                    camera->sa2__unk14 = I(player->qWorldY) + camera->shiftY - (DISPLAY_HEIGHT / 2) + camera->sa2__unk4C + unk64;
+#elif (GAME == GAME_SA2)
+                    camera->unk14 = I(player->qWorldY) + camera->shiftY - (DISPLAY_HEIGHT / 2) + camera->unk4C + unk64;
+#endif
+                }
             }
         }
 
-        if ((camera->unk10 - newX) > camera->unk44) {
-            s32 temp = camera->unk10 - newX - camera->unk44;
-            s32 temp2 = I(camera->unk8);
+        if ((camera->sa2__unk10 - newX) > camera->sa2__unk44) {
+            s32 temp = camera->sa2__unk10 - newX - camera->sa2__unk44;
+            s32 temp2 = CAM_UNK8_INT(camera->sa2__unk8);
             if (temp2 > temp) {
                 temp2 = temp;
             }
             newX += temp2;
-        } else if ((camera->unk10 - newX) < -camera->unk44) {
-            s32 temp = (camera->unk10 - newX) + camera->unk44;
-            s32 temp2 = -I(camera->unk8);
+        } else if ((camera->sa2__unk10 - newX) < -camera->sa2__unk44) {
+            s32 temp = (camera->sa2__unk10 - newX) + camera->sa2__unk44;
+            s32 temp2 = -CAM_UNK8_INT(camera->sa2__unk8);
             if (temp2 < temp) {
                 temp2 = temp;
             }
@@ -705,22 +763,31 @@ void UpdateCamera(void)
 
         newX = CLAMP(newX, camera->minX, camera->maxX - DISPLAY_WIDTH);
 
+#if (GAME == GAME_SA1)
+        if ((player->moveState & MOVESTATE_IN_AIR) && (player->character != CHARACTER_KNUCKLES || player->sa2__unk61 != 9))
+#elif (GAME == GAME_SA2)
         if (camera->unk8 < Q(16)) {
             camera->unk8 += Q(0.125);
         }
 
-        if ((player->moveState & MOVESTATE_IN_AIR) && (player->character != CHARACTER_KNUCKLES || player->unk61 != 9)) {
-            camera->unk48 += 4;
-            camera->unk48 = MIN(camera->unk48, 24);
+        if ((player->moveState & MOVESTATE_IN_AIR) && (player->character != CHARACTER_KNUCKLES || player->unk61 != 9))
+#endif
+        {
+            camera->sa2__unk48 += 4;
+            camera->sa2__unk48 = MIN(camera->sa2__unk48, 24);
         } else {
-            camera->unk48 -= 4;
-            camera->unk48 = MAX(camera->unk48, 0);
+            camera->sa2__unk48 -= 4;
+            camera->sa2__unk48 = MAX(camera->sa2__unk48, 0);
         }
 
-        if ((camera->unk14 - newY) > camera->unk48) {
-            newY += (camera->unkC > ((camera->unk14 - newY) - camera->unk48)) ? ((camera->unk14 - newY) - camera->unk48) : camera->unkC;
-        } else if ((camera->unk14 - newY) < -(camera->unk48)) {
-            newY += (-camera->unkC < (camera->unk14 - newY) + camera->unk48) ? (camera->unk14 - newY) + camera->unk48 : -camera->unkC;
+        if ((camera->sa2__unk14 - newY) > camera->sa2__unk48) {
+            newY += (camera->sa2__unkC > ((camera->sa2__unk14 - newY) - camera->sa2__unk48))
+                ? ((camera->sa2__unk14 - newY) - camera->sa2__unk48)
+                : camera->sa2__unkC;
+        } else if ((camera->sa2__unk14 - newY) < -(camera->sa2__unk48)) {
+            newY += (-camera->sa2__unkC < (camera->sa2__unk14 - newY) + camera->sa2__unk48)
+                ? (camera->sa2__unk14 - newY) + camera->sa2__unk48
+                : -camera->sa2__unkC;
         }
 
         newY = CLAMP(newY, camera->minY, camera->maxY - DISPLAY_HEIGHT);
@@ -735,8 +802,10 @@ void UpdateCamera(void)
     camera->x = newX;
     camera->y = newY;
 
+#if (GAME == GAME_SA2)
     camera->dx -= newX;
     camera->dy -= newY;
+#endif
 
     RenderMetatileLayers(newX, newY);
 
@@ -745,6 +814,7 @@ void UpdateCamera(void)
     }
 }
 
+#if 0
 static void RenderMetatileLayers(s32 x, s32 y)
 {
     if (!IS_EXTRA_STAGE(gCurrentLevel)) {
