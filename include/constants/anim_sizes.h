@@ -9,6 +9,14 @@
     VramMalloc(((_animName##_VAR##_variant##_WIDTH / 8) * (_animName##_VAR##_variant##_HEIGHT / 8)))
 
 #if (GAME == GAME_SA1)
+// 482
+#define SA1_ANIM_FIREWORKS_WIDTH  24
+#define SA1_ANIM_FIREWORKS_HEIGHT 24
+
+// 483
+#define SA1_ANIM_FIREWORKS_SMALL_WIDTH  16
+#define SA1_ANIM_FIREWORKS_SMALL_HEIGHT 16
+
 // 749
 #define SA1_ANIM_GRIND_EFFECT_WIDTH  32
 #define SA1_ANIM_GRIND_EFFECT_HEIGHT 32

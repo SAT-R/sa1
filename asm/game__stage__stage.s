@@ -1,6 +1,17 @@
 .include "asm/macros.inc"
 .include "constants/constants.inc"
 
+.section .rodata
+
+.align 2, 0
+    .global gUnknown_084ADB18
+gUnknown_084ADB18:
+    .int sub_803DCCC, sub_803DD00
+    .int sub_803DD78, sub_803DDBC, sub_803D888, sub_803D940
+    .int sub_803DE00, sub_803DE44, sub_803DE88, sub_803DEA8
+    .int sub_803D9F8, sub_803DEC8, sub_803DF58, sub_803DF64
+    .int sub_803DF70, sub_803DFC0, sub_803DB2C, sub_803E004
+
 .text
 .syntax unified
 .arm
@@ -34,13 +45,13 @@ GameStageStart: @ 0x0803CE54
 	asrs r1, r1, #0x18
 	b _0803CEBA
 	.align 2, 0
-_0803CE88: .4byte gUnknown_0300501C
-_0803CE8C: .4byte gUnknown_03005148
-_0803CE90: .4byte gRingCount
-_0803CE94: .4byte gNumSingleplayerCharacters
-_0803CE98: .4byte gGameMode
-_0803CE9C: .4byte gSelectedCharacter
-_0803CEA0: .4byte gCurrentLevel
+_0803CE88: .int gUnknown_0300501C
+_0803CE8C: .int gUnknown_03005148
+_0803CE90: .int gRingCount
+_0803CE94: .int gNumSingleplayerCharacters
+_0803CE98: .int gGameMode
+_0803CE9C: .int gSelectedCharacter
+_0803CEA0: .int gCurrentLevel
 _0803CEA4:
 	ldr r4, _0803CEC4 @ =gCurrentLevel
 	movs r0, #0
@@ -59,9 +70,9 @@ _0803CEBA:
 	bl sub_8046CB8
 	b _0803CF08
 	.align 2, 0
-_0803CEC4: .4byte gCurrentLevel
-_0803CEC8: .4byte gSelectedCharacter
-_0803CECC: .4byte gPlayer
+_0803CEC4: .int gCurrentLevel
+_0803CEC8: .int gSelectedCharacter
+_0803CECC: .int gPlayer
 _0803CED0:
 	ldr r5, _0803CF40 @ =gSelectedCharacter
 	movs r0, #0

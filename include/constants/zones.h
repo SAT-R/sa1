@@ -27,8 +27,12 @@
 #endif
 
 #if (GAME == GAME_SA1)
-#define ACT_X_ZONE   ACT_1
-#define ACT_THE_MOON ACT_2
+#define ACT_X_ZONE      ACT_1
+#define ACT_THE_MOON    ACT_2
+#define ACT_CHAO_HUNT_A (NUM_LEVEL_IDS_SP + 0)
+#define ACT_CHAO_HUNT_B (NUM_LEVEL_IDS_SP + 1)
+#define ACT_CHAO_HUNT_C (NUM_LEVEL_IDS_SP + 2)
+#define ACT_CHAO_HUNT_D (NUM_LEVEL_IDS_SP + 3)
 #elif (GAME == GAME_SA2)
 #define ACT_XX_FINAL_ZONE ACT_1
 #define ACT_TRUE_AREA_53  ACT_2

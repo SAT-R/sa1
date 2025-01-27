@@ -16,7 +16,7 @@ StageBgUpdate_Zone1Acts12: @ 0x0803E78C
 	movs r1, #0x10
 	ldrsh r0, [r2, r1]
 	subs r4, r4, r0
-	ldr r0, _0803E858 @ =gUnknown_03005990
+	ldr r0, _0803E858 @ =gStageBackgroundsRam + 0xC0
 	ldr r3, _0803E85C @ =gBgScrollRegs
 	movs r1, #0
 	strh r1, [r2, #0x28]
@@ -118,7 +118,7 @@ _0803E84E:
 	bx r0
 	.align 2, 0
 _0803E854: .4byte gCamera
-_0803E858: .4byte gUnknown_03005990
+_0803E858: .4byte gStageBackgroundsRam + 0xC0
 _0803E85C: .4byte gBgScrollRegs
 _0803E860: .4byte gFlags
 _0803E864: .4byte sa2__gUnknown_03002878
@@ -1713,7 +1713,7 @@ StageBgUpdate_Zone7Act2: @ 0x0803F52C
 	push {r4, r5, lr}
 	sub sp, #4
 	ldr r3, _0803F600 @ =gCamera
-	ldr r0, _0803F604 @ =gUnknown_03005990
+	ldr r0, _0803F604 @ =gStageBackgroundsRam + 0xC0
 	ldr r2, _0803F608 @ =gBgScrollRegs
 	movs r1, #0
 	strh r1, [r3, #0x28]
@@ -1817,7 +1817,7 @@ _0803F5AC:
 	bx r0
 	.align 2, 0
 _0803F600: .4byte gCamera
-_0803F604: .4byte gUnknown_03005990
+_0803F604: .4byte gStageBackgroundsRam + 0xC0
 _0803F608: .4byte gBgScrollRegs
 _0803F60C: .4byte gBgOffsetsHBlank
 _0803F610: .4byte gStageTime

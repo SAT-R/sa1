@@ -257,7 +257,8 @@ SECTIONS {
         build/sa1/data/data_0_3_2.o(.rodata);
         build/sa1/src/game/amy_attack_heart_effect.o(.rodata);
         build/sa1/src/game/sa1_sa2_shared/music_manager.o(.rodata);
-        build/sa1/data/data_0_3_3.o(.rodata);
+        build/sa1/asm/game__stage__stage.o(.rodata);
+        build/sa1/src/game/stage/camera.o(.rodata);
         build/sa1/src/data/tilemap_table.o(.rodata);
         build/sa1/data/data_0_4.o(.rodata);
         build/sa1/src/data/tilemap_data_3.o(.rodata);

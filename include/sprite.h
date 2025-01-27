@@ -205,6 +205,13 @@ typedef struct {
     /* 0x06 */ u8 variant;
 } TileInfo;
 
+// Used in the background code of Casino Paradise
+typedef struct {
+    /* 0x00 */ AnimId anim;
+    /* 0x04 */ u8 variant;
+    /* 0x06 */ u8 numTiles;
+} TileInfoFirework;
+
 extern const u8 gOamShapesSizes[12][2];
 
 typedef enum {

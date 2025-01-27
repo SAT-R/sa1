@@ -25,9 +25,11 @@
 #include "game/stage/background/zone_final.h"
 #endif
 
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
+#include "constants/characters.h"
 #include "constants/tilemaps.h"
 #include "constants/zones.h"
-#include "constants/characters.h"
 
 // Probably a array (as it's aligned 16)
 struct Backgrounds ALIGNED(16) gStageBackgroundsRam = {};
@@ -53,12 +55,6 @@ void TaskDestructor_Camera(struct Task *);
 #define CAM_UNK8_INT(_val) (I(_val))
 #endif
 
-#if (GAME == GAME_SA1)
-extern const Background gStageCameraBgTemplates[4];
-extern const u16 gBossCameraYClamps[][2];
-extern const VoidFn sStageBgInitProcedures[];
-extern const BgUpdate sStageBgUpdateFuncs[NUM_LEVEL_IDS];
-
 #define STGBG_SCRN_DIM(w, h, charBase, screenBase)                                                                                         \
     {                                                                                                                                      \
         ((w) / TILE_WIDTH), ((h) / TILE_WIDTH), charBase, screenBase                                                                       \
@@ -67,9 +63,7 @@ extern const BgUpdate sStageBgUpdateFuncs[NUM_LEVEL_IDS];
 #define STGBG_HEIGHT(arr)     ((arr)[1])
 #define STGBG_CHARBASE(arr)   ((arr)[2])
 #define STGBG_SCREENBASE(arr) ((arr)[3])
-extern const s8 sStageBgDimensions[NUM_LEVEL_IDS][4];
 
-#elif (GAME == GAME_SA2)
 const Background gStageCameraBgTemplates[4] = {
     [CAMBG_MAP_FRONT_LAYER] = {
         .graphics = {  
@@ -201,11 +195,98 @@ const Background gStageCameraBgTemplates[4] = {
     },
 };
 
+#if (GAME == GAME_SA2)
 const u16 gBossCameraYClamps[][2] = {
     [ZONE_1] = { 32, DISPLAY_HEIGHT + 56 },  [ZONE_2] = { 32, DISPLAY_HEIGHT + 44 },      [ZONE_3] = { 32, DISPLAY_HEIGHT + 56 },
     [ZONE_4] = { 32, DISPLAY_HEIGHT + 48 },  [ZONE_5] = { 32, DISPLAY_HEIGHT + 48 },      [ZONE_6] = { 32, DISPLAY_HEIGHT + 72 },
     [ZONE_7] = { 32, DISPLAY_HEIGHT + 104 }, [ZONE_FINAL] = { 32, DISPLAY_HEIGHT + 104 }, [ZONE_FINAL + 1] = { 32, DISPLAY_HEIGHT + 104 },
 };
+#endif
+
+#if (GAME == GAME_SA1)
+extern void CreateStageBg_Zone4(void);
+extern void CreateStageBg_Zone5(void);
+extern void CreateStageBg_Zone7_Act2(void);
+
+static const VoidFn sStageBgInitProcedures[NUM_LEVEL_IDS] = {
+    [LEVEL_INDEX(ZONE_1, ACT_1)] = NULL,
+    [LEVEL_INDEX(ZONE_1, ACT_2)] = NULL,
+    [LEVEL_INDEX(ZONE_2, ACT_1)] = NULL,
+    [LEVEL_INDEX(ZONE_2, ACT_2)] = NULL,
+    [LEVEL_INDEX(ZONE_3, ACT_1)] = NULL,
+    [LEVEL_INDEX(ZONE_3, ACT_2)] = NULL,
+    [LEVEL_INDEX(ZONE_4, ACT_1)] = CreateStageBg_Zone4,
+    [LEVEL_INDEX(ZONE_4, ACT_2)] = CreateStageBg_Zone4,
+    [LEVEL_INDEX(ZONE_5, ACT_1)] = CreateStageBg_Zone5,
+    [LEVEL_INDEX(ZONE_5, ACT_2)] = CreateStageBg_Zone5,
+    [LEVEL_INDEX(ZONE_6, ACT_1)] = NULL,
+    [LEVEL_INDEX(ZONE_6, ACT_2)] = NULL,
+    [LEVEL_INDEX(ZONE_7, ACT_1)] = NULL,
+    [LEVEL_INDEX(ZONE_7, ACT_2)] = CreateStageBg_Zone7_Act2,
+    [ACT_CHAO_HUNT_A] = NULL,
+    [ACT_CHAO_HUNT_B] = NULL,
+    [ACT_CHAO_HUNT_C] = NULL,
+    [ACT_CHAO_HUNT_D] = NULL,
+
+};
+
+void StageBgUpdate_Zone1Acts12(s32, s32);
+void StageBgUpdate_Zone2Act1(s32, s32);
+void StageBgUpdate_Zone2Act2(s32, s32);
+void StageBgUpdate_Zone3Acts12(s32, s32);
+void StageBgUpdate_Zone4Acts12(s32, s32);
+void StageBgUpdate_Zone5Acts12(s32, s32);
+void StageBgUpdate_Zone6Act1(s32, s32);
+void StageBgUpdate_Zone6Act2(s32, s32);
+void StageBgUpdate_Zone7Act1(s32, s32);
+void StageBgUpdate_Zone7Act2(s32, s32);
+static const BgUpdate sStageBgUpdateFuncs[NUM_LEVEL_IDS] = {
+    [LEVEL_INDEX(ZONE_1, ACT_1)] = StageBgUpdate_Zone1Acts12,
+    [LEVEL_INDEX(ZONE_1, ACT_2)] = StageBgUpdate_Zone1Acts12,
+    [LEVEL_INDEX(ZONE_2, ACT_1)] = StageBgUpdate_Zone2Act1,
+    [LEVEL_INDEX(ZONE_2, ACT_2)] = StageBgUpdate_Zone2Act2,
+    [LEVEL_INDEX(ZONE_3, ACT_1)] = StageBgUpdate_Zone3Acts12,
+    [LEVEL_INDEX(ZONE_3, ACT_2)] = StageBgUpdate_Zone3Acts12,
+    [LEVEL_INDEX(ZONE_4, ACT_1)] = StageBgUpdate_Zone4Acts12,
+    [LEVEL_INDEX(ZONE_4, ACT_2)] = StageBgUpdate_Zone4Acts12,
+    [LEVEL_INDEX(ZONE_5, ACT_1)] = StageBgUpdate_Zone5Acts12,
+    [LEVEL_INDEX(ZONE_5, ACT_2)] = StageBgUpdate_Zone5Acts12,
+    [LEVEL_INDEX(ZONE_6, ACT_1)] = StageBgUpdate_Zone6Act1,
+    [LEVEL_INDEX(ZONE_6, ACT_2)] = StageBgUpdate_Zone6Act2,
+    [LEVEL_INDEX(ZONE_7, ACT_1)] = StageBgUpdate_Zone7Act1,
+    [LEVEL_INDEX(ZONE_7, ACT_2)] = StageBgUpdate_Zone7Act2,
+    [ACT_CHAO_HUNT_A] = StageBgUpdate_Zone1Acts12,
+    [ACT_CHAO_HUNT_B] = StageBgUpdate_Zone2Act2,
+    [ACT_CHAO_HUNT_C] = StageBgUpdate_Zone3Acts12,
+    [ACT_CHAO_HUNT_D] = StageBgUpdate_Zone6Act2,
+};
+
+static const s8 sStageBgDimensions[NUM_LEVEL_IDS][4] = {
+    [LEVEL_INDEX(ZONE_1, ACT_1)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [LEVEL_INDEX(ZONE_1, ACT_2)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [LEVEL_INDEX(ZONE_2, ACT_1)] = STGBG_SCRN_DIM(256, 512, 2, CAM_SCREENBASE_BACK_A),
+    [LEVEL_INDEX(ZONE_2, ACT_2)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_A),
+    [LEVEL_INDEX(ZONE_3, ACT_1)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [LEVEL_INDEX(ZONE_3, ACT_2)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [LEVEL_INDEX(ZONE_4, ACT_1)] = STGBG_SCRN_DIM(256, 512, 2, CAM_SCREENBASE_BACK_A),
+    [LEVEL_INDEX(ZONE_4, ACT_2)] = STGBG_SCRN_DIM(256, 512, 2, CAM_SCREENBASE_BACK_A),
+    [LEVEL_INDEX(ZONE_5, ACT_1)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [LEVEL_INDEX(ZONE_5, ACT_2)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [LEVEL_INDEX(ZONE_6, ACT_1)] = STGBG_SCRN_DIM(256, 512, 2, CAM_SCREENBASE_BACK_C),
+    [LEVEL_INDEX(ZONE_6, ACT_2)] = STGBG_SCRN_DIM(512, 256, 2, CAM_SCREENBASE_BACK_A),
+    [LEVEL_INDEX(ZONE_7, ACT_1)] = STGBG_SCRN_DIM(296, 184, 2, CAM_SCREENBASE_BACK_A),
+    [LEVEL_INDEX(ZONE_7, ACT_2)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [ACT_CHAO_HUNT_A] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [ACT_CHAO_HUNT_B] = STGBG_SCRN_DIM(256, 512, 2, CAM_SCREENBASE_BACK_A),
+    [ACT_CHAO_HUNT_C] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
+    [ACT_CHAO_HUNT_D] = STGBG_SCRN_DIM(512, 256, 2, CAM_SCREENBASE_BACK_A),
+};
+
+const TileInfoFirework gUnknown_084ADD38[2] = {
+    [0] = { SA1_ANIM_FIREWORKS, 0, MAX_TILES(SA1_ANIM_FIREWORKS) },
+    [1] = { SA1_ANIM_FIREWORKS_SMALL, 0, MAX_TILES(SA1_ANIM_FIREWORKS_SMALL) },
+};
+#elif (GAME == GAME_SA2)
 
 static const VoidFn sStageBgInitProcedures[] = {
     [LEVEL_INDEX(ZONE_1, ACT_1)] = CreateStageBg_Zone1,
@@ -298,14 +379,6 @@ static const BgUpdate sStageBgUpdateFuncs[NUM_LEVEL_IDS] = {
     [LEVEL_INDEX(ZONE_UNUSED, ACT_2)] = StageBgUpdate_Zone6Acts12,
 };
 
-#define STGBG_SCRN_DIM(w, h, charBase, screenBase)                                                                                         \
-    {                                                                                                                                      \
-        ((w) / TILE_WIDTH), ((h) / TILE_WIDTH), charBase, screenBase                                                                       \
-    }
-#define STGBG_WIDTH(arr)      ((arr)[0])
-#define STGBG_HEIGHT(arr)     ((arr)[1])
-#define STGBG_CHARBASE(arr)   ((arr)[2])
-#define STGBG_SCREENBASE(arr) ((arr)[3])
 static const s8 sStageBgDimensions[NUM_LEVEL_IDS][4] = {
     [LEVEL_INDEX(ZONE_1, ACT_1)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
     [LEVEL_INDEX(ZONE_1, ACT_2)] = STGBG_SCRN_DIM(256, 256, 2, CAM_SCREENBASE_BACK_B),
