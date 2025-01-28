@@ -61,6 +61,12 @@ CC1FLAGS := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm -Werror
 CPPFLAGS := -I tools/agbcc/include -iquote include -nostdinc -D $(GAME_REGION) -D PLATFORM_GBA=1
 ASFLAGS  := -mcpu=arm7tdmi -mthumb-interwork -I asminclude --defsym $(GAME_REGION)=1
 
+# Fix "prologue issue" bugfix in select files
+# TODO: Find a better way to limit this to SA1!
+ifeq ($(BUILD_NAME), sa1)
+    PROLOGUE_FIX := -fprologue-bugfix
+endif
+
 
 # Clear the default suffixes
 .SUFFIXES:
@@ -134,30 +140,16 @@ SOUND_ASM_OBJS := $(patsubst $(SOUND_ASM_SUBDIR)/%.s,$(SOUND_ASM_BUILDDIR)/%.o,$
 OBJS := $(C_OBJS) $(ASM_OBJS) $(C_ASM_OBJS) $(DATA_ASM_OBJS) $(SONG_OBJS) $(MID_OBJS)
 OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(OBJS))
 
-# Fix "prologue issue" bugfix in select files
-# TODO: Maybe we can enable this globally for SA1?
-$(C_BUILDDIR)/game/multiplayer/multiplayer_event_recv_mgr.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/game/gTask_03006240.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/game/stage/screen_shake.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/background.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/sprite.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/malloc_ewram.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/malloc_vram.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/multi_boot.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/multi_sio.o: CC1FLAGS += -fprologue-bugfix
-$(C_BUILDDIR)/task.o: CC1FLAGS += -fprologue-bugfix
-
-# Use old gcc because of the "prologue issue" bugfix
-$(C_BUILDDIR)/input_recorder.o: CC1 := $(CC1_OLD)
-
 # Use the old compiler for m4a, as it was prebuilt and statically linked
 # to the original codebase
+# PROLOGUE_FIX has to be set to nothing, since -fprologue-bugfix does not work with it
 $(C_BUILDDIR)/lib/m4a/m4a.o: CC1 := $(CC1_OLD)
+$(C_BUILDDIR)/lib/m4a/m4a.o: PROLOGUE_FIX :=
 
 # Use `-O1` for agb_flash libs, as these were also prebuilt
-# -fprologue-bugfix requires newest build of (old_)agbcc .
-$(C_BUILDDIR)/lib/agb_flash.o: CC1FLAGS := -O1 -mthumb-interwork -Werror -fprologue-bugfix
-$(C_BUILDDIR)/lib/agb_flash%.o: CC1FLAGS := -O1 -mthumb-interwork -Werror -fprologue-bugfix
+# -fprologue-bugfix requires newest build of agbcc .
+$(C_BUILDDIR)/lib/agb_flash.o:  CC1FLAGS := -O1 -mthumb-interwork -Werror
+$(C_BUILDDIR)/lib/agb_flash%.o: CC1FLAGS := -O1 -mthumb-interwork -Werror
 
 ifeq ($(DINFO),1)
 override CC1FLAGS += -g
@@ -274,7 +266,7 @@ $(C_OBJS): $(OBJ_DIR)/%.o: %.c $$(c_dep)
 	@echo "$(CC1) <flags> -o $@ $<"
 	@$(shell mkdir -p $(shell dirname '$(OBJ_DIR)/$*.i'))
 	@$(CPP) $(CPPFLAGS) $< -o $(OBJ_DIR)/$*.i
-	@$(PREPROC) $(OBJ_DIR)/$*.i | $(CC1) $(CC1FLAGS) -o $(OBJ_DIR)/$*.s
+	@$(PREPROC) $(OBJ_DIR)/$*.i | $(CC1) $(CC1FLAGS) $(PROLOGUE_FIX) -o $(OBJ_DIR)/$*.s
 	@printf ".text\n\t.align\t2, 0\n" >> $(OBJ_DIR)/$*.s
 	@$(AS) $(ASFLAGS) -o $@ $(OBJ_DIR)/$*.s
     
