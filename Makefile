@@ -142,7 +142,7 @@ OBJS_REL := $(patsubst $(OBJ_DIR)/%,%,$(OBJS))
 
 # Use the old compiler for m4a, as it was prebuilt and statically linked
 # to the original codebase
-# PROLOGUE_FIX has to be set to nothing, since -fprologue-bugfix does not work with it
+# PROLOGUE_FIX has to be set to nothing, since -fprologue-bugfix does not work with oldagbcc
 $(C_BUILDDIR)/lib/m4a/m4a.o: CC1 := $(CC1_OLD)
 $(C_BUILDDIR)/lib/m4a/m4a.o: PROLOGUE_FIX :=
 

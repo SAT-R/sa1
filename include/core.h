@@ -120,14 +120,14 @@ union MultiSioData {
 
 // Thanks @MainMemory_ for figuring out how collision is stored!
 typedef struct {
-    const u8 *height_map;
-    const u8 *tile_rotation;
-    const u16 *metatiles;
-    const u16 *map_front;
-    const u16 *map_back;
-    const u8 *flags;
-    u16 levelX, levelY;
-    u16 pxWidth, pxHeight;
+    /* 0x00 */ const u8 *height_map;
+    /* 0x04 */ const u8 *tile_rotation;
+    /* 0x08 */ const u16 *metatiles;
+    /* 0x0C */ const u16 *map_front;
+    /* 0x10 */ const u16 *map_back;
+    /* 0x14 */ const u8 *flags;
+    /* 0x18 */ u16 levelX, levelY;
+    /* 0x1C */ u16 pxWidth, pxHeight;
 
     // unk20/unk22 are not in SA1
 } Collision;
