@@ -90,7 +90,7 @@ SECTIONS {
         build/sa1/asm/game__stage__camera__bg__zone_4.o(.text);
         build/sa1/asm/game__stage__camera__bg__zone_6.o(.text);
         build/sa1/asm/game__stage__camera__bg__zone_7_act_2.o(.text);
-        build/sa1/asm/game__stage__camera__destroy.o(.text);
+        build/sa1/src/game/stage/camera_destroy.o(.text);
         build/sa1/src/game/stage/backgrounds/zone_4_init.o(.text);
         build/sa1/src/game/stage/backgrounds/zone_5_init.o(.text);
         build/sa1/src/game/stage/backgrounds/zone_7_act_1.o(.text);
@@ -125,6 +125,7 @@ SECTIONS {
         build/sa1/asm/game_2.o(.text);
         build/sa1/asm/game__edit_language_screen.o(.text);
         build/sa1/asm/game_3.o(.text);
+
         build/sa1/asm/enemy_gamigami.o(.text);
         build/sa1/asm/enemy_rhinotank.o(.text);
         build/sa1/asm/enemy_kerokero.o(.text);
@@ -143,6 +144,7 @@ SECTIONS {
         build/sa1/asm/enemy_kuraa.o(.text);
         build/sa1/asm/enemy_pen.o(.text);
         build/sa1/asm/enemy_tentou.o(.text);
+
         build/sa1/asm/ia_trampoline.o(.text);
         build/sa1/asm/ia_bounce_block.o(.text);
         build/sa1/asm/ia_incline_ramp.o(.text);

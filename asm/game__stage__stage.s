@@ -1659,7 +1659,7 @@ sub_803DC48: @ 0x0803DC48
 	ldr r0, _0803DC80 @ =gPartner
 	bl sub_8046CC4
 _0803DC6A:
-	bl sub_803F644
+	bl DestroyCameraMovementTask
 	pop {r4}
 	pop {r0}
 	bx r0
