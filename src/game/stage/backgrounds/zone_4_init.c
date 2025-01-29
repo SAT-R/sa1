@@ -16,7 +16,7 @@ void CreateStageBg_Zone4(void)
     gBgCntRegs[0] = ((BLDCNT_TGT2_BG0 | BLDCNT_TGT2_BG1 | BLDCNT_TGT2_BG3 | BLDCNT_TGT2_OBJ) | (BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG3));
 
     *bg = gStageCameraBgTemplates[CAMBG_BACK_B_LAYER];
-    bg->tilemapId = TM_UNKNOWN_STARFIELD;
+    bg->tilemapId = TM_ICE_PARADISE_SNOW;
     bg->graphics.dest = (void *)BG_CHAR_ADDR(3);
     bg->layoutVram = (void *)BG_SCREEN_ADDR(27);
     bg->targetTilesX = 32;

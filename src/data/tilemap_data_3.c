@@ -35,5 +35,5 @@
 #include "../../data/maps/chao_hunt/vs_zone_b/tilemaps/bg/header.c"
 #include "../../data/maps/chao_hunt/vs_zone_c/tilemaps/bg/header.c"
 #include "../../data/maps/chao_hunt/vs_zone_d/tilemaps/bg/header.c"
-#include "../../graphics/tilemaps/unknown_starfield/header.c"
-#include "../../graphics/tilemaps/unknown_clouds/header.c"
+#include "../../graphics/tilemaps/ice_paradise_snow/header.c"
+#include "../../graphics/tilemaps/egg_rocket_clouds/header.c"

@@ -23,7 +23,7 @@
 #define TM_SPECIAL_STAGE_BG_FRAME_13          68
 #define TM_SPECIAL_STAGE_BG_FRAME_14          69
 #define TM_SPECIAL_STAGE_BG_FRAME_15          70
-#define TM_UNKNOWN_STARFIELD                  71
+#define TM_ICE_PARADISE_SNOW                  71
 #define TM_EGG_ROCKET_CLOUDS                  72
 #define TM_TILEMAP_73                         73
 #define TM_SA1_TITLE_LOGO                     74

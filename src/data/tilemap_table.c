@@ -69,8 +69,8 @@ extern struct MapHeader *special_stage_bg_frame_12;
 extern struct MapHeader *special_stage_bg_frame_13;
 extern struct MapHeader *special_stage_bg_frame_14;
 extern struct MapHeader *special_stage_bg_frame_15;
-extern struct MapHeader *unknown_starfield;
-extern struct MapHeader *unknown_clouds;
+extern struct MapHeader *ice_paradise_snow;
+extern struct MapHeader *egg_rocket_clouds;
 extern struct MapHeader *tilemap_73;
 extern struct MapHeader *tilemap_74;
 extern struct MapHeader *tilemap_75;
@@ -166,8 +166,8 @@ const Tilemap * const gTilemaps[] = {
     [TM_SPECIAL_STAGE_BG_FRAME_13] = (Tilemap *)&special_stage_bg_frame_13,
     [TM_SPECIAL_STAGE_BG_FRAME_14] = (Tilemap *)&special_stage_bg_frame_14,
     [TM_SPECIAL_STAGE_BG_FRAME_15] = (Tilemap *)&special_stage_bg_frame_15,
-    [TM_UNKNOWN_STARFIELD] = (Tilemap *)&unknown_starfield,
-    [TM_EGG_ROCKET_CLOUDS] = (Tilemap *)&unknown_clouds,
+    [TM_ICE_PARADISE_SNOW] = (Tilemap *)&ice_paradise_snow,
+    [TM_EGG_ROCKET_CLOUDS] = (Tilemap *)&egg_rocket_clouds,
     [TM_TILEMAP_73] = (Tilemap *)&tilemap_73,
     [TM_SA1_TITLE_LOGO] = (Tilemap *)&tilemap_74,
     [TM_SA1_TITLE_BG] = (Tilemap *)&tilemap_75,
