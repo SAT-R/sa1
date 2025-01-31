@@ -10,7 +10,7 @@ SECTIONS {
         src/rom_header.o(.text);
         src/crt0.o(.text);
         src/multi_sio_asm.o(.text);
-        asm/rom_header_old.o(.text);
+        data/rom_header_old.o(.text);
         src/core.o(.text);
         src/main.o(.text);
         src/task.o(.text);
