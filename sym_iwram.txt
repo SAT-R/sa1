@@ -1,9 +1,9 @@
 
 /**** bss ****/
-build/sa1/src/lib/m4a/m4a.o(.bss.code);
+src/lib/m4a/m4a.o(.bss.code);
 
 . = 0x0000400;
-build/sa1/src/multi_boot.o(.bss);
+src/multi_boot.o(.bss);
 
 /* *** TODO: Do these without hard-coding! *** */
 gFlashMaxTime = 0x00000424;
@@ -15,18 +15,18 @@ gTimerReg = 0x00000434;
 gSavedIme = 0x00000438;
 
 . = 0x0000042C;
-/*build/sa1/src/lib/agb_flash/agb_flash.o(COMMON);*/
-build/sa1/src/lib/agb_flash/agb_flash.o(.bss);
+/*src/lib/agb_flash/agb_flash.o(COMMON);*/
+src/lib/agb_flash/agb_flash.o(.bss);
 
 . = 0x00000440; 
 *libgcc.a:(.bss);
 
 . = 0x00000470;
-build/sa1/src/core.o(.data);
+src/core.o(.data);
 
 . = 0x00004C60;
-build/sa1/src/multi_sio.o(.data);
-build/sa1/src/sio32_multi_load.o(.data);
+src/multi_sio.o(.data);
+src/sio32_multi_load.o(.data);
 
 . = 0x00004FE0; sa2__gUnknown_030053E0 = .;
 . = 0x00004FE4; gCheckpointTime = .;
@@ -172,7 +172,7 @@ build/sa1/src/sio32_multi_load.o(.data);
 . = 0x000063F0; gUnknown_030063F0 = .;
 
 . = 0x00006408;
-build/sa1/src/lib/agb_flash/agb_flash.o(.data);
+src/lib/agb_flash/agb_flash.o(.data);
 
 /* TODO: Remove this after inserting library .o files */
 . = 0x0000642C;

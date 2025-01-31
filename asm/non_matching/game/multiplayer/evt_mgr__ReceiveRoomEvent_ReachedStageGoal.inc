@@ -359,7 +359,7 @@ _080181DA:
 	ldr r1, [sp, #8]
 	cmp r1, #0
 	bne _080181E4
-	bl sub_8019DB0
+	bl sa2__sub_8019F08
 _080181E4:
 	add sp, #0x14
 	pop {r3, r4, r5}

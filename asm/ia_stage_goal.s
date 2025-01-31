@@ -1482,7 +1482,7 @@ _0801FD18:
 	ldr r1, [r0]
 	ldr r0, _0801FD5C @ =Task_StageGoal6
 	str r0, [r1, #8]
-	bl sub_8019DB0
+	bl sa2__sub_8019F08
 	b _0801FD8E
 	.align 2, 0
 _0801FD2C: .4byte 0x04000128

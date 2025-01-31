@@ -4,10 +4,27 @@
 #include "config.h"
 #include "gba/gba.h"
 
+#if PLATFORM_GBA
+#define ENABLE_AUDIO TRUE
+#else
+#define ENABLE_AUDIO     TRUE
+#define ENABLE_VRAM_VIEW !TRUE
+#endif
+
 #define CONST_DATA __attribute__((section(".data")))
 
 // #include "types.h"
 // #include "variables.h"
+
+#if !PLATFORM_GBA
+#ifdef _WIN32
+void *Platform_malloc(int numBytes);
+void Platform_free(void *ptr);
+#define malloc(numBytes)    Platform_malloc(numBytes)
+#define calloc(count, size) Platform_malloc(count *size)
+#define free(numBytes)      Platform_free(numBytes)
+#endif
+#endif
 
 #define SIO_MULTI_CNT ((volatile struct SioMultiCnt *)REG_ADDR_SIOCNT)
 
@@ -15,20 +32,23 @@ typedef void (*VoidFn)(void);
 
 // helper macros
 
-#if ((defined PORTABLE) || (defined NON_MATCHING))
+#if (PORTABLE)
 #define BUG_FIX
-#define UB_FIX
-#endif
 
-#if ((defined PORTABLE) && !(defined NON_MATCHING))
+#if !(defined NON_MATCHING)
+#define NON_MATCHING 1
+#endif
+#elif (DEBUG)
 #define NON_MATCHING 1
 #endif
 
 #ifdef NON_MATCHING
 #define ASM_FUNC(path, decl)
+#define TEMP_FIX 1
 #else
 #define ASM_FUNC(path, decl)                                                                                                               \
     NAKED decl { asm(".include " #path); }
+#define TEMP_FIX 0
 #endif
 
 #ifdef NON_MATCHING
@@ -60,6 +80,14 @@ typedef void (*VoidFn)(void);
 #define INCBIN_S32 INCBIN
 #endif // IDE support
 
+// Use STR(<macro>) to turn the macro's *content* into a string
+#define STR_(x) #x
+#define STR(x)  STR_(x)
+
+// NOTE: This has to be kept as-is.
+//       If casted it to be signed,
+//          dataIndex = (dataIndex + 1) % ARRAY_COUNT(data)
+//       wouldn't match.
 #define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))
 
 // Converts a number to Q8.8 fixed-point format
@@ -78,7 +106,8 @@ typedef void (*VoidFn)(void);
 #define Q_20_12(n) ((s32)((n)*4096))
 
 // Converts a number to Q24.8 fixed-point format
-#define Q_24_8(n) ((s32)((n)*256))
+#define Q_24_8(n)      ((s32)((n)*256))
+#define Q_24_8_FRAC(n) ((u8)(n))
 
 // This may be the "real" version as we are seeing better matches with
 // it in some cases
@@ -105,7 +134,12 @@ typedef void (*VoidFn)(void);
 // Converts a Q2.12 fixed-point format number to a Q24.8 fixed point number
 #define Q_2_14_TO_Q_24_8(n) ((int)((n) >> 6))
 
-#define Q_24_8_MULTIPLY(intVal, floatVal) Q_24_8_TO_INT((intVal)*Q_24_8(floatVal))
+// Multiplies two Q values
+#define Q_MUL(qValA, qValB)         ((qValA * qValB) >> 8)
+#define Q_SQUARE(qVal)              Q_MUL(qVal, qVal)
+#define Q_DIV(qValA, qValB)         Div((qValA << 8), qValB)
+#define Q_DIV2(qValA, qValB)        ((qValA << 8) / qValB)
+#define Q_MUL_Q_F32(qVal, floatVal) Q_MUL(qVal, Q(floatVal))
 
 /*
  * Aliases for common macros

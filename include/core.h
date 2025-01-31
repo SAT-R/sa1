@@ -350,7 +350,7 @@ extern u8 sa2__gUnknown_03004D60[0x20];
 extern u8 sa2__gUnknown_03005390;
 extern u16 sa2__gUnknown_03005394;
 extern u16 sa2__gUnknown_03005398;
-extern FuncType_030053A0 sa2__gUnknown_030053A0[4];
+extern FuncType_030053A0 gVBlankIntrs[4];
 extern s32 gPseudoRandom;
 extern u8 sa2__gUnknown_03002710[128];
 // extern struct MultiBootParam gMultiBootParam;

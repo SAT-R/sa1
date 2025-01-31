@@ -350,7 +350,7 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
         }
 
         if (!somebool) {
-            sub_8019F08();
+            sa2__sub_8019F08();
         }
     }
 }

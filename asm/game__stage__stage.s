@@ -809,7 +809,7 @@ _0803D500:
 	adds r0, r2, #0
 	orrs r0, r4
 	strh r0, [r3]
-	bl sub_8019DB0
+	bl sa2__sub_8019F08
 	b _0803D586
 _0803D50C:
 	ldr r0, _0803D54C @ =gCourseTime
@@ -870,7 +870,7 @@ _0803D57C:
 	adds r0, r2, #0
 	orrs r0, r4
 	strh r0, [r3]
-	bl sub_8019DB0
+	bl sa2__sub_8019F08
 _0803D586:
 	add sp, #4
 	pop {r4, r5, r6, r7}

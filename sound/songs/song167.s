@@ -1,4 +1,4 @@
-	.include "MPlayDef.s"
+	.include "sound/MPlayDef.s"
 
 	.section .rodata
 

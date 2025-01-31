@@ -2938,8 +2938,8 @@ sub_8019D9C: @ 0x08019D9C
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8019DB0
-sub_8019DB0: @ 0x08019DB0
+	thumb_func_start sa2__sub_8019F08
+sa2__sub_8019F08: @ 0x08019DB0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8

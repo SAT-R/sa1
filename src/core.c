@@ -132,7 +132,7 @@ u16 gVramHeapState[] = {};
 u8 sa2__gUnknown_03005390 ALIGNED(4) = 0;
 u16 sa2__gUnknown_03005394 ALIGNED(4) = 0;
 u16 sa2__gUnknown_03005398 ALIGNED(4) = 0;
-FuncType_030053A0 sa2__gUnknown_030053A0[] ALIGNED(16) = {};
+FuncType_030053A0 gVBlankIntrs[] ALIGNED(16) = {};
 const u8 *gInputPlaybackData = NULL;
 bool8 gExecSoundMain ALIGNED(4) = FALSE;
 s32 gPseudoRandom = 0;
@@ -328,7 +328,7 @@ void EngineInit(void)
     sa2__gUnknown_03001948 = 0;
 
     DmaFill32(3, 0, sa2__gUnknown_03001870, sizeof(sa2__gUnknown_03001870));
-    DmaFill32(3, 0, sa2__gUnknown_030053A0, sizeof(sa2__gUnknown_030053A0));
+    DmaFill32(3, 0, gVBlankIntrs, sizeof(gVBlankIntrs));
 
     m4aSoundInit();
     m4aSoundMode(DEFAULT_SOUND_MODE);
@@ -485,17 +485,17 @@ void UpdateScreenDma(void)
 
     for (i = 0; i < sa2__gUnknown_03001948; i++) {
 #ifdef BUG_FIX
-        if (sa2__gUnknown_030053A0[i] != NULL)
+        if (gVBlankIntrs[i] != NULL)
 #endif
         {
-            sa2__gUnknown_030053A0[i]();
+            gVBlankIntrs[i]();
         }
     }
 
     if (gFlags & FLAGS_10) {
-        DmaFill32(3, 0, sa2__gUnknown_030053A0, sizeof(sa2__gUnknown_030053A0));
+        DmaFill32(3, 0, gVBlankIntrs, sizeof(gVBlankIntrs));
         if (sa2__gUnknown_03004D50 != 0) {
-            DmaCopy32(3, sa2__gUnknown_03001870, sa2__gUnknown_030053A0, sa2__gUnknown_03004D50 * sizeof(FuncType_030053A0));
+            DmaCopy32(3, sa2__gUnknown_03001870, gVBlankIntrs, sa2__gUnknown_03004D50 * sizeof(FuncType_030053A0));
         }
         sa2__gUnknown_03001948 = sa2__gUnknown_03004D50;
     } else {
@@ -611,13 +611,13 @@ void UpdateScreenCpuSet(void)
     }
 
     for (i = 0; i < sa2__gUnknown_03001948; i++) {
-        sa2__gUnknown_030053A0[i]();
+        gVBlankIntrs[i]();
     }
 
     if (gFlags & 0x10) {
-        CpuFastFill(NULL, sa2__gUnknown_030053A0, sizeof(sa2__gUnknown_030053A0));
+        CpuFastFill(NULL, gVBlankIntrs, sizeof(gVBlankIntrs));
         if (sa2__gUnknown_03004D50 != 0) {
-            CpuFastSet(sa2__gUnknown_03001870, sa2__gUnknown_030053A0, sa2__gUnknown_03004D50);
+            CpuFastSet(sa2__gUnknown_03001870, gVBlankIntrs, sa2__gUnknown_03004D50);
         }
         sa2__gUnknown_03001948 = sa2__gUnknown_03004D50;
     } else {
