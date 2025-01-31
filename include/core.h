@@ -227,12 +227,65 @@ extern u8 gNumHBlankCallbacks;
 extern u8 gNumHBlankIntrs;
 
 extern u8 gIwramHeap[0x2204];
-extern u8 gEwramHeap[0x20080];
 
 extern void *gVramHeapStartAddr;
 extern u16 gVramHeapMaxTileSlots;
 extern u16 gVramHeapState[256];
 
+extern bool8 gExecSoundMain;
+
+extern u16 gDispCnt;
+
+#define WINREG_WIN0H  0
+#define WINREG_WIN1H  1
+#define WINREG_WIN0V  2
+#define WINREG_WIN1V  3
+#define WINREG_WININ  4
+#define WINREG_WINOUT 5
+
+extern winreg_t gWinRegs[6];
+extern struct BlendRegs gBldRegs;
+extern BgAffineReg gBgAffineRegs[NUM_AFFINE_BACKGROUNDS];
+extern u16 gObjPalette[OBJ_PLTT_SIZE / sizeof(u16)];
+extern u16 gBgPalette[BG_PLTT_SIZE / sizeof(u16)];
+extern u16 gBgCntRegs[4];
+
+// TODO: Turn this into a struct-array?
+//       [4]{s16 x, s16 y}
+extern s16 gBgScrollRegs[NUM_BACKGROUNDS][2];
+
+extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
+extern OamData gOamBuffer[OAM_ENTRY_COUNT];
+
+// NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)
+extern int_vcount gBgOffsetsBuffer[2][DISPLAY_HEIGHT][4];
+extern Background *gBackgroundsCopyQueue[16];
+
+// This is used to buffer the xy-shift for each background scanline
+extern void *gBgOffsetsHBlank;
+
+extern u16 sa2__gUnknown_030017F0;
+extern s16 sa2__gUnknown_030017F4[2];
+extern u8 sa2__gUnknown_03001850[32];
+extern FuncType_030053A0 gVBlankCallbacks[4];
+
+extern u8 gOamFreeIndex;
+extern u16 sa2__gUnknown_03001944;
+extern u8 gNumVBlankIntrs;
+extern u16 sa2__gUnknown_0300194C;
+
+extern Tilemap **gTilemapsRef;
+extern u8 sa2__gUnknown_03002280[4][4];
+extern u8 sa2__gUnknown_03004D80[16];
+
+#define LOG_GRAPHICS_QUEUE !TRUE
+#if (!PLATFORM_GBA && LOG_GRAPHICS_QUEUE)
+#define GFX_QUEUE_LOG_ADD(gfx)                                                                                                             \
+    printf("GFX %d: src 0x%p, dst 0x%p, size 0x%04X\n", gVramGraphicsCopyQueueIndex, (gfx)->src,                                           \
+           (void *)((intptr_t)(gfx)->dest - (intptr_t)VRAM), (gfx)->size);
+#else
+#define GFX_QUEUE_LOG_ADD(gfx)
+#endif
 extern struct GraphicsData *gVramGraphicsCopyQueue[32];
 extern u8 gVramGraphicsCopyQueueIndex;
 // Because the graphics in the queue only get copied if
@@ -255,11 +308,13 @@ extern struct GraphicsData gVramGraphicsCopyQueueBuffer[32];
     memcpy(&gVramGraphicsCopyQueueBuffer[gVramGraphicsCopyQueueIndex], gfx, sizeof(struct GraphicsData));                                  \
     gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = &gVramGraphicsCopyQueueBuffer[gVramGraphicsCopyQueueIndex];                      \
     /* Log has to happen before gVramGraphicsCopyQueueIndex increment */                                                                   \
+    GFX_QUEUE_LOG_ADD(gfx)                                                                                                                 \
     INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
 #else
 #define ADD_TO_GRAPHICS_QUEUE(gfx)                                                                                                         \
     gVramGraphicsCopyQueue[gVramGraphicsCopyQueueIndex] = gfx;                                                                             \
     /* Log has to happen before gVramGraphicsCopyQueueIndex increment */                                                                   \
+    GFX_QUEUE_LOG_ADD(gfx)                                                                                                                 \
     INC_GRAPHICS_QUEUE_CURSOR(gVramGraphicsCopyQueueIndex);
 #endif
 
@@ -271,72 +326,18 @@ extern struct GraphicsData gVramGraphicsCopyQueueBuffer[32];
     gBackgroundsCopyQueue[gBackgroundsCopyQueueIndex] = _bg;                                                                               \
     INC_BACKGROUNDS_QUEUE_CURSOR(gBackgroundsCopyQueueIndex);
 
-extern bool8 gExecSoundMain;
-
-extern u16 gDispCnt;
-
-#define WINREG_WIN0H  0
-#define WINREG_WIN1H  1
-#define WINREG_WIN0V  2
-#define WINREG_WIN1V  3
-#define WINREG_WININ  4
-#define WINREG_WINOUT 5
-extern u16 gWinRegs[6];
-extern struct BlendRegs gBldRegs;
-extern BgAffineReg gBgAffineRegs[NUM_AFFINE_BACKGROUNDS];
-extern u16 gObjPalette[OBJ_PLTT_SIZE / sizeof(u16)];
-extern u16 gBgPalette[BG_PLTT_SIZE / sizeof(u16)];
-extern u16 gBgCntRegs[4];
-
-extern u8 sa2__gUnknown_03002280[4][4];
-
-extern Sprite *sa2__gUnknown_03004D10[16];
-extern u8 sa2__gUnknown_03004D80[16];
-
-// TODO: Turn this into a struct-array:
-//       [4]{s16 x, s16 y}
-//       Should we introduce a
-//       "#define NUM_BACKGROUNDS 4" in gba/defines.h?
-extern s16 gBgScrollRegs[4][2];
-
-// extern s16 gUnknown_03000408;
-//
-// extern OamData gUnknown_030022C8;
-extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
-extern OamData gOamBuffer[OAM_ENTRY_COUNT];
-//
-// NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)
-extern int_vcount gBgOffsetsBuffer[2][DISPLAY_HEIGHT][4];
-extern Background *gBackgroundsCopyQueue[16];
-//
-//// This is used to buffer the xy-shift for each background scanline
-extern void *gBgOffsetsHBlank;
-//
-extern u16 sa2__gUnknown_030017F0;
-extern s16 sa2__gUnknown_030017F4[2];
-extern u8 sa2__gUnknown_03001850[32];
-extern FuncType_030053A0 sa2__gUnknown_03001870[4];
-//
-extern u8 gOamFreeIndex;
-extern u16 sa2__gUnknown_03001944;
-extern u8 sa2__gUnknown_03001948;
-extern u16 sa2__gUnknown_0300194C;
-//
-//
-extern Tilemap **gTilemapsRef;
-extern u8 sa2__gUnknown_03002280[4][4];
-extern u8 sa2__gUnknown_03004D80[16]; // TODO: Is this 4 (# backgrounds), instead of 16?
 extern void *sa2__gUnknown_030022AC;
 extern void *sa2__gUnknown_030022C0;
-// extern s16 gMosaicReg;
-// extern u8 gUnknown_030026F4;
-extern const struct SpriteTables *gRefSpriteTables;
+#if (GAME == GAME_SA2)
+extern s16 gMosaicReg;
+extern u8 gUnknown_030026F4;
+#endif
 extern u16 sa2__gUnknown_03002820;
 extern u8 sa2__gUnknown_03002874;
 extern void *sa2__gUnknown_03002878;
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 sa2__gUnknown_03002A80;
-// extern u16 gUnknown_03002A8C;
+extern u16 sa2__gUnknown_03002A8C;
 //// When paused, the previously-active OAM elements get moved to the end
 //// of the OAM. This is the index of the first currently-inactive element
 extern u8 gOamFirstPausedIndex;
@@ -353,7 +354,9 @@ extern u16 sa2__gUnknown_03005398;
 extern FuncType_030053A0 gVBlankIntrs[4];
 extern s32 gPseudoRandom;
 extern u8 sa2__gUnknown_03002710[128];
-// extern struct MultiBootParam gMultiBootParam;
+extern struct MultiBootParam gMultiBootParam;
+
+extern const struct SpriteTables *gRefSpriteTables;
 
 void EngineInit(void);
 void EngineMainLoop(void);

@@ -84,7 +84,7 @@ _0801C792:
 	ldr r1, _0801C7EC @ =gWinRegs
 	ldr r0, _0801C7F0 @ =0x00001190
 	strh r0, [r1, #4]
-	ldr r3, _0801C7F4 @ =sa2__gUnknown_03001870
+	ldr r3, _0801C7F4 @ =gVBlankCallbacks
 	ldr r2, _0801C7F8 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
@@ -120,7 +120,7 @@ _0801C7E4: .4byte Task_801C810
 _0801C7E8: .4byte gBldRegs
 _0801C7EC: .4byte gWinRegs
 _0801C7F0: .4byte 0x00001190
-_0801C7F4: .4byte sa2__gUnknown_03001870
+_0801C7F4: .4byte gVBlankCallbacks
 _0801C7F8: .4byte sa2__gUnknown_03004D50
 _0801C7FC: .4byte sub_801C9AC
 _0801C800: .4byte gFlags
@@ -148,7 +148,7 @@ Task_801C810: @ 0x0801C810
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x18
 	strh r0, [r1, #4]
-	ldr r3, _0801C8B0 @ =sa2__gUnknown_03001870
+	ldr r3, _0801C8B0 @ =gVBlankCallbacks
 	ldr r2, _0801C8B4 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
@@ -209,7 +209,7 @@ _0801C89A:
 _0801C8A4: .4byte gCurTask
 _0801C8A8: .4byte 0x04000128
 _0801C8AC: .4byte gBldRegs
-_0801C8B0: .4byte sa2__gUnknown_03001870
+_0801C8B0: .4byte gVBlankCallbacks
 _0801C8B4: .4byte sa2__gUnknown_03004D50
 _0801C8B8: .4byte sub_801C9AC
 _0801C8BC: .4byte gFlags
@@ -258,7 +258,7 @@ _0801C91C:
 	ldr r1, _0801C960 @ =gBldRegs
 	asrs r0, r2, #0x18
 	strh r0, [r1, #4]
-	ldr r3, _0801C964 @ =sa2__gUnknown_03001870
+	ldr r3, _0801C964 @ =gVBlankCallbacks
 	ldr r2, _0801C968 @ =sa2__gUnknown_03004D50
 	ldrb r0, [r2]
 	adds r1, r0, #1
@@ -291,7 +291,7 @@ _0801C958:
 	bx r0
 	.align 2, 0
 _0801C960: .4byte gBldRegs
-_0801C964: .4byte sa2__gUnknown_03001870
+_0801C964: .4byte gVBlankCallbacks
 _0801C968: .4byte sa2__gUnknown_03004D50
 _0801C96C: .4byte sub_801C9AC
 _0801C970: .4byte gFlags

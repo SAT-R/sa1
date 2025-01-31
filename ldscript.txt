@@ -482,7 +482,7 @@ SECTIONS {
     EWRAM (NOLOAD) :
     ALIGN(4) {
         src/lib/m4a/m4a.o(ewram_data);
-        src/malloc_ewram.o(COMMON);
+        src/malloc_ewram.o(.bss);
         ewram_end = .;
 
         . = 0x00033000; gUnknown_02033000 = .;
