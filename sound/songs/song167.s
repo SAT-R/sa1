@@ -82,7 +82,7 @@ song167:	@ 0x087BD868
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song167_1		@ track
-	.word	song167_2		@ track
+	.int	song167_1		@ track
+	.int	song167_2		@ track

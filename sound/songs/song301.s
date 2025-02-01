@@ -148,9 +148,9 @@ song301:	@ 0x087BEE6C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song301_1		@ track
-	.word	song301_2		@ track
-	.word	song301_3		@ track
-	.word	song301_4		@ track
+	.int	song301_1		@ track
+	.int	song301_2		@ track
+	.int	song301_3		@ track
+	.int	song301_4		@ track

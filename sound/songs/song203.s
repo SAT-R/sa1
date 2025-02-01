@@ -154,6 +154,6 @@ song203:	@ 0x087BE87C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song203_1		@ track
+	.int	song203_1		@ track

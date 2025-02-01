@@ -139,6 +139,6 @@ song185:	@ 0x087BE1B0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song185_1		@ track
+	.int	song185_1		@ track

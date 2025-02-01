@@ -106,6 +106,6 @@ song130:	@ 0x087BCD20
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song130_1		@ track
+	.int	song130_1		@ track

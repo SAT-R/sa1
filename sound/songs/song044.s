@@ -293,11 +293,11 @@ song044:	@ 0x087B90D8
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song044_1		@ track
-	.word	song044_2		@ track
-	.word	song044_3		@ track
-	.word	song044_4		@ track
-	.word	song044_5		@ track
-	.word	song044_6		@ track
+	.int	song044_1		@ track
+	.int	song044_2		@ track
+	.int	song044_3		@ track
+	.int	song044_4		@ track
+	.int	song044_5		@ track
+	.int	song044_6		@ track

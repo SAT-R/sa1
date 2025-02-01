@@ -106,6 +106,6 @@ song171:	@ 0x087BD97C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song171_1		@ track
+	.int	song171_1		@ track

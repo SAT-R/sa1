@@ -95,9 +95,9 @@ song039_1_1:
 	.byte	W24
 	.byte	PEND
 	.byte	PATT	
-		.word	song039_1_1
+		.int	song039_1_1
 	.byte	PATT	
-		.word	song039_1_1
+		.int	song039_1_1
 	.byte		N08	, An1, v127
 	.byte	W08
 	.byte		N08	
@@ -174,7 +174,7 @@ song039_1_2:
 	.byte	W08
 	.byte	PEND
 	.byte	PATT	
-		.word	song039_1_2
+		.int	song039_1_2
 song039_1_3:
 	.byte		N08	, Cn1, v127
 	.byte		N15	, Ds1, v072
@@ -226,25 +226,25 @@ song039_1_4:
 	.byte	W08
 	.byte	PEND
 	.byte	PATT	
-		.word	song039_1_2
+		.int	song039_1_2
 	.byte	PATT	
-		.word	song039_1_2
+		.int	song039_1_2
 	.byte	PATT	
-		.word	song039_1_3
+		.int	song039_1_3
 	.byte	PATT	
-		.word	song039_1_4
+		.int	song039_1_4
 	.byte	PATT	
-		.word	song039_1_3
+		.int	song039_1_3
 	.byte	PATT	
-		.word	song039_1_4
+		.int	song039_1_4
 	.byte	PATT	
-		.word	song039_1_3
+		.int	song039_1_3
 	.byte	PATT	
-		.word	song039_1_4
+		.int	song039_1_4
 	.byte	PATT	
-		.word	song039_1_2
+		.int	song039_1_2
 	.byte	PATT	
-		.word	song039_1_2
+		.int	song039_1_2
 	.byte		N08	, Cn1, v127
 	.byte		N15	, Ds1, v072
 	.byte	W16
@@ -2211,7 +2211,7 @@ song039_10_1:
 	.byte		N23	, Cs3, v108
 	.byte	W12
 	.byte	PATT	
-		.word	song039_10_1
+		.int	song039_10_1
 	.byte		N23	, Dn1, v096
 	.byte	W12
 	.byte			An1, v084
@@ -3686,19 +3686,19 @@ song039:	@ 0x087B5ED0
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song039_1		@ track
-	.word	song039_2		@ track
-	.word	song039_3		@ track
-	.word	song039_4		@ track
-	.word	song039_5		@ track
-	.word	song039_6		@ track
-	.word	song039_7		@ track
-	.word	song039_8		@ track
-	.word	song039_9		@ track
-	.word	song039_10		@ track
-	.word	song039_11		@ track
-	.word	song039_12		@ track
-	.word	song039_13		@ track
-	.word	song039_14		@ track
+	.int	song039_1		@ track
+	.int	song039_2		@ track
+	.int	song039_3		@ track
+	.int	song039_4		@ track
+	.int	song039_5		@ track
+	.int	song039_6		@ track
+	.int	song039_7		@ track
+	.int	song039_8		@ track
+	.int	song039_9		@ track
+	.int	song039_10		@ track
+	.int	song039_11		@ track
+	.int	song039_12		@ track
+	.int	song039_13		@ track
+	.int	song039_14		@ track

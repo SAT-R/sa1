@@ -60,6 +60,6 @@ song213:	@ 0x087BEC30
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song213_1		@ track
+	.int	song213_1		@ track

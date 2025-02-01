@@ -71,6 +71,6 @@ song115:	@ 0x087BC728
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song115_1		@ track
+	.int	song115_1		@ track

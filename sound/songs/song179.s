@@ -144,6 +144,6 @@ song179:	@ 0x087BDE70
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song179_1		@ track
+	.int	song179_1		@ track

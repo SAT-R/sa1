@@ -23,7 +23,7 @@ song180_1_1:
 	.byte	W72
 	.byte	W96
 	.byte	GOTO	
-		.word	song180_1_1
+		.int	song180_1_1
 	.byte	W13
 	.byte		EOT	, Gs2
 	.byte	FINE
@@ -36,6 +36,6 @@ song180:	@ 0x087BDEA0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song180_1		@ track
+	.int	song180_1		@ track

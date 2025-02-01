@@ -381,12 +381,12 @@ song036:	@ 0x087B3990
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song036_1		@ track
-	.word	song036_2		@ track
-	.word	song036_3		@ track
-	.word	song036_4		@ track
-	.word	song036_5		@ track
-	.word	song036_6		@ track
-	.word	song036_7		@ track
+	.int	song036_1		@ track
+	.int	song036_2		@ track
+	.int	song036_3		@ track
+	.int	song036_4		@ track
+	.int	song036_5		@ track
+	.int	song036_6		@ track
+	.int	song036_7		@ track

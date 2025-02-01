@@ -20,7 +20,7 @@ song198_1:	@ 0x087BE608
 song198_1_1:
 	.byte	W96
 	.byte	GOTO	
-		.word	song198_1_1
+		.int	song198_1_1
 	.byte	W06
 	.byte		EOT	, An3
 	.byte	FINE
@@ -33,6 +33,6 @@ song198:	@ 0x087BE628
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song198_1		@ track
+	.int	song198_1		@ track

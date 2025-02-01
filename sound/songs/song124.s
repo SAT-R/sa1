@@ -23,6 +23,6 @@ song124:	@ 0x087BC9C0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song124_1		@ track
+	.int	song124_1		@ track

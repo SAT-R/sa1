@@ -133,6 +133,6 @@ song149:	@ 0x087BD3E0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song149_1		@ track
+	.int	song149_1		@ track

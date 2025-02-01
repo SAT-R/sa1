@@ -67,6 +67,6 @@ song116:	@ 0x087BC774
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song116_1		@ track
+	.int	song116_1		@ track

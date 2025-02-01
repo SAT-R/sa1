@@ -71,9 +71,9 @@ song052_1_1:
 	.byte	PEND
 song052_1_5:
 	.byte	PATT	
-		.word	song052_1_1
+		.int	song052_1_1
 	.byte	PATT	
-		.word	song052_1_1
+		.int	song052_1_1
 song052_1_2:
 	.byte		N15	, Cs2, v127
 	.byte	W18
@@ -115,13 +115,13 @@ song052_1_2:
 	.byte		N09	, Bn1
 	.byte	W12
 	.byte	PATT	
-		.word	song052_1_1
+		.int	song052_1_1
 	.byte	PATT	
-		.word	song052_1_1
+		.int	song052_1_1
 	.byte	PATT	
-		.word	song052_1_1
+		.int	song052_1_1
 	.byte	PATT	
-		.word	song052_1_2
+		.int	song052_1_2
 	.byte		N14	, Fs2, v127
 	.byte	W18
 	.byte		N16	
@@ -223,9 +223,9 @@ song052_1_4:
 	.byte		N06	, Bn1
 	.byte	W12
 	.byte	PATT	
-		.word	song052_1_3
+		.int	song052_1_3
 	.byte	PATT	
-		.word	song052_1_4
+		.int	song052_1_4
 	.byte		N14	, Fs2, v127
 	.byte	W18
 	.byte		N04	
@@ -261,9 +261,9 @@ song052_1_4:
 	.byte		N18	, Gs2
 	.byte	W24
 	.byte	PATT	
-		.word	song052_1_1
+		.int	song052_1_1
 	.byte	GOTO	
-		.word	song052_1_5
+		.int	song052_1_5
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -392,9 +392,9 @@ song052_2_1:
 	.byte	PEND
 song052_2_3:
 	.byte	PATT	
-		.word	song052_2_1
+		.int	song052_2_1
 	.byte	PATT	
-		.word	song052_2_1
+		.int	song052_2_1
 	.byte		N12	, Cn1, v127
 	.byte		N06	, Dn1, v028
 	.byte	W06
@@ -479,13 +479,13 @@ song052_2_3:
 	.byte		N11	, En1, v068
 	.byte	W12
 	.byte	PATT	
-		.word	song052_2_1
+		.int	song052_2_1
 	.byte	PATT	
-		.word	song052_2_1
+		.int	song052_2_1
 	.byte	PATT	
-		.word	song052_2_1
+		.int	song052_2_1
 	.byte	PATT	
-		.word	song052_2_1
+		.int	song052_2_1
 	.byte		N12	, Cn1, v127
 	.byte		N12	, En1, v068
 	.byte	W12
@@ -573,9 +573,9 @@ song052_2_2:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.word	song052_2_2
+		.int	song052_2_2
 	.byte	PATT	
-		.word	song052_2_2
+		.int	song052_2_2
 	.byte		N12	, Cn1, v127
 	.byte		N06	, Dn1, v028
 	.byte	W06
@@ -636,7 +636,7 @@ song052_2_2:
 	.byte		N12	, En1, v056
 	.byte	W12
 	.byte	PATT	
-		.word	song052_2_2
+		.int	song052_2_2
 	.byte		N12	, Cn1, v127
 	.byte		N06	, Dn1, v028
 	.byte	W06
@@ -688,9 +688,9 @@ song052_2_2:
 	.byte		N24	, En1, v072
 	.byte	W24
 	.byte	PATT	
-		.word	song052_2_1
+		.int	song052_2_1
 	.byte	GOTO	
-		.word	song052_2_3
+		.int	song052_2_3
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -748,9 +748,9 @@ song052_3_2:
 	.byte	W18
 	.byte	PEND
 	.byte	PATT	
-		.word	song052_3_1
+		.int	song052_3_1
 	.byte	PATT	
-		.word	song052_3_2
+		.int	song052_3_2
 song052_3_3:
 	.byte		N06	, Cs3, v124
 	.byte		N06	, Fs3
@@ -810,15 +810,15 @@ song052_3_4:
 	.byte			Gs2, v096
 	.byte	W12
 	.byte	PATT	
-		.word	song052_3_2
+		.int	song052_3_2
 	.byte	PATT	
-		.word	song052_3_1
+		.int	song052_3_1
 	.byte	PATT	
-		.word	song052_3_2
+		.int	song052_3_2
 	.byte	PATT	
-		.word	song052_3_3
+		.int	song052_3_3
 	.byte	PATT	
-		.word	song052_3_4
+		.int	song052_3_4
 	.byte		N54	, Gs3, v108
 	.byte		N54	, Bn3, v104
 	.byte	W60
@@ -1031,7 +1031,7 @@ song052_3_4:
 	.byte		N06	, Gs3, v112
 	.byte	W36
 	.byte	GOTO	
-		.word	song052_3_2
+		.int	song052_3_2
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -1069,9 +1069,9 @@ song052_4_2:
 	.byte	W60
 	.byte	PEND
 	.byte	PATT	
-		.word	song052_4_1
+		.int	song052_4_1
 	.byte	PATT	
-		.word	song052_4_2
+		.int	song052_4_2
 song052_4_3:
 	.byte		N06	, As2, v108
 	.byte	W06
@@ -1103,15 +1103,15 @@ song052_4_3:
 	.byte		N12	, Ds3, v104
 	.byte	W12
 	.byte	PATT	
-		.word	song052_4_1
+		.int	song052_4_1
 	.byte	PATT	
-		.word	song052_4_2
+		.int	song052_4_2
 	.byte	PATT	
-		.word	song052_4_1
+		.int	song052_4_1
 	.byte	PATT	
-		.word	song052_4_2
+		.int	song052_4_2
 	.byte	PATT	
-		.word	song052_4_3
+		.int	song052_4_3
 	.byte		N18	, Cs3, v127
 	.byte	W18
 	.byte			An2, v088
@@ -1160,7 +1160,7 @@ song052_4_4:
 	.byte			Ds3
 	.byte	W06
 	.byte	PATT	
-		.word	song052_4_4
+		.int	song052_4_4
 	.byte		N18	, En3, v108
 	.byte	W18
 	.byte			Ds3, v100
@@ -1194,9 +1194,9 @@ song052_4_4:
 	.byte			Ds3, v124
 	.byte	W48
 	.byte	PATT	
-		.word	song052_4_1
+		.int	song052_4_1
 	.byte	GOTO	
-		.word	song052_4_2
+		.int	song052_4_2
 	.byte	FINE
 
 	@********************** Track  5 **********************@
@@ -1233,9 +1233,9 @@ song052_5_2:
 	.byte	W60
 	.byte	PEND
 	.byte	PATT	
-		.word	song052_5_1
+		.int	song052_5_1
 	.byte	PATT	
-		.word	song052_5_2
+		.int	song052_5_2
 song052_5_3:
 	.byte		N06	, Cs3, v108
 	.byte	W06
@@ -1267,15 +1267,15 @@ song052_5_3:
 	.byte		N12	, Fs3, v104
 	.byte	W12
 	.byte	PATT	
-		.word	song052_5_1
+		.int	song052_5_1
 	.byte	PATT	
-		.word	song052_5_2
+		.int	song052_5_2
 	.byte	PATT	
-		.word	song052_5_1
+		.int	song052_5_1
 	.byte	PATT	
-		.word	song052_5_2
+		.int	song052_5_2
 	.byte	PATT	
-		.word	song052_5_3
+		.int	song052_5_3
 	.byte		N18	, En3, v127
 	.byte	W18
 	.byte			Cs3, v088
@@ -1324,7 +1324,7 @@ song052_5_4:
 	.byte			Gn4
 	.byte	W06
 	.byte	PATT	
-		.word	song052_5_4
+		.int	song052_5_4
 	.byte		N18	, Gs4, v108
 	.byte	W18
 	.byte			Fs4, v100
@@ -1358,9 +1358,9 @@ song052_5_4:
 	.byte			Gs4, v124
 	.byte	W48
 	.byte	PATT	
-		.word	song052_5_1
+		.int	song052_5_1
 	.byte	GOTO	
-		.word	song052_5_2
+		.int	song052_5_2
 	.byte	FINE
 
 	.align 2
@@ -1371,10 +1371,10 @@ song052:	@ 0x087BB954
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song052_1		@ track
-	.word	song052_2		@ track
-	.word	song052_3		@ track
-	.word	song052_4		@ track
-	.word	song052_5		@ track
+	.int	song052_1		@ track
+	.int	song052_2		@ track
+	.int	song052_3		@ track
+	.int	song052_4		@ track
+	.int	song052_5		@ track

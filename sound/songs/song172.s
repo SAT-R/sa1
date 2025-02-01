@@ -144,6 +144,6 @@ song172:	@ 0x087BDA5C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song172_1		@ track
+	.int	song172_1		@ track

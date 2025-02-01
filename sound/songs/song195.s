@@ -75,6 +75,6 @@ song195:	@ 0x087BE574
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song195_1		@ track
+	.int	song195_1		@ track

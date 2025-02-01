@@ -50,7 +50,7 @@ song204_1_1:
 	.byte	W72
 	.byte	W72
 	.byte	GOTO	
-		.word	song204_1_1
+		.int	song204_1_1
 	.byte	W24
 	.byte		EOT	, Fn1
 	.byte	FINE
@@ -63,6 +63,6 @@ song204:	@ 0x087BE8C8
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song204_1		@ track
+	.int	song204_1		@ track

@@ -113,6 +113,6 @@ song113:	@ 0x087BC690
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song113_1		@ track
+	.int	song113_1		@ track

@@ -231,10 +231,10 @@ song054:	@ 0x087BC338
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song054_1		@ track
-	.word	song054_2		@ track
-	.word	song054_3		@ track
-	.word	song054_4		@ track
-	.word	song054_5		@ track
+	.int	song054_1		@ track
+	.int	song054_2		@ track
+	.int	song054_3		@ track
+	.int	song054_4		@ track
+	.int	song054_5		@ track

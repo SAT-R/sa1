@@ -105,6 +105,6 @@ song190:	@ 0x087BE368
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song190_1		@ track
+	.int	song190_1		@ track

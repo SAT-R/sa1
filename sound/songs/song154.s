@@ -60,7 +60,7 @@ song154:	@ 0x087BD4D8
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song154_1		@ track
-	.word	song154_2		@ track
+	.int	song154_1		@ track
+	.int	song154_2		@ track

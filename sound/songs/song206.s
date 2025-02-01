@@ -77,6 +77,6 @@ song206:	@ 0x087BE96C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song206_1		@ track
+	.int	song206_1		@ track

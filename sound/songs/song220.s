@@ -27,6 +27,6 @@ song220:	@ 0x087BED28
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song220_1		@ track
+	.int	song220_1		@ track

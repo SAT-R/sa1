@@ -44,6 +44,6 @@ song205:	@ 0x087BE900
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song205_1		@ track
+	.int	song205_1		@ track

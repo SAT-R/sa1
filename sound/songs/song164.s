@@ -23,6 +23,6 @@ song164:	@ 0x087BD7AC
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song164_1		@ track
+	.int	song164_1		@ track

@@ -23,6 +23,6 @@ song129:	@ 0x087BCCAC
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song129_1		@ track
+	.int	song129_1		@ track

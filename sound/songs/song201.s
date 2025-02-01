@@ -22,7 +22,7 @@ song201_1_1:
 	.byte	W72
 	.byte	W72
 	.byte	GOTO	
-		.word	song201_1_1
+		.int	song201_1_1
 	.byte	W24
 	.byte		EOT	, As3
 	.byte	FINE
@@ -35,6 +35,6 @@ song201:	@ 0x087BE7A0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song201_1		@ track
+	.int	song201_1		@ track

@@ -81,7 +81,7 @@ song120_1_1:
 	.byte		N05	
 	.byte	W06
 	.byte	GOTO	
-		.word	song120_1_1
+		.int	song120_1_1
 	.byte	FINE
 
 	.align 2
@@ -92,6 +92,6 @@ song120:	@ 0x087BC838
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song120_1		@ track
+	.int	song120_1		@ track

@@ -29,7 +29,7 @@ song134_1:	@ 0x087BCE60
 song134_1_1:
 	.byte	W96
 	.byte	GOTO	
-		.word	song134_1_1
+		.int	song134_1_1
 	.byte	W12
 	.byte		EOT	, Ds4
 	.byte	FINE
@@ -42,6 +42,6 @@ song134:	@ 0x087BCE90
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song134_1		@ track
+	.int	song134_1		@ track

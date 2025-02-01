@@ -42,6 +42,6 @@ song161:	@ 0x087BD734
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song161_1		@ track
+	.int	song161_1		@ track

@@ -124,6 +124,6 @@ song177:	@ 0x087BDD70
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song177_1		@ track
+	.int	song177_1		@ track

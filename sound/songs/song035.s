@@ -542,14 +542,14 @@ song035:	@ 0x087B3778
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song035_1		@ track
-	.word	song035_2		@ track
-	.word	song035_3		@ track
-	.word	song035_4		@ track
-	.word	song035_5		@ track
-	.word	song035_6		@ track
-	.word	song035_7		@ track
-	.word	song035_8		@ track
-	.word	song035_9		@ track
+	.int	song035_1		@ track
+	.int	song035_2		@ track
+	.int	song035_3		@ track
+	.int	song035_4		@ track
+	.int	song035_5		@ track
+	.int	song035_6		@ track
+	.int	song035_7		@ track
+	.int	song035_8		@ track
+	.int	song035_9		@ track

@@ -34,6 +34,6 @@ song150:	@ 0x087BD40C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song150_1		@ track
+	.int	song150_1		@ track

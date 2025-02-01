@@ -113,10 +113,10 @@ song303:	@ 0x087BEF78
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song303_1		@ track
-	.word	song303_2		@ track
-	.word	song303_3		@ track
-	.word	song303_4		@ track
-	.word	song303_5		@ track
+	.int	song303_1		@ track
+	.int	song303_2		@ track
+	.int	song303_3		@ track
+	.int	song303_4		@ track
+	.int	song303_5		@ track

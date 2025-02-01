@@ -27,6 +27,6 @@ song135:	@ 0x087BCEB0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup004		@ voicegroup/tone
+	.int	voicegroup004		@ voicegroup/tone
 
-	.word	song135_1		@ track
+	.int	song135_1		@ track

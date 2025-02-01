@@ -143,6 +143,6 @@ song125:	@ 0x087BCAA0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song125_1		@ track
+	.int	song125_1		@ track

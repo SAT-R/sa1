@@ -71,6 +71,6 @@ song191:	@ 0x087BE3BC
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song191_1		@ track
+	.int	song191_1		@ track

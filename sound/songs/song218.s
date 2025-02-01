@@ -27,6 +27,6 @@ song218:	@ 0x087BECE8
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song218_1		@ track
+	.int	song218_1		@ track

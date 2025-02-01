@@ -29,6 +29,6 @@ song121:	@ 0x087BC85C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song121_1		@ track
+	.int	song121_1		@ track

@@ -217,83 +217,83 @@ song042_1_1:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	PATT	
-		.word	song042_1_1
+		.int	song042_1_1
 	.byte	GOTO	
-		.word	song042_1_2
+		.int	song042_1_2
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -369,15 +369,15 @@ song042_2_2:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.word	song042_2_1
+		.int	song042_2_1
 	.byte	PATT	
-		.word	song042_2_2
+		.int	song042_2_2
 	.byte	PATT	
-		.word	song042_2_1
+		.int	song042_2_1
 	.byte	PATT	
-		.word	song042_2_2
+		.int	song042_2_2
 	.byte	PATT	
-		.word	song042_2_1
+		.int	song042_2_1
 song042_2_3:
 	.byte		N07	, Ds2, v080
 	.byte	W12
@@ -570,31 +570,31 @@ song042_2_10:
 	.byte		N06	
 	.byte	W12
 	.byte	PATT	
-		.word	song042_2_1
+		.int	song042_2_1
 	.byte	PATT	
-		.word	song042_2_2
+		.int	song042_2_2
 	.byte	PATT	
-		.word	song042_2_1
+		.int	song042_2_1
 	.byte	PATT	
-		.word	song042_2_2
+		.int	song042_2_2
 	.byte	PATT	
-		.word	song042_2_1
+		.int	song042_2_1
 	.byte	PATT	
-		.word	song042_2_3
+		.int	song042_2_3
 	.byte	PATT	
-		.word	song042_2_4
+		.int	song042_2_4
 	.byte	PATT	
-		.word	song042_2_5
+		.int	song042_2_5
 	.byte	PATT	
-		.word	song042_2_6
+		.int	song042_2_6
 	.byte	PATT	
-		.word	song042_2_7
+		.int	song042_2_7
 	.byte	PATT	
-		.word	song042_2_8
+		.int	song042_2_8
 	.byte	PATT	
-		.word	song042_2_9
+		.int	song042_2_9
 	.byte	PATT	
-		.word	song042_2_10
+		.int	song042_2_10
 	.byte		N07	, Cs2, v080
 	.byte	W12
 	.byte		N07	
@@ -644,9 +644,9 @@ song042_2_10:
 	.byte		N06	
 	.byte	W12
 	.byte	PATT	
-		.word	song042_2_1
+		.int	song042_2_1
 	.byte	PATT	
-		.word	song042_2_2
+		.int	song042_2_2
 	.byte		N08	, Fs2, v108
 	.byte	W12
 	.byte		N07	, Fs2, v096
@@ -712,7 +712,7 @@ song042_2_10:
 	.byte			As2
 	.byte	W12
 	.byte	GOTO	
-		.word	song042_2_1
+		.int	song042_2_1
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -821,11 +821,11 @@ song042_3_4:
 	.byte		N92	, As2, v100
 	.byte	W96
 	.byte	PATT	
-		.word	song042_3_1
+		.int	song042_3_1
 	.byte		N92	, As2, v104
 	.byte	W96
 	.byte	PATT	
-		.word	song042_3_2
+		.int	song042_3_2
 	.byte		TIE	, Gs2, v108
 	.byte	W96
 	.byte	W06
@@ -842,9 +842,9 @@ song042_3_4:
 	.byte		N90	, Fs2, v108
 	.byte	W96
 	.byte	PATT	
-		.word	song042_3_3
+		.int	song042_3_3
 	.byte	PATT	
-		.word	song042_3_4
+		.int	song042_3_4
 	.byte		N32	, Gs2, v120
 	.byte	W36
 	.byte		N11	, Gs2, v112
@@ -934,7 +934,7 @@ song042_3_4:
 	.byte			En3, v092
 	.byte	W06
 	.byte	GOTO	
-		.word	song042_3_5
+		.int	song042_3_5
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -1231,7 +1231,7 @@ song042_4_1:
 	.byte		N78	, Dn5
 	.byte	W96
 	.byte	GOTO	
-		.word	song042_4_1
+		.int	song042_4_1
 	.byte	FINE
 
 	@********************** Track  5 **********************@
@@ -1727,7 +1727,7 @@ song042_5_1:
 	.byte			As2, v108
 	.byte	W06
 	.byte	GOTO	
-		.word	song042_5_1
+		.int	song042_5_1
 	.byte	FINE
 
 	@********************** Track  6 **********************@
@@ -1804,7 +1804,7 @@ song042_6_1:
 	.byte	W96
 	.byte	W96
 	.byte	GOTO	
-		.word	song042_6_1
+		.int	song042_6_1
 	.byte	FINE
 
 	@********************** Track  7 **********************@
@@ -1920,12 +1920,12 @@ song042_7_3:
 	.byte	W96
 	.byte	W96
 	.byte	PATT	
-		.word	song042_7_1
+		.int	song042_7_1
 	.byte	PATT	
-		.word	song042_7_2
+		.int	song042_7_2
 	.byte	W96
 	.byte	PATT	
-		.word	song042_7_3
+		.int	song042_7_3
 	.byte	W96
 	.byte	W96
 	.byte	W96
@@ -1943,7 +1943,7 @@ song042_7_3:
 	.byte	W96
 	.byte	W96
 	.byte	GOTO	
-		.word	song042_7_4
+		.int	song042_7_4
 	.byte	FINE
 
 	.align 2
@@ -1954,12 +1954,12 @@ song042:	@ 0x087B8E20
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song042_1		@ track
-	.word	song042_2		@ track
-	.word	song042_3		@ track
-	.word	song042_4		@ track
-	.word	song042_5		@ track
-	.word	song042_6		@ track
-	.word	song042_7		@ track
+	.int	song042_1		@ track
+	.int	song042_2		@ track
+	.int	song042_3		@ track
+	.int	song042_4		@ track
+	.int	song042_5		@ track
+	.int	song042_6		@ track
+	.int	song042_7		@ track

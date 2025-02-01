@@ -106,6 +106,6 @@ song210:	@ 0x087BEB2C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song210_1		@ track
+	.int	song210_1		@ track

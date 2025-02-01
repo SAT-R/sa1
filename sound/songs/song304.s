@@ -269,12 +269,12 @@ song304:	@ 0x087BF0C8
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song304_1		@ track
-	.word	song304_2		@ track
-	.word	song304_3		@ track
-	.word	song304_4		@ track
-	.word	song304_5		@ track
-	.word	song304_6		@ track
-	.word	song304_7		@ track
+	.int	song304_1		@ track
+	.int	song304_2		@ track
+	.int	song304_3		@ track
+	.int	song304_4		@ track
+	.int	song304_5		@ track
+	.int	song304_6		@ track
+	.int	song304_7		@ track

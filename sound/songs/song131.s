@@ -107,6 +107,6 @@ song131:	@ 0x087BCD94
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song131_1		@ track
+	.int	song131_1		@ track

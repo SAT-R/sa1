@@ -71,7 +71,7 @@ song181_1_1:
 	.byte	W48
 	.byte	W96
 	.byte	GOTO	
-		.word	song181_1_1
+		.int	song181_1_1
 	.byte	W22
 	.byte		EOT	, Fn2
 	.byte	FINE
@@ -84,6 +84,6 @@ song181:	@ 0x087BDF00
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song181_1		@ track
+	.int	song181_1		@ track

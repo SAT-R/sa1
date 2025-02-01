@@ -33,6 +33,6 @@ song142:	@ 0x087BD05C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song142_1		@ track
+	.int	song142_1		@ track

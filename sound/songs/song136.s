@@ -96,6 +96,6 @@ song136:	@ 0x087BCF44
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song136_1		@ track
+	.int	song136_1		@ track

@@ -87,7 +87,7 @@ song003_1_1:
 	.byte			Cs1, v116
 	.byte	W06
 	.byte	PATT	
-		.word	song003_1_1
+		.int	song003_1_1
 song003_1_2:
 	.byte		N06	, Cn1, v120
 	.byte	W12
@@ -115,9 +115,9 @@ song003_1_2:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song003_1_2
+		.int	song003_1_2
 	.byte	PATT	
-		.word	song003_1_2
+		.int	song003_1_2
 	.byte		N06	, Cn1, v120
 	.byte	W12
 	.byte			Dn1, v044
@@ -189,7 +189,7 @@ song003_1_3:
 	.byte		N06	, Cn1, v116
 	.byte	W06
 	.byte	PATT	
-		.word	song003_1_3
+		.int	song003_1_3
 	.byte		N06	, Cn1, v120
 	.byte	W12
 	.byte			Ds1, v048
@@ -217,7 +217,7 @@ song003_1_3:
 	.byte		N06	, Cn1, v116
 	.byte	W06
 	.byte	PATT	
-		.word	song003_1_3
+		.int	song003_1_3
 	.byte		N06	, Cs1, v112
 	.byte	W12
 	.byte			Ds1, v048
@@ -287,7 +287,7 @@ song003_1_3:
 	.byte			Cn1, v120
 	.byte	W06
 	.byte	GOTO	
-		.word	song003_1_4
+		.int	song003_1_4
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -332,11 +332,11 @@ song003_2_2:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song003_2_1
+		.int	song003_2_1
 	.byte	PATT	
-		.word	song003_2_2
+		.int	song003_2_2
 	.byte	PATT	
-		.word	song003_2_1
+		.int	song003_2_1
 	.byte		N16	, Ds1, v127
 	.byte	W18
 	.byte		N04	
@@ -415,7 +415,7 @@ song003_2_2:
 	.byte		N03	
 	.byte	W78
 	.byte	GOTO	
-		.word	song003_2_3
+		.int	song003_2_3
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -450,15 +450,15 @@ song003_3_2:
 	.byte	W72
 	.byte	PEND
 	.byte	PATT	
-		.word	song003_3_1
+		.int	song003_3_1
 	.byte	PATT	
-		.word	song003_3_2
+		.int	song003_3_2
 	.byte	PATT	
-		.word	song003_3_1
+		.int	song003_3_1
 	.byte	PATT	
-		.word	song003_3_2
+		.int	song003_3_2
 	.byte	PATT	
-		.word	song003_3_1
+		.int	song003_3_1
 	.byte	VOICE	, 73
 	.byte		TIE	, Cn3, v127
 	.byte	W96
@@ -499,7 +499,7 @@ song003_3_2:
 	.byte		N04	
 	.byte	W78
 	.byte	GOTO	
-		.word	song003_3_3
+		.int	song003_3_3
 	.byte	FINE
 
 	.align 2
@@ -510,8 +510,8 @@ song003:	@ 0x0879DA40
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song003_1		@ track
-	.word	song003_2		@ track
-	.word	song003_3		@ track
+	.int	song003_1		@ track
+	.int	song003_2		@ track
+	.int	song003_3		@ track

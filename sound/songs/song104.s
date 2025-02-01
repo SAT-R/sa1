@@ -38,6 +38,6 @@ song104:	@ 0x087BC3E0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song104_1		@ track
+	.int	song104_1		@ track

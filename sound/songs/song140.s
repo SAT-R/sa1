@@ -25,6 +25,6 @@ song140:	@ 0x087BD010
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song140_1		@ track
+	.int	song140_1		@ track

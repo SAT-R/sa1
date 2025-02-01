@@ -29,7 +29,7 @@ song114_1:	@ 0x087BC69C
 song114_1_1:
 	.byte	W96
 	.byte	GOTO	
-		.word	song114_1_1
+		.int	song114_1_1
 	.byte	W12
 	.byte		EOT	, Bn3
 	.byte	FINE
@@ -42,6 +42,6 @@ song114:	@ 0x087BC6CC
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song114_1		@ track
+	.int	song114_1		@ track

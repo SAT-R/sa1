@@ -29,6 +29,6 @@ song107:	@ 0x087BC454
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song107_1		@ track
+	.int	song107_1		@ track

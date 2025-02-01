@@ -82,7 +82,7 @@ song138:	@ 0x087BCFC4
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song138_1		@ track
-	.word	song138_2		@ track
+	.int	song138_1		@ track
+	.int	song138_2		@ track

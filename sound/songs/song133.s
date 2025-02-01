@@ -107,6 +107,6 @@ song133:	@ 0x087BCE54
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song133_1		@ track
+	.int	song133_1		@ track

@@ -193,9 +193,9 @@ song034:	@ 0x087B34F8
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song034_1		@ track
-	.word	song034_2		@ track
-	.word	song034_3		@ track
-	.word	song034_4		@ track
+	.int	song034_1		@ track
+	.int	song034_2		@ track
+	.int	song034_3		@ track
+	.int	song034_4		@ track

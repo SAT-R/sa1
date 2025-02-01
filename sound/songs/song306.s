@@ -256,12 +256,12 @@ song306:	@ 0x087BF410
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song306_1		@ track
-	.word	song306_2		@ track
-	.word	song306_3		@ track
-	.word	song306_4		@ track
-	.word	song306_5		@ track
-	.word	song306_6		@ track
-	.word	song306_7		@ track
+	.int	song306_1		@ track
+	.int	song306_2		@ track
+	.int	song306_3		@ track
+	.int	song306_4		@ track
+	.int	song306_5		@ track
+	.int	song306_6		@ track
+	.int	song306_7		@ track

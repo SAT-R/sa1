@@ -99,6 +99,6 @@ song194:	@ 0x087BE520
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song194_1		@ track
+	.int	song194_1		@ track

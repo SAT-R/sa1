@@ -100,9 +100,9 @@ song302:	@ 0x087BEEEC
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song302_1		@ track
-	.word	song302_2		@ track
-	.word	song302_3		@ track
-	.word	song302_4		@ track
+	.int	song302_1		@ track
+	.int	song302_2		@ track
+	.int	song302_3		@ track
+	.int	song302_4		@ track

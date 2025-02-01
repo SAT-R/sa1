@@ -151,6 +151,6 @@ song176:	@ 0x087BDCBC
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song176_1		@ track
+	.int	song176_1		@ track

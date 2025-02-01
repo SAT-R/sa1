@@ -30,6 +30,6 @@ song168:	@ 0x087BD894
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song168_1		@ track
+	.int	song168_1		@ track

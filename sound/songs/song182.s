@@ -253,7 +253,7 @@ song182:	@ 0x087BE064
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song182_1		@ track
-	.word	song182_2		@ track
+	.int	song182_1		@ track
+	.int	song182_2		@ track

@@ -23,6 +23,6 @@ song158:	@ 0x087BD6C8
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song158_1		@ track
+	.int	song158_1		@ track

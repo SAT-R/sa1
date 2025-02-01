@@ -30,6 +30,6 @@ song105:	@ 0x087BC408
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song105_1		@ track
+	.int	song105_1		@ track

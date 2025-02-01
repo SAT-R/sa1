@@ -134,7 +134,7 @@ song027_1_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song027_1_1
+		.int	song027_1_1
 	.byte		N06	, Cn4, v124
 	.byte	W06
 	.byte			Cs3
@@ -280,7 +280,7 @@ song027_2_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song027_2_1
+		.int	song027_2_1
 	.byte		N06	, Cn4, v124
 	.byte	W06
 	.byte			Cs3
@@ -369,7 +369,7 @@ song027_3_1:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.word	song027_3_1
+		.int	song027_3_1
 	.byte	W06
 	.byte		N11	, Cs1, v116
 	.byte	W12
@@ -387,8 +387,8 @@ song027:	@ 0x087AE79C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup006		@ voicegroup/tone
+	.int	voicegroup006		@ voicegroup/tone
 
-	.word	song027_1		@ track
-	.word	song027_2		@ track
-	.word	song027_3		@ track
+	.int	song027_1		@ track
+	.int	song027_2		@ track
+	.int	song027_3		@ track

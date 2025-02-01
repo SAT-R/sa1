@@ -191,10 +191,10 @@ song041:	@ 0x087B81C8
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song041_1		@ track
-	.word	song041_2		@ track
-	.word	song041_3		@ track
-	.word	song041_4		@ track
-	.word	song041_5		@ track
+	.int	song041_1		@ track
+	.int	song041_2		@ track
+	.int	song041_3		@ track
+	.int	song041_4		@ track
+	.int	song041_5		@ track

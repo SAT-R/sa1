@@ -337,14 +337,14 @@ song305:	@ 0x087BF2B0
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup007		@ voicegroup/tone
+	.int	voicegroup007		@ voicegroup/tone
 
-	.word	song305_1		@ track
-	.word	song305_2		@ track
-	.word	song305_3		@ track
-	.word	song305_4		@ track
-	.word	song305_5		@ track
-	.word	song305_6		@ track
-	.word	song305_7		@ track
-	.word	song305_8		@ track
-	.word	song305_9		@ track
+	.int	song305_1		@ track
+	.int	song305_2		@ track
+	.int	song305_3		@ track
+	.int	song305_4		@ track
+	.int	song305_5		@ track
+	.int	song305_6		@ track
+	.int	song305_7		@ track
+	.int	song305_8		@ track
+	.int	song305_9		@ track

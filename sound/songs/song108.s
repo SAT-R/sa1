@@ -25,6 +25,6 @@ song108:	@ 0x087BC474
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song108_1		@ track
+	.int	song108_1		@ track

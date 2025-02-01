@@ -25,6 +25,6 @@ song123:	@ 0x087BC9A4
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song123_1		@ track
+	.int	song123_1		@ track

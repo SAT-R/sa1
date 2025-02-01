@@ -27,6 +27,6 @@ song109:	@ 0x087BC494
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup004		@ voicegroup/tone
+	.int	voicegroup004		@ voicegroup/tone
 
-	.word	song109_1		@ track
+	.int	song109_1		@ track

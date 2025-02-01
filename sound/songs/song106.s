@@ -31,6 +31,6 @@ song106:	@ 0x087BC430
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song106_1		@ track
+	.int	song106_1		@ track

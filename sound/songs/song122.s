@@ -186,6 +186,6 @@ song122:	@ 0x087BC988
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song122_1		@ track
+	.int	song122_1		@ track

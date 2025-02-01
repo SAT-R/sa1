@@ -323,9 +323,9 @@ song037:	@ 0x087B3B58
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song037_1		@ track
-	.word	song037_2		@ track
-	.word	song037_3		@ track
-	.word	song037_4		@ track
+	.int	song037_1		@ track
+	.int	song037_2		@ track
+	.int	song037_3		@ track
+	.int	song037_4		@ track

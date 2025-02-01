@@ -178,13 +178,13 @@ song038_1_1:
 	.byte	W05
 	.byte	PEND
 	.byte	PATT	
-		.word	song038_1_1
+		.int	song038_1_1
 	.byte	PATT	
-		.word	song038_1_1
+		.int	song038_1_1
 	.byte	PATT	
-		.word	song038_1_1
+		.int	song038_1_1
 	.byte	PATT	
-		.word	song038_1_1
+		.int	song038_1_1
 	.byte	W01
 	.byte		N06	, Cn1, v127
 	.byte		N06	, Dn1, v048
@@ -254,7 +254,7 @@ song038_1_2:
 	.byte	W05
 	.byte	PEND
 	.byte	PATT	
-		.word	song038_1_2
+		.int	song038_1_2
 	.byte	W01
 	.byte		N06	, Cn1, v127
 	.byte		N06	, Dn1, v048
@@ -1209,7 +1209,7 @@ song038_4_1:
 	.byte	W03
 	.byte	W96
 	.byte	PATT	
-		.word	song038_4_1
+		.int	song038_4_1
 	.byte	W30
 	.byte	W01
 	.byte		N04	, An2, v092
@@ -3264,15 +3264,15 @@ song038:	@ 0x087B4B60
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song038_1		@ track
-	.word	song038_2		@ track
-	.word	song038_3		@ track
-	.word	song038_4		@ track
-	.word	song038_5		@ track
-	.word	song038_6		@ track
-	.word	song038_7		@ track
-	.word	song038_8		@ track
-	.word	song038_9		@ track
-	.word	song038_10		@ track
+	.int	song038_1		@ track
+	.int	song038_2		@ track
+	.int	song038_3		@ track
+	.int	song038_4		@ track
+	.int	song038_5		@ track
+	.int	song038_6		@ track
+	.int	song038_7		@ track
+	.int	song038_8		@ track
+	.int	song038_9		@ track
+	.int	song038_10		@ track

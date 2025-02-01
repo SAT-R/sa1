@@ -162,7 +162,7 @@ song200_1_1:
 	.byte	W24
 	.byte	W72
 	.byte	GOTO	
-		.word	song200_1_1
+		.int	song200_1_1
 	.byte	W24
 	.byte		EOT	, Dn4
 	.byte	FINE
@@ -175,6 +175,6 @@ song200:	@ 0x087BE770
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song200_1		@ track
+	.int	song200_1		@ track

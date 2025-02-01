@@ -99,6 +99,6 @@ song173:	@ 0x087BDAC8
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song173_1		@ track
+	.int	song173_1		@ track

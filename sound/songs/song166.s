@@ -89,6 +89,6 @@ song166:	@ 0x087BD80C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song166_1		@ track
+	.int	song166_1		@ track

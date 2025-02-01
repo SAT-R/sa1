@@ -42,7 +42,7 @@ song028_1_1:
 	.byte		N06	
 	.byte	W12
 	.byte	PATT	
-		.word	song028_1_1
+		.int	song028_1_1
 	.byte		N12	, Gn2, v127
 	.byte	W18
 	.byte		N30	, Bn2
@@ -105,7 +105,7 @@ song028_1_1:
 	.byte			Cn4
 	.byte	W04
 	.byte	GOTO	
-		.word	song028_1_2
+		.int	song028_1_2
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -153,7 +153,7 @@ song028_2_1:
 	.byte		N06	
 	.byte	W12
 	.byte	PATT	
-		.word	song028_2_1
+		.int	song028_2_1
 	.byte		N12	, Gn2, v112
 	.byte	W18
 	.byte		N24	
@@ -216,7 +216,7 @@ song028_2_1:
 	.byte			Cn3
 	.byte	W04
 	.byte	GOTO	
-		.word	song028_2_2
+		.int	song028_2_2
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -272,7 +272,7 @@ song028_3_1:
 	.byte		N06	
 	.byte	W12
 	.byte	PATT	
-		.word	song028_3_1
+		.int	song028_3_1
 	.byte		N18	, Dn3, v127
 	.byte	W18
 	.byte		N12	, Cs3
@@ -302,7 +302,7 @@ song028_3_1:
 	.byte		N06	, An2
 	.byte	W24
 	.byte	GOTO	
-		.word	song028_3_2
+		.int	song028_3_2
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -502,7 +502,7 @@ song028_4_1:
 	.byte		N03	
 	.byte	W04
 	.byte	GOTO	
-		.word	song028_4_1
+		.int	song028_4_1
 	.byte	W01
 	.byte	FINE
 
@@ -551,7 +551,7 @@ song028_5_1:
 	.byte		N06	
 	.byte	W12
 	.byte	PATT	
-		.word	song028_5_1
+		.int	song028_5_1
 	.byte		N12	, Gn4, v112
 	.byte	W18
 	.byte		N24	
@@ -575,7 +575,7 @@ song028_5_1:
 	.byte		N06	, Cs4
 	.byte	W24
 	.byte	GOTO	
-		.word	song028_5_2
+		.int	song028_5_2
 	.byte	FINE
 
 	@********************** Track  6 **********************@
@@ -616,7 +616,7 @@ song028_6_1:
 	.byte		N06	
 	.byte	W12
 	.byte	PATT	
-		.word	song028_6_1
+		.int	song028_6_1
 	.byte		N12	, Gn3, v127
 	.byte	W18
 	.byte		N30	, Bn3
@@ -679,7 +679,7 @@ song028_6_1:
 	.byte			Cn5
 	.byte	W04
 	.byte	GOTO	
-		.word	song028_6_2
+		.int	song028_6_2
 	.byte	FINE
 
 	.align 2
@@ -690,11 +690,11 @@ song028:	@ 0x087AEB7C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup005		@ voicegroup/tone
+	.int	voicegroup005		@ voicegroup/tone
 
-	.word	song028_1		@ track
-	.word	song028_2		@ track
-	.word	song028_3		@ track
-	.word	song028_4		@ track
-	.word	song028_5		@ track
-	.word	song028_6		@ track
+	.int	song028_1		@ track
+	.int	song028_2		@ track
+	.int	song028_3		@ track
+	.int	song028_4		@ track
+	.int	song028_5		@ track
+	.int	song028_6		@ track

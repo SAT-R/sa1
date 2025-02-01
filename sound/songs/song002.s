@@ -618,11 +618,11 @@ song002:	@ 0x0879D740
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.word	voicegroup000		@ voicegroup/tone
+	.int	voicegroup000		@ voicegroup/tone
 
-	.word	song002_1		@ track
-	.word	song002_2		@ track
-	.word	song002_3		@ track
-	.word	song002_4		@ track
-	.word	song002_5		@ track
-	.word	song002_6		@ track
+	.int	song002_1		@ track
+	.int	song002_2		@ track
+	.int	song002_3		@ track
+	.int	song002_4		@ track
+	.int	song002_5		@ track
+	.int	song002_6		@ track
