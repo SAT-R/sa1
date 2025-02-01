@@ -19,6 +19,8 @@ void Task_8025898(void);
 void Task_SpStageTrick(void);
 extern struct MP2KSongHeader se_sp_stage_trick;
 
+u8 gUnknown_03005730 = 0;
+
 void Task_TempSound(void)
 {
     TrickField *field = TASK_DATA(gCurTask);

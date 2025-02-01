@@ -2968,7 +2968,7 @@ sub_800FD9C: @ 0x0800FD9C
 	mov sb, r0
 	movs r0, #0
 	mov ip, r0
-	ldr r1, _0800FDD4 @ =gUnknown_030054E0
+	ldr r1, _0800FDD4 @ =gLoadedSaveGame + 0x380
 	mov sl, r1
 	mov r5, sb
 	adds r5, #4
@@ -2976,7 +2976,7 @@ sub_800FD9C: @ 0x0800FD9C
 	mov r7, sl
 	mov r8, r0
 _0800FDBC:
-	ldr r4, _0800FDD4 @ =gUnknown_030054E0
+	ldr r4, _0800FDD4 @ =gLoadedSaveGame + 0x380
 	add r4, r8
 	movs r6, #1
 	movs r3, #0
@@ -2988,7 +2988,7 @@ _0800FDBC:
 	movs r6, #0
 	b _0800FE38
 	.align 2, 0
-_0800FDD4: .4byte gUnknown_030054E0
+_0800FDD4: .4byte gLoadedSaveGame + 0x380
 _0800FDD8:
 	adds r3, #1
 	cmp r3, #0xb
@@ -3030,7 +3030,7 @@ _0800FE08:
 	cmp r2, #0
 	bne _0800FE08
 _0800FE22:
-	ldr r0, _0800FE34 @ =gUnknown_030054E0
+	ldr r0, _0800FE34 @ =gLoadedSaveGame + 0x380
 	mov r1, sp
 	ldm r1!, {r2, r6, r7}
 	stm r0!, {r2, r6, r7}
@@ -3039,7 +3039,7 @@ _0800FE22:
 	b _0800FE94
 	.align 2, 0
 _0800FE30: .4byte gLoadedSaveGame
-_0800FE34: .4byte gUnknown_030054E0
+_0800FE34: .4byte gLoadedSaveGame + 0x380
 _0800FE38:
 	adds r7, #0x10
 	movs r3, #0x10
@@ -6481,7 +6481,7 @@ _08011966:
 	movs r5, #0
 	mov r4, sl
 	adds r4, #0xf0
-	ldr r3, _08011B78 @ =gUnknown_03005170
+	ldr r3, _08011B78 @ =gLoadedSaveGame + 0x10
 	movs r2, #0x20
 _08011B0E:
 	adds r1, r5, r3
@@ -6529,7 +6529,7 @@ _08011B68: .4byte gUiGraphics + 0x8
 _08011B6C: .4byte gUiGraphics + 0xC
 _08011B70: .4byte gUiGraphics + 0x10
 _08011B74: .4byte gUiGraphics + 0x14
-_08011B78: .4byte gUnknown_03005170
+_08011B78: .4byte gLoadedSaveGame + 0x10
 
 	thumb_func_start Task_PlayerDataMenuInit
 Task_PlayerDataMenuInit: @ 0x08011B7C
@@ -6749,7 +6749,7 @@ _08011D18:
 	movs r0, #0x84
 	lsls r0, r0, #1
 	adds r6, r5, r0
-	ldr r1, _08011D84 @ =gUnknown_03005170
+	ldr r1, _08011D84 @ =gLoadedSaveGame + 0x10
 	mov r8, r1
 _08011D40:
 	lsls r0, r4, #3
@@ -6786,7 +6786,7 @@ _08011D64:
 	bx r0
 	.align 2, 0
 _08011D80: .4byte gUnknown_080BB3C7
-_08011D84: .4byte gUnknown_03005170
+_08011D84: .4byte gLoadedSaveGame + 0x10
 
 	thumb_func_start PlayerDataSelectName
 PlayerDataSelectName: @ 0x08011D88

@@ -22,16 +22,9 @@ src/sio32_multi_load.o(.data);
 src/game/sa1_sa2_shared/globals.o(.data);
 
 . = 0x00005154; gUnknown_03005154 = .;
+
 . = 0x00005160; gLoadedSaveGame = .;
-. = 0x00005170; gUnknown_03005170 = .; /* Player 1 - Name[6] */
-                  /* gUnknown_03005178 -- Player 1 - Difficulty */
-. = 0x00005180; gUnknown_03005180 = .;
-. = 0x000054E0; gUnknown_030054E0 = .; /* Player 2 - ID? */
-                  /* gUnknown_030054E4 -- Player 2 - Name[7] + 0x05 */
-                  /* gUnknown_030054F0 -- Player 3 - ID? */
-                  /* gUnknown_030054F4 -- Player 3 - Name[7] + 0x05 */
-                  /* gUnknown_03005500 -- Player 3 - ID? */
-                  /* gUnknown_03005504 -- Player 4 - Name[7] + 0x05 */
+
 . = 0x000055A0; gUnknown_030055A0 = .;
 . = 0x000055E0; gUnknown_030055E0 = .;
 . = 0x000055FC; gUnknown_030055FC = .;
@@ -39,7 +32,10 @@ src/game/sa1_sa2_shared/globals.o(.data);
 . = 0x00005670; gUnknown_03005670 = .;
 . = 0x00005690; gUnknown_03005690 = .;
 . = 0x000056F0; gUnknown_030056F0 = .;
-. = 0x00005730; gUnknown_03005730 = .; /* Special Stage Trick Field (sound related) */
+
+. = 0x00005730;
+src/game/special_stage/temporary_sound_play_task.o(.data);
+
 . = 0x00005740; gUnknown_03005740 = .;
 . = 0x00005780; gUnknown_03005780 = .;
 . = 0x000057A0; gUnknown_030057A0 = .;
@@ -63,8 +59,6 @@ src/game/sa1_sa2_shared/globals.o(.data);
 . = 0x00005A20; 
 src/game/stage/player.o(.data);
 
-. = 0x00005B40; gUnknown_03005B40 = .;
-. = 0x00005B90; gUnknown_03005B90 = .;
 . = 0x00005BE0; sa2__gUnknown_03005AF0 = .; /* (PlayerSpriteInfo player PSI) SA2: gUnknown_03005AA0|gPartner + 0x40 */
 . = 0x00005C30; gUnknown_03005C30 = .; /* (PlayerSpriteInfo partner PSI) SA2: gUnknown_03005AA0|gPartner + 0x40 */
 
@@ -85,10 +79,9 @@ src/input_recorder.o(.data);
 . = 0x00006170; gUnknown_03006170 = .;
 . = 0x000061E6; gUnknown_030061E6 = .;
 . = 0x000061F0; gUnknown_030061F0 = .;
-. = 0x00006240; gTask_03006240 = .;
-. = 0x00006250; gUnknown_03006250 = .;
-. = 0x000063C0; gUnknown_030063C0 = .;
-. = 0x000063F0; gUnknown_030063F0 = .;
+
+. = 0x00006240; 
+src/game/gTask_03006240.o(.data);
 
 . = 0x00006408;
 src/lib/agb_flash/agb_flash.o(.data);

@@ -2925,7 +2925,7 @@ _0803C054:
 	lsrs r1, r4, #0x10
 	cmp r0, r1
 	bne _0803C0CC
-	ldr r7, _0803C0C8 @ =gUnknown_03005170
+	ldr r7, _0803C0C8 @ =gLoadedSaveGame + 0x10
 	adds r1, r5, r7
 	ldrb r0, [r1]
 	subs r0, #0x70
@@ -2949,7 +2949,7 @@ _0803C0B8: .4byte 0x03000060
 _0803C0BC: .4byte 0x03000050
 _0803C0C0: .4byte gLoadedSaveGame
 _0803C0C4: .4byte 0x04000128
-_0803C0C8: .4byte gUnknown_03005170
+_0803C0C8: .4byte gLoadedSaveGame + 0x10
 _0803C0CC:
 	ldr r0, _0803C12C @ =gUnknown_03005008
 	adds r1, r6, r0

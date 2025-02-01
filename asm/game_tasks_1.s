@@ -656,7 +656,7 @@ _0801D28E:
 	lsrs r1, r4, #0x10
 	cmp r0, r1
 	bne _0801D2E8
-	ldr r7, _0801D2E4 @ =gUnknown_03005170
+	ldr r7, _0801D2E4 @ =gLoadedSaveGame + 0x10
 	adds r1, r5, r7
 	ldrb r0, [r1]
 	subs r0, #0x70
@@ -675,7 +675,7 @@ _0801D2D2:
 	.align 2, 0
 _0801D2DC: .4byte gLoadedSaveGame
 _0801D2E0: .4byte 0x04000128
-_0801D2E4: .4byte gUnknown_03005170
+_0801D2E4: .4byte gLoadedSaveGame + 0x10
 _0801D2E8:
 	ldr r0, _0801D348 @ =gUnknown_03005008
 	adds r1, r6, r0

@@ -372,7 +372,7 @@ void RingsScatterSingleplayer_NormalGravity(void)
         }
 
         ring->x += ring->velX + gUnknown_030054FC;
-        ring->y += ring->velY + gUnknown_030054E0;
+        ring->y += ring->velY + gLoadedSaveGame + 0x380;
 
         ringIntX = I(ring->x);
         ip = ringIntX;
@@ -621,7 +621,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
         }
 
         ring->x += ring->velX + gUnknown_030054FC;
-        ring->y += ring->velY + gUnknown_030054E0;
+        ring->y += ring->velY + gLoadedSaveGame + 0x380;
 
         ringIntX = I(ring->x);
         ringIntY = I(ring->y);
@@ -750,7 +750,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterSinglepakMain.in
         }
 
         ring->x += ring->velX + gUnknown_030054FC;
-        ring->y += ring->velY + gUnknown_030054E0;
+        ring->y += ring->velY + gLoadedSaveGame + 0x380;
 
         ringIntX = I(ring->x);
         ringIntY = I(ring->y);

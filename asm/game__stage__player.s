@@ -495,19 +495,19 @@ _080423DA:
 	bne _08042404
 	ldr r0, _080423FC @ =sa2__gUnknown_03005AF0
 	str r0, [r1, #0x64]
-	ldr r0, _08042400 @ =gUnknown_03005B90
+	ldr r0, _08042400 @ =gPartner + 0xE0
 	str r0, [r1, #0x68]
 	b _0804240E
 	.align 2, 0
 _080423F4: .4byte 0x00000631
 _080423F8: .4byte 0x00000117
 _080423FC: .4byte sa2__gUnknown_03005AF0
-_08042400: .4byte gUnknown_03005B90
+_08042400: .4byte gPartner + 0xE0
 _08042404:
 	ldr r0, _08042420 @ =gUnknown_03005C30
 	mov r3, ip
 	str r0, [r3, #0x64]
-	ldr r0, _08042424 @ =gUnknown_03005B40
+	ldr r0, _08042424 @ =gPartner + 0x90
 	str r0, [r3, #0x68]
 _0804240E:
 	add sp, #8
@@ -520,7 +520,7 @@ _0804240E:
 	bx r0
 	.align 2, 0
 _08042420: .4byte gUnknown_03005C30
-_08042424: .4byte gUnknown_03005B40
+_08042424: .4byte gPartner + 0x90
 
 	thumb_func_start InitializePlayer
 InitializePlayer: @ 0x08042428

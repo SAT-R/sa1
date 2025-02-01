@@ -48,9 +48,13 @@ void Task_80536D4(void);
 void TaskDestructor_80536D8(struct Task *t);
 
 // TODO: make static
-extern struct Strc_3006250 gUnknown_03006250[10];
-extern struct Strc_30063F0 gUnknown_030063C0;
-extern struct Strc_30063F0 *gUnknown_030063F0;
+struct Task *gTask_03006240 = NULL;
+u8 tempFiller_03006244[0xC] = {};
+struct Strc_3006250 gUnknown_03006250[10] = {};
+u8 tempFiller_030062B8[0x8] = {};
+struct Strc_30063F0 gUnknown_030063C0 = {};
+u8 tempFiller_030062E4[0xC] = {};
+struct Strc_30063F0 *gUnknown_030063F0 = NULL;
 
 #if 0
 void sub_805345C(void *param0, void *param1)

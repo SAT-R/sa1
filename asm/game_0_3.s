@@ -920,7 +920,7 @@ sub_8012EA4: @ 0x08012EA4
 	mov r8, r0
 	ldr r6, _08012F44 @ =gCurrentLevel
 	ldr r5, _08012F48 @ =gSelectedCharacter
-	ldr r4, _08012F4C @ =gUnknown_03005180
+	ldr r4, _08012F4C @ =gLoadedSaveGame + 0x20
 	adds r7, r6, #0
 	mov sl, r5
 _08012EC0:
@@ -948,7 +948,7 @@ _08012EC0:
 	mov ip, r7
 	mov r7, sl
 	movs r6, #0xd8
-	ldr r5, _08012F4C @ =gUnknown_03005180
+	ldr r5, _08012F4C @ =gLoadedSaveGame + 0x20
 _08012EF2:
 	lsls r2, r3, #2
 	mov r0, ip
@@ -995,7 +995,7 @@ _08012F38:
 	.align 2, 0
 _08012F44: .4byte gCurrentLevel
 _08012F48: .4byte gSelectedCharacter
-_08012F4C: .4byte gUnknown_03005180
+_08012F4C: .4byte gLoadedSaveGame + 0x20
 _08012F50:
 	movs r0, #1
 	add r8, r0

@@ -25772,7 +25772,7 @@ CreateVsRecord: @ 0x080604EC
 	adds r0, r3, #0
 	bl UpdateSpriteAnimation
 	ldr r1, _08060700 @ =0x040000D4
-	ldr r0, _08060704 @ =gUnknown_030054E0
+	ldr r0, _08060704 @ =gLoadedSaveGame + 0x380
 	str r0, [r1]
 	mov r2, sl
 	str r2, [r1, #4]
@@ -25850,7 +25850,7 @@ _080606F4: .4byte 0x0300002D
 _080606F8: .4byte 0x0300002E
 _080606FC: .4byte 0x03000031
 _08060700: .4byte 0x040000D4
-_08060704: .4byte gUnknown_030054E0
+_08060704: .4byte gLoadedSaveGame + 0x380
 _08060708: .4byte 0x80000050
 
 	thumb_func_start sub_806070C
