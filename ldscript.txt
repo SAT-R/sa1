@@ -259,8 +259,9 @@ SECTIONS {
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
         data/data_0_1_3.o(.rodata);
         src/data/tilemap_data_0.o(.rodata);
-        data/gSpriteTables.o(.rodata);
-        data/animations.o(.rodata);
+        src/data/sprite_tables.o(.rodata);
+        src/data/animations/animations.o(.rodata);
+        src/data/animations/animation_table.o(.data);
         src/data/sprite_dimensions.o(.rodata);
         src/data/oam_data.o(.rodata);
         src/data/obj_palettes.o(.rodata);

@@ -821,10 +821,11 @@ void sa2__sub_8007AC0(u8 affineBg, int_vcount minY, int_vcount maxY)
     bg *= 16;
 #ifndef NON_MATCHING
     asm("sub %0, #0x20" ::"r"(bg));
+    *ptr = (void *)(REG_ADDR_BG2PA + bg);
 #else
     bg -= 0x20;
+    *ptr = (void *)(((uintptr_t)&REG_BG2PA) + bg);
 #endif
-    *ptr = (void *)(REG_ADDR_BG2PA + bg);
 
     sa2__gUnknown_03002A80 = 2;
 

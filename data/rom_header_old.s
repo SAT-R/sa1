@@ -1,9 +1,6 @@
 .include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.syntax unified
-.arm
-
 @ The developers left an additional header inside the ROM,
 @ using a different publisher ID.
 
@@ -20,10 +17,10 @@
 @@ 	.space 12
 @@ 
 @@ RomHeaderGameCode_old:
-@@ 	.4byte 0
+@@ 	.int 0
 @@ 
 @@ RomHeaderMakerCode_old:
-@@ 	.2byte 0
+@@ 	.short 0
 @@ 
 @@ RomHeaderMagic_old:
 @@ 	.byte 0x96
@@ -49,9 +46,5 @@
 @@ _rom_header_old_end:
 
 @ Temp copy-paste
-	arm_func_start sub_800032C
 _0800032C:
-	b header_copy_end @; here + header size
-_08000340:
-	.incbin "baserom.gba", 0x330, 0xBC
-header_copy_end:
+	.incbin "baserom.gba", 0x32C, 0xC0

@@ -73,7 +73,7 @@ sOptionsSelectFuncs:
 
     .global gUnknown_080BB3C0
 gUnknown_080BB3C0:
-    .2byte 869, 868
+    .short 869, 868
 
     .global gUnknown_080BB3C4
 gUnknown_080BB3C4:
@@ -93,7 +93,7 @@ gUnknown_080BB3D0:
 
     .global gUnknown_080BB3DC
 gUnknown_080BB3DC:
-    .2byte 778, 779
+    .short 778, 779
 
     .global gUnknown_080BB3E0
 gUnknown_080BB3E0:
@@ -109,7 +109,7 @@ gUnknown_080BB3F8:
 
     .global gUnknown_080BB41C
 gUnknown_080BB41C:
-    .2byte 697, 697, 695, 695, 696, 696, 697, 695
+    .short 697, 697, 695, 695, 696, 696, 697, 695
 
     .global gUnknown_080BB42C
 gUnknown_080BB42C:
@@ -121,8 +121,8 @@ gUnknown_080BB434:
 
     .global gUnknown_080BB43C
 gUnknown_080BB43C:
-    .2byte 438, 449, 448, 438, 447, 448, 439, 446
-    .2byte 442, 443, 444, 448, 447, 449, 442, 0
+    .short 438, 449, 448, 438, 447, 448, 439, 446
+    .short 442, 443, 444, 448, 447, 449, 442, 0
 
     .if 0
     .global gRoomEventHandlers

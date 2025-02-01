@@ -705,7 +705,7 @@ bool32 sub_800DD54(Player *p)
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc",
          u32 sub_800C1E8(Sprite *inSprite, Rect8 rectB, s16 sx, s16 sy, Player *p))
 {
-#ifndef NONMATCHING
+#ifndef NON_MATCHING
     register Sprite *s asm("r4") = inSprite; // NOTE: type isn't certain
 #else
     Sprite *s = inSprite; // NOTE: type isn't certain

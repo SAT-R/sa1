@@ -1,5 +1,6 @@
 	.section .rodata
 
+    .if 0
     .global gSpriteTables
 gSpriteTables: @ 0x80DC170
     .4byte gAnimations
@@ -8,3 +9,4 @@ gSpriteTables: @ 0x80DC170
     .4byte gObjPalettes
     .4byte gObjTiles_4bpp
     .4byte gObjTiles_8bpp
+.endif

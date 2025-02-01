@@ -13,12 +13,12 @@ extern const OamDataShort *const gSpriteOamData[NUM_SPRITE_ANIMATIONS];
 extern const u16 gObjPalettes[]; // gSpritePalettes
 
 struct SpriteTables {
-    /* 0x00 */ const ACmd ***animations;
-    /* 0x04 */ const SpriteOffset **dimensions;
-    /* 0x08 */ const u16 **oamData;
-    /* 0x0C */ const u16 *palettes;
-    /* 0x10 */ const u8 *tiles_4bpp;
-    /* 0x14 */ const u8 *tiles_8bpp;
+    /* 0x00 */ const ACmd **const *animations;
+    /* 0x04 */ const SpriteOffset *const *dimensions;
+    /* 0x08 */ const u16 **const oamData;
+    /* 0x0C */ const u16 *const palettes;
+    /* 0x10 */ const u8 *const tiles_4bpp;
+    /* 0x14 */ const u8 *const tiles_8bpp;
 };
 
 extern const struct SpriteTables *gRefSpriteTables;

@@ -338,7 +338,7 @@ NONMATCH("asm/non_matching/game/stage/Task_RingsMgrMain.inc", void Task_RingsMgr
                                 }
                             }
 #ifdef NON_MATCHING
-                        end:
+                        end:;
                         } while (meRing->x != (u8)MAP_ENTITY_STATE_ARRAY_END);
 #else
                         }

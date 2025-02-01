@@ -157,7 +157,7 @@ gSpriteInits_Enemies:   @ 80BB234
 
     .global enemyDefeatScores
 enemyDefeatScores: @ 0x080BB2B4
-    .2byte 100, 200, 400, 800, 1000, 0
+    .short 100, 200, 400, 800, 1000, 0
 
     @ Used for the Single Pak, "Collect Rings" stage
     .global gSpriteInits_InteractablesMultiplayer

@@ -43,7 +43,7 @@ struct Strc_30063F0 {
     u8 unk20;
 }; /* 0x30 ?? */
 
-u16 sub_8053674(void);
+IwramData sub_8053674(void);
 void Task_80536D4(void);
 void TaskDestructor_80536D8(struct Task *t);
 
@@ -146,12 +146,12 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_80535FC.inc", void sub_80535F
 }
 END_NONMATCH
 
-u16 sub_8053674(void)
+IwramData sub_8053674(void)
 {
     Task_3006240 *strc = TASK_DATA(gTask_03006240);
     struct GfxSubstruct *curr = &strc->gfxList[0];
     struct GfxSubstruct *next = &strc->gfxList[1];
-    u16 offset;
+    IwramData offset;
     s32 i;
 
     for (i = 0; i < (s32)ARRAY_COUNT(strc->gfxList) - 2; curr++, next++, i++) {

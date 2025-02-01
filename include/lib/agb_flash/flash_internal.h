@@ -8,13 +8,16 @@
 #define AGBFLASH_USE_V126 1
 #endif
 
+#define FLASH_ROM_SIZE_1M 131072 // 1 megabit ROM
+#define SECTORS_PER_BANK  16
+
+#if !PORTABLE
 #define FLASH_BASE ((u8 *)0xE000000)
+#else
+extern u8 FLASH_BASE[FLASH_ROM_SIZE_1M * SECTORS_PER_BANK];
+#endif
 
 #define FLASH_WRITE(addr, data) ((*(vu8 *)(FLASH_BASE + (addr))) = (data))
-
-#define FLASH_ROM_SIZE_1M 131072 // 1 megabit ROM
-
-#define SECTORS_PER_BANK 16
 
 struct FlashSector {
     u32 size;
