@@ -383,10 +383,10 @@ tool_libs:
 
 clean: tidy clean-tools
 	@$(MAKE) clean -C tools/BriBaSA_ex
-	@$(MAKE) clean -C chao_garden
-	@$(MAKE) clean -C multi_boot/subgame_bootstrap
-	@$(MAKE) clean -C multi_boot/programs/subgame_loader
-	@$(MAKE) clean -C multi_boot/collect_rings
+#	@$(MAKE) clean -C chao_garden
+#	@$(MAKE) clean -C multi_boot/subgame_bootstrap
+#	@$(MAKE) clean -C multi_boot/programs/subgame_loader
+#	@$(MAKE) clean -C multi_boot/collect_rings
 	@$(MAKE) clean -C libagbsyscall PLATFORM=$(PLATFORM) CPU_ARCH=$(CPU_ARCH)
 
 	$(RM) $(SAMPLE_SUBDIR)/*.bin $(MID_SUBDIR)/*.s

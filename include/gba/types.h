@@ -28,7 +28,7 @@ typedef int64_t  s64;
 // If the DISPLAY_HEIGHT was >255, scanline effects would break,
 // so we have to 
 #if PORTABLE
-typedef u32 int_vcount;
+typedef u16 int_vcount;
 #else
 typedef u8 int_vcount;
 #endif

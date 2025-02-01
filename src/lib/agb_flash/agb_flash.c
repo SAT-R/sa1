@@ -6,13 +6,15 @@
          We're using a hack in sym_iwram.txt right now,
          to get the addresses aliged/ROM to match!
 */
-extern u8 gFlashTimeoutFlag;
-extern u8 (*PollFlashStatus)(u8 *);
-extern u8 sTimerNum;
-extern u16 sTimerCount;
-extern vu16 *gTimerReg;
-extern u16 gSavedIme;
-const u16 *gFlashMaxTime;
+#if AGBFLASH_USE_V126
+static const u16 *gFlashMaxTime;
+#endif
+static u8 (*PollFlashStatus)(u8 *);
+static u8 sTimerNum;
+static u16 sTimerCount;
+static u8 gFlashTimeoutFlag;
+static vu16 *gTimerReg;
+static u16 gSavedIme;
 
 u8 (*FlashTempA)(u8 *) = NULL;
 u8 (*FlashTempB)(u8 *) = NULL;
@@ -23,6 +25,9 @@ const struct FlashType *gFlash = NULL;
 u16 gFlashNumRemainingBytes = 0;
 u16 (*EraseFlashChip)() = NULL;
 u16 (*EraseFlashSector)(u16 sectorNum) = NULL;
+#if !AGBFLASH_USE_V126
+const u16 *gFlashMaxTime = NULL;
+#endif
 
 // TODO: Make sure the flash chip names are correct!
 static const char AgbLibFlashVersion[] = "FLASH_V126";

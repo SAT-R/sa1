@@ -5,17 +5,7 @@ src/lib/m4a/m4a.o(.bss.code);
 . = 0x0000400;
 src/multi_boot.o(.bss);
 
-/* *** TODO: Do these without hard-coding! *** */
-gFlashMaxTime = 0x00000424;
-PollFlashStatus = 0x00000428;
-sTimerNum = 0x0000042C;
-sTimerCount = 0x0000042E;
-gFlashTimeoutFlag = 0x00000430;
-gTimerReg = 0x00000434;
-gSavedIme = 0x00000438;
-
-. = 0x0000042C;
-/*src/lib/agb_flash/agb_flash.o(COMMON);*/
+. = 0x00000424;
 src/lib/agb_flash/agb_flash.o(.bss);
 
 . = 0x00000440; 
@@ -158,8 +148,10 @@ src/sio32_multi_load.o(.data);
 . = 0x00005C80; gUnknown_03005C80 = .;
 . = 0x00005E80; gUnknown_03005E80 = .;
 . = 0x00006080; gWater = .;
-. = 0x000060D0; gInputRecorder = .;
-. = 0x000060DC; gInputRecorderTapeBuffer = .;
+
+. = 0x000060D0;
+src/input_recorder.o(.data);
+
 . = 0x000060E0; gUnknown_030060E0 = .;
 . = 0x000060F0; gUnknown_030060F0 = .;
 . = 0x00006166; gUnknown_03006166 = .;

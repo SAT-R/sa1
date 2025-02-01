@@ -1,7 +1,7 @@
 #ifndef GUARD_GBA_FLASH_INTERNAL_H
 #define GUARD_GBA_FLASH_INTERNAL_H
 
-#ifndef NON_MATCHING
+#if (GAME == GAME_SA1)
 // It seems like the launch SDK had a way different
 // version of this library than later ones, so we use this
 // to make it match.
@@ -55,11 +55,10 @@ extern u16 gFlashNumRemainingBytes;
 extern u16 (*ProgramFlashSector)(u16, void *);
 extern u16 (*EraseFlashChip)(void);
 extern u16 (*EraseFlashSector)(u16);
-extern const u16 *gFlashMaxTime;
 extern const struct FlashType *gFlash;
 
-extern u8 gFlashTimeoutFlag;
-extern u8 (*PollFlashStatus)(u8 *);
+// extern u8 gFlashTimeoutFlag;
+// extern u8 (*PollFlashStatus)(u8 *);
 
 extern u16 (*WaitForFlashWrite)(u8, u8 *, u8);
 
