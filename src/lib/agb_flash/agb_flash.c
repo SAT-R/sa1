@@ -87,6 +87,9 @@ u16 ReadFlashId(void)
 #if AGBFLASH_USE_V126
 u16 IdentifyFlash(void)
 {
+#if PORTABLE
+    return TRUE;
+#endif
     u16 result;
     u16 flashId;
     const struct FlashSetupInfo *const *setupInfo;

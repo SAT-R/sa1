@@ -1,12 +1,12 @@
 	.macro song label, music_player, unknown
-	.int \label
+	mPtr \label
 	.short \music_player
 	.short \unknown
 	.endm
 
 	.macro music_player info_struct, track_struct, unknown_1, unknown_2
-	.int \info_struct
-	.int \track_struct
+	mPtr \info_struct
+	mPtr \track_struct
 	.byte \unknown_1
 	.space 1
 	.short \unknown_2

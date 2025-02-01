@@ -318,6 +318,4 @@ typedef bool32 (*VBlankFunc)(void);
 extern void *iwram_end;
 extern void *ewram_end;
 
-extern void *rom_footer;
-
 #endif // GUARD_GLOBAL_H

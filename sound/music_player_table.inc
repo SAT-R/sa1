@@ -1,9 +1,17 @@
-	.section .rodata
+.equiv NUM_TRACKS_BGM, 16
+.equiv NUM_TRACKS_SE1, 16
+.equiv NUM_TRACKS_SE2, 16
+.equiv NUM_TRACKS_SE3, 16
 
-	.align 2
-	.global gMPlayTable
-gMPlayTable:	@ 0x086DD760
-	music_player 0x02002540, 0x02000000, 16, 0
-	music_player 0x02002580, 0x02000500, 16, 0
-	music_player 0x020025C0, 0x02000A00, 16, 0
-	music_player 0x02002610, 0x02000F00, 16, 0
+	mSectionRodata
+
+	mAlignWord
+	.global C_DECL(gMPlayTable)
+C_DECL(gMPlayTable):
+	music_player C_DECL(gMPlayInfo_BGM), C_DECL(gMPlayTrack_BGM), NUM_TRACKS_BGM, 0
+mAlignWord
+	music_player C_DECL(gMPlayInfo_SE1), C_DECL(gMPlayTrack_SE1), NUM_TRACKS_SE1, 0
+mAlignWord
+	music_player C_DECL(gMPlayInfo_SE2), C_DECL(gMPlayTrack_SE2), NUM_TRACKS_SE2, 0
+mAlignWord
+	music_player C_DECL(gMPlayInfo_SE3), C_DECL(gMPlayTrack_SE3), NUM_TRACKS_SE3, 0
