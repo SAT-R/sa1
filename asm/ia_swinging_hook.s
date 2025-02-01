@@ -1108,10 +1108,10 @@ _08087EE0:
 _08087EEA:
 	cmp r5, #0
 	beq _08087EF8
-	ldr r2, _08087EF4 @ =gUnknown_03005AD6
+	ldr r2, _08087EF4 @ =gPartner + 0x26
 	b _08087EFC
 	.align 2, 0
-_08087EF4: .4byte gUnknown_03005AD6
+_08087EF4: .4byte gPartner + 0x26
 _08087EF8:
 	adds r2, r3, #0
 	adds r2, #0x26
@@ -1240,14 +1240,14 @@ _08087FC6:
 _08087FC8:
 	cmp r5, #0
 	beq _08087FDC
-	ldr r2, _08087FD8 @ =gUnknown_03005B09
+	ldr r2, _08087FD8 @ =gPartner + 0x59
 	movs r0, #0
 	ldrsb r0, [r2, r0]
 	cmp r0, #3
 	bne _08087FEA
 	b _08088048
 	.align 2, 0
-_08087FD8: .4byte gUnknown_03005B09
+_08087FD8: .4byte gPartner + 0x59
 _08087FDC:
 	adds r0, r3, #0
 	adds r0, #0x59
@@ -1273,11 +1273,11 @@ _08088000:
 	cmp r5, #0
 	beq _08088010
 	movs r0, #5
-	ldr r3, _0808800C @ =gUnknown_03005AF0
+	ldr r3, _0808800C @ =gPartner + 0x40
 	strb r0, [r3]
 	b _08088018
 	.align 2, 0
-_0808800C: .4byte gUnknown_03005AF0
+_0808800C: .4byte gPartner + 0x40
 _08088010:
 	adds r1, r3, #0
 	adds r1, #0x40
@@ -1312,10 +1312,10 @@ _08088048:
 	cmp r5, #0
 	beq _08088058
 	movs r0, #0x55
-	ldr r1, _08088054 @ =gUnknown_03005AF0
+	ldr r1, _08088054 @ =gPartner + 0x40
 	b _0808805E
 	.align 2, 0
-_08088054: .4byte gUnknown_03005AF0
+_08088054: .4byte gPartner + 0x40
 _08088058:
 	adds r1, r3, #0
 	adds r1, #0x40
@@ -1549,10 +1549,10 @@ _080881F8:
 	cmp r5, #0
 	beq _08088208
 	movs r0, #0x26
-	ldr r1, _08088204 @ =gUnknown_03005AF0
+	ldr r1, _08088204 @ =gPartner + 0x40
 	b _0808820E
 	.align 2, 0
-_08088204: .4byte gUnknown_03005AF0
+_08088204: .4byte gPartner + 0x40
 _08088208:
 	adds r1, r6, #0
 	adds r1, #0x40
@@ -1561,13 +1561,13 @@ _0808820E:
 	strb r0, [r1]
 	cmp r5, #0
 	beq _08088224
-	ldr r2, _08088220 @ =gUnknown_03005AD6
+	ldr r2, _08088220 @ =gPartner + 0x26
 	ldrb r0, [r2]
 	movs r1, #0x80
 	orrs r0, r1
 	b _08088292
 	.align 2, 0
-_08088220: .4byte gUnknown_03005AD6
+_08088220: .4byte gPartner + 0x26
 _08088224:
 	adds r2, r6, #0
 	adds r2, #0x26
@@ -1610,7 +1610,7 @@ _08088258:
 	strb r0, [r2]
 	cmp r5, #0
 	beq _08088288
-	ldr r3, _08088284 @ =gUnknown_03005AD6
+	ldr r3, _08088284 @ =gPartner + 0x26
 	ldrb r1, [r3]
 	movs r0, #0x7f
 	ands r0, r1
@@ -1618,7 +1618,7 @@ _08088258:
 	b _08088294
 	.align 2, 0
 _08088280: .4byte 0xFFBFFFFF
-_08088284: .4byte gUnknown_03005AD6
+_08088284: .4byte gPartner + 0x26
 _08088288:
 	adds r2, r6, #0
 	adds r2, #0x26

@@ -1326,7 +1326,7 @@ sub_8077FA4: @ 0x08077FA4
 	adds r0, #0xf
 	lsls r0, r0, #8
 	str r0, [sp, #8]
-	ldr r1, _08078014 @ =gUnknown_03005A46
+	ldr r1, _08078014 @ =gPlayer + 0x26
 	mov r8, r1
 	adds r0, r5, #0
 	adds r0, #0x21
@@ -1366,7 +1366,7 @@ _08077FDA:
 	ldr r0, _08078020 @ =0xFFFFFD00
 	b _0807802A
 	.align 2, 0
-_08078014: .4byte gUnknown_03005A46
+_08078014: .4byte gPlayer + 0x26
 _08078018: .4byte gPlayer
 _0807801C: .4byte gPartner
 _08078020: .4byte 0xFFFFFD00
@@ -1462,14 +1462,14 @@ sub_80780B4: @ 0x080780B4
 	subs r0, #0xf
 	lsls r0, r0, #8
 	str r0, [sp, #0xc]
-	ldr r1, _080780E4 @ =gUnknown_03005A46
+	ldr r1, _080780E4 @ =gPlayer + 0x26
 	mov sl, r1
 	adds r2, r5, #0
 	adds r2, #0x21
 	str r2, [sp, #0x10]
 	b _08078122
 	.align 2, 0
-_080780E4: .4byte gUnknown_03005A46
+_080780E4: .4byte gPlayer + 0x26
 _080780E8:
 	movs r3, #0xc
 	ldrsh r1, [r4, r3]
@@ -1617,12 +1617,12 @@ sub_80781E4: @ 0x080781E4
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	str r0, [sp, #4]
-	ldr r1, _08078218 @ =gUnknown_03005A46
+	ldr r1, _08078218 @ =gPlayer + 0x26
 	mov sb, r1
 	b _0807822C
 	.align 2, 0
 _08078214: .4byte gCurrentLevel
-_08078218: .4byte gUnknown_03005A46
+_08078218: .4byte gPlayer + 0x26
 _0807821C:
 	adds r6, #1
 	ldr r0, _080782B8 @ =gNumSingleplayerCharacters

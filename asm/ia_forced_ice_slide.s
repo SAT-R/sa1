@@ -307,13 +307,13 @@ _08078598:
 	asrs r1, r0, #8
 	cmp r6, #0
 	beq _080785A8
-	ldr r4, _080785A4 @ =gUnknown_03005AD7
+	ldr r4, _080785A4 @ =gPartner + 0x27
 	ldrb r2, [r4]
 	b _080785AC
 	.align 2, 0
-_080785A4: .4byte gUnknown_03005AD7
+_080785A4: .4byte gPartner + 0x27
 _080785A8:
-	ldr r0, _080785CC @ =gUnknown_03005A47
+	ldr r0, _080785CC @ =gPlayer + 0x27
 	ldrb r2, [r0]
 _080785AC:
 	movs r0, #0
@@ -332,7 +332,7 @@ _080785C2:
 	ldr r0, [r5, #0x10]
 	b _080785D6
 	.align 2, 0
-_080785CC: .4byte gUnknown_03005A47
+_080785CC: .4byte gPlayer + 0x27
 _080785D0: .4byte sa2__sub_801EE64
 _080785D4:
 	ldr r0, [r7, #0x10]
@@ -568,11 +568,11 @@ _08078764:
 	cmp r6, #0
 	beq _08078774
 	movs r0, #0xf
-	ldr r4, _08078770 @ =gUnknown_03005AF0
+	ldr r4, _08078770 @ =gPartner + 0x40
 	strb r0, [r4]
 	b _0807877C
 	.align 2, 0
-_08078770: .4byte gUnknown_03005AF0
+_08078770: .4byte gPartner + 0x40
 _08078774:
 	adds r1, r3, #0
 	adds r1, #0x40

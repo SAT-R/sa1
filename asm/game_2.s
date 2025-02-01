@@ -2329,7 +2329,7 @@ sub_8054954: @ 0x08054954
 	ldrb r2, [r2]
 	lsls r2, r2, #0x18
 	ldr r5, _080549DC @ =gUnknown_08688258
-	ldr r6, _080549E0 @ =gUnknown_0300501C
+	ldr r6, _080549E0 @ =gTrappedAnimalVariant
 	movs r3, #0
 	ldrsb r3, [r6, r3]
 	lsls r3, r3, #4
@@ -2391,7 +2391,7 @@ _080549BE:
 	.align 2, 0
 _080549D8: .4byte gCurrentLevel
 _080549DC: .4byte gUnknown_08688258
-_080549E0: .4byte gUnknown_0300501C
+_080549E0: .4byte gTrappedAnimalVariant
 _080549E4:
 	mov r0, sp
 	bl sub_8054494
@@ -7693,7 +7693,7 @@ _08057448:
 	bls _0805748E
 	cmp r1, #0xf
 	bne _0805748C
-	ldr r0, _080574E4 @ =gUnknown_03005124
+	ldr r0, _080574E4 @ =gMultiplayerCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -7747,7 +7747,7 @@ _080574CE:
 	b _0805751A
 	.align 2, 0
 _080574E0: .4byte gSelectedCharacter
-_080574E4: .4byte gUnknown_03005124
+_080574E4: .4byte gMultiplayerCurrentLevel
 _080574E8: .4byte gPlayer
 _080574EC: .4byte gCheckpointTime
 _080574F0: .4byte 0x00002A30
@@ -14562,7 +14562,7 @@ _0805AB94:
 	bne _0805ABD4
 	ldr r0, _0805ABCC @ =gCurrentLevel
 	strb r5, [r0]
-	ldr r0, _0805ABD0 @ =gCurrentgUnknown_03005124Level
+	ldr r0, _0805ABD0 @ =gMultiplayerCurrentLevel
 	strb r5, [r0]
 	bl ApplyGameStageSettings
 	b _0805ABF2
@@ -14571,7 +14571,7 @@ _0805ABC0: .4byte gTailsEnabled
 _0805ABC4: .4byte gLoadedSaveGame
 _0805ABC8: .4byte gSelectedCharacter
 _0805ABCC: .4byte gCurrentLevel
-_0805ABD0: .4byte gUnknown_03005124
+_0805ABD0: .4byte gMultiplayerCurrentLevel
 _0805ABD4:
 	movs r0, #0
 	bl sub_8061948
@@ -29265,7 +29265,7 @@ _080622C2:
 	bls _08062322
 	cmp r2, #0xf
 	bne _08062344
-	ldr r0, _08062340 @ =gUnknown_03005124
+	ldr r0, _08062340 @ =gMultiplayerCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -29285,7 +29285,7 @@ _08062322:
 _08062334: .4byte gSelectedCharacter
 _08062338: .4byte gCurrentLevel
 _0806233C: .4byte gLoadedSaveGame
-_08062340: .4byte gUnknown_03005124
+_08062340: .4byte gMultiplayerCurrentLevel
 _08062344:
 	ldrb r0, [r6]
 	subs r0, #5
@@ -29762,7 +29762,7 @@ _08062704:
 	bne _0806274C
 	ldr r0, _08062744 @ =gCurrentLevel
 	strb r7, [r0]
-	ldr r0, _08062748 @ =gUnknown_03005124
+	ldr r0, _08062748 @ =gMultiplayerCurrentLevel
 	strb r7, [r0]
 	b _0806275A
 	.align 2, 0
@@ -29778,21 +29778,21 @@ _08062738: .4byte gBgCntRegs
 _0806273C: .4byte 0x00009D03
 _08062740: .4byte 0x00001806
 _08062744: .4byte gCurrentLevel
-_08062748: .4byte gUnknown_03005124
+_08062748: .4byte gMultiplayerCurrentLevel
 _0806274C:
 	cmp r1, #0x12
 	bhi _0806275A
 	ldr r0, _08062760 @ =gCurrentLevel
 	subs r1, #1
 	strb r1, [r0]
-	ldr r0, _08062764 @ =gUnknown_03005124
+	ldr r0, _08062764 @ =gMultiplayerCurrentLevel
 	strb r1, [r0]
 _0806275A:
 	bl sub_806B81C
 	b _080627EA
 	.align 2, 0
 _08062760: .4byte gCurrentLevel
-_08062764: .4byte gUnknown_03005124
+_08062764: .4byte gMultiplayerCurrentLevel
 _08062768:
 	adds r0, r6, #0
 	adds r0, #0x59
@@ -29837,7 +29837,7 @@ _08062780:
 	bne _080627D8
 	ldr r0, _080627D0 @ =gCurrentLevel
 	strb r7, [r0]
-	ldr r0, _080627D4 @ =gUnknown_03005124
+	ldr r0, _080627D4 @ =gMultiplayerCurrentLevel
 	strb r7, [r0]
 	bl ApplyGameStageSettings
 	b _080627EA
@@ -29845,14 +29845,14 @@ _08062780:
 _080627C8: .4byte sa2__gUnknown_03004D80
 _080627CC: .4byte sa2__gUnknown_03002280
 _080627D0: .4byte gCurrentLevel
-_080627D4: .4byte gUnknown_03005124
+_080627D4: .4byte gMultiplayerCurrentLevel
 _080627D8:
 	cmp r1, #0x12
 	bhi _080627EA
 	ldr r0, _08062808 @ =gCurrentLevel
 	subs r1, #1
 	strb r1, [r0]
-	ldr r0, _0806280C @ =gUnknown_03005124
+	ldr r0, _0806280C @ =gMultiplayerCurrentLevel
 	strb r1, [r0]
 	bl ApplyGameStageSettings
 _080627EA:
@@ -29868,7 +29868,7 @@ _080627EA:
 	b _08062884
 	.align 2, 0
 _08062808: .4byte gCurrentLevel
-_0806280C: .4byte gUnknown_03005124
+_0806280C: .4byte gMultiplayerCurrentLevel
 _08062810: .4byte gCurTask
 _08062814:
 	adds r0, r6, #0
@@ -30121,7 +30121,7 @@ sub_80629E8: @ 0x080629E8
 	bne _08062A40
 	ldr r0, _08062A38 @ =gCurrentLevel
 	strb r2, [r0]
-	ldr r0, _08062A3C @ =gUnknown_03005124
+	ldr r0, _08062A3C @ =gMultiplayerCurrentLevel
 	strb r2, [r0]
 	bl ApplyGameStageSettings
 	b _08062A52
@@ -30132,14 +30132,14 @@ _08062A2C: .4byte 0x00001FFF
 _08062A30: .4byte gBldRegs
 _08062A34: .4byte 0x03000055
 _08062A38: .4byte gCurrentLevel
-_08062A3C: .4byte gUnknown_03005124
+_08062A3C: .4byte gMultiplayerCurrentLevel
 _08062A40:
 	cmp r1, #0x12
 	bhi _08062A52
 	ldr r0, _08062A74 @ =gCurrentLevel
 	subs r1, #1
 	strb r1, [r0]
-	ldr r0, _08062A78 @ =gUnknown_03005124
+	ldr r0, _08062A78 @ =gMultiplayerCurrentLevel
 	strb r1, [r0]
 	bl ApplyGameStageSettings
 _08062A52:
@@ -30157,7 +30157,7 @@ _08062A52:
 	bx r0
 	.align 2, 0
 _08062A74: .4byte gCurrentLevel
-_08062A78: .4byte gUnknown_03005124
+_08062A78: .4byte gMultiplayerCurrentLevel
 _08062A7C: .4byte gCurTask
 
 	thumb_func_start sub_8062A80
@@ -31701,7 +31701,7 @@ _080636EE:
 	str r0, [r1, #8]
 	movs r3, #0
 	adds r1, r4, #3
-	ldr r2, _080637C8 @ =gUnknown_03004FF0
+	ldr r2, _080637C8 @ =gChaoTasks
 _0806370E:
 	adds r0, r1, r3
 	ldrb r0, [r0]
@@ -31798,7 +31798,7 @@ _080637AE:
 _080637BC: .4byte gMultiSioRecv
 _080637C0: .4byte gMultiSioSend
 _080637C4: .4byte sub_80638B0
-_080637C8: .4byte gUnknown_03004FF0
+_080637C8: .4byte gChaoTasks
 _080637CC: .4byte gMultiplayerConnections
 _080637D0: .4byte gPseudoRandom
 _080637D4: .4byte 0x00196225

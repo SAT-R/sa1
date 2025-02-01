@@ -682,7 +682,7 @@ _0801EB54:
 	cmp r0, #0
 	beq _0801EBBC
 	ldr r2, _0801EBB0 @ =gUnknown_080BB4F0
-	ldr r0, _0801EBB4 @ =gUnknown_03005010
+	ldr r0, _0801EBB4 @ =gMultiplayerPseudoRandom
 	ldr r0, [r0]
 	movs r1, #3
 	ands r0, r1
@@ -707,7 +707,7 @@ _0801EB54:
 _0801EBA8: .4byte gGameMode
 _0801EBAC: .4byte gStageTime
 _0801EBB0: .4byte gUnknown_080BB4F0
-_0801EBB4: .4byte gUnknown_03005010
+_0801EBB4: .4byte gMultiplayerPseudoRandom
 _0801EBB8: .4byte gCurrentLevel
 _0801EBBC:
 	ldr r2, _0801EC1C @ =gUnknown_080BB4E8

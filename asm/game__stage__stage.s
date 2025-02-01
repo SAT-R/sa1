@@ -20,10 +20,10 @@ gUnknown_084ADB18:
 	thumb_func_start GameStageStart
 GameStageStart: @ 0x0803CE54
 	push {r4, r5, r6, lr}
-	ldr r0, _0803CE88 @ =gUnknown_0300501C
+	ldr r0, _0803CE88 @ =gTrappedAnimalVariant
 	movs r1, #0
 	strb r1, [r0]
-	ldr r0, _0803CE8C @ =gUnknown_03005148
+	ldr r0, _0803CE8C @ =gBossIndex
 	strb r1, [r0]
 	ldr r1, _0803CE90 @ =gRingCount
 	movs r0, #0
@@ -45,8 +45,8 @@ GameStageStart: @ 0x0803CE54
 	asrs r1, r1, #0x18
 	b _0803CEBA
 	.align 2, 0
-_0803CE88: .int gUnknown_0300501C
-_0803CE8C: .int gUnknown_03005148
+_0803CE88: .int gTrappedAnimalVariant
+_0803CE8C: .int gBossIndex
 _0803CE90: .int gRingCount
 _0803CE94: .int gNumSingleplayerCharacters
 _0803CE98: .int gGameMode
@@ -113,7 +113,7 @@ _0803CF08:
 	ldrb r0, [r2]
 	cmp r0, #1
 	bls _0803CF28
-	ldr r0, _0803CF60 @ =gUnknown_03005038
+	ldr r0, _0803CF60 @ =gMPStageStartFrameCount
 	ldr r1, _0803CF64 @ =gFrameCount
 	ldr r1, [r1]
 	str r1, [r0]
@@ -139,7 +139,7 @@ _0803CF50: .4byte gStageTime
 _0803CF54: .4byte gStageFlags
 _0803CF58: .4byte 0x0000FF7F
 _0803CF5C: .4byte gGameMode
-_0803CF60: .4byte gUnknown_03005038
+_0803CF60: .4byte gMPStageStartFrameCount
 _0803CF64: .4byte gFrameCount
 _0803CF68: .4byte gCheckpointTime
 _0803CF6C: .4byte gCourseTime
@@ -383,7 +383,7 @@ _0803D14C:
 	bls _0803D26C
 	bl CreateMultiplayerReceiveEventMgr
 	bl CreateMultiplayerSendEventMgr
-	ldr r0, _0803D214 @ =gUnknown_03005074
+	ldr r0, _0803D214 @ =gRandomItemBox
 	strb r4, [r0]
 	movs r4, #0
 _0803D190:
@@ -433,7 +433,7 @@ _0803D1D4:
 	cmp r0, #1
 	bhi _0803D24C
 	movs r5, #0
-	ldr r4, _0803D22C @ =gUnknown_03004FF0
+	ldr r4, _0803D22C @ =gChaoTasks
 	b _0803D234
 	.align 2, 0
 _0803D1F0: .4byte sa2__gUnknown_03001944
@@ -445,13 +445,13 @@ _0803D204: .4byte sa2__gUnknown_0300194C
 _0803D208: .4byte sa2__gUnknown_03002820
 _0803D20C: .4byte sa2__gUnknown_03005398
 _0803D210: .4byte gGameMode
-_0803D214: .4byte gUnknown_03005074
+_0803D214: .4byte gRandomItemBox
 _0803D218: .4byte gMultiplayerCharRings
 _0803D21C: .4byte gMultiplayerConnections
 _0803D220: .4byte 0x04000128
 _0803D224: .4byte sa2__gUnknown_030054B4
 _0803D228: .4byte gMultiplayerCharacters
-_0803D22C: .4byte gUnknown_03004FF0
+_0803D22C: .4byte gChaoTasks
 _0803D230:
 	adds r4, #4
 	adds r5, #1
@@ -549,7 +549,7 @@ _0803D2E4: .4byte gPressedKeys
 _0803D2E8: .4byte gStageTime
 _0803D2EC:
 	ldr r0, _0803D350 @ =gFrameCount
-	ldr r1, _0803D354 @ =gUnknown_03005038
+	ldr r1, _0803D354 @ =gMPStageStartFrameCount
 	ldr r2, [r0]
 	ldr r0, [r1]
 	subs r3, r2, r0
@@ -568,7 +568,7 @@ _0803D2EC:
 	ands r0, r2
 	cmp r1, r0
 	beq _0803D394
-	ldr r5, _0803D360 @ =gUnknown_03005010
+	ldr r5, _0803D360 @ =gMultiplayerPseudoRandom
 	ldr r1, [r5]
 	ldr r0, _0803D364 @ =0x00196225
 	muls r0, r1, r0
@@ -578,7 +578,7 @@ _0803D2EC:
 	ldr r0, _0803D36C @ =0xFFFFF000
 	ands r3, r0
 	ands r4, r0
-	ldr r6, _0803D370 @ =gUnknown_03005074
+	ldr r6, _0803D370 @ =gRandomItemBox
 	cmp r3, r4
 	beq _0803D33E
 	ldrb r2, [r6]
@@ -601,14 +601,14 @@ _0803D33E:
 	b _0803D394
 	.align 2, 0
 _0803D350: .4byte gFrameCount
-_0803D354: .4byte gUnknown_03005038
+_0803D354: .4byte gMPStageStartFrameCount
 _0803D358: .4byte gStageTime
 _0803D35C: .4byte 0xFFFFFE00
-_0803D360: .4byte gUnknown_03005010
+_0803D360: .4byte gMultiplayerPseudoRandom
 _0803D364: .4byte 0x00196225
 _0803D368: .4byte 0x3C6EF35F
 _0803D36C: .4byte 0xFFFFF000
-_0803D370: .4byte gUnknown_03005074
+_0803D370: .4byte gRandomItemBox
 _0803D374:
 	movs r2, #0x40
 	rsbs r2, r2, #0
@@ -619,7 +619,7 @@ _0803D374:
 	ands r0, r2
 	cmp r1, r0
 	beq _0803D394
-	ldr r2, _0803D3C0 @ =gUnknown_03005010
+	ldr r2, _0803D3C0 @ =gMultiplayerPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0803D3C4 @ =0x00196225
 	muls r0, r1, r0
@@ -649,7 +649,7 @@ _0803D394:
 	strb r0, [r1]
 	b _0803D414
 	.align 2, 0
-_0803D3C0: .4byte gUnknown_03005010
+_0803D3C0: .4byte gMultiplayerPseudoRandom
 _0803D3C4: .4byte 0x00196225
 _0803D3C8: .4byte 0x3C6EF35F
 _0803D3CC: .4byte gCamera
@@ -1401,7 +1401,7 @@ sub_803D9F8: @ 0x0803D9F8
 	bl CreatePaletteLoaderTask
 	movs r0, #0x16
 	bl m4aSongNumStart
-	ldr r0, _0803DB04 @ =gUnknown_03005148
+	ldr r0, _0803DB04 @ =gBossIndex
 	ldrb r0, [r0]
 	cmp r0, #0
 	beq _0803DA72
@@ -1432,7 +1432,7 @@ sub_803D9F8: @ 0x0803D9F8
 	ldr r0, _0803DB24 @ =0x00004650
 	str r0, [r1]
 _0803DA72:
-	ldr r0, _0803DB04 @ =gUnknown_03005148
+	ldr r0, _0803DB04 @ =gBossIndex
 	ldrb r1, [r0]
 	adds r3, r0, #0
 	cmp r1, #1
@@ -1505,7 +1505,7 @@ _0803DAF2:
 _0803DAF8: .4byte 0x00000347
 _0803DAFC: .4byte 0x00000349
 _0803DB00: .4byte 0x0000034A
-_0803DB04: .4byte gUnknown_03005148
+_0803DB04: .4byte gBossIndex
 _0803DB08: .4byte gCamera
 _0803DB0C: .4byte 0x00000422
 _0803DB10: .4byte gBgCntRegs
@@ -1621,7 +1621,7 @@ _0803DBF6:
 	cmp r0, #0
 	beq _0803DC18
 _0803DC0E:
-	ldr r0, _0803DC44 @ =gUnknown_03005080
+	ldr r0, _0803DC44 @ =gDifficultyLevel
 	ldr r1, _0803DC40 @ =gLoadedSaveGame
 	ldrb r2, [r1, #0x18]
 	strb r2, [r0]
@@ -1640,7 +1640,7 @@ _0803DC34: .4byte gCurrentLevel
 _0803DC38: .4byte gGameMode
 _0803DC3C: .4byte gStageFlags
 _0803DC40: .4byte gLoadedSaveGame
-_0803DC44: .4byte gUnknown_03005080
+_0803DC44: .4byte gDifficultyLevel
 
 	thumb_func_start sub_803DC48
 sub_803DC48: @ 0x0803DC48
@@ -1687,7 +1687,7 @@ sub_803DC84: @ 0x0803DC84
 	beq _0803DCA8
 _0803DCA0:
 	ldr r0, _0803DCC0 @ =gLoadedSaveGame
-	ldr r1, _0803DCC4 @ =gUnknown_03005080
+	ldr r1, _0803DCC4 @ =gDifficultyLevel
 	ldrb r1, [r1]
 	strb r1, [r0, #0x18]
 _0803DCA8:
@@ -1701,7 +1701,7 @@ _0803DCA8:
 _0803DCB8: .4byte gGameMode
 _0803DCBC: .4byte gStageFlags
 _0803DCC0: .4byte gLoadedSaveGame
-_0803DCC4: .4byte gUnknown_03005080
+_0803DCC4: .4byte gDifficultyLevel
 _0803DCC8: .4byte gGameStageTask
 
 	thumb_func_start sub_803DCCC

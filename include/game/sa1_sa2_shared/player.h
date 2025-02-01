@@ -106,6 +106,8 @@ typedef struct Player {
     /* 0x60 */ struct Task *spriteTask;
     /* 0x64 */ PlayerSpriteInfo *spriteInfoBody; // for character sprites
     /* 0x68 */ PlayerSpriteInfo *spriteInfoLimbs; // SpriteInfo for Tails' tails / Cream's ears, when rolling
+
+    /* 0x6C */ u8 filler6C[0x24];
 } Player;
 
 extern s32 sa2__sub_8022F58(u8 param0, Player *p);

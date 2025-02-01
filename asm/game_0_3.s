@@ -5871,7 +5871,7 @@ _080154F8:
 	adds r0, r1, #0
 	ands r0, r2
 	adds r5, #0x56
-	ldr r6, _08015550 @ =gUnknown_03004FF0
+	ldr r6, _08015550 @ =gChaoTasks
 	cmp r0, #0
 	bne _0801551E
 	adds r3, r2, #0
@@ -5909,7 +5909,7 @@ _0801551E:
 	b _080153F0
 	.align 2, 0
 _0801554C: .4byte gGameMode
-_08015550: .4byte gUnknown_03004FF0
+_08015550: .4byte gChaoTasks
 _08015554: .4byte 0x03000041
 _08015558:
 	ldr r3, [sp, #0x14]

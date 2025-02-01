@@ -18,58 +18,9 @@ src/core.o(.data);
 src/multi_sio.o(.data);
 src/sio32_multi_load.o(.data);
 
-. = 0x00004FE0; sa2__gUnknown_030053E0 = .;
-. = 0x00004FE4; gCheckpointTime = .;
-. = 0x00004FE8; gMultiplayerCharRings = .; /* gMultiplayerCharRings[MULTI_SIO_PLAYERS_MAX] */
-. = 0x00004FEC; gRingCount = .;
-. = 0x00004FF0; gUnknown_03004FF0 = .;
-. = 0x00004FFC; gActiveCollectRingEffectCount = .;
-. = 0x00005000; gRoomEventQueueSendPos = .;
-. = 0x00005004; gStageFlags = .;
-. = 0x00005008; gUnknown_03005008 = .;
-. = 0x0000500C; gUnknown_0300500C = .;
-. = 0x00005010; gUnknown_03005010 = .;
-. = 0x00005014; gRoomEventQueueWritePos = .; /* SA2: gRoomEventQueueWritePos */
-. = 0x00005018; sa2__gUnknown_0300543C = .;
-. = 0x0000501C; gUnknown_0300501C = .;
-. = 0x00005020; gUnknown_03005020 = .;
-. = 0x00005024; gNumLives = .;
-. = 0x00005028; gUnknown_03005028 = .;
-. = 0x0000502C; sa2__gUnknown_0300544C = .;
-. = 0x00005030; gLevelScore = .;
-. = 0x00005034; gCourseTime = .;
-. = 0x00005038; gUnknown_03005038 = .;
-. = 0x00005040; gMusicManagerState = .; /* SA2: gUnknown_030054A8 */
-. = 0x00005048; sa2__gUnknown_030054B4 = .; /* SA2: sa2__gUnknown_030054B4 */
-. = 0x0000504C; sa2__gUnknown_030054B8 = .;
-. = 0x00005050; gTailsEnabled = .;
-. = 0x00005054; gDemoPlayCounter = .;
-. = 0x00005058; gUnknown_03005058 = .;
-. = 0x0000505C; gGameMode = .;
-. = 0x00005060; gMultiplayerMissingHeartbeats = .;
-. = 0x00005064; gMultiplayerUnlockedLevels = .;
-. = 0x00005068; gEntitiesManagerTask = .;
-. = 0x0000506C; gDestroySpotlights = .;
-. = 0x00005070; gUnknown_03005070 = .;
-. = 0x00005074; gUnknown_03005074 = .;
-. = 0x00005078; gSpecialStageCollectedRings = .;
-. = 0x0000507C; gUnknown_0300507C = .;
-. = 0x00005080; gUnknown_03005080 = .;
-. = 0x00005084; gSelectedCharacter = .;
-. = 0x00005088; gNumSingleplayerCharacters = .;
-. = 0x0000508C; gUnknown_0300508C = .;
-. = 0x00005090; gMultiplayerCharacters = .;
-. = 0x000050A0; gRoomEventQueue = .; /* SA2: gRoomEventQueue */
-. = 0x00005120; gStageTime = .;
-/* Maybe gUnknown_03005124 is gMultiplayerCurrentLevel?
- * NOTE: Sometimes it gets set to be gCurrentLevel, sometimes not.
- *       Unsure whether it's Multiplayer-related. */
-. = 0x00005124; gUnknown_03005124 = .; 
-. = 0x00005130; gMultiplayerPlayerTasks = .;
-. = 0x00005140; gUnknown_03005140 = .;
-. = 0x00005148; gUnknown_03005148 = .;
-. = 0x0000514C; gCurrentLevel = .;
-. = 0x00005150; gMultiplayerConnections = .;
+. = 0x00004FE0;
+src/game/sa1_sa2_shared/globals.o(.data);
+
 . = 0x00005154; gUnknown_03005154 = .;
 . = 0x00005160; gLoadedSaveGame = .;
 . = 0x00005170; gUnknown_03005170 = .; /* Player 1 - Name[6] */
@@ -109,45 +60,21 @@ src/sio32_multi_load.o(.data);
 . = 0x00005A10; gDustEffectBrakingTask = .;
 . = 0x00005A18; gRingsScatterTask = .;
 
-. = 0x00005A20; gPlayer = .; /* size: 0x90 */
-. = 0x00005A46; gUnknown_03005A46 = .;
-. = 0x00005A47; gUnknown_03005A47 = .;
-. = 0x00005A5C; gUnknown_03005A5C = .;
-. = 0x00005A5D; gUnknown_03005A5D = .;
-. = 0x00005A5E; gUnknown_03005A5E = .;
-. = 0x00005A60; gUnknown_03005A60 = .;
-. = 0x00005A74; gUnknown_03005A74 = .;
-. = 0x00005A76; gUnknown_03005A76 = .;
-. = 0x00005A79; gUnknown_03005A79 = .;
-. = 0x00005A7B; gUnknown_03005A7B = .;
-. = 0x00005A84; gUnknown_03005A84 = .;
-. = 0x00005A8D; gUnknown_03005A8D = .;
-
-. = 0x00005AB0; gPartner = .;          /* CPU Tails (0x90) */
-. = 0x00005AD6; gUnknown_03005AD6 = .;
-. = 0x00005AD7; gUnknown_03005AD7 = .;
-. = 0x00005AEC; gUnknown_03005AEC = .;
-. = 0x00005AED; gUnknown_03005AED = .;
-. = 0x00005AEE; gUnknown_03005AEE = .;
-. = 0x00005AF0; gUnknown_03005AF0 = .;
-. = 0x00005B04; gUnknown_03005B04 = .;
-. = 0x00005B06; gUnknown_03005B06 = .;
-. = 0x00005B09; gUnknown_03005B09 = .;
-. = 0x00005B0A; gUnknown_03005B0A = .;
-. = 0x00005B0B; gUnknown_03005B0B = .;
-. = 0x00005B14; gUnknown_03005B14 = .;
-. = 0x00005B1D; gUnknown_03005B1D = .;
+. = 0x00005A20; 
+src/game/stage/player.o(.data);
 
 . = 0x00005B40; gUnknown_03005B40 = .;
 . = 0x00005B90; gUnknown_03005B90 = .;
-. = 0x00005BE0; sa2__gUnknown_03005AF0 = .; /* (PlayerSpriteInfo player PSI) SA2: gUnknown_03005AA0|gUnknown_03005AF0 */
-. = 0x00005C30; gUnknown_03005C30 = .; /* (PlayerSpriteInfo partner PSI) SA2: gUnknown_03005AA0|gUnknown_03005AF0 */
+. = 0x00005BE0; sa2__gUnknown_03005AF0 = .; /* (PlayerSpriteInfo player PSI) SA2: gUnknown_03005AA0|gPartner + 0x40 */
+. = 0x00005C30; gUnknown_03005C30 = .; /* (PlayerSpriteInfo partner PSI) SA2: gUnknown_03005AA0|gPartner + 0x40 */
 
 . = 0x00005C74; gUnknown_03005C74 = .;
 . = 0x00005C78; gSmallAirBubbleCount = .;
 . = 0x00005C80; gUnknown_03005C80 = .;
 . = 0x00005E80; gUnknown_03005E80 = .;
-. = 0x00006080; gWater = .;
+
+. = 0x00006080; 
+src/game/water_effects.o(.data);
 
 . = 0x000060D0;
 src/input_recorder.o(.data);

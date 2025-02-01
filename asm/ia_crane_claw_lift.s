@@ -336,7 +336,7 @@ _08089CA6:
 	lsls r1, r1, #0xf
 	orrs r0, r1
 	str r0, [r5, #0x10]
-	ldr r3, _08089D7C @ =gUnknown_03005A46
+	ldr r3, _08089D7C @ =gPlayer + 0x26
 	ldrb r0, [r3]
 	movs r1, #0x80
 	orrs r0, r1
@@ -405,7 +405,7 @@ _08089D5E:
 _08089D70: .4byte gNumSingleplayerCharacters
 _08089D74: .4byte gPlayer
 _08089D78: .4byte gPartner
-_08089D7C: .4byte gUnknown_03005A46
+_08089D7C: .4byte gPlayer + 0x26
 _08089D80: .4byte gCurTask
 _08089D84: .4byte sub_8089DE0
 _08089D88: .4byte gCamera

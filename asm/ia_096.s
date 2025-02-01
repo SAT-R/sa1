@@ -165,11 +165,11 @@ _08092340:
 	cmp r4, #0
 	beq _08092354
 	movs r0, #5
-	ldr r1, _08092350 @ =gUnknown_03005AF0
+	ldr r1, _08092350 @ =gPartner + 0x40
 	b _08092358
 	.align 2, 0
 _0809234C: .4byte gPlayer
-_08092350: .4byte gUnknown_03005AF0
+_08092350: .4byte gPartner + 0x40
 _08092354:
 	adds r1, #0x40
 	movs r0, #5

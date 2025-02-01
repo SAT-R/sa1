@@ -22,7 +22,7 @@ CreateEntity_ItemBox_ChaoHunt: @ 0x0801BACC
 	lsls r3, r3, #0x18
 	lsrs r3, r3, #0x18
 	mov sb, r3
-	ldr r0, _0801BB08 @ =gUnknown_03005074
+	ldr r0, _0801BB08 @ =gRandomItemBox
 	ldrb r2, [r0]
 	movs r0, #7
 	ands r0, r2
@@ -38,7 +38,7 @@ CreateEntity_ItemBox_ChaoHunt: @ 0x0801BACC
 	ldr r0, _0801BB0C @ =Task_Interactable115_Main0
 	b _0801BB12
 	.align 2, 0
-_0801BB08: .4byte gUnknown_03005074
+_0801BB08: .4byte gRandomItemBox
 _0801BB0C: .4byte Task_Interactable115_Main0
 _0801BB10:
 	ldr r0, _0801BC4C @ =Task_Interactable115_Main1
@@ -53,7 +53,7 @@ _0801BB12:
 	adds r2, r0, #0
 	movs r0, #4
 	ldrsb r0, [r6, r0]
-	ldr r1, _0801BC54 @ =gUnknown_03005074
+	ldr r1, _0801BC54 @ =gRandomItemBox
 	ldrb r1, [r1]
 	lsrs r1, r1, #4
 	cmp r0, r1
@@ -85,7 +85,7 @@ _0801BB34:
 	adds r0, r2, r1
 	movs r3, #0
 	strb r3, [r0]
-	ldr r0, _0801BC64 @ =gUnknown_03005010
+	ldr r0, _0801BC64 @ =gMultiplayerPseudoRandom
 	ldr r0, [r0]
 	movs r1, #3
 	ands r0, r1
@@ -200,11 +200,11 @@ _0801BB34:
 	.align 2, 0
 _0801BC4C: .4byte Task_Interactable115_Main1
 _0801BC50: .4byte TaskDestructor_Interactable115
-_0801BC54: .4byte gUnknown_03005074
+_0801BC54: .4byte gRandomItemBox
 _0801BC58: .4byte 0x0300000C
 _0801BC5C: .4byte 0x0300007E
 _0801BC60: .4byte 0x03000080
-_0801BC64: .4byte gUnknown_03005010
+_0801BC64: .4byte gMultiplayerPseudoRandom
 _0801BC68: .4byte 0x03000081
 _0801BC6C: .4byte 0x000002C1
 _0801BC70: .4byte 0x0300002C
@@ -266,7 +266,7 @@ Task_Interactable115_Main1: @ 0x0801BCC4
 	lsrs r7, r0, #0x10
 	movs r1, #3
 	ldrsb r1, [r5, r1]
-	ldr r0, _0801BD18 @ =gUnknown_03005074
+	ldr r0, _0801BD18 @ =gRandomItemBox
 	ldrb r3, [r0]
 	movs r0, #7
 	ands r0, r3
@@ -284,7 +284,7 @@ Task_Interactable115_Main1: @ 0x0801BCC4
 	b _0801BD5A
 	.align 2, 0
 _0801BD14: .4byte gCurTask
-_0801BD18: .4byte gUnknown_03005074
+_0801BD18: .4byte gRandomItemBox
 _0801BD1C: .4byte sub_801C420
 _0801BD20:
 	lsls r0, r6, #0x10
@@ -361,7 +361,7 @@ Task_Interactable115_Main0: @ 0x0801BD64
 	lsrs r4, r0, #0x10
 	movs r1, #3
 	ldrsb r1, [r3, r1]
-	ldr r0, _0801BE0C @ =gUnknown_03005074
+	ldr r0, _0801BE0C @ =gRandomItemBox
 	ldrb r2, [r0]
 	movs r0, #7
 	ands r0, r2
@@ -408,7 +408,7 @@ _0801BDF6:
 	.align 2, 0
 _0801BE04: .4byte gCurTask
 _0801BE08: .4byte 0x0300000C
-_0801BE0C: .4byte gUnknown_03005074
+_0801BE0C: .4byte gRandomItemBox
 _0801BE10: .4byte gPlayer
 _0801BE14: .4byte sub_801C69C
 _0801BE18:
@@ -1182,7 +1182,7 @@ sub_801C420: @ 0x0801C420
 	adds r6, r3, r0
 	adds r0, #0x6c
 	adds r5, r3, r0
-	ldr r0, _0801C478 @ =gUnknown_03005010
+	ldr r0, _0801C478 @ =gMultiplayerPseudoRandom
 	ldr r1, [r0]
 	movs r0, #3
 	ands r1, r0
@@ -1217,7 +1217,7 @@ sub_801C420: @ 0x0801C420
 	b _0801C4A4
 	.align 2, 0
 _0801C474: .4byte gCurTask
-_0801C478: .4byte gUnknown_03005010
+_0801C478: .4byte gMultiplayerPseudoRandom
 _0801C47C: .4byte 0x03000081
 _0801C480: .4byte 0x0300007E
 _0801C484: .4byte 0x03000080

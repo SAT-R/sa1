@@ -371,10 +371,10 @@ _08084BCA:
 	cmp r5, #0
 	beq _08084BD8
 	movs r0, #5
-	ldr r1, _08084BD4 @ =gUnknown_03005AF0
+	ldr r1, _08084BD4 @ =gPartner + 0x40
 	b _08084BDE
 	.align 2, 0
-_08084BD4: .4byte gUnknown_03005AF0
+_08084BD4: .4byte gPartner + 0x40
 _08084BD8:
 	adds r1, r2, #0
 	adds r1, #0x40
@@ -455,15 +455,15 @@ _08084C60:
 _08084C68:
 	cmp r5, #0
 	beq _08084C7C
-	ldr r1, _08084C78 @ =gUnknown_03005AEC
+	ldr r1, _08084C78 @ =gPartner + 0x3C
 	movs r0, #0
 	ldrsb r0, [r1, r0]
 	b _08084C82
 	.align 2, 0
 _08084C74: .4byte 0xFFBFFFFF
-_08084C78: .4byte gUnknown_03005AEC
+_08084C78: .4byte gPartner + 0x3C
 _08084C7C:
-	ldr r2, _08084C98 @ =gUnknown_03005A5C
+	ldr r2, _08084C98 @ =gPlayer + 0x3C
 	movs r0, #0
 	ldrsb r0, [r2, r0]
 _08084C82:
@@ -479,7 +479,7 @@ _08084C82:
 	str r0, [r4, #4]
 	b _08084C9E
 	.align 2, 0
-_08084C98: .4byte gUnknown_03005A5C
+_08084C98: .4byte gPlayer + 0x3C
 _08084C9C:
 	str r0, [r6, #4]
 _08084C9E:
@@ -687,10 +687,10 @@ _08084DFC:
 	cmp r5, #0
 	beq _08084E0C
 	movs r0, #5
-	ldr r1, _08084E08 @ =gUnknown_03005AF0
+	ldr r1, _08084E08 @ =gPartner + 0x40
 	b _08084E12
 	.align 2, 0
-_08084E08: .4byte gUnknown_03005AF0
+_08084E08: .4byte gPartner + 0x40
 _08084E0C:
 	adds r1, r2, #0
 	adds r1, #0x40

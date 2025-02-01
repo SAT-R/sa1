@@ -226,7 +226,7 @@ Task_SteamExhaust: @ 0x080891C8
 	str r1, [sp, #0x14]
 	ldr r4, _08089274 @ =gPartner
 	str r5, [sp, #0x10]
-	ldr r5, _08089278 @ =gUnknown_03005A47
+	ldr r5, _08089278 @ =gPlayer + 0x27
 	subs r5, #0x27
 _0808923C:
 	ldr r3, _0808927C @ =gPlayer
@@ -254,7 +254,7 @@ _08089268: .4byte 0x0300000C
 _0808926C: .4byte 0x03000044
 _08089270: .4byte gCamera
 _08089274: .4byte gPartner
-_08089278: .4byte gUnknown_03005A47
+_08089278: .4byte gPlayer + 0x27
 _0808927C: .4byte gPlayer
 _08089280:
 	ldr r0, [r5, #4]
@@ -367,12 +367,12 @@ _0808933C:
 	asrs r1, r0, #8
 	cmp r6, #0
 	beq _0808934C
-	ldr r0, _08089348 @ =gUnknown_03005AD7
+	ldr r0, _08089348 @ =gPartner + 0x27
 	b _0808934E
 	.align 2, 0
-_08089348: .4byte gUnknown_03005AD7
+_08089348: .4byte gPartner + 0x27
 _0808934C:
-	ldr r0, _08089370 @ =gUnknown_03005A47
+	ldr r0, _08089370 @ =gPlayer + 0x27
 _0808934E:
 	ldrb r2, [r0]
 	movs r0, #0
@@ -390,7 +390,7 @@ _0808934E:
 	bne _080893DC
 	b _080893EC
 	.align 2, 0
-_08089370: .4byte gUnknown_03005A47
+_08089370: .4byte gPlayer + 0x27
 _08089374: .4byte sa2__sub_801EE64
 _08089378:
 	mov r0, sl
@@ -427,12 +427,12 @@ _080893AE:
 	asrs r1, r0, #8
 	cmp r6, #0
 	beq _080893BC
-	ldr r0, _080893B8 @ =gUnknown_03005AD7
+	ldr r0, _080893B8 @ =gPartner + 0x27
 	b _080893BE
 	.align 2, 0
-_080893B8: .4byte gUnknown_03005AD7
+_080893B8: .4byte gPartner + 0x27
 _080893BC:
-	ldr r0, _080893E4 @ =gUnknown_03005A47
+	ldr r0, _080893E4 @ =gPlayer + 0x27
 _080893BE:
 	ldrb r2, [r0]
 	movs r0, #0
@@ -455,7 +455,7 @@ _080893DE:
 	str r0, [r4, #4]
 	b _080893F2
 	.align 2, 0
-_080893E4: .4byte gUnknown_03005A47
+_080893E4: .4byte gPlayer + 0x27
 _080893E8: .4byte sa2__sub_801EE64
 _080893EC:
 	ldr r0, [r5, #4]

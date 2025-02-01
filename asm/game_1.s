@@ -368,7 +368,7 @@ sub_8028F20: @ 0x08028F20
 	ldr r0, _08028FAC @ =0x03FF0000
 	cmp r3, r0
 	bls _08028FC0
-	ldr r3, _08028FB0 @ =gUnknown_03005148
+	ldr r3, _08028FB0 @ =gBossIndex
 	ldrb r0, [r3]
 	cmp r0, #2
 	beq _08028F82
@@ -403,7 +403,7 @@ _08028F9E:
 _08028FA4: .4byte gCurTask
 _08028FA8: .4byte gCamera
 _08028FAC: .4byte 0x03FF0000
-_08028FB0: .4byte gUnknown_03005148
+_08028FB0: .4byte gBossIndex
 _08028FB4: .4byte gStageTime
 _08028FB8: .4byte 0x000001FF
 _08028FBC: .4byte sub_8029070
@@ -1273,7 +1273,7 @@ _0802967E:
 	bgt _0802977C
 	movs r0, #0
 	strh r0, [r5, #0xe]
-	ldr r0, _08029754 @ =gUnknown_03005148
+	ldr r0, _08029754 @ =gBossIndex
 	ldrb r1, [r0]
 	adds r4, r0, #0
 	cmp r1, #1
@@ -1356,7 +1356,7 @@ _08029744: .4byte gUnknown_080BB42C
 _08029748: .4byte sub_80177EC
 _0802974C: .4byte 0x03000040
 _08029750: .4byte 0x000001FF
-_08029754: .4byte gUnknown_03005148
+_08029754: .4byte gBossIndex
 _08029758: .4byte gStageFlags
 _0802975C: .4byte 0x0000FFFE
 _08029760: .4byte gGameMode

@@ -637,10 +637,10 @@ _0807559C:
 	cmp r4, #0
 	beq _080755AC
 	movs r0, #0x17
-	ldr r1, _080755A8 @ =gUnknown_03005AF0
+	ldr r1, _080755A8 @ =gPartner + 0x40
 	b _080755B2
 	.align 2, 0
-_080755A8: .4byte gUnknown_03005AF0
+_080755A8: .4byte gPartner + 0x40
 _080755AC:
 	adds r1, r3, #0
 	adds r1, #0x40

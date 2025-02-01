@@ -23,7 +23,7 @@ CreateEntity_EggDrillster: @ 0x08035B44
 	mov sl, r2
 	lsls r3, r3, #0x18
 	lsrs r4, r3, #0x18
-	ldr r0, _08035B80 @ =gUnknown_03005148
+	ldr r0, _08035B80 @ =gBossIndex
 	ldrb r7, [r0]
 	cmp r7, #0
 	beq _08035B6C
@@ -39,7 +39,7 @@ _08035B6C:
 	strb r0, [r6]
 	b _08035CC2
 	.align 2, 0
-_08035B80: .4byte gUnknown_03005148
+_08035B80: .4byte gBossIndex
 _08035B84: .4byte gGameMode
 _08035B88:
 	ldr r0, _08035CD4 @ =sub_8035D18

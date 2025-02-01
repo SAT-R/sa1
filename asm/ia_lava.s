@@ -241,7 +241,7 @@ _0809410E:
 	bne _0809415C
 	cmp r4, #0
 	beq _08094134
-	ldr r1, _08094130 @ =gUnknown_03005AD6
+	ldr r1, _08094130 @ =gPartner + 0x26
 	ldrb r0, [r1]
 	mvns r0, r0
 	movs r1, #2
@@ -250,7 +250,7 @@ _0809410E:
 	bne _08094142
 	b _0809416E
 	.align 2, 0
-_08094130: .4byte gUnknown_03005AD6
+_08094130: .4byte gPartner + 0x26
 _08094134:
 	mov r2, sl
 	ldrb r0, [r2]

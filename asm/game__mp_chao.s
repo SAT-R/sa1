@@ -977,7 +977,7 @@ _080287E4:
 	adds r1, #0x20
 	strb r0, [r1]
 	adds r5, r1, #0
-	ldr r0, _08028838 @ =gUnknown_03004FF0
+	ldr r0, _08028838 @ =gChaoTasks
 	ldr r0, [r0]
 	ldrh r7, [r0, #6]
 	mov r3, ip
@@ -1013,7 +1013,7 @@ _080287E4:
 	b _08028856
 	.align 2, 0
 _08028834: .4byte 0x000002BB
-_08028838: .4byte gUnknown_03004FF0
+_08028838: .4byte gChaoTasks
 _0802883C: .4byte 0x03000041
 _08028840: .4byte gCamera
 _08028844:

@@ -22,7 +22,7 @@ CreateEntity_Checkpoint: @ 0x080214EC
 	lsrs r5, r3, #0x18
 	movs r1, #3
 	ldrsb r1, [r6, r1]
-	ldr r0, _08021528 @ =gUnknown_03005148
+	ldr r0, _08021528 @ =gBossIndex
 	ldrb r0, [r0]
 	cmp r1, r0
 	bgt _08021534
@@ -36,7 +36,7 @@ CreateEntity_Checkpoint: @ 0x080214EC
 	bl TaskCreate
 	b _08021546
 	.align 2, 0
-_08021528: .4byte gUnknown_03005148
+_08021528: .4byte gBossIndex
 _0802152C: .4byte Task_Checkpoint2
 _08021530: .4byte TaskDestructor_8009670
 _08021534:
@@ -92,7 +92,7 @@ _08021546:
 	strh r0, [r5, #0xa]
 	movs r1, #3
 	ldrsb r1, [r6, r1]
-	ldr r0, _080215BC @ =gUnknown_03005148
+	ldr r0, _080215BC @ =gBossIndex
 	ldrb r0, [r0]
 	cmp r1, r0
 	bgt _080215C4
@@ -104,7 +104,7 @@ _08021546:
 _080215B0: .4byte Task_CheckpointMain
 _080215B4: .4byte TaskDestructor_8009670
 _080215B8: .4byte 0x0300000C
-_080215BC: .4byte gUnknown_03005148
+_080215BC: .4byte gBossIndex
 _080215C0: .4byte 0x0300002C
 _080215C4:
 	ldr r2, _08021604 @ =0x0300002C
@@ -278,7 +278,7 @@ _0802170E:
 	ands r4, r0
 	cmp r4, #0
 	bne _080217B0
-	ldr r5, _080217E8 @ =gUnknown_03005148
+	ldr r5, _080217E8 @ =gBossIndex
 	mov r1, sb
 	ldrb r0, [r1, #3]
 	strb r0, [r5]
@@ -337,7 +337,7 @@ _0802178A:
 	ldr r0, _08021804 @ =0x000015BF
 	bl sub_8028C84
 _08021790:
-	ldr r0, _080217E8 @ =gUnknown_03005148
+	ldr r0, _080217E8 @ =gBossIndex
 	ldrb r0, [r0]
 	cmp r0, #3
 	bne _080217B0
@@ -382,7 +382,7 @@ _080217D4:
 	bl TaskDestroy
 	b _08021824
 	.align 2, 0
-_080217E8: .4byte gUnknown_03005148
+_080217E8: .4byte gBossIndex
 _080217EC: .4byte gCheckpointTime
 _080217F0: .4byte gCurTask
 _080217F4: .4byte Task_Checkpoint1

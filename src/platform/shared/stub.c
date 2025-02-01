@@ -8,7 +8,10 @@ void *iwram_end = 0;
 char gNumMusicPlayers = 4;
 int gMaxLines = 0;
 
+void sub_801C704() { }
+
 void sa2__sub_8019CCC() { }
+void sa2__sub_8019F08() { }
 void sa2__sub_8022F58() { }
 void sa2__sub_8023B5C() { }
 

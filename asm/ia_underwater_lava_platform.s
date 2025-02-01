@@ -691,7 +691,7 @@ _08092B7A:
 	bne _08092BE4
 	cmp r6, #0
 	beq _08092B98
-	ldr r3, _08092B94 @ =gUnknown_03005AF0
+	ldr r3, _08092B94 @ =gPartner + 0x40
 	movs r0, #0
 	ldrsb r0, [r3, r0]
 	cmp r0, #4
@@ -699,9 +699,9 @@ _08092B7A:
 	b _08092BE4
 	.align 2, 0
 _08092B90: .4byte gPlayer
-_08092B94: .4byte gUnknown_03005AF0
+_08092B94: .4byte gPartner + 0x40
 _08092B98:
-	ldr r5, _08092BBC @ =gUnknown_03005A60
+	ldr r5, _08092BBC @ =gPlayer + 0x40
 	movs r0, #0
 	ldrsb r0, [r5, r0]
 	cmp r0, #4
@@ -716,21 +716,21 @@ _08092BAA:
 	cmp r6, #0
 	beq _08092BCC
 	movs r0, #4
-	ldr r1, _08092BC8 @ =gUnknown_03005AF0
+	ldr r1, _08092BC8 @ =gPartner + 0x40
 	strb r0, [r1]
 	b _08092BE4
 	.align 2, 0
-_08092BBC: .4byte gUnknown_03005A60
+_08092BBC: .4byte gPlayer + 0x40
 _08092BC0: .4byte gPlayer
 _08092BC4: .4byte gPartner
-_08092BC8: .4byte gUnknown_03005AF0
+_08092BC8: .4byte gPartner + 0x40
 _08092BCC:
 	movs r0, #4
-	ldr r2, _08092BD4 @ =gUnknown_03005A60
+	ldr r2, _08092BD4 @ =gPlayer + 0x40
 	strb r0, [r2]
 	b _08092BE4
 	.align 2, 0
-_08092BD4: .4byte gUnknown_03005A60
+_08092BD4: .4byte gPlayer + 0x40
 _08092BD8:
 	movs r1, #1
 	lsls r1, r6

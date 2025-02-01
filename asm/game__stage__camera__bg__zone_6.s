@@ -30,7 +30,7 @@ StageBgUpdate_Zone6Act1: @ 0x0803EE84
 	beq _0803EEB0
 	b _0803F3F0
 _0803EEB0:
-	ldr r0, _0803EEF8 @ =gUnknown_03005148
+	ldr r0, _0803EEF8 @ =gBossIndex
 	ldrb r0, [r0]
 	cmp r0, #0
 	bne _0803EF0C
@@ -64,7 +64,7 @@ _0803EEB0:
 	b _0803F3F0
 	.align 2, 0
 _0803EEF4: .4byte gCamera
-_0803EEF8: .4byte gUnknown_03005148
+_0803EEF8: .4byte gBossIndex
 _0803EEFC: .4byte gBgCntRegs
 _0803EF00: .4byte 0x00003FFF
 _0803EF04: .4byte 0x0000E0FF

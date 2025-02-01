@@ -342,22 +342,22 @@ _08075880:
 	cmp r4, #0
 	beq _08075898
 	movs r0, #0x11
-	ldr r1, _08075894 @ =gUnknown_03005AF0
+	ldr r1, _08075894 @ =gPartner + 0x40
 	strb r0, [r1]
 	b _0807589E
 	.align 2, 0
 _08075890: .4byte gPartner
-_08075894: .4byte gUnknown_03005AF0
+_08075894: .4byte gPartner + 0x40
 _08075898:
 	movs r0, #0x11
-	ldr r2, _080758A8 @ =gUnknown_03005A60
+	ldr r2, _080758A8 @ =gPlayer + 0x40
 	strb r0, [r2]
 _0807589E:
 	movs r0, #0xaa
 	bl m4aSongNumStart
 	b _08075A08
 	.align 2, 0
-_080758A8: .4byte gUnknown_03005A60
+_080758A8: .4byte gPlayer + 0x40
 _080758AC:
 	cmp r4, #0
 	beq _080758C0
@@ -532,15 +532,15 @@ _080759E2:
 	cmp r4, #0
 	beq _080759FC
 	movs r0, #0x11
-	ldr r1, _080759F8 @ =gUnknown_03005AF0
+	ldr r1, _080759F8 @ =gPartner + 0x40
 	strb r0, [r1]
 	b _08075A02
 	.align 2, 0
 _080759F4: .4byte gPartner
-_080759F8: .4byte gUnknown_03005AF0
+_080759F8: .4byte gPartner + 0x40
 _080759FC:
 	movs r0, #0x11
-	ldr r2, _08075A74 @ =gUnknown_03005A60
+	ldr r2, _08075A74 @ =gPlayer + 0x40
 	strb r0, [r2]
 _08075A02:
 	movs r0, #0xaa
@@ -603,7 +603,7 @@ _08075A64:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08075A74: .4byte gUnknown_03005A60
+_08075A74: .4byte gPlayer + 0x40
 _08075A78: .4byte gNumSingleplayerCharacters
 _08075A7C: .4byte gCamera
 _08075A80: .4byte gCurTask

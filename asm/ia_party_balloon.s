@@ -388,10 +388,10 @@ _0807F10A:
 	cmp r4, #0
 	beq _0807F118
 	movs r0, #0x15
-	ldr r1, _0807F114 @ =gUnknown_03005AF0
+	ldr r1, _0807F114 @ =gPartner + 0x40
 	b _0807F11C
 	.align 2, 0
-_0807F114: .4byte gUnknown_03005AF0
+_0807F114: .4byte gPartner + 0x40
 _0807F118:
 	adds r1, #0x40
 	movs r0, #0x15

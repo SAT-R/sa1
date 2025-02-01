@@ -481,15 +481,15 @@ _08080ACA:
 	cmp r4, #0
 	beq _08080AE4
 	movs r0, #5
-	ldr r2, _08080AE0 @ =gUnknown_03005AF0
+	ldr r2, _08080AE0 @ =gPartner + 0x40
 	strb r0, [r2]
 	b _08080AEA
 	.align 2, 0
 _08080ADC: .4byte gPartner
-_08080AE0: .4byte gUnknown_03005AF0
+_08080AE0: .4byte gPartner + 0x40
 _08080AE4:
 	movs r0, #5
-	ldr r7, _08080AFC @ =gUnknown_03005A60
+	ldr r7, _08080AFC @ =gPlayer + 0x40
 	strb r0, [r7]
 _08080AEA:
 	cmp r4, #0
@@ -501,7 +501,7 @@ _08080AEA:
 	str r0, [r5, #0x10]
 	b _08080B0A
 	.align 2, 0
-_08080AFC: .4byte gUnknown_03005A60
+_08080AFC: .4byte gPlayer + 0x40
 _08080B00:
 	ldr r0, [r6, #0x10]
 	movs r1, #0x80
@@ -517,19 +517,19 @@ _08080B0A:
 	str r0, [r1, #8]
 	cmp r4, #0
 	beq _08080B38
-	ldr r1, _08080B34 @ =gUnknown_03005AD6
+	ldr r1, _08080B34 @ =gPartner + 0x26
 	ldrb r0, [r1]
 	movs r1, #0x80
 	orrs r0, r1
-	ldr r2, _08080B34 @ =gUnknown_03005AD6
+	ldr r2, _08080B34 @ =gPartner + 0x26
 	strb r0, [r2]
 	b _08080B42
 	.align 2, 0
 _08080B2C: .4byte gCurTask
 _08080B30: .4byte Task_Bowl2
-_08080B34: .4byte gUnknown_03005AD6
+_08080B34: .4byte gPartner + 0x26
 _08080B38:
-	ldr r7, _08080B70 @ =gUnknown_03005A46
+	ldr r7, _08080B70 @ =gPlayer + 0x26
 	ldrb r0, [r7]
 	movs r1, #0x80
 	orrs r0, r1
@@ -559,7 +559,7 @@ _08080B5E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08080B70: .4byte gUnknown_03005A46
+_08080B70: .4byte gPlayer + 0x26
 _08080B74: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start Task_Bowl2
@@ -854,15 +854,15 @@ _08080D8E:
 	cmp r5, #0
 	beq _08080DA8
 	movs r0, #5
-	ldr r1, _08080DA4 @ =gUnknown_03005AF0
+	ldr r1, _08080DA4 @ =gPartner + 0x40
 	strb r0, [r1]
 	b _08080DAE
 	.align 2, 0
 _08080DA0: .4byte gPartner
-_08080DA4: .4byte gUnknown_03005AF0
+_08080DA4: .4byte gPartner + 0x40
 _08080DA8:
 	movs r0, #5
-	ldr r2, _08080DC0 @ =gUnknown_03005A60
+	ldr r2, _08080DC0 @ =gPlayer + 0x40
 	strb r0, [r2]
 _08080DAE:
 	cmp r5, #0
@@ -874,7 +874,7 @@ _08080DAE:
 	str r0, [r6, #0x10]
 	b _08080DD0
 	.align 2, 0
-_08080DC0: .4byte gUnknown_03005A60
+_08080DC0: .4byte gPlayer + 0x40
 _08080DC4:
 	mov r4, r8
 	ldr r0, [r4, #0x10]
@@ -885,17 +885,17 @@ _08080DC4:
 _08080DD0:
 	cmp r5, #0
 	beq _08080DE8
-	ldr r0, _08080DE4 @ =gUnknown_03005AD6
+	ldr r0, _08080DE4 @ =gPartner + 0x26
 	ldrb r1, [r0]
 	movs r0, #0x80
 	orrs r0, r1
-	ldr r1, _08080DE4 @ =gUnknown_03005AD6
+	ldr r1, _08080DE4 @ =gPartner + 0x26
 	strb r0, [r1]
 	b _08080DF2
 	.align 2, 0
-_08080DE4: .4byte gUnknown_03005AD6
+_08080DE4: .4byte gPartner + 0x26
 _08080DE8:
-	ldr r2, _08080E4C @ =gUnknown_03005A46
+	ldr r2, _08080E4C @ =gPlayer + 0x26
 	ldrb r1, [r2]
 	movs r0, #0x80
 	orrs r0, r1
@@ -949,7 +949,7 @@ _08080E08:
 	ldr r0, [r4, #0x10]
 	b _08080E64
 	.align 2, 0
-_08080E4C: .4byte gUnknown_03005A46
+_08080E4C: .4byte gPlayer + 0x26
 _08080E50: .4byte gNumSingleplayerCharacters
 _08080E54: .4byte gPlayer
 _08080E58: .4byte 0x000003FF
@@ -1401,17 +1401,17 @@ _0808119A:
 	str r0, [r1, #8]
 	cmp r4, #0
 	beq _080811C0
-	ldr r0, _080811BC @ =gUnknown_03005AD6
+	ldr r0, _080811BC @ =gPartner + 0x26
 	ldrb r1, [r0]
 	movs r0, #0x7f
 	ands r0, r1
-	ldr r1, _080811BC @ =gUnknown_03005AD6
+	ldr r1, _080811BC @ =gPartner + 0x26
 	strb r0, [r1]
 	b _080811CA
 	.align 2, 0
 _080811B4: .4byte gCurTask
 _080811B8: .4byte Task_Bowl3
-_080811BC: .4byte gUnknown_03005AD6
+_080811BC: .4byte gPartner + 0x26
 _080811C0:
 	mov r2, ip
 	ldrb r1, [r2]

@@ -2114,7 +2114,7 @@ _080382B4:
 	bls _0803832C
 	cmp r2, #0xf
 	bne _0803830C
-	ldr r0, _08038328 @ =gUnknown_03005124
+	ldr r0, _08038328 @ =gMultiplayerCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2129,7 +2129,7 @@ _08038318: .4byte 0xFFFFFF00
 _0803831C: .4byte gSelectedCharacter
 _08038320: .4byte gCurrentLevel
 _08038324: .4byte gLoadedSaveGame
-_08038328: .4byte gUnknown_03005124
+_08038328: .4byte gMultiplayerCurrentLevel
 _0803832C:
 	bl sub_803A594
 	b _0803840C
@@ -2174,7 +2174,7 @@ _08038332:
 	bls _080383A2
 	cmp r3, #0xf
 	bne _0803838E
-	ldr r0, _080383F8 @ =gUnknown_03005124
+	ldr r0, _080383F8 @ =gMultiplayerCurrentLevel
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
@@ -2228,7 +2228,7 @@ _080383A2:
 _080383EC: .4byte gSelectedCharacter
 _080383F0: .4byte gCurrentLevel
 _080383F4: .4byte gLoadedSaveGame
-_080383F8: .4byte gUnknown_03005124
+_080383F8: .4byte gMultiplayerCurrentLevel
 _080383FC: .4byte 0xFFF80000
 _08038400: .4byte gMusicManagerState
 _08038404:

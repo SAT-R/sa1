@@ -207,12 +207,12 @@ _08083FDA:
 	asrs r1, r0, #8
 	cmp r4, #0
 	beq _08083FE8
-	ldr r0, _08083FE4 @ =gUnknown_03005AD7
+	ldr r0, _08083FE4 @ =gPartner + 0x27
 	b _08083FEA
 	.align 2, 0
-_08083FE4: .4byte gUnknown_03005AD7
+_08083FE4: .4byte gPartner + 0x27
 _08083FE8:
-	ldr r0, _08084004 @ =gUnknown_03005A47
+	ldr r0, _08084004 @ =gPlayer + 0x27
 _08083FEA:
 	ldrb r2, [r0]
 	ldr r0, _08084008 @ =sa2__sub_801EB44
@@ -227,7 +227,7 @@ _08083FEA:
 	ldr r0, [r6]
 	b _0808400E
 	.align 2, 0
-_08084004: .4byte gUnknown_03005A47
+_08084004: .4byte gPlayer + 0x27
 _08084008: .4byte sa2__sub_801EB44
 _0808400C:
 	ldr r0, [r5]
@@ -245,12 +245,12 @@ _0808401E:
 	asrs r1, r0, #8
 	cmp r4, #0
 	beq _0808402C
-	ldr r0, _08084028 @ =gUnknown_03005AD7
+	ldr r0, _08084028 @ =gPartner + 0x27
 	b _0808402E
 	.align 2, 0
-_08084028: .4byte gUnknown_03005AD7
+_08084028: .4byte gPartner + 0x27
 _0808402C:
-	ldr r0, _0808404C @ =gUnknown_03005A47
+	ldr r0, _0808404C @ =gPlayer + 0x27
 _0808402E:
 	ldrb r2, [r0]
 	ldr r0, _08084050 @ =sa2__sub_801EB44
@@ -266,7 +266,7 @@ _0808402E:
 	str r0, [r6]
 	b _0808406C
 	.align 2, 0
-_0808404C: .4byte gUnknown_03005A47
+_0808404C: .4byte gPlayer + 0x27
 _08084050: .4byte sa2__sub_801EB44
 _08084054:
 	ldr r0, [r5]
@@ -305,12 +305,12 @@ _08084086:
 	asrs r1, r0, #8
 	cmp r4, #0
 	beq _08084094
-	ldr r0, _08084090 @ =gUnknown_03005AD7
+	ldr r0, _08084090 @ =gPartner + 0x27
 	b _08084096
 	.align 2, 0
-_08084090: .4byte gUnknown_03005AD7
+_08084090: .4byte gPartner + 0x27
 _08084094:
-	ldr r0, _080840B4 @ =gUnknown_03005A47
+	ldr r0, _080840B4 @ =gPlayer + 0x27
 _08084096:
 	ldrb r2, [r0]
 	ldr r0, _080840B8 @ =sa2__sub_801EB44
@@ -326,7 +326,7 @@ _08084096:
 	ldr r0, [r6]
 	b _080840BE
 	.align 2, 0
-_080840B4: .4byte gUnknown_03005A47
+_080840B4: .4byte gPlayer + 0x27
 _080840B8: .4byte sa2__sub_801EB44
 _080840BC:
 	ldr r0, [r5]
@@ -344,12 +344,12 @@ _080840CE:
 	asrs r1, r0, #8
 	cmp r4, #0
 	beq _080840DC
-	ldr r0, _080840D8 @ =gUnknown_03005AD7
+	ldr r0, _080840D8 @ =gPartner + 0x27
 	b _080840DE
 	.align 2, 0
-_080840D8: .4byte gUnknown_03005AD7
+_080840D8: .4byte gPartner + 0x27
 _080840DC:
-	ldr r0, _080840FC @ =gUnknown_03005A47
+	ldr r0, _080840FC @ =gPlayer + 0x27
 _080840DE:
 	ldrb r2, [r0]
 	ldr r0, _08084100 @ =sa2__sub_801EB44
@@ -366,7 +366,7 @@ _080840DE:
 	str r0, [r6]
 	b _0808410A
 	.align 2, 0
-_080840FC: .4byte gUnknown_03005A47
+_080840FC: .4byte gPlayer + 0x27
 _08084100: .4byte sa2__sub_801EB44
 _08084104:
 	ldr r0, [r5]
