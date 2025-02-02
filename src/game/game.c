@@ -12,6 +12,7 @@
 
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/player.h"
+#include "game/sa1_sa2_shared/unused_level_select.h"
 //#include "game/sa1_sa2_shared/entities_manager.h"
 
 #include "game/stage/tilemap_table.h"
@@ -108,7 +109,11 @@ void GameInit(void)
     }
 
     if (gFlags & FLAGS_NO_FLASH_MEMORY) {
+#if PORTABLE
+        CreateUnusedLevelSelect();
+#else
         CreateSegaLogo();
+#endif
 #if (GAME == GAME_SA1)
         for (i = 0; i < 4; i++) {
             gLoadedSaveGame.unk8[i] = 0xF;
@@ -135,7 +140,11 @@ void GameInit(void)
     // title screen
     if (gFlags & FLAGS_SKIP_INTRO) {
 #if (GAME == GAME_SA1)
+#if PORTABLE
+        CreateUnusedLevelSelect();
+#else
         CreateTitleScreen(1);
+#endif
 #elif (GAME == GAME_SA2)
         CreateTitleScreenAndSkipIntro();
 #endif
@@ -144,7 +153,11 @@ void GameInit(void)
     }
 
 #if (GAME == GAME_SA1)
+#if PORTABLE
+    CreateUnusedLevelSelect();
+#else
     CreateSegaLogo();
+#endif
 #elif (GAME == GAME_SA2)
     CreateTitleScreen();
 #endif
