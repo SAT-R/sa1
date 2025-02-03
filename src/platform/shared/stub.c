@@ -17,7 +17,6 @@ void sa2__sub_8023B5C() { }
 
 // Stage BG Updates
 void StageBgUpdate_Zone1Acts12() { }
-void StageBgUpdate_Zone3Acts12() { }
 void StageBgUpdate_Zone4Acts12() { }
 void StageBgUpdate_Zone6Act1() { }
 void StageBgUpdate_Zone6Act2() { }

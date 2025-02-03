@@ -13,9 +13,14 @@ typedef struct {
     Sprite s;
 } CasinoParadiseFirework;
 
-#define BG_LINE_MAIN_END 134
+#define BG_LINE_GREENERY_PART_0 134
+#define BG_LINE_GREENERY_PART_1 140
+#define BG_LINE_GREENERY_PART_2 152
+#define BG_LINE_GREENERY_PART_3 168
+#define BG_LINE_RAILING_START   192
+#define BG_LINE_RAILING_END     256
 
-extern const TileInfoFirework gUnknown_084ADD38[2];
+extern const TileInfoFirework gTileInfoZone3Fireworks[2];
 
 void TaskDestructor_MultiplayerSpriteTask(struct Task *);
 
@@ -82,10 +87,10 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
 
         r4 = ((ySub << 16) | ((xSub + (x >> 6)) & 0xFF));
 
-        scanline = BG_LINE_MAIN_END - ySub;
+        scanline = BG_LINE_GREENERY_PART_0 - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 6); i++) {
+        for (i = 0; (i < BG_LINE_GREENERY_PART_1 - BG_LINE_GREENERY_PART_0); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
@@ -101,10 +106,10 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
 
         r4 = ((ySub << 16) | ((xSub + (x >> 5)) & 0xFF));
 
-        scanline = BG_LINE_MAIN_END - ySub;
+        scanline = BG_LINE_GREENERY_PART_0 - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 6); i++) {
+        for (i = 0; (i < BG_LINE_GREENERY_PART_1 - BG_LINE_GREENERY_PART_0); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
@@ -120,10 +125,10 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
 
         r4 = ((ySub << 16) | ((xSub + (x >> 4)) & 0xFF));
 
-        scanline = 140 - ySub;
+        scanline = BG_LINE_GREENERY_PART_1 - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 12); i++) {
+        for (i = 0; (i < BG_LINE_GREENERY_PART_2 - BG_LINE_GREENERY_PART_1); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
@@ -139,10 +144,10 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
 
         r4 = ((ySub << 16) | ((xSub + (x >> 3)) & 0xFF));
 
-        scanline = 152 - ySub;
+        scanline = BG_LINE_GREENERY_PART_2 - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 16); i++) {
+        for (i = 0; (i < BG_LINE_GREENERY_PART_3 - BG_LINE_GREENERY_PART_2); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
@@ -158,10 +163,10 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
 
         r4 = ((ySub << 16) | ((xSub + (x >> 2)) & 0xFF));
 
-        scanline = 168 - ySub;
+        scanline = BG_LINE_GREENERY_PART_3 - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 24); i++) {
+        for (i = 0; (i < BG_LINE_RAILING_START - BG_LINE_GREENERY_PART_3); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
@@ -177,10 +182,10 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
 
         r4 = ((ySub << 16) | ((xSub + (x >> 1)) & 0xFF));
 
-        scanline = 192 - ySub;
+        scanline = BG_LINE_RAILING_START - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 64); i++) {
+        for (i = 0; (i < BG_LINE_RAILING_END - BG_LINE_RAILING_START); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
@@ -196,9 +201,9 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
         CasinoParadiseFirework *firework;
         Sprite *s;
         s32 randA = (((u32)PseudoRandom32() & 0xFF00) >> 8) - 8;
-        s32 randB = (((u32)PseudoRandom32() & 0x7F00) >> 8) - 0x20;
+        s32 randB = (((u32)PseudoRandom32() & 0x7F00) >> 8) - 32;
         u8 fireworkType = (((u32)PseudoRandom32() & 0x0100) >> 8);
-        const TileInfoFirework *tileInfo = &gUnknown_084ADD38[fireworkType];
+        const TileInfoFirework *tileInfo = &gTileInfoZone3Fireworks[fireworkType];
 
         t = CreateMultiplayerSpriteTask(randA, randB, 0, 0, Task_UpdateFireworkAnimation, TaskDestructor_MultiplayerSpriteTask);
         firework = TASK_DATA(t);

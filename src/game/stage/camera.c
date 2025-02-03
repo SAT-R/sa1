@@ -282,7 +282,7 @@ static const s8 sStageBgDimensions[NUM_LEVEL_IDS][4] = {
     [ACT_CHAO_HUNT_D] = STGBG_SCRN_DIM(512, 256, 2, CAM_SCREENBASE_BACK_A),
 };
 
-const TileInfoFirework gUnknown_084ADD38[2] = {
+const TileInfoFirework gTileInfoZone3Fireworks[2] = {
     [0] = { SA1_ANIM_FIREWORKS, 0, MAX_TILES(SA1_ANIM_FIREWORKS) },
     [1] = { SA1_ANIM_FIREWORKS_SMALL, 0, MAX_TILES(SA1_ANIM_FIREWORKS_SMALL) },
 };

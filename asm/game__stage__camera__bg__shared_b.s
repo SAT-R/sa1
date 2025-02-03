@@ -87,7 +87,7 @@ sub_803F9A8: @ 0x0803F9A8
 	movs r4, #1
 	ands r4, r2
 	lsls r4, r4, #2
-	ldr r2, _0803FA08 @ =gUnknown_084ADD38
+	ldr r2, _0803FA08 @ =gTileInfoZone3Fireworks
 	adds r4, r4, r2
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
@@ -127,7 +127,7 @@ sub_803F9A8: @ 0x0803F9A8
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0803FA08: .4byte gUnknown_084ADD38
+_0803FA08: .4byte gTileInfoZone3Fireworks
 _0803FA0C: .4byte Task_UpdateFireworkAnimation
 _0803FA10: .4byte TaskDestructor_MultiplayerSpriteTask
 _0803FA14: .4byte 0x03000018
