@@ -93,7 +93,7 @@ sub_803F9A8: @ 0x0803F9A8
 	asrs r0, r0, #0x10
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _0803FA0C @ =sub_803EA24
+	ldr r2, _0803FA0C @ =Task_UpdateFireworkAnimation
 	str r2, [sp]
 	ldr r2, _0803FA10 @ =TaskDestructor_MultiplayerSpriteTask
 	str r2, [sp, #4]
@@ -128,7 +128,7 @@ sub_803F9A8: @ 0x0803F9A8
 	bx r1
 	.align 2, 0
 _0803FA08: .4byte gUnknown_084ADD38
-_0803FA0C: .4byte sub_803EA24
+_0803FA0C: .4byte Task_UpdateFireworkAnimation
 _0803FA10: .4byte TaskDestructor_MultiplayerSpriteTask
 _0803FA14: .4byte 0x03000018
 _0803FA18: .4byte 0x03000038
