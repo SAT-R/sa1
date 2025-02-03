@@ -13,6 +13,14 @@ typedef struct {
     Sprite s;
 } CasinoParadiseFirework;
 
+// TODO: Get these auto-generated?
+#define BG_TILEMAP_ZONE3_WIDTH  256
+#define BG_TILEMAP_ZONE3_HEIGHT 256
+
+#define BG_LINE_SKY_START       0
+#define BG_LINE_SKY_END         96
+#define BG_LINE_WATER_START     96
+#define BG_LINE_WATER_END       128
 #define BG_LINE_GREENERY_PART_0 134
 #define BG_LINE_GREENERY_PART_1 140
 #define BG_LINE_GREENERY_PART_2 152
@@ -197,22 +205,23 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     }
 
     if (((gStageTime % 4u) == 0) && ((PseudoRandom32() & 0x700) == 0)) {
+        // Spawn Firework, at random location in the sky, randomly big or small.
         struct Task *t;
         CasinoParadiseFirework *firework;
         Sprite *s;
-        s32 randA = (((u32)PseudoRandom32() & 0xFF00) >> 8) - 8;
-        s32 randB = (((u32)PseudoRandom32() & 0x7F00) >> 8) - 32;
+        s32 randX = (((u32)PseudoRandom32() & 0xFF00) >> 8) - 8; // 0 - +256 ---> -8 - +248
+        s32 randY = (((u32)PseudoRandom32() & 0x7F00) >> 8) - (BG_LINE_WATER_END - BG_LINE_SKY_END);
         u8 fireworkType = (((u32)PseudoRandom32() & 0x0100) >> 8);
         const TileInfoFirework *tileInfo = &gTileInfoZone3Fireworks[fireworkType];
 
-        t = CreateMultiplayerSpriteTask(randA, randB, 0, 0, Task_UpdateFireworkAnimation, TaskDestructor_MultiplayerSpriteTask);
+        t = CreateMultiplayerSpriteTask(randX, randY, 0, 0, Task_UpdateFireworkAnimation, TaskDestructor_MultiplayerSpriteTask);
         firework = TASK_DATA(t);
         s = &firework->s;
 
         s->graphics.dest = VramMalloc(tileInfo->numTiles);
         s->graphics.anim = tileInfo->anim;
         s->variant = tileInfo->variant;
-        s->oamFlags = 0x7C0;
-        s->frameFlags = 0x3000;
+        s->oamFlags = SPRITE_OAM_ORDER(31);
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 3);
     }
 }
