@@ -1,10 +1,11 @@
+	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song006_1
 song006_1:	@ 0x0879E4B0
 	.byte	KEYSH	, 0
@@ -86,7 +87,7 @@ song006_1_1:
 	.byte			An2
 	.byte	W06
 	.byte	PATT	
-		.int	song006_1_1
+		mPtr	song006_1_1
 	.byte		N04	, Fn3, v127
 	.byte	W06
 	.byte		N04	
@@ -156,7 +157,7 @@ song006_1_1:
 	.byte			An2
 	.byte	W06
 	.byte	GOTO	
-		.int	song006_1_1
+		mPtr	song006_1_1
 	.byte		N09	, En3, v127
 	.byte	W12
 	.byte		N04	, Cn3
@@ -250,7 +251,7 @@ song006_2_1:
 	.byte		N42	, Gn4
 	.byte	W96
 	.byte	GOTO	
-		.int	song006_2_1
+		mPtr	song006_2_1
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -321,10 +322,10 @@ song006_3_1:
 	.byte		N23	, As2
 	.byte	W24
 	.byte	PATT	
-		.int	song006_3_1
+		mPtr	song006_3_1
 	.byte	W96
 	.byte	PATT	
-		.int	song006_3_1
+		mPtr	song006_3_1
 	.byte		N23	, As2, v127
 	.byte	W24
 	.byte		N11	, Cn3
@@ -344,7 +345,7 @@ song006_3_1:
 	.byte		N48	, Bn2
 	.byte	W96
 	.byte	GOTO	
-		.int	song006_3_2
+		mPtr	song006_3_2
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -393,17 +394,17 @@ song006_4_2:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.int	song006_4_1
+		mPtr	song006_4_1
 	.byte	PATT	
-		.int	song006_4_2
+		mPtr	song006_4_2
 	.byte	PATT	
-		.int	song006_4_1
+		mPtr	song006_4_1
 	.byte	PATT	
-		.int	song006_4_2
+		mPtr	song006_4_2
 	.byte	PATT	
-		.int	song006_4_1
+		mPtr	song006_4_1
 	.byte	PATT	
-		.int	song006_4_2
+		mPtr	song006_4_2
 song006_4_3:
 	.byte	W12
 	.byte		N04	, Cn3, v127
@@ -459,13 +460,13 @@ song006_4_4:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.int	song006_4_3
+		mPtr	song006_4_3
 	.byte	PATT	
-		.int	song006_4_4
+		mPtr	song006_4_4
 	.byte	PATT	
-		.int	song006_4_3
+		mPtr	song006_4_3
 	.byte	PATT	
-		.int	song006_4_4
+		mPtr	song006_4_4
 	.byte	W12
 	.byte		N02	, An2, v127
 	.byte	W06
@@ -506,7 +507,7 @@ song006_4_4:
 	.byte		N03	, Gn2
 	.byte	W48
 	.byte	GOTO	
-		.int	song006_4_1
+		mPtr	song006_4_1
 	.byte	FINE
 
 	@********************** Track  5 **********************@
@@ -547,17 +548,17 @@ song006_5_2:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.int	song006_5_1
+		mPtr	song006_5_1
 	.byte	PATT	
-		.int	song006_5_2
+		mPtr	song006_5_2
 	.byte	PATT	
-		.int	song006_5_1
+		mPtr	song006_5_1
 	.byte	PATT	
-		.int	song006_5_2
+		mPtr	song006_5_2
 	.byte	PATT	
-		.int	song006_5_1
+		mPtr	song006_5_1
 	.byte	PATT	
-		.int	song006_5_2
+		mPtr	song006_5_2
 song006_5_3:
 	.byte	W12
 	.byte		N04	, Cn3, v127
@@ -597,17 +598,17 @@ song006_5_4:
 	.byte	W06
 	.byte	PEND
 	.byte	PATT	
-		.int	song006_5_3
+		mPtr	song006_5_3
 	.byte	PATT	
-		.int	song006_5_4
+		mPtr	song006_5_4
 	.byte	PATT	
-		.int	song006_5_3
+		mPtr	song006_5_3
 	.byte	PATT	
-		.int	song006_5_4
+		mPtr	song006_5_4
 	.byte	W96
 	.byte	W96
 	.byte	GOTO	
-		.int	song006_5_1
+		mPtr	song006_5_1
 	.byte	FINE
 
 	@********************** Track  6 **********************@
@@ -692,7 +693,7 @@ song006_6_1:
 	.byte			An2
 	.byte	W06
 	.byte	PATT	
-		.int	song006_6_1
+		mPtr	song006_6_1
 	.byte		N04	, Fn3, v127
 	.byte	W06
 	.byte		N04	
@@ -779,7 +780,7 @@ song006_6_1:
 	.byte			An2
 	.byte	W06
 	.byte	GOTO	
-		.int	song006_6_1
+		mPtr	song006_6_1
 	.byte		N09	, En3, v127
 	.byte	W12
 	.byte		N04	, Cn3
@@ -859,7 +860,7 @@ song006_7_1:
 	.byte		N23	, As4
 	.byte	W24
 	.byte	PATT	
-		.int	song006_7_1
+		mPtr	song006_7_1
 	.byte	W12
 	.byte		N10	, Ds3, v127
 	.byte	W12
@@ -874,7 +875,7 @@ song006_7_1:
 	.byte			Ds3
 	.byte	W12
 	.byte	PATT	
-		.int	song006_7_1
+		mPtr	song006_7_1
 	.byte		N23	, As4, v127
 	.byte	W24
 	.byte		N11	, Cn5
@@ -907,7 +908,7 @@ song006_7_1:
 	.byte		N04	, Gn3
 	.byte	W48
 	.byte	GOTO	
-		.int	song006_7_2
+		mPtr	song006_7_2
 	.byte	FINE
 
 	@********************** Track  8 **********************@
@@ -990,31 +991,31 @@ song006_8_1:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_2
+		mPtr	song006_8_2
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte	PATT	
-		.int	song006_8_1
+		mPtr	song006_8_1
 	.byte		N05	, Cn1, v127
 	.byte		N02	, Dn1, v056
 	.byte	W06
@@ -1043,7 +1044,7 @@ song006_8_1:
 	.byte		N15	, Gn1, v127
 	.byte	W12
 	.byte	GOTO	
-		.int	song006_8_2
+		mPtr	song006_8_2
 	.byte	W03
 	.byte	FINE
 
@@ -1174,10 +1175,10 @@ song006_9_1:
 	.byte		N42	, Gn3
 	.byte	W96
 	.byte	GOTO	
-		.int	song006_9_1
+		mPtr	song006_9_1
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global song006
 song006:	@ 0x0879EAD4
 	.byte	9		@ trackCount
@@ -1185,14 +1186,14 @@ song006:	@ 0x0879EAD4
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup007		@ voicegroup/tone
+	mPtr	voicegroup007		@ voicegroup/tone
 
-	.int	song006_1		@ track
-	.int	song006_2		@ track
-	.int	song006_3		@ track
-	.int	song006_4		@ track
-	.int	song006_5		@ track
-	.int	song006_6		@ track
-	.int	song006_7		@ track
-	.int	song006_8		@ track
-	.int	song006_9		@ track
+	mPtr	song006_1		@ track
+	mPtr	song006_2		@ track
+	mPtr	song006_3		@ track
+	mPtr	song006_4		@ track
+	mPtr	song006_5		@ track
+	mPtr	song006_6		@ track
+	mPtr	song006_7		@ track
+	mPtr	song006_8		@ track
+	mPtr	song006_9		@ track

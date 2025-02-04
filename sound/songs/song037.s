@@ -1,10 +1,11 @@
+	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song037_1
 song037_1:	@ 0x087B39B4
 	.byte	KEYSH	, 0
@@ -315,7 +316,7 @@ song037_4:	@ 0x087B3AA8
 	.byte	MOD	, 30
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global song037
 song037:	@ 0x087B3B58
 	.byte	4		@ trackCount
@@ -323,9 +324,9 @@ song037:	@ 0x087B3B58
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.int	song037_1		@ track
-	.int	song037_2		@ track
-	.int	song037_3		@ track
-	.int	song037_4		@ track
+	mPtr	song037_1		@ track
+	mPtr	song037_2		@ track
+	mPtr	song037_3		@ track
+	mPtr	song037_4		@ track

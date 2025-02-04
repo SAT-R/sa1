@@ -1,23 +1,25 @@
+    .include "asm/macros/portable.inc"
+
 	.section .rodata
 
     .space 0x100
 
     .global gUnknown_087BF8CC
 gUnknown_087BF8CC:
-    .int demo1
-    .int demo2
-    .int demo3
-    .int demo4
+    mPtr demo1
+    mPtr demo2
+    mPtr demo3
+    mPtr demo4
 
     .global gUnknown_087BF8DC
 gUnknown_087BF8DC:
-    .int gUnknown_08487358
-    .int gUnknown_08487BBC
-    .int gUnknown_0848872C
-    .int gUnknown_08489308
-    .int gUnknown_08489F5C
-    .int gUnknown_0848ADB4
-    .int gUnknown_0848BA80
+    mPtr gUnknown_08487358
+    mPtr gUnknown_08487BBC
+    mPtr gUnknown_0848872C
+    mPtr gUnknown_08489308
+    mPtr gUnknown_08489F5C
+    mPtr gUnknown_0848ADB4
+    mPtr gUnknown_0848BA80
     .ascii "CODRED\0\0"
     .ascii "NIMDA \0\0"
     .ascii "CIRCAM\0\0"

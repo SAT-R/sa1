@@ -1,10 +1,11 @@
+	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song047_1
 song047_1:	@ 0x087B93E0
 	.byte	KEYSH	, 0
@@ -52,7 +53,7 @@ song047_1_1:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.int	song047_1_1
+		mPtr	song047_1_1
 	.byte		N11	, Cn2, v127
 	.byte	W12
 	.byte		N06	, Fn2
@@ -182,7 +183,7 @@ song047_1_1:
 	.byte		N04	
 	.byte	W24
 	.byte	GOTO	
-		.int	song047_1_2
+		mPtr	song047_1_2
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -377,7 +378,7 @@ song047_2_1:
 	.byte		N04	
 	.byte	W24
 	.byte	GOTO	
-		.int	song047_2_1
+		mPtr	song047_2_1
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -469,7 +470,7 @@ song047_3_1:
 	.byte		N07	, Fn3, v104
 	.byte	W24
 	.byte	GOTO	
-		.int	song047_3_1
+		mPtr	song047_3_1
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -509,7 +510,7 @@ song047_4_1:
 	.byte		N52	, Gn2
 	.byte	W48
 	.byte	PATT	
-		.int	song047_4_1
+		mPtr	song047_4_1
 	.byte	W40
 	.byte	W01
 	.byte		N04	, Gn3, v096
@@ -554,7 +555,7 @@ song047_4_1:
 	.byte	W08
 	.byte	W96
 	.byte	GOTO	
-		.int	song047_4_2
+		mPtr	song047_4_2
 	.byte	FINE
 
 	@********************** Track  5 **********************@
@@ -615,7 +616,7 @@ song047_5_1:
 	.byte		N07	
 	.byte	W24
 	.byte	GOTO	
-		.int	song047_5_1
+		mPtr	song047_5_1
 	.byte	FINE
 
 	@********************** Track  6 **********************@
@@ -684,9 +685,9 @@ song047_6_1:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.int	song047_6_1
+		mPtr	song047_6_1
 	.byte	PATT	
-		.int	song047_6_1
+		mPtr	song047_6_1
 	.byte		N04	, Cn1, v127
 	.byte		N01	, Dn1, v044
 	.byte		N90	, Cs2, v120
@@ -805,7 +806,7 @@ song047_6_2:
 	.byte		N90	, Cs2, v120
 	.byte	W04
 	.byte	PATT	
-		.int	song047_6_2
+		mPtr	song047_6_2
 	.byte		N01	, Dn1, v044
 	.byte	W12
 	.byte		N03	, Cs1, v104
@@ -830,10 +831,10 @@ song047_6_2:
 	.byte		N01	, Dn1, v044
 	.byte	W24
 	.byte	GOTO	
-		.int	song047_6_3
+		mPtr	song047_6_3
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global song047
 song047:	@ 0x087B98F4
 	.byte	6		@ trackCount
@@ -841,11 +842,11 @@ song047:	@ 0x087B98F4
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup006		@ voicegroup/tone
+	mPtr	voicegroup006		@ voicegroup/tone
 
-	.int	song047_1		@ track
-	.int	song047_2		@ track
-	.int	song047_3		@ track
-	.int	song047_4		@ track
-	.int	song047_5		@ track
-	.int	song047_6		@ track
+	mPtr	song047_1		@ track
+	mPtr	song047_2		@ track
+	mPtr	song047_3		@ track
+	mPtr	song047_4		@ track
+	mPtr	song047_5		@ track
+	mPtr	song047_6		@ track

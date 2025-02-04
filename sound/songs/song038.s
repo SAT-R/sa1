@@ -1,10 +1,11 @@
+	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song038_1
 song038_1:	@ 0x087B3B70
 	.byte	KEYSH	, 0
@@ -178,13 +179,13 @@ song038_1_1:
 	.byte	W05
 	.byte	PEND
 	.byte	PATT	
-		.int	song038_1_1
+		mPtr	song038_1_1
 	.byte	PATT	
-		.int	song038_1_1
+		mPtr	song038_1_1
 	.byte	PATT	
-		.int	song038_1_1
+		mPtr	song038_1_1
 	.byte	PATT	
-		.int	song038_1_1
+		mPtr	song038_1_1
 	.byte	W01
 	.byte		N06	, Cn1, v127
 	.byte		N06	, Dn1, v048
@@ -254,7 +255,7 @@ song038_1_2:
 	.byte	W05
 	.byte	PEND
 	.byte	PATT	
-		.int	song038_1_2
+		mPtr	song038_1_2
 	.byte	W01
 	.byte		N06	, Cn1, v127
 	.byte		N06	, Dn1, v048
@@ -1209,7 +1210,7 @@ song038_4_1:
 	.byte	W03
 	.byte	W96
 	.byte	PATT	
-		.int	song038_4_1
+		mPtr	song038_4_1
 	.byte	W30
 	.byte	W01
 	.byte		N04	, An2, v092
@@ -3256,7 +3257,7 @@ song038_10:	@ 0x087B4A0A
 	.byte		EOT	
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global song038
 song038:	@ 0x087B4B60
 	.byte	10		@ trackCount
@@ -3264,15 +3265,15 @@ song038:	@ 0x087B4B60
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.int	song038_1		@ track
-	.int	song038_2		@ track
-	.int	song038_3		@ track
-	.int	song038_4		@ track
-	.int	song038_5		@ track
-	.int	song038_6		@ track
-	.int	song038_7		@ track
-	.int	song038_8		@ track
-	.int	song038_9		@ track
-	.int	song038_10		@ track
+	mPtr	song038_1		@ track
+	mPtr	song038_2		@ track
+	mPtr	song038_3		@ track
+	mPtr	song038_4		@ track
+	mPtr	song038_5		@ track
+	mPtr	song038_6		@ track
+	mPtr	song038_7		@ track
+	mPtr	song038_8		@ track
+	mPtr	song038_9		@ track
+	mPtr	song038_10		@ track

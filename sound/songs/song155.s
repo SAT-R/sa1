@@ -1,10 +1,11 @@
+	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song155_1
 song155_1:	@ 0x087BD4E8
 	.byte	KEYSH	, 0
@@ -43,9 +44,9 @@ song155_1_2:
 	.byte			Gn3
 	.byte	W24
 	.byte	PATT	
-		.int	song155_1_1
+		mPtr	song155_1_1
 	.byte	PATT	
-		.int	song155_1_2
+		mPtr	song155_1_2
 	.byte		N92	, Dn4, v104
 	.byte	W72
 	.byte	W24
@@ -77,7 +78,7 @@ song155_1_2:
 	.byte		N22	, Bn4
 	.byte	W24
 	.byte	GOTO	
-		.int	song155_1_3
+		mPtr	song155_1_3
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -114,7 +115,7 @@ song155_2_1:
 	.byte			Gn2, v104
 	.byte	W72
 	.byte	GOTO	
-		.int	song155_2_1
+		mPtr	song155_2_1
 	.byte		N36	, Cn3, v104
 	.byte	W36
 	.byte	W02
@@ -146,7 +147,7 @@ song155_3_2:
 	.byte	W48
 	.byte	PEND
 	.byte	PATT	
-		.int	song155_3_1
+		mPtr	song155_3_1
 song155_3_3:
 	.byte	W24
 	.byte		N68	, Gn3, v104
@@ -154,23 +155,23 @@ song155_3_3:
 	.byte	W48
 	.byte	PEND
 	.byte	PATT	
-		.int	song155_3_1
+		mPtr	song155_3_1
 	.byte	PATT	
-		.int	song155_3_2
+		mPtr	song155_3_2
 	.byte	PATT	
-		.int	song155_3_1
+		mPtr	song155_3_1
 	.byte	PATT	
-		.int	song155_3_3
+		mPtr	song155_3_3
 	.byte	PATT	
-		.int	song155_3_1
+		mPtr	song155_3_1
 	.byte	PATT	
-		.int	song155_3_2
+		mPtr	song155_3_2
 	.byte	PATT	
-		.int	song155_3_1
+		mPtr	song155_3_1
 	.byte	GOTO	
-		.int	song155_3_4
+		mPtr	song155_3_4
 	.byte	PATT	
-		.int	song155_3_3
+		mPtr	song155_3_3
 	.byte	W22
 	.byte	FINE
 
@@ -220,7 +221,7 @@ song155_4_1:
 	.byte		N10	, Bn4
 	.byte	W48
 	.byte	GOTO	
-		.int	song155_4_1
+		mPtr	song155_4_1
 	.byte	W24
 	.byte		N10	, Cn5, v104
 	.byte	W10
@@ -272,13 +273,13 @@ song155_5_1:
 	.byte		N11	, Gn4
 	.byte	W48
 	.byte	GOTO	
-		.int	song155_5_1
+		mPtr	song155_5_1
 	.byte	W24
 	.byte		N10	, Gn4, v104
 	.byte	W10
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global song155
 song155:	@ 0x087BD664
 	.byte	5		@ trackCount
@@ -286,10 +287,10 @@ song155:	@ 0x087BD664
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup007		@ voicegroup/tone
+	mPtr	voicegroup007		@ voicegroup/tone
 
-	.int	song155_1		@ track
-	.int	song155_2		@ track
-	.int	song155_3		@ track
-	.int	song155_4		@ track
-	.int	song155_5		@ track
+	mPtr	song155_1		@ track
+	mPtr	song155_2		@ track
+	mPtr	song155_3		@ track
+	mPtr	song155_4		@ track
+	mPtr	song155_5		@ track

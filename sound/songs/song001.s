@@ -1,10 +1,11 @@
+	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song001_1
 song001_1:	@ 0x0879C304
 	.byte	KEYSH	, 0
@@ -168,11 +169,11 @@ song001_1_3:
 	.byte		N06	, Cs1, v127
 	.byte	W06
 	.byte	PATT	
-		.int	song001_1_1
+		mPtr	song001_1_1
 	.byte	PATT	
-		.int	song001_1_2
+		mPtr	song001_1_2
 	.byte	PATT	
-		.int	song001_1_3
+		mPtr	song001_1_3
 	.byte		N12	, Dn1, v056
 	.byte	W12
 	.byte			Cn1, v127
@@ -317,9 +318,9 @@ song001_1_4:
 	.byte			Dn1, v044
 	.byte	W12
 	.byte	PATT	
-		.int	song001_1_4
+		mPtr	song001_1_4
 	.byte	PATT	
-		.int	song001_1_4
+		mPtr	song001_1_4
 	.byte		N12	, Cn1, v127
 	.byte		N12	, Ds1, v056
 	.byte	W12
@@ -1016,7 +1017,7 @@ song001_3_1:
 	.byte		EOT	
 	.byte	W01
 	.byte	PATT	
-		.int	song001_3_1
+		mPtr	song001_3_1
 	.byte	W12
 	.byte		N32	, Fn3, v127
 	.byte	W36
@@ -2638,7 +2639,7 @@ song001_8_2:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.int	song001_8_1
+		mPtr	song001_8_1
 	.byte	W12
 	.byte		N10	, As2, v127
 	.byte	W12
@@ -2657,11 +2658,11 @@ song001_8_2:
 	.byte		N10	
 	.byte	W12
 	.byte	PATT	
-		.int	song001_8_1
+		mPtr	song001_8_1
 	.byte	PATT	
-		.int	song001_8_2
+		mPtr	song001_8_2
 	.byte	PATT	
-		.int	song001_8_1
+		mPtr	song001_8_1
 	.byte	W12
 	.byte		N10	, As2, v127
 	.byte	W12
@@ -2698,7 +2699,7 @@ song001_8_3:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.int	song001_8_3
+		mPtr	song001_8_3
 	.byte		N07	, Cn3, v127
 	.byte	W12
 	.byte		N07	
@@ -2751,7 +2752,7 @@ song001_8_4:
 	.byte	W12
 	.byte	PEND
 	.byte	PATT	
-		.int	song001_8_4
+		mPtr	song001_8_4
 	.byte		N07	, Gn2, v127
 	.byte	W12
 	.byte		N07	
@@ -3419,7 +3420,7 @@ song001_12:	@ 0x0879D2DF
 	.byte	W13
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global song001
 song001:	@ 0x0879D400
 	.byte	12		@ trackCount
@@ -3427,17 +3428,17 @@ song001:	@ 0x0879D400
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.int	song001_1		@ track
-	.int	song001_2		@ track
-	.int	song001_3		@ track
-	.int	song001_4		@ track
-	.int	song001_5		@ track
-	.int	song001_6		@ track
-	.int	song001_7		@ track
-	.int	song001_8		@ track
-	.int	song001_9		@ track
-	.int	song001_10		@ track
-	.int	song001_11		@ track
-	.int	song001_12		@ track
+	mPtr	song001_1		@ track
+	mPtr	song001_2		@ track
+	mPtr	song001_3		@ track
+	mPtr	song001_4		@ track
+	mPtr	song001_5		@ track
+	mPtr	song001_6		@ track
+	mPtr	song001_7		@ track
+	mPtr	song001_8		@ track
+	mPtr	song001_9		@ track
+	mPtr	song001_10		@ track
+	mPtr	song001_11		@ track
+	mPtr	song001_12		@ track

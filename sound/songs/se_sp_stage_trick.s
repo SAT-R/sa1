@@ -1,10 +1,11 @@
-	.include "sound/MPlayDef.s"
+    .include "asm/macros/portable.inc"
+    .include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global se_sp_stage_trick_1
 se_sp_stage_trick_1:	@ 0x087B8E44
 	.byte	KEYSH	, 0
@@ -155,7 +156,7 @@ se_sp_stage_trick_5:	@ 0x087B8F07
 	.byte	W01
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global se_sp_stage_trick
 se_sp_stage_trick:	@ 0x087B8F20
 	.byte	5		@ trackCount
@@ -163,10 +164,10 @@ se_sp_stage_trick:	@ 0x087B8F20
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup000		@ voicegroup/tone
+	mPtr	voicegroup000		@ voicegroup/tone
 
-	.int	se_sp_stage_trick_1		@ track
-	.int	se_sp_stage_trick_2		@ track
-	.int	se_sp_stage_trick_3		@ track
-	.int	se_sp_stage_trick_4		@ track
-	.int	se_sp_stage_trick_5		@ track
+	mPtr	se_sp_stage_trick_1		@ track
+	mPtr	se_sp_stage_trick_2		@ track
+	mPtr	se_sp_stage_trick_3		@ track
+	mPtr	se_sp_stage_trick_4		@ track
+	mPtr	se_sp_stage_trick_5		@ track

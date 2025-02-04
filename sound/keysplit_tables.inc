@@ -1,4 +1,4 @@
-	.align 2
+	mAlignWord
 	@********************** KeySplit **********************@
 
 	.global KeySplitTable000

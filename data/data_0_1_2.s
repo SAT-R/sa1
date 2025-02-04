@@ -1,3 +1,5 @@
+    .include "asm/macros/portable.inc"
+
 	.section .rodata
     .align 2 , 0
 
@@ -15,7 +17,8 @@ gUnknown_080BB350:
 
     .global gUnknown_080BB354
 gUnknown_080BB354:
-    .int sub_800E934, sub_800F318
+    mPtr sub_800E934
+    mPtr sub_800F318
 
     .global gUnknown_080BB35C
 gUnknown_080BB35C:
@@ -68,8 +71,14 @@ gUnknown_080BB38E:
 @ These functions get called when pressing A inside the options menu main screen
     .global sOptionsSelectFuncs
 sOptionsSelectFuncs:
-    .int OptionsSelectPlayerData, OptionsSelectDifficulty, OptionsSelectTimeUp, OptionsSelectSoundTest
-    .int OptionsSelectLanguage, OptionsSelectButtonConfig, OptionsSelectDeleteGameData, OptionsSelectEnd
+    mPtr OptionsSelectPlayerData
+    mPtr OptionsSelectDifficulty
+    mPtr OptionsSelectTimeUp
+    mPtr OptionsSelectSoundTest
+    mPtr OptionsSelectLanguage
+    mPtr OptionsSelectButtonConfig
+    mPtr OptionsSelectDeleteGameData
+    mPtr OptionsSelectEnd
 
     .global gUnknown_080BB3C0
 gUnknown_080BB3C0:
@@ -89,7 +98,9 @@ gUnknown_080BB3CA:
 
     .global gUnknown_080BB3D0
 gUnknown_080BB3D0:
-    .int PlayerDataSelectName, PlayerDataSelectVsRecord, PlayerDataSelectOK
+    mPtr PlayerDataSelectName
+    mPtr PlayerDataSelectVsRecord
+    mPtr PlayerDataSelectOK
 
     .global gUnknown_080BB3DC
 gUnknown_080BB3DC:
@@ -103,9 +114,15 @@ gUnknown_080BB3E0:
 
     .global gUnknown_080BB3F8
 gUnknown_080BB3F8:
-    .int gMultiboot_087C22F8, gUnknown_087CA2F8
-    .int gUnknown_087D22F8, gUnknown_087E3610, gUnknown_087EB610, gUnknown_087F2128
-    .int gUnknown_087F88F0, gUnknown_087DFE80, gUnknown_087D7E80
+    mPtr gMultiboot_087C22F8
+    mPtr gUnknown_087CA2F8
+    mPtr gUnknown_087D22F8
+    mPtr gUnknown_087E3610
+    mPtr gUnknown_087EB610
+    mPtr gUnknown_087F2128
+    mPtr gUnknown_087F88F0
+    mPtr gUnknown_087DFE80
+    mPtr gUnknown_087D7E80
 
     .global gUnknown_080BB41C
 gUnknown_080BB41C:
@@ -123,18 +140,3 @@ gUnknown_080BB434:
 gUnknown_080BB43C:
     .short 438, 449, 448, 438, 447, 448, 439, 446
     .short 442, 443, 444, 448, 447, 449, 442, 0
-
-    .if 0
-    .global gRoomEventHandlers
-gRoomEventHandlers:
-    .int ReceiveRoomEvent_PlatformChange
-    .int ReceiveRoomEvent_ItemBoxBreak
-    .int ReceiveRoomEvent_EnemyDestroyed
-    .int ReceiveRoomEvent_PlayerRingLoss
-    .int ReceiveRoomEvent_MysteryItemBoxBreak
-    .int ReceiveRoomEvent_ItemEffect
-    .int ReceiveRoomEvent_ReachedStageGoal
-    .int ReceiveRoomEvent_7
-    .int ReceiveRoomEvent_8
-    .int 0
-.endif

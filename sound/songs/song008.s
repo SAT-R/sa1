@@ -1,10 +1,11 @@
+	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
 	.section .rodata
 
 	@********************** Track  1 **********************@
 
-	.align 2
+	mAlignWord
 	.global song008_1
 song008_1:	@ 0x0879EF40
 	.byte	KEYSH	, 0
@@ -72,7 +73,7 @@ song008_1_1:
 	.byte			Cn5
 	.byte	W48
 	.byte	GOTO	
-		.int	song008_1_1
+		mPtr	song008_1_1
 	.byte	FINE
 
 	@********************** Track  2 **********************@
@@ -143,7 +144,7 @@ song008_2_1:
 	.byte		N08	
 	.byte	W48
 	.byte	GOTO	
-		.int	song008_2_1
+		mPtr	song008_2_1
 	.byte	FINE
 
 	@********************** Track  3 **********************@
@@ -214,7 +215,7 @@ song008_3_1:
 	.byte			En3
 	.byte	W48
 	.byte	GOTO	
-		.int	song008_3_1
+		mPtr	song008_3_1
 	.byte	FINE
 
 	@********************** Track  4 **********************@
@@ -285,7 +286,7 @@ song008_4_1:
 	.byte			Cn5
 	.byte	W48
 	.byte	GOTO	
-		.int	song008_4_1
+		mPtr	song008_4_1
 	.byte	FINE
 
 	@********************** Track  5 **********************@
@@ -352,7 +353,7 @@ song008_5_1:
 	.byte	W48
 	.byte	PEND
 	.byte	PATT	
-		.int	song008_5_1
+		mPtr	song008_5_1
 	.byte		N08	, Fn3, v127
 	.byte	W24
 	.byte		N16	, Gn3
@@ -360,7 +361,7 @@ song008_5_1:
 	.byte		N08	, Cn3
 	.byte	W48
 	.byte	GOTO	
-		.int	song008_5_2
+		mPtr	song008_5_2
 	.byte	FINE
 
 	@********************** Track  6 **********************@
@@ -428,7 +429,7 @@ song008_6_1:
 	.byte	W48
 	.byte	PEND
 	.byte	PATT	
-		.int	song008_6_1
+		mPtr	song008_6_1
 	.byte		N23	, Cn1, v116
 	.byte		N23	, Dn1, v048
 	.byte	W24
@@ -439,12 +440,12 @@ song008_6_1:
 	.byte		N24	, Dn1, v048
 	.byte	W48
 	.byte	GOTO	
-		.int	song008_6_2
+		mPtr	song008_6_2
 	.byte		N24	, Dn1, v048
 	.byte	W24
 	.byte	FINE
 
-	.align 2
+	mAlignWord
 	.global song008
 song008:	@ 0x0879F18C
 	.byte	6		@ trackCount
@@ -452,11 +453,11 @@ song008:	@ 0x0879F18C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
-	.int	voicegroup007		@ voicegroup/tone
+	mPtr	voicegroup007		@ voicegroup/tone
 
-	.int	song008_1		@ track
-	.int	song008_2		@ track
-	.int	song008_3		@ track
-	.int	song008_4		@ track
-	.int	song008_5		@ track
-	.int	song008_6		@ track
+	mPtr	song008_1		@ track
+	mPtr	song008_2		@ track
+	mPtr	song008_3		@ track
+	mPtr	song008_4		@ track
+	mPtr	song008_5		@ track
+	mPtr	song008_6		@ track
