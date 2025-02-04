@@ -99,7 +99,8 @@ song194:	@ 0x087BE520
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song194_1		@ track

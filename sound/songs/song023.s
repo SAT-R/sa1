@@ -2136,6 +2136,7 @@ song023:	@ 0x087AC10C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song023_1		@ track

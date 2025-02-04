@@ -1013,6 +1013,7 @@ song048:	@ 0x087B9EAC
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup006		@ voicegroup/tone
 
 	mPtr	song048_1		@ track

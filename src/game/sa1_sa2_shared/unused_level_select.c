@@ -96,7 +96,12 @@ void Task_Poll(void)
     u8 digits[5];
 
     if (gPressedKeys & (START_BUTTON | A_BUTTON)) {
+#if !PORTABLE
         m4aSongNumStart(SE_SELECT);
+#else
+        m4aSongNumStart(levelSelect->levelId);
+        return;
+#endif
 
 #if (GAME == GAME_SA1)
         m4aSongNumStop(MUS_CHARACTER_SELECTION);

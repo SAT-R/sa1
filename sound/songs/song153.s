@@ -30,7 +30,8 @@ song153:	@ 0x087BD48C
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song153_1		@ track

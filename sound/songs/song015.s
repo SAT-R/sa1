@@ -4103,6 +4103,7 @@ song015:	@ 0x087A5A00
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song015_1		@ track

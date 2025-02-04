@@ -337,7 +337,8 @@ song305:	@ 0x087BF2B0
 	.byte	0		@ blockCount
 	.byte	0		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song305_1		@ track

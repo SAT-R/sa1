@@ -2451,6 +2451,7 @@ song032:	@ 0x087B32D0
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song032_1		@ track

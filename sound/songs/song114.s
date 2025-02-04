@@ -43,6 +43,7 @@ song114:	@ 0x087BC6CC
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song114_1		@ track

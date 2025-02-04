@@ -3987,6 +3987,7 @@ song024:	@ 0x087AD5BC
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song024_1		@ track

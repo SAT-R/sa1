@@ -767,6 +767,7 @@ song005:	@ 0x0879E48C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song005_1		@ track

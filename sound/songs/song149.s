@@ -133,7 +133,8 @@ song149:	@ 0x087BD3E0
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song149_1		@ track

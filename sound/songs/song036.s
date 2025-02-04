@@ -382,6 +382,7 @@ song036:	@ 0x087B3990
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song036_1		@ track

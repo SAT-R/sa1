@@ -118,7 +118,7 @@ HBlankFunc gHBlankIntrs[4] ALIGNED(16) = {};
 u8 gIwramHeap[0x2204] = {};
 
 Sprite *sa2__gUnknown_03004D10[] ALIGNED(16) = {};
-u8 sa2__gUnknown_03004D50 ALIGNED(4) = 0;
+u8 gNumVBlankCallbacks ALIGNED(4) = 0;
 
 #if (ENGINE == ENGINE_2)
 void *gUnknown_03004D54 = NULL;
@@ -324,7 +324,7 @@ void EngineInit(void)
     DmaFill32(3, 0, gHBlankCallbacks, sizeof(gHBlankCallbacks));
     DmaFill32(3, 0, gHBlankIntrs, sizeof(gHBlankCallbacks));
 
-    sa2__gUnknown_03004D50 = 0;
+    gNumVBlankCallbacks = 0;
     gNumVBlankIntrs = 0;
 
     DmaFill32(3, 0, gVBlankCallbacks, sizeof(gVBlankCallbacks));
@@ -494,10 +494,10 @@ void UpdateScreenDma(void)
 
     if (gFlags & FLAGS_10) {
         DmaFill32(3, 0, gVBlankIntrs, sizeof(gVBlankIntrs));
-        if (sa2__gUnknown_03004D50 != 0) {
-            DmaCopy32(3, gVBlankCallbacks, gVBlankIntrs, sa2__gUnknown_03004D50 * sizeof(FuncType_030053A0));
+        if (gNumVBlankCallbacks != 0) {
+            DmaCopy32(3, gVBlankCallbacks, gVBlankIntrs, gNumVBlankCallbacks * sizeof(FuncType_030053A0));
         }
-        gNumVBlankIntrs = sa2__gUnknown_03004D50;
+        gNumVBlankIntrs = gNumVBlankCallbacks;
     } else {
         gNumVBlankIntrs = 0;
     }
@@ -559,7 +559,7 @@ void ClearOamBufferDma(void)
     DmaFill16(3, 0x200, gOamBuffer + 0x40, 0x100);
     DmaFill16(3, 0x200, gOamBuffer + 0x60, 0x100);
 
-    sa2__gUnknown_03004D50 = 0;
+    gNumVBlankCallbacks = 0;
     gFlags &= ~FLAGS_10;
 }
 
@@ -616,10 +616,10 @@ void UpdateScreenCpuSet(void)
 
     if (gFlags & 0x10) {
         CpuFastFill(NULL, gVBlankIntrs, sizeof(gVBlankIntrs));
-        if (sa2__gUnknown_03004D50 != 0) {
-            CpuFastSet(gVBlankCallbacks, gVBlankIntrs, sa2__gUnknown_03004D50);
+        if (gNumVBlankCallbacks != 0) {
+            CpuFastSet(gVBlankCallbacks, gVBlankIntrs, gNumVBlankCallbacks);
         }
-        gNumVBlankIntrs = sa2__gUnknown_03004D50;
+        gNumVBlankIntrs = gNumVBlankCallbacks;
     } else {
         gNumVBlankIntrs = 0;
     }
@@ -865,7 +865,7 @@ void ClearOamBufferCpuSet(void)
     }
     gFlags &= ~4;
     CpuFastFill(0x200, gOamBuffer, sizeof(gOamBuffer));
-    sa2__gUnknown_03004D50 = 0;
+    gNumVBlankCallbacks = 0;
     gFlags &= ~FLAGS_10;
 }
 #else
@@ -885,7 +885,7 @@ void ClearOamBufferCpuSet(void)
     }
     gFlags &= ~4;
     CpuFastFill(0x200, gOamBuffer, sizeof(gOamBuffer));
-    sa2__gUnknown_03004D50 = 0;
+    gNumVBlankCallbacks = 0;
     gFlags &= ~FLAGS_10;
 }
 #endif

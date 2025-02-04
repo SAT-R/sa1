@@ -1218,6 +1218,7 @@ song053:	@ 0x087BC1C4
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song053_1		@ track

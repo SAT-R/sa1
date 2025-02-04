@@ -157,6 +157,7 @@ song127:	@ 0x087BCC74
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song127_1		@ track

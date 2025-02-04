@@ -1535,6 +1535,7 @@ song018:	@ 0x087A8558
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup006		@ voicegroup/tone
 
 	mPtr	song018_1		@ track

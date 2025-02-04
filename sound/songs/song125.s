@@ -144,6 +144,7 @@ song125:	@ 0x087BCAA0
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song125_1		@ track

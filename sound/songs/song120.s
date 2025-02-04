@@ -93,6 +93,7 @@ song120:	@ 0x087BC838
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song120_1		@ track

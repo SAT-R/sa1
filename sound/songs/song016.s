@@ -2715,6 +2715,7 @@ song016:	@ 0x087A6BD8
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song016_1		@ track

@@ -24,6 +24,7 @@ song157:	@ 0x087BD6AC
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song157_1		@ track

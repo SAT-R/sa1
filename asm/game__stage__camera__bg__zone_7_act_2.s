@@ -96,7 +96,7 @@ _0803F5AC:
 	movs r0, #8
 	orrs r3, r0
 	ldr r4, _0803F638 @ =gVBlankCallbacks
-	ldr r2, _0803F63C @ =sa2__gUnknown_03004D50
+	ldr r2, _0803F63C @ =gNumVBlankCallbacks
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -128,5 +128,5 @@ _0803F62C: .4byte gNumHBlankCallbacks
 _0803F630: .4byte sub_803F92C
 _0803F634: .4byte gFlags
 _0803F638: .4byte gVBlankCallbacks
-_0803F63C: .4byte sa2__gUnknown_03004D50
+_0803F63C: .4byte gNumVBlankCallbacks
 _0803F640: .4byte sub_803F920

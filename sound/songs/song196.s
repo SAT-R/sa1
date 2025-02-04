@@ -123,7 +123,8 @@ song196:	@ 0x087BE5FC
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song196_1		@ track

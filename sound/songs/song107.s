@@ -30,6 +30,7 @@ song107:	@ 0x087BC454
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song107_1		@ track

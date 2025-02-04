@@ -2357,6 +2357,7 @@ song019:	@ 0x087A9524
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song019_1		@ track

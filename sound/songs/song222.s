@@ -28,6 +28,7 @@ song222:	@ 0x087BED68
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song222_1		@ track

@@ -1929,6 +1929,7 @@ song020:	@ 0x087AA03C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup006		@ voicegroup/tone
 
 	mPtr	song020_1		@ track

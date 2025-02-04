@@ -1372,6 +1372,7 @@ song052:	@ 0x087BB954
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song052_1		@ track

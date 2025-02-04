@@ -3043,6 +3043,7 @@ song013:	@ 0x087A2580
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song013_1		@ track

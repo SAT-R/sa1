@@ -1481,6 +1481,7 @@ song012:	@ 0x087A12E8
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song012_1		@ track

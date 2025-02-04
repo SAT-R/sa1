@@ -134,6 +134,7 @@ song110:	@ 0x087BC560
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song110_1		@ track

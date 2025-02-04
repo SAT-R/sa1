@@ -47,7 +47,8 @@ song162:	@ 0x087BD774
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song162_1		@ track

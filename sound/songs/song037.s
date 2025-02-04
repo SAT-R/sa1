@@ -324,6 +324,7 @@ song037:	@ 0x087B3B58
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song037_1		@ track

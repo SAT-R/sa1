@@ -23,7 +23,8 @@ song128:	@ 0x087BCC90
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song128_1		@ track

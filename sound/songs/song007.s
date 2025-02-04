@@ -729,6 +729,7 @@ song007:	@ 0x0879EF18
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song007_1		@ track

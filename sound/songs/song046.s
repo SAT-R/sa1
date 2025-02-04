@@ -274,6 +274,7 @@ song046:	@ 0x087B93C4
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song046_1		@ track

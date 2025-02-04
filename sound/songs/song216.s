@@ -27,7 +27,8 @@ song216:	@ 0x087BECA8
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song216_1		@ track

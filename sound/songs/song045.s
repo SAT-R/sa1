@@ -258,6 +258,7 @@ song045:	@ 0x087B923C
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup006		@ voicegroup/tone
 
 	mPtr	song045_1		@ track

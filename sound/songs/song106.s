@@ -31,7 +31,8 @@ song106:	@ 0x087BC430
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song106_1		@ track

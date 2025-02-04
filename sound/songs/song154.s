@@ -60,7 +60,8 @@ song154:	@ 0x087BD4D8
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song154_1		@ track

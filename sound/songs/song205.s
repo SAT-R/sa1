@@ -44,7 +44,8 @@ song205:	@ 0x087BE900
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song205_1		@ track

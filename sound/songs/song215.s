@@ -28,6 +28,7 @@ song215:	@ 0x087BEC88
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song215_1		@ track

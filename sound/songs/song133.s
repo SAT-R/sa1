@@ -107,7 +107,8 @@ song133:	@ 0x087BCE54
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song133_1		@ track

@@ -26,6 +26,7 @@ song140:	@ 0x087BD010
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song140_1		@ track

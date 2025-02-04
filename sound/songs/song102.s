@@ -23,7 +23,8 @@ song102:	@ 0x087BC364
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup004		@ voicegroup/tone
 
 	mPtr	song102_1		@ track

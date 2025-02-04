@@ -25,7 +25,8 @@ song123:	@ 0x087BC9A4
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song123_1		@ track

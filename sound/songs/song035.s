@@ -543,6 +543,7 @@ song035:	@ 0x087B3778
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song035_1		@ track

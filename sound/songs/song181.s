@@ -84,7 +84,8 @@ song181:	@ 0x087BDF00
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song181_1		@ track

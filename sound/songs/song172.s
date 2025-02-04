@@ -145,6 +145,7 @@ song172:	@ 0x087BDA5C
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song172_1		@ track

@@ -124,7 +124,8 @@ song177:	@ 0x087BDD70
 	.byte	0		@ blockCount
 	.byte	20		@ priority
 	.byte	128		@ reverb
-
+    
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song177_1		@ track

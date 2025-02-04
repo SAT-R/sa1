@@ -2456,6 +2456,7 @@ song011:	@ 0x087A0980
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup006		@ voicegroup/tone
 
 	mPtr	song011_1		@ track

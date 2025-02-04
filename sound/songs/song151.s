@@ -33,6 +33,7 @@ song151:	@ 0x087BD438
 	.byte	20		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup005		@ voicegroup/tone
 
 	mPtr	song151_1		@ track

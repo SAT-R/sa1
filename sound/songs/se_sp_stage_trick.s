@@ -164,6 +164,7 @@ se_sp_stage_trick:	@ 0x087B8F20
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	se_sp_stage_trick_1		@ track

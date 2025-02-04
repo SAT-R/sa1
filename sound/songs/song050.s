@@ -1015,6 +1015,7 @@ song050:	@ 0x087BA7E8
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song050_1		@ track

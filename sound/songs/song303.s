@@ -114,6 +114,7 @@ song303:	@ 0x087BEF78
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup007		@ voicegroup/tone
 
 	mPtr	song303_1		@ track

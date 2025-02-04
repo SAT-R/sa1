@@ -5745,6 +5745,7 @@ song040:	@ 0x087B8084
 	.byte	0		@ priority
 	.byte	178		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song040_1		@ track

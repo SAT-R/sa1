@@ -198,6 +198,7 @@ song033:	@ 0x087B33F0
 	.byte	0		@ priority
 	.byte	128		@ reverb
 
+mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
 	mPtr	song033_1		@ track

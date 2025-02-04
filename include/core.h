@@ -343,7 +343,7 @@ extern u16 sa2__gUnknown_03002A8C;
 extern u8 gOamFirstPausedIndex;
 extern u8 gBackgroundsCopyQueueCursor;
 extern Sprite *sa2__gUnknown_03004D10[16];
-extern u8 sa2__gUnknown_03004D50;
+extern u8 gNumVBlankCallbacks;
 extern void *sa2__gUnknown_03004D54;
 // extern u16 gUnknown_03004D58;
 extern u8 gVramGraphicsCopyCursor;

@@ -367,7 +367,7 @@ _0804C6D2:
 _0804C6D4:
 	strb r0, [r7, #1]
 	ldr r3, _0804C77C @ =gVBlankCallbacks
-	ldr r2, _0804C780 @ =sa2__gUnknown_03004D50
+	ldr r2, _0804C780 @ =gNumVBlankCallbacks
 	ldrb r0, [r2]
 	adds r1, r0, #1
 	strb r1, [r2]
@@ -450,7 +450,7 @@ _0804C756:
 	b _0804C7AA
 	.align 2, 0
 _0804C77C: .4byte gVBlankCallbacks
-_0804C780: .4byte sa2__gUnknown_03004D50
+_0804C780: .4byte gNumVBlankCallbacks
 _0804C784: .4byte sa2__sub_8011A4C
 _0804C788: .4byte gFlags
 _0804C78C: .4byte gIntrTable
