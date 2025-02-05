@@ -77,7 +77,7 @@ s8 ALIGNED(4) sa2__gUnknown_030054B4[MULTI_SIO_PLAYERS_MAX] = {};
 u8 ALIGNED(4) sa2__gUnknown_030054B8 = 0;
 
 #if (GAME == GAME_SA1)
-u8 ALIGNED(4) gTailsEnabled = 0;
+s8 ALIGNED(4) gTailsEnabled = 0;
 #endif
 
 #if (GAME == GAME_SA2)

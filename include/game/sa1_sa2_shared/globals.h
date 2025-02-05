@@ -4,15 +4,17 @@
 #include "multi_sio.h"
 #include "core.h"
 
-#define GAME_MODE_SINGLE_PLAYER    0
-#define GAME_MODE_TIME_ATTACK      1
-#define GAME_MODE_BOSS_TIME_ATTACK 2
+#define GAME_MODE_SINGLE_PLAYER 0
+#define GAME_MODE_TIME_ATTACK   1
 
 #define GAME_MODE_MULTI_PLAYER 3
 #if (GAME == GAME_SA1)
+#define GAME_MODE_RACE                       2
+#define GAME_MODE_CHAO_HUNT                  4
 #define GAME_MODE_TEAM_PLAY                  5
 #define GAME_MODE_MULTI_PLAYER_COLLECT_RINGS 6
 #elif (GAME == GAME_SA2)
+#define GAME_MODE_BOSS_TIME_ATTACK           2
 #define GAME_MODE_TEAM_PLAY                  4
 #define GAME_MODE_MULTI_PLAYER_COLLECT_RINGS 5
 #endif
@@ -87,7 +89,8 @@ extern u8 gGameMode;
 extern s8 gCurrentLevel;
 extern s8 gSelectedCharacter;
 #if (GAME == GAME_SA1)
-extern bool8 gTailsEnabled;
+// NOTE: Treat gTailsEnabled as bool8, it just does not match unsigned
+extern s8 gTailsEnabled;
 extern s8 gNumSingleplayerCharacters;
 #endif
 

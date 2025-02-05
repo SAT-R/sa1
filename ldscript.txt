@@ -81,6 +81,7 @@ SECTIONS {
         src/game/sa1_sa2_shared/music_manager.o(.text);
         src/game/game.o(.text);
         src/game/dummy_task.o(.text);
+        src/game/stage/stage.o(.text);
         asm/game__stage__stage.o(.text);
         src/game/stage/camera.o(.text);
         asm/game__stage__camera__bg__zone_1.o(.text);

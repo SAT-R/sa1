@@ -10236,8 +10236,8 @@ _08046CAE:
 	.align 2, 0
 _08046CB4: .4byte gStageTime
 
-	thumb_func_start sub_8046CB8
-sub_8046CB8: @ 0x08046CB8
+	thumb_func_start CallSetStageSpawnPos
+CallSetStageSpawnPos: @ 0x08046CB8
 	push {lr}
 	bl SetStageSpawnPos
 	pop {r0}
