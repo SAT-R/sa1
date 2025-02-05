@@ -170,7 +170,7 @@ mAlignWord
 mAlignWord
 	voice_directsound 60, 0, gUnknown_086F1DC0, 255, 0, 255, 127	@086DBC84
 mAlignWord
-	voice_keysplit voicegroup002, KeySplitTable000	@086DBC90
+	voice_keysplit voicegroup002, KeySplitTable1	@086DBC90
 mAlignWord
 	voice_directsound 60, 0, gUnknown_086F2994, 255, 246, 64, 149	@086DBC9C
 mAlignWord

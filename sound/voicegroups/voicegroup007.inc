@@ -253,3 +253,9 @@ mAlignWord
 	voice_square_2_alt 2, 0, 6, 0, 2	@086DD64C
 mAlignWord
 	voice_square_1_alt 0, 2, 1, 0, 10, 2	@086DD658
+mAlignWord
+    voice_square_2_alt 2, 0, 6, 0, 6    @086DD664
+mAlignWord
+    voice_square_1_alt 0, 1, 0, 0, 15, 0    @086DD670
+mAlignWord
+    voice_keysplit_all voicegroup001
