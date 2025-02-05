@@ -2669,7 +2669,7 @@ _0800FAEC:
 	mov ip, r0
 	ldr r5, _0800FB54 @ =gMultiplayerCharacters
 	movs r2, #0
-	ldr r4, _0800FB58 @ =gMultiplayerWins
+	ldr r4, _0800FB58 @ =gMPRingCollectWins
 	ldr r3, _0800FB5C @ =sa2__gUnknown_030054B4
 _0800FB1A:
 	adds r0, r1, r5
@@ -2697,7 +2697,7 @@ _0800FB48: .4byte gCurTask
 _0800FB4C: .4byte sub_8010048
 _0800FB50: .4byte gDispCnt
 _0800FB54: .4byte gMultiplayerCharacters
-_0800FB58: .4byte gMultiplayerWins
+_0800FB58: .4byte gMPRingCollectWins
 _0800FB5C: .4byte sa2__gUnknown_030054B4
 _0800FB60:
 	adds r0, r3, #1
@@ -2799,7 +2799,7 @@ sub_800FBF8: @ 0x0800FBF8
 	mov sb, r0
 	ldr r6, _0800FC94 @ =gMultiplayerCharacters
 	movs r2, #0
-	ldr r5, _0800FC98 @ =gMultiplayerWins
+	ldr r5, _0800FC98 @ =gMPRingCollectWins
 	ldr r4, _0800FC9C @ =sa2__gUnknown_030054B4
 	ldr r3, _0800FCA0 @ =gMultiplayerMissingHeartbeats
 _0800FC32:
@@ -2846,7 +2846,7 @@ _0800FC88: .4byte gIntrTable
 _0800FC8C: .4byte gMultiSioEnabled
 _0800FC90: .4byte gMultiSioStatusFlags
 _0800FC94: .4byte gMultiplayerCharacters
-_0800FC98: .4byte gMultiplayerWins
+_0800FC98: .4byte gMPRingCollectWins
 _0800FC9C: .4byte sa2__gUnknown_030054B4
 _0800FCA0: .4byte gMultiplayerMissingHeartbeats
 _0800FCA4: .4byte sub_8010048
@@ -3109,7 +3109,7 @@ ShowSinglePakResults: @ 0x0800FEB0
 	movs r1, #0
 	ldr r6, _0800FEE4 @ =gMultiplayerCharacters
 	movs r2, #0
-	ldr r5, _0800FEE8 @ =gMultiplayerWins
+	ldr r5, _0800FEE8 @ =gMPRingCollectWins
 	ldr r4, _0800FEEC @ =sa2__gUnknown_030054B4
 	ldr r3, _0800FEF0 @ =gMultiplayerMissingHeartbeats
 _0800FEBE:
@@ -3132,7 +3132,7 @@ _0800FEBE:
 	bx r0
 	.align 2, 0
 _0800FEE4: .4byte gMultiplayerCharacters
-_0800FEE8: .4byte gMultiplayerWins
+_0800FEE8: .4byte gMPRingCollectWins
 _0800FEEC: .4byte sa2__gUnknown_030054B4
 _0800FEF0: .4byte gMultiplayerMissingHeartbeats
 

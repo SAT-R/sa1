@@ -36,7 +36,7 @@ u16 ALIGNED(4) gStageFlags = 0;
 // TODO: Check type!
 u8 ALIGNED(4) gUnknown_03005008[MULTI_SIO_PLAYERS_MAX] = {};
 #endif
-u8 ALIGNED(4) gMultiplayerWins[MULTI_SIO_PLAYERS_MAX] = {};
+u8 ALIGNED(4) gMPRingCollectWins[MULTI_SIO_PLAYERS_MAX] = {};
 
 #if (GAME == GAME_SA2)
 u8 gBossRingsRespawnCount = 0;

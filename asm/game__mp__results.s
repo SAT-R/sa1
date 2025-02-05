@@ -3558,7 +3558,7 @@ _0801A256:
 	ldr r5, _0801A2AC @ =gMultiplayerCharacters
 	mov r3, sp
 	mov r2, sp
-	ldr r1, _0801A2B0 @ =gMultiplayerWins
+	ldr r1, _0801A2B0 @ =gMPRingCollectWins
 	mov r8, r1
 _0801A272:
 	cmp r7, #0
@@ -3585,7 +3585,7 @@ _0801A2A0: .4byte gUnknown_080BB490
 _0801A2A4: .4byte gMultiplayerCharRings
 _0801A2A8: .4byte sa2__gUnknown_030054B4
 _0801A2AC: .4byte gMultiplayerCharacters
-_0801A2B0: .4byte gMultiplayerWins
+_0801A2B0: .4byte gMPRingCollectWins
 _0801A2B4:
 	ldrb r1, [r4, #1]
 	ldrb r0, [r4]
@@ -5720,7 +5720,7 @@ _0801B444:
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	bl DisplaySprite
-	ldr r0, _0801B474 @ =gMultiplayerWins
+	ldr r0, _0801B474 @ =gMPRingCollectWins
 	adds r1, r6, r0
 	ldrb r0, [r1]
 	cmp r0, #0x63
@@ -5728,7 +5728,7 @@ _0801B444:
 	movs r7, #0x63
 	b _0801B482
 	.align 2, 0
-_0801B474: .4byte gMultiplayerWins
+_0801B474: .4byte gMPRingCollectWins
 _0801B478:
 	ldrb r0, [r1]
 	bl Base10DigitsToHexNibbles
