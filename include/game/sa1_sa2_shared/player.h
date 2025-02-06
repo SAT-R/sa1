@@ -97,7 +97,7 @@ typedef struct Player {
     /* 0x42 */ u16 anim;
     /* 0x44 */ u16 variant;
     /* 0x46 */ u8 filler46[0x2];
-    /* 0x48 */ u16 unk48; // Special Stage-related. random?
+    /* 0x48 */ s16 unk48; // Spotlight and Special Stage-related. random?
     /* 0x4A */ u8 filler4A[0xF];
 
     /* 0x59 */ s8 character;

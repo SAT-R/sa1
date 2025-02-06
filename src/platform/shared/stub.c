@@ -2,6 +2,7 @@
 
 #include "global.h"
 #include "sprite.h"
+#include "game/sa1_sa2_shared/player.h"
 
 void *ewram_end = 0;
 void *iwram_end = 0;
@@ -10,10 +11,13 @@ int gMaxLines = 0;
 
 void sub_801C704() { }
 
+bool32 sub_8017800() { }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
-void sa2__sub_8022F58() { }
+void sa2__sub_801F044(void) { }
+s32 sa2__sub_8022F58(u8 param0, Player *p) { }
 void sa2__sub_8023B5C() { }
+void sa2__sub_80213C0(u32 UNUSED characterId, u32 UNUSED levelId, Player *player) { }
 
 // Stage BG Updates
 void StageBgUpdate_Zone1Acts12() { }
@@ -22,6 +26,37 @@ void StageBgUpdate_Zone6Act1() { }
 void StageBgUpdate_Zone6Act2() { }
 void StageBgUpdate_Zone7Act2() { }
 void StageBgUpdate_Zone2_Interior() { }
+
+void ApplyGameStageSettings() { }
+void CreateStageEntitiesManager() { }
+void CallSetStageSpawnPos() { }
+void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
+
+void Task_GameStage(void) { }
+void TaskDestructor_GameStage(struct Task *t) { }
+
+void sub_803D888(void) { }
+void sub_803D940(void) { }
+void sub_803D9F8(void) { }
+void sub_803DB2C(void) { }
+void sub_803DCCC(void) { }
+void sub_803DD00(void) { }
+void sub_803DD78(void) { }
+void sub_803DDBC(void) { }
+void sub_803DE00(void) { }
+void sub_803DE44(void) { }
+void sub_803DE88(void) { }
+void sub_803DEA8(void) { }
+void sub_803DEC8(void) { }
+void sub_803DF58(void) { }
+void sub_803DF64(void) { }
+void sub_803DF70(void) { }
+void sub_803DFC0(void) { }
+void sub_803E004(void) { }
+
+void StageInit_MPCollectRings(void) { }
+
+void sub_80550F8() { }
 
 // Interactables / Gimmicks
 void CreateEntity_StageGoal() { }
@@ -182,14 +217,16 @@ void CreateMultiplayerModeSelectScreen() { }
 void CreateTimeAttackMenu() { }
 void CreateOptionsMenu() { }
 void CreateEditLanguageScreen() { }
-void ApplyGameStageSettings() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }
+void CreateMultiplayerPlayer() { }
 void CreateMultipackOutcomeScreen() { }
 void MultiPakCommunicationError() { }
 void ShowSinglePakResults() { }
+void CreateOpponentPositionIndicator() { }
+void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
 
 void SaveGameExists() { }

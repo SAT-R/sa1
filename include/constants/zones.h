@@ -61,7 +61,13 @@
 #define NUM_LEVEL_IDS 34
 #endif
 
+#if (GAME == GAME_SA1)
+#define LEVEL_TO_ZONE(level) ((level) >> 1)
+#elif (GAME == GAME_SA2)
 #define LEVEL_TO_ZONE(level) ((level) >> 2)
+#elif (GAME == GAME_SA3)
+#define LEVEL_TO_ZONE(level) ((level) / 10u)
+#endif
 // ((((level) / (ACTS_PER_ZONE + 1)) * 2) | ((level) & 1))
 #define LEVEL_TO_COURSE_INDEX(level)        ((((level) / ACT_SLOTS_PER_ZONE) << 0x19 >> 0x18) | ((level)&1))
 #define COURSE_LEVEL_TO_COURSE_INDEX(level) (((level) >> 1) + ((level)&1))

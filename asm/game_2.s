@@ -3271,6 +3271,7 @@ _080550EC: .4byte gUiGraphics + ((15 * 0x1C) + 0x14)
 _080550F0: .4byte gUiGraphics + ((15 * 0x1C) + 0x18)
 _080550F4: .4byte gUnknown_08688398
 
+@ Output: struct Task *
 	thumb_func_start sub_80550F8
 sub_80550F8: @ 0x080550F8
 	push {r4, r5, r6, r7, lr}
@@ -3602,12 +3603,12 @@ _080552E6:
 	adds r5, r5, r2
 	movs r3, #0
 	strb r3, [r5]
-	ldr r0, _08055448 @ =sub_8055458
+	ldr r0, _08055448 @ =Task_8055458
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0805544C @ =0x08055C4D
+	ldr r1, _0805544C @ =TaskDestructor_8055C4C
 	str r1, [sp]
-	movs r1, #0x28
+	movs r1, #0x28 @ sizeof(Struct_sub_80550F8)
 	movs r3, #0
 	bl TaskCreate
 	adds r5, r0, #0
@@ -3664,13 +3665,13 @@ _08055438: .4byte 0x00002120
 _0805543C: .4byte 0x03000020
 _08055440: .4byte 0x03000021
 _08055444: .4byte sub_8055B18
-_08055448: .4byte sub_8055458
-_0805544C: .4byte 0x08055C4D
+_08055448: .4byte Task_8055458
+_0805544C: .4byte TaskDestructor_8055C4C
 _08055450: .4byte 0x03000026
 _08055454: .4byte 0x03000027
 
-	thumb_func_start sub_8055458
-sub_8055458: @ 0x08055458
+	thumb_func_start Task_8055458
+Task_8055458: @ 0x08055458
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -3977,7 +3978,7 @@ _080556D8: .4byte gCurrentLevel
 _080556DC: .4byte 0x0000FFDF
 _080556E0: .4byte gCurTask
 _080556E4:
-	bl sub_801B574
+	bl CreateMultiplayerMultiPakUI
 _080556E8:
 	ldr r0, _08055704 @ =gCurrentLevel
 	ldrb r0, [r0]
@@ -4700,8 +4701,8 @@ sub_8055C38: @ 0x08055C38
 	pop {r0}
 	bx r0
 
-    thumb_func_start sub_8055C4C
-sub_8055C4C: @ 0x08055C4C
+    thumb_func_start TaskDestructor_8055C4C
+TaskDestructor_8055C4C: @ 0x08055C4C
     bx lr
     .align 2, 0
 

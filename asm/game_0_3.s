@@ -1202,8 +1202,9 @@ _080130E4: .4byte sa2__gUnknown_03004D80
 _080130E8: .4byte sa2__gUnknown_03002280
 _080130EC: .4byte gCurTask
 
-	thumb_func_start sub_80130F0
-sub_80130F0: @ 0x080130F0
+@ --- Start of src/game/multiplayer/mp_player.c ---
+	thumb_func_start CreateMultiplayerPlayer
+CreateMultiplayerPlayer: @ 0x080130F0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1213,10 +1214,10 @@ sub_80130F0: @ 0x080130F0
 	adds r4, r0, #0
 	lsls r4, r4, #0x18
 	lsrs r4, r4, #0x18
-	ldr r0, _0801315C @ =sub_8013400
+	ldr r0, _0801315C @ =Task_CreateMultiplayerPlayer
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08013160 @ =sub_8015728
+	ldr r1, _08013160 @ =TaskDestructor_MultiplayerPlayer
 	str r1, [sp]
 	movs r1, #0x6c
 	movs r3, #0
@@ -1257,8 +1258,8 @@ sub_80130F0: @ 0x080130F0
 	movs r0, #0x1e
 	b _0801317A
 	.align 2, 0
-_0801315C: .4byte sub_8013400
-_08013160: .4byte sub_8015728
+_0801315C: .4byte Task_CreateMultiplayerPlayer
+_08013160: .4byte TaskDestructor_MultiplayerPlayer
 _08013164: .4byte 0x03000056
 _08013168: .4byte 0x03000054
 _0801316C: .4byte 0x03000068
@@ -1593,8 +1594,8 @@ _08013396:
 _080133F8: .4byte 0x06010000
 _080133FC: .4byte gMultiplayerPlayerTasks
 
-	thumb_func_start sub_8013400
-sub_8013400: @ 0x08013400
+	thumb_func_start Task_CreateMultiplayerPlayer
+Task_CreateMultiplayerPlayer: @ 0x08013400
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -5058,7 +5059,7 @@ _08014E52:
 	cmp r1, r0
 	bne _08014ECC
 	ldr r0, _08014EC8 @ =0xFFFFF880
-	bl sub_8015754
+	bl LaunchPlayer
 	b _08014F46
 	.align 2, 0
 _08014EC4: .4byte gPlayer
@@ -5068,7 +5069,7 @@ _08014ECC:
 	cmp r1, r0
 	bne _08014EE4
 	ldr r0, _08014EE0 @ =0xFFFFF580
-	bl sub_8015754
+	bl LaunchPlayer
 	b _08014F46
 	.align 2, 0
 _08014EDC: .4byte 0x00000161
@@ -6058,8 +6059,8 @@ _08015668: .4byte 0x03000052
 _0801566C: .4byte 0x03000068
 _08015670: .4byte 0x03000054
 
-	thumb_func_start sub_8015674
-sub_8015674: @ 0x08015674
+	thumb_func_start Task_HandleLaunchPlayer
+Task_HandleLaunchPlayer: @ 0x08015674
 	push {r4, r5, r6, lr}
 	ldr r6, _080156E0 @ =gPlayer
 	ldr r2, [r6, #0x64]
@@ -6142,8 +6143,8 @@ _0801571C: .4byte 0xFFDFFFFF
 _08015720: .4byte 0xFF7FFFFF
 _08015724: .4byte gCurTask
 
-	thumb_func_start sub_8015728
-sub_8015728: @ 0x08015728
+	thumb_func_start TaskDestructor_MultiplayerPlayer
+TaskDestructor_MultiplayerPlayer: @ 0x08015728
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r2, #0xc0
@@ -6165,14 +6166,14 @@ sub_8015728: @ 0x08015728
 _0801574C: .4byte gMultiplayerPlayerTasks
 _08015750: .4byte 0x03000056
 
-	thumb_func_start sub_8015754
-sub_8015754: @ 0x08015754
+	thumb_func_start LaunchPlayer
+LaunchPlayer: @ 0x08015754
 	push {r4, r5, lr}
 	sub sp, #4
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
-	ldr r0, _080157A0 @ =sub_8015674
+	ldr r0, _080157A0 @ =Task_HandleLaunchPlayer
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r5, #0
@@ -6204,9 +6205,10 @@ sub_8015754: @ 0x08015754
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080157A0: .4byte sub_8015674
+_080157A0: .4byte Task_HandleLaunchPlayer
 _080157A4: .4byte gPlayer
 
+@ This function does not appear to be in SA2
 	thumb_func_start sub_80157A8
 sub_80157A8: @ 0x080157A8
 	push {r4, lr}
@@ -6262,8 +6264,10 @@ _08015802:
 _08015808: .4byte gCurTask
 _0801580C: .4byte gPlayer
 
-	thumb_func_start sub_8015810
-sub_8015810: @ 0x08015810
+@ -- End of src/game/multiplayer/mp_player.c ? ---
+
+	thumb_func_start CreateOpponentPositionIndicator
+CreateOpponentPositionIndicator: @ 0x08015810
 	push {r4, r5, lr}
 	sub sp, #4
 	lsls r0, r0, #0x18

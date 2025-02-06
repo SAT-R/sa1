@@ -5850,8 +5850,8 @@ _0801B568: .4byte gMPlayInfo_SE3
 _0801B56C: .4byte gBldRegs
 _0801B570: .4byte sa2__Task_8082630
 
-	thumb_func_start sub_801B574
-sub_801B574: @ 0x0801B574
+	thumb_func_start CreateMultiplayerMultiPakUI
+CreateMultiplayerMultiPakUI: @ 0x0801B574
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

@@ -49,7 +49,10 @@ src/game/special_stage/temporary_sound_play_task.o(.data);
 . = 0x000058B4; gUnknown_030058B4 = .;
 . = 0x000058B8; gUnknown_030058B8 = .;
 . = 0x000058BC; gDummyTask = .;
-. = 0x000058C0; gGameStageTask = .;
+
+. = 0x000058C0;
+src/game/stage/stage.o(.data);
+
 . = 0x000058D0; gStageBackgroundsRam  = .;
 . = 0x000059D0; gCamera = .;
 . = 0x00005A0C; gRefCollision = .;

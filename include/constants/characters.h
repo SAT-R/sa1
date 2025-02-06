@@ -19,7 +19,9 @@ typedef enum {
 
 #define CHARACTER_BIT(character) (1 << (character))
 
-#if (GAME == GAME_SA2)
+#if (GAME == GAME_SA1)
+#define PARTNER_CHARACTER CHARACTER_TAILS
+#elif (GAME == GAME_SA2)
 #define MAIN_CHARACTERS                                                                                                                    \
     (CHARACTER_BIT(CHARACTER_SONIC) | CHARACTER_BIT(CHARACTER_CREAM) | CHARACTER_BIT(CHARACTER_TAILS) | CHARACTER_BIT(CHARACTER_KNUCKLES))
 #endif
