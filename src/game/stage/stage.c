@@ -1,19 +1,25 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "game/multiplayer/chao.h"
+#include "game/multiplayer/finish.h"
 #include "game/multiplayer/indicators.h"
 #include "game/multiplayer/mp_player.h"
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
 #include "game/sa1_sa2_shared/music_manager.h"
+#include "game/sa1_sa2_shared/pause_menu.h"
 #include "game/sa1_sa2_shared/rings_manager.h"
 #include "game/sa1_sa2_shared/player.h"
+#include "game/save.h"
 #include "game/stage/camera.h"
 #include "game/stage/player.h"
+#include "game/stage/screen_shake.h"
 #include "game/stage/stage.h"
 
 #include "constants/characters.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct Struct_sub_80550F8 {
@@ -38,27 +44,35 @@ extern struct Task *CreateMultiplayerChao(u8, u8);
 void sa2__sub_801F044(void);
 void sa2__sub_80213C0(u32 UNUSED characterId, u32 UNUSED levelId, Player *player);
 
-void sub_803D888(void);
-void sub_803D940(void);
-void sub_803D9F8(void);
-void sub_803DB2C(void);
-void sub_803DCCC(void);
-void sub_803DD00(void);
-void sub_803DD78(void);
-void sub_803DDBC(void);
-void sub_803DE00(void);
-void sub_803DE44(void);
-void sub_803DE88(void);
-void sub_803DEA8(void);
-void sub_803DEC8(void);
-void sub_803DF58(void);
-void sub_803DF64(void);
-void sub_803DF70(void);
-void sub_803DFC0(void);
-void sub_803E004(void);
-const VoidFn gUnknown_084ADB18[NUM_LEVEL_IDS] = {
-    sub_803DCCC, sub_803DD00, sub_803DD78, sub_803DDBC, sub_803D888, sub_803D940, sub_803DE00, sub_803DE44, sub_803DE88,
-    sub_803DEA8, sub_803D9F8, sub_803DEC8, sub_803DF58, sub_803DF64, sub_803DF70, sub_803DFC0, sub_803DB2C, sub_803E004,
+void StageInit_Zone3Act1(void);
+void StageInit_Zone3Act2(void);
+void StageInit_Zone6Act1(void);
+void StageInit_PinballChaoGarden(void);
+void StageInit_Zone1Act1(void);
+void StageInit_Zone1Act2(void);
+void StageInit_Zone2Act1(void);
+void StageInit_Zone2Act2(void);
+void StageInit_Zone4Act1(void);
+void StageInit_Zone4Act2(void);
+void StageInit_Zone5Act1(void);
+void StageInit_Zone5Act2(void);
+void StageInit_Zone6Act2(void);
+void StageInit_Zone7Act1(void);
+void StageInit_Zone7Act2(void);
+void StageInit_ForestChaoGarden(void);
+void StageInit_FactoryChaoGarden(void);
+void StageInit_SpaceChaoGarden(void);
+
+const VoidFn sStageInitProcs[NUM_LEVEL_IDS] = {
+    StageInit_Zone1Act1,         StageInit_Zone1Act2, //
+    StageInit_Zone2Act1,         StageInit_Zone2Act2, //
+    StageInit_Zone3Act1,         StageInit_Zone3Act2, //
+    StageInit_Zone4Act1,         StageInit_Zone4Act2, //
+    StageInit_Zone5Act1,         StageInit_Zone5Act2, //
+    StageInit_Zone6Act1,         StageInit_Zone6Act2, //
+    StageInit_Zone7Act1,         StageInit_Zone7Act2, //
+    StageInit_ForestChaoGarden,  StageInit_FactoryChaoGarden, //
+    StageInit_PinballChaoGarden, StageInit_SpaceChaoGarden,
 };
 #elif (GAME == GAME_SA2)
 void sub_801F044(void);
@@ -159,28 +173,24 @@ void CreateGameStage(void)
     if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
         CreateMultiplayerMultiPakUI();
     }
-    // _0803CFEE
 
     if (IS_MULTI_PLAYER) {
         sa2__sub_80213C0(gSelectedCharacter, gCurrentLevel, &gPlayer);
     } else if (IS_EXTRA_STAGE(gCurrentLevel)) {
         sa2__sub_80213C0(gSelectedCharacter, gCurrentLevel, &gPlayer);
     } else {
-        // _0803D05C
         sa2__sub_80213C0(gSelectedCharacter, gCurrentLevel, &gPlayer);
 
         if (gNumSingleplayerCharacters == 2) {
             sa2__sub_80213C0(PARTNER_CHARACTER, gCurrentLevel, &gPartner);
         }
     }
-    // _0803D086
 
     if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
         InitCamera(gCurrentLevel);
     } else {
         InitCamera(LEVEL_INDEX(ZONE_1, ACT_1));
     }
-    // _0803D0BA
 
     gStageFlags &= ~STAGE_FLAG__2;
     gStageFlags &= ~STAGE_FLAG__TIMER_REVERSED;
@@ -198,7 +208,7 @@ void CreateGameStage(void)
     }
 
     if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        gUnknown_084ADB18[gCurrentLevel]();
+        sStageInitProcs[gCurrentLevel]();
 
         if (gCurrentLevel == LEVEL_INDEX(ZONE_2, ACT_1)) {
             if (sub_8017800()) {
@@ -209,10 +219,9 @@ void CreateGameStage(void)
     } else {
         StageInit_MPCollectRings();
     }
-    // _0803D14C
 #elif (GAME == GAME_SA2)
     sub_801F044();
-    gUnknown_030053E0 = 0;
+    sa2__gUnknown_030053E0 = 0;
 
     if (!IS_EXTRA_STAGE(gCurrentLevel)) {
         sub_80213C0(gSelectedCharacter, gCurrentLevel, &gPlayer);
@@ -350,3 +359,184 @@ void CreateGameStage(void)
     }
 #endif
 }
+
+void Task_GameStage(void)
+{
+    u16 sioId = SIO_MULTI_CNT->id;
+    u32 timeStep;
+
+    if (IS_SINGLE_PLAYER) {
+        if (!(gStageFlags & STAGE_FLAG__DISABLE_PAUSE_MENU) && (gPressedKeys & START_BUTTON) && !(gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {
+            CreatePauseMenu();
+        }
+        gStageTime++;
+        timeStep = 1;
+    } else {
+        u32 framesSinceStageStart = (gFrameCount - gMPStageStartFrameCount);
+        timeStep = framesSinceStageStart - gStageTime;
+        gStageTime = framesSinceStageStart;
+
+        if (GAME_MODE_REQUIRES_ITEM_RNG) {
+            if ((framesSinceStageStart & ~(0x1FF)) != ((framesSinceStageStart - timeStep) & ~(0x1FF))) {
+                u32 mask, rand;
+                u32 temp = MultiplayerPseudoRandom32();
+
+                if ((framesSinceStageStart & ~(0xFFF)) != ((framesSinceStageStart - timeStep) & ~(0xFFF))) {
+                    u32 value = (gRandomItemBox >> 4) + 1;
+                    gRandomItemBox = ((gRandomItemBox & 0xF) | (value * 16));
+                }
+                rand = gMultiplayerPseudoRandom;
+                mask = 7;
+                gRandomItemBox = (gRandomItemBox & 0xF8) | (rand & mask);
+            }
+
+        } else if ((framesSinceStageStart & ~(0x3F)) != ((framesSinceStageStart - timeStep) & ~(0x3F))) {
+            u32 temp = MultiplayerPseudoRandom32();
+        }
+
+#if (GAME == GAME_SA1)
+        if (gCamera.sa2__unk50 & CAM_MODE_SPECTATOR)
+#elif (GAME == GAME_SA2)
+        if (gCamera.unk50 & CAM_MODE_SPECTATOR)
+#endif
+        {
+
+            if ((gInput & (L_BUTTON | R_BUTTON)) == (L_BUTTON | R_BUTTON)) {
+                if (sioId != 3) {
+                    gCamera.spectatorTarget = 3;
+                } else {
+                    gCamera.spectatorTarget = 2;
+                }
+            } else if (gInput & L_BUTTON) {
+                if (sioId == 0) {
+                    gCamera.spectatorTarget = 1;
+                } else {
+                    gCamera.spectatorTarget = 0;
+                }
+            } else if (gInput & R_BUTTON) {
+                if (sioId < 2) {
+                    gCamera.spectatorTarget = 2;
+                } else {
+                    gCamera.spectatorTarget = 1;
+                }
+            } else {
+                gCamera.spectatorTarget = sioId;
+            }
+        } else {
+            gCamera.spectatorTarget = sioId;
+        }
+
+        // If player is not connected, switch back to our player
+        if (!GetBit(gMultiplayerConnections, gCamera.spectatorTarget)) {
+            gCamera.spectatorTarget = sioId;
+        }
+
+#if (GAME == GAME_SA1)
+        if (sa2__gUnknown_030053E0 > 0) {
+            sa2__gUnknown_030053E0--;
+        }
+#elif (GAME == GAME_SA2)
+        if (gUnknown_030053E0 > 0) {
+            gUnknown_030053E0--;
+        }
+#endif
+    }
+
+#if (GAME == GAME_SA1)
+    sa2__gUnknown_0300544C = gStageFlags;
+#elif (GAME == GAME_SA2)
+    gUnknown_0300544C = gStageFlags;
+#endif
+
+    if (gStageFlags & STAGE_FLAG__ACT_START) {
+        return;
+    }
+
+    gCheckpointTime += timeStep;
+
+    if (gStageFlags & STAGE_FLAG__TIMER_REVERSED) {
+        gCourseTime -= timeStep;
+        if ((s32)gCourseTime > 0) {
+            return;
+        }
+
+        if (IS_SINGLE_PLAYER) {
+            gStageFlags |= STAGE_FLAG__ACT_START;
+
+#if (GAME == GAME_SA1)
+            if (gLoadedSaveGame.timeLimitDisabled) {
+                return;
+            }
+#elif (GAME == GAME_SA2)
+            if (gLoadedSaveGame->timeLimitDisabled) {
+                return;
+            }
+#endif
+
+            gPlayer.itemEffect = 0;
+
+            if (gPlayer.moveState & MOVESTATE_IN_WATER) {
+                gPlayer.qSpeedAirY = -Q(2.625);
+            } else {
+                gPlayer.qSpeedAirY = -Q(4.875);
+            }
+
+#if (GAME == GAME_SA1)
+            if (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))
+#elif (GAME == GAME_SA2)
+            if (gCurrentLevel == LEVEL_INDEX(ZONE_3, ACT_BOSS))
+#endif
+            {
+                CreateScreenShake(0x800, 8, 16, -1, (SCREENSHAKE_VERTICAL | SCREENSHAKE_HORIZONTAL | SCREENSHAKE_RANDOM_VALUE));
+            }
+            gPlayer.moveState |= MOVESTATE_DEAD;
+            m4aSongNumStart(SE_TIME_UP);
+        } else {
+            gStageFlags |= STAGE_FLAG__ACT_START;
+#if (GAME == GAME_SA1)
+            sa2__sub_8019F08();
+#elif (GAME == GAME_SA2)
+            sub_8019F08();
+#endif
+        }
+    } else {
+        gCourseTime += timeStep;
+        if (gCourseTime <= MAX_COURSE_TIME) {
+            return;
+        }
+
+        if (IS_SINGLE_PLAYER) {
+            gStageFlags |= STAGE_FLAG__ACT_START;
+
+#if (GAME == GAME_SA1)
+            if (gLoadedSaveGame.timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
+                return;
+            }
+#elif (GAME == GAME_SA2)
+            if (gLoadedSaveGame->timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
+                return;
+            }
+#endif
+
+            gPlayer.itemEffect = 0;
+
+            if (gPlayer.moveState & MOVESTATE_IN_WATER) {
+                gPlayer.qSpeedAirY = -Q(2.625);
+            } else {
+                gPlayer.qSpeedAirY = -Q(4.875);
+            }
+            gPlayer.moveState |= MOVESTATE_DEAD;
+            m4aSongNumStart(SE_TIME_UP);
+        } else {
+            gStageFlags |= STAGE_FLAG__ACT_START;
+#if (GAME == GAME_SA1)
+            sa2__sub_8019F08();
+#elif (GAME == GAME_SA2)
+            sub_8019F08();
+#endif
+        }
+    }
+}
+
+#if 01
+#endif

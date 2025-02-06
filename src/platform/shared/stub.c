@@ -35,24 +35,24 @@ void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
 void Task_GameStage(void) { }
 void TaskDestructor_GameStage(struct Task *t) { }
 
-void sub_803D888(void) { }
-void sub_803D940(void) { }
-void sub_803D9F8(void) { }
-void sub_803DB2C(void) { }
-void sub_803DCCC(void) { }
-void sub_803DD00(void) { }
-void sub_803DD78(void) { }
-void sub_803DDBC(void) { }
-void sub_803DE00(void) { }
-void sub_803DE44(void) { }
-void sub_803DE88(void) { }
-void sub_803DEA8(void) { }
-void sub_803DEC8(void) { }
-void sub_803DF58(void) { }
-void sub_803DF64(void) { }
-void sub_803DF70(void) { }
-void sub_803DFC0(void) { }
-void sub_803E004(void) { }
+void StageInit_Zone3Act1(void) { }
+void StageInit_Zone3Act2(void) { }
+void StageInit_Zone6Act1(void) { }
+void StageInit_PinballChaoGarden(void) { }
+void StageInit_Zone1Act1(void) { }
+void StageInit_Zone1Act2(void) { }
+void StageInit_Zone2Act1(void) { }
+void StageInit_Zone2Act2(void) { }
+void StageInit_Zone4Act1(void) { }
+void StageInit_Zone4Act2(void) { }
+void StageInit_Zone5Act1(void) { }
+void StageInit_Zone5Act2(void) { }
+void StageInit_Zone6Act2(void) { }
+void StageInit_Zone7Act1(void) { }
+void StageInit_Zone7Act2(void) { }
+void StageInit_ForestChaoGarden(void) { }
+void StageInit_FactoryChaoGarden(void) { }
+void StageInit_SpaceChaoGarden(void) { }
 
 void StageInit_MPCollectRings(void) { }
 
@@ -226,6 +226,7 @@ void CreateMultipackOutcomeScreen() { }
 void MultiPakCommunicationError() { }
 void ShowSinglePakResults() { }
 void CreateOpponentPositionIndicator() { }
+void CreateMultiplayerChao() { }
 void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
 

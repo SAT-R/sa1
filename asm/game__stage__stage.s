@@ -8,380 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Task_GameStage
-Task_GameStage: @ 0x0803D290
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	ldr r0, _0803D2D8 @ =0x04000128
-	ldr r0, [r0]
-	lsls r0, r0, #0x1a
-	lsrs r7, r0, #0x1e
-	ldr r0, _0803D2DC @ =gGameMode
-	ldrb r4, [r0]
-	cmp r4, #1
-	bhi _0803D2EC
-	ldr r0, _0803D2E0 @ =gStageFlags
-	ldrh r2, [r0]
-	movs r0, #0x20
-	ands r0, r2
-	cmp r0, #0
-	bne _0803D2C8
-	ldr r0, _0803D2E4 @ =gPressedKeys
-	ldrh r1, [r0]
-	movs r0, #8
-	ands r0, r1
-	cmp r0, #0
-	beq _0803D2C8
-	movs r0, #0x40
-	ands r0, r2
-	cmp r0, #0
-	bne _0803D2C8
-	bl sub_801A38C
-_0803D2C8:
-	ldr r1, _0803D2E8 @ =gStageTime
-	ldr r0, [r1]
-	adds r0, #1
-	str r0, [r1]
-	movs r0, #1
-	mov ip, r0
-	b _0803D434
-	.align 2, 0
-_0803D2D8: .4byte 0x04000128
-_0803D2DC: .4byte gGameMode
-_0803D2E0: .4byte gStageFlags
-_0803D2E4: .4byte gPressedKeys
-_0803D2E8: .4byte gStageTime
-_0803D2EC:
-	ldr r0, _0803D350 @ =gFrameCount
-	ldr r1, _0803D354 @ =gMPStageStartFrameCount
-	ldr r2, [r0]
-	ldr r0, [r1]
-	subs r3, r2, r0
-	ldr r1, _0803D358 @ =gStageTime
-	ldr r0, [r1]
-	subs r0, r3, r0
-	mov ip, r0
-	str r3, [r1]
-	cmp r4, #3
-	bls _0803D374
-	ldr r2, _0803D35C @ =0xFFFFFE00
-	adds r1, r3, #0
-	ands r1, r2
-	subs r4, r3, r0
-	adds r0, r4, #0
-	ands r0, r2
-	cmp r1, r0
-	beq _0803D394
-	ldr r5, _0803D360 @ =gMultiplayerPseudoRandom
-	ldr r1, [r5]
-	ldr r0, _0803D364 @ =0x00196225
-	muls r0, r1, r0
-	ldr r1, _0803D368 @ =0x3C6EF35F
-	adds r0, r0, r1
-	str r0, [r5]
-	ldr r0, _0803D36C @ =0xFFFFF000
-	ands r3, r0
-	ands r4, r0
-	ldr r6, _0803D370 @ =gRandomItemBox
-	cmp r3, r4
-	beq _0803D33E
-	ldrb r2, [r6]
-	lsrs r1, r2, #4
-	adds r1, #1
-	movs r0, #0xf
-	ands r0, r2
-	lsls r1, r1, #4
-	orrs r0, r1
-	strb r0, [r6]
-_0803D33E:
-	ldr r1, [r5]
-	movs r3, #7
-	ldrb r2, [r6]
-	movs r0, #0xf8
-	ands r0, r2
-	ands r1, r3
-	orrs r0, r1
-	strb r0, [r6]
-	b _0803D394
-	.align 2, 0
-_0803D350: .4byte gFrameCount
-_0803D354: .4byte gMPStageStartFrameCount
-_0803D358: .4byte gStageTime
-_0803D35C: .4byte 0xFFFFFE00
-_0803D360: .4byte gMultiplayerPseudoRandom
-_0803D364: .4byte 0x00196225
-_0803D368: .4byte 0x3C6EF35F
-_0803D36C: .4byte 0xFFFFF000
-_0803D370: .4byte gRandomItemBox
-_0803D374:
-	movs r2, #0x40
-	rsbs r2, r2, #0
-	adds r1, r3, #0
-	ands r1, r2
-	mov r4, ip
-	subs r0, r3, r4
-	ands r0, r2
-	cmp r1, r0
-	beq _0803D394
-	ldr r2, _0803D3C0 @ =gMultiplayerPseudoRandom
-	ldr r1, [r2]
-	ldr r0, _0803D3C4 @ =0x00196225
-	muls r0, r1, r0
-	ldr r5, _0803D3C8 @ =0x3C6EF35F
-	adds r0, r0, r5
-	str r0, [r2]
-_0803D394:
-	ldr r2, _0803D3CC @ =gCamera
-	ldrh r1, [r2, #0x26]
-	movs r0, #4
-	ands r0, r1
-	cmp r0, #0
-	beq _0803D40E
-	ldr r0, _0803D3D0 @ =gInput
-	ldrh r3, [r0]
-	movs r1, #0xc0
-	lsls r1, r1, #2
-	adds r0, r1, #0
-	ands r0, r3
-	cmp r0, r1
-	bne _0803D3D4
-	cmp r7, #3
-	beq _0803D3FA
-	adds r1, r2, #0
-	adds r1, #0x3a
-	movs r0, #3
-	strb r0, [r1]
-	b _0803D414
-	.align 2, 0
-_0803D3C0: .4byte gMultiplayerPseudoRandom
-_0803D3C4: .4byte 0x00196225
-_0803D3C8: .4byte 0x3C6EF35F
-_0803D3CC: .4byte gCamera
-_0803D3D0: .4byte gInput
-_0803D3D4:
-	movs r0, #0x80
-	lsls r0, r0, #2
-	ands r0, r3
-	cmp r0, #0
-	beq _0803D3EC
-	cmp r7, #0
-	beq _0803D404
-	adds r1, r2, #0
-	adds r1, #0x3a
-	movs r0, #0
-	strb r0, [r1]
-	b _0803D414
-_0803D3EC:
-	movs r0, #0x80
-	lsls r0, r0, #1
-	ands r0, r3
-	cmp r0, #0
-	beq _0803D40E
-	cmp r7, #1
-	bhi _0803D404
-_0803D3FA:
-	adds r1, r2, #0
-	adds r1, #0x3a
-	movs r0, #2
-	strb r0, [r1]
-	b _0803D414
-_0803D404:
-	adds r1, r2, #0
-	adds r1, #0x3a
-	movs r0, #1
-	strb r0, [r1]
-	b _0803D414
-_0803D40E:
-	adds r0, r2, #0
-	adds r0, #0x3a
-	strb r7, [r0]
-_0803D414:
-	ldr r0, _0803D49C @ =gMultiplayerConnections
-	ldrb r0, [r0]
-	adds r2, #0x3a
-	ldrb r1, [r2]
-	asrs r0, r1
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _0803D428
-	strb r7, [r2]
-_0803D428:
-	ldr r1, _0803D4A0 @ =sa2__gUnknown_030053E0
-	ldrb r0, [r1]
-	cmp r0, #0
-	beq _0803D434
-	subs r0, #1
-	strb r0, [r1]
-_0803D434:
-	ldr r0, _0803D4A4 @ =sa2__gUnknown_0300544C
-	ldr r3, _0803D4A8 @ =gStageFlags
-	ldrh r2, [r3]
-	strh r2, [r0]
-	movs r4, #1
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _0803D448
-	b _0803D586
-_0803D448:
-	ldr r0, _0803D4AC @ =gCheckpointTime
-	ldr r1, [r0]
-	add r1, ip
-	str r1, [r0]
-	movs r0, #4
-	ands r0, r2
-	lsls r0, r0, #0x10
-	lsrs r5, r0, #0x10
-	cmp r5, #0
-	beq _0803D50C
-	ldr r1, _0803D4B0 @ =gCourseTime
-	ldr r0, [r1]
-	mov r5, ip
-	subs r0, r0, r5
-	str r0, [r1]
-	cmp r0, #0
-	ble _0803D46C
-	b _0803D586
-_0803D46C:
-	ldr r0, _0803D4B4 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bhi _0803D500
-	adds r0, r2, #0
-	orrs r0, r4
-	strh r0, [r3]
-	ldr r0, _0803D4B8 @ =gLoadedSaveGame
-	ldrb r0, [r0, #0x1b]
-	cmp r0, #0
-	beq _0803D484
-	b _0803D586
-_0803D484:
-	ldr r2, _0803D4BC @ =gPlayer
-	adds r1, r2, #0
-	adds r1, #0x26
-	strb r0, [r1]
-	ldr r0, [r2, #0x10]
-	movs r1, #0x40
-	ands r0, r1
-	cmp r0, #0
-	beq _0803D4C4
-	ldr r0, _0803D4C0 @ =0x0000FD60
-	b _0803D4C6
-	.align 2, 0
-_0803D49C: .4byte gMultiplayerConnections
-_0803D4A0: .4byte sa2__gUnknown_030053E0
-_0803D4A4: .4byte sa2__gUnknown_0300544C
-_0803D4A8: .4byte gStageFlags
-_0803D4AC: .4byte gCheckpointTime
-_0803D4B0: .4byte gCourseTime
-_0803D4B4: .4byte gGameMode
-_0803D4B8: .4byte gLoadedSaveGame
-_0803D4BC: .4byte gPlayer
-_0803D4C0: .4byte 0x0000FD60
-_0803D4C4:
-	ldr r0, _0803D4F4 @ =0x0000FB20
-_0803D4C6:
-	strh r0, [r2, #0xa]
-	ldr r0, _0803D4F8 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0xa
-	bne _0803D4E8
-	movs r0, #0x80
-	lsls r0, r0, #4
-	movs r3, #1
-	rsbs r3, r3, #0
-	movs r1, #0xd0
-	str r1, [sp]
-	movs r1, #8
-	movs r2, #0x10
-	bl CreateScreenShake
-_0803D4E8:
-	ldr r0, _0803D4FC @ =gPlayer
-	ldr r1, [r0, #0x10]
-	movs r2, #0x80
-	orrs r1, r2
-	str r1, [r0, #0x10]
-	b _0803D570
-	.align 2, 0
-_0803D4F4: .4byte 0x0000FB20
-_0803D4F8: .4byte gCurrentLevel
-_0803D4FC: .4byte gPlayer
-_0803D500:
-	adds r0, r2, #0
-	orrs r0, r4
-	strh r0, [r3]
-	bl sa2__sub_8019F08
-	b _0803D586
-_0803D50C:
-	ldr r0, _0803D54C @ =gCourseTime
-	ldr r1, [r0]
-	add r1, ip
-	str r1, [r0]
-	ldr r0, _0803D550 @ =0x00008CA0
-	cmp r1, r0
-	bls _0803D586
-	ldr r0, _0803D554 @ =gGameMode
-	ldrb r1, [r0]
-	cmp r1, #1
-	bhi _0803D57C
-	adds r0, r2, #0
-	orrs r0, r4
-	strh r0, [r3]
-	ldr r0, _0803D558 @ =gLoadedSaveGame
-	ldrb r0, [r0, #0x1b]
-	cmp r0, #0
-	beq _0803D534
-	cmp r1, #1
-	bne _0803D586
-_0803D534:
-	ldr r0, _0803D55C @ =gPlayer
-	adds r1, r0, #0
-	adds r1, #0x26
-	strb r5, [r1]
-	ldr r1, [r0, #0x10]
-	movs r2, #0x40
-	ands r1, r2
-	adds r2, r0, #0
-	cmp r1, #0
-	beq _0803D564
-	ldr r0, _0803D560 @ =0x0000FD60
-	b _0803D566
-	.align 2, 0
-_0803D54C: .4byte gCourseTime
-_0803D550: .4byte 0x00008CA0
-_0803D554: .4byte gGameMode
-_0803D558: .4byte gLoadedSaveGame
-_0803D55C: .4byte gPlayer
-_0803D560: .4byte 0x0000FD60
-_0803D564:
-	ldr r0, _0803D578 @ =0x0000FB20
-_0803D566:
-	strh r0, [r2, #0xa]
-	ldr r0, [r2, #0x10]
-	movs r1, #0x80
-	orrs r0, r1
-	str r0, [r2, #0x10]
-_0803D570:
-	movs r0, #0xa6
-	bl m4aSongNumStart
-	b _0803D586
-	.align 2, 0
-_0803D578: .4byte 0x0000FB20
-_0803D57C:
-	adds r0, r2, #0
-	orrs r0, r4
-	strh r0, [r3]
-	bl sa2__sub_8019F08
-_0803D586:
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
 	thumb_func_start sub_803D590
 sub_803D590: @ 0x0803D590
 	push {lr}
@@ -721,8 +347,8 @@ _0803D878:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_803D888
-sub_803D888: @ 0x0803D888
+	thumb_func_start StageInit_Zone3Act1
+StageInit_Zone3Act1: @ 0x0803D888
 	push {r4, r5, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -799,8 +425,8 @@ _0803D934: .4byte 0x0000033B
 _0803D938: .4byte 0x0000034B
 _0803D93C: .4byte 0x0000033A
 
-	thumb_func_start sub_803D940
-sub_803D940: @ 0x0803D940
+	thumb_func_start StageInit_Zone3Act2
+StageInit_Zone3Act2: @ 0x0803D940
 	push {r4, r5, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -877,8 +503,8 @@ _0803D9EC: .4byte 0x0000033B
 _0803D9F0: .4byte 0x0000034B
 _0803D9F4: .4byte 0x0000033A
 
-	thumb_func_start sub_803D9F8
-sub_803D9F8: @ 0x0803D9F8
+	thumb_func_start StageInit_Zone6Act1
+StageInit_Zone6Act1: @ 0x0803D9F8
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1020,8 +646,8 @@ _0803DB20: .4byte gCourseTime
 _0803DB24: .4byte 0x00004650
 _0803DB28: .4byte 0x00007FFF
 
-	thumb_func_start sub_803DB2C
-sub_803DB2C: @ 0x0803DB2C
+	thumb_func_start StageInit_PinballChaoGarden
+StageInit_PinballChaoGarden: @ 0x0803DB2C
 	push {r4, r5, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1208,8 +834,8 @@ _0803DCC0: .4byte gLoadedSaveGame
 _0803DCC4: .4byte gDifficultyLevel
 _0803DCC8: .4byte gGameStageTask
 
-	thumb_func_start sub_803DCCC
-sub_803DCCC: @ 0x0803DCCC
+	thumb_func_start StageInit_Zone1Act1
+StageInit_Zone1Act1: @ 0x0803DCCC
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1232,8 +858,8 @@ sub_803DCCC: @ 0x0803DCCC
 _0803DCF8: .4byte 0x0000032E
 _0803DCFC: .4byte 0x0000032F
 
-	thumb_func_start sub_803DD00
-sub_803DD00: @ 0x0803DD00
+	thumb_func_start StageInit_Zone1Act2
+StageInit_Zone1Act2: @ 0x0803DD00
 	push {r4, r5, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1285,8 +911,8 @@ _0803DD6C: .4byte gCamera
 _0803DD70: .4byte gRefCollision
 _0803DD74: .4byte 0xFFFFFD00
 
-	thumb_func_start sub_803DD78
-sub_803DD78: @ 0x0803DD78
+	thumb_func_start StageInit_Zone2Act1
+StageInit_Zone2Act1: @ 0x0803DD78
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1315,8 +941,8 @@ _0803DDB0: .4byte 0x00000333
 _0803DDB4: .4byte 0x0000034D
 _0803DDB8: .4byte 0x00000351
 
-	thumb_func_start sub_803DDBC
-sub_803DDBC: @ 0x0803DDBC
+	thumb_func_start StageInit_Zone2Act2
+StageInit_Zone2Act2: @ 0x0803DDBC
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1345,8 +971,8 @@ _0803DDF4: .4byte 0x00000333
 _0803DDF8: .4byte 0x0000034D
 _0803DDFC: .4byte 0x00000351
 
-	thumb_func_start sub_803DE00
-sub_803DE00: @ 0x0803DE00
+	thumb_func_start StageInit_Zone4Act1
+StageInit_Zone4Act1: @ 0x0803DE00
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1375,8 +1001,8 @@ _0803DE38: .4byte 0x00000335
 _0803DE3C: .4byte 0x0000060A
 _0803DE40: .4byte 0x7F207F20
 
-	thumb_func_start sub_803DE44
-sub_803DE44: @ 0x0803DE44
+	thumb_func_start StageInit_Zone4Act2
+StageInit_Zone4Act2: @ 0x0803DE44
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1405,8 +1031,8 @@ _0803DE7C: .4byte 0x00000336
 _0803DE80: .4byte 0x00000335
 _0803DE84: .4byte 0x7F207F20
 
-	thumb_func_start sub_803DE88
-sub_803DE88: @ 0x0803DE88
+	thumb_func_start StageInit_Zone5Act1
+StageInit_Zone5Act1: @ 0x0803DE88
 	push {lr}
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -1421,8 +1047,8 @@ sub_803DE88: @ 0x0803DE88
 	.align 2, 0
 _0803DEA4: .4byte 0x00000337
 
-	thumb_func_start sub_803DEA8
-sub_803DEA8: @ 0x0803DEA8
+	thumb_func_start StageInit_Zone5Act2
+StageInit_Zone5Act2: @ 0x0803DEA8
 	push {lr}
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -1437,8 +1063,8 @@ sub_803DEA8: @ 0x0803DEA8
 	.align 2, 0
 _0803DEC4: .4byte 0x00000337
 
-	thumb_func_start sub_803DEC8
-sub_803DEC8: @ 0x0803DEC8
+	thumb_func_start StageInit_Zone6Act2
+StageInit_Zone6Act2: @ 0x0803DEC8
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1497,24 +1123,24 @@ _0803DF4C: .4byte 0x00000353
 _0803DF50: .4byte 0x0000034E
 _0803DF54: .4byte 0x0000034F
 
-	thumb_func_start sub_803DF58
-sub_803DF58: @ 0x0803DF58
+	thumb_func_start StageInit_Zone7Act1
+StageInit_Zone7Act1: @ 0x0803DF58
 	push {lr}
 	movs r0, #0x18
 	bl m4aSongNumStart
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803DF64
-sub_803DF64: @ 0x0803DF64
+	thumb_func_start StageInit_Zone7Act2
+StageInit_Zone7Act2: @ 0x0803DF64
 	push {lr}
 	movs r0, #0x1a
 	bl m4aSongNumStart
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803DF70
-sub_803DF70: @ 0x0803DF70
+	thumb_func_start StageInit_ForestChaoGarden
+StageInit_ForestChaoGarden: @ 0x0803DF70
 	push {r4, r5, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1549,8 +1175,8 @@ sub_803DF70: @ 0x0803DF70
 _0803DFB8: .4byte 0x0000032E
 _0803DFBC: .4byte 0x0000032F
 
-	thumb_func_start sub_803DFC0
-sub_803DFC0: @ 0x0803DFC0
+	thumb_func_start StageInit_FactoryChaoGarden
+StageInit_FactoryChaoGarden: @ 0x0803DFC0
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6
@@ -1579,8 +1205,8 @@ _0803DFF8: .4byte 0x00000333
 _0803DFFC: .4byte 0x0000034D
 _0803E000: .4byte 0x00000351
 
-	thumb_func_start sub_803E004
-sub_803E004: @ 0x0803E004
+	thumb_func_start StageInit_SpaceChaoGarden
+StageInit_SpaceChaoGarden: @ 0x0803E004
 	push {r4, lr}
 	movs r4, #0x80
 	lsls r4, r4, #6

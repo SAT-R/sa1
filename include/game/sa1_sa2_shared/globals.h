@@ -29,6 +29,15 @@
     ((gGameMode == GAME_MODE_SINGLE_PLAYER) || (gGameMode == GAME_MODE_TIME_ATTACK) || (gGameMode == GAME_MODE_BOSS_TIME_ATTACK))
 #endif
 
+#if (GAME == GAME_SA1)
+#define GAME_MODE_REQUIRES_ITEM_RNG                                                                                                        \
+    ((gGameMode != GAME_MODE_SINGLE_PLAYER) && (gGameMode != GAME_MODE_TIME_ATTACK) && (gGameMode != GAME_MODE_RACE)                       \
+     && (gGameMode != GAME_MODE_MULTI_PLAYER))
+#elif (GAME == GAME_SA2)
+#define GAME_MODE_REQUIRES_ITEM_RNG (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS)
+)
+#endif
+
 #define IS_MULTI_PLAYER (!(IS_SINGLE_PLAYER))
 
 #define STAGE_FLAG__CLEAR              0x0000

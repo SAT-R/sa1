@@ -3687,8 +3687,8 @@ _0801A380: .4byte 0x040000D4
 _0801A384: .4byte gMultiSioSend
 _0801A388: .4byte 0x85000005
 
-	thumb_func_start sub_801A38C
-sub_801A38C: @ 0x0801A38C
+	thumb_func_start CreatePauseMenu
+CreatePauseMenu: @ 0x0801A38C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

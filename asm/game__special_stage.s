@@ -7640,7 +7640,7 @@ sub_802D680: @ 0x0802D680
 	ands r0, r2
 	cmp r0, #0
 	bne _0802D6A6
-	bl sub_801A38C
+	bl CreatePauseMenu
 _0802D6A6:
 	pop {r0}
 	bx r0

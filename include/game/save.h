@@ -51,7 +51,7 @@ typedef struct SaveGame {
     /* 0x018 */ u8 unk18;
     /* 0x019 */ u8 unk19;
     /* 0x01A */ u8 language;
-    /* 0x01B */ u8 unk1B;
+    /* 0x01B */ u8 timeLimitDisabled;
     /* 0x01C */ u8 unk1C;
     /* 0x020 */ struct TimeRecords timeRecords;
     /* 0x2AC */ struct MultiplayerScore multiplayerScores[NUM_MULTIPLAYER_SCORES];
