@@ -6904,7 +6904,7 @@ _08045368:
 	ldr r1, _08045374 @ =gRingCount
 	movs r0, #0
 	strh r0, [r1]
-	bl sub_803D590
+	bl HandleLifeLost
 	b _08045410
 	.align 2, 0
 _08045374: .4byte gRingCount

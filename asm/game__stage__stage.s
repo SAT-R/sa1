@@ -8,102 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_803D590
-sub_803D590: @ 0x0803D590
-	push {lr}
-	ldr r3, _0803D5CC @ =gStageFlags
-	ldrh r0, [r3]
-	movs r1, #0x20
-	adds r2, r0, #0
-	orrs r2, r1
-	strh r2, [r3]
-	ldr r0, _0803D5D0 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bne _0803D5EC
-	ldr r1, _0803D5D4 @ =0x0000FFFF
-	movs r0, #0
-	bl TasksDestroyInPriorityRange
-	ldr r1, _0803D5D8 @ =gBackgroundsCopyQueueCursor
-	ldr r0, _0803D5DC @ =gBackgroundsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r1, _0803D5E0 @ =sa2__gUnknown_03005390
-	movs r0, #0
-	strb r0, [r1]
-	ldr r1, _0803D5E4 @ =gVramGraphicsCopyCursor
-	ldr r0, _0803D5E8 @ =gVramGraphicsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	bl CreateTimeAttackRetryMenu
-	b _0803D64E
-	.align 2, 0
-_0803D5CC: .4byte gStageFlags
-_0803D5D0: .4byte gGameMode
-_0803D5D4: .4byte 0x0000FFFF
-_0803D5D8: .4byte gBackgroundsCopyQueueCursor
-_0803D5DC: .4byte gBackgroundsCopyQueueIndex
-_0803D5E0: .4byte sa2__gUnknown_03005390
-_0803D5E4: .4byte gVramGraphicsCopyCursor
-_0803D5E8: .4byte gVramGraphicsCopyQueueIndex
-_0803D5EC:
-	cmp r0, #1
-	bhi _0803D62C
-	ldr r1, _0803D61C @ =gNumLives
-	ldrb r0, [r1]
-	subs r0, #1
-	strb r0, [r1]
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	bne _0803D62C
-	movs r0, #1
-	orrs r2, r0
-	strh r2, [r3]
-	ldr r1, _0803D620 @ =sa2__gUnknown_0300543C
-	ldrb r2, [r1]
-	movs r0, #0
-	ldrsb r0, [r1, r0]
-	cmp r0, #0
-	ble _0803D624
-	subs r0, r2, #1
-	strb r0, [r1]
-	movs r0, #1
-	bl sub_8055DD0
-	b _0803D64E
-	.align 2, 0
-_0803D61C: .4byte gNumLives
-_0803D620: .4byte sa2__gUnknown_0300543C
-_0803D624:
-	movs r0, #2
-	bl sub_8055DD0
-	b _0803D64E
-_0803D62C:
-	ldr r1, _0803D654 @ =0x0000FFFF
-	movs r0, #0
-	bl TasksDestroyInPriorityRange
-	ldr r1, _0803D658 @ =gBackgroundsCopyQueueCursor
-	ldr r0, _0803D65C @ =gBackgroundsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r1, _0803D660 @ =sa2__gUnknown_03005390
-	movs r0, #0
-	strb r0, [r1]
-	ldr r1, _0803D664 @ =gVramGraphicsCopyCursor
-	ldr r0, _0803D668 @ =gVramGraphicsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	bl CreateGameStage
-_0803D64E:
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803D654: .4byte 0x0000FFFF
-_0803D658: .4byte gBackgroundsCopyQueueCursor
-_0803D65C: .4byte gBackgroundsCopyQueueIndex
-_0803D660: .4byte sa2__gUnknown_03005390
-_0803D664: .4byte gVramGraphicsCopyCursor
-_0803D668: .4byte gVramGraphicsCopyQueueIndex
-
 	thumb_func_start sub_803D66C
 sub_803D66C: @ 0x0803D66C
 	push {lr}
@@ -130,7 +34,7 @@ sub_803D66C: @ 0x0803D66C
 	ldr r0, _0803D6C0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl CreateTimeAttackRetryMenu
+	bl CreateTimeAttackLobbyScreen
 	b _0803D720
 	.align 2, 0
 _0803D6A4: .4byte gStageFlags
@@ -158,7 +62,7 @@ _0803D6C4:
 	subs r0, r2, #1
 	strb r0, [r1]
 	movs r0, #1
-	bl sub_8055DD0
+	bl CreateGameOverScreen
 	b _0803D720
 	.align 2, 0
 _0803D6EC: .4byte gNumLives
@@ -177,7 +81,7 @@ _0803D6F4:
 _0803D708:
 	str r0, [r2]
 	movs r0, #2
-	bl sub_8055DD0
+	bl CreateGameOverScreen
 	b _0803D720
 	.align 2, 0
 _0803D714: .4byte gLoadedSaveGame
@@ -336,7 +240,7 @@ _0803D868: .4byte 0xFFFF7FFF
 _0803D86C: .4byte gGameMode
 _0803D870: .4byte gCurrentLevel
 _0803D874:
-	bl CreateTimeAttackRetryMenu
+	bl CreateTimeAttackLobbyScreen
 _0803D878:
 	pop {r3, r4, r5}
 	mov r8, r3

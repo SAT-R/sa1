@@ -2,6 +2,7 @@
 
 #include "global.h"
 #include "sprite.h"
+#include "game/game_over.h"
 #include "game/sa1_sa2_shared/player.h"
 
 void *ewram_end = 0;
@@ -32,8 +33,8 @@ void CreateStageEntitiesManager() { }
 void CallSetStageSpawnPos() { }
 void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
 
-void Task_GameStage(void) { }
 void TaskDestructor_GameStage(struct Task *t) { }
+void CreatePauseMenu(void) { }
 
 void StageInit_Zone3Act1(void) { }
 void StageInit_Zone3Act2(void) { }
@@ -56,6 +57,7 @@ void StageInit_SpaceChaoGarden(void) { }
 
 void StageInit_MPCollectRings(void) { }
 
+void CreateGameOverScreen(LostLifeCause lostLifeCause) { }
 void sub_80550F8() { }
 
 // Interactables / Gimmicks
@@ -215,6 +217,7 @@ void CreateTitleScreen() { }
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
 void CreateTimeAttackMenu() { }
+void CreateTimeAttackLobbyScreen() { }
 void CreateOptionsMenu() { }
 void CreateEditLanguageScreen() { }
 void CreateCongratulationsAnimation() { }

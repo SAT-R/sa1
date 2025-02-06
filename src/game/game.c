@@ -189,7 +189,7 @@ void CreateEmptySaveGame(void)
 
     gLoadedSaveGame.unk19 = 1;
     gLoadedSaveGame.language = LANG_JAPANESE;
-    gLoadedSaveGame.unk1B = 0;
+    gLoadedSaveGame.timeLimitDisabled = 0;
     gLoadedSaveGame.unk1C = 0;
     gLoadedSaveGame.score = 0;
 }

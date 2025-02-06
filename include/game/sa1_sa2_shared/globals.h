@@ -30,6 +30,12 @@
 #endif
 
 #if (GAME == GAME_SA1)
+#define GAME_MODE_IS_TIME_ATTACK (gGameMode == GAME_MODE_TIME_ATTACK)
+#elif (GAME == GAME_SA2)
+#define GAME_MODE_IS_TIME_ATTACK (gGameMode == GAME_MODE_TIME_ATTACK || gGameMode == GAME_MODE_BOSS_TIME_ATTACK)
+#endif
+
+#if (GAME == GAME_SA1)
 #define GAME_MODE_REQUIRES_ITEM_RNG                                                                                                        \
     ((gGameMode != GAME_MODE_SINGLE_PLAYER) && (gGameMode != GAME_MODE_TIME_ATTACK) && (gGameMode != GAME_MODE_RACE)                       \
      && (gGameMode != GAME_MODE_MULTI_PLAYER))
@@ -126,7 +132,7 @@ extern u16 gBossCameraClampYUpper;
 extern u8 gRandomItemBox;
 extern u8 sa2__gUnknown_030053E0;
 
-extern u8 sa2__gUnknown_0300543C;
+extern s8 sa2__gUnknown_0300543C;
 extern struct Task *gEntitiesManagerTask;
 
 extern u8 gDestroySpotlights;

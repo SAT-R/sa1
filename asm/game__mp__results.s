@@ -3967,7 +3967,7 @@ _0801A5B8:
 	ldr r0, _0801A61C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl CreateTimeAttackRetryMenu
+	bl CreateTimeAttackLobbyScreen
 	b _0801A6B2
 	.align 2, 0
 _0801A5FC: .4byte gGameMode

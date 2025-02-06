@@ -4893,8 +4893,9 @@ _08055DC4: .4byte 0x000004F4
 _08055DC8: .4byte gUiGraphics + ((45 * 0x1C) + 0x14)
 _08055DCC: .4byte 0x00000504
 
-	thumb_func_start sub_8055DD0
-sub_8055DD0: @ 0x08055DD0
+@ --- Start of src/game/game_over.c ---
+	thumb_func_start CreateGameOverScreen
+CreateGameOverScreen: @ 0x08055DD0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4928,10 +4929,10 @@ _08055DFC:
 	strh r7, [r0, #4]
 	strh r7, [r0, #2]
 	strh r7, [r0, #6]
-	ldr r0, _08055E9C @ =sub_8056084
+	ldr r0, _08055E9C @ =Task_GameOverScreenInit
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08055EA0 @ =sub_8056CB4
+	ldr r1, _08055EA0 @ =TaskDestructor_GameOverScreen
 	str r1, [sp]
 	movs r1, #0x84
 	movs r3, #0
@@ -4991,8 +4992,8 @@ _08055E8C: .4byte gCurrentLevel
 _08055E90: .4byte gCamera
 _08055E94: .4byte gBldRegs
 _08055E98: .4byte gWinRegs
-_08055E9C: .4byte sub_8056084
-_08055EA0: .4byte sub_8056CB4
+_08055E9C: .4byte Task_GameOverScreenInit
+_08055EA0: .4byte TaskDestructor_GameOverScreen
 _08055EA4: .4byte 0x03000080
 _08055EA8: .4byte 0x03000021
 _08055EAC: .4byte 0x03000022
@@ -5068,7 +5069,7 @@ _08055F38:
 	ands r4, r6
 	cmp r4, #0
 	beq _08056008
-	ldr r0, _08055FF8 @ =sub_8056F54
+	ldr r0, _08055FF8 @ =Task_8056F54
 	movs r1, #0x80
 	lsls r1, r1, #6
 	mov sb, r1
@@ -5103,7 +5104,7 @@ _08055F38:
 	bl VramMalloc
 	str r0, [r5, #0x1c]
 	ldr r0, _08055FFC @ =sub_8056CE0
-	ldr r1, _08056000 @ =sub_8056F30
+	ldr r1, _08056000 @ =TaskDestructor_8056F30
 	str r1, [sp]
 	movs r1, #0x1c
 	mov r2, sb
@@ -5122,7 +5123,7 @@ _08055F38:
 	movs r0, #0x40
 	strh r0, [r7, #8]
 	strb r1, [r7, #0xa]
-	ldr r0, _08056004 @ =sub_8056FA0
+	ldr r0, _08056004 @ =Task_8056FA0
 	str r6, [sp]
 	movs r1, #0x34
 	mov r2, sb
@@ -5153,10 +5154,10 @@ _08055F38:
 	b _0805605C
 	.align 2, 0
 _08055FF4: .4byte 0x000002CB
-_08055FF8: .4byte sub_8056F54
+_08055FF8: .4byte Task_8056F54
 _08055FFC: .4byte sub_8056CE0
-_08056000: .4byte sub_8056F30
-_08056004: .4byte sub_8056FA0
+_08056000: .4byte TaskDestructor_8056F30
+_08056004: .4byte Task_8056FA0
 _08056008:
 	movs r0, #2
 	ands r0, r6
@@ -5165,7 +5166,7 @@ _08056008:
 	ldr r0, _0805607C @ =sub_8056E24
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08056080 @ =sub_8056F30
+	ldr r1, _08056080 @ =TaskDestructor_8056F30
 	str r1, [sp]
 	movs r1, #0x1c
 	movs r3, #0
@@ -5214,10 +5215,10 @@ _08056064:
 	bx r0
 	.align 2, 0
 _0805607C: .4byte sub_8056E24
-_08056080: .4byte sub_8056F30
+_08056080: .4byte TaskDestructor_8056F30
 
-	thumb_func_start sub_8056084
-sub_8056084: @ 0x08056084
+	thumb_func_start Task_GameOverScreenInit
+Task_GameOverScreenInit: @ 0x08056084
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _080560EC @ =gCurTask
 	ldr r6, [r0]
@@ -6057,7 +6058,7 @@ _08056740:
 	cmp r0, #0xb5
 	ble _0805675A
 	ldr r1, [r7]
-	ldr r0, _08056768 @ =sub_8056F80
+	ldr r0, _08056768 @ =Task_8056F80
 	str r0, [r1, #8]
 	strh r5, [r4, #0xa]
 	str r5, [r4, #0x18]
@@ -6068,7 +6069,7 @@ _0805675A:
 	.align 2, 0
 _08056760: .4byte gCurTask
 _08056764: .4byte gUnknown_086883F8
-_08056768: .4byte sub_8056F80
+_08056768: .4byte Task_8056F80
 
 	thumb_func_start sub_805676C
 sub_805676C: @ 0x0805676C
@@ -6226,7 +6227,7 @@ _0805689E:
 	ble _080568B0
 	ldr r0, _08056920 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08056924 @ =sub_8056FD0
+	ldr r0, _08056924 @ =Task_8056FD0
 	str r0, [r1, #8]
 _080568B0:
 	ldr r5, _08056928 @ =gPressedKeys
@@ -6285,7 +6286,7 @@ _080568F8:
 _08056918: .4byte sa2__gUnknown_030054B8
 _0805691C: .4byte 0x000004AF
 _08056920: .4byte gCurTask
-_08056924: .4byte sub_8056FD0
+_08056924: .4byte Task_8056FD0
 _08056928: .4byte gPressedKeys
 _0805692C: .4byte 0x00000566
 _08056930: .4byte sub_8056970
@@ -6461,7 +6462,7 @@ _08056A84:
 	ble _08056AA2
 	ldr r0, _08056ABC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08056AC0 @ =sub_8056FD0
+	ldr r0, _08056AC0 @ =Task_8056FD0
 	str r0, [r1, #8]
 	ldr r1, [r6, #0x20]
 	ldr r0, _08056AC4 @ =0x00000566
@@ -6483,7 +6484,7 @@ _08056AA2:
 	.align 2, 0
 _08056AB8: .4byte sa2__gUnknown_030054B8
 _08056ABC: .4byte gCurTask
-_08056AC0: .4byte sub_8056FD0
+_08056AC0: .4byte Task_8056FD0
 _08056AC4: .4byte 0x00000566
 
 	thumb_func_start sub_8056AC8
@@ -6703,8 +6704,8 @@ _08056CA8: .4byte sa2__gUnknown_03005390
 _08056CAC: .4byte gVramGraphicsCopyCursor
 _08056CB0: .4byte gVramGraphicsCopyQueueIndex
 
-	thumb_func_start sub_8056CB4
-sub_8056CB4: @ 0x08056CB4
+	thumb_func_start TaskDestructor_GameOverScreen
+TaskDestructor_GameOverScreen: @ 0x08056CB4
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -7020,8 +7021,8 @@ sub_8056F1C: @ 0x08056F1C
 	.align 2, 0
 _08056F2C: .4byte gCurTask
 
-	thumb_func_start sub_8056F30
-sub_8056F30: @ 0x08056F30
+	thumb_func_start TaskDestructor_8056F30
+TaskDestructor_8056F30: @ 0x08056F30
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -7038,8 +7039,8 @@ sub_8056F30: @ 0x08056F30
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8056F54
-sub_8056F54: @ 0x08056F54
+	thumb_func_start Task_8056F54
+Task_8056F54: @ 0x08056F54
 	ldr r0, _08056F78 @ =gCurTask
 	ldr r3, [r0]
 	ldrh r2, [r3, #6]
@@ -7063,8 +7064,8 @@ _08056F76:
 _08056F78: .4byte gCurTask
 _08056F7C: .4byte sub_8056714
 
-	thumb_func_start sub_8056F80
-sub_8056F80: @ 0x08056F80
+	thumb_func_start Task_8056F80
+Task_8056F80: @ 0x08056F80
 	push {lr}
 	ldr r0, _08056F98 @ =gCurTask
 	ldr r0, [r0]
@@ -7080,8 +7081,8 @@ sub_8056F80: @ 0x08056F80
 _08056F98: .4byte gCurTask
 _08056F9C: .4byte gUnknown_086883F8
 
-	thumb_func_start sub_8056FA0
-sub_8056FA0: @ 0x08056FA0
+	thumb_func_start Task_8056FA0
+Task_8056FA0: @ 0x08056FA0
 	ldr r0, _08056FC8 @ =gCurTask
 	ldr r3, [r0]
 	ldrh r1, [r3, #6]
@@ -7107,8 +7108,8 @@ _08056FC6:
 _08056FC8: .4byte gCurTask
 _08056FCC: .4byte sub_805676C
 
-	thumb_func_start sub_8056FD0
-sub_8056FD0: @ 0x08056FD0
+	thumb_func_start Task_8056FD0
+Task_8056FD0: @ 0x08056FD0
 	push {lr}
 	ldr r0, _08056FE0 @ =gCurTask
 	ldr r0, [r0]
@@ -7117,6 +7118,8 @@ sub_8056FD0: @ 0x08056FD0
 	bx r0
 	.align 2, 0
 _08056FE0: .4byte gCurTask
+
+@ -- End of src/game/game_over.c ---
 
 	thumb_func_start sub_8056FE4
 sub_8056FE4: @ 0x08056FE4
@@ -44797,8 +44800,8 @@ _0806A198: .4byte gUnknown_086CE4F4
 _0806A19C: .4byte gUnknown_086CE7F4
 _0806A1A0: .4byte gUnknown_086CE2F4
 
-	thumb_func_start CreateTimeAttackRetryMenu
-CreateTimeAttackRetryMenu: @ 0x0806A1A4
+	thumb_func_start CreateTimeAttackLobbyScreen
+CreateTimeAttackLobbyScreen: @ 0x0806A1A4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
