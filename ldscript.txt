@@ -87,7 +87,6 @@ SECTIONS {
         asm/game__stage__camera__bg__zone_2_interior.o(.text);
         src/game/stage/backgrounds/zone_3.o(.text);
         src/game/stage/backgrounds/zone_4.o(.text);
-        asm/game__stage__camera__bg__zone_4.o(.text);
         asm/game__stage__camera__bg__zone_6.o(.text);
         src/game/stage/backgrounds/zone_7_act_2.o(.text);
         src/game/stage/camera_destroy.o(.text);
