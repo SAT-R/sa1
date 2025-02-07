@@ -10,7 +10,8 @@ typedef struct {
 
 typedef struct {
 #if (GAME == GAME_SA1)
-    /* 0x00*/ u8 filler0[2];
+    /* 0x00 */ bool8 isActive;
+    /* 0x01 */ u8 filler1[1];
 #elif (GAME == GAME_SA2)
     /* 0x00 */ bool8 isActive;
     /* 0x01 */ u8 unk1;

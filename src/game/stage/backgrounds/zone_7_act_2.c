@@ -25,7 +25,7 @@ void StageBgUpdate_Zone7Act2(void)
     DrawBackground(bg);
 
     offsets = gBgOffsetsHBlank;
-    offsets += 90;
+    offsets += 90; // Earth is static, so skip those lines
 
     DmaFill32(3, (gStageTime >> 6) & 0xFF, offsets, 10 * sizeof(u32));
     offsets += 10;
