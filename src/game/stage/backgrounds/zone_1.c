@@ -30,16 +30,19 @@ void StageBgUpdate_Zone1Acts12(s32 x, s32 UNUSED y)
     offsets = gBgOffsetsHBlank;
 
     for (i = 0; i < 8; i++) {
+        // Highest moving cloud (fastest)
         *offsets++ = (gStageTime >> 4) & 0xFF;
         *offsets++ = 0;
     }
 
     for (i = 0; i < 16; i++) {
+        // 2nd highest moving cloud (slower)
         *offsets++ = (gStageTime >> 5) & 0xFF;
         *offsets++ = 0;
     }
 
     for (i = 24; i < 40; i++) {
+        // lowest moving cloud (slowest)
         *offsets++ = (gStageTime >> 6) & 0xFF;
         *offsets++ = 0;
 
@@ -49,11 +52,13 @@ void StageBgUpdate_Zone1Acts12(s32 x, s32 UNUSED y)
     }
 
     for (; i < 88; i++) {
+        // Big clouds and islands (static)
         *offsets++ = 0;
         *offsets++ = 0;
     }
 
     for (; i < 160; i++) {
+        // Water
         *offsets++ = ((i - 86) * x) >> 8;
         *offsets++ = 0;
     }

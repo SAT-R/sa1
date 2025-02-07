@@ -98,7 +98,7 @@ struct Camera {
     /* 0x64 */ s16 unk64;
     /* 0x66 */ u8 spectatorTarget;
 #endif
-}; /* size 0x80(in SA2) */
+} Camera; /* size 0x80(in SA2) */
 
 extern struct Camera gCamera;
 

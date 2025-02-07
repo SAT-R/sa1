@@ -492,7 +492,7 @@ void UpdateScreenDma(void)
         }
     }
 
-    if (gFlags & FLAGS_10) {
+    if (gFlags & FLAGS_EXECUTE_VBLANK_CALLBACKS) {
         DmaFill32(3, 0, gVBlankIntrs, sizeof(gVBlankIntrs));
         if (gNumVBlankCallbacks != 0) {
             DmaCopy32(3, gVBlankCallbacks, gVBlankIntrs, gNumVBlankCallbacks * sizeof(FuncType_030053A0));
@@ -560,7 +560,7 @@ void ClearOamBufferDma(void)
     DmaFill16(3, 0x200, gOamBuffer + 0x60, 0x100);
 
     gNumVBlankCallbacks = 0;
-    gFlags &= ~FLAGS_10;
+    gFlags &= ~FLAGS_EXECUTE_VBLANK_CALLBACKS;
 }
 
 void UpdateScreenCpuSet(void)
@@ -866,7 +866,7 @@ void ClearOamBufferCpuSet(void)
     gFlags &= ~4;
     CpuFastFill(0x200, gOamBuffer, sizeof(gOamBuffer));
     gNumVBlankCallbacks = 0;
-    gFlags &= ~FLAGS_10;
+    gFlags &= ~FLAGS_EXECUTE_VBLANK_CALLBACKS;
 }
 #else
 void ClearOamBufferCpuSet(void)
@@ -886,6 +886,6 @@ void ClearOamBufferCpuSet(void)
     gFlags &= ~4;
     CpuFastFill(0x200, gOamBuffer, sizeof(gOamBuffer));
     gNumVBlankCallbacks = 0;
-    gFlags &= ~FLAGS_10;
+    gFlags &= ~FLAGS_EXECUTE_VBLANK_CALLBACKS;
 }
 #endif

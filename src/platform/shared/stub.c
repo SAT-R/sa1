@@ -21,7 +21,6 @@ void sa2__sub_8023B5C() { }
 void sa2__sub_80213C0(u32 UNUSED characterId, u32 UNUSED levelId, Player *player) { }
 
 // Stage BG Updates
-void StageBgUpdate_Zone1Acts12() { }
 void StageBgUpdate_Zone4Acts12() { }
 void StageBgUpdate_Zone6Act1() { }
 void StageBgUpdate_Zone6Act2() { }

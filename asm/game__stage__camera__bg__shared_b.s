@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_803F920
-sub_803F920: @ 0x0803F920
+	thumb_func_start VBlankCallback_803F920
+VBlankCallback_803F920: @ 0x0803F920
 	ldr r1, _0803F928 @ =0x04000014
 	movs r0, #0
 	str r0, [r1]
@@ -14,8 +14,8 @@ sub_803F920: @ 0x0803F920
 	.align 2, 0
 _0803F928: .4byte 0x04000014
 
-	thumb_func_start sub_803F92C
-sub_803F92C: @ 0x0803F92C
+	thumb_func_start HBlankCallback_803F92C
+HBlankCallback_803F92C: @ 0x0803F92C
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	adds r3, r0, #0
@@ -38,7 +38,7 @@ sub_803F92C: @ 0x0803F92C
 	.align 2, 0
 _0803F954: .4byte sa2__gUnknown_030022AC
 _0803F958: .4byte 0x04000014
-_0803F95C: @ inline of sub_803F920?
+_0803F95C: @ inline of VBlankCallback_803F920?
 	ldr r1, _0803F964 @ =0x04000014
 	movs r0, #0
 	str r0, [r1]
