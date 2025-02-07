@@ -5,8 +5,7 @@
 #include "game/stage/camera.h"
 #include "game/water_effects.h"
 
-// (95.36%) https://decomp.me/scratch/XKJAc
-NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone4Acts12.inc", void StageBgUpdate_Zone4Acts12(s32 x, s32 y))
+void StageBgUpdate_Zone4Acts12(s32 x, s32 y)
 {
     struct Camera *cam = &gCamera;
     Background *bg;
@@ -25,13 +24,14 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone4Acts12.inc"
     bg = &gStageBackgroundsRam.unk0;
 
     gBgScrollRegs[0][0] = ((x + (x >> 2)) + (gStageTime >> 2)) & 0xFF;
-    gBgScrollRegs[0][1] = ((v = (y + 256)) - gStageTime) & 0xFF;
+    gBgScrollRegs[0][1] = y + 256;
+    gBgScrollRegs[0][1] = (gBgScrollRegs[0][1] - gStageTime) & 0xFF;
     DrawBackground(bg);
     UpdateBgAnimationTiles(bg);
 
     coll = gRefCollision;
 
-    xSub = Div(x * 16, coll->pxWidth - DISPLAY_WIDTH);
+    xSub = Div(x << 4, coll->pxWidth - DISPLAY_WIDTH);
     cam->sa2__unk52 = xSub;
     gBgScrollRegs[3][0] = xSub;
 
@@ -49,4 +49,3 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone4Acts12.inc"
         REG_DISPCNT &= ~DISPCNT_BG0_ON;
     }
 }
-END_NONMATCH
