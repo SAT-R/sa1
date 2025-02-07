@@ -45,7 +45,7 @@ bool8 ALIGNED(4) gBossRingsShallRespawn = FALSE;
 
 u32 gMultiplayerPseudoRandom = 0;
 u8 ALIGNED(4) gRoomEventQueueWritePos = 0;
-u8 ALIGNED(4) sa2__gUnknown_0300543C = 0;
+s8 ALIGNED(4) SA2_LABEL(gUnknown_0300543C) = 0;
 #if (GAME == GAME_SA2)
 u16 ALIGNED(4) gBossCameraClampYLower = 0;
 #endif

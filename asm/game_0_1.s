@@ -5802,7 +5802,7 @@ sub_80114A0: @ 0x080114A0
 	strh r3, [r0, #0xa]
 	ldrh r1, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	bl sub_8012D98
+	bl WriteSaveGame
 	mov r2, sl
 	mov r1, r8
 	strh r2, [r1]

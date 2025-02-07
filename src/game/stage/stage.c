@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "game/game_over.h"
 #include "game/multiplayer/chao.h"
@@ -10,6 +11,7 @@
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
 #include "game/sa1_sa2_shared/music_manager.h"
+#include "game/sa1_sa2_shared/palette_loader.h"
 #include "game/sa1_sa2_shared/pause_menu.h"
 #include "game/sa1_sa2_shared/rings_manager.h"
 #include "game/sa1_sa2_shared/player.h"
@@ -64,6 +66,8 @@ void StageInit_Zone7Act2(void);
 void StageInit_ForestChaoGarden(void);
 void StageInit_FactoryChaoGarden(void);
 void StageInit_SpaceChaoGarden(void);
+
+void sub_805B9E8(void);
 
 const VoidFn sStageInitProcs[NUM_LEVEL_IDS] = {
     StageInit_Zone1Act1,         StageInit_Zone1Act2, //
@@ -585,6 +589,135 @@ void HandleLifeLost(void)
             CreateGameStage();
         }
     }
+}
+
+#if (GAME == GAME_SA1)
+void sub_803D66C(void)
+{
+    gStageFlags |= STAGE_FLAG__DISABLE_PAUSE_MENU;
+
+    if (GAME_MODE_IS_TIME_ATTACK) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+
+        SA2_LABEL(gUnknown_03005390) = 0;
+
+        PAUSE_GRAPHICS_QUEUE();
+        CreateTimeAttackLobbyScreen();
+    } else if (--gNumLives == 0) {
+        if (SA2_LABEL(gUnknown_0300543C) > 0) {
+            SA2_LABEL(gUnknown_0300543C)--;
+            CreateGameOverScreen(OVER_CAUSE_ZERO_LIVES);
+        } else {
+            s32 score = (gLevelScore < gLoadedSaveGame.unk420) ? gLoadedSaveGame.unk420 : gLevelScore;
+
+            gLoadedSaveGame.unk420 = score;
+
+            CreateGameOverScreen(OVER_CAUSE_TIME_UP);
+        }
+    } else {
+        sub_805B9E8();
+    }
+}
+#endif
+
+void GoToNextLevel(void)
+{
+    u16 irqEnable, irqMasterEnable, dispStat;
+
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
+    SA2_LABEL(gUnknown_03005390) = 0;
+    PAUSE_GRAPHICS_QUEUE();
+
+#if (GAME == GAME_SA1)
+    m4aMPlayAllStop();
+    m4aSoundVSyncOff();
+
+    gFlags |= FLAGS_8000;
+    irqEnable = REG_IE;
+    irqMasterEnable = REG_IME;
+    dispStat = REG_DISPSTAT;
+
+    REG_IE = 0;
+    REG_IE;
+    REG_IME = 0;
+    REG_IME;
+    REG_DISPSTAT = 0;
+    REG_DISPSTAT;
+
+    gFlags &= ~FLAGS_4;
+
+    SlowDmaStop(0);
+    SlowDmaStop(1);
+    SlowDmaStop(2);
+    SlowDmaStop(3);
+#endif
+
+    WriteSaveGame();
+
+#if (GAME == GAME_SA1)
+    REG_IE = irqEnable;
+    REG_IE;
+    REG_IME = irqMasterEnable;
+    REG_IME;
+    REG_DISPSTAT = dispStat;
+    REG_DISPSTAT;
+
+    m4aSoundVSyncOn();
+
+    gFlags &= ~FLAGS_8000;
+#endif
+
+#if (GAME == GAME_SA1)
+    if (gGameMode != GAME_MODE_TIME_ATTACK)
+#elif (GAME == GAME_SA2)
+    if (gGameMode == GAME_MODE_SINGLE_PLAYER)
+#endif
+    {
+        if (++gCurrentLevel < NUM_LEVEL_IDS) {
+            GameStageStart();
+        }
+    }
+#if (GAME == GAME_SA1)
+    else {
+        CreateTimeAttackLobbyScreen();
+    }
+#endif
+}
+
+void StageInit_Zone3Act1(void)
+{
+    CreatePaletteLoaderTask(0x2000, 816, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 817, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 818, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 824, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 825, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 827, 0, 0); // TODO/BUG?: Should this be 826?
+    CreatePaletteLoaderTask(0x2000, 827, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 828, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 843, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 844, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 826, 0, 0);
+
+    m4aSongNumStart(MUS_CASINO_PARADISE__ACT_1);
+}
+
+void StageInit_Zone3Act2(void)
+{
+    CreatePaletteLoaderTask(0x2000, 816, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 817, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 818, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 824, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 825, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 827, 0, 0); // TODO/BUG?: Should this be 826?
+    CreatePaletteLoaderTask(0x2000, 827, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 828, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 843, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 844, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 826, 0, 0);
+
+    m4aSongNumStart(MUS_CASINO_PARADISE__ACT_2);
 }
 
 #if 01

@@ -777,8 +777,9 @@ _08012D8E:
 	.align 2, 0
 _08012D94: .4byte gLoadedSaveGame
 
-	thumb_func_start sub_8012D98
-sub_8012D98: @ 0x08012D98
+@ Very different from SA2, this has less checks.
+	thumb_func_start WriteSaveGame
+WriteSaveGame: @ 0x08012D98
 	push {r4, r5, r6, lr}
 	ldr r0, _08012DE0 @ =gFlags
 	ldr r0, [r0]

@@ -2754,7 +2754,7 @@ _08038820:
 	ldr r0, _0803884C @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	bl sub_803D724
+	bl GoToNextLevel
 	b _08038858
 	.align 2, 0
 _08038848: .4byte 0x00002FFF

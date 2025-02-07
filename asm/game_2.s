@@ -6603,7 +6603,7 @@ _08056B10:
 	strh r3, [r0, #0xa]
 	ldrh r1, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	bl sub_8012D98
+	bl WriteSaveGame
 	mov r0, sp
 	ldrh r1, [r0, #4]
 	mov r0, r8
@@ -8534,7 +8534,7 @@ _08057AE6:
 	cmp r0, #0xb
 	bgt _08057B48
 _08057B28:
-	bl sub_803D724
+	bl GoToNextLevel
 	b _08057B62
 	.align 2, 0
 _08057B30: .4byte gPlayer
@@ -12071,7 +12071,7 @@ _08059666:
 	strh r3, [r0, #0xa]
 	ldrh r1, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	bl sub_8012D98
+	bl WriteSaveGame
 	mov r1, sp
 	ldrh r2, [r1]
 	mov r1, r8
@@ -35939,7 +35939,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	strh r3, [r0, #0xa]
 	ldrh r1, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	bl sub_8012D98
+	bl WriteSaveGame
 	add r0, sp, #0x54
 	ldrh r1, [r0]
 	mov r0, r8
@@ -38952,7 +38952,7 @@ CreateExtraStageResults: @ 0x080670F8
 	strh r3, [r0, #0xa]
 	ldrh r1, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	bl sub_8012D98
+	bl WriteSaveGame
 	add r3, sp, #0x50
 	ldrh r4, [r3]
 	ldr r3, _0806747C @ =0x04000200
@@ -44442,7 +44442,7 @@ _08069E98:
 	strh r0, [r1, #4]
 	ldr r0, [r6]
 	bl TaskDestroy
-	bl sub_803D724
+	bl GoToNextLevel
 	b _08069EDE
 	.align 2, 0
 _08069EBC: .4byte gDispCnt

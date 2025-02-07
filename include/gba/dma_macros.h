@@ -74,8 +74,19 @@ extern void DmaSet(int dmaNum, const void *src, void *dest, u32 control);
     dmaRegs[5] &= ~DMA_ENABLE;                                  \
     dmaRegs[5];                                                 \
 }
+// Used in SA1, stage.c
+#define SlowDmaStop(dmaNum)                                     \
+{                                                               \
+    vu16 *dmaRegs = (vu16 *)REG_ADDR_DMA##dmaNum##SAD;          \
+    dmaRegs[5] &= ~(DMA_START_MASK | DMA_DREQ_ON | DMA_REPEAT); \
+    dmaRegs[5];                                                 \
+    dmaRegs[5] &= ~DMA_ENABLE;                                  \
+    dmaRegs[5];                                                 \
+    dmaRegs[5];                                                 \
+}
 #else
 extern void DmaStop(int dmaNum);
+static inline SlowDmaStop(int dmaNum) { DmaStop(dmaNum); }
 #endif
 
 #define DmaCopyLarge(dmaNum, src, dest, size, block, bit) \

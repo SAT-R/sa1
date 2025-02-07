@@ -2548,7 +2548,7 @@ _0803BCE0:
 	strh r3, [r0, #0xa]
 	ldrh r1, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	bl sub_8012D98
+	bl WriteSaveGame
 	mov r0, sl
 	mov r3, r8
 	strh r0, [r3]

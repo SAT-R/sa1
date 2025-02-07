@@ -723,7 +723,7 @@ _0806ABF6:
 	strh r3, [r0, #0xa]
 	ldrh r1, [r0, #0xa]
 	ldrh r0, [r0, #0xa]
-	bl sub_8012D98
+	bl WriteSaveGame
 	mov r0, sp
 	ldrh r1, [r0]
 	mov r0, r8
