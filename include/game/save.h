@@ -48,7 +48,7 @@ typedef struct SaveGame {
     /* 0x010 */ PlayerNameChar playerName[MAX_PLAYER_NAME_LENGTH];
     /* 0x016 */ u8 unk16;
     /* 0x017 */ u8 unk17;
-    /* 0x018 */ u8 unk18;
+    /* 0x018 */ u8 difficultyLevel;
     /* 0x019 */ u8 unk19;
     /* 0x01A */ u8 language;
     /* 0x01B */ u8 timeLimitDisabled;

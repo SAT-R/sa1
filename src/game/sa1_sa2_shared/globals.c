@@ -51,7 +51,7 @@ u16 ALIGNED(4) gBossCameraClampYLower = 0;
 #endif
 s8 ALIGNED(4) gTrappedAnimalVariant = 0;
 #if (GAME == GAME_SA1)
-u8 ALIGNED(4) gUnknown_03005020 = 0;
+u8 ALIGNED(4) sa2__gUnknown_030054B0 = 0;
 #endif
 
 u8 ALIGNED(4) gNumLives = 0;

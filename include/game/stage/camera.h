@@ -37,6 +37,7 @@ extern const Collision *const gCollisionTable[];
 
 void InitCamera(u32);
 void UpdateCamera(void);
+void DestroyCameraMovementTask(void);
 
 extern const Collision *gRefCollision;
 

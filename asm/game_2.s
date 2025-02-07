@@ -3290,7 +3290,7 @@ sub_80550F8: @ 0x080550F8
 	ands r0, r1
 	cmp r0, #0
 	beq _08055164
-	ldr r0, _08055130 @ =gUnknown_03005020
+	ldr r0, _08055130 @ =sa2__gUnknown_030054B0
 	ldrb r1, [r0]
 	adds r0, r3, #0
 	cmp r1, r0
@@ -3302,7 +3302,7 @@ sub_80550F8: @ 0x080550F8
 	b _08055150
 	.align 2, 0
 _0805512C: .4byte gCurrentLevel
-_08055130: .4byte gUnknown_03005020
+_08055130: .4byte sa2__gUnknown_030054B0
 _08055134: .4byte 0x0000042A
 _08055138:
 	strh r5, [r2]
@@ -3469,7 +3469,7 @@ _08055164:
 	ands r0, r2
 	cmp r0, #0
 	beq _080552E0
-	ldr r0, _080552D8 @ =gUnknown_03005020
+	ldr r0, _080552D8 @ =sa2__gUnknown_030054B0
 	ldrb r1, [r0]
 	movs r0, #0
 	ldrsb r0, [r3, r0]
@@ -3494,7 +3494,7 @@ _080552C8: .4byte sub_8055798
 _080552CC: .4byte sub_8055904
 _080552D0: .4byte sub_8055998
 _080552D4: .4byte gCurrentLevel
-_080552D8: .4byte gUnknown_03005020
+_080552D8: .4byte sa2__gUnknown_030054B0
 _080552DC: .4byte 0x0000FFF0
 _080552E0:
 	movs r0, #0xf0
@@ -3868,7 +3868,7 @@ _080555D4:
 	mov sb, r2
 	ldr r1, _080556C4 @ =gPartner
 	mov sl, r1
-	ldr r2, _080556C8 @ =gUnknown_03005020
+	ldr r2, _080556C8 @ =sa2__gUnknown_030054B0
 	mov ip, r2
 	cmp r0, #1
 	bls _08055622
@@ -3970,7 +3970,7 @@ _080556B8: .4byte gGameMode
 _080556BC: .4byte gPlayer
 _080556C0: .4byte gStageFlags
 _080556C4: .4byte gPartner
-_080556C8: .4byte gUnknown_03005020
+_080556C8: .4byte sa2__gUnknown_030054B0
 _080556CC: .4byte gMultiplayerPlayerTasks
 _080556D0: .4byte 0x0000FFFE
 _080556D4: .4byte 0xFFDFFFFF
@@ -4409,7 +4409,7 @@ _08055A10:
 	ands r0, r1
 	cmp r0, #0
 	beq _08055A48
-	ldr r0, _08055A40 @ =gUnknown_03005020
+	ldr r0, _08055A40 @ =sa2__gUnknown_030054B0
 	ldrb r1, [r0]
 	movs r0, #0
 	ldrsb r0, [r3, r0]
@@ -4428,7 +4428,7 @@ _08055A10:
 	strh r0, [r2, #0xc]
 	b _08055A62
 	.align 2, 0
-_08055A40: .4byte gUnknown_03005020
+_08055A40: .4byte sa2__gUnknown_030054B0
 _08055A44: .4byte 0x0000FFF0
 _08055A48:
 	movs r0, #0x7e

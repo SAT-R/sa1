@@ -10244,8 +10244,8 @@ CallSetStageSpawnPos: @ 0x08046CB8
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8046CC4
-sub_8046CC4: @ 0x08046CC4
+	thumb_func_start DestroyPlayerTasks
+DestroyPlayerTasks: @ 0x08046CC4
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, [r4, #0x60]

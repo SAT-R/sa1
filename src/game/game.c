@@ -169,8 +169,8 @@ void CreateEmptySaveGame(void)
 
     DmaFill32(3, 0, &gLoadedSaveGame, sizeof(gLoadedSaveGame));
     gLoadedSaveGame.unk4 = 0;
-    gLoadedSaveGame.unk420 = 0xC350;
-    gLoadedSaveGame.unk18 = 0;
+    gLoadedSaveGame.unk420 = 50000;
+    gLoadedSaveGame.difficultyLevel = DIFFICULTY_NORMAL;
 
     for (i = 0; i < ARRAY_COUNT(gLoadedSaveGame.unk8); i++) {
         gLoadedSaveGame.unk8[i] = 0;

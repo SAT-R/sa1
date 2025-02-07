@@ -43,6 +43,7 @@ extern bool32 sub_8017800(); // Spotlight-beam related
 extern void CreateMultiplayerMultiPakUI();
 extern void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask);
 extern struct Task *CreateMultiplayerChao(u8, u8);
+extern void sub_804D02C(bool32);
 
 #if (GAME == GAME_SA1)
 void sa2__sub_801F044(void);
@@ -787,5 +788,183 @@ void StageInit_PinballChaoGarden(void)
     m4aSongNumStart(MUS_CASINO_PARADISE__ACT_1);
 }
 
-#if 01
+void ApplyGameStageSettings(void)
+{
+    gLevelScore = 0;
+    gNumLives = 3;
+    SA2_LABEL(gUnknown_030054B0) = gCurrentLevel;
+
+    if (IS_MULTI_PLAYER) {
+        gNumLives = 1;
+    }
+
+    if ((gGameMode == GAME_MODE_TIME_ATTACK || (gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_MULTI_PLAYER))
+        || (gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {
+        gDifficultyLevel = gLoadedSaveGame.difficultyLevel;
+        gLoadedSaveGame.difficultyLevel = DIFFICULTY_NORMAL;
+    }
+
+    sub_804D02C(gLoadedSaveGame.unk1C);
+    GameStageStart();
+}
+
+void DestroyStageTasks(void)
+{
+    TaskDestroy(gGameStageTask);
+    gGameStageTask = NULL;
+
+    DestroyPlayerTasks(&gPlayer);
+
+#if (GAME == GAME_SA1)
+    if (IS_SINGLE_PLAYER) {
+        DestroyPlayerTasks(&gPartner);
+    }
 #endif
+
+    DestroyCameraMovementTask();
+}
+
+void TaskDestructor_GameStage(struct Task *t)
+{
+#if (GAME == GAME_SA1)
+    if ((gGameMode == GAME_MODE_TIME_ATTACK || (gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_MULTI_PLAYER))
+        || (gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {
+        gLoadedSaveGame.difficultyLevel = gDifficultyLevel;
+    }
+#endif
+    gGameStageTask = NULL;
+    m4aMPlayAllStop();
+}
+
+void StageInit_Zone1Act1(void)
+{
+    CreatePaletteLoaderTask(0x2000, 814, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 815, 0, 0);
+
+    m4aSongNumStart(MUS_NEO_GREEN_HILL__ACT_1);
+}
+
+void StageInit_Zone1Act2(void)
+{
+    CreatePaletteLoaderTask(0x2000, 814, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 815, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 820, 1, 0);
+    CreatePaletteLoaderTask(0x2000, 820, 0, 0);
+
+    if (IS_SINGLE_PLAYER) {
+        gCamera.maxX = gRefCollision->pxWidth - 768;
+    }
+
+    m4aSongNumStart(MUS_NEO_GREEN_HILL__ACT_2);
+}
+
+void StageInit_Zone2Act1(void)
+{
+    CreatePaletteLoaderTask(0x2000, 819, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 845, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 849, 0, 0);
+
+    m4aSongNumStart(MUS_SECRET_BASE__ACT_1);
+}
+
+void StageInit_Zone2Act2(void)
+{
+    CreatePaletteLoaderTask(0x2000, 819, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 845, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 849, 0, 0);
+
+    m4aSongNumStart(MUS_SECRET_BASE__ACT_2);
+}
+
+void StageInit_Zone4Act1(void)
+{
+    CreatePaletteLoaderTask(0x2000, 822, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 821, 0, 0);
+    CreateStageWaterTask(1546, 0x7F207F20, 0);
+
+    m4aSongNumStart(MUS_ICE_MOUNTAIN__ACT_1);
+}
+
+void StageInit_Zone4Act2(void)
+{
+    CreatePaletteLoaderTask(0x2000, 822, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 821, 0, 0);
+    CreateStageWaterTask(1664, 0x7F207F20, 0);
+
+    m4aSongNumStart(MUS_ICE_MOUNTAIN__ACT_2);
+}
+
+void StageInit_Zone5Act1(void)
+{
+    CreatePaletteLoaderTask(0x2000, 823, 0, 0);
+
+    m4aSongNumStart(MUS_ANGEL_ISLAND__ACT_1);
+}
+
+void StageInit_Zone5Act2(void)
+{
+    CreatePaletteLoaderTask(0x2000, 823, 0, 0);
+
+    m4aSongNumStart(MUS_ANGEL_ISLAND__ACT_2);
+}
+
+void StageInit_Zone6Act2(void)
+{
+    CreatePaletteLoaderTask(0x2000, 829, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 830, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 831, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 850, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 851, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 848, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 846, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 847, 0, 0);
+
+    m4aSongNumStart(MUS_COSMIC_ANGEL);
+}
+
+void StageInit_Zone7Act1(void) { m4aSongNumStart(MUS_X_ZONE); }
+
+void StageInit_Zone7Act2(void) { m4aSongNumStart(MUS_EXTRA_BOSS); }
+
+void StageInit_ForestChaoGarden(void)
+{
+    CreatePaletteLoaderTask(0x2000, 814, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 815, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 820, 1, 0);
+    CreatePaletteLoaderTask(0x2000, 820, 0, 0);
+
+    m4aSongNumStart(MUS_NEO_GREEN_HILL__ACT_1);
+}
+
+void StageInit_FactoryChaoGarden(void)
+{
+    CreatePaletteLoaderTask(0x2000, 819, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 845, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 849, 0, 0);
+
+    m4aSongNumStart(MUS_SECRET_BASE__ACT_1);
+}
+
+void StageInit_SpaceChaoGarden(void)
+{
+    CreatePaletteLoaderTask(0x2000, 829, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 830, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 831, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 850, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 851, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 848, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 846, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 847, 0, 0);
+
+    m4aSongNumStart(MUS_COSMIC_ANGEL);
+}
+
+void StageInit_MPCollectRings(void)
+{
+    CreatePaletteLoaderTask(0x2000, 814, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 815, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 820, 1, 0);
+    CreatePaletteLoaderTask(0x2000, 820, 0, 0);
+
+    m4aSongNumStart(MUS_VS_RING_RUSH_MODE);
+}

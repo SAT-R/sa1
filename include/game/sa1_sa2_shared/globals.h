@@ -181,7 +181,7 @@ extern u32 gMultiplayerPseudoRandom;
 
 extern s32 gLevelScore;
 extern u8 gNumLives;
-extern u8 gUnknown_030054B0;
+extern u8 SA2_LABEL(gUnknown_030054B0);
 
 extern HomingTarget gHomingTarget;
 
