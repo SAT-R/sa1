@@ -148,7 +148,7 @@ extern u8 gDifficultyLevel;
 
 extern s8 gTrappedAnimalVariant;
 
-extern u8 gBossIndex; // TODO: Rename to gLastCheckpointIndex?
+extern u8 gBossIndex; // TODO: Rename to gLastCheckpointIndex? (SA1 AND SA2!)
 extern u8 gUnknown_030054F8;
 
 // Incremented by 1 every frame if the game is not paused.

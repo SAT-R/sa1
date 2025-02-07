@@ -15,6 +15,7 @@
 #include "game/sa1_sa2_shared/pause_menu.h"
 #include "game/sa1_sa2_shared/rings_manager.h"
 #include "game/sa1_sa2_shared/player.h"
+#include "game/parameters/stage.h"
 #include "game/save.h"
 #include "game/stage/camera.h"
 #include "game/stage/player.h"
@@ -734,7 +735,7 @@ void StageInit_Zone6Act1(void)
         // This section only gets called after hitting a checkpoint!
         //
         // Rocket "started", so don't allow player to leave.
-        gCamera.minX = 1058;
+        gCamera.minX = EGG_ROCKET_LAUNCH_MIN_X;
         gCamera.sa2__unk50 |= 0x8000;
         gBgCntRegs[3] &= ~(BGCNT_TXT512x512);
 
@@ -748,7 +749,7 @@ void StageInit_Zone6Act1(void)
         // Rocket booster removed
         //
         // 'maxY' set because we are "climbing" the rocket and positive Y goes down.
-        gCamera.maxY = 5568;
+        gCamera.maxY = EGG_ROCKET_BOOSTER_DEPART_MAX_Y;
         gCamera.sa2__unk50 |= 0x8000;
         gBgCntRegs[3] &= ~(BGCNT_TXT512x512);
 
@@ -762,7 +763,7 @@ void StageInit_Zone6Act1(void)
         gBgCntRegs[3] &= ~(BGCNT_TXT512x512);
         gCamera.sa2__unk50 |= 0x4000;
         gCamera.sa2__unk50 &= ~0x8000;
-        gCamera.maxY = 3264;
+        gCamera.maxY = EGG_ROCKET_MIDDLE_DEPART_MAX_Y;
 
         if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
             gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
@@ -880,7 +881,7 @@ void StageInit_Zone4Act1(void)
 {
     CreatePaletteLoaderTask(0x2000, 822, 0, 0);
     CreatePaletteLoaderTask(0x2000, 821, 0, 0);
-    CreateStageWaterTask(1546, 0x7F207F20, 0);
+    CreateStageWaterTask(INITIAL_WATERLEVEL_ZONE_4_ACT_1, 0x7F207F20, 0);
 
     m4aSongNumStart(MUS_ICE_MOUNTAIN__ACT_1);
 }
@@ -889,7 +890,7 @@ void StageInit_Zone4Act2(void)
 {
     CreatePaletteLoaderTask(0x2000, 822, 0, 0);
     CreatePaletteLoaderTask(0x2000, 821, 0, 0);
-    CreateStageWaterTask(1664, 0x7F207F20, 0);
+    CreateStageWaterTask(INITIAL_WATERLEVEL_ZONE_4_ACT_2, 0x7F207F20, 0);
 
     m4aSongNumStart(MUS_ICE_MOUNTAIN__ACT_2);
 }
