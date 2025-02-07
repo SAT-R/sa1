@@ -28,37 +28,19 @@ void StageBgUpdate_Zone6Act2() { }
 void StageBgUpdate_Zone7Act2() { }
 void StageBgUpdate_Zone2_Interior() { }
 
-void ApplyGameStageSettings() { }
 void CreateStageEntitiesManager() { }
 void CallSetStageSpawnPos() { }
 void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
 
-void TaskDestructor_GameStage(struct Task *t) { }
 void CreatePauseMenu(void) { }
-
-void StageInit_Zone3Act1(void) { }
-void StageInit_Zone3Act2(void) { }
-void StageInit_Zone6Act1(void) { }
-void StageInit_PinballChaoGarden(void) { }
-void StageInit_Zone1Act1(void) { }
-void StageInit_Zone1Act2(void) { }
-void StageInit_Zone2Act1(void) { }
-void StageInit_Zone2Act2(void) { }
-void StageInit_Zone4Act1(void) { }
-void StageInit_Zone4Act2(void) { }
-void StageInit_Zone5Act1(void) { }
-void StageInit_Zone5Act2(void) { }
-void StageInit_Zone6Act2(void) { }
-void StageInit_Zone7Act1(void) { }
-void StageInit_Zone7Act2(void) { }
-void StageInit_ForestChaoGarden(void) { }
-void StageInit_FactoryChaoGarden(void) { }
-void StageInit_SpaceChaoGarden(void) { }
-
-void StageInit_MPCollectRings(void) { }
 
 void CreateGameOverScreen(LostLifeCause lostLifeCause) { }
 void sub_80550F8() { }
+
+void sub_804D02C() { }
+void sub_805B9E8() { }
+void WriteSaveGame() { }
+void DestroyPlayerTasks() { }
 
 // Interactables / Gimmicks
 void CreateEntity_StageGoal() { }

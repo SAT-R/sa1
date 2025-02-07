@@ -86,7 +86,7 @@ extern void DmaSet(int dmaNum, const void *src, void *dest, u32 control);
 }
 #else
 extern void DmaStop(int dmaNum);
-static inline SlowDmaStop(int dmaNum) { DmaStop(dmaNum); }
+static inline void SlowDmaStop(int dmaNum) { DmaStop(dmaNum); }
 #endif
 
 #define DmaCopyLarge(dmaNum, src, dest, size, block, bit) \
