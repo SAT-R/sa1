@@ -698,7 +698,7 @@ void StageInit_Zone3Act1(void)
     CreatePaletteLoaderTask(0x2000, 828, 0, 0);
     CreatePaletteLoaderTask(0x2000, 843, 0, 0);
     CreatePaletteLoaderTask(0x2000, 844, 0, 0);
-    CreatePaletteLoaderTask(0x2000, 826, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 826, 0, 0); // Chao Stage removes this loader
 
     m4aSongNumStart(MUS_CASINO_PARADISE__ACT_1);
 }
@@ -718,6 +718,73 @@ void StageInit_Zone3Act2(void)
     CreatePaletteLoaderTask(0x2000, 826, 0, 0);
 
     m4aSongNumStart(MUS_CASINO_PARADISE__ACT_2);
+}
+
+void StageInit_Zone6Act1(void)
+{
+    CreatePaletteLoaderTask(0x2000, 839, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 840, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 841, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 842, 0, 0);
+
+    m4aSongNumStart(MUS_EGG_ROCKET);
+
+    if (gBossIndex > 0) {
+        // This section only gets called after hitting a checkpoint!
+        //
+        // Rocket "started", so don't allow player to leave.
+        gCamera.minX = 1058;
+        gCamera.sa2__unk50 |= 0x8000;
+        gBgCntRegs[3] &= ~(BGCNT_TXT512x512);
+
+        if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
+            gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
+            gCourseTime = ZONE_TIME_TO_INT(5, 0);
+        }
+    }
+
+    if (gBossIndex > 1) {
+        // Rocket booster removed
+        //
+        // 'maxY' set because we are "climbing" the rocket and positive Y goes down.
+        gCamera.maxY = 5568;
+        gCamera.sa2__unk50 |= 0x8000;
+        gBgCntRegs[3] &= ~(BGCNT_TXT512x512);
+
+        if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
+            gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
+            gCourseTime = ZONE_TIME_TO_INT(5, 0);
+        }
+    }
+
+    if (gBossIndex > 2) {
+        gBgCntRegs[3] &= ~(BGCNT_TXT512x512);
+        gCamera.sa2__unk50 |= 0x4000;
+        gCamera.sa2__unk50 &= ~0x8000;
+        gCamera.maxY = 3264;
+
+        if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
+            gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
+            gCourseTime = ZONE_TIME_TO_INT(5, 0);
+        }
+    }
+}
+
+void StageInit_PinballChaoGarden(void)
+{
+    CreatePaletteLoaderTask(0x2000, 816, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 817, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 818, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 824, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 825, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 827, 0, 0); // TODO/BUG?: Should this be 826?
+    CreatePaletteLoaderTask(0x2000, 827, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 828, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 843, 0, 0);
+    CreatePaletteLoaderTask(0x2000, 844, 0, 0);
+    // Regular Casino Paradise loads palette anim 826 here.
+
+    m4aSongNumStart(MUS_CASINO_PARADISE__ACT_1);
 }
 
 #if 01
