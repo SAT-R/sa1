@@ -1,5 +1,5 @@
-#ifndef GUARD_GAME_STAGE_BG_ZONE5_H
-#define GUARD_GAME_STAGE_BG_ZONE5_H
+#ifndef GUARD_GAME_STAGE_BG_ZONE3_H
+#define GUARD_GAME_STAGE_BG_ZONE3_H
 
 #include "gba/types.h"
 
@@ -17,4 +17,4 @@ extern void StageBgUpdate_Zone5Acts12(s32 x, s32 y);
 extern struct Task *SpawnCasinoFireworkMP(s16 x, s16 y, s32 fireworkType);
 extern void Task_UpdateFireworkAnimation(void);
 
-#endif // GUARD_GAME_STAGE_BG_ZONE5_H
+#endif // GUARD_GAME_STAGE_BG_ZONE3_H
