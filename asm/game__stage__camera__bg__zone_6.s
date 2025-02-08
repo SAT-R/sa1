@@ -383,7 +383,7 @@ _0803F114:
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x16
 	adds r0, r0, r3
-	ldr r1, _0803F1CC @ =sub_803FA1C
+	ldr r1, _0803F1CC @ =HBlankCallback_803FA1C
 	str r1, [r0]
 	ldr r2, _0803F1D0 @ =gFlags
 	ldr r0, [r2]
@@ -402,7 +402,7 @@ _0803F1BC: .4byte gBldRegs
 _0803F1C0: .4byte gGameMode
 _0803F1C4: .4byte gHBlankCallbacks
 _0803F1C8: .4byte gNumHBlankCallbacks
-_0803F1CC: .4byte sub_803FA1C
+_0803F1CC: .4byte HBlankCallback_803FA1C
 _0803F1D0: .4byte gFlags
 _0803F1D4:
 	mov r3, sb
@@ -471,7 +471,7 @@ _0803F1F6:
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x16
 	adds r0, r0, r3
-	ldr r1, _0803F280 @ =sub_803FA1C
+	ldr r1, _0803F280 @ =HBlankCallback_803FA1C
 	str r1, [r0]
 	ldr r2, _0803F284 @ =gFlags
 	ldr r0, [r2]
@@ -487,7 +487,7 @@ _0803F270: .4byte gBldRegs
 _0803F274: .4byte gGameMode
 _0803F278: .4byte gHBlankCallbacks
 _0803F27C: .4byte gNumHBlankCallbacks
-_0803F280: .4byte sub_803FA1C
+_0803F280: .4byte HBlankCallback_803FA1C
 _0803F284: .4byte gFlags
 _0803F288:
 	mov r2, ip
@@ -557,7 +557,7 @@ _0803F2A2:
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x16
 	adds r0, r0, r3
-	ldr r1, _0803F33C @ =sub_803FA1C
+	ldr r1, _0803F33C @ =HBlankCallback_803FA1C
 	str r1, [r0]
 	ldr r2, _0803F340 @ =gFlags
 	ldr r0, [r2]
@@ -574,7 +574,7 @@ _0803F32C: .4byte gBldRegs
 _0803F330: .4byte gGameMode
 _0803F334: .4byte gHBlankCallbacks
 _0803F338: .4byte gNumHBlankCallbacks
-_0803F33C: .4byte sub_803FA1C
+_0803F33C: .4byte HBlankCallback_803FA1C
 _0803F340: .4byte gFlags
 _0803F344:
 	mov r5, ip

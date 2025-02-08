@@ -95,8 +95,10 @@ SECTIONS {
         src/game/stage/backgrounds/zone_7_act_1.o(.text);
         src/game/stage/backgrounds/zone_7_act_2_init.o(.text);
         src/game/stage/backgrounds/zone_2.o(.text);
+        src/game/stage/backgrounds/zone_2.o(.text);
         src/game/stage/backgrounds/zone_5.o(.text);
-        asm/game__stage__camera__bg__shared_b.o(.text);
+        src/game/stage/backgrounds/zone_3_firework.o(.text);
+        src/game/stage/backgrounds/zone_6_hblank.o(.text);
         asm/game__stage__collision.o(.text);
         src/game/stage/mp_sprite_task.o(.text);
         src/game/stage/dust_effect_braking.o(.text);

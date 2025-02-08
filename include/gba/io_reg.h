@@ -60,13 +60,13 @@ extern unsigned char REG_BASE[IO_SIZE];
 
 #define REG_OFFSET_WIN_END     (REG_OFFSET_WIN + sizeof(winreg_t) * 6)
 
-#define REG_OFFSET_MOSAIC      REG_OFFSET_WIN_END
-#define REG_OFFSET_BLDCNT      (REG_OFFSET_MOSAIC + 4)
-#define REG_OFFSET_BLDALPHA    (REG_OFFSET_BLDCNT + 2)
-#define REG_OFFSET_BLDY        (REG_OFFSET_BLDALPHA + 2)
+#define REG_OFFSET_MOSAIC      REG_OFFSET_WIN_END        // 0x4C
+#define REG_OFFSET_BLDCNT      (REG_OFFSET_MOSAIC + 4)   // 0x50
+#define REG_OFFSET_BLDALPHA    (REG_OFFSET_BLDCNT + 2)   // 0x52
+#define REG_OFFSET_BLDY        (REG_OFFSET_BLDALPHA + 2) // 0x54
 
 // Starts at 10 after BLDY (0x60 on the GBA)
-#define REG_OFFSET_SOUND       REG_OFFSET_BLDY + 2 + 10
+#define REG_OFFSET_SOUND       REG_OFFSET_BLDY + 2 + 10  // 0x60
 
 #define REG_OFFSET_SOUND1CNT_L REG_OFFSET_SOUND + 0x0
 #define REG_OFFSET_NR10        REG_OFFSET_SOUND + 0x0
