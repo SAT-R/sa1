@@ -790,6 +790,7 @@ _0804CA54: .4byte sa2__gUnknown_03002A80
 _0804CA58: .4byte 0xA2600000
 _0804CA5C: .4byte 0x04000202
 
+@ Function is lower in SA2, but seems byte-accurate!
 	thumb_func_start MaskPaletteWithUnderwaterColor
 MaskPaletteWithUnderwaterColor: @ 0x0804CA60
 	push {r4, r5, r6, r7, lr}

@@ -6,7 +6,7 @@
 
 typedef s32 (*Func801F100)(s32, s32, s32);
 s32 sub_801EB44(s32, s32, s32);
-s32 sub_801EC3C(s32, s32, s32);
+s32 SA2_LABEL(sub_801EC3C)(s32, s32, s32);
 
 typedef s32 (*Func801F07C)(s32, s32, s32, u8 *);
 s32 sub_801ED24(s32, s32, s32, u8 *);
@@ -17,7 +17,7 @@ s32 sub_801F07C(s32, s32, s32, s32, u8 *, Func801F07C);
 s32 sub_801E4E4(s32, s32, s32, s32, u8 *, Func801F07C);
 s32 sub_801E6D4(s32, s32, s32, s32, u8 *, Func801F07C);
 
-s32 sub_801F100(s32, s32, s32, s32, Func801F100);
+s32 SA2_LABEL(sub_801F100)(s32, s32, s32, s32, Func801F100);
 
 extern const Collision *const gCollisionTable[];
 
