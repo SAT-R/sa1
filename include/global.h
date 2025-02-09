@@ -87,6 +87,12 @@ typedef void (*VoidFn)(void);
 #define INCBIN_S32 INCBIN
 #endif // IDE support
 
+#if (GAME == GAME_SA1)
+#define INCBIN_MAP INCBIN_U8
+#else
+#define INCBIN_MAP INCBIN_U16
+#endif
+
 // Use STR(<macro>) to turn the macro's *content* into a string
 #define STR_(x) #x
 #define STR(x)  STR_(x)

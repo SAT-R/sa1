@@ -6805,7 +6805,7 @@ sub_805B9E8: @ 0x0805B9E8
 	ldr r0, _0805BB40 @ =sub_805BB48
 	movs r2, #0x88
 	lsls r2, r2, #6
-	ldr r1, _0805BB44 @ =0x0805BC91
+	ldr r1, _0805BB44 @ =sub_805BC90
 	str r1, [sp]
 	movs r1, #8
 	movs r3, #0
@@ -6845,7 +6845,7 @@ _0805BB34: .4byte 0x0300005C
 _0805BB38: .4byte gDispCnt
 _0805BB3C: .4byte 0x00001FFF
 _0805BB40: .4byte sub_805BB48
-_0805BB44: .4byte 0x0805BC91
+_0805BB44: .4byte sub_805BC90
 
 	thumb_func_start sub_805BB48
 sub_805BB48: @ 0x0805BB48
@@ -8065,7 +8065,7 @@ _0805C520:
 	ldr r0, _0805C58C @ =sub_805C594
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0805C590 @ =0x0805C8FD
+	ldr r1, _0805C590 @ =sub_805C8FC
 	str r1, [sp]
 	movs r1, #0x1c
 	movs r3, #0
@@ -8113,7 +8113,7 @@ _0805C580: .4byte 0x00002120
 _0805C584: .4byte sub_805C740
 _0805C588: .4byte sub_805C83C
 _0805C58C: .4byte sub_805C594
-_0805C590: .4byte 0x0805C8FD
+_0805C590: .4byte sub_805C8FC
 
 	thumb_func_start sub_805C594
 sub_805C594: @ 0x0805C594
@@ -16011,7 +16011,7 @@ CreateVsRecord: @ 0x080604EC
 	ldr r0, _080606B4 @ =sub_806070C
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080606B8 @ =0x08060C85
+	ldr r1, _080606B8 @ =sub_8060C84
 	str r1, [sp]
 	movs r1, #0x48
 	movs r3, #0
@@ -16198,7 +16198,7 @@ _080606A8: .4byte gDispCnt
 _080606AC: .4byte gBgCntRegs
 _080606B0: .4byte gBgScrollRegs
 _080606B4: .4byte sub_806070C
-_080606B8: .4byte 0x08060C85
+_080606B8: .4byte sub_8060C84
 _080606BC: .4byte sub_8060874
 _080606C0: .4byte 0x00002030
 _080606C4: .4byte 0x030000EC
@@ -18557,7 +18557,7 @@ _08061A20:
 	strh r5, [r0, #6]
 	bl sub_8061894
 	ldr r0, _08061DFC @ =sub_8061E84
-	ldr r1, _08061E00 @ =0x08062ED9
+	ldr r1, _08061E00 @ =sub_8062ED8
 	str r1, [sp]
 	movs r1, #0x5c
 	movs r2, #0x80
@@ -19026,7 +19026,7 @@ _08061DF0: .4byte 0x00001D83
 _08061DF4: .4byte 0x00001886
 _08061DF8: .4byte gBgScrollRegs
 _08061DFC: .4byte sub_8061E84
-_08061E00: .4byte 0x08062ED9
+_08061E00: .4byte sub_8062ED8
 _08061E04: .4byte 0x03000057
 _08061E08: .4byte 0x03000050
 _08061E0C: .4byte 0x03000054
@@ -21213,7 +21213,7 @@ sub_8062F90: @ 0x08062F90
 	ldr r0, _080631A0 @ =sub_80631E8
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080631A4 @ =0x08063911
+	ldr r1, _080631A4 @ =sub_8063910
 	str r1, [sp]
 	movs r1, #0x5c
 	movs r3, #0
@@ -21254,7 +21254,7 @@ sub_8062F90: @ 0x08062F90
 	lsls r0, r0, #2
 	strh r0, [r7, #8]
 	strb r1, [r7, #0xa]
-	ldr r0, _080631B8 @ =0x08063915
+	ldr r0, _080631B8 @ =sub_8063914
 	ldr r3, _080631BC @ =0x00002030
 	mov r8, r3
 	str r4, [sp]
@@ -21427,12 +21427,12 @@ _08063194: .4byte 0x00001D83
 _08063198: .4byte 0x00001886
 _0806319C: .4byte gBgScrollRegs
 _080631A0: .4byte sub_80631E8
-_080631A4: .4byte 0x08063911
+_080631A4: .4byte sub_8063910
 _080631A8: .4byte 0x03000057
 _080631AC: .4byte 0x03000050
 _080631B0: .4byte 0x03000054
 _080631B4: .4byte 0x03000058
-_080631B8: .4byte 0x08063915
+_080631B8: .4byte sub_8063914
 _080631BC: .4byte 0x00002030
 _080631C0: .4byte 0x0300004C
 _080631C4: .4byte 0x0300004F

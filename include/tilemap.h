@@ -6,14 +6,6 @@
 #define TILE_MASK_Y_FLIP  0x0800
 #define TILE_MASK_PALETTE 0xF000
 
-#if (GAME == GAME_SA1)
-typedef u8 MetatileIndexType;
-#define INCBIN_MAP INCBIN_U8
-#elif (GAME == GAME_SA2)
-typedef u16 MetatileIndexType;
-#define INCBIN_MAP INCBIN_U16
-#endif
-
 // TODO: This should be the type of Collision::metatiles, if that matches anywhere...
 typedef struct {
     u16 index : 10;
