@@ -12,11 +12,12 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
     Camera *cam = &gCamera;
     s32 xSub, ySub;
     u32 *offsets;
-    s32 line, r1, r2, r3, r4, r6;
+    s32 line, r1, r2, r3, r4, wallY;
     s32 i, v;
 
-    gBgScrollRegs[3][0] = cam->sa2__unk52 = xSub = (x >> 2) & 0xFF;
-    gBgScrollRegs[3][1] = cam->sa2__unk54 = ySub = (y >> 2) & 0xFF;
+    // Scroll BG every 4 pixels
+    gBgScrollRegs[3][0] = cam->sa2__unk52 = xSub = (x >> 2) % 256u;
+    gBgScrollRegs[3][1] = cam->sa2__unk54 = ySub = (y >> 2) % 256u;
 
     gFlags |= FLAGS_4;
 
@@ -25,43 +26,43 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
 
     offsets = gBgOffsetsHBlank;
 
-    r6 = ySub & 0x3F;
+    wallY = ySub % 64u;
     r4 = 0;
 
-    r3 = (((r6 - r4) << 16) | xSub);
+    r3 = (((wallY - r4) << 16) | xSub);
 
-    for (line = -r6; line < -r6 + 64; line++) {
+    for (line = -wallY; line < -wallY + 64; line++) {
         if (line >= 0) {
             *offsets++ = r3;
         }
     }
 
     r4 += 64;
-    r3 = (((r6 - r4) << 16) | xSub);
+    r3 = (((wallY - r4) << 16) | xSub);
 
-    for (; line < -r6 + (r4 + 64); line++) {
+    for (; line < -wallY + (r4 + 64); line++) {
         *offsets++ = r3;
     }
 
     r4 += 64;
-    r3 = (((r6 - r4) << 16) | xSub);
+    r3 = (((wallY - r4) << 16) | xSub);
 
-    for (; line < -r6 + (r4 + 64); line++) {
+    for (; line < -wallY + (r4 + 64); line++) {
         if (line < DISPLAY_HEIGHT) {
             *offsets++ = r3;
         }
     }
 
     r4 += 64;
-    r3 = (((r6 - r4) << 16) | xSub);
+    r3 = (((wallY - r4) << 16) | xSub);
 
-    for (; line < -r6 + (r4 + 64); line++) {
+    for (; line < -wallY + (r4 + 64); line++) {
         if (line < DISPLAY_HEIGHT) {
             *offsets++ = r3;
         }
     }
-    // _0803E952
 
+    // Three small bars
     for (i = 0; i < 3; i++) {
         xSub = ((x >> 1) + (i << 5)) & 0xFF;
         ySub = ((y >> 1) + (i << 6)) & 0xFF;
@@ -83,6 +84,7 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
     xSub = (((x << 1) / 3) + (i << 5)) & 0xFF;
     ySub = (((y << 1) / 3) + (i << 6) + (i << 5)) & 0xFF;
 
+    // Bigger bar
     v = (-ySub & 0xFF);
     offsets = gBgOffsetsHBlank;
     for (line = v - 24; line < v; line++) {
