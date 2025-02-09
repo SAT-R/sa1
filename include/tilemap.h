@@ -6,6 +6,14 @@
 #define TILE_MASK_Y_FLIP  0x0800
 #define TILE_MASK_PALETTE 0xF000
 
+#if (GAME == GAME_SA1)
+typedef u8 MetatileIndexType;
+#define INCBIN_MAP INCBIN_U8
+#elif (GAME == GAME_SA2)
+typedef u16 MetatileIndexType;
+#define INCBIN_MAP INCBIN_U16
+#endif
+
 // TODO: This should be the type of Collision::metatiles, if that matches anywhere...
 typedef struct {
     u16 index : 10;
@@ -33,7 +41,7 @@ typedef struct {
 
 struct MapHeader {
     /* 0x00 */ Tilemap tileset;
-    /* 0x1C */ const u16 *metatileMap;
+    /* 0x1C */ const MetatileIndexType *metatileMap;
     /* 0x20 */ u16 mapWidth; // in Metatiles
     /* 0x22 */ u16 mapHeight; // in Metatiles
 };
