@@ -706,8 +706,7 @@ void RingsScatterSingleplayer_NormalGravity(void)
 }
 END_NONMATCH
 
-#if 0
-#define USE_HITBOX_RECT      1
+#define USE_HITBOX_RECT 1
 
 // TODO: Use improved version of these globaly!
 #define HB_ALT_LEFT(p, hb)   (I((p)->qWorldX) + (hb)->left)
@@ -720,7 +719,7 @@ END_NONMATCH
 // NOTE: VERY WRONG!!!
 //       A ton of code is missing here.
 //       (Basically a copy-paste of RingsScatterSingleplayer_FlippedGravity)
-// (66.09%) https://decomp.me/scratch/qHlN9
+// (56.55%) https://decomp.me/scratch/9xEQf
 NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_FlippedGravity.inc",
          void RingsScatterMultipak_FlippedGravity(void))
 {
@@ -760,11 +759,11 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_Flipped
         p = &gPlayer;
 
 #if USE_HITBOX_RECT
-        hb = (Rect8 *)&p->spriteInfoBody->s.hitboxes[0].left;
+        hb = (Rect8 *)&p->spriteInfoBody->s.hitboxes[0].b.left;
 #else
         hb = &p->spriteInfoBody->s.hitboxes[0];
 #endif
-        if ((ring->unkC <= sp0C) && ((p->charState != SA2_CHAR_ANIM_20) || (p->timerInvulnerability == 0)) && (IS_ALIVE(p))
+        if ((ring->unkC <= sp0C) && ((p->charState != 15) || (p->timerInvulnerability == 0)) && (IS_ALIVE(p))
             && ((((ringIntX - TILE_WIDTH) > HB_ALT_LEFT(p, hb)) && (HB_ALT_RIGHT(p, hb) > (ringIntX - TILE_WIDTH)))
                 || ((ringIntX + TILE_WIDTH) >= HB_ALT_LEFT(p, hb))
                 || (((ringIntX - TILE_WIDTH) >= HB_ALT_LEFT(p, hb)) && (HB_ALT_RIGHT(p, hb) >= (ringIntX - TILE_WIDTH))))
@@ -783,17 +782,18 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_Flipped
             }
 
             ring->unkC = 0;
+            ring++;
         } else {
-            if ((ring->velY < 0) && ((ring->unk10 & 0x7) == 0)) {
-                s32 res = sub_801F100((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
+            if ((ring->velY < 0) && UNK10_CONDITION) {
+                s32 res = SA2_LABEL(sub_801F100)((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y -= Q(res);
                     ring->velY = (ring->velY >> 2) - ring->velY;
                 }
             }
 
-            if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && ((ring->unk10 & 0x7) == 0)) {
-                s32 res = sub_801F100(ringIntY, ringIntX, ring->unkE, 8, SA2_LABEL(sub_801EC3C));
+            if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && UNK10_CONDITION) {
+                s32 res = SA2_LABEL(sub_801F100)(ringIntY, ringIntX, ring->unkE, 8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y += Q(res);
                     ring->velY = (ring->velY >> 2) - ring->velY;
@@ -834,9 +834,11 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_Flipped
                 }
             }
             {
+#if (GAME == GAME_SA2)
                 u16 sprFlags = ring->unk10;
                 ring->unk10 &= ~0x3;
                 ring->unk10 |= (sprFlags + 1) & 0x3;
+#endif
                 ring->unkC--;
             }
         }
@@ -844,6 +846,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_Flipped
 }
 END_NONMATCH
 
+#if 0
 // NOTE: VERY WRONG!!!
 //       A ton of code is missing here.
 //       (Basically a copy-paste of RingsScatterSingleplayer_NormalGravity)
