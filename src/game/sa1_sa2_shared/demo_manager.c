@@ -22,11 +22,11 @@
 #if (GAME == GAME_SA1)
 #define DEMO_SPRITE_PRIO   1
 #define DEMO_OAM_ORDER     15
-#define DEMP_PLAYBACK_TIME ZONE_TIME_TO_INT(0, 30)
+#define DEMO_PLAYBACK_TIME ZONE_TIME_TO_INT(0, 30)
 #elif (GAME == GAME_SA2)
 #define DEMO_SPRITE_PRIO   0
 #define DEMO_OAM_ORDER     1
-#define DEMP_PLAYBACK_TIME ZONE_TIME_TO_INT(0, 24.5)
+#define DEMO_PLAYBACK_TIME ZONE_TIME_TO_INT(0, 24.5)
 #endif
 
 typedef struct {
@@ -66,7 +66,6 @@ void CreateDemoManager(void)
 #endif
     t = TaskCreate(Task_DemoManagerMain, sizeof(DemoManager), 1, 0, TaskDestructor_DemoManagerMain);
     dm = TASK_DATA(t);
-    s;
 
     dm->fadeBlendFactor = 0;
     dm->tFadeout = 0;
@@ -94,7 +93,7 @@ void CreateDemoManager(void)
     s->animCursor = 0;
     s->prevVariant = -1;
     s->qAnimDelay = 0;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->oamFlags = SPRITE_OAM_ORDER(DEMO_OAM_ORDER);
     s->frameFlags = SPRITE_FLAG(PRIORITY, DEMO_SPRITE_PRIO);
@@ -108,10 +107,17 @@ void CreateDemoManager(void)
     s->x = (DISPLAY_WIDTH / 2);
     s->y = (DISPLAY_HEIGHT / 2);
 
+#if (GAME == GAME_SA1)
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_DEMO_PLAY);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_DEMO_PLAY;
     s->variant = 0;
+#elif (GAME == GAME_SA2)
+    s->graphics.dest = ALLOC_TILES(ANIM_DEMO_PLAY);
+    s->graphics.size = 0;
+    s->graphics.anim = ANIM_DEMO_PLAY;
+    s->variant = 0;
+#endif
 
     s->animCursor = 0;
     s->prevVariant = -1;
@@ -153,7 +159,7 @@ void Task_DemoManagerMain(void)
 #elif (GAME == GAME_SA2)
         CreateMusicFadeoutTask(64);
 #endif
-    } else if (gCheckpointTime > (u32)DEMP_PLAYBACK_TIME) {
+    } else if (gCheckpointTime > (u32)DEMO_PLAYBACK_TIME) {
         dm->playerPressedStart = FALSE;
 
         gCurTask->main = Task_DemoManagerFadeout;
