@@ -228,6 +228,8 @@ s32 sub_801E4E4(s32 p0, s32 p1, s32 p2, s32 p3, u8 *data, Func801F07C func)
     }
 }
 
+#endif // GAME_SA2
+
 // TODO: Check whether this is in SA3! It's not in SA1!
 #if (GAME >= GAME_SA2)
 // TODO:
@@ -467,7 +469,7 @@ s32 sub_801E6D4(s32 p0, s32 p1, s32 p2, s32 p3, u8 *data, Func801F07C func)
 }
 #endif
 
-s32 sub_801EB44(s32 p0, s32 p1, s32 layer)
+s32 SA2_LABEL(sub_801EB44)(s32 p0, s32 p1, s32 layer)
 {
     u32 r0;
     s32 yPixel;
@@ -527,7 +529,7 @@ s32 sub_801EB44(s32 p0, s32 p1, s32 layer)
     return hv;
 }
 
-s32 sub_801EC3C(s32 p0, s32 p1, s32 layer)
+s32 SA2_LABEL(sub_801EC3C)(s32 p0, s32 p1, s32 layer)
 {
     u32 r0;
     s32 xPixel;
@@ -583,7 +585,7 @@ s32 sub_801EC3C(s32 p0, s32 p1, s32 layer)
     return hv;
 }
 
-s32 sub_801ED24(s32 p0, s32 p1, s32 p2, u8 *p3)
+s32 SA2_LABEL(sub_801ED24)(s32 p0, s32 p1, s32 p2, u8 *p3)
 {
     u32 r0;
     s32 r3;
@@ -662,12 +664,12 @@ s32 sub_801ED24(s32 p0, s32 p1, s32 p2, u8 *p3)
     return r3;
 }
 
-#endif // GAME_SA2
-
 // TODO: Fix this register mess!
 // (100.00%) https://decomp.me/scratch/sJY4g
 s32 SA2_LABEL(sub_801EE64)(s32 p0in, s32 p1in, s32 p2in, u8 *p3in)
 {
+    // NOTE: I'm surprised it is using UNsigned ints in SA2.
+    // TODO: Should we consider the SA2 type a bugfix in SA1?
 #if (GAME == GAME_SA1)
     typedef s32 r0r1_t;
 #elif (GAME == GAME_SA2)
