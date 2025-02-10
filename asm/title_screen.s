@@ -1937,7 +1937,7 @@ sub_800DF88: @ 0x0800DF88
 	strb r0, [r2]
 	ldr r0, _0800E004 @ =gGameMode
 	strb r4, [r0]
-	bl sub_80128C0
+	bl CreateDemoManager
 	bl ApplyGameStageSettings
 	pop {r4}
 	pop {r0}
