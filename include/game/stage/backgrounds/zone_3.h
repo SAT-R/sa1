@@ -2,6 +2,7 @@
 #define GUARD_GAME_STAGE_BG_ZONE3_H
 
 #include "gba/types.h"
+#include "sprite.h"
 
 typedef struct {
     /* 0x00 */ s32 qWorldX;

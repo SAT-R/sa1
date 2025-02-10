@@ -33,7 +33,9 @@ typedef struct {
     /* 0x0C|0x0C */ CamCoord prevCamX;
     /* 0x0E|0x10 */ CamCoord prevCamY;
     /* 0x10|0x14 */ u8 SA2_LABEL(unk14);
+#if (GAME == GAME_SA2)
     /* 0x18|0x18 */ struct Task *preInit;
+#endif
 } EntitiesManager;
 extern struct Task *gEntitiesManagerTask;
 
