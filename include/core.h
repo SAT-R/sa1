@@ -118,16 +118,26 @@ union MultiSioData {
     struct MultiSioData_0_5 pat5;
 }; /* size = MULTI_SIO_BLOCK_SIZE */
 
+// TODO: Have we defined this somewhere else already?
+#define MAP_LAYER_COUNT 2
+
+#if (GAME == GAME_SA1)
+typedef u16 collPxDim_t;
+typedef u16 collFlags_t;
+#else
+typedef u32 collPxDim_t;
+typedef u8 collFlags_t;
+#endif
+
 // Thanks @MainMemory_ for figuring out how collision is stored!
 typedef struct {
-    /* 0x00 */ const u8 *height_map;
+    /* 0x00 */ const s8 *height_map;
     /* 0x04 */ const u8 *tile_rotation;
     /* 0x08 */ const u16 *metatiles;
-    /* 0x0C */ const MetatileIndexType *map_front;
-    /* 0x10 */ const MetatileIndexType *map_back;
-    /* 0x14 */ const u8 *flags;
+    /* 0x0C */ const MetatileIndexType *map[MAP_LAYER_COUNT];
+    /* 0x14 */ const collFlags_t *flags;
     /* 0x18 */ u16 levelX, levelY;
-    /* 0x1C */ u16 pxWidth, pxHeight;
+    /* 0x1C */ collPxDim_t pxWidth, pxHeight;
 
     // unk20/unk22 are not in SA1
 } Collision;

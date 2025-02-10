@@ -1,27 +1,6 @@
     .include "asm/macros/portable.inc"
 	.section .rodata
 
-    .global gCollisionTable
-gCollisionTable: @ 0x84ADEA8
-    mPtr CollHeader_zone_1_act_1_fg
-    mPtr CollHeader_zone_1_act_2_fg
-    mPtr CollHeader_zone_2_act_1_fg
-    mPtr CollHeader_zone_2_act_2_fg
-    mPtr CollHeader_zone_3_act_1_fg
-    mPtr CollHeader_zone_3_act_2_fg
-    mPtr CollHeader_zone_4_act_1_fg
-    mPtr CollHeader_zone_4_act_2_fg
-    mPtr CollHeader_zone_5_act_1_fg
-    mPtr CollHeader_zone_5_act_2_fg
-    mPtr CollHeader_zone_6_act_1_fg
-    mPtr CollHeader_zone_6_act_2_fg
-    mPtr CollHeader_zone_7_act_1_fg
-    mPtr CollHeader_zone_7_act_2_fg
-    mPtr CollHeader_zone_chao_hunt_act_vs_zone_a_fg
-    mPtr CollHeader_zone_chao_hunt_act_vs_zone_b_fg
-    mPtr CollHeader_zone_chao_hunt_act_vs_zone_c_fg
-    mPtr CollHeader_zone_chao_hunt_act_vs_zone_d_fg
-
     .global gSpawnPositions
 gSpawnPositions:
     .incbin "baserom.gba", 0x004ADEF0, 0x48

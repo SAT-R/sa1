@@ -100,6 +100,7 @@ SECTIONS {
         src/game/stage/backgrounds/zone_3_firework.o(.text);
         src/game/stage/backgrounds/zone_6_hblank.o(.text);
         asm/game__stage__collision.o(.text);
+        src/game/stage/collision.o(.text);
         src/game/stage/mp_sprite_task.o(.text);
         src/game/stage/dust_effect_braking.o(.text);
         src/game/stage/dust_effect_spindash.o(.text);
@@ -281,6 +282,7 @@ SECTIONS {
         src/game/stage/stage.o(.rodata);
         src/game/stage/camera.o(.rodata);
         src/data/tilemap_table.o(.rodata);
+        src/game/stage/collision.o(.rodata);
         data/data_0_4.o(.rodata);
         src/data/tilemap_data_3.o(.rodata);
         data/data_0_5_0.o(.rodata);
