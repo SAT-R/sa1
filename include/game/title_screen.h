@@ -15,6 +15,9 @@ extern const TileInfo gPressStartTiles[];
 #if (GAME == GAME_SA1)
 void CreateTitleScreen(bool32 playMusic);
 void CreateSegaLogo(void);
+
+#define TITLESCREEN_PARAM__BOOT_SILENT 0
+#define TITLESCREEN_PARAM__PLAY_MUSIC  1
 #elif (GAME == GAME_SA2)
 void CreateTitleScreen(void);
 void CreateTitleScreenAndSkipIntro(void);
@@ -22,6 +25,9 @@ void CreateTitleScreenAndSkipIntro(void);
 void CreateTitleScreenAtPlayModeMenu(void);
 // CreateTitleScreenSkipToPlayModeMenu
 void CreateTitleScreenAtSinglePlayerMenu(void);
+
+#define TITLESCREEN_PARAM__BOOT_SILENT /* empty */
+#define TITLESCREEN_PARAM__PLAY_MUSIC  /* empty */
 #endif
 
 #endif

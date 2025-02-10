@@ -206,29 +206,38 @@ void Task_DemoManagerMain(void)
     }
 }
 
-#if 0
 void Task_DemoManagerEndFadeout(void)
 {
     DemoManager *dm = TASK_DATA(gCurTask);
     dm->tFadeout++;
 
+#if (GAME == GAME_SA2)
     m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0);
     m4aMPlayVolumeControl(&gMPlayInfo_SE1, 0xFFFF, 0);
     m4aMPlayVolumeControl(&gMPlayInfo_SE2, 0xFFFF, 0);
     m4aMPlayVolumeControl(&gMPlayInfo_SE3, 0xFFFF, 0);
+#endif
 
     if (dm->tFadeout >= 48) {
         LOADED_SAVE->timeLimitDisabled = dm->timeLimitDisabled;
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        gUnknown_03005390 = 0;
+        SA2_LABEL(gUnknown_03005390) = 0;
         PAUSE_GRAPHICS_QUEUE();
 
+#if (GAME == GAME_SA1)
+        if (!dm->playerPressedStart) {
+            CreateSegaLogo();
+        } else {
+            CreateTitleScreen(TITLESCREEN_PARAM__PLAY_MUSIC);
+        }
+#elif (GAME == GAME_SA2)
         if (!dm->playerPressedStart) {
             CreateTitleScreen();
         } else {
             CreateTitleScreenAtPlayModeMenu();
         }
+#endif
     }
 }
 
@@ -254,6 +263,7 @@ void TaskDestructor_DemoManagerMain(struct Task *t)
     gStageFlags &= ~STAGE_FLAG__DEMO_RUNNING;
 }
 
+#if (GAME == GAME_SA2)
 void CreateMusicFadeoutTask(u16 factor)
 {
     struct Task *t = TaskCreate(Task_DemoManagerMusicFadeout, sizeof(DemoMusicFadeout), 0xFFFE, 0, NULL);
