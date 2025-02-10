@@ -102,8 +102,8 @@ gUnknown_080BB3D0:
     mPtr PlayerDataSelectVsRecord
     mPtr PlayerDataSelectOK
 
-    .global gUnknown_080BB3DC
-gUnknown_080BB3DC:
+    .global gPressStartTiles
+gPressStartTiles:
     .short 778, 779
 
     .global gUnknown_080BB3E0

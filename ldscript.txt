@@ -38,6 +38,7 @@ SECTIONS {
        /* asm/game__spot_light_subtask.o(.text); */
         asm/game_0_2.o(.text);
         src/game/sa1_sa2_shared/enemy_defeat_score.o(.text);
+        src/game/sa1_sa2_shared/demo_manager.o(.text);
         asm/game__sa1_sa2_shared__demo_manager.o(.text);
         asm/game_0_3.o(.text);
         asm/game__multiplayer__mp_player.o(.text);

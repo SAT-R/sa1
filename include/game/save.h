@@ -49,7 +49,7 @@ typedef struct SaveGame {
     /* 0x016 */ u8 unk16;
     /* 0x017 */ u8 unk17;
     /* 0x018 */ u8 difficultyLevel;
-    /* 0x019 */ u8 unk19;
+    /* 0x019 */ u8 uiLanguage;
     /* 0x01A */ u8 language;
     /* 0x01B */ u8 timeLimitDisabled;
     /* 0x01C */ u8 unk1C;
@@ -115,6 +115,12 @@ typedef struct SaveGame {
 } SaveGame;
 
 extern struct SaveGame *gLoadedSaveGame;
+#endif
+
+#if (GAME == GAME_SA1)
+#define LOADED_SAVE (&gLoadedSaveGame)
+#elif (GAME == GAME_SA2)
+#define LOADED_SAVE (gLoadedSaveGame)
 #endif
 
 #define MULTIPLAYER_RESULT_WIN  0

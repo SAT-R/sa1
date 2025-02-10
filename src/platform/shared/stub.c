@@ -23,7 +23,6 @@ void sa2__sub_80213C0(u32 UNUSED characterId, u32 UNUSED levelId, Player *player
 void StageBgUpdate_Zone6Act1() { }
 void StageBgUpdate_Zone6Act2() { }
 
-void CreateStageEntitiesManager() { }
 void CallSetStageSpawnPos() { }
 void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
 
@@ -151,6 +150,9 @@ void CreateEntity_TrackAirCorner() { }
 void CreateEntity_Interactable113() { }
 void CreateEntity_BreakableWall() { }
 void CreateEntity_ItemBox_ChaoHunt() { }
+
+// Items
+void CreateEntity_ItemBox() { }
 
 // Enemies
 void CreateEntity_Kiki() { }
