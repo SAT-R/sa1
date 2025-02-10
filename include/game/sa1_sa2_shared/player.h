@@ -98,8 +98,9 @@ typedef struct Player {
     /* 0x44 */ u16 variant;
     /* 0x46 */ u8 filler46[0x2];
     /* 0x48 */ s16 unk48; // Spotlight and Special Stage-related. random?
-    /* 0x4A */ u8 filler4A[0xF];
+    /* 0x4A */ u8 filler4A[0xE];
 
+    /* 0x58 */ s8 defeatScoreIndex;
     /* 0x59 */ s8 character;
     /* 0x5B */ u8 filler5B[0x5];
 

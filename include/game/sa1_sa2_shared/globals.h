@@ -125,7 +125,9 @@ extern u8 gSpecialRingCount;
 
 // TODO: Types not checked yet!
 extern s32 gUnknown_030054E0;
+#if (GAME == GAME_SA2)
 extern s32 gUnknown_030054FC;
+#endif
 
 extern u16 gBossCameraClampYLower;
 extern u16 gBossCameraClampYUpper;

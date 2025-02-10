@@ -15,7 +15,6 @@ void sub_801C704() { }
 bool32 sub_8017800() { }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
-void sa2__sub_801F044(void) { }
 s32 sa2__sub_8022F58(u8 param0, Player *p) { }
 void sa2__sub_8023B5C() { }
 void sa2__sub_80213C0(u32 UNUSED characterId, u32 UNUSED levelId, Player *player) { }
@@ -214,7 +213,6 @@ void CreateSpecialStage() { }
 void SaveGameExists() { }
 
 void InitializePlayer() { }
-void InitScatteringRings() { }
 
 void CreateItemTask_Confusion() { }
 

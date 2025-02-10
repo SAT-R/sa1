@@ -879,8 +879,13 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
             continue;
         }
 
+#if (GAME == GAME_SA1)
+        ring->x += ring->velX;
+        ring->y += ring->velY;
+#elif (GAME == GAME_SA2)
         ring->x += ring->velX + gUnknown_030054FC;
-        ring->y += ring->velY + +0x380;
+        ring->y += ring->velY + 0x380;
+#endif
 
         ringIntX = I(ring->x);
         ringIntY = I(ring->y);
@@ -1011,8 +1016,13 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterSinglepakMain.in
             continue;
         }
 
+#if (GAME == GAME_SA1)
+        ring->x += ring->velX;
+        ring->y += ring->velY;
+#elif (GAME == GAME_SA2)
         ring->x += ring->velX + gUnknown_030054FC;
-        ring->y += ring->velY + gLoadedSaveGame + 0x380;
+        ring->y += ring->velY + 0x380;
+#endif
 
         ringIntX = I(ring->x);
         ringIntY = I(ring->y);

@@ -15,17 +15,17 @@ CreateStageEntitiesManager: @ 0x08008784
 	ldrb r0, [r0]
 	cmp r0, #6
 	beq _080087AC
-	ldr r0, _080087A4 @ =Task_8008CEC
+	ldr r0, _080087A4 @ =sa2__Task_8008DCC
 	movs r2, #0x80
 	lsls r2, r2, #6
 	ldr r1, _080087A8 @ =TaskDtor_8009684
 	b _080087B4
 	.align 2, 0
 _080087A0: .4byte gGameMode
-_080087A4: .4byte Task_8008CEC
+_080087A4: .4byte sa2__Task_8008DCC
 _080087A8: .4byte TaskDtor_8009684
 _080087AC:
-	ldr r0, _08008850 @ =Task_8008CEC
+	ldr r0, _08008850 @ =sa2__Task_8008DCC
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -101,7 +101,7 @@ _080087B4:
 	str r6, [r7, #8]
 	b _08008876
 	.align 2, 0
-_08008850: .4byte Task_8008CEC
+_08008850: .4byte sa2__Task_8008DCC
 _08008854: .4byte gGameMode
 _08008858: .4byte gSpritePosData_interactables
 _0800885C: .4byte gCurrentLevel
@@ -137,8 +137,8 @@ _0800889C: .4byte gUnknown_0203300C
 _080088A0: .4byte gCamera
 _080088A4: .4byte gEntitiesManagerTask
 
-	thumb_func_start sub_80088A8
-sub_80088A8: @ 0x080088A8
+	thumb_func_start SpawnMapEntities
+SpawnMapEntities: @ 0x080088A8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -690,7 +690,7 @@ _08008CB2:
 	strb r2, [r5, #0x10]
 	ldr r0, _08008CE4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08008CE8 @ =Task_8008CEC
+	ldr r0, _08008CE8 @ =sa2__Task_8008DCC
 	str r0, [r1, #8]
 _08008CCA:
 	add sp, #0x30
@@ -705,11 +705,11 @@ _08008CCA:
 _08008CDC: .4byte gSpriteInits_InteractablesMultiplayer
 _08008CE0: .4byte gCamera
 _08008CE4: .4byte gCurTask
-_08008CE8: .4byte Task_8008CEC
+_08008CE8: .4byte sa2__Task_8008DCC
 
 @ SA2: Task_8008DCC
-	thumb_func_start Task_8008CEC
-Task_8008CEC: @ 0x08008CEC
+	thumb_func_start sa2__Task_8008DCC
+sa2__Task_8008DCC: @ 0x08008CEC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -834,7 +834,7 @@ _08008DD2:
 	cmp r0, #0
 	beq _08008DE2
 _08008DDC:
-	bl sub_80088A8
+	bl SpawnMapEntities
 	b _080095B4
 _08008DE2:
 	mov r1, sp
@@ -1960,7 +1960,7 @@ _08009628:
 	mov r2, r8
 	lsls r1, r2, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8012728
+	bl CreateEnemyDefeatScore
 	ldr r0, _0800965C @ =gPlayer
 	adds r1, r0, #0
 	adds r1, #0x58
