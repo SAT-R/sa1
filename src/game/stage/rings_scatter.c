@@ -35,6 +35,16 @@
 #define UNK10_CONDITION !(ring->unk10 & 0x7)
 #endif
 
+#define USE_HITBOX_RECT 1
+
+// TODO: Use improved version of these globaly!
+#define HB_ALT_LEFT(p, hb)   (I((p)->qWorldX) + (hb)->left)
+#define HB_ALT_WIDTH(hb)     ((hb)->right - (hb)->left)
+#define HB_ALT_RIGHT(p, hb)  (I((p)->qWorldX) + HB_ALT_WIDTH(hb))
+#define HB_ALT_TOP(p, hb)    (I((p)->qWorldY) + (hb)->top)
+#define HB_ALT_HEIGHT(hb)    ((hb)->bottom - (hb)->top)
+#define HB_ALT_BOTTOM(p, hb) (I((p)->qWorldY) + HB_ALT_HEIGHT(hb))
+
 typedef struct {
     /* 0x00 */ s32 x;
     /* 0x04 */ s32 y;
@@ -706,19 +716,10 @@ void RingsScatterSingleplayer_NormalGravity(void)
 }
 END_NONMATCH
 
-#define USE_HITBOX_RECT 1
-
-// TODO: Use improved version of these globaly!
-#define HB_ALT_LEFT(p, hb)   (I((p)->qWorldX) + (hb)->left)
-#define HB_ALT_WIDTH(hb)     ((hb)->right - (hb)->left)
-#define HB_ALT_RIGHT(p, hb)  (I((p)->qWorldX) + HB_ALT_WIDTH(hb))
-#define HB_ALT_TOP(p, hb)    (I((p)->qWorldY) + (hb)->top)
-#define HB_ALT_HEIGHT(hb)    ((hb)->bottom - (hb)->top)
-#define HB_ALT_BOTTOM(p, hb) (I((p)->qWorldY) + HB_ALT_HEIGHT(hb))
-
 // NOTE: VERY WRONG!!!
 //       A ton of code is missing here.
 //       (Basically a copy-paste of RingsScatterSingleplayer_FlippedGravity)
+//       (Not aligned with SA2!)
 // (56.55%) https://decomp.me/scratch/9xEQf
 NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_FlippedGravity.inc",
          void RingsScatterMultipak_FlippedGravity(void))
@@ -846,11 +847,11 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_Flipped
 }
 END_NONMATCH
 
-#if 0
 // NOTE: VERY WRONG!!!
 //       A ton of code is missing here.
 //       (Basically a copy-paste of RingsScatterSingleplayer_NormalGravity)
-// (64.03%) https://decomp.me/scratch/KBtBo
+//       (Not aligned with SA2!)
+// (52.71%) https://decomp.me/scratch/6Nvv9
 NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalGravity.inc", void RingsScatterMultipak_NormalGravity(void))
 {
     RingsScatter *rs = TASK_DATA(gCurTask);
@@ -879,7 +880,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
         }
 
         ring->x += ring->velX + gUnknown_030054FC;
-        ring->y += ring->velY + gLoadedSaveGame + 0x380;
+        ring->y += ring->velY + +0x380;
 
         ringIntX = I(ring->x);
         ringIntY = I(ring->y);
@@ -889,11 +890,11 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
         p = &gPlayer;
 
 #if USE_HITBOX_RECT
-        hb = (Rect8 *)&p->spriteInfoBody->s.hitboxes[0].left;
+        hb = (Rect8 *)&p->spriteInfoBody->s.hitboxes[0].b;
 #else
         hb = &p->spriteInfoBody->s.hitboxes[0];
 #endif
-        if ((ring->unkC <= sp0C) && ((p->charState != SA2_CHAR_ANIM_20) || (p->timerInvulnerability == 0)) && (IS_ALIVE(p))
+        if ((ring->unkC <= sp0C) && ((p->charState != 15) || (p->timerInvulnerability == 0)) && (IS_ALIVE(p))
             && ((((ringIntX - TILE_WIDTH) > HB_ALT_LEFT(p, hb)) && (HB_ALT_RIGHT(p, hb) > (ringIntX - TILE_WIDTH)))
                 || ((ringIntX + TILE_WIDTH) >= HB_ALT_LEFT(p, hb))
                 || (((ringIntX - TILE_WIDTH) >= HB_ALT_LEFT(p, hb)) && (HB_ALT_RIGHT(p, hb) >= (ringIntX - TILE_WIDTH))))
@@ -914,16 +915,16 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
             ring->unkC = 0;
         } else {
 
-            if ((ring->velY < 0) && ((ring->unk10 & 0x7) == 0)) {
-                s32 res = sub_801F100(ringIntY, ringIntX, ring->unkE, +8, SA2_LABEL(sub_801EC3C));
+            if ((ring->velY < 0) && UNK10_CONDITION) {
+                s32 res = SA2_LABEL(sub_801F100)(ringIntY, ringIntX, ring->unkE, +8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y -= Q(res);
                     ring->velY = (ring->velY >> 2) - ring->velY;
                 }
             }
 
-            if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && ((ring->unk10 & 0x7) == 0)) {
-                s32 res = sub_801F100((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
+            if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && UNK10_CONDITION) {
+                s32 res = SA2_LABEL(sub_801F100)((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y += Q(res);
                     ring->velY = (ring->velY >> 2) - ring->velY;
@@ -965,9 +966,11 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
             }
 
             {
+#if (GAME == GAME_SA2)
                 u16 sprFlags = ring->unk10;
                 ring->unk10 &= ~0x3;
                 ring->unk10 |= (sprFlags + 1) & 0x3;
+#endif
                 ring->unkC--;
             }
         }
@@ -976,6 +979,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
 
 END_NONMATCH
 
+#if (GAME == GAME_SA2)
 // NOTE: VERY WRONG!!!
 //       A ton of code is missing here.
 //       (Basically a copy-paste of RingsScatterSingleplayer_NormalGravity)
@@ -1044,7 +1048,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterSinglepakMain.in
         } else {
 
             if ((ring->velY < 0) && ((ring->unk10 & 0x7) == 0)) {
-                s32 res = sub_801F100(ringIntY, ringIntX, ring->unkE, +8, SA2_LABEL(sub_801EC3C));
+                s32 res = SA2_LABEL(sub_801F100)(ringIntY, ringIntX, ring->unkE, +8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y -= Q(res);
                     ring->velY = (ring->velY >> 2) - ring->velY;
@@ -1052,7 +1056,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterSinglepakMain.in
             }
 
             if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && ((ring->unk10 & 0x7) == 0)) {
-                s32 res = sub_801F100((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
+                s32 res = SA2_LABEL(sub_801F100)((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y += Q(res);
                     ring->velY = (ring->velY >> 2) - ring->velY;
@@ -1103,6 +1107,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterSinglepakMain.in
     }
 }
 END_NONMATCH
+#endif
 
 void DestroyRingsScatterTask(void)
 {
@@ -1128,8 +1133,8 @@ void Task_RingsScatter_MP_Multipak(void)
     }
 }
 
+#if (GAME == GAME_SA2)
 void Task_RingsScatter_MP_Singlepak(void) { RingsScatterSinglepakMain(); }
+#endif
 
 void TaskDestructor_RingsScatter(struct Task UNUSED *t) { gRingsScatterTask = NULL; }
-
-#endif
