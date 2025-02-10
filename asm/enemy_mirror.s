@@ -35,7 +35,7 @@ CreateEntity_Mirror: @ 0x0806FAB0
 	bne _0806FB9C
 _0806FAE4:
 	ldr r0, _0806FBB4 @ =sub_806FBDC
-	ldr r1, _0806FBB8 @ =TaskDestructor_8009670
+	ldr r1, _0806FBB8 @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x48
 	movs r2, #0x80
@@ -136,7 +136,7 @@ _0806FB9C:
 _0806FBAC: .4byte gCurrentLevel
 _0806FBB0: .4byte gLoadedSaveGame
 _0806FBB4: .4byte sub_806FBDC
-_0806FBB8: .4byte TaskDestructor_8009670
+_0806FBB8: .4byte sa2__TaskDestructor_80095E8
 _0806FBBC: .4byte 0x0300000C
 _0806FBC0: .4byte 0x03000040
 _0806FBC4: .4byte 0x0000FF60

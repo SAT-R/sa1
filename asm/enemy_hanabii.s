@@ -28,7 +28,7 @@ CreateEntity_Hanabii: @ 0x0806D4C8
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	ldr r0, _0806D5BC @ =sub_806D5E8
-	ldr r1, _0806D5C0 @ =TaskDestructor_8009670
+	ldr r1, _0806D5C0 @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x4c
 	movs r2, #0x80
@@ -127,7 +127,7 @@ CreateEntity_Hanabii: @ 0x0806D4C8
 	bx r0
 	.align 2, 0
 _0806D5BC: .4byte sub_806D5E8
-_0806D5C0: .4byte TaskDestructor_8009670
+_0806D5C0: .4byte sa2__TaskDestructor_80095E8
 _0806D5C4: .4byte 0x0300000C
 _0806D5C8: .4byte 0x03000044
 _0806D5CC: .4byte 0x0000FF60

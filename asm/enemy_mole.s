@@ -30,7 +30,7 @@ CreateEntity_Mole: @ 0x08071440
 	ldr r0, _0807147C @ =Task_Mole
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08071480 @ =TaskDestructor_8009670
+	ldr r1, _08071480 @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x40
 	movs r3, #0
@@ -38,12 +38,12 @@ CreateEntity_Mole: @ 0x08071440
 	b _08071496
 	.align 2, 0
 _0807147C: .4byte Task_Mole
-_08071480: .4byte TaskDestructor_8009670
+_08071480: .4byte sa2__TaskDestructor_80095E8
 _08071484:
 	ldr r0, _0807153C @ =sub_8071734
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08071540 @ =TaskDestructor_8009670
+	ldr r1, _08071540 @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x40
 	movs r3, #0
@@ -131,7 +131,7 @@ _08071496:
 	bx r0
 	.align 2, 0
 _0807153C: .4byte sub_8071734
-_08071540: .4byte TaskDestructor_8009670
+_08071540: .4byte sa2__TaskDestructor_80095E8
 _08071544: .4byte 0x0300000C
 _08071548: .4byte 0x0300003E
 _0807154C: .4byte 0x0300002C

@@ -30,7 +30,7 @@ CreateEntity_Drisame: @ 0x08072AD0
 	ldr r0, _08072BC4 @ =sub_8072BE0
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08072BC8 @ =TaskDestructor_8009670
+	ldr r1, _08072BC8 @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x58
 	movs r3, #0
@@ -127,7 +127,7 @@ CreateEntity_Drisame: @ 0x08072AD0
 	bx r0
 	.align 2, 0
 _08072BC4: .4byte sub_8072BE0
-_08072BC8: .4byte TaskDestructor_8009670
+_08072BC8: .4byte sa2__TaskDestructor_80095E8
 _08072BCC: .4byte 0x0300000C
 _08072BD0: .4byte 0x0300002C
 _08072BD4: .4byte 0x0300002D

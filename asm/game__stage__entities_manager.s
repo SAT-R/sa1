@@ -18,12 +18,12 @@ CreateStageEntitiesManager: @ 0x08008784
 	ldr r0, _080087A4 @ =sa2__Task_8008DCC
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080087A8 @ =TaskDtor_8009684
+	ldr r1, _080087A8 @ =sa2__TaskDestructor_80095FC
 	b _080087B4
 	.align 2, 0
 _080087A0: .4byte gGameMode
 _080087A4: .4byte sa2__Task_8008DCC
-_080087A8: .4byte TaskDtor_8009684
+_080087A8: .4byte sa2__TaskDestructor_80095FC
 _080087AC:
 	ldr r0, _08008850 @ =sa2__Task_8008DCC
 	movs r2, #0x80
@@ -1909,6 +1909,7 @@ _080095B4:
 _080095C4: .4byte gSpriteInits_InteractablesMultiplayer
 _080095C8: .4byte gCamera
 
+.if 0
 	thumb_func_start CreateEnemyDefeatScoreAndManageLives
 CreateEnemyDefeatScoreAndManageLives: @ 0x080095CC
 	push {r4, r5, r6, r7, lr}
@@ -1986,37 +1987,4 @@ _08009664: .4byte gGameMode
 _08009668: .4byte gNumLives
 _0800966C: .4byte gMusicManagerState
 
-	thumb_func_start TaskDestructor_8009670
-TaskDestructor_8009670: @ 0x08009670
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0x10]
-	bl VramFree
-	pop {r0}
-	bx r0
-
-@ SA2: sub_80095FC
-	thumb_func_start TaskDtor_8009684
-TaskDtor_8009684: @ 0x08009684
-	push {r4, lr}
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	ldr r0, [r4]
-	bl EwramFree
-	ldr r0, [r4, #4]
-	bl EwramFree
-	ldr r0, [r4, #8]
-	bl EwramFree
-	ldr r1, _080096AC @ =gEntitiesManagerTask
-	movs r0, #0
-	str r0, [r1]
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080096AC: .4byte gEntitiesManagerTask
+.endif

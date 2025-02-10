@@ -76,6 +76,7 @@
 
 #define SE_AMY_ROLLS 133
 
+#define SE_ITEM_BOX                  138
 #define SE_TIMER                     139 // Almost Time Up / Extra Boss Rings low
 #define SE_STAGE_RESULT_COUNTER      140
 #define SE_STAGE_RESULT_COUNTER_DONE 141

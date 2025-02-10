@@ -28,7 +28,7 @@ CreateEntity_GamiGami: @ 0x0806BF78
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	ldr r0, _0806C098 @ =sub_806C0C0
-	ldr r1, _0806C09C @ =TaskDestructor_8009670
+	ldr r1, _0806C09C @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x50
 	movs r2, #0x80
@@ -151,7 +151,7 @@ _0806C088:
 	bx r0
 	.align 2, 0
 _0806C098: .4byte sub_806C0C0
-_0806C09C: .4byte TaskDestructor_8009670
+_0806C09C: .4byte sa2__TaskDestructor_80095E8
 _0806C0A0: .4byte 0x0300000C
 _0806C0A4: .4byte 0x03000044
 _0806C0A8: .4byte 0x03000046

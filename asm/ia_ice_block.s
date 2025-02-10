@@ -26,7 +26,7 @@ CreateEntity_IceBlock: @ 0x08091700
 	lsrs r0, r0, #0x18
 	mov r8, r0
 	ldr r0, _080917D0 @ =Task_IceBlock
-	ldr r1, _080917D4 @ =TaskDestructor_8009670
+	ldr r1, _080917D4 @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r2, #0x80
@@ -109,7 +109,7 @@ CreateEntity_IceBlock: @ 0x08091700
 	bx r0
 	.align 2, 0
 _080917D0: .4byte Task_IceBlock
-_080917D4: .4byte TaskDestructor_8009670
+_080917D4: .4byte sa2__TaskDestructor_80095E8
 _080917D8: .4byte 0x0300000C
 _080917DC: .4byte 0x0000022B
 _080917E0: .4byte 0x0300002C

@@ -35,7 +35,7 @@ CreateEntity_Senbon: @ 0x080709A0
 	bne _08070A86
 _080709D4:
 	ldr r0, _08070AA0 @ =sub_8070ACC
-	ldr r1, _08070AA4 @ =TaskDestructor_8009670
+	ldr r1, _08070AA4 @ =sa2__TaskDestructor_80095E8
 	str r1, [sp]
 	movs r1, #0x4c
 	movs r2, #0x80
@@ -133,7 +133,7 @@ _08070A86:
 _08070A98: .4byte gCurrentLevel
 _08070A9C: .4byte gLoadedSaveGame
 _08070AA0: .4byte sub_8070ACC
-_08070AA4: .4byte TaskDestructor_8009670
+_08070AA4: .4byte sa2__TaskDestructor_80095E8
 _08070AA8: .4byte 0x0300000C
 _08070AAC: .4byte 0x03000048
 _08070AB0: .4byte 0x0000FF60
