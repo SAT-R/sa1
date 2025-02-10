@@ -123,10 +123,8 @@ union MultiSioData {
 
 #if (GAME == GAME_SA1)
 typedef u16 collPxDim_t;
-typedef u16 collFlags_t;
 #else
 typedef u32 collPxDim_t;
-typedef u8 collFlags_t;
 #endif
 
 // Thanks @MainMemory_ for figuring out how collision is stored!
@@ -135,7 +133,7 @@ typedef struct {
     /* 0x04 */ const u8 *tile_rotation;
     /* 0x08 */ const u16 *metatiles;
     /* 0x0C */ const MetatileIndexType *map[MAP_LAYER_COUNT];
-    /* 0x14 */ const collFlags_t *flags;
+    /* 0x14 */ const u16 *flags;
     /* 0x18 */ u16 levelX, levelY;
     /* 0x1C */ collPxDim_t pxWidth, pxHeight;
 

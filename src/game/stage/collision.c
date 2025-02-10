@@ -138,9 +138,6 @@ const Collision *const gCollisionTable[] = {
 };
 #endif
 
-#if (GAME == GAME_SA2)
-#endif // GAME_SA2
-
 s32 SA2_LABEL(sub_801E4E4)(s32 p0, s32 p1, s32 p2, s32 p3, u8 *data, Func801F07C func)
 {
     u8 dummy[4];

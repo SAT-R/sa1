@@ -3,7 +3,7 @@
 
 const u16 Palette_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_U16("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/palette.gbapal");
 const u8 Tileset_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/tileset.4bpp");
-const u8 CollHeightMap_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/height_map.coll");
+const s8 CollHeightMap_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_S8("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/height_map.coll");
 const u8 CollTileRot_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/tile_rot.coll");
 const u16 Metatiles_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_U16("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/metatiles.tilemap2");
 
@@ -11,7 +11,7 @@ const MetatileIndexType Map_zone_chao_hunt_act_vs_zone_d_fg0[] = INCBIN_MAP("dat
 
 const MetatileIndexType Map_zone_chao_hunt_act_vs_zone_d_fg1[] = INCBIN_MAP("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/map_back.bin");
 
-const u8 CollFlags_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_U8("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/flags.coll");
+const u16 CollFlags_zone_chao_hunt_act_vs_zone_d_fg[] = INCBIN_U16("data/maps/chao_hunt/vs_zone_d/tilemaps/fg/flags.coll");
 ALIGNED(4) const struct MapHeader zone_chao_hunt_act_vs_zone_d_fg0 = 
 {
     .tileset = {
@@ -52,13 +52,13 @@ ALIGNED(4) const struct MapHeader zone_chao_hunt_act_vs_zone_d_fg1 =
     .mapHeight = 14,
 };
 
-const Collision CollHeader_zone_chao_hunt_act_vs_zone_d_fg = { CollHeightMap_zone_chao_hunt_act_vs_zone_d_fg,
-                                                               CollTileRot_zone_chao_hunt_act_vs_zone_d_fg,
-                                                               Metatiles_zone_chao_hunt_act_vs_zone_d_fg,
-                                                               Map_zone_chao_hunt_act_vs_zone_d_fg0,
-                                                               Map_zone_chao_hunt_act_vs_zone_d_fg1,
-                                                               CollFlags_zone_chao_hunt_act_vs_zone_d_fg,
-                                                               20,
-                                                               14,
-                                                               0x0780,
-                                                               0x0540 };
+const Collision CollHeader_zone_chao_hunt_act_vs_zone_d_fg
+    = { CollHeightMap_zone_chao_hunt_act_vs_zone_d_fg,
+        CollTileRot_zone_chao_hunt_act_vs_zone_d_fg,
+        Metatiles_zone_chao_hunt_act_vs_zone_d_fg,
+        { Map_zone_chao_hunt_act_vs_zone_d_fg0, Map_zone_chao_hunt_act_vs_zone_d_fg1 },
+        CollFlags_zone_chao_hunt_act_vs_zone_d_fg,
+        20,
+        14,
+        0x0780,
+        0x0540 };

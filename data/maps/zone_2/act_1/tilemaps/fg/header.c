@@ -3,7 +3,7 @@
 
 const u16 Palette_zone_2_act_1_fg[] = INCBIN_U16("data/maps/zone_2/act_1/tilemaps/fg/palette.gbapal");
 const u8 Tileset_zone_2_act_1_fg[] = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/fg/tileset.4bpp");
-const u8 CollHeightMap_zone_2_act_1_fg[] = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/fg/height_map.coll");
+const s8 CollHeightMap_zone_2_act_1_fg[] = INCBIN_S8("data/maps/zone_2/act_1/tilemaps/fg/height_map.coll");
 const u8 CollTileRot_zone_2_act_1_fg[] = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/fg/tile_rot.coll");
 const u16 Metatiles_zone_2_act_1_fg[] = INCBIN_U16("data/maps/zone_2/act_1/tilemaps/fg/metatiles.tilemap2");
 
@@ -11,7 +11,7 @@ const MetatileIndexType Map_zone_2_act_1_fg0[] = INCBIN_MAP("data/maps/zone_2/ac
 
 const MetatileIndexType Map_zone_2_act_1_fg1[] = INCBIN_MAP("data/maps/zone_2/act_1/tilemaps/fg/map_back.bin");
 
-const u8 CollFlags_zone_2_act_1_fg[] = INCBIN_U8("data/maps/zone_2/act_1/tilemaps/fg/flags.coll");
+const u16 CollFlags_zone_2_act_1_fg[] = INCBIN_U16("data/maps/zone_2/act_1/tilemaps/fg/flags.coll");
 ALIGNED(4) const struct MapHeader zone_2_act_1_fg0 = 
 {
     .tileset = {
@@ -55,8 +55,7 @@ ALIGNED(4) const struct MapHeader zone_2_act_1_fg1 =
 const Collision CollHeader_zone_2_act_1_fg = { CollHeightMap_zone_2_act_1_fg,
                                                CollTileRot_zone_2_act_1_fg,
                                                Metatiles_zone_2_act_1_fg,
-                                               Map_zone_2_act_1_fg0,
-                                               Map_zone_2_act_1_fg1,
+                                               { Map_zone_2_act_1_fg0, Map_zone_2_act_1_fg1 },
                                                CollFlags_zone_2_act_1_fg,
                                                108,
                                                16,
