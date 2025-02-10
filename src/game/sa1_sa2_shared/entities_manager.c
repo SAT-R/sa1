@@ -497,6 +497,8 @@ void CreateStageEntitiesManager(void)
     gEntitiesManagerTask = t;
 }
 
+// NOTE: Not aligned with SA2, matches there.
+// (94.91%) https://decomp.me/scratch/88ibj
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/ent_manager__SpawnMapEntities.inc", void SpawnMapEntities())
 {
 // Required to be here to help the stack match
