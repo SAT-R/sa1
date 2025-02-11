@@ -1661,7 +1661,11 @@ static void DrawScanline(uint16_t *pixels, uint16_t vcount)
                         winEffectEnable = ((scanline.winMask[xpos] & WINMASK_CLR) >> 5);
                         // if bg is disabled inside the window then do not draw the pixel
                         if (!(scanline.winMask[xpos] & 1 << bgnum))
+#if !DEBUG
                             continue;
+#else
+                            ;
+#endif
                     }
 
                     // blending code
@@ -1696,7 +1700,11 @@ static void DrawScanline(uint16_t *pixels, uint16_t vcount)
             if (getAlphaBit(src[xpos])) {
                 // check if sprite pixel draws inside window
                 if (windowsEnabled && !(scanline.winMask[xpos] & WINMASK_OBJ))
+#if !DEBUG
                     continue;
+#else
+                    ;
+#endif
                 // draw the pixel
                 pixels[xpos] = src[xpos];
             }

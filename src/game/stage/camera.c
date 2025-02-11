@@ -643,6 +643,21 @@ void UpdateCamera(void)
     Player *player = &gPlayer;
     struct Camera *camera = &gCamera;
     s32 newX, newY;
+
+#if DEBUG
+    if (gInput & R_BUTTON) {
+        s32 speed = Q(10);
+        if (gInput & DPAD_DOWN)
+            gPlayer.qWorldY += speed;
+        if (gInput & DPAD_UP)
+            gPlayer.qWorldY -= speed;
+        if (gInput & DPAD_RIGHT)
+            gPlayer.qWorldX += speed;
+        if (gInput & DPAD_LEFT)
+            gPlayer.qWorldX -= speed;
+    }
+#endif
+
     newX = camera->x;
     newY = camera->y;
 

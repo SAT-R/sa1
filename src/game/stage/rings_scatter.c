@@ -378,7 +378,7 @@ void RingsScatterSingleplayer_FlippedGravity(void)
         ringIntX = I(ring->x);
         ringIntY = I(ring->y);
         {
-#if (GAME == GAME_SA1)
+#ifndef NON_MATCHING
             register Camera *cam asm("r4") = &gCamera;
 #else
             Camera *cam = &gCamera;

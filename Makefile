@@ -393,7 +393,7 @@ clean-tools:
 
 tidy:
 	$(RM) -r build/*
-	$(RM) SDL2.dll
+	#$(RM) SDL2.dll
 	$(RM) $(BUILD_NAME)*.exe $(BUILD_NAME)*.elf $(BUILD_NAME)*.map $(BUILD_NAME)*.sdl $(BUILD_NAME)*.gba
 
 japan: ; @$(MAKE) GAME_REGION=JAPAN

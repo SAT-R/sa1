@@ -57,8 +57,12 @@ void CreateDemoManager(void)
     DemoManager *dm;
     Sprite *s;
 #if (GAME == GAME_SA1)
+#ifndef NON_MATCHING
     const AnimId arr[2];
     memcpy(&arr, gPressStartTiles, sizeof(arr));
+#else
+    const AnimId arr[2] = { gPressStartTiles[0], gPressStartTiles[1] };
+#endif
 #endif
     blendCtrl = gBldRegs.bldCnt & 0xC0;
 #if (GAME == GAME_SA2)

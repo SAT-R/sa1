@@ -220,8 +220,13 @@ void CreateGameStage(void)
 
         if (gCurrentLevel == LEVEL_INDEX(ZONE_2, ACT_1)) {
             if (sub_8017800()) {
-                Struct_sub_80550F8 *strc = TASK_DATA(someTask);
-                strc->screenBlank = 1;
+#ifdef BUG_FIX
+                if (someTask != NULL)
+#endif
+                {
+                    Struct_sub_80550F8 *strc = TASK_DATA(someTask);
+                    strc->screenBlank = 1;
+                }
             }
         }
     } else {
@@ -355,6 +360,13 @@ void Task_GameStage(void)
     u32 timeStep;
 
     if (IS_SINGLE_PLAYER) {
+#if DEBUG
+        if (gInput & SELECT_BUTTON) {
+            void CreateUnusedLevelSelect(void);
+            TasksDestroyAll();
+            CreateUnusedLevelSelect();
+        }
+#endif
         if (!(gStageFlags & STAGE_FLAG__DISABLE_PAUSE_MENU) && (gPressedKeys & START_BUTTON) && !(gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {
             CreatePauseMenu();
         }
