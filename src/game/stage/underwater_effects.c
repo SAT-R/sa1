@@ -82,7 +82,7 @@ struct Task *SpawnDrowningCountdownNum(Player *p, s32 countdown)
     ts->unk8 = 0;
     ts->unkA = 0x120;
     ts->unk10 = 0;
-    ts->mpPlayerID = p->sa2__unk60;
+    ts->mpPlayerID = p->playerID;
 
     s = &ts->s;
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_DROWN_COUNTDOWN);

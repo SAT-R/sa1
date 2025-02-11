@@ -834,7 +834,7 @@ bool32 sa2__sub_800CBA4(Player *p)
 
     p->itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
 
-    if (p->sa2__unk60 == 0) {
+    if (p->playerID == 0) {
         if (!HAS_SHIELD(p)) {
             if (gRingCount != 0) {
                 RoomEvent_RingLoss *roomEvent;

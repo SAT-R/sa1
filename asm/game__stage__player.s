@@ -5,106 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start sa2__sub_80213C0
-sa2__sub_80213C0: @ 0x0804202C
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r7, r1, #0
-	adds r5, r2, #0
-	adds r0, r5, #0
-	adds r0, #0x3c
-	movs r4, #0
-	ldrsb r4, [r0, r4]
-	cmp r4, #0
-	bne _080420B0
-	cmp r7, #0xd
-	bne _0804205C
-	ldr r0, _08042054 @ =sub_8049898
-	movs r2, #0xc0
-	lsls r2, r2, #6
-	ldr r1, _08042058 @ =TaskDestructor_Player
-	str r1, [sp]
-	movs r1, #0x8c
-	b _08042068
-	.align 2, 0
-_08042054: .4byte sub_8049898
-_08042058: .4byte TaskDestructor_Player
-_0804205C:
-	ldr r0, _080420A4 @ =Task_PlayerMain
-	movs r2, #0xc0
-	lsls r2, r2, #6
-	ldr r1, _080420A8 @ =TaskDestructor_Player
-	str r1, [sp]
-	movs r1, #8
-_08042068:
-	movs r3, #0
-	bl TaskCreate
-	str r0, [r5, #0x60]
-	ldr r0, [r5, #0x60]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r1, r1, r0
-	movs r0, #0
-	strb r4, [r1]
-	str r0, [r1, #4]
-	adds r0, r5, #0
-	bl InitializePlayer
-	bl CreateBrakingDustEffectRelatedTask
-	bl InitPlayerHitRingsScatter
-	ldr r6, _080420AC @ =gInputRecorder
-	ldrb r4, [r6, #8]
-	cmp r4, #1
-	beq _0804209A
-	cmp r4, #2
-	bne _080420D6
-_0804209A:
-	bl InputRecorderLoadTape
-	strb r4, [r6, #8]
-	b _080420D6
-	.align 2, 0
-_080420A4: .4byte Task_PlayerMain
-_080420A8: .4byte TaskDestructor_Player
-_080420AC: .4byte gInputRecorder
-_080420B0:
-	ldr r0, _080420F8 @ =sub_8045B38
-	ldr r2, _080420FC @ =0x00003001
-	ldr r1, _08042100 @ =TaskDestructor_Player
-	str r1, [sp]
-	movs r1, #8
-	movs r3, #0
-	bl TaskCreate
-	str r0, [r5, #0x60]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r1, r1, r0
-	movs r0, #0
-	strb r4, [r1]
-	str r0, [r1, #4]
-	adds r0, r5, #0
-	bl InitializePlayer
-_080420D6:
-	ldr r1, [r5, #0x64]
-	adds r0, r5, #0
-	bl AllocateCharacterStageGfx
-	ldr r1, [r5, #0x68]
-	adds r0, r5, #0
-	bl AllocateCharacterMidAirGfx
-	cmp r7, #0xd
-	bne _080420F0
-	adds r0, r5, #0
-	bl sub_804A1B8
-_080420F0:
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080420F8: .4byte sub_8045B38
-_080420FC: .4byte 0x00003001
-_08042100: .4byte TaskDestructor_Player
-
+.if 0
 	thumb_func_start AllocateCharacterStageGfx
 AllocateCharacterStageGfx: @ 0x08042104
 	push {r4, r5, r6, r7, lr}
@@ -192,6 +93,7 @@ _08042180:
 	bx r0
 	.align 2, 0
 _080421A8: .4byte gGameMode
+.endif
 
 	thumb_func_start AllocateCharacterMidAirGfx
 AllocateCharacterMidAirGfx: @ 0x080421AC
@@ -7588,7 +7490,7 @@ _0804588C:
 	str r6, [r4, #0x28]
 	ldr r0, _080458F0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080458F4 @ =sub_8045B38
+	ldr r0, _080458F4 @ =Task_8045B38
 	str r0, [r1, #8]
 	b _0804596C
 	.align 2, 0
@@ -7601,7 +7503,7 @@ _080458E4: .4byte 0xFF7FFFFF
 _080458E8: .4byte 0xFFDFFFFF
 _080458EC: .4byte 0xFFBFFFFF
 _080458F0: .4byte gCurTask
-_080458F4: .4byte sub_8045B38
+_080458F4: .4byte Task_8045B38
 _080458F8:
 	ldr r5, [r4]
 	asrs r3, r5, #8
@@ -7676,8 +7578,8 @@ _0804596C:
 	.align 2, 0
 _08045978: .4byte 0xFFFFFF00
 
-	thumb_func_start sub_804597C
-sub_804597C: @ 0x0804597C
+	thumb_func_start Task_804597C
+Task_804597C: @ 0x0804597C
 	push {r4, r5, r6, r7, lr}
 	ldr r4, _08045994 @ =gPartner
 	ldr r6, [r4, #0x64]
@@ -7906,8 +7808,8 @@ _08045B2A:
 	.align 2, 0
 _08045B34: .4byte gPartner
 
-	thumb_func_start sub_8045B38
-sub_8045B38: @ 0x08045B38
+	thumb_func_start Task_8045B38
+Task_8045B38: @ 0x08045B38
 	push {r4, r5, r6, lr}
 	ldr r5, _08045BB0 @ =gPartner
 	ldr r3, [r5, #0x10]
@@ -7917,7 +7819,7 @@ sub_8045B38: @ 0x08045B38
 	beq _08045BC8
 	ldr r0, _08045BB4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08045BB8 @ =sub_804597C
+	ldr r0, _08045BB8 @ =Task_804597C
 	str r0, [r1, #8]
 	adds r4, r5, #0
 	adds r4, #0x40
@@ -7968,7 +7870,7 @@ sub_8045B38: @ 0x08045B38
 	.align 2, 0
 _08045BB0: .4byte gPartner
 _08045BB4: .4byte gCurTask
-_08045BB8: .4byte sub_804597C
+_08045BB8: .4byte Task_804597C
 _08045BBC: .4byte 0xFFFFCFFF
 _08045BC0:
 	movs r0, #0x77
@@ -15984,8 +15886,8 @@ sub_8049854: @ 0x08049854
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8049898
-sub_8049898: @ 0x08049898
+	thumb_func_start Task_8049898
+Task_8049898: @ 0x08049898
 	push {r4, r5, r6, lr}
 	ldr r6, _08049930 @ =gPlayer
 	ldr r4, _08049934 @ =gCamera
