@@ -74,6 +74,9 @@ u32 sub_800DF38(Sprite *s, s32 x, s32 y, Player *p);
 #define MAP_ENTITY_STATE_INITIALIZED (-2)
 #define MAP_ENTITY_STATE_MINUS_THREE (-3)
 
+#if (GAME == GAME_SA1)
+#define SET_MAP_ENTITY_INITIALIZED(mapEnt) (mapEnt)->x = MAP_ENTITY_STATE_INITIALIZED;
+#else
 // TODO: Find a way to simplify/remove this macro!
 #define SET_MAP_ENTITY_INITIALIZED(mapEnt)                                                                                                 \
     {                                                                                                                                      \
@@ -83,6 +86,7 @@ u32 sub_800DF38(Sprite *s, s32 x, s32 y, Player *p);
         forMatching = negativeTwo;                                                                                                         \
         mapEnt->x = forMatching;                                                                                                           \
     }
+#endif
 
 #define SET_MAP_ENTITY_NOT_INITIALIZED(mapEnt, initialX)                                                                                   \
     {                                                                                                                                      \

@@ -61,7 +61,7 @@
 #define SA1_ANIM_FLAG_V                  470
 #define SA1_ANIM_BOOSTER                 471
 #define SA1_ANIM_BOOSTER_VERT            472
-#define SA1_ANIM_SPLASH_NGH_ACT2         473
+#define SA1_ANIM_WATER_BRIDGE_SPLASH     473
 #define SA1_ANIM_SPLASH_ON_PLAYER        474
 #define SA1_ANIM_BUMPER_RIGHTANG         475
 #define SA1_ANIM_BUMPER_TRI_H            476

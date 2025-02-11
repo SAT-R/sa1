@@ -122,7 +122,7 @@ SECTIONS {
         asm/ia_034.o(.text);
         asm/ia_mini_loop_base.o(.text);
         asm/ia_water_bridge.o(.text);
-        asm/ia_water_bridge_splash.o(.text);
+        src/game/interactables/water_bridge_splash.o(.text);
         asm/ia_mini_loop.o(.text);
         asm/ia_039.o(.text);
         asm/ia_boss_5_mecha_knuckles.o(.text);

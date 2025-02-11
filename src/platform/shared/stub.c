@@ -77,7 +77,6 @@ void CreateEntity_Interactable039() { }
 void CreateEntity_WaterBridge() { }
 void CreateEntity_ToBeContinuedText() { }
 void CreateEntity_RedFlag() { }
-void CreateEntity_WaterBridgeSplash() { }
 void CreateEntity_WallPole_Left() { }
 void CreateEntity_WallPole_Right() { }
 void CreateEntity_ForcedIceSlide() { }
