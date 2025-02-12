@@ -1,7 +1,9 @@
 #ifndef GUARD_GBA_TYPES_H
 #define GUARD_GBA_TYPES_H
 
+#if !GEN_CTX
 #include <stdint.h>
+#endif
 
 #if defined(_MSC_VER)
 #define PACKED(name, struct_body)                                                       \

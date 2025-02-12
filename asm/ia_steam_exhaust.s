@@ -907,7 +907,7 @@ _0808976C:
 	b _080899C8
 _08089776:
 	movs r4, #0
-	ldr r5, _080897C4 @ =sa2__gUnknown_03005AF0+0xC+0x28
+	ldr r5, _080897C4 @ =gPlayerBodyPSI+0xC+0x28
 	mov r2, sl
 	asrs r2, r2, #0x10
 	mov sb, r2
@@ -917,10 +917,10 @@ _08089776:
 	asrs r0, r0, #0x10
 	mov r8, r0
 _0808978A:
-	ldr r1, _080897C4 @ =sa2__gUnknown_03005AF0+0xC+0x28
+	ldr r1, _080897C4 @ =gPlayerBodyPSI+0xC+0x28
 	cmp r4, #0
 	beq _08089792
-	ldr r1, _080897D0 @ =gUnknown_03005C30+0xC+0x28
+	ldr r1, _080897D0 @ =gPartnerBodyPSI+0xC+0x28
 _08089792:
 	ldr r1, [r1]
 	movs r0, #1
@@ -932,7 +932,7 @@ _0808979E:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _080897A6
-	ldr r0, _080897D0 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _080897D0 @ =gPartnerBodyPSI+0xC+0x28
 _080897A6:
 	movs r3, #4
 	ldrsb r3, [r0, r3]
@@ -950,10 +950,10 @@ _080897A6:
 	ble _080897DE
 	b _0808980A
 	.align 2, 0
-_080897C4: .4byte sa2__gUnknown_03005AF0+0xC+0x28
+_080897C4: .4byte gPlayerBodyPSI+0xC+0x28
 _080897C8: .4byte gPartner
 _080897CC: .4byte gPlayer
-_080897D0: .4byte gUnknown_03005C30+0xC+0x28
+_080897D0: .4byte gPartnerBodyPSI+0xC+0x28
 _080897D4:
 	ldr r0, [r6]
 	asrs r0, r0, #8
@@ -964,7 +964,7 @@ _080897DE:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _080897E6
-	ldr r0, _080897FC @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _080897FC @ =gPartnerBodyPSI+0xC+0x28
 _080897E6:
 	movs r3, #4
 	ldrsb r3, [r0, r3]
@@ -978,7 +978,7 @@ _080897E6:
 	ldr r0, [r7]
 	b _08089802
 	.align 2, 0
-_080897FC: .4byte gUnknown_03005C30+0xC+0x28
+_080897FC: .4byte gPartnerBodyPSI+0xC+0x28
 _08089800:
 	ldr r0, [r6]
 _08089802:
@@ -990,7 +990,7 @@ _0808980A:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _08089812
-	ldr r0, _0808982C @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _0808982C @ =gPartnerBodyPSI+0xC+0x28
 _08089812:
 	movs r2, #4
 	ldrsb r2, [r0, r2]
@@ -1006,7 +1006,7 @@ _08089812:
 	bge _0808983C
 	b _080899A2
 	.align 2, 0
-_0808982C: .4byte gUnknown_03005C30+0xC+0x28
+_0808982C: .4byte gPartnerBodyPSI+0xC+0x28
 _08089830:
 	ldr r0, [r6]
 	asrs r0, r0, #8
@@ -1018,21 +1018,21 @@ _0808983C:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _08089844
-	ldr r0, _08089880 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _08089880 @ =gPartnerBodyPSI+0xC+0x28
 _08089844:
 	movs r3, #4
 	ldrsb r3, [r0, r3]
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _08089850
-	ldr r0, _08089880 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _08089880 @ =gPartnerBodyPSI+0xC+0x28
 _08089850:
 	movs r2, #6
 	ldrsb r2, [r0, r2]
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _0808985C
-	ldr r0, _08089880 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _08089880 @ =gPartnerBodyPSI+0xC+0x28
 _0808985C:
 	ldrb r0, [r0, #4]
 	lsls r0, r0, #0x18
@@ -1052,7 +1052,7 @@ _0808985C:
 	bge _08089892
 	b _080899A2
 	.align 2, 0
-_08089880: .4byte gUnknown_03005C30+0xC+0x28
+_08089880: .4byte gPartnerBodyPSI+0xC+0x28
 _08089884:
 	ldr r0, [r6]
 	asrs r0, r0, #8
@@ -1065,7 +1065,7 @@ _08089892:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _0808989A
-	ldr r0, _080898B8 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _080898B8 @ =gPartnerBodyPSI+0xC+0x28
 _0808989A:
 	movs r3, #5
 	ldrsb r3, [r0, r3]
@@ -1083,7 +1083,7 @@ _0808989A:
 	ble _080898C6
 	b _080898F2
 	.align 2, 0
-_080898B8: .4byte gUnknown_03005C30+0xC+0x28
+_080898B8: .4byte gPartnerBodyPSI+0xC+0x28
 _080898BC:
 	ldr r0, [r6, #4]
 	asrs r0, r0, #8
@@ -1094,7 +1094,7 @@ _080898C6:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _080898CE
-	ldr r0, _080898E4 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _080898E4 @ =gPartnerBodyPSI+0xC+0x28
 _080898CE:
 	movs r3, #5
 	ldrsb r3, [r0, r3]
@@ -1108,7 +1108,7 @@ _080898CE:
 	ldr r0, [r7, #4]
 	b _080898EA
 	.align 2, 0
-_080898E4: .4byte gUnknown_03005C30+0xC+0x28
+_080898E4: .4byte gPartnerBodyPSI+0xC+0x28
 _080898E8:
 	ldr r0, [r6, #4]
 _080898EA:
@@ -1120,7 +1120,7 @@ _080898F2:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _080898FA
-	ldr r0, _08089914 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _08089914 @ =gPartnerBodyPSI+0xC+0x28
 _080898FA:
 	movs r2, #5
 	ldrsb r2, [r0, r2]
@@ -1136,7 +1136,7 @@ _080898FA:
 	bge _08089922
 	b _080899A2
 	.align 2, 0
-_08089914: .4byte gUnknown_03005C30+0xC+0x28
+_08089914: .4byte gPartnerBodyPSI+0xC+0x28
 _08089918:
 	ldr r0, [r6, #4]
 	asrs r0, r0, #8
@@ -1147,21 +1147,21 @@ _08089922:
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _0808992A
-	ldr r0, _08089964 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _08089964 @ =gPartnerBodyPSI+0xC+0x28
 _0808992A:
 	movs r3, #5
 	ldrsb r3, [r0, r3]
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _08089936
-	ldr r0, _08089964 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _08089964 @ =gPartnerBodyPSI+0xC+0x28
 _08089936:
 	movs r2, #7
 	ldrsb r2, [r0, r2]
 	adds r0, r5, #0
 	cmp r4, #0
 	beq _08089942
-	ldr r0, _08089964 @ =gUnknown_03005C30+0xC+0x28
+	ldr r0, _08089964 @ =gPartnerBodyPSI+0xC+0x28
 _08089942:
 	ldrb r0, [r0, #5]
 	lsls r0, r0, #0x18
@@ -1181,7 +1181,7 @@ _08089942:
 	bge _08089974
 	b _080899A2
 	.align 2, 0
-_08089964: .4byte gUnknown_03005C30+0xC+0x28
+_08089964: .4byte gPartnerBodyPSI+0xC+0x28
 _08089968:
 	ldr r0, [r6, #4]
 	asrs r0, r0, #8

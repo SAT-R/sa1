@@ -775,7 +775,7 @@ _0806EF88:
 	ldr r2, _0806F06C @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _0806F070 @ =sa2__gUnknown_03005AF0
+	ldr r3, _0806F070 @ =gPlayerBodyPSI
 	adds r0, r3, #0
 	adds r0, #0x38
 	ldrb r0, [r0]
@@ -872,7 +872,7 @@ _0806F04A:
 	b _0806F0C4
 	.align 2, 0
 _0806F06C: .4byte gPlayer
-_0806F070: .4byte sa2__gUnknown_03005AF0
+_0806F070: .4byte gPlayerBodyPSI
 _0806F074: .4byte gCurTask
 _0806F078:
 	adds r0, r4, #3

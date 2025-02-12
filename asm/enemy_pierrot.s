@@ -286,7 +286,7 @@ _0806DEA0:
 	adds r4, r1, r6
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _0806DF64 @ =sa2__gUnknown_03005AF0
+	ldr r3, _0806DF64 @ =gPlayerBodyPSI
 	adds r0, r3, #0
 	adds r0, #0x38
 	movs r7, #0
@@ -379,7 +379,7 @@ _0806DF3C:
 	b _0806DF70
 	.align 2, 0
 _0806DF60: .4byte gPlayer
-_0806DF64: .4byte sa2__gUnknown_03005AF0
+_0806DF64: .4byte gPlayerBodyPSI
 _0806DF68:
 	movs r3, #0xc
 	ldrsh r1, [r2, r3]

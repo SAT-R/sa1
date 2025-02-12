@@ -703,7 +703,7 @@ _0806F5F6:
 	ldr r2, _0806F944 @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _0806F948 @ =sa2__gUnknown_03005AF0
+	ldr r3, _0806F948 @ =gPlayerBodyPSI
 	adds r0, r3, #0
 	adds r0, #0x38
 	ldrb r0, [r0]
@@ -841,7 +841,7 @@ _0806F716:
 	ldr r2, _0806F944 @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _0806F948 @ =sa2__gUnknown_03005AF0
+	ldr r3, _0806F948 @ =gPlayerBodyPSI
 	adds r0, r3, #0
 	adds r0, #0x38
 	ldrb r0, [r0]
@@ -985,7 +985,7 @@ _0806F824:
 	ldr r2, _0806F944 @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _0806F948 @ =sa2__gUnknown_03005AF0
+	ldr r3, _0806F948 @ =gPlayerBodyPSI
 	adds r0, r3, #0
 	adds r0, #0x38
 	movs r7, #0
@@ -1060,7 +1060,7 @@ _0806F938: .4byte 0xFFFFFBFF
 _0806F93C: .4byte 0x000001C1
 _0806F940: .4byte gCamera
 _0806F944: .4byte gPlayer
-_0806F948: .4byte sa2__gUnknown_03005AF0
+_0806F948: .4byte gPlayerBodyPSI
 _0806F94C:
 	blt _0806F954
 _0806F94E:
@@ -1133,7 +1133,7 @@ _0806F954:
 	ldr r2, _0806FA7C @ =gPlayer
 	ldr r1, [r2]
 	asrs r1, r1, #8
-	ldr r3, _0806FA80 @ =sa2__gUnknown_03005AF0
+	ldr r3, _0806FA80 @ =gPlayerBodyPSI
 	adds r0, r3, #0
 	adds r0, #0x38
 	movs r7, #0
@@ -1218,7 +1218,7 @@ _0806FA64:
 _0806FA74: .4byte 0x000001C1
 _0806FA78: .4byte gCamera
 _0806FA7C: .4byte gPlayer
-_0806FA80: .4byte sa2__gUnknown_03005AF0
+_0806FA80: .4byte gPlayerBodyPSI
 
 	thumb_func_start sub_806FA84
 sub_806FA84: @ 0x0806FA84

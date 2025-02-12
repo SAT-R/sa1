@@ -553,15 +553,15 @@ _080953FA:
 	beq _08095410
 _080953FE:
 	movs r0, #0xff
-	ldr r1, _0809540C @ =gUnknown_03005C30+0xC+0x21
+	ldr r1, _0809540C @ =gPartnerBodyPSI+0xC+0x21
 	strb r0, [r1]
 	b _08095416
 	.align 2, 0
 _08095408: .4byte gPlayer + 0x40
-_0809540C: .4byte gUnknown_03005C30+0xC+0x21
+_0809540C: .4byte gPartnerBodyPSI+0xC+0x21
 _08095410:
 	movs r0, #0xff
-	ldr r2, _08095478 @ =sa2__gUnknown_03005AF0+0xC+0x21
+	ldr r2, _08095478 @ =gPlayerBodyPSI+0xC+0x21
 	strb r0, [r2]
 _08095416:
 	mov r0, sb
@@ -617,7 +617,7 @@ _08095466:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08095478: .4byte sa2__gUnknown_03005AF0+0xC+0x21
+_08095478: .4byte gPlayerBodyPSI+0xC+0x21
 _0809547C: .4byte gPlayer
 _08095480: .4byte gPartner
 _08095484: .4byte gNumSingleplayerCharacters

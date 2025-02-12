@@ -399,12 +399,12 @@ _0807F11C:
 	strb r0, [r1]
 	cmp r4, #0
 	beq _0807F12C
-	ldr r0, _0807F128 @ =gUnknown_03005C30
+	ldr r0, _0807F128 @ =gPartnerBodyPSI
 	b _0807F12E
 	.align 2, 0
-_0807F128: .4byte gUnknown_03005C30
+_0807F128: .4byte gPartnerBodyPSI
 _0807F12C:
-	ldr r0, _0807F208 @ =sa2__gUnknown_03005AF0
+	ldr r0, _0807F208 @ =gPlayerBodyPSI
 _0807F12E:
 	adds r0, #0x2d
 	movs r1, #0xff
@@ -517,7 +517,7 @@ _0807F1F8:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0807F208: .4byte sa2__gUnknown_03005AF0
+_0807F208: .4byte gPlayerBodyPSI
 _0807F20C: .4byte gPlayer
 _0807F210: .4byte gPartner
 _0807F214: .4byte gCurTask

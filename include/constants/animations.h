@@ -8,10 +8,19 @@
 // "x_PROJ" means "projectile belonging to x"
 
 #define SA1_ANIM_SONIC_IDLE    0
-#define SA1_CHAR_ANIM_GRINDING 44
 #define SA1_ANIM_TAILS_IDLE    99
 #define SA1_ANIM_KNUCKLES_IDLE 199
 #define SA1_ANIM_AMY_IDLE      298
+
+#define SA1_ANIM_TAILS_SPIN_ATTACK 107
+
+#define SA1_CHAR_ANIM_WALK        4
+#define SA1_CHAR_ANIM_RUN         5
+#define SA1_CHAR_ANIM_SPIN_ATTACK 8
+#define SA1_CHAR_ANIM_GRINDING    44
+
+#define SA1_NUM_PLAYER_CHAR_ANIMATIONS (99) // TODO: Don't use constant here
+#define SA1_ANIM_CHAR(character, anim) ((SA1_CHAR_ANIM_##anim) + CHARACTER_##character * SA1_NUM_PLAYER_CHAR_ANIMATIONS)
 
 // Enemies
 #define SA1_ANIM_KIKI      401

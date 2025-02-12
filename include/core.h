@@ -1,7 +1,9 @@
 #ifndef GUARD_MAIN_H
 #define GUARD_MAIN_H
-// for memcpy
-#include <string.h>
+
+#if !GEN_CTX
+#include <string.h> // memcpy
+#endif
 
 #include "global.h"
 #include "sprite.h"

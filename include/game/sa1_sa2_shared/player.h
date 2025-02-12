@@ -11,11 +11,11 @@
 typedef struct {
     /*0x00 */ SpriteTransform transform;
     /*0x0C */ Sprite s;
-    /*0x3C */ Hitbox reserved; // TODO: Maybe 3 hitboxes (Player, Action, Shield)?
-} PlayerSpriteInfo; /* size: 0x44 */
+    /*0x3C */ Hitbox reserved; // TODO: Likely 3 hitboxes (Player, Action, Shield)?
+} PlayerSpriteInfo; /* size: 0x4C */
 
-// extern PlayerSpriteInfo gUnknown_03005AA0;
-extern PlayerSpriteInfo sa2__gUnknown_03005AF0;
+// extern PlayerSpriteInfo gPlayerLimbsPSI;
+extern PlayerSpriteInfo gPlayerBodyPSI;
 
 // Declared beforehand because it's used inside Player struct
 struct Player;
@@ -97,8 +97,10 @@ typedef struct Player {
     /* 0x42 */ u16 anim;
     /* 0x44 */ u16 variant;
     /* 0x46 */ u8 filler46[0x2];
-    /* 0x48 */ s16 unk48; // Spotlight and Special Stage-related. random?
-    /* 0x4A */ u8 filler4A[0xE];
+    /* 0x48 */ s16 checkPointX;
+    /* 0x4A */ s16 checkPointY;
+    /* 0x4C */ u32 checkpointTime;
+    /* 0x50 */ u8 filler50[0x8];
 
     /* 0x58 */ s8 defeatScoreIndex;
     /* 0x59 */ s8 character;
@@ -108,7 +110,8 @@ typedef struct Player {
     /* 0x64 */ PlayerSpriteInfo *spriteInfoBody; // for character sprites
     /* 0x68 */ PlayerSpriteInfo *spriteInfoLimbs; // SpriteInfo for Tails' tails / Cream's ears, when rolling
 
-    /* 0x6C */ u8 filler6C[0x24];
+    /* 0x6C */ u8 unk6C;
+    /* 0x6D */ u8 filler6D[0x23];
 } Player;
 
 extern s32 sa2__sub_8022F58(u8 param0, Player *p);

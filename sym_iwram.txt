@@ -63,9 +63,6 @@ src/game/stage/stage.o(.data);
 . = 0x00005A20; 
 src/game/stage/player.o(.data);
 
-. = 0x00005BE0; sa2__gUnknown_03005AF0 = .; /* (PlayerSpriteInfo player PSI) SA2: gUnknown_03005AA0|gPartner + 0x40 */
-. = 0x00005C30; gUnknown_03005C30 = .; /* (PlayerSpriteInfo partner PSI) SA2: gUnknown_03005AA0|gPartner + 0x40 */
-
 . = 0x00005C74; gUnknown_03005C74 = .;
 . = 0x00005C78; gSmallAirBubbleCount = .;
 . = 0x00005C80; gUnknown_03005C80 = .;

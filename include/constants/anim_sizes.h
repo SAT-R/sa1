@@ -9,6 +9,10 @@
     VramMalloc(((_animName##_VAR##_variant##_WIDTH / 8) * (_animName##_VAR##_variant##_HEIGHT / 8)))
 
 #if (GAME == GAME_SA1)
+// 005
+#define SA1_ANIM_SONIC_RUN_WIDTH  64
+#define SA1_ANIM_SONIC_RUN_HEIGHT 64
+
 // 473
 #define SA1_ANIM_WATER_BRIDGE_SPLASH_WIDTH  56
 #define SA1_ANIM_WATER_BRIDGE_SPLASH_HEIGHT 56

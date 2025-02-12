@@ -74,7 +74,7 @@ void Task_MagneticRing(void)
     ringY = ring->s.y;
     ringX = ring->s.x;
 
-    if (PLAYER_TOUCHING_RING_HB(gPlayer, sa2__gUnknown_03005AF0.s.hitboxes[0].b, ringX, ringY)) {
+    if (PLAYER_TOUCHING_RING_HB(gPlayer, gPlayerBodyPSI.s.hitboxes[0].b, ringX, ringY)) {
         if (PLAYER_IS_ALIVE) {
             INCREMENT_RINGS(1);
 
