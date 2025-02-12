@@ -1,7 +1,9 @@
 #include "global.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/player.h"
+#include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h"
@@ -11,6 +13,7 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/char_states.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -39,6 +42,7 @@ PlayerSpriteInfo ALIGNED(16) gPartnerBodyPSI = {};
 #endif
 
 void Task_8045B38(void);
+void Player_804726C(Player *p);
 void Task_8049898(void);
 void sub_804A1B8(Player *p);
 void Task_PlayerMain(void);
@@ -117,8 +121,14 @@ void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *
 
     InitNewInputCounters();
 #endif
-    AllocateCharacterStageGfx(p, p->spriteInfoBody);
-    AllocateCharacterMidAirGfx(p, p->spriteInfoLimbs);
+#if PORTABLE
+    if (p->spriteInfoBody != NULL)
+#endif
+        AllocateCharacterStageGfx(p, p->spriteInfoBody);
+#if PORTABLE
+    if (p->spriteInfoLimbs != NULL)
+#endif
+        AllocateCharacterMidAirGfx(p, p->spriteInfoLimbs);
 
 #if (GAME == GAME_SA1)
     if (IS_EXTRA_STAGE(levelId)) {
@@ -316,8 +326,6 @@ void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p)
 
 void InitializePlayer(Player *p)
 {
-    s8 *playerID;
-
     p->qWorldX = Q(p->checkPointX);
     p->qWorldY = Q(p->checkPointY);
 
@@ -432,4 +440,231 @@ void InitializePlayer(Player *p)
             p->w.af.unkAC = 0;
         } break;
     }
+}
+
+#if (GAME == GAME_SA2)
+// Called anytime the player actively jumps, "autojumps" through touching an IA,
+// touches a Boost Pad or a Rotating Handle, touches the ground, etc.
+// TODO: Find a better name.
+void Player_TransitionCancelFlyingAndBoost(Player *p)
+{
+    if (p->moveState & MOVESTATE_20000) {
+        m4aSongNumStop(SE_281);
+    }
+
+    p->moveState &= ~(MOVESTATE_SOME_ATTACK | MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000
+                      | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_400 | MOVESTATE_200 | MOVESTATE_100 | MOVESTATE_20
+                      | MOVESTATE_FLIP_WITH_MOVE_DIR);
+
+    p->unk61 = 0;
+    p->unk62 = 0;
+    p->unk63 = 0;
+    p->unk71 = 0;
+    p->unk70 = FALSE;
+
+    if (p->character == CHARACTER_TAILS) {
+        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+    }
+
+    if (p->character == CHARACTER_CREAM) {
+        m4aSongNumStop(SE_CREAM_FLYING);
+    }
+
+    if (p->character == CHARACTER_SONIC) {
+        p->moveState &= ~MOVESTATE_BOOST_EFFECT_ON;
+    }
+}
+#endif
+
+// Very similar to sub_8029BB8
+s32 SA2_LABEL(sub_802195C)(Player *p, u8 *p1, s32 *out)
+{
+    u8 dummy;
+    s32 dummyInt;
+    s32 playerX, playerY;
+    s32 playerX2, playerY2;
+    u32 mask;
+    u8 anotherByte, anotherByte2;
+    s32 r5, r1;
+    s32 result;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    playerX2 = I(p->qWorldX) - (2 + p->spriteOffsetX);
+    playerY2 = I(p->qWorldY) - (p->spriteOffsetY);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < Q(3.0)) {
+        mask |= 0x80;
+    }
+
+    r5 = SA2_LABEL(sub_801E4E4)(playerX2, playerY2, mask, -8, &anotherByte, SA2_LABEL(sub_801ED24));
+
+    playerX = I(p->qWorldX) - (2 + p->spriteOffsetX);
+    playerY = I(p->qWorldY) + (p->spriteOffsetY);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < Q(3.0)) {
+        mask |= 0x80;
+    }
+
+    r1 = SA2_LABEL(sub_801E4E4)(playerX, playerY, mask, -8, &anotherByte2, SA2_LABEL(sub_801ED24));
+
+    if (r5 < r1) {
+        result = r5;
+        *p1 = anotherByte;
+        *out = r1;
+    } else {
+        result = r1;
+        *p1 = anotherByte2;
+        *out = r5;
+    }
+
+    return result;
+}
+
+// Very similar to sub_802195C
+s32 SA2_LABEL(sub_8021A34)(Player *p, u8 *p1, s32 *out)
+{
+    u8 dummy;
+    s32 dummyInt;
+    s32 playerX, playerY;
+    s32 playerX2, playerY2;
+    u32 mask;
+    u8 anotherByte, anotherByte2;
+    s32 r5, r1;
+    s32 result;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    playerX2 = I(p->qWorldX) + (2 + p->spriteOffsetX);
+    playerY2 = I(p->qWorldY) - (p->spriteOffsetY);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < Q(3.0)) {
+        mask |= 0x80;
+    }
+
+    r5 = SA2_LABEL(sub_801E4E4)(playerX2, playerY2, mask, +8, &anotherByte, SA2_LABEL(sub_801ED24));
+
+    playerX = I(p->qWorldX) + (2 + p->spriteOffsetX);
+    playerY = I(p->qWorldY) + (p->spriteOffsetY);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < Q(3.0)) {
+        mask |= 0x80;
+    }
+
+    r1 = SA2_LABEL(sub_801E4E4)(playerX, playerY, mask, +8, &anotherByte2, SA2_LABEL(sub_801ED24));
+
+    if (r5 < r1) {
+        result = r5;
+        *p1 = anotherByte;
+        *out = r1;
+    } else {
+        result = r1;
+        *p1 = anotherByte2;
+        *out = r5;
+    }
+
+    return result;
+}
+
+// Very similar to sub_802195C
+s32 SA2_LABEL(sub_8021B08)(Player *p, u8 *p1, s32 *out)
+{
+    u8 dummy;
+    s32 dummyInt;
+    s32 playerX, playerY;
+    s32 playerX2, playerY2;
+    u32 mask;
+    u8 anotherByte, anotherByte2;
+    s32 r5, r1;
+    s32 result;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    playerY2 = I(p->qWorldY) - (p->spriteOffsetY);
+    playerX2 = I(p->qWorldX) - (2 + p->spriteOffsetX);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < Q(3.0)) {
+        mask |= 0x80;
+    }
+
+    r5 = SA2_LABEL(sub_801E4E4)(playerY2, playerX2, mask, -8, &anotherByte, SA2_LABEL(sub_801EE64));
+
+    playerY = I(p->qWorldY) - (p->spriteOffsetY);
+    playerX = I(p->qWorldX) + (2 + p->spriteOffsetX);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < Q(3.0)) {
+        mask |= 0x80;
+    }
+
+    r1 = SA2_LABEL(sub_801E4E4)(playerY, playerX, mask, -8, &anotherByte2, SA2_LABEL(sub_801EE64));
+
+    if (r5 < r1) {
+        result = r5;
+        *p1 = anotherByte;
+        *out = r1;
+    } else {
+        result = r1;
+        *p1 = anotherByte2;
+        *out = r5;
+    }
+
+    return result;
+}
+
+void SA2_LABEL(sub_8021BE0)(Player *p)
+{
+    if (!(p->moveState & MOVESTATE_200)) {
+        if (!(p->moveState & MOVESTATE_800000)) {
+#if (GAME == GAME_SA2)
+            PLAYERFN_SET(Player_TouchGround);
+#endif
+            p->charState = 4;
+        }
+
+        if (p->moveState & MOVESTATE_4) {
+            p->moveState &= ~MOVESTATE_4;
+            SA2_LABEL(sub_8023B5C)(p, 14);
+        }
+        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+    }
+
+    p->moveState &= ~(MOVESTATE_20);
+    p->moveState &= ~(MOVESTATE_100);
+    p->moveState &= ~(MOVESTATE_400);
+
+    p->SA2_LABEL(unk61) = 0;
+    p->SA2_LABEL(unk62) = 0;
+    p->SA2_LABEL(unk63) = 0;
+
+    p->moveState &= ~(MOVESTATE_8000);
+
+    if (p->character == CHARACTER_TAILS) {
+        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+    }
+
+    if (p->character == CHARACTER_AMY) {
+        p->moveState &= ~(MOVESTATE_4000000 | MOVESTATE_2000000);
+    }
+
+    p->defeatScoreIndex = 0;
+
+#if (GAME == GAME_SA1)
+    Player_804726C(p);
+    p->moveState &= ~(MOVESTATE_FLIP_WITH_MOVE_DIR | MOVESTATE_IN_AIR);
+#endif
 }

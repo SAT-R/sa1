@@ -645,7 +645,7 @@ void UpdateCamera(void)
     s32 newX, newY;
 
 #if DEBUG
-    if (gInput & R_BUTTON) {
+    if (gInput & L_BUTTON) {
         s32 speed = Q(10);
         if (gInput & DPAD_DOWN)
             gPlayer.qWorldY += speed;

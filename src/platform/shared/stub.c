@@ -17,7 +17,6 @@ void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 s32 sa2__sub_8022F58(u8 param0, Player *p) { }
 void sa2__sub_8023B5C() { }
-void sa2__sub_80213C0(u32 UNUSED characterId, u32 UNUSED levelId, Player *player) { }
 
 // Stage BG Updates
 void StageBgUpdate_Zone6Act1() { }
@@ -35,6 +34,13 @@ void sub_804D02C() { }
 void sub_805B9E8() { }
 void WriteSaveGame() { }
 void DestroyPlayerTasks() { }
+
+// Player
+void Task_PlayerMain(void) { }
+void Task_8045B38(void) { }
+void Task_8049898(void) { }
+void sub_804A1B8(Player *p) { }
+void TaskDestructor_Player(struct Task *t) { }
 
 // Interactables / Gimmicks
 void CreateEntity_StageGoal() { }
@@ -212,8 +218,6 @@ void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
 
 void SaveGameExists() { }
-
-void InitializePlayer() { }
 
 void CreateItemTask_Confusion() { }
 
