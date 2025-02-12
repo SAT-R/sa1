@@ -2761,7 +2761,7 @@ sub_804F9B0: @ 0x0804F9B0
 	ldr r0, _0804F9FC @ =0xFFDFFFFF
 	ands r2, r0
 	str r2, [r3, #0x10]
-	ldr r1, _0804FA00 @ =gUnknown_030060E0
+	ldr r1, _0804FA00 @ =gPlayerControls
 	ldrh r0, [r1]
 	ldrh r1, [r1, #2]
 	orrs r0, r1
@@ -2782,7 +2782,7 @@ _0804F9F4:
 	bx r1
 	.align 2, 0
 _0804F9FC: .4byte 0xFFDFFFFF
-_0804FA00: .4byte gUnknown_030060E0
+_0804FA00: .4byte gPlayerControls
 _0804FA04: .4byte 0xFF7FFFFF
 
 	thumb_func_start sub_804FA08

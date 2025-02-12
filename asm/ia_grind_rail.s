@@ -364,7 +364,7 @@ _08023DD0: .4byte gPlayerBodyPSI
 _08023DD4: .4byte 0xFFFFCFFF
 _08023DD8:
 	ldr r0, _08023E00 @ =gInput
-	ldr r1, _08023E04 @ =gUnknown_030060E0
+	ldr r1, _08023E04 @ =gPlayerControls
 	ldrh r2, [r0]
 	ldrh r0, [r1]
 	ands r0, r2
@@ -383,7 +383,7 @@ _08023DD8:
 	b _08023E0E
 	.align 2, 0
 _08023E00: .4byte gInput
-_08023E04: .4byte gUnknown_030060E0
+_08023E04: .4byte gPlayerControls
 _08023E08:
 	movs r0, #0x72
 	bl m4aSongNumStop

@@ -157,7 +157,7 @@ _0804D276:
 	ldr r1, _0804D2CC @ =0x047E0000
 	cmp r0, r1
 	bls _0804D2AE
-	ldr r0, _0804D2D0 @ =gUnknown_030060E0
+	ldr r0, _0804D2D0 @ =gPlayerControls
 	ldrh r1, [r2, #0x3a]
 	ldrh r0, [r0]
 	ands r0, r1
@@ -180,7 +180,7 @@ _0804D2AE:
 	.align 2, 0
 _0804D2C8: .4byte 0x0000023F
 _0804D2CC: .4byte 0x047E0000
-_0804D2D0: .4byte gUnknown_030060E0
+_0804D2D0: .4byte gPlayerControls
 _0804D2D4:
 	lsls r0, r5, #0x10
 	asrs r0, r0, #0x10
@@ -359,7 +359,7 @@ _0804D406:
 	ldr r1, _0804D458 @ =0x047E0000
 	cmp r0, r1
 	bls _0804D438
-	ldr r0, _0804D45C @ =gUnknown_030060E0
+	ldr r0, _0804D45C @ =gPlayerControls
 	ldrh r1, [r2, #0x3a]
 	ldrh r0, [r0]
 	ands r0, r1
@@ -382,7 +382,7 @@ _0804D438:
 	.align 2, 0
 _0804D454: .4byte 0x0000023F
 _0804D458: .4byte 0x047E0000
-_0804D45C: .4byte gUnknown_030060E0
+_0804D45C: .4byte gPlayerControls
 _0804D460:
 	lsls r0, r5, #0x10
 	asrs r0, r0, #0x10

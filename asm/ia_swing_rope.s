@@ -278,7 +278,7 @@ _080889FE:
 _08088A08:
 	strh r7, [r6, #0xa]
 _08088A0A:
-	ldr r0, _08088A1C @ =gUnknown_030060E0
+	ldr r0, _08088A1C @ =gPlayerControls
 	ldrh r1, [r0]
 	cmp r7, #0
 	beq _08088A20
@@ -288,7 +288,7 @@ _08088A0A:
 	bne _08088A2A
 	b _08088CD6
 	.align 2, 0
-_08088A1C: .4byte gUnknown_030060E0
+_08088A1C: .4byte gPlayerControls
 _08088A20:
 	ldrh r0, [r6, #0x3a]
 	ands r0, r1
@@ -346,7 +346,7 @@ _08088A80:
 	ands r0, r1
 	str r0, [r6, #0x10]
 _08088A88:
-	ldr r0, _08088AA0 @ =gUnknown_030060E0
+	ldr r0, _08088AA0 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -358,7 +358,7 @@ _08088A88:
 	b _08088AAA
 	.align 2, 0
 _08088A9C: .4byte 0xFFDFFFFF
-_08088AA0: .4byte gUnknown_030060E0
+_08088AA0: .4byte gPlayerControls
 _08088AA4:
 	ldrh r0, [r6, #0x38]
 	orrs r1, r0

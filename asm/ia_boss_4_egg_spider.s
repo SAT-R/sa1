@@ -742,7 +742,7 @@ _08030E7A:
 	ldr r1, _08030ED4 @ =0xFFDFFFFF
 	ands r0, r1
 	str r0, [r2, #0x10]
-	ldr r1, _08030ED8 @ =gUnknown_030060E0
+	ldr r1, _08030ED8 @ =gPlayerControls
 	ldrh r0, [r1]
 	ldrh r1, [r1, #2]
 	orrs r0, r1
@@ -771,7 +771,7 @@ _08030EBC:
 _08030ECC: .4byte gCamera
 _08030ED0: .4byte gPlayer
 _08030ED4: .4byte 0xFFDFFFFF
-_08030ED8: .4byte gUnknown_030060E0
+_08030ED8: .4byte gPlayerControls
 _08030EDC: .4byte gCurTask
 _08030EE0: .4byte sub_8030EE4
 

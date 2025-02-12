@@ -2169,7 +2169,7 @@ _08096754:
 	ldr r1, _08096810 @ =0xFFDFFFFF
 	ands r0, r1
 	str r0, [r4, #0x10]
-	ldr r1, _08096814 @ =gUnknown_030060E0
+	ldr r1, _08096814 @ =gPlayerControls
 	ldrh r0, [r1]
 	ldrh r1, [r1, #2]
 	orrs r0, r1
@@ -2198,7 +2198,7 @@ _08096804: .4byte gPartner
 _08096808: .4byte gCamera
 _0809680C: .4byte 0x0300003E
 _08096810: .4byte 0xFFDFFFFF
-_08096814: .4byte gUnknown_030060E0
+_08096814: .4byte gPlayerControls
 _08096818: .4byte 0xFFBFFFFF
 _0809681C:
 	ldr r0, _08096864 @ =Task_PipeExit

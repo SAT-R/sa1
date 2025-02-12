@@ -306,7 +306,7 @@ _080892CC:
 	cmp r1, #0
 	beq _08089378
 _080892D8:
-	ldr r0, _080892F0 @ =gUnknown_030060E0
+	ldr r0, _080892F0 @ =gPlayerControls
 	ldrh r1, [r0]
 	cmp r6, #0
 	beq _080892F4
@@ -317,7 +317,7 @@ _080892D8:
 	b _08089322
 	.align 2, 0
 _080892EC: .4byte gPlayer
-_080892F0: .4byte gUnknown_030060E0
+_080892F0: .4byte gPlayerControls
 _080892F4:
 	ldrh r0, [r5, #0x3a]
 	ands r0, r1

@@ -358,7 +358,7 @@ _0808243C:
 	mov r2, sb
 	str r0, [r2, #0x10]
 _08082448:
-	ldr r0, _08082460 @ =gUnknown_030060E0
+	ldr r0, _08082460 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -370,7 +370,7 @@ _08082448:
 	b _0808246C
 	.align 2, 0
 _0808245C: .4byte 0xFFDFFFFF
-_08082460: .4byte gUnknown_030060E0
+_08082460: .4byte gPlayerControls
 _08082464:
 	mov r4, sb
 	ldrh r0, [r4, #0x38]
@@ -467,7 +467,7 @@ _080824FA:
 	str r0, [r4, #0x10]
 _08082508:
 	subs r2, #0x6d
-	ldr r0, _08082520 @ =gUnknown_030060E0
+	ldr r0, _08082520 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -478,7 +478,7 @@ _08082508:
 	strh r1, [r3, #0x38]
 	b _0808252C
 	.align 2, 0
-_08082520: .4byte gUnknown_030060E0
+_08082520: .4byte gPlayerControls
 _08082524:
 	mov r5, sb
 	ldrh r0, [r5, #0x38]
@@ -3337,7 +3337,7 @@ _08083A20:
 	ands r0, r1
 	str r0, [r5, #0x10]
 _08083A28:
-	ldr r0, _08083A40 @ =gUnknown_030060E0
+	ldr r0, _08083A40 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -3349,7 +3349,7 @@ _08083A28:
 	b _08083A4A
 	.align 2, 0
 _08083A3C: .4byte 0xFFDFFFFF
-_08083A40: .4byte gUnknown_030060E0
+_08083A40: .4byte gPlayerControls
 _08083A44:
 	ldrh r0, [r5, #0x38]
 	orrs r1, r0
@@ -3831,7 +3831,7 @@ _08083DA4:
 	mov ip, r6
 	ldr r3, _08083DD8 @ =gPlayer
 	ldr r6, _08083DEC @ =0xFFBFFFFF
-	ldr r5, _08083DF0 @ =gUnknown_030060E0
+	ldr r5, _08083DF0 @ =gPlayerControls
 _08083DBC:
 	mov r1, r8
 	ldrb r0, [r1]
@@ -3854,7 +3854,7 @@ _08083DE0: .4byte gNumSingleplayerCharacters
 _08083DE4: .4byte gCurTask
 _08083DE8: .4byte 0xFFDFFFFF
 _08083DEC: .4byte 0xFFBFFFFF
-_08083DF0: .4byte gUnknown_030060E0
+_08083DF0: .4byte gPlayerControls
 _08083DF4:
 	ldr r0, [r3, #0x10]
 	mov r1, ip

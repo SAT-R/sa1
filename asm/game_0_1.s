@@ -2932,7 +2932,7 @@ _0800FD2A:
 	ldr r1, _0800FD94 @ =0xFFDFFFFF
 	ands r0, r1
 	str r0, [r2, #0x10]
-	ldr r1, _0800FD98 @ =gUnknown_030060E0
+	ldr r1, _0800FD98 @ =gPlayerControls
 	ldrh r0, [r1]
 	ldrh r1, [r1, #2]
 	orrs r0, r1
@@ -2955,7 +2955,7 @@ _0800FD88: .4byte gMultiplayerPlayerTasks
 _0800FD8C: .4byte gStageFlags
 _0800FD90: .4byte 0x0000FFFE
 _0800FD94: .4byte 0xFFDFFFFF
-_0800FD98: .4byte gUnknown_030060E0
+_0800FD98: .4byte gPlayerControls
 
 	thumb_func_start sub_800FD9C
 sub_800FD9C: @ 0x0800FD9C

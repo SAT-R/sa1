@@ -631,7 +631,7 @@ _0807C172:
 	bl _0807C948
 _0807C180:
 	ldr r0, _0807C1C4 @ =gPressedKeys
-	ldr r2, _0807C1C8 @ =gUnknown_030060E0
+	ldr r2, _0807C1C8 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r2]
 	ands r0, r1
@@ -667,7 +667,7 @@ _0807C1A6:
 	b _0807C1DE
 	.align 2, 0
 _0807C1C4: .4byte gPressedKeys
-_0807C1C8: .4byte gUnknown_030060E0
+_0807C1C8: .4byte gPlayerControls
 _0807C1CC: .4byte gPlayer
 _0807C1D0:
 	ldr r0, [r5, #0x10]
@@ -908,7 +908,7 @@ _0807C378:
 	ands r0, r1
 	str r0, [r5, #0x10]
 _0807C380:
-	ldr r0, _0807C398 @ =gUnknown_030060E0
+	ldr r0, _0807C398 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -920,7 +920,7 @@ _0807C380:
 	b _0807C3A2
 	.align 2, 0
 _0807C394: .4byte 0xFFDFFFFF
-_0807C398: .4byte gUnknown_030060E0
+_0807C398: .4byte gPlayerControls
 _0807C39C:
 	ldrh r0, [r5, #0x38]
 	orrs r1, r0
@@ -1834,7 +1834,7 @@ _0807C9F4:
 	ands r0, r1
 	str r0, [r5, #0x10]
 _0807C9FC:
-	ldr r0, _0807CA14 @ =gUnknown_030060E0
+	ldr r0, _0807CA14 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -1846,7 +1846,7 @@ _0807C9FC:
 	b _0807CA1E
 	.align 2, 0
 _0807CA10: .4byte 0xFFDFFFFF
-_0807CA14: .4byte gUnknown_030060E0
+_0807CA14: .4byte gPlayerControls
 _0807CA18:
 	ldrh r0, [r5, #0x38]
 	orrs r1, r0
@@ -1925,7 +1925,7 @@ _0807CA92:
 	ldr r4, _0807CAC4 @ =gPartner
 	ldr r6, _0807CAC8 @ =0xFFDFFFFF
 	ldr r3, _0807CACC @ =gPlayer
-	ldr r5, _0807CAD0 @ =gUnknown_030060E0
+	ldr r5, _0807CAD0 @ =gPlayerControls
 _0807CAA4:
 	ldrb r0, [r7]
 	asrs r0, r2
@@ -1945,7 +1945,7 @@ _0807CAC0: .4byte gCurTask
 _0807CAC4: .4byte gPartner
 _0807CAC8: .4byte 0xFFDFFFFF
 _0807CACC: .4byte gPlayer
-_0807CAD0: .4byte gUnknown_030060E0
+_0807CAD0: .4byte gPlayerControls
 _0807CAD4:
 	ldr r0, [r3, #0x10]
 	ands r0, r6

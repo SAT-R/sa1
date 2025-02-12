@@ -2813,7 +2813,7 @@ _0807E5A6:
 	adds r0, r0, r1
 	str r0, [r7, #4]
 _0807E5AC:
-	ldr r0, _0807E5C0 @ =gUnknown_030060E0
+	ldr r0, _0807E5C0 @ =gPlayerControls
 	ldrh r1, [r0, #2]
 	adds r2, r0, #0
 	cmp r4, #0
@@ -2824,7 +2824,7 @@ _0807E5AC:
 	bne _0807E5CC
 	b _0807E638
 	.align 2, 0
-_0807E5C0: .4byte gUnknown_030060E0
+_0807E5C0: .4byte gPlayerControls
 _0807E5C4:
 	ldrh r0, [r7, #0x3a]
 	ands r0, r1

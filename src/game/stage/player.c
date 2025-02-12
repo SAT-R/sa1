@@ -4,11 +4,13 @@
 #include "game/sa1_sa2_shared/player.h"
 #include "game/stage/dust_effect_braking.h"
 #include "game/stage/player.h"
+#include "game/stage/player_controls.h"
 #include "game/stage/rings_scatter.h"
 #include "game/stage/spawn_positions.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -299,7 +301,7 @@ void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p)
         }
     }
 
-    p->unk6C = 0;
+    p->SA2_LABEL(unk98) = 0;
 
     p->checkpointTime = 0;
 
@@ -309,5 +311,125 @@ void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p)
     } else {
         p->spriteInfoBody = &gPartnerBodyPSI;
         p->spriteInfoLimbs = &gPartnerLimbsPSI;
+    }
+}
+
+void InitializePlayer(Player *p)
+{
+    s8 *playerID;
+
+    p->qWorldX = Q(p->checkPointX);
+    p->qWorldY = Q(p->checkPointY);
+
+#if (GAME == GAME_SA1)
+    p->heldInput = gPlayerControls.jump | gPlayerControls.attack;
+    p->frameInput = gPlayerControls.jump | gPlayerControls.attack;
+#elif (GAME == GAME_SA2)
+    p->heldInput = gPlayerControls.jump | gPlayerControls.attack | gPlayerControls.trick;
+    p->frameInput = gPlayerControls.jump | gPlayerControls.attack | gPlayerControls.trick;
+#endif
+
+    p->qSpeedAirX = 0;
+    p->qSpeedAirY = 0;
+    p->qSpeedGround = 0;
+    p->moveState = MOVESTATE_IGNORE_INPUT;
+    p->rotation = 0;
+    PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+    p->SA2_LABEL(unk25) = 120;
+    p->spindashAccel = 0;
+    p->SA2_LABEL(unk29) = 0;
+    p->SA2_LABEL(unk28) = 0;
+    p->layer = PLAYER_LAYER__BACK;
+#if (GAME == GAME_SA1)
+    p->maxSpeed = Q(4.5);
+#elif (GAME == GAME_SA2)
+    p->maxSpeed = Q(9.0);
+#endif
+
+#if (GAME == GAME_SA1)
+    p->acceleration = Q(8. / 256.);
+    p->deceleration = Q(96. / 256.);
+#elif (GAME == GAME_SA2)
+    p->acceleration = Q(8. / 256.);
+    p->deceleration = Q(64. / 256.);
+#endif
+    p->charState = CHARSTATE_IDLE;
+    p->prevCharState = 0;
+    p->anim = -1;
+    p->variant = -1;
+    p->timerInvulnerability = 0;
+    p->timerInvincibility = 0;
+    p->timerSpeedup = 0;
+    p->timerConfusion = 0;
+    p->stoodObj = NULL;
+    p->itemEffect = PLAYER_ITEM_EFFECT__NONE;
+    p->SA2_LABEL(unk2A) = 0;
+    p->SA2_LABEL(unk72) = ZONE_TIME_TO_INT(0, 6);
+    p->SA2_LABEL(unk7E) = 0;
+    p->SA2_LABEL(unk7C) = 0;
+    p->SA2_LABEL(unk82) = Q(1);
+    p->SA2_LABEL(unk80) = Q(1);
+    p->defeatScoreIndex = 0;
+    p->SA2_LABEL(unk61) = 0;
+    p->SA2_LABEL(unk62) = 0;
+    p->SA2_LABEL(unk63) = 0;
+    p->secondsUntilDrown = 30;
+    p->framesUntilDrownCountDecrement = 60;
+    p->SA2_LABEL(unk88) = 10;
+
+    {
+        u32 *ptr = (u32 *)(&p->SA2_LABEL(unk99)[0]);
+        s32 i = 4;
+        while (i-- != 0) {
+            // @BUG: agbcc compiles this to an stmia instruction, which writes aligned words,
+            //       so the written bytes are off by one, because SA2_LABEL(unk99) isn't word-aligned!
+            //       >> writes unk98 - unk99[14]
+            *ptr++ = 0;
+        }
+
+        p->SA2_LABEL(unk99)[0] = 0x7F;
+    }
+
+    if ((p->playerID == 0) && IS_SINGLE_PLAYER) {
+        if (gCourseTime >= MAX_COURSE_TIME) {
+            gCheckpointTime = 0;
+            gCourseTime = 0;
+            p->checkpointTime = 0;
+        } else {
+            gCheckpointTime = p->checkpointTime;
+            gCourseTime = p->checkpointTime;
+        }
+    }
+
+    switch (p->character) {
+        case CHARACTER_SONIC: {
+            p->w.sf.flags = 0;
+            p->w.sf.unkAE = 0;
+            p->w.sf.unkB0 = 0;
+        } break;
+
+#if (GAME == GAME_SA2)
+        case CHARACTER_CREAM: {
+            p->w.cf.unkAE = 0;
+            p->w.cf.flyingDuration = 0;
+            p->w.cf.unkB0 = 0;
+        } break;
+#endif
+
+        case CHARACTER_TAILS: {
+            p->w.tf.flags = 0;
+            p->w.tf.flyingDuration = 0;
+            p->w.tf.shift = 0;
+        } break;
+
+        case CHARACTER_KNUCKLES: {
+            p->w.kf.flags = 0;
+            p->w.kf.shift = 0;
+            p->w.kf.unkAE = 0;
+        } break;
+
+        case CHARACTER_AMY: {
+            p->w.af.unkAC = 0;
+        } break;
     }
 }

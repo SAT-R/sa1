@@ -21,6 +21,43 @@ extern PlayerSpriteInfo gPlayerBodyPSI;
 struct Player;
 typedef void (*PlayerCallback)(struct Player *);
 
+// TODO: Better name.
+//       This is used for an apparent around the value Cream uses for flying duration
+typedef struct {
+    /* 0xAC */ u8 flags;
+    /* 0xAD */ s8 unkAD;
+    /* 0xAE */ u16 unkAE;
+    /* 0xB0 */ u16 unkB0;
+} SonicFlags;
+
+#if (GAME == GAME_SA2)
+typedef struct {
+    /* 0xAC */ s16 flyingDuration;
+    /* 0xAE */ u16 unkAE;
+    /* 0xB0 */ s8 unkB0;
+} CreamFlags;
+#endif
+
+typedef struct {
+    /* 0xAC */ u8 flags;
+    /* 0xAD */ s8 shift;
+    /* 0xAE */ s8 unkAE;
+    /* 0xAF */ s8 unkAF;
+
+    // NOTE: For some reason this is a 4-byte value, while Cream's is a 2-byte
+    /* 0xB0 */ s32 flyingDuration;
+} TailsFlags;
+
+typedef struct {
+    /* 0xAC */ u8 flags;
+    /* 0xAD */ s8 shift; // TODO: Name
+    /* 0xAE */ s8 unkAE;
+} KnucklesFlags;
+
+typedef struct {
+    /* 0xAC */ u8 unkAC;
+} AmyFlags;
+
 #define PLAYER_ITEM_EFFECT__NONE            0x00
 #define PLAYER_ITEM_EFFECT__SHIELD_NORMAL   0x01
 #define PLAYER_ITEM_EFFECT__INVINCIBILITY   0x02
@@ -73,11 +110,11 @@ typedef struct Player {
     // set/compare to values in "include/constants/move_states.h"
     /* 0x10 */ u32 moveState;
     /* 0x14 */ u8 rotation;
-    /* 0x15 */ u8 unk15;
+    /* 0x15 */ u8 SA2_LABEL(unk25);
     /* 0x16 */ s16 spindashAccel;
-    /* 0x18 */ u8 sa2__unk28;
-    /* 0x19 */ u8 sa2__unk29;
-    /* 0x1A */ s16 sa2__unk2A;
+    /* 0x18 */ u8 SA2_LABEL(unk28);
+    /* 0x19 */ u8 SA2_LABEL(unk29);
+    /* 0x1A */ s16 SA2_LABEL(unk2A);
     /* 0x1C */ s16 timerInvulnerability;
     /* 0x1E */ s16 timerInvincibility;
     /* 0x20 */ u16 timerSpeedup;
@@ -85,33 +122,57 @@ typedef struct Player {
     /* 0x24 */ u8 filler24[0x2];
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
-    /* 0x28 */ u8 filler28[0x10];
+    /* 0x28 */ void *stoodObj; // TODO: Change name!
+    /* 0x2C */ s32 maxSpeed; // TODO: SA2 has 'maxSpeed' and 'topSpeed', which is this?
+    /* 0x30 */ s32 acceleration;
+    /* 0x34 */ s32 deceleration;
     /* 0x38 */ u16 heldInput;
     /* 0x3A */ u16 frameInput;
     /* 0x3C */ s8 playerID;
-    /* 0x3D */ s8 sa2__unk61;
-    /* 0x3E */ u8 sa2__unk62;
-    /* 0x3F */ u8 unk3F;
+    /* 0x3D */ s8 SA2_LABEL(unk61);
+    /* 0x3E */ u8 SA2_LABEL(unk62);
+    /* 0x3E */ u8 SA2_LABEL(unk63);
     /* 0x40 */ s8 charState;
     /* 0x41 */ s8 prevCharState;
     /* 0x42 */ u16 anim;
     /* 0x44 */ u16 variant;
-    /* 0x46 */ u8 filler46[0x2];
+    /* 0x46 */ u16 SA2_LABEL(unk72);
     /* 0x48 */ s16 checkPointX;
     /* 0x4A */ s16 checkPointY;
     /* 0x4C */ u32 checkpointTime;
-    /* 0x50 */ u8 filler50[0x8];
+
+    // TODO: Could these be a matrix?
+    /* 0x50 */ u16 SA2_LABEL(unk7C);
+    /* 0x52 */ u16 SA2_LABEL(unk7E);
+    /* 0x54 */ u16 SA2_LABEL(unk80);
+    /* 0x56 */ u16 SA2_LABEL(unk82);
 
     /* 0x58 */ s8 defeatScoreIndex;
     /* 0x59 */ s8 character;
-    /* 0x5B */ u8 filler5B[0x5];
+    /* 0x5A */ s8 secondsUntilDrown;
+    /* 0x5B */ s8 framesUntilDrownCountDecrement;
+    /* 0x5C */ s8 SA2_LABEL(unk88);
+    /* 0x5D */ u8 filler5D[0x3];
 
     /* 0x60 */ struct Task *spriteTask;
     /* 0x64 */ PlayerSpriteInfo *spriteInfoBody; // for character sprites
     /* 0x68 */ PlayerSpriteInfo *spriteInfoLimbs; // SpriteInfo for Tails' tails / Cream's ears, when rolling
 
-    /* 0x6C */ u8 unk6C;
-    /* 0x6D */ u8 filler6D[0x23];
+    /* 0x6C */ u8 SA2_LABEL(unk98);
+    /* 0x6D */ s8 SA2_LABEL(unk99)[16];
+    /* 0x7D */ u8 filler7D[0x3];
+
+    union {
+        SonicFlags sf;
+#if (GAME == GAME_SA2)
+        CreamFlags cf;
+#endif
+        TailsFlags tf;
+        KnucklesFlags kf;
+        AmyFlags af;
+    } w;
+
+    /* 0x88 */ u8 filler88[0x8];
 } Player;
 
 extern s32 sa2__sub_8022F58(u8 param0, Player *p);

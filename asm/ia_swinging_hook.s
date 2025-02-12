@@ -999,7 +999,7 @@ _08087E1E:
 _08087E28:
 	strb r5, [r6, #0x14]
 _08087E2A:
-	ldr r0, _08087E3C @ =gUnknown_030060E0
+	ldr r0, _08087E3C @ =gPlayerControls
 	ldrh r1, [r0]
 	cmp r5, #0
 	beq _08087E40
@@ -1009,7 +1009,7 @@ _08087E2A:
 	bne _08087E4A
 	b _080880A4
 	.align 2, 0
-_08087E3C: .4byte gUnknown_030060E0
+_08087E3C: .4byte gPlayerControls
 _08087E40:
 	ldrh r0, [r6, #0x3a]
 	ands r0, r1

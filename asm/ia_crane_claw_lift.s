@@ -2600,7 +2600,7 @@ _0808AF48:
 	ands r6, r5
 	cmp r6, #0
 	bne _0808AFDA
-	ldr r0, _0808AFB4 @ =gUnknown_030060E0
+	ldr r0, _0808AFB4 @ =gPlayerControls
 	ldrh r1, [r4, #0x3a]
 	ldrh r0, [r0]
 	ands r0, r1
@@ -2646,7 +2646,7 @@ _0808AF48:
 	.align 2, 0
 _0808AFAC: .4byte gPlayer
 _0808AFB0: .4byte gPartner
-_0808AFB4: .4byte gUnknown_030060E0
+_0808AFB4: .4byte gPlayerControls
 _0808AFB8: .4byte 0xFFBFFFFF
 _0808AFBC: .4byte gCurTask
 _0808AFC0: .4byte sub_808B064

@@ -8192,7 +8192,7 @@ _0805C5F6:
 	ldr r4, _0805C688 @ =0xFFDFFFFF
 	ands r0, r4
 	str r0, [r3, #0x10]
-	ldr r0, _0805C68C @ =gUnknown_030060E0
+	ldr r0, _0805C68C @ =gPlayerControls
 	ldrh r2, [r0]
 	ldrh r0, [r0, #2]
 	orrs r2, r0
@@ -8230,7 +8230,7 @@ _0805C67C: .4byte gStageFlags
 _0805C680: .4byte 0x0000FFFE
 _0805C684: .4byte gPlayer
 _0805C688: .4byte 0xFFDFFFFF
-_0805C68C: .4byte gUnknown_030060E0
+_0805C68C: .4byte gPlayerControls
 _0805C690: .4byte gPartner
 _0805C694: .4byte gCurTask
 _0805C698:

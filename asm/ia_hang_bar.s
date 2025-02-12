@@ -267,14 +267,14 @@ _0808C212:
 	ldr r0, [r5]
 _0808C214:
 	str r0, [r1]
-	ldr r0, _0808C224 @ =gUnknown_030060E0
+	ldr r0, _0808C224 @ =gPlayerControls
 	ldrh r1, [r0]
 	cmp r7, #0
 	beq _0808C228
 	ldrh r0, [r4, #0x3a]
 	b _0808C22A
 	.align 2, 0
-_0808C224: .4byte gUnknown_030060E0
+_0808C224: .4byte gPlayerControls
 _0808C228:
 	ldrh r0, [r5, #0x3a]
 _0808C22A:

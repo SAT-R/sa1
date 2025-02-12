@@ -392,7 +392,7 @@ _0804DD6C:
 	ldr r0, _0804DDB4 @ =0xFFDFFFFF
 	ands r1, r0
 	str r1, [r5, #0x10]
-	ldr r0, _0804DDB8 @ =gUnknown_030060E0
+	ldr r0, _0804DDB8 @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -424,7 +424,7 @@ _0804DDA6:
 	bx r0
 	.align 2, 0
 _0804DDB4: .4byte 0xFFDFFFFF
-_0804DDB8: .4byte gUnknown_030060E0
+_0804DDB8: .4byte gPlayerControls
 _0804DDBC: .4byte 0xFFFF7FFF
 _0804DDC0: .4byte gNumSingleplayerCharacters
 

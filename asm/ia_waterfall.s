@@ -815,7 +815,7 @@ _0807611E:
 	movs r0, #0xc9
 	bl m4aSongNumStart
 _0807612E:
-	ldr r0, _08076144 @ =gUnknown_030060E0
+	ldr r0, _08076144 @ =gPlayerControls
 	ldrh r1, [r0]
 	adds r3, r0, #0
 	cmp r5, #0
@@ -827,7 +827,7 @@ _0807612E:
 	bne _08076156
 	b _080761DC
 	.align 2, 0
-_08076144: .4byte gUnknown_030060E0
+_08076144: .4byte gPlayerControls
 _08076148: .4byte gPlayer
 _0807614C:
 	ldrh r0, [r7, #0x3a]

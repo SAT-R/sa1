@@ -216,7 +216,7 @@ _08096C9C:
 	ands r0, r1
 	str r0, [r4, #0x10]
 _08096CA4:
-	ldr r0, _08096CBC @ =gUnknown_030060E0
+	ldr r0, _08096CBC @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -228,7 +228,7 @@ _08096CA4:
 	b _08096CC6
 	.align 2, 0
 _08096CB8: .4byte 0xFFDFFFFF
-_08096CBC: .4byte gUnknown_030060E0
+_08096CBC: .4byte gPlayerControls
 _08096CC0:
 	ldrh r0, [r4, #0x38]
 	orrs r1, r0

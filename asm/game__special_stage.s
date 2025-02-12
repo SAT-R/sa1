@@ -821,7 +821,7 @@ _08029FC4:
 	strb r0, [r1]
 	adds r0, r3, #0
 	adds r0, #0x44
-	ldr r1, _0802A010 @ =gUnknown_030060E0
+	ldr r1, _0802A010 @ =gPlayerControls
 	ldrh r2, [r0]
 	ldrh r0, [r1, #2]
 	ands r0, r2
@@ -846,13 +846,13 @@ _08029FC4:
 	movs r0, #1
 	b _0802A062
 	.align 2, 0
-_0802A010: .4byte gUnknown_030060E0
+_0802A010: .4byte gPlayerControls
 _0802A014: .4byte gMPlayTable
 _0802A018: .4byte gSongTable
 _0802A01C:
 	adds r0, r3, #0
 	adds r0, #0x44
-	ldr r1, _0802A04C @ =gUnknown_030060E0
+	ldr r1, _0802A04C @ =gPlayerControls
 	ldrh r2, [r0]
 	ldrh r0, [r1, #2]
 	ands r0, r2
@@ -875,7 +875,7 @@ _0802A01C:
 	strb r1, [r0]
 	b _0802A058
 	.align 2, 0
-_0802A04C: .4byte gUnknown_030060E0
+_0802A04C: .4byte gPlayerControls
 _0802A050:
 	adds r1, r3, #0
 	adds r1, #0x3c
@@ -1655,7 +1655,7 @@ _0802A5DC:
 	asrs r0, r0, #0x1a
 	strh r0, [r4, #0x10]
     @ inline of sub_802D6B4?
-	ldr r0, _0802A638 @ =gUnknown_030060E0 
+	ldr r0, _0802A638 @ =gPlayerControls 
 	ldrh r1, [r7]
 	ldrh r0, [r0]
 	ands r0, r1
@@ -1674,7 +1674,7 @@ _0802A5DC:
 	.align 2, 0
 _0802A630: .4byte 0x000003FF
 _0802A634: .4byte gSineTable
-_0802A638: .4byte gUnknown_030060E0
+_0802A638: .4byte gPlayerControls
 _0802A63C:
 	ldrb r1, [r2]
 	movs r0, #2
@@ -7654,7 +7654,7 @@ sub_802D6B4: @ 0x0802D6B4
 	adds r2, r0, #0
 	adds r1, r2, #0
 	adds r1, #0x42
-	ldr r0, _0802D6DC @ =gUnknown_030060E0
+	ldr r0, _0802D6DC @ =gPlayerControls
 	ldrh r1, [r1]
 	ldrh r0, [r0]
 	ands r0, r1
@@ -7671,7 +7671,7 @@ sub_802D6B4: @ 0x0802D6B4
 	lsls r0, r0, #1
 	b _0802D6F6
 	.align 2, 0
-_0802D6DC: .4byte gUnknown_030060E0
+_0802D6DC: .4byte gPlayerControls
 _0802D6E0:
 	adds r0, r2, #0
 	adds r0, #0x29

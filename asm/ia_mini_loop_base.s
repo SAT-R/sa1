@@ -107,7 +107,7 @@ _0804D978:
 	ldr r0, _0804D9E8 @ =0xFFDFFFFF
 	ands r1, r0
 	str r1, [r2, #0x10]
-	ldr r0, _0804D9EC @ =gUnknown_030060E0
+	ldr r0, _0804D9EC @ =gPlayerControls
 	ldrh r1, [r0]
 	ldrh r0, [r0, #2]
 	orrs r1, r0
@@ -138,7 +138,7 @@ _0804D9D6:
 	.align 2, 0
 _0804D9E4: .4byte 0xFFFFFDFF
 _0804D9E8: .4byte 0xFFDFFFFF
-_0804D9EC: .4byte gUnknown_030060E0
+_0804D9EC: .4byte gPlayerControls
 _0804D9F0: .4byte gNumSingleplayerCharacters
 
 	thumb_func_start CreateEntity_MiniLoop_Base

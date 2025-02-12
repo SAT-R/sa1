@@ -595,7 +595,7 @@ sub_8025E6C: @ 0x08025E6C
 	ldr r1, _08025F10 @ =0xFFDFFFFF
 	ands r0, r1
 	str r0, [r2, #0x10]
-	ldr r1, _08025F14 @ =gUnknown_030060E0
+	ldr r1, _08025F14 @ =gPlayerControls
 	ldrh r0, [r1]
 	ldrh r1, [r1, #2]
 	orrs r0, r1
@@ -616,7 +616,7 @@ _08025F04: .4byte 0x03000044
 _08025F08: .4byte gCamera
 _08025F0C: .4byte gPlayer
 _08025F10: .4byte 0xFFDFFFFF
-_08025F14: .4byte gUnknown_030060E0
+_08025F14: .4byte gPlayerControls
 _08025F18: .4byte gRefCollision
 _08025F1C:
 	adds r0, r5, #0
