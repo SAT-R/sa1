@@ -74,7 +74,7 @@ src/game/water_effects.o(.data);
 . = 0x000060D0;
 src/input_recorder.o(.data);
 
-. = 0x000060E0; gUnknown_030060E0 = .;
+. = 0x000060E0; gPlayerControls = .;
 . = 0x000060F0; gUnknown_030060F0 = .;
 . = 0x00006166; gUnknown_03006166 = .;
 . = 0x00006170; gUnknown_03006170 = .;
