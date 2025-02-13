@@ -22,7 +22,8 @@ void sa2__sub_8023B5C() { }
 void StageBgUpdate_Zone6Act1() { }
 void StageBgUpdate_Zone6Act2() { }
 
-void CallSetStageSpawnPos() { }
+void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p);
+void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { SetStageSpawnPos(character, level, playerID, p); }
 void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
 
 void CreatePauseMenu(void) { }
@@ -38,7 +39,10 @@ void DestroyPlayerTasks() { }
 // Player
 void Task_PlayerMain(void) { }
 void Task_8045B38(void) { }
+void Player_804726C(Player *p) { }
 void Task_8049898(void) { }
+void sa2__sub_8029AC0() { }
+void sa2__sub_8029B0C() { }
 void sub_804A1B8(Player *p) { }
 void TaskDestructor_Player(struct Task *t) { }
 

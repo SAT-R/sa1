@@ -1465,6 +1465,7 @@ void SA2_LABEL(sub_80228C0)(Player *p)
     u32 r0;
     s32 playerX = p->qWorldX;
     s32 playerY = p->qWorldY;
+    s32 rot = p->rotation;
 #endif
     u32 mask = p->layer;
     s32 py = I(playerY);
@@ -1497,7 +1498,7 @@ void SA2_LABEL(sub_80228C0)(Player *p)
                 r0 = p->SA2_LABEL(unk29);
             }
             rot = r0;
-        } else /* val > 0 */ {
+        } else /* val >= 0 */ {
             s32 airX = p->qSpeedAirX;
 
             if (airX < 0) {
@@ -1561,3 +1562,608 @@ void SA2_LABEL(sub_80228C0)(Player *p)
         }
     }
 }
+
+// Similar to sub_80228C0, sub_8022B18
+void SA2_LABEL(sub_80229EC)(Player *p)
+{
+    s32 val;
+    u8 *p29;
+    s32 resultB;
+    s32 playerY;
+    s32 py;
+#ifndef NON_MATCHING
+    register s32 resultA asm("r6");
+    register u32 r1 asm("r1");
+    register u32 r0 asm("r0");
+    register s32 playerX asm("r4");
+    register u32 mask asm("r9");
+#else
+    s32 resultA;
+    u32 r1;
+    u32 r0;
+    s32 playerX;
+    u32 mask;
+#endif
+    playerX = p->qWorldX;
+    playerY = (p->qWorldY);
+    mask = p->layer;
+    py = I(playerY);
+
+    resultA = SA2_LABEL(sub_801E4E4)(py - p->spriteOffsetY, (playerX = I(playerX)) + (2 + p->spriteOffsetX), mask, -8, &p->SA2_LABEL(unk28),
+                                     SA2_LABEL(sub_801EE64));
+
+    py = py - (p->spriteOffsetY);
+    playerX -= 2;
+    playerX -= p->spriteOffsetX;
+    p29 = &p->SA2_LABEL(unk29);
+    resultB = SA2_LABEL(sub_801E4E4)(py, playerX, mask, -8, p29, SA2_LABEL(sub_801EE64));
+
+    val = resultB;
+    if (resultB > resultA) {
+        val = resultA;
+    }
+
+    if (val != 0) {
+        if (val < 0) {
+            if (val < -11) {
+                return;
+            }
+
+            playerY -= Q(val);
+
+            if (resultA < resultB) {
+                r0 = p->SA2_LABEL(unk28);
+            } else {
+                r0 = *p29;
+            }
+        } else /* val > 0 */ {
+            s32 airX = p->qSpeedAirX;
+
+            if (airX < 0) {
+                airX = -airX;
+            }
+
+            airX = I(airX);
+            airX += 3;
+
+            if (airX > 11)
+                airX = 11;
+
+            if (val <= airX) {
+                playerY -= Q(val);
+
+                if (resultA < resultB) {
+                    r0 = p->SA2_LABEL(unk28);
+                } else {
+                    r0 = *p29;
+                }
+            } else {
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->moveState &= ~MOVESTATE_20;
+                return;
+            }
+        }
+    } else {
+        if (resultA < resultB) {
+            r0 = p->SA2_LABEL(unk28);
+        } else {
+            r0 = p->SA2_LABEL(unk29);
+        }
+    }
+
+    r1 = r0;
+    p->qWorldY = playerY;
+
+    if (!(r1 & 0x1)) {
+        vu8 *pRot = &p->rotation;
+        *pRot = r1;
+
+        if (GRAVITY_IS_INVERTED) {
+            // TODO: CLEANUP (effectively *pRot = 128-r1)
+            r1 = *pRot;
+            asm("" ::"r"(r1));
+            r0 = r1;
+            r0 += 0x40;
+            r0 <<= 24;
+            r0 = -r0;
+            r1 = r0 >> 24;
+            asm("" ::"r"(r0), "r"(r1));
+            r0 = r1;
+            r0 -= 0x40;
+
+            *pRot = r0;
+        }
+    }
+}
+
+// Similar to sub_80228C0, sub_80229EC
+void SA2_LABEL(sub_8022B18)(Player *p)
+{
+    s32 val;
+    u8 *p29;
+    s32 resultB;
+    s32 playerX;
+    s32 py;
+#ifndef NON_MATCHING
+    register s32 resultA asm("r6");
+    register u32 r1 asm("r1");
+    register u32 r0 asm("r0");
+    register s32 playerY asm("r4");
+    register u32 mask asm("r9");
+#else
+    s32 resultA;
+    u32 r1;
+    u32 r0;
+    s32 playerY;
+    u32 mask;
+#endif
+    playerX = p->qWorldX;
+    playerY = (p->qWorldY);
+    mask = p->layer;
+    py = I(playerX);
+
+    resultA = SA2_LABEL(sub_801E4E4)(py - p->spriteOffsetY, (playerY = I(playerY)) - (2 + p->spriteOffsetX), mask, -8, &p->SA2_LABEL(unk28),
+                                     SA2_LABEL(sub_801ED24));
+
+    py = py - (p->spriteOffsetY);
+    playerY += 2;
+    playerY += p->spriteOffsetX;
+    p29 = &p->SA2_LABEL(unk29);
+    resultB = SA2_LABEL(sub_801E4E4)(py, playerY, mask, -8, p29, SA2_LABEL(sub_801ED24));
+
+    val = resultB;
+    if (resultB > resultA) {
+        val = resultA;
+    }
+
+    if (val != 0) {
+        if (val < 0) {
+            if (val < -11) {
+                return;
+            }
+
+            playerX -= Q(val);
+
+            if (resultA < resultB) {
+                r0 = p->SA2_LABEL(unk28);
+            } else {
+                r0 = *p29;
+            }
+        } else /* val > 0 */ {
+            s32 airY = p->qSpeedAirY;
+
+            if (airY < 0) {
+                airY = -airY;
+            }
+
+            airY = I(airY);
+            airY += 3;
+
+            if (airY > 11)
+                airY = 11;
+
+            if (val <= airY) {
+                playerX -= Q(val);
+
+                if (resultA < resultB) {
+                    r0 = p->SA2_LABEL(unk28);
+                } else {
+                    r0 = *p29;
+                }
+            } else {
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->moveState &= ~MOVESTATE_20;
+                return;
+            }
+        }
+    } else {
+        if (resultA < resultB) {
+            r0 = p->SA2_LABEL(unk28);
+        } else {
+            r0 = p->SA2_LABEL(unk29);
+        }
+    }
+
+    r1 = r0;
+    p->qWorldX = playerX;
+
+    if (!(r1 & 0x1)) {
+        vu8 *pRot = &p->rotation;
+        *pRot = r1;
+
+        if (GRAVITY_IS_INVERTED) {
+            // TODO: CLEANUP (effectively *pRot = 128-r1)
+            r1 = *pRot;
+            asm("" ::"r"(r1));
+            r0 = r1;
+            r0 += 0x40;
+            r0 <<= 24;
+            r0 = -r0;
+            r1 = r0 >> 24;
+            asm("" ::"r"(r0), "r"(r1));
+            r0 = r1;
+            r0 -= 0x40;
+
+            *pRot = r0;
+        }
+    }
+}
+
+// Similar to sub_80228C0, sub_80229EC, sub_8022B18
+void SA2_LABEL(sub_8022C44)(Player *p)
+{
+    s32 val;
+    s32 resultB;
+    s32 playerX;
+    s32 py;
+    s32 resultA;
+
+#ifndef NON_MATCHING
+    register u32 r1 asm("r1");
+    register u32 r0 asm("r0");
+    register s32 playerY asm("r4");
+    register u32 mask asm("r8");
+#else
+    u32 r1;
+    u32 r0;
+    s32 playerY;
+    u32 mask;
+#endif
+    playerX = p->qWorldX;
+    playerY = (p->qWorldY);
+    mask = p->layer;
+    py = I(playerX);
+
+    resultA = SA2_LABEL(sub_801E4E4)(py + p->spriteOffsetY, (playerY = I(playerY)) + (2 + p->spriteOffsetX), mask, +8, &p->SA2_LABEL(unk28),
+                                     SA2_LABEL(sub_801ED24));
+
+    py = py + (p->spriteOffsetY);
+    playerY -= 2;
+    playerY -= p->spriteOffsetX;
+    resultB = SA2_LABEL(sub_801E4E4)(py, playerY, mask, +8, &p->SA2_LABEL(unk29), SA2_LABEL(sub_801ED24));
+
+    val = resultB;
+    if (resultB > resultA) {
+        val = resultA;
+    }
+
+    if (val != 0) {
+        if (val < 0) {
+            if (val < -11) {
+                return;
+            }
+
+            playerX += Q(val);
+
+            if (resultA < resultB) {
+                r0 = p->SA2_LABEL(unk28);
+            } else {
+                r0 = p->SA2_LABEL(unk29);
+            }
+        } else /* val > 0 */ {
+            s32 airY = p->qSpeedAirY;
+
+            if (airY < 0) {
+                airY = -airY;
+            }
+
+            airY = I(airY);
+            airY += 3;
+
+            if (airY > 11)
+                airY = 11;
+
+            if (val <= airY) {
+                playerX += Q(val);
+
+                if (resultA < resultB) {
+                    r0 = p->SA2_LABEL(unk28);
+                } else {
+                    r0 = p->SA2_LABEL(unk29);
+                }
+            } else {
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->moveState &= ~MOVESTATE_20;
+                return;
+            }
+        }
+    } else {
+        if (resultA < resultB) {
+            r0 = p->SA2_LABEL(unk28);
+        } else {
+            r0 = p->SA2_LABEL(unk29);
+        }
+    }
+
+    r1 = r0;
+    p->qWorldX = playerX;
+
+    if (!(r1 & 0x1)) {
+        vu8 *pRot = &p->rotation;
+        *pRot = r1;
+
+        if (GRAVITY_IS_INVERTED) {
+#ifndef NON_MATCHING
+            r1 = *pRot;
+            asm("" ::"r"(r1));
+            r0 = r1;
+            r0 += 0x40;
+            r0 <<= 24;
+            r0 = -r0;
+            r1 = r0 >> 24;
+            asm("" ::"r"(r0), "r"(r1));
+            r0 = r1;
+            r0 -= 0x40;
+
+            *pRot = r0;
+#else
+            *pRot = 128 - r1;
+#endif
+        }
+    }
+}
+
+void SA2_LABEL(sub_8022D6C)(Player *p)
+{
+#if (GAME == GAME_SA1) && !defined(BUG_FIX)
+    u8 r1;
+#else
+    u8 r1 = 0;
+#endif
+    if (p->moveState & MOVESTATE_STOOD_ON_OBJ) {
+        p->SA2_LABEL(unk29) = 0;
+        p->SA2_LABEL(unk28) = 0;
+        return;
+    }
+
+    // NOTE/TODO: Not in SA1, but likely in SA3, so assuming >= GAME_SA2!
+#if (GAME >= GAME_SA2)
+    if ((gCurrentLevel == 0) && (gWater.isActive == TRUE)) {
+        s32 r5 = Q(p->qWorldY) >> 16;
+        u32 mask = ~0x3;
+        s32 offsetY = p->spriteOffsetY;
+        s32 unk4 = gWater.currentWaterLevel;
+        s16 r0 = (unk4 - offsetY) & mask;
+        r5 &= mask;
+
+        if ((r5 == (r0)) && (p->qSpeedAirY >= 0) && ((u8)(p->rotation + 0x18) <= 0x30) && (!(p->moveState & MOVESTATE_IN_AIR))
+            && (ABS(p->qSpeedGround) >= Q(6.0))) {
+            SA2_LABEL(sub_80228C0)(p);
+
+            if (p->qWorldY >= Q(r5)) {
+                if (!(p->moveState & MOVESTATE_20000)) {
+                    p->moveState |= MOVESTATE_20000;
+
+                    if (IS_SINGLE_PLAYER) {
+                        CreateRunOnWaterEffect();
+                    }
+                }
+
+                m4aSongNumStartOrContinue(SE_281);
+                p->qWorldY = (r0 << 8);
+                p->rotation = 0;
+                p->moveState &= ~MOVESTATE_IN_AIR;
+            } else {
+                if (p->moveState & MOVESTATE_20000) {
+                    m4aSongNumStop(SE_281);
+                }
+                p->moveState &= ~MOVESTATE_20000;
+            }
+            return;
+        } else if (p->moveState & MOVESTATE_20000) {
+            p->moveState &= ~MOVESTATE_20000;
+            m4aSongNumStop(SE_281);
+        }
+    }
+#endif
+
+    if (GRAVITY_IS_INVERTED) {
+        s8 rot = p->rotation;
+        rot += 0x40;
+        rot = -rot;
+        rot -= 0x40;
+
+        if (rot + 0x20 > 0) {
+            if (rot <= 0) {
+                r1 = rot + 0x20;
+            } else {
+                r1 = rot + 0x1F;
+            }
+        } else {
+            if (rot > 0) {
+                r1 = rot + 0x20;
+            } else {
+                r1 = rot + 0x1F;
+            }
+        }
+
+        switch (r1 >> 6) {
+            case 0: {
+                SA2_LABEL(sub_80228C0)(p);
+            } break;
+
+            case 2: {
+                SA2_LABEL(sub_80229EC)(p);
+            } break;
+
+            case 1: {
+                SA2_LABEL(sub_8022B18)(p);
+            } break;
+
+            case 3: {
+                SA2_LABEL(sub_8022C44)(p);
+            } break;
+        }
+    } else {
+        s8 rot = p->rotation;
+
+        if (rot + 0x20 > 0) {
+            if (rot <= 0) {
+                r1 = rot + 0x20;
+            } else {
+                r1 = rot + 0x1F;
+            }
+        } else {
+            if (rot > 0) {
+                r1 = rot + 0x20;
+            } else {
+                r1 = rot + 0x1F;
+            }
+        }
+
+        switch (r1 >> 6) {
+            case 0: {
+                SA2_LABEL(sub_80228C0)(p);
+            } break;
+
+            case 2: {
+                SA2_LABEL(sub_80229EC)(p);
+            } break;
+
+            case 1: {
+                SA2_LABEL(sub_8022B18)(p);
+            } break;
+
+            case 3: {
+                SA2_LABEL(sub_8022C44)(p);
+            } break;
+        }
+    }
+}
+
+#if (GAME == GAME_SA1)
+void sub_8043970(Player *p)
+{
+#ifndef NON_MATCHING
+    register s32 qSpeedGround asm("r5") = p->qSpeedGround;
+#else
+    s32 qSpeedGround = p->qSpeedGround;
+#endif
+    s32 qMaxSpeed = p->maxSpeed;
+    s32 qAcceleration = p->acceleration;
+    s32 qDeceleration = p->deceleration;
+
+    if (qSpeedGround <= Q(0)) {
+        if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+            p->moveState &= ~MOVESTATE_20;
+            p->charState = CHARSTATE_22;
+
+            SA2_LABEL(sub_8023B5C)(p, 14);
+            PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+        }
+
+        p->moveState |= MOVESTATE_FACING_LEFT;
+
+        qSpeedGround -= qAcceleration;
+
+        if (qSpeedGround < -qMaxSpeed) {
+            qSpeedGround += qAcceleration;
+
+            if (qSpeedGround > -qMaxSpeed) {
+                qSpeedGround = -qMaxSpeed;
+            }
+
+            p->qSpeedGround = qSpeedGround;
+        } else {
+            p->qSpeedGround = qSpeedGround;
+        }
+
+        if (!(p->moveState & (MOVESTATE_800000 | MOVESTATE_8000))) {
+            if (p->charState != 22) {
+                p->charState = CHARSTATE_4;
+
+                SA2_LABEL(sub_8023B5C)(p, 14);
+                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+            }
+        }
+    } else {
+        qSpeedGround -= qDeceleration;
+
+        if (qSpeedGround < Q(0)) {
+            qSpeedGround = -Q(96. / 256.);
+        }
+
+        p->qSpeedGround = qSpeedGround;
+
+        if (qSpeedGround < Q(3)) {
+            return;
+        }
+
+        m4aSongNumStart(SE_BRAKE);
+
+        p->charState = CHARSTATE_9;
+
+        SA2_LABEL(sub_8023B5C)(p, 14);
+        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+    }
+}
+
+// Basically the opposite to sub_8043970.
+// Uses the same variables, but checks are inverted.
+void sub_8043A2C(Player *p)
+{
+#ifndef NON_MATCHING
+    register s32 qSpeedGround asm("r5") = p->qSpeedGround;
+#else
+    s32 qSpeedGround = p->qSpeedGround;
+#endif
+    s32 qMaxSpeed = p->maxSpeed;
+    s32 qAcceleration = p->acceleration;
+    s32 qDeceleration = p->deceleration;
+
+    if (qSpeedGround >= Q(0)) {
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
+            p->moveState &= ~MOVESTATE_20;
+            p->charState = CHARSTATE_22;
+
+            SA2_LABEL(sub_8023B5C)(p, 14);
+            PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+        }
+
+        p->moveState &= ~MOVESTATE_FACING_LEFT;
+
+        qSpeedGround += qAcceleration;
+
+        if (qSpeedGround > +qMaxSpeed) {
+            qSpeedGround -= qAcceleration;
+
+            if (qSpeedGround < +qMaxSpeed) {
+                qSpeedGround = +qMaxSpeed;
+            }
+
+            p->qSpeedGround = qSpeedGround;
+        } else {
+            p->qSpeedGround = qSpeedGround;
+        }
+
+        if (!(p->moveState & (MOVESTATE_800000 | MOVESTATE_8000))) {
+            if (p->charState != 22) {
+                p->charState = CHARSTATE_4;
+
+                SA2_LABEL(sub_8023B5C)(p, 14);
+                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+            }
+        }
+    } else {
+        qSpeedGround += qDeceleration;
+
+        if (qSpeedGround > Q(0)) {
+            qSpeedGround = +Q(96. / 256.);
+        }
+
+        p->qSpeedGround = qSpeedGround;
+
+        if (qSpeedGround > -Q(3)) {
+            return;
+        }
+
+        m4aSongNumStart(SE_BRAKE);
+
+        p->charState = CHARSTATE_9;
+
+        SA2_LABEL(sub_8023B5C)(p, 14);
+        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+    }
+}
+#endif
+

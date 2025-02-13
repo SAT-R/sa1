@@ -8,6 +8,9 @@
 
 #define CHARSTATE_INVALID -1
 #define CHARSTATE_IDLE    0
+#define CHARSTATE_4       4
+#define CHARSTATE_9       9
+#define CHARSTATE_22      22
 
 #if (GAME == GAME_SA1)
 #define CHARSTATE_HIT_AIR     15
