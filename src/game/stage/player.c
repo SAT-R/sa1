@@ -45,6 +45,7 @@ void Task_8045B38(void);
 void Player_804726C(Player *p);
 void Task_8049898(void);
 void sub_804A1B8(Player *p);
+s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out);
 void Task_PlayerMain(void);
 void TaskDestructor_Player(struct Task *);
 void AllocateCharacterStageGfx(Player *p, PlayerSpriteInfo *param2);
@@ -2167,3 +2168,300 @@ void sub_8043A2C(Player *p)
 }
 #endif
 
+// (100.00%) https://decomp.me/scratch/U0r54
+s32 SA2_LABEL(sub_8022F58)(u8 param0, Player *p)
+{
+    u32 p0;
+    s32 result = 0; // maybe u8?
+    s32 r4;
+    u8 sp0[4];
+    s32 sp4[4];
+#ifndef NON_MATCHING
+    register s32 fnRes asm("r3");
+#else
+    s32 fnRes;
+#endif
+
+    p->SA2_LABEL(unk29) = param0;
+    p->SA2_LABEL(unk28) = param0;
+
+    p0 = (param0 + Q(0.125)) & 0xC0;
+
+#ifndef NON_MATCHING
+    asm("asr %0, %1, #6\n" : "=r"(r4) : "r"(p0));
+#else
+    r4 = p0 >> 6;
+#endif
+
+    switch (r4) {
+        case 0: {
+            u8 *ptr = sp0;
+            u8 temp;
+            fnRes = SA2_LABEL(sub_8029BB8)(p, ptr, &sp4[0]);
+            temp = *ptr;
+
+            if (sp0[0] & 0x1) {
+                *ptr = result;
+            } else {
+                if (GRAVITY_IS_INVERTED) {
+                    s32 v = -0x80 - temp;
+                    *ptr = v;
+                }
+            }
+
+            result = fnRes;
+        } break;
+
+        case 1: {
+            u8 *ptr = sp0;
+            u8 temp;
+            fnRes = SA2_LABEL(sub_802195C)(p, ptr, &sp4[1]);
+            temp = *ptr;
+
+            if (temp & 0x1) {
+                *ptr = result;
+            } else {
+                if (GRAVITY_IS_INVERTED) {
+                    s32 v = -0x80 - temp;
+                    *ptr = v;
+                }
+            }
+
+            result = fnRes;
+        } break;
+
+        case 2: {
+            u8 *ptr = sp0;
+            u8 temp;
+            fnRes = SA2_LABEL(sub_8021B08)(p, ptr, &sp4[2]);
+            temp = *ptr;
+
+            if (temp & 0x1) {
+                *ptr = result;
+            } else {
+                if (GRAVITY_IS_INVERTED) {
+                    s32 v = -0x80 - temp;
+                    *ptr = v;
+                }
+            }
+
+            result = fnRes;
+        } break;
+
+        case 3: {
+            u8 *ptr = sp0;
+            u8 temp;
+            fnRes = SA2_LABEL(sub_8021A34)(p, ptr, &sp4[3]);
+            temp = *ptr;
+
+            if (temp & 0x1) {
+                *ptr = result;
+            } else {
+                if (GRAVITY_IS_INVERTED) {
+                    s32 v = -0x80 - temp;
+                    *ptr = v;
+                }
+            }
+
+            result = fnRes;
+        } break;
+    }
+
+    return result;
+}
+
+s32 SA2_LABEL(sub_802302C)(u8 param0, Player *p)
+{
+    s32 r3;
+    u32 r0;
+    s32 result;
+    u32 temp;
+
+    s32 px = I(p->qWorldX);
+    s32 py = I(p->qWorldY);
+
+    p->SA2_LABEL(unk29) = param0;
+    r3 = (s8)param0;
+#ifndef NON_MATCHING
+    p->SA2_LABEL(unk28) = ((u32)param0 << 0x18) >> 0x18;
+#else
+    p->SA2_LABEL(unk28) = param0;
+#endif
+
+    if (((param0 + Q(0.125)) << 24) > 0) {
+        if (r3 <= 0) {
+#ifndef NON_MATCHING
+            asm("");
+#endif
+            param0 += Q(0.125);
+        } else {
+            param0 += Q(0.125) - 1;
+        }
+    } else {
+        if (r3 <= 0) {
+            param0 += Q(0.125) - 1;
+        } else {
+            param0 += Q(0.125);
+        }
+    }
+
+    switch (param0 >> 6) {
+        case 0: {
+            s32 y = py + 2;
+            result = SA2_LABEL(sub_801E4E4)(y + p->spriteOffsetX, px, p->layer, +8, NULL, SA2_LABEL(sub_801EE64));
+        } break;
+
+        case 2: {
+            s32 y = py - 2;
+            result = SA2_LABEL(sub_801E4E4)(y - p->spriteOffsetX, px, p->layer, -8, NULL, SA2_LABEL(sub_801EE64));
+        } break;
+
+        case 1: {
+            s32 x = (px - 2);
+            result = SA2_LABEL(sub_801E4E4)(x - p->spriteOffsetX, py, p->layer, -8, NULL, SA2_LABEL(sub_801ED24));
+        } break;
+
+        case 3: {
+            s32 x = (px + 2);
+            result = SA2_LABEL(sub_801E4E4)(x + p->spriteOffsetX, py, p->layer, +8, NULL, SA2_LABEL(sub_801ED24));
+        } break;
+
+        default: {
+            result = 0;
+        }
+    }
+
+    return result;
+}
+
+void SA2_LABEL(sub_8023128)(Player *p)
+{
+    u8 r1;
+    u32 temp;
+    u8 r5;
+    s32 r2;
+
+    if (p->qSpeedGround == 0) {
+        return;
+    }
+
+    r1 = Q(0.25);
+    if (p->qSpeedGround >= 0) {
+        r1 = -Q(0.25);
+    }
+
+    // without temp, the add instr. sources get switched
+    temp = p->rotation + r1;
+    r5 = temp;
+
+    r2 = Q(SA2_LABEL(sub_802302C)(r5, p));
+
+    if (r2 <= 0) {
+        s32 rot = (r5 + Q(0.125));
+
+        switch ((rot & 0xC0) >> 6) {
+
+            case 0: {
+                p->qWorldY += r2;
+                p->qSpeedAirY = 0;
+            } break;
+
+            case 1: {
+                p->qWorldX -= r2;
+                p->qSpeedAirX = 0;
+                p->moveState |= MOVESTATE_20;
+
+#if (GAME == GAME_SA1)
+                p->moveState &= ~MOVESTATE_4;
+                SA2_LABEL(sub_8023B5C)(p, 14);
+                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+#endif
+
+                p->qSpeedGround = 0;
+            } break;
+
+            case 2: {
+                p->qWorldY -= r2;
+                p->qSpeedAirY = 0;
+                p->moveState |= MOVESTATE_IN_AIR;
+            } break;
+
+            case 3: {
+                p->qWorldX += r2;
+                p->qSpeedAirX = 0;
+                p->moveState |= MOVESTATE_20;
+
+#if (GAME == GAME_SA1)
+                p->moveState &= ~MOVESTATE_4;
+                SA2_LABEL(sub_8023B5C)(p, 14);
+                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+#endif
+
+                p->qSpeedGround = 0;
+            } break;
+        }
+
+        p->SA2_LABEL(unk62) = 0;
+        p->SA2_LABEL(unk63) = 0;
+    }
+}
+
+void SA2_LABEL(sub_80231C0)(Player *p)
+{
+    u8 r1;
+    u32 temp;
+    u8 r5;
+    s32 r2;
+
+    if (p->qSpeedGround == 0) {
+        return;
+    }
+
+    r1 = Q(0.25);
+    if (p->qSpeedGround >= 0) {
+        r1 = -Q(0.25);
+    }
+
+    // without temp, the add instr. sources get switched
+    temp = p->rotation + r1;
+    r5 = temp;
+
+    r2 = Q(SA2_LABEL(sub_802302C)(r5, p));
+
+    if (r2 <= 0) {
+        switch (((r5 + Q(0.125)) & 0xC0) >> 6) {
+
+            case 0: {
+                p->qWorldY += r2;
+                p->qSpeedAirY = 0;
+            } break;
+
+            case 1: {
+                p->qWorldX -= r2;
+                p->qSpeedAirX = 0;
+                p->moveState &= ~MOVESTATE_4;
+
+                SA2_LABEL(sub_8023B5C)(p, 14);
+                p->spriteOffsetX = 6;
+                p->spriteOffsetY = 14;
+                p->qSpeedGround = 0;
+            } break;
+
+            case 2: {
+                p->qWorldY -= r2;
+                p->qSpeedAirY = 0;
+                p->moveState |= MOVESTATE_IN_AIR;
+            } break;
+
+            case 3: {
+                p->qWorldX += r2;
+                p->qSpeedAirX = 0;
+                p->moveState &= ~MOVESTATE_4;
+
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+
+                p->qSpeedGround = 0;
+            } break;
+        }
+    }
+}
