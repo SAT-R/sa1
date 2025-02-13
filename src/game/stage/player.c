@@ -1469,7 +1469,8 @@ void SA2_LABEL(sub_80228C0)(Player *p)
     u32 mask = p->layer;
     s32 py = I(playerY);
 
-    resultA = SA2_LABEL(sub_801E4E4)(py + p->spriteOffsetY, (playerX = I(playerX)) - (2 + p->spriteOffsetX), mask, 8, &p->SA2_LABEL(unk28), SA2_LABEL(sub_801EE64));
+    resultA = SA2_LABEL(sub_801E4E4)(py + p->spriteOffsetY, (playerX = I(playerX)) - (2 + p->spriteOffsetX), mask, 8, &p->SA2_LABEL(unk28),
+                                     SA2_LABEL(sub_801EE64));
 
     py = py + (p->spriteOffsetY);
     playerX += 2;
@@ -1519,12 +1520,12 @@ void SA2_LABEL(sub_80228C0)(Player *p)
                 }
                 rot = r0;
             } else {
-                if(p->moveState & MOVESTATE_ICE_SLIDE) {
+                if (p->moveState & MOVESTATE_ICE_SLIDE) {
                     playerY += Q(val);
                 } else {
-                p->moveState |= MOVESTATE_IN_AIR;
-                p->moveState &= ~MOVESTATE_20;
-                return;
+                    p->moveState |= MOVESTATE_IN_AIR;
+                    p->moveState &= ~MOVESTATE_20;
+                    return;
                 }
             }
         }

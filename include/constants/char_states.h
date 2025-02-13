@@ -9,6 +9,14 @@
 #define CHARSTATE_INVALID -1
 #define CHARSTATE_IDLE    0
 
+#if (GAME == GAME_SA1)
+#define CHARSTATE_HIT_AIR 15
+#define CHARSTATE_ACT_CLEAR_B                   29 // unchecked
+#else
+#define CHARSTATE_HIT_AIR 20
+#define CHARSTATE_ACT_CLEAR_B                   29
+#endif
+
 // NOTE: Inferred from CHARSTATE_KNUCKLES_GLIDE in SA2_LABEL(sub_8022318)
 #define CHARSTATE_KNUCKLES_GLIDE 62
 

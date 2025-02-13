@@ -14,7 +14,7 @@
 
 #include "lib/m4a/m4a.h"
 
-#include "constants/sa2_char_states.h"
+#include "constants/char_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
 
