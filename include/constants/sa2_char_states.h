@@ -6,6 +6,7 @@
    Some are shared between characters (CHARSTATE_xyz)
 */
 
+#if (GAME == GAME_SA2)
 #define CHARSTATE_INVALID              -1
 #define CHARSTATE_IDLE                 0
 #define CHARSTATE_TAUNT                1
@@ -129,5 +130,6 @@
 #define CHARSTATE_UNUSED_N                    113
 #define CHARSTATE_AMY_MID_AIR_HAMMER_SWIRL    114 // might be SA1 version?
 #define CHARSTATE_COUNT                       115
+#endif
 
 #endif // GUARD_SA2_CHAR_STATES_H
