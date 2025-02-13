@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
+.if 01
 	thumb_func_start sub_8043DDC
 sub_8043DDC: @ 0x08043DDC
 	push {r4, lr}
