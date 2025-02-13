@@ -42,6 +42,7 @@ PlayerSpriteInfo ALIGNED(16) gPartnerBodyPSI = {};
 #endif
 
 void Task_8045B38(void);
+void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
 void Task_8049898(void);
 void sub_804A1B8(Player *p);
@@ -2464,4 +2465,93 @@ void SA2_LABEL(sub_80231C0)(Player *p)
             } break;
         }
     }
+}
+
+void sub_8043DDC(Player *p)
+{
+    if (p->SA2_LABEL(unk2A) == 0) {
+        s32 qSpeedGround;
+        if ((p->heldInput & DPAD_SIDEWAYS) != DPAD_RIGHT) {
+            if ((p->heldInput & DPAD_SIDEWAYS) == DPAD_LEFT) {
+                qSpeedGround = p->qSpeedGround;
+
+                if (qSpeedGround <= Q(0)) {
+                    p->moveState |= MOVESTATE_FACING_LEFT;
+                } else {
+                    qSpeedGround -= Q(24. / 256.);
+
+                    if (qSpeedGround < Q(0)) {
+                        qSpeedGround = -Q(96. / 256.);
+                        qSpeedGround = qSpeedGround;
+                    }
+
+                    p->qSpeedGround = qSpeedGround;
+                }
+            }
+        } else {
+            // _08043E14
+            qSpeedGround = p->qSpeedGround;
+
+            if (qSpeedGround >= 0) {
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+            } else {
+                qSpeedGround += Q(24. / 256.);
+
+                if (qSpeedGround > Q(0)) {
+                    qSpeedGround = +Q(96. / 256.);
+                    qSpeedGround = qSpeedGround;
+                }
+
+                p->qSpeedGround = qSpeedGround;
+            }
+        }
+    }
+
+    {
+        s32 qHalfAccel = (p->acceleration >> 1);
+        s32 qSpeedGround = p->qSpeedGround;
+        if (qSpeedGround < 0) {
+            qSpeedGround += qHalfAccel;
+            if (qSpeedGround > Q(0)) {
+                qSpeedGround = Q(0);
+            }
+
+            p->qSpeedGround = qSpeedGround;
+        } else if (qSpeedGround > 0) {
+            qSpeedGround -= qHalfAccel;
+            if (qSpeedGround < Q(0)) {
+                qSpeedGround = Q(0);
+            }
+
+            p->qSpeedGround = qSpeedGround;
+        }
+
+        if (qSpeedGround == 0) {
+            if (!(p->moveState & MOVESTATE_200)) {
+                p->moveState &= ~MOVESTATE_4;
+
+                if (p->heldInput & DPAD_DOWN) {
+                    p->charState = CHARSTATE_CROUCH;
+                } else {
+                    p->charState = CHARSTATE_4;
+                }
+
+                SA2_LABEL(sub_8023B5C)(p, 14);
+                p->spriteOffsetX = 6;
+                p->spriteOffsetY = 14;
+            } else {
+                qSpeedGround = Q(3);
+
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    qSpeedGround = -qSpeedGround;
+                }
+
+                p->qSpeedGround = qSpeedGround;
+                m4aSongNumStart(SE_SPIN_ATTACK);
+            }
+        }
+    }
+
+    Player_80470AC(p);
+    SA2_LABEL(sub_8023128)(p);
 }
