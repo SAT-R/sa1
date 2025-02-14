@@ -137,7 +137,9 @@
 #define SA1_ANIM_FIRE                558
 #define SA1_ANIM_DESTRUCTABLE_PILLAR 559
 
-#define SA1_ANIM_BLACK_PARTICLE 564
+#define SA1_ANIM_DEBRIS_A 564
+#define SA1_ANIM_DEBRIS_B 565
+#define SA1_ANIM_DEBRIS_C 566
 
 /* Version without lid (with lid: SA1_ANIM_PRESSURE_LID) */
 #define SA1_ANIM_PRESSURE_TUBE 567
