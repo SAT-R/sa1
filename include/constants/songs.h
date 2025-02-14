@@ -61,7 +61,7 @@
 #define SE_RETURN                  107
 #define SE_MENU_CURSOR_MOVE        108
 #define SE_SPIN_ATTACK             109
-#define SE_SPIN_DASH_RELEASE       110
+#define SE_SPINDASH_RELEASE        110
 #define SE_SONIC_SKID_ATTACK       111
 #define SE_SONIC_MIDAIR_SOMERSAULT 112
 #define SE_SONIC_INSTA_SHIELD      113

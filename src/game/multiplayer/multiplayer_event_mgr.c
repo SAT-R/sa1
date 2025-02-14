@@ -281,7 +281,7 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
                     gPlayer.moveState &= ~MOVESTATE_4;
                     gPlayer.moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
                     gPlayer.moveState |= MOVESTATE_IN_AIR;
-                    gPlayer.moveState &= ~MOVESTATE_400;
+                    gPlayer.moveState &= ~MOVESTATE_SPINDASH;
                     gPlayer.moveState &= ~MOVESTATE_100;
                     gPlayer.charState = CHARSTATE_HIT_AIR;
                     sa2__sub_8023B5C(&gPlayer, 0xe);

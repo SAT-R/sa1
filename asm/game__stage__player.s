@@ -8,220 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80440A4
-sub_80440A4: @ 0x080440A4
-	push {r4, r5, r6, r7, lr}
-	adds r6, r0, #0
-	ldr r2, [r6, #0x10]
-	movs r5, #0x80
-	lsls r5, r5, #3
-	adds r0, r2, #0
-	ands r0, r5
-	cmp r0, #0
-	bne _08044100
-	adds r2, r6, #0
-	adds r2, #0x40
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	cmp r0, #2
-	bne _080440CE
-	ldr r0, _080440D4 @ =gPlayerControls
-	ldrh r1, [r6, #0x3a]
-	ldrh r0, [r0]
-	ands r0, r1
-	cmp r0, #0
-	bne _080440D8
-_080440CE:
-	movs r0, #0
-	b _08044232
-	.align 2, 0
-_080440D4: .4byte gPlayerControls
-_080440D8:  @ Init Spindash
-	movs r4, #6   @ CHARSTATE_SPINDASH
-	strb r4, [r2]
-	movs r0, #0x6d
-	bl m4aSongNumStart
-	bl CreateSpindashDustEffect
-	ldr r0, [r6, #0x10]
-	orrs r0, r5
-	str r0, [r6, #0x10]
-	movs r0, #0
-	strh r0, [r6, #0x16]
-	adds r0, r6, #0
-	movs r1, #9
-	bl sa2__sub_8023B5C
-	strb r4, [r6, #0xe]
-	movs r0, #9
-	strb r0, [r6, #0xf]
-	b _08044224
-_08044100:
-	ldrh r1, [r6, #0x38]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _08044178
-	ldr r0, _08044120 @ =0xFFFFFBFF
-	ands r0, r2
-	str r0, [r6, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #6
-	ands r0, r1
-	cmp r0, #0
-	bne _08044128
-	ldr r1, _08044124 @ =gUnknown_084AE188
-	b _0804412A
-	.align 2, 0
-_08044120: .4byte 0xFFFFFBFF
-_08044124: .4byte gUnknown_084AE188
-_08044128:
-	ldr r1, _08044170 @ =gUnknown_084AE19A
-_0804412A:
-	ldrh r0, [r6, #0x16]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x18
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	movs r1, #0
-	ldrsh r2, [r0, r1]
-	adds r0, r6, #0
-	adds r0, #0x3c
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0
-	bne _0804414C
-	ldr r1, _08044174 @ =gCamera
-	movs r0, #0xa
-	strh r0, [r1, #0x1c]
-_0804414C:
-	ldr r1, [r6, #0x10]
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08044158
-	rsbs r2, r2, #0
-_08044158:
-	strh r2, [r6, #0xc]
-	movs r0, #4
-	orrs r1, r0
-	str r1, [r6, #0x10]
-	movs r0, #0x6e
-	bl m4aSongNumStart
-	adds r1, r6, #0
-	adds r1, #0x40
-	movs r0, #5
-	strb r0, [r1]
-	b _08044218
-	.align 2, 0
-_08044170: .4byte gUnknown_084AE19A
-_08044174: .4byte gCamera
-_08044178:
-	ldrh r5, [r6, #0x16]
-	lsls r0, r5, #0x10
-	asrs r1, r0, #0x10
-	cmp r1, #0
-	beq _08044190
-	asrs r0, r0, #0x15
-	subs r0, r1, r0
-	lsls r0, r0, #0x10
-	lsrs r5, r0, #0x10
-	cmp r0, #0
-	bgt _08044190
-	movs r5, #0
-_08044190:
-	adds r7, r6, #0
-	adds r7, #0x40
-	movs r0, #0
-	ldrsb r0, [r7, r0]
-	cmp r0, #7
-	beq _080441A0
-	movs r0, #6
-	strb r0, [r7]
-_080441A0:
-	ldr r0, _08044238 @ =gPlayerControls
-	ldrh r1, [r6, #0x3a]
-	ldrh r0, [r0]
-	ands r0, r1
-	cmp r0, #0
-	beq _08044216
-	movs r0, #0x6d
-	bl m4aSongNumStart
-	ldr r2, _0804423C @ =gMPlayTable
-	ldr r0, _08044240 @ =gSongTable
-	movs r1, #0xdb
-	lsls r1, r1, #2
-	adds r0, r0, r1
-	ldrh r1, [r0]
-	lsls r0, r1, #1
-	adds r0, r0, r1
-	lsls r0, r0, #2
-	adds r0, r0, r2
-	ldr r4, [r0]
-	adds r0, r4, #0
-	bl m4aMPlayImmInit
-	ldr r1, _08044244 @ =0x0000FFFF
-	lsls r5, r5, #0x10
-	ldr r2, _08044248 @ =0xFF800000
-	ands r2, r5
-	asrs r2, r2, #0x10
-	adds r0, r4, #0
-	bl m4aMPlayPitchControl
-	ldr r0, _0804424C @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #6
-	beq _080441FC
-	adds r0, r6, #0
-	adds r0, #0x59
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0
-	beq _080441F8
-	cmp r0, #2
-	bne _080441FC
-_080441F8:
-	movs r0, #7
-	strb r0, [r7]
-_080441FC:
-	movs r1, #0x80
-	lsls r1, r1, #0x12
-	adds r0, r5, r1
-	lsrs r5, r0, #0x10
-	adds r2, r5, #0
-	lsls r0, r5, #0x10
-	asrs r0, r0, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #4
-	cmp r0, r1
-	bge _08044214
-	adds r2, r1, #0
-_08044214:
-	adds r5, r2, #0
-_08044216:
-	strh r5, [r6, #0x16]
-_08044218:
-	adds r0, r6, #0
-	bl Player_804726C
-	adds r0, r6, #0
-	bl Player_8047280
-_08044224:
-	adds r0, r6, #0
-	bl Player_8043EC0
-	adds r0, r6, #0
-	bl sa2__sub_8022D6C
-	movs r0, #1
-_08044232:
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08044238: .4byte gPlayerControls
-_0804423C: .4byte gMPlayTable
-_08044240: .4byte gSongTable
-_08044244: .4byte 0x0000FFFF
-_08044248: .4byte 0xFF800000
-_0804424C: .4byte gGameMode
-
 	thumb_func_start sub_8044250
 sub_8044250: @ 0x08044250
 	push {r4, r5, r6, r7, lr}
@@ -6932,7 +6718,7 @@ _080473E0:
 	b _080474FC
 _08047402:
 	adds r0, r4, #0
-	bl sub_80440A4
+	bl Player_Spindash
 	cmp r0, #0
 	bne _080474FC
 	adds r0, r4, #0
@@ -7392,7 +7178,7 @@ sub_8047774: @ 0x08047774
 	bne _08047800
 _08047796:
 	adds r0, r4, #0
-	bl sub_80440A4
+	bl Player_Spindash
 	cmp r0, #0
 	bne _08047800
 	adds r0, r4, #0
@@ -7951,7 +7737,7 @@ _08047BC4:
 	b _08047CFE
 _08047BE6:
 	adds r0, r4, #0
-	bl sub_80440A4
+	bl Player_Spindash
 	cmp r0, #0
 	beq _08047BF2
 	b _08047CFE
@@ -8281,7 +8067,7 @@ sub_8047E94: @ 0x08047E94
 	bne _08047F20
 _08047EB6:
 	adds r0, r4, #0
-	bl sub_80440A4
+	bl Player_Spindash
 	cmp r0, #0
 	bne _08047F20
 	adds r0, r4, #0
@@ -10159,7 +9945,7 @@ sub_8048CB0: @ 0x08048CB0
 	bne _08048CF2
 _08048CD2:
 	adds r0, r4, #0
-	bl sub_80440A4
+	bl Player_Spindash
 	cmp r0, #0
 	bne _08048D6E
 	adds r0, r4, #0

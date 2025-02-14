@@ -7,6 +7,7 @@
 #include "game/sa1_sa2_shared/player.h"
 #include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
+#include "game/stage/dust_effect_spindash.h"
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h"
 #include "game/stage/rings_scatter.h"
@@ -45,10 +46,14 @@ PlayerSpriteInfo ALIGNED(16) gPartnerBodyPSI = {};
 
 extern s16 gUnknown_084ADF78[NUM_LEVEL_IDS][2];
 extern s16 gUnknown_084ADFC0[NUM_LEVEL_IDS][2];
+extern s16 gUnknown_084AE188[9];
+extern s16 gUnknown_084AE19A[9];
 
+void Player_8043EC0(Player *p);
 void Task_8045B38(void);
 void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
+void Player_8047280(Player *p);
 void Task_8049898(void);
 void sub_804A1B8(Player *p);
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out);
@@ -358,7 +363,7 @@ void InitializePlayer(Player *p)
     p->rotation = 0;
     PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
     p->SA2_LABEL(unk25) = 120;
-    p->spindashAccel = 0;
+    p->qSpindashAccel = 0;
     p->SA2_LABEL(unk29) = 0;
     p->SA2_LABEL(unk28) = 0;
     p->layer = PLAYER_LAYER__BACK;
@@ -493,7 +498,7 @@ void Player_TransitionCancelFlyingAndBoost(Player *p)
     }
 
     p->moveState &= ~(MOVESTATE_SOME_ATTACK | MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000
-                      | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_400 | MOVESTATE_200 | MOVESTATE_100 | MOVESTATE_20
+                      | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_SPINDASH | MOVESTATE_200 | MOVESTATE_100 | MOVESTATE_20
                       | MOVESTATE_FLIP_WITH_MOVE_DIR);
 
     p->unk61 = 0;
@@ -686,7 +691,7 @@ void SA2_LABEL(sub_8021BE0)(Player *p)
 
     p->moveState &= ~(MOVESTATE_20);
     p->moveState &= ~(MOVESTATE_100);
-    p->moveState &= ~(MOVESTATE_400);
+    p->moveState &= ~(MOVESTATE_SPINDASH);
 
     p->SA2_LABEL(unk61) = 0;
     p->SA2_LABEL(unk62) = 0;
@@ -1561,7 +1566,7 @@ void SA2_LABEL(sub_80228C0)(Player *p)
                 }
                 rot = r0;
             } else {
-                if (p->moveState & MOVESTATE_ICE_SLIDE) {
+                if (p->moveState & MOVESTATE_800) {
                     playerY += Q(val);
                 } else {
                     p->moveState |= MOVESTATE_IN_AIR;
@@ -2690,5 +2695,97 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_8043EC0.inc", void Player_8
     }
 }
 END_NONMATCH
+
+bool32 Player_Spindash(Player *p)
+{
+    if (!(p->moveState & MOVESTATE_SPINDASH)) {
+        if ((p->charState != CHARSTATE_CROUCH) || !(p->frameInput & gPlayerControls.jump)) {
+            return FALSE;
+        }
+
+        p->charState = CHARSTATE_SPINDASH;
+        m4aSongNumStart(SE_SPIN_ATTACK);
+        CreateSpindashDustEffect();
+
+        p->moveState |= MOVESTATE_SPINDASH;
+
+        {
+#ifndef NON_MATCHING
+            s16 qInitialAccel;
+            asm("mov %0, #0\n" : "=r"(qInitialAccel));
+            p->qSpindashAccel = qInitialAccel;
+#else
+            p->qSpindashAccel = Q(0);
+#endif
+        }
+
+        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 9);
+    } else {
+        if (!(p->heldInput & DPAD_DOWN)) {
+            s32 qNewSpeed;
+
+            p->moveState &= ~MOVESTATE_SPINDASH;
+
+            qNewSpeed
+                = !(p->moveState & MOVESTATE_2000) ? gUnknown_084AE188[I(p->qSpindashAccel)] : gUnknown_084AE19A[I(p->qSpindashAccel)];
+
+            if (p->playerID == PLAYER_1) {
+                gCamera.SA2_LABEL(unk40) = 10;
+            }
+
+            if (p->moveState & MOVESTATE_FACING_LEFT) {
+                qNewSpeed = -qNewSpeed;
+            }
+
+            p->qSpeedGround = qNewSpeed;
+            p->moveState |= MOVESTATE_4;
+
+            m4aSongNumStart(SE_SPINDASH_RELEASE);
+            p->charState = CHARSTATE_SPINATTACK;
+        } else {
+            s16 qNewAccel = p->qSpindashAccel;
+
+            s16 qNewAccel2 = qNewAccel;
+            if (qNewAccel2 != Q(0)) {
+                qNewAccel = qNewAccel2 - (I(qNewAccel << 3));
+
+                if (qNewAccel <= Q(0)) {
+                    qNewAccel = Q(0);
+                }
+            }
+
+            if (p->charState != CHARSTATE_7) {
+                p->charState = CHARSTATE_SPINDASH;
+            }
+
+            if (p->frameInput & gPlayerControls.jump) {
+                struct MP2KPlayerState *mPlayerInfo;
+                m4aSongNumStart(SE_SPIN_ATTACK);
+
+                mPlayerInfo = gMPlayTable[gSongTable[SE_SPIN_ATTACK].ms].info;
+                m4aMPlayImmInit(mPlayerInfo);
+                m4aMPlayPitchControl(mPlayerInfo, 0xFFFF, (qNewAccel & ~0x7F));
+
+                if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+                    if ((p->character == CHARACTER_SONIC) || (p->character == CHARACTER_KNUCKLES)) {
+                        p->charState = CHARSTATE_7;
+                    }
+                }
+
+                qNewAccel += Q(2.0);
+                qNewAccel = MAX(qNewAccel, Q(8.0));
+            }
+            p->qSpindashAccel = qNewAccel;
+        }
+
+        Player_804726C(p);
+        Player_8047280(p);
+    }
+
+    Player_8043EC0(p);
+    SA2_LABEL(sub_8022D6C)(p);
+
+    return TRUE;
+}
 
 #endif // (GAME == GAME_SA1)

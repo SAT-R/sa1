@@ -111,7 +111,7 @@ typedef struct Player {
     /* 0x10 */ u32 moveState;
     /* 0x14 */ u8 rotation;
     /* 0x15 */ u8 SA2_LABEL(unk25);
-    /* 0x16 */ s16 spindashAccel;
+    /* 0x16 */ s16 qSpindashAccel;
     /* 0x18 */ u8 SA2_LABEL(unk28);
     /* 0x19 */ u8 SA2_LABEL(unk29);
     /* 0x1A */ s16 SA2_LABEL(unk2A);
