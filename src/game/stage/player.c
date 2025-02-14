@@ -333,13 +333,20 @@ void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p)
 
 void InitializePlayer(Player *p)
 {
+#if (GAME == GAME_SA1)
     p->qWorldX = Q(p->checkPointX);
     p->qWorldY = Q(p->checkPointY);
-
-#if (GAME == GAME_SA1)
     p->heldInput = gPlayerControls.jump | gPlayerControls.attack;
     p->frameInput = gPlayerControls.jump | gPlayerControls.attack;
 #elif (GAME == GAME_SA2)
+    if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (((p->qWorldX & p->qWorldY) + 1) != 0)) {
+        p->qWorldX = Q(460);
+    } else {
+        p->qWorldX = Q(p->checkPointX);
+    }
+    p->qWorldY = Q(p->checkPointY);
+
+    p->callback = Player_TouchGround;
     p->heldInput = gPlayerControls.jump | gPlayerControls.attack | gPlayerControls.trick;
     p->frameInput = gPlayerControls.jump | gPlayerControls.attack | gPlayerControls.trick;
 #endif
@@ -369,7 +376,11 @@ void InitializePlayer(Player *p)
     p->deceleration = Q(64. / 256.);
 #endif
     p->charState = CHARSTATE_IDLE;
+#if (GAME == GAME_SA1)
     p->prevCharState = 0;
+#elif (GAME == GAME_SA2)
+    p->prevCharState = CHARSTATE_INVALID;
+#endif
     p->anim = -1;
     p->variant = -1;
     p->timerInvulnerability = 0;
@@ -392,17 +403,39 @@ void InitializePlayer(Player *p)
     p->framesUntilDrownCountDecrement = 60;
     p->SA2_LABEL(unk88) = 10;
 
+#if (GAME == GAME_SA2)
+    p->transition = 0;
+    p->unk6E = 0;
+    p->prevTransition = 0;
+    p->isBoosting = FALSE;
+    p->boostSpeed = 0;
+    p->unk6C = FALSE;
+    p->unk71 = 0;
+    p->unk70 = FALSE;
+    p->disableTrickTimer = 0;
+
+    sub_8015750();
+    sub_801561C();
+    Player_HandleBoostThreshold(p);
+#endif
+
     {
         u32 *ptr = (u32 *)(&p->SA2_LABEL(unk99)[0]);
-        s32 i = 4;
-        while (i-- != 0) {
+        s32 i = 3;
+#if (GAME == GAME_SA2) && !defined(NON_MATCHING)
+        register u8 *u99_r6 asm("r6") = (void *)ptr;
+#endif
+        do {
             // @BUG: agbcc compiles this to an stmia instruction, which writes aligned words,
             //       so the written bytes are off by one, because SA2_LABEL(unk99) isn't word-aligned!
             //       >> writes unk98 - unk99[14]
             *ptr++ = 0;
-        }
-
+        } while (i-- != 0);
+#if (GAME == GAME_SA2) && !defined(NON_MATCHING)
+        *u99_r6 = 0x7F;
+#else
         p->SA2_LABEL(unk99)[0] = 0x7F;
+#endif
     }
 
     if ((p->playerID == 0) && IS_SINGLE_PLAYER) {
@@ -2608,7 +2641,7 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_8043EC0.inc", void Player_8
         s32 qNoclipWorldX, qNoclipWorldY;
         bool32 r1;
 
-        if (p->qWorldY >= Q(0)) {
+        if (!(p->moveState & MOVESTATE_80000000)) {
             if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
                 r1 = (p->qWorldY < Q(gCamera.maxY) - 1) ? FALSE : TRUE;
             } else {
