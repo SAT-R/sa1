@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_80122E4
-sub_80122E4: @ 0x080122E4
+	thumb_func_start CreateToBeContinuedScreen
+CreateToBeContinuedScreen: @ 0x080122E4
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	ldr r1, _080123AC @ =gDispCnt

@@ -11,7 +11,7 @@ typedef struct {
     /* 0x08 */ s32 worldY;
     /* 0x0C */ Sprite s;
     /* 0x3C */ u8 unk3C;
-    /* 0x3D */ u8 spriteX;
+    /* 0x3D */ u8 meX;
 } WaterBridgeSplash;
 
 void Task_WaterBridgeSplash(void);
@@ -26,7 +26,7 @@ void CreateEntity_WaterBridgeSplash(MapEntity *me, u16 regionX, u16 regionY, u8 
 
     splash->me = me;
 
-    splash->spriteX = me->x;
+    splash->meX = me->x;
     splash->unk3C = 0;
 
     worldX = TO_WORLD_POS_INV(me->x, regionX);
@@ -47,7 +47,7 @@ void CreateEntity_WaterBridgeSplash(MapEntity *me, u16 regionX, u16 regionY, u8 
     s->palId = 0;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
-    SET_MAP_ENTITY_INITIALIZED(me);
+    SET_MAP_ENTITY_INITIALIZED_SIMPLE(me);
 }
 
 void Task_WaterBridgeSplash(void)
@@ -56,7 +56,7 @@ void Task_WaterBridgeSplash(void)
     Sprite *s = &splash->s;
 
     if (IS_OUT_OF_DISPLAY_RANGE(splash->worldX, splash->worldY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(splash->me, splash->spriteX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(splash->me, splash->meX);
         TaskDestroy(gCurTask);
         return;
     }

@@ -12,7 +12,7 @@ typedef struct {
     /* 0x14 */ s32 top;
     /* 0x18 */ s32 bottom;
     /* 0x1C */ u8 unk1C;
-    /* 0x1D */ u8 spriteX;
+    /* 0x1D */ u8 meX;
 } IA039; /* 0x20 */
 
 void Task_Interactable039Main(void);
@@ -30,7 +30,7 @@ void Task_Interactable039Main(void)
 
         if (IS_OUT_OF_DISPLAY_RANGE(ia->worldX, ia->worldY)) {
             p->moveState &= ~MOVESTATE_8000;
-            SET_MAP_ENTITY_NOT_INITIALIZED(ia->me, ia->spriteX);
+            SET_MAP_ENTITY_NOT_INITIALIZED(ia->me, ia->meX);
             TaskDestroy(gCurTask);
             return;
         }
@@ -57,7 +57,7 @@ void CreateEntity_Interactable039(MapEntity *me, u16 regionX, u16 regionY, u8 id
     s32 worldX, worldY;
 
     ia->me = me;
-    ia->spriteX = me->x;
+    ia->meX = me->x;
     ia->unk1C = 0;
 
     worldX = TO_WORLD_POS_INV(me->x, regionX);
@@ -75,5 +75,5 @@ void CreateEntity_Interactable039(MapEntity *me, u16 regionX, u16 regionY, u8 id
     worldY += (me->d.uData[3] * TILE_WIDTH);
     ia->bottom = worldY;
 
-    SET_MAP_ENTITY_INITIALIZED(me);
+    SET_MAP_ENTITY_INITIALIZED_SIMPLE(me);
 }

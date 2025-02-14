@@ -36,7 +36,7 @@ SECTIONS {
         asm/game_0_1.o(.text);
         src/game/sa1_sa2_shared/spot_light_beam_task.o(.text);
        /* asm/game__spot_light_subtask.o(.text); */
-        asm/game_0_2.o(.text);
+        asm/game__to_be_continued_screen.o(.text);
         src/game/sa1_sa2_shared/enemy_defeat_score.o(.text);
         src/game/sa1_sa2_shared/demo_manager.o(.text);
         asm/game_0_3.o(.text);
@@ -65,7 +65,7 @@ SECTIONS {
         asm/ia_platform_thin.o(.text);
         src/game/sa1_sa2_shared/magnetic_ring.o(.text);
         asm/ia_platform_crumbling.o(.text);
-        asm/ia_to_be_continued_text.o(.text);
+        src/game/interactables/fadein_to_be_continued.o(.text);
         src/game/special_stage/temporary_sound_play_task.o(.text);
         asm/ia_boss_1_egg_hammer_tank.o(.text);
         asm/ia_breakable_wall.o(.text);
