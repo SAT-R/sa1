@@ -1907,11 +1907,11 @@ _0804506E:
 	b _08045084
 _08045072:
 	adds r0, r4, #0
-	bl sub_8043970
+	bl Player_8043970
 	b _08045080
 _0804507A:
 	adds r0, r4, #0
-	bl sub_8043A2C
+	bl Player_8043A2C
 _08045080:
 	adds r5, r4, #0
 	adds r5, #0x59
@@ -4349,6 +4349,7 @@ _080462DE:
 _080462F4: .4byte 0xFFFFF7FF
 _080462F8: .4byte gGameMode
 
+@ This giant function is (also) used to draw characters
 	thumb_func_start sub_80462FC
 sub_80462FC: @ 0x080462FC
 	push {r4, r5, r6, r7, lr}
@@ -4531,7 +4532,7 @@ _0804642C:
 	strh r1, [r5, #2]
 	strh r0, [r5, #4]
 	mov r0, r8
-	bl UpdateSpriteAnimation
+    bl UpdateSpriteAnimation
 	ldr r0, _08046470 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
@@ -6776,7 +6777,7 @@ _0804747C:
 	adds r0, r4, #0
 	bl sub_8047018
 	adds r0, r4, #0
-	bl sub_8043DDC
+	bl Player_8043DDC
 _0804749E:
 	adds r0, r4, #0
 	bl Player_8043EC0
@@ -7265,7 +7266,7 @@ sub_804784C: @ 0x0804784C
 	adds r0, r4, #0
 	bl sub_8047018
 	adds r0, r4, #0
-	bl sub_8043DDC
+	bl Player_8043DDC
 	adds r0, r4, #0
 	bl Player_8043EC0
 	adds r0, r4, #0
@@ -7817,7 +7818,7 @@ _08047C8C:
 	adds r0, r4, #0
 	bl sub_8047018
 	adds r0, r4, #0
-	bl sub_8043DDC
+	bl Player_8043DDC
 _08047CAE:
 	adds r0, r4, #0
 	bl Player_8043EC0
@@ -8176,7 +8177,7 @@ sub_8047FA0: @ 0x08047FA0
 	adds r0, r4, #0
 	bl sub_8047018
 	adds r0, r4, #0
-	bl sub_8043DDC
+	bl Player_8043DDC
 	adds r0, r4, #0
 	bl Player_8043EC0
 	adds r0, r4, #0
@@ -10367,7 +10368,7 @@ _08049032:
 	adds r0, r4, #0
 	bl sub_8047018
 	adds r0, r4, #0
-	bl sub_8043DDC
+	bl Player_8043DDC
 	adds r0, r4, #0
 	bl Player_8043EC0
 	adds r0, r4, #0
@@ -10553,7 +10554,7 @@ sub_80491C4: @ 0x080491C4
 	adds r0, r4, #0
 	bl sub_8047018
 	adds r0, r4, #0
-	bl sub_8043DDC
+	bl Player_8043DDC
 	adds r0, r4, #0
 	bl Player_8043EC0
 	adds r0, r4, #0

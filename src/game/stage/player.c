@@ -133,6 +133,7 @@ void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *
 
     InitNewInputCounters();
 #endif
+
 #if PORTABLE
     if (p->spriteInfoBody != NULL)
 #endif
@@ -2077,7 +2078,7 @@ void SA2_LABEL(sub_8022D6C)(Player *p)
 }
 
 #if (GAME == GAME_SA1)
-void sub_8043970(Player *p)
+void Player_8043970(Player *p)
 {
 #ifndef NON_MATCHING
     register s32 qSpeedGround asm("r5") = p->qSpeedGround;
@@ -2143,9 +2144,9 @@ void sub_8043970(Player *p)
     }
 }
 
-// Basically the opposite to sub_8043970.
+// Basically the opposite to Player_8043970.
 // Uses the same variables, but checks are inverted.
-void sub_8043A2C(Player *p)
+void Player_8043A2C(Player *p)
 {
 #ifndef NON_MATCHING
     register s32 qSpeedGround asm("r5") = p->qSpeedGround;
@@ -2513,7 +2514,7 @@ void SA2_LABEL(sub_80231C0)(Player *p)
 // These don'T appear to be in SA2
 #if (GAME == GAME_SA1)
 
-void sub_8043DDC(Player *p)
+void Player_8043DDC(Player *p)
 {
     if (p->SA2_LABEL(unk2A) == 0) {
         s32 qSpeedGround;
@@ -2726,8 +2727,9 @@ bool32 Player_Spindash(Player *p)
 
             p->moveState &= ~MOVESTATE_SPINDASH;
 
-            qNewSpeed
-                = !(p->moveState & MOVESTATE_2000) ? gUnknown_084AE188[I(p->qSpindashAccel)] : gUnknown_084AE19A[I(p->qSpindashAccel)];
+            qNewSpeed = !(p->moveState & MOVESTATE_2000) //
+                ? gUnknown_084AE188[I(p->qSpindashAccel)]
+                : gUnknown_084AE19A[I(p->qSpindashAccel)];
 
             if (p->playerID == PLAYER_1) {
                 gCamera.SA2_LABEL(unk40) = 10;
