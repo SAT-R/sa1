@@ -30,14 +30,14 @@ typedef struct Camera {
     /* 0x00|0x04 */ CamCoord x;
     /* 0x02|0x04 */ CamCoord y;
 #if (GAME == GAME_SA1)
-    /* 0x04 */ s16 sa2__unk8;
-    /* 0x06 */ s16 sa2__unkC;
-    /* 0x08 */ CamCoord sa2__unk10;
-    /* 0x0A */ CamCoord sa2__unk14;
+    /* 0x04 */ s16 SA2_LABEL(unk8);
+    /* 0x06 */ s16 SA2_LABEL(unkC);
+    /* 0x08 */ CamCoord SA2_LABEL(unk10);
+    /* 0x0A */ CamCoord SA2_LABEL(unk14);
     /* 0x0C */ s16 shiftX;
     /* 0x0E */ s16 shiftY;
-    /* 0x10 */ s16 sa2__unk20;
-    /* 0x12 */ s16 sa2__unk24;
+    /* 0x10 */ s16 SA2_LABEL(unk20);
+    /* 0x12 */ s16 SA2_LABEL(unk24);
 
     // TODO: Why are X/Y swapped?
     //       Did they make this a matrix or sth.?
@@ -46,19 +46,19 @@ typedef struct Camera {
     /* 0x16 */ s16 maxY;
     /* 0x18 */ s16 minX;
     /* 0x1A */ s16 maxX;
-    /* 0x1C */ s16 sa2__unk40;
-    /* 0x1E */ s16 sa2__unk44;
-    /* 0x20 */ s16 sa2__unk48;
-    /* 0x22 */ s16 sa2__unk4C;
+    /* 0x1C */ s16 SA2_LABEL(unk40);
+    /* 0x1E */ s16 SA2_LABEL(unk44);
+    /* 0x20 */ s16 SA2_LABEL(unk48);
+    /* 0x22 */ s16 SA2_LABEL(unk4C);
     /* 0x24 */ u16 unk24;
-    /* 0x26 */ u16 sa2__unk50;
-    /* 0x28 */ u16 sa2__unk52;
-    /* 0x2A */ u16 sa2__unk54;
+    /* 0x26 */ u16 SA2_LABEL(unk50);
+    /* 0x28 */ u16 SA2_LABEL(unk52);
+    /* 0x2A */ u16 SA2_LABEL(unk54);
     /* 0x2C */ BgUpdate fnBgUpdate;
     /* 0x30 */ struct Task *movementTask;
     /* 0x34 */ s16 shakeOffsetX;
     /* 0x36 */ s16 shakeOffsetY;
-    /* 0x38 */ s16 sa2__unk64;
+    /* 0x38 */ s16 SA2_LABEL(unk64);
     /* 0x3A */ u8 spectatorTarget;
     /* 0x3B */ u8 filler3B[0x2];
 #elif (GAME == GAME_SA2)

@@ -15,7 +15,6 @@ void sub_801C704() { }
 bool32 sub_8017800() { }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
-s32 sa2__sub_8022F58(u8 param0, Player *p) { }
 void sa2__sub_8023B5C() { }
 
 // Stage BG Updates
@@ -39,10 +38,12 @@ void DestroyPlayerTasks() { }
 // Player
 void Task_PlayerMain(void) { }
 void Task_8045B38(void) { }
+void Player_80470AC(Player *p) { }
 void Player_804726C(Player *p) { }
 void Task_8049898(void) { }
 void sa2__sub_8029AC0() { }
 void sa2__sub_8029B0C() { }
+s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out) { }
 void sub_804A1B8(Player *p) { }
 void TaskDestructor_Player(struct Task *t) { }
 

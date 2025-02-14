@@ -158,7 +158,7 @@ typedef struct Player {
     /* 0x64 */ PlayerSpriteInfo *spriteInfoBody; // for character sprites
     /* 0x68 */ PlayerSpriteInfo *spriteInfoLimbs; // SpriteInfo for Tails' tails / Cream's ears, when rolling
 
-#if PORTABLE
+#ifdef BUG_FIX
     // NOTE: There's a copy in player.c's 'InitializePlayer' that
     //       copies via a (u32 *) to unk99.
     //
@@ -167,7 +167,7 @@ typedef struct Player {
     //       not have the memory initialized properly.
     //
     //       Ironically this is a non-crashing bug on GBA as well.
-    /* 0x6C */ s8 SA2_LABEL(unk99)[16];
+    /* 0x6C */ s8 ALIGNED(4) SA2_LABEL(unk99)[16];
     /* 0x7C */ u8 SA2_LABEL(unk98); // Multiplayer var. TODO: check sign!
 #else
     /* 0x6C */ u8 SA2_LABEL(unk98); // Multiplayer var. TODO: check sign!

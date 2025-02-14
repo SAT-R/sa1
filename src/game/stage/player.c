@@ -1,7 +1,9 @@
 #include "global.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
+#include "game/parameters/characters.h"
 #include "game/sa1_sa2_shared/globals.h"
+#include "game/sa1_sa2_shared/camera.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
@@ -40,6 +42,9 @@ PlayerSpriteInfo ALIGNED(16) gPlayerBodyPSI = {};
 #if (GAME == GAME_SA1)
 PlayerSpriteInfo ALIGNED(16) gPartnerBodyPSI = {};
 #endif
+
+extern s16 gUnknown_084ADF78[NUM_LEVEL_IDS][2];
+extern s16 gUnknown_084ADFC0[NUM_LEVEL_IDS][2];
 
 void Task_8045B38(void);
 void Player_80470AC(Player *p);
@@ -2467,6 +2472,9 @@ void SA2_LABEL(sub_80231C0)(Player *p)
     }
 }
 
+// These don'T appear to be in SA2
+#if (GAME == GAME_SA1)
+
 void sub_8043DDC(Player *p)
 {
     if (p->SA2_LABEL(unk2A) == 0) {
@@ -2536,9 +2544,7 @@ void sub_8043DDC(Player *p)
                     p->charState = CHARSTATE_4;
                 }
 
-                SA2_LABEL(sub_8023B5C)(p, 14);
-                p->spriteOffsetX = 6;
-                p->spriteOffsetY = 14;
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
             } else {
                 qSpeedGround = Q(3);
 
@@ -2555,3 +2561,101 @@ void sub_8043DDC(Player *p)
     Player_80470AC(p);
     SA2_LABEL(sub_8023128)(p);
 }
+
+// (98.92%) https://decomp.me/scratch/KZphy
+NONMATCH("asm/non_matching/game/stage/Player__Player_8043EC0.inc", void Player_8043EC0(Player *p))
+{
+    Camera *cam = &gCamera;
+    s32 qWorldX = p->qWorldX;
+    s32 qWorldY = p->qWorldY;
+
+    if (p->playerID == PLAYER_1) {
+        s32 unkX = gUnknown_084ADF78[gCurrentLevel][0];
+        s32 unkY;
+
+        if ((unkX >= 0) && (qWorldX >= Q(unkX)) && (cam->SA2_LABEL(unk8) != 0) && !(cam->SA2_LABEL(unk50) & 0x1)) {
+            s32 r3 = gUnknown_084ADFC0[gCurrentLevel][0];
+            s32 r2 = Q(r3);
+            qWorldX += r2;
+
+            if (gNumSingleplayerCharacters == 2) {
+                gPartner.qWorldX += r2;
+            }
+
+            cam->x += r3;
+            cam->SA2_LABEL(unk20) += r3;
+        }
+        // _08043F3E
+
+        unkY = gUnknown_084ADF78[gCurrentLevel][1];
+
+        if ((unkY >= 0) && (qWorldY >= Q(unkY)) && (cam->SA2_LABEL(unkC) != 0) && !(cam->SA2_LABEL(unk50) & 0x2)) {
+            s32 r3 = gUnknown_084ADFC0[gCurrentLevel][1] << 8;
+            qWorldY += Q(r3);
+
+            if (gNumSingleplayerCharacters == 2) {
+                gPartner.qWorldY += Q(r3);
+            }
+
+            cam->y += r3;
+            cam->SA2_LABEL(unk24) += r3;
+        }
+    }
+    // _08043F9C
+
+    if ((p->moveState & (MOVESTATE_80000000 | MOVESTATE_DEAD)) != MOVESTATE_DEAD) {
+        // _08043F9C + 0xC
+        s32 qNoclipWorldX, qNoclipWorldY;
+        bool32 r1;
+
+        if (p->qWorldY >= Q(0)) {
+            if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
+                r1 = (p->qWorldY < Q(gCamera.maxY) - 1) ? FALSE : TRUE;
+            } else {
+                r1 = (p->qWorldY > Q(gCamera.minY)) ? TRUE : FALSE;
+            }
+
+            if (r1) {
+                // _08044004
+                s32 qSpeedY;
+                p->moveState |= MOVESTATE_DEAD;
+
+                if (p->moveState & MOVESTATE_IN_WATER) {
+                    p->qSpeedAirY = -Q(PLAYER_JUMP_HEIGHT_UNDER_WATER);
+                } else {
+                    p->qSpeedAirY = -Q(PLAYER_JUMP_HEIGHT);
+                }
+                // _0804401E + 0x2
+
+                if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
+                    qWorldY = Q(cam->maxY) - 1;
+                } else {
+                    qWorldY = Q(cam->minY);
+                }
+            }
+        }
+        // _08044042
+
+        qNoclipWorldX = qWorldX;
+        qNoclipWorldY = qWorldY;
+
+        qWorldX = CLAMP(qWorldX, Q(cam->minX), Q(cam->maxX) - 1);
+        qWorldY = CLAMP(qWorldY, Q(cam->minY), Q(cam->maxY) - 1);
+
+        if (qWorldX != qNoclipWorldX) {
+            p->qSpeedAirX = Q(0);
+            p->qSpeedGround = Q(0);
+        }
+
+        if (qWorldY != qNoclipWorldY) {
+            p->qSpeedAirY = Q(0);
+            p->qSpeedGround = Q(0);
+        }
+
+        p->qWorldX = qWorldX;
+        p->qWorldY = qWorldY;
+    }
+}
+END_NONMATCH
+
+#endif // (GAME == GAME_SA1)
