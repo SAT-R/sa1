@@ -1,6 +1,7 @@
 #include "global.h"
 #include "task.h"
 #include "game/sa1_sa2_shared/camera.h"
+#include "game/stage/player_controls.h"
 #include "game/entity.h"
 
 typedef struct {
@@ -13,13 +14,13 @@ typedef struct {
     /* 0x18 */ s32 bottom;
     /* 0x1C */ u8 unk1C;
     /* 0x1D */ u8 meX;
-} IA039; /* 0x20 */
+} MiniLoopBoost; /* 0x20 */
 
-void Task_Interactable039Main(void);
+void Task_MiniLoop_Base(void);
 
-void Task_Interactable039Main(void)
+void Task_MiniLoop_Base(void)
 {
-    IA039 *ia = TASK_DATA(gCurTask);
+    MiniLoopBoost *boost = TASK_DATA(gCurTask);
 
     s32 i = 0;
     do {
@@ -28,31 +29,37 @@ void Task_Interactable039Main(void)
         s32 playerX = I(p->qWorldX);
         s32 playerY = I(p->qWorldY);
 
-        if (IS_OUT_OF_DISPLAY_RANGE(ia->worldX, ia->worldY)) {
+        if (IS_OUT_OF_DISPLAY_RANGE(boost->worldX, boost->worldY)) {
             p->moveState &= ~MOVESTATE_8000;
-            SET_MAP_ENTITY_NOT_INITIALIZED(ia->me, ia->meX);
+            SET_MAP_ENTITY_NOT_INITIALIZED(boost->me, boost->meX);
             TaskDestroy(gCurTask);
             return;
         }
 
-        if ((ia->left <= playerX) && (playerX < ia->right) && (ia->top <= playerY) && (playerY < ia->bottom)) {
+        if ((boost->left <= playerX) && (playerX < boost->right) && (boost->top <= playerY) && (playerY < boost->bottom)) {
             if (!IS_ALIVE(p)) {
                 return;
             }
 
-            if (!(p->moveState & MOVESTATE_IN_AIR)) {
-                p->qSpeedGround = -Q(4.5);
+            p->moveState &= ~MOVESTATE_200;
+
+            if (p->moveState & MOVESTATE_IGNORE_INPUT) {
+                p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+
+                p->heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
             }
+
+            p->itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
         }
 
         i++;
     } while (i < gNumSingleplayerCharacters);
 }
 
-void CreateEntity_Interactable039(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_MiniLoop_Base(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Interactable039Main, sizeof(IA039), 0x2000, 0, NULL);
-    IA039 *ia = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_MiniLoop_Base, sizeof(MiniLoopBoost), 0x2000, 0, NULL);
+    MiniLoopBoost *ia = TASK_DATA(t);
     s32 worldX, worldY;
 
     ia->me = me;

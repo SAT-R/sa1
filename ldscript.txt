@@ -121,7 +121,7 @@ SECTIONS {
         asm/game_1_x.o(.text);
         asm/ia_half_pipe.o(.text);
         asm/ia_034.o(.text);
-        asm/ia_mini_loop_base.o(.text);
+        src/game/interactables/mini_loop_boost.o(.text);
         asm/ia_water_bridge.o(.text);
         src/game/interactables/water_bridge_splash.o(.text);
         asm/ia_mini_loop.o(.text);
