@@ -27,8 +27,8 @@ typedef void (*BgUpdate)(s32, s32);
 // NOTE: This was copy-pasted from SA2.
 //       There are type differences for members
 typedef struct Camera {
-    /* 0x00|0x04 */ CamCoord x;
-    /* 0x02|0x04 */ CamCoord y;
+    /* 0x00|0x04 */ CamCoord x; // TODO: might this be a u16 actually?
+    /* 0x02|0x04 */ CamCoord y; // TODO: might this be a u16 actually?
 #if (GAME == GAME_SA1)
     /* 0x04 */ s16 SA2_LABEL(unk8);
     /* 0x06 */ s16 SA2_LABEL(unkC);

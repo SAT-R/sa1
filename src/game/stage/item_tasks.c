@@ -26,9 +26,9 @@ void Task_Item_Shield_Magnetic(void);
 void Task_Item_Confusion(void);
 void TaskDestructor_ItemTasks(struct Task *);
 
-#define ITEMTASK_GET_PLAYER_NUM()                                                                                                          \
+#define ITEMTASK_GET_PLAYER_NUM(_task)                                                                                                     \
     ({                                                                                                                                     \
-        ItemTask *it = TASK_DATA(gCurTask);                                                                                                \
+        ItemTask *it = TASK_DATA(_task);                                                                                                   \
         it->unk30;                                                                                                                         \
     })
 
@@ -132,56 +132,69 @@ struct Task *CreateItemTask_Confusion(s8 p0)
     return t;
 }
 
-#if 0
-// (fake-matched) https://decomp.me/scratch/DuFBd
-void Task_Item_Shield_Normal(void)
+// (99.89%) https://decomp.me/scratch/Jp0vL
+NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Normal.inc", void Task_Item_Shield_Normal(void))
 {
-    s8 param = ITEMTASK_GET_PLAYER_NUM();
+    struct Task *t = gCurTask;
+    s8 pid = ITEMTASK_GET_PLAYER_NUM(t);
 
-    ItemTask *item = TASK_DATA(gCurTask);
+    ItemTask *item = TASK_DATA(t);
     struct Camera *cam = &gCamera;
+    Player *p;
+    bool32 b;
 
-    u32 itemEffect = (gPlayer.itemEffect & (PLAYER_ITEM_EFFECT__INVINCIBILITY | PLAYER_ITEM_EFFECT__SHIELD_NORMAL));
-    if (itemEffect != PLAYER_ITEM_EFFECT__SHIELD_NORMAL) {
-        TaskDestroy(gCurTask);
-        return;
-    }
+    if (IS_MULTI_PLAYER) {
+        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
 
-    if (!(gPlayer.itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
-        bool32 b;
-        s32 screenX, screenY;
+        if (!(mpp->unk57 & 0x1)) {
+            TaskDestroy(t);
+            return;
+        }
 
-        screenX = I(gPlayer.qWorldX) - cam->x;
-        item->s.x = screenX + gPlayer.SA2_LABEL(unk7C);
-
-        screenY = I(gPlayer.qWorldY) - cam->y;
-        item->s.y = screenY;
+        item->s.x = mpp->pos.x - cam->x;
+        item->s.y = mpp->pos.y - cam->y;
 
         item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
-        item->s.frameFlags |= gPlayer.spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+        item->s.frameFlags |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+    } else {
+        p = GET_SP_PLAYER_V1(pid);
 
-        UpdateSpriteAnimation(&item->s);
+        if ((p->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_NORMAL)) == 0) {
+            TaskDestroy(t);
+            return;
+        }
 
-#ifndef NON_MATCHING
-        asm("mov %0, %2\n"
-            "and %0, %1\n"
-            : "=r"(b)
-            : "r"(param), "r"(itemEffect));
+        if (!(p->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
+            s32 screenX, screenY;
 
-        // Make the compiler "forget" that itemEffect is 0x1
-        asm("" : "=r"(itemEffect));
-#else
-        b = (param & 0x1);
-#endif
-        if (((gStageTime & 0x2) && (b != itemEffect)) || (!(gStageTime & 0x2) && (b != 0))) {
-            DisplaySprite(&item->s);
+            screenX = I(p->qWorldX) - (u16)cam->x;
+            item->s.x = screenX + p->SA2_LABEL(unk7C);
+
+            screenY = I(p->qWorldY) - (u16)cam->y;
+            item->s.y = screenY;
+
+            item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+
+            item->s.frameFlags |= p->spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+        } else {
+            return;
         }
     }
-}
 
+    UpdateSpriteAnimation(&item->s);
+
+    b = (pid & (b = 1));
+
+    if (((gStageTime & 0x2) && (pid != b)) || (!(gStageTime & 0x2) && (b != 0))) {
+        DisplaySprite(&item->s);
+    }
+}
+END_NONMATCH
+
+#if 0
 void Task_Item_Shield_Magnetic(void)
 {
-    s8 param = ITEMTASK_GET_PLAYER_NUM();
+    s8 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
 
     ItemTask *item = TASK_DATA(gCurTask);
     struct Camera *cam = &gCamera;
@@ -262,7 +275,7 @@ void Task_802ABC8(void)
 
 void Task_Item_Invincibility(void)
 {
-    s32 param = ITEMTASK_GET_PLAYER_NUM();
+    s32 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
 
     ItemTask *item = TASK_DATA(gCurTask);
     s16 x, y;
@@ -316,7 +329,7 @@ void Task_Item_Invincibility(void)
 
 void Task_Item_Confusion(void)
 {
-    s8 param = ITEMTASK_GET_PLAYER_NUM();
+    s8 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
     ItemTask *item = TASK_DATA(gCurTask);
     Sprite *s = &item->s;
     u32 b;
