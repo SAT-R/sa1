@@ -271,11 +271,11 @@ void numToASCII(u8 digits[5], u16 number);
 
 #define SPRITE_INIT_SCRIPT(_sprite, _speed)                                                                                                \
     _sprite->animCursor = 0;                                                                                                               \
-    _sprite->qAnimDelay = 0;                                                                                                               \
+    _sprite->qAnimDelay = Q(0);                                                                                                            \
     _sprite->prevVariant = -1;                                                                                                             \
     _sprite->animSpeed = SPRITE_ANIM_SPEED(_speed);                                                                                        \
     _sprite->palId = 0;                                                                                                                    \
-    _sprite->hitboxes[0].index = -1;
+    _sprite->hitboxes[0].index = HITBOX_STATE_INACTIVE;
 
 #define SPRITE_INIT_ANIM_AND_SCRIPT(_sprite, _anim, _variant, _order)                                                                      \
     SPRITE_INIT_ANIM(_sprite, _anim, _variant, _order);                                                                                    \

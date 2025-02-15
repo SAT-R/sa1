@@ -106,6 +106,8 @@
 #define SA1_ANIM_CONVEYOR_BIG           508
 #define SA1_ANIM_CONVEYOR_SMALL         509
 #define SA1_ANIM_SPIKE_BALL_YELLOW      510
+#define SA1_ANIM_TORCH6_1               511
+#define SA1_ANIM_TORCH6_2               512
 
 #define SA1_ANIM_PROPELLOR    516
 #define SA1_ANIM_SPIKY_BARREL 516
@@ -129,6 +131,8 @@
 #define SA1_ANIM_SILVER_HANDLE                 545
 #define SA1_ANIM_BIG_BOWL_ANG_ISL              546
 #define SA1_ANIM_ACCEL_PLATFORM_ANG_ISL        547
+
+#define SA1_ANIM_TORCH5 558
 
 #define SA1_ANIM_WATER_SPLASH_5 464
 

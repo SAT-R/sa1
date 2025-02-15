@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8017800
-sub_8017800: @ 0x08017800
+	thumb_func_start CreateSpotLightBeams
+CreateSpotLightBeams: @ 0x08017800
 	push {r4, r5, r6, lr}
 	mov r6, r8
 	push {r6}

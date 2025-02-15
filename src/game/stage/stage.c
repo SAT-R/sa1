@@ -40,7 +40,7 @@ void StageInit_MPCollectRings(void);
 
 // TODO: Declare in headers!
 extern struct Task *sub_80550F8(void);
-extern bool32 sub_8017800(); // Spotlight-beam related
+extern bool32 CreateSpotLightBeams(); // Spotlight-beam related
 extern void CreateMultiplayerMultiPakUI();
 extern void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask);
 extern struct Task *CreateMultiplayerChao(u8, u8);
@@ -219,7 +219,7 @@ void CreateGameStage(void)
         sStageInitProcs[gCurrentLevel]();
 
         if (gCurrentLevel == LEVEL_INDEX(ZONE_2, ACT_1)) {
-            if (sub_8017800()) {
+            if (CreateSpotLightBeams()) {
 #ifdef BUG_FIX
                 if (someTask != NULL)
 #endif

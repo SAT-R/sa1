@@ -10,11 +10,12 @@ void *iwram_end = 0;
 char gNumMusicPlayers = 4;
 int gMaxLines = 0;
 
-void sub_801C704() { }
+void CreateToBeContinuedScreen() { }
 
-bool32 sub_8017800() { }
+bool32 CreateSpotLightBeams() { }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
+void sub_801C704() { }
 void sa2__sub_8023B5C() { }
 
 // Stage BG Updates
@@ -80,14 +81,10 @@ void CreateEntity_Shrubbery() { }
 void CreateEntity_Booster() { }
 void CreateEntity_Booster_SlightLeft() { }
 void CreateEntity_Booster_SlightRight() { }
-void CreateEntity_Interactable034() { }
-void CreateEntity_MiniLoop_Base() { }
 void CreateEntity_MiniLoop_StartBoost() { }
 void CreateEntity_MiniLoop_Exit() { }
 void CreateEntity_MiniLoop_Entrance() { }
-void CreateEntity_Interactable039() { }
 void CreateEntity_WaterBridge() { }
-void CreateEntity_ToBeContinuedText() { }
 void CreateEntity_RedFlag() { }
 void CreateEntity_WallPole_Left() { }
 void CreateEntity_WallPole_Right() { }
@@ -142,7 +139,6 @@ void CreateEntity_SpikedBarrel() { }
 void CreateEntity_AirBubbles() { }
 void CreateEntity_IceBlock() { }
 void CreateEntity_Interactable096() { }
-void CreateEntity_Interactable097() { }
 void CreateEntity_UnderwaterLavaPlatform() { }
 void CreateEntity_Interactable099() { }
 void CreateEntity_Booster_Steep() { }

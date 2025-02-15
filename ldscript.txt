@@ -192,7 +192,7 @@ SECTIONS {
         asm/ia_084.o(.text);
         asm/ia_platforms_085_089.o(.text);
         asm/ia_run_wheel.o(.text);
-        asm/ia_torch.o(.text);
+        src/game/interactables/torch.o(.text);
         asm/ia_toggle_player_float.o(.text);
         asm/ia_ferris_wheel.o(.text);
         asm/ia_boulder_spawner.o(.text);
@@ -200,7 +200,7 @@ SECTIONS {
         asm/ia_air_bubbles.o(.text);
         asm/ia_ice_block.o(.text);
         asm/ia_096.o(.text);
-        src/game/interactables/097.o(.text);
+        src/game/interactables/updraft.o(.text);
         asm/ia_underwater_lava_platform.o(.text);
         asm/ia_099.o(.text);
         asm/ia_special_spring.o(.text);
