@@ -39,7 +39,6 @@ void Task_Toggle_PlayerLayer(void)
     u8 meX = TASK_GET_MEMBER(TogglePlayerLayer, gCurTask, u16, meX);
     u16 regionX = TASK_GET_MEMBER(TogglePlayerLayer, gCurTask, u16, regionX);
     u16 regionY = TASK_GET_MEMBER(TogglePlayerLayer, gCurTask, u16, regionY);
-    u8 *playerLayer, *partnerLayer;
     s32 i;
 
     s16 screenX = TO_WORLD_POS(meX, regionX);
@@ -54,7 +53,7 @@ void Task_Toggle_PlayerLayer(void)
             s32 frontIAIndex = IA__TOGGLE_PLAYER_LAYER__FRONT;
 
             if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-                frontIAIndex = 12;
+                frontIAIndex = IA__MP_TOGGLE_PLAYER_LAYER__FRONT;
             }
 
             // The interactable-index determines, whether the layer we switch to

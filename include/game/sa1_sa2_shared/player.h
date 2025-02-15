@@ -87,16 +87,16 @@ typedef struct {
 #define PLAYER_4 3
 
 #if (GAME == GAME_SA1)
-#define GET_SP_PLAYER_V0(index)               ((index == 0) ? &gPlayer : &gPartner)
-#define GET_SP_PLAYER_V1(index)               ((index != 0) ? &gPartner : &gPlayer)
+#define GET_SP_PLAYER_V0(index) ((index == 0) ? &gPlayer : &gPartner)
+#define GET_SP_PLAYER_V1(index) ((index != 0) ? &gPartner : &gPlayer)
 
 // NOTE: DO NOT USE, only for matching in SA1!!!
 #define GET_SP_PLAYER_MEMBER_V0(index, _memb) ((index == 0) ? gPlayer._memb : gPartner._memb)
 #define GET_SP_PLAYER_MEMBER_V1(index, _memb) ((index != 0) ? gPartner._memb : gPlayer._memb)
 #elif (GAME == GAME_SA2)
 // NOTE: Ignores index, in SA2 you only ever have 1 player char in single player mode
-#define GET_SP_PLAYER_V0(index) (&gPlayer)
-#define GET_SP_PLAYER_V1(index) (&gPlayer)
+#define GET_SP_PLAYER_V0(index)               (&gPlayer)
+#define GET_SP_PLAYER_V1(index)               (&gPlayer)
 
 // NOTE: DO NOT USE, only for matching in SA1!!!
 #define GET_SP_PLAYER_MEMBER_V0(index, _memb) ((index == 0) ? gPlayer._memb : gPlayer._memb)
@@ -106,8 +106,10 @@ typedef struct {
 #define GET_SP_PLAYER_V1(index) ((index != PLAYER_1) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
 
 // NOTE: DO NOT USE, only for matching in SA1!!!
-#define GET_SP_PLAYER_MEMBER_V0(index, _memb) ((index == 0) ? gPlayers[gStageData.playerIndex]._memb : gPlayers[p->charFlags.partnerIndex]._memb)
-#define GET_SP_PLAYER_MEMBER_V1(index, _memb) ((index != 0) ? gPlayers[p->charFlags.partnerIndex]._memb : gPlayers[gStageData.playerIndex]._memb)
+#define GET_SP_PLAYER_MEMBER_V0(index, _memb)                                                                                              \
+    ((index == 0) ? gPlayers[gStageData.playerIndex]._memb : gPlayers[p->charFlags.partnerIndex]._memb)
+#define GET_SP_PLAYER_MEMBER_V1(index, _memb)                                                                                              \
+    ((index != 0) ? gPlayers[p->charFlags.partnerIndex]._memb : gPlayers[gStageData.playerIndex]._memb)
 #endif
 
 typedef struct Player {
