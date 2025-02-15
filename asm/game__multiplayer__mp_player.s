@@ -545,7 +545,7 @@ _080134FC:
 	beq _08013526
 	movs r0, #0
 	ldrsb r0, [r2, r0]
-	bl sub_804B678
+	bl CreateItemTask_Invincibility
 _08013526:
 	movs r0, #1
 	ands r0, r4
@@ -554,7 +554,7 @@ _08013526:
 	mov r3, sb
 	movs r0, #0
 	ldrsb r0, [r3, r0]
-	bl sub_804B5CC
+	bl CreateItemTask_Shield_Normal
 _08013538:
 	movs r0, #8
 	ands r4, r0
@@ -563,7 +563,7 @@ _08013538:
 	mov r4, sb
 	movs r0, #0
 	ldrsb r0, [r4, r0]
-	bl sub_804B71C
+	bl CreateItemTask_Shield_Magnetic
 _0801354A:
 	movs r0, #0x50
 	ands r5, r0

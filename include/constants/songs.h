@@ -89,8 +89,9 @@
 #define SE_KNOCK_OPPONENT 162 // also EXTRA_BOSS_LASER
 #define SE_CHAO_HUH       163
 
-#define SE_TIME_UP    166
-#define SE_ITEM_BOX_2 167
+#define SE_TIME_UP         166
+#define SE_ITEM_BOX_2      167
+#define SE_ACTIVATE_SHIELD 168
 
 #define SE_SPRING 170
 

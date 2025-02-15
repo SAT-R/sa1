@@ -868,7 +868,7 @@ _0801ECF4_case_1:
 	adds r2, #0x3c
 	movs r0, #0
 	ldrsb r0, [r2, r0]
-	bl sub_804B5CC
+	bl CreateItemTask_Shield_Normal
 	b _0801EFF6
 	.align 2, 0
 _0801ED14: .4byte gPlayer
@@ -885,7 +885,7 @@ _0801ED18_case_2:
 	adds r2, #0x3c
 	movs r0, #0
 	ldrsb r0, [r2, r0]
-	bl sub_804B71C
+	bl CreateItemTask_Shield_Magnetic
 	b _0801EFF6
 	.align 2, 0
 _0801ED38: .4byte gPlayer
@@ -903,7 +903,7 @@ _0801ED3C_case_3:
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
-	bl sub_804B678
+	bl CreateItemTask_Invincibility
 	ldr r1, _0801ED74 @ =gMusicManagerState
 	movs r0, #0x10
 	strb r0, [r1, #2]
