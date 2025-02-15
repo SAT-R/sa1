@@ -191,35 +191,50 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Normal.inc", 
 }
 END_NONMATCH
 
-#if 0
-void Task_Item_Shield_Magnetic(void)
+// (99.85%) https://decomp.me/scratch/Ozaza
+NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Magnetic.inc", void Task_Item_Shield_Magnetic(void))
 {
-    s8 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
+    struct Task *t = gCurTask;
+    s8 pid = ITEMTASK_GET_PLAYER_NUM(t);
 
-    ItemTask *item = TASK_DATA(gCurTask);
+    ItemTask *item = TASK_DATA(t);
     struct Camera *cam = &gCamera;
-
+    Player *p;
     bool32 b;
 
-    if (IS_SINGLE_PLAYER) {
-        u32 itemEffect = (gPlayer.itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC | PLAYER_ITEM_EFFECT__INVINCIBILITY));
+    if (IS_MULTI_PLAYER) {
+        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
 
-        if (itemEffect != PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC) {
-            TaskDestroy(gCurTask);
+        if (!(mpp->unk57 & PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC)) {
+            TaskDestroy(t);
             return;
         }
 
-        if (!(gPlayer.itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
+        item->s.x = mpp->pos.x - cam->x;
+        item->s.y = mpp->pos.y - cam->y;
+
+        item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+        item->s.frameFlags |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+    } else {
+        p = GET_SP_PLAYER_V1(pid);
+
+        if ((p->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_NORMAL)) == 0) {
+            TaskDestroy(t);
+            return;
+        }
+
+        if (!(p->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
             s32 screenX, screenY;
 
-            screenX = I(gPlayer.qWorldX) - cam->x;
-            item->s.x = screenX + gPlayer.SA2_LABEL(unk7C);
+            screenX = I(p->qWorldX) - (u16)cam->x;
+            item->s.x = screenX + p->SA2_LABEL(unk7C);
 
-            screenY = I(gPlayer.qWorldY) - cam->y;
+            screenY = I(p->qWorldY) - (u16)cam->y;
             item->s.y = screenY;
 
             item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
-            item->s.frameFlags |= gPlayer.spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+
+            item->s.frameFlags |= p->spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
         } else {
             return;
         }
@@ -227,52 +242,53 @@ void Task_Item_Shield_Magnetic(void)
 
     UpdateSpriteAnimation(&item->s);
 
-    b = (param);
-    {
-#ifndef NON_MATCHING
-        register u32 one asm("r3") = 1;
-#else
-        u32 one = 1;
-#endif
-        b &= one;
-        if (((gStageTime & 0x2) && (b != one)) || (!(gStageTime & 0x2) && (b != 0))) {
-            DisplaySprite(&item->s);
-        }
+    b = (pid & (b = 1));
+
+    if (((gStageTime & 0x2) && (pid != b)) || (!(gStageTime & 0x2) && (b != 0))) {
+        DisplaySprite(&item->s);
     }
 }
+END_NONMATCH
 
-// Unused?
-void Task_802ABC8(void)
+void sub_804BABC(void)
 {
     ItemTask *item = TASK_DATA(gCurTask);
-    struct Camera *cam = &gCamera;
+    s8 pid = ITEMTASK_GET_PLAYER_NUM(gCurTask);
     Sprite *s = &item->s;
+    struct Camera *cam = &gCamera;
+    s16 screenX, screenY;
+    u32 r2 = 0;
 
     if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
         TaskDestroy(gCurTask);
-    } else {
-        s16 screenX = 0, screenY = 0;
-        u32 r2 = 0;
-
-        if (IS_SINGLE_PLAYER) {
-            screenX = I(gPlayer.qWorldX) + gPlayer.SA2_LABEL(unk7C);
-
-            screenY = I(gPlayer.qWorldY);
-
-            r2 = gPlayer.spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
-        }
-
-        s->x = screenX - cam->x;
-        s->y = screenY - cam->y;
-
-        item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
-        item->s.frameFlags |= r2;
-
-        UpdateSpriteAnimation(s);
-        DisplaySprite(s);
+        return;
     }
+
+    if (IS_MULTI_PLAYER) {
+        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
+        screenX = mpp->pos.x;
+        screenY = mpp->pos.y;
+
+        r2 |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+    } else {
+        Player *p = GET_SP_PLAYER_V1(pid);
+        screenX = I(p->qWorldX) + p->SA2_LABEL(unk7C);
+        screenY = I(p->qWorldY);
+
+        r2 |= p->spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+    }
+
+    s->x = screenX - cam->x;
+    s->y = screenY - cam->y;
+
+    s->frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+    s->frameFlags |= r2;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
+#if 0
 void Task_Item_Invincibility(void)
 {
     s32 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
