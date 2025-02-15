@@ -41,7 +41,7 @@ void StageInit_MPCollectRings(void);
 
 // TODO: Declare in headers!
 extern struct Task *sub_80550F8(void);
-extern bool32 CreateSpotlightsManager(); // Spotlight-beam related
+extern bool32 CreateSpotlightsManager(void); // Spotlight-beam related
 extern void CreateMultiplayerMultiPakUI();
 extern void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask);
 extern struct Task *CreateMultiplayerChao(u8, u8);

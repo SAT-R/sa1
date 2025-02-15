@@ -97,6 +97,12 @@ struct IwramNode {
 #define TASK_NEXT(taskp)   (struct Task *)TASK_PTR((taskp)->next)
 #define TasksDestroyAll()  TasksDestroyInPriorityRange(0, 0xFFFF)
 
+// TODO: DO NOT USE, unless ABSOLUTELY necessary for matching!!!
+#define TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName)                                                                        \
+    *(_memberType *)((u8 *)TASK_DATA(_task) + offsetof(_taskType, _memberName))
+#define TASK_SET_MEMBER(_taskType, _task, _memberType, _memberName, _value)                                                                \
+    TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName) = (_value);
+
 extern struct Task gTasks[MAX_TASK_NUM];
 extern struct Task gEmptyTask;
 extern struct Task *gTaskPtrs[MAX_TASK_NUM];
