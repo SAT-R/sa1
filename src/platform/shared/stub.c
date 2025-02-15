@@ -129,7 +129,6 @@ void CreateEntity_HangBar() { }
 void CreateEntity_SkatingStone() { }
 void CreateEntity_Interactable085() { }
 void CreateEntity_RunWheel() { }
-void CreateEntity_Torch() { }
 void CreateEntity_Lift() { }
 void CreateEntity_Interactable089() { }
 void CreateEntity_PlayerFloat() { }

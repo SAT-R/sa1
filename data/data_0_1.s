@@ -107,7 +107,7 @@ gSpriteInits_Interactables:     @ 0x080BB064
     mPtr CreateEntity_Booster_Steep           @ 100
     mPtr CreateEntity_Booster_Steep2          @ 101
     mPtr CreateEntity_SpecialSpring           @ 102
-    mPtr CreateEntity_SpikedBarrel_ChaoHunt   @ 103
+    mPtr CreateEntity_Propeller   @ 103
     mPtr CreateEntity_SmallFallBlock          @ 104 (X-Zone)
     mPtr CreateEntity_Lava                    @ 105
     mPtr CreateEntity_Track                   @ 106

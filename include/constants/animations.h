@@ -109,7 +109,7 @@
 #define SA1_ANIM_TORCH6_1               511
 #define SA1_ANIM_TORCH6_2               512
 
-#define SA1_ANIM_PROPELLOR    516
+#define SA1_ANIM_PROPELLER    515
 #define SA1_ANIM_SPIKY_BARREL 516
 
 #define SA1_ANIM_MINI_FLIPPER 522

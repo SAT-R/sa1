@@ -11,13 +11,12 @@ typedef struct {
     /* 0x0C */ Sprite s;
 } Torch;
 
-void Task_TorchMain(void);
-void TaskDestructor_Torch(struct Task *);
+static void Task_TorchMain(void);
+static void TaskDestructor_Torch(struct Task *);
 
 // Cosmic Angel: Antigravity field elements
 //               (They kind of look like torches, I guess?)
 
-#if 01
 void CreateEntity_Torch(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_TorchMain, sizeof(Torch), 0x2000, 0, TaskDestructor_Torch);
@@ -61,9 +60,8 @@ void CreateEntity_Torch(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SPRITE_INIT_SCRIPT(s, 1.0);
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 }
-#endif
 
-void Task_TorchMain(void)
+static void Task_TorchMain(void)
 {
     Torch *torch = TASK_DATA(gCurTask);
     Sprite *s = &torch->s;
@@ -86,7 +84,7 @@ void Task_TorchMain(void)
     DisplaySprite(s);
 }
 
-void TaskDestructor_Torch(struct Task *t)
+static void TaskDestructor_Torch(struct Task *t)
 {
     Torch *torch = TASK_DATA(t);
     VramFree(torch->s.graphics.dest);

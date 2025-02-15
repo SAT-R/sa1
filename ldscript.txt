@@ -204,7 +204,7 @@ SECTIONS {
         asm/ia_underwater_lava_platform.o(.text);
         asm/ia_099.o(.text);
         asm/ia_special_spring.o(.text);
-        asm/ia_spiked_barrel_chaohunt.o(.text);
+        src/game/interactables/propeller.o(.text);
         asm/ia_small_fall_block.o(.text);
         asm/ia_lava.o(.text);
         asm/ia_track.o(.text);
