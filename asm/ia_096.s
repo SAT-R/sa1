@@ -18,16 +18,16 @@ Task_Interactable096: @ 0x0809221C
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r7, r1, r0
+	adds r7, r1, r0     @ r7 = ia
 	ldr r0, [r7]
-	mov sl, r0
+	mov sl, r0          @ sl = me
 	ldrb r1, [r7, #8]
 	lsls r1, r1, #3
 	ldrh r0, [r7, #4]
 	lsls r0, r0, #8
 	adds r1, r1, r0
 	lsls r1, r1, #0x10
-	mov r4, sl
+	mov r4, sl          @ r4 = sl = me
 	ldrb r2, [r4, #1]
 	lsls r2, r2, #3
 	ldrh r0, [r7, #6]
@@ -42,7 +42,7 @@ Task_Interactable096: @ 0x0809221C
 	subs r1, r1, r0
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
-	str r1, [sp]
+	str r1, [sp]        @ sp00 = s16 screenX
 	ldrh r0, [r3, #2]
 	lsrs r1, r2, #0x10
 	mov r8, r1
@@ -50,7 +50,7 @@ Task_Interactable096: @ 0x0809221C
 	subs r2, r2, r0
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
-	str r2, [sp, #4]
+	str r2, [sp, #4]    @ sp04 = s16 screenY
 	movs r4, #0
 	ldr r5, _0809228C @ =gPartner
 	ldr r6, _08092290 @ =gPlayer

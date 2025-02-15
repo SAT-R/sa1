@@ -5,102 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateSpotLightBeams
-CreateSpotLightBeams: @ 0x08017800
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	ldr r0, _0801789C @ =gPlayer
-	adds r0, #0x48
-	movs r2, #0
-	ldrsh r1, [r0, r2]
-	movs r0, #0xab
-	lsls r0, r0, #3
-	cmp r1, r0
-	bgt _080178B0
-	ldr r0, _080178A0 @ =Task_80178C0
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _080178A4 @ =TaskDestructor_SpotLightMain
-	str r1, [sp]
-	movs r1, #0xc
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r5, #0xc0
-	lsls r5, r5, #0x12
-	adds r4, r4, r5
-	movs r0, #0
-	mov r8, r0
-	movs r0, #0x80
-	lsls r0, r0, #5
-	strh r0, [r4, #8]
-	bl CreateSpotlightBeamTask
-	str r0, [r4]
-	ldrh r0, [r0, #6]
-	adds r1, r0, r5
-	movs r0, #0x3c
-	strh r0, [r1, #6]
-	movs r6, #0xc8
-	strh r6, [r1, #8]
-	mov r2, r8
-	strh r2, [r1]
-	movs r0, #0x40
-	strh r0, [r1, #2]
-	movs r0, #0x80
-	lsls r0, r0, #4
-	strh r0, [r1, #4]
-	movs r0, #2
-	strb r0, [r1, #0xa]
-	movs r0, #0x20
-	strb r0, [r1, #0xb]
-	bl CreateSpotlightBeamTask
-	str r0, [r4, #4]
-	ldrh r0, [r0, #6]
-	adds r1, r0, r5
-	strh r6, [r1, #6]
-	movs r0, #0xf0
-	strh r0, [r1, #8]
-	mov r0, r8
-	strh r0, [r1]
-	movs r0, #8
-	strh r0, [r1, #2]
-	movs r0, #0x80
-	lsls r0, r0, #3
-	strh r0, [r1, #4]
-	movs r0, #3
-	strb r0, [r1, #0xa]
-	movs r0, #0x10
-	strb r0, [r1, #0xb]
-	ldr r1, _080178A8 @ =gBldRegs
-	ldr r0, _080178AC @ =0x00003FDF
-	strh r0, [r1]
-	ldrh r0, [r4, #8]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x18
-	strh r0, [r1, #4]
-	movs r0, #1
-	b _080178B2
-	.align 2, 0
-_0801789C: .4byte gPlayer
-_080178A0: .4byte Task_80178C0
-_080178A4: .4byte TaskDestructor_SpotLightMain
-_080178A8: .4byte gBldRegs
-_080178AC: .4byte 0x00003FDF
-_080178B0:
-	movs r0, #0
-_080178B2:
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
+.if 0
+.endif
 
-	thumb_func_start Task_80178C0
-Task_80178C0: @ 0x080178C0
+	thumb_func_start Task_SpotlightsManager
+Task_SpotlightsManager: @ 0x080178C0
 	push {r4, r5, lr}
 	ldr r5, _0801791C @ =gCurTask
 	ldr r0, [r5]
@@ -246,8 +155,8 @@ _080179EA:
 	.align 2, 0
 _080179F0: .4byte gBldRegs
 
-	thumb_func_start TaskDestructor_SpotLightMain
-TaskDestructor_SpotLightMain: @ 0x080179F4
+	thumb_func_start TaskDestructor_SpotlightsManager
+TaskDestructor_SpotlightsManager: @ 0x080179F4
 	ldr r2, _08017A1C @ =gDispCnt
 	ldrh r1, [r2]
 	ldr r0, _08017A20 @ =0x00009FFF

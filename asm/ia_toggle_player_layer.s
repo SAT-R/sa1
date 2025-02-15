@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_80238FC
-sub_80238FC: @ 0x080238FC
+	thumb_func_start Task_Toggle_PlayerLayer
+Task_Toggle_PlayerLayer: @ 0x080238FC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -242,7 +242,7 @@ CreateEntity_Toggle_PlayerLayer: @ 0x08023AA4
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _08023AFC @ =sub_80238FC
+	ldr r0, _08023AFC @ =Task_Toggle_PlayerLayer
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -276,6 +276,6 @@ CreateEntity_Toggle_PlayerLayer: @ 0x08023AA4
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08023AFC: .4byte sub_80238FC
+_08023AFC: .4byte Task_Toggle_PlayerLayer
 _08023B00: .4byte 0x03000004
 _08023B04: .4byte 0x03000008

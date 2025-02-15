@@ -43,6 +43,7 @@ SECTIONS {
         asm/game__multiplayer__mp_player.o(.text);
         asm/game__multiplayer__indicators.o(.text);
         asm/game_0_4.o(.text);
+        src/game/sa1_sa2_shared/spot_lights.o(.text);
         asm/game__sa1_sa2_shared__spot_lights.o(.text);
         src/game/multiplayer/multiplayer_event_mgr.o(.text);
         src/game/multiplayer/multiplayer_event_recv_mgr.o(.text);

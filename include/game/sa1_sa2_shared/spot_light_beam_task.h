@@ -10,7 +10,7 @@ typedef struct {
     s16 unk8;
     u8 unkA;
     u8 unkB;
-} StageUnkTask; /* size: 0xC */
+} SpotlightBeam; /* size: 0xC */
 
 struct Task *CreateSpotlightBeamTask(void);
 

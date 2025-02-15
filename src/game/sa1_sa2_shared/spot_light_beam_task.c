@@ -8,15 +8,15 @@
 #include "gba/syscall.h"
 #include "game/sa1_sa2_shared/spot_light_beam_task.h"
 
-void Task_SpotlightBeamTask(void);
-void TaskDestructor_SpotlightBeamTask(struct Task *);
+void Task_SpotlightBeam(void);
+void TaskDestructor_SpotlightBeam(struct Task *);
 
 /* This task is related to spot lights in Ice Paradise. */
 
 struct Task *CreateSpotlightBeamTask(void)
 {
-    struct Task *t = TaskCreate(Task_SpotlightBeamTask, sizeof(StageUnkTask), 0x2000, 0, TaskDestructor_SpotlightBeamTask);
-    StageUnkTask *ut = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_SpotlightBeam, sizeof(SpotlightBeam), 0x2000, 0, TaskDestructor_SpotlightBeam);
+    SpotlightBeam *ut = TASK_DATA(t);
 
     ut->unk6 = 120;
     ut->unk8 = 200;
@@ -30,12 +30,12 @@ struct Task *CreateSpotlightBeamTask(void)
 }
 
 // NOTE: The SA1 assembly code is different to SA2's version, so the code might not be accurate!
-NONMATCH("asm/non_matching/game/sa1_sa2_shared/Task_SpotlightBeamTask.inc", void Task_SpotlightBeamTask(void))
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/Task_SpotlightBeam.inc", void Task_SpotlightBeam(void))
 {
     u32 sinIndex;
     s32 someCos;
 
-    StageUnkTask *ut = TASK_DATA(gCurTask);
+    SpotlightBeam *ut = TASK_DATA(gCurTask);
 
     if (ut->unkB != 0) {
         // _08009984
@@ -204,4 +204,4 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/Task_SpotlightBeamTask.inc", void
 }
 END_NONMATCH
 
-void TaskDestructor_SpotlightBeamTask(struct Task *t) { gFlags &= ~FLAGS_4; }
+void TaskDestructor_SpotlightBeam(struct Task *t) { gFlags &= ~FLAGS_4; }

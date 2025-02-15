@@ -13,8 +13,9 @@
 #include "game/sa1_sa2_shared/music_manager.h"
 #include "game/sa1_sa2_shared/palette_loader.h"
 #include "game/sa1_sa2_shared/pause_menu.h"
-#include "game/sa1_sa2_shared/rings_manager.h"
 #include "game/sa1_sa2_shared/player.h"
+#include "game/sa1_sa2_shared/rings_manager.h"
+#include "game/sa1_sa2_shared/spot_light_beam_task.h"
 #include "game/parameters/stage.h"
 #include "game/save.h"
 #include "game/stage/camera.h"
@@ -40,7 +41,7 @@ void StageInit_MPCollectRings(void);
 
 // TODO: Declare in headers!
 extern struct Task *sub_80550F8(void);
-extern bool32 CreateSpotLightBeams(); // Spotlight-beam related
+extern bool32 CreateSpotlightsManager(); // Spotlight-beam related
 extern void CreateMultiplayerMultiPakUI();
 extern void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask);
 extern struct Task *CreateMultiplayerChao(u8, u8);
@@ -219,7 +220,7 @@ void CreateGameStage(void)
         sStageInitProcs[gCurrentLevel]();
 
         if (gCurrentLevel == LEVEL_INDEX(ZONE_2, ACT_1)) {
-            if (CreateSpotLightBeams()) {
+            if (CreateSpotlightsManager()) {
 #ifdef BUG_FIX
                 if (someTask != NULL)
 #endif

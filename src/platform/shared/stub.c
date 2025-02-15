@@ -12,7 +12,6 @@ int gMaxLines = 0;
 
 void CreateToBeContinuedScreen() { }
 
-bool32 CreateSpotLightBeams() { }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
