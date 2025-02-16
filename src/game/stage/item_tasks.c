@@ -1,17 +1,20 @@
 #include "global.h"
-#include "malloc_vram.h"
 #include "sprite.h"
 #include "task.h"
+#include "trig.h"
+#include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 
 #include "game/sa1_sa2_shared/globals.h"
 
 #include "game/stage/player.h"
 #include "game/stage/camera.h"
+#include "game/stage/mp_sprite_task.h"
 #include "game/stage/item_tasks.h"
 #include "game/multiplayer/mp_player.h"
 
 #include "constants/animations.h"
+#include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
 typedef struct {
@@ -40,7 +43,7 @@ struct Task *CreateItemTask_Shield_Normal(s8 p0)
 
     item->unk30 = p0;
 
-    s->graphics.dest = VramMalloc(36);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_SHIELD_NORMAL);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_SHIELD_NORMAL;
     s->variant = 0;
@@ -64,7 +67,7 @@ struct Task *CreateItemTask_Invincibility(s8 p0)
 
     item->unk30 = p0;
 
-    s->graphics.dest = VramMalloc(36);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_INVINCIBILITY);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_INVINCIBILITY;
     s->variant = 0;
@@ -89,7 +92,7 @@ struct Task *CreateItemTask_Shield_Magnetic(s8 p0)
         ItemTask *item2 = (ItemTask *)TASK_DATA(t);
         Sprite *s = &item2->s;
 
-        s->graphics.dest = VramMalloc(36);
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_SHIELD_MAGNETIC);
         s->graphics.size = 0;
         s->graphics.anim = SA1_ANIM_SHIELD_MAGNETIC;
         s->variant = 0;
@@ -117,7 +120,7 @@ struct Task *CreateItemTask_Confusion(s8 p0)
         ItemTask *item2 = (ItemTask *)TASK_DATA(t);
         Sprite *s = &item2->s;
 
-        s->graphics.dest = VramMalloc(8);
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_CONFUSION);
         s->graphics.size = 0;
         s->graphics.anim = SA1_ANIM_CONFUSION;
         s->variant = 0;
@@ -288,61 +291,93 @@ void sub_804BABC(void)
     DisplaySprite(s);
 }
 
-#if 0
-void Task_Item_Invincibility(void)
+// (98.30%) https://decomp.me/scratch/R97rp
+NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Invincibility.inc", void Task_Item_Invincibility(void))
 {
-    s32 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
+    struct Task *t = gCurTask;
+    s32 pid = ITEMTASK_GET_PLAYER_NUM(t);
 
-    ItemTask *item = TASK_DATA(gCurTask);
-    s16 x, y;
-    u32 priority;
-    u32 b;
-
+    ItemTask *item = TASK_DATA(t);
     struct Camera *cam = &gCamera;
+    bool32 b;
+    s16 screenX, screenY;
+    u32 flags;
 
     if (IS_MULTI_PLAYER) {
-        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[(s8)param]);
+        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[(s8)pid]);
 
-        if (mpp->unk57 & 0x2) {
-            x = mpp->pos.x;
-            y = mpp->pos.y;
-            priority = mpp->s.frameFlags;
-        } else {
-            TaskDestroy(gCurTask);
+        if (!(mpp->unk57 & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
+            TaskDestroy(t);
             return;
         }
-    } else if ((gPlayer.itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY) == 0) {
-        TaskDestroy(gCurTask);
-        return;
-    } else {
-        // _0802ACE4
-        x = I(gPlayer.qWorldX) + gPlayer.SA2_LABEL(unk7C);
-        y = I(gPlayer.qWorldY);
-        priority = gPlayer.spriteInfoBody->s.frameFlags;
-    }
-    // _0802AD02
-    priority &= SPRITE_FLAG_MASK_PRIORITY;
 
-    item->s.x = x - cam->x;
-    item->s.y = y - cam->y;
+        screenX = mpp->pos.x;
+        screenY = mpp->pos.y;
+
+        flags = mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+    } else {
+        Player *p = GET_SP_PLAYER_V1(pid);
+
+        if (!(p->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
+            TaskDestroy(t);
+            return;
+        }
+
+        screenX = I(p->qWorldX) + p->SA2_LABEL(unk7C);
+        screenY = I(p->qWorldY);
+
+        flags = p->spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
+    }
+
+    item->s.x = screenX - cam->x;
+    item->s.y = screenY - cam->y;
     item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
-    item->s.frameFlags |= priority;
+    item->s.frameFlags |= flags;
+
+    if ((gStageTime & 0x7) == 0) {
+        // Create random small "sparkle" effects during invincibility
+        struct Task *t;
+        MultiplayerSpriteTask *mpSprite;
+        Sprite *sprInvin;
+        s16 randA, randB;
+
+        randA = ((u32)PseudoRandom32() >> 8) % 16u;
+#ifndef NON_MATCHING
+        asm("" ::"r"(randA));
+#endif
+        randB = ((u32)PseudoRandom32() >> 8) % 256u;
+
+        t = CreateMultiplayerSpriteTask(screenX + I(COS_24_8(randB * 4) * randA), screenY + I(SIN_24_8(randB * 4) * randA), 0, 0,
+                                        Task_StageGoalBonusPoints, TaskDestructor_MultiplayerSpriteTask);
+        mpSprite = TASK_DATA(t);
+        sprInvin = &mpSprite->s;
+        sprInvin->graphics.dest = ALLOC_TILES_VARIANT(SA1_ANIM_INVINCIBILITY, 1);
+        sprInvin->graphics.anim = SA1_ANIM_INVINCIBILITY;
+        sprInvin->variant = 1;
+        sprInvin->oamFlags = SPRITE_OAM_ORDER(8);
+        sprInvin->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+    }
+
     UpdateSpriteAnimation(&item->s);
 
     {
 #ifndef NON_MATCHING
-        register u32 one asm("r3") = 1;
+        register u32 bOrig asm("r3") = 1;
 #else
-        u32 one = 1;
+        u32 bOrig = 1;
 #endif
-        b = one;
-        b &= ~param;
-        if (((gStageTime & 0x2) && (b != one)) || (!(gStageTime & 0x2) && (b != 0))) {
+        b = bOrig;
+        // ClearBit(b, pid);
+        b &= ~pid;
+
+        if (((gStageTime & 0x2) && (b != bOrig)) || (!(gStageTime & 0x2) && (b != 0))) {
             DisplaySprite(&item->s);
         }
     }
 }
+END_NONMATCH
 
+#if 0
 void Task_Item_Confusion(void)
 {
     s8 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
