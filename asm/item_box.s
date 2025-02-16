@@ -5,212 +5,8 @@
 .syntax unified
 .arm
 
-@ TODO: Compare with SA2 - should be very identical
-	thumb_func_start CreateEntity_ItemBox
-CreateEntity_ItemBox: @ 0x0801E608
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov sl, r2
-	lsls r3, r3, #0x18
-	lsrs r4, r3, #0x18
-	ldr r0, _0801E640 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bne _0801E644
-	ldrb r0, [r7, #2]
-	cmp r0, #0
-	bne _0801E644
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	b _0801E76E
-	.align 2, 0
-_0801E640: .4byte gGameMode
-_0801E644:
-	ldr r0, _0801E780 @ =Task_ItemBoxMain
-	ldr r1, _0801E784 @ =TaskDestructor_ItemBox
-	str r1, [sp]
-	movs r1, #0x74
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r6, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r6, r0
-	ldr r2, _0801E788 @ =0x0300000C
-	adds r5, r6, r2
-	movs r1, #0
-	mov r8, r1
-	mov r2, sb
-	strh r2, [r0, #4]
-	mov r1, sl
-	strh r1, [r0, #6]
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #8]
-	strb r4, [r0, #9]
-	ldr r2, _0801E78C @ =0x0300006E
-	adds r0, r6, r2
-	mov r1, r8
-	strh r1, [r0]
-	subs r2, #2
-	adds r0, r6, r2
-	strh r1, [r0]
-	ldr r1, _0801E790 @ =0x03000070
-	adds r0, r6, r1
-	movs r2, #0
-	strb r2, [r0]
-	ldrb r0, [r7, #2]
-	adds r1, #1
-	adds r4, r6, r1
-	strb r0, [r4]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	mov r2, sb
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r2, sl
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	mov r2, r8
-	strh r2, [r5, #8]
-	ldr r0, _0801E794 @ =0x000002C1
-	strh r0, [r5, #0xa]
-	ldr r1, _0801E798 @ =0x0300002C
-	adds r0, r6, r1
-	movs r2, #0
-	strb r2, [r0]
-	mov r0, r8
-	strh r0, [r5, #0x14]
-	strh r0, [r5, #0x1c]
-	ldr r2, _0801E79C @ =0x0300002D
-	adds r1, r6, r2
-	movs r0, #1
-	rsbs r0, r0, #0
-	adds r7, r0, #0
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r2, #1
-	adds r1, r6, r2
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0801E7A0 @ =0x03000031
-	adds r0, r6, r1
-	movs r2, #0
-	strb r2, [r0]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r1, r5, #0
-	ldr r2, _0801E7A4 @ =0x0300003C
-	adds r5, r6, r2
-	ldr r0, _0801E7A8 @ =0x040000D4
-	str r1, [r0]
-	str r5, [r0, #4]
-	ldr r1, _0801E7AC @ =0x80000018
-	str r1, [r0, #8]
-	ldr r0, [r0, #8]
-	movs r0, #4
-	bl VramMalloc
-	str r0, [r5, #4]
-	ldr r0, _0801E7B0 @ =0x000002C2
-	strh r0, [r5, #0xa]
-	ldr r1, _0801E7B4 @ =gUnknown_080BB4D8
-	ldrb r0, [r4]
-	adds r0, r0, r1
-	ldrb r1, [r0]
-	ldr r0, _0801E7B8 @ =0x0300005C
-	adds r2, r6, r0
-	strb r1, [r2]
-	ldrb r0, [r4]
-	cmp r0, #0
-	bne _0801E73C
-	ldr r0, _0801E7BC @ =gSelectedCharacter
-	ldrb r0, [r0]
-	adds r0, r1, r0
-	strb r0, [r2]
-_0801E73C:
-	mov r1, r8
-	strh r1, [r5, #8]
-	strh r1, [r5, #0x14]
-	strh r1, [r5, #0x1c]
-	ldr r2, _0801E7C0 @ =0x0300005D
-	adds r1, r6, r2
-	ldrb r0, [r1]
-	orrs r0, r7
-	strb r0, [r1]
-	ldr r1, _0801E7C4 @ =0x03000061
-	adds r0, r6, r1
-	movs r2, #0
-	strb r2, [r0]
-	movs r0, #0x98
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r5, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-_0801E76E:
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801E780: .4byte Task_ItemBoxMain
-_0801E784: .4byte TaskDestructor_ItemBox
-_0801E788: .4byte 0x0300000C
-_0801E78C: .4byte 0x0300006E
-_0801E790: .4byte 0x03000070
-_0801E794: .4byte 0x000002C1
-_0801E798: .4byte 0x0300002C
-_0801E79C: .4byte 0x0300002D
-_0801E7A0: .4byte 0x03000031
-_0801E7A4: .4byte 0x0300003C
-_0801E7A8: .4byte 0x040000D4
-_0801E7AC: .4byte 0x80000018
-_0801E7B0: .4byte 0x000002C2
-_0801E7B4: .4byte gUnknown_080BB4D8
-_0801E7B8: .4byte 0x0300005C
-_0801E7BC: .4byte gSelectedCharacter
-_0801E7C0: .4byte 0x0300005D
-_0801E7C4: .4byte 0x03000061
+.if 0
+.endif
 
 	thumb_func_start Task_ItemBoxMain
 Task_ItemBoxMain: @ 0x0801E7C8
@@ -560,7 +356,7 @@ _0801EA5E:
 	movs r0, #2
 	orrs r1, r0
 	str r1, [r2, #0x10]
-_0801EA80:
+_0801EA80:      @ BreakItemBox() in SA2!
 	movs r0, #0xa7
 	bl m4aSongNumStart
 	mov r5, r8
@@ -952,7 +748,7 @@ _0801EDB0: .4byte gPlayer
 _0801EDB4: .4byte gMPlayInfo_BGM
 _0801EDB8: .4byte gGameMode
 _0801EDBC_case_5:
-	ldr r4, _0801EE3C @ =gUnknown_080BB308
+	ldr r4, _0801EE3C @ =ItemBox_RingAmountTable
 	ldr r2, _0801EE40 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0801EE44 @ =0x00196225
@@ -1014,7 +810,7 @@ _0801EE32:
 	bl m4aSongNumStart
 	b _0801EFF6
 	.align 2, 0
-_0801EE3C: .4byte gUnknown_080BB308
+_0801EE3C: .4byte ItemBox_RingAmountTable
 _0801EE40: .4byte gPseudoRandom
 _0801EE44: .4byte 0x00196225
 _0801EE48: .4byte 0x3C6EF35F

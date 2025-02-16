@@ -914,7 +914,7 @@ _0801C1FC:
 	beq _0801C2A8
 	b _0801C2B6
 _0801C206:
-	ldr r4, _0801C284 @ =gUnknown_080BB308
+	ldr r4, _0801C284 @ =ItemBox_RingAmountTable
 	ldr r2, _0801C288 @ =gPseudoRandom
 	ldr r1, [r2]
 	ldr r0, _0801C28C @ =0x00196225
@@ -976,7 +976,7 @@ _0801C27C:
 	bl m4aSongNumStart
 	b _0801C2B6
 	.align 2, 0
-_0801C284: .4byte gUnknown_080BB308
+_0801C284: .4byte ItemBox_RingAmountTable
 _0801C288: .4byte gPseudoRandom
 _0801C28C: .4byte 0x00196225
 _0801C290: .4byte 0x3C6EF35F

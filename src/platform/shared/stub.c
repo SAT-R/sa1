@@ -218,8 +218,6 @@ void CreateSpecialStage() { }
 
 void SaveGameExists() { }
 
-void CreateItemTask_Confusion() { }
-
 void Player_TransitionCancelFlyingAndBoost() { }
 
 void sub_800E934() { }

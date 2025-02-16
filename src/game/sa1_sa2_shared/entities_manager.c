@@ -143,13 +143,358 @@ void SA2_LABEL(TaskDestructor_80095FC)(struct Task *);
 extern const RLCompressed *const gSpritePosData_interactables[NUM_LEVEL_IDS];
 extern const RLCompressed *const gSpritePosData_itemboxes[NUM_LEVEL_IDS];
 extern const RLCompressed *const gSpritePosData_enemies[NUM_LEVEL_IDS];
-extern const MapEntityInit gSpriteInits_Interactables[116];
-extern const MapEntityInit gSpriteInits_Enemies[32];
+
+extern void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_HidingUp(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_HidingDown(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Normal_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Normal_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Big_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Big_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Small_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Small_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Decoration(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Toggle_PlayerLayer(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Toggle_PlayerLayer(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_GrindRail_Start(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_GrindRail_End(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PlatformThin(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PlatformThin_Falling(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Trampoline(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PlatformCrumbling(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BounceBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_InclineRamp(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Waterfall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_HalfPipeStart(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_HalfPipeEnd(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Shrubbery(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Booster(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Booster_SlightLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Booster_SlightRight(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable034(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MiniLoop_Base(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MiniLoop_StartBoost(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MiniLoop_Exit(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MiniLoop_Entrance(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable039(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_WaterBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ToBeContinuedText(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_RedFlag(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_WaterBridgeSplash(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_WallPole_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_WallPole_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ForcedIceSlide(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Booster_Wall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BumperRound_LinearMov(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BumperRound_CircularMov(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BumperTriHorizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BumperTriVertical(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BumperTriBig(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Flipper(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Platform_Square(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Flipper_Vertical(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BarrelOfDoomMini(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SEGA_SONIC_Letter(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PartyBalloon(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ShipSwing(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Bowl(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PanelGate_Vertical(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PanelGate_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MarbleTrack_Dir(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MarbleTrack_Unk(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MarbleTrack_Entrance(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MarbleTrack_Exit(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ConveyorBelt(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Toggle_PlayerVisibility(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_WallBumper(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_TeleportOrb(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Flipper_SmallBlue(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Carousel(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_HookRail(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SwingingHook(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SecurityGate(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SwingRope(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SteamExhaust(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_CraneClaw(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MovingSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_IronBall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_HangBar(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable085(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_RunWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Torch(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable089(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PlayerFloat(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BoulderSpawner(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SpikedBarrel(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_AirBubbles(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_IceBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable096(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable097(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_UnderwaterLavaPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable099(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Booster_Steep(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Booster_Steep2(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SpecialSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Propeller(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SmallFallBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Lava(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Track(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable107(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Hiding(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable109(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PipeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_TrackAirCorner(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Interactable113(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+
+const MapEntityInit gSpriteInits_Interactables[116] = {
+    /* 000 */ CreateEntity_StageGoal,
+    /* 001 */ CreateEntity_Spikes_Up,
+    /* 002 */ CreateEntity_Spikes_Down,
+    /* 003 */ CreateEntity_Spikes_Horizontal, // Left
+    /* 004 */ CreateEntity_Spikes_Horizontal, // Right
+    /* 005 */ CreateEntity_Spikes_HidingUp,
+    /* 006 */ CreateEntity_Spikes_HidingDown,
+    /* 007 */ CreateEntity_Checkpoint,
+    /* 008 */ CreateEntity_Spring_Normal_Up,
+    /* 009 */ CreateEntity_Spring_Normal_Down,
+    /* 010 */ CreateEntity_Spring_Horizontal, // Left
+    /* 011 */ CreateEntity_Spring_Horizontal, // Right
+    /* 012 */ CreateEntity_Spring_Big_Up, // Up-Left
+    /* 013 */ CreateEntity_Spring_Big_Up, // Up-Right
+    /* 014 */ CreateEntity_Spring_Small_Up, // Up-Left
+    /* 015 */ CreateEntity_Spring_Small_Up, // Up-Right
+    /* 016 */ CreateEntity_Decoration,
+    /* 017 */ CreateEntity_Toggle_PlayerLayer,
+    /* 018 */ CreateEntity_Toggle_PlayerLayer,
+    /* 019 */ CreateEntity_GrindRail_Start,
+    /* 020 */ CreateEntity_GrindRail_End,
+    /* 021 */ CreateEntity_PlatformThin,
+    /* 022 */ CreateEntity_PlatformThin_Falling,
+    /* 023 */ CreateEntity_Trampoline,
+    /* 024 */ CreateEntity_PlatformCrumbling,
+    /* 025 */ CreateEntity_BounceBlock,
+    /* 026 */ CreateEntity_InclineRamp,
+    /* 027 */ CreateEntity_Waterfall, // Only particles, used for "Sand Falls", too.
+    /* 028 */ CreateEntity_HalfPipeStart,
+    /* 029 */ CreateEntity_HalfPipeEnd,
+    /* 030 */ CreateEntity_Shrubbery,
+    /* 031 */ CreateEntity_Booster,
+    /* 032 */ CreateEntity_Booster_SlightLeft,
+    /* 033 */ CreateEntity_Booster_SlightRight,
+    /* 034 */ CreateEntity_Interactable034,
+    /* 035 */ CreateEntity_MiniLoop_Base,
+    /* 036 */ CreateEntity_MiniLoop_StartBoost,
+    /* 037 */ CreateEntity_MiniLoop_Exit,
+    /* 038 */ CreateEntity_MiniLoop_Entrance,
+    /* 039 */ CreateEntity_Interactable039,
+    /* 040 */ CreateEntity_WaterBridge,
+    /* 041 */ CreateEntity_ToBeContinuedText,
+    /* 042 */ CreateEntity_RedFlag,
+    /* 043 */ CreateEntity_WaterBridgeSplash,
+    /* 044 */ CreateEntity_WallPole_Left,
+    /* 045 */ CreateEntity_WallPole_Right,
+    /* 046 */ CreateEntity_ForcedIceSlide,
+    /* 047 */ CreateEntity_Booster_Wall,
+    /* 048 */ CreateEntity_BumperHexagon,
+    /* 049 */ CreateEntity_BumperRound_LinearMov,
+    /* 050 */ CreateEntity_BumperRound_CircularMov,
+    /* 051 */ CreateEntity_BumperTriHorizontal,
+    /* 052 */ CreateEntity_BumperTriVertical,
+    /* 053 */ CreateEntity_BumperTriBig,
+    /* 054 */ CreateEntity_Flipper,
+    /* 055 */ CreateEntity_Platform_Square,
+    /* 056 */ CreateEntity_Flipper_Vertical,
+    /* 057 */ CreateEntity_BarrelOfDoomMini,
+    /* 058 */ CreateEntity_SEGA_SONIC_Letter,
+    /* 059 */ CreateEntity_PartyBalloon,
+    /* 060 */ CreateEntity_ShipSwing,
+    /* 061 */ CreateEntity_Platform_Spiked,
+    /* 062 */ CreateEntity_Bowl,
+    /* 063 */ CreateEntity_PanelGate_Vertical,
+    /* 064 */ CreateEntity_PanelGate_Horizontal,
+    /* 065 */ CreateEntity_MarbleTrack_Dir,
+    /* 066 */ CreateEntity_MarbleTrack_Unk,
+    /* 067 */ CreateEntity_MarbleTrack_Entrance,
+    /* 068 */ CreateEntity_MarbleTrack_Exit,
+    /* 069 */ CreateEntity_ConveyorBelt, // 069 Also used for snow in Ice Paradise
+    /* 070 */ CreateEntity_Toggle_PlayerVisibility, // data[0]: 0 = Visible, 1 = Invisible
+    /* 071 */ CreateEntity_WallBumper,
+    /* 072 */ CreateEntity_TeleportOrb, // Casino Paradise
+    /* 073 */ CreateEntity_Flipper_SmallBlue,
+    /* 074 */ CreateEntity_Carousel,
+    /* 075 */ CreateEntity_HookRail,
+    /* 076 */ CreateEntity_SwingingHook,
+    /* 077 */ CreateEntity_SecurityGate,
+    /* 078 */ CreateEntity_SwingRope,
+    /* 079 */ CreateEntity_SteamExhaust,
+    /* 080 */ CreateEntity_CraneClaw,
+    /* 081 */ CreateEntity_MovingSpring, // 081 Moving Spring
+    /* 082 */ CreateEntity_IronBall,
+    /* 083 */ CreateEntity_HangBar,
+    /* 084 */ CreateEntity_SkatingStone,
+    /* 085 */ CreateEntity_Interactable085,
+    /* 086 */ CreateEntity_RunWheel,
+    /* 087 */ CreateEntity_Torch, // Cosmic Angel: Antigravity field elements
+    /* 088 */ CreateEntity_Lift,
+    /* 089 */ CreateEntity_Interactable089,
+    /* 090 */ CreateEntity_PlayerFloat, // data[0]: 0 = Whirlwind, 1 = Antigravity
+    /* 091 */ CreateEntity_FerrisWheel,
+    /* 092 */ CreateEntity_BoulderSpawner,
+    /* 093 */ CreateEntity_SpikedBarrel,
+    /* 094 */ CreateEntity_AirBubbles,
+    /* 095 */ CreateEntity_IceBlock,
+    /* 096 */ CreateEntity_Interactable096,
+    /* 097 */ CreateEntity_Interactable097,
+    /* 098 */ CreateEntity_UnderwaterLavaPlatform,
+    /* 099 */ CreateEntity_Interactable099,
+    /* 100 */ CreateEntity_Booster_Steep,
+    /* 101 */ CreateEntity_Booster_Steep2,
+    /* 102 */ CreateEntity_SpecialSpring,
+    /* 103 */ CreateEntity_Propeller,
+    /* 104 */ CreateEntity_SmallFallBlock, // 104 (X-Zone)
+    /* 105 */ CreateEntity_Lava,
+    /* 106 */ CreateEntity_Track,
+    /* 107 */ CreateEntity_Interactable107,
+    /* 108 */ CreateEntity_Spring_Hiding,
+    /* 109 */ CreateEntity_Interactable109,
+    /* 110 */ CreateEntity_PipeEntrance,
+    /* 111 */ CreateEntity_PipeExit,
+    /* 112 */ CreateEntity_TrackAirCorner,
+    /* 113 */ CreateEntity_Interactable113,
+    /* 114 */ CreateEntity_BreakableWall,
+    /* 115 */ CreateEntity_ItemBox_ChaoHunt,
+};
+
+extern void CreateEntity_Kiki(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Buzzer(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_GamiGami(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Rhinotank(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_KeroKero(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Senbon(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Tentou(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Fireball(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Hanabii(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Slot(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Pierrot(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Leon(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Mirror(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Wamu(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Oct(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Mole(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Yukimaru(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Yukimaru_Wall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Kuraa(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PenMk1(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggPress(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MechaKnuckles(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggSnake(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+
+const MapEntityInit gSpriteInits_Enemies[32] = {
+    /* 000 */ CreateEntity_Kiki,
+    /* 001 */ CreateEntity_Buzzer,
+    /* 002 */ CreateEntity_GamiGami,
+    /* 003 */ CreateEntity_Rhinotank,
+    /* 004 */ CreateEntity_KeroKero,
+    /* 005 */ CreateEntity_Senbon,
+    /* 006 */ CreateEntity_Tentou,
+    /* 007 */ CreateEntity_Fireball,
+    /* 008 */ CreateEntity_Hanabii,
+    /* 009 */ CreateEntity_Slot,
+    /* 010 */ CreateEntity_Pierrot,
+    /* 011 */ CreateEntity_Leon,
+    /* 012 */ CreateEntity_Mirror,
+    /* 013 */ CreateEntity_Wamu,
+    /* 014 */ CreateEntity_Oct,
+    /* 015 */ CreateEntity_Mole,
+    /* 016 */ CreateEntity_Yukimaru,
+    /* 017 */ CreateEntity_Yukimaru_Wall,
+    /* 018 */ CreateEntity_Drisame,
+    /* 019 */ CreateEntity_Kuraa,
+    /* 020 */ CreateEntity_PenMk1,
+
+    // Bosses
+    /* 021 */ CreateEntity_EggHammerTank_Intro,
+    /* 022 */ CreateEntity_EggHammerTank,
+    /* 023 */ CreateEntity_EggPress,
+    /* 024 */ CreateEntity_EggBall,
+    /* 025 */ CreateEntity_EggSpider,
+    /* 026 */ CreateEntity_MechaKnuckles,
+    /* 027 */ CreateEntity_EggSnake,
+    /* 028 */ CreateEntity_EggWrecker,
+    /* 029 */ CreateEntity_EggDrillster,
+    /* 030 */ CreateEntity_EggX,
+    /* 031 */ CreateEntity_SuperEggRobot,
+};
 
 #define NUM_ENEMY_DEFEAT_SCORES 5
-extern const u16 enemyDefeatScores[NUM_ENEMY_DEFEAT_SCORES];
+const u16 enemyDefeatScores[NUM_ENEMY_DEFEAT_SCORES] = {
+    100, 200, 400, 800, 1000,
+};
 
-extern const MapEntityInit gSpriteInits_InteractablesMultiplayer[18];
+extern void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Normal_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Normal_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Big_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Spring_Big_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Toggle_PlayerLayer(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Toggle_PlayerLayer(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PlatformThin(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_PlatformThin_Falling(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_WaterBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+
+// Used for the Single Pak, "Collect Rings" stage
+const MapEntityInit gSpriteInits_InteractablesMultiplayer[] = {
+    /* 000 */ CreateEntity_Spikes_Up,
+    /* 001 */ CreateEntity_Spikes_Down,
+    /* 002 */ CreateEntity_Spikes_Horizontal,
+    /* 003 */ CreateEntity_Spikes_Horizontal,
+    /* 004 */ CreateEntity_Spikes_Up,
+    /* 005 */ CreateEntity_Spikes_Down,
+    /* 006 */ CreateEntity_Spring_Normal_Up,
+    /* 007 */ CreateEntity_Spring_Normal_Down,
+    /* 008 */ CreateEntity_Spring_Horizontal,
+    /* 009 */ CreateEntity_Spring_Horizontal,
+    /* 010 */ CreateEntity_Spring_Big_Up,
+    /* 011 */ CreateEntity_Spring_Big_Up,
+    /* 012 */ CreateEntity_Toggle_PlayerLayer,
+    /* 013 */ CreateEntity_Toggle_PlayerLayer,
+    /* 014 */ CreateEntity_PlatformThin,
+    /* 015 */ CreateEntity_PlatformThin_Falling,
+    /* 016 */ CreateEntity_WaterBridge,
+    /* 017 */ CreateEntity_ItemBox_ChaoHunt,
+};
 
 // TODO: Is this not in SA1?
 // extern const StagePreInitFunc gSpriteTileInits_PreStageEntry[NUM_LEVEL_IDS];

@@ -53,6 +53,7 @@ SECTIONS {
         asm/enemy_kiki.o(.text);
         asm/enemy_buzzer.o(.text);
         src/game/sa1_sa2_shared/collect_ring_effect.o(.text);
+        src/game/sa1_sa2_shared/item_box.o(.text);
         asm/item_box.o(.text);
         asm/ia_stage_goal.o(.text);
         src/game/sa1_sa2_shared/dust_cloud.o(.text);
@@ -265,7 +266,9 @@ SECTIONS {
         src/data/tileset_debug_ascii.o(.rodata);
         data/chao_garden.o(.rodata);
         src/data/entity_tables.o(.rodata);
-        data/data_0_1.o(.rodata);
+        src/game/sa1_sa2_shared/entities_manager.o(.rodata);
+        src/game/sa1_sa2_shared/item_box.o(.rodata);
+        asm/title_screen.o(.rodata);
         src/game/sa1_sa2_shared/unused_level_select.o(.rodata);
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);

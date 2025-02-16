@@ -1,6 +1,42 @@
 .include "asm/macros.inc"
 .include "constants/constants.inc"
 
+.section .rodata
+
+    @ TODO: Word-align this (4) when converting to C!
+    .align 2 , 0
+    .global gUnknown_080BB310
+gUnknown_080BB310:
+    .byte 10, 3, 11, 3
+
+    .global gUnknown_080BB314
+gUnknown_080BB314:
+    .incbin "baserom.gba", 0x000BB314, 0xA
+
+    .global gUnknown_080BB31E
+gUnknown_080BB31E:
+    .incbin "baserom.gba", 0x000BB31E, 0x5
+
+    .global gUnknown_080BB323
+gUnknown_080BB323:
+    .incbin "baserom.gba", 0x000BB323, 0x4
+
+    .global gUnknown_080BB327
+gUnknown_080BB327:
+    .incbin "baserom.gba", 0x000BB327, 0x5
+
+    .global gUnknown_080BB32C
+gUnknown_080BB32C:
+    .int CreateMultiplayerModeSelectScreen
+    .int CreateTimeAttackMenu
+    .int CreateOptionsMenu
+    .int LoadTinyChaoGarden
+
+    .global gUnknown_080BB33C
+gUnknown_080BB33C:
+    .incbin "baserom.gba", 0x000BB33C, 0x4
+    .align 2 , 0
+
 .text
 .syntax unified
 .arm

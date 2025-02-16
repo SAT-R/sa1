@@ -15,4 +15,6 @@
 #define ITEM__MP_11           11
 #define ITEM__MP_12           12
 
+#define ITEM__COUNT 13
+
 #endif // GUARD_CONSTANTS_ITEMS_H
