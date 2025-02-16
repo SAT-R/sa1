@@ -377,7 +377,6 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Invincibility.inc", 
 }
 END_NONMATCH
 
-#if 0
 void Task_Item_Confusion(void)
 {
     s8 param = ITEMTASK_GET_PLAYER_NUM(gCurTask);
@@ -431,4 +430,3 @@ void TaskDestructor_ItemTasks(struct Task *t)
     ItemTask *item = TASK_DATA(t);
     VramFree(item->s.graphics.dest);
 }
-#endif

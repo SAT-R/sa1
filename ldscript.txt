@@ -114,7 +114,6 @@ SECTIONS {
         src/game/stage/player.o(.text);
         asm/game__stage__player.o(.text);
         src/game/stage/item_tasks.o(.text);
-        asm/game__stage__item_tasks.o(.text);
         src/game/stage/underwater_effects.o(.text);
      /* src/game/water_effects.o(.text); */
         asm/game__water_effects.o(.text);
