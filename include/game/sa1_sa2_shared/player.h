@@ -55,7 +55,7 @@ typedef struct {
 } KnucklesFlags;
 
 typedef struct {
-    /* 0xAC */ u8 unkAC;
+    /* 0xAC */ u8 flags;
 } AmyFlags;
 
 #define PLAYER_ITEM_EFFECT__NONE            0x00
