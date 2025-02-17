@@ -36,7 +36,7 @@ CreateEntity_PenMk1: @ 0x08073998
 	bne _08073A80
 _080739CC:
 	ldr r0, _08073A98 @ =Task_PenMk1Main
-	ldr r1, _08073A9C @ =sa2__TaskDestructor_80095E8
+	ldr r1, _08073A9C @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x4c
 	movs r2, #0x80
@@ -135,7 +135,7 @@ _08073A80:
 _08073A90: .4byte gCurrentLevel
 _08073A94: .4byte gLoadedSaveGame
 _08073A98: .4byte Task_PenMk1Main
-_08073A9C: .4byte sa2__TaskDestructor_80095E8
+_08073A9C: .4byte TaskDestructor_EntityShared
 _08073AA0: .4byte 0x0300000C
 _08073AA4: .4byte 0x03000044
 _08073AA8: .4byte 0x0000FF60

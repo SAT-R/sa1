@@ -29,7 +29,7 @@ CreateEntity_Checkpoint: @ 0x080214EC
 	ldr r0, _0802152C @ =Task_Checkpoint2
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08021530 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _08021530 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r3, #0
@@ -38,12 +38,12 @@ CreateEntity_Checkpoint: @ 0x080214EC
 	.align 2, 0
 _08021528: .4byte gBossIndex
 _0802152C: .4byte Task_Checkpoint2
-_08021530: .4byte sa2__TaskDestructor_80095E8
+_08021530: .4byte TaskDestructor_EntityShared
 _08021534:
 	ldr r0, _080215B0 @ =Task_CheckpointMain
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080215B4 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _080215B4 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r3, #0
@@ -102,7 +102,7 @@ _08021546:
 	b _080215CA
 	.align 2, 0
 _080215B0: .4byte Task_CheckpointMain
-_080215B4: .4byte sa2__TaskDestructor_80095E8
+_080215B4: .4byte TaskDestructor_EntityShared
 _080215B8: .4byte 0x0300000C
 _080215BC: .4byte gBossIndex
 _080215C0: .4byte 0x0300002C

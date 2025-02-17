@@ -86,7 +86,7 @@ _08070F1C:
 	cmp r0, #0
 	bne _08070FE8
 	ldr r0, _08070FFC @ =sub_807101C
-	ldr r1, _08071000 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _08071000 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x48
 	movs r2, #0x80
@@ -185,7 +185,7 @@ _08070FE8:
 	.align 2, 0
 _08070FF8: .4byte gStageTime
 _08070FFC: .4byte sub_807101C
-_08071000: .4byte sa2__TaskDestructor_80095E8
+_08071000: .4byte TaskDestructor_EntityShared
 _08071004: .4byte 0x0300000C
 _08071008: .4byte 0x0000019D
 _0807100C: .4byte 0x0300002C

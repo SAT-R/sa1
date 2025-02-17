@@ -27,7 +27,7 @@ CreateEntity_Decoration: @ 0x08023180
 	lsrs r0, r0, #0x18
 	mov r8, r0
 	ldr r0, _08023250 @ =Task_DecorationMain
-	ldr r1, _08023254 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _08023254 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r2, #0x80
@@ -111,7 +111,7 @@ CreateEntity_Decoration: @ 0x08023180
 	bx r0
 	.align 2, 0
 _08023250: .4byte Task_DecorationMain
-_08023254: .4byte sa2__TaskDestructor_80095E8
+_08023254: .4byte TaskDestructor_EntityShared
 _08023258: .4byte 0x0300000C
 _0802325C: .4byte 0x0300002C
 _08023260: .4byte 0x0300002D

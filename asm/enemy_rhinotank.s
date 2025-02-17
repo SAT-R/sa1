@@ -28,7 +28,7 @@ CreateEntity_Rhinotank: @ 0x0806C5A8
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	ldr r0, _0806C6A0 @ =sub_806C6D0
-	ldr r1, _0806C6A4 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0806C6A4 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x4c
 	movs r2, #0x80
@@ -129,7 +129,7 @@ CreateEntity_Rhinotank: @ 0x0806C5A8
 	bx r0
 	.align 2, 0
 _0806C6A0: .4byte sub_806C6D0
-_0806C6A4: .4byte sa2__TaskDestructor_80095E8
+_0806C6A4: .4byte TaskDestructor_EntityShared
 _0806C6A8: .4byte 0x0300000C
 _0806C6AC: .4byte 0x03000046
 _0806C6B0: .4byte 0x0000FF60

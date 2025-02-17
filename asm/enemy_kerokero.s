@@ -28,7 +28,7 @@ CreateEntity_KeroKero: @ 0x0806CD2C
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	ldr r0, _0806CE3C @ =Task_KeroKero
-	ldr r1, _0806CE40 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0806CE40 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x4c
 	movs r2, #0x80
@@ -141,7 +141,7 @@ CreateEntity_KeroKero: @ 0x0806CD2C
 	bx r0
 	.align 2, 0
 _0806CE3C: .4byte Task_KeroKero
-_0806CE40: .4byte sa2__TaskDestructor_80095E8
+_0806CE40: .4byte TaskDestructor_EntityShared
 _0806CE44: .4byte 0x0300000C
 _0806CE48: .4byte 0x03000040
 _0806CE4C: .4byte 0x03000042

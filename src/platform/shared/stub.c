@@ -3,6 +3,7 @@
 #include "global.h"
 #include "sprite.h"
 #include "game/game_over.h"
+#include "game/sa1_sa2_shared/camera.h"
 #include "game/sa1_sa2_shared/player.h"
 
 void *ewram_end = 0;
@@ -14,7 +15,7 @@ void CreateToBeContinuedScreen() { }
 
 u32 sub_80096B0() { return 0; }
 u32 sub_800ABEC() { return 0; }
-
+bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY) { return FALSE; }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
@@ -174,7 +175,6 @@ void CreateEntity_Leon() { }
 void CreateEntity_Mirror() { }
 void CreateEntity_Wamu() { }
 void CreateEntity_Oct() { }
-void CreateEntity_Mole() { }
 void CreateEntity_Yukimaru() { }
 void CreateEntity_Yukimaru_Wall() { }
 void CreateEntity_Drisame() { }

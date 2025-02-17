@@ -28,7 +28,7 @@ CreateEntity_Kuraa: @ 0x080734E4
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	ldr r0, _080735DC @ =sub_8073608
-	ldr r1, _080735E0 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _080735E0 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x48
 	movs r2, #0x80
@@ -129,7 +129,7 @@ CreateEntity_Kuraa: @ 0x080734E4
 	bx r0
 	.align 2, 0
 _080735DC: .4byte sub_8073608
-_080735E0: .4byte sa2__TaskDestructor_80095E8
+_080735E0: .4byte TaskDestructor_EntityShared
 _080735E4: .4byte 0x0300000C
 _080735E8: .4byte 0x03000040
 _080735EC: .4byte 0x0000FFC0

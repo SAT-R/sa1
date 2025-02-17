@@ -30,7 +30,7 @@ CreateEntity_Kiki: @ 0x0801D3DC
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	ldr r0, _0801D4D4 @ =sub_801D4FC
-	ldr r1, _0801D4D8 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0801D4D8 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0x80
@@ -132,7 +132,7 @@ CreateEntity_Kiki: @ 0x0801D3DC
 	bx r0
 	.align 2, 0
 _0801D4D4: .4byte sub_801D4FC
-_0801D4D8: .4byte sa2__TaskDestructor_80095E8
+_0801D4D8: .4byte TaskDestructor_EntityShared
 _0801D4DC: .4byte 0x0300000C
 _0801D4E0: .4byte 0x0300003C
 _0801D4E4: .4byte 0x0300003D

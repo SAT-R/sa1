@@ -1360,10 +1360,11 @@ void CreateEnemyDefeatScoreAndManageLives(s16 x, s16 y)
     }
 }
 
-void SA2_LABEL(TaskDestructor_80095E8)(struct Task *t)
+// SA2: TaskDestructor_80095E8
+void TaskDestructor_EntityShared(struct Task *t)
 {
-    Sprite_Entity *s = TASK_DATA(t);
-    VramFree(s->displayed.graphics.dest);
+    EntityShared *entity = TASK_DATA(t);
+    VramFree(entity->s.graphics.dest);
 }
 
 void SA2_LABEL(TaskDestructor_80095FC)(struct Task *t)

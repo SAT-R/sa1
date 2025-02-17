@@ -150,7 +150,7 @@ SECTIONS {
         asm/enemy_oct.o(.text);
         asm/enemy_senbon.o(.text);
         asm/enemy_fireball.o(.text);
-        asm/enemy_mole.o(.text);
+        src/game/enemies/mole.o(.text);
         asm/enemy_yukimaru.o(.text);
         asm/enemy_drisame.o(.text);
         asm/enemy_kuraa.o(.text);

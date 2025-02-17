@@ -28,7 +28,7 @@ CreateEntity_Pierrot: @ 0x0806DC70
 	lsrs r1, r1, #0x18
 	mov sb, r1
 	ldr r0, _0806DD5C @ =sub_806DD80
-	ldr r1, _0806DD60 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0806DD60 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x4c
 	movs r2, #0x80
@@ -124,7 +124,7 @@ CreateEntity_Pierrot: @ 0x0806DC70
 	bx r0
 	.align 2, 0
 _0806DD5C: .4byte sub_806DD80
-_0806DD60: .4byte sa2__TaskDestructor_80095E8
+_0806DD60: .4byte TaskDestructor_EntityShared
 _0806DD64: .4byte 0x0300000C
 _0806DD68: .4byte 0x03000048
 _0806DD6C: .4byte 0x0000FF60

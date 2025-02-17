@@ -35,7 +35,7 @@ CreateEntity_Slot: @ 0x0806E064
 	bne _0806E150
 _0806E098:
 	ldr r0, _0806E168 @ =sub_806E190
-	ldr r1, _0806E16C @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0806E16C @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x48
 	movs r2, #0x80
@@ -136,7 +136,7 @@ _0806E150:
 _0806E160: .4byte gCurrentLevel
 _0806E164: .4byte gLoadedSaveGame
 _0806E168: .4byte sub_806E190
-_0806E16C: .4byte sa2__TaskDestructor_80095E8
+_0806E16C: .4byte TaskDestructor_EntityShared
 _0806E170: .4byte 0x0300000C
 _0806E174: .4byte 0x0000FF60
 _0806E178: .4byte 0x03000044

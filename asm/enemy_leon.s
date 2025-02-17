@@ -35,7 +35,7 @@ CreateEntity_Leon: @ 0x0806E990
 	bne _0806EA76
 _0806E9C4:
 	ldr r0, _0806EA90 @ =sub_806EAB8
-	ldr r1, _0806EA94 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0806EA94 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x50
 	movs r2, #0x80
@@ -133,7 +133,7 @@ _0806EA76:
 _0806EA88: .4byte gCurrentLevel
 _0806EA8C: .4byte gLoadedSaveGame
 _0806EA90: .4byte sub_806EAB8
-_0806EA94: .4byte sa2__TaskDestructor_80095E8
+_0806EA94: .4byte TaskDestructor_EntityShared
 _0806EA98: .4byte 0x0300000C
 _0806EA9C: .4byte 0x03000048
 _0806EAA0: .4byte 0x0000FF60

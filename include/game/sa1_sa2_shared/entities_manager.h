@@ -9,8 +9,8 @@
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
-    /* 0x0C */ Sprite displayed;
-} Sprite_Entity;
+    /* 0x0C */ Sprite s;
+} EntityShared;
 
 typedef struct {
     /* 0x00 */ u32 uncompSize; // unsigned Q_24_8
@@ -43,7 +43,6 @@ void CreateStageEntitiesManager(void);
 
 void CreateEnemyDefeatScoreAndManageLives(s16 x, s16 y);
 
-// TaskDestructor_SpriteEntity
-void TaskDestructor_80095E8(struct Task *);
+void TaskDestructor_EntityShared(struct Task *);
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "core.h"
 #include "rect.h"
+#include "game/sa1_sa2_shared/camera.h" // for CamCoord
 #include "game/sa1_sa2_shared/player.h"
 
 #define COLL_NONE        0
@@ -46,9 +47,9 @@ u32 sub_800D0A0(Sprite *, s16, s16, s16, s16, u8, u32);
 
 // HandlePlayerDestroy?
 #if (GAME == GAME_SA1)
-bool32 sa2__sub_800C4FC(Sprite *s, s16 sx, s16 sy, u8 hbIndex);
+bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY);
 #elif (GAME == GAME_SA2)
-bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex);
+bool32 sub_800C4FC(Sprite *s, CamCoord worldX, CamCoord worldY, u8 hbIndex);
 #endif
 
 // HandleHitPlayer

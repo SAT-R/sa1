@@ -34,7 +34,7 @@ CreateEntity_Buzzer: @ 0x0801DC84
 	bne _0801DDA2
 _0801DCB6:
 	ldr r0, _0801DDBC @ =Task_BuzzerMain
-	ldr r1, _0801DDC0 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0801DDC0 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x48
 	movs r2, #0x80
@@ -162,7 +162,7 @@ _0801DDA2:
 _0801DDB4: .4byte gCurrentLevel
 _0801DDB8: .4byte gLoadedSaveGame
 _0801DDBC: .4byte Task_BuzzerMain
-_0801DDC0: .4byte sa2__TaskDestructor_80095E8
+_0801DDC0: .4byte TaskDestructor_EntityShared
 _0801DDC4: .4byte 0x0300000C
 _0801DDC8: .4byte 0x03000040
 _0801DDCC: .4byte 0x03000041

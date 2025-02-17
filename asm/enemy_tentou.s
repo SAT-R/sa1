@@ -24,7 +24,7 @@ CreateEntity_Tentou: @ 0x08074364
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
 	ldr r0, _08074498 @ =Task_TentouMain
-	ldr r1, _0807449C @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0807449C @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x5c
 	movs r2, #0x80
@@ -161,7 +161,7 @@ _08074476:
 	b _080744DA
 	.align 2, 0
 _08074498: .4byte Task_TentouMain
-_0807449C: .4byte sa2__TaskDestructor_80095E8
+_0807449C: .4byte TaskDestructor_EntityShared
 _080744A0: .4byte 0x03000044
 _080744A4: .4byte 0x0300004C
 _080744A8: .4byte 0x0300002C

@@ -47,7 +47,7 @@ _0801F1B8:
 	bhi _0801F262
 _0801F1CC:
 	ldr r0, _0801F27C @ =Task_StageGoal
-	ldr r1, _0801F280 @ =sa2__TaskDestructor_80095E8
+	ldr r1, _0801F280 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x40
 	movs r2, #0x80
@@ -131,7 +131,7 @@ _0801F262:
 _0801F274: .4byte gCurrentLevel
 _0801F278: .4byte gGameMode
 _0801F27C: .4byte Task_StageGoal
-_0801F280: .4byte sa2__TaskDestructor_80095E8
+_0801F280: .4byte TaskDestructor_EntityShared
 _0801F284: .4byte 0x0300000C
 _0801F288: .4byte 0x000001C5
 _0801F28C: .4byte 0x0300002C
