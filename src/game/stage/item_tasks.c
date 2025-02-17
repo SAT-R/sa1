@@ -35,13 +35,13 @@ void TaskDestructor_ItemTasks(struct Task *);
         it->unk30;                                                                                                                         \
     })
 
-struct Task *CreateItemTask_Shield_Normal(s8 p0)
+struct Task *CreateItemTask_Shield_Normal(s8 playerID)
 {
     struct Task *t = TaskCreate(Task_Item_Shield_Normal, sizeof(ItemTask), 0x4001, 0, TaskDestructor_ItemTasks);
     ItemTask *item = TASK_DATA(t);
     Sprite *s = &item->s;
 
-    item->unk30 = p0;
+    item->unk30 = playerID;
 
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_SHIELD_NORMAL);
     s->graphics.size = 0;
@@ -59,13 +59,13 @@ struct Task *CreateItemTask_Shield_Normal(s8 p0)
     return t;
 }
 
-struct Task *CreateItemTask_Invincibility(s8 p0)
+struct Task *CreateItemTask_Invincibility(s8 playerID)
 {
     struct Task *t = TaskCreate(Task_Item_Invincibility, sizeof(ItemTask), 0x4001, 0, TaskDestructor_ItemTasks);
     ItemTask *item = TASK_DATA(t);
     Sprite *s = &item->s;
 
-    item->unk30 = p0;
+    item->unk30 = playerID;
 
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_INVINCIBILITY);
     s->graphics.size = 0;
@@ -81,12 +81,12 @@ struct Task *CreateItemTask_Invincibility(s8 p0)
     return t;
 }
 
-struct Task *CreateItemTask_Shield_Magnetic(s8 p0)
+struct Task *CreateItemTask_Shield_Magnetic(s8 playerID)
 {
     struct Task *t = TaskCreate(Task_Item_Shield_Magnetic, sizeof(ItemTask), 0x4001, 0, TaskDestructor_ItemTasks);
     ItemTask *item = (ItemTask *)TASK_DATA(t);
 
-    item->unk30 = p0;
+    item->unk30 = playerID;
 
     {
         ItemTask *item2 = (ItemTask *)TASK_DATA(t);
@@ -109,12 +109,12 @@ struct Task *CreateItemTask_Shield_Magnetic(s8 p0)
     return t;
 }
 
-struct Task *CreateItemTask_Confusion(s8 p0)
+struct Task *CreateItemTask_Confusion(s8 playerID)
 {
     struct Task *t = TaskCreate(Task_Item_Confusion, sizeof(ItemTask), 0x4001, 0, TaskDestructor_ItemTasks);
     ItemTask *item = TASK_DATA(t);
 
-    item->unk30 = p0;
+    item->unk30 = playerID;
 
     {
         ItemTask *item2 = (ItemTask *)TASK_DATA(t);

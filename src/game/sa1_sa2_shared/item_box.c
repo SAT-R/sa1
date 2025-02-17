@@ -10,6 +10,7 @@
 #include "game/sa1_sa2_shared/dust_cloud.h"
 
 #include "game/entity.h"
+#include "game/parameters/characters.h"
 #include "game/stage/item_tasks.h"
 #include "game/stage/player.h"
 #include "game/stage/camera.h"
@@ -32,11 +33,11 @@
 typedef struct {
     /* 0x00|0x00 */ SpriteBase base;
     /* 0x0C|0x0C */ Sprite s;
-    /* 0x3C|0x3C */ Sprite item;
+    /* 0x3C|0x3C */ Sprite sprItem;
 #if (GAME == GAME_SA1)
     /* 0x6C|xxxx */ s16 iconOffset;
     /* 0x6E|xxxx */ s16 qUnk6E;
-    /* 0x70|xxxx */ u8 unk70;
+    /* 0x70|xxxx */ u8 unk70; // frames, actually?
     /* 0x71|0x76 */ u8 kind;
     /* 0x72|0x77 */ u8 frames;
 #elif (GAME == GAME_SA2)
@@ -52,9 +53,10 @@ typedef struct {
 void Task_ItemBoxMain(void);
 void Task_Itembox2(void);
 void Task_Itembox3(void);
+void Task_Itembox4(void);
 void TaskDestructor_ItemBox(struct Task *t);
 #if (GAME == GAME_SA1)
-const u8 ItemBox_RingAmountTable[] = { 1, 5, 10, 20, 30, 40 };
+const s8 ItemBox_RingAmountTable[] = { 1, 5, 10, 20, 30, 40 };
 #elif (GAME == GAME_SA2)
 const u8 ItemBox_RingAmountTable[] = { 1, 5, 10, 30, 50 };
 #endif
@@ -110,7 +112,7 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 
     sTemp = s;
-    s = &itembox->item;
+    s = &itembox->sprItem;
     DmaCopy16(3, sTemp, s, sizeof(*s));
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_ITEMBOX_TYPE);
     s->graphics.anim = SA1_ANIM_ITEMBOX_TYPE;
@@ -254,7 +256,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/item_box__Task_ItemBoxMain.inc", 
 
         DisplaySprite(s);
 
-        s = &itembox->item;
+        s = &itembox->sprItem;
 
         if (gGameMode == GAME_MODE_RACE || gGameMode == GAME_MODE_MULTI_PLAYER) {
             if ((gStageTime >> 5) & 0x1) {
@@ -282,6 +284,158 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/item_box__Task_ItemBoxMain.inc", 
     }
 }
 END_NONMATCH
+
+void Task_Itembox2(void)
+{
+    ItemBox *itembox = TASK_DATA(gCurTask);
+    MapEntity *me = itembox->base.me;
+    Sprite *s;
+    s16 worldX, worldY;
+    RoomEvent_ItemEffect *roomEvent;
+
+    itembox->iconOffset--;
+    itembox->unk70++;
+
+    worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+    worldY = TO_WORLD_POS(me->y, itembox->base.regionY) + itembox->iconOffset;
+
+    if (itembox->unk70 >= 60) {
+        switch (itembox->kind) {
+            case ITEM__ONE_UP: {
+                gNumLives++;
+
+                gMusicManagerState.unk3 = 0x10 | 0x0;
+            } break;
+
+            case ITEM__SHIELD: {
+                gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__SHIELD_NORMAL;
+                gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC;
+                CreateItemTask_Shield_Normal(gPlayer.playerID);
+            } break;
+
+            case ITEM__SHIELD_MAGNETIC: {
+                gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__SHIELD_NORMAL;
+                gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC;
+                CreateItemTask_Shield_Magnetic(gPlayer.playerID);
+            } break;
+
+            case ITEM__INVINCIBILITY: {
+                if (!(gPlayer.itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
+                    CreateItemTask_Invincibility(gPlayer.playerID);
+                    gMusicManagerState.unk2 = 0x10 | 0x0;
+                }
+
+                gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__INVINCIBILITY;
+                gPlayer.timerInvincibility = PLAYER_INVINCIBLE_DURATION;
+            } break;
+
+            case ITEM__SPEED_UP: {
+                gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__SPEED_UP;
+                gPlayer.timerSpeedup = PLAYER_SPEED_UP_DURATION;
+
+                m4aMPlayTempoControl(&gMPlayInfo_BGM, PLAYER_SPEED_UP_MUSIC_TEMPO);
+
+                if (IS_MULTI_PLAYER) {
+                    gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__MP_SLOW_DOWN;
+                }
+            } break;
+
+            case ITEM__RINGS_RANDOM: {
+                s16 rings = ItemBox_RingAmountTable[(u32)PseudoRandom32() % ARRAY_COUNT(ItemBox_RingAmountTable)];
+                INCREMENT_RINGS(rings);
+
+                if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+                    if (gRingCount > 255) {
+                        gRingCount = 255;
+                    }
+                }
+
+                m4aSongNumStart(SE_RING_COPY);
+            } break;
+
+            case ITEM__RINGS_5: {
+                INCREMENT_RINGS(5);
+
+                if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+                    if (gRingCount > 255) {
+                        gRingCount = 255;
+                    }
+                }
+
+                m4aSongNumStart(SE_RING_COPY);
+            } break;
+
+            case ITEM__RINGS_10: {
+                INCREMENT_RINGS(10);
+
+                if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+                    if (gRingCount > 255) {
+                        gRingCount = 255;
+                    }
+                }
+
+                m4aSongNumStart(SE_RING_COPY);
+            } break;
+
+            case ITEM__MP_8: {
+                u32 nearestPlayer = 0;
+                u32 smallestMagnitude = 0;
+                u32 playerId;
+                struct Task **mppTasks;
+
+                // Find the player that's closest to you
+                for (playerId = 0, mppTasks = gMultiplayerPlayerTasks; playerId < MULTI_SIO_PLAYERS_MAX && mppTasks[playerId] != NULL;
+                     playerId++) {
+                    MultiplayerPlayer *mpp;
+                    s32 boxToPlayerX, boxToPlayerY;
+                    s32 boxToPlayerMagnitude;
+
+                    // Don't look for your own ID
+                    u32 sioId = (SIO_MULTI_CNT)->id;
+                    if (playerId == sioId)
+                        continue;
+
+                    mpp = TASK_DATA(mppTasks[playerId]);
+                    boxToPlayerX = SQUARE(mpp->pos.x - I(gPlayer.qWorldX));
+                    boxToPlayerY = SQUARE(mpp->pos.y - I(gPlayer.qWorldY));
+
+                    boxToPlayerMagnitude = boxToPlayerX + boxToPlayerY;
+                    if (smallestMagnitude < boxToPlayerMagnitude) {
+                        smallestMagnitude = boxToPlayerMagnitude;
+                        nearestPlayer = playerId;
+                    }
+                }
+
+                {
+                    roomEvent = CreateRoomEvent();
+                    roomEvent->type = ROOMEVENT_TYPE_ITEMEFFECT_APPLIED;
+                    roomEvent->effect = 4;
+                    roomEvent->targetPlayer = nearestPlayer;
+                }
+            } break;
+
+            case ITEM__MP_9: {
+                roomEvent = CreateRoomEvent();
+                roomEvent->type = ROOMEVENT_TYPE_ITEMEFFECT_APPLIED;
+                roomEvent->effect = 0;
+            } break;
+
+            case ITEM__MP_10: {
+                roomEvent = CreateRoomEvent();
+                roomEvent->type = ROOMEVENT_TYPE_ITEMEFFECT_APPLIED;
+                roomEvent->effect = 5;
+            } break;
+        }
+
+        gCurTask->main = Task_Itembox4;
+        itembox->unk70 = 0;
+    }
+
+    s = &itembox->sprItem;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    DisplaySprite(s);
+}
 
 #else
 void BreakItemBox(Entity_ItemBox *);
