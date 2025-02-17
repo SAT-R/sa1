@@ -437,17 +437,60 @@ void Task_Itembox2(void)
     DisplaySprite(s);
 }
 
+void Task_Itembox3(void)
+{
+    ItemBox *itembox = TASK_DATA(gCurTask);
+    MapEntity *me = itembox->base.me;
+    Sprite *s;
+    s16 worldX, worldY;
+
+    itembox->iconOffset--;
+    itembox->unk70++;
+
+    worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+    worldY = TO_WORLD_POS(me->y, itembox->base.regionY) + itembox->iconOffset;
+
+    if (itembox->unk70 >= 60) {
+        gCurTask->main = Task_Itembox4;
+        itembox->unk70 = 0;
+    }
+
+    s = &itembox->sprItem;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    DisplaySprite(s);
+}
+
+void Task_Itembox4(void)
+{
+    ItemBox *itembox = TASK_DATA(gCurTask);
+    MapEntity *me = itembox->base.me;
+    Sprite *s;
+    s16 worldX, worldY;
+
+    if (++itembox->unk70 > 30) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+    worldY = TO_WORLD_POS(me->y, itembox->base.regionY) + itembox->iconOffset;
+
+    s = &itembox->sprItem;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    DisplaySprite(s);
+}
+
+void TaskDestructor_ItemBox(struct Task *t)
+{
+    ItemBox *itembox = TASK_DATA(t);
+    VramFree(itembox->s.graphics.dest);
+    VramFree(itembox->sprItem.graphics.dest);
+}
+
 #else
-void BreakItemBox(Entity_ItemBox *);
-void InitItemBoxGraphics(Entity_ItemBox *, bool32);
-void DrawItemBox(Entity_ItemBox *, bool32);
-void Task_ItemBoxIconMain_Rising(void);
-void Task_ItemBoxIconMain_Idle(void);
-void MultiplayerItemBoxBreak(Entity_ItemBox *);
-bool32 CheckItemBoxOutOfBounds(Entity_ItemBox *);
-bool32 CheckItemBoxPlayerCollision(Entity_ItemBox *);
-void Task_ItemBoxIconMain_Rise_MP(void);
-void FinishItemBoxRise_MP(Entity_ItemBox *);
+// TODO: Integrate these!
 
 const u16 ItemBox_MysteryIcons[13][3] = {
     [ITEM__ONE_UP] = { SA2_ANIM_ITEMBOX_TYPE, 0, 4 },          [ITEM__SHIELD] = { SA2_ANIM_ITEMBOX_TYPE, 5, 4 },
