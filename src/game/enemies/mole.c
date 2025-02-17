@@ -43,7 +43,7 @@ void CreateEntity_Mole(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     mole->frames = 0;
     mole->unk3E = 0;
 
-    // NOTE: x|y set to world- not screen pos!
+    // NOTE: x|y set to world- not screen-pos!
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
 

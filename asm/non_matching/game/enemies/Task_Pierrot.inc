@@ -1,140 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-	thumb_func_start CreateEntity_Pierrot
-CreateEntity_Pierrot: @ 0x0806DC70
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sl, r0
-	adds r5, r1, #0
-	mov r8, r2
-	mov sb, r3
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	mov r1, sb
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov sb, r1
-	ldr r0, _0806DD5C @ =sub_806DD80
-	ldr r1, _0806DD60 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x4c
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r6, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r6, r1
-	ldr r2, _0806DD64 @ =0x0300000C
-	adds r4, r6, r2
-	movs r7, #0
-	movs r3, #0
-	strh r5, [r1, #4]
-	mov r0, r8
-	strh r0, [r1, #6]
-	mov r2, sl
-	str r2, [r1]
-	ldrb r0, [r2]
-	strb r0, [r1, #8]
-	mov r0, sb
-	strb r0, [r1, #9]
-	ldr r0, _0806DD68 @ =0x03000048
-	adds r2, r6, r0
-	ldr r0, _0806DD6C @ =0x0000FF60
-	strh r0, [r2]
-	str r3, [r1, #0x44]
-	ldr r1, _0806DD70 @ =0x0300004A
-	adds r0, r6, r1
-	strh r3, [r0]
-	mov r2, sl
-	ldrb r0, [r2]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r4, #0x16]
-	ldrb r0, [r2, #1]
-	lsls r0, r0, #3
-	mov r1, r8
-	lsls r1, r1, #8
-	mov r8, r1
-	add r0, r8
-	strh r0, [r4, #0x18]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r0, r2, #0
-	mov r1, sl
-	strb r0, [r1]
-	movs r0, #0x24
-	str r3, [sp, #4]
-	bl VramMalloc
-	str r0, [r4, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r4, #0x1a]
-	ldr r3, [sp, #4]
-	strh r3, [r4, #8]
-	movs r0, #0xd1
-	lsls r0, r0, #1
-	strh r0, [r4, #0xa]
-	ldr r2, _0806DD74 @ =0x0300002C
-	adds r0, r6, r2
-	strb r7, [r0]
-	strh r3, [r4, #0x14]
-	strh r3, [r4, #0x1c]
-	ldr r0, _0806DD78 @ =0x0300002D
-	adds r1, r6, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r2, #2
-	adds r1, r6, r2
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, _0806DD7C @ =0x03000031
-	adds r6, r6, r0
-	strb r7, [r6]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r4, #0x28]
-	movs r1, #0x80
-	lsls r1, r1, #6
-	str r1, [r4, #0x10]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806DD5C: .4byte sub_806DD80
-_0806DD60: .4byte TaskDestructor_EntityShared
-_0806DD64: .4byte 0x0300000C
-_0806DD68: .4byte 0x03000048
-_0806DD6C: .4byte 0x0000FF60
-_0806DD70: .4byte 0x0300004A
-_0806DD74: .4byte 0x0300002C
-_0806DD78: .4byte 0x0300002D
-_0806DD7C: .4byte 0x03000031
-
-	thumb_func_start sub_806DD80
-sub_806DD80: @ 0x0806DD80
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -147,60 +14,60 @@ sub_806DD80: @ 0x0806DD80
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r3
-	mov r8, r0
+	mov r8, r0          @ r8 = pierrot
 	ldr r0, _0806DE68 @ =0x0300000C
-	adds r5, r3, r0
+	adds r5, r3, r0     @ r5 = s
 	mov r1, r8
 	ldr r1, [r1]
-	str r1, [sp, #0xc]
-	mov r6, r8
+	str r1, [sp, #0xc]  @ sp0C = me
+	mov r6, r8          @ r6 = r8 = pierrot
 	ldrb r2, [r6, #8]
 	lsls r2, r2, #3
 	ldrh r0, [r6, #4]
 	lsls r0, r0, #8
-	adds r2, r2, r0
+	adds r2, r2, r0     @ r2 = worldX
 	ldrb r1, [r1, #1]
 	lsls r1, r1, #3
 	ldrh r0, [r6, #6]
 	lsls r0, r0, #8
 	adds r1, r1, r0
 	lsls r2, r2, #0x10
-	asrs r6, r2, #0x10
+	asrs r6, r2, #0x10  @ r6 = worldX
 	lsls r1, r1, #0x10
-	asrs r7, r1, #0x10
+	asrs r7, r1, #0x10  @ r7 = worldY
 	ldr r1, _0806DE6C @ =0x03000048
 	adds r0, r3, r1
 	movs r2, #0
 	ldrsh r1, [r0, r2]
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = pierrot
 	ldr r0, [r2, #0x44]
 	adds r0, r0, r1
-	str r0, [r2, #0x44]
+	str r0, [r2, #0x44] @ pierrot->unk44 += pierrot->unk48
 	asrs r0, r0, #8
 	adds r0, r6, r0
-	lsls r0, r0, #0x10
+	lsls r0, r0, #0x10  @ r0 = newX = worldX + I(pierrot->qUnk44);
 	ldr r1, _0806DE70 @ =0x0300004A
 	adds r3, r3, r1
 	ldrh r1, [r3]
 	adds r1, r7, r1
 	lsls r1, r1, #0x10
 	ldr r2, _0806DE74 @ =0xFFD00000
-	adds r1, r1, r2
+	adds r1, r1, r2     @ r1 = newY = worldY + pierrot->unk4A - Q(0.1875);
 	ldr r3, _0806DE78 @ =gCamera
 	ldrh r2, [r3]
 	mov sl, r2
 	lsrs r2, r0, #0x10
-	mov sb, r2
+	mov sb, r2          @ sb = newX
 	asrs r0, r0, #0x10
 	mov r2, sl
 	subs r0, r0, r2
-	strh r0, [r5, #0x16]
+	strh r0, [r5, #0x16]    @ s->x = newX - gCamera.x
 	ldrh r0, [r3, #2]
 	lsrs r2, r1, #0x10
-	mov sl, r2
+	mov sl, r2              @ sl = newY
 	asrs r1, r1, #0x10
 	subs r1, r1, r0
-	strh r1, [r5, #0x18]
+	strh r1, [r5, #0x18]    @ s->y =
 	movs r0, #0
 	ldrsh r1, [r3, r0]
 	movs r2, #0xb8
@@ -243,13 +110,13 @@ _0806DE30:
 	cmp r1, r0
 	ble _0806DE7C
 _0806DE54:
-	mov r6, r8
+	mov r6, r8          @ r6 = r8 = pierrot
 	ldrb r0, [r6, #8]
-	ldr r1, [sp, #0xc]
+	ldr r1, [sp, #0xc]  @ r1 = sp0C = me
 	strb r0, [r1]
 	ldr r0, [r4]
 	bl TaskDestroy
-	b _0806E04C
+	b _0806E04C_return
 	.align 2, 0
 _0806DE64: .4byte gCurTask
 _0806DE68: .4byte 0x0300000C
@@ -262,12 +129,12 @@ _0806DE7C:
 	ldr r1, [r2, #0x10]
 	movs r0, #0x80
 	ands r1, r0
-	mov r3, sb
+	mov r3, sb          @ r3 = sb = newX
 	lsls r3, r3, #0x10
-	str r3, [sp, #0x10]
+	str r3, [sp, #0x10] @ sp10 = r3 = sb = newX
 	mov r6, sl
 	lsls r6, r6, #0x10
-	mov sb, r6
+	mov sb, r6          @ sb = newY
 	cmp r1, #0
 	beq _0806DE96
 	b _0806DFD8
@@ -278,12 +145,12 @@ _0806DE96:
 	bne _0806DEA0
 	b _0806DFB6
 _0806DEA0:
-	asrs r1, r3, #0x10
+	asrs r1, r3, #0x10  @ r1 = newX
 	adds r0, r5, #0
-	adds r0, #0x34
+	adds r0, #0x34      @ 
 	movs r6, #0
 	ldrsb r6, [r0, r6]
-	adds r4, r1, r6
+	adds r4, r1, r6     @ r4 = left = newX + s->hitboxes[1].d.sData[0];
 	ldr r1, [r2]
 	asrs r1, r1, #8
 	ldr r3, _0806DF64 @ =gPlayerBodyPSI
@@ -293,9 +160,9 @@ _0806DEA0:
 	ldrsb r7, [r0, r7]
 	adds r1, r1, r7
 	mov ip, r3
-	cmp r4, r1
+	cmp r4, r1          @ (left <= playerLeft)
 	bgt _0806DED8
-	adds r0, r5, #0
+	adds r0, r5, #0     @ r0 = r5 = s
 	adds r0, #0x36
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -335,7 +202,7 @@ _0806DEF0:
 	movs r7, #0
 	ldrsb r7, [r3, r7]
 	adds r3, r0, r7
-	mov sb, r1
+	mov sb, r1          @ sb = r1 = 
 	cmp r4, r3
 	bgt _0806DF2A
 	adds r0, r5, #0
@@ -426,9 +293,9 @@ _0806DFB0:
 	adds r0, r2, #0
 	bl sa2__sub_800CBA4
 _0806DFB6:
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10]     @ r2 = sp10 = newX
 	asrs r1, r2, #0x10
-	mov r3, sb
+	mov r3, sb              @ r3 = sb = 
 	asrs r2, r3, #0x10
 	adds r0, r5, #0
 	bl sa2__sub_800C4FC
@@ -437,13 +304,13 @@ _0806DFB6:
 	ldr r0, _0806DFD4 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	b _0806E04C
+	b _0806E04C_return
 	.align 2, 0
 _0806DFD4: .4byte gCurTask
 _0806DFD8:
 	mov r6, sb
 	asrs r0, r6, #0x10
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10]     @ r2 = sp10 = newX
 	asrs r1, r2, #0x10
 	add r3, sp, #8
 	str r3, [sp]
@@ -452,21 +319,21 @@ _0806DFD8:
 	movs r2, #1
 	movs r3, #8
 	bl sa2__sub_801F07C
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = pierrot
 	adds r2, #0x4a
 	ldrh r1, [r2]
 	adds r1, r1, r0
 	strh r1, [r2]
-	mov r6, r8
+	mov r6, r8          @ r6 = r8 = pierrot
 	ldr r0, [r6, #0x44]
 	asrs r2, r0, #8
-	ldr r0, [sp, #0xc]
+	ldr r0, [sp, #0xc]  @ r0 = sp0C = me
 	movs r1, #3
 	ldrsb r1, [r0, r1]
 	lsls r0, r1, #3
 	cmp r2, r0
 	bgt _0806E024
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = pierrot
 	adds r1, #0x48
 	movs r0, #0xa0
 	strh r0, [r1]
@@ -478,13 +345,13 @@ _0806DFD8:
 	.align 2, 0
 _0806E020: .4byte sa2__sub_801EE64
 _0806E024:
-	ldr r3, [sp, #0xc]
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = me
 	ldrb r0, [r3, #5]
 	adds r0, r1, r0
 	lsls r0, r0, #3
 	cmp r2, r0
-	blt _0806E040
-	mov r1, r8
+	blt _0806E040_upd_spr_and_return
+	mov r1, r8          @ r1 = r8 = pierrot
 	adds r1, #0x48
 	ldr r0, _0806E05C @ =0x0000FF60
 	strh r0, [r1]
@@ -493,12 +360,12 @@ _0806E024:
 	ands r0, r1
 _0806E03E:
 	str r0, [r5, #0x10]
-_0806E040:
+_0806E040_upd_spr_and_return:
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
 	adds r0, r5, #0
 	bl DisplaySprite
-_0806E04C:
+_0806E04C_return:
 	add sp, #0x14
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -510,3 +377,5 @@ _0806E04C:
 	.align 2, 0
 _0806E05C: .4byte 0x0000FF60
 _0806E060: .4byte 0xFFFFFBFF
+
+.syntax divided

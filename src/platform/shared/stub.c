@@ -170,7 +170,6 @@ void CreateEntity_Tentou() { }
 void CreateEntity_Fireball() { }
 void CreateEntity_Hanabii() { }
 void CreateEntity_Slot() { }
-void CreateEntity_Pierrot() { }
 void CreateEntity_Leon() { }
 void CreateEntity_Mirror() { }
 void CreateEntity_Wamu() { }
