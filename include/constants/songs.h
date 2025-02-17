@@ -74,7 +74,8 @@
 #define SE_TAILS_PROPELLER_FLYING  120
 #define SE_TAILS_TAIL_SWIPE        121
 
-#define SE_AMY_ROLLS 133
+#define SE_AMY_ROLLS    133
+#define SE_AMY_GRINDING 134
 
 #define SE_ITEM_BOX                  138
 #define SE_TIMER                     139 // Almost Time Up / Extra Boss Rings low
