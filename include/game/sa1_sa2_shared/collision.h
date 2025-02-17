@@ -35,6 +35,8 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
 bool32 sa2__sub_800CBA4(Player *);
 void Collision_AdjustPlayerSpeed(Player *);
 
+u32 sub_80096B0(Sprite *, s32 x, s32 y, Player *);
+u32 sub_800ABEC(Sprite *, s32 x, s32 y, Player *);
 u32 sub_800CCB8(Sprite *, s32 x, s32 y, Player *);
 
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);

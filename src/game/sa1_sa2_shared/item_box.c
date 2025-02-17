@@ -13,6 +13,7 @@
 #include "game/stage/item_tasks.h"
 #include "game/stage/player.h"
 #include "game/stage/camera.h"
+#include "game/stage/collision.h"
 
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/multiplayer/mp_player.h"
@@ -33,7 +34,7 @@ typedef struct {
     /* 0x0C|0x0C */ Sprite s;
     /* 0x3C|0x3C */ Sprite item;
 #if (GAME == GAME_SA1)
-    /* 0x6C|xxxx */ s16 unk6C;
+    /* 0x6C|xxxx */ s16 iconOffset;
     /* 0x6E|xxxx */ s16 qUnk6E;
     /* 0x70|xxxx */ u8 unk70;
     /* 0x71|0x76 */ u8 kind;
@@ -49,7 +50,9 @@ typedef struct {
 } ItemBox; /* size: 0x7C */
 
 void Task_ItemBoxMain(void);
-void TaskDestructor_ItemBox(struct Task *);
+void Task_Itembox2(void);
+void Task_Itembox3(void);
+void TaskDestructor_ItemBox(struct Task *t);
 #if (GAME == GAME_SA1)
 const u8 ItemBox_RingAmountTable[] = { 1, 5, 10, 20, 30, 40 };
 #elif (GAME == GAME_SA2)
@@ -57,6 +60,8 @@ const u8 ItemBox_RingAmountTable[] = { 1, 5, 10, 30, 50 };
 #endif
 
 extern u8 gUnknown_080BB4D8[ITEM__COUNT];
+extern u8 gUnknown_080BB4E8[8];
+extern u8 gUnknown_080BB4F0[4];
 
 #if (GAME == GAME_SA1)
 void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -82,7 +87,7 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     itembox->base.id = id;
 
     itembox->qUnk6E = Q(0);
-    itembox->unk6C = 0;
+    itembox->iconOffset = 0;
     itembox->unk70 = 0;
     itembox->kind = me->index;
 
@@ -125,6 +130,159 @@ void CreateEntity_ItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     UpdateSpriteAnimation(s);
 }
+
+// (93.66%) https://decomp.me/scratch/VxlQa
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/item_box__Task_ItemBoxMain.inc", void Task_ItemBoxMain(void))
+{
+    bool32 sl = FALSE;
+    ItemBox *itembox = TASK_DATA(gCurTask);
+    Sprite *s = &itembox->s;
+    MapEntity *me = itembox->base.me;
+
+    s16 worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+    s16 worldY = TO_WORLD_POS(itembox->base.me->y, itembox->base.regionY);
+    s32 screenX, screenY;
+
+    if (IS_MULTI_PLAYER && ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
+        m4aSongNumStart(SE_ITEM_BOX_2);
+
+        CreateDustCloud(worldX, worldY + itembox->iconOffset);
+
+        gCurTask->main = Task_Itembox3;
+
+        itembox->unk70 = sl;
+
+        if (gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) {
+            if (gPlayer.stoodObj == s) {
+                gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                gPlayer.moveState |= MOVESTATE_IN_AIR;
+            }
+        }
+    } else {
+        s32 res;
+        if (itembox->unk70 != 0) {
+            // _0801E890
+
+            itembox->iconOffset += I(itembox->qUnk6E);
+            itembox->qUnk6E += Q(40. / 256.);
+
+            res = SA2_LABEL(sub_801F07C)(worldY + itembox->iconOffset, worldX, 1, 8, NULL, SA2_LABEL(sub_801EE64));
+            if (res < 0) {
+                itembox->iconOffset += res;
+                itembox->unk70 = 0;
+            }
+        }
+        // _0801E8F0
+
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y + itembox->iconOffset;
+
+        if (IS_MP_OR_TEAM_PLAY) {
+            u8 i;
+            for (i = 0; (i < MULTI_SIO_PLAYERS_MAX) && (gMultiplayerPlayerTasks[i] != NULL); i++) {
+                if (i != SIO_MULTI_CNT->id) {
+                    MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
+                    if (mpp->unk5C & 0x4) {
+                        sl = TRUE;
+                    }
+                }
+            }
+        }
+        // _0801E95E
+
+        if (!(gPlayer.moveState & MOVESTATE_IA_OVERRIDE) || sl) {
+            // _0801E974
+
+            if (gNumSingleplayerCharacters > 1) {
+                sub_80096B0(s, worldX, worldY + itembox->iconOffset, &gPartner);
+            }
+            // _0801E998
+
+            if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+                || (gPlayer.spriteInfoBody->s.hitboxes[0].index == HITBOX_STATE_INACTIVE)) {
+                // _0801E9B6
+                res = sub_80096B0(s, worldX, worldY + itembox->iconOffset, &gPlayer);
+            } else {
+                // _0801E9FC
+                res = sub_800ABEC(s, worldX, worldY + itembox->iconOffset, &gPlayer);
+            }
+
+            // _0801EA20
+            if (res & 0x10000) {
+                itembox->qUnk6E = -Q(1.0);
+                itembox->unk70 = -1;
+            } else if (res & 0x28) {
+                // _0801EA32 + 0x8
+
+                if ((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s)) {
+                    gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    gPlayer.moveState &= ~MOVESTATE_20;
+                    gPlayer.moveState |= MOVESTATE_IN_AIR;
+                }
+
+                if ((gPartner.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPartner.stoodObj == s)) {
+                    gPartner.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    gPartner.moveState &= ~MOVESTATE_20;
+                    gPartner.moveState |= MOVESTATE_IN_AIR;
+                }
+
+                m4aSongNumStart(SE_ITEM_BOX_2);
+                CreateDustCloud(worldX, worldY + itembox->iconOffset);
+
+                gCurTask->main = Task_Itembox2;
+                itembox->unk70 = 0;
+
+                if (IS_MULTI_PLAYER) {
+                    RoomEvent_ItemBoxBreak *event = CreateRoomEvent();
+                    event->type = ROOMEVENT_TYPE_ITEMBOX_BREAK;
+                    event->x = itembox->base.regionX;
+                    event->y = itembox->base.regionY;
+                    event->id = itembox->base.id;
+                }
+
+                return;
+            }
+        }
+        // _0801EADC
+
+        if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y + itembox->iconOffset)) {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, itembox->base.meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+        // _0801EB54
+
+        DisplaySprite(s);
+
+        s = &itembox->item;
+
+        if (gGameMode == GAME_MODE_RACE || gGameMode == GAME_MODE_MULTI_PLAYER) {
+            if ((gStageTime >> 5) & 0x1) {
+                u32 kind = gUnknown_080BB4F0[gMultiplayerPseudoRandom % ARRAY_COUNT(gUnknown_080BB4F0)];
+                itembox->kind = kind;
+
+                if ((LEVEL_TO_ZONE(gCurrentLevel) == ZONE_6) && (kind == ITEM__MP_8)) {
+                    itembox->kind = ITEM__MP_10;
+                }
+            } else {
+                // _0801EBBC
+                itembox->kind = gUnknown_080BB4E8[((gStageTime >> 6) + me->index) % ARRAY_COUNT(gUnknown_080BB4E8)];
+            }
+            // _0801EBD6
+
+            s->variant = gUnknown_080BB4D8[itembox->kind];
+
+            UpdateSpriteAnimation(s);
+        }
+        // _0801EBEA
+
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y + itembox->iconOffset;
+        DisplaySprite(s);
+    }
+}
+END_NONMATCH
+
 #else
 void BreakItemBox(Entity_ItemBox *);
 void InitItemBoxGraphics(Entity_ItemBox *, bool32);

@@ -12,6 +12,9 @@ int gMaxLines = 0;
 
 void CreateToBeContinuedScreen() { }
 
+u32 sub_80096B0() { return 0; }
+u32 sub_800ABEC() { return 0; }
+
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
@@ -154,9 +157,6 @@ void CreateEntity_TrackAirCorner() { }
 void CreateEntity_Interactable113() { }
 void CreateEntity_BreakableWall() { }
 void CreateEntity_ItemBox_ChaoHunt() { }
-
-// Items
-void CreateEntity_ItemBox() { }
 
 // Enemies
 void CreateEntity_Kiki() { }
