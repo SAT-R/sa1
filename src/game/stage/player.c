@@ -2793,8 +2793,96 @@ bool32 Player_Spindash(Player *p)
 
 #endif // (GAME == GAME_SA1)
 
+bool32 sub_8044250(Player *p)
+{
+    u8 rot = p->rotation;
+    s32 r5 = 0;
+    s32 theta;
+
+    if (!(p->frameInput & gPlayerControls.jump)) {
+        return FALSE;
+    }
+
+    if (GRAVITY_IS_INVERTED) {
+        rot += Q(0.25);
+        rot = -rot;
+        rot -= Q(0.25);
+    }
+
+    if (SA2_LABEL(sub_8022F58)(rot + Q(0.50), p) < 4) {
+        return FALSE;
+    }
+
+    p->moveState |= MOVESTATE_IN_AIR;
+    p->moveState &= ~(MOVESTATE_1000000 | MOVESTATE_20);
+    p->moveState |= MOVESTATE_100;
+    p->moveState &= ~(MOVESTATE_800);
+
+    switch (p->character) {
+        case CHARACTER_SONIC:
+        case CHARACTER_TAILS:
+        case CHARACTER_KNUCKLES: {
+            p->charState = CHARSTATE_SPINATTACK;
+            if (p->moveState & MOVESTATE_IN_WATER) {
+                r5 = 0x2A0;
+            } else {
+                r5 = 0x4E0;
+            }
+        } break;
+
+        case CHARACTER_AMY: {
+            if (!(p->heldInput & DPAD_DOWN)) {
+                p->charState = CHARSTATE_85;
+                if (p->moveState & MOVESTATE_IN_WATER) {
+                    r5 = 0x2A0;
+                } else {
+                    r5 = 0x4E0;
+                }
+            } else {
+                s32 r2;
+                p->charState = CHARSTATE_91;
+                p->moveState &= ~MOVESTATE_2000000;
+                p->moveState |= MOVESTATE_4000000;
+                p->moveState &= ~MOVESTATE_100;
+                p->w.af.flags = 2;
+                if (p->moveState & MOVESTATE_IN_WATER) {
+                    r2 = Q(2.50);
+                    r5 = Q(0.75);
+                } else {
+                    r2 = Q(4.00);
+                    r5 = Q(1.25);
+                }
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    p->qSpeedAirX = Q_MUL_NEG(r2, COS_24_8(p->rotation * 4));
+                    p->qSpeedAirY = Q_MUL_NEG(r2, SIN_24_8(p->rotation * 4));
+                } else {
+                    p->qSpeedAirX = +Q_MUL(r2, COS_24_8(p->rotation * 4));
+                    p->qSpeedAirY = +Q_MUL(r2, SIN_24_8(p->rotation * 4));
+                }
+            }
+        } break;
+    }
+
+    rot = p->rotation - Q(0.25);
+    p->qSpeedAirX += Q_MUL(r5, COS_24_8(rot * 4));
+    p->qSpeedAirY += Q_MUL(r5, SIN_24_8(rot * 4));
+
+    m4aSongNumStart(SE_JUMP);
+
+    if (p->character != CHARACTER_AMY) {
+        if (!(p->moveState & MOVESTATE_4)) {
+            p->moveState |= MOVESTATE_4;
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 9);
+        } else {
+            p->moveState |= MOVESTATE_FLIP_WITH_MOVE_DIR;
+        }
+    }
+
+    return TRUE;
+}
+
 // (98.55%) https://decomp.me/scratch/lAHT0
-NONMATCH("asm/non_matching/game/stage/Player__sub_8044250.inc", bool32 sub_8044250(Player *p))
+NONMATCH("asm/non_matching/game/stage/Player__sub_8044434.inc", bool32 sub_8044434(Player *p))
 {
     u8 rot = p->rotation;
     s32 r2 = 0;

@@ -77,7 +77,7 @@ NONMATCH("asm/non_matching/game/enemies/Task_Pierrot.inc", void Task_Pierrot(voi
     worldX32 = TO_WORLD_POS(pierrot->shared.base.meX, pierrot->shared.base.regionX);
     worldY32 = TO_WORLD_POS(me->y, pierrot->shared.base.regionY);
 
-    worldX = ((worldX32 << 16) >> 16);
+    worldX = worldX32;
     worldY = worldY32;
 
     pierrot->qUnk44 += pierrot->qUnk48;
