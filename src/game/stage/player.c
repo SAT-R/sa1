@@ -3075,3 +3075,28 @@ void Player_8044670(Player *p)
         }
     }
 }
+
+void sub_8044750(Player *p)
+{
+    Camera *cam = &gCamera;
+
+    if ((p->SA2_LABEL(unk25) == 0) || (--p->SA2_LABEL(unk25) == 0)) {
+        if (p->playerID == 0) {
+            if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
+                if (cam->SA2_LABEL(unk4C) + cam->shiftY > -72) {
+                    cam->SA2_LABEL(unk4C) -= 2;
+                }
+            } else {
+                if (cam->SA2_LABEL(unk4C) + cam->shiftY < 72) {
+                    cam->SA2_LABEL(unk4C) += 2;
+                }
+            }
+        }
+    } else if (p->playerID == 0) {
+        if (cam->SA2_LABEL(unk4C) > 0) {
+            cam->SA2_LABEL(unk4C) -= 2;
+        } else if (cam->SA2_LABEL(unk4C) < 0) {
+            cam->SA2_LABEL(unk4C) += 2;
+        }
+    }
+}
