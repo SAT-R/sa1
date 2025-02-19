@@ -3076,7 +3076,7 @@ void Player_8044670(Player *p)
     }
 }
 
-void sub_8044750(Player *p)
+void Player_8044750(Player *p)
 {
     Camera *cam = &gCamera;
 
@@ -3100,3 +3100,51 @@ void sub_8044750(Player *p)
         }
     }
 }
+
+NONMATCH("asm/non_matching/game/stage/Player__Player_80447D8.inc", void Player_80447D8(Player *p))
+{
+    Camera *cam = &gCamera;
+
+    p->charState = CHARSTATE_CROUCH;
+
+    if (p->qSpeedGround == 0) {
+        if ((p->SA2_LABEL(unk25) == 0) || (--p->SA2_LABEL(unk25) == 0)) {
+            if (p->playerID == 0) {
+                if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
+                    if (cam->SA2_LABEL(unk4C) + cam->shiftY < +60) {
+                        cam->SA2_LABEL(unk4C) += 2;
+                    }
+                } else {
+                    if (cam->SA2_LABEL(unk4C) + cam->shiftY > -60) {
+                        cam->SA2_LABEL(unk4C) -= 2;
+                    }
+                }
+            }
+        } else if (p->playerID == 0) {
+            if (cam->SA2_LABEL(unk4C) > 0) {
+                cam->SA2_LABEL(unk4C) -= 2;
+            } else if (cam->SA2_LABEL(unk4C) < 0) {
+                cam->SA2_LABEL(unk4C) += 2;
+            }
+        }
+    } else if (p->character != CHARACTER_AMY) {
+        m4aSongNumStart(SE_SPIN_ATTACK);
+        p->moveState |= MOVESTATE_4;
+        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 9);
+        p->charState = CHARSTATE_SPINATTACK;
+
+        if (p->playerID == 0) {
+            p->SA2_LABEL(unk25) = 120;
+
+            if (p->playerID == 0) {
+                if (cam->SA2_LABEL(unk4C) > 0) {
+                    cam->SA2_LABEL(unk4C) -= 2;
+                    asm("");
+                } else if (cam->SA2_LABEL(unk4C) < 0) {
+                    cam->SA2_LABEL(unk4C) += 2;
+                }
+            }
+        }
+    }
+}
+END_NONMATCH
