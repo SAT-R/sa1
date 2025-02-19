@@ -18,6 +18,7 @@
 #define CHARSTATE_9          9
 #define CHARSTATE_LOOK_UP    10
 #define CHARSTATE_22         22
+#define CHARSTATE_23         23
 
 #if (GAME == GAME_SA1)
 #define CHARSTATE_HIT_AIR     15

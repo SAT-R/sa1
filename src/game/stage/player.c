@@ -2956,3 +2956,76 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8044434.inc", bool32 sub_80444
     return TRUE;
 }
 END_NONMATCH
+
+// (91.12%) https://decomp.me/scratch/hJuDa
+NONMATCH("asm/non_matching/game/stage/Player__Player_AirInputControls.inc", void Player_AirInputControls(Player *p))
+{
+    s32 r5 = p->acceleration * 2;
+    s32 r6 = p->maxSpeed;
+
+    if ((p->charState != CHARSTATE_HIT_AIR)) {
+        if (!(p->moveState & MOVESTATE_FLIP_WITH_MOVE_DIR)) {
+            s16 qAirSpeedS;
+            u16 qAirSpeedU = p->qSpeedAirX;
+
+            if (p->heldInput & DPAD_LEFT) {
+                if (p->charState != CHARSTATE_23) {
+                    p->moveState |= MOVESTATE_FACING_LEFT;
+                }
+
+                qAirSpeedS = qAirSpeedU;
+                qAirSpeedU = qAirSpeedS - r5;
+                qAirSpeedS = qAirSpeedU;
+
+                if (qAirSpeedS < -r6) {
+                    qAirSpeedU = qAirSpeedS + r5;
+                    qAirSpeedS = qAirSpeedU;
+
+                    if (qAirSpeedS > -r6) {
+                        qAirSpeedU = -r6;
+                    }
+                }
+            } else if (p->heldInput & DPAD_RIGHT) {
+                if ((p->charState != CHARSTATE_23)) {
+                    p->moveState &= ~MOVESTATE_FACING_LEFT;
+                }
+
+                qAirSpeedS = qAirSpeedU;
+                qAirSpeedU = qAirSpeedS + r5;
+                qAirSpeedS = qAirSpeedU;
+
+                if (qAirSpeedS > r6) {
+                    qAirSpeedU = qAirSpeedS - r5;
+                    qAirSpeedS = qAirSpeedU;
+
+                    if (qAirSpeedS < r6) {
+                        qAirSpeedU = r6;
+                    }
+                }
+            }
+
+            p->qSpeedAirX = qAirSpeedU;
+        }
+
+        if ((u16)p->qSpeedAirY > (u16)(-Q(67) - 1)) {
+            s16 qSpeedAirX = p->qSpeedAirX;
+            s16 qSpeedAirXFrac = p->qSpeedAirX >> 5;
+            if (qSpeedAirXFrac < 0) {
+                qSpeedAirX -= qSpeedAirXFrac;
+                if (qSpeedAirX > 0) {
+                    qSpeedAirX = 0;
+                }
+
+                p->qSpeedAirX = qSpeedAirX;
+            } else if (qSpeedAirXFrac > 0) {
+                qSpeedAirX -= qSpeedAirXFrac;
+
+                if (qSpeedAirX < 0)
+                    qSpeedAirX = 0;
+
+                p->qSpeedAirX = qSpeedAirX;
+            }
+        }
+    }
+}
+END_NONMATCH
