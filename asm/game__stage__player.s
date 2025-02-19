@@ -8,121 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Player_8044670
-Player_8044670: @ 0x08044670
-	push {r4, lr}
-	adds r3, r0, #0
-	ldr r2, [r3, #0x10]
-	movs r0, #0x40
-	ands r0, r2
-	ldr r4, _080446AC @ =0x0000FE80
-	cmp r0, #0
-	bne _08044684
-	movs r4, #0xfd
-	lsls r4, r4, #8
-_08044684:
-	movs r0, #0x80
-	lsls r0, r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _0804472E
-	movs r0, #0xa
-	ldrsh r1, [r3, r0]
-	lsls r0, r4, #0x10
-	asrs r0, r0, #0x10
-	cmp r1, r0
-	bge _080446B4
-	ldr r0, _080446B0 @ =gPlayerControls
-	ldrh r1, [r3, #0x38]
-	ldrh r0, [r0]
-	ands r0, r1
-	cmp r0, #0
-	bne _08044744
-	strh r4, [r3, #0xa]
-	b _08044744
-	.align 2, 0
-_080446AC: .4byte 0x0000FE80
-_080446B0: .4byte gPlayerControls
-_080446B4:
-	ldr r0, _08044708 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #6
-	beq _08044744
-	adds r4, r3, #0
-	adds r4, #0x3d
-	movs r0, #0
-	ldrsb r0, [r4, r0]
-	cmp r0, #0
-	bne _08044744
-	ldr r0, _0804470C @ =gPlayerControls
-	ldrh r1, [r3, #0x3a]
-	ldrh r0, [r0]
-	ands r0, r1
-	cmp r0, #0
-	beq _08044744
-	adds r0, r3, #0
-	adds r0, #0x40
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0xf
-	beq _08044744
-	movs r0, #0x11
-	rsbs r0, r0, #0
-	ands r2, r0
-	str r2, [r3, #0x10]
-	movs r0, #1
-	strb r0, [r4]
-	adds r0, r3, #0
-	adds r0, #0x59
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #1
-	beq _0804471E
-	cmp r0, #1
-	bgt _08044710
-	cmp r0, #0
-	beq _08044716
-	b _08044744
-	.align 2, 0
-_08044708: .4byte gGameMode
-_0804470C: .4byte gPlayerControls
-_08044710:
-	cmp r0, #2
-	beq _08044726
-	b _08044744
-_08044716:
-	adds r0, r3, #0
-	bl sub_80478E0
-	b _08044744
-_0804471E:
-	adds r0, r3, #0
-	bl sub_8048024
-	b _08044744
-_08044726:
-	adds r0, r3, #0
-	bl sub_8048148
-	b _08044744
-_0804472E:
-	movs r0, #0x80
-	lsls r0, r0, #2
-	ands r2, r0
-	cmp r2, #0
-	bne _08044744
-	movs r1, #0xa
-	ldrsh r0, [r3, r1]
-	ldr r1, _0804474C @ =0xFFFFF430
-	cmp r0, r1
-	bge _08044744
-	strh r1, [r3, #0xa]
-_08044744:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804474C: .4byte 0xFFFFF430
-
 	thumb_func_start sub_8044750
 sub_8044750: @ 0x08044750
 	adds r1, r0, #0
@@ -6759,8 +6644,8 @@ _080478AC:
 	.align 2, 0
 _080478DC: .4byte gGameMode
 
-	thumb_func_start sub_80478E0
-sub_80478E0: @ 0x080478E0
+	thumb_func_start Player_Sonic_JumpHeld
+Player_Sonic_JumpHeld: @ 0x080478E0
 	push {r4, lr}
 	adds r4, r0, #0
 	adds r1, r4, #0
@@ -7662,8 +7547,8 @@ sub_8047FE4: @ 0x08047FE4
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8048024
-sub_8048024: @ 0x08048024
+	thumb_func_start Player_Tails_JumpHeld
+Player_Tails_JumpHeld: @ 0x08048024
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r1, [r4, #0x10]
@@ -7813,8 +7698,8 @@ _08048134:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8048148
-sub_8048148: @ 0x08048148
+	thumb_func_start Player_Knuckles_JumpHeld
+Player_Knuckles_JumpHeld: @ 0x08048148
 	adds r2, r0, #0
 	ldr r0, [r2, #0x10]
 	movs r1, #5

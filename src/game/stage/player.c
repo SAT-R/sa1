@@ -55,6 +55,11 @@ void Task_8045B38(void);
 void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
 void Player_8047280(Player *p);
+
+void Player_Sonic_JumpHeld(Player *p);
+void Player_Tails_JumpHeld(Player *p);
+void Player_Knuckles_JumpHeld(Player *p);
+
 void Task_8049898(void);
 void sub_804A1B8(Player *p);
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out);
@@ -3029,3 +3034,44 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_AirInputControls.inc", void
     }
 }
 END_NONMATCH
+
+void Player_8044670(Player *p)
+{
+    s16 r4 = (!(p->moveState & MOVESTATE_IN_WATER)) ? -Q(3.0) : -Q(1.5);
+
+    if (p->moveState & MOVESTATE_100) {
+        if (p->qSpeedAirY < r4) {
+            if (!(p->heldInput & gPlayerControls.jump)) {
+                p->qSpeedAirY = r4;
+            }
+        } else {
+            if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (p->SA2_LABEL(unk61) == 0) && (p->frameInput & gPlayerControls.jump)
+                && (p->charState != CHARSTATE_HIT_AIR)) {
+                p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                p->SA2_LABEL(unk61) = 1;
+
+                switch (p->character) {
+                    case CHARACTER_SONIC: {
+                        Player_Sonic_JumpHeld(p);
+                    } break;
+
+                    case CHARACTER_TAILS: {
+                        Player_Tails_JumpHeld(p);
+                    } break;
+
+                    case CHARACTER_KNUCKLES: {
+                        Player_Knuckles_JumpHeld(p);
+                    } break;
+
+                    case CHARACTER_AMY: {
+                        ;
+                    } break;
+                }
+            }
+        }
+    } else if (!(p->moveState & MOVESTATE_200)) {
+        if (p->qSpeedAirY < -Q(11.8125)) {
+            p->qSpeedAirY = -Q(11.8125);
+        }
+    }
+}
