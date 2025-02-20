@@ -6,6 +6,7 @@
 #include "game/parameters/characters.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
+#include "game/sa1_sa2_shared/music_manager.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
@@ -14,6 +15,8 @@
 #include "game/stage/player_controls.h"
 #include "game/stage/rings_scatter.h"
 #include "game/stage/spawn_positions.h"
+#include "game/stage/underwater_effects.h"
+#include "game/water_effects.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -3217,5 +3220,176 @@ void sub_80448D0(Player *p)
                 Player_80447D8(p);
             } break;
         }
+    }
+}
+
+void sub_80449D8(Player *p)
+{
+    s32 qSpeedGround;
+    s32 rot;
+    s32 qMin;
+
+    // TODO: Down | Right? Is this a bug?
+    if (p->heldInput & (DPAD_DOWN | DPAD_RIGHT)) {
+        if (((p->rotation + Q(0.375)) & 0xFF) < Q(0.75)) {
+            p->qSpeedGround += (SIN_24_8(p->rotation * 4) * 5) >> 5;
+        }
+    }
+
+    qSpeedGround = p->qSpeedGround;
+
+    if (p->heldInput & DPAD_LEFT) {
+        qSpeedGround -= Q(8. / 256.);
+
+        qMin = Q(0.75);
+        if (qSpeedGround < qMin) {
+            qSpeedGround = qMin;
+        }
+    }
+
+    qSpeedGround -= Q(8. / 256.);
+
+    qMin = Q(0.75);
+    if (qSpeedGround < qMin) {
+        qSpeedGround = qMin;
+    }
+
+    p->qSpeedGround = qSpeedGround;
+
+    p->charState = CHARSTATE_16;
+
+    qSpeedGround = p->qSpeedGround;
+    rot = p->rotation;
+    p->qSpeedAirX = Q_MUL(p->qSpeedGround, COS_24_8(rot * 4));
+    p->qSpeedAirY = Q_MUL(p->qSpeedGround, SIN_24_8(rot * 4));
+}
+
+void SA2_LABEL(sub_8023878)(Player *p)
+{
+#if (GAME == GAME_SA1) && !defined(BUG_FIX)
+#define WATER_ACTIVE_CHECK 1
+#else
+#define WATER_ACTIVE_CHECK gWater.isActive == TRUE
+#endif
+
+    p->moveState &= ~MOVESTATE_1000;
+    if (WATER_ACTIVE_CHECK && gWater.currentWaterLevel >= 0 && (I(p->qWorldY) - 4) >= gWater.currentWaterLevel) {
+        if (!(p->moveState & MOVESTATE_IN_WATER)) {
+            p->moveState |= MOVESTATE_IN_WATER;
+            p->moveState |= MOVESTATE_1000;
+
+            p->qSpeedAirX = p->qSpeedAirX >> 1;
+            p->qSpeedAirY = p->qSpeedAirY >> 2;
+            if ((p->character != CHARACTER_KNUCKLES || p->SA2_LABEL(unk61) != 9) && (s8)p->SA2_LABEL(unk88) < 1) {
+                p->SA2_LABEL(unk88) = 10;
+                CreateWaterfallSurfaceHitEffect(I(p->qWorldX), gWater.currentWaterLevel);
+                m4aSongNumStart(SE_WATERFALL_SURFACE_HIT);
+            }
+        }
+
+#if (GAME == GAME_SA1)
+        if (!(p->moveState & MOVESTATE_2000)) {
+            p->maxSpeed = Q(2.25);
+            p->acceleration = Q(4. / 256.);
+            p->deceleration = Q(48. / 256.);
+        } else {
+            p->maxSpeed = Q(3.75);
+            p->acceleration = Q(18. / 256.);
+            p->deceleration = Q(96. / 256.);
+        }
+#endif
+
+        if (--p->framesUntilDrownCountDecrement < 1) {
+            switch (p->secondsUntilDrown--) {
+                case 11:
+                    if (p->playerID == 0) {
+                        gMusicManagerState.unk4 = 16;
+                    }
+                    break;
+                case 12:
+                    SpawnDrowningCountdownNum(p, 5);
+                    break;
+                case 10:
+                    SpawnDrowningCountdownNum(p, 4);
+                    break;
+                case 8:
+                    SpawnDrowningCountdownNum(p, 3);
+                    break;
+                case 6:
+                    SpawnDrowningCountdownNum(p, 2);
+                    break;
+                case 4:
+                    SpawnDrowningCountdownNum(p, 1);
+                    break;
+                case 2:
+                    SpawnDrowningCountdownNum(p, 0);
+                    break;
+            }
+            if (p->secondsUntilDrown < 0) {
+                p->moveState |= MOVESTATE_DEAD;
+                p->qSpeedAirY = 0;
+                SpawnAirBubbles(p->qWorldX, p->qWorldY - Q(12), 0, 1);
+                SpawnBubblesAfterDrowning(p);
+            }
+            p->framesUntilDrownCountDecrement = 60;
+        }
+        if (!(gStageTime % 16u) && !(PseudoRandom32() & 0x300)) {
+            s32 qDX = ((p->moveState & MOVESTATE_FACING_LEFT) ? -Q(4) : +Q(4));
+            SpawnAirBubbles(p->qWorldX + qDX, p->qWorldY - Q(4), 0, 0);
+        }
+    } else {
+        if (p->moveState & MOVESTATE_IN_WATER) {
+            p->moveState &= ~MOVESTATE_IN_WATER;
+            p->moveState |= MOVESTATE_1000;
+            p->qSpeedAirY = p->qSpeedAirY << 1;
+
+            if ((p->character != CHARACTER_KNUCKLES || p->SA2_LABEL(unk61) != 9) && p->SA2_LABEL(unk88) < 1) {
+                p->SA2_LABEL(unk88) = 10;
+                CreateWaterfallSurfaceHitEffect(I(p->qWorldX), gWater.currentWaterLevel);
+                m4aSongNumStart(SE_WATERFALL_SURFACE_HIT);
+            }
+        }
+#if (GAME == GAME_SA1)
+        if (!(p->moveState & MOVESTATE_2000)) {
+            p->maxSpeed = Q(4.50);
+            p->acceleration = Q(8. / 256.);
+            p->deceleration = Q(96. / 256.);
+        } else {
+            p->maxSpeed = Q(7.50);
+            p->acceleration = Q(36. / 256.);
+            p->deceleration = Q(192. / 256.);
+        }
+#endif
+        p->framesUntilDrownCountDecrement = 60;
+        p->secondsUntilDrown = 30;
+
+#if (GAME == GAME_SA1)
+        if (p->playerID == 0) {
+            m4aSongNumStop(MUS_DROWNING);
+        }
+#else
+        if (gMPlayTable[0].info->songHeader == gSongTable[MUS_DROWNING].header && p->playerID == 0) {
+            m4aSongNumStartOrContinue(gLevelSongs[gCurrentLevel]);
+        }
+#endif
+    }
+
+    if (p->itemEffect & PLAYER_ITEM_EFFECT__SPEED_UP) {
+#if (GAME == GAME_SA1)
+        p->maxSpeed = p->maxSpeed * 2;
+        p->acceleration = p->acceleration * 2;
+        p->deceleration = p->deceleration * 2;
+#else
+        p->acceleration = p->acceleration * 2;
+        p->deceleration = p->deceleration * 2;
+#endif
+    } else if (p->itemEffect & PLAYER_ITEM_EFFECT__MP_SLOW_DOWN) {
+        p->maxSpeed = p->maxSpeed >> 2;
+        p->acceleration = p->acceleration >> 2;
+        p->deceleration = p->deceleration >> 2;
+    }
+
+    if (p->SA2_LABEL(unk88) != 0) {
+        p->SA2_LABEL(unk88)--;
     }
 }
