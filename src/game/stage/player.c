@@ -1,6 +1,7 @@
 #include "global.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "gba/io_reg.h"
 #include "lib/m4a/m4a.h"
 #include "game/parameters/characters.h"
 #include "game/sa1_sa2_shared/globals.h"
@@ -55,6 +56,8 @@ void Task_8045B38(void);
 void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
 void Player_8047280(Player *p);
+void Player_8044750(Player *p);
+void Player_80447D8(Player *p);
 
 void Player_Sonic_JumpHeld(Player *p);
 void Player_Tails_JumpHeld(Player *p);
@@ -3101,6 +3104,7 @@ void Player_8044750(Player *p)
     }
 }
 
+// TODO: Look up|down function?
 NONMATCH("asm/non_matching/game/stage/Player__Player_80447D8.inc", void Player_80447D8(Player *p))
 {
     Camera *cam = &gCamera;
@@ -3134,6 +3138,8 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_80447D8.inc", void Player_8
         p->charState = CHARSTATE_SPINATTACK;
 
         if (p->playerID == 0) {
+            // TODO: Is this entire code block a macro?
+            //       (also twice in sub_80448D0)
             p->SA2_LABEL(unk25) = 120;
 
             if (p->playerID == 0) {
@@ -3148,3 +3154,68 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_80447D8.inc", void Player_8
     }
 }
 END_NONMATCH
+
+void sub_80448D0(Player *p)
+{
+    if (p->charState == CHARSTATE_12 || p->charState == CHARSTATE_13) {
+        if (p->playerID == 0) {
+            // TODO: Is this entire code block a macro?
+            //       (also in Player_80447D8)
+            p->SA2_LABEL(unk25) = 120;
+
+            if (p->playerID == 0) {
+                if (gCamera.SA2_LABEL(unk4C) > 0) {
+                    gCamera.SA2_LABEL(unk4C) -= 2;
+                } else if (gCamera.SA2_LABEL(unk4C) < 0) {
+                    gCamera.SA2_LABEL(unk4C) += 2;
+                }
+            }
+        }
+    } else {
+        switch (p->heldInput & DPAD_VERTICAL) {
+            case 0: {
+                if (p->playerID == 0) {
+                    p->SA2_LABEL(unk25) = 120;
+
+                    if (p->playerID == 0) {
+                        if (gCamera.SA2_LABEL(unk4C) > 0) {
+                            gCamera.SA2_LABEL(unk4C) -= 2;
+                        } else if (gCamera.SA2_LABEL(unk4C) < 0) {
+                            gCamera.SA2_LABEL(unk4C) += 2;
+                        }
+                    }
+                }
+
+                if (p->charState == CHARSTATE_CROUCH) {
+                    p->charState = CHARSTATE_3;
+                } else if (p->charState == CHARSTATE_LOOK_UP) {
+                    p->charState = CHARSTATE_11;
+                }
+            } break;
+
+            case DPAD_UP: {
+                // _0804497C
+                if (p->qSpeedGround == 0) {
+                    p->charState = CHARSTATE_LOOK_UP;
+                    Player_8044750(p);
+
+                } else if (p->playerID == 0) {
+                    // _08044990
+                    p->SA2_LABEL(unk25) = 120;
+
+                    if (p->playerID == 0) {
+                        if (gCamera.SA2_LABEL(unk4C) > 0) {
+                            gCamera.SA2_LABEL(unk4C) -= 2;
+                        } else if (gCamera.SA2_LABEL(unk4C) < 0) {
+                            gCamera.SA2_LABEL(unk4C) += 2;
+                        }
+                    }
+                }
+            } break;
+
+            case DPAD_DOWN: {
+                Player_80447D8(p);
+            } break;
+        }
+    }
+}
