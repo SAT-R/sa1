@@ -28,6 +28,7 @@ void StageBgUpdate_Zone6Act2() { }
 void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p);
 void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { SetStageSpawnPos(character, level, playerID, p); }
 void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
+void CreateWaterfallSurfaceHitEffect(s32 x, s32 y) { }
 
 void CreatePauseMenu(void) { }
 
@@ -48,6 +49,9 @@ void Player_8047280(Player *p) { }
 void Task_8049898(void) { }
 void sa2__sub_8029AC0() { }
 void sa2__sub_8029B0C() { }
+void Player_Sonic_JumpHeld() { }
+void Player_Tails_JumpHeld() { }
+void Player_Knuckles_JumpHeld() { }
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out) { }
 void sub_804A1B8(Player *p) { }
 void TaskDestructor_Player(struct Task *t) { }

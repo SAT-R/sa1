@@ -157,7 +157,7 @@ _0804BC52:
 	add r1, ip
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	ldr r2, _0804BD48 @ =Task_StageGoalBonusPoints
+	ldr r2, _0804BD48 @ =Task_UpdateMpSpriteTaskSprite
 	str r2, [sp]
 	ldr r2, _0804BD4C @ =TaskDestructor_MultiplayerSpriteTask
 	str r2, [sp, #4]
@@ -206,7 +206,7 @@ _0804BD38: .4byte gPseudoRandom
 _0804BD3C: .4byte 0x00196225
 _0804BD40: .4byte 0x3C6EF35F
 _0804BD44: .4byte gSineTable
-_0804BD48: .4byte Task_StageGoalBonusPoints
+_0804BD48: .4byte Task_UpdateMpSpriteTaskSprite
 _0804BD4C: .4byte TaskDestructor_MultiplayerSpriteTask
 _0804BD50: .4byte 0x03000018
 _0804BD54: .4byte 0x03000038

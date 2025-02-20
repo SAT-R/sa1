@@ -57,7 +57,7 @@ struct Task *CreateMultiplayerSpriteTask(s16 x, s16 y, u8 param2, s8 param3, Tas
 }
 #endif
 
-void Task_StageGoalBonusPoints(void)
+void Task_UpdateMpSpriteTaskSprite(void)
 {
     MultiplayerSpriteTask *ts = TASK_DATA(gCurTask);
     Sprite *s = &ts->s;
@@ -200,7 +200,7 @@ struct Task *CreateStageGoalBonusPointsAnim(s32 x, s32 y, u16 score)
         struct Task *t;
         MultiplayerSpriteTask *ts;
         Sprite *s;
-        t = CreateMultiplayerSpriteTask(x, y, 32, 0, Task_StageGoalBonusPoints, TaskDestructor_MultiplayerSpriteTask);
+        t = CreateMultiplayerSpriteTask(x, y, 32, 0, Task_UpdateMpSpriteTaskSprite, TaskDestructor_MultiplayerSpriteTask);
         ts = TASK_DATA(t);
 
         switch (score) {
@@ -237,7 +237,7 @@ struct Task *CreateStageGoalBonusPointsAnim(s32 x, s32 y, u16 score)
 
 static inline struct Task *CreateGrindfEffect2Sprite_inline(s16 x, s16 y)
 {
-    struct Task *t = CreateMultiplayerSpriteTask(x, y, 192, 0, Task_StageGoalBonusPoints, TaskDestructor_MultiplayerSpriteTask);
+    struct Task *t = CreateMultiplayerSpriteTask(x, y, 192, 0, Task_UpdateMpSpriteTaskSprite, TaskDestructor_MultiplayerSpriteTask);
     MultiplayerSpriteTask *ts = TASK_DATA(t);
     Sprite *s = &ts->s;
 

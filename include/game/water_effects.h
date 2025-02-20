@@ -4,14 +4,18 @@
 #include "core.h"
 
 typedef struct {
-    // TODO: this is a 2D array
+#if (GAME == GAME_SA2)
     u16 pal[32][16];
+#endif
 } WaterData;
 
 typedef struct {
 #if (GAME == GAME_SA1)
+#ifdef BUG_FIX
     /* 0x00 */ bool8 isActive;
-    /* 0x01 */ u8 filler1[1];
+#endif
+    /* 0x00 */ u8 SA2_LABEL(unk1);
+    /* 0x01 */ u8 SA2_LABEL(unk2);
 #elif (GAME == GAME_SA2)
     /* 0x00 */ bool8 isActive;
     /* 0x01 */ u8 unk1;
@@ -23,8 +27,8 @@ typedef struct {
     /* 0x08 */ u32 unk8;
     /* 0x0C */ u32 mask;
 
-    // t -> u16 palette[16*16] (additional "palette memory" for GUI stuff?)
-    /* 0x10 */ struct Task *t; /* size: 0x400 */
+    // Additional "palette memory", statically alloced in SA1!
+    /* 0x10 */ struct Task *t; /* size: SA1: 0x00, SA2: 0x400 */
     /* 0x14 */ Sprite s;
 } Water;
 

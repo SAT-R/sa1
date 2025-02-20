@@ -67,19 +67,19 @@ SECTIONS {
         asm/ia_platform_crumbling.o(.text);
         src/game/interactables/fadein_to_be_continued.o(.text);
         src/game/special_stage/temporary_sound_play_task.o(.text);
-        asm/ia_boss_1_egg_hammer_tank.o(.text);
+        asm/enemy_boss_1_egg_hammer_tank.o(.text);
         asm/ia_breakable_wall.o(.text);
         asm/game__mp_chao.o(.text);
         asm/game_1.o(.text);
         src/game/some_unknown_screen_shake.o(.text);
         asm/game__special_stage.o(.text);
-        asm/ia_boss_2_egg_press.o(.text);
-        asm/ia_boss_3_egg_ball.o(.text);
-        asm/ia_boss_4_egg_spider.o(.text);
-        asm/ia_boss_6_egg_snake.o(.text);
-        asm/ia_boss_egg_wrecker.o(.text);
-        asm/ia_boss_egg_drillster.o(.text);
-        asm/ia_boss_egg_x.o(.text);
+        asm/enemy_boss_2_egg_press.o(.text);
+        asm/enemy_boss_3_egg_ball.o(.text);
+        asm/enemy_boss_4_egg_spider.o(.text);
+        asm/enemy_boss_6_egg_snake.o(.text);
+        asm/enemy_boss_egg_wrecker.o(.text);
+        asm/enemy_boss_egg_drillster.o(.text);
+        asm/enemy_boss_egg_x.o(.text);
 
         asm/game_1_1.o(.text);
         asm/game__multiplayer__communication_outcome.o(.text);
@@ -115,8 +115,8 @@ SECTIONS {
         asm/game__stage__player.o(.text);
         src/game/stage/item_tasks.o(.text);
         src/game/stage/underwater_effects.o(.text);
-     /* src/game/water_effects.o(.text); */
         asm/game__water_effects.o(.text);
+        src/game/water_effects.o(.text);
         src/game/stage/screen_shake.o(.text);
         src/input_recorder.o(.text);
         asm/game_1_x.o(.text);
@@ -127,8 +127,8 @@ SECTIONS {
         src/game/interactables/water_bridge_splash.o(.text);
         asm/ia_mini_loop.o(.text);
         src/game/interactables/039.o(.text);
-        asm/ia_boss_5_mecha_knuckles.o(.text);
-        asm/ia_boss_super_egg_robo.o(.text);
+        asm/enemy_boss_5_mecha_knuckles.o(.text);
+        asm/enemy_boss_super_egg_robo.o(.text);
         asm/game__gTask_03006240.o(.text);
         src/game/gTask_03006240.o(.text);
         asm/game__stage__ui.o(.text);

@@ -65,10 +65,8 @@ src/game/stage/player.o(.data);
 
 . = 0x00005C74; gUnknown_03005C74 = .;
 . = 0x00005C78; gSmallAirBubbleCount = .;
-. = 0x00005C80; gUnknown_03005C80 = .;
-. = 0x00005E80; gUnknown_03005E80 = .;
 
-. = 0x00006080; 
+. = 0x00005C80;
 src/game/water_effects.o(.data);
 
 . = 0x000060D0;

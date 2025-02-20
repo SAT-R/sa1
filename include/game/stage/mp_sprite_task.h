@@ -30,6 +30,6 @@ extern void TaskDestructor_MultiplayerSpriteTask(struct Task *);
 void CreateGrindEffect2(void);
 
 extern struct Task *CreateStageGoalBonusPointsAnim(s32, s32, u16);
-extern void Task_StageGoalBonusPoints(void);
+extern void Task_UpdateMpSpriteTaskSprite(void);
 
 #endif // GUARD_GAME_2_H

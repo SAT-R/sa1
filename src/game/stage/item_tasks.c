@@ -348,7 +348,7 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Invincibility.inc", 
         randB = ((u32)PseudoRandom32() >> 8) % 256u;
 
         t = CreateMultiplayerSpriteTask(screenX + I(COS_24_8(randB * 4) * randA), screenY + I(SIN_24_8(randB * 4) * randA), 0, 0,
-                                        Task_StageGoalBonusPoints, TaskDestructor_MultiplayerSpriteTask);
+                                        Task_UpdateMpSpriteTaskSprite, TaskDestructor_MultiplayerSpriteTask);
         mpSprite = TASK_DATA(t);
         sprInvin = &mpSprite->s;
         sprInvin->graphics.dest = ALLOC_TILES_VARIANT(SA1_ANIM_INVINCIBILITY, 1);

@@ -5759,7 +5759,7 @@ sub_804792C: @ 0x0804792C
 	adds r0, #0x3c
 	movs r3, #0
 	ldrsb r3, [r0, r3]
-	ldr r0, _0804797C @ =Task_StageGoalBonusPoints
+	ldr r0, _0804797C @ =Task_UpdateMpSpriteTaskSprite
 	str r0, [sp]
 	ldr r0, _08047980 @ =TaskDestructor_MultiplayerSpriteTask
 	str r0, [sp, #4]
@@ -5792,7 +5792,7 @@ sub_804792C: @ 0x0804792C
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0804797C: .4byte Task_StageGoalBonusPoints
+_0804797C: .4byte Task_UpdateMpSpriteTaskSprite
 _08047980: .4byte TaskDestructor_MultiplayerSpriteTask
 _08047984: .4byte 0x03000018
 _08047988: .4byte 0x03000038
@@ -6655,7 +6655,7 @@ sub_8048060: @ 0x08048060
 	adds r0, #0x3c
 	movs r3, #0
 	ldrsb r3, [r0, r3]
-	ldr r0, _080480B0 @ =Task_StageGoalBonusPoints
+	ldr r0, _080480B0 @ =Task_UpdateMpSpriteTaskSprite
 	str r0, [sp]
 	ldr r0, _080480B4 @ =TaskDestructor_MultiplayerSpriteTask
 	str r0, [sp, #4]
@@ -6688,7 +6688,7 @@ sub_8048060: @ 0x08048060
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080480B0: .4byte Task_StageGoalBonusPoints
+_080480B0: .4byte Task_UpdateMpSpriteTaskSprite
 _080480B4: .4byte TaskDestructor_MultiplayerSpriteTask
 _080480B8: .4byte 0x03000018
 _080480BC: .4byte 0x00000309
@@ -9030,7 +9030,7 @@ sub_8049284: @ 0x08049284
 	adds r0, #0x3c
 	movs r3, #0
 	ldrsb r3, [r0, r3]
-	ldr r0, _080492D4 @ =Task_StageGoalBonusPoints
+	ldr r0, _080492D4 @ =Task_UpdateMpSpriteTaskSprite
 	str r0, [sp]
 	ldr r0, _080492D8 @ =TaskDestructor_MultiplayerSpriteTask
 	str r0, [sp, #4]
@@ -9063,7 +9063,7 @@ sub_8049284: @ 0x08049284
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080492D4: .4byte Task_StageGoalBonusPoints
+_080492D4: .4byte Task_UpdateMpSpriteTaskSprite
 _080492D8: .4byte TaskDestructor_MultiplayerSpriteTask
 _080492DC: .4byte 0x03000018
 _080492E0: .4byte 0x03000038

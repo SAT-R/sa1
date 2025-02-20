@@ -3938,7 +3938,7 @@ _08055622:
 	lsrs r0, r0, #0x18
 	cmp r0, #1
 	bhi _08055672
-	bl sub_804C598
+	bl LoadPalette423Anim
 	bl sub_804C40C
 _08055672:
 	ldr r0, [r4, #0x20]
