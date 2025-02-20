@@ -136,7 +136,7 @@ typedef struct Player {
     /* 0x24 */ u8 filler24[0x2];
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
-    /* 0x28 */ void *stoodObj; // TODO: Change name!
+    /* 0x28 */ Sprite *stoodObj; // TODO: Change name!
     /* 0x2C */ s32 maxSpeed; // TODO: Rename qMaxSpeed,SA2 has 'maxSpeed' and 'topSpeed', which is this?
     /* 0x30 */ s32 acceleration; // TODO: Rename qAcceletation
     /* 0x34 */ s32 deceleration; // TODO: Rename qDeceletation

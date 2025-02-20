@@ -3393,3 +3393,43 @@ void SA2_LABEL(sub_8023878)(Player *p)
         p->SA2_LABEL(unk88)--;
     }
 }
+
+void sub_8044D74(Player *p)
+{
+    Sprite *sprBelow = p->stoodObj;
+    CamCoord sprWorldX = gCamera.x + sprBelow->x;
+
+    s32 sprWorldSubOffsetLeft = Q(sprWorldX + sprBelow->hitboxes[0].b.left - p->spriteOffsetX + 1);
+    s32 sprWorldSub2;
+
+    if ((p->qWorldX < sprWorldSubOffsetLeft) && (sprBelow->hitboxes[0].b.left != 0)) {
+        if ((p->moveState & MOVESTATE_FACING_LEFT)) {
+            p->charState = CHARSTATE_12;
+        } else {
+            p->charState = CHARSTATE_13;
+        }
+
+        return;
+    } else {
+        s32 sprWorldSubOffsetRight = Q(sprWorldX + sprBelow->hitboxes[0].b.right + p->spriteOffsetX - 2);
+
+        if ((p->qWorldX > sprWorldSubOffsetRight) && (sprBelow->hitboxes[0].b.right != 0)) {
+            if ((p->moveState & MOVESTATE_FACING_LEFT)) {
+                p->charState = CHARSTATE_13;
+            } else {
+                p->charState = CHARSTATE_12;
+            }
+
+            return;
+        }
+    }
+
+    sprWorldSub2 = Q(sprWorldX + sprBelow->hitboxes[0].b.left - p->spriteOffsetX + 2);
+
+    if ((p->qWorldX < sprWorldSub2) || (p->qWorldX > Q(sprWorldX + sprBelow->hitboxes[0].b.right + p->spriteOffsetX - 3))) {
+        if (p->prevCharState == 12 || p->prevCharState == 13) {
+            // TODO: Are these names accurate, if charState gets get to prevCharState?
+            p->charState = p->prevCharState;
+        }
+    }
+}
