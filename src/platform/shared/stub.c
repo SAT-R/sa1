@@ -27,8 +27,6 @@ void StageBgUpdate_Zone6Act2() { }
 
 void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p);
 void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { SetStageSpawnPos(character, level, playerID, p); }
-void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask) { }
-void CreateWaterfallSurfaceHitEffect(s32 x, s32 y) { }
 
 void CreatePauseMenu(void) { }
 

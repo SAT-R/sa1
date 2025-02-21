@@ -3,6 +3,12 @@
 
 #include "core.h"
 
+#if (GAME == GAME_SA1)
+#define HAS_RUN_ON_WATER FALSE
+#elif (GAME >= GAME_SA2)
+#define HAS_RUN_ON_WATER TRUE
+#endif
+
 typedef struct {
 #if (GAME == GAME_SA2)
     u16 pal[32][16];
@@ -34,8 +40,14 @@ typedef struct {
 
 extern Water gWater;
 
+#if (GAME == GAME_SA2)
 void InitWaterPalettes(void);
+#endif
+
+#if (HAS_RUN_ON_WATER)
 void CreateRunOnWaterEffect(void);
+#endif // HAS_RUN_ON_WATER
+
 struct Task *CreateWaterfallSurfaceHitEffect(s32 x, s32 y);
 
 #endif // GUARD_WATER_EFFECT_H

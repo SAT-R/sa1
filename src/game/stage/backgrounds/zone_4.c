@@ -39,13 +39,13 @@ void StageBgUpdate_Zone4Acts12(s32 x, s32 y)
     cam->sa2__unk54 = ySub;
     gBgScrollRegs[3][1] = ySub;
 
-    if (!gWater.isActive) {
+    if (gWater.SA2_LABEL(unk1) == 0) {
         gDispCnt &= ~DISPCNT_BG0_ON;
     } else {
         gDispCnt |= DISPCNT_BG0_ON;
     }
 
-    if (!gWater.isActive) {
+    if (gWater.SA2_LABEL(unk1) == 0) {
         REG_DISPCNT &= ~DISPCNT_BG0_ON;
     }
 }

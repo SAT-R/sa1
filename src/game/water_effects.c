@@ -59,18 +59,14 @@ Water gWater = { 0 };
         temp2 >>= 1;                                                                                                                       \
     })
 
-#if (GAME == GAME_SA1)
-#define HAS_RUN_ON_WATER FALSE
-#elif (GAME >= GAME_SA2)
-#define HAS_RUN_ON_WATER TRUE
-#endif
-
 #if (GAME == GAME_SA2)
 static const u16 gUnknown_080D550C[NUM_CHARACTERS] = {
     SA2_ANIM_UNDERWATER_1UP_SONIC,    SA2_ANIM_UNDERWATER_1UP_CREAM, SA2_ANIM_UNDERWATER_1UP_TAILS,
     SA2_ANIM_UNDERWATER_1UP_KNUCKLES, SA2_ANIM_UNDERWATER_1UP_AMY,
 };
+#endif
 
+#if 0
 static void inline CopyPalette(u32 *dst, u32 *src, s32 length)
 {
     u32 r2 = length >> 4;
@@ -86,6 +82,7 @@ static void inline CopyPalette(u32 *dst, u32 *src, s32 length)
         *dst++ = *src++;
     }
 }
+#endif
 
 static inline void MaskPaletteWithUnderwaterColor_inline(u32 *dst, u32 *src, u32 mask, s32 size)
 {
@@ -102,6 +99,16 @@ static inline void MaskPaletteWithUnderwaterColor_inline(u32 *dst, u32 *src, u32
     }
 }
 
+// (98.80%) https://decomp.me/scratch/S80eH
+NONMATCH("asm/non_matching/game/water_effects__sub_804C40C.inc", void sub_804C40C(void))
+{
+    MaskPaletteWithUnderwaterColor_inline((u32 *)&sPaletteBuffer[0], (u32 *)&gObjPalette[0], gWater.mask, 256);
+
+    MaskPaletteWithUnderwaterColor_inline((u32 *)&sPaletteBuffer[16 * 16], (u32 *)&gBgPalette[0], gWater.mask, 256);
+}
+END_NONMATCH
+
+#if (GAME == GAME_SA2)
 void InitWaterPalettes(void)
 {
     u16 animId, character;
@@ -470,7 +477,7 @@ void SA2_LABEL(VCountIntr_8011ACC)(void)
 
 #if (GAME == GAME_SA1)
         {
-            DmaSet(0, SA2_LABEL(gUnknown_030022AC), &REG_BG3HOFS, //
+            DmaSet(0, SA2_LABEL(gUnknown_030022AC), (void *)&REG_BG3HOFS, //
                    ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | (SA2_LABEL(gUnknown_03002A80) >> 1));
         }
 #endif
