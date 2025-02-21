@@ -8,520 +8,9 @@
 @ --- Start of src/game/game_over.c ---
 
 .if 0
-@ NOTE: Not sure whether this is part of game__stage__ui.s or game__game_over.s
-@       It is only called in game_over, so it should be here?
-@       But it also references gUiGraphics.
-	thumb_func_start sub_8055C50
-sub_8055C50: @ 0x08055C50
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x30
-	mov sl, r0          @ sl = param0
-	bl sub_8053674
-	add r4, sp, #0x2c   @ r4 = sp2C
-	movs r0, #0x20
-	mov r8, r0
-	mov r1, r8
-	strb r1, [r4]       @ sp2C = 32;
-	mov r5, sp
-	adds r5, #0x2b
-	movs r0, #4
-	strb r0, [r5]
-	ldr r7, _08055DBC @ =gUiGraphics
-	movs r2, #0xe0
-	lsls r2, r2, #2
-	adds r0, r7, r2
-	ldr r0, [r0]
-	str r0, [sp, #0x14]
-	movs r1, #0xe1
-	lsls r1, r1, #2
-	adds r0, r7, r1
-	ldr r0, [r0]
-	str r0, [sp, #0x20]
-	movs r2, #0xa0
-	lsls r2, r2, #3
-	str r2, [sp, #0x18]
-	mov r0, r8
-	str r0, [sp, #0x24]
-	add r1, sp, #0x28
-	mov sb, r1
-	movs r2, #6
-	strb r2, [r1]
-	mov r1, sl
-	ldr r0, [r1, #4]
-	str r0, [sp, #0xc]
-	mov r6, sp
-	adds r6, #0x2a
-	movs r2, #0xd
-	strb r2, [r6]
-	movs r1, #0xe2
-	lsls r1, r1, #2
-	adds r0, r7, r1
-	ldr r0, [r0]
-	str r0, [sp, #4]
-	mov r1, sp
-	movs r2, #0xe3
-	lsls r2, r2, #2
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #8]
-	adds r2, #4
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #9]
-	adds r2, #4
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #0xa]
-	adds r2, #4
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #0xb]
-	mov r0, sp
-	bl sub_80528AC
-	movs r0, #0x21
-	strb r0, [r4]
-	movs r0, #5
-	strb r0, [r5]
-	movs r1, #0xe7
-	lsls r1, r1, #2
-	adds r0, r7, r1
-	ldr r0, [r0]
-	str r0, [sp, #0x14]
-	movs r2, #0xe8
-	lsls r2, r2, #2
-	adds r0, r7, r2
-	ldr r0, [r0]
-	str r0, [sp, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #2
-	str r0, [sp, #0x18]
-	mov r1, r8
-	str r1, [sp, #0x24]
-	movs r0, #6
-	mov r2, sb
-	strb r0, [r2]
-	mov r1, sl
-	ldr r0, [r1]
-	str r0, [sp, #0xc]
-	movs r2, #0xd
-	strb r2, [r6]
-	movs r1, #0xe9
-	lsls r1, r1, #2
-	adds r0, r7, r1
-	ldr r0, [r0]
-	str r0, [sp, #4]
-	mov r1, sp
-	movs r2, #0xea
-	lsls r2, r2, #2
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #8]
-	adds r2, #4
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #9]
-	adds r2, #4
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #0xa]
-	adds r2, #4
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #0xb]
-	mov r0, sp
-	bl sub_80528AC
-	movs r0, #0x2d
-	strb r0, [r4]
-	movs r0, #0xe
-	strb r0, [r5]
-	ldr r1, _08055DC0 @ =0x000004EC
-	adds r0, r7, r1
-	ldr r0, [r0]
-	str r0, [sp, #0x14]
-	movs r2, #0x9e
-	lsls r2, r2, #3
-	adds r0, r7, r2
-	ldr r0, [r0]
-	str r0, [sp, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #2
-	str r0, [sp, #0x18]
-	mov r1, r8
-	str r1, [sp, #0x24]
-	movs r0, #6
-	mov r2, sb
-	strb r0, [r2]
-	mov r1, sl
-	ldr r0, [r1, #8]
-	str r0, [sp, #0xc]
-	movs r2, #0xd
-	strb r2, [r6]
-	ldr r1, _08055DC4 @ =0x000004F4
-	adds r0, r7, r1
-	ldr r0, [r0]
-	str r0, [sp, #4]
-	mov r1, sp
-	movs r2, #0x9f
-	lsls r2, r2, #3
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #8]
-	adds r2, #4
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #9]
-	ldr r2, _08055DC8 @ =gUiGraphics + ((45 * 0x1C) + 0x14)
-	ldr r0, [r2]
-	strb r0, [r1, #0xa]
-	ldr r2, _08055DCC @ =0x00000504
-	adds r0, r7, r2
-	ldr r0, [r0]
-	strb r0, [r1, #0xb]
-	mov r0, sp
-	bl sub_80528AC
-	add sp, #0x30
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08055DBC: .4byte gUiGraphics
-_08055DC0: .4byte 0x000004EC
-_08055DC4: .4byte 0x000004F4
-_08055DC8: .4byte gUiGraphics + ((45 * 0x1C) + 0x14)
-_08055DCC: .4byte 0x00000504
 .endif
 
-	thumb_func_start CreateGameOverScreen
-CreateGameOverScreen: @ 0x08055DD0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x10
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-	movs r7, #0
-	ldr r0, _08055E8C @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0xa
-	bne _08055DFC
-	ldr r2, _08055E90 @ =gCamera
-	ldrh r1, [r2, #0x26]
-	movs r3, #0x80
-	lsls r3, r3, #6
-	adds r0, r3, #0
-	orrs r0, r1
-	strh r0, [r2, #0x26]
-_08055DFC:
-	ldr r0, _08055E94 @ =gBldRegs
-	movs r1, #0
-	mov r8, r1
-	strh r7, [r0]
-	strh r7, [r0, #4]
-	ldr r0, _08055E98 @ =gWinRegs
-	strh r7, [r0]
-	strh r7, [r0, #4]
-	strh r7, [r0, #2]
-	strh r7, [r0, #6]
-	ldr r0, _08055E9C @ =Task_GameOverScreenInit
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _08055EA0 @ =TaskDestructor_GameOverScreen
-	str r1, [sp]
-	movs r1, #0x84
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r0, r5
-	mov sl, r0
-	str r7, [r0, #0x78]
-	str r6, [r0, #0x7c]
-	ldr r3, _08055EA4 @ =0x03000080
-	adds r0, r5, r3
-	mov r1, r8
-	strb r1, [r0]
-	movs r0, #0x40
-	bl VramMalloc
-	mov r3, sl
-	str r0, [r3, #4]
-	strh r7, [r3, #8]
-	movs r0, #0x80
-	str r0, [r3, #0x10]
-	adds r0, #0x80
-	strh r0, [r3, #0x16]
-	strh r7, [r3, #0x18]
-	movs r4, #3
-	strh r4, [r3, #0x1a]
-	strh r7, [r3, #0x1c]
-	ldr r0, _08055EA8 @ =0x03000021
-	adds r1, r5, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r3, _08055EAC @ =0x03000022
-	adds r1, r5, r3
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _08055EB0 @ =0x03000025
-	adds r0, r5, r1
-	mov r3, r8
-	strb r3, [r0]
-	movs r0, #0x25      @ MUS_GAME_OVER
-	bl m4aSongNumStart
-	adds r0, r6, #0
-	ands r0, r4
-	cmp r0, #0
-	beq _08055EBC
-	ldr r0, _08055EB4 @ =0x000002CB
-	mov r1, sl
-	strh r0, [r1, #0xa]
-	ldr r3, _08055EB8 @ =0x03000020
-	adds r0, r5, r3
-	mov r1, r8
-	strb r1, [r0]
-	b _08055ED2
-	.align 2, 0
-_08055E8C: .4byte gCurrentLevel
-_08055E90: .4byte gCamera
-_08055E94: .4byte gBldRegs
-_08055E98: .4byte gWinRegs
-_08055E9C: .4byte Task_GameOverScreenInit
-_08055EA0: .4byte TaskDestructor_GameOverScreen
-_08055EA4: .4byte 0x03000080
-_08055EA8: .4byte 0x03000021
-_08055EAC: .4byte 0x03000022
-_08055EB0: .4byte 0x03000025
-_08055EB4: .4byte 0x000002CB
-_08055EB8: .4byte 0x03000020
-_08055EBC:
-	movs r0, #4
-	ands r0, r6
-	cmp r0, #0
-	beq _08055ED2
-	ldr r0, _08055F1C @ =0x000002CB
-	mov r3, sl
-	strh r0, [r3, #0xa]
-	ldr r0, _08055F20 @ =0x03000020
-	adds r1, r5, r0
-	movs r0, #2
-	strb r0, [r1]
-_08055ED2:
-	mov r4, sl
-	adds r4, #0x3c
-	movs r0, #0x40
-	bl VramMalloc
-	str r0, [r4, #4]
-	movs r3, #0
-	movs r1, #0
-	strh r1, [r4, #8]
-	movs r0, #0x80
-	str r0, [r4, #0x10]
-	movs r0, #0x14
-	strh r0, [r4, #0x16]
-	movs r0, #0x78
-	strh r0, [r4, #0x18]
-	movs r2, #3
-	strh r2, [r4, #0x1a]
-	strh r1, [r4, #0x1c]
-	mov r1, sl
-	adds r1, #0x5d
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	mov r0, sl
-	adds r0, #0x61
-	strb r3, [r0]
-	adds r0, r6, #0
-	ands r0, r2
-	cmp r0, #0
-	beq _08055F24
-	ldr r0, _08055F1C @ =0x000002CB
-	strh r0, [r4, #0xa]
-	subs r1, #2
-	movs r0, #1
-	b _08055F36
-	.align 2, 0
-_08055F1C: .4byte 0x000002CB
-_08055F20: .4byte 0x03000020
-_08055F24:
-	movs r0, #4
-	ands r0, r6
-	cmp r0, #0
-	beq _08055F38
-	ldr r0, _08055FF4 @ =0x000002CB
-	strh r0, [r4, #0xa]
-	mov r1, sl
-	adds r1, #0x5c
-	movs r0, #3
-_08055F36:
-	strb r0, [r1]
-_08055F38:
-	movs r4, #5
-	ands r4, r6
-	cmp r4, #0
-	beq _08056008
-	ldr r0, _08055FF8 @ =Task_8056F54
-	movs r1, #0x80
-	lsls r1, r1, #6
-	mov sb, r1
-	movs r6, #0
-	str r6, [sp]
-	movs r1, #0x20
-	mov r2, sb
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r3, #0xc0
-	lsls r3, r3, #0x12
-	mov r8, r3
-	add r5, r8
-	str r6, [r5, #0x18]
-	movs r0, #0xff
-	lsls r0, r0, #8
-	strh r0, [r5, #0xa]
-	movs r0, #0x5a
-	strh r0, [r5, #0xc]
-	movs r0, #8
-	strh r0, [r5, #0xe]
-	movs r0, #0xe
-	strh r0, [r5, #0x10]
-	movs r0, #6
-	strh r0, [r5, #0x12]
-	movs r4, #1
-	strb r4, [r5, #0x16]
-	movs r0, #0xa
-	strh r0, [r5, #8]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [r5, #0x1c]
-	ldr r0, _08055FFC @ =sub_8056CE0
-	ldr r1, _08056000 @ =TaskDestructor_8056F30
-	str r1, [sp]
-	movs r1, #0x1c
-	mov r2, sb
-	movs r3, #0
-	bl TaskCreate
-	adds r7, r0, #0
-	ldrh r0, [r7, #6]
-	mov r1, r8
-	adds r7, r0, r1
-	str r6, [r7, #0x18]
-	strh r6, [r7]
-	movs r1, #1
-	strh r4, [r7, #2]
-	strh r4, [r7, #4]
-	strh r6, [r7, #6]
-	movs r0, #0x40
-	strh r0, [r7, #8]
-	strb r1, [r7, #0xa]
-	ldr r0, _08056004 @ =Task_8056FA0
-	str r6, [sp]
-	movs r1, #0x34
-	mov r2, sb
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	add r4, r8
-	str r6, [r4, #0x24]
-	movs r0, #9
-	strh r0, [r4, #0x28]
-	movs r0, #0x28
-	bl VramMalloc
-	str r0, [r4, #0x2c]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [r4, #0x30]
-	str r5, [r4, #0x1c]
-	mov r3, sl
-	str r3, [r4, #0x18]
-	str r7, [r4, #0x20]
-	ldr r1, [r5, #0x1c]
-	str r1, [sp, #0xc]
-	ldr r0, [r4, #0x30]
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x2c]
-	str r0, [sp, #8]
-	str r1, [r7, #0x14]
-	b _0805605C
-	.align 2, 0
-_08055FF4: .4byte 0x000002CB
-_08055FF8: .4byte Task_8056F54
-_08055FFC: .4byte sub_8056CE0
-_08056000: .4byte TaskDestructor_8056F30
-_08056004: .4byte Task_8056FA0
-_08056008:
-	movs r0, #2
-	ands r0, r6
-	cmp r0, #0
-	beq _08056064
-	ldr r0, _0805607C @ =sub_8056E24
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _08056080 @ =TaskDestructor_8056F30
-	str r1, [sp]
-	movs r1, #0x1c
-	movs r3, #0
-	bl TaskCreate
-	adds r7, r0, #0
-	ldrh r1, [r7, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	str r4, [r7, #0x18]
-	strh r4, [r7]
-	movs r1, #1
-	movs r0, #1
-	strh r0, [r7, #2]
-	strh r0, [r7, #4]
-	strh r4, [r7, #6]
-	movs r0, #0x60
-	strh r0, [r7, #8]
-	strb r1, [r7, #0xa]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [sp, #0xc]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [sp, #4]
-	movs r0, #0x28
-	bl VramMalloc
-	str r0, [sp, #8]
-	ldr r0, [sp, #0xc]
-	str r0, [r7, #0x14]
-_0805605C:
-	ldr r0, [sp, #4]
-	str r0, [r7, #0xc]
-	ldr r0, [sp, #8]
-	str r0, [r7, #0x10]
-_08056064:
-	add r0, sp, #4
-	bl sub_8055C50
-	add sp, #0x10
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805607C: .4byte sub_8056E24
-_08056080: .4byte TaskDestructor_8056F30
-
+@ t -> GameOverScreen *
 	thumb_func_start Task_GameOverScreenInit
 Task_GameOverScreenInit: @ 0x08056084
 	push {r4, r5, r6, r7, lr}
@@ -557,7 +46,7 @@ Task_GameOverScreenInit: @ 0x08056084
 	mov r0, ip
 	str r0, [r4, #0x10]
 	str r0, [r4, #0x4c]
-	ldr r0, _080560F8 @ =sub_8056100
+	ldr r0, _080560F8 @ =Task_8056100
 	str r0, [r6, #8]
 _080560CA:
 	adds r0, r4, #0
@@ -577,11 +66,12 @@ _080560CA:
 _080560EC: .4byte gCurTask
 _080560F0: .4byte 0x03000052
 _080560F4: .4byte 0x03000054
-_080560F8: .4byte sub_8056100
+_080560F8: .4byte Task_8056100
 _080560FC: .4byte 0x0300003C
 
-	thumb_func_start sub_8056100
-sub_8056100: @ 0x08056100
+@ t -> GameOverScreen *
+	thumb_func_start Task_8056100
+Task_8056100: @ 0x08056100
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08056174 @ =gCurTask
 	ldr r7, [r0]
@@ -620,7 +110,7 @@ sub_8056100: @ 0x08056100
 	adds r4, r0, #0
 	cmp r4, #0x59
 	ble _08056152
-	ldr r0, _08056184 @ =sub_805618C
+	ldr r0, _08056184 @ =Task_805618C
 	str r0, [r7, #8]
 _08056152:
 	adds r0, r5, #0
@@ -641,11 +131,12 @@ _08056174: .4byte gCurTask
 _08056178: .4byte 0xFFC40000
 _0805617C: .4byte 0x03000052
 _08056180: .4byte 0x03000054
-_08056184: .4byte sub_805618C
+_08056184: .4byte Task_805618C
 _08056188: .4byte 0x0300003C
 
-	thumb_func_start sub_805618C
-sub_805618C: @ 0x0805618C
+@ t -> GameOverScreen *
+	thumb_func_start Task_805618C
+Task_805618C: @ 0x0805618C
 	push {r4, r5, lr}
 	ldr r0, _080561D4 @ =gCurTask
 	ldr r3, [r0]
@@ -679,23 +170,23 @@ sub_805618C: @ 0x0805618C
 	ands r0, r1
 	cmp r0, #0
 	beq _080561E0
-	ldr r0, _080561DC @ =sub_8056348
+	ldr r0, _080561DC @ =Task_8056348
 	b _080561F2
 	.align 2, 0
 _080561D4: .4byte gCurTask
 _080561D8: .4byte 0x0300003C
-_080561DC: .4byte sub_8056348
+_080561DC: .4byte Task_8056348
 _080561E0:
 	movs r0, #2
 	ands r1, r0
 	cmp r1, #0
 	beq _080561F0
-	ldr r0, _080561EC @ =sub_8056218
+	ldr r0, _080561EC @ =Task_8056218
 	b _080561F2
 	.align 2, 0
-_080561EC: .4byte sub_8056218
+_080561EC: .4byte Task_8056218
 _080561F0:
-	ldr r0, _08056214 @ =sub_80565C4
+	ldr r0, _08056214 @ =Task_80565C4
 _080561F2:
 	str r0, [r3, #8]
 _080561F4:
@@ -711,10 +202,11 @@ _080561F4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08056214: .4byte sub_80565C4
+_08056214: .4byte Task_80565C4
 
-	thumb_func_start sub_8056218
-sub_8056218: @ 0x08056218
+@ t -> GameOverScreen *
+	thumb_func_start Task_8056218
+Task_8056218: @ 0x08056218
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -834,7 +326,7 @@ _080562F2:
 	ble _08056338
 	ldr r0, _0805630C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0805631C @ =sub_8056AC8
+	ldr r0, _0805631C @ =Task_8056AC8
 	str r0, [r1, #8]
 	b _08056338
 	.align 2, 0
@@ -842,7 +334,7 @@ _0805630C: .4byte gCurTask
 _08056310: .4byte 0x0300003C
 _08056314: .4byte sa2__gUnknown_030054B8
 _08056318: .4byte gSineTable
-_0805631C: .4byte sub_8056AC8
+_0805631C: .4byte Task_8056AC8
 _08056320:
 	adds r0, r6, #0
 	bl UpdateSpriteAnimation
@@ -861,9 +353,10 @@ _08056338:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-
-	thumb_func_start sub_8056348
-sub_8056348: @ 0x08056348
+    
+@ t -> GameOverScreen *
+	thumb_func_start Task_8056348
+Task_8056348: @ 0x08056348
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -994,7 +487,7 @@ _080563F6:
 	strb r0, [r1]
 	ldr r0, _08056468 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08056488 @ =sub_805648C
+	ldr r0, _08056488 @ =Task_805648C
 	str r0, [r1, #8]
 _08056458:
 	add sp, #0x10
@@ -1014,10 +507,11 @@ _08056478: .4byte gSineTable
 _0805647C: .4byte 0x000002CB
 _08056480: .4byte 0x03000020
 _08056484: .4byte 0x0300005C
-_08056488: .4byte sub_805648C
+_08056488: .4byte Task_805648C
 
-	thumb_func_start sub_805648C
-sub_805648C: @ 0x0805648C
+@ t -> GameOverScreen *
+	thumb_func_start Task_805648C
+Task_805648C: @ 0x0805648C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1148,7 +642,7 @@ _08056552:
 	ble _0805659C
 	ldr r4, _080565AC @ =gCurTask
 	ldr r1, [r4]
-	ldr r0, _080565C0 @ =sub_80565C4
+	ldr r0, _080565C0 @ =Task_80565C4
 	str r0, [r1, #8]
 _0805659C:
 	add sp, #0x14
@@ -1165,10 +659,11 @@ _080565B0: .4byte 0x0300003C
 _080565B4: .4byte 0xFF780000
 _080565B8: .4byte sa2__gUnknown_030054B8
 _080565BC: .4byte gSineTable
-_080565C0: .4byte sub_80565C4
+_080565C0: .4byte Task_80565C4
 
-	thumb_func_start sub_80565C4
-sub_80565C4: @ 0x080565C4
+@ t -> GameOverScreen *
+	thumb_func_start Task_80565C4
+Task_80565C4: @ 0x080565C4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1301,7 +796,7 @@ _080566AE:
 	bl m4aSoundVSyncOff
 	ldr r0, _080566D4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080566E8 @ =sub_8056AC8
+	ldr r0, _080566E8 @ =Task_8056AC8
 	str r0, [r1, #8]
 	b _08056704
 	.align 2, 0
@@ -1310,7 +805,7 @@ _080566D8: .4byte 0x0300003C
 _080566DC: .4byte sa2__gUnknown_030054B8
 _080566E0: .4byte 0xFFFFFA48
 _080566E4: .4byte gSineTable
-_080566E8: .4byte sub_8056AC8
+_080566E8: .4byte Task_8056AC8
 _080566EC:
 	adds r0, r5, #0
 	bl UpdateSpriteAnimation
@@ -1329,9 +824,10 @@ _08056704:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
-
-	thumb_func_start sub_8056714
-sub_8056714: @ 0x08056714
+    
+@ t -> GameOverB
+	thumb_func_start Task_8056714
+Task_8056714: @ 0x08056714
 	push {r4, r5, r6, r7, lr}
 	ldr r7, _08056760 @ =gCurTask
 	ldr r0, [r7]
@@ -1792,8 +1288,9 @@ _08056ABC: .4byte gCurTask
 _08056AC0: .4byte Task_8056FD0
 _08056AC4: .4byte 0x00000566
 
-	thumb_func_start sub_8056AC8
-sub_8056AC8: @ 0x08056AC8
+@ t -> GameOverScreen *
+	thumb_func_start Task_8056AC8
+Task_8056AC8: @ 0x08056AC8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2031,8 +1528,9 @@ TaskDestructor_GameOverScreen: @ 0x08056CB4
 	.align 2, 0
 _08056CDC: .4byte gBldRegs
 
-	thumb_func_start sub_8056CE0
-sub_8056CE0: @ 0x08056CE0
+@ t -> GameOverC
+	thumb_func_start Task_8056CE0
+Task_8056CE0: @ 0x08056CE0
 	push {r4, r5, lr}
 	ldr r0, _08056D20 @ =gCurTask
 	ldr r4, [r0]
@@ -2060,7 +1558,7 @@ sub_8056CE0: @ 0x08056CE0
 	orrs r0, r1
 	ands r0, r2
 	strh r0, [r3]
-	ldr r0, _08056D2C @ =sub_8056D30
+	ldr r0, _08056D2C @ =Task_8056D30
 	str r0, [r4, #8]
 _08056D1A:
 	pop {r4, r5}
@@ -2070,10 +1568,11 @@ _08056D1A:
 _08056D20: .4byte gCurTask
 _08056D24: .4byte gDispCnt
 _08056D28: .4byte 0x00001FFF
-_08056D2C: .4byte sub_8056D30
+_08056D2C: .4byte Task_8056D30
 
-	thumb_func_start sub_8056D30
-sub_8056D30: @ 0x08056D30
+@ t -> GameOverC
+	thumb_func_start Task_8056D30
+Task_8056D30: @ 0x08056D30
 	push {r4, r5, r6, lr}
 	ldr r6, _08056D74 @ =gCurTask
 	ldr r0, [r6]
@@ -2101,7 +1600,7 @@ sub_8056D30: @ 0x08056D30
 	cmp r4, #0x87
 	ble _08056D6C
 	ldr r1, [r6]
-	ldr r0, _08056D7C @ =sub_8056D80
+	ldr r0, _08056D7C @ =Task_8056D80
 	str r0, [r1, #8]
 _08056D6C:
 	pop {r4, r5, r6}
@@ -2110,10 +1609,11 @@ _08056D6C:
 	.align 2, 0
 _08056D74: .4byte gCurTask
 _08056D78: .4byte gDispCnt
-_08056D7C: .4byte sub_8056D80
+_08056D7C: .4byte Task_8056D80
 
-	thumb_func_start sub_8056D80
-sub_8056D80: @ 0x08056D80
+@ t -> GameOverC
+	thumb_func_start Task_8056D80
+Task_8056D80: @ 0x08056D80
 	push {r4, r5, r6, lr}
 	ldr r6, _08056DC4 @ =gCurTask
 	ldr r0, [r6]
@@ -2141,7 +1641,7 @@ sub_8056D80: @ 0x08056D80
 	cmp r4, #0x97
 	ble _08056DBC
 	ldr r1, [r6]
-	ldr r0, _08056DCC @ =sub_8056DD0
+	ldr r0, _08056DCC @ =Task_8056DD0
 	str r0, [r1, #8]
 _08056DBC:
 	pop {r4, r5, r6}
@@ -2150,10 +1650,11 @@ _08056DBC:
 	.align 2, 0
 _08056DC4: .4byte gCurTask
 _08056DC8: .4byte gDispCnt
-_08056DCC: .4byte sub_8056DD0
+_08056DCC: .4byte Task_8056DD0
 
-	thumb_func_start sub_8056DD0
-sub_8056DD0: @ 0x08056DD0
+@ t -> GameOverC
+	thumb_func_start Task_8056DD0
+Task_8056DD0: @ 0x08056DD0
 	push {r4, r5, lr}
 	ldr r5, _08056E14 @ =gCurTask
 	ldr r0, [r5]
@@ -2181,7 +1682,7 @@ sub_8056DD0: @ 0x08056DD0
 	cmp r4, r0
 	ble _08056E0C
 	ldr r1, [r5]
-	ldr r0, _08056E20 @ =sub_8056EC4
+	ldr r0, _08056E20 @ =Task_8056EC4
 	str r0, [r1, #8]
 _08056E0C:
 	pop {r4, r5}
@@ -2191,10 +1692,11 @@ _08056E0C:
 _08056E14: .4byte gCurTask
 _08056E18: .4byte gDispCnt
 _08056E1C: .4byte 0x05650000
-_08056E20: .4byte sub_8056EC4
+_08056E20: .4byte Task_8056EC4
 
-	thumb_func_start sub_8056E24
-sub_8056E24: @ 0x08056E24
+@ t -> GameOverC *
+	thumb_func_start Task_8056E24
+Task_8056E24: @ 0x08056E24
 	ldr r0, _08056E54 @ =gCurTask
 	ldr r3, [r0]
 	ldrh r2, [r3, #6]
@@ -2215,7 +1717,7 @@ sub_8056E24: @ 0x08056E24
 	ldr r0, _08056E5C @ =0x00001FFF
 	ands r0, r1
 	strh r0, [r2]
-	ldr r0, _08056E60 @ =sub_8056E64
+	ldr r0, _08056E60 @ =Task_8056E64
 	str r0, [r3, #8]
 _08056E50:
 	bx lr
@@ -2223,10 +1725,11 @@ _08056E50:
 _08056E54: .4byte gCurTask
 _08056E58: .4byte gDispCnt
 _08056E5C: .4byte 0x00001FFF
-_08056E60: .4byte sub_8056E64
+_08056E60: .4byte Task_8056E64
 
-	thumb_func_start sub_8056E64
-sub_8056E64: @ 0x08056E64
+@ t -> GameOverC *
+	thumb_func_start Task_8056E64
+Task_8056E64: @ 0x08056E64
 	push {r4, r5, r6, r7, lr}
 	ldr r7, _08056EB8 @ =gCurTask
 	ldr r0, [r7]
@@ -2261,7 +1764,7 @@ sub_8056E64: @ 0x08056E64
 	cmp r5, #0x5f
 	bls _08056EB0
 	ldr r1, [r7]
-	ldr r0, _08056EC0 @ =sub_8056F1C
+	ldr r0, _08056EC0 @ =Task_DestroyGameOverC
 	str r0, [r1, #8]
 _08056EB0:
 	pop {r4, r5, r6, r7}
@@ -2270,10 +1773,10 @@ _08056EB0:
 	.align 2, 0
 _08056EB8: .4byte gCurTask
 _08056EBC: .4byte gDispCnt
-_08056EC0: .4byte sub_8056F1C
+_08056EC0: .4byte Task_DestroyGameOverC
 
-	thumb_func_start sub_8056EC4
-sub_8056EC4: @ 0x08056EC4
+	thumb_func_start Task_8056EC4
+Task_8056EC4: @ 0x08056EC4
 	push {r4, r5, lr}
 	ldr r5, _08056F0C @ =gCurTask
 	ldr r0, [r5]
@@ -2303,7 +1806,7 @@ sub_8056EC4: @ 0x08056EC4
 	cmp r4, r0
 	ble _08056F04
 	ldr r1, [r5]
-	ldr r0, _08056F18 @ =sub_8056F1C
+	ldr r0, _08056F18 @ =Task_DestroyGameOverC
 	str r0, [r1, #8]
 _08056F04:
 	pop {r4, r5}
@@ -2313,10 +1816,11 @@ _08056F04:
 _08056F0C: .4byte gCurTask
 _08056F10: .4byte gDispCnt
 _08056F14: .4byte 0x000005C5
-_08056F18: .4byte sub_8056F1C
+_08056F18: .4byte Task_DestroyGameOverC
 
-	thumb_func_start sub_8056F1C
-sub_8056F1C: @ 0x08056F1C
+@ t -> GameOverC *
+	thumb_func_start Task_DestroyGameOverC
+Task_DestroyGameOverC: @ 0x08056F1C
 	push {lr}
 	ldr r0, _08056F2C @ =gCurTask
 	ldr r0, [r0]
@@ -2344,6 +1848,7 @@ TaskDestructor_8056F30: @ 0x08056F30
 	bx r0
 	.align 2, 0
 
+@ t -> GameOverB
 	thumb_func_start Task_8056F54
 Task_8056F54: @ 0x08056F54
 	ldr r0, _08056F78 @ =gCurTask
@@ -2361,14 +1866,15 @@ Task_8056F54: @ 0x08056F54
 	adds r0, r1, #0
 	cmp r0, #0xa1
 	ble _08056F76
-	ldr r0, _08056F7C @ =sub_8056714
+	ldr r0, _08056F7C @ =Task_8056714
 	str r0, [r3, #8]
 _08056F76:
 	bx lr
 	.align 2, 0
 _08056F78: .4byte gCurTask
-_08056F7C: .4byte sub_8056714
+_08056F7C: .4byte Task_8056714
 
+@ t -> GameOverB
 	thumb_func_start Task_8056F80
 Task_8056F80: @ 0x08056F80
 	push {lr}

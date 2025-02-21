@@ -1079,6 +1079,9 @@ _080530B8:
 	.align 2, 0
 _080530C8: .4byte iwram_end
 
+@ Input:
+@ R0 = gUnknown_086883F8 (u8*)?
+@ R1 = GameOverB*
 	thumb_func_start sub_80530CC
 sub_80530CC: @ 0x080530CC
 	push {r4, r5, r6, r7, lr}
