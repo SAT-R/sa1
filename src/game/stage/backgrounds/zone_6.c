@@ -8,6 +8,14 @@
 
 #define BG_LINE_CEILING_START 0
 #define BG_LINE_CEILING_END   120
+#define BG_LINE_BELT_A_START  120
+#define BG_LINE_BELT_A_END    136
+#define BG_LINE_WALL_A_START  136
+#define BG_LINE_WALL_A_END    176
+#define BG_LINE_BELT_B_START  176
+#define BG_LINE_BELT_B_END    192
+#define BG_LINE_WALL_B_START  192
+#define BG_LINE_WALL_B_END    232
 
 void StageBgUpdate_Zone6Act2(s32 x, s32 y)
 {
@@ -45,10 +53,10 @@ void StageBgUpdate_Zone6Act2(s32 x, s32 y)
 
         r4 = ((ySub << 16) | ((xSub - (gStageTime >> 1)) & 0x1FF));
 
-        scanline = 120 - ySub;
+        scanline = BG_LINE_BELT_A_START - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 16); i++) {
+        for (i = 0; i < (BG_LINE_BELT_A_END - BG_LINE_BELT_A_START); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
@@ -64,10 +72,10 @@ void StageBgUpdate_Zone6Act2(s32 x, s32 y)
 
         r4 = ((ySub << 16) | (((gStageTime >> 1) + xSub) & 0x1FF));
 
-        scanline = 176 - ySub;
+        scanline = BG_LINE_BELT_B_START - ySub;
 
         ptr += scanline;
-        for (i = 0; (i < 16); i++) {
+        for (i = 0; i < (BG_LINE_BELT_B_END - BG_LINE_BELT_B_START); i++) {
             if ((scanline + i) >= 0) {
                 if ((scanline + i) >= DISPLAY_HEIGHT) {
                     break;
