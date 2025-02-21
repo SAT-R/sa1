@@ -18,7 +18,7 @@ typedef struct {
     /* 0x30 */ u8 filler30[0xC];
     /* 0x3C */ Sprite s2;
     /* 0x6C */ u8 filler6C[0xC];
-    /* 0x78 */ void *unk78;
+    /* 0x78 */ u32 frames;
     /* 0x7C */ u32 lostLifeCause;
     /* 0x80 */ u8 unk80;
 } GameOverScreen;
@@ -50,6 +50,12 @@ typedef struct GameOverD {
 } GameOverD; /* 0x34 */
 
 void Task_GameOverScreenInit(void);
+void Task_8056100(void);
+void Task_805618C(void);
+void Task_8056218(void);
+void Task_8056348(void);
+void Task_80565C4(void);
+
 void Task_8056CE0(void);
 void Task_8056E24(void);
 void Task_8056F54(void);
@@ -136,7 +142,7 @@ void CreateGameOverScreen(LostLifeCause lostLifeCause)
     t2 = TaskCreate(Task_GameOverScreenInit, sizeof(GameOverScreen), 0x2000, 0, TaskDestructor_GameOverScreen);
     screen = TASK_DATA(t2);
 
-    screen->unk78 = NULL;
+    screen->frames = 0;
     screen->lostLifeCause = lostLifeCause;
     screen->unk80 = 0;
 
@@ -246,3 +252,121 @@ void CreateGameOverScreen(LostLifeCause lostLifeCause)
 
     sub_8055C50(&strc);
 }
+
+void Task_GameOverScreenInit(void)
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    s16 frames = screen->frames;
+    Sprite *s;
+    Sprite *s2;
+
+    screen->s.x = DISPLAY_WIDTH + 64;
+    screen->s.y = 60;
+    screen->s2.x = DISPLAY_WIDTH + 64;
+    screen->s2.y = 60;
+
+    screen->frames = ++frames;
+
+    if (frames >= ZONE_TIME_TO_INT(0, 1)) {
+        screen->s.frameFlags = 0;
+        screen->s2.frameFlags = 0;
+        gCurTask->main = Task_8056100;
+    }
+
+    s = &screen->s;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &screen->s2;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8056100(void)
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    s16 frames = screen->frames;
+    s16 frames_2;
+    Sprite *s;
+    Sprite *s2;
+    s16 x;
+    s32 diff;
+
+    frames_2 = frames - 60;
+
+#ifndef NON_MATCHING
+    {
+        register s32 _184 asm("r1") = 184;
+        asm("mul %0, %1, %2" : "=r"(diff) : "r"(_184), "r"(frames_2));
+    }
+#else
+    diff = (184 * (frames_2));
+#endif
+
+    x = DISPLAY_WIDTH - (diff / 30);
+    screen->s.x = x + 64;
+    screen->s.y = 60;
+    screen->s2.x = x + 64;
+    screen->s2.y = 60;
+
+    screen->frames = ++frames;
+
+    if (frames >= ZONE_TIME_TO_INT(0, 1.5)) {
+        gCurTask->main = Task_805618C;
+    }
+
+    s = &screen->s;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &screen->s2;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_805618C(void)
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    s16 frames = screen->frames;
+    Sprite *s = &screen->s;
+    Sprite *s2 = &screen->s2;
+
+    s->x = 128;
+    s->y = 60;
+    s2->x = 128;
+    s2->y = 60;
+
+    screen->frames = ++frames;
+
+    if (frames >= ZONE_TIME_TO_INT(0, 2)) {
+        s->frameFlags = SPRITE_OAM_ORDER(2);
+        s2->frameFlags = SPRITE_OAM_ORDER(2);
+
+        if (screen->lostLifeCause & 0x1) {
+            gCurTask->main = Task_8056348;
+        } else if (screen->lostLifeCause & 0x2) {
+            gCurTask->main = Task_8056218;
+        } else {
+            gCurTask->main = Task_80565C4;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+}
+
+#if 0
+void Task_8056218(void)
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    s16 frames = screen->frames;
+    Sprite *s = &screen->s;
+    Sprite *s2 = &screen->s2;
+    
+    screen->frames = ++frames;
+    
+}
+#endif
