@@ -2748,6 +2748,8 @@ _080462F4: .4byte 0xFFFFF7FF
 _080462F8: .4byte gGameMode
 
 @ This giant function is (also) used to draw characters
+@ R0 = Player *
+@ R1 = PlayerSpriteInfo *
 	thumb_func_start sub_80462FC
 sub_80462FC: @ 0x080462FC
 	push {r4, r5, r6, r7, lr}

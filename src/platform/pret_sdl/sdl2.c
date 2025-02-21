@@ -278,7 +278,7 @@ void VBlankIntrWait(void)
 
                     // TODO(Jace): I think this should be DMA_VBLANK.
                     //             If not, and it is HBLANK instead, add a note here, why it is!
-                    RunDMAs(DMA_HBLANK);
+                    RunDMAs(DMA_VBLANK);
 
                     if (REG_DISPSTAT & DISPSTAT_VBLANK_INTR)
                         gIntrTable[INTR_INDEX_VBLANK]();

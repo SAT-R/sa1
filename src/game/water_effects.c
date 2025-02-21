@@ -196,7 +196,7 @@ void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask)
         Sprite *s = &gWater.s;
         s->graphics.dest = VRAM_RESERVED_WATER_SURFACE;
         s->graphics.size = 0;
-        s->graphics.anim = SA2_ANIM_WATER_SURFACE;
+        s->graphics.anim = SA1_ANIM_WATER_SURFACE;
         s->variant = 0;
         s->prevVariant |= -1;
         s->oamFlags = SPRITE_OAM_ORDER(0);
@@ -380,7 +380,7 @@ struct Task *CreateWaterfallSurfaceHitEffect(s32 x, s32 y)
     Sprite *s = &ts->s;
 
     s->graphics.dest = VramMalloc(12);
-    s->graphics.anim = SA2_ANIM_WATER_FALL_HIT_SURFACE;
+    s->graphics.anim = SA1_ANIM_WATER_FALL_HIT_SURFACE;
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(7);
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);

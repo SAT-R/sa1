@@ -6,6 +6,197 @@
 .arm
 
 @ --- Start of src/game/game_over.c ---
+
+@ NOTE: Not sure whether this is part of game__stage__ui.s or game__game_over.s
+@       It is only called in game_over, so it should be here?
+@       But it also references gUiGraphics.
+	thumb_func_start sub_8055C50
+sub_8055C50: @ 0x08055C50
+	push {r4, r5, r6, r7, lr}
+	mov r7, sl
+	mov r6, sb
+	mov r5, r8
+	push {r5, r6, r7}
+	sub sp, #0x30
+	mov sl, r0
+	bl sub_8053674
+	add r4, sp, #0x2c
+	movs r0, #0x20
+	mov r8, r0
+	mov r1, r8
+	strb r1, [r4]
+	mov r5, sp
+	adds r5, #0x2b
+	movs r0, #4
+	strb r0, [r5]
+	ldr r7, _08055DBC @ =gUiGraphics
+	movs r2, #0xe0
+	lsls r2, r2, #2
+	adds r0, r7, r2
+	ldr r0, [r0]
+	str r0, [sp, #0x14]
+	movs r1, #0xe1
+	lsls r1, r1, #2
+	adds r0, r7, r1
+	ldr r0, [r0]
+	str r0, [sp, #0x20]
+	movs r2, #0xa0
+	lsls r2, r2, #3
+	str r2, [sp, #0x18]
+	mov r0, r8
+	str r0, [sp, #0x24]
+	add r1, sp, #0x28
+	mov sb, r1
+	movs r2, #6
+	strb r2, [r1]
+	mov r1, sl
+	ldr r0, [r1, #4]
+	str r0, [sp, #0xc]
+	mov r6, sp
+	adds r6, #0x2a
+	movs r2, #0xd
+	strb r2, [r6]
+	movs r1, #0xe2
+	lsls r1, r1, #2
+	adds r0, r7, r1
+	ldr r0, [r0]
+	str r0, [sp, #4]
+	mov r1, sp
+	movs r2, #0xe3
+	lsls r2, r2, #2
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #8]
+	adds r2, #4
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #9]
+	adds r2, #4
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #0xa]
+	adds r2, #4
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #0xb]
+	mov r0, sp
+	bl sub_80528AC
+	movs r0, #0x21
+	strb r0, [r4]
+	movs r0, #5
+	strb r0, [r5]
+	movs r1, #0xe7
+	lsls r1, r1, #2
+	adds r0, r7, r1
+	ldr r0, [r0]
+	str r0, [sp, #0x14]
+	movs r2, #0xe8
+	lsls r2, r2, #2
+	adds r0, r7, r2
+	ldr r0, [r0]
+	str r0, [sp, #0x20]
+	movs r0, #0x80
+	lsls r0, r0, #2
+	str r0, [sp, #0x18]
+	mov r1, r8
+	str r1, [sp, #0x24]
+	movs r0, #6
+	mov r2, sb
+	strb r0, [r2]
+	mov r1, sl
+	ldr r0, [r1]
+	str r0, [sp, #0xc]
+	movs r2, #0xd
+	strb r2, [r6]
+	movs r1, #0xe9
+	lsls r1, r1, #2
+	adds r0, r7, r1
+	ldr r0, [r0]
+	str r0, [sp, #4]
+	mov r1, sp
+	movs r2, #0xea
+	lsls r2, r2, #2
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #8]
+	adds r2, #4
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #9]
+	adds r2, #4
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #0xa]
+	adds r2, #4
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #0xb]
+	mov r0, sp
+	bl sub_80528AC
+	movs r0, #0x2d
+	strb r0, [r4]
+	movs r0, #0xe
+	strb r0, [r5]
+	ldr r1, _08055DC0 @ =0x000004EC
+	adds r0, r7, r1
+	ldr r0, [r0]
+	str r0, [sp, #0x14]
+	movs r2, #0x9e
+	lsls r2, r2, #3
+	adds r0, r7, r2
+	ldr r0, [r0]
+	str r0, [sp, #0x20]
+	movs r0, #0x80
+	lsls r0, r0, #2
+	str r0, [sp, #0x18]
+	mov r1, r8
+	str r1, [sp, #0x24]
+	movs r0, #6
+	mov r2, sb
+	strb r0, [r2]
+	mov r1, sl
+	ldr r0, [r1, #8]
+	str r0, [sp, #0xc]
+	movs r2, #0xd
+	strb r2, [r6]
+	ldr r1, _08055DC4 @ =0x000004F4
+	adds r0, r7, r1
+	ldr r0, [r0]
+	str r0, [sp, #4]
+	mov r1, sp
+	movs r2, #0x9f
+	lsls r2, r2, #3
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #8]
+	adds r2, #4
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #9]
+	ldr r2, _08055DC8 @ =gUiGraphics + ((45 * 0x1C) + 0x14)
+	ldr r0, [r2]
+	strb r0, [r1, #0xa]
+	ldr r2, _08055DCC @ =0x00000504
+	adds r0, r7, r2
+	ldr r0, [r0]
+	strb r0, [r1, #0xb]
+	mov r0, sp
+	bl sub_80528AC
+	add sp, #0x30
+	pop {r3, r4, r5}
+	mov r8, r3
+	mov sb, r4
+	mov sl, r5
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_08055DBC: .4byte gUiGraphics
+_08055DC0: .4byte 0x000004EC
+_08055DC4: .4byte 0x000004F4
+_08055DC8: .4byte gUiGraphics + ((45 * 0x1C) + 0x14)
+_08055DCC: .4byte 0x00000504
+
 	thumb_func_start CreateGameOverScreen
 CreateGameOverScreen: @ 0x08055DD0
 	push {r4, r5, r6, r7, lr}

@@ -94,13 +94,13 @@ SECTIONS {
         src/game/stage/backgrounds/zone_3.o(.text);
         src/game/stage/backgrounds/zone_4.o(.text);
         asm/game__stage__camera__bg__zone_6.o(.text);
+        src/game/stage/backgrounds/zone_6.o(.text);
         src/game/stage/backgrounds/zone_7_act_2.o(.text);
         src/game/stage/camera_destroy.o(.text);
         src/game/stage/backgrounds/zone_4_init.o(.text);
         src/game/stage/backgrounds/zone_5_init.o(.text);
         src/game/stage/backgrounds/zone_7_act_1.o(.text);
         src/game/stage/backgrounds/zone_7_act_2_init.o(.text);
-        src/game/stage/backgrounds/zone_2.o(.text);
         src/game/stage/backgrounds/zone_2.o(.text);
         src/game/stage/backgrounds/zone_5.o(.text);
         src/game/stage/backgrounds/zone_3_firework.o(.text);
@@ -115,7 +115,6 @@ SECTIONS {
         asm/game__stage__player.o(.text);
         src/game/stage/item_tasks.o(.text);
         src/game/stage/underwater_effects.o(.text);
-        asm/game__water_effects.o(.text);
         src/game/water_effects.o(.text);
         src/game/stage/screen_shake.o(.text);
         src/input_recorder.o(.text);

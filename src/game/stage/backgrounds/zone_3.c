@@ -79,8 +79,8 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
 
     collision = gRefCollision;
 
-    gBgScrollRegs[3][0] = cam->sa2__unk52 = xSub = Div(x * 16, collision->pxWidth - DISPLAY_WIDTH);
-    gBgScrollRegs[3][1] = cam->sa2__unk54 = ySub = Div((y << 6) + (y << 5), collision->pxHeight - DISPLAY_HEIGHT);
+    gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = xSub = Div(x * 16, collision->pxWidth - DISPLAY_WIDTH);
+    gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = ySub = Div((y << 6) + (y << 5), collision->pxHeight - DISPLAY_HEIGHT);
 
     // TODO: There should be a macro for this already!
     r4 = ((ySub << 16) | xSub);
