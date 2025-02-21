@@ -7,6 +7,7 @@
 
 @ --- Start of src/game/game_over.c ---
 
+.if 0
 @ NOTE: Not sure whether this is part of game__stage__ui.s or game__game_over.s
 @       It is only called in game_over, so it should be here?
 @       But it also references gUiGraphics.
@@ -18,13 +19,13 @@ sub_8055C50: @ 0x08055C50
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	mov sl, r0
+	mov sl, r0          @ sl = param0
 	bl sub_8053674
-	add r4, sp, #0x2c
+	add r4, sp, #0x2c   @ r4 = sp2C
 	movs r0, #0x20
 	mov r8, r0
 	mov r1, r8
-	strb r1, [r4]
+	strb r1, [r4]       @ sp2C = 32;
 	mov r5, sp
 	adds r5, #0x2b
 	movs r0, #4
@@ -196,6 +197,7 @@ _08055DC0: .4byte 0x000004EC
 _08055DC4: .4byte 0x000004F4
 _08055DC8: .4byte gUiGraphics + ((45 * 0x1C) + 0x14)
 _08055DCC: .4byte 0x00000504
+.endif
 
 	thumb_func_start CreateGameOverScreen
 CreateGameOverScreen: @ 0x08055DD0

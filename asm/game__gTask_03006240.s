@@ -5,6 +5,8 @@
 .syntax unified
 .arm
 
+@ Input:
+@ R0: Strc_80528AC
 	thumb_func_start sub_80528AC
 sub_80528AC: @ 0x080528AC
 	push {r4, r5, r6, r7, lr}

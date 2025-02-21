@@ -2,6 +2,8 @@
 #define SA1_UI_GRAPHICS_H
 #include "global.h"
 
+#include "constants/ui_graphics.h"
+
 /* This file was created using './scripts/extract_ui_graphics_data.py'.
    If you want to change a name or some other property,
    please change it in there and run the script again,
@@ -16,6 +18,8 @@ typedef struct UiGraphics {
     s32 unk14;
     s32 unk18;
 } UiGraphics;
+
+extern const UiGraphics gUiGraphics[];
 
 extern const u8 gUiGraphicsAsciiChars[];
 extern const u16 gUiPaletteAsciiChars[];
