@@ -68,6 +68,9 @@ void Task_8056FD0(void);
 void TaskDestructor_GameOverScreen(struct Task *t);
 void TaskDestructor_8056F30(struct Task *t);
 
+// NOTE: param0[param1->byteCount (offset: 0xE)]
+extern void sub_8052C84(u8 *param0, Strc_8052C84 *param1);
+extern const u16 gUnknown_086883E4[10];
 extern const u8 gUnknown_086883F8[];
 
 // NOTE: Not sure whether proc is part of game__stage__ui.s or game__game_over.s
@@ -641,10 +644,6 @@ void Task_8056714(void)
     }
 }
 
-// NOTE: param0[param1->byteCount (offset: 0xE)]
-extern void sub_8052C84(u8 *param0, Strc_8052C84 *param1);
-extern const u16 gUnknown_086883E4[10];
-
 // (98.85%) https://decomp.me/scratch/Sz0mp
 NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(void))
 {
@@ -737,3 +736,69 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
     }
 }
 END_NONMATCH
+
+void Task_8056970(void)
+{
+    GameOverD *overD = TASK_DATA(gCurTask);
+    s16 unk24 = overD->unk24;
+    Strc_8052C84 sp00;
+    GameOverB *overB;
+    u8 *ptrArr;
+    u8 arr[1];
+    s16 temp;
+    u32 temp32;
+
+    sp00.unkC = 0x54;
+    sp00.unk12 = 6;
+    sp00.unk8 = 0;
+    sp00.unk10 = 5;
+    sp00.byteCount = ARRAY_COUNT(arr);
+    sp00.unk16 = 1;
+
+    ptrArr = &arr[0];
+    *ptrArr = 32;
+
+    temp = unk24;
+
+    if (temp > 80) {
+        temp -= 80;
+        sp00.unkA = ((temp * 116) / 18) + 116;
+
+        if (*ptrArr >= 32) {
+            sp00.unk0 = 256;
+            sp00.unk2 = 256;
+            sp00.unk4 = 0;
+            sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
+            sub_8052C84(&*ptrArr, &sp00);
+        }
+    } else if (temp > 20) {
+        temp -= 20;
+        sp00.unk0 = 497 - temp * 4;
+        sp00.unk2 = sp00.unk0;
+        sp00.unk4 = 0;
+        sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
+        sp00.unkA = 88;
+        sp00.unkC = 68;
+        sub_8052C84(&*ptrArr, &sp00);
+    } else {
+        sp00.unkA = (temp * 116) / 20;
+
+        if (*ptrArr >= 32) {
+            sp00.unk0 = 256;
+            sp00.unk2 = 256;
+            sp00.unk4 = 0;
+            sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
+            sub_8052C84(arr, &sp00);
+        }
+    }
+
+    if (unk24 >= 0x78) {
+        GameOverC *overC;
+        gCurTask->main = Task_8056FD0;
+        overD->unk20->unk18 = 1382;
+        overD->unk18->frames = 1464;
+    }
+
+    temp = unk24 + 1;
+    overD->unk24 = temp;
+}
