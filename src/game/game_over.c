@@ -42,7 +42,7 @@ typedef struct GameOverD {
     /* 0x00 */ u8 filler0[0x18];
     /* 0x18 */ GameOverScreen *unk18;
     /* 0x1C */ GameOverB *unk1C;
-    /* 0x1C */ GameOverC *unk20;
+    /* 0x20 */ GameOverC *unk20;
     /* 0x24 */ u32 unk24;
     /* 0x28 */ u16 unk28;
     /* 0x26 */ u8 filler2A[0x2];
@@ -57,12 +57,14 @@ void Task_8056218(void);
 void Task_8056348(void);
 void Task_805648C(void);
 void Task_80565C4(void);
+void Task_8056970(void);
 void Task_8056AC8(void);
 void Task_8056CE0(void);
 void Task_8056E24(void);
 void Task_8056F54(void);
 void Task_8056F80(void);
 void Task_8056FA0(void);
+void Task_8056FD0(void);
 void TaskDestructor_GameOverScreen(struct Task *t);
 void TaskDestructor_8056F30(struct Task *t);
 
@@ -638,3 +640,100 @@ void Task_8056714(void)
         overB->unk18 = 0;
     }
 }
+
+// NOTE: param0[param1->byteCount (offset: 0xE)]
+extern void sub_8052C84(u8 *param0, Strc_8052C84 *param1);
+extern const u16 gUnknown_086883E4[10];
+
+// (98.85%) https://decomp.me/scratch/Sz0mp
+NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(void))
+{
+    GameOverD *overD = TASK_DATA(gCurTask);
+    s16 unk24 = overD->unk24;
+    Strc_8052C84 sp00;
+    GameOverB *overB;
+    u8 *ptrArr;
+    u8 arr[1];
+    s16 temp;
+    u32 temp32;
+
+    sp00.unkC = 0x5B;
+    sp00.unk12 = 6;
+    sp00.unk8 = 0;
+    sp00.unk10 = 4;
+    sp00.byteCount = ARRAY_COUNT(arr);
+    sp00.unk16 = 1;
+
+    temp = (unk24 / 120);
+    temp32 = (41 - (u16)temp);
+    ptrArr = &arr[0];
+    *ptrArr = temp32;
+
+    temp = (unk24 % 120);
+
+    if (temp > 80) {
+        temp -= 80;
+        sp00.unkA = ((temp * 116) / 18) + 116;
+
+        if (*ptrArr >= 32) {
+            sp00.unk0 = 256;
+            sp00.unk2 = 256;
+            sp00.unk4 = 0;
+            sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
+            sub_8052C84(&*ptrArr, &sp00);
+        }
+    } else if (temp > 20) {
+        temp -= 20;
+        sp00.unk0 = 497 - temp * 4;
+        sp00.unk2 = sp00.unk0;
+        sp00.unk4 = 0;
+        sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
+        sp00.unkA = 104;
+        sp00.unkC = 83;
+        sub_8052C84(&*ptrArr, &sp00);
+    } else {
+        sp00.unkA = (temp * 116) / 20;
+
+        if (*ptrArr >= 32) {
+            sp00.unk0 = 256;
+            sp00.unk2 = 256;
+            sp00.unk4 = 0;
+            sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
+            sub_8052C84(arr, &sp00);
+        }
+    }
+
+    if (unk24 >= ZONE_TIME_TO_INT(0, 20)) {
+        gCurTask->main = Task_8056FD0;
+    }
+
+    if (gPressedKeys & B_BUTTON) {
+        s32 r3;
+
+        temp = (unk24 / 120);
+        temp++;
+        unk24 = temp * 120;
+
+        overB = overD->unk1C;
+        r3 = 1200;
+        overB->unk18 = r3 - ((10 - temp) * 120);
+        overD->unk20->unk18 = 0x566 - ((10 - temp) * 120);
+        overD->unk18->frames = overD->unk20->unk18;
+    }
+
+    if (gPressedKeys & A_BUTTON) {
+        gCurTask->main = Task_8056970;
+        overD->unk24 = 0;
+        overD->unk18->unk80 = 1;
+    } else {
+        temp = unk24 + 1;
+        overD->unk24 = temp;
+    }
+
+    if ((overD->unk24 % 120) == 60) {
+        // TODO: Different way to remove volatile*?
+        u16 songId = gUnknown_086883E4[((volatile GameOverD *)overD)->unk24 / 120];
+        m4aSongNumStart(songId);
+    }
+}
+END_NONMATCH
