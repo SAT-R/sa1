@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
 #include "game/gTask_03006240.h"
@@ -55,7 +56,7 @@ void Task_805618C(void);
 void Task_8056218(void);
 void Task_8056348(void);
 void Task_80565C4(void);
-
+void Task_8056AC8(void);
 void Task_8056CE0(void);
 void Task_8056E24(void);
 void Task_8056F54(void);
@@ -358,15 +359,56 @@ void Task_805618C(void)
     DisplaySprite(s2);
 }
 
-#if 0
 void Task_8056218(void)
 {
     GameOverScreen *screen = TASK_DATA(gCurTask);
     s16 frames = screen->frames;
     Sprite *s = &screen->s;
     Sprite *s2 = &screen->s2;
-    
+    SpriteTransform transform;
+
     screen->frames = ++frames;
-    
+
+    if (frames >= 217) {
+        s16 r0;
+        u16 r1;
+        s2->frameFlags = SPRITE_FLAG(OBJ_MODE, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+        s->frameFlags = SPRITE_FLAG(OBJ_MODE, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+
+        r1 = frames - 248;
+        r0 = (32 - (r1));
+
+        transform.rotation = 0;
+        transform.qScaleX = COS_24_8(r0 * 16);
+        if (transform.qScaleX < Q(10. / 256.)) {
+            transform.qScaleX = Q(10. / 256.);
+        }
+
+        transform.qScaleY = Q(1.0);
+        transform.x = 127;
+        transform.y = 60;
+        TransformSprite(s, &transform);
+
+        transform.rotation = 0;
+        transform.qScaleX = COS_24_8(r0 * 16);
+        if (transform.qScaleX < Q(10. / 256.)) {
+            transform.qScaleX = Q(10. / 256.);
+        }
+
+        transform.qScaleY = Q(1.0);
+        transform.x = transform.x; // LOL
+        transform.y = 60;
+        TransformSprite(s2, &transform);
+    }
+
+    if (frames >= 233) {
+        if (frames >= 248) {
+            gCurTask->main = Task_8056AC8;
+        }
+    } else {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        UpdateSpriteAnimation(s2);
+        DisplaySprite(s2);
+    }
 }
-#endif
