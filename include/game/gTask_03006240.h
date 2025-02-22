@@ -42,7 +42,7 @@ typedef struct GameOverB {
     /* 0x12 */ u16 unk12;
     /* 0x14 */ u8 filler14[0x2];
     /* 0x16 */ u8 unk16;
-    /* 0x18 */ u32 unk18;
+    /* 0x18 */ s32 unk18;
     /* 0x1C */ void *vram1C;
 } GameOverB; /* 0x20 */
 
@@ -50,7 +50,7 @@ extern struct Task *gTask_03006240;
 
 IwramData sub_8053674(void);
 void sub_80528AC(Strc_80528AC *strc);
-void sub_80530CC(u8 *param0, struct GameOverB *param1);
+void sub_80530CC(const u8 *param0, struct GameOverB *param1);
 void sub_8055C50(Strc_8055C50 *param0);
 
 #endif // GUARD_gTask_03006240

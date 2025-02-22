@@ -9,53 +9,6 @@
 
 .if 0
 .endif
-    
-@ t -> GameOverB
-	thumb_func_start Task_8056714
-Task_8056714: @ 0x08056714
-	push {r4, r5, r6, r7, lr}
-	ldr r7, _08056760 @ =gCurTask
-	ldr r0, [r7]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	movs r1, #0x18
-	ldrsh r0, [r4, r1]
-	adds r0, #1
-	lsls r0, r0, #0x10
-	lsrs r6, r0, #0x10
-	asrs r0, r0, #0x10
-	str r0, [r4, #0x18]
-	ldrh r0, [r4, #0xa]
-	adds r0, #0xc
-	movs r5, #0
-	strh r0, [r4, #0xa]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	ble _08056740
-	strh r5, [r4, #0xa]
-_08056740:
-	ldr r0, _08056764 @ =gUnknown_086883F8
-	adds r1, r4, #0
-	bl sub_80530CC
-	lsls r0, r6, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0xb5
-	ble _0805675A
-	ldr r1, [r7]
-	ldr r0, _08056768 @ =Task_8056F80
-	str r0, [r1, #8]
-	strh r5, [r4, #0xa]
-	str r5, [r4, #0x18]
-_0805675A:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08056760: .4byte gCurTask
-_08056764: .4byte gUnknown_086883F8
-_08056768: .4byte Task_8056F80
 
 @ t -> GameOverD*
 	thumb_func_start Task_805676C

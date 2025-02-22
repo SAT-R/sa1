@@ -61,9 +61,12 @@ void Task_8056AC8(void);
 void Task_8056CE0(void);
 void Task_8056E24(void);
 void Task_8056F54(void);
+void Task_8056F80(void);
 void Task_8056FA0(void);
 void TaskDestructor_GameOverScreen(struct Task *t);
 void TaskDestructor_8056F30(struct Task *t);
+
+extern const u8 gUnknown_086883F8[];
 
 // NOTE: Not sure whether proc is part of game__stage__ui.s or game__game_over.s
 //       It is only called in game_over, so it should be here?
@@ -613,5 +616,25 @@ void Task_80565C4(void)
         DisplaySprite(s);
         UpdateSpriteAnimation(s2);
         DisplaySprite(s2);
+    }
+}
+
+void Task_8056714(void)
+{
+    GameOverB *overB = TASK_DATA(gCurTask);
+    s16 unk18 = overB->unk18;
+    overB->unk18 = unk18 += 1;
+    overB->qUnkA += Q(12. / 256.);
+
+    if (overB->qUnkA > 0) {
+        overB->qUnkA = 0;
+    }
+
+    sub_80530CC(&gUnknown_086883F8[0], overB);
+
+    if (unk18 >= 182) {
+        gCurTask->main = Task_8056F80;
+        overB->qUnkA = Q(0);
+        overB->unk18 = 0;
     }
 }
