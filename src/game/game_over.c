@@ -55,6 +55,7 @@ void Task_8056100(void);
 void Task_805618C(void);
 void Task_8056218(void);
 void Task_8056348(void);
+void Task_805648C(void);
 void Task_80565C4(void);
 void Task_8056AC8(void);
 void Task_8056CE0(void);
@@ -405,6 +406,208 @@ void Task_8056218(void)
         if (frames >= 248) {
             gCurTask->main = Task_8056AC8;
         }
+    } else {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        UpdateSpriteAnimation(s2);
+        DisplaySprite(s2);
+    }
+}
+
+// (96.84%) https://decomp.me/scratch/HKhxZ
+NONMATCH("asm/non_matching/game/game_over__Task_8056348.inc", void Task_8056348(void))
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    s16 frames = screen->frames;
+    Sprite *s = &screen->s;
+    Sprite *s2 = &screen->s2;
+    SpriteTransform transform;
+    s32 qScaleX;
+    s16 aaa;
+    u32 r0;
+    s32 r2;
+
+    r0 = (u16)(frames - 120);
+    r0 <<= 8;
+#if 0
+    // Matches more %, but logically wrong
+    r0 *= 12;
+    r2 = r0 << 4;
+#else
+    r2 = r0 << 12;
+#endif
+
+    s->frameFlags = SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+    s->frameFlags |= SPRITE_FLAG(OBJ_MODE, 1);
+
+    transform.rotation = 0;
+    transform.qScaleX = COS_24_8(r2 >> 16);
+    if (transform.qScaleX < Q(10. / 256.)) {
+        transform.qScaleX = Q(10. / 256.);
+    }
+    transform.qScaleY = Q(1.0);
+
+    transform.x = 127;
+    transform.y = 60;
+    TransformSprite(s, &transform);
+
+    s2->frameFlags = 0x20 | SA2_LABEL(gUnknown_030054B8)++;
+    s2->frameFlags |= 0x80;
+    transform.rotation = 0;
+    transform.qScaleX = COS_24_8(r2 >> 16);
+
+    if (transform.qScaleX < Q(10. / 256.)) {
+        transform.qScaleX = Q(10. / 256.);
+    }
+
+    transform.qScaleY = Q(1.0);
+    transform.x = transform.x;
+    transform.y = 60;
+    TransformSprite(s2, &transform);
+
+    screen->frames = ++frames;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    if (frames >= 136) {
+        s->graphics.anim = SA1_ANIM_GAME_OVER;
+        s->variant = 2;
+        s2->graphics.anim = SA1_ANIM_GAME_OVER;
+        s2->variant = 3;
+
+        gCurTask->main = Task_805648C;
+    }
+}
+END_NONMATCH
+
+// (91.56%) https://decomp.me/scratch/Rl7oS
+NONMATCH("asm/non_matching/game/game_over__Task_805648C.inc", void Task_805648C(void))
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    s16 frames = screen->frames;
+    Sprite *s = &screen->s;
+    Sprite *s2 = &screen->s2;
+    SpriteTransform transform;
+
+    {
+        s32 r0_32;
+        s16 r0;
+        u16 r1;
+
+        r1 = ((frames) - (136));
+        r0 = (256 - r1);
+
+        s->frameFlags = SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+        s->frameFlags |= SPRITE_FLAG(OBJ_MODE, 1);
+
+        transform.rotation = 0;
+
+        transform.qScaleX = COS_24_8(r0);
+        transform.qScaleX = transform.qScaleX + 1;
+        if (transform.qScaleX < Q(10. / 256.)) {
+            transform.qScaleX = Q(10. / 256.);
+        }
+
+        transform.qScaleY = Q(1.0);
+        transform.x = 127;
+        transform.y = 60;
+        TransformSprite(s, &transform);
+
+        s2->frameFlags = SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+        s2->frameFlags |= SPRITE_FLAG(OBJ_MODE, 1);
+
+        transform.rotation = 0;
+        transform.qScaleX = COS_24_8(r0);
+        transform.qScaleX = transform.qScaleX + 1;
+        if (transform.qScaleX < Q(10. / 256.)) {
+            transform.qScaleX = Q(10. / 256.);
+        }
+
+        transform.qScaleY = Q(1.0);
+        transform.x = 128; // LOL
+        transform.y = 60;
+        TransformSprite(s2, &transform);
+    }
+
+    screen->frames = ++frames;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    if (frames >= 152) {
+        gCurTask->main = Task_80565C4;
+    }
+}
+END_NONMATCH
+
+void Task_80565C4(void)
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    s16 frames = screen->frames;
+    Sprite *s = &screen->s;
+    Sprite *s2 = &screen->s2;
+    SpriteTransform transform;
+    s32 qScaleX;
+    s16 aaa;
+    s16 r0;
+    s16 r2;
+    u16 r1;
+
+    s->x = 128;
+    s->y = 60;
+    s->frameFlags = SPRITE_FLAG(OBJ_MODE, 1);
+
+    s2->x = 128;
+    s2->y = 60;
+    s2->frameFlags = SPRITE_FLAG(OBJ_MODE, 1);
+
+    screen->frames = ++frames;
+
+    if (frames >= 1433) {
+        s2->frameFlags = SPRITE_FLAG(OBJ_MODE, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+        s->frameFlags = SPRITE_FLAG(OBJ_MODE, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+
+        r1 = frames - 1464;
+
+        r2 = 32 - r1;
+
+        transform.rotation = 0;
+        transform.qScaleX = COS_24_8(r2 * 16);
+        if (transform.qScaleX < Q(10. / 256.)) {
+            transform.qScaleX = Q(10. / 256.);
+        }
+        transform.qScaleY = Q(1.0);
+
+        transform.x = 127;
+        transform.y = 60;
+        TransformSprite(s, &transform);
+
+        transform.rotation = 0;
+        transform.qScaleX = COS_24_8(r2 * 16);
+
+        if (transform.qScaleX < Q(10. / 256.)) {
+            transform.qScaleX = Q(10. / 256.);
+        }
+
+        transform.qScaleY = Q(1.0);
+        transform.x = transform.x;
+        transform.y = 60;
+        TransformSprite(s2, &transform);
+    }
+
+    if (frames >= 1449) {
+        if (frames >= 1464) {
+            m4aMPlayAllStop();
+            m4aSoundVSyncOff();
+
+            gCurTask->main = Task_8056AC8;
+        }
+
     } else {
         UpdateSpriteAnimation(s);
         DisplaySprite(s);

@@ -10,477 +10,6 @@
 .if 0
 .endif
     
-@ t -> GameOverScreen *
-	thumb_func_start Task_8056348
-Task_8056348: @ 0x08056348
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x10
-	ldr r1, _08056468 @ =gCurTask
-	ldr r0, [r1]
-	ldrh r0, [r0, #6]
-	mov sl, r0
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	mov r3, sl
-	adds r5, r3, r0
-	ldr r0, [r5, #0x78]
-	ldr r6, _0805646C @ =0x0300003C
-	add r6, sl
-	lsls r0, r0, #0x10
-	asrs r1, r0, #0x10
-	str r1, [sp, #0xc]
-	ldr r3, _08056470 @ =0xFF880000
-	adds r0, r0, r3
-	lsrs r0, r0, #8
-	lsls r2, r0, #0xc
-	ldr r7, _08056474 @ =sa2__gUnknown_030054B8
-	ldrb r0, [r7]
-	adds r1, r0, #1
-	strb r1, [r7]
-	movs r1, #0x20
-	orrs r0, r1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	movs r3, #0x80
-	orrs r0, r3
-	str r0, [r5, #0x10]
-	mov r0, sp
-	movs r1, #0
-	strh r1, [r0]
-	mov r1, sp
-	ldr r0, _08056478 @ =gSineTable
-	asrs r2, r2, #0x10
-	adds r3, #0x80
-	mov sb, r3
-	add r2, sb
-	lsls r2, r2, #1
-	adds r2, r2, r0
-	ldrh r0, [r2]
-	lsls r0, r0, #0x10
-	asrs r4, r0, #0x16
-	strh r4, [r1, #2]
-	mov r8, r4
-	cmp r4, #9
-	bgt _080563B6
-	movs r0, #0xa
-	strh r0, [r1, #2]
-_080563B6:
-	mov r0, sp
-	mov r1, sb
-	strh r1, [r0, #4]
-	mov r1, sp
-	movs r0, #0x7f
-	strh r0, [r1, #6]
-	mov r0, sp
-	movs r3, #0x3c
-	strh r3, [r0, #8]
-	adds r0, r5, #0
-	bl TransformSprite
-	ldrb r0, [r7]
-	adds r1, r0, #1
-	strb r1, [r7]
-	movs r1, #0x20
-	orrs r0, r1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	movs r3, #0x80
-	orrs r0, r3
-	str r0, [r6, #0x10]
-	mov r0, sp
-	movs r1, #0
-	strh r1, [r0]
-	strh r4, [r0, #2]
-	mov r3, r8
-	cmp r3, #9
-	bgt _080563F6
-	mov r1, sp
-	movs r0, #0xa
-	strh r0, [r1, #2]
-_080563F6:
-	mov r0, sp
-	mov r1, sb
-	strh r1, [r0, #4]
-	mov r1, sp
-	ldrh r0, [r0, #6]
-	strh r0, [r1, #6]
-	mov r0, sp
-	movs r3, #0x3c
-	strh r3, [r0, #8]
-	adds r0, r6, #0
-	bl TransformSprite
-	ldr r0, [sp, #0xc]
-	adds r0, #1
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	asrs r0, r0, #0x10
-	str r0, [r5, #0x78]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	bl DisplaySprite
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	adds r0, r6, #0
-	bl DisplaySprite
-	lsls r0, r4, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0x87
-	ble _08056458
-	ldr r2, _0805647C @ =0x000002CB
-	strh r2, [r5, #0xa]
-	ldr r1, _08056480 @ =0x03000020
-	add r1, sl
-	movs r0, #2
-	strb r0, [r1]
-	strh r2, [r6, #0xa]
-	ldr r1, _08056484 @ =0x0300005C
-	add r1, sl
-	movs r0, #3
-	strb r0, [r1]
-	ldr r0, _08056468 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08056488 @ =Task_805648C
-	str r0, [r1, #8]
-_08056458:
-	add sp, #0x10
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08056468: .4byte gCurTask
-_0805646C: .4byte 0x0300003C
-_08056470: .4byte 0xFF880000
-_08056474: .4byte sa2__gUnknown_030054B8
-_08056478: .4byte gSineTable
-_0805647C: .4byte 0x000002CB
-_08056480: .4byte 0x03000020
-_08056484: .4byte 0x0300005C
-_08056488: .4byte Task_805648C
-
-@ t -> GameOverScreen *
-	thumb_func_start Task_805648C
-Task_805648C: @ 0x0805648C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x14
-	ldr r1, _080565AC @ =gCurTask
-	ldr r0, [r1]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	ldr r0, [r6, #0x78]
-	ldr r2, _080565B0 @ =0x0300003C
-	adds r7, r1, r2
-	lsls r0, r0, #0x10
-	asrs r4, r0, #0x10
-	str r4, [sp, #0xc]
-	ldr r1, _080565B4 @ =0xFF780000
-	adds r0, r0, r1
-	lsrs r0, r0, #8
-	lsls r2, r0, #0xc
-	ldr r3, _080565B8 @ =sa2__gUnknown_030054B8
-	ldrb r0, [r3]
-	adds r1, r0, #1
-	strb r1, [r3]
-	movs r4, #0x20
-	orrs r0, r4
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	movs r1, #0x80
-	mov sl, r1
-	orrs r0, r1
-	str r0, [r6, #0x10]
-	mov r0, sp
-	movs r4, #0
-	strh r4, [r0]
-	adds r1, #0x80
-	adds r0, r1, #0
-	asrs r2, r2, #0x10
-	subs r0, r0, r2
-	mov r2, sp
-	ldr r1, _080565BC @ =gSineTable
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	movs r4, #0x80
-	lsls r4, r4, #1
-	mov sb, r4
-	add r0, sb
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	lsls r0, r0, #0x10
-	asrs r5, r0, #0x16
-	strh r5, [r2, #2]
-	mov r0, sp
-	adds r4, r5, #1
-	strh r4, [r0, #2]
-	mov r8, r4
-	cmp r4, #9
-	bgt _0805650C
-	mov r1, sp
-	movs r0, #0xa
-	strh r0, [r1, #2]
-_0805650C:
-	mov r0, sp
-	mov r1, sb
-	strh r1, [r0, #4]
-	mov r1, sp
-	movs r0, #0x7f
-	strh r0, [r1, #6]
-	mov r0, sp
-	movs r2, #0x3c
-	strh r2, [r0, #8]
-	adds r0, r6, #0
-	str r3, [sp, #0x10]
-	bl TransformSprite
-	ldr r3, [sp, #0x10]
-	ldrb r0, [r3]
-	adds r1, r0, #1
-	strb r1, [r3]
-	movs r1, #0x20
-	orrs r0, r1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r2, sl
-	orrs r0, r2
-	str r0, [r7, #0x10]
-	mov r0, sp
-	movs r1, #0
-	strh r1, [r0]
-	strh r5, [r0, #2]
-	strh r4, [r0, #2]
-	mov r2, r8
-	cmp r2, #9
-	bgt _08056552
-	mov r1, sp
-	movs r0, #0xa
-	strh r0, [r1, #2]
-_08056552:
-	mov r0, sp
-	mov r4, sb
-	strh r4, [r0, #4]
-	mov r1, sl
-	strh r1, [r0, #6]
-	movs r2, #0x3c
-	strh r2, [r0, #8]
-	adds r0, r7, #0
-	mov r1, sp
-	bl TransformSprite
-	ldr r0, [sp, #0xc]
-	adds r0, #1
-	lsls r0, r0, #0x10
-	lsrs r4, r0, #0x10
-	asrs r0, r0, #0x10
-	str r0, [r6, #0x78]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	adds r0, r6, #0
-	bl DisplaySprite
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	adds r0, r7, #0
-	bl DisplaySprite
-	lsls r0, r4, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0x97
-	ble _0805659C
-	ldr r4, _080565AC @ =gCurTask
-	ldr r1, [r4]
-	ldr r0, _080565C0 @ =Task_80565C4
-	str r0, [r1, #8]
-_0805659C:
-	add sp, #0x14
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080565AC: .4byte gCurTask
-_080565B0: .4byte 0x0300003C
-_080565B4: .4byte 0xFF780000
-_080565B8: .4byte sa2__gUnknown_030054B8
-_080565BC: .4byte gSineTable
-_080565C0: .4byte Task_80565C4
-
-@ t -> GameOverScreen *
-	thumb_func_start Task_80565C4
-Task_80565C4: @ 0x080565C4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	ldr r0, _080566D4 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	ldr r1, [r0, #0x78]
-	adds r5, r0, #0
-	ldr r0, _080566D8 @ =0x0300003C
-	adds r6, r2, r0
-	movs r0, #0x80
-	strh r0, [r5, #0x16]
-	movs r2, #0x3c
-	mov sb, r2
-	mov r3, sb
-	strh r3, [r5, #0x18]
-	str r0, [r5, #0x10]
-	strh r0, [r6, #0x16]
-	strh r3, [r6, #0x18]
-	str r0, [r6, #0x10]
-	lsls r1, r1, #0x10
-	movs r0, #0x80
-	lsls r0, r0, #9
-	adds r1, r1, r0
-	asrs r0, r1, #0x10
-	str r0, [r5, #0x78]
-	lsrs r2, r1, #0x10
-	mov sl, r2
-	adds r4, r0, #0
-	movs r0, #0xb3
-	lsls r0, r0, #3
-	cmp r4, r0
-	ble _080566AE
-	ldr r2, _080566DC @ =sa2__gUnknown_030054B8
-	ldrb r0, [r2]
-	adds r1, r0, #1
-	strb r1, [r2]
-	movs r3, #0xa0
-	orrs r0, r3
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	str r0, [r6, #0x10]
-	ldrb r0, [r2]
-	adds r1, r0, #1
-	strb r1, [r2]
-	orrs r0, r3
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	str r0, [r5, #0x10]
-	ldr r3, _080566E0 @ =0xFFFFFA48
-	adds r1, r4, r3
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	movs r0, #0x20
-	subs r0, r0, r1
-	mov r1, sp
-	movs r2, #0
-	strh r2, [r1]
-	mov r2, sp
-	ldr r1, _080566E4 @ =gSineTable
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0xc
-	movs r3, #0x80
-	lsls r3, r3, #1
-	mov r8, r3
-	add r0, r8
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	lsls r0, r0, #0x10
-	asrs r4, r0, #0x16
-	strh r4, [r2, #2]
-	adds r7, r4, #0
-	cmp r7, #9
-	bgt _0805666C
-	mov r1, sp
-	movs r0, #0xa
-	strh r0, [r1, #2]
-_0805666C:
-	mov r0, sp
-	mov r1, r8
-	strh r1, [r0, #4]
-	mov r1, sp
-	movs r0, #0x7f
-	strh r0, [r1, #6]
-	mov r0, sp
-	mov r2, sb
-	strh r2, [r0, #8]
-	adds r0, r5, #0
-	bl TransformSprite
-	mov r0, sp
-	movs r3, #0
-	strh r3, [r0]
-	strh r4, [r0, #2]
-	cmp r7, #9
-	bgt _08056696
-	mov r1, sp
-	movs r0, #0xa
-	strh r0, [r1, #2]
-_08056696:
-	mov r0, sp
-	mov r1, r8
-	strh r1, [r0, #4]
-	mov r1, sp
-	ldrh r0, [r0, #6]
-	strh r0, [r1, #6]
-	mov r0, sp
-	mov r2, sb
-	strh r2, [r0, #8]
-	adds r0, r6, #0
-	bl TransformSprite
-_080566AE:
-	mov r3, sl
-	lsls r0, r3, #0x10
-	asrs r1, r0, #0x10
-	movs r0, #0xb5
-	lsls r0, r0, #3
-	cmp r1, r0
-	ble _080566EC
-	adds r0, #0xf
-	cmp r1, r0
-	ble _08056704
-	bl m4aMPlayAllStop
-	bl m4aSoundVSyncOff
-	ldr r0, _080566D4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _080566E8 @ =Task_8056AC8
-	str r0, [r1, #8]
-	b _08056704
-	.align 2, 0
-_080566D4: .4byte gCurTask
-_080566D8: .4byte 0x0300003C
-_080566DC: .4byte sa2__gUnknown_030054B8
-_080566E0: .4byte 0xFFFFFA48
-_080566E4: .4byte gSineTable
-_080566E8: .4byte Task_8056AC8
-_080566EC:
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	bl DisplaySprite
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	adds r0, r6, #0
-	bl DisplaySprite
-_08056704:
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-    
 @ t -> GameOverB
 	thumb_func_start Task_8056714
 Task_8056714: @ 0x08056714
@@ -528,8 +57,9 @@ _08056760: .4byte gCurTask
 _08056764: .4byte gUnknown_086883F8
 _08056768: .4byte Task_8056F80
 
-	thumb_func_start sub_805676C
-sub_805676C: @ 0x0805676C
+@ t -> GameOverD*
+	thumb_func_start Task_805676C
+Task_805676C: @ 0x0805676C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -730,7 +260,7 @@ _080568F8:
 	beq _08056934
 	ldr r0, _08056920 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08056930 @ =sub_8056970
+	ldr r0, _08056930 @ =Task_8056970
 	str r0, [r1, #8]
 	movs r0, #0
 	str r0, [r6, #0x24]
@@ -746,7 +276,7 @@ _08056920: .4byte gCurTask
 _08056924: .4byte Task_8056FD0
 _08056928: .4byte gPressedKeys
 _0805692C: .4byte 0x00000566
-_08056930: .4byte sub_8056970
+_08056930: .4byte Task_8056970
 _08056934:
 	lsls r0, r7, #0x10
 	movs r3, #0x80
@@ -778,8 +308,9 @@ _08056960:
 	.align 2, 0
 _0805696C: .4byte gUnknown_086883E4
 
-	thumb_func_start sub_8056970
-sub_8056970: @ 0x08056970
+@ t -> GameOverD*
+	thumb_func_start Task_8056970
+Task_8056970: @ 0x08056970
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1548,6 +1079,7 @@ Task_8056F80: @ 0x08056F80
 _08056F98: .4byte gCurTask
 _08056F9C: .4byte gUnknown_086883F8
 
+@ t -> GameOverD*
 	thumb_func_start Task_8056FA0
 Task_8056FA0: @ 0x08056FA0
 	ldr r0, _08056FC8 @ =gCurTask
@@ -1567,14 +1099,15 @@ Task_8056FA0: @ 0x08056FA0
 	ble _08056FC6
 	movs r0, #0
 	str r0, [r2, #0x24]
-	ldr r0, _08056FCC @ =sub_805676C
+	ldr r0, _08056FCC @ =Task_805676C
 	str r0, [r3, #8]
 _08056FC6:
 	bx lr
 	.align 2, 0
 _08056FC8: .4byte gCurTask
-_08056FCC: .4byte sub_805676C
+_08056FCC: .4byte Task_805676C
 
+@ t -> GameOverD*
 	thumb_func_start Task_8056FD0
 Task_8056FD0: @ 0x08056FD0
 	push {lr}
