@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
@@ -7,6 +8,12 @@
 #include "game/game_over.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
+#if DEBUG
+#include "game/sa1_sa2_shared/unused_level_select.h"
+#endif
+#include "game/save.h"
+#include "game/stage/stage.h"
+#include "game/title_screen.h"
 #include "data/ui_graphics.h"
 
 #include "constants/animations.h"
@@ -801,4 +808,77 @@ void Task_8056970(void)
 
     temp = unk24 + 1;
     overD->unk24 = temp;
+}
+
+void Task_8056AC8(void)
+{
+    GameOverScreen *screen = TASK_DATA(gCurTask);
+    struct MP2KPlayerState *info = gMPlayTable[gSongTable[MUS_GAME_OVER].ms].info;
+
+    gBldRegs.bldCnt = 0xFF;
+    gBldRegs.bldY = 0x10;
+
+    if (((info->status & 0xFFFF) == 0) || (info->status & 0x80000000)) {
+        // _08056B10
+        u16 prevIME, prevIE, prevDispstat;
+
+        m4aMPlayAllStop();
+        m4aSoundVSyncOff();
+
+        gFlags |= FLAGS_8000;
+
+        prevIE = REG_IE;
+        prevIME = REG_IME;
+        prevDispstat = REG_DISPSTAT;
+
+        REG_IE = 0;
+        REG_IE;
+        REG_IME = 0;
+        REG_IME;
+        REG_DISPSTAT = 0;
+        REG_DISPSTAT;
+
+        gFlags &= ~FLAGS_4;
+
+        SlowDmaStop(0);
+        SlowDmaStop(1);
+        SlowDmaStop(2);
+        SlowDmaStop(3);
+
+        WriteSaveGame();
+
+        REG_IE = prevIE;
+        REG_IE;
+        REG_IME = prevIME;
+        REG_IME;
+        REG_DISPSTAT = prevDispstat;
+        REG_DISPSTAT;
+
+        m4aSoundVSyncOn();
+
+        gFlags &= ~FLAGS_8000;
+        gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
+
+        if (screen->unk80 != 0) {
+            TasksDestroyAll();
+
+            PAUSE_BACKGROUNDS_QUEUE();
+            SA2_LABEL(gUnknown_03005390) = 0;
+            PAUSE_GRAPHICS_QUEUE();
+
+            ApplyGameStageSettings();
+        } else {
+            TasksDestroyAll();
+
+            PAUSE_BACKGROUNDS_QUEUE();
+            SA2_LABEL(gUnknown_03005390) = 0;
+            PAUSE_GRAPHICS_QUEUE();
+
+#if DEBUG
+            CreateUnusedLevelSelect();
+#else
+            CreateSegaLogo();
+#endif
+        }
+    }
 }
