@@ -156,7 +156,7 @@ _0805689E:
 	ble _080568B0
 	ldr r0, _08056920 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08056924 @ =Task_8056FD0
+	ldr r0, _08056924 @ =Task_DestroyGameOverD
 	str r0, [r1, #8]
 _080568B0:
 	ldr r5, _08056928 @ =gPressedKeys
@@ -215,7 +215,7 @@ _080568F8:
 _08056918: .4byte sa2__gUnknown_030054B8
 _0805691C: .4byte 0x000004AF
 _08056920: .4byte gCurTask
-_08056924: .4byte Task_8056FD0
+_08056924: .4byte Task_DestroyGameOverD
 _08056928: .4byte gPressedKeys
 _0805692C: .4byte 0x00000566
 _08056930: .4byte Task_8056970

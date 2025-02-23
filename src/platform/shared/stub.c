@@ -29,7 +29,12 @@ void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { S
 
 void CreatePauseMenu(void) { }
 
-void CreateGameOverScreen(LostLifeCause lostLifeCause) { }
+// UI
+void sub_80528AC() { }
+void sub_8052C84() { }
+void sub_80530CC() { }
+void sub_805423C() { }
+void sub_80543A4() { }
 void sub_80550F8() { }
 
 void sub_804D02C() { }

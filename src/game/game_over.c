@@ -41,7 +41,8 @@ void Task_8056EC4(void);
 void Task_8056F54(void);
 void Task_8056F80(void);
 void Task_8056FA0(void);
-void Task_8056FD0(void);
+void Task_DestroyGameOverD(void);
+void Task_DestroyGameOverC(void);
 void TaskDestructor_GameOverScreen(struct Task *t);
 void TaskDestructor_8056F30(struct Task *t);
 
@@ -680,7 +681,7 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
     }
 
     if (unk24 >= ZONE_TIME_TO_INT(0, 20)) {
-        gCurTask->main = Task_8056FD0;
+        gCurTask->main = Task_DestroyGameOverD;
     }
 
     if (gPressedKeys & B_BUTTON) {
@@ -771,7 +772,7 @@ void Task_8056970(void)
 
     if (unk24 >= 0x78) {
         GameOverC *overC;
-        gCurTask->main = Task_8056FD0;
+        gCurTask->main = Task_DestroyGameOverD;
         overD->unk20->unk18 = 1382;
         overD->unk18->frames = 1464;
     }
@@ -884,7 +885,6 @@ void Task_8056D30(void)
 {
     GameOverC *overC = TASK_DATA(gCurTask);
     s16 unk18 = overC->unk18;
-    u16 prevDispcnt;
 
     sub_805423C(overC);
 
@@ -901,7 +901,6 @@ void Task_8056D80(void)
 {
     GameOverC *overC = TASK_DATA(gCurTask);
     s16 unk18 = overC->unk18;
-    u16 prevDispcnt;
 
     sub_805423C(overC);
 
@@ -918,7 +917,6 @@ void Task_8056DD0(void)
 {
     GameOverC *overC = TASK_DATA(gCurTask);
     s16 unk18 = overC->unk18;
-    u16 prevDispcnt;
 
     overC->unk18 = unk18 += 1;
 
@@ -935,7 +933,6 @@ void Task_8056E24(void)
 {
     GameOverC *overC = TASK_DATA(gCurTask);
     s16 unk18 = overC->unk18;
-    u16 prevDispcnt;
 
     overC->unk18 = unk18 += 1;
 
@@ -944,3 +941,88 @@ void Task_8056E24(void)
         gCurTask->main = Task_8056E64;
     }
 }
+
+void Task_8056E64(void)
+{
+    GameOverC *overC = TASK_DATA(gCurTask);
+    s16 unk18 = overC->unk18;
+    u16 r0, r5;
+    s32 r0_s;
+
+    r0 = (unk18 - 120);
+    r0_s = r0 * 32;
+    r5 = r0_s / 96;
+
+    sub_805423C(overC);
+
+    gDispCnt |= DISPCNT_WIN0_ON;
+
+    overC->unk18 = unk18 += 1;
+
+    if (r5 >= 96) {
+        gCurTask->main = Task_DestroyGameOverC;
+    }
+}
+
+void Task_8056EC4(void)
+{
+    GameOverC *overC = TASK_DATA(gCurTask);
+    s16 unk18 = overC->unk18;
+    u16 r0, r5;
+    s32 r0_s;
+
+    overC->unk18 = unk18 += 1;
+
+    sub_805423C(overC);
+
+    gDispCnt |= DISPCNT_WIN0_ON;
+
+    if (unk18 + 14 >= 1478) {
+        gCurTask->main = Task_DestroyGameOverC;
+    }
+}
+
+void Task_DestroyGameOverC(void) { TaskDestroy(gCurTask); }
+
+void TaskDestructor_8056F30(struct Task *t)
+{
+    GameOverC *overC = TASK_DATA(t);
+
+    VramFree(overC->unkC);
+    VramFree(overC->unk14);
+    VramFree(overC->unk10);
+}
+
+void Task_8056F54(void)
+{
+    GameOverB *overB = TASK_DATA(gCurTask);
+    s16 unk18 = overB->unk18;
+
+    overB->unk18 = unk18 += 1;
+
+    if (unk18 >= 162) {
+        gCurTask->main = Task_8056714;
+    }
+}
+void Task_8056F80(void)
+{
+    GameOverB *overB = TASK_DATA(gCurTask);
+    s16 unk18 = overB->unk18;
+
+    sub_80530CC(&gUnknown_086883F8[0], overB);
+}
+
+void Task_8056FA0(void)
+{
+    GameOverD *overD = TASK_DATA(gCurTask);
+    s16 unk24 = overD->unk24;
+
+    overD->unk24 = unk24 += 1;
+
+    if (unk24 >= 182) {
+        overD->unk24 = 0;
+        gCurTask->main = Task_805676C;
+    }
+}
+
+void Task_DestroyGameOverD(void) { TaskDestroy(gCurTask); }
