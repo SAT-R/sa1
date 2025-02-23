@@ -94,7 +94,8 @@
 #define SE_ITEM_BOX_2      167
 #define SE_ACTIVATE_SHIELD 168
 
-#define SE_SPRING 170
+#define SE_SPRING     170
+#define SE_TRAMPOLINE 176
 
 #define SE_WATERFALL_SURFACE_HIT 190
 

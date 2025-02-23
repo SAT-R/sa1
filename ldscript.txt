@@ -156,7 +156,7 @@ SECTIONS {
         asm/enemy_pen.o(.text);
         asm/enemy_tentou.o(.text);
 
-        asm/ia_trampoline.o(.text);
+        src/game/interactables/trampoline.o(.text);
         asm/ia_bounce_block.o(.text);
         asm/ia_incline_ramp.o(.text);
         asm/ia_waterfall.o(.text);
