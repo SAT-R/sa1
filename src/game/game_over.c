@@ -4,8 +4,8 @@
 #include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
-#include "game/gTask_03006240.h"
 #include "game/game_over.h"
+#include "game/gTask_03006240.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
 #if DEBUG
@@ -13,6 +13,7 @@
 #endif
 #include "game/save.h"
 #include "game/stage/stage.h"
+#include "game/stage/ui.h"
 #include "game/title_screen.h"
 #include "data/ui_graphics.h"
 
@@ -20,42 +21,6 @@
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
-
-typedef struct {
-    /* 0x00 */ Sprite s;
-    /* 0x30 */ u8 filler30[0xC];
-    /* 0x3C */ Sprite s2;
-    /* 0x6C */ u8 filler6C[0xC];
-    /* 0x78 */ u32 frames;
-    /* 0x7C */ u32 lostLifeCause;
-    /* 0x80 */ u8 unk80;
-} GameOverScreen;
-
-typedef struct GameOverC {
-    /* 0x00 */ u16 unk0;
-    /* 0x02 */ u16 unk2;
-    /* 0x04 */ u16 unk4;
-    /* 0x06 */ u16 unk6;
-    /* 0x08 */ u16 unk8;
-    /* 0x0A */ u8 unkA;
-    /* 0x0B */ u8 unkB;
-    /* 0x0C */ void *unkC;
-    /* 0x10 */ void *unk10;
-    /* 0x14 */ void *unk14;
-    /* 0x18 */ u32 unk18;
-} GameOverC; /* 0x1C */
-
-typedef struct GameOverD {
-    /* 0x00 */ u8 filler0[0x18];
-    /* 0x18 */ GameOverScreen *unk18;
-    /* 0x1C */ GameOverB *unk1C;
-    /* 0x20 */ GameOverC *unk20;
-    /* 0x24 */ u32 unk24;
-    /* 0x28 */ u16 unk28;
-    /* 0x26 */ u8 filler2A[0x2];
-    /* 0x2C */ void *vram2C;
-    /* 0x30 */ void *vram30;
-} GameOverD; /* 0x34 */
 
 void Task_GameOverScreenInit(void);
 void Task_8056100(void);
@@ -67,7 +32,12 @@ void Task_80565C4(void);
 void Task_8056970(void);
 void Task_8056AC8(void);
 void Task_8056CE0(void);
+void Task_8056D30(void);
+void Task_8056D80(void);
+void Task_8056DD0(void);
 void Task_8056E24(void);
+void Task_8056E64(void);
+void Task_8056EC4(void);
 void Task_8056F54(void);
 void Task_8056F80(void);
 void Task_8056FA0(void);
@@ -880,5 +850,97 @@ void Task_8056AC8(void)
             CreateSegaLogo();
 #endif
         }
+    }
+}
+
+void TaskDestructor_GameOverScreen(struct Task *t)
+{
+    GameOverScreen *screen = TASK_DATA(t);
+    VramFree(screen->s.graphics.dest);
+    VramFree(screen->s2.graphics.dest);
+
+    gBldRegs.bldCnt = 0xFF;
+    gBldRegs.bldY = 0x10;
+}
+
+void Task_8056CE0(void)
+{
+    GameOverC *overC = TASK_DATA(gCurTask);
+    s16 unk18 = overC->unk18;
+
+    overC->unk18 = unk18 += 1;
+
+    if (unk18 >= 120) {
+        // TODO: Why is this set, then reset?
+        gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
+        gDispCnt |= DISPCNT_WIN0_ON;
+        gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
+
+        gCurTask->main = Task_8056D30;
+    }
+}
+
+void Task_8056D30(void)
+{
+    GameOverC *overC = TASK_DATA(gCurTask);
+    s16 unk18 = overC->unk18;
+    u16 prevDispcnt;
+
+    sub_805423C(overC);
+
+    gDispCnt |= DISPCNT_WIN0_ON;
+
+    overC->unk18 = unk18 += 1;
+
+    if (unk18 >= 136) {
+        gCurTask->main = Task_8056D80;
+    }
+}
+
+void Task_8056D80(void)
+{
+    GameOverC *overC = TASK_DATA(gCurTask);
+    s16 unk18 = overC->unk18;
+    u16 prevDispcnt;
+
+    sub_805423C(overC);
+
+    gDispCnt |= DISPCNT_WIN0_ON;
+
+    overC->unk18 = unk18 += 1;
+
+    if (unk18 >= 152) {
+        gCurTask->main = Task_8056DD0;
+    }
+}
+
+void Task_8056DD0(void)
+{
+    GameOverC *overC = TASK_DATA(gCurTask);
+    s16 unk18 = overC->unk18;
+    u16 prevDispcnt;
+
+    overC->unk18 = unk18 += 1;
+
+    sub_80543A4(overC);
+
+    gDispCnt |= DISPCNT_WIN0_ON;
+
+    if (unk18 >= 1382) {
+        gCurTask->main = Task_8056EC4;
+    }
+}
+
+void Task_8056E24(void)
+{
+    GameOverC *overC = TASK_DATA(gCurTask);
+    s16 unk18 = overC->unk18;
+    u16 prevDispcnt;
+
+    overC->unk18 = unk18 += 1;
+
+    if (unk18 >= 120) {
+        gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
+        gCurTask->main = Task_8056E64;
     }
 }

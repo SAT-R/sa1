@@ -2,6 +2,7 @@
 #define GUARD_gTask_03006240
 
 #include "task.h"
+#include "game/game_over.h"
 
 // TODO: Seems like this task is Game Over-related?
 
@@ -46,20 +47,6 @@ typedef struct {
     /* 0x14 */ u8 filler14[2];
     /* 0x16 */ u8 unk16;
 } Strc_8052C84; /* size: 0x18 */
-
-typedef struct GameOverB {
-    /* 0x00 */ u8 filler0[0x8];
-    /* 0x08 */ u16 unk8;
-    /* 0x0A */ s16 qUnkA;
-    /* 0x0C */ u16 unkC;
-    /* 0x0E */ u16 unkE;
-    /* 0x10 */ u16 unk10;
-    /* 0x12 */ u16 unk12;
-    /* 0x14 */ u8 filler14[0x2];
-    /* 0x16 */ u8 unk16;
-    /* 0x18 */ s32 unk18;
-    /* 0x1C */ void *vram1C;
-} GameOverB; /* 0x20 */
 
 extern struct Task *gTask_03006240;
 
