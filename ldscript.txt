@@ -213,7 +213,6 @@ SECTIONS {
         asm/ia_109.o(.text);
         asm/ia_pipe.o(.text);
         src/game/interactables/maze_air_corner.o(.text);
-        asm/ia_track_air_corner.o(.text);
         asm/ia_113.o(.text);
 
         /* Libs */
