@@ -200,6 +200,7 @@ SECTIONS {
         asm/ia_air_bubbles.o(.text);
         asm/ia_ice_block.o(.text);
         asm/ia_096.o(.text);
+        src/game/interactables/096.o(.text);
         src/game/interactables/updraft.o(.text);
         asm/ia_underwater_lava_platform.o(.text);
         asm/ia_099.o(.text);
