@@ -25,7 +25,7 @@
 #define MOVESTATE_20000              0x00020000
 #define MOVESTATE_40000              0x00040000
 #define MOVESTATE_80000              0x00080000
-#define MOVESTATE_100000             0x00100000
+#define MOVESTATE_100000             0x00100000 // visibility?
 #define MOVESTATE_IGNORE_INPUT       0x00200000 // does not ignore Start-Button
 #define MOVESTATE_IA_OVERRIDE        0x00400000
 #define MOVESTATE_800000             0x00800000

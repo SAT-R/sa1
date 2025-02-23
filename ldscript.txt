@@ -175,7 +175,7 @@ SECTIONS {
         asm/ia_panel_gate.o(.text);
         asm/ia_marble_track.o(.text);
         asm/ia_conveyor_belt.o(.text);
-        asm/ia_toggle_player_visibility.o(.text);
+        src/game/interactables/toggle_player_visibility.o(.text);
         asm/ia_wall_bumper.o(.text);
         asm/ia_teleport_orb.o(.text);
         asm/ia_flipper_small_blue.o(.text);
