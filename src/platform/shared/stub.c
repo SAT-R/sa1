@@ -29,6 +29,8 @@ void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { S
 
 void CreatePauseMenu(void) { }
 
+u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
+
 // UI
 void sub_80528AC() { }
 void sub_8052C84() { }
@@ -157,7 +159,6 @@ void CreateEntity_Spring_Hiding() { }
 void CreateEntity_Interactable109() { }
 void CreateEntity_PipeEntrance() { }
 void CreateEntity_PipeExit() { }
-void CreateEntity_TrackAirCorner() { }
 void CreateEntity_Interactable113() { }
 void CreateEntity_BreakableWall() { }
 void CreateEntity_ItemBox_ChaoHunt() { }
