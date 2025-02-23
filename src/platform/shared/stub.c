@@ -78,7 +78,6 @@ void CreateEntity_GrindRail_Start() { }
 void CreateEntity_GrindRail_End() { }
 void CreateEntity_PlatformThin() { }
 void CreateEntity_PlatformThin_Falling() { }
-void CreateEntity_Trampoline() { }
 void CreateEntity_PlatformCrumbling() { }
 void CreateEntity_BounceBlock() { }
 void CreateEntity_InclineRamp() { }
@@ -120,7 +119,6 @@ void CreateEntity_MarbleTrack_Unk() { }
 void CreateEntity_MarbleTrack_Entrance() { }
 void CreateEntity_MarbleTrack_Exit() { }
 void CreateEntity_ConveyorBelt() { }
-void CreateEntity_Toggle_PlayerVisibility() { }
 void CreateEntity_WallBumper() { }
 void CreateEntity_TeleportOrb() { }
 void CreateEntity_Flipper_SmallBlue() { }
@@ -145,7 +143,6 @@ void CreateEntity_BoulderSpawner() { }
 void CreateEntity_SpikedBarrel() { }
 void CreateEntity_AirBubbles() { }
 void CreateEntity_IceBlock() { }
-void CreateEntity_Interactable096() { }
 void CreateEntity_UnderwaterLavaPlatform() { }
 void CreateEntity_Interactable099() { }
 void CreateEntity_Booster_Steep() { }

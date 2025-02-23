@@ -91,16 +91,22 @@ typedef struct {
 #define GET_SP_PLAYER_V1(index) ((index != 0) ? &gPartner : &gPlayer)
 
 // NOTE: DO NOT USE, only for matching in SA1!!!
+#ifndef NON_MATCHING
 #define GET_SP_PLAYER_MEMBER_V0(index, _memb) ((index == 0) ? gPlayer._memb : gPartner._memb)
 #define GET_SP_PLAYER_MEMBER_V1(index, _memb) ((index != 0) ? gPartner._memb : gPlayer._memb)
+#else
+// NOTE: Modern compilers do not like having the regular macros as l-value!
+#define GET_SP_PLAYER_MEMBER_V0(index, _memb) GET_SP_PLAYER_V0(index)->_memb
+#define GET_SP_PLAYER_MEMBER_V1(index, _memb) GET_SP_PLAYER_V1(index)->_memb
+#endif
 #elif (GAME == GAME_SA2)
 // NOTE: Ignores index, in SA2 you only ever have 1 player char in single player mode
 #define GET_SP_PLAYER_V0(index)               (&gPlayer)
 #define GET_SP_PLAYER_V1(index)               (&gPlayer)
 
 // NOTE: DO NOT USE, only for matching in SA1!!!
-#define GET_SP_PLAYER_MEMBER_V0(index, _memb) ((index == 0) ? gPlayer._memb : gPlayer._memb)
-#define GET_SP_PLAYER_MEMBER_V1(index, _memb) ((index != 0) ? gPlayer._memb : gPlayer._memb)
+#define GET_SP_PLAYER_MEMBER_V0(index, _memb) gPlayer._memb
+#define GET_SP_PLAYER_MEMBER_V1(index, _memb) gPlayer._memb
 #elif (GAME == GAME_SA3)
 #define GET_SP_PLAYER_V0(index) ((index == PLAYER_1) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex])
 #define GET_SP_PLAYER_V1(index) ((index != PLAYER_1) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
