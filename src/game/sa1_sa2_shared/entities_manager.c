@@ -253,7 +253,7 @@ extern void CreateEntity_Lava(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Track(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Interactable107(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Spring_Hiding(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_Interactable109(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ToggleGravity(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_PipeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_TrackAirCorner(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -371,7 +371,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 106 */ CreateEntity_Track,
     /* 107 */ CreateEntity_Interactable107,
     /* 108 */ CreateEntity_Spring_Hiding,
-    /* 109 */ CreateEntity_Interactable109,
+    /* 109 */ CreateEntity_ToggleGravity,
     /* 110 */ CreateEntity_PipeEntrance,
     /* 111 */ CreateEntity_PipeExit,
     /* 112 */ CreateEntity_TrackAirCorner,

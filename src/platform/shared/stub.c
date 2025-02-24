@@ -156,7 +156,6 @@ void CreateEntity_Lava() { }
 void CreateEntity_Track() { }
 void CreateEntity_Interactable107() { }
 void CreateEntity_Spring_Hiding() { }
-void CreateEntity_Interactable109() { }
 void CreateEntity_PipeEntrance() { }
 void CreateEntity_PipeExit() { }
 void CreateEntity_Interactable113() { }

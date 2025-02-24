@@ -210,7 +210,7 @@ SECTIONS {
         asm/ia_track.o(.text);
         asm/ia_107.o(.text);
         asm/ia_spring_hiding.o(.text);
-        asm/ia_109.o(.text);
+        src/game/interactables/109.o(.text);
         asm/ia_pipe.o(.text);
         src/game/interactables/maze_air_corner.o(.text);
         asm/ia_113.o(.text);
