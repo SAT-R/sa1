@@ -49,7 +49,7 @@ typedef struct GameOverC {
     /* 0x0C */ void *unkC;
     /* 0x10 */ void *unk10;
     /* 0x14 */ void *unk14;
-    /* 0x18 */ u32 unk18;
+    /* 0x18 */ void *unk18;
 } GameOverC; /* 0x1C */
 
 typedef struct GameOverD {
