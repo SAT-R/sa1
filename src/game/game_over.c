@@ -920,7 +920,7 @@ void Task_8056DD0(void)
 
     overC->unk18 = unk18 += 1;
 
-    sub_80543A4(overC);
+    sub_80543A4(&overC->unk0);
 
     gDispCnt |= DISPCNT_WIN0_ON;
 

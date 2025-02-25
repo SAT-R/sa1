@@ -35,7 +35,7 @@ u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
 void sub_80528AC() { }
 void sub_8052C84() { }
 void sub_80530CC() { }
-void sub_805423C() { }
+bool32 sub_805423C() { return FALSE; }
 void sub_80543A4() { }
 void sub_80550F8() { }
 

@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_8055458
 Task_8055458: @ 0x08055458
 	push {r4, r5, r6, r7, lr}
@@ -21,29 +19,29 @@ Task_8055458: @ 0x08055458
 	ldrh r5, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
-	adds r4, r5, r1
+	adds r4, r5, r1     @ r4 = strcMain
 	ldr r0, [r4, #0xc]
 	ldrh r0, [r0, #6]
-	adds r6, r0, r1
+	adds r6, r0, r1     @ r6 = strc1
 	ldr r0, [r4, #0x10]
 	ldrh r0, [r0, #6]
-	adds r7, r0, r1
+	adds r7, r0, r1     @ r7 = strc2
 	ldr r0, [r4, #0x14]
 	ldrh r0, [r0, #6]
 	adds r0, r0, r1
-	mov r8, r0
+	mov r8, r0          @ r8 = strc3
 	ldr r0, [r4, #0x18]
 	ldrh r0, [r0, #6]
 	adds r0, r0, r1
-	mov sb, r0
+	mov sb, r0          @ sb = strc4
 	ldr r0, [r4, #0x1c]
 	ldrh r0, [r0, #6]
 	adds r0, r0, r1
-	mov sl, r0
+	mov sl, r0          @ sl = strc5
 	ldr r0, [r4, #0x20]
 	ldrh r0, [r0, #6]
 	adds r0, r0, r1
-	str r0, [sp]
+	str r0, [sp]        @ sp00 = strc6
 	ldr r0, _08055598 @ =gPressedKeys
 	ldrh r1, [r0]
 	movs r0, #0xf3
@@ -102,7 +100,7 @@ _080554E8:
 	ldrb r1, [r5]
 	adds r0, r6, #0
 	adds r0, #0x20
-	strb r1, [r0]
+	strb r1, [r0]       @ strc1->unk20 = strcMain->unk26;
 	ldrb r1, [r5]
 	adds r0, r7, #0
 	adds r0, #0x20
@@ -222,7 +220,7 @@ _080555D4:
 	adds r5, r3, #0
 	adds r2, r3, #0
 	adds r2, #0xc
-_08055604:
+_08055604_loop:
 	ldm r5!, {r0}
 	ldrh r1, [r0, #6]
 	adds r1, r1, r7
@@ -234,7 +232,7 @@ _08055604:
 	bhi _0805561C
 	ldr r0, [r3]
 	cmp r0, #0
-	bne _08055604
+	bne _08055604_loop
 _0805561C:
 	movs r0, #0x78
 	mov r1, r8
@@ -352,6 +350,7 @@ _0805571A:
 	bx r0
 	.align 2, 0
 _0805572C: .4byte gCurrentLevel
+.endif
 
 	thumb_func_start Task_8055730
 Task_8055730: @ 0x08055730

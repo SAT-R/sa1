@@ -110,7 +110,7 @@
 #define IA__TRACK                      106
 #define IA__IA107                      107
 #define IA__SPRING__HIDING             108
-#define IA__ToggleGravity              109
+#define IA__TOGGLE_GRAVITY             109
 #define IA__PIPE_ENTRANCE              110
 #define IA__PIPE_EXIT                  111
 #define IA__TRACK_AIR_CORNER           112
