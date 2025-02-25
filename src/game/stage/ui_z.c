@@ -1,9 +1,12 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "game/sa1_sa2_shared/player.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/gTask_03006240.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/stage/ui.h"
+#include "game/water_effects.h"
 
 #include "constants/zones.h"
 
@@ -65,6 +68,10 @@ typedef struct {
 } StrcStack;
 
 void sub_8054A80(void *);
+void sub_804A5D8(s32 x, s32 y);
+
+void CreateStageUI(void);
+void CreateMultiplayerMultiPakUI(void);
 
 // Output: struct Task *t -> Struct_sub_80550F8
 // (94.00%) https://decomp.me/scratch/e0aBK
@@ -234,24 +241,24 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
 }
 END_NONMATCH
 
-#if 0
-void Task_8055458(void)
+// (90.26%) https://decomp.me/scratch/eeD7q
+NONMATCH("asm/non_matching/game/stage/ui__Task_8055458.inc", void Task_8055458(void))
 {
     Strc_Ui_28 *strcMain = TASK_DATA(gCurTask);
-    Strc_Ui_24 *strc1 = TASK_DATA(strcMain->taskC );
+    Strc_Ui_24 *strc1 = TASK_DATA(strcMain->taskC);
     Strc_Ui_24 *strc2 = TASK_DATA(strcMain->task10);
     Strc_Ui_24 *strc3 = TASK_DATA(strcMain->task14);
     Strc_Ui_24 *strc4 = TASK_DATA(strcMain->task18);
     Strc_Ui_24 *strc5 = TASK_DATA(strcMain->task1C);
     Strc_Ui_24 *strc6 = TASK_DATA(strcMain->task20);
 
-    if((gPressedKeys & (A_BUTTON | B_BUTTON | DPAD_ANY)) && IS_SINGLE_PLAYER) {
-        if((strcMain->unk24 > 35) && (strcMain->unk24 < 215)) {
+    if ((gPressedKeys & (A_BUTTON | B_BUTTON | DPAD_ANY)) && IS_SINGLE_PLAYER) {
+        if ((strcMain->unk24 > 35) && (strcMain->unk24 < 215)) {
             strcMain->unk24 = 215;
 
             strcMain->unk0.unk8 = Div(0x2000 - strcMain->unk0.unk6, 10);
-            
-            if(strcMain->unk27 == 0) {
+
+            if (strcMain->unk27 == 0) {
                 strcMain->unk26 = sub_805423C(&strcMain->unk0);
             }
         }
@@ -279,9 +286,9 @@ void Task_8055458(void)
     strc5->unk21 = strcMain->unk27;
     strc6->unk21 = strcMain->unk27;
 
-    if(strcMain->unk27 == 0) {
-        if((strcMain->unk24 <= 105) || !strcMain->unk26) {
-            if(strcMain->unk24 > 20) {
+    if (strcMain->unk27 == 0) {
+        if ((strcMain->unk24 <= 105) || !strcMain->unk26) {
+            if (strcMain->unk24 > 20) {
                 strcMain->unk26 = sub_805423C(&strcMain->unk0);
             } else {
                 sub_80543A4(&strcMain->unk0);
@@ -290,16 +297,59 @@ void Task_8055458(void)
     }
     // _080555AE
 
-    if(++strcMain->unk24 > 225) {
+    if (++strcMain->unk24 > 225) {
         // _080555BE
-        if(strc1->unk0 == 0) {
-            gDispCnt &= ~(DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
+        if (strc1->unk0 == 0) {
+            gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
             gBldRegs.bldCnt = 0;
             gBldRegs.bldY = 0;
         }
-    } else if(gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_1) || gCurrentLevel >= LEVEL_INDEX(ZONE_4, ACT_2)){
+
+        if (IS_MULTI_PLAYER) {
+            u32 i;
+            for (i = 0; (i < MULTI_SIO_PLAYERS_MAX) && (gMultiplayerPlayerTasks[i] != NULL); i++) {
+                MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
+                mpp->unk5C &= ~0x2;
+            }
+
+            gPlayer.timerInvulnerability = ZONE_TIME_TO_INT(0, 2);
+        }
+        // _08055622
+
+        gStageFlags &= ~STAGE_FLAG__ACT_START;
+        gPlayer.moveState &= ~MOVESTATE_IGNORE_INPUT;
+        gPartner.moveState &= ~MOVESTATE_IGNORE_INPUT;
+
+        SA2_LABEL(gUnknown_030054B0) = gCurrentLevel;
+
+        gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__80;
+        gStageFlags &= ~STAGE_FLAG__DISABLE_PAUSE_MENU;
+
+        if (gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_1) || gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2)) {
+            LoadPalette423Anim();
+            sub_804C40C();
+        }
+
+        TaskDestroy(strcMain->task20);
+        TaskDestroy(strcMain->task1C);
+        TaskDestroy(strcMain->task18);
+        TaskDestroy(strcMain->task14);
+        TaskDestroy(strcMain->task10);
+        TaskDestroy(strcMain->taskC);
+        TaskDestroy(gCurTask);
+
+        if (IS_SINGLE_PLAYER | (gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_MULTI_PLAYER)) {
+            CreateStageUI();
+        } else {
+            CreateMultiplayerMultiPakUI();
+        }
+
+        if (IS_EXTRA_STAGE(gCurrentLevel)) {
+            sub_804A5D8(Q(DISPLAY_WIDTH / 2), Q(DISPLAY_HEIGHT / 2));
+        }
+    } else if (gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_1) || gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2)) {
         //_08055708
         sub_804C40C();
     }
 }
-#endif
+END_NONMATCH
