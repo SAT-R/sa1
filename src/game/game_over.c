@@ -197,12 +197,12 @@ void CreateGameOverScreen(LostLifeCause lostLifeCause)
             t = TaskCreate(Task_8056CE0, sizeof(GameOverC), 0x2000, 0, TaskDestructor_8056F30);
             overC = TASK_DATA(t);
             overC->unk18 = 0;
-            overC->unk0 = 0;
-            overC->unk2 = 1;
-            overC->unk4 = 1;
-            overC->unk6 = 0;
-            overC->unk8 = 64;
-            overC->unkA = 1;
+            overC->unk0.unk0 = 0;
+            overC->unk0.unk2 = 1;
+            overC->unk0.unk4 = 1;
+            overC->unk0.unk6 = 0;
+            overC->unk0.unk8 = 64;
+            overC->unk0.unkA = 1;
 
             t2 = TaskCreate(Task_8056FA0, sizeof(GameOverD), 0x2000, 0, NULL);
             overD = TASK_DATA(t2);
@@ -223,12 +223,12 @@ void CreateGameOverScreen(LostLifeCause lostLifeCause)
             t = TaskCreate(Task_8056E24, sizeof(GameOverC), 0x2000, 0, TaskDestructor_8056F30);
             overC = TASK_DATA(t);
             overC->unk18 = 0;
-            overC->unk0 = 0;
-            overC->unk2 = 1;
-            overC->unk4 = 1;
-            overC->unk6 = 0;
-            overC->unk8 = 96;
-            overC->unkA = 1;
+            overC->unk0.unk0 = 0;
+            overC->unk0.unk2 = 1;
+            overC->unk0.unk4 = 1;
+            overC->unk0.unk6 = 0;
+            overC->unk0.unk8 = 96;
+            overC->unk0.unkA = 1;
             strc.vram8 = VramMalloc(16); // TODO: ALLOC_TILES()!
             strc.vram0 = VramMalloc(16); // TODO: ALLOC_TILES()!
             strc.vram4 = VramMalloc(40); // TODO: ALLOC_TILES()!
@@ -886,7 +886,7 @@ void Task_8056D30(void)
     GameOverC *overC = TASK_DATA(gCurTask);
     s16 unk18 = overC->unk18;
 
-    sub_805423C(overC);
+    sub_805423C(&overC->unk0);
 
     gDispCnt |= DISPCNT_WIN0_ON;
 
@@ -902,7 +902,7 @@ void Task_8056D80(void)
     GameOverC *overC = TASK_DATA(gCurTask);
     s16 unk18 = overC->unk18;
 
-    sub_805423C(overC);
+    sub_805423C(&overC->unk0);
 
     gDispCnt |= DISPCNT_WIN0_ON;
 
@@ -953,7 +953,7 @@ void Task_8056E64(void)
     r0_s = r0 * 32;
     r5 = r0_s / 96;
 
-    sub_805423C(overC);
+    sub_805423C(&overC->unk0);
 
     gDispCnt |= DISPCNT_WIN0_ON;
 
@@ -973,7 +973,7 @@ void Task_8056EC4(void)
 
     overC->unk18 = unk18 += 1;
 
-    sub_805423C(overC);
+    sub_805423C(&overC->unk0);
 
     gDispCnt |= DISPCNT_WIN0_ON;
 

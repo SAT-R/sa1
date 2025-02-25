@@ -36,7 +36,11 @@ typedef struct {
 } Strc_Ui_24;
 
 typedef struct {
-    /* 0x00 */ GameOverC overC;
+    /* 0x00 */ StrcUi_805423C overC;
+    /* 0x0C */ void *unkC;
+    /* 0x10 */ void *unk10;
+    /* 0x14 */ void *unk14;
+    /* 0x18 */ void *unk18;
     /* 0x1C */ struct Task *task1C;
     /* 0x20 */ struct Task *task20;
     /* 0x24 */ u16 unk24;
@@ -60,7 +64,7 @@ typedef struct {
 void sub_8054A80(void *);
 
 // Output: struct Task *t -> Struct_sub_80550F8
-// (94.00%) https://decomp.me/scratch/wEQCB
+// (94.00%) https://decomp.me/scratch/e0aBK
 NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_80550F8(void))
 {
     Strc_Ui_24 *ui_24;
@@ -206,10 +210,10 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_28 = TASK_DATA(t);
     ui_28->unk24 = 0;
     ui_28->unk26 = 1;
-    ui_28->overC.unkC = sp04.task1C;
-    ui_28->overC.unk10 = sp04.task20;
-    ui_28->overC.unk14 = sp04.task18;
-    ui_28->overC.unk18 = sp04.task24;
+    ui_28->unkC = sp04.task1C;
+    ui_28->unk10 = sp04.task20;
+    ui_28->unk14 = sp04.task18;
+    ui_28->unk18 = sp04.task24;
     ui_28->task1C = sp04.task14;
     ui_28->task20 = t6;
     ui_28->overC.unk0 = 0;
