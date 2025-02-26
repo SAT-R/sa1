@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
+.if 01
 	thumb_func_start Task_8055AA0
 Task_8055AA0: @ 0x08055AA0
 	push {lr}
@@ -14,7 +14,7 @@ Task_8055AA0: @ 0x08055AA0
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r1, r1, r0
+	adds r1, r1, r0         @ r1 = strc
 	ldrh r0, [r1, #0x18]
 	lsls r0, r0, #0x10
 	asrs r2, r0, #0x10
