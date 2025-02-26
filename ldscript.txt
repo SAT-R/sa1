@@ -132,7 +132,6 @@ SECTIONS {
         src/game/gTask_03006240.o(.text);
         asm/game__stage__ui.o(.text);
         src/game/stage/ui_z.o(.text);
-        asm/game__stage__ui_z.o(.text);
         src/game/game_over.o(.text);
         asm/game__stage__results.o(.text);
         asm/game_2.o(.text);

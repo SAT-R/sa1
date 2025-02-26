@@ -288,7 +288,7 @@ _080552E6:
 	adds r5, r5, r1
 	movs r2, #0
 	strb r2, [r5]
-	ldr r0, _08055444 @ =sub_8055B18
+	ldr r0, _08055444 @ =Task_8055B18
 	mov r3, sb
 	str r3, [sp]
 	movs r1, #0x24
@@ -392,7 +392,7 @@ _08055434: .4byte TaskDestructor_8055C38
 _08055438: .4byte 0x00002120
 _0805543C: .4byte 0x03000020
 _08055440: .4byte 0x03000021
-_08055444: .4byte sub_8055B18
+_08055444: .4byte Task_8055B18
 _08055448: .4byte Task_8055458
 _0805544C: .4byte TaskDestructor_8055C4C
 _08055450: .4byte 0x03000026

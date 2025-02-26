@@ -28,7 +28,7 @@ typedef struct {
     u8 unk0;
     u8 filler1[0x7];
     u16 unk8;
-    s16 qUnkA;
+    s16 qUnkA; // NOTE: I'm not too sure this is a Q() value, anymore...
     s16 unkC;
     s16 unkE;
     u16 unk10;
@@ -77,6 +77,7 @@ extern const u8 gUnknown_086883AC[];
 extern const u8 gUnknown_086883B0[];
 extern const u8 gUnknown_086883B8[];
 extern const u8 gUnknown_086883C4[];
+extern const u8 gUnknown_086883CC[16];
 
 void CreateStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
@@ -543,7 +544,6 @@ void Task_8055AA0()
             strc->qUnkA = Q(112. / 256.);
         }
     }
-    // _08055AE0
 
     if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
         sub_8052F78(&gUnknown_086883C4[0], (void *)strc);
@@ -551,3 +551,85 @@ void Task_8055AA0()
         sub_80530CC(&gUnknown_086883C4[0], (void *)strc);
     }
 }
+
+void Task_8055B18()
+{
+    // TODO: Inline the mem calls!
+    // const u8 arr0[16] = { /* data here */ };
+    const u8 arr0[22 + 5];
+    memcpy((void *)arr0, &gUnknown_086883CC[0], sizeof(arr0) - 5);
+    memset((void *)(arr0 + 22), 0, 5);
+
+    {
+        Strc_Ui_24 *strc = TASK_DATA(gCurTask);
+
+        if (strc->unk18 > 215) {
+            u16 qInitialUnkA = strc->qUnkA;
+
+            strc->qUnkA -= Q(28. / 256.);
+
+            if (strc->qUnkA < -Q(31. / 256.)) {
+                strc->unkE--;
+                strc->qUnkA = qInitialUnkA + Q(4. / 256.);
+                strc->unk1A = Mod(strc->unk1A + 1, 7);
+            }
+
+            if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
+                sub_8052F78(&arr0[strc->unk1A], (void *)strc);
+            } else {
+                sub_80530CC(&arr0[strc->unk1A], (void *)strc);
+            }
+        } else if (strc->unk18 > 25) {
+            u16 qInitialUnkA = strc->qUnkA;
+            strc->qUnkA = qInitialUnkA - Q(2. / 256.);
+            strc->unkE = 9;
+
+            if (strc->qUnkA < -Q(31. / 256.)) {
+                strc->qUnkA = qInitialUnkA + Q(30. / 256.);
+                strc->unk1A = Mod(strc->unk1A + 1, 7);
+            }
+
+            if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
+                sub_8052F78(&arr0[strc->unk1A], (void *)strc);
+            } else {
+                sub_80530CC(&arr0[strc->unk1A], (void *)strc);
+            }
+        } else if (strc->unk18 > 15) {
+            // _08055BC0
+            u16 qInitialUnkA;
+            strc->unkC = 0x80;
+
+            qInitialUnkA = strc->qUnkA;
+
+            strc->qUnkA -= Q(28. / 256.);
+
+            if (strc->qUnkA < Q(240. / 256.)) {
+                strc->unkE = 9 - (strc->qUnkA >> 5);
+
+                if (strc->qUnkA < -Q(31. / 256.)) {
+                    strc->qUnkA = qInitialUnkA + 4;
+                    strc->unk1A = Mod(strc->unk1A + 1, 7);
+                }
+
+                if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
+                    sub_8052F78(&arr0[strc->unk1A], (void *)strc);
+                } else {
+                    sub_80530CC(&arr0[strc->unk1A], (void *)strc);
+                }
+            }
+        }
+    }
+}
+
+void TaskDestructor_8055C38(struct Task *t)
+{
+    Strc_Ui_24 *strc = TASK_DATA(t);
+#ifdef BUG_FIX
+    if (strc->unk1C != NULL)
+#endif
+    {
+        VramFree(strc->unk1C);
+    }
+}
+
+void TaskDestructor_8055C4C(struct Task *t) { }
