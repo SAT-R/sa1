@@ -53,6 +53,7 @@ extern struct Task *gTask_03006240;
 void sub_80535FC(void);
 IwramData sub_8053674(void);
 void sub_80528AC(Strc_80528AC *strc);
+void sub_8052F78(const u8 *param0, struct GameOverB *strc);
 void sub_80530CC(const u8 *param0, struct GameOverB *param1);
 void sub_8055C50(Strc_8055C50 *param0);
 

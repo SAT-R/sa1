@@ -24,17 +24,19 @@ void Task_8055B18(void);
 void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
 typedef struct {
+    // TODO: Seems like this (until incl. unk16?) is GameOverB?
     u8 unk0;
     u8 filler1[0x7];
     u16 unk8;
-    u16 unkA;
-    u16 unkC;
+    s16 qUnkA;
+    s16 unkC;
     u16 unkE;
     u16 unk10;
     u16 unk12;
     u16 unk14;
     u8 unk16;
-    u16 unk18;
+
+    s16 unk18;
     u16 unk1A;
     void *unk1C;
     bool8 unk20;
@@ -69,6 +71,10 @@ typedef struct {
 
 void sub_8054A80(void *);
 void sub_804A5D8(s32 x, s32 y);
+
+extern const u8 gUnknown_08688394[];
+extern const u8 gUnknown_086883AC[];
+extern const u8 gUnknown_086883B0[];
 
 void CreateStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
@@ -110,7 +116,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->unkA = -80;
+    ui_24->qUnkA = -Q(80. / 256.);
     ui_24->unkC = 0;
     ui_24->unkE = 3;
     ui_24->unk8 = 24;
@@ -128,7 +134,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 0;
     ui_24->unk1A = 1;
-    ui_24->unkA = +20;
+    ui_24->qUnkA = +Q(20. / 256.);
     ui_24->unkE = 1;
     ui_24->unk8 = 24;
     ui_24->unk10 = 7;
@@ -147,7 +153,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->unkA = +180;
+    ui_24->qUnkA = +Q(180. / 256.);
     ui_24->unkC = 160;
     ui_24->unkE = 6;
     ui_24->unk10 = 10;
@@ -166,11 +172,11 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk1A = 0;
 
     if (((gCurrentLevel & 0x1) != ACT_1) && (SA2_LABEL(gUnknown_030054B0) != gCurrentLevel) && (!IS_EXTRA_STAGE(gCurrentLevel))) {
-        ui_24->unkA = -16;
+        ui_24->qUnkA = -Q(16. / 256.);
         ui_24->unkC = +42;
 
     } else {
-        ui_24->unkA = +240;
+        ui_24->qUnkA = +Q(240. / 256.);
         ui_24->unkC = 126;
     }
 
@@ -189,7 +195,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->unkA = +360;
+    ui_24->qUnkA = +Q(360. / 256.);
     ui_24->unkC = 114;
     ui_24->unkE = 4;
     ui_24->unk10 = 9;
@@ -205,7 +211,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->unkA = +256;
+    ui_24->qUnkA = +Q(1.0);
     ui_24->unkC = 128;
     ui_24->unkE = 9;
     ui_24->unk10 = 2;
@@ -353,3 +359,115 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055458.inc", void Task_8055458(v
     }
 }
 END_NONMATCH
+
+void Task_8055730(void)
+{
+    Strc_Ui_24 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk18 > 215) {
+        strc->qUnkA -= Q(8. / 256.);
+    } else if (strc->unk18 > 10) {
+        strc->qUnkA = 0;
+    } else if (strc->unk18 > 0) {
+        strc->qUnkA += Q(8. / 256.);
+    }
+
+    if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
+        // TODO: Resolve cast!
+        sub_8052F78(gUnknown_086883AC, (void *)strc);
+    } else {
+        // TODO: Resolve cast!
+        sub_80530CC(gUnknown_086883AC, (void *)strc);
+    }
+}
+
+// (65.69%) https://decomp.me/scratch/wlHG6
+NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(void))
+{
+    Strc_Ui_24 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk18 > 215) {
+        s32 r5 = 0;
+        s16 r6 = -Div((strc->unk18 - 215) << 7, 10);
+        s16 r8 = r6;
+        const u8 *r7 = &gUnknown_08688394[0];
+
+        for (; r5 < 4; r8 += 0x20, r6 += 0x20, r7++, r5++) {
+            strc->unkC = r6;
+
+            if (r8 >= -32) {
+                if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
+                    sub_8052F78(r7, (void *)strc); // TODO: cast
+                } else {
+                    sub_80530CC(r7, (void *)strc); // TODO: cast
+                }
+            }
+            // _08055814
+        }
+    } else if (strc->unk18 > 31) {
+        // _08055826 + 0x4
+        s32 r5 = 0;
+
+        const u8 *r6 = &gUnknown_08688394[0];
+
+        for (; r5 < 4; r6++, r5++) {
+            strc->unkC = r5 * 32;
+
+            if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
+                sub_8052F78(r6, (void *)strc); // TODO: cast
+            } else {
+                sub_80530CC(r6, (void *)strc); // TODO: cast
+            }
+        }
+    } else if (strc->unk18 > 25) {
+        // _0805586E + 0x4
+
+        s32 r8 = (Div((strc->unk18 - 215) << 7, 6) - 176) & 0x1FF;
+
+        s32 r5 = 0;
+        s16 r2 = r8;
+        s32 r6 = r2;
+        r8 = r2;
+        for (; r5 < 4; r2 += 0x20, r6 += 0x20, r5++) {
+            if (r8 > 421) {
+                strc->unkC = r6;
+
+                if (r2 >= -0x20) {
+                    if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
+                        sub_8052F78(&gUnknown_08688394[r5], (void *)strc); // TODO: cast
+                    } else {
+                        sub_80530CC(&gUnknown_08688394[r5], (void *)strc); // TODO: cast
+                    }
+                }
+            }
+        }
+    }
+}
+END_NONMATCH
+
+void Task_8055904(void)
+{
+    Strc_Ui_24 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk18 > 215) {
+        if (strc->unkC < 160) {
+            strc->unkC += 2;
+        }
+    } else if (strc->unk18 > 35) {
+        strc->qUnkA = Q(180. / 256.);
+        strc->unkC = 144;
+        strc->unkE = 6;
+    } else if (strc->unk18 > 30) {
+        if (strc->unkC > 144) {
+            strc->unkC -= 3;
+        }
+    }
+
+    if (gCurrentLevel <= LEVEL_INDEX(ZONE_6, ACT_2)) {
+        if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
+            sub_8052F78(&gUnknown_086883B0[0], (void *)strc); // TODO: cast
+        } else {
+            sub_80530CC(&gUnknown_086883B0[0], (void *)strc); // TODO: cast
+        }
+    }
+}

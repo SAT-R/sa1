@@ -37,7 +37,6 @@ void sub_8052C84() { }
 void sub_80530CC() { }
 bool32 sub_805423C() { return FALSE; }
 void sub_80543A4() { }
-void sub_80550F8() { }
 
 void sub_804D02C() { }
 void sub_805B9E8() { }

@@ -25,10 +25,11 @@ typedef struct {
 } GameOverScreen;
 
 typedef struct GameOverB {
-    /* 0x00 */ u8 filler0[0x8];
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 filler1[0x7];
     /* 0x08 */ u16 unk8;
     /* 0x0A */ s16 qUnkA;
-    /* 0x0C */ u16 unkC;
+    /* 0x0C */ s16 unkC;
     /* 0x0E */ u16 unkE;
     /* 0x10 */ u16 unk10;
     /* 0x12 */ u16 unk12;
