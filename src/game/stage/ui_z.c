@@ -30,7 +30,7 @@ typedef struct {
     u16 unk8;
     s16 qUnkA;
     s16 unkC;
-    u16 unkE;
+    s16 unkE;
     u16 unk10;
     u16 unk12;
     u16 unk14;
@@ -75,6 +75,7 @@ void sub_804A5D8(s32 x, s32 y);
 extern const u8 gUnknown_08688394[];
 extern const u8 gUnknown_086883AC[];
 extern const u8 gUnknown_086883B0[];
+extern const u8 gUnknown_086883B8[];
 
 void CreateStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
@@ -469,5 +470,57 @@ void Task_8055904(void)
         } else {
             sub_80530CC(&gUnknown_086883B0[0], (void *)strc); // TODO: cast
         }
+    }
+}
+
+void Task_8055998(void)
+{
+    Strc_Ui_24 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk18 > 215) {
+        if (strc->qUnkA < -0x20) {
+            strc->qUnkA += Q(32. / 256.);
+
+            if (strc->unkE != 0) {
+                strc->unkE--;
+            }
+        }
+
+        strc->qUnkA -= Q(26. / 256.);
+    } else if (strc->unk18 > 25) {
+        strc->qUnkA = -Q(16. / 256.);
+    } else if (strc->unk18 > 15) {
+        if (IS_EXTRA_STAGE(gCurrentLevel)) {
+            // Extra Stage
+            strc->unkC = 126;
+            strc->qUnkA -= Q(26. / 256);
+
+            if (strc->qUnkA < -Q(16. / 256.)) {
+                strc->qUnkA = -Q(16. / 256.);
+            }
+        } else if ((gCurrentLevel < LEVEL_INDEX(ZONE_FINAL, ACT_THE_MOON)) && ((gCurrentLevel & 0x1) != ACT_1)
+                   && ((SA2_LABEL(gUnknown_030054B0)) != gCurrentLevel)) {
+            // Singleplayer Stage
+            strc->qUnkA = -Q(16. / 256.);
+            strc->unkC += 9;
+
+            if (strc->unkC > 126) {
+                strc->unkC = 126;
+            }
+        } else {
+            // Multiplayer Stage
+            strc->unkC = 126;
+            strc->qUnkA -= Q(26. / 256);
+
+            if (strc->qUnkA < -Q(16. / 256.)) {
+                strc->qUnkA = -Q(16. / 256.);
+            }
+        }
+    }
+
+    if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
+        sub_8052F78(&gUnknown_086883B8[0], (void *)strc);
+    } else {
+        sub_80530CC(&gUnknown_086883B8[0], (void *)strc);
     }
 }

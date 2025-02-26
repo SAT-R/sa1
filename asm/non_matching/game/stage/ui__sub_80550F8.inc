@@ -246,7 +246,7 @@ _080552E6:
 	adds r0, #0x21
 	movs r3, #0
 	strb r3, [r0]
-	ldr r0, _08055430 @ =sub_8055AA0
+	ldr r0, _08055430 @ =Task_8055AA0
 	ldr r1, _08055434 @ =TaskDestructor_8055C38
 	mov sb, r1
 	str r1, [sp]
@@ -387,7 +387,7 @@ _080552E6:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08055430: .4byte sub_8055AA0
+_08055430: .4byte Task_8055AA0
 _08055434: .4byte TaskDestructor_8055C38
 _08055438: .4byte 0x00002120
 _0805543C: .4byte 0x03000020
