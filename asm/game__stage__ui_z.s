@@ -6,72 +6,6 @@
 .arm
 
 .if 01
-	thumb_func_start Task_8055AA0
-Task_8055AA0: @ 0x08055AA0
-	push {lr}
-	ldr r0, _08055AC0 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r1, r1, r0         @ r1 = strc
-	ldrh r0, [r1, #0x18]
-	lsls r0, r0, #0x10
-	asrs r2, r0, #0x10
-	cmp r2, #0xd7
-	ble _08055AC4
-	ldrh r0, [r1, #0xa]
-	subs r0, #0x1a
-	b _08055ADE
-	.align 2, 0
-_08055AC0: .4byte gCurTask
-_08055AC4:
-	cmp r2, #0x19
-	bgt _08055ADC
-	lsrs r0, r0, #0x10
-	cmp r0, #0xf
-	bls _08055AE0
-	ldrh r0, [r1, #0xa]
-	subs r0, #0x1a
-	strh r0, [r1, #0xa]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0x6f
-	bgt _08055AE0
-_08055ADC:
-	movs r0, #0x70
-_08055ADE:
-	strh r0, [r1, #0xa]
-_08055AE0:
-	ldrh r0, [r1, #0x18]
-	cmp r0, #0x69
-	bls _08055AFA
-	adds r0, r1, #0
-	adds r0, #0x20
-	ldrb r0, [r0]
-	cmp r0, #0
-	beq _08055AFA
-	adds r0, r1, #0
-	adds r0, #0x21
-	ldrb r0, [r0]
-	cmp r0, #0
-	beq _08055B08
-_08055AFA:
-	ldr r0, _08055B04 @ =gUnknown_086883C4
-	bl sub_8052F78
-	b _08055B0E
-	.align 2, 0
-_08055B04: .4byte gUnknown_086883C4
-_08055B08:
-	ldr r0, _08055B14 @ =gUnknown_086883C4
-	bl sub_80530CC
-_08055B0E:
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08055B14: .4byte gUnknown_086883C4
-.endif
-
 	thumb_func_start sub_8055B18
 sub_8055B18: @ 0x08055B18
 	push {r4, r5, lr}
@@ -217,6 +151,7 @@ _08055C2E:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start TaskDestructor_8055C38
 TaskDestructor_8055C38: @ 0x08055C38

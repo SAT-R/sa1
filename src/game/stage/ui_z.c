@@ -76,6 +76,7 @@ extern const u8 gUnknown_08688394[];
 extern const u8 gUnknown_086883AC[];
 extern const u8 gUnknown_086883B0[];
 extern const u8 gUnknown_086883B8[];
+extern const u8 gUnknown_086883C4[];
 
 void CreateStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
@@ -522,5 +523,31 @@ void Task_8055998(void)
         sub_8052F78(&gUnknown_086883B8[0], (void *)strc);
     } else {
         sub_80530CC(&gUnknown_086883B8[0], (void *)strc);
+    }
+}
+
+void Task_8055AA0()
+{
+    Strc_Ui_24 *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk18 > 215) {
+        strc->qUnkA -= Q(26. / 256.);
+    } else if (strc->unk18 > 25) {
+        strc->qUnkA = Q(112 / 256.);
+
+        // TODO: Match without cast!
+    } else if ((u16)strc->unk18 > 15) {
+        strc->qUnkA -= Q(26. / 256.);
+
+        if (strc->qUnkA < Q(112. / 256.)) {
+            strc->qUnkA = Q(112. / 256.);
+        }
+    }
+    // _08055AE0
+
+    if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
+        sub_8052F78(&gUnknown_086883C4[0], (void *)strc);
+    } else {
+        sub_80530CC(&gUnknown_086883C4[0], (void *)strc);
     }
 }
