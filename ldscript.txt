@@ -175,7 +175,7 @@ SECTIONS {
         asm/ia_bowl.o(.text);
         asm/ia_panel_gate.o(.text);
         asm/ia_marble_track.o(.text);
-        asm/ia_conveyor_belt.o(.text);
+        asm/ia_conveyor_belt_movement.o(.text);
         src/game/interactables/toggle_player_visibility.o(.text);
         asm/ia_wall_bumper.o(.text);
         asm/ia_teleport_orb.o(.text);
@@ -203,7 +203,7 @@ SECTIONS {
         src/game/interactables/096.o(.text);
         src/game/interactables/updraft.o(.text);
         asm/ia_underwater_lava_platform.o(.text);
-        asm/ia_099.o(.text);
+        src/game/interactables/conveyor_belt_object.o(.text);
         asm/ia_special_spring.o(.text);
         src/game/interactables/propeller.o(.text);
         asm/ia_small_fall_block.o(.text);

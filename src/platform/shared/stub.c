@@ -145,7 +145,7 @@ void CreateEntity_SpikedBarrel() { }
 void CreateEntity_AirBubbles() { }
 void CreateEntity_IceBlock() { }
 void CreateEntity_UnderwaterLavaPlatform() { }
-void CreateEntity_Interactable099() { }
+void CreateEntity_ConveyorBeltObject() { }
 void CreateEntity_Booster_Steep() { }
 void CreateEntity_Booster_Steep2() { }
 void CreateEntity_SpecialSpring() { }

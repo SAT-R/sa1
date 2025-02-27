@@ -243,7 +243,7 @@ extern void CreateEntity_IceBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id
 extern void CreateEntity_Interactable096(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Interactable097(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_UnderwaterLavaPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_Interactable099(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ConveyorBeltObject(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Booster_Steep(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Booster_Steep2(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_SpecialSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -361,7 +361,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 096 */ CreateEntity_Interactable096,
     /* 097 */ CreateEntity_Interactable097,
     /* 098 */ CreateEntity_UnderwaterLavaPlatform,
-    /* 099 */ CreateEntity_Interactable099,
+    /* 099 */ CreateEntity_ConveyorBeltObject,
     /* 100 */ CreateEntity_Booster_Steep,
     /* 101 */ CreateEntity_Booster_Steep2,
     /* 102 */ CreateEntity_SpecialSpring,
