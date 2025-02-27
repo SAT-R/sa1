@@ -12,15 +12,15 @@ void Task_Toggle_PlayerVisibility(void);
 
 void Task_Toggle_PlayerVisibility(void)
 {
-    TogglePlayerVisibility *toggle = TASK_DATA(gCurTask);
-    MapEntity *me = toggle->base.me;
+    TogglePlayerVisibility *ia = TASK_DATA(gCurTask);
+    MapEntity *me = ia->base.me;
     Player *player, *partner;
     s16 worldX, worldY;
     s16 screenX, screenY;
     s32 i;
 
-    worldX = TO_WORLD_POS(toggle->base.meX, toggle->base.regionX);
-    worldY = TO_WORLD_POS(me->y, toggle->base.regionY);
+    worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
     screenX = worldX - gCamera.x;
     screenY = worldY - gCamera.y;
@@ -34,7 +34,7 @@ void Task_Toggle_PlayerVisibility(void)
                 && ((worldX + (me->d.uData[2] * TILE_WIDTH)) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
                 && (worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
                 && ((worldY + (me->d.uData[3] * TILE_WIDTH)) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
-                if (toggle->visibility) {
+                if (ia->visibility) {
                     GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_100000;
                 } else {
                     GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100000;
@@ -46,7 +46,7 @@ void Task_Toggle_PlayerVisibility(void)
     } while (++i < gNumSingleplayerCharacters);
 
     if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, toggle->base.meX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -55,15 +55,15 @@ void Task_Toggle_PlayerVisibility(void)
 void CreateEntity_Toggle_PlayerVisibility(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Toggle_PlayerVisibility, sizeof(TogglePlayerVisibility), 0x2000 | me->d.uData[3], 0, NULL);
-    TogglePlayerVisibility *toggle = TASK_DATA(t);
+    TogglePlayerVisibility *ia = TASK_DATA(t);
 
-    toggle->base.regionX = regionX;
-    toggle->base.regionY = regionY;
-    toggle->base.me = me;
-    toggle->base.meX = me->x;
-    toggle->base.id = id;
+    ia->base.regionX = regionX;
+    ia->base.regionY = regionY;
+    ia->base.me = me;
+    ia->base.meX = me->x;
+    ia->base.id = id;
 
-    toggle->visibility = me->d.uData[0];
+    ia->visibility = me->d.uData[0];
 
     SET_MAP_ENTITY_INITIALIZED(me);
 }

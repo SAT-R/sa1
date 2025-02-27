@@ -214,7 +214,7 @@ SECTIONS {
         src/game/interactables/109.o(.text);
         asm/ia_pipe.o(.text);
         src/game/interactables/maze_air_corner.o(.text);
-        asm/ia_113.o(.text);
+        src/game/interactables/113.o(.text);
 
         /* Libs */
         src/lib/m4a/m4a0.o(.text);

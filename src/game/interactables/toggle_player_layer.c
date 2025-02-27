@@ -34,8 +34,8 @@ void Task_Toggle_PlayerLayer(void);
 
 void Task_Toggle_PlayerLayer(void)
 {
-    TogglePlayerLayer *toggle = TASK_DATA(gCurTask);
-    MapEntity_Toggle_PlayerLayer *me = (MapEntity_Toggle_PlayerLayer *)toggle->me;
+    TogglePlayerLayer *ia = TASK_DATA(gCurTask);
+    MapEntity_Toggle_PlayerLayer *me = (MapEntity_Toggle_PlayerLayer *)ia->me;
     u8 meX = TASK_GET_MEMBER(TogglePlayerLayer, gCurTask, u16, meX);
     u16 regionX = TASK_GET_MEMBER(TogglePlayerLayer, gCurTask, u16, regionX);
     u16 regionY = TASK_GET_MEMBER(TogglePlayerLayer, gCurTask, u16, regionY);
@@ -92,12 +92,12 @@ void CreateEntity_Toggle_PlayerLayer(MapEntity *me, u16 regionX, u16 regionY, u8
     TASK_SET_MEMBER(TogglePlayerLayer, t, MapEntity *, me, me);
     TASK_SET_MEMBER(TogglePlayerLayer, t, u8, meX, me->x);
 #else
-    TogglePlayerLayer *toggle = TASK_DATA(t);
+    TogglePlayerLayer *ia = TASK_DATA(t);
 
-    toggle->regionX = regionX;
-    toggle->regionY = regionY;
-    toggle->me = me;
-    toggle->meX = me->x;
+    ia->regionX = regionX;
+    ia->regionY = regionY;
+    ia->me = me;
+    ia->meX = me->x;
 #endif
     SET_MAP_ENTITY_INITIALIZED(me);
 }

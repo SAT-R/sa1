@@ -2494,7 +2494,7 @@ sub_8054A80: @ 0x08054A80
 	ldrb r0, [r1]
 	movs r2, #1
 	ands r2, r0
-	str r2, [sp, #0x34]
+	str r2, [sp, #0x34] @ sp34 = act = (gCurrentLevel % 2u)
 	ldr r1, _08054E14 @ =gSelectedCharacter
 	ldrb r0, [r1]
 	adds r0, #6
