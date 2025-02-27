@@ -11449,8 +11449,8 @@ _0804A4E6:
 	movs r0, #4
 	bl VramMalloc
 	str r0, [sp, #4]
-	ldr r1, _0804A538 @ =sub_804A54C
-	ldr r2, _0804A53C @ =sub_804A830
+	ldr r1, _0804A538 @ =Task_804A54C
+	ldr r2, _0804A53C @ =TaskDestructor_804A830
 	mov r0, sp
 	bl sub_804CEDC
 	ldrh r1, [r0, #6]
@@ -11482,14 +11482,14 @@ _0804A522:
 _0804A52C: .4byte 0xFFFF0000
 _0804A530: .4byte 0x00000307
 _0804A534: .4byte 0xFF00FFFF
-_0804A538: .4byte sub_804A54C
-_0804A53C: .4byte sub_804A830
+_0804A538: .4byte Task_804A54C
+_0804A53C: .4byte TaskDestructor_804A830
 _0804A540: .4byte 0x03000058
 _0804A544: .4byte 0x0300005C
 _0804A548: .4byte 0x0000FFC0
 
-	thumb_func_start sub_804A54C
-sub_804A54C: @ 0x0804A54C
+	thumb_func_start Task_804A54C
+Task_804A54C: @ 0x0804A54C
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0804A594 @ =gCurTask
 	ldr r0, [r0]
@@ -11582,8 +11582,8 @@ sub_804A5D8: @ 0x0804A5D8
 	bl VramMalloc
 	str r0, [sp, #4]
 	mov r0, sp
-	ldr r1, _0804A714 @ =sub_804A71C
-	ldr r2, _0804A718 @ =sub_804CF88
+	ldr r1, _0804A714 @ =Task_804A71C
+	ldr r2, _0804A718 @ =TaskDestructor_804CF88
 	bl sub_804CEDC
 	ldrh r0, [r0, #6]
 	movs r2, #0xc0
@@ -11616,8 +11616,8 @@ sub_804A5D8: @ 0x0804A5D8
 	adds r1, r0, #0
 	add r0, sp, #8
 	str r1, [r0, #4]
-	ldr r1, _0804A714 @ =sub_804A71C
-	ldr r2, _0804A718 @ =sub_804CF88
+	ldr r1, _0804A714 @ =Task_804A71C
+	ldr r2, _0804A718 @ =TaskDestructor_804CF88
 	bl sub_804CEDC
 	ldrh r0, [r0, #6]
 	mov r2, r8
@@ -11648,8 +11648,8 @@ sub_804A5D8: @ 0x0804A5D8
 	adds r1, r0, #0
 	add r0, sp, #0x10
 	str r1, [r0, #4]
-	ldr r1, _0804A714 @ =sub_804A71C
-	ldr r2, _0804A718 @ =sub_804CF88
+	ldr r1, _0804A714 @ =Task_804A71C
+	ldr r2, _0804A718 @ =TaskDestructor_804CF88
 	bl sub_804CEDC
 	ldrh r0, [r0, #6]
 	mov r2, r8
@@ -11680,8 +11680,8 @@ sub_804A5D8: @ 0x0804A5D8
 	adds r1, r0, #0
 	add r0, sp, #0x18
 	str r1, [r0, #4]
-	ldr r1, _0804A714 @ =sub_804A71C
-	ldr r2, _0804A718 @ =sub_804CF88
+	ldr r1, _0804A714 @ =Task_804A71C
+	ldr r2, _0804A718 @ =TaskDestructor_804CF88
 	bl sub_804CEDC
 	ldrh r0, [r0, #6]
 	mov r2, r8
@@ -11708,11 +11708,11 @@ sub_804A5D8: @ 0x0804A5D8
 _0804A708: .4byte 0xFFFF0000
 _0804A70C: .4byte 0x000002CF
 _0804A710: .4byte 0xFF00FFFF
-_0804A714: .4byte sub_804A71C
-_0804A718: .4byte sub_804CF88
+_0804A714: .4byte Task_804A71C
+_0804A718: .4byte TaskDestructor_804CF88
 
-	thumb_func_start sub_804A71C
-sub_804A71C: @ 0x0804A71C
+	thumb_func_start Task_804A71C
+Task_804A71C: @ 0x0804A71C
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0804A73C @ =gCurTask
 	ldr r2, [r0]
@@ -11849,14 +11849,14 @@ _0804A824:
 	.align 2, 0
 _0804A82C: .4byte sa2__gUnknown_030054B8
 
-	thumb_func_start sub_804A830
-sub_804A830: @ 0x0804A830
+	thumb_func_start TaskDestructor_804A830
+TaskDestructor_804A830: @ 0x0804A830
 	push {lr}
 	ldr r2, _0804A844 @ =gUnknown_03005C74
 	ldr r1, [r2]
 	adds r1, #1
 	str r1, [r2]
-	bl sub_804CF88
+	bl TaskDestructor_804CF88
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -11888,7 +11888,7 @@ sub_804A854: @ 0x0804A854
 	bl VramMalloc
 	str r0, [sp, #4]
 	ldr r1, _0804A8A0 @ =sub_804A3C0
-	ldr r2, _0804A8A4 @ =sub_804CF88
+	ldr r2, _0804A8A4 @ =TaskDestructor_804CF88
 	mov r0, sp
 	bl sub_804CEDC
 	ldrh r1, [r0, #6]
@@ -11908,7 +11908,7 @@ sub_804A854: @ 0x0804A854
 _0804A898: .4byte 0xFFFF0000
 _0804A89C: .4byte 0xFF00FFFF
 _0804A8A0: .4byte sub_804A3C0
-_0804A8A4: .4byte sub_804CF88
+_0804A8A4: .4byte TaskDestructor_804CF88
 
 	thumb_func_start sub_804A8A8
 sub_804A8A8: @ 0x0804A8A8
@@ -13172,7 +13172,7 @@ sub_804B2BC: @ 0x0804B2BC
 	bl VramMalloc
 	str r0, [sp, #4]
 	ldr r1, _0804B320 @ =sub_804AC4C
-	ldr r2, _0804B324 @ =sub_804CF88
+	ldr r2, _0804B324 @ =TaskDestructor_804CF88
 	mov r0, sp
 	bl sub_804CF1C
 	ldrh r2, [r0, #6]
@@ -13203,7 +13203,7 @@ _0804B314: .4byte 0xFFFF0000
 _0804B318: .4byte 0x0000029E
 _0804B31C: .4byte 0xFF00FFFF
 _0804B320: .4byte sub_804AC4C
-_0804B324: .4byte sub_804CF88
+_0804B324: .4byte TaskDestructor_804CF88
 _0804B328: .4byte 0x03000058
 
 	thumb_func_start sub_804B32C
@@ -13327,8 +13327,8 @@ _0804B414:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_804B420
-sub_804B420: @ 0x0804B420
+	thumb_func_start Task_804B420
+Task_804B420: @ 0x0804B420
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -13510,8 +13510,8 @@ sub_804B570: @ 0x0804B570
 	movs r0, #0x18
 	bl VramMalloc
 	str r0, [sp, #4]
-	ldr r1, _0804B5C4 @ =sub_804B420
-	ldr r2, _0804B5C8 @ =sub_804CF88
+	ldr r1, _0804B5C4 @ =Task_804B420
+	ldr r2, _0804B5C8 @ =TaskDestructor_804CF88
 	mov r0, sp
 	bl sub_804CF1C
 	ldrh r1, [r0, #6]
@@ -13533,5 +13533,5 @@ sub_804B570: @ 0x0804B570
 	.align 2, 0
 _0804B5BC: .4byte 0xFFFF0000
 _0804B5C0: .4byte 0xFF00FFFF
-_0804B5C4: .4byte sub_804B420
-_0804B5C8: .4byte sub_804CF88
+_0804B5C4: .4byte Task_804B420
+_0804B5C8: .4byte TaskDestructor_804CF88

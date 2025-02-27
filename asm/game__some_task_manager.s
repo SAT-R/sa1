@@ -5,69 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_804CD80
-sub_804CD80: @ 0x0804CD80
-	push {r4, r5, lr}
-	mov ip, r0
-	movs r5, #0
-	movs r2, #0
-	strh r2, [r0]
-	strb r5, [r0, #2]
-	strb r5, [r0, #3]
-	str r2, [r0, #4]
-	str r2, [r0, #8]
-	str r2, [r0, #0x50]
-	str r2, [r0, #0x54]
-	adds r0, #0x58
-	strh r2, [r0]
-	adds r0, #2
-	strh r2, [r0]
-	adds r0, #2
-	strh r2, [r0]
-	adds r0, #2
-	strh r2, [r0]
-	mov r3, ip
-	adds r3, #0x18
-	mov r4, ip
-	adds r4, #0xc
-	ldr r0, [r1, #4]
-	str r0, [r3, #4]
-	ldrh r0, [r1]
-	strh r0, [r3, #0xa]
-	ldrb r1, [r1, #2]
-	mov r0, ip
-	adds r0, #0x38
-	strb r1, [r0]
-	strh r2, [r3, #0x1a]
-	str r2, [r3, #0x10]
-	strh r2, [r3, #8]
-	mov r1, ip
-	adds r1, #0x39
-	movs r0, #0xff
-	strb r0, [r1]
-	strh r2, [r3, #0x1c]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	mov r0, ip
-	adds r0, #0x3d
-	strb r5, [r0]
-	mov r0, ip
-	strh r2, [r0, #0xc]
-	movs r0, #0x80
-	lsls r0, r0, #1
-	strh r0, [r4, #2]
-	strh r0, [r4, #4]
-	strh r2, [r4, #6]
-	strh r2, [r4, #8]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r3, #0x30]
-	str r0, [r3, #0x28]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-
+.if 01
 	thumb_func_start sub_804CDF8
 sub_804CDF8: @ 0x0804CDF8
 	push {r4, r5, r6, r7, lr}
@@ -177,7 +115,11 @@ _0804CECC: .4byte sa2__gUnknown_030054B8
 _0804CED0: .4byte 0x03000058
 _0804CED4: .4byte 0x0300005A
 _0804CED8: .4byte 0x0300005C
+.endif
 
+@ r0 = SomeTaskManager_Graphic *
+@ r1 = Task_
+@ r2 = TaskDestructor_
 	thumb_func_start sub_804CEDC
 sub_804CEDC: @ 0x0804CEDC
 	push {r4, r5, lr}
@@ -192,7 +134,7 @@ sub_804CEDC: @ 0x0804CEDC
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
 	str r3, [sp]
-	movs r1, #0x60
+	movs r1, #0x60      @ sizeof(SomeTaskManager_60)
 	movs r3, #0
 	bl TaskCreate
 	adds r4, r0, #0
@@ -224,7 +166,7 @@ sub_804CF1C: @ 0x0804CF1C
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
 	str r3, [sp]
-	movs r1, #0x7c
+	movs r1, #0x7c      @ sizeof(SomeTaskManager_7C)
 	movs r3, #0
 	bl TaskCreate
 	adds r4, r0, #0
@@ -242,6 +184,8 @@ sub_804CF1C: @ 0x0804CF1C
 	.align 2, 0
 _0804CF58: .4byte gCurTask
 
+@ Input:
+@ R0 = SomeTaskManager_7C *
 	thumb_func_start sub_804CF5C
 sub_804CF5C: @ 0x0804CF5C
 	push {r4, lr}
@@ -266,8 +210,8 @@ sub_804CF5C: @ 0x0804CF5C
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_804CF88
-sub_804CF88: @ 0x0804CF88
+	thumb_func_start TaskDestructor_804CF88
+TaskDestructor_804CF88: @ 0x0804CF88
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _0804CF9C @ =0x03000018
