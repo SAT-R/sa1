@@ -4724,9 +4724,9 @@ sub_8052474: @ 0x08052474
 	bl VramMalloc
 	str r0, [sp, #4]
 	ldr r1, _080524E0 @ =sub_8050A88
-	ldr r2, _080524E4 @ =TaskDestructor_804CF88
+	ldr r2, _080524E4 @ =TaskDestructor_SomeTaskManager_60_Common
 	mov r0, sp
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -4755,7 +4755,7 @@ _080524D4: .4byte 0xFFFF0000
 _080524D8: .4byte 0x00000299
 _080524DC: .4byte 0xFF00FFFF
 _080524E0: .4byte sub_8050A88
-_080524E4: .4byte TaskDestructor_804CF88
+_080524E4: .4byte TaskDestructor_SomeTaskManager_60_Common
 _080524E8: .4byte 0x03000072
 _080524EC: .4byte 0x0000FFC0
 
@@ -4782,7 +4782,7 @@ sub_80524F0: @ 0x080524F0
 	ldr r1, _0805256C @ =sub_8050FB4
 	mov r0, sp
 	movs r2, #0
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -4846,7 +4846,7 @@ sub_8052578: @ 0x08052578
 	ldr r1, _080525DC @ =sub_80518E8
 	mov r0, sp
 	movs r2, #0
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
@@ -4896,7 +4896,7 @@ sub_80525E0: @ 0x080525E0
 	ldr r1, _08052654 @ =sub_8051344
 	mov r0, sp
 	movs r2, #0
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -4955,7 +4955,7 @@ sub_805265C: @ 0x0805265C
 	ldr r1, _080526C0 @ =sub_8051604
 	mov r0, sp
 	movs r2, #0
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
@@ -4993,8 +4993,8 @@ sub_80526C4: @ 0x080526C4
 	adds r0, r3, #0
 	ldr r4, [sp, #0x14]
 	ldr r1, _08052714 @ =sub_80519E8
-	ldr r2, _08052718 @ =TaskDestructor_804CF88
-	bl sub_804CF1C
+	ldr r2, _08052718 @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -5024,7 +5024,7 @@ sub_80526C4: @ 0x080526C4
 	bx r1
 	.align 2, 0
 _08052714: .4byte sub_80519E8
-_08052718: .4byte TaskDestructor_804CF88
+_08052718: .4byte TaskDestructor_SomeTaskManager_60_Common
 _0805271C: .4byte 0x03000076
 _08052720: .4byte 0x03000072
 
@@ -5039,8 +5039,8 @@ sub_8052724: @ 0x08052724
 	adds r0, r3, #0
 	ldr r4, [sp, #0x14]
 	ldr r1, _08052770 @ =sub_805202C
-	ldr r2, _08052774 @ =TaskDestructor_804CF88
-	bl sub_804CF1C
+	ldr r2, _08052774 @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -5068,7 +5068,7 @@ sub_8052724: @ 0x08052724
 	bx r1
 	.align 2, 0
 _08052770: .4byte sub_805202C
-_08052774: .4byte TaskDestructor_804CF88
+_08052774: .4byte TaskDestructor_SomeTaskManager_60_Common
 _08052778: .4byte 0x03000076
 _0805277C: .4byte 0x03000072
 
@@ -5083,8 +5083,8 @@ sub_8052780: @ 0x08052780
 	adds r0, r3, #0
 	ldr r4, [sp, #0x14]
 	ldr r1, _080527CC @ =sub_8051C44
-	ldr r2, _080527D0 @ =TaskDestructor_804CF88
-	bl sub_804CF1C
+	ldr r2, _080527D0 @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -5113,7 +5113,7 @@ sub_8052780: @ 0x08052780
 	bx r1
 	.align 2, 0
 _080527CC: .4byte sub_8051C44
-_080527D0: .4byte TaskDestructor_804CF88
+_080527D0: .4byte TaskDestructor_SomeTaskManager_60_Common
 _080527D4: .4byte 0x03000076
 _080527D8: .4byte 0x03000072
 
@@ -5128,8 +5128,8 @@ sub_80527DC: @ 0x080527DC
 	adds r0, r3, #0
 	ldr r4, [sp, #0x14]
 	ldr r1, _08052828 @ =sub_8051E38
-	ldr r2, _0805282C @ =TaskDestructor_804CF88
-	bl sub_804CF1C
+	ldr r2, _0805282C @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -5158,7 +5158,7 @@ sub_80527DC: @ 0x080527DC
 	bx r1
 	.align 2, 0
 _08052828: .4byte sub_8051E38
-_0805282C: .4byte TaskDestructor_804CF88
+_0805282C: .4byte TaskDestructor_SomeTaskManager_60_Common
 _08052830: .4byte 0x03000076
 _08052834: .4byte 0x03000072
 
@@ -5185,7 +5185,7 @@ sub_8052838: @ 0x08052838
 	ldr r1, _080528A4 @ =sub_8050888
 	mov r0, sp
 	movs r2, #0
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12

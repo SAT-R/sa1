@@ -1,6 +1,11 @@
 #include "global.h"
 #include "core.h"
 #include "sprite.h"
+#include "malloc_vram.h"
+#include "game/sa1_sa2_shared/globals.h"
+#include "game/sa1_sa2_shared/camera.h"
+
+#include "constants/move_states.h"
 
 typedef struct {
     /* 0x00 */ u16 unk0;
@@ -11,12 +16,12 @@ typedef struct {
     /* 0x0C */ SpriteTransform transform;
     /* 0x18 */ Sprite s;
     /* 0x48 */ Hitbox reserved;
-    /* 0x50 */ u32 unk50;
-    /* 0x54 */ u32 unk54;
-    /* 0x58 */ u16 unk58;
-    /* 0x5A */ u16 unk5A;
-    /* 0x5C */ u16 unk5C;
-    /* 0x5E */ u16 unk5E;
+    /* 0x50 */ s32 qUnk50;
+    /* 0x54 */ s32 qUnk54;
+    /* 0x58 */ s16 qUnk58;
+    /* 0x5A */ s16 qUnk5A;
+    /* 0x5C */ u16 qUnk5C;
+    /* 0x5E */ u16 qUnk5E;
 } SomeTaskManager_60; /* 0x60 */
 
 typedef struct {
@@ -37,6 +42,9 @@ typedef struct {
     void *vram4;
 } SomeTaskManager_Graphic;
 
+void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx);
+void sub_804CF5C(SomeTaskManager_7C *taskData, SomeTaskManager_Graphic *gfx);
+
 void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx)
 {
     Sprite *s;
@@ -48,12 +56,12 @@ void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx)
     taskData->unk4 = 0;
     taskData->unk8 = 0;
 
-    taskData->unk50 = 0;
-    taskData->unk54 = 0;
-    taskData->unk58 = 0;
-    taskData->unk5A = 0;
-    taskData->unk5C = 0;
-    taskData->unk5E = 0;
+    taskData->qUnk50 = 0;
+    taskData->qUnk54 = 0;
+    taskData->qUnk58 = 0;
+    taskData->qUnk5A = 0;
+    taskData->qUnk5C = 0;
+    taskData->qUnk5E = 0;
 
     s = &taskData->s;
     transform = &taskData->transform;
@@ -77,4 +85,121 @@ void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx)
 
     s->hitboxes[1].index = HITBOX_STATE_INACTIVE;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+}
+
+void sub_804CDF8(void)
+{
+    SomeTaskManager_60 *taskData = TASK_DATA(gCurTask);
+    Sprite *s = &taskData->s;
+    SpriteTransform *transform = &taskData->transform;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    screenX = I(taskData->qUnk50) - cam->x;
+    screenY = I(taskData->qUnk54) - cam->y;
+
+    // TODO: Proper range check for Y!
+    if ((screenX < -32 || screenX >= DISPLAY_WIDTH + 32) || (screenY >= DISPLAY_HEIGHT + 64)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    transform->x = screenX;
+    transform->y = screenY;
+
+    s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
+
+    s->frameFlags |= SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, transform);
+    DisplaySprite(s);
+
+    { // TODO: inline of sub_804CFA0?
+        taskData->qUnk50 += taskData->qUnk58;
+        taskData->qUnk54 += taskData->qUnk5A;
+        taskData->qUnk58 += taskData->qUnk5C;
+        taskData->qUnk5A += taskData->qUnk5E;
+    }
+}
+
+struct Task *CreateSomeTaskManager_60_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor)
+{
+    struct Task *t = TaskCreate(proc, sizeof(SomeTaskManager_60), gCurTask->priority + 1, 0, dtor);
+
+    sub_804CD80(TASK_DATA(t), gfx);
+
+    return t;
+}
+
+struct Task *CreateSomeTaskManager_7C_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor)
+{
+    struct Task *t = TaskCreate(proc, sizeof(SomeTaskManager_7C), gCurTask->priority + 1, 0, dtor);
+
+    sub_804CF5C(TASK_DATA(t), gfx);
+
+    return t;
+}
+
+void sub_804CF5C(SomeTaskManager_7C *taskData, SomeTaskManager_Graphic *gfx)
+{
+    sub_804CD80(&taskData->unk0, gfx);
+
+    taskData->unk60 = 0;
+    taskData->unk64 = 0;
+    taskData->unk68 = 0;
+    taskData->unk6C = 0;
+    taskData->unk70 = 0;
+    taskData->unk72 = 0;
+    taskData->unk74 = 0;
+    taskData->unk76 = 0;
+}
+
+void TaskDestructor_SomeTaskManager_60_Common(struct Task *t)
+{
+    SomeTaskManager_60 *taskData = TASK_DATA(t);
+    Sprite *s = &taskData->s;
+    VramFree(s->graphics.dest);
+}
+
+void sub_804CFA0(SomeTaskManager_60 *taskData)
+{
+    taskData->qUnk50 += taskData->qUnk58;
+    taskData->qUnk54 += taskData->qUnk5A;
+}
+
+void sub_804CFC0(SomeTaskManager_60 *taskData)
+{
+    taskData->qUnk58 += taskData->qUnk5C;
+    taskData->qUnk5A += taskData->qUnk5E;
+}
+
+bool32 sub_804CFE0(u16 *param0, u16 param1, u16 param2)
+{
+    s32 v = *param0;
+
+    if (param1 != v) {
+        if ((param1 - v) << 16 >= 0) {
+            s32 v2 = param2 + v;
+            *param0 = v2;
+
+            if ((param1 - v2) << 16 < 0) {
+                *param0 = param1;
+                return TRUE;
+            }
+        } else {
+            // _0804D00E
+            s32 v2 = v - param2;
+            *param0 = v2;
+
+            if ((param1 - v2) << 16 >= 0) {
+                *param0 = param1;
+                return TRUE;
+            }
+        }
+
+        return FALSE;
+    }
+
+    return TRUE;
 }

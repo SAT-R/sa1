@@ -11452,7 +11452,7 @@ _0804A4E6:
 	ldr r1, _0804A538 @ =Task_804A54C
 	ldr r2, _0804A53C @ =TaskDestructor_804A830
 	mov r0, sp
-	bl sub_804CEDC
+	bl CreateSomeTaskManager_60_Task
 	ldrh r1, [r0, #6]
 	movs r2, #0xc0
 	lsls r2, r2, #0x12
@@ -11583,8 +11583,8 @@ sub_804A5D8: @ 0x0804A5D8
 	str r0, [sp, #4]
 	mov r0, sp
 	ldr r1, _0804A714 @ =Task_804A71C
-	ldr r2, _0804A718 @ =TaskDestructor_804CF88
-	bl sub_804CEDC
+	ldr r2, _0804A718 @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_60_Task
 	ldrh r0, [r0, #6]
 	movs r2, #0xc0
 	lsls r2, r2, #0x12
@@ -11617,8 +11617,8 @@ sub_804A5D8: @ 0x0804A5D8
 	add r0, sp, #8
 	str r1, [r0, #4]
 	ldr r1, _0804A714 @ =Task_804A71C
-	ldr r2, _0804A718 @ =TaskDestructor_804CF88
-	bl sub_804CEDC
+	ldr r2, _0804A718 @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_60_Task
 	ldrh r0, [r0, #6]
 	mov r2, r8
 	adds r1, r0, r2
@@ -11649,8 +11649,8 @@ sub_804A5D8: @ 0x0804A5D8
 	add r0, sp, #0x10
 	str r1, [r0, #4]
 	ldr r1, _0804A714 @ =Task_804A71C
-	ldr r2, _0804A718 @ =TaskDestructor_804CF88
-	bl sub_804CEDC
+	ldr r2, _0804A718 @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_60_Task
 	ldrh r0, [r0, #6]
 	mov r2, r8
 	adds r1, r0, r2
@@ -11681,8 +11681,8 @@ sub_804A5D8: @ 0x0804A5D8
 	add r0, sp, #0x18
 	str r1, [r0, #4]
 	ldr r1, _0804A714 @ =Task_804A71C
-	ldr r2, _0804A718 @ =TaskDestructor_804CF88
-	bl sub_804CEDC
+	ldr r2, _0804A718 @ =TaskDestructor_SomeTaskManager_60_Common
+	bl CreateSomeTaskManager_60_Task
 	ldrh r0, [r0, #6]
 	mov r2, r8
 	adds r1, r0, r2
@@ -11709,7 +11709,7 @@ _0804A708: .4byte 0xFFFF0000
 _0804A70C: .4byte 0x000002CF
 _0804A710: .4byte 0xFF00FFFF
 _0804A714: .4byte Task_804A71C
-_0804A718: .4byte TaskDestructor_804CF88
+_0804A718: .4byte TaskDestructor_SomeTaskManager_60_Common
 
 	thumb_func_start Task_804A71C
 Task_804A71C: @ 0x0804A71C
@@ -11856,7 +11856,7 @@ TaskDestructor_804A830: @ 0x0804A830
 	ldr r1, [r2]
 	adds r1, #1
 	str r1, [r2]
-	bl TaskDestructor_804CF88
+	bl TaskDestructor_SomeTaskManager_60_Common
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -11888,9 +11888,9 @@ sub_804A854: @ 0x0804A854
 	bl VramMalloc
 	str r0, [sp, #4]
 	ldr r1, _0804A8A0 @ =sub_804A3C0
-	ldr r2, _0804A8A4 @ =TaskDestructor_804CF88
+	ldr r2, _0804A8A4 @ =TaskDestructor_SomeTaskManager_60_Common
 	mov r0, sp
-	bl sub_804CEDC
+	bl CreateSomeTaskManager_60_Task
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -11908,7 +11908,7 @@ sub_804A854: @ 0x0804A854
 _0804A898: .4byte 0xFFFF0000
 _0804A89C: .4byte 0xFF00FFFF
 _0804A8A0: .4byte sub_804A3C0
-_0804A8A4: .4byte TaskDestructor_804CF88
+_0804A8A4: .4byte TaskDestructor_SomeTaskManager_60_Common
 
 	thumb_func_start sub_804A8A8
 sub_804A8A8: @ 0x0804A8A8
@@ -11980,7 +11980,7 @@ _0804A928:
 	ldr r1, _0804A98C @ =sub_804AAC4
 	mov r0, sp
 	movs r2, #0
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r7, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -12830,7 +12830,7 @@ _0804B002:
 	mov r0, sp
 	ldr r1, _0804B0C0 @ =sub_804B0D8
 	movs r2, #0
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r3, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -13172,9 +13172,9 @@ sub_804B2BC: @ 0x0804B2BC
 	bl VramMalloc
 	str r0, [sp, #4]
 	ldr r1, _0804B320 @ =sub_804AC4C
-	ldr r2, _0804B324 @ =TaskDestructor_804CF88
+	ldr r2, _0804B324 @ =TaskDestructor_SomeTaskManager_60_Common
 	mov r0, sp
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -13203,7 +13203,7 @@ _0804B314: .4byte 0xFFFF0000
 _0804B318: .4byte 0x0000029E
 _0804B31C: .4byte 0xFF00FFFF
 _0804B320: .4byte sub_804AC4C
-_0804B324: .4byte TaskDestructor_804CF88
+_0804B324: .4byte TaskDestructor_SomeTaskManager_60_Common
 _0804B328: .4byte 0x03000058
 
 	thumb_func_start sub_804B32C
@@ -13511,9 +13511,9 @@ sub_804B570: @ 0x0804B570
 	bl VramMalloc
 	str r0, [sp, #4]
 	ldr r1, _0804B5C4 @ =Task_804B420
-	ldr r2, _0804B5C8 @ =TaskDestructor_804CF88
+	ldr r2, _0804B5C8 @ =TaskDestructor_SomeTaskManager_60_Common
 	mov r0, sp
-	bl sub_804CF1C
+	bl CreateSomeTaskManager_7C_Task
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -13534,4 +13534,4 @@ sub_804B570: @ 0x0804B570
 _0804B5BC: .4byte 0xFFFF0000
 _0804B5C0: .4byte 0xFF00FFFF
 _0804B5C4: .4byte Task_804B420
-_0804B5C8: .4byte TaskDestructor_804CF88
+_0804B5C8: .4byte TaskDestructor_SomeTaskManager_60_Common
