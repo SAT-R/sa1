@@ -46,6 +46,9 @@ typedef struct {
 void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx);
 void sub_804CF5C(SomeTaskManager_7C *taskData, SomeTaskManager_Graphic *gfx);
 
+extern u16 gUnknown_030060F0[64];
+extern u16 gUnknown_03006170[64];
+
 void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx)
 {
     Sprite *s;
@@ -217,3 +220,43 @@ void sub_804D02C(bool32 bValue)
         controls->attack = A_BUTTON;
     }
 }
+
+// (40%) https://decomp.me/scratch/P6J3g
+NONMATCH("asm/non_matching/game/some_task_manager__sub_804D060.inc", s32 sub_804D060(s32 n))
+{
+    u16 *data0 = gUnknown_03006170;
+    u16 *data1 = gUnknown_030060F0;
+    s32 ip;
+    s32 i;
+
+    u16 chkMask = *data0++ & 0x30;
+
+    if (chkMask == 0x20) {
+        for (i = 0; i < n || chkMask; data0++, data1++, i++) {
+            if (*data1 & 0xD0) {
+                break;
+            }
+
+            chkMask = *data0 & 0x20;
+
+            if (chkMask != 0) {
+                return -1;
+            }
+        }
+    } else if (chkMask == 0x10) {
+        for (i = 0; i < n; data0++, data1++, i++) {
+            if (*data1 & 0xE0) {
+                break;
+            }
+
+            chkMask = *data0 & 0x10;
+
+            if (chkMask != 0) {
+                return +1;
+            }
+        }
+    }
+
+    return 0;
+}
+END_NONMATCH
