@@ -5,39 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_804D02C
-sub_804D02C: @ 0x0804D02C
-	adds r2, r0, #0
-	ldr r3, _0804D04C @ =gPlayerControls
-	cmp r2, #0
-	beq _0804D040
-	ldr r0, _0804D050 @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x40
-	ands r0, r1
-	cmp r0, #0
-	beq _0804D054
-_0804D040:
-	movs r0, #1
-	strh r0, [r3]
-	movs r0, #2
-	strh r0, [r3, #2]
-	b _0804D05E
-	.align 2, 0
-_0804D04C: .4byte gPlayerControls
-_0804D050: .4byte gStageFlags
-_0804D054:
-	cmp r2, #1
-	bne _0804D05E
-	movs r0, #2
-	strh r0, [r3]
-	strh r2, [r3, #2]
-_0804D05E:
-	bx lr
-
+.if 01
 	thumb_func_start sub_804D060
 sub_804D060: @ 0x0804D060
 	push {r4, r5, r6, r7, lr}
@@ -127,6 +95,7 @@ _0804D0F8:
 	pop {r1}
 	bx r1
 	.align 2, 0
+.endif
 
 	thumb_func_start sub_804D100
 sub_804D100: @ 0x0804D100

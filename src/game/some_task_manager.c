@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
+#include "game/stage/player_controls.h"
 
 #include "constants/move_states.h"
 
@@ -202,4 +203,17 @@ bool32 sub_804CFE0(u16 *param0, u16 param1, u16 param2)
     }
 
     return TRUE;
+}
+
+void sub_804D02C(bool32 bValue)
+{
+    struct ButtonConfig *controls = &gPlayerControls;
+
+    if (!bValue || gStageFlags & STAGE_FLAG__DEMO_RUNNING) {
+        controls->jump = A_BUTTON;
+        controls->attack = B_BUTTON;
+    } else if (bValue == TRUE) {
+        controls->jump = B_BUTTON;
+        controls->attack = A_BUTTON;
+    }
 }
