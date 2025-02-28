@@ -260,3 +260,24 @@ NONMATCH("asm/non_matching/game/some_task_manager__sub_804D060.inc", s32 sub_804
     return 0;
 }
 END_NONMATCH
+
+void sub_804D100(void)
+{
+    DmaFill16(3, 0, gUnknown_030060F0, 2 * sizeof(u16));
+    DmaFill16(3, 0, gUnknown_03006170, 2 * sizeof(u16));
+}
+
+void sub_804D13C(u16 param0)
+{
+    u16 *r5 = &gUnknown_030060F0[59];
+    u16 *r3 = &gUnknown_03006170[59];
+    s32 r4 = 58;
+
+    do {
+        *r5-- = *(r5 - 1);
+        *r3-- = *(r3 - 1);
+    } while (--r4 >= 0);
+
+    *r5 = param0;
+    *r3 = param0 & ~*(r5 + 1);
+}
