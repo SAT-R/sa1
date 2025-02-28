@@ -38,7 +38,6 @@ void sub_80530CC() { }
 bool32 sub_805423C() { return FALSE; }
 void sub_80543A4() { }
 
-void sub_804D02C() { }
 void sub_805B9E8() { }
 void WriteSaveGame() { }
 void DestroyPlayerTasks() { }
@@ -145,7 +144,6 @@ void CreateEntity_SpikedBarrel() { }
 void CreateEntity_AirBubbles() { }
 void CreateEntity_IceBlock() { }
 void CreateEntity_UnderwaterLavaPlatform() { }
-void CreateEntity_ConveyorBeltObject() { }
 void CreateEntity_Booster_Steep() { }
 void CreateEntity_Booster_Steep2() { }
 void CreateEntity_SpecialSpring() { }
@@ -157,7 +155,6 @@ void CreateEntity_Interactable107() { }
 void CreateEntity_Spring_Hiding() { }
 void CreateEntity_PipeEntrance() { }
 void CreateEntity_PipeExit() { }
-void CreateEntity_Interactable113() { }
 void CreateEntity_BreakableWall() { }
 void CreateEntity_ItemBox_ChaoHunt() { }
 

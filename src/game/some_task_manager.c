@@ -46,8 +46,8 @@ typedef struct {
 void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx);
 void sub_804CF5C(SomeTaskManager_7C *taskData, SomeTaskManager_Graphic *gfx);
 
-extern u16 gUnknown_030060F0[64];
-extern u16 gUnknown_03006170[64];
+ALIGNED(16) u16 gUnknown_030060F0[64] = { 0 };
+ALIGNED(16) u16 gUnknown_03006170[64] = { 0 };
 
 void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx)
 {
