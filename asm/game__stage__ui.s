@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 @ --- Start of game/stage/ui.c ---
 	thumb_func_start Task_StageUIMain
 Task_StageUIMain: @ 0x080536E4
@@ -225,6 +226,7 @@ _080538A8:
 _080538B0: .4byte gCourseTime
 _080538B4: .4byte 0x000087F0
 _080538B8: .4byte 0x00008C9F
+.endif
 
 	thumb_func_start sub_80538BC
 sub_80538BC: @ 0x080538BC
@@ -1349,7 +1351,7 @@ CreateStageUI: @ 0x080541A4
 	ldrh r0, [r1, #6]
 	ldr r2, _080541E8 @ =0x03000040
 	adds r0, r0, r2
-	strh r4, [r0]
+	strh r4, [r0]       @ r4 = ui->unk40 = 0
 	ldrh r0, [r1, #6]
 	ldr r1, _080541EC @ =0x03000020
 	adds r4, r0, r1

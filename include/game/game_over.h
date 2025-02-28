@@ -24,20 +24,33 @@ typedef struct {
     /* 0x80 */ u8 unk80;
 } GameOverScreen;
 
+// TODO: Appears to be a shared, UI-related struct?
 typedef struct GameOverB {
     /* 0x00 */ u8 unk0;
-    /* 0x01 */ u8 filler1[0x7];
+    /* 0x01 */ u8 unk1;
+    /* 0x02 */ u8 unk2;
+    /* 0x03 */ u8 unk3;
+    /* 0x04 */ u8 unk4;
+    /* 0x05 */ u8 unk5;
+    /* 0x06 */ u8 unk6;
+    /* 0x07 */ u8 unk7;
     /* 0x08 */ u16 unk8;
-    /* 0x0A */ s16 qUnkA;
+    /* 0x0A */ s16 qUnkA; // NOTE: I'm not too sure this is a Q() value, anymore...
     /* 0x0C */ s16 unkC;
-    /* 0x0E */ u16 unkE;
+    /* 0x0E */ s16 unkE;
     /* 0x10 */ u16 unk10;
     /* 0x12 */ u16 unk12;
-    /* 0x14 */ u8 filler14[0x2];
+    /* 0x14 */ u16 unk14;
     /* 0x16 */ u8 unk16;
-    /* 0x18 */ s32 unk18;
+    /* 0x17 */ u8 unk17;
+} GameOverB; /* 0x18 */
+
+// Exclusive to game_over.c
+typedef struct {
+    /* 0x00 */ GameOverB unk0;
+    /* 0x18 */ u32 unk18;
     /* 0x1C */ void *vram1C;
-} GameOverB; /* 0x20 */
+} GameOverB0; /* 0x20 */
 
 typedef struct {
     /* 0x00 */ s16 unk0;
@@ -60,7 +73,7 @@ typedef struct GameOverC {
 typedef struct GameOverD {
     /* 0x00 */ u8 filler0[0x18];
     /* 0x18 */ GameOverScreen *unk18;
-    /* 0x1C */ GameOverB *unk1C;
+    /* 0x1C */ GameOverB0 *unk1C;
     /* 0x20 */ GameOverC *unk20;
     /* 0x24 */ u32 unk24;
     /* 0x28 */ u16 unk28;

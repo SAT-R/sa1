@@ -177,22 +177,22 @@ void CreateGameOverScreen(LostLifeCause lostLifeCause)
     }
 
     {
-        GameOverB *overB;
+        GameOverB0 *overB0;
         GameOverC *overC;
         GameOverD *overD;
 
         if ((lostLifeCause & 0x5) != 0) {
-            t2 = TaskCreate(Task_8056F54, sizeof(GameOverB), 0x2000, 0, NULL);
-            overB = TASK_DATA(t2);
-            overB->unk18 = 0;
-            overB->qUnkA = -Q(1);
-            overB->unkC = 90;
-            overB->unkE = 8;
-            overB->unk10 = 14;
-            overB->unk12 = 6;
-            overB->unk16 = 1;
-            overB->unk8 = 10;
-            overB->vram1C = VramMalloc(16); // TODO: ALLOC_TILES()!
+            t2 = TaskCreate(Task_8056F54, sizeof(GameOverB0), 0x2000, 0, NULL);
+            overB0 = TASK_DATA(t2);
+            overB0->unk18 = 0;
+            overB0->unk0.qUnkA = -Q(1);
+            overB0->unk0.unkC = 90;
+            overB0->unk0.unkE = 8;
+            overB0->unk0.unk10 = 14;
+            overB0->unk0.unk12 = 6;
+            overB0->unk0.unk16 = 1;
+            overB0->unk0.unk8 = 10;
+            overB0->vram1C = VramMalloc(16); // TODO: ALLOC_TILES()!
 
             t = TaskCreate(Task_8056CE0, sizeof(GameOverC), 0x2000, 0, TaskDestructor_8056F30);
             overC = TASK_DATA(t);
@@ -210,10 +210,10 @@ void CreateGameOverScreen(LostLifeCause lostLifeCause)
             overD->unk28 = 9;
             overD->vram2C = VramMalloc(40); // TODO: ALLOC_TILES()!
             overD->vram30 = VramMalloc(16); // TODO: ALLOC_TILES()!
-            overD->unk1C = overB;
+            overD->unk1C = overB0;
             overD->unk18 = screen;
             overD->unk20 = overC;
-            strc.vram8 = overB->vram1C;
+            strc.vram8 = overB0->vram1C;
             strc.vram0 = overD->vram30;
             strc.vram4 = overD->vram2C;
             overC->unk14 = strc.vram8;
@@ -604,21 +604,21 @@ void Task_80565C4(void)
 
 void Task_8056714(void)
 {
-    GameOverB *overB = TASK_DATA(gCurTask);
-    s16 unk18 = overB->unk18;
-    overB->unk18 = unk18 += 1;
-    overB->qUnkA += Q(12. / 256.);
+    GameOverB0 *overB0 = TASK_DATA(gCurTask);
+    s16 unk18 = overB0->unk18;
+    overB0->unk18 = unk18 += 1;
+    overB0->unk0.qUnkA += Q(12. / 256.);
 
-    if (overB->qUnkA > 0) {
-        overB->qUnkA = 0;
+    if (overB0->unk0.qUnkA > 0) {
+        overB0->unk0.qUnkA = 0;
     }
 
-    sub_80530CC(&gUnknown_086883F8[0], overB);
+    sub_80530CC(&gUnknown_086883F8[0], &overB0->unk0);
 
     if (unk18 >= 182) {
         gCurTask->main = Task_8056F80;
-        overB->qUnkA = Q(0);
-        overB->unk18 = 0;
+        overB0->unk0.qUnkA = Q(0);
+        overB0->unk18 = 0;
     }
 }
 
@@ -628,7 +628,7 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
     GameOverD *overD = TASK_DATA(gCurTask);
     s16 unk24 = overD->unk24;
     Strc_8052C84 sp00;
-    GameOverB *overB;
+    GameOverB0 *overB0;
     u8 *ptrArr;
     u8 arr[1];
     s16 temp;
@@ -691,9 +691,9 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
         temp++;
         unk24 = temp * 120;
 
-        overB = overD->unk1C;
+        overB0 = overD->unk1C;
         r3 = 1200;
-        overB->unk18 = r3 - ((10 - temp) * 120);
+        overB0->unk18 = r3 - ((10 - temp) * 120);
         overD->unk20->unk18 = 0x566 - ((10 - temp) * 120);
         overD->unk18->frames = overD->unk20->unk18;
     }
@@ -720,7 +720,7 @@ void Task_8056970(void)
     GameOverD *overD = TASK_DATA(gCurTask);
     s16 unk24 = overD->unk24;
     Strc_8052C84 sp00;
-    GameOverB *overB;
+    GameOverB0 *overB0;
     u8 *ptrArr;
     u8 arr[1];
     s16 temp;
@@ -995,10 +995,10 @@ void TaskDestructor_8056F30(struct Task *t)
 
 void Task_8056F54(void)
 {
-    GameOverB *overB = TASK_DATA(gCurTask);
-    s16 unk18 = overB->unk18;
+    GameOverB0 *overB0 = TASK_DATA(gCurTask);
+    s16 unk18 = overB0->unk18;
 
-    overB->unk18 = unk18 += 1;
+    overB0->unk18 = unk18 += 1;
 
     if (unk18 >= 162) {
         gCurTask->main = Task_8056714;
@@ -1006,10 +1006,10 @@ void Task_8056F54(void)
 }
 void Task_8056F80(void)
 {
-    GameOverB *overB = TASK_DATA(gCurTask);
-    s16 unk18 = overB->unk18;
+    GameOverB0 *overB0 = TASK_DATA(gCurTask);
+    s16 unk18 = overB0->unk18;
 
-    sub_80530CC(&gUnknown_086883F8[0], overB);
+    sub_80530CC(&gUnknown_086883F8[0], &overB0->unk0);
 }
 
 void Task_8056FA0(void)

@@ -23,18 +23,23 @@ void Task_8055AA0(void);
 void Task_8055B18(void);
 void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
+
+typedef struct {
+    /* 0x00 */ u8 filler0[0x8];
+    /* 0x08 */ s16 unk8;
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ s16 unkC;
+    /* 0x0E */ s16 unkE;
+    /* 0x10 */ s16 unk10;
+    /* 0x12 */ s16 unk12;
+    /* 0x16 */ s16 unk16;
+    /* 0x20 */ GameOverB unk20;
+    /* 0x40 */ u8 filler38[0x18];
+} StageUI; /* 0x50 */
+
 typedef struct {
     // TODO: Seems like this (until incl. unk16?) is GameOverB?
-    u8 unk0;
-    u8 filler1[0x7];
-    u16 unk8;
-    s16 qUnkA; // NOTE: I'm not too sure this is a Q() value, anymore...
-    s16 unkC;
-    s16 unkE;
-    u16 unk10;
-    u16 unk12;
-    u16 unk14;
-    u8 unk16;
+    GameOverB unk0;
 
     s16 unk18;
     u16 unk1A;
@@ -119,14 +124,14 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->qUnkA = -Q(80. / 256.);
-    ui_24->unkC = 0;
-    ui_24->unkE = 3;
-    ui_24->unk8 = 24;
-    ui_24->unk10 = 6;
-    ui_24->unk16 = 0;
-    ui_24->unk12 = 15;
-    ui_24->unk14 = 5;
+    ui_24->unk0.qUnkA = -Q(80. / 256.);
+    ui_24->unk0.unkC = 0;
+    ui_24->unk0.unkE = 3;
+    ui_24->unk0.unk8 = 24;
+    ui_24->unk0.unk10 = 6;
+    ui_24->unk0.unk16 = 0;
+    ui_24->unk0.unk12 = 15;
+    ui_24->unk0.unk14 = 5;
     ui_24->unk1C = VramMalloc(32);
     sp04.vram4 = ui_24->unk1C;
     ui_24->unk21 = 0;
@@ -137,17 +142,17 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 0;
     ui_24->unk1A = 1;
-    ui_24->qUnkA = +Q(20. / 256.);
-    ui_24->unkE = 1;
-    ui_24->unk8 = 24;
-    ui_24->unk10 = 7;
-    ui_24->unk12 = 15;
+    ui_24->unk0.qUnkA = +Q(20. / 256.);
+    ui_24->unk0.unkE = 1;
+    ui_24->unk0.unk8 = 24;
+    ui_24->unk0.unk10 = 7;
+    ui_24->unk0.unk12 = 15;
 #if 0
-    ui_24->unk16 = 3;
+    ui_24->unk0.unk16 = 3;
 #else
-    ui_24->unk16 = 1;
+    ui_24->unk0.unk16 = 1;
 #endif
-    ui_24->unk8 = 16;
+    ui_24->unk0.unk8 = 16;
     ui_24->unk21 = 0;
 
     tt = TaskCreate(Task_8055904, sizeof(Strc_Ui_24), 0x2120, 0, TaskDestructor_8055C38);
@@ -156,13 +161,13 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->qUnkA = +Q(180. / 256.);
-    ui_24->unkC = 160;
-    ui_24->unkE = 6;
-    ui_24->unk10 = 10;
-    ui_24->unk12 = 6;
-    ui_24->unk16 = 1;
-    ui_24->unk8 = 0;
+    ui_24->unk0.qUnkA = +Q(180. / 256.);
+    ui_24->unk0.unkC = 160;
+    ui_24->unk0.unkE = 6;
+    ui_24->unk0.unk10 = 10;
+    ui_24->unk0.unk12 = 6;
+    ui_24->unk0.unk16 = 1;
+    ui_24->unk0.unk8 = 0;
     ui_24->unk1C = VramMalloc(12);
     sp04.vram10 = ui_24->unk1C;
     ui_24->unk21 = 0;
@@ -175,19 +180,19 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk1A = 0;
 
     if (((gCurrentLevel & 0x1) != ACT_1) && (SA2_LABEL(gUnknown_030054B0) != gCurrentLevel) && (!IS_EXTRA_STAGE(gCurrentLevel))) {
-        ui_24->qUnkA = -Q(16. / 256.);
-        ui_24->unkC = +42;
+        ui_24->unk0.qUnkA = -Q(16. / 256.);
+        ui_24->unk0.unkC = +42;
 
     } else {
-        ui_24->qUnkA = +Q(240. / 256.);
-        ui_24->unkC = 126;
+        ui_24->unk0.qUnkA = +Q(240. / 256.);
+        ui_24->unk0.unkC = 126;
     }
 
-    ui_24->unkE = 8;
-    ui_24->unk10 = 8;
-    ui_24->unk12 = 6;
-    ui_24->unk16 = 1;
-    ui_24->unk8 = 8;
+    ui_24->unk0.unkE = 8;
+    ui_24->unk0.unk10 = 8;
+    ui_24->unk0.unk12 = 6;
+    ui_24->unk0.unk16 = 1;
+    ui_24->unk0.unk8 = 8;
     ui_24->unk1C = VramMalloc(16);
     sp04.vram0 = ui_24->unk1C;
     ui_24->unk21 = 0;
@@ -198,13 +203,13 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->qUnkA = +Q(360. / 256.);
-    ui_24->unkC = 114;
-    ui_24->unkE = 4;
-    ui_24->unk10 = 9;
-    ui_24->unk12 = 6;
-    ui_24->unk16 = 1;
-    ui_24->unk8 = 0;
+    ui_24->unk0.qUnkA = +Q(360. / 256.);
+    ui_24->unk0.unkC = 114;
+    ui_24->unk0.unkE = 4;
+    ui_24->unk0.unk10 = 9;
+    ui_24->unk0.unk12 = 6;
+    ui_24->unk0.unk16 = 1;
+    ui_24->unk0.unk8 = 0;
     ui_24->unk1C = VramMalloc(16);
     sp04.vram8 = ui_24->unk1C;
     ui_24->unk21 = 0;
@@ -214,13 +219,13 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_24->unk18 = 0;
     ui_24->unk20 = 1;
     ui_24->unk1A = 0;
-    ui_24->qUnkA = +Q(1.0);
-    ui_24->unkC = 128;
-    ui_24->unkE = 9;
-    ui_24->unk10 = 2;
-    ui_24->unk12 = 6;
-    ui_24->unk16 = 1;
-    ui_24->unk8 = 0;
+    ui_24->unk0.qUnkA = +Q(1.0);
+    ui_24->unk0.unkC = 128;
+    ui_24->unk0.unkE = 9;
+    ui_24->unk0.unk10 = 2;
+    ui_24->unk0.unk12 = 6;
+    ui_24->unk0.unk16 = 1;
+    ui_24->unk0.unk8 = 0;
     ui_24->unk1C = VramMalloc(56);
     sp04.vramC = ui_24->unk1C;
     ui_24->unk21 = 0;
@@ -308,7 +313,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055458.inc", void Task_8055458(v
 
     if (++strcMain->unk24 > 225) {
         // _080555BE
-        if (strc1->unk0 == 0) {
+        if (strc1->unk0.unk0 == 0) {
             gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
             gBldRegs.bldCnt = 0;
             gBldRegs.bldY = 0;
@@ -368,11 +373,11 @@ void Task_8055730(void)
     Strc_Ui_24 *strc = TASK_DATA(gCurTask);
 
     if (strc->unk18 > 215) {
-        strc->qUnkA -= Q(8. / 256.);
+        strc->unk0.qUnkA -= Q(8. / 256.);
     } else if (strc->unk18 > 10) {
-        strc->qUnkA = 0;
+        strc->unk0.qUnkA = 0;
     } else if (strc->unk18 > 0) {
-        strc->qUnkA += Q(8. / 256.);
+        strc->unk0.qUnkA += Q(8. / 256.);
     }
 
     if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
@@ -396,7 +401,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
         const u8 *r7 = &gUnknown_08688394[0];
 
         for (; r5 < 4; r8 += 0x20, r6 += 0x20, r7++, r5++) {
-            strc->unkC = r6;
+            strc->unk0.unkC = r6;
 
             if (r8 >= -32) {
                 if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
@@ -414,7 +419,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
         const u8 *r6 = &gUnknown_08688394[0];
 
         for (; r5 < 4; r6++, r5++) {
-            strc->unkC = r5 * 32;
+            strc->unk0.unkC = r5 * 32;
 
             if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
                 sub_8052F78(r6, (void *)strc); // TODO: cast
@@ -433,7 +438,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
         r8 = r2;
         for (; r5 < 4; r2 += 0x20, r6 += 0x20, r5++) {
             if (r8 > 421) {
-                strc->unkC = r6;
+                strc->unk0.unkC = r6;
 
                 if (r2 >= -0x20) {
                     if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
@@ -453,16 +458,16 @@ void Task_8055904(void)
     Strc_Ui_24 *strc = TASK_DATA(gCurTask);
 
     if (strc->unk18 > 215) {
-        if (strc->unkC < 160) {
-            strc->unkC += 2;
+        if (strc->unk0.unkC < 160) {
+            strc->unk0.unkC += 2;
         }
     } else if (strc->unk18 > 35) {
-        strc->qUnkA = Q(180. / 256.);
-        strc->unkC = 144;
-        strc->unkE = 6;
+        strc->unk0.qUnkA = Q(180. / 256.);
+        strc->unk0.unkC = 144;
+        strc->unk0.unkE = 6;
     } else if (strc->unk18 > 30) {
-        if (strc->unkC > 144) {
-            strc->unkC -= 3;
+        if (strc->unk0.unkC > 144) {
+            strc->unk0.unkC -= 3;
         }
     }
 
@@ -480,42 +485,42 @@ void Task_8055998(void)
     Strc_Ui_24 *strc = TASK_DATA(gCurTask);
 
     if (strc->unk18 > 215) {
-        if (strc->qUnkA < -0x20) {
-            strc->qUnkA += Q(32. / 256.);
+        if (strc->unk0.qUnkA < -0x20) {
+            strc->unk0.qUnkA += Q(32. / 256.);
 
-            if (strc->unkE != 0) {
-                strc->unkE--;
+            if (strc->unk0.unkE != 0) {
+                strc->unk0.unkE--;
             }
         }
 
-        strc->qUnkA -= Q(26. / 256.);
+        strc->unk0.qUnkA -= Q(26. / 256.);
     } else if (strc->unk18 > 25) {
-        strc->qUnkA = -Q(16. / 256.);
+        strc->unk0.qUnkA = -Q(16. / 256.);
     } else if (strc->unk18 > 15) {
         if (IS_EXTRA_STAGE(gCurrentLevel)) {
             // Extra Stage
-            strc->unkC = 126;
-            strc->qUnkA -= Q(26. / 256);
+            strc->unk0.unkC = 126;
+            strc->unk0.qUnkA -= Q(26. / 256);
 
-            if (strc->qUnkA < -Q(16. / 256.)) {
-                strc->qUnkA = -Q(16. / 256.);
+            if (strc->unk0.qUnkA < -Q(16. / 256.)) {
+                strc->unk0.qUnkA = -Q(16. / 256.);
             }
         } else if ((gCurrentLevel < LEVEL_INDEX(ZONE_FINAL, ACT_THE_MOON)) && ((gCurrentLevel & 0x1) != ACT_1)
                    && ((SA2_LABEL(gUnknown_030054B0)) != gCurrentLevel)) {
             // Singleplayer Stage
-            strc->qUnkA = -Q(16. / 256.);
-            strc->unkC += 9;
+            strc->unk0.qUnkA = -Q(16. / 256.);
+            strc->unk0.unkC += 9;
 
-            if (strc->unkC > 126) {
-                strc->unkC = 126;
+            if (strc->unk0.unkC > 126) {
+                strc->unk0.unkC = 126;
             }
         } else {
             // Multiplayer Stage
-            strc->unkC = 126;
-            strc->qUnkA -= Q(26. / 256);
+            strc->unk0.unkC = 126;
+            strc->unk0.qUnkA -= Q(26. / 256);
 
-            if (strc->qUnkA < -Q(16. / 256.)) {
-                strc->qUnkA = -Q(16. / 256.);
+            if (strc->unk0.qUnkA < -Q(16. / 256.)) {
+                strc->unk0.qUnkA = -Q(16. / 256.);
             }
         }
     }
@@ -532,16 +537,16 @@ void Task_8055AA0()
     Strc_Ui_24 *strc = TASK_DATA(gCurTask);
 
     if (strc->unk18 > 215) {
-        strc->qUnkA -= Q(26. / 256.);
+        strc->unk0.qUnkA -= Q(26. / 256.);
     } else if (strc->unk18 > 25) {
-        strc->qUnkA = Q(112 / 256.);
+        strc->unk0.qUnkA = Q(112 / 256.);
 
         // TODO: Match without cast!
     } else if ((u16)strc->unk18 > 15) {
-        strc->qUnkA -= Q(26. / 256.);
+        strc->unk0.qUnkA -= Q(26. / 256.);
 
-        if (strc->qUnkA < Q(112. / 256.)) {
-            strc->qUnkA = Q(112. / 256.);
+        if (strc->unk0.qUnkA < Q(112. / 256.)) {
+            strc->unk0.qUnkA = Q(112. / 256.);
         }
     }
 
@@ -564,13 +569,13 @@ void Task_8055B18()
         Strc_Ui_24 *strc = TASK_DATA(gCurTask);
 
         if (strc->unk18 > 215) {
-            u16 qInitialUnkA = strc->qUnkA;
+            u16 qInitialUnkA = strc->unk0.qUnkA;
 
-            strc->qUnkA -= Q(28. / 256.);
+            strc->unk0.qUnkA -= Q(28. / 256.);
 
-            if (strc->qUnkA < -Q(31. / 256.)) {
-                strc->unkE--;
-                strc->qUnkA = qInitialUnkA + Q(4. / 256.);
+            if (strc->unk0.qUnkA < -Q(31. / 256.)) {
+                strc->unk0.unkE--;
+                strc->unk0.qUnkA = qInitialUnkA + Q(4. / 256.);
                 strc->unk1A = Mod(strc->unk1A + 1, 7);
             }
 
@@ -580,12 +585,12 @@ void Task_8055B18()
                 sub_80530CC(&arr0[strc->unk1A], (void *)strc);
             }
         } else if (strc->unk18 > 25) {
-            u16 qInitialUnkA = strc->qUnkA;
-            strc->qUnkA = qInitialUnkA - Q(2. / 256.);
-            strc->unkE = 9;
+            u16 qInitialUnkA = strc->unk0.qUnkA;
+            strc->unk0.qUnkA = qInitialUnkA - Q(2. / 256.);
+            strc->unk0.unkE = 9;
 
-            if (strc->qUnkA < -Q(31. / 256.)) {
-                strc->qUnkA = qInitialUnkA + Q(30. / 256.);
+            if (strc->unk0.qUnkA < -Q(31. / 256.)) {
+                strc->unk0.qUnkA = qInitialUnkA + Q(30. / 256.);
                 strc->unk1A = Mod(strc->unk1A + 1, 7);
             }
 
@@ -597,17 +602,17 @@ void Task_8055B18()
         } else if (strc->unk18 > 15) {
             // _08055BC0
             u16 qInitialUnkA;
-            strc->unkC = 0x80;
+            strc->unk0.unkC = 0x80;
 
-            qInitialUnkA = strc->qUnkA;
+            qInitialUnkA = strc->unk0.qUnkA;
 
-            strc->qUnkA -= Q(28. / 256.);
+            strc->unk0.qUnkA -= Q(28. / 256.);
 
-            if (strc->qUnkA < Q(240. / 256.)) {
-                strc->unkE = 9 - (strc->qUnkA >> 5);
+            if (strc->unk0.qUnkA < Q(240. / 256.)) {
+                strc->unk0.unkE = 9 - (strc->unk0.qUnkA >> 5);
 
-                if (strc->qUnkA < -Q(31. / 256.)) {
-                    strc->qUnkA = qInitialUnkA + 4;
+                if (strc->unk0.qUnkA < -Q(31. / 256.)) {
+                    strc->unk0.qUnkA = qInitialUnkA + 4;
                     strc->unk1A = Mod(strc->unk1A + 1, 7);
                 }
 
