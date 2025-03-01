@@ -39,7 +39,7 @@ typedef struct GameOverB {
     /* 0x0C */ s16 unkC;
     /* 0x0E */ s16 unkE;
     /* 0x10 */ u16 unk10;
-    /* 0x12 */ u16 unk12;
+    /* 0x12 */ u16 unk12; // variant?
     /* 0x14 */ u16 unk14;
     /* 0x16 */ u8 unk16;
     /* 0x17 */ u8 unk17;
