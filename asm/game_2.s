@@ -18161,7 +18161,7 @@ _08061706:
 	adds r0, #0x20
 	str r0, [sp, #0x44]
 	mov r8, r6
-	ldr r1, _08061798 @ =gUnknown_0865F06C
+	ldr r1, _08061798 @ =gSecondsTable
 	mov sl, r1
 _08061722:
 	movs r0, #1
@@ -18216,7 +18216,7 @@ _08061788: .4byte gUnknown_08692474
 _0806178C: .4byte gUnknown_08692274
 _08061790: .4byte gUnknown_08692934
 _08061794: .4byte gLoadedSaveGame
-_08061798: .4byte gUnknown_0865F06C
+_08061798: .4byte gSecondsTable
 _0806179C: .4byte 0x00008C9F
 _080617A0:
 	adds r0, r5, #0
@@ -18241,7 +18241,7 @@ _080617A0:
 	ldrh r1, [r1]
 	subs r2, r2, r1
 	lsls r2, r2, #1
-	ldr r3, _08061828 @ =gUnknown_0865EFF4
+	ldr r3, _08061828 @ =gMillisUnpackTable
 	adds r1, r2, #1
 	adds r1, r1, r3
 	ldrb r1, [r1]
@@ -18284,7 +18284,7 @@ _080617F6:
 	.align 2, 0
 _08061820: .4byte sZoneTimeSecondsTable
 _08061824: .4byte sZoneTimeMinutesTable
-_08061828: .4byte gUnknown_0865EFF4
+_08061828: .4byte gMillisUnpackTable
 
 	thumb_func_start sub_806182C
 sub_806182C: @ 0x0806182C
@@ -35048,7 +35048,7 @@ _0806A080:
 	ldrh r1, [r1]
 	subs r2, r2, r1
 	lsls r2, r2, #1
-	ldr r4, _0806A10C @ =gUnknown_0865EFF4
+	ldr r4, _0806A10C @ =gMillisUnpackTable
 	adds r1, r2, #1
 	adds r1, r1, r4
 	ldrb r3, [r1]
@@ -35060,7 +35060,7 @@ _0806A080:
 	ldr r3, _0806A114 @ =0x030000B9
 	adds r1, r6, r3
 	strb r2, [r1]
-	ldr r3, _0806A118 @ =gUnknown_0865F06C
+	ldr r3, _0806A118 @ =gSecondsTable
 	adds r1, r5, #1
 	adds r1, r1, r3
 	ldrb r2, [r1]
@@ -35093,10 +35093,10 @@ _0806A0EA:
 	.align 2, 0
 _0806A104: .4byte sZoneTimeSecondsTable
 _0806A108: .4byte sZoneTimeMinutesTable
-_0806A10C: .4byte gUnknown_0865EFF4
+_0806A10C: .4byte gMillisUnpackTable
 _0806A110: .4byte 0x030000BA
 _0806A114: .4byte 0x030000B9
-_0806A118: .4byte gUnknown_0865F06C
+_0806A118: .4byte gSecondsTable
 _0806A11C: .4byte 0x030000B7
 _0806A120: .4byte 0x030000B4
 

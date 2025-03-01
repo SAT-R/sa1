@@ -1799,7 +1799,7 @@ _0806BE48:
 	ldr r1, _0806BEE8 @ =0x030000EA
 	adds r3, r7, r1
 	adds r3, r3, r5
-	ldr r6, _0806BEEC @ =gUnknown_0865EFF4
+	ldr r6, _0806BEEC @ =gMillisUnpackTable
 	adds r1, r2, #1
 	adds r1, r1, r6
 	ldrb r1, [r1]
@@ -1813,7 +1813,7 @@ _0806BE48:
 	ldr r1, _0806BEF4 @ =0x030000E7
 	adds r2, r7, r1
 	adds r2, r2, r5
-	ldr r3, _0806BEF8 @ =gUnknown_0865F06C
+	ldr r3, _0806BEF8 @ =gSecondsTable
 	adds r1, r4, #1
 	adds r1, r1, r3
 	ldrb r1, [r1]
@@ -1851,10 +1851,10 @@ _0806BEC2:
 _0806BEE0: .4byte sZoneTimeSecondsTable
 _0806BEE4: .4byte sZoneTimeMinutesTable
 _0806BEE8: .4byte 0x030000EA
-_0806BEEC: .4byte gUnknown_0865EFF4
+_0806BEEC: .4byte gMillisUnpackTable
 _0806BEF0: .4byte 0x030000E9
 _0806BEF4: .4byte 0x030000E7
-_0806BEF8: .4byte gUnknown_0865F06C
+_0806BEF8: .4byte gSecondsTable
 _0806BEFC: .4byte 0x030000E6
 _0806BF00: .4byte 0x030000E4
 

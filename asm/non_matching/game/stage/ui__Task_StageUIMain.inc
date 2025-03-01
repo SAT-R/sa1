@@ -124,7 +124,7 @@ _080537BE:
 	bge _080537BE
 	ldr r0, _08053814 @ =gCourseTime
 	ldr r0, [r0]
-	bl sub_8053A90
+	bl StageUI_DrawTimer
 	ldr r0, _08053800 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]

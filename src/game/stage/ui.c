@@ -22,7 +22,7 @@
 
 extern void sub_804C40C(void); // TODO: Move to correct Header!
 
-void sub_8053A90(s32 courseTime);
+void StageUI_DrawTimer(u32 courseTime);
 void sub_8053BAC(void);
 void Task_8055458(void);
 void Task_8055730(void);
@@ -40,6 +40,18 @@ typedef struct {
     u8 unkA;
     u8 unkB;
 } StageUI_10;
+
+typedef struct {
+    u8 unk0;
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
+    u8 unk4;
+    u8 unk5;
+    u8 unk6;
+    u8 unk7;
+} StageUI_20;
+
 typedef struct {
     /* 0x00 */ u8 digitsRings[3];
     /* 0x03 */ u8 filler3[0x5];
@@ -48,7 +60,9 @@ typedef struct {
     /* 0x0C */ s16 unkC;
     /* 0x0E */ s16 unkE;
     /* 0x10 */ StageUI_10 unk10;
-    /* 0x1C */ u8 filler1C[0x14];
+    /* 0x1C */ u8 filler1C[0x4];
+    /* 0x20 */ StageUI_20 unk20;
+    /* 0x28 */ u8 filler28[0x8];
     /* 0x30 */ u8 digitLives;
     /* 0x31 */ u8 filler31[0x13];
     /* 0x44 */ u16 ringCount;
@@ -103,6 +117,32 @@ extern const u8 gUnknown_086883B0[];
 extern const u8 gUnknown_086883B8[];
 extern const u8 gUnknown_086883C4[];
 extern const u8 gUnknown_086883CC[16];
+
+#if 0
+// NOTE: In SA2 gMillisUnpackTable and gSecondsTable are stored as their literal values.
+//       ( '{5, 9}' instead of 'UI_DIGIT(5), UI_DIGIT(9)' )
+extern const u8 gMillisUnpackTable[60 * 2] = {
+    {UI_DIGIT(0), UI_DIGIT(0)},
+    {UI_DIGIT(0), UI_DIGIT(2)},
+    {UI_DIGIT(0), UI_DIGIT(3)},
+    /* ... */
+    {UI_DIGIT(9), UI_DIGIT(8)},
+};
+
+// TODO: Rename gSecondsTable -> gSecondsUnpackTable in SA1, SA2 and (if it exists) SA3!
+extern const u8 gSecondsTable[60 * 2] = {
+    {UI_DIGIT(0), UI_DIGIT(0)},
+    {UI_DIGIT(0), UI_DIGIT(1)},
+    {UI_DIGIT(0), UI_DIGIT(2)},
+    /* ... */
+    {UI_DIGIT(5), UI_DIGIT(9)},
+};
+#else
+extern const u8 gMillisUnpackTable[60 * 2];
+extern const u8 gSecondsTable[60 * 2];
+#endif
+extern const s16 sZoneTimeSecondsTable[];
+extern const u16 sZoneTimeMinutesTable[];
 
 void CreateStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
@@ -173,7 +213,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_StageUIMain.inc", void Task_Stage
         remainder = remainder0;
     }
 
-    sub_8053A90(gCourseTime);
+    StageUI_DrawTimer(gCourseTime);
 
     ptr = &TASK_GET_MEMBER(StageUI, gCurTask, u8, digitLives);
     if (gNumLives > 9) {
@@ -275,4 +315,78 @@ void sub_80538BC(void)
     sp00.unkA = gUiGraphics[UIGFX_UI_ICON_RING].unk14;
     sp00.unkB = gUiGraphics[UIGFX_UI_ICON_RING].unk18;
     sub_80528AC(&sp00);
+}
+
+void StageUI_DrawTimer(u32 courseTime)
+{
+    StageUI *ui = TASK_DATA(gCurTask);
+    StageUI_20 *unk20 = &ui->unk20;
+
+    // Offset to red digits in VRAM, when "TIME UP" enabled
+    s16 redOffset;
+
+    // if ((LOADED_SAVE->timeLimitDisabled != TRUE) || (gGameMode != GAME_MODE_SINGLE_PLAYER))
+    {
+        if (gStageFlags & STAGE_FLAG__TIMER_REVERSED) {
+            if ((gCourseTime < ZONE_TIME_TO_INT(1, 0)) && (gStageTime & 0x10)) {
+                redOffset = 11;
+            } else {
+                redOffset = 0;
+            }
+        } else {
+            if ((gCourseTime > ZONE_TIME_TO_INT(9, 0)) && (gStageTime & 0x10)) {
+                redOffset = 11;
+            } else {
+                redOffset = 0;
+            }
+        }
+    }
+
+    if ((LOADED_SAVE->timeLimitDisabled == TRUE) && (gGameMode == GAME_MODE_SINGLE_PLAYER)) {
+        redOffset = 0;
+    }
+
+    if (courseTime >= MAX_COURSE_TIME) {
+        // Frames
+        unk20->unk6 = UI_DIGIT(redOffset + 9);
+        unk20->unk5 = UI_DIGIT(redOffset + 9);
+
+        // Seconds
+        unk20->unk3 = UI_DIGIT(redOffset + 9);
+        unk20->unk2 = UI_DIGIT(redOffset + 5);
+
+        // Minutes
+        unk20->unk0 = UI_DIGIT(redOffset + 9);
+    } else {
+        s32 seconds = Div(courseTime, 60);
+        s32 minutes = Div(seconds, 60);
+        s32 r2;
+
+        seconds -= sZoneTimeSecondsTable[minutes];
+        r2 = sZoneTimeSecondsTable[seconds];
+        r2 = courseTime - r2;
+        r2 -= sZoneTimeMinutesTable[minutes];
+
+        r2 *= 2;
+        unk20->unk6 = redOffset + gMillisUnpackTable[r2 + 1];
+        unk20->unk5 = redOffset + gMillisUnpackTable[r2 + 0];
+
+#ifndef NON_MATCHING
+        {
+            register const u8 *ptr asm("r1");
+            unk20->unk3 = redOffset + gSecondsTable[seconds * 2 + 1];
+            ptr = &gSecondsTable[seconds * 2 + 0];
+            unk20->unk2 = redOffset + *ptr;
+        }
+#else
+        unk20->unk3 = redOffset + gSecondsTable[seconds * 2 + 1];
+        unk20->unk2 = redOffset + gSecondsTable[seconds * 2 + 0];
+#endif
+
+        unk20->unk0 = redOffset + gSecondsTable[minutes * 2 + 1];
+    }
+
+    // Colons
+    unk20->unk1 = UI_DIGIT(redOffset + 10);
+    unk20->unk4 = UI_DIGIT(redOffset + 10);
 }

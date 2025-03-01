@@ -1,11 +1,12 @@
 	.section .rodata
 
-    .global gUnknown_0865EFF4
-gUnknown_0865EFF4:
+    .global gMillisUnpackTable
+gMillisUnpackTable:
     .incbin "baserom.gba", 0x0065EFF4, 0x78
 
-    .global gUnknown_0865F06C
-gUnknown_0865F06C:
+@ TODO: Rename gSecondsUnpackTable in SA1, SA2 and SA3!
+    .global gSecondsTable
+gSecondsTable:
     .incbin "baserom.gba", 0x0065F06C, 0x78
 
     .global sZoneTimeSecondsTable
