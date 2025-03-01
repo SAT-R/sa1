@@ -35,7 +35,11 @@ void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
 
 typedef struct {
-    u8 filler0[9];
+    u8 unk0;
+    u8 unk1;
+    u8 unk2;
+    u8 unk3;
+    u8 filler4[4];
     u8 unk9;
     u8 unkA;
     u8 unkB;
@@ -66,7 +70,9 @@ typedef struct {
     /* 0x30 */ u8 digitLives;
     /* 0x31 */ u8 filler31[0x13];
     /* 0x44 */ u16 ringCount;
-    /* 0x46 */ u8 filler46[0xA];
+    /* 0x46 */ u8 filler46[0x2];
+    /* 0x48 */ u16 unk48;
+    /* 0x4A */ u8 filler4A[0x6];
 } StageUI; /* 0x50 */
 
 typedef struct {
@@ -109,6 +115,7 @@ typedef struct {
 void sub_8054A80(void *);
 void sub_804A5D8(s32 x, s32 y);
 
+extern const u8 gUnknown_0865F174[];
 extern const u8 gUnknown_0865F178[];
 
 extern const u8 gUnknown_08688394[];
@@ -325,20 +332,17 @@ void StageUI_DrawTimer(u32 courseTime)
     // Offset to red digits in VRAM, when "TIME UP" enabled
     s16 redOffset;
 
-    // if ((LOADED_SAVE->timeLimitDisabled != TRUE) || (gGameMode != GAME_MODE_SINGLE_PLAYER))
-    {
-        if (gStageFlags & STAGE_FLAG__TIMER_REVERSED) {
-            if ((gCourseTime < ZONE_TIME_TO_INT(1, 0)) && (gStageTime & 0x10)) {
-                redOffset = 11;
-            } else {
-                redOffset = 0;
-            }
+    if (gStageFlags & STAGE_FLAG__TIMER_REVERSED) {
+        if ((gCourseTime < ZONE_TIME_TO_INT(1, 0)) && (gStageTime & 0x10)) {
+            redOffset = 11;
         } else {
-            if ((gCourseTime > ZONE_TIME_TO_INT(9, 0)) && (gStageTime & 0x10)) {
-                redOffset = 11;
-            } else {
-                redOffset = 0;
-            }
+            redOffset = 0;
+        }
+    } else {
+        if ((gCourseTime > ZONE_TIME_TO_INT(9, 0)) && (gStageTime & 0x10)) {
+            redOffset = 11;
+        } else {
+            redOffset = 0;
         }
     }
 
@@ -367,6 +371,7 @@ void StageUI_DrawTimer(u32 courseTime)
         r2 = courseTime - r2;
         r2 -= sZoneTimeMinutesTable[minutes];
 
+        // Frames
         r2 *= 2;
         unk20->unk6 = redOffset + gMillisUnpackTable[r2 + 1];
         unk20->unk5 = redOffset + gMillisUnpackTable[r2 + 0];
@@ -379,10 +384,12 @@ void StageUI_DrawTimer(u32 courseTime)
             unk20->unk2 = redOffset + *ptr;
         }
 #else
+        // Seconds
         unk20->unk3 = redOffset + gSecondsTable[seconds * 2 + 1];
         unk20->unk2 = redOffset + gSecondsTable[seconds * 2 + 0];
 #endif
 
+        // Minutes
         unk20->unk0 = redOffset + gSecondsTable[minutes * 2 + 1];
     }
 
@@ -390,3 +397,87 @@ void StageUI_DrawTimer(u32 courseTime)
     unk20->unk1 = UI_DIGIT(redOffset + 10);
     unk20->unk4 = UI_DIGIT(redOffset + 10);
 }
+
+// (95.64%) https://decomp.me/scratch/qd1UL
+NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(void))
+{
+    struct Task *t = gCurTask;
+    StageUI *ui = TASK_DATA(t);
+    u8 *ptr = &ui->digitsRings[0];
+    u16 *ptr_r8 = &ui->unk48;
+    u8 r7 = ui->unk48;
+    GameOverB overB;
+    u8 i;
+
+    overB.unkC = 5;
+    overB.unk12 = 6;
+    overB.unk8 = 16;
+    overB.unk10 = 0;
+    overB.unk16 = 1;
+
+    if (gRingCount <= 9) {
+        overB.qUnkA = 9;
+        overB.unkE = 1;
+
+        if (gRingCount == 0) {
+            u8 r4 = r7 + 1;
+            sub_80530CC(&gUnknown_0865F174[r7 >> 3], &overB);
+
+            r4 %= 32u;
+
+            TASK_SET_MEMBER(StageUI, gCurTask, u16, unk48, r4);
+        } else {
+            sub_80530CC((const u8 *)&ui->digitsRings[2], &overB);
+        }
+    } else if (gRingCount <= 99) {
+        overB.qUnkA = 5;
+        overB.unkE = 2;
+        sub_80530CC(&ui->digitsRings[1], &overB);
+    } else {
+        // _08053C5C
+        overB.qUnkA = 1;
+        overB.unkE = 3;
+        sub_80530CC(&ui->digitsRings[0], &overB);
+    }
+    // _08053C6C
+
+    ptr += 0x10;
+    overB.unkC = -2;
+
+    for (i = 0; i < 10; i++) {
+        if (ptr[i] != 0x20) {
+            break;
+        }
+    }
+
+    if (gLevelScore != 0) {
+        s32 r1;
+        overB.unkE = (r1 = 9 - i);
+        overB.qUnkA = 0x51 - (r1 * 8);
+        sub_80530CC(&ptr[i], &overB);
+    } else {
+        // _08053CBC
+        overB.unkE = 1;
+        overB.qUnkA = 73;
+        sub_80530CC(&gUnknown_0865F178[0], &overB);
+    }
+    // _08053CCC
+
+    ptr += 0x10;
+    overB.qUnkA = 0x19;
+    overB.unkC = 12;
+    overB.unkE = 7;
+    sub_80530CC(ptr, &overB);
+
+    if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
+        ptr += 0x10;
+        overB.qUnkA = 22;
+        overB.unkC = 143;
+        overB.unkE = 1;
+        sub_80530CC(ptr, &overB);
+    }
+}
+END_NONMATCH
+
+#if 01
+#endif

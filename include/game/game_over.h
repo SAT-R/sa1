@@ -37,7 +37,7 @@ typedef struct GameOverB {
     /* 0x08 */ u16 unk8;
     /* 0x0A */ s16 qUnkA; // NOTE: I'm not too sure this is a Q() value, anymore...
     /* 0x0C */ s16 unkC;
-    /* 0x0E */ s16 unkE;
+    /* 0x0E */ s16 unkE; // String/Data length?
     /* 0x10 */ u16 unk10;
     /* 0x12 */ u16 unk12; // variant?
     /* 0x14 */ u16 unk14;
