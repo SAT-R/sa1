@@ -16,8 +16,8 @@ typedef struct {
     /* 0x0C */ const u8 *vramC;
     /* 0x10 */ u8 filler10[0x4];
     /* 0x14 */ const u8 *tiles;
-    /* 0x18 */ s32 unk18;
-    /* 0x1C */ u8 filler1C[0x4];
+    /* 0x18 */ s32 tilesSize; // in bytes
+    /* 0x18 */ void *vram1C;
     /* 0x20 */ const u16 *palette;
     /* 0x24 */ s32 unk24;
     /* 0x28 */ u8 unk28;

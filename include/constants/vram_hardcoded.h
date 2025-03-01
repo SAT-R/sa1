@@ -2,6 +2,10 @@
 #define GUARD_VRAM_HARDCODED_H
 
 #if (GAME == GAME_SA1)
+#define VRAM_RESERVED_UI_DIGITS_A         ((void *)OBJ_VRAM0 + 0x0800)
+#define VRAM_RESERVED_UI_DIGITS_B         ((void *)OBJ_VRAM0 + 0x0880)
+#define VRAM_RESERVED_UI_DIGITS_C         ((void *)OBJ_VRAM0 + 0x0A80)
+#define VRAM_RESERVED_UI_DIGITS_D         ((void *)OBJ_VRAM0 + 0x0D40)
 #define VRAM_RESERVED_DUST_EFFECT_BRAKING ((void *)OBJ_VRAM0 + 0x2100)
 #define VRAM_RESERVED_WATER_SURFACE       (void *)(OBJ_VRAM0 + 0x2660)
 #define VRAM_RESERVED_TRACK_AIR_CORNER    (void *)(OBJ_VRAM0 + 0x2680)

@@ -2,6 +2,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "malloc_vram.h"
+#include "data/ui_graphics.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/gTask_03006240.h"
@@ -11,6 +12,8 @@
 #include "game/water_effects.h"
 
 #include "constants/songs.h"
+#include "constants/ui_graphics.h"
+#include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
 #define UI_OAM_ORDER_INDEX 1
@@ -201,3 +204,75 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_StageUIMain.inc", void Task_Stage
     }
 }
 END_NONMATCH
+
+void sub_80538BC(void)
+{
+    Strc_80528AC sp00;
+    const UiGraphics *gfx;
+
+    sp00.uiGfxID = UIGFX_ASCII_CHARS;
+    sp00.unk2B = 0;
+
+    gfx = &gUiGraphics[UIGFX_ASCII_CHARS];
+    sp00.tiles = gfx->tiles + 224 * TILE_SIZE_4BPP;
+    sp00.palette = gfx->palette;
+    sp00.vramC = VRAM_RESERVED_UI_DIGITS_D;
+    sp00.tilesSize = 22 * TILE_SIZE_4BPP;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.unk2A = 13;
+    sp00.unk4 = gfx->unk8;
+    sp00.unk8 = gfx->unkC;
+    sp00.unk9 = gfx->unk10;
+    sp00.unkA = gfx->unk14;
+    sp00.unkB = gfx->unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_ASCII_CHARS;
+    sp00.unk2B = 0;
+    sp00.tiles = gfx->tiles + 32 * TILE_SIZE_4BPP;
+    sp00.palette = gfx->palette;
+    sp00.vramC = VRAM_RESERVED_UI_DIGITS_C;
+    sp00.tilesSize = 22 * TILE_SIZE_4BPP;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.unk2A = 9;
+    sp00.unk4 = gfx->unk8;
+    sp00.unk8 = gfx->unkC;
+    sp00.unk9 = gfx->unk10;
+    sp00.unkA = gfx->unk14;
+    sp00.unkB = gfx->unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_UI_ICON_SONIC + gSelectedCharacter;
+    sp00.unk2B = 1;
+    sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
+    sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
+    sp00.tilesSize = (2 * 2) * TILE_SIZE_4BPP;
+    sp00.unk24 = 32;
+    sp00.unk28 = gSelectedCharacter;
+    sp00.vramC = VRAM_RESERVED_UI_DIGITS_A;
+    sp00.unk2A = 9;
+    sp00.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+    sp00.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+    sp00.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+    sp00.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+    sp00.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_UI_ICON_RING;
+    sp00.unk2B = 3;
+    sp00.tiles = gUiGraphics[UIGFX_UI_ICON_RING].tiles;
+    sp00.palette = gUiGraphics[UIGFX_UI_ICON_RING].palette;
+    sp00.tilesSize = (4 * 4) * TILE_SIZE_4BPP;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.vramC = VRAM_RESERVED_UI_DIGITS_B;
+    sp00.unk2A = 9;
+    sp00.unk4 = gUiGraphics[UIGFX_UI_ICON_RING].unk8;
+    sp00.unk8 = gUiGraphics[UIGFX_UI_ICON_RING].unkC;
+    sp00.unk9 = gUiGraphics[UIGFX_UI_ICON_RING].unk10;
+    sp00.unkA = gUiGraphics[UIGFX_UI_ICON_RING].unk14;
+    sp00.unkB = gUiGraphics[UIGFX_UI_ICON_RING].unk18;
+    sub_80528AC(&sp00);
+}
