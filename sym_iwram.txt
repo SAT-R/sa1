@@ -22,7 +22,8 @@ src/sio32_multi_load.o(.data);
 . = 0x00004FE0;
 src/game/sa1_sa2_shared/globals.o(.data);
 
-. = 0x00005154; gUnknown_03005154 = .;
+. = 0x00005154; 
+src/game/special_stage/main.o(.data);
 
 . = 0x00005160; gLoadedSaveGame = .;
 

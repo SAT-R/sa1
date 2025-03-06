@@ -79,29 +79,6 @@ typedef struct {
 } StageUI; /* 0x50 */
 
 typedef struct {
-    /* 0x00 */ u8 digitsRings[3];
-    /* 0x03 */ u8 filler3[0x5];
-    /* 0x08 */ s16 unk8;
-    /* 0x0A */ s16 unkA;
-    /* 0x0C */ s16 unkC;
-    /* 0x0E */ s16 unkE;
-    /* 0x10 */ StageUI_10 unk10;
-    /* 0x1C */ u8 filler1C[0x4];
-    /* 0x20 */ StageUI_20 unk20;
-    /* 0x28 */ u8 filler28[0x8];
-    /* 0x30 */ u8 digitLives;
-    /* 0x31 */ u8 filler31[0xF];
-    /* 0x40 */ u16 unk40;
-    /* 0x42 */ u8 filler42[0x2];
-    /* 0x44 */ u16 ringCount;
-    /* 0x46 */ u8 filler46[0x2];
-    /* 0x48 */ u16 unk48;
-    /* 0x4A */ u8 filler4A[0x2];
-    /* 0x4C */ s16 unk4C;
-    /* 0x4E */ u8 filler4E[0x2];
-} SpecialStageUI; /* 0x50 */
-
-typedef struct {
     // TODO: Seems like this (until incl. unk16?) is GameOverB?
     GameOverB unk0;
 
@@ -510,7 +487,7 @@ END_NONMATCH
 // (99.48%) https://decomp.me/scratch/Sg21j
 NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Task_SpecialStageUIMain(void))
 {
-    SpecialStageUI *ui = TASK_DATA(gCurTask);
+    StageUI *ui = TASK_DATA(gCurTask);
     u8 r7 = ui->unk48;
     GameOverB overB;
     StageUI_10 *unk10;
@@ -566,7 +543,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
     }
     // _08053E24
 
-    TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, ringCount, gSpecialStageCollectedRings);
+    TASK_SET_MEMBER(StageUI, gCurTask, u16, ringCount, gSpecialStageCollectedRings);
 
     if (sb >= 20 && sb < 40) {
         overB.unkC = Div((sb - 20) << 6, 20) - 64;
@@ -590,7 +567,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
             sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
 
             r7 %= 32u;
-            TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, unk48, r7);
+            TASK_SET_MEMBER(StageUI, gCurTask, u16, unk48, r7);
         } else {
             sub_80530CC(&ui->digitsRings[2], &overB);
         }
@@ -609,7 +586,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
         sub_80530CC(&ui->digitsRings[0], &overB);
     }
     // _08053F10
-    unk10 = &TASK_GET_MEMBER(SpecialStageUI, gCurTask, StageUI_10, unk10);
+    unk10 = &TASK_GET_MEMBER(StageUI, gCurTask, StageUI_10, unk10);
 
     if (gUnknown_03005154 > 999) {
         unk10->unk0[0] = UI_DIGIT(9);
@@ -627,7 +604,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
     }
     // _08053F68
 
-    TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, ringCount, gUnknown_03005154);
+    TASK_SET_MEMBER(StageUI, gCurTask, u16, ringCount, gUnknown_03005154);
 
     if (sb >= 15 && sb < 35) {
         overB.unkC = Div((sb - 15) << 6, 20) - 52;
@@ -651,7 +628,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
             sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
 
             r7 %= 32u;
-            TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, unk48, r7);
+            TASK_SET_MEMBER(StageUI, gCurTask, u16, unk48, r7);
         } else {
             sub_80530CC(&unk10->unk0[2], &overB);
         }
@@ -745,6 +722,7 @@ NONMATCH("asm/non_matching/game/stage/ui__CreateStageUI.inc", void CreateStageUI
 }
 END_NONMATCH
 
+// https://decomp.me/scratch/3QSHy
 void CreateSpecialStageUI(void)
 {
 #ifndef NON_MATCHING
@@ -772,3 +750,80 @@ void CreateSpecialStageUI(void)
 }
 
 void sub_8054238(void) { }
+
+bool32 sub_805423C(StrcUi_805423C *param0)
+{
+    u16 r2;
+
+    if (param0->unk2 != 0) {
+        gDispCnt |= DISPCNT_WIN1_ON;
+    } else {
+        gDispCnt |= DISPCNT_WIN0_ON;
+    }
+
+    if (param0->unkA & 0x1) {
+        gBldRegs.bldCnt = BLDCNT_TGT1_ALL | BLDCNT_TGT2_ALL;
+        gBldRegs.bldAlpha = 16;
+    } else if (param0->unkA & 0x10) {
+        gBldRegs.bldCnt = BLDCNT_TGT2_BD | BLDCNT_TGT1_ALL;
+        gBldRegs.bldAlpha = 0;
+    } else if ((u8)param0->unkA == 0) {
+        gBldRegs.bldCnt = BLDCNT_TGT1_BG0 | BLDCNT_TGT1_BG1 | BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG3;
+        gBldRegs.bldAlpha = 0;
+    } else if (param0->unkA & 0x8) {
+        gBldRegs.bldCnt = BLDCNT_TGT1_ALL | BLDCNT_TGT2_ALL;
+    }
+
+    if (param0->unk2 != 0) {
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= WININ_WIN1_ALL;
+        gWinRegs[WINREG_WINOUT] |= (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
+    } else {
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= WININ_WIN0_ALL;
+        gWinRegs[WINREG_WINOUT] |= (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
+    }
+
+    if (param0->unk4 & 0xC) {
+        gBldRegs.bldCnt |= 0x80;
+    } else {
+        gBldRegs.bldCnt |= 0xC0;
+    }
+
+    if (param0->unk4 & (WININ_WIN0_BG0 | WININ_WIN0_BG2)) {
+        gBldRegs.bldY = param0->unk6 >> 8;
+    } else {
+        gBldRegs.bldY = 32 - (param0->unk6 >> 8);
+    }
+
+    r2 = param0->unk6;
+
+    if (gBldRegs.bldY >= 32) {
+        gBldRegs.bldY = 32;
+    }
+
+    HALVE(gBldRegs.bldY);
+
+    if (param0->unk0 != 0) {
+        r2 = param0->unk8;
+
+        if (param0->unk0 >= param0->unk8) {
+            param0->unk0 -= r2;
+        } else {
+            param0->unk0 = 0;
+        }
+
+        return FALSE;
+    }
+
+    param0->unk6 = r2 + param0->unk8;
+
+    if (param0->unk6 >= 0x2000) {
+        param0->unk6 = 0x2000;
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}

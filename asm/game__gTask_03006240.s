@@ -5,18 +5,19 @@
 .syntax unified
 .arm
 
+.if 01
 @ Input:
 @ R0: Strc_80528AC
 	thumb_func_start sub_80528AC
 sub_80528AC: @ 0x080528AC
 	push {r4, r5, r6, r7, lr}
-	adds r4, r0, #0
+	adds r4, r0, #0     @ r4 = param0
 	ldr r0, _08052968 @ =gTask_03006240
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r5, r1, r0
+	adds r5, r1, r0     @ r5 = ui
 	adds r0, r4, #0
 	adds r0, #0x2b
 	ldrb r1, [r0]
@@ -253,6 +254,7 @@ _08052A94: .4byte gVramGraphicsCopyQueueIndex
 _08052A98: .4byte 0x040000D4
 _08052A9C: .4byte gBgPalette
 _08052AA0: .4byte gFlags
+.endif
 
 @ TODO: Big parts of this function look like sub_8053520.
 @       Maybe it was inlined here?
