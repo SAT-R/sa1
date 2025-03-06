@@ -67,7 +67,9 @@ typedef struct {
     /* 0x20 */ StageUI_20 unk20;
     /* 0x28 */ u8 filler28[0x8];
     /* 0x30 */ u8 digitLives;
-    /* 0x31 */ u8 filler31[0x13];
+    /* 0x31 */ u8 filler31[0xF];
+    /* 0x40 */ u16 unk40;
+    /* 0x31 */ u8 filler42[0x2];
     /* 0x44 */ u16 ringCount;
     /* 0x46 */ u8 filler46[0x2];
     /* 0x48 */ u16 unk48;
@@ -647,10 +649,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
             sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
 
             r7 %= 32u;
-#ifndef NON_MATCHING
-            ui = TASK_DATA(gCurTask);
-#endif
-            ui->unk48 = r7;
+            TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, unk48, r7);
         } else {
             sub_80530CC(&unk10->unk0[2], &overB);
         }
@@ -666,5 +665,101 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
 }
 END_NONMATCH
 
-#if 01
-#endif
+void sub_8054068(void)
+{
+    Strc_80528AC sp00;
+    const UiGraphics *gfx;
+
+    sp00.uiGfxID = UIGFX_ASCII_CHARS;
+    sp00.unk2B = 0;
+
+    gfx = &gUiGraphics[UIGFX_ASCII_CHARS];
+    sp00.tiles = gfx->tiles + 124 * TILE_SIZE_4BPP;
+    sp00.palette = gfx->palette;
+    sp00.vramC = VRAM_RESERVED_UI_DIGITS_F;
+    sp00.tilesSize = 6 * TILE_SIZE_4BPP;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.unk2A = 9;
+    sp00.unk4 = gfx->unk8;
+    sp00.unk8 = gfx->unkC;
+    sp00.unk9 = gfx->unk10;
+    sp00.unkA = gfx->unk14;
+    sp00.unkB = gfx->unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_ASCII_CHARS;
+    sp00.unk2B = 0;
+    sp00.tiles = gfx->tiles + 32 * TILE_SIZE_4BPP;
+    sp00.palette = gfx->palette;
+    sp00.vramC = VRAM_RESERVED_UI_DIGITS_E;
+    sp00.tilesSize = 22 * TILE_SIZE_4BPP;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.unk2A = 13;
+    sp00.unk4 = gfx->unk8;
+    sp00.unk8 = gfx->unkC;
+    sp00.unk9 = gfx->unk10;
+    sp00.unkA = gfx->unk14;
+    sp00.unkB = gfx->unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_CHAR_SP_STAGE_RINGS_BG;
+    sp00.unk2B = 3;
+    sp00.tiles = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].tiles;
+    sp00.palette = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].palette;
+    sp00.tilesSize = (8 * 4) * TILE_SIZE_4BPP;
+    sp00.unk24 = 32;
+    sp00.unk28 = 10;
+    sp00.vramC = VRAM_RESERVED_UI_DIGITS_G;
+    sp00.unk2A = 13;
+    sp00.unk4 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk8;
+    sp00.unk8 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unkC;
+    sp00.unk9 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk10;
+    sp00.unkA = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk14;
+    sp00.unkB = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk18;
+    sub_80528AC(&sp00);
+}
+
+// (91.56%) https://decomp.me/scratch/VmDeu
+NONMATCH("asm/non_matching/game/stage/ui__CreateStageUI.inc", void CreateStageUI(void))
+{
+    void *dtor = 0;
+    StageUI_20 *unk20 = NULL;
+    struct Task *t = TaskCreate(Task_StageUIMain, sizeof(StageUI), 0x2180, 0, dtor);
+    StageUI *ui = TASK_DATA(t);
+    ;
+
+    ui->unk40 = 0;
+
+    // Colons
+    ui = TASK_DATA(t);
+    unk20 = &ui->unk20;
+    unk20->unk1 = 42;
+    unk20->unk4 = 42;
+
+    sub_8053674();
+    sub_80538BC();
+}
+END_NONMATCH
+
+// (91.56%) https://decomp.me/scratch/3QSHy
+NONMATCH("asm/non_matching/game/stage/ui__CreateSpecialStageUI.inc", void CreateSpecialStageUI(void))
+{
+    void *dtor = 0;
+    struct Task *t = TaskCreate(Task_StageUIMain, sizeof(StageUI), 0x1180, 0, dtor);
+    StageUI *ui;
+
+    ui = TASK_DATA(t);
+    ui->unk40 = 0;
+
+    // Colons
+    ui = TASK_DATA(t);
+    ui->unk4C = 0;
+
+    sub_8053674();
+    sub_80538BC();
+}
+END_NONMATCH
+
+void sub_8054238(void) { }
