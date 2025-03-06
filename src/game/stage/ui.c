@@ -827,3 +827,52 @@ bool32 sub_805423C(StrcUi_805423C *param0)
         return FALSE;
     }
 }
+
+void sub_80543A4(StrcUi_805423C *param0)
+{
+    u16 r2;
+
+    if (param0->unk2 != 0) {
+        gDispCnt |= DISPCNT_WIN1_ON;
+    } else {
+        gDispCnt |= DISPCNT_WIN0_ON;
+    }
+
+    if (param0->unkA & 0x1) {
+        gBldRegs.bldCnt = BLDCNT_TGT1_ALL | BLDCNT_TGT2_ALL;
+        gBldRegs.bldAlpha = 16;
+    } else if ((u8)param0->unkA == 0) {
+        gBldRegs.bldCnt = BLDCNT_TGT1_BG0 | BLDCNT_TGT1_BG1 | BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG3;
+        gBldRegs.bldAlpha = 0;
+    }
+
+    if (param0->unk2 != 0) {
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= WININ_WIN1_ALL;
+        gWinRegs[WINREG_WINOUT] |= (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
+    } else {
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] |= WININ_WIN0_ALL;
+        gWinRegs[WINREG_WINOUT] |= (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ);
+    }
+
+    if (param0->unk4 & 0xC) {
+        gBldRegs.bldCnt |= 0x80;
+    } else {
+        gBldRegs.bldCnt |= 0xC0;
+    }
+
+    if (param0->unk4 & (WININ_WIN0_BG0 | WININ_WIN0_BG2)) {
+        gBldRegs.bldY = param0->unk6 >> 8;
+    } else {
+        gBldRegs.bldY = 32 - (param0->unk6 >> 8);
+    }
+
+    if (gBldRegs.bldY >= 32) {
+        gBldRegs.bldY = 32;
+    }
+
+    HALVE(gBldRegs.bldY);
+}
