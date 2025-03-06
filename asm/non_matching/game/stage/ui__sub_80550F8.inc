@@ -334,7 +334,7 @@ _080552E6:
 	ldr r0, _08055448 @ =Task_8055458
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _0805544C @ =TaskDestructor_8055C4C
+	ldr r1, _0805544C @ =TaskDestructor_StrcUI28_8055C4C
 	str r1, [sp]
 	movs r1, #0x28 @ sizeof(Struct_sub_80550F8)
 	movs r3, #0
@@ -394,7 +394,7 @@ _0805543C: .4byte 0x03000020
 _08055440: .4byte 0x03000021
 _08055444: .4byte Task_8055B18
 _08055448: .4byte Task_8055458
-_0805544C: .4byte TaskDestructor_8055C4C
+_0805544C: .4byte TaskDestructor_StrcUI28_8055C4C
 _08055450: .4byte 0x03000026
 _08055454: .4byte 0x03000027
 

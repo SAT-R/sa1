@@ -4,7 +4,6 @@
 gMillisUnpackTable:
     .incbin "baserom.gba", 0x0065EFF4, 0x78
 
-@ TODO: Rename gSecondsUnpackTable in SA1, SA2 and SA3!
     .global gSecondsTable
 gSecondsTable:
     .incbin "baserom.gba", 0x0065F06C, 0x78

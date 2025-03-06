@@ -5,6 +5,7 @@
 #include "data/ui_graphics.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/sa1_sa2_shared/globals.h"
+#include "game/special_stage/main.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/mp_player.h"
 #include "game/save.h"
@@ -35,9 +36,7 @@ void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
 
 typedef struct {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
+    u8 unk0[3];
     u8 unk3;
     u8 filler4[4];
     u8 unk9;
@@ -72,8 +71,33 @@ typedef struct {
     /* 0x44 */ u16 ringCount;
     /* 0x46 */ u8 filler46[0x2];
     /* 0x48 */ u16 unk48;
-    /* 0x4A */ u8 filler4A[0x6];
+    /* 0x4A */ u8 filler4A[0x2];
+    /* 0x4C */ s16 unk4C;
+    /* 0x4E */ u8 filler4E[0x2];
 } StageUI; /* 0x50 */
+
+typedef struct {
+    /* 0x00 */ u8 digitsRings[3];
+    /* 0x03 */ u8 filler3[0x5];
+    /* 0x08 */ s16 unk8;
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ s16 unkC;
+    /* 0x0E */ s16 unkE;
+    /* 0x10 */ StageUI_10 unk10;
+    /* 0x1C */ u8 filler1C[0x4];
+    /* 0x20 */ StageUI_20 unk20;
+    /* 0x28 */ u8 filler28[0x8];
+    /* 0x30 */ u8 digitLives;
+    /* 0x31 */ u8 filler31[0xF];
+    /* 0x40 */ u16 unk40;
+    /* 0x42 */ u8 filler42[0x2];
+    /* 0x44 */ u16 ringCount;
+    /* 0x46 */ u8 filler46[0x2];
+    /* 0x48 */ u16 unk48;
+    /* 0x4A */ u8 filler4A[0x2];
+    /* 0x4C */ s16 unk4C;
+    /* 0x4E */ u8 filler4E[0x2];
+} SpecialStageUI; /* 0x50 */
 
 typedef struct {
     // TODO: Seems like this (until incl. unk16?) is GameOverB?
@@ -475,6 +499,169 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
         overB.unkC = 143;
         overB.unkE = 1;
         sub_80530CC(ptr, &overB);
+    }
+}
+END_NONMATCH
+
+// (99.48%) https://decomp.me/scratch/Sg21j
+NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Task_SpecialStageUIMain(void))
+{
+    SpecialStageUI *ui = TASK_DATA(gCurTask);
+    u8 r7 = ui->unk48;
+    GameOverB overB;
+    StageUI_10 *unk10;
+    s32 remainder;
+    s32 remainder0;
+    s32 i;
+    s32 sb_32;
+    s16 sb;
+    s16 sl;
+    s16 r4;
+    sb_32 = ui->unk4C + 1;
+
+    sb = sb_32;
+    ui->unk4C = sb_32;
+    sl = 114;
+    r4 = 90;
+
+    if (sb >= 10 && sb < 30) {
+        overB.unkC = Div((sb - 10) << 6, 20) - 70;
+    } else if (sb >= 30) {
+        overB.unkC = -6;
+    } else {
+        overB.unkC = -70;
+    }
+
+    overB.qUnkA = r4 + 4;
+    overB.unkE = 1;
+    overB.unk8 = 24;
+    overB.unk10 = 3;
+    overB.unk12 = 10;
+    overB.unk16 = 1;
+
+    sub_80530CC(gUnknown_0865F178, &overB);
+
+#ifndef NON_MATCHING
+    ui = TASK_DATA(gCurTask);
+#endif
+
+    if (gSpecialStageCollectedRings > 999) {
+        ui->digitsRings[0] = UI_DIGIT(9);
+        ui->digitsRings[1] = UI_DIGIT(9);
+        ui->digitsRings[2] = UI_DIGIT(9);
+    } else {
+        // _08053DF0
+        remainder = gSpecialStageCollectedRings;
+        for (i = 0; i < (s32)ARRAY_COUNT(ui->digitsRings); i++) {
+            remainder0 = Div(remainder, 10);
+
+            ui->digitsRings[2 - i] = UI_DIGIT(remainder - ((remainder0 << 3) + (remainder0 << 1)));
+
+            remainder = remainder0;
+        }
+    }
+    // _08053E24
+
+    TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, ringCount, gSpecialStageCollectedRings);
+
+    if (sb >= 20 && sb < 40) {
+        overB.unkC = Div((sb - 20) << 6, 20) - 64;
+    } else if (sb >= 40) {
+        overB.unkC = 0;
+    } else {
+        overB.unkC = -64;
+    }
+    // _08053E6E+0x2
+
+    overB.unk12 = 6;
+    overB.unk8 = 16;
+    overB.unk10 = 0;
+    overB.unk16 = 1;
+
+    if (gSpecialStageCollectedRings < 10) {
+        overB.qUnkA = r4 + Q(12. / 256.);
+        overB.unkE = 1;
+
+        if (gSpecialStageCollectedRings == 0) {
+            sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
+
+            r7 %= 32u;
+            TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, unk48, r7);
+        } else {
+            sub_80530CC(&ui->digitsRings[2], &overB);
+        }
+    } else if (gSpecialStageCollectedRings < 100) {
+        // _08053EE2+0x4
+
+        overB.qUnkA = r4 + 8;
+        overB.unkE = 2;
+
+        sub_80530CC(&ui->digitsRings[1], &overB);
+    } else {
+        // _08053EFC
+        overB.qUnkA = r4 + 4;
+        overB.unkE = 3;
+
+        sub_80530CC(&ui->digitsRings[0], &overB);
+    }
+    // _08053F10
+    unk10 = &TASK_GET_MEMBER(SpecialStageUI, gCurTask, StageUI_10, unk10);
+
+    if (gUnknown_03005154 > 999) {
+        unk10->unk0[0] = UI_DIGIT(9);
+        unk10->unk0[1] = UI_DIGIT(9);
+        unk10->unk0[2] = UI_DIGIT(9);
+    } else {
+        remainder = gUnknown_03005154;
+        for (i = 0; i < (s32)ARRAY_COUNT(unk10->unk0); i++) {
+            remainder0 = Div(remainder, 10);
+
+            unk10->unk0[2 - i] = UI_DIGIT(remainder - ((remainder0 << 3) + (remainder0 << 1)));
+
+            remainder = remainder0;
+        }
+    }
+    // _08053F68
+
+    TASK_SET_MEMBER(SpecialStageUI, gCurTask, u16, ringCount, gUnknown_03005154);
+
+    if (sb >= 15 && sb < 35) {
+        overB.unkC = Div((sb - 15) << 6, 20) - 52;
+    } else if (sb >= 35) {
+        overB.unkC = 12;
+    } else {
+        overB.unkC = -52;
+    }
+    // _08053FB2+0x2
+
+    overB.unk12 = 6;
+    overB.unk8 = 16;
+    overB.unk10 = 0;
+    overB.unk16 = 1;
+
+    if (gUnknown_03005154 < 10) {
+        overB.qUnkA = sl + Q(12. / 256.);
+        overB.unkE = 1;
+
+        if (gUnknown_03005154 == 0) {
+            sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
+
+            r7 %= 32u;
+#ifndef NON_MATCHING
+            ui = TASK_DATA(gCurTask);
+#endif
+            ui->unk48 = r7;
+        } else {
+            sub_80530CC(&unk10->unk0[2], &overB);
+        }
+    } else if (gUnknown_03005154 < 100) {
+        overB.qUnkA = sl + 8;
+        overB.unkE = 2;
+        sub_80530CC(&unk10->unk0[1], &overB);
+    } else {
+        overB.qUnkA = sl + 4;
+        overB.unkE = 3;
+        sub_80530CC(&unk10->unk0[0], &overB);
     }
 }
 END_NONMATCH

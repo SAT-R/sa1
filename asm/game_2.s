@@ -8207,7 +8207,7 @@ _0805C5F6:
 	ldrh r0, [r1, #0x38]
 	orrs r2, r0
 	strh r2, [r1, #0x38]
-	bl sub_80541F0
+	bl CreateSpecialStageUI
 	ldr r0, [r5, #0x14]
 	bl TaskDestroy
 	ldr r0, [r5, #0x10]

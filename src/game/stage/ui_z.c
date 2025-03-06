@@ -637,4 +637,4 @@ void TaskDestructor_8055C38(struct Task *t)
     }
 }
 
-void TaskDestructor_8055C4C(struct Task *t) { }
+void TaskDestructor_StrcUI28_8055C4C(struct Task *t) { }
