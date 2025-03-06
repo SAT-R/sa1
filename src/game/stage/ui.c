@@ -178,6 +178,8 @@ extern const s16 sZoneTimeSecondsTable[];
 extern const u16 sZoneTimeMinutesTable[];
 
 void CreateStageUI(void);
+void Task_StageUIMain(void);
+void Task_SpecialStageUIMain(void);
 void CreateMultiplayerMultiPakUI(void);
 
 // (98.15%) https://decomp.me/scratch/LupqY
@@ -743,23 +745,30 @@ NONMATCH("asm/non_matching/game/stage/ui__CreateStageUI.inc", void CreateStageUI
 }
 END_NONMATCH
 
-// (91.56%) https://decomp.me/scratch/3QSHy
-NONMATCH("asm/non_matching/game/stage/ui__CreateSpecialStageUI.inc", void CreateSpecialStageUI(void))
+void CreateSpecialStageUI(void)
 {
+#ifndef NON_MATCHING
+    register void *dtor asm("r1") = 0;
+    register struct Task *t asm("r1");
+#else
     void *dtor = 0;
-    struct Task *t = TaskCreate(Task_StageUIMain, sizeof(StageUI), 0x1180, 0, dtor);
+    struct Task *t;
+#endif
+    s32 zero;
     StageUI *ui;
 
-    ui = TASK_DATA(t);
-    ui->unk40 = 0;
+    t = TaskCreate(Task_SpecialStageUIMain, sizeof(StageUI), 0x1180, (zero = 0), dtor);
 
-    // Colons
     ui = TASK_DATA(t);
-    ui->unk4C = 0;
+    ui->unk40 = zero;
+
+#ifndef NON_MATCHING
+    ui = TASK_DATA(t);
+#endif
+    ui->unk4C = zero;
 
     sub_8053674();
-    sub_80538BC();
+    sub_8054068();
 }
-END_NONMATCH
 
 void sub_8054238(void) { }
