@@ -40,11 +40,13 @@
 
 #if (GAME == GAME_SA1)
 #define NUM_COURSE_ZONES      7
+#define NUM_ANIMAL_ZONES      6 // # of zones where animals are trapped inside enemies
 #define NUM_TIME_ATTACK_ZONES 6
 #define ACTS_PER_ZONE         2
 #define ACT_SLOTS_PER_ZONE    (ACTS_PER_ZONE)
 #elif (GAME == GAME_SA2)
 #define NUM_COURSE_ZONES      7
+#define NUM_ANIMAL_ZONES      7 // # of zones where animals are trapped inside enemies
 #define NUM_TIME_ATTACK_ZONES NUM_COURSE_ZONES
 #define ACTS_PER_ZONE         3
 #define ACT_SLOTS_PER_ZONE    (ACTS_PER_ZONE + 1)

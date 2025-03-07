@@ -1884,7 +1884,7 @@ _0800B520:
 	bl CreateDustCloud
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sub_8054954
+	bl CreateTrappedAnimal
 	movs r0, #1
 	b _0800B784
 _0800B540:
@@ -2163,7 +2163,7 @@ _0800B742:
 	bl CreateDustCloud
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_8054954
+	bl CreateTrappedAnimal
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl CreateEnemyDefeatScoreAndManageLives

@@ -816,14 +816,14 @@ bool32 sub_805423C(StrcUi_805423C *param0)
         }
 
         return FALSE;
-    }
-
-    param0->unk6 = r2 + param0->unk8;
-
-    if (param0->unk6 >= 0x2000) {
-        param0->unk6 = 0x2000;
-        return TRUE;
     } else {
+        param0->unk6 = r2 + param0->unk8;
+
+        if (param0->unk6 >= Q(32)) {
+            param0->unk6 = Q(32);
+            return TRUE;
+        }
+
         return FALSE;
     }
 }
