@@ -131,7 +131,6 @@ SECTIONS {
         asm/game__gTask_03006240.o(.text);
         src/game/gTask_03006240.o(.text);
         src/game/stage/ui.o(.text);
-        asm/game__stage__trapped_animal.o(.text);
         src/game/stage/trapped_animals.o(.text);
         asm/game__stage__intro.o(.text);
         src/game/stage/ui_z.o(.text);
