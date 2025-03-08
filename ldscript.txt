@@ -209,7 +209,7 @@ SECTIONS {
         asm/ia_special_spring.o(.text);
         src/game/interactables/propeller.o(.text);
         asm/ia_small_fall_block.o(.text);
-        asm/ia_lava.o(.text);
+        src/game/interactables/lava.o(.text);
         asm/ia_track.o(.text);
         asm/ia_107.o(.text);
         asm/ia_spring_hiding.o(.text);

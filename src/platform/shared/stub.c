@@ -151,7 +151,6 @@ void CreateEntity_Booster_Steep2() { }
 void CreateEntity_SpecialSpring() { }
 void CreateEntity_SpikedBarrel_ChaoHunt() { }
 void CreateEntity_SmallFallBlock() { }
-void CreateEntity_Lava() { }
 void CreateEntity_Track() { }
 void CreateEntity_Interactable107() { }
 void CreateEntity_Spring_Hiding() { }

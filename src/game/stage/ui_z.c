@@ -82,7 +82,7 @@ extern const u8 gUnknown_086883AC[];
 extern const u8 gUnknown_086883B0[];
 extern const u8 gUnknown_086883B8[];
 extern const u8 gUnknown_086883C4[];
-extern const u8 gUnknown_086883CC[16];
+extern const u8 gUnknown_086883CC[24];
 
 void CreateStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
