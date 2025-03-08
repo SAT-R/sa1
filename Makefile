@@ -598,5 +598,6 @@ check_format:
 CONTEXT_FLAGS := -DPLATFORM_GBA=1 -DGEN_CTX=1 
 
 ctx.c: $(C_HEADERS)
+	#@echo "#define offsetof(TYPE, MEMBER) ((size_t)&((TYPE *)0)->MEMBER)" > ctx.h
 	@for header in $(C_HEADERS); do echo "#include \"$$header\""; done > ctx.h
 	gcc -P -E -dD -undef -nostdinc -I include $(CONTEXT_FLAGS) ctx.h | sed '/^#define __STDC/d' | sed '1s|^|#include <stdint.h>\n|' > ctx.c

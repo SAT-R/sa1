@@ -179,7 +179,6 @@ SECTIONS {
         asm/ia_marble_track.o(.text);
         asm/ia_conveyor_belt_movement.o(.text);
         src/game/interactables/toggle_player_visibility.o(.text);
-        asm/ia_wall_bumper.o(.text);
         src/game/interactables/wall_bumper.o(.text);
         asm/ia_teleport_orb.o(.text);
         asm/ia_flipper_small_blue.o(.text);
