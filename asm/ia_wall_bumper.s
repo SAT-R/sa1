@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 	thumb_func_start Task_WallBumper
 Task_WallBumper: @ 0x080845C8
 	push {r4, r5, r6, r7, lr}
@@ -408,58 +409,4 @@ _080848A8: .4byte gPartner
 _080848AC: .4byte gNumSingleplayerCharacters
 _080848B0: .4byte gCamera
 _080848B4: .4byte gCurTask
-
-	thumb_func_start CreateEntity_WallBumper
-CreateEntity_WallBumper: @ 0x080848B8
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0808491C @ =Task_WallBumper
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r1, #0
-	str r1, [sp]
-	movs r1, #0x40
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r1, r8
-	str r1, [r0]
-	ldrb r1, [r1]
-	strb r1, [r0, #8]
-	strb r6, [r0, #9]
-	mov r3, r8
-	ldrb r0, [r3, #3]
-	ldr r1, _08084920 @ =0x0300003C
-	adds r2, r2, r1
-	strb r0, [r2]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r0, r3, #0
-	mov r1, r8
-	strb r0, [r1]
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0808491C: .4byte Task_WallBumper
-_08084920: .4byte 0x0300003C
+.endif
