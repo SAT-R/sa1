@@ -121,7 +121,6 @@ void CreateEntity_MarbleTrack_Unk() { }
 void CreateEntity_MarbleTrack_Entrance() { }
 void CreateEntity_MarbleTrack_Exit() { }
 void CreateEntity_ConveyorBelt() { }
-void CreateEntity_WallBumper() { }
 void CreateEntity_TeleportOrb() { }
 void CreateEntity_Flipper_SmallBlue() { }
 void CreateEntity_Carousel() { }

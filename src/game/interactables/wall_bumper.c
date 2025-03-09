@@ -40,6 +40,7 @@ void Task_WallBumper(void)
                 GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(5);
             }
 
+            // NOTE/BUG(?): Positive and negative are not the same!
             if (bumper->unk3C < 3) {
                 GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(7);
             } else {

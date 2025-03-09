@@ -190,6 +190,7 @@ SECTIONS {
         asm/ia_steam_exhaust.o(.text);
         asm/ia_crane_claw_lift.o(.text);
         asm/ia_moving_spring.o(.text);
+        src/game/interactables/iron_ball.o(.text);
         asm/ia_iron_ball.o(.text);
         asm/ia_hang_bar.o(.text);
         asm/ia_084.o(.text);
