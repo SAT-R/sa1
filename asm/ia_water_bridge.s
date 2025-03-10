@@ -5,127 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_WaterBridge
-CreateEntity_WaterBridge: @ 0x0804DA7C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	ldr r0, _0804DB5C @ =Task_WaterBridge
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _0804DB60 @ =TaskDestructor_WaterBridge
-	str r1, [sp]
-	movs r1, #0x58
-	movs r3, #0
-	bl TaskCreate
-	ldrh r6, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r6, r1
-	mov r0, r8
-	str r0, [r1]
-	ldrb r2, [r0]
-	ldr r3, _0804DB64 @ =0x03000055
-	adds r0, r6, r3
-	movs r7, #0
-	mov sb, r7
-	strb r2, [r0]
-	ldr r2, _0804DB68 @ =0x03000054
-	adds r0, r6, r2
-	mov r3, sb
-	strb r3, [r0]
-	lsls r4, r4, #8
-	mov r7, r8
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	adds r4, r4, r0
-	lsls r5, r5, #8
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	adds r5, r5, r0
-	ldrb r3, [r7, #5]
-	lsls r3, r3, #3
-	ldrb r2, [r7, #6]
-	lsls r2, r2, #3
-	str r4, [r1, #4]
-	str r5, [r1, #8]
-	movs r0, #3
-	ldrsb r0, [r7, r0]
-	lsls r0, r0, #3
-	adds r4, r4, r0
-	str r4, [r1, #0xc]
-	movs r0, #4
-	ldrsb r0, [r7, r0]
-	lsls r0, r0, #3
-	adds r5, r5, r0
-	str r5, [r1, #0x14]
-	adds r4, r4, r3
-	str r4, [r1, #0x10]
-	adds r5, r5, r2
-	str r5, [r1, #0x18]
-	str r3, [r1, #0x1c]
-	str r2, [r1, #0x20]
-	ldr r0, _0804DB6C @ =0x03000024
-	adds r4, r6, r0
-	movs r0, #0x12
-	bl VramMalloc
-	str r0, [r4, #4]
-	movs r2, #0
-	mov r1, sb
-	strh r1, [r4, #8]
-	movs r0, #0xed
-	lsls r0, r0, #1
-	strh r0, [r4, #0xa]
-	ldr r3, _0804DB70 @ =0x03000044
-	adds r0, r6, r3
-	strb r2, [r0]
-	ldr r7, _0804DB74 @ =0x03000045
-	adds r1, r6, r7
-	movs r0, #0xff
-	strb r0, [r1]
-	movs r0, #0xf0
-	lsls r0, r0, #2
-	strh r0, [r4, #0x1a]
-	mov r0, sb
-	strh r0, [r4, #0x1c]
-	adds r3, #2
-	adds r1, r6, r3
-	movs r0, #0x10
-	strb r0, [r1]
-	adds r7, #4
-	adds r6, r6, r7
-	strb r2, [r6]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [r4, #0x10]
-	movs r0, #0xfe
-	mov r1, r8
-	strb r0, [r1]
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804DB5C: .4byte Task_WaterBridge
-_0804DB60: .4byte TaskDestructor_WaterBridge
-_0804DB64: .4byte 0x03000055
-_0804DB68: .4byte 0x03000054
-_0804DB6C: .4byte 0x03000024
-_0804DB70: .4byte 0x03000044
-_0804DB74: .4byte 0x03000045
-
+.if 01
 	thumb_func_start Task_WaterBridge
 Task_WaterBridge: @ 0x0804DB78
 	push {r4, r5, r6, r7, lr}
@@ -141,7 +21,7 @@ Task_WaterBridge: @ 0x0804DB78
 	adds r6, r1, r0
 	movs r0, #0
 	mov sl, r0
-_0804DB92:
+_0804DB92_loop:
 	ldr r5, _0804DC00 @ =gPlayer
 	mov r1, sl
 	cmp r1, #0
@@ -413,7 +293,7 @@ _0804DD94:
 	asrs r0, r0, #0x18
 	cmp sl, r0
 	bge _0804DDA6
-	b _0804DB92
+	b _0804DB92_loop
 _0804DDA6:
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -427,6 +307,7 @@ _0804DDB4: .4byte 0xFFDFFFFF
 _0804DDB8: .4byte gPlayerControls
 _0804DDBC: .4byte 0xFFFF7FFF
 _0804DDC0: .4byte gNumSingleplayerCharacters
+.endif
 
 	thumb_func_start TaskDestructor_WaterBridge
 TaskDestructor_WaterBridge: @ 0x0804DDC4
