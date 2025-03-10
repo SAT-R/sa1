@@ -1,7 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
+#include "game/sa1_sa2_shared/collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -11,8 +13,8 @@ typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x3C */ u16 unk3C;
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 unk44;
+    /* 0x40 */ s32 unk40; // TODO: Q() value?
+    /* 0x44 */ s32 unk44; // TODO: Q() value?
     /* 0x48 */ s16 unk48;
     /* 0x4C */ s16 unk4A;
     /* 0x4C */ s16 unk4C;
@@ -83,4 +85,52 @@ void CreateEntity_IronBall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     UpdateSpriteAnimation(s);
+}
+
+void Task_IronBallMain(void)
+{
+    IronBall *ball = TASK_DATA(gCurTask);
+    Sprite *s = &ball->s;
+    s16 worldX, worldY;
+    MapEntity *me = ball->base.me;
+    s32 i;
+
+    if (ball->unk48 != 0) {
+        s32 r2 = Q(me->d.uData[2] * TILE_WIDTH);
+        ball->unk40 = (r2 * SIN((ball->unk48 * ((gStageTime + ball->unk3C) & 0xFF)) & ONE_CYCLE)) >> 14;
+    }
+
+    if (ball->unk4A != 0) {
+        s32 r2 = Q(me->d.uData[3] * TILE_WIDTH);
+        ball->unk44 = (r2 * SIN((ball->unk4A * ((gStageTime + ball->unk3C) & 0xFF)) & ONE_CYCLE)) >> 14;
+    }
+
+    worldX = TO_WORLD_POS(ball->base.meX, ball->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ball->base.regionY);
+
+    s->x = (worldX - gCamera.x) + I(ball->unk40);
+    s->y = (worldY - gCamera.y) + I(ball->unk44);
+
+    i = 0;
+    do {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if (SA2_LABEL(sub_800DF38)(s, worldX + I(ball->unk40), worldY + I(ball->unk44), GET_SP_PLAYER_V1(i))) {
+                SA2_LABEL(sub_800CBA4)(GET_SP_PLAYER_V1(i));
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, ball->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_IronBall(struct Task *t)
+{
+    IronBall *ball = TASK_DATA(t);
+    VramFree(ball->s.graphics.dest);
 }

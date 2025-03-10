@@ -131,7 +131,6 @@ void CreateEntity_SwingRope() { }
 void CreateEntity_SteamExhaust() { }
 void CreateEntity_CraneClaw() { }
 void CreateEntity_MovingSpring() { }
-void CreateEntity_IronBall() { }
 void CreateEntity_HangBar() { }
 void CreateEntity_SkatingStone() { }
 void CreateEntity_Interactable085() { }
