@@ -6,18 +6,22 @@
 
 // TODO: Seems like this task is Game Over-related?
 
+typedef struct Strc0 {
+    /* 0x000 */ void *unk0;
+    /* 0x004 */ s32 unk4;
+    /* 0x008 */ u8 unk8;
+    /* 0x009 */ u8 unk9;
+    /* 0x00A */ u8 unkA;
+    /* 0x00B */ u8 unkB;
+} Strc0;
+
 typedef struct {
-    /* 0x00 */ u8 filler0[0x4];
-    /* 0x04 */ s32 unk4;
-    /* 0x08 */ u8 unk8;
-    /* 0x09 */ u8 unk9;
-    /* 0x0A */ u8 unkA;
-    /* 0x0B */ u8 unkB;
+    /* 0x00 */ struct Strc0 unk0;
     /* 0x0C */ const u8 *vramC;
     /* 0x10 */ u8 filler10[0x4];
     /* 0x14 */ const u8 *tiles;
     /* 0x18 */ s32 tilesSize; // in bytes
-    /* 0x18 */ void *vram1C;
+    /* 0x1C */ void *vram1C;
     /* 0x20 */ const u16 *palette;
     /* 0x24 */ s32 unk24;
     /* 0x28 */ u8 unk28;
@@ -49,6 +53,38 @@ typedef struct {
 } Strc_8052C84; /* size: 0x18 */
 
 extern struct Task *gTask_03006240;
+
+struct GfxSubstruct {
+    struct GfxSubstruct *next;
+    void *rom;
+    void *vram;
+    u8 fillerC[4];
+};
+
+struct Strc_30063F0 {
+    struct Strc_30063F0 *next;
+    u8 unk4[10];
+    void *unk10;
+    void *unk14;
+    u32 unk18;
+    u32 unk1C;
+    u8 unk20;
+}; /* 0x30 ?? */
+
+typedef struct {
+    /* 0x000 */ struct Strc0 unk0[10]; // TODO: might be more in this array?
+    /* 0x078 */ u8 filler78[0xF0];
+    /* 0x168 */ struct GfxSubstruct *first;
+    /* 0x16C */ struct GfxSubstruct gfxList[16]; // last entry empty?
+    /* 0x26C */ u8 filler26C[0xE0];
+} Task_3006240; /* 0x34C */
+
+struct Strc_3006250 {
+    struct Strc_3006250 *next;
+    u8 unk4[0x20];
+}; /* 0x24 */
+
+void sub_80535C8(struct Strc0 *inTask, u8 param1);
 
 void sub_80535FC(void);
 IwramData sub_8053674(void);

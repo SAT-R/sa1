@@ -374,7 +374,7 @@ _080552E6:
 	movs r0, #0
 	strb r0, [r1]
 	add r0, sp, #4
-	bl sub_8054A80
+	bl LoadStageIntroGraphics
 	adds r0, r4, #0
 	bl sub_805423C
 	adds r0, r5, #0

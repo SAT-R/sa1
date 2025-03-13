@@ -68,11 +68,11 @@ void sub_8055C50(Strc_8055C50 *param0)
     sp00.unk28 = 6;
     sp00.vramC = param0->vram4;
     sp00.unk2A = 13;
-    sp00.unk4 = gUiGraphics[UIGFX_TIMER_DIGITS].unk8;
-    sp00.unk8 = gUiGraphics[UIGFX_TIMER_DIGITS].unkC;
-    sp00.unk9 = gUiGraphics[UIGFX_TIMER_DIGITS].unk10;
-    sp00.unkA = gUiGraphics[UIGFX_TIMER_DIGITS].unk14;
-    sp00.unkB = gUiGraphics[UIGFX_TIMER_DIGITS].unk18;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_TIMER_DIGITS].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_TIMER_DIGITS].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_TIMER_DIGITS].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_TIMER_DIGITS].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_TIMER_DIGITS].unk18;
     sub_80528AC(&sp00);
 
     sp00.uiGfxID = UIGFX_OK;
@@ -84,11 +84,11 @@ void sub_8055C50(Strc_8055C50 *param0)
     sp00.unk28 = 6;
     sp00.vramC = param0->vram0;
     sp00.unk2A = 13;
-    sp00.unk4 = gUiGraphics[UIGFX_OK].unk8;
-    sp00.unk8 = gUiGraphics[UIGFX_OK].unkC;
-    sp00.unk9 = gUiGraphics[UIGFX_OK].unk10;
-    sp00.unkA = gUiGraphics[UIGFX_OK].unk14;
-    sp00.unkB = gUiGraphics[UIGFX_OK].unk18;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_OK].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_OK].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_OK].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_OK].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_OK].unk18;
     sub_80528AC(&sp00);
 
     sp00.uiGfxID = UIGFX_CHAR_SELECT_BLACK_BOX_2;
@@ -100,11 +100,11 @@ void sub_8055C50(Strc_8055C50 *param0)
     sp00.unk28 = 6;
     sp00.vramC = param0->vram8;
     sp00.unk2A = 13;
-    sp00.unk4 = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk8;
-    sp00.unk8 = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unkC;
-    sp00.unk9 = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk10;
-    sp00.unkA = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk14;
-    sp00.unkB = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk18;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].unk18;
     sub_80528AC(&sp00);
 }
 

@@ -150,7 +150,7 @@ NONMATCH("asm/non_matching/game/interactables/water_bridge__Task_WaterBridge.inc
                 p->qSpeedGround = qSpeedX;
                 p->qSpeedAirX = qSpeedX;
 
-                qSpeedY = (((-bridge->height * qCos) * qSpeedX) >> 16) - 42;
+                qSpeedY = (((-bridge->height * qCos) * qSpeedX) >> 16) - Q(42. / 256.);
                 if (qSpeedY < -Q(8)) {
                     qSpeedY = -Q(8);
                 } else if (qSpeedY > Q(8)) {

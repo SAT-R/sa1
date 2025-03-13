@@ -17,10 +17,6 @@
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
-#define UI_OAM_ORDER_INDEX 1
-
-#define UI_DIGIT(_digit) ((_digit) + 32)
-
 extern void sub_804C40C(void); // TODO: Move to correct Header!
 
 void StageUI_DrawTimer(u32 courseTime);
@@ -34,89 +30,6 @@ void Task_8055AA0(void);
 void Task_8055B18(void);
 void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
-
-typedef struct {
-    u8 unk0[3];
-    u8 unk3;
-    u8 filler4[4];
-    u8 unk9;
-    u8 unkA;
-    u8 unkB;
-} StageUI_10;
-
-typedef struct {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
-    u8 unk3;
-    u8 unk4;
-    u8 unk5;
-    u8 unk6;
-    u8 unk7;
-} StageUI_20;
-
-typedef struct {
-    /* 0x00 */ u8 digitsRings[3];
-    /* 0x03 */ u8 filler3[0x5];
-    /* 0x08 */ s16 unk8;
-    /* 0x0A */ s16 unkA;
-    /* 0x0C */ s16 unkC;
-    /* 0x0E */ s16 unkE;
-    /* 0x10 */ StageUI_10 unk10;
-    /* 0x1C */ u8 filler1C[0x4];
-    /* 0x20 */ StageUI_20 unk20;
-    /* 0x28 */ u8 filler28[0x8];
-    /* 0x30 */ u8 digitLives;
-    /* 0x31 */ u8 filler31[0xF];
-    /* 0x40 */ u16 unk40;
-    /* 0x31 */ u8 filler42[0x2];
-    /* 0x44 */ u16 ringCount;
-    /* 0x46 */ u8 filler46[0x2];
-    /* 0x48 */ u16 unk48;
-    /* 0x4A */ u8 filler4A[0x2];
-    /* 0x4C */ s16 unk4C;
-    /* 0x4E */ u8 filler4E[0x2];
-} StageUI; /* 0x50 */
-
-typedef struct {
-    // TODO: Seems like this (until incl. unk16?) is GameOverB?
-    GameOverB unk0;
-
-    s16 unk18;
-    u16 unk1A;
-    void *unk1C;
-    bool8 unk20;
-    u8 unk21;
-} Strc_Ui_24;
-
-typedef struct {
-    /* 0x00 */ StrcUi_805423C unk0;
-    /* 0x0C */ struct Task *taskC; // -> Strc_Ui_24
-    /* 0x10 */ struct Task *task10; // -> Strc_Ui_24
-    /* 0x14 */ struct Task *task14; // -> Strc_Ui_24
-    /* 0x18 */ struct Task *task18; // -> Strc_Ui_24
-    /* 0x1C */ struct Task *task1C; // -> Strc_Ui_24
-    /* 0x20 */ struct Task *task20; // -> Strc_Ui_24
-    /* 0x24 */ s16 unk24;
-    /* 0x26 */ bool8 unk26;
-    /* 0x27 */ u8 unk27;
-} Strc_Ui_28;
-
-typedef struct {
-    void *vram0;
-    void *vram4;
-    void *vram8;
-    void *vramC;
-    void *vram10;
-    struct Task *task14;
-    struct Task *task18;
-    struct Task *task1C;
-    struct Task *task20;
-    struct Task *task24;
-} StrcStack;
-
-void sub_8054A80(void *);
-void sub_804A5D8(s32 x, s32 y);
 
 extern const u8 gUnknown_0865F174[];
 extern const u8 gUnknown_0865F178[];
@@ -273,11 +186,11 @@ void sub_80538BC(void)
     sp00.unk24 = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 13;
-    sp00.unk4 = gfx->unk8;
-    sp00.unk8 = gfx->unkC;
-    sp00.unk9 = gfx->unk10;
-    sp00.unkA = gfx->unk14;
-    sp00.unkB = gfx->unk18;
+    sp00.unk0.unk4 = gfx->unk8;
+    sp00.unk0.unk8 = gfx->unkC;
+    sp00.unk0.unk9 = gfx->unk10;
+    sp00.unk0.unkA = gfx->unk14;
+    sp00.unk0.unkB = gfx->unk18;
     sub_80528AC(&sp00);
 
     sp00.uiGfxID = UIGFX_ASCII_CHARS;
@@ -289,11 +202,11 @@ void sub_80538BC(void)
     sp00.unk24 = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 9;
-    sp00.unk4 = gfx->unk8;
-    sp00.unk8 = gfx->unkC;
-    sp00.unk9 = gfx->unk10;
-    sp00.unkA = gfx->unk14;
-    sp00.unkB = gfx->unk18;
+    sp00.unk0.unk4 = gfx->unk8;
+    sp00.unk0.unk8 = gfx->unkC;
+    sp00.unk0.unk9 = gfx->unk10;
+    sp00.unk0.unkA = gfx->unk14;
+    sp00.unk0.unkB = gfx->unk18;
     sub_80528AC(&sp00);
 
     sp00.uiGfxID = UIGFX_UI_ICON_SONIC + gSelectedCharacter;
@@ -305,11 +218,11 @@ void sub_80538BC(void)
     sp00.unk28 = gSelectedCharacter;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_A;
     sp00.unk2A = 9;
-    sp00.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
-    sp00.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
-    sp00.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
-    sp00.unkA = gUiGraphics[sp00.uiGfxID].unk14;
-    sp00.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+    sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+    sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+    sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+    sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+    sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
     sub_80528AC(&sp00);
 
     sp00.uiGfxID = UIGFX_UI_ICON_RING;
@@ -321,11 +234,11 @@ void sub_80538BC(void)
     sp00.unk28 = 6;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_B;
     sp00.unk2A = 9;
-    sp00.unk4 = gUiGraphics[UIGFX_UI_ICON_RING].unk8;
-    sp00.unk8 = gUiGraphics[UIGFX_UI_ICON_RING].unkC;
-    sp00.unk9 = gUiGraphics[UIGFX_UI_ICON_RING].unk10;
-    sp00.unkA = gUiGraphics[UIGFX_UI_ICON_RING].unk14;
-    sp00.unkB = gUiGraphics[UIGFX_UI_ICON_RING].unk18;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_UI_ICON_RING].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_UI_ICON_RING].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_UI_ICON_RING].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_UI_ICON_RING].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_UI_ICON_RING].unk18;
     sub_80528AC(&sp00);
 }
 
@@ -660,11 +573,11 @@ void sub_8054068(void)
     sp00.unk24 = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 9;
-    sp00.unk4 = gfx->unk8;
-    sp00.unk8 = gfx->unkC;
-    sp00.unk9 = gfx->unk10;
-    sp00.unkA = gfx->unk14;
-    sp00.unkB = gfx->unk18;
+    sp00.unk0.unk4 = gfx->unk8;
+    sp00.unk0.unk8 = gfx->unkC;
+    sp00.unk0.unk9 = gfx->unk10;
+    sp00.unk0.unkA = gfx->unk14;
+    sp00.unk0.unkB = gfx->unk18;
     sub_80528AC(&sp00);
 
     sp00.uiGfxID = UIGFX_ASCII_CHARS;
@@ -676,11 +589,11 @@ void sub_8054068(void)
     sp00.unk24 = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 13;
-    sp00.unk4 = gfx->unk8;
-    sp00.unk8 = gfx->unkC;
-    sp00.unk9 = gfx->unk10;
-    sp00.unkA = gfx->unk14;
-    sp00.unkB = gfx->unk18;
+    sp00.unk0.unk4 = gfx->unk8;
+    sp00.unk0.unk8 = gfx->unkC;
+    sp00.unk0.unk9 = gfx->unk10;
+    sp00.unk0.unkA = gfx->unk14;
+    sp00.unk0.unkB = gfx->unk18;
     sub_80528AC(&sp00);
 
     sp00.uiGfxID = UIGFX_CHAR_SP_STAGE_RINGS_BG;
@@ -692,11 +605,11 @@ void sub_8054068(void)
     sp00.unk28 = 10;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_G;
     sp00.unk2A = 13;
-    sp00.unk4 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk8;
-    sp00.unk8 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unkC;
-    sp00.unk9 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk10;
-    sp00.unkA = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk14;
-    sp00.unkB = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk18;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].unk18;
     sub_80528AC(&sp00);
 }
 

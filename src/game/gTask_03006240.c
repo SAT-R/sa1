@@ -4,45 +4,6 @@
 
 /* Work In Progress module */
 
-struct GfxSubstruct {
-    struct GfxSubstruct *next;
-    void *rom;
-    void *vram;
-    u8 fillerC[4];
-};
-
-struct Strc0 {
-    /* 0x000 */ void *unk0;
-    /* 0x004 */ s32 unk4;
-    /* 0x008 */ u8 unk8;
-    /* 0x009 */ u8 unk9;
-    /* 0x00A */ u8 unkA;
-    /* 0x00B */ u8 unkB;
-};
-
-typedef struct {
-    /* 0x000 */ struct Strc0 unk0[10]; // TODO: might be more in this array?
-    /* 0x078 */ u8 filler78[0xF0];
-    /* 0x168 */ struct GfxSubstruct *first;
-    /* 0x16C */ struct GfxSubstruct gfxList[16]; // last entry empty?
-    /* 0x26C */ u8 filler26C[0xE0];
-} Task_3006240; /* 0x34C */
-
-struct Strc_3006250 {
-    struct Strc_3006250 *next;
-    u8 unk4[0x20];
-}; /* 0x24 */
-
-struct Strc_30063F0 {
-    struct Strc_30063F0 *next;
-    u8 unk4[10];
-    void *unk10;
-    void *unk14;
-    u32 unk18;
-    u32 unk1C;
-    u8 unk20;
-}; /* 0x30 ?? */
-
 IwramData sub_8053674(void);
 void Task_80536D4(void);
 void TaskDestructor_80536D8(struct Task *t);
@@ -105,16 +66,16 @@ void sub_8053520(u8 *param0, void *param1, void *param2, u8 param3, u8 param4)
     }
 }
 
-void sub_80535C8(Task_3006240 *inTask, u8 param1)
+void sub_80535C8(struct Strc0 *inTask, u8 param1)
 {
     Task_3006240 *strc = TASK_DATA(gTask_03006240);
     struct Strc0 *src = &strc->unk0[param1];
 
-    src->unk4 = inTask->unk0[0].unk4;
-    src->unk8 = inTask->unk0[0].unk8;
-    src->unk9 = inTask->unk0[0].unk9;
-    src->unkA = inTask->unk0[0].unkA;
-    src->unkB = inTask->unk0[0].unkB;
+    src->unk4 = inTask->unk4;
+    src->unk8 = inTask->unk8;
+    src->unk9 = inTask->unk9;
+    src->unkA = inTask->unkA;
+    src->unkB = inTask->unkB;
 }
 
 // (94.42%) https://decomp.me/scratch/QDnYo

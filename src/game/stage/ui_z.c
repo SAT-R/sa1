@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "data/ui_graphics.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/gTask_03006240.h"
@@ -8,11 +9,9 @@
 #include "game/stage/ui.h"
 #include "game/water_effects.h"
 
+#include "constants/ui_graphics.h"
+#include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
-
-#define UI_OAM_ORDER_INDEX 1
-
-extern void sub_804C40C(void); // TODO: Move to correct Header!
 
 void Task_8055458(void);
 void Task_8055730(void);
@@ -24,68 +23,221 @@ void Task_8055B18(void);
 void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
 
-typedef struct {
-    /* 0x00 */ u8 filler0[0x8];
-    /* 0x08 */ s16 unk8;
-    /* 0x0A */ s16 unkA;
-    /* 0x0C */ s16 unkC;
-    /* 0x0E */ s16 unkE;
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    /* 0x16 */ s16 unk16;
-    /* 0x20 */ GameOverB unk20;
-    /* 0x40 */ u8 filler38[0x18];
-} StageUI; /* 0x50 */
-
-typedef struct {
-    // TODO: Seems like this (until incl. unk16?) is GameOverB?
-    GameOverB unk0;
-
-    s16 unk18;
-    u16 unk1A;
-    void *unk1C;
-    bool8 unk20;
-    u8 unk21;
-} Strc_Ui_24;
-
-typedef struct {
-    /* 0x00 */ StrcUi_805423C unk0;
-    /* 0x0C */ struct Task *taskC; // -> Strc_Ui_24
-    /* 0x10 */ struct Task *task10; // -> Strc_Ui_24
-    /* 0x14 */ struct Task *task14; // -> Strc_Ui_24
-    /* 0x18 */ struct Task *task18; // -> Strc_Ui_24
-    /* 0x1C */ struct Task *task1C; // -> Strc_Ui_24
-    /* 0x20 */ struct Task *task20; // -> Strc_Ui_24
-    /* 0x24 */ s16 unk24;
-    /* 0x26 */ bool8 unk26;
-    /* 0x27 */ u8 unk27;
-} Strc_Ui_28;
-
-typedef struct {
-    void *vram0;
-    void *vram4;
-    void *vram8;
-    void *vramC;
-    void *vram10;
-    struct Task *task14;
-    struct Task *task18;
-    struct Task *task1C;
-    struct Task *task20;
-    struct Task *task24;
-} StrcStack;
-
-void sub_8054A80(void *);
-void sub_804A5D8(s32 x, s32 y);
-
+extern const u8 gUnknown_08688378[];
+extern const u8 gUnknown_08688386[];
 extern const u8 gUnknown_08688394[];
+extern const u8 gUnknown_08688398[];
 extern const u8 gUnknown_086883AC[];
 extern const u8 gUnknown_086883B0[];
 extern const u8 gUnknown_086883B8[];
 extern const u8 gUnknown_086883C4[];
 extern const u8 gUnknown_086883CC[24];
 
-void CreateStageUI(void);
-void CreateMultiplayerMultiPakUI(void);
+// (71.41%) https://decomp.me/scratch/T4csx
+NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void LoadStageIntroGraphics(StrcStack *param0))
+{
+    Strc_80528AC sp00; // size: 0x30
+    s32 act = (gCurrentLevel & 0x1);
+    const void *tiles;
+
+    sp00.uiGfxID = UIGFX_STGINTRO_ZIGZAG_SONIC + gSelectedCharacter;
+    sp00.unk2B = 6;
+    sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
+    sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
+    sp00.tilesSize = 0x400;
+    sp00.unk24 = 32;
+    sp00.unk28 = 15;
+    sp00.vramC = param0->vram4;
+    sp00.unk2A = 13;
+    sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+    sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+    sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+    sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+    sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_STGINTRO_CHAR_NAMES;
+    sp00.unk2B = 7;
+    sp00.tiles = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].tiles + (gSelectedCharacter * 0x800);
+    sp00.palette = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].palette;
+    sp00.tilesSize = 0x800;
+    sp00.unk24 = 32;
+    sp00.unk28 = 15;
+    sp00.vramC = VRAM_RESERVED_STGINTRO_CHAR_NAME;
+    sp00.unk2A = 13;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_STGRESULT_HEADLINE_BACK;
+    sp00.unk2B = 8;
+    sp00.tiles = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].tiles;
+    sp00.palette = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].palette;
+    sp00.tilesSize = 0x200;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.vramC = param0->vram0;
+    sp00.unk2A = 13;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].unk18;
+    sub_80528AC(&sp00);
+
+    if (gCurrentLevel <= LEVEL_INDEX(ZONE_7, ACT_2)) {
+        sp00.uiGfxID = UIGFX_STGNAMES_JP_0;
+        sp00.unk2B = 9;
+        sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + 0x920;
+        sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
+        sp00.tilesSize = (12 - gUnknown_08688378[gCurrentLevel]) * TILE_SIZE_4BPP;
+        sp00.unk24 = 32;
+        sp00.unk28 = 6;
+        sp00.vramC = param0->vram8;
+        sp00.unk2A = 13;
+        sp00.unk0.unk4 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk8;
+        sp00.unk0.unk8 = gUiGraphics[UIGFX_STGNAMES_JP_0].unkC;
+        sp00.unk0.unk9 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk10;
+        sp00.unk0.unkA = gUiGraphics[UIGFX_STGNAMES_JP_0].unk14;
+        sp00.unk0.unkB = gUiGraphics[UIGFX_STGNAMES_JP_0].unk18;
+        sub_80528AC(&sp00);
+
+        sp00.uiGfxID = UIGFX_STGNAMES_JP_0;
+        sp00.unk2B = 9;
+        sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + 8 * TILE_SIZE_4BPP;
+        sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
+        sp00.tilesSize = 0x80;
+        sp00.unk24 = 32;
+        sp00.unk28 = 6;
+        sp00.vramC = param0->vram8 + 0x180;
+        sp00.unk2A = 13;
+        sp00.unk0.unk4 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk8;
+        sp00.unk0.unk8 = gUiGraphics[UIGFX_STGNAMES_JP_0].unkC;
+        sp00.unk0.unk9 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk10;
+        sp00.unk0.unkA = gUiGraphics[UIGFX_STGNAMES_JP_0].unk14;
+        sp00.unk0.unkB = gUiGraphics[UIGFX_STGNAMES_JP_0].unk18;
+        sub_80528AC(&sp00);
+
+        sp00.uiGfxID = UIGFX_STGNAMES_JP_0;
+        sp00.unk2B = 9;
+        sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + gUnknown_08688386[gCurrentLevel] * TILE_SIZE_4BPP;
+        sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
+        sp00.tilesSize = gUnknown_08688378[gCurrentLevel] * TILE_SIZE_4BPP;
+        sp00.unk24 = 32;
+        sp00.unk28 = 6;
+        sp00.vramC = param0->vram8 + (12 - gUnknown_08688378[gCurrentLevel]) * TILE_SIZE_4BPP;
+        sp00.unk2A = 13;
+        sp00.unk0.unk4 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk8;
+        sp00.unk0.unk8 = gUiGraphics[UIGFX_STGNAMES_JP_0].unkC;
+        sp00.unk0.unk9 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk10;
+        sp00.unk0.unkA = gUiGraphics[UIGFX_STGNAMES_JP_0].unk14;
+        sp00.unk0.unkB = gUiGraphics[UIGFX_STGNAMES_JP_0].unk18;
+        sub_80528AC(&sp00);
+
+        sp00.uiGfxID = UIGFX_STGNAMES_JP_0;
+        sp00.unk2B = 9;
+        sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + 0x100;
+        sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
+        sp00.tilesSize = 32;
+        sp00.unk24 = 32;
+        sp00.unk28 = 6;
+        sp00.vramC = param0->vram8;
+        sp00.unk2A = 13;
+        sp00.unk0.unk4 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk8;
+        sp00.unk0.unk8 = gUiGraphics[UIGFX_STGNAMES_JP_0].unkC;
+        sp00.unk0.unk9 = gUiGraphics[UIGFX_STGNAMES_JP_0].unk10;
+        sp00.unk0.unkA = gUiGraphics[UIGFX_STGNAMES_JP_0].unk14;
+        sp00.unk0.unkB = gUiGraphics[UIGFX_STGNAMES_JP_0].unk18;
+        sub_80528AC(&sp00);
+
+        sp00.unk0.unk4 = 4;
+        sp00.unk0.unk8 = 1;
+        sp00.unk0.unk9 = 1;
+        sp00.unk0.unkA = 4;
+        sp00.unk0.unkB = 1;
+        sub_80535C8(&sp00.unk0, 9);
+    } else {
+        s32 v;
+        sp00.uiGfxID = 18;
+        sp00.unk2B = 9;
+        sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles + (gCurrentLevel - 14) * (16 * TILE_SIZE_4BPP);
+        sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
+        sp00.tilesSize = 0x200;
+        sp00.unk24 = 32;
+        sp00.unk28 = 6;
+        sp00.vramC = param0->vram8;
+        sp00.unk2A = 13;
+        v = gUiGraphics[sp00.uiGfxID].unk8;
+        sp00.unk0.unk4 = v;
+        v = gUiGraphics[sp00.uiGfxID].unkC;
+        sp00.unk0.unk8 = v;
+        v = gUiGraphics[sp00.uiGfxID].unk10;
+        sp00.unk0.unk9 = v;
+        v = gUiGraphics[sp00.uiGfxID].unk14;
+        sp00.unk0.unkA = v;
+        v = gUiGraphics[sp00.uiGfxID].unk18;
+        sp00.unk0.unkB = v;
+        sub_80528AC(&sp00);
+    }
+
+    sp00.uiGfxID = UIGFX_STGRESULT_ACT12;
+    sp00.unk2B = 10;
+    tiles = (gUiGraphics[UIGFX_STGRESULT_ACT12].tiles + 0x100);
+    sp00.tiles = tiles + act * 0x80;
+    // sp00.palette = gUiGraphics[UIGFX_STGRESULT_ACT12].palette;
+    sp00.tilesSize = 0x80;
+    sp00.vramC = param0->vram10 + (8 * TILE_SIZE_4BPP);
+    sp00.unk2A = 9;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_STGRESULT_ACT12].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_STGRESULT_ACT12].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_STGRESULT_ACT12].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_STGRESULT_ACT12].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_STGRESULT_ACT12].unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = UIGFX_STGRESULT_ACT12;
+    sp00.unk2B = 10;
+    sp00.tiles = gUiGraphics[UIGFX_STGRESULT_ACT12].tiles;
+    sp00.palette = gUiGraphics[UIGFX_STGRESULT_ACT12].palette;
+    sp00.tilesSize = 0x100;
+    sp00.vramC = param0->vram10;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.unk2A = 13;
+    sp00.unk0.unk4 = gUiGraphics[UIGFX_STGRESULT_ACT12].unk8;
+    sp00.unk0.unk8 = gUiGraphics[UIGFX_STGRESULT_ACT12].unkC;
+    sp00.unk0.unk9 = gUiGraphics[UIGFX_STGRESULT_ACT12].unk10;
+    sp00.unk0.unkA = gUiGraphics[UIGFX_STGRESULT_ACT12].unk14;
+    sp00.unk0.unkB = gUiGraphics[UIGFX_STGRESULT_ACT12].unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = gUnknown_08688398[gCurrentLevel] + 19;
+    sp00.unk2B = 2;
+    sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
+    sp00.palette = gUiGraphics[UIGFX_STGNAME_1].palette;
+    sp00.tilesSize = 0x700;
+    sp00.unk24 = 32;
+    sp00.unk28 = 6;
+    sp00.vramC = param0->vramC;
+    sp00.unk2A = 13;
+    sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+    sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+    sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+    sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+    sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+    sub_80528AC(&sp00);
+
+    sp00.unk0.unk4 = 8;
+    sp00.unk0.unk8 = 2;
+    sp00.unk0.unk9 = 1;
+    sp00.unk0.unkA = 4;
+    sp00.unk0.unkB = 2;
+    sub_80535C8(&sp00.unk0, 2);
+}
+END_NONMATCH
 
 // Output: struct Task *t -> Struct_sub_80550F8
 // (94.00%) https://decomp.me/scratch/e0aBK
@@ -248,7 +400,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     ui_28->unk0.unkA = 1;
     ui_28->unk27 = 0;
 
-    sub_8054A80(&sp04);
+    LoadStageIntroGraphics(&sp04);
     sub_805423C(&ui_28->unk0);
 
     return t;
