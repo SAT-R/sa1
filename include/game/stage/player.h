@@ -68,7 +68,7 @@ bool32 Player_TryAttack(Player *);
     }
 #define PLAYERFN_CHANGE_SHIFT_OFFSETS(player, x, y)                                                                                        \
     {                                                                                                                                      \
-        sa2__sub_8023B5C(player, y);                                                                                                       \
+        SA2_LABEL(sub_8023B5C)(player, y);                                                                                                 \
         PLAYERFN_SET_SHIFT_OFFSETS(player, x, y)                                                                                           \
     }
 

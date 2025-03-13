@@ -93,7 +93,6 @@ void CreateEntity_Booster_SlightRight() { }
 void CreateEntity_MiniLoop_StartBoost() { }
 void CreateEntity_MiniLoop_Exit() { }
 void CreateEntity_MiniLoop_Entrance() { }
-void CreateEntity_WaterBridge() { }
 void CreateEntity_RedFlag() { }
 void CreateEntity_WallPole_Left() { }
 void CreateEntity_WallPole_Right() { }
