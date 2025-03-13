@@ -75,6 +75,7 @@ void CreateEntity_WaterBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED_SIMPLE(me);
 }
 
+// (77.37%) https://decomp.me/scratch/5TZch
 NONMATCH("asm/non_matching/game/interactables/water_bridge__Task_WaterBridge.inc", void Task_WaterBridge(void))
 {
     WaterBridge *bridge = TASK_DATA(gCurTask);
