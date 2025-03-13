@@ -33,6 +33,45 @@ extern const u8 gUnknown_086883B8[];
 extern const u8 gUnknown_086883C4[];
 extern const u8 gUnknown_086883CC[24];
 
+bool32 sub_80549FC(void)
+{
+    bool32 result = FALSE;
+
+    if (gSelectedCharacter == CHARACTER_KNUCKLES) {
+        if (gPlayer.charState >= 70 && gPlayer.charState <= 75) {
+            result = TRUE;
+        }
+    }
+
+    return result;
+}
+
+bool32 sub_8054A28(void)
+{
+    bool32 result = FALSE;
+
+    if (gSelectedCharacter == CHARACTER_KNUCKLES) {
+        if (gPlayer.charState >= 62 && gPlayer.charState <= 69) {
+            result = TRUE;
+        }
+    }
+
+    return result;
+}
+
+bool32 sub_8054A54(void)
+{
+    bool32 result = FALSE;
+
+    if (gSelectedCharacter == CHARACTER_AMY) {
+        if (gPlayer.charState >= 91 && gPlayer.charState <= 93) {
+            result = TRUE;
+        }
+    }
+
+    return result;
+}
+
 // (71.41%) https://decomp.me/scratch/T4csx
 NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void LoadStageIntroGraphics(StrcStack *param0))
 {
@@ -91,7 +130,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
     if (gCurrentLevel <= LEVEL_INDEX(ZONE_7, ACT_2)) {
         sp00.uiGfxID = UIGFX_STGNAMES_JP_0;
         sp00.unk2B = 9;
-        sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + 0x920;
+        sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + (49 * TILE_SIZE_4BPP);
         sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
         sp00.tilesSize = (12 - gUnknown_08688378[gCurrentLevel]) * TILE_SIZE_4BPP;
         sp00.unk24 = 32;

@@ -38,7 +38,6 @@ void sub_80528AC() { }
 void sub_8052C84() { }
 void sub_8052F78() { }
 void sub_80530CC() { }
-void LoadStageIntroGraphics() { }
 
 void sub_805B9E8() { }
 void WriteSaveGame() { }
