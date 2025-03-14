@@ -25,6 +25,71 @@ typedef struct {
     u16 unk4;
 } Strc_805345C;
 
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052F78.inc", void sub_8052F78(const u8 *param0, GameOverB *param1))
+{
+    Strc0 *strc0;
+    u32 u8;
+    OamData sp00;
+    OamData *oamStack, *oamStack2;
+    s32 a;
+    s32 sp08, r9;
+
+#ifndef NON_MATCHING
+    strc0 = &TASK_GET_MEMBER(Task_3006240, gTask_03006240, struct Strc0, unk0[0]);
+    strc0 = &strc0[param1->unk10];
+#else
+    Task_3006240 *strc = TASK_DATA(gTask_03006240);
+    strc0 = &strc->unk0[param1->unk10];
+#endif
+    r9 = strc0->unkA * 8;
+    sp08 = strc0->unkB * 8;
+
+    oamStack = &sp00;
+    a = (strc0->unk9 << 14) + (unsigned char)param1->unkC + 0x400;
+    oamStack->all.attr0 = a;
+    oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
+    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF);
+
+    if (param1->unk16 != 0) {
+        s32 i;
+        for (i = 0; i < param1->unkE; i++) {
+            OamData *oam = OamMalloc((param1->unk8) >> 3);
+
+            if (iwram_end == oam) {
+                break;
+            }
+
+            oam->all.attr0 = sp00.all.attr0;
+            oam->all.attr1 = sp00.all.attr1;
+            sp00.all.attr1 += r9;
+            oam->all.attr2 = sp00.all.attr2 + FROM_UI_DIGIT(param0[i]) * strc0->unk4;
+        }
+    } else {
+        s32 i = 0;
+        for (i = 0; i < param1->unk14; i++) {
+            s32 w;
+            sp00.all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
+            w = ((s32)(-param1->qUnkA & 0x1FF) >> 7);
+            while (w < param1->unkE) {
+                OamData *oam = OamMalloc((param1->unk8) >> 3);
+
+                if (iwram_end == oam) {
+                    break;
+                }
+
+                oam->all.attr0 = sp00.all.attr0;
+                oam->all.attr1 = sp00.all.attr1;
+                sp00.all.attr1 += r9;
+
+                oam->all.attr2 = sp00.all.attr2 + FROM_UI_DIGIT(param0[w]) * strc0->unk4;
+                w++;
+            }
+            sp00.all.attr0 = sp08 + sp00.all.attr0;
+        }
+    }
+}
+END_NONMATCH
+
 // (97.61%) https://decomp.me/scratch/qWdSy
 NONMATCH("asm/non_matching/game/gTask_3006240__sub_80530CC.inc", void sub_80530CC(const u8 *param0, GameOverB *param1))
 {
