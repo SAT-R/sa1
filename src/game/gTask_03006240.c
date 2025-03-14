@@ -26,6 +26,7 @@ typedef struct {
 } Strc_805345C;
 
 // Unused?
+// (88.18%) https://decomp.me/scratch/i72oQ
 NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052EF0.inc", void sub_8052EF0(s32 param0, Strc_8052C84 *param1))
 {
     s32 byteCount = 0;
@@ -52,6 +53,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052EF0.inc", void sub_8052EF
 }
 END_NONMATCH
 
+// (97.64%) https://decomp.me/scratch/8KTZ5
 NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052F78.inc", void sub_8052F78(const u8 *param0, GameOverB *param1))
 {
     Strc0 *strc0;
