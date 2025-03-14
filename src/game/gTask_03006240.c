@@ -24,8 +24,63 @@ typedef struct {
     u16 unk4;
 } Strc_805345C;
 
-#if 01
+// TODO: The 2nd parameter's type is just a guess!
+//
+// (94.91%) https://decomp.me/scratch/B60WP
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_8053370.inc", void sub_8053370(u8 *param0, GameOverB *param1))
+{
+    Strc0 *strc0;
+    u32 u8;
+    OamData sp00;
+    OamData *oamStack, *oamStack2;
+    s32 i;
+    s32 a;
+    s32 r8;
+
+#ifndef NON_MATCHING
+    strc0 = &TASK_GET_MEMBER(Task_3006240, gTask_03006240, struct Strc0, unk0[0]);
+    strc0 = &strc0[param1->unk10];
+#else
+    Task_3006240 *strc = TASK_DATA(gTask_03006240);
+    strc0 = &strc->unk0[param1->unk10];
 #endif
+    r8 = strc0->unkA * 8;
+
+    oamStack = &sp00;
+    a = (strc0->unk9 << 14) + (unsigned char)param1->unkC;
+    oamStack->all.attr0 = a;
+    oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
+    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF);
+
+    for (i = 0; i < param1->unkE; i++) {
+        if (param0[i] == UI_DIGIT(0)) {
+            sp00.all.attr1 += r8;
+        } else {
+            OamData *oam = OamMalloc((param1->unk8 + i) >> 3);
+            s32 v;
+
+            if (iwram_end == oam) {
+                break;
+            }
+
+            oam->all.attr0 = sp00.all.attr0;
+            oam->all.attr1 = sp00.all.attr1;
+            sp00.all.attr1 += r8;
+
+            if (param0[i] > UI_DIGIT(0x40)) {
+                oam->all.attr0 += 8;
+
+                v = param0[i] - 0x11;
+            } else {
+                v = FROM_UI_DIGIT(param0[i]);
+            }
+
+            oam->all.attr2 = sp00.all.attr2 + v * strc0->unk4;
+            oam->all.attr2 &= ~0xC00;
+        }
+    }
+}
+END_NONMATCH
 
 // TODO: The 2nd parameter's type is just a guess!
 //
