@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "game/gTask_03006240.h"
+#include "game/stage/ui.h"
 
 /* Work In Progress module */
 
@@ -17,12 +18,57 @@ struct Strc_30063F0 gUnknown_030063C0 = {};
 u8 tempFiller_030062E4[0xC] = {};
 struct Strc_30063F0 *gUnknown_030063F0 = NULL;
 
-#if 0
-void sub_805345C(void *param0, void *param1)
-{
-    Task_3006240 *strc = TASK_DATA(gTask_03006240);
-}
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+} Strc_805345C;
+
+#if 01
 #endif
+
+// TODO: The 2nd parameter's type is just a guess!
+//
+// (97.74%) https://decomp.me/scratch/fMp61
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_805345C.inc", void sub_805345C(u8 *param0, GameOverB *param1))
+{
+    Strc0 *strc0;
+    u32 u8;
+    OamData sp00;
+    OamData *oamStack, *oamStack2;
+    s32 i;
+    s32 a;
+    s32 r8;
+
+#ifndef NON_MATCHING
+    strc0 = &TASK_GET_MEMBER(Task_3006240, gTask_03006240, struct Strc0, unk0[0]);
+    strc0 = &strc0[param1->unk10];
+#else
+    Task_3006240 *strc = TASK_DATA(gTask_03006240);
+    strc0 = &strc->unk0[param1->unk10];
+#endif
+    r8 = strc0->unkA * 8;
+
+    oamStack = &sp00;
+    a = (strc0->unk9 << 14) + (unsigned char)param1->unkC;
+    oamStack->all.attr0 = a;
+    oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
+    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF) | 0x800;
+
+    for (i = 0; i < param1->unkE; i++) {
+        OamData *oam = OamMalloc((param1->unk8 + i) >> 3);
+
+        if (iwram_end == oam) {
+            break;
+        }
+
+        oam->all.attr0 = sp00.all.attr0;
+        oam->all.attr1 = sp00.all.attr1;
+        sp00.all.attr1 += r8;
+        oam->all.attr2 = sp00.all.attr2 + FROM_UI_DIGIT(param0[i]) * strc0->unk4;
+    }
+}
+END_NONMATCH
 
 void sub_8053520(u8 *param0, void *param1, void *param2, u8 param3, u8 param4)
 {

@@ -99,7 +99,7 @@ struct IwramNode {
 
 // TODO: DO NOT USE, unless ABSOLUTELY necessary for matching!!!
 #define TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName)                                                                        \
-    *(_memberType *)((u8 *)TASK_DATA(_task) + offsetof(_taskType, _memberName))
+    *(_memberType *)((unsigned char *)TASK_DATA(_task) + offsetof(_taskType, _memberName))
 #define TASK_SET_MEMBER(_taskType, _task, _memberType, _memberName, _value)                                                                \
     TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName) = (_value);
 

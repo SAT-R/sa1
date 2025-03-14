@@ -16008,7 +16008,7 @@ CreateVsRecord: @ 0x080604EC
 	strh r4, [r0, #4]
 	strh r4, [r0, #6]
 	bl sub_806012C
-	ldr r0, _080606B4 @ =sub_806070C
+	ldr r0, _080606B4 @ =Task_806070C
 	movs r2, #0x80
 	lsls r2, r2, #6
 	ldr r1, _080606B8 @ =sub_8060C84
@@ -16035,7 +16035,7 @@ CreateVsRecord: @ 0x080604EC
 	strh r0, [r7, #8]
 	movs r0, #8
 	strb r0, [r7, #0xa]
-	ldr r0, _080606BC @ =sub_8060874
+	ldr r0, _080606BC @ =Task_8060874
 	ldr r2, _080606C0 @ =0x00002030
 	str r4, [sp]
 	movs r1, #0xf0
@@ -16197,9 +16197,9 @@ _08060682:
 _080606A8: .4byte gDispCnt
 _080606AC: .4byte gBgCntRegs
 _080606B0: .4byte gBgScrollRegs
-_080606B4: .4byte sub_806070C
+_080606B4: .4byte Task_806070C
 _080606B8: .4byte sub_8060C84
-_080606BC: .4byte sub_8060874
+_080606BC: .4byte Task_8060874
 _080606C0: .4byte 0x00002030
 _080606C4: .4byte 0x030000EC
 _080606C8: .4byte 0x030000A8
@@ -16220,8 +16220,8 @@ _08060700: .4byte 0x040000D4
 _08060704: .4byte gLoadedSaveGame + 0x380
 _08060708: .4byte 0x80000050
 
-	thumb_func_start sub_806070C
-sub_806070C: @ 0x0806070C
+	thumb_func_start Task_806070C
+Task_806070C: @ 0x0806070C
 	push {r4, r5, r6, lr}
 	ldr r0, _08060744 @ =gCurTask
 	ldr r0, [r0]
@@ -16393,8 +16393,8 @@ _0806086A:
 	.align 2, 0
 _08060870: .4byte 0xFFFFF7FF
 
-	thumb_func_start sub_8060874
-sub_8060874: @ 0x08060874
+	thumb_func_start Task_8060874
+Task_8060874: @ 0x08060874
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
