@@ -25,6 +25,33 @@ typedef struct {
     u16 unk4;
 } Strc_805345C;
 
+// Unused?
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052EF0.inc", void sub_8052EF0(s32 param0, Strc_8052C84 *param1))
+{
+    s32 byteCount = 0;
+    u8 sp00[10];
+    s32 i;
+
+    param1->byteCount = byteCount;
+
+    for (i = (s32)ARRAY_COUNT(sp00) - 1; i >= 0; i--) {
+        s16 remainder = Div(param0, 10);
+        sp00[i] = (param0 - ((remainder << 3) + (remainder << 1))) + 0x30;
+        param0 = remainder;
+        param1->byteCount++;
+    }
+
+    for (i = 0; (i < (s32)ARRAY_COUNT(sp00)) && (sp00[i] == 0x30); i++) {
+        byteCount++;
+        param1->byteCount--;
+    }
+
+    param1->unkA -= (param1->unk0 * (param1->byteCount - 1)) >> 5;
+
+    sub_8052C84(&sp00[byteCount], param1);
+}
+END_NONMATCH
+
 NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052F78.inc", void sub_8052F78(const u8 *param0, GameOverB *param1))
 {
     Strc0 *strc0;

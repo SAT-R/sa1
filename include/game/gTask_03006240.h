@@ -84,6 +84,9 @@ struct Strc_3006250 {
     u8 unk4[0x20];
 }; /* 0x24 */
 
+// TODO: Is this the correct module?
+void sub_8052C84(u8 *param0, Strc_8052C84 *param1);
+
 void sub_80535C8(struct Strc0 *inTask, u8 param1);
 
 void sub_80535FC(void);
