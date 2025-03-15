@@ -7,7 +7,7 @@
 // TODO: Seems like this task is Game Over-related?
 
 typedef struct Strc0 {
-    /* 0x000 */ void *unk0;
+    /* 0x000 */ s32 unk0;
     /* 0x004 */ s32 unk4;
     /* 0x008 */ u8 unk8;
     /* 0x009 */ u8 unk9;

@@ -25,6 +25,48 @@ typedef struct {
     u16 unk4;
 } Strc_805345C;
 
+void sub_8052E40(u8 *param0, Strc_8052C84 *param1)
+{
+    Strc0 *strc0;
+    u32 u8;
+    OamData sp00;
+    OamData *oamStack, *oamStack2;
+    s32 a;
+    s32 sp08, r9;
+    s32 sl;
+    s32 r2;
+
+#ifndef NON_MATCHING
+    strc0 = &TASK_GET_MEMBER(Task_3006240, gTask_03006240, struct Strc0, unk0[0]);
+    strc0 = &strc0[param1->unk10];
+#else
+    Task_3006240 *strc = TASK_DATA(gTask_03006240);
+    strc0 = &strc->unk0[param1->unk10];
+#endif
+
+    sl = param1->unk6;
+
+    // if (param1->unk16 != 0)
+    {
+        s32 i;
+        sl = param1->unk6;
+        r9 = 3;
+        for (i = 0; i < param1->byteCount; i++) {
+            OamData *oam = OamMalloc((param1->unk8) >> 3);
+
+            if (iwram_end == oam) {
+                break;
+            }
+
+            oam->all.attr0 = (strc0->unk9 << 14) + QS(r9) + (param1->unkC & 0x1FF);
+            oam->all.attr1 = (strc0->unk8 << 14) + (sl << 9) + ((param1->unk0 * i) >> 5) + param1->unkA;
+            r2 = (param1->unk12 << 12);
+            r2 += strc0->unk0 + strc0->unk4 * FROM_UI_DIGIT(param0[i]);
+            oam->all.attr2 = +r2;
+        }
+    }
+}
+
 // Unused?
 // (88.18%) https://decomp.me/scratch/i72oQ
 NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052EF0.inc", void sub_8052EF0(s32 param0, Strc_8052C84 *param1))
@@ -77,7 +119,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052F78.inc", void sub_8052F7
     a = (strc0->unk9 << 14) + (unsigned char)param1->unkC + 0x400;
     oamStack->all.attr0 = a;
     oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
-    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF);
+    oamStack->all.attr2 = (param1->unk12 << 12) | (strc0->unk0 & 0x3FF);
 
     if (param1->unk16 != 0) {
         s32 i;
@@ -143,7 +185,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_80530CC.inc", void sub_80530C
     a = (strc0->unk9 << 14) + (unsigned char)param1->unkC;
     oamStack->all.attr0 = a;
     oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
-    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF);
+    oamStack->all.attr2 = (param1->unk12 << 12) | (strc0->unk0 & 0x3FF);
 
     if (param1->unk16 != 0) {
         s32 i;
@@ -209,7 +251,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_805321C.inc", void sub_805321
     a = (strc0->unk9 << 14) + (unsigned char)param1->unkC;
     oamStack->all.attr0 = a;
     oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
-    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF);
+    oamStack->all.attr2 = (param1->unk12 << 12) | (strc0->unk0 & 0x3FF);
 
     if (param1->unk16 != 0) {
         s32 i;
@@ -277,7 +319,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_8053370.inc", void sub_805337
     a = (strc0->unk9 << 14) + (unsigned char)param1->unkC;
     oamStack->all.attr0 = a;
     oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
-    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF);
+    oamStack->all.attr2 = (param1->unk12 << 12) | (strc0->unk0 & 0x3FF);
 
     for (i = 0; i < param1->unkE; i++) {
         if (param0[i] == UI_DIGIT(0)) {
@@ -335,7 +377,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_805345C.inc", void sub_805345
     a = (strc0->unk9 << 14) + (unsigned char)param1->unkC;
     oamStack->all.attr0 = a;
     oamStack->all.attr1 = (strc0->unk8 << 14) + (param1->qUnkA & 0x1FF);
-    oamStack->all.attr2 = (param1->unk12 << 12) | ((uintptr_t)strc0->unk0 & 0x3FF) | 0x800;
+    oamStack->all.attr2 = (param1->unk12 << 12) | (strc0->unk0 & 0x3FF) | 0x800;
 
     for (i = 0; i < param1->unkE; i++) {
         OamData *oam = OamMalloc((param1->unk8 + i) >> 3);
