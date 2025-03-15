@@ -240,7 +240,7 @@ void sa2__sub_80064A8(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
 
 s32 sa2__sub_80036E0(Sprite *);
 void sub_8003914(Sprite *);
-void sub_80047A0(u16, s16, s16, u16);
+void SA2_LABEL(sub_80047A0)(u16 angle, s16 p1, s16 p2, u16 affineIndex);
 
 s16 sa2__sub_8004418(s16 x, s16 y);
 void numToASCII(u8 digits[5], u16 number);

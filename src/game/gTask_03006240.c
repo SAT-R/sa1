@@ -25,6 +25,52 @@ typedef struct {
     u16 unk4;
 } Strc_805345C;
 
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052D64.inc", void sub_8052D64(u8 *param0, Strc_8052C84 *param1))
+{
+    Strc0 *strc0;
+    u32 u8;
+    OamData sp00;
+    OamData *oamStack;
+    OamData *oamStack2;
+    s32 a;
+    s32 sp08, r9;
+    s32 r8;
+    s32 r2;
+
+#ifndef NON_MATCHING
+    strc0 = &TASK_GET_MEMBER(Task_3006240, gTask_03006240, struct Strc0, unk0[0]);
+    strc0 = &strc0[param1->unk10];
+#else
+    Task_3006240 *strc = TASK_DATA(gTask_03006240);
+    strc0 = &strc->unk0[param1->unk10];
+#endif
+
+    SA2_LABEL(sub_80047A0)(param1->unk4, param1->unk0, param1->unk2, param1->unk6);
+
+    {
+        s32 i;
+        r8 = param1->unk6;
+        r9 = 3;
+
+        oamStack = &sp00;
+        oamStack->all.attr0 = ((r9 << 8) | (strc0->unk9 << 14)) | (param1->unkC & 0xFF);
+        oamStack->all.attr2 = (param1->unk12 << 12) | (strc0->unk0 & 0x3FF);
+
+        for (i = 0, oamStack2 = &sp00; i < param1->byteCount; i++) {
+            OamData *oam = OamMalloc((param1->unk8) >> 3);
+
+            if (iwram_end == oam) {
+                break;
+            }
+
+            oam->all.attr0 = oamStack2->all.attr0;
+            oam->all.attr1 = ((strc0->unk8 << 14) | (r8 << 9)) | ((((strc0->unkA * i) << 3) + param1->unkA) & 0x1FF);
+            oam->all.attr2 = oamStack2->all.attr2 + strc0->unk4 * FROM_UI_DIGIT(param0[i]);
+        }
+    }
+}
+END_NONMATCH
+
 void sub_8052E40(u8 *param0, Strc_8052C84 *param1)
 {
     Strc0 *strc0;
@@ -46,7 +92,6 @@ void sub_8052E40(u8 *param0, Strc_8052C84 *param1)
 
     sl = param1->unk6;
 
-    // if (param1->unk16 != 0)
     {
         s32 i;
         sl = param1->unk6;
@@ -58,7 +103,7 @@ void sub_8052E40(u8 *param0, Strc_8052C84 *param1)
                 break;
             }
 
-            oam->all.attr0 = (strc0->unk9 << 14) + QS(r9) + (param1->unkC & 0x1FF);
+            oam->all.attr0 = (strc0->unk9 << 14) + (r9 << 8) + (param1->unkC & 0x1FF);
             oam->all.attr1 = (strc0->unk8 << 14) + (sl << 9) + ((param1->unk0 * i) >> 5) + param1->unkA;
             r2 = (param1->unk12 << 12);
             r2 += strc0->unk0 + strc0->unk4 * FROM_UI_DIGIT(param0[i]);

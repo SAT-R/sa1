@@ -38,10 +38,10 @@ typedef struct {
 } Strc_8055C50;
 
 typedef struct {
-    /* 0x00 */ u16 unk0;
-    /* 0x02 */ s16 unk2;
-    /* 0x04 */ s16 unk4;
-    /* 0x06 */ u16 unk6;
+    /* 0x00 */ u16 unk0; // TODO: x?
+    /* 0x02 */ s16 unk2; // TODO: y?
+    /* 0x04 */ s16 unk4; // TODO: angle
+    /* 0x06 */ u16 unk6; // TODO: affineIndex
     /* 0x08 */ u16 unk8;
     /* 0x0A */ u16 unkA;
     /* 0x0C */ u16 unkC;

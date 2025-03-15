@@ -394,7 +394,7 @@ static AnimCmdResult animCmd_AddHitbox(void *cursor, Sprite *s)
     return 1;
 }
 
-void sa2__sub_80047A0(u16 angle, s16 p1, s16 p2, u16 affineIndex)
+void SA2_LABEL(sub_80047A0)(u16 angle, s16 p1, s16 p2, u16 affineIndex)
 {
     u16 *affine = &gOamBuffer[affineIndex * 4].all.affineParam;
     s16 res;
