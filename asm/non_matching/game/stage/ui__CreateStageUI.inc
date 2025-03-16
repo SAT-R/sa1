@@ -24,7 +24,7 @@
 	movs r0, #0x2a
 	strb r0, [r4, #1]
 	strb r0, [r4, #4]
-	bl sub_8053674
+	bl UiGfxStackInit
 	bl sub_80538BC
 	add sp, #4
 	pop {r4}

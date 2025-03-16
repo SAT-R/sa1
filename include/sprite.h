@@ -8,12 +8,12 @@
 
 typedef u16 AnimId;
 
-struct GraphicsData {
+typedef struct GraphicsData {
     /* 0x00 */ const void *src;
     /* 0x04 */ void *dest;
     /* 0x08 */ u16 size;
     /* 0x0A */ AnimId anim;
-};
+} GraphicsData;
 
 // TODO: Put this somewhere else! (or is this already somewhere?)
 #define TileMask_Index   (0x3FF)

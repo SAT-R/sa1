@@ -57,7 +57,7 @@ _08055150:
 	bne _08055138
 _08055164:
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, _080552B0 @ =Task_8055730
 	ldr r1, _080552B4 @ =TaskDestructor_8055C38
 	str r1, [sp]

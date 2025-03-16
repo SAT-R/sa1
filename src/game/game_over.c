@@ -57,7 +57,7 @@ extern const u8 gUnknown_086883F8[];
 void sub_8055C50(Strc_8055C50 *param0)
 {
     Strc_80528AC sp00;
-    sub_8053674();
+    UiGfxStackInit();
 
     sp00.uiGfxID = UIGFX_TIMER_DIGITS;
     sp00.unk2B = 4;

@@ -252,7 +252,7 @@ _0805855A:
 	mov r0, r8
 	adds r0, #1
 	strh r0, [r1]
-	bl sub_8053674
+	bl UiGfxStackInit
 	movs r0, #0x23
 	strb r0, [r7]
 	movs r2, #0
@@ -1786,7 +1786,7 @@ _0805917C:
 	movs r0, #0x6b
 	bl m4aSongNumStart
 _080591C8:
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, _080591F4 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
@@ -2528,7 +2528,7 @@ CreateCharacterSelectionScreen: @ 0x080597DC
 	strb r5, [r0, #1]
 	strb r5, [r0]
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r1, _08059BE0 @ =gDispCnt
 	movs r2, #0x92
 	lsls r2, r2, #5
@@ -5479,7 +5479,7 @@ _0805B000:
 _0805B022:
 	movs r0, #3
 	ands r4, r0
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r2, sp, #0x2c
 	movs r0, #0x29
 	strb r0, [r2]
@@ -7971,7 +7971,7 @@ sub_805C448: @ 0x0805C448
 	str r0, [sp, #0xc]
 	movs r4, #0
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, _0805C57C @ =sub_805C6B0
 	ldr r7, _0805C580 @ =0x00002120
 	str r4, [sp]
@@ -9623,7 +9623,7 @@ _0805D180: .4byte gNumLives
 _0805D184:
 	mov r7, sl
 _0805D186:
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, _0805D4B4 @ =sub_805D684
 	movs r5, #0
 	str r5, [sp]
@@ -11991,7 +11991,7 @@ CreateStaffCredits: @ 0x0805E400
 	ldr r1, _0805E5FC @ =0x0000FFFF
 	bl TasksDestroyInPriorityRange
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	movs r1, #0x92
 	lsls r1, r1, #5
 	adds r0, r1, #0
@@ -12675,7 +12675,7 @@ sub_805E9B4: @ 0x0805E9B4
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r4, sp, #0x2c
 	movs r5, #0
 	movs r0, #0x3d
@@ -15528,7 +15528,7 @@ sub_806012C: @ 0x0806012C
 	push {r5, r6, r7}
 	sub sp, #0x30
 	ldr r4, _0806026C @ =gLoadedSaveGame
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldrb r1, [r4, #0x19]
 	cmp r1, #0
 	beq _08060146
@@ -16926,7 +16926,7 @@ sub_8060C88: @ 0x08060C88
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r6, sp, #0x2c
 	movs r4, #0
 	movs r0, #0x80
@@ -17881,7 +17881,7 @@ _080614BC:
 	b _08061706
 _080614CC:
 	str r1, [sp, #0x48]
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, [sp, #0x38]
 	adds r0, #0x50
 	ldrb r7, [r0]
@@ -18349,7 +18349,7 @@ sub_8061894: @ 0x08061894
 	mov r4, r8
 	push {r4, r5, r6}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r0, sp, #0x2c
 	mov r8, r0
 	movs r4, #0
@@ -18447,7 +18447,7 @@ sub_8061948: @ 0x08061948
 	movs r0, #4
 	bl m4aSongNumStart
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, [sp, #0x34]
 	cmp r0, #1
 	bne _08061984
@@ -21096,7 +21096,7 @@ sub_8062EDC: @ 0x08062EDC
 	mov r4, r8
 	push {r4, r5, r6}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r0, sp, #0x2c
 	mov r8, r0
 	movs r4, #0
@@ -22362,7 +22362,7 @@ sub_8063918: @ 0x08063918
 	ldrb r0, [r0]
 	strb r0, [r1]
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r1, _08063B20 @ =gDispCnt
 	movs r2, #0x82
 	lsls r2, r2, #5
@@ -22621,7 +22621,7 @@ sub_8063B8C: @ 0x08063B8C
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r5, sp, #0x2c
 	movs r0, #0x80
 	rsbs r0, r0, #0
@@ -22712,7 +22712,7 @@ sub_8063C4C: @ 0x08063C4C
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r5, sp, #0x2c
 	movs r0, #0x80
 	rsbs r0, r0, #0
@@ -22802,7 +22802,7 @@ sub_8063D0C: @ 0x08063D0C
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r5, sp, #0x2c
 	movs r0, #0x80
 	rsbs r0, r0, #0
@@ -22892,7 +22892,7 @@ sub_8063DCC: @ 0x08063DCC
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r5, sp, #0x2c
 	movs r0, #0x80
 	rsbs r0, r0, #0
@@ -26320,7 +26320,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	ands r0, r1
 	str r0, [r2]
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r1, _08065CAC @ =gDispCnt
 	movs r3, #0x8a
 	lsls r3, r3, #5
@@ -29351,7 +29351,7 @@ CreateExtraStageResults: @ 0x080670F8
 	ldrb r0, [r0]
 	strb r0, [r1]
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r1, _080674B4 @ =gDispCnt
 	movs r2, #0xba
 	lsls r2, r2, #5
@@ -30024,7 +30024,7 @@ sub_80677C4: @ 0x080677C4
 	sub sp, #0x30
 	cmp r0, #1
 	bne _08067810
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r1, sp, #0x2c
 	movs r2, #0
 	movs r0, #0x80
@@ -30090,7 +30090,7 @@ sub_8067824: @ 0x08067824
 	adds r4, r5, #0
 	cmp r6, #0x19
 	bne _08067860
-	bl sub_8053674
+	bl UiGfxStackInit
 	bl sub_80538BC
 	b _08067872
 	.align 2, 0
@@ -31675,7 +31675,7 @@ sub_80684F4: @ 0x080684F4
 	adds r4, r1, r0
 	cmp r2, #0x19
 	bne _08068518
-	bl sub_8053674
+	bl UiGfxStackInit
 	bl sub_80538BC
 	b _0806852A
 	.align 2, 0
@@ -31904,7 +31904,7 @@ CreateSpecialStageIntro: @ 0x08068688
 	ldrb r0, [r0]
 	strb r0, [r1]
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r1, _08068894 @ =gDispCnt
 	movs r2, #0x8a
 	lsls r2, r2, #5
@@ -32154,7 +32154,7 @@ sub_80688E4: @ 0x080688E4
 	push {r4, lr}
 	sub sp, #0x30
 	adds r4, r0, #0
-	bl sub_8053674
+	bl UiGfxStackInit
 	cmp r4, #1
 	bne _08068932
 	add r1, sp, #0x2c
@@ -32667,7 +32667,7 @@ sub_8068D0C: @ 0x08068D0C
 	push {r5, r6, r7}
 	sub sp, #0x5c
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r1, _08068F34 @ =gDispCnt
 	movs r2, #0x8a
 	lsls r2, r2, #5
@@ -33826,7 +33826,7 @@ _08069688: .4byte 0xFFFFFBFF
 sub_806968C: @ 0x0806968C
 	push {r4, lr}
 	sub sp, #0x30
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r2, sp, #0x2c
 	movs r4, #0
 	movs r0, #0x80
@@ -34187,7 +34187,7 @@ sub_8069994: @ 0x08069994
 	push {r5, r6, r7}
 	sub sp, #0x34
 	adds r6, r0, #0
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r4, sp, #0x2c
 	movs r0, #0x20
 	strb r0, [r4]
@@ -35199,7 +35199,7 @@ _0806A1C0:
 	movs r4, #0
 	ldr r0, _0806A3BC @ =0x00001E83
 	strh r0, [r1]
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, _0806A3C0 @ =gBgScrollRegs
 	strh r4, [r0]
 	strh r4, [r0, #2]

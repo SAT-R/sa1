@@ -18,16 +18,16 @@ typedef struct Strc0 {
 
 typedef struct {
     /* 0x00 */ struct Strc0 unk0;
-    /* 0x0C */ const u8 *vramC;
-    /* 0x10 */ u8 filler10[0x4];
+    /* 0x0C */ u8 *vramC;
+    /* 0x10 */ const u8 *layout;
     /* 0x14 */ const u8 *tiles;
     /* 0x18 */ s32 tilesSize; // in bytes
-    /* 0x1C */ void *vram1C;
+    /* 0x1C */ s32 layoutSize;
     /* 0x20 */ const u16 *palette;
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ u8 unk28;
-    /* 0x29 */ u8 unk29;
-    /* 0x2A */ u8 unk2A;
+    /* 0x24 */ u32 unk24;
+    /* 0x28 */ u8 unk28; // destination palID ?
+    /* 0x29 */ u8 unk29; // backgroundID?
+    /* 0x2A */ u8 unk2A; // flags - 0x1: freed?, 0x4: copy palette, 0x8: active?
     /* 0x2B */ u8 unk2B;
     /* 0x2C */ u8 uiGfxID;
 } Strc_80528AC; /* size: 0x30 */
@@ -57,9 +57,11 @@ extern struct Task *gTask_03006240;
 
 struct GfxSubstruct {
     struct GfxSubstruct *next;
-    void *rom;
-    void *vram;
-    u8 fillerC[4];
+
+    GraphicsData graphics;
+    // void *rom;
+    // void *vram;
+    // u8 fillerC[4];
 };
 
 struct Strc_30063F0 {
@@ -91,7 +93,8 @@ void sub_8052C84(u8 *param0, Strc_8052C84 *param1);
 void sub_80535C8(struct Strc0 *inTask, u8 param1);
 
 void sub_80535FC(void);
-IwramData sub_8053674(void);
+IwramData UiGfxStackInit(void);
+GraphicsData *UiGfxStackPop(void);
 void sub_80528AC(Strc_80528AC *strc);
 void sub_8052F78(const u8 *param0, struct GameOverB *strc);
 void sub_80530CC(const u8 *param0, struct GameOverB *param1);

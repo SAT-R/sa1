@@ -22,7 +22,7 @@
 	ldr r1, _08054234 @ =0x0300004C
 	adds r0, r0, r1
 	strh r4, [r0]
-	bl sub_8053674
+	bl UiGfxStackInit
 	bl sub_8054068
 	add sp, #4
 	pop {r4}

@@ -630,7 +630,7 @@ NONMATCH("asm/non_matching/game/stage/ui__CreateStageUI.inc", void CreateStageUI
     unk20->unk1 = 42;
     unk20->unk4 = 42;
 
-    sub_8053674();
+    UiGfxStackInit();
     sub_80538BC();
 }
 END_NONMATCH
@@ -658,7 +658,7 @@ void CreateSpecialStageUI(void)
 #endif
     ui->unk4C = zero;
 
-    sub_8053674();
+    UiGfxStackInit();
     sub_8054068();
 }
 

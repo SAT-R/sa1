@@ -1,12 +1,12 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "game/gTask_03006240.h"
 #include "game/stage/ui.h"
 
 /* Work In Progress module */
 /* TODO: I guess this can be called ui_rendering.c or something like that? */
 
-IwramData sub_8053674(void);
 void Task_80536D4(void);
 void TaskDestructor_80536D8(struct Task *t);
 
@@ -24,6 +24,81 @@ typedef struct {
     u16 unk2;
     u16 unk4;
 } Strc_805345C;
+
+void sub_80528AC(Strc_80528AC *param0)
+{
+    struct Strc0 *strc0;
+    GraphicsData *gfx;
+
+#ifndef NON_MATCHING
+    strc0 = &TASK_GET_MEMBER(Task_3006240, gTask_03006240, struct Strc0, unk0[0]);
+    strc0 = &strc0[param0->unk2B];
+#else
+    Task_3006240 *strc = TASK_DATA(gTask_03006240);
+    strc0 = &strc->unk0[param0->unk2B];
+#endif
+
+    strc0->unk4 = param0->unk0.unk4;
+    strc0->unk8 = param0->unk0.unk8;
+    strc0->unk9 = param0->unk0.unk9;
+    strc0->unkA = param0->unk0.unkA;
+    strc0->unkB = param0->unk0.unkB;
+
+    if (param0->unk2A & 0x8) {
+        if (param0->unk2A & 0x1) {
+            gfx = UiGfxStackPop();
+
+            if (gfx != NULL) {
+                gfx->src = param0->tiles;
+                gfx->dest = param0->vramC;
+                gfx->size = param0->tilesSize;
+
+                ADD_TO_GRAPHICS_QUEUE(gfx);
+            }
+        }
+
+        if (param0->unk2A & 0x4) {
+            DmaCopy16(3, param0->palette, &gObjPalette[param0->unk28 * 16], param0->unk24);
+            gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+        }
+
+        strc0->unk0 = GET_TILE_NUM_COMMON(param0->vramC, 32);
+    } else {
+        void *vram = (param0->uiGfxID & 0x80) ? BG_CHAR_ADDR_FROM_BGCNT(param0->unk29) + 0
+                                              : BG_CHAR_ADDR_FROM_BGCNT(param0->unk29) + TILE_SIZE_4BPP;
+
+        void *vramBase = ((u8 *)BG_VRAM + ((gBgCntRegs[param0->unk29] & BGCNT_SCREENBASE_MASK) << 3));
+
+        if (param0->unk2A & 0x1) {
+            gfx = UiGfxStackPop();
+
+            if (gfx != NULL) {
+                gfx->src = param0->tiles;
+                gfx->dest = vram;
+                gfx->size = param0->tilesSize;
+
+                ADD_TO_GRAPHICS_QUEUE(gfx);
+            }
+        }
+
+        if (param0->unk2A & 0x10) {
+            gfx = UiGfxStackPop();
+
+            if (gfx != NULL) {
+                gfx->src = param0->layout;
+                gfx->dest = vramBase;
+                gfx->size = param0->layoutSize;
+
+                ADD_TO_GRAPHICS_QUEUE(gfx);
+            }
+        }
+
+        if (param0->unk2A & 0x4) {
+            DmaCopy16(3, param0->palette, &gBgPalette[param0->unk28 * 16], param0->unk24);
+            gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        }
+    }
+}
 
 // (86.06%) https://decomp.me/scratch/3jubn
 NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052AA4.inc", void sub_8052AA4(void))
@@ -616,12 +691,12 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_80535FC.inc", void sub_80535F
         *test = (void *)&gUnknown_03006250[0];
         test2->next = nullPtr;
         gTask_03006240 = TaskCreate(taskPtr, sizeof(Task_3006240), 0x1800, 0, dtorPtr);
-        sub_8053674();
+        UiGfxStackInit();
     }
 }
 END_NONMATCH
 
-IwramData sub_8053674(void)
+IwramData UiGfxStackInit(void)
 {
     Task_3006240 *strc = TASK_DATA(gTask_03006240);
     struct GfxSubstruct *curr = &strc->gfxList[0];
@@ -643,7 +718,7 @@ IwramData sub_8053674(void)
     return offset;
 }
 
-void **sub_80536B0(void)
+struct GraphicsData *UiGfxStackPop(void)
 {
     Task_3006240 *strc = TASK_DATA(gTask_03006240);
     struct GfxSubstruct *curr;
@@ -656,7 +731,7 @@ void **sub_80536B0(void)
         return NULL;
     }
 
-    return &curr->rom;
+    return &curr->graphics;
 }
 
 void Task_80536D4(void) { }

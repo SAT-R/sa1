@@ -43,7 +43,7 @@ _08053620:
 	bl TaskCreate
 	ldr r1, _0805365C @ =gTask_03006240
 	str r0, [r1]
-	bl sub_8053674
+	bl UiGfxStackInit
 _08053652:
 	add sp, #4
 	pop {r4, r5, r6, r7}

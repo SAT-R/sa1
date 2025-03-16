@@ -33,9 +33,6 @@ u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
 
 void sub_804A5D8() { }
 
-// UI
-void sub_80528AC() { }
-
 void sub_805B9E8() { }
 void WriteSaveGame() { }
 void DestroyPlayerTasks() { }

@@ -3477,7 +3477,7 @@ CreateTimeAttackMenu: @ 0x080100A8
 	adds r0, r2, #0
 	bl UpdateSpriteAnimation
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	add r1, sp, #0x30
 	movs r0, #0x80
 	strb r0, [r1]
@@ -4023,7 +4023,7 @@ CreateOptionsMenu: @ 0x0801061C
 	strh r5, [r0]
 	strh r5, [r0, #2]
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldrh r1, [r4]
 	ldr r0, _08010878 @ =0x00001FFF
 	ands r0, r1
@@ -6232,7 +6232,7 @@ _08011854:
 	add r0, sl
 	strh r1, [r0]
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	movs r0, #0x80
 	strb r0, [r6]
 	mov r2, sb

@@ -306,7 +306,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_80550F8.inc", struct Task *sub_805
     }
 
     sub_80535FC();
-    sub_8053674();
+    UiGfxStackInit();
     // _08055164
 
     tt = TaskCreate(Task_8055730, sizeof(Strc_Ui_24), 0x2120, 0, TaskDestructor_8055C38);

@@ -757,7 +757,7 @@ _080575D2:
 	mov r0, sl
 	str r0, [sp, #0x18]
 	str r6, [sp, #0x14]
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r0, _08057854 @ =Task_8057B74
 	ldr r1, _08057858 @ =0x00002120
 	mov r8, r1

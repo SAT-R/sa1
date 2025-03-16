@@ -1044,7 +1044,7 @@ sub_806B81C: @ 0x0806B81C
 	push {r5, r6, r7}
 	sub sp, #8
 	bl sub_80535FC
-	bl sub_8053674
+	bl UiGfxStackInit
 	ldr r1, _0806BB40 @ =gDispCnt
 	movs r2, #0x9a
 	lsls r2, r2, #5
