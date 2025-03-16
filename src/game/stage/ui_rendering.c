@@ -4,7 +4,6 @@
 #include "game/gTask_03006240.h"
 #include "game/stage/ui.h"
 
-/* Work In Progress module */
 /* TODO: I guess this can be called ui_rendering.c or something like that? */
 
 void Task_80536D4(void);
@@ -67,7 +66,7 @@ void sub_80528AC(Strc_80528AC *param0)
         void *vram = (param0->uiGfxID & 0x80) ? BG_CHAR_ADDR_FROM_BGCNT(param0->unk29) + 0
                                               : BG_CHAR_ADDR_FROM_BGCNT(param0->unk29) + TILE_SIZE_4BPP;
 
-        void *vramBase = ((u8 *)BG_VRAM + ((gBgCntRegs[param0->unk29] & BGCNT_SCREENBASE_MASK) << 3));
+        void *layout = ((u8 *)BG_VRAM + ((gBgCntRegs[param0->unk29] & BGCNT_SCREENBASE_MASK) << 3));
 
         if (param0->unk2A & 0x1) {
             gfx = UiGfxStackPop();
@@ -86,7 +85,7 @@ void sub_80528AC(Strc_80528AC *param0)
 
             if (gfx != NULL) {
                 gfx->src = param0->layout;
-                gfx->dest = vramBase;
+                gfx->dest = layout;
                 gfx->size = param0->layoutSize;
 
                 ADD_TO_GRAPHICS_QUEUE(gfx);

@@ -128,7 +128,7 @@ SECTIONS {
         src/game/interactables/039.o(.text);
         asm/enemy_boss_5_mecha_knuckles.o(.text);
         asm/enemy_boss_super_egg_robo.o(.text);
-        src/game/gTask_03006240.o(.text);
+        src/game/stage/ui_rendering.o(.text);
         src/game/stage/ui.o(.text);
         src/game/stage/trapped_animals.o(.text);
         src/game/stage/ui_z.o(.text);
@@ -168,6 +168,7 @@ SECTIONS {
         asm/ia_bumpers.o(.text);
         asm/ia_flipper.o(.text);
         asm/ia_platform_square.o(.text);
+        src/game/interactables/SEGA_SONIC_letters.o(.text);
         asm/ia_SEGA_SONIC_letter.o(.text);
         asm/ia_party_balloon.o(.text);
         asm/ia_ship_swing.o(.text);
@@ -303,6 +304,8 @@ SECTIONS {
         src/data/credits.o(.rodata);
         data/data_sound_test.o(.rodata);
         data/data_0_6.o(.rodata);
+        src/game/interactables/SEGA_SONIC_letters.o(.rodata);
+        data/data_0_7.o(.rodata);
         src/data/entities.o(.rodata);
         src/lib/m4a/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);

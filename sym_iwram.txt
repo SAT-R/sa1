@@ -78,7 +78,7 @@ src/game/some_task_manager.o(.data);
 . = 0x000061F0; gUnknown_030061F0 = .;
 
 . = 0x00006240; 
-src/game/gTask_03006240.o(.data);
+src/game/stage/ui_rendering.o(.data);
 
 . = 0x00006408;
 src/lib/agb_flash/agb_flash.o(.data);
