@@ -25,6 +25,47 @@ typedef struct {
     u16 unk4;
 } Strc_805345C;
 
+// (86.06%) https://decomp.me/scratch/3jubn
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052AA4.inc", void sub_8052AA4(void))
+{
+    struct Strc_30063F0 *list = &gUnknown_030063C0;
+    struct Strc_30063F0 *curr;
+    struct Strc0 *strc0;
+    Task_3006240 *strc;
+    s32 vramOffset;
+    void *vram;
+    u32 i, j;
+
+    while (list->next != NULL) {
+        curr = list->next;
+        list = curr;
+
+#ifndef NON_MATCHING
+        strc0 = &TASK_GET_MEMBER(Task_3006240, gTask_03006240, struct Strc0, unk0[0]);
+        strc0 = &strc0[curr->unk1C];
+#else
+        strc = TASK_DATA(gTask_03006240);
+        strc0 = &strc->unk0[curr->unk1C];
+#endif
+        vramOffset = (curr->unk14 << 6);
+        vramOffset += ((curr->unk10 + list->unk20) << 1);
+        vramOffset += ((gBgCntRegs[curr->unk18] & BGCNT_SCREENBASE(0x1F)) << 3);
+        vram = (u8 *)BG_VRAM + vramOffset;
+
+        for (i = 0; i < curr->unk20; i++) {
+            u16 *dest;
+            for (j = 0, dest = vram + (strc0->unk4 * j); j < strc0->unkB; dest += 0x20, j++) {
+                *dest = (strc0->unk4 * FROM_UI_DIGIT(curr->unk4[j])) + i;
+            }
+        }
+    }
+
+    list->next = gUnknown_030063F0;
+    gUnknown_030063F0->next = gUnknown_030063C0.next;
+    gUnknown_030063C0.next = NULL;
+}
+END_NONMATCH
+
 NONMATCH("asm/non_matching/game/gTask_3006240__unused_8052B84.inc", void unused_8052B84(s32 param0, u16 param1, u16 param2, u8 param3)) { }
 END_NONMATCH
 
@@ -493,7 +534,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_805345C.inc", void sub_805345
 }
 END_NONMATCH
 
-void sub_8053520(u8 *param0, void *param1, void *param2, u8 param3, u8 param4)
+void sub_8053520(u8 *param0, s32 param1, s32 param2, u8 param3, u8 param4)
 {
     if (gUnknown_030063F0) {
         struct Strc_30063F0 *unkStrc = gUnknown_030063F0;

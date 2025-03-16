@@ -8,7 +8,7 @@
 
 // UI, OAM-related?
 typedef struct Strc0 {
-    /* 0x000 */ s32 unk0; // tilenum
+    /* 0x000 */ s32 unk0; // tilenum (OAM)
     /* 0x004 */ s32 unk4;
     /* 0x008 */ u8 unk8;
     /* 0x009 */ u8 unk9;
@@ -65,9 +65,9 @@ struct GfxSubstruct {
 struct Strc_30063F0 {
     struct Strc_30063F0 *next;
     u8 unk4[10];
-    void *unk10;
-    void *unk14;
-    u32 unk18;
+    s32 unk10;
+    s32 unk14;
+    u32 unk18; // bgID?
     u32 unk1C;
     u8 unk20;
 }; /* 0x30 ?? */

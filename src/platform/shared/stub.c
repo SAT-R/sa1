@@ -35,7 +35,6 @@ void sub_804A5D8() { }
 
 // UI
 void sub_80528AC() { }
-void sub_8052C84() { }
 
 void sub_805B9E8() { }
 void WriteSaveGame() { }
@@ -209,7 +208,7 @@ void CreateMultiplayerChao() { }
 void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
 
-void SaveGameExists() { }
+bool32 SaveGameExists() { return FALSE; }
 
 void Player_TransitionCancelFlyingAndBoost() { }
 
