@@ -82,6 +82,7 @@
 #define SA1_ANIM_PLATFORM_NGH   463
 #define SA1_ANIM_WATER_SPLASH_1 464
 
+#define SA1_ANIM_SHRUBBERY               467
 #define SA1_ANIM_BOUNCE_BAR              468
 #define SA1_ANIM_FLAG_H                  469
 #define SA1_ANIM_FLAG_V                  470

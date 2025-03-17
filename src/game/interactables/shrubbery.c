@@ -9,7 +9,9 @@ typedef struct {
     /* 0x00 */ u8 filler0[0x0C];
     /* 0x0C */ Sprite s;
     /* 0x3C */ u8 unk3C;
-    /* 0x3D */ u8 filler3D[0xF];
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ u16 unk48;
     /* 0x4C */ s32 worldX;
     /* 0x50 */ s32 worldY;
 } ShrubberyParticles; /* 0x54 */
@@ -23,6 +25,37 @@ typedef struct {
 void Task_ShrubberyMain(void);
 void Task_ShrubberyParticles(void);
 void TaskDestructor_ShrubberyParticles(struct Task *t);
+
+void CreateShrubberyParticles(CamCoord worldX, CamCoord worldY)
+{
+    struct Task *t = TaskCreate(Task_ShrubberyParticles, sizeof(ShrubberyParticles), 0x3000, 0, TaskDestructor_ShrubberyParticles);
+    ShrubberyParticles *parts = TASK_DATA(t);
+    Sprite *s = &parts->s;
+
+    parts->unk40 = worldX * 4;
+    parts->unk48 = 0;
+    parts->unk44 = 1;
+    parts->unk3C = 52;
+    parts->worldX = worldX;
+    parts->worldY = worldY;
+
+    // NOTE: Initializing sprite pos to world pos
+    s->x = worldX;
+    s->y = worldY;
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_SHRUBBERY);
+    s->oamFlags = SPRITE_OAM_ORDER(0);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_SHRUBBERY;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+}
 
 void Task_ShrubberyParticles(void)
 {
