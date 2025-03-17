@@ -124,7 +124,6 @@ SECTIONS {
         src/game/interactables/mini_loop_boost.o(.text);
         src/game/interactables/water_bridge.o(.text);
         src/game/interactables/water_bridge_splash.o(.text);
-        asm/ia_mini_loop.o(.text);
         src/game/interactables/mini_loop.o(.text);
         src/game/interactables/039.o(.text);
         asm/enemy_boss_5_mecha_knuckles.o(.text);

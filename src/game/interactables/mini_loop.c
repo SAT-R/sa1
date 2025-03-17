@@ -18,8 +18,65 @@ void Task_MiniLoop_StartBoost(void);
 void Task_MiniLoop_Exit(void);
 void Task_MiniLoop_Entrance(void);
 
-#if 01
-#endif
+void Task_MiniLoop_StartBoost(void)
+{
+    MiniLoop *loop = TASK_DATA(gCurTask);
+    s32 i;
+
+    i = 0;
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+        s32 worldX, worldY;
+
+        worldX = I(p->qWorldX);
+        worldY = I(p->qWorldY);
+
+        if (IS_OUT_OF_DISPLAY_RANGE(loop->worldX, loop->worldY)) {
+            p->moveState &= ~MOVESTATE_8000;
+            SET_MAP_ENTITY_NOT_INITIALIZED(loop->me, loop->meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+
+        if ((loop->left <= worldX) && (worldX < loop->right) && (loop->top <= worldY) && (worldY < loop->bottom)) {
+            if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                p->qSpeedGround = +Q(9.00);
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+}
+
+void Task_MiniLoop_Exit(void)
+{
+    MiniLoop *loop = TASK_DATA(gCurTask);
+    s32 i;
+
+    i = 0;
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+        s32 worldX, worldY;
+
+        worldX = I(p->qWorldX);
+        worldY = I(p->qWorldY);
+
+        if (IS_OUT_OF_DISPLAY_RANGE(loop->worldX, loop->worldY)) {
+            p->moveState &= ~MOVESTATE_8000;
+            SET_MAP_ENTITY_NOT_INITIALIZED(loop->me, loop->meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+
+        if ((loop->left <= worldX) && (worldX < loop->right) && (loop->top <= worldY) && (worldY < loop->bottom)) {
+            if (!IS_ALIVE(p)) {
+                return;
+            }
+
+            if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                p->qSpeedGround = -Q(7.25);
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+}
 
 void CreateEntity_MiniLoop_StartBoost(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
