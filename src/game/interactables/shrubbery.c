@@ -2,8 +2,10 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
+#include "lib/m4a/m4a.h"
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ u8 filler0[0x0C];
@@ -24,7 +26,54 @@ typedef struct {
 
 void Task_ShrubberyMain(void);
 void Task_ShrubberyParticles(void);
+void CreateShrubberyParticles(CamCoord worldX, CamCoord worldY);
 void TaskDestructor_ShrubberyParticles(struct Task *t);
+
+void Task_ShrubberyMain(void)
+{
+    Shrubbery *shrubbery = TASK_DATA(gCurTask);
+    Sprite *s = &shrubbery->s;
+    MapEntity *me = shrubbery->base.me;
+    s32 worldX, worldY;
+    s32 i;
+
+    worldX = TO_WORLD_POS(shrubbery->base.meX, shrubbery->base.regionX);
+    worldY = TO_WORLD_POS(me->y, shrubbery->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    i = 0;
+    do {
+        if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+            && (worldX + (me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+            && (worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+            && (worldY + (me->d.uData[3] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+                if (!GetBit(shrubbery->unk3C, i)) {
+                    CreateShrubberyParticles(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) + (((u32)PseudoRandom32() & 0x1F00) >> 8) - 16,
+                                             I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) + (((u32)PseudoRandom32() & 0x0F00) >> 8) - 8);
+                    m4aSongNumStart(SE_SHRUBBERY);
+                }
+
+                SetBit(shrubbery->unk3C, i);
+            }
+        } else {
+            // _080766BE_else
+            shrubbery->unk3C &= ~(1 << i);
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    // TODO: Does this match using other vars as target? (screenX|Y)
+    worldX -= gCamera.x;
+    worldY -= gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE_TYPED(u32, worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, shrubbery->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
 
 void CreateShrubberyParticles(CamCoord worldX, CamCoord worldY)
 {

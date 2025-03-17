@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start Task_ShrubberyMain
 Task_ShrubberyMain: @ 0x08076524
 	push {r4, r5, r6, r7, lr}
@@ -19,18 +20,18 @@ Task_ShrubberyMain: @ 0x08076524
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r2
-	mov sb, r0
+	mov sb, r0          @ sb = shrubbery
 	ldr r0, _08076590 @ =0x0300000C
-	adds r3, r2, r0
+	adds r3, r2, r0     @ r3 = s
 	mov r1, sb
 	ldr r1, [r1]
-	str r1, [sp]
+	str r1, [sp]        @ sp00 = me = shrubbery->base.me
 	mov r4, sb
 	ldrb r1, [r4, #8]
 	lsls r1, r1, #3
 	ldrh r0, [r4, #4]
 	lsls r0, r0, #8
-	adds r6, r1, r0
+	adds r6, r1, r0     @ r6 = worldX
 	ldr r7, [sp]
 	ldrb r1, [r7, #1]
 	lsls r1, r1, #3
@@ -51,7 +52,7 @@ Task_ShrubberyMain: @ 0x08076524
 	ldr r1, _080765A0 @ =0x0300003C
 	adds r1, r1, r2
 	mov sl, r1
-_0807657C:
+_0807657C_loop:
 	cmp r4, #0
 	beq _080765A4
 	mov r2, r8
@@ -59,7 +60,7 @@ _0807657C:
 	asrs r0, r0, #8
 	cmp r6, r0
 	ble _080765AE
-	b _080766BE
+	b _080766BE_else
 	.align 2, 0
 _0807658C: .4byte gCurTask
 _08076590: .4byte 0x0300000C
@@ -72,9 +73,9 @@ _080765A4:
 	asrs r0, r0, #8
 	cmp r6, r0
 	ble _080765AE
-	b _080766BE
+	b _080766BE_else
 _080765AE:
-	ldr r7, [sp]
+	ldr r7, [sp]        @ r7 = sp00 = me
 	ldrb r0, [r7, #5]
 	lsls r0, r0, #3
 	adds r1, r6, r0
@@ -85,12 +86,12 @@ _080765AE:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _080765CE
-	b _080766BE
+	b _080766BE_else
 _080765C6:
 	ldr r0, [r3]
 	asrs r0, r0, #8
 	cmp r1, r0
-	blt _080766BE
+	blt _080766BE_else
 _080765CE:
 	cmp r4, #0
 	beq _080765DE
@@ -99,12 +100,12 @@ _080765CE:
 	asrs r0, r0, #8
 	cmp r5, r0
 	ble _080765E6
-	b _080766BE
+	b _080766BE_else
 _080765DE:
 	ldr r0, [r3, #4]
 	asrs r0, r0, #8
 	cmp r5, r0
-	bgt _080766BE
+	bgt _080766BE_else
 _080765E6:
 	ldr r1, [sp]
 	ldrb r0, [r1, #6]
@@ -117,12 +118,12 @@ _080765E6:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08076606
-	b _080766BE
+	b _080766BE_else
 _080765FE:
 	ldr r0, [r3, #4]
 	asrs r0, r0, #8
 	cmp r1, r0
-	blt _080766BE
+	blt _080766BE_else
 _08076606:
 	cmp r4, #0
 	beq _08076610
@@ -136,7 +137,7 @@ _08076612:
 	ands r0, r1
 	cmp r0, #0
 	bne _080766CA
-	mov r0, sl
+	mov r0, sl      @ r0 = sl = 
 	ldrb r1, [r0]
 	asrs r1, r4
 	movs r0, #1
@@ -216,7 +217,7 @@ _080766B0:
 	orrs r0, r1
 	strb r0, [r2]
 	b _080766CA
-_080766BE:
+_080766BE_else:
 	movs r1, #1
 	lsls r1, r4
 	mov r7, sl
@@ -231,7 +232,7 @@ _080766CA:
 	asrs r0, r0, #0x18
 	cmp r4, r0
 	bge _080766DA
-	b _0807657C
+	b _0807657C_loop
 _080766DA:
 	ldr r1, _08076728 @ =gCamera
 	movs r2, #0
@@ -275,6 +276,4 @@ _08076714:
 _08076724: .4byte gNumSingleplayerCharacters
 _08076728: .4byte gCamera
 _0807672C: .4byte gCurTask
-
-.if 0
 .endif
