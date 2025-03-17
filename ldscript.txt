@@ -162,6 +162,7 @@ SECTIONS {
         asm/ia_incline_ramp.o(.text);
         asm/ia_waterfall.o(.text);
         asm/ia_shrubbery.o(.text);
+        src/game/interactables/shrubbery.o(.text);
         asm/ia_booster.o(.text);
         asm/ia_red_flag.o(.text);
         asm/ia_forced_ice_slide.o(.text);

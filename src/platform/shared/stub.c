@@ -79,7 +79,6 @@ void CreateEntity_InclineRamp() { }
 void CreateEntity_Waterfall() { }
 void CreateEntity_HalfPipeStart() { }
 void CreateEntity_HalfPipeEnd() { }
-void CreateEntity_Shrubbery() { }
 void CreateEntity_Booster() { }
 void CreateEntity_Booster_SlightLeft() { }
 void CreateEntity_Booster_SlightRight() { }
