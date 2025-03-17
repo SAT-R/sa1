@@ -26,8 +26,8 @@
 	add r0, sp, #4
 	movs r2, #6
 	bl memcpy
-	ldr r0, _0807EBB0 @ =Task_SEGA_SONIC_Letter
-	ldr r1, _0807EBB4 @ =TaskDestructor_SEGA_SONIC_Letter
+	ldr r0, _0807EBB0 @ =Task_SegaSonicLetter
+	ldr r1, _0807EBB4 @ =TaskDestructor_SegaSonicLetter
 	str r1, [sp]
 	movs r1, #0x44
 	movs r2, #0x80
@@ -147,8 +147,8 @@
 	bx r0
 	.align 2, 0
 _0807EBAC: .4byte gUnknown_086CED90
-_0807EBB0: .4byte Task_SEGA_SONIC_Letter
-_0807EBB4: .4byte TaskDestructor_SEGA_SONIC_Letter
+_0807EBB0: .4byte Task_SegaSonicLetter
+_0807EBB4: .4byte TaskDestructor_SegaSonicLetter
 _0807EBB8: .4byte 0x0300000C
 _0807EBBC: .4byte 0x0300003C
 _0807EBC0: .4byte 0x0300003D

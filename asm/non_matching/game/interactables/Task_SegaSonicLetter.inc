@@ -1,15 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-.if 0
-.endif
-
-	thumb_func_start Task_SEGA_SONIC_Letter
-Task_SEGA_SONIC_Letter: @ 0x0807EBD8
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -25,34 +17,34 @@ Task_SEGA_SONIC_Letter: @ 0x0807EBD8
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r5, r4, r0
+	adds r5, r4, r0     @ r5 = letter
 	adds r0, #0xc
-	adds r7, r4, r0
+	adds r7, r4, r0     @ r7 = s
 	ldr r1, [r5]
-	mov sl, r1
+	mov sl, r1          @ sl = me
 	ldrb r2, [r5, #8]
 	lsls r2, r2, #3
 	ldrh r0, [r5, #4]
 	lsls r0, r0, #8
-	adds r2, r2, r0
+	adds r2, r2, r0     @ r2 = worldX
 	lsls r2, r2, #0x10
 	ldrb r1, [r1, #1]
 	lsls r1, r1, #3
 	ldrh r0, [r5, #6]
 	lsls r0, r0, #8
-	adds r1, r1, r0
+	adds r1, r1, r0     @ r1 = worldY
 	lsls r1, r1, #0x10
 	ldr r3, _0807EC70 @ =gCamera
 	ldrh r0, [r3]
 	lsrs r6, r2, #0x10
-	str r6, [sp, #8]
+	str r6, [sp, #8]    @ sp08 = worldX
 	asrs r2, r2, #0x10
 	mov sb, r2
 	subs r0, r2, r0
 	strh r0, [r7, #0x16]
 	ldrh r2, [r3, #2]
 	lsrs r3, r1, #0x10
-	str r3, [sp, #0xc]
+	str r3, [sp, #0xc]  @ sp0C = worldY
 	asrs r1, r1, #0x10
 	mov r8, r1
 	subs r2, r1, r2
@@ -87,13 +79,13 @@ _0807EC6C: .4byte gCurTask
 _0807EC70: .4byte gCamera
 _0807EC74:
 	movs r2, #0
-	mov sl, r2
+	mov sl, r2      @ sl = r2 = 0
 	ldr r2, _0807ECC0 @ =gStageTime
 	ldr r3, _0807ECC4 @ =0x03000040
 	adds r0, r4, r3
 	ldrb r1, [r0]
 	ldr r0, [r2]
-	subs r0, r0, r1
+	subs r0, r0, r1     @ gStageTime - letter->unk40
 	ldr r6, _0807ECC8 @ =0x0300003E
 	adds r5, r4, r6
 	ldrb r1, [r5]
@@ -105,10 +97,10 @@ _0807EC74:
 	cmp r1, #0x39
 	bhi _0807ECD4
 	movs r0, #1
-	mov sl, r0
+	mov sl, r0      @ sl = 1
 	cmp r1, #0
 	beq _0807ECA4
-	b _0807EDC6
+	b _0807EDC6_post_elif
 _0807ECA4:
 	movs r1, #0
 	mov sl, r1
@@ -122,7 +114,7 @@ _0807ECA4:
 	lsls r0, r0, #2
 	adds r0, #1
 	subs r6, #0x12
-	b _0807ED40
+	b _0807ED40_set_variant
 	.align 2, 0
 _0807ECC0: .4byte gStageTime
 _0807ECC4: .4byte 0x03000040
@@ -140,7 +132,7 @@ _0807ECD4:
 	movs r3, #1
 	mov sl, r3
 	cmp r1, #0x3a
-	bne _0807EDC6
+	bne _0807EDC6_post_elif
 	ldr r6, _0807ED08 @ =0x0300002D
 	adds r1, r4, r6
 	movs r0, #0xff
@@ -153,7 +145,7 @@ _0807ECD4:
 	ldr r2, _0807ED10 @ =0x0300002C
 	adds r1, r4, r2
 	strb r0, [r1]
-	b _0807EDC6
+	b _0807EDC6_post_elif
 	.align 2, 0
 _0807ED04: .4byte 0x0300003F
 _0807ED08: .4byte 0x0300002D
@@ -170,7 +162,7 @@ _0807ED14:
 	movs r6, #1
 	mov sl, r6
 	cmp r1, r3
-	bne _0807EDC6
+	bne _0807EDC6_post_elif
 	movs r0, #0
 	mov sl, r0
 	ldr r2, _0807ED48 @ =0x0300002D
@@ -182,10 +174,10 @@ _0807ED14:
 	ldrb r0, [r0]
 	lsls r0, r0, #2
 	ldr r6, _0807ED50 @ =0x0300002C
-_0807ED40:
+_0807ED40_set_variant:
 	adds r1, r4, r6
 	strb r0, [r1]
-	b _0807EDC6
+	b _0807EDC6_post_elif
 	.align 2, 0
 _0807ED48: .4byte 0x0300002D
 _0807ED4C: .4byte 0x0300003C
@@ -247,7 +239,7 @@ _0807EDB8:
 	asrs r0, r0, #0x18
 	cmp r4, r0
 	blt _0807ED78
-_0807EDC6:
+_0807EDC6_post_elif:
 	movs r4, #0
 _0807EDC8:
 	mov r3, sl
@@ -292,14 +284,4 @@ _0807EE14: .4byte gPlayer
 _0807EE18: .4byte gNumSingleplayerCharacters
 _0807EE1C: .4byte gPartner
 
-	thumb_func_start TaskDestructor_SEGA_SONIC_Letter
-TaskDestructor_SEGA_SONIC_Letter: @ 0x0807EE20
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0x10]
-	bl VramFree
-	pop {r0}
-	bx r0
+.syntax divided

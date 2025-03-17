@@ -101,7 +101,6 @@ void CreateEntity_Flipper() { }
 void CreateEntity_Platform_Square() { }
 void CreateEntity_Flipper_Vertical() { }
 void CreateEntity_BarrelOfDoomMini() { }
-void CreateEntity_SEGA_SONIC_Letter() { }
 void CreateEntity_PartyBalloon() { }
 void CreateEntity_ShipSwing() { }
 void CreateEntity_Platform_Spiked() { }

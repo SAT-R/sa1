@@ -168,8 +168,7 @@ SECTIONS {
         asm/ia_bumpers.o(.text);
         asm/ia_flipper.o(.text);
         asm/ia_platform_square.o(.text);
-        src/game/interactables/SEGA_SONIC_letters.o(.text);
-        asm/ia_SEGA_SONIC_letter.o(.text);
+        src/game/interactables/sega_sonic_letters.o(.text);
         asm/ia_party_balloon.o(.text);
         asm/ia_ship_swing.o(.text);
         asm/ia_platform_spiked.o(.text);
@@ -304,7 +303,7 @@ SECTIONS {
         src/data/credits.o(.rodata);
         data/data_sound_test.o(.rodata);
         data/data_0_6.o(.rodata);
-        src/game/interactables/SEGA_SONIC_letters.o(.rodata);
+        src/game/interactables/sega_sonic_letters.o(.rodata);
         data/data_0_7.o(.rodata);
         src/data/entities.o(.rodata);
         src/lib/m4a/m4a_tables.o(.rodata);

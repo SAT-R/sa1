@@ -202,7 +202,7 @@ extern void CreateEntity_Flipper(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 extern void CreateEntity_Platform_Square(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Flipper_Vertical(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_BarrelOfDoomMini(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_SEGA_SONIC_Letter(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_SegaSonicLetter(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_PartyBalloon(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_ShipSwing(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -320,7 +320,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 055 */ CreateEntity_Platform_Square,
     /* 056 */ CreateEntity_Flipper_Vertical,
     /* 057 */ CreateEntity_BarrelOfDoomMini,
-    /* 058 */ CreateEntity_SEGA_SONIC_Letter,
+    /* 058 */ CreateEntity_SegaSonicLetter,
     /* 059 */ CreateEntity_PartyBalloon,
     /* 060 */ CreateEntity_ShipSwing,
     /* 061 */ CreateEntity_Platform_Spiked,
