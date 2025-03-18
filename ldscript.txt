@@ -39,7 +39,7 @@ SECTIONS {
         asm/game__to_be_continued_screen.o(.text);
         src/game/sa1_sa2_shared/enemy_defeat_score.o(.text);
         src/game/sa1_sa2_shared/demo_manager.o(.text);
-        asm/game_0_3.o(.text);
+        asm/game__save.o(.text);
         src/game/sa1_sa2_shared/unused_flash_task.o(.text);
         asm/game__multiplayer__mp_player.o(.text);
         asm/game__multiplayer__indicators.o(.text);
@@ -264,7 +264,7 @@ SECTIONS {
         src/multi_sio.o(.rodata);
         src/sio32_multi_load.o(.rodata);
         src/data/tileset_debug_ascii.o(.rodata);
-        src/save.o(.rodata);
+        src/game/save.o(.rodata);
         data/chao_garden.o(.rodata);
         src/data/entity_tables.o(.rodata);
         src/game/sa1_sa2_shared/entities_manager.o(.rodata);

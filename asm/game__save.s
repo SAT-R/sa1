@@ -5,7 +5,8 @@
 .syntax unified
 .arm
 
-@ --- Start of src/game/save.c ? ---
+@ --- Start of src/game/save.c ?
+@ --- SA2 ver. is much bigger, so definitely not a copy-paste! ---
 
 @ TODO: Is the name correct?
 	thumb_func_start SaveGameExists
