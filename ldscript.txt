@@ -40,6 +40,7 @@ SECTIONS {
         src/game/sa1_sa2_shared/enemy_defeat_score.o(.text);
         src/game/sa1_sa2_shared/demo_manager.o(.text);
         asm/game_0_3.o(.text);
+        src/game/sa1_sa2_shared/unused_flash_task.o(.text);
         asm/game__multiplayer__mp_player.o(.text);
         asm/game__multiplayer__indicators.o(.text);
         asm/game_0_4.o(.text);
@@ -263,12 +264,15 @@ SECTIONS {
         src/multi_sio.o(.rodata);
         src/sio32_multi_load.o(.rodata);
         src/data/tileset_debug_ascii.o(.rodata);
+        src/save.o(.rodata);
         data/chao_garden.o(.rodata);
         src/data/entity_tables.o(.rodata);
         src/game/sa1_sa2_shared/entities_manager.o(.rodata);
         src/game/sa1_sa2_shared/item_box.o(.rodata);
         asm/title_screen.o(.rodata);
         src/game/sa1_sa2_shared/unused_level_select.o(.rodata);
+        data/data_0_1_1.o(.rodata);
+        src/game/sa1_sa2_shared/unused_flash_task.o(.rodata);
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
         data/data_0_1_3.o(.rodata);
