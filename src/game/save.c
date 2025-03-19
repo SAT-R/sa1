@@ -1,5 +1,6 @@
 #include "global.h"
 #include "flags.h"
+#include "malloc_ewram.h"
 #include "lib/agb_flash/agb_flash.h"
 #include "game/save.h"
 
@@ -39,7 +40,67 @@ struct SaveGame gLoadedSaveGame = {};
 #define SECTOR_SECURITY_NUM 0x47544E4C
 #endif
 
-extern s8 ALIGNED(4) gUnknown_0300508C;
+extern s8 ALIGNED(4) gUsedSaveSectorID;
+
+u32 CalculateChecksum(void *data);
+
+// (97.63%) https://decomp.me/scratch/Sq2Ec
+NONMATCH("asm/non_matching/game/save__WriteSaveGame.inc", u16 WriteSaveGame(void))
+{
+    s32 i;
+    s8 sectorID;
+    u16 result;
+
+    if (gFlags & FLAGS_NO_FLASH_MEMORY) {
+        return 0;
+    };
+
+    if (gUsedSaveSectorID != -1) {
+        u8 *sectorBuffer = EwramMalloc(sizeof(struct SaveSectorData));
+        bool32 sectorIsUpToDate;
+        // ReadFlash(u16 sectorNum, u32 offset, void *dest, u32 size)
+        ReadFlash(gUsedSaveSectorID, 0, sectorBuffer, sizeof(struct SaveSectorData));
+
+        sectorIsUpToDate = TRUE;
+        for (i = 0; i < sizeof(struct SaveSectorData); i++) {
+            u8 *dataBuffer = sectorBuffer + i;
+            u8 *dataIWRAM = (u8 *)LOADED_SAVE + i;
+
+            if (*dataBuffer != *dataIWRAM) {
+                sectorIsUpToDate = FALSE;
+                break;
+            }
+        }
+
+        EwramFree(sectorBuffer);
+
+        if (sectorIsUpToDate) {
+            return 0;
+        }
+    }
+    // _08012E1C
+
+    sectorID = gUsedSaveSectorID + 1;
+    if (sectorID == NUM_SAVE_SECTORS - 1) {
+        result = EraseFlashSector(0);
+    } else {
+        if (sectorID >= NUM_SAVE_SECTORS) {
+            sectorID = 0;
+        }
+
+        result = EraseFlashSector(sectorID + 1);
+    }
+
+    if (result == 0) {
+        LOADED_SAVE->security = SECTOR_SECURITY_NUM;
+        LOADED_SAVE->checksum = CalculateChecksum(LOADED_SAVE);
+        gUsedSaveSectorID = sectorID;
+
+        result = ProgramFlashSectorAndVerifyNBytes(gUsedSaveSectorID, LOADED_SAVE, sizeof(LOADED_SAVE->security));
+    }
+    return result;
+}
+END_NONMATCH
 
 // (100.0%) https://decomp.me/scratch/9fyQQ
 bool32 RegisterTimeRecord(TimeRecord newRecord)
@@ -93,7 +154,7 @@ s32 sub_8012F6C(void)
         }
     }
 
-    gUnknown_0300508C = 0;
+    gUsedSaveSectorID = 0;
 
     return 0;
 }

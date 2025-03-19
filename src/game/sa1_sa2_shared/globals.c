@@ -129,7 +129,7 @@ s8 ALIGNED(4) gNumSingleplayerCharacters = 0;
 u8 ALIGNED(4) gSpecialRingCount = 0;
 #endif
 
-s8 ALIGNED(4) gUnknown_0300508C = 0;
+s8 ALIGNED(4) gUsedSaveSectorID = 0;
 #if (GAME == GAME_SA2)
 u8 ALIGNED(4) gUnknown_030054F8 = 0;
 s32 ALIGNED(4) gUnknown_030054FC = 0;

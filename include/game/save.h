@@ -42,7 +42,7 @@ struct MultiplayerScore {
 #define NUM_TIME_RECORD_ROWS (NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE * NUM_CHARACTERS * TIME_RECORDS_PER_COURSE)
 
 typedef struct SaveGame {
-    /* 0x000 */ u8 filler0[0x4];
+    /* 0x000 */ u32 security; // Save Sector Magic Number
     /* 0x004 */ s32 unk4;
     /* 0x008 */ u16 unk8[4];
     /* 0x010 */ PlayerNameChar playerName[MAX_PLAYER_NAME_LENGTH];
@@ -58,7 +58,7 @@ typedef struct SaveGame {
     /* 0x420 */ u32 unk420;
     /* 0x424 */ u8 filler424[0x4];
     /* 0x428 */ u32 score;
-    /* 0x42C */ u8 filler42C[0x4];
+    /* 0x42C */ u32 checksum;
 } SaveGame; /* 0x430 */
 
 // NOTE: Not a pointer in SA1!
@@ -134,12 +134,13 @@ void RecordMultiplayerResult(u32 id, u16 *name, s16 result);
 void SaveInit(void);
 #if (GAME == GAME_SA1)
 bool32 SaveGameExists(void);
+u16 WriteSaveGame(void);
 #else
 bool16 SaveGameExists(void);
+bool32 WriteSaveGame(void);
 #endif
 s16 NewSaveGame(void);
 s16 LoadSaveGame(void);
 void LoadCompletedSaveGame(void);
-bool32 WriteSaveGame(void);
 
 #endif
