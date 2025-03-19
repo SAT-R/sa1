@@ -34,7 +34,6 @@ u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
 void sub_804A5D8() { }
 
 void sub_805B9E8() { }
-void WriteSaveGame() { }
 void DestroyPlayerTasks() { }
 
 // Player
@@ -82,9 +81,6 @@ void CreateEntity_HalfPipeEnd() { }
 void CreateEntity_Booster() { }
 void CreateEntity_Booster_SlightLeft() { }
 void CreateEntity_Booster_SlightRight() { }
-void CreateEntity_MiniLoop_StartBoost() { }
-void CreateEntity_MiniLoop_Exit() { }
-void CreateEntity_MiniLoop_Entrance() { }
 void CreateEntity_RedFlag() { }
 void CreateEntity_WallPole_Left() { }
 void CreateEntity_WallPole_Right() { }
@@ -202,8 +198,6 @@ void CreateOpponentPositionIndicator() { }
 void CreateMultiplayerChao() { }
 void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
-
-bool32 SaveGameExists() { return FALSE; }
 
 void Player_TransitionCancelFlyingAndBoost() { }
 

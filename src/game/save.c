@@ -168,8 +168,6 @@ bool32 RegisterTimeRecord(TimeRecord newRecord)
 
             i2 = i;
             while (++i2 < TIME_RECORDS_PER_COURSE) {
-                // LOADED_SAVE->timeRecords.table[gSelectedCharacter][gCurrentLevel][i] ^= record;
-
                 XOR_SWAP_WORD(LOADED_SAVE->timeRecords.table[gSelectedCharacter][gCurrentLevel][i2], tempRecord);
             }
 
