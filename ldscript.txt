@@ -184,6 +184,7 @@ SECTIONS {
         asm/ia_carousel.o(.text);
         asm/ia_hook_rail.o(.text);
         asm/ia_swinging_hook.o(.text);
+        src/game/interactables/security_gate.o(.text);
         asm/ia_security_gate.o(.text);
         asm/ia_swing_rope.o(.text);
         asm/ia_steam_exhaust.o(.text);
