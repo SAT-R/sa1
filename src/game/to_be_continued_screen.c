@@ -1,8 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "gba/defines.h"
 #include "trig.h"
 #include "flags.h"
-#include "gba/defines.h"
+#include "game/title_screen.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -11,7 +12,7 @@
 typedef struct {
     /* 0x00 */ Sprite s;
     /* 0x30 */ u16 unk30;
-    /* 0x32 */ u16 pal32[16][2];
+    /* 0x32 */ u16 positions[16][2];
     /* 0x74 */ struct Task *tasks74[2];
     /* 0x7C */ u16 unk7C;
     /* 0x7E */ u16 unk7E;
@@ -20,7 +21,7 @@ typedef struct {
 void Task_ToBeContinuedScreenFirst(void);
 void Task_80124C4(void);
 void Task_801252C(void);
-void TaskDestructor_8012720(struct Task *t);
+void TaskDestructor_ToBeContinuedScreen(struct Task *t);
 struct Task *sub_80125C0(struct Task *tbcTask, u8 param1);
 
 // (97.93%) https://decomp.me/scratch/gN7U4
@@ -32,7 +33,7 @@ NONMATCH("asm/non_matching/game/tbc_screen__CreateToBeContinuedScreen.inc", void
     Sprite *s;
 
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP;
-    t = TaskCreate(Task_ToBeContinuedScreenFirst, sizeof(ToBeContinuedScreen), 0x2000, 0, TaskDestructor_8012720);
+    t = TaskCreate(Task_ToBeContinuedScreenFirst, sizeof(ToBeContinuedScreen), 0x2000, 0, TaskDestructor_ToBeContinuedScreen);
     tbc = TASK_DATA(t);
     s = &tbc->s;
 
@@ -55,7 +56,7 @@ NONMATCH("asm/non_matching/game/tbc_screen__CreateToBeContinuedScreen.inc", void
         tbc->tasks74[i] = sub_80125C0(t, i + 1);
     }
 
-    DmaFill32(3, ((480 << 16) | (DISPLAY_HEIGHT / 2)), tbc->pal32, sizeof(tbc->pal32));
+    DmaFill32(3, ((480 << 16) | (DISPLAY_HEIGHT / 2)), tbc->positions, sizeof(tbc->positions));
 
     gBgPalette[0] = RGB_BLACK;
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
@@ -76,8 +77,8 @@ void Task_ToBeContinuedScreenFirst(void)
 
     s->x = ((COS_24_8(tbc->unk7C) * 15) >> 4) + (DISPLAY_WIDTH / 2);
 
-    tbc->pal32[tbc->unk30][0] = s->x;
-    tbc->pal32[tbc->unk30][1] = s->y;
+    tbc->positions[tbc->unk30][0] = s->x;
+    tbc->positions[tbc->unk30][1] = s->y;
     tbc->unk30 = (tbc->unk30 + 1) % 16u;
     DisplaySprite(s);
 
@@ -96,12 +97,32 @@ void Task_80124C4(void)
     ToBeContinuedScreen *tbc = TASK_DATA(gCurTask);
     Sprite *s = &tbc->s;
 
-    tbc->pal32[tbc->unk30][0] = s->x;
-    tbc->pal32[tbc->unk30][1] = s->y;
+    tbc->positions[tbc->unk30][0] = s->x;
+    tbc->positions[tbc->unk30][1] = s->y;
     tbc->unk30 = (tbc->unk30 + 1) % 16u;
     DisplaySprite(s);
 
-    if (++tbc->unk7E == 0x3D) {
+    if (++tbc->unk7E == GBA_FRAMES_PER_SECOND + 1) {
         gCurTask->main = Task_ToBeContinuedScreenFirst;
+    }
+}
+
+void Task_801252C(void)
+{
+    ToBeContinuedScreen *tbc = TASK_DATA(gCurTask);
+    Sprite *s = &tbc->s;
+
+    tbc->positions[tbc->unk30][0] = s->x;
+    tbc->positions[tbc->unk30][1] = s->y;
+    tbc->unk30 = (tbc->unk30 + 1) % 16u;
+
+    if (++tbc->unk7E == GBA_FRAMES_PER_SECOND + 1) {
+        TasksDestroyAll();
+
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        CreateSegaLogo();
     }
 }

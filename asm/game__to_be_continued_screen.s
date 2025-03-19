@@ -8,73 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Task_801252C
-Task_801252C: @ 0x0801252C
-	push {r4, lr}
-	ldr r0, _0801259C @ =gCurTask
-	ldr r0, [r0]
-	ldrh r3, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r2, r3, r2
-	ldrh r0, [r2, #0x30]
-	lsls r0, r0, #2
-	ldr r4, _080125A0 @ =0x03000032
-	adds r1, r3, r4
-	adds r1, r1, r0
-	ldrh r0, [r2, #0x16]
-	strh r0, [r1]
-	ldrh r0, [r2, #0x30]
-	lsls r0, r0, #2
-	adds r4, #2
-	adds r1, r3, r4
-	adds r1, r1, r0
-	ldrh r0, [r2, #0x18]
-	strh r0, [r1]
-	ldrh r0, [r2, #0x30]
-	adds r0, #1
-	movs r1, #0xf
-	ands r0, r1
-	strh r0, [r2, #0x30]
-	ldr r0, _080125A4 @ =0x0300007E
-	adds r3, r3, r0
-	ldrh r0, [r3]
-	adds r0, #1
-	strh r0, [r3]
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0x3d
-	bne _08012594
-	ldr r1, _080125A8 @ =0x0000FFFF
-	movs r0, #0
-	bl TasksDestroyInPriorityRange
-	ldr r1, _080125AC @ =gBackgroundsCopyQueueCursor
-	ldr r0, _080125B0 @ =gBackgroundsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r1, _080125B4 @ =sa2__gUnknown_03005390
-	movs r0, #0
-	strb r0, [r1]
-	ldr r1, _080125B8 @ =gVramGraphicsCopyCursor
-	ldr r0, _080125BC @ =gVramGraphicsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	bl CreateSegaLogo
-_08012594:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801259C: .4byte gCurTask
-_080125A0: .4byte 0x03000032
-_080125A4: .4byte 0x0300007E
-_080125A8: .4byte 0x0000FFFF
-_080125AC: .4byte gBackgroundsCopyQueueCursor
-_080125B0: .4byte gBackgroundsCopyQueueIndex
-_080125B4: .4byte sa2__gUnknown_03005390
-_080125B8: .4byte gVramGraphicsCopyCursor
-_080125BC: .4byte gVramGraphicsCopyQueueIndex
-
 	thumb_func_start sub_80125C0
 sub_80125C0: @ 0x080125C0
 	push {r4, r5, r6, lr}
@@ -241,8 +174,8 @@ _08012714: .4byte gCurTask
 _08012718: .4byte 0x03000032
 _0801271C: .4byte 0x03000034
 
-	thumb_func_start TaskDestructor_8012720
-TaskDestructor_8012720: @ 0x08012720
+	thumb_func_start TaskDestructor_ToBeContinuedScreen
+TaskDestructor_ToBeContinuedScreen: @ 0x08012720
     bx lr
     .align 2 , 0
 
