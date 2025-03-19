@@ -13,16 +13,24 @@ typedef struct {
     /* 0x00 */ Sprite s;
     /* 0x30 */ u16 unk30;
     /* 0x32 */ u16 positions[16][2];
+} ToBeContinuedScreenShrunk;
+
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ u16 unk30;
+    /* 0x32 */ u16 positions[16][2];
     /* 0x74 */ struct Task *tasks74[2];
     /* 0x7C */ u16 unk7C;
     /* 0x7E */ u16 unk7E;
 } ToBeContinuedScreen;
 
-void Task_ToBeContinuedScreenFirst(void);
+void Task_ToBeContinuedScreenInit(void);
 void Task_80124C4(void);
 void Task_801252C(void);
 void TaskDestructor_ToBeContinuedScreen(struct Task *t);
-struct Task *sub_80125C0(struct Task *tbcTask, u8 param1);
+void Task_ShrunkToBeContinuedScreenInit(void);
+void TaskDestructor_8012724(struct Task *t);
+struct Task *sub_80125C0(struct Task *tbcTask, u8 taskPriority);
 
 // (97.93%) https://decomp.me/scratch/gN7U4
 NONMATCH("asm/non_matching/game/tbc_screen__CreateToBeContinuedScreen.inc", void CreateToBeContinuedScreen(void))
@@ -33,7 +41,7 @@ NONMATCH("asm/non_matching/game/tbc_screen__CreateToBeContinuedScreen.inc", void
     Sprite *s;
 
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP;
-    t = TaskCreate(Task_ToBeContinuedScreenFirst, sizeof(ToBeContinuedScreen), 0x2000, 0, TaskDestructor_ToBeContinuedScreen);
+    t = TaskCreate(Task_ToBeContinuedScreenInit, sizeof(ToBeContinuedScreen), 0x2000, 0, TaskDestructor_ToBeContinuedScreen);
     tbc = TASK_DATA(t);
     s = &tbc->s;
 
@@ -63,7 +71,7 @@ NONMATCH("asm/non_matching/game/tbc_screen__CreateToBeContinuedScreen.inc", void
 }
 END_NONMATCH
 
-void Task_ToBeContinuedScreenFirst(void)
+void Task_ToBeContinuedScreenInit(void)
 {
     ToBeContinuedScreen *tbc;
     Sprite *s;
@@ -103,7 +111,7 @@ void Task_80124C4(void)
     DisplaySprite(s);
 
     if (++tbc->unk7E == GBA_FRAMES_PER_SECOND + 1) {
-        gCurTask->main = Task_ToBeContinuedScreenFirst;
+        gCurTask->main = Task_ToBeContinuedScreenInit;
     }
 }
 
@@ -126,3 +134,54 @@ void Task_801252C(void)
         CreateSegaLogo();
     }
 }
+
+struct Task *sub_80125C0(struct Task *tbcTask, u8 priority)
+{
+    struct Task *t;
+    ToBeContinuedScreenShrunk *shrunk;
+    ToBeContinuedScreen *tbc;
+    u8 i;
+    Sprite *s;
+
+    t = TaskCreate(Task_ShrunkToBeContinuedScreenInit, sizeof(ToBeContinuedScreenShrunk), 0x2000 | priority, 0, TaskDestructor_8012724);
+    t->parent = (TaskPtr)(uintptr_t)tbcTask;
+    shrunk = TASK_DATA(t);
+    s = &shrunk->s;
+
+    tbc = TASK_DATA(tbcTask);
+    shrunk->unk30 = (tbc->unk30 + 8) % 16u;
+
+    s->x = tbc->s.x;
+    s->y = tbc->s.y;
+
+    s->graphics.dest = tbc->s.graphics.dest + (56 * TILE_SIZE_4BPP);
+    s->oamFlags = SPRITE_OAM_ORDER(priority + 18);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_TO_BE_CONTINUED;
+    s->variant = priority;
+    SPRITE_INIT_SCRIPT(s, 1.0);
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+    UpdateSpriteAnimation(s);
+
+    DmaFill32(3, ((480 << 16) | (DISPLAY_HEIGHT / 2)), shrunk->positions, sizeof(shrunk->positions));
+
+    return t;
+}
+
+void Task_ShrunkToBeContinuedScreenInit(void)
+{
+    ToBeContinuedScreenShrunk *sub = TASK_DATA(gCurTask);
+    ToBeContinuedScreen *tbc = TASK_DATA(TASK_PARENT(gCurTask));
+
+    sub->s.x = tbc->positions[sub->unk30][0];
+    sub->s.y = tbc->positions[sub->unk30][1];
+
+    sub->positions[sub->unk30][0] = sub->s.x;
+    sub->positions[sub->unk30][1] = sub->s.y;
+    sub->unk30 = (tbc->unk30 + 8) % 16u;
+    DisplaySprite(&sub->s);
+}
+
+void TaskDestructor_ToBeContinuedScreen(struct Task *t) { }
+
+void TaskDestructor_8012724(struct Task *t) { }

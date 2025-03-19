@@ -9,7 +9,7 @@
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	ldr r0, _080123B0 @ =Task_ToBeContinuedScreenFirst
+	ldr r0, _080123B0 @ =Task_ToBeContinuedScreenInit
 	movs r2, #0x80
 	lsls r2, r2, #6
 	ldr r1, _080123B4 @ =TaskDestructor_ToBeContinuedScreen
@@ -102,7 +102,7 @@ _08012362:
 	bx r0
 	.align 2, 0
 _080123AC: .4byte gDispCnt
-_080123B0: .4byte Task_ToBeContinuedScreenFirst
+_080123B0: .4byte Task_ToBeContinuedScreenInit
 _080123B4: .4byte TaskDestructor_ToBeContinuedScreen
 _080123B8: .4byte 0x0300007C
 _080123BC: .4byte 0x06010000

@@ -11,8 +11,6 @@ void *iwram_end = 0;
 char gNumMusicPlayers = 4;
 int gMaxLines = 0;
 
-void CreateToBeContinuedScreen() { }
-
 u32 sub_80096B0() { return 0; }
 u32 sub_800ABEC() { return 0; }
 bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY) { return FALSE; }
