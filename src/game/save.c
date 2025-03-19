@@ -35,9 +35,48 @@ struct SaveGame gLoadedSaveGame = {};
 #define SECTOR_SECURITY_NUM 0x4F524950
 #elif (GAME == GAME_SA2)
 #define SECTOR_SECURITY_NUM 0x4547474D
+#elif (GAME == GAME_SA3)
+#define SECTOR_SECURITY_NUM 0x47544E4C
 #endif
 
 extern s8 ALIGNED(4) gUnknown_0300508C;
+
+// (100.0%) https://decomp.me/scratch/9fyQQ
+bool32 RegisterTimeRecord(TimeRecord newRecord)
+{
+    bool32 isFirstPlace = FALSE;
+
+    u32 i, i2;
+
+    for (i = 0; i < TIME_RECORDS_PER_COURSE; i++) {
+#ifndef NON_MATCHING
+        register TimeRecord record asm("r1");
+#else
+        TimeRecord record;
+#endif
+        TimeRecord tempRecord;
+        record = LOADED_SAVE->timeRecords.table[gSelectedCharacter][gCurrentLevel][i];
+
+        if (newRecord < record) {
+            tempRecord = record;
+            LOADED_SAVE->timeRecords.table[gSelectedCharacter][gCurrentLevel][i] = newRecord;
+
+            i2 = i;
+            while (++i2 < TIME_RECORDS_PER_COURSE) {
+                // LOADED_SAVE->timeRecords.table[gSelectedCharacter][gCurrentLevel][i] ^= record;
+
+                XOR_SWAP_WORD(LOADED_SAVE->timeRecords.table[gSelectedCharacter][gCurrentLevel][i2], tempRecord);
+            }
+
+            if (i == 0) {
+                isFirstPlace = TRUE;
+            }
+            break;
+        }
+    }
+
+    return isFirstPlace;
+}
 
 s32 sub_8012F6C(void)
 {

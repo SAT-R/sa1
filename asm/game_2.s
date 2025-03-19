@@ -34580,7 +34580,7 @@ sub_8069C94: @ 0x08069C94
 	ldr r0, _08069D00 @ =0x030000A8
 	adds r6, r5, r0
 	ldr r0, [sp, #4]
-	bl sub_8012EA4
+	bl RegisterTimeRecord
 	adds r4, r0, #0
 	ldr r1, _08069D04 @ =0x030000C4
 	adds r0, r5, r1
