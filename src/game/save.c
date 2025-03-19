@@ -44,6 +44,51 @@ extern s8 ALIGNED(4) gUsedSaveSectorID;
 
 u32 CalculateChecksum(void *data);
 
+bool32 SaveGameExists(void)
+{
+    s8 sectorID = 0;
+    bool32 res;
+    gUsedSaveSectorID = -1;
+
+    if (gFlags & FLAGS_NO_FLASH_MEMORY) {
+        return 0;
+    };
+
+    { // TODO: Can you integrate this block while still matching?
+        ReadFlash(sectorID, 0, LOADED_SAVE, sizeof(struct SaveSectorData));
+
+        if (LOADED_SAVE->security == SECTOR_SECURITY_NUM) {
+            if (LOADED_SAVE->checksum == CalculateChecksum(LOADED_SAVE)) {
+                gUsedSaveSectorID = sectorID;
+            }
+        } else {
+            sectorID = 1;
+        }
+    }
+
+    for (; sectorID < NUM_SAVE_SECTORS; sectorID++) {
+        ReadFlash(sectorID, 0, LOADED_SAVE, sizeof(struct SaveSectorData));
+
+        if (LOADED_SAVE->security == SECTOR_SECURITY_NUM) {
+            if (LOADED_SAVE->checksum == CalculateChecksum(LOADED_SAVE)) {
+                gUsedSaveSectorID = sectorID;
+            }
+        } else {
+            break;
+        }
+    }
+
+    if ((u8)gUsedSaveSectorID == 0xFF) {
+        gUsedSaveSectorID = -1;
+        res = FALSE;
+    } else {
+        ReadFlash(gUsedSaveSectorID, 0, LOADED_SAVE, sizeof(struct SaveSectorData));
+        res = TRUE;
+    }
+
+    return res;
+}
+
 // (97.63%) https://decomp.me/scratch/Sq2Ec
 NONMATCH("asm/non_matching/game/save__WriteSaveGame.inc", u16 WriteSaveGame(void))
 {
@@ -58,7 +103,6 @@ NONMATCH("asm/non_matching/game/save__WriteSaveGame.inc", u16 WriteSaveGame(void
     if (gUsedSaveSectorID != -1) {
         u8 *sectorBuffer = EwramMalloc(sizeof(struct SaveSectorData));
         bool32 sectorIsUpToDate;
-        // ReadFlash(u16 sectorNum, u32 offset, void *dest, u32 size)
         ReadFlash(gUsedSaveSectorID, 0, sectorBuffer, sizeof(struct SaveSectorData));
 
         sectorIsUpToDate = TRUE;

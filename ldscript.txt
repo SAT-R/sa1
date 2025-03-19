@@ -39,7 +39,6 @@ SECTIONS {
         asm/game__to_be_continued_screen.o(.text);
         src/game/sa1_sa2_shared/enemy_defeat_score.o(.text);
         src/game/sa1_sa2_shared/demo_manager.o(.text);
-        asm/game__save.o(.text);
         src/game/save.o(.text);
         src/game/sa1_sa2_shared/unused_flash_task.o(.text);
         asm/game__multiplayer__mp_player.o(.text);
