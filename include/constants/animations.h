@@ -204,8 +204,9 @@
 #define SA1_ANIM_RING_COLLECT_EFFECT  708
 #define SA1_ANIM_SCORE                709
 
-#define SA1_ANIM_GAME_OVER 715
-
+#define SA1_ANIM_GAME_OVER                  715
+#define SA1_ANIM_NEO_GREEN_HILL_ZONE_OLD    716
+#define SA1_ANIM_TO_BE_CONTINUED            717
 #define SA1_ANIM_PAUSE                      718
 #define SA1_ANIM_WARNING                    719
 #define SA1_ANIM_PAUSE_BACKGROUND           720

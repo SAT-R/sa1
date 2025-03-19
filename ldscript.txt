@@ -36,6 +36,7 @@ SECTIONS {
         asm/game_0_1.o(.text);
         src/game/sa1_sa2_shared/spot_light_beam_task.o(.text);
        /* asm/game__spot_light_subtask.o(.text); */
+        src/game/to_be_continued_screen.o(.text);
         asm/game__to_be_continued_screen.o(.text);
         src/game/sa1_sa2_shared/enemy_defeat_score.o(.text);
         src/game/sa1_sa2_shared/demo_manager.o(.text);
