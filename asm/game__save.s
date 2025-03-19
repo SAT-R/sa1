@@ -45,7 +45,7 @@ _08012CD0:
 	ldr r2, _08012D08 @ =0x0000042C
 	adds r4, r5, r2
 	adds r0, r5, #0
-	bl sub_8012FC4
+	bl CalculateChecksum
 	ldr r1, [r4]
 	cmp r1, r0
 	bne _08012D0E
@@ -80,7 +80,7 @@ _08012D1C:
 	cmp r1, r0
 	bne _08012D54
 	adds r0, r5, #0
-	bl sub_8012FC4
+	bl CalculateChecksum
 	ldr r1, [r7]
 	cmp r1, r0
 	bne _08012D46
@@ -232,7 +232,7 @@ _08012E52:
 	ldr r0, _08012E98 @ =0x4F524950
 	str r0, [r4]
 	adds r0, r4, #0
-	bl sub_8012FC4
+	bl CalculateChecksum
 	ldr r2, _08012E9C @ =0x0000042C
 	adds r1, r4, r2
 	str r0, [r1]
@@ -364,72 +364,3 @@ _08012F5A:
 	pop {r1}
 	bx r1
 	.align 2, 0
-
-	thumb_func_start sub_8012F6C
-sub_8012F6C: @ 0x08012F6C
-	push {r4, r5, lr}
-	ldr r0, _08012F80 @ =gFlags
-	ldr r0, [r0]
-	movs r1, #0x80
-	lsls r1, r1, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08012F88
-	b _08012FB2
-	.align 2, 0
-_08012F80: .4byte gFlags
-_08012F84:
-	adds r0, r1, #0
-	b _08012FB4
-_08012F88:
-	movs r2, #0
-	ldr r5, _08012FBC @ =EraseFlashSector
-_08012F8C:
-	lsls r0, r2, #0x18
-	asrs r4, r0, #0x18
-	lsls r0, r4, #0x10
-	lsrs r0, r0, #0x10
-	ldr r1, [r5]
-	bl _call_via_r1
-	lsls r0, r0, #0x10
-	lsrs r1, r0, #0x10
-	cmp r1, #0
-	bne _08012F84
-	adds r0, r4, #1
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #9
-	ble _08012F8C
-	ldr r0, _08012FC0 @ =gUnknown_0300508C
-	strb r1, [r0]
-_08012FB2:
-	movs r0, #0
-_08012FB4:
-	pop {r4, r5}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08012FBC: .4byte EraseFlashSector
-_08012FC0: .4byte gUnknown_0300508C
-
-	thumb_func_start sub_8012FC4
-sub_8012FC4: @ 0x08012FC4
-	push {r4, lr}
-	adds r3, r0, #0
-	movs r2, #0
-	movs r1, #0
-	ldr r4, _08012FE4 @ =0x0000042B
-_08012FCE:
-	adds r0, r3, r1
-	ldr r0, [r0]
-	adds r2, r2, r0
-	adds r1, #4
-	cmp r1, r4
-	bls _08012FCE
-	adds r0, r2, #0
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08012FE4: .4byte 0x0000042B
