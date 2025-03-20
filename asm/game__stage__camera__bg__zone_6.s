@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
 	thumb_func_start StageBgUpdate_Zone6Act1
 StageBgUpdate_Zone6Act1: @ 0x0803EE84
 	push {r4, r5, r6, r7, lr}

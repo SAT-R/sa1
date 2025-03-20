@@ -22,23 +22,21 @@
 #define BG_LINE_WALL_B_START  192
 #define BG_LINE_WALL_B_END    232
 
-#if 0
-// (99.65%) https://decomp.me/scratch/aEOnQ
 void StageBgUpdate_Zone6Act1(s32 x, s32 y)
 {
     Camera *cam = &gCamera;
 
     x -= cam->SA2_LABEL(unk20);
 
-    if(cam->SA2_LABEL(unk50) & 0x2000) {
+    if (cam->SA2_LABEL(unk50) & 0x2000) {
         return;
     }
 
-    if(gBossIndex == 0) {
+    if (gBossIndex == 0) {
         // Initially set BG3 to use the full 256x512 tilemap
         // and set its Y-position to the launch tower in the Sunset.
         gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
-        gBgCntRegs[3] |= BGCNT_TXT256x512; 
+        gBgCntRegs[3] |= BGCNT_TXT256x512;
         gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
         gBgCntRegs[3] |= BGCNT_SCREENBASE(28);
 
@@ -48,46 +46,46 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
         gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54);
         return;
     } else if (gBossIndex < 3) {
-        if(!(cam->SA2_LABEL(unk50) & 0x8000)) {
+        if (!(cam->SA2_LABEL(unk50) & 0x8000)) {
             gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
-            gBgCntRegs[3] |= BGCNT_TXT256x512; 
+            gBgCntRegs[3] |= BGCNT_TXT256x512;
             gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
             gBgCntRegs[3] |= BGCNT_SCREENBASE(28);
-        
+
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = Div(x * 16, 816);
 
-            if(((-(gStageTime * 2)) & 0x1FF) == gBgScrollRegs[3][1]) {
+            if (((-(gStageTime * 2)) & 0x1FF) == gBgScrollRegs[3][1]) {
                 cam->SA2_LABEL(unk50) |= 0x8000;
             }
         } else {
             // _0803EF80
-            
-            if(((-(gStageTime * 2)) & 0x1FF) == 0) {
+
+            if (((-(gStageTime * 2)) & 0x1FF) == 0) {
                 gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
                 gBgCntRegs[3] |= BGCNT_TXT256x256;
             }
-            
+
             gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
             gBgCntRegs[3] |= BGCNT_SCREENBASE(28);
 
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
 
-            if((gBgCntRegs[3] & BGCNT_TXTAFF_MASK) == BGCNT_TXT256x256) {
+            if ((gBgCntRegs[3] & BGCNT_TXTAFF_MASK) == BGCNT_TXT256x256) {
                 gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-(gStageTime * 2)) & 0xFF;
             } else {
                 gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-(gStageTime * 2)) & 0x1FF;
             }
         }
-    } else if(gBossIndex == 3) {
-        if((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(28)) {
+    } else if (gBossIndex == 3) {
+        if ((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(28)) {
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
             gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-(gStageTime * 2)) & 0xFF;
 
-            if(((-(gStageTime * 2)) & 0x1FF) == 256) {
-                if((cam->SA2_LABEL(unk50) & 0x4000)) {
+            if (((-(gStageTime * 2)) & 0x1FF) == 256) {
+                if ((cam->SA2_LABEL(unk50) & 0x4000)) {
                     // _0803F04E
                     gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = BG_LINE_OUTSIDE_START;
-                    
+
                     gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
                     gBgCntRegs[3] |= BGCNT_TXT256x512;
 
@@ -95,42 +93,45 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
                     gBgCntRegs[3] |= BGCNT_SCREENBASE(27);
                 }
             }
-        } else if((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(27)) {
+        } else if ((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(27)) {
             // _0803F090 + 0x8
+            u16 mask;
+
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
             gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-(gStageTime * 2)) & 0x1FF;
 
-            if(((-(gStageTime * 2)) & 0x1FF) == 0) {
+            mask = 0x1FF;
+            if (((-(gStageTime * 2)) & mask) == 0) {
                 // _0803F0C0
-                gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = -((gStageTime * 2 + 256)) & 0xFF;
-                
+                gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = -((gStageTime * 2 + 256)) & mask;
+
                 gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
                 gBgCntRegs[3] |= BGCNT_TXT256x512;
-                
+
                 gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
                 gBgCntRegs[3] |= BGCNT_SCREENBASE(26);
             }
-        } else if((gBgCntRegs[3] & BGCNT_TXTAFF_MASK) == BGCNT_TXT256x512) {
+        } else if ((gBgCntRegs[3] & BGCNT_TXTAFF_MASK) == BGCNT_TXT256x512) {
             // _0803F114
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
-            gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-((gStageTime * 2) + 256) ) & 0x1FF;
+            gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-((gStageTime * 2) + 256)) & 0x1FF;
 
-            if(gBgScrollRegs[3][1] < DISPLAY_HEIGHT) {
+            if (gBgScrollRegs[3][1] < DISPLAY_HEIGHT) {
                 gDispCnt |= DISPCNT_BG0_ON;
-                
-                gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
-                gBgCntRegs[3] |= BGCNT_TXT256x256;
 
-                gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-                gBgCntRegs[3] |= BGCNT_SCREENBASE(26);
-                
+                gBgCntRegs[0] = gBgCntRegs[3] & ~BGCNT_TXTAFF_MASK;
+                gBgCntRegs[0] |= BGCNT_TXT256x256;
+
+                gBgCntRegs[0] &= ~BGCNT_SCREENBASE_MASK;
+                gBgCntRegs[0] |= BGCNT_SCREENBASE(26);
+
                 gBgScrollRegs[0][0] = cam->SA2_LABEL(unk52) = 0;
                 gBgScrollRegs[0][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 3) & 0xFF;
 
                 gBldRegs.bldCnt = BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_BG0;
                 gBldRegs.bldY = 0;
 
-                if(IS_SINGLE_PLAYER) {
+                if (IS_SINGLE_PLAYER) {
                     gHBlankCallbacks[gNumHBlankCallbacks++] = HBlankCallback_803FA1C;
                     gFlags |= FLAGS_EXECUTE_HBLANK_CALLBACKS;
                 } else {
@@ -142,23 +143,23 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
             }
             // _0803F1EA
 
-            if(gBgScrollRegs[3][1] == 0) {
+            if (gBgScrollRegs[3][1] == 0) {
                 // _0803F1F6
                 gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-(gStageTime * 2)) & 0xFF;
-                
+
                 gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
                 gBgCntRegs[3] |= BGCNT_TXT256x256;
-                
+
                 gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
                 gBgCntRegs[3] |= BGCNT_SCREENBASE(26);
-                
+
                 gBgScrollRegs[0][0] = cam->SA2_LABEL(unk52) = 0;
                 gBgScrollRegs[0][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 1) & 0xFF;
-                
+
                 gBldRegs.bldCnt = BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_BG0;
                 gBldRegs.bldY = 0;
-                
-                if(IS_SINGLE_PLAYER) {
+
+                if (IS_SINGLE_PLAYER) {
                     gHBlankCallbacks[gNumHBlankCallbacks++] = HBlankCallback_803FA1C;
                     gFlags |= FLAGS_EXECUTE_HBLANK_CALLBACKS;
                 } else {
@@ -175,7 +176,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
 
             gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
             gBgCntRegs[3] |= BGCNT_SCREENBASE(26);
-                
+
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
             gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 6) & 0xFF;
 
@@ -184,14 +185,14 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
 
             gBgCntRegs[0] &= ~BGCNT_SCREENBASE_MASK;
             gBgCntRegs[0] |= BGCNT_SCREENBASE(26);
-                
+
             gBgScrollRegs[0][0] = cam->SA2_LABEL(unk52) = 0x74;
             gBgScrollRegs[0][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 3) & 0xFF;
-            
+
             gBldRegs.bldCnt = BLDCNT_EFFECT_LIGHTEN | BLDCNT_TGT1_BG0;
             gBldRegs.bldY = 0;
-                
-            if(IS_SINGLE_PLAYER) {
+
+            if (IS_SINGLE_PLAYER) {
                 gHBlankCallbacks[gNumHBlankCallbacks++] = HBlankCallback_803FA1C;
                 gFlags |= FLAGS_EXECUTE_HBLANK_CALLBACKS;
             } else {
@@ -201,11 +202,11 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
                 gBgScrollRegs[0][1] = DISPLAY_HEIGHT;
             }
 
-            if(!(cam->SA2_LABEL(unk50) & 0x8000)) {
-                SA2_LABEL(sub_80078D4)(0,   0, 100, (u16)gBgScrollRegs[0][0], (u16)gBgScrollRegs[0][1]);
+            if (!(cam->SA2_LABEL(unk50) & 0x8000)) {
+                SA2_LABEL(sub_80078D4)(0, 0, 100, (u16)gBgScrollRegs[0][0], (u16)gBgScrollRegs[0][1]);
                 SA2_LABEL(sub_80078D4)(0, 100, 104, 0, DISPLAY_HEIGHT);
 
-                if((128 - ((gStageTime >> 5) & 0x7F)) > 56) {
+                if ((128 - ((gStageTime >> 5) & 0x7F)) > 56) {
                     SA2_LABEL(sub_80078D4)(0, 104, 160, 0, ((gStageTime >> 5) & 0x7F) + 160);
                 } else {
                     int_vcount v = 232 - ((gStageTime >> 5) & 0x7F);
@@ -219,7 +220,6 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
         }
     }
 }
-#endif
 
 void StageBgUpdate_Zone6Act2(s32 x, s32 y)
 {
