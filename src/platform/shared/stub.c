@@ -19,9 +19,6 @@ void sa2__sub_8019F08() { }
 void sub_801C704() { }
 void sa2__sub_8023B5C() { }
 
-// Stage BG Updates
-void StageBgUpdate_Zone6Act1() { }
-
 void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p);
 void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { SetStageSpawnPos(character, level, playerID, p); }
 

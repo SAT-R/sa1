@@ -38,19 +38,18 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
         gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
         gBgCntRegs[3] |= BGCNT_TXT256x512;
         gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-        gBgCntRegs[3] |= BGCNT_SCREENBASE(28);
+        gBgCntRegs[3] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C + 2);
 
         gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = Div(x * 16, 816);
 
         cam->SA2_LABEL(unk54) = BG_LINE_OUTSIDE_START;
         gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54);
-        return;
     } else if (gBossIndex < 3) {
         if (!(cam->SA2_LABEL(unk50) & 0x8000)) {
             gBgCntRegs[3] &= ~BGCNT_TXTAFF_MASK;
             gBgCntRegs[3] |= BGCNT_TXT256x512;
             gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-            gBgCntRegs[3] |= BGCNT_SCREENBASE(28);
+            gBgCntRegs[3] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C + 2);
 
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = Div(x * 16, 816);
 
@@ -66,7 +65,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
             }
 
             gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-            gBgCntRegs[3] |= BGCNT_SCREENBASE(28);
+            gBgCntRegs[3] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C + 2);
 
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
 
@@ -77,7 +76,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
             }
         }
     } else if (gBossIndex == 3) {
-        if ((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(28)) {
+        if ((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C + 2)) {
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
             gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (-(gStageTime * 2)) & 0xFF;
 
@@ -90,10 +89,10 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
                     gBgCntRegs[3] |= BGCNT_TXT256x512;
 
                     gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-                    gBgCntRegs[3] |= BGCNT_SCREENBASE(27);
+                    gBgCntRegs[3] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C + 1);
                 }
             }
-        } else if ((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(27)) {
+        } else if ((gBgCntRegs[3] & BGCNT_SCREENBASE_MASK) == BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C + 1)) {
             // _0803F090 + 0x8
             u16 mask;
 
@@ -109,7 +108,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
                 gBgCntRegs[3] |= BGCNT_TXT256x512;
 
                 gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-                gBgCntRegs[3] |= BGCNT_SCREENBASE(26);
+                gBgCntRegs[3] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C);
             }
         } else if ((gBgCntRegs[3] & BGCNT_TXTAFF_MASK) == BGCNT_TXT256x512) {
             // _0803F114
@@ -123,7 +122,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
                 gBgCntRegs[0] |= BGCNT_TXT256x256;
 
                 gBgCntRegs[0] &= ~BGCNT_SCREENBASE_MASK;
-                gBgCntRegs[0] |= BGCNT_SCREENBASE(26);
+                gBgCntRegs[0] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C);
 
                 gBgScrollRegs[0][0] = cam->SA2_LABEL(unk52) = 0;
                 gBgScrollRegs[0][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 3) & 0xFF;
@@ -151,7 +150,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
                 gBgCntRegs[3] |= BGCNT_TXT256x256;
 
                 gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-                gBgCntRegs[3] |= BGCNT_SCREENBASE(26);
+                gBgCntRegs[3] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C);
 
                 gBgScrollRegs[0][0] = cam->SA2_LABEL(unk52) = 0;
                 gBgScrollRegs[0][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 1) & 0xFF;
@@ -175,7 +174,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
             gBgCntRegs[3] |= BGCNT_TXT256x256;
 
             gBgCntRegs[3] &= ~BGCNT_SCREENBASE_MASK;
-            gBgCntRegs[3] |= BGCNT_SCREENBASE(26);
+            gBgCntRegs[3] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C);
 
             gBgScrollRegs[3][0] = cam->SA2_LABEL(unk52) = 0;
             gBgScrollRegs[3][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 6) & 0xFF;
@@ -184,7 +183,7 @@ void StageBgUpdate_Zone6Act1(s32 x, s32 y)
             gBgCntRegs[0] |= BGCNT_TXT256x256;
 
             gBgCntRegs[0] &= ~BGCNT_SCREENBASE_MASK;
-            gBgCntRegs[0] |= BGCNT_SCREENBASE(26);
+            gBgCntRegs[0] |= BGCNT_SCREENBASE(CAM_SCREENBASE_BACK_C);
 
             gBgScrollRegs[0][0] = cam->SA2_LABEL(unk52) = 0x74;
             gBgScrollRegs[0][1] = cam->SA2_LABEL(unk54) = (gStageTime >> 3) & 0xFF;
