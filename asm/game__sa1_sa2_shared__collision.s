@@ -1157,6 +1157,8 @@ _0800AFCC:
 	pop {r1}
 	bx r1
 
+@ Checks for collision on the right?
+@ Used by Security Gate and Breakable Wall.
 	thumb_func_start sub_800AFDC
 sub_800AFDC: @ 0x0800AFDC
 	push {r4, r5, r6, r7, lr}
