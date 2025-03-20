@@ -573,6 +573,7 @@ extern unsigned char REG_BASE[IO_SIZE];
 #define BGCNT_AFF256x256        0x4000
 #define BGCNT_AFF512x512        0x8000
 #define BGCNT_AFF1024x1024      0xC000
+#define BGCNT_TXTAFF_MASK       0xC000
 
 // WININ/OUT
 #define WININ_WIN0_BG0      (1 << 0)

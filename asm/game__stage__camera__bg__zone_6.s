@@ -20,7 +20,7 @@ StageBgUpdate_Zone6Act1: @ 0x0803EE84
 	movs r1, #0x10
 	ldrsh r0, [r0, r1]
 	subs r3, r3, r0
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = gCamera
 	ldrh r4, [r2, #0x26]
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -29,7 +29,7 @@ StageBgUpdate_Zone6Act1: @ 0x0803EE84
 	lsrs r7, r0, #0x10
 	cmp r7, #0
 	beq _0803EEB0
-	b _0803F3F0
+	b _0803F3F0_return
 _0803EEB0:
 	ldr r0, _0803EEF8 @ =gBossIndex
 	ldrb r0, [r0]
@@ -55,14 +55,14 @@ _0803EEB0:
 	lsls r1, r1, #2
 	bl Div
 	ldr r1, _0803EF08 @ =gBgScrollRegs
-	mov r6, r8
+	mov r6, r8          @ r6 = r8 = gCamera
 	strh r0, [r6, #0x28]
 	strh r0, [r1, #0xc]
 	movs r0, #0x80
 	lsls r0, r0, #1
 	strh r0, [r6, #0x2a]
 	strh r0, [r1, #0xe]
-	b _0803F3F0
+	b _0803F3F0_return
 	.align 2, 0
 _0803EEF4: .4byte gCamera
 _0803EEF8: .4byte gBossIndex
@@ -97,7 +97,7 @@ _0803EF0C:
 	lsls r1, r1, #2
 	bl Div
 	ldr r2, _0803EF74 @ =gBgScrollRegs
-	mov r6, r8
+	mov r6, r8          @ r6 = r8 = gCamera
 	strh r0, [r6, #0x28]
 	strh r0, [r2, #0xc]
 	ldr r0, _0803EF78 @ =gStageTime
@@ -110,13 +110,13 @@ _0803EF0C:
 	ldrsh r1, [r2, r3]
 	cmp r0, r1
 	beq _0803EF5E
-	b _0803F3F0
+	b _0803F3F0_return
 _0803EF5E:
 	ldrh r1, [r6, #0x26]
 	adds r0, r5, #0
 	orrs r0, r1
 	strh r0, [r6, #0x26]
-	b _0803F3F0
+	b _0803F3F0_return
 	.align 2, 0
 _0803EF68: .4byte gBgCntRegs
 _0803EF6C: .4byte 0x00003FFF
@@ -140,7 +140,7 @@ _0803EF80:
 	ands r0, r1
 	strh r0, [r5, #6]
 _0803EF9C:
-	mov r6, ip
+	mov r6, ip      @ r6 = ip = gBgCntRegs
 	ldrh r1, [r6, #6]
 	ldr r0, _0803EFE4 @ =0x0000E0FF
 	ands r0, r1
@@ -150,8 +150,8 @@ _0803EF9C:
 	orrs r0, r1
 	strh r0, [r6, #6]
 	ldr r2, _0803EFE8 @ =gBgScrollRegs
-	mov r5, r8
-	strh r7, [r5, #0x28]
+	mov r5, r8          @ r5 = r8 = gCamera
+	strh r7, [r5, #0x28]    @ r7 = 0
 	strh r7, [r2, #0xc]
 	ldrh r1, [r6, #6]
 	movs r0, #0xc0
@@ -166,7 +166,7 @@ _0803EF9C:
 	ands r0, r1
 	strh r0, [r5, #0x2a]
 	strh r0, [r2, #0xe]
-	b _0803F3F0
+	b _0803F3F0_return
 	.align 2, 0
 _0803EFD4: .4byte gStageTime
 _0803EFD8: .4byte 0x000001FF
@@ -179,15 +179,15 @@ _0803EFEC:
 	lsls r0, r0, #1
 	rsbs r0, r0, #0
 	ands r0, r4
-	mov r6, r8
+	mov r6, r8          @ r6 = r8 = gCamera
 	strh r0, [r6, #0x2a]
 	strh r0, [r2, #0xe]
-	b _0803F3F0
+	b _0803F3F0_return
 _0803EFFC:
 	cmp r0, #3
-	beq _0803F002
-	b _0803F3F0
-_0803F002:
+	beq _0803F002_chkpt_3
+	b _0803F3F0_return
+_0803F002_chkpt_3:
 	ldr r0, _0803F078 @ =gBgCntRegs
 	mov sb, r0
 	ldrh r5, [r0, #6]
@@ -200,8 +200,8 @@ _0803F002:
 	cmp r1, r0
 	bne _0803F090
 	ldr r3, _0803F07C @ =gBgScrollRegs
-	mov r1, r8
-	strh r7, [r1, #0x28]
+	mov r1, r8          @ r1 = r8 = gCamera
+	strh r7, [r1, #0x28]    @ r7 = 0
 	strh r7, [r3, #0xc]
 	ldr r0, _0803F080 @ =gStageTime
 	ldr r1, [r0]
@@ -210,7 +210,7 @@ _0803F002:
 	movs r2, #0xff
 	adds r0, r1, #0
 	ands r0, r2
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = gCamera
 	strh r0, [r2, #0x2a]
 	strh r0, [r3, #0xe]
 	ldr r2, _0803F084 @ =0x000001FF
@@ -219,16 +219,16 @@ _0803F002:
 	lsls r0, r0, #1
 	cmp r2, r0
 	beq _0803F042
-	b _0803F3F0
+	b _0803F3F0_return
 _0803F042:
 	movs r0, #0x80
 	lsls r0, r0, #7
 	ands r0, r4
 	cmp r0, #0
 	bne _0803F04E
-	b _0803F3F0
+	b _0803F3F0_return
 _0803F04E:
-	mov r4, r8
+	mov r4, r8          @ r4 = r8 = gCamera
 	strh r2, [r4, #0x2a]
 	strh r2, [r3, #0xe]
 	ldr r0, _0803F088 @ =0x00003FFF
@@ -247,7 +247,7 @@ _0803F04E:
 	orrs r0, r1
 	mov r1, sb
 	strh r0, [r1, #6]
-	b _0803F3F0
+	b _0803F3F0_return
 	.align 2, 0
 _0803F078: .4byte gBgCntRegs
 _0803F07C: .4byte gBgScrollRegs
@@ -261,8 +261,8 @@ _0803F090:
 	cmp r1, r0
 	bne _0803F104
 	ldr r4, _0803F0F0 @ =gBgScrollRegs
-	mov r2, r8
-	strh r7, [r2, #0x28]
+	mov r2, r8          @ r2 = r8 = gCamera
+	strh r7, [r2, #0x28]    @ r7 = 0
 	strh r7, [r4, #0xc]
 	ldr r0, _0803F0F4 @ =gStageTime
 	ldr r0, [r0]
@@ -272,20 +272,20 @@ _0803F090:
 	adds r2, r6, #0
 	adds r0, r1, #0
 	ands r0, r2
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = gCamera
 	strh r0, [r2, #0x2a]
 	strh r0, [r4, #0xe]
 	adds r2, r6, #0
 	ands r1, r2
 	cmp r1, #0
 	beq _0803F0C0
-	b _0803F3F0
+	b _0803F3F0_return
 _0803F0C0:
 	subs r6, #0xff
 	adds r0, r3, r6
 	rsbs r0, r0, #0
 	ands r0, r2
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = gCamera
 	strh r0, [r1, #0x2a]
 	strh r0, [r4, #0xe]
 	ldr r0, _0803F0FC @ =0x00003FFF
@@ -304,7 +304,7 @@ _0803F0C0:
 	orrs r0, r1
 	mov r4, sb
 	strh r0, [r4, #6]
-	b _0803F3F0
+	b _0803F3F0_return
 	.align 2, 0
 _0803F0F0: .4byte gBgScrollRegs
 _0803F0F4: .4byte gStageTime
@@ -322,8 +322,8 @@ _0803F104:
 	b _0803F2A2
 _0803F114:
 	ldr r2, _0803F1A4 @ =gBgScrollRegs
-	mov r0, r8
-	strh r7, [r0, #0x28]
+	mov r0, r8          @ r0 = r8 = gCamera
+	strh r7, [r0, #0x28]    @ r7 = 0
 	strh r7, [r2, #0xc]
 	ldr r3, _0803F1A8 @ =gStageTime
 	ldr r4, [r3]
@@ -335,10 +335,10 @@ _0803F114:
 	ldr r6, _0803F1AC @ =0x000001FF
 	adds r1, r6, #0
 	ands r0, r1
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = gCamera
 	strh r0, [r1, #0x2a]
 	strh r0, [r2, #0xe]
-	mov sl, r2
+	mov sl, r2          @ sl = r2 = gBgScrollRegs
 	cmp r0, #0x9f
 	bgt _0803F1EA
 	ldr r1, _0803F1B0 @ =gDispCnt
@@ -358,15 +358,15 @@ _0803F114:
 	orrs r0, r1
 	mov r5, sb
 	strh r0, [r5]
-	mov r6, r8
-	strh r7, [r6, #0x28]
+	mov r6, r8          @ r6 = r8 = gCamera
+	strh r7, [r6, #0x28]    @ r7 = 0
 	mov r0, sl
 	strh r7, [r0]
 	lsrs r0, r4, #3
 	movs r1, #0xff
 	ands r0, r1
 	strh r0, [r6, #0x2a]
-	mov r1, sl
+	mov r1, sl          @ r1 = sl = gBgScrollRegs
 	strh r0, [r1, #2]
 	ldr r1, _0803F1BC @ =gBldRegs
 	movs r0, #0x81
@@ -406,7 +406,7 @@ _0803F1C8: .4byte gNumHBlankCallbacks
 _0803F1CC: .4byte HBlankCallback_803FA1C
 _0803F1D0: .4byte gFlags
 _0803F1D4:
-	mov r3, sb
+	mov r3, sb          @ r3 = sb = gBgCntRegs
 	ldrh r0, [r3]
 	adds r1, r2, #0
 	ands r1, r0
@@ -415,7 +415,7 @@ _0803F1D4:
 	orrs r1, r4
 	strh r1, [r3]
 	movs r0, #0xa0
-	mov r5, sl
+	mov r5, sl          @ r5 = sl = gBgScrollRegs
 	strh r0, [r5, #2]
 _0803F1EA:
 	mov r6, sl
@@ -423,7 +423,7 @@ _0803F1EA:
 	ldrsh r4, [r6, r0]
 	cmp r4, #0
 	beq _0803F1F6
-	b _0803F3F0
+	b _0803F3F0_return
 _0803F1F6:
 	ldr r1, _0803F264 @ =gStageTime
 	ldr r2, [r1]
@@ -431,7 +431,7 @@ _0803F1F6:
 	rsbs r0, r0, #0
 	movs r3, #0xff
 	ands r0, r3
-	mov r5, r8
+	mov r5, r8          @ r5 = r8 = gCamera
 	strh r0, [r5, #0x2a]
 	strh r0, [r6, #0xe]
 	mov r6, ip
@@ -448,7 +448,7 @@ _0803F1F6:
 	orrs r0, r1
 	mov r1, ip
 	strh r0, [r1, #6]
-	mov r0, r8
+	mov r0, r8          @ r0 = r8 = gCamera
 	strh r4, [r0, #0x28]
 	mov r1, sl
 	strh r4, [r1]
@@ -479,7 +479,7 @@ _0803F1F6:
 	movs r1, #8
 	orrs r0, r1
 	str r0, [r2]
-	b _0803F3F0
+	b _0803F3F0_return
 	.align 2, 0
 _0803F264: .4byte gStageTime
 _0803F268: .4byte 0x00003FFF
@@ -503,7 +503,7 @@ _0803F288:
 	movs r0, #0xa0
 	mov r4, sl
 	strh r0, [r4, #2]
-	b _0803F3F0
+	b _0803F3F0_return
 _0803F2A2:
 	ldr r6, _0803F31C @ =0x00003FFF
 	mov ip, r6
@@ -518,7 +518,7 @@ _0803F2A2:
 	mov r2, sb
 	strh r0, [r2, #6]
 	ldr r2, _0803F324 @ =gBgScrollRegs
-	strh r7, [r2, #0xc]
+	strh r7, [r2, #0xc]    @ r7 = 0
 	ldr r0, _0803F328 @ =gStageTime
 	ldr r1, [r0]
 	lsrs r0, r1, #6
@@ -534,7 +534,7 @@ _0803F2A2:
 	mov r0, sb
 	strh r6, [r0]
 	movs r0, #0x74
-	mov r4, r8
+	mov r4, r8          @ r4 = r8 = gCamera
 	strh r0, [r4, #0x28]
 	strh r0, [r2]
 	lsrs r1, r1, #3
@@ -589,14 +589,14 @@ _0803F344:
 	mov r2, sl
 	strh r0, [r2, #2]
 _0803F358:
-	mov r3, r8
+	mov r3, r8          @ r3 = r8 = gCamera
 	ldrh r1, [r3, #0x26]
 	movs r0, #0x80
 	lsls r0, r0, #8
 	ands r0, r1
 	cmp r0, #0
-	bne _0803F3F0
-	mov r4, sl
+	bne _0803F3F0_return
+	mov r4, sl          @ r4 = sl = 
 	ldrh r3, [r4]
 	ldrh r0, [r4, #2]
 	str r0, [sp]
@@ -630,7 +630,7 @@ _0803F358:
 	movs r2, #0xa0
 	movs r3, #0
 	bl sa2__sub_80078D4
-	b _0803F3F0
+	b _0803F3F0_return
 	.align 2, 0
 _0803F3B4: .4byte gStageTime
 _0803F3B8:
@@ -660,7 +660,7 @@ _0803F3B8:
 	movs r2, #0xa0
 	movs r3, #0
 	bl sa2__sub_80078D4
-_0803F3F0:
+_0803F3F0_return:
 	add sp, #4
 	pop {r3, r4, r5}
 	mov r8, r3

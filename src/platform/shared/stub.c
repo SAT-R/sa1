@@ -27,6 +27,7 @@ void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { S
 
 void CreatePauseMenu(void) { }
 
+u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
 u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
 
 void sub_804A5D8() { }
@@ -110,7 +111,6 @@ void CreateEntity_Flipper_SmallBlue() { }
 void CreateEntity_Carousel() { }
 void CreateEntity_HookRail() { }
 void CreateEntity_SwingingHook() { }
-void CreateEntity_SecurityGate() { }
 void CreateEntity_SwingRope() { }
 void CreateEntity_SteamExhaust() { }
 void CreateEntity_CraneClaw() { }
