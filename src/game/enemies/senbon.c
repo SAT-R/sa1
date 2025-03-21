@@ -70,3 +70,70 @@ void CreateEntity_Senbon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     UpdateSpriteAnimation(s);
 }
+
+// (93.28%) https://decomp.me/scratch/MhFur
+NONMATCH("asm/non_matching/game/enemies/Task_SenbonInit.inc", void Task_SenbonInit(void))
+{
+    Senbon *senbon = TASK_DATA(gCurTask);
+    Sprite *s = &senbon->shared.s;
+    MapEntity *me = senbon->shared.base.me;
+    s16 worldX, worldY;
+    s16 offsetWorldX;
+
+    worldX = TO_WORLD_POS(senbon->shared.base.meX, senbon->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, senbon->shared.base.regionY);
+
+    senbon->qUnk40 += senbon->qUnk48;
+    offsetWorldX = worldX + I(senbon->qUnk40);
+
+    s->x = offsetWorldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, senbon->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (SA2_LABEL(sub_800C4FC)(s, offsetWorldX, worldY)) {
+        // Enemy defeated
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    // if(I(senbon->qUnk40) <= worldX)
+    {
+        if (I(senbon->qUnk40) <= ((me->d.sData[0] + 1) * TILE_WIDTH)) {
+            senbon->qUnk48 = +Q(0.625); // TODO: DISPLAY_HEIGHT?
+            s->frameFlags |= SPRITE_FLAG(X_FLIP, 1);
+        } else if (I(senbon->qUnk40) >= ((me->d.sData[0] + me->d.uData[2] - 1) * TILE_WIDTH)) {
+            senbon->qUnk48 = -Q(0.625); // TODO: DISPLAY_HEIGHT?
+            s->frameFlags &= ~SPRITE_FLAG(X_FLIP, 1);
+        } else if (senbon->unk46 != 0) {
+            senbon->unk46--;
+        } else {
+            if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                if ((I(gPlayer.qWorldX) >= offsetWorldX) //
+                    && ((offsetWorldX + 80) >= I(gPlayer.qWorldX))) {
+                    senbon->unk44 = 0;
+
+                    s->variant = 1;
+                    gCurTask->main = Task_8070CB4;
+                }
+            } else {
+                if ((I(gPlayer.qWorldX) <= offsetWorldX) //
+                    && ((offsetWorldX - 80) <= I(gPlayer.qWorldX))) {
+                    senbon->unk44 = 0;
+
+                    s->variant = 1;
+                    gCurTask->main = Task_8070CB4;
+                }
+            }
+        }
+    }
+    // _08070C8C
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+END_NONMATCH
