@@ -1,11 +1,16 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
+#include "game/sa1_sa2_shared/camera.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
+#include "game/egg_rocket_transitions.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/move_states.h"
+#include "constants/zones.h"
 
 typedef struct {
     SpriteBase base;
@@ -13,6 +18,7 @@ typedef struct {
 } Checkpoint; /* 0x3C */
 
 void Task_CheckpointMain(void);
+void Task_Checkpoint1(void);
 void Task_Checkpoint2(void);
 
 void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -60,3 +66,75 @@ void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     UpdateSpriteAnimation(s);
 }
+
+void Task_CheckpointMain(void)
+{
+    Checkpoint *checkpoint = TASK_DATA(gCurTask);
+    Sprite *s = &checkpoint->s;
+    MapEntity *me = checkpoint->base.me;
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
+    worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) && (HB_LEFT(worldX, checkpoint->s.hitboxes[0].b) <= I(gPlayer.qWorldX))
+         && (HB_RIGHT(worldX, checkpoint->s.hitboxes[0].b) >= I(gPlayer.qWorldX))
+         && (HB_TOP(worldY, checkpoint->s.hitboxes[0].b) <= I(gPlayer.qWorldY))
+         && (HB_BOTTOM(worldY, checkpoint->s.hitboxes[0].b) >= I(gPlayer.qWorldY)))
+        || ((gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))
+            && (((me->d.sData[0] == 1) && (I(gPlayer.qWorldX) > worldX))
+                || ((me->d.sData[0] != 1) && (I(gPlayer.qWorldY) + gPlayer.spriteOffsetY < worldY + 4))))) {
+        if (!(gPlayer.moveState & MOVESTATE_IA_OVERRIDE)) {
+            gBossIndex = me->d.sData[0];
+            gPlayer.checkPointX = worldX;
+            gPlayer.checkPointY = worldY - gPlayer.spriteOffsetY;
+            gPlayer.checkpointTime = gCheckpointTime;
+
+            s->variant = 1;
+
+            gCurTask->main = Task_Checkpoint1;
+            gCurTask->main();
+
+            if (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1)) {
+                if (gBossIndex == 1) {
+                    gPlayer.qSpeedAirX = 0;
+                    gPlayer.qSpeedGround = 0;
+                    CreateEggRocketLaunchScreenShakeEffect();
+                }
+
+                if (gBossIndex == 2) {
+                    if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
+                        gStageFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+                    }
+
+                    CreateEggRocketStageSeparation((58 * METATILE_DIM) - 1);
+                }
+
+                if (gBossIndex == 3) {
+                    if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
+                        gStageFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+                    }
+
+                    CreateEggRocketStageSeparation((34 * METATILE_DIM) - 1);
+                }
+            }
+        }
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+#if 01
+#endif

@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_8028C84
-sub_8028C84: @ 0x08028C84
+	thumb_func_start CreateEggRocketStageSeparation
+CreateEggRocketStageSeparation: @ 0x08028C84
 	push {r4, r5, lr}
 	sub sp, #4
 	adds r4, r0, #0
@@ -382,7 +382,7 @@ sub_8028F20: @ 0x08028F20
 	cmp r0, r1
 	bne _08028FC0
 _08028F82:
-	ldr r2, _08028FBC @ =sub_8029070
+	ldr r2, _08028FBC @ =Task_8029070
 	mov r0, r8
 	str r2, [r0, #8]
 	movs r0, #0
@@ -406,7 +406,7 @@ _08028FAC: .4byte 0x03FF0000
 _08028FB0: .4byte gBossIndex
 _08028FB4: .4byte gStageTime
 _08028FB8: .4byte 0x000001FF
-_08028FBC: .4byte sub_8029070
+_08028FBC: .4byte Task_8029070
 _08028FC0:
 	mov r1, ip
 	lsls r0, r1, #0x10
@@ -495,8 +495,8 @@ _08029060:
 	.align 2, 0
 _0802906C: .4byte gFlags
 
-	thumb_func_start sub_8029070
-sub_8029070: @ 0x08029070
+	thumb_func_start Task_8029070
+Task_8029070: @ 0x08029070
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	ldr r0, _080290E0 @ =gCurTask
@@ -534,7 +534,7 @@ sub_8029070: @ 0x08029070
 	lsrs r0, r0, #0x10
 	cmp r0, #0x28
 	bls _080290EC
-	ldr r4, _080290E8 @ =sub_8029194
+	ldr r4, _080290E8 @ =Task_8029194
 	mov r0, ip
 	str r4, [r0, #8]
 	movs r0, #0x80
@@ -554,7 +554,7 @@ sub_8029070: @ 0x08029070
 	.align 2, 0
 _080290E0: .4byte gCurTask
 _080290E4: .4byte gCamera
-_080290E8: .4byte sub_8029194
+_080290E8: .4byte Task_8029194
 _080290EC:
 	lsls r0, r4, #0x10
 	cmp r0, #0
@@ -639,8 +639,8 @@ _08029188:
 	.align 2, 0
 _08029190: .4byte gFlags
 
-	thumb_func_start sub_8029194
-sub_8029194: @ 0x08029194
+	thumb_func_start Task_8029194
+Task_8029194: @ 0x08029194
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

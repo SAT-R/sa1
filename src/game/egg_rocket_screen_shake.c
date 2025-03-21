@@ -43,7 +43,7 @@ void Task_80297E8(void)
     }
 }
 
-void CreateEggRocketScreenShakeEffect()
+void CreateEggRocketLaunchScreenShakeEffect()
 {
     struct Task *t = TaskCreate(Task_80298C0, sizeof(SomeScreenShake), 0x4000, 0, NULL);
     SomeScreenShake *shake = TASK_DATA(t);
