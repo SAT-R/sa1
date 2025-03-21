@@ -5,143 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Kuraa
-CreateEntity_Kuraa: @ 0x080734E4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sl, r0
-	adds r6, r1, #0
-	mov r8, r2
-	mov sb, r3
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	mov r1, sb
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov sb, r1
-	ldr r0, _080735DC @ =sub_8073608
-	ldr r1, _080735E0 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x48
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r4, r1
-	ldr r2, _080735E4 @ =0x0300000C
-	adds r5, r4, r2
-	movs r7, #0
-	movs r3, #0
-	strh r6, [r1, #4]
-	mov r0, r8
-	strh r0, [r1, #6]
-	mov r2, sl
-	str r2, [r1]
-	ldrb r0, [r2]
-	strb r0, [r1, #8]
-	mov r0, sb
-	strb r0, [r1, #9]
-	ldr r0, _080735E8 @ =0x03000040
-	adds r2, r4, r0
-	ldr r0, _080735EC @ =0x0000FFC0
-	strh r0, [r2]
-	str r3, [r1, #0x3c]
-	ldr r1, _080735F0 @ =0x03000044
-	adds r0, r4, r1
-	strh r3, [r0]
-	ldr r2, _080735F4 @ =0x03000042
-	adds r0, r4, r2
-	strh r3, [r0]
-	adds r1, #2
-	adds r0, r4, r1
-	strh r3, [r0]
-	mov r2, sl
-	ldrb r0, [r2]
-	lsls r0, r0, #3
-	lsls r6, r6, #8
-	adds r0, r0, r6
-	strh r0, [r5, #0x16]
-	ldrb r0, [r2, #1]
-	lsls r0, r0, #3
-	mov r1, r8
-	lsls r1, r1, #8
-	mov r8, r1
-	add r0, r8
-	strh r0, [r5, #0x18]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r0, r2, #0
-	mov r1, sl
-	strb r0, [r1]
-	movs r0, #0xf
-	str r3, [sp, #4]
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	ldr r3, [sp, #4]
-	strh r3, [r5, #8]
-	ldr r0, _080735F8 @ =0x000001A9
-	strh r0, [r5, #0xa]
-	ldr r2, _080735FC @ =0x0300002C
-	adds r0, r4, r2
-	strb r7, [r0]
-	strh r3, [r5, #0x14]
-	strh r3, [r5, #0x1c]
-	ldr r0, _08073600 @ =0x0300002D
-	adds r1, r4, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r2, #2
-	adds r1, r4, r2
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, _08073604 @ =0x03000031
-	adds r4, r4, r0
-	strb r7, [r4]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r5, #0x28]
-	movs r1, #0x80
-	lsls r1, r1, #6
-	str r1, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080735DC: .4byte sub_8073608
-_080735E0: .4byte TaskDestructor_EntityShared
-_080735E4: .4byte 0x0300000C
-_080735E8: .4byte 0x03000040
-_080735EC: .4byte 0x0000FFC0
-_080735F0: .4byte 0x03000044
-_080735F4: .4byte 0x03000042
-_080735F8: .4byte 0x000001A9
-_080735FC: .4byte 0x0300002C
-_08073600: .4byte 0x0300002D
-_08073604: .4byte 0x03000031
-
-	thumb_func_start sub_8073608
-sub_8073608: @ 0x08073608
+.if 01
+	thumb_func_start Task_KuraaInit
+Task_KuraaInit: @ 0x08073608
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -318,7 +184,7 @@ _08073748:
 	strb r0, [r1]
 	ldr r0, _0807379C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080737A0 @ =sub_80737A8
+	ldr r0, _080737A0 @ =Task_80737A8
 	str r0, [r1, #8]
 _0807376A:
 	adds r0, r5, #0
@@ -346,11 +212,12 @@ _0807378E:
 	bx r0
 	.align 2, 0
 _0807379C: .4byte gCurTask
-_080737A0: .4byte sub_80737A8
+_080737A0: .4byte Task_80737A8
 _080737A4: .4byte 0xFFFFFBFF
+.endif
 
-	thumb_func_start sub_80737A8
-sub_80737A8: @ 0x080737A8
+	thumb_func_start Task_80737A8
+Task_80737A8: @ 0x080737A8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -565,7 +432,7 @@ _08073928:
 	strb r0, [r1]
 	ldr r0, _0807398C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08073990 @ =sub_8073608
+	ldr r0, _08073990 @ =Task_KuraaInit
 	str r0, [r1, #8]
 _08073950:
 	adds r0, r4, #0
@@ -595,5 +462,5 @@ _08073974:
 _08073984: .4byte gPlayer
 _08073988: .4byte gPlayerBodyPSI
 _0807398C: .4byte gCurTask
-_08073990: .4byte sub_8073608
+_08073990: .4byte Task_KuraaInit
 _08073994: .4byte 0xFFFFFBFF

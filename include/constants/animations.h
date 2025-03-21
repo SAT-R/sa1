@@ -42,7 +42,7 @@
 
 #define SA1_ANIM_YUKIMARU 422
 #define SA1_ANIM_DRISAME  424
-#define SA1_ANIM_KURA     425
+#define SA1_ANIM_KURAA    425
 #define SA1_ANIM_PEN      426
 
 #define SA1_ANIM_LEON   430

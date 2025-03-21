@@ -13,8 +13,9 @@
 #include "constants/zones.h"
 
 typedef struct {
-    SpriteBase base;
-    Sprite s;
+    // NOTE: EntityShared HAS to be the first element,
+    //       as long as TaskDestructor_EntityShared is used.
+    /* 0x00 */ EntityShared shared;
 } Checkpoint; /* 0x3C */
 
 void Task_CheckpointMain(void);
@@ -35,13 +36,13 @@ void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     checkpoint = TASK_DATA(t);
 
-    checkpoint->base.regionX = regionX;
-    checkpoint->base.regionY = regionY;
-    checkpoint->base.me = me;
-    checkpoint->base.meX = me->x;
-    checkpoint->base.id = id;
+    checkpoint->shared.base.regionX = regionX;
+    checkpoint->shared.base.regionY = regionY;
+    checkpoint->shared.base.me = me;
+    checkpoint->shared.base.meX = me->x;
+    checkpoint->shared.base.id = id;
 
-    s = &checkpoint->s;
+    s = &checkpoint->shared.s;
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
 
@@ -70,20 +71,20 @@ void CreateEntity_Checkpoint(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 void Task_CheckpointMain(void)
 {
     Checkpoint *checkpoint = TASK_DATA(gCurTask);
-    Sprite *s = &checkpoint->s;
-    MapEntity *me = checkpoint->base.me;
+    Sprite *s = &checkpoint->shared.s;
+    MapEntity *me = checkpoint->shared.base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
-    worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
+    worldX = TO_WORLD_POS(checkpoint->shared.base.meX, checkpoint->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, checkpoint->shared.base.regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if (((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) && (HB_LEFT(worldX, checkpoint->s.hitboxes[0].b) <= I(gPlayer.qWorldX))
-         && (HB_RIGHT(worldX, checkpoint->s.hitboxes[0].b) >= I(gPlayer.qWorldX))
-         && (HB_TOP(worldY, checkpoint->s.hitboxes[0].b) <= I(gPlayer.qWorldY))
-         && (HB_BOTTOM(worldY, checkpoint->s.hitboxes[0].b) >= I(gPlayer.qWorldY)))
+    if (((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) && (HB_LEFT(worldX, checkpoint->shared.s.hitboxes[0].b) <= I(gPlayer.qWorldX))
+         && (HB_RIGHT(worldX, checkpoint->shared.s.hitboxes[0].b) >= I(gPlayer.qWorldX))
+         && (HB_TOP(worldY, checkpoint->shared.s.hitboxes[0].b) <= I(gPlayer.qWorldY))
+         && (HB_BOTTOM(worldY, checkpoint->shared.s.hitboxes[0].b) >= I(gPlayer.qWorldY)))
         || ((gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))
             && (((me->d.sData[0] == 1) && (I(gPlayer.qWorldX) > worldX))
                 || ((me->d.sData[0] != 1) && (I(gPlayer.qWorldY) + gPlayer.spriteOffsetY < worldY + 4))))) {
@@ -125,7 +126,7 @@ void Task_CheckpointMain(void)
     }
 
     if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->base.meX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -141,18 +142,18 @@ void Task_CheckpointMain(void)
 void Task_Checkpoint1(void)
 {
     Checkpoint *checkpoint = TASK_DATA(gCurTask);
-    Sprite *s = &checkpoint->s;
-    MapEntity *me = checkpoint->base.me;
+    Sprite *s = &checkpoint->shared.s;
+    MapEntity *me = checkpoint->shared.base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
-    worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
+    worldX = TO_WORLD_POS(checkpoint->shared.base.meX, checkpoint->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, checkpoint->shared.base.regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
     if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->base.meX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }
@@ -172,18 +173,18 @@ void Task_Checkpoint1(void)
 void Task_Checkpoint2(void)
 {
     Checkpoint *checkpoint = TASK_DATA(gCurTask);
-    Sprite *s = &checkpoint->s;
-    MapEntity *me = checkpoint->base.me;
+    Sprite *s = &checkpoint->shared.s;
+    MapEntity *me = checkpoint->shared.base.me;
     s16 worldX, worldY;
 
-    worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
-    worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
+    worldX = TO_WORLD_POS(checkpoint->shared.base.meX, checkpoint->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, checkpoint->shared.base.regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
     if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->base.meX);
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }
