@@ -213,7 +213,7 @@ Task_GrindRailEnd: @ 0x08023C88
 	lsrs r0, r0, #0x18
 	cmp r0, #1
 	bhi _08023CA8
-	b _08023EA6
+	b _08023EA6_return
 _08023CA8:
 	ldr r0, _08023D64 @ =gCurTask
 	ldr r0, [r0]
@@ -252,7 +252,7 @@ _08023CA8:
 	ands r0, r3
 	cmp r0, #0
 	beq _08023CF4
-	b _08023EA6
+	b _08023EA6_return
 _08023CF4:
 	lsls r1, r1, #0x10
 	asrs r5, r1, #0x10
@@ -455,7 +455,7 @@ _08023E5E:
 	movs r0, #0x90
 	lsls r0, r0, #1
 	cmp r1, r0
-	ble _08023EA6
+	ble _08023EA6_return
 _08023E98:
 	mov r1, sl
 	mov r0, r8
@@ -463,7 +463,7 @@ _08023E98:
 	ldr r0, _08023ECC @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-_08023EA6:
+_08023EA6_return:
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3

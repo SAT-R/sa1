@@ -62,6 +62,7 @@ SECTIONS {
         asm/ia_decoration.o(.text);
         src/game/interactables/toggle_player_layer.o(.text);
         asm/ia_grind_rail.o(.text);
+        src/game/interactables/grind_rail.o(.text);
         asm/ia_platform_thin.o(.text);
         src/game/sa1_sa2_shared/magnetic_ring.o(.text);
         asm/ia_platform_crumbling.o(.text);
