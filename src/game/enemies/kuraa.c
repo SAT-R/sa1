@@ -63,7 +63,7 @@ void CreateEntity_Kuraa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 }
 
 // (98.55%) https://decomp.me/scratch/0jMnq
-NONMATCH("asm/non_matching/game/enemies/Task_KuraaInit.inc", void Task_KuraaInit(void))
+NONMATCH("asm/non_matching/game/enemies/Kuraa__Task_KuraaInit.inc", void Task_KuraaInit(void))
 {
     Kuraa *kuraa = TASK_DATA(gCurTask);
     Sprite *s = &kuraa->shared.s;
