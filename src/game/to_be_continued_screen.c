@@ -64,7 +64,7 @@ void CreateToBeContinuedScreen(void)
         tbc->tasks74[i] = t2 = sub_80125C0(t2, i + 1);
     }
 
-    DmaFill32(3, 0x01E00050, tbc->positions, sizeof(tbc->positions));
+    DmaFill32(3, ((480 << 16) | (DISPLAY_HEIGHT / 2)), tbc->positions, sizeof(tbc->positions));
 
     gBgPalette[0] = RGB_BLACK;
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
