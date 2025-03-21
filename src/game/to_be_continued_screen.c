@@ -32,10 +32,9 @@ void Task_ShrunkToBeContinuedScreenInit(void);
 void TaskDestructor_8012724(struct Task *t);
 struct Task *sub_80125C0(struct Task *tbcTask, u8 taskPriority);
 
-// (97.93%) https://decomp.me/scratch/gN7U4
-NONMATCH("asm/non_matching/game/tbc_screen__CreateToBeContinuedScreen.inc", void CreateToBeContinuedScreen(void))
+void CreateToBeContinuedScreen(void)
 {
-    struct Task *t;
+    struct Task *t, *t2;
     ToBeContinuedScreen *tbc;
     u8 i;
     Sprite *s;
@@ -60,16 +59,16 @@ NONMATCH("asm/non_matching/game/tbc_screen__CreateToBeContinuedScreen.inc", void
     s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
     UpdateSpriteAnimation(s);
 
+    t2 = t;
     for (i = 0; i < ARRAY_COUNT(tbc->tasks74); i++) {
-        tbc->tasks74[i] = sub_80125C0(t, i + 1);
+        tbc->tasks74[i] = t2 = sub_80125C0(t2, i + 1);
     }
 
-    DmaFill32(3, ((480 << 16) | (DISPLAY_HEIGHT / 2)), tbc->positions, sizeof(tbc->positions));
+    DmaFill32(3, 0x01E00050, tbc->positions, sizeof(tbc->positions));
 
     gBgPalette[0] = RGB_BLACK;
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 }
-END_NONMATCH
 
 void Task_ToBeContinuedScreenInit(void)
 {
