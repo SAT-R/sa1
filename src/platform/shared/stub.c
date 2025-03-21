@@ -157,7 +157,6 @@ void CreateEntity_Oct() { }
 void CreateEntity_Yukimaru() { }
 void CreateEntity_Yukimaru_Wall() { }
 void CreateEntity_Drisame() { }
-void CreateEntity_Kuraa() { }
 void CreateEntity_PenMk1() { }
 
 // Bosses

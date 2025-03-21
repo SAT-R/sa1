@@ -154,7 +154,6 @@ SECTIONS {
         asm/enemy_yukimaru.o(.text);
         asm/enemy_drisame.o(.text);
         src/game/enemies/kuraa.o(.text);
-        asm/enemy_kuraa.o(.text);
         asm/enemy_pen.o(.text);
         asm/enemy_tentou.o(.text);
 
