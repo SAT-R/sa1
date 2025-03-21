@@ -32,6 +32,8 @@ void sub_804A5D8() { }
 void sub_805B9E8() { }
 void DestroyPlayerTasks() { }
 
+void CreateEggRocketStageSeparation(CamCoord worldY) { }
+
 // Player
 void Task_PlayerMain(void) { }
 void Task_8045B38(void) { }

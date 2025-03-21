@@ -131,10 +131,67 @@ void Task_CheckpointMain(void)
     }
 
     if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
+        // In Egg Rocket, checkpoints are invisible
+        // Screen shakes indicate the Player they reached one, instead.
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
 }
 
-#if 01
-#endif
+void Task_Checkpoint1(void)
+{
+    Checkpoint *checkpoint = TASK_DATA(gCurTask);
+    Sprite *s = &checkpoint->s;
+    MapEntity *me = checkpoint->base.me;
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
+    worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1) || UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+        s->variant = 2;
+        gCurTask->main = Task_Checkpoint2;
+    }
+
+    if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
+        // In Egg Rocket, checkpoints are invisible
+        // Screen shakes indicate the Player they reached one, instead.
+        DisplaySprite(s);
+    }
+}
+
+void Task_Checkpoint2(void)
+{
+    Checkpoint *checkpoint = TASK_DATA(gCurTask);
+    Sprite *s = &checkpoint->s;
+    MapEntity *me = checkpoint->base.me;
+    s16 worldX, worldY;
+
+    worldX = TO_WORLD_POS(checkpoint->base.meX, checkpoint->base.regionX);
+    worldY = TO_WORLD_POS(me->y, checkpoint->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, checkpoint->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
+        // In Egg Rocket, checkpoints are invisible
+        // Screen shakes indicate the Player they reached one, instead.
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
