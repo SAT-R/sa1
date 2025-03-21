@@ -5,147 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Senbon
-CreateEntity_Senbon: @ 0x080709A0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov sl, r3
-	ldr r0, _08070A98 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #1
-	bne _080709D4
-	ldr r0, _08070A9C @ =gLoadedSaveGame
-	ldrb r0, [r0, #0x18]
-	cmp r0, #0
-	bne _08070A86
-_080709D4:
-	ldr r0, _08070AA0 @ =sub_8070ACC
-	ldr r1, _08070AA4 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x4c
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r4, r0
-	ldr r1, _08070AA8 @ =0x0300000C
-	adds r5, r4, r1
-	movs r6, #0
-	mov r2, sb
-	strh r2, [r0, #4]
-	mov r1, r8
-	strh r1, [r0, #6]
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #8]
-	mov r2, sl
-	strb r2, [r0, #9]
-	ldr r1, _08070AAC @ =0x03000048
-	adds r2, r4, r1
-	ldr r1, _08070AB0 @ =0x0000FF60
-	strh r1, [r2]
-	str r6, [r0, #0x40]
-	strh r6, [r0, #0x3c]
-	ldr r2, _08070AB4 @ =0x03000044
-	adds r0, r4, r2
-	strh r6, [r0]
-	ldr r1, _08070AB8 @ =0x03000046
-	adds r0, r4, r1
-	strh r6, [r0]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	mov r2, sb
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	strh r6, [r5, #8]
-	ldr r0, _08070ABC @ =0x0000019B
-	strh r0, [r5, #0xa]
-	ldr r2, _08070AC0 @ =0x0300002C
-	adds r0, r4, r2
-	movs r1, #0
-	strb r1, [r0]
-	strh r6, [r5, #0x14]
-	strh r6, [r5, #0x1c]
-	adds r2, #1
-	adds r1, r4, r2
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _08070AC4 @ =0x0300002E
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _08070AC8 @ =0x03000031
-	adds r4, r4, r1
-	movs r2, #0
-	strb r2, [r4]
-	subs r0, #0x11
-	str r0, [r5, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-_08070A86:
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08070A98: .4byte gCurrentLevel
-_08070A9C: .4byte gLoadedSaveGame
-_08070AA0: .4byte sub_8070ACC
-_08070AA4: .4byte TaskDestructor_EntityShared
-_08070AA8: .4byte 0x0300000C
-_08070AAC: .4byte 0x03000048
-_08070AB0: .4byte 0x0000FF60
-_08070AB4: .4byte 0x03000044
-_08070AB8: .4byte 0x03000046
-_08070ABC: .4byte 0x0000019B
-_08070AC0: .4byte 0x0300002C
-_08070AC4: .4byte 0x0300002E
-_08070AC8: .4byte 0x03000031
+.if 0
+.endif
 
-	thumb_func_start sub_8070ACC
-sub_8070ACC: @ 0x08070ACC
+	thumb_func_start Task_SenbonInit
+Task_SenbonInit: @ 0x08070ACC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -367,7 +231,7 @@ _08070C7C:
 	strb r0, [r1]
 	ldr r0, _08070CAC @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08070CB0 @ =sub_8070CB4
+	ldr r0, _08070CB0 @ =Task_8070CB4
 	str r0, [r1, #8]
 _08070C8C:
 	adds r0, r5, #0
@@ -385,10 +249,10 @@ _08070C98:
 	.align 2, 0
 _08070CA8: .4byte gPlayer
 _08070CAC: .4byte gCurTask
-_08070CB0: .4byte sub_8070CB4
+_08070CB0: .4byte Task_8070CB4
 
-	thumb_func_start sub_8070CB4
-sub_8070CB4: @ 0x08070CB4
+	thumb_func_start Task_8070CB4
+Task_8070CB4: @ 0x08070CB4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -608,7 +472,7 @@ _08070E40:
 	strb r0, [r1]
 	ldr r0, _08070E8C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08070E90 @ =sub_8070ACC
+	ldr r0, _08070E90 @ =Task_SenbonInit
 	str r0, [r1, #8]
 _08070E68:
 	adds r0, r5, #0
@@ -627,4 +491,4 @@ _08070E74:
 _08070E84: .4byte gPlayer
 _08070E88: .4byte gPlayerBodyPSI
 _08070E8C: .4byte gCurTask
-_08070E90: .4byte sub_8070ACC
+_08070E90: .4byte Task_SenbonInit

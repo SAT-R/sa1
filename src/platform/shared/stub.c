@@ -145,7 +145,6 @@ void CreateEntity_Buzzer() { }
 void CreateEntity_GamiGami() { }
 void CreateEntity_Rhinotank() { }
 void CreateEntity_KeroKero() { }
-void CreateEntity_Senbon() { }
 void CreateEntity_Tentou() { }
 void CreateEntity_Fireball() { }
 void CreateEntity_Hanabii() { }

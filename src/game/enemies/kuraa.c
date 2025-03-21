@@ -51,7 +51,6 @@ void CreateEntity_Kuraa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_KURAA;
     s->variant = 0;
-
     s->animCursor = 0;
     s->qAnimDelay = Q(0);
     s->prevVariant = -1;
