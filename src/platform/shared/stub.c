@@ -55,7 +55,6 @@ void CreateEntity_Spikes_Down() { }
 void CreateEntity_Spikes_Horizontal() { }
 void CreateEntity_Spikes_HidingUp() { }
 void CreateEntity_Spikes_HidingDown() { }
-void CreateEntity_Checkpoint() { }
 void CreateEntity_Spring_Normal_Up() { }
 void CreateEntity_Spring_Normal_Down() { }
 void CreateEntity_Spring_Horizontal() { }

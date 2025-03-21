@@ -5,142 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Checkpoint
-CreateEntity_Checkpoint: @ 0x080214EC
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	adds r6, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r4, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r3, r3, #0x18
-	lsrs r5, r3, #0x18
-	movs r1, #3
-	ldrsb r1, [r6, r1]
-	ldr r0, _08021528 @ =gBossIndex
-	ldrb r0, [r0]
-	cmp r1, r0
-	bgt _08021534
-	ldr r0, _0802152C @ =Task_Checkpoint2
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _08021530 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x3c
-	movs r3, #0
-	bl TaskCreate
-	b _08021546
-	.align 2, 0
-_08021528: .4byte gBossIndex
-_0802152C: .4byte Task_Checkpoint2
-_08021530: .4byte TaskDestructor_EntityShared
-_08021534:
-	ldr r0, _080215B0 @ =Task_CheckpointMain
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _080215B4 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x3c
-	movs r3, #0
-	bl TaskCreate
-_08021546:
-	ldrh r7, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r7, r0
-	movs r1, #0
-	mov sb, r1
-	strh r4, [r0, #4]
-	mov r2, r8
-	strh r2, [r0, #6]
-	str r6, [r0]
-	ldrb r1, [r6]
-	strb r1, [r0, #8]
-	strb r5, [r0, #9]
-	ldr r0, _080215B8 @ =0x0300000C
-	adds r5, r7, r0
-	ldrb r0, [r6]
-	lsls r0, r0, #3
-	lsls r1, r4, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x16]
-	ldrb r0, [r6, #1]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r6]
-	movs r0, #0x12
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	mov r2, sb
-	strh r2, [r5, #8]
-	movs r0, #0xe2
-	lsls r0, r0, #1
-	strh r0, [r5, #0xa]
-	movs r1, #3
-	ldrsb r1, [r6, r1]
-	ldr r0, _080215BC @ =gBossIndex
-	ldrb r0, [r0]
-	cmp r1, r0
-	bgt _080215C4
-	ldr r0, _080215C0 @ =0x0300002C
-	adds r1, r7, r0
-	movs r0, #2
-	b _080215CA
-	.align 2, 0
-_080215B0: .4byte Task_CheckpointMain
-_080215B4: .4byte TaskDestructor_EntityShared
-_080215B8: .4byte 0x0300000C
-_080215BC: .4byte gBossIndex
-_080215C0: .4byte 0x0300002C
-_080215C4:
-	ldr r2, _08021604 @ =0x0300002C
-	adds r1, r7, r2
-	movs r0, #0
-_080215CA:
-	strb r0, [r1]
-	movs r1, #0
-	movs r0, #0
-	strh r0, [r5, #0x14]
-	strh r0, [r5, #0x1c]
-	adds r2, r5, #0
-	adds r2, #0x21
-	movs r0, #0xff
-	strb r0, [r2]
-	adds r2, #1
-	movs r0, #0x10
-	strb r0, [r2]
-	adds r0, r5, #0
-	adds r0, #0x25
-	strb r1, [r0]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08021604: .4byte 0x0300002C
-
+.if 01
 	thumb_func_start Task_CheckpointMain
 Task_CheckpointMain: @ 0x08021608
 	push {r4, r5, r6, r7, lr}
@@ -413,6 +278,7 @@ _08021824:
 	bx r0
 	.align 2, 0
 _08021834: .4byte gCurrentLevel
+.endif
 
 	thumb_func_start Task_Checkpoint1
 Task_Checkpoint1: @ 0x08021838
