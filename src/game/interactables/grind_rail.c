@@ -33,6 +33,7 @@ void Task_GrindRailStart(void);
 void Task_GrindRailEnd(void);
 void Task_8023EFC(void);
 
+// (96.59%) https://decomp.me/scratch/oIXga
 NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_GrindRailStart.inc", void Task_GrindRailStart(void))
 {
     struct Task *grindTask;

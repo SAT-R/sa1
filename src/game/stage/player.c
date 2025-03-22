@@ -3433,3 +3433,53 @@ void sub_8044D74(Player *p)
         }
     }
 }
+
+void Player_8044E48(Player *p)
+{
+    s32 worldX = I(p->qWorldX);
+    s32 worldY = I(p->qWorldY);
+    s32 res;
+
+    res = SA2_LABEL(sub_801E4E4)(worldY + p->spriteOffsetY, worldX, p->layer, +8, 0, SA2_LABEL(sub_801EE64));
+
+    if (res > 8) {
+        s32 r6;
+        if (GRAVITY_IS_INVERTED) {
+            s32 x, y;
+            s32 x2, y2;
+            y = p->spriteOffsetY;
+            y = worldY - y;
+            x = worldX - 2;
+            r6 = SA2_LABEL(sub_801E4E4)(y, x - p->spriteOffsetX, p->layer, -8, 0, SA2_LABEL(sub_801EE64));
+
+            y2 = p->spriteOffsetY;
+            y2 = worldY - y2;
+            x2 = worldX + 2;
+            res = SA2_LABEL(sub_801E4E4)(y2, x2 + p->spriteOffsetX, p->layer, -8, 0, SA2_LABEL(sub_801EE64));
+        } else {
+            s32 x, y;
+            s32 x2, y2;
+            y = worldY + p->spriteOffsetY;
+            x = worldX - 2;
+            r6 = SA2_LABEL(sub_801E4E4)(y, x - p->spriteOffsetX, p->layer, +8, 0, SA2_LABEL(sub_801EE64));
+
+            y2 = worldY + p->spriteOffsetY;
+            x2 = worldX + 2;
+            res = SA2_LABEL(sub_801E4E4)(y2, x2 + p->spriteOffsetX, p->layer, +8, 0, SA2_LABEL(sub_801EE64));
+        }
+
+        if ((r6 > 8) && (res == 0)) {
+            if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+                p->charState = CHARSTATE_13;
+            } else {
+                p->charState = CHARSTATE_12;
+            }
+        } else if ((r6 == 0) && (res > 8)) {
+            if ((p->moveState & MOVESTATE_FACING_LEFT)) {
+                p->charState = CHARSTATE_13;
+            } else {
+                p->charState = CHARSTATE_12;
+            }
+        }
+    }
+}
