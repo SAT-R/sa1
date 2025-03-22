@@ -2,7 +2,11 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/parameters/characters.h"
+#include "game/stage/player.h"
+#include "game/stage/player_controls.h"
 
+#include "constants/char_states.h"
 #include "constants/songs.h"
 
 typedef struct {
@@ -27,6 +31,88 @@ typedef struct {
 void Task_GrindRailStart(void);
 void Task_GrindRailEnd(void);
 void Task_8023EFC(void);
+
+void Task_GrindRailEnd(void)
+{
+    GrindRail *rail;
+    MapEntity *me;
+    u8 meX;
+    u16 regionX, regionY;
+    s16 worldX, worldY;
+    s16 screenX, screenY;
+
+    if (gPlayer.character == CHARACTER_TAILS || //
+        gPlayer.character == CHARACTER_KNUCKLES) {
+        return;
+    }
+
+    rail = TASK_DATA(gCurTask);
+
+    me = rail->me;
+    meX = TASK_GET_MEMBER(GrindRail, gCurTask, u8, meX);
+    regionX = TASK_GET_MEMBER(GrindRail, gCurTask, u16, regionX);
+    regionY = TASK_GET_MEMBER(GrindRail, gCurTask, u16, regionY);
+
+    worldX = TO_WORLD_POS(meX, regionX);
+    worldY = TO_WORLD_POS(me->y, regionY);
+
+    if (PLAYER_IS_ALIVE) {
+        // NOTE: The Rail endings do not take left/top (data[0] | data[1]) into account,
+        //       because they are always set to be on the left side of a rail
+        if ((worldX <= I(gPlayer.qWorldX)) && (worldX + me->d.uData[2] * TILE_WIDTH >= I(gPlayer.qWorldX)) && (worldY <= I(gPlayer.qWorldY))
+            && (worldY + me->d.uData[3] * TILE_WIDTH >= I(gPlayer.qWorldY)) && (gPlayer.moveState & MOVESTATE_1000000)) {
+            if (I(gPlayer.qWorldX) > worldX + ((me->d.uData[2] * TILE_WIDTH) >> 1)) {
+                /* Jump off of the rail */
+
+                gPlayer.qSpeedAirY = -Q(PLAYER_RAIL_JUMP_HEIGHT);
+
+                if (gPlayer.character == CHARACTER_AMY) {
+                    m4aSongNumStop(SE_AMY_GRINDING);
+                } else {
+                    m4aSongNumStop(SE_GRINDING);
+                }
+
+                m4aSongNumStart(SE_JUMP);
+                Player_TransitionCancelFlyingAndBoost(&gPlayer);
+                gPlayer.charState = CHARSTATE_17;
+                gPlayer.moveState |= MOVESTATE_IN_AIR;
+                gPlayer.moveState &= ~MOVESTATE_1000000;
+                gPlayer.layer ^= 1;
+                gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__80;
+                gPlayerBodyPSI.s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+                gPlayerBodyPSI.s.frameFlags |= SPRITE_FLAG(PRIORITY, 2);
+            } else if (gInput & gPlayerControls.jump) {
+                gPlayer.qSpeedAirY = -Q(PLAYER_RAIL_EXTRA_JUMP_HEIGHT);
+
+                if (gPlayer.character == CHARACTER_AMY) {
+                    m4aSongNumStop(SE_AMY_GRINDING);
+                } else {
+                    m4aSongNumStop(SE_GRINDING);
+                }
+
+                m4aSongNumStart(SE_JUMP);
+                Player_TransitionCancelFlyingAndBoost(&gPlayer);
+                gPlayer.charState = CHARSTATE_RAIL_EXTRA_JUMP;
+                gPlayerBodyPSI.s.variant = 0;
+                gPlayer.moveState |= MOVESTATE_IN_AIR;
+                gPlayer.moveState &= ~MOVESTATE_1000000;
+                gPlayer.layer ^= 1;
+                gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__80;
+                gPlayerBodyPSI.s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+                gPlayerBodyPSI.s.frameFlags |= SPRITE_FLAG(PRIORITY, 2);
+            }
+        }
+
+        screenX = worldX - gCamera.x;
+        screenY = worldY - gCamera.y;
+
+        if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+}
 
 // Unused?
 void sub_8023ED0(void)
