@@ -6,12 +6,10 @@
 .arm
 
 .if 0
-.endif
-
-	thumb_func_start sub_8044F7C
-sub_8044F7C: @ 0x08044F7C
+	thumb_func_start Player_8044F7C
+Player_8044F7C: @ 0x08044F7C
 	push {r4, r5, r6, lr}
-	adds r4, r0, #0
+	adds r4, r0, #0     @ r4 = p
 	movs r1, #0x1a
 	ldrsh r0, [r4, r1]
 	cmp r0, #0
@@ -23,7 +21,7 @@ _08044F8A:
 	ldrb r3, [r0]
 	movs r2, #0
 	ldrsb r2, [r0, r2]
-	adds r6, r0, #0
+	adds r6, r0, #0     @ r6 = &p->charState
 	cmp r2, #0x40
 	bne _08044F9C
 	b _08045100
@@ -36,22 +34,22 @@ _08044FA2:
 	movs r1, #0x30
 	ands r1, r0
 	cmp r1, #0x10
-	beq _0804507A
+	beq _0804507A_case_right
 	cmp r1, #0x10
 	bgt _08044FB6
 	cmp r1, #0
-	beq _08044FBC
+	beq _08044FBC_case_0
 	b _08045080
 _08044FB6:
 	cmp r1, #0x20
-	beq _08045072
+	beq _08045072_case_left
 	b _08045080
-_08044FBC:
+_08044FBC_case_0:
 	movs r5, #0xc
 	ldrsh r0, [r4, r5]
 	cmp r0, #0
 	beq _08044FF2
-	adds r0, r3, #0
+	adds r0, r3, #0 @ r0 = r3 = (u8)p->charState
 	subs r0, #8
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
@@ -146,11 +144,11 @@ _0804506C:
 _0804506E:
 	strh r3, [r4, #0xc]
 	b _08045084
-_08045072:
+_08045072_case_left:
 	adds r0, r4, #0
 	bl Player_8043970
 	b _08045080
-_0804507A:
+_0804507A_case_right:
 	adds r0, r4, #0
 	bl Player_8043A2C
 _08045080:
@@ -216,7 +214,7 @@ _080450E8:
 	cmp r0, #0
 	beq _080450FA
 	adds r0, r4, #0
-	bl sub_8044D74
+	bl Player_8044D74
 	b _08045100
 _080450FA:
 	adds r0, r4, #0
@@ -278,6 +276,7 @@ _0804512E:
 	bx r0
 	.align 2, 0
 _08045168: .4byte gSineTable
+.endif
 
 	thumb_func_start sa2__sub_8023B5C
 sa2__sub_8023B5C: @ 0x0804516C
@@ -4972,7 +4971,7 @@ _08047402:
 	adds r0, r4, #0
 	bl Player_8046FAC
 	adds r0, r4, #0
-	bl sub_8044F7C
+	bl Player_8044F7C
 	b _0804749E
 	.align 2, 0
 _08047424: .4byte gGameMode
@@ -5432,7 +5431,7 @@ _08047796:
 	adds r0, r4, #0
 	bl Player_8046FAC
 	adds r0, r4, #0
-	bl sub_8044F7C
+	bl Player_8044F7C
 	adds r0, r4, #0
 	bl Player_8043EC0
 	adds r0, r4, #0
@@ -5995,7 +5994,7 @@ _08047BFE:
 	adds r0, r4, #0
 	bl Player_8046FAC
 	adds r0, r4, #0
-	bl sub_8044F7C
+	bl Player_8044F7C
 	b _08047CAE
 	.align 2, 0
 _08047C0C: .4byte gGameMode
@@ -6321,7 +6320,7 @@ _08047EB6:
 	adds r0, r4, #0
 	bl Player_8046FAC
 	adds r0, r4, #0
-	bl sub_8044F7C
+	bl Player_8044F7C
 	adds r0, r4, #0
 	bl Player_8043EC0
 	adds r0, r4, #0
@@ -8199,7 +8198,7 @@ _08048CD2:
 	adds r0, r4, #0
 	bl Player_8046FAC
 	adds r0, r4, #0
-	bl sub_8044F7C
+	bl Player_8044F7C
 _08048CF2:
 	adds r0, r4, #0
 	bl Player_8043EC0
@@ -9219,7 +9218,7 @@ _0804952C:
 	bl sub_8047018
 _08049532:
 	adds r0, r4, #0
-	bl sub_8044F7C
+	bl Player_8044F7C
 	adds r0, r4, #0
 	bl Player_8043EC0
 	adds r0, r4, #0

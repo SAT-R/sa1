@@ -10,13 +10,13 @@
 #define CHARSTATE_IDLE            0
 #define CHARSTATE_1               1
 #define CHARSTATE_CROUCH          2
-#define CHARSTATE_3               3
+#define CHARSTATE_3               3 // Look-down state?
 #define CHARSTATE_4               4
 #define CHARSTATE_SPINATTACK      5
 #define CHARSTATE_SPINDASH        6
 #define CHARSTATE_7               7
 #define CHARSTATE_8               8
-#define CHARSTATE_9               9
+#define CHARSTATE_BRAKE           9
 #define CHARSTATE_LOOK_UP         10
 #define CHARSTATE_11              11
 #define CHARSTATE_12              12
@@ -27,6 +27,7 @@
 #define CHARSTATE_21              21
 #define CHARSTATE_22              22
 #define CHARSTATE_23              23
+#define CHARSTATE_27              27
 
 #if (GAME == GAME_SA1)
 #define CHARSTATE_HIT_AIR     15
@@ -38,6 +39,7 @@
 
 // NOTE: Inferred from CHARSTATE_KNUCKLES_GLIDE in SA2_LABEL(sub_8022318)
 #define CHARSTATE_KNUCKLES_GLIDE 62
+#define CHARSTATE_64             64
 
 #define CHARSTATE_85 85
 #define CHARSTATE_91 91

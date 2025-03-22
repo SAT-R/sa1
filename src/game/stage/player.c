@@ -2090,6 +2090,9 @@ void SA2_LABEL(sub_8022D6C)(Player *p)
 }
 
 #if (GAME == GAME_SA1)
+// Basically the opposite to Player_8043A2C.
+// Uses the same variables, but checks are inverted.
+// Player_WalkLeft ?
 void Player_8043970(Player *p)
 {
 #ifndef NON_MATCHING
@@ -2149,7 +2152,7 @@ void Player_8043970(Player *p)
 
         m4aSongNumStart(SE_BRAKE);
 
-        p->charState = CHARSTATE_9;
+        p->charState = CHARSTATE_BRAKE;
 
         SA2_LABEL(sub_8023B5C)(p, 14);
         PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
@@ -2158,6 +2161,7 @@ void Player_8043970(Player *p)
 
 // Basically the opposite to Player_8043970.
 // Uses the same variables, but checks are inverted.
+// Player_WalkRight?
 void Player_8043A2C(Player *p)
 {
 #ifndef NON_MATCHING
@@ -2217,7 +2221,7 @@ void Player_8043A2C(Player *p)
 
         m4aSongNumStart(SE_BRAKE);
 
-        p->charState = CHARSTATE_9;
+        p->charState = CHARSTATE_BRAKE;
 
         SA2_LABEL(sub_8023B5C)(p, 14);
         PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
@@ -2499,8 +2503,7 @@ void SA2_LABEL(sub_80231C0)(Player *p)
                 p->moveState &= ~MOVESTATE_4;
 
                 SA2_LABEL(sub_8023B5C)(p, 14);
-                p->spriteOffsetX = 6;
-                p->spriteOffsetY = 14;
+                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
                 p->qSpeedGround = 0;
             } break;
 
@@ -3394,7 +3397,7 @@ void SA2_LABEL(sub_8023878)(Player *p)
     }
 }
 
-void sub_8044D74(Player *p)
+void Player_8044D74(Player *p)
 {
     Sprite *sprBelow = p->stoodObj;
     CamCoord sprWorldX = gCamera.x + sprBelow->x;
@@ -3482,4 +3485,116 @@ void Player_8044E48(Player *p)
             }
         }
     }
+}
+
+void Player_8044F7C(Player *p)
+{
+    s32 qSpeed;
+    u8 rot;
+
+    if ((p->SA2_LABEL(unk2A) == 0) && (p->charState != CHARSTATE_64) && (p->charState != CHARSTATE_27)) {
+        switch (p->heldInput & DPAD_SIDEWAYS) {
+            case 0: {
+                if (p->qSpeedGround != Q(0)) {
+                    if ((p->charState == CHARSTATE_8) || (p->charState == CHARSTATE_BRAKE) || (p->charState == CHARSTATE_IDLE)) {
+                        p->charState = CHARSTATE_4;
+
+                        SA2_LABEL(sub_8023B5C)(p, 14);
+                        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                    }
+                } else if (!(p->moveState & MOVESTATE_800000)) {
+                    if ((p->character != CHARACTER_AMY) || !(p->moveState & MOVESTATE_200)) {
+
+                        if (p->charState == CHARSTATE_CROUCH) {
+                            p->charState = CHARSTATE_3;
+                        } else if (p->charState == CHARSTATE_LOOK_UP) {
+                            p->charState = CHARSTATE_11;
+                        } else if ((p->charState != CHARSTATE_3) && (p->charState != CHARSTATE_11)) {
+                            p->charState = CHARSTATE_IDLE;
+                        }
+
+                        SA2_LABEL(sub_8023B5C)(p, 14);
+                        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                    }
+                }
+
+                if (p->character == CHARACTER_AMY) {
+                    if (p->charState == CHARSTATE_CROUCH) {
+                        qSpeed = p->qSpeedGround;
+                        if (qSpeed > 0) {
+                            qSpeed -= p->deceleration;
+
+                            if (qSpeed < 0) {
+                                qSpeed = 0;
+                            }
+                        } else {
+                            qSpeed += p->deceleration;
+
+                            if ((qSpeed) > 0) {
+                                qSpeed = 0;
+                            }
+                        }
+                        p->qSpeedGround = qSpeed;
+                    }
+                }
+
+            } break;
+
+            case DPAD_LEFT: {
+                Player_8043970(p);
+            } break;
+
+            case DPAD_RIGHT: {
+                Player_8043A2C(p);
+            } break;
+        }
+
+        if ((p->character == CHARACTER_AMY) && (p->moveState & MOVESTATE_200)) {
+            qSpeed = p->qSpeedGround;
+            if (qSpeed == Q(0)) {
+                qSpeed = Q(3);
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    NEGATE(qSpeed);
+                }
+                p->qSpeedGround = qSpeed;
+            }
+        } else {
+            if ((!((p->rotation + Q(0.125)) & 0xC0)) && (p->qSpeedGround == 0)) {
+                p->moveState &= ~MOVESTATE_20;
+
+                if (!(p->moveState & MOVESTATE_800000)) {
+                    if ((p->charState != CHARSTATE_3) && (p->charState != CHARSTATE_11)) {
+                        p->charState = 0;
+                    }
+
+                    if (p->moveState & MOVESTATE_STOOD_ON_OBJ) {
+                        Player_8044D74(p);
+                    } else {
+                        Player_8044E48(p);
+                    }
+                }
+            }
+        }
+    }
+
+    sub_80448D0(p);
+
+    if (!(p->heldInput & DPAD_SIDEWAYS)) {
+        qSpeed = p->qSpeedGround;
+        if (qSpeed > 0) {
+            qSpeed -= Q(8. / 256.);
+            qSpeed = MAX(Q(0), qSpeed);
+            p->qSpeedGround = qSpeed;
+        } else if (qSpeed < 0) {
+            qSpeed += Q(8. / 256.);
+            qSpeed = MIN(Q(0), qSpeed);
+            p->qSpeedGround = qSpeed;
+        }
+    }
+
+    qSpeed = p->qSpeedGround;
+    p->qSpeedAirX = Q_MUL(qSpeed, COS_24_8((rot = p->rotation) * 4));
+    p->qSpeedAirY = Q_MUL(qSpeed, SIN_24_8(rot * 4));
+
+    SA2_LABEL(sub_8023128)(p);
 }
