@@ -65,8 +65,6 @@ void CreateEntity_Spring_Big_Down() { }
 void CreateEntity_Spring_Small_Up() { }
 void CreateEntity_Spring_Small_Down() { }
 void CreateEntity_Decoration() { }
-void CreateEntity_GrindRail_Start() { }
-void CreateEntity_GrindRail_End() { }
 void CreateEntity_PlatformThin() { }
 void CreateEntity_PlatformThin_Falling() { }
 void CreateEntity_PlatformCrumbling() { }

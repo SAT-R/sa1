@@ -1,12 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-	thumb_func_start Task_GrindRailStart
-Task_GrindRailStart: @ 0x08023B08
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -196,5 +191,4 @@ _08023C70_return:
 _08023C80: .4byte gCamera
 _08023C84: .4byte gCurTask
 
-.if 0
-.endif
+.syntax divided

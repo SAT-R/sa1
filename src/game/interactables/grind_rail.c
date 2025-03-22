@@ -3,6 +3,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/parameters/characters.h"
+#include "game/stage/grind_effect_1.h"
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h"
 
@@ -32,6 +33,69 @@ void Task_GrindRailStart(void);
 void Task_GrindRailEnd(void);
 void Task_8023EFC(void);
 
+NONMATCH("asm/non_matching/game/interactables/grind_rail__Task_GrindRailStart.inc", void Task_GrindRailStart(void))
+{
+    struct Task *grindTask;
+    GrindRail *rail;
+    MapEntity *me;
+    u8 meX;
+    u16 regionX, regionY;
+    s16 worldX, worldY;
+    s16 screenX, screenY;
+
+    if (gPlayer.character == CHARACTER_TAILS || //
+        gPlayer.character == CHARACTER_KNUCKLES) {
+        return;
+    }
+
+    rail = TASK_DATA(gCurTask);
+
+    me = rail->me;
+    meX = TASK_GET_MEMBER(GrindRail, gCurTask, u8, meX);
+    regionX = TASK_GET_MEMBER(GrindRail, gCurTask, u16, regionX);
+    regionY = TASK_GET_MEMBER(GrindRail, gCurTask, u16, regionY);
+
+    worldX = TO_WORLD_POS(meX, regionX);
+    worldY = TO_WORLD_POS(me->y, regionY);
+
+    if (PLAYER_IS_ALIVE) {
+        // NOTE: The collision check does not take left/top (data[0] | data[1]) into account,
+        //       because they are always placed on the left side of a rail ending.
+        if ((worldX <= I(gPlayer.qWorldX)) //
+            && (worldX + me->d.uData[2] * TILE_WIDTH >= I(gPlayer.qWorldX)) //
+            && (worldY <= I(gPlayer.qWorldY)) //
+            && (worldY + me->d.uData[3] * TILE_WIDTH >= I(gPlayer.qWorldY)) //
+            && !(gPlayer.moveState & MOVESTATE_1000000) && (gPlayer.qSpeedAirY >= Q(0)) && (gPlayer.qSpeedAirX > Q(0))) //
+        {
+            gPlayer.qSpeedAirX = MAX(Q(0.5), gPlayer.qSpeedAirX);
+
+            gPlayer.moveState |= MOVESTATE_1000000;
+            gPlayer.layer ^= 1;
+            gPlayerBodyPSI.s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+            gPlayerBodyPSI.s.frameFlags |= SPRITE_FLAG(PRIORITY, 1);
+            gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__80;
+
+            if (gPlayer.character == CHARACTER_AMY) {
+                m4aSongNumStart(SE_AMY_GRINDING);
+            } else {
+                m4aSongNumStart(SE_GRINDING);
+            }
+
+            grindTask = CreateGrindEffect();
+        }
+
+        screenX = worldX - gCamera.x;
+        screenY = worldY - gCamera.y;
+
+        if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+}
+END_NONMATCH
+
 void Task_GrindRailEnd(void)
 {
     GrindRail *rail;
@@ -57,10 +121,14 @@ void Task_GrindRailEnd(void)
     worldY = TO_WORLD_POS(me->y, regionY);
 
     if (PLAYER_IS_ALIVE) {
-        // NOTE: The Rail endings do not take left/top (data[0] | data[1]) into account,
-        //       because they are always set to be on the left side of a rail
-        if ((worldX <= I(gPlayer.qWorldX)) && (worldX + me->d.uData[2] * TILE_WIDTH >= I(gPlayer.qWorldX)) && (worldY <= I(gPlayer.qWorldY))
-            && (worldY + me->d.uData[3] * TILE_WIDTH >= I(gPlayer.qWorldY)) && (gPlayer.moveState & MOVESTATE_1000000)) {
+        // NOTE: The collision check does not take left/top (data[0] | data[1]) into account,
+        //       because they are always placed on the left side of a rail ending.
+        if ((worldX <= I(gPlayer.qWorldX)) //
+            && (worldX + me->d.uData[2] * TILE_WIDTH >= I(gPlayer.qWorldX)) //
+            && (worldY <= I(gPlayer.qWorldY)) //
+            && (worldY + me->d.uData[3] * TILE_WIDTH >= I(gPlayer.qWorldY)) //
+            && (gPlayer.moveState & MOVESTATE_1000000)) //
+        {
             if (I(gPlayer.qWorldX) > worldX + ((me->d.uData[2] * TILE_WIDTH) >> 1)) {
                 /* Jump off of the rail */
 
@@ -103,6 +171,7 @@ void Task_GrindRailEnd(void)
             }
         }
 
+        // _08023E5E
         screenX = worldX - gCamera.x;
         screenY = worldY - gCamera.y;
 

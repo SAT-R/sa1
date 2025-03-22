@@ -73,7 +73,7 @@ typedef struct {
 // Confusion
 #define PLAYER_ITEM_EFFECT__40 0x40
 
-// Teleport
+// Teleport in SA2... Grinding in SA1?
 #define PLAYER_ITEM_EFFECT__80 0x80
 
 #define PLAYER_LAYER__FRONT 0x00
