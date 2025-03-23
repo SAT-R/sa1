@@ -63,6 +63,12 @@ void Player_804726C(Player *p);
 void Player_8047280(Player *p);
 void Player_8044750(Player *p);
 void Player_80447D8(Player *p);
+void sub_8045CFC(Player *p);
+
+void Player_Sonic_80473AC(Player *p);
+void Player_Tails_8047BA0(Player *p);
+void Player_Knuckles_8049000(Player *p);
+void Player_Amy_80497AC(Player *p);
 
 void Player_Sonic_JumpHeld(Player *p);
 void Player_Tails_JumpHeld(Player *p);
@@ -3865,8 +3871,6 @@ void Task_PlayerDied(void)
     sa2__sub_8024F74(p, psi2);
 }
 
-#if 0
-// https://decomp.me/scratch/OHvkQ
 void Task_PlayerMain(void)
 {
     Player *p = &gPlayer;
@@ -3974,12 +3978,64 @@ void Task_PlayerMain(void)
         } else {
             m4aSongNumStart(SE_LIFE_LOST);
         }
-    } else
-    {
+    } else {
 #if (GAME == GAME_SA1)
         sub_8045CFC(p);
         SA2_LABEL(sub_8023878)(p);
+
+        if (!(p->moveState & 0x400000)) {
+            switch (p->character) {
+                case CHARACTER_SONIC: {
+                    Player_Sonic_80473AC(p);
+                } break;
+
+                case CHARACTER_TAILS: {
+                    Player_Tails_8047BA0(p);
+                } break;
+
+                case CHARACTER_KNUCKLES: {
+                    Player_Knuckles_8049000(p);
+                } break;
+
+                case CHARACTER_AMY: {
+                    Player_Amy_80497AC(p);
+                } break;
+            }
+        }
 #endif
     }
-}
+    // 124
+#if (GAME == GAME_SA1)
+    sa2__sub_802486C(p, p->spriteInfoBody);
+    sa2__sub_8024B10(p, p->spriteInfoBody);
+    sa2__sub_8024F74(p, p->spriteInfoLimbs);
+
+    if ((p->charState != CHARSTATE_HIT_AIR) && (p->timerInvulnerability > 0)) {
+        p->timerInvulnerability--;
+    }
+
+    if (p->itemEffect != 0) {
+        if ((p->itemEffect & PLAYER_ITEM_EFFECT__SPEED_UP) && (--p->timerSpeedup == 0)) {
+            m4aMPlayTempoControl(&gMPlayInfo_BGM, Q(1.0));
+            p->itemEffect &= ~PLAYER_ITEM_EFFECT__SPEED_UP;
+        }
+
+        if ((p->itemEffect & PLAYER_ITEM_EFFECT__MP_SLOW_DOWN) && (--p->timerSpeedup == 0)) {
+            m4aMPlayTempoControl(&gMPlayInfo_BGM, Q(1.0));
+            p->itemEffect &= ~PLAYER_ITEM_EFFECT__MP_SLOW_DOWN;
+        }
+
+        if ((p->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY) && (--p->timerInvincibility == 0)) {
+            p->itemEffect &= ~PLAYER_ITEM_EFFECT__INVINCIBILITY;
+            m4aSongNumStop(28);
+        }
+
+        if ((p->itemEffect & PLAYER_ITEM_EFFECT__20) && (--p->timer24 == 0)) {
+            p->itemEffect &= ~PLAYER_ITEM_EFFECT__20;
+
+            gDispCnt &= ~0x8000;
+            gWinRegs[5] = 0x3F;
+        }
+    }
 #endif
+}

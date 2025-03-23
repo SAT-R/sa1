@@ -139,7 +139,7 @@ typedef struct Player {
     /* 0x1E */ s16 timerInvincibility;
     /* 0x20 */ u16 timerSpeedup;
     /* 0x22 */ u16 timerConfusion;
-    /* 0x24 */ u8 filler24[0x2];
+    /* 0x24 */ u16 timer24;
     /* 0x26 */ u8 itemEffect;
     /* 0x27 */ u8 layer; // TODO: Double-Check the name!
     /* 0x28 */ Sprite *stoodObj; // TODO: Change name!
