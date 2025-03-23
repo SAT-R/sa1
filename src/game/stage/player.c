@@ -1,5 +1,6 @@
 #include "global.h"
 #include "trig.h"
+#include "flags.h"
 #include "malloc_vram.h"
 #include "gba/io_reg.h"
 #include "lib/m4a/m4a.h"
@@ -4039,3 +4040,114 @@ void Task_PlayerMain(void)
     }
 #endif
 }
+
+// TODO(Jace): Could this be exclusively for the CPU Tails?
+//             I didn't find a way to trigger this procedure yet.
+// (93.14%) https://decomp.me/scratch/CpseV
+NONMATCH("asm/non_matching/game/stage/Player__Player_Tails_804571C.inc", void Player_Tails_804571C(Player *p))
+{
+    u16 gravityFlag = (gStageFlags & STAGE_FLAG__GRAVITY_INVERTED);
+
+    p->layer = gPlayer.layer;
+
+    if (gPlayer.moveState & MOVESTATE_1000000) {
+        gPlayer.layer ^= 0x1;
+    }
+
+    if (p->moveState & MOVESTATE_IN_WATER) {
+        p->charState = CHARSTATE_SWIMMING;
+    } else {
+        p->charState = CHARSTATE_FLYING;
+    }
+
+    if (I(p->qWorldX) < gCamera.x - CAM_REGION_WIDTH) {
+        p->qWorldX = Q(gCamera.x - CAM_REGION_WIDTH);
+    }
+
+    if (I(p->qWorldX) > gCamera.x + DISPLAY_WIDTH + CAM_REGION_WIDTH) {
+        p->qWorldX = Q(gCamera.x + DISPLAY_WIDTH + CAM_REGION_WIDTH);
+    }
+
+    if (I(p->qWorldY) < gCamera.y - CAM_REGION_WIDTH) {
+        p->qWorldY = Q(gCamera.y - CAM_REGION_WIDTH);
+    }
+
+    if (I(p->qWorldY) > gCamera.y + DISPLAY_HEIGHT + CAM_REGION_WIDTH) {
+        p->qWorldY = Q(gCamera.y + DISPLAY_HEIGHT + CAM_REGION_WIDTH);
+    }
+    // _080457CE
+
+    if (((I(p->qWorldX) - 32) < I(gPlayer.qWorldX)) && ((I(p->qWorldX) + 32) > I(gPlayer.qWorldX))
+        && ((!gravityFlag && ((I(p->qWorldY) - 32) < I(gPlayer.qWorldY) - 48) && ((I(p->qWorldY) + 32) > I(gPlayer.qWorldY) - 48))
+            || (gravityFlag && ((I(p->qWorldY) - 32) < I(gPlayer.qWorldY) + 48) && ((I(p->qWorldY) + 32) > I(gPlayer.qWorldY) + 48)))
+        && (SA2_LABEL(sub_8022F58)(0, p) >= 0)) {
+        // _08045834 + 0xA
+        p->moveState &= ~MOVESTATE_20;
+        p->moveState &= ~MOVESTATE_100;
+        p->moveState &= ~MOVESTATE_SPINDASH;
+        p->SA2_LABEL(unk61) = 0;
+        p->SA2_LABEL(unk62) = 0;
+        p->SA2_LABEL(unk63) = 0;
+        p->moveState &= ~MOVESTATE_8000;
+
+        if (p->character == CHARACTER_TAILS) {
+            m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+        }
+
+        if (p->character == CHARACTER_AMY) {
+            p->moveState &= ~(MOVESTATE_2000000 | MOVESTATE_4000000);
+        }
+
+        p->qSpeedGround = Q(0);
+        p->qSpeedAirX = Q(0);
+        p->qSpeedAirY = Q(0);
+
+        p->charState = CHARSTATE_56;
+        p->moveState &= ~MOVESTATE_4;
+        p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+        p->moveState &= ~MOVESTATE_200;
+        p->moveState &= ~MOVESTATE_100000;
+        p->moveState &= ~MOVESTATE_800000;
+        p->moveState &= ~MOVESTATE_DEAD;
+        p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+        p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        p->stoodObj = NULL;
+
+        gCurTask->main = Task_8045B38;
+    } else {
+        s32 r2;
+        s32 qWorld;
+        s32 qDelta;
+        s32 world;
+        // _080458F8
+        if ((I(p->qWorldX) + 1) < I(gPlayer.qWorldX)) {
+            p->qWorldX += Q(2);
+            p->moveState &= ~MOVESTATE_FACING_LEFT;
+        } else if (I(gPlayer.qWorldX) < (I(p->qWorldX) - 1)) {
+            p->qWorldX -= Q(2);
+            p->moveState |= MOVESTATE_FACING_LEFT;
+        }
+        // _08045934
+
+        world = I(p->qWorldY);
+        qDelta = p->qWorldY;
+
+        if (!gravityFlag) {
+            r2 = I(gPlayer.qWorldY) - 48;
+        } else {
+            r2 = I(gPlayer.qWorldY) + 48;
+        }
+
+        if (world < r2) {
+            qDelta = +Q(1);
+        } else if (r2 < world) {
+            qDelta = -Q(1);
+        } else {
+            return;
+        }
+
+        p->qWorldY += qDelta;
+    }
+}
+END_NONMATCH
