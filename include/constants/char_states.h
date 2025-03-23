@@ -8,7 +8,7 @@
 
 #define CHARSTATE_INVALID         -1
 #define CHARSTATE_IDLE            0
-#define CHARSTATE_1               1
+#define CHARSTATE_DEAD            1
 #define CHARSTATE_CROUCH          2
 #define CHARSTATE_3               3 // Look-down state?
 #define CHARSTATE_4               4

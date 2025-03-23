@@ -75,6 +75,9 @@ void Task_PlayerMain(void);
 void TaskDestructor_Player(struct Task *);
 void AllocateCharacterStageGfx(Player *p, PlayerSpriteInfo *param2);
 void AllocateCharacterMidAirGfx(Player *p, PlayerSpriteInfo *param2);
+void SA2_LABEL(sub_802486C)(Player *p, PlayerSpriteInfo *psi);
+void SA2_LABEL(sub_8024B10)(Player *p, PlayerSpriteInfo *psi);
+void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *psi);
 
 #if (GAME == GAME_SA1)
 #define UPDATE_POS_SPEEDCAP
@@ -94,6 +97,23 @@ void AllocateCharacterMidAirGfx(Player *p, PlayerSpriteInfo *param2);
                                                                                                                                            \
         player->qWorldY = GRAVITY_IS_INVERTED ? player->qWorldY - player->qSpeedAirY : player->qWorldY + player->qSpeedAirY;               \
     }
+
+#if (GAME == GAME_SA1)
+#define PLAYERFN_UPDATE_AIR_FALL_SPEED(player)                                                                                             \
+    if (!(player->moveState & MOVESTATE_IN_WATER)) {                                                                                       \
+        player->qSpeedAirY += Q(PLAYER_GRAVITY);                                                                                           \
+    } else {                                                                                                                               \
+        player->qSpeedAirY += Q(PLAYER_GRAVITY_UNDER_WATER);                                                                               \
+    }
+#elif (GAME == GAME_SA2)
+#define PLAYERFN_UPDATE_AIR_FALL_SPEED(player)                                                                                             \
+    if (player->moveState & MOVESTATE_IN_WATER) {                                                                                          \
+        player->qSpeedAirY += Q(PLAYER_GRAVITY_UNDER_WATER);                                                                               \
+    } else {                                                                                                                               \
+        player->qSpeedAirY += Q(PLAYER_GRAVITY);                                                                                           \
+    }
+#endif
+
 void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *player)
 {
     struct Task *t;
@@ -3783,3 +3803,183 @@ void Task_PlayerHandleDeath(void)
         gt->unk4 = val;
     }
 }
+
+static inline bool32 DeadPlayerLeftScreen(Player *p, struct Camera *cam, s32 playerY)
+{
+    if (p->moveState & MOVESTATE_80000000) {
+        return FALSE;
+    }
+#if (GAME == GAME_SA1)
+    if (!GRAVITY_IS_INVERTED) {
+        if (playerY >= Q(cam->y) + Q(DISPLAY_HEIGHT + 80) - 1) {
+            return TRUE;
+        }
+    } else {
+        if (playerY <= Q(cam->y - 80)) {
+            return TRUE;
+        }
+    }
+#elif (GAME == GAME_SA2)
+    if (GRAVITY_IS_INVERTED) {
+        if (playerY <= Q(cam->y - 80)) {
+            return TRUE;
+        }
+    } else {
+        if (playerY >= Q(cam->y) + Q(DISPLAY_HEIGHT + 80) - 1) {
+            return TRUE;
+        }
+    }
+#endif
+    return FALSE;
+}
+
+void Task_PlayerDied(void)
+{
+    Player *p = &gPlayer;
+
+    PlayerSpriteInfo *psi1 = gPlayer.spriteInfoBody;
+    PlayerSpriteInfo *psi2 = gPlayer.spriteInfoLimbs;
+
+    if (DeadPlayerLeftScreen(&gPlayer, &gCamera, gPlayer.qWorldY)) {
+        player_0_Task *gt = TASK_DATA(gCurTask);
+        gt->unk4 = ZONE_TIME_TO_INT(0, 1);
+#if (GAME == GAME_SA2)
+        gPlayer.moveState |= MOVESTATE_100000;
+        if (IS_MULTI_PLAYER) {
+            sub_8024B10(p, psi1);
+        }
+#endif
+        gCurTask->main = Task_PlayerHandleDeath;
+        return;
+    }
+
+#if (GAME == GAME_SA1)
+    PLAYERFN_UPDATE_POSITION(p);
+    PLAYERFN_UPDATE_AIR_FALL_SPEED(p);
+#elif (GAME == GAME_SA2)
+    PLAYERFN_UPDATE_AIR_FALL_SPEED(p);
+    PLAYERFN_UPDATE_POSITION(p);
+#endif
+    sa2__sub_802486C(p, psi1);
+    sa2__sub_8024B10(p, psi1);
+    sa2__sub_8024F74(p, psi2);
+}
+
+#if 0
+// https://decomp.me/scratch/OHvkQ
+void Task_PlayerMain(void)
+{
+    Player *p = &gPlayer;
+
+#if (GAME == GAME_SA2)
+    Player_HandleBoostThreshold(p);
+    sub_80298DC(p);
+    Player_ApplyBoostPhysics(p);
+    Player_HandleWalkAnim(p);
+
+    gUnknown_030054FC = 0;
+    gUnknown_030054E0 = 0;
+    sub_802460C(p);
+    sub_800DF8C(p);
+    sub_8023878(p);
+    CallPlayerTransition(p);
+
+    if (!(p->moveState & MOVESTATE_IA_OVERRIDE)) {
+        p->callback(p);
+    } else if (IS_BOSS_STAGE(gCurrentLevel)) {
+        sub_80232D0(p);
+    }
+
+    sub_802486C(p, p->spriteInfoBody);
+    sub_8024B10(p, p->spriteInfoBody);
+    sub_8024F74(p, p->spriteInfoLimbs);
+
+    if (p->charState != CHARSTATE_HIT_AIR && p->timerInvulnerability > 0) {
+        p->timerInvulnerability--;
+    }
+
+    if (p->disableTrickTimer != 0) {
+        p->disableTrickTimer--;
+    }
+
+    sub_8023748(p);
+
+    // from boost_effect.c
+    sub_8015790();
+    sub_80156D0();
+
+    p->moveState &= ~MOVESTATE_ICE_SLIDE;
+    gHomingTarget.squarePlayerDistance = SQUARE(128);
+    gHomingTarget.angle = 0;
+    gCheeseTarget.squarePlayerDistance = SQUARE(CHEESE_DISTANCE_MAX);
+    gCheeseTarget.task = NULL;
+#endif
+
+    if (p->moveState & MOVESTATE_DEAD) {
+        struct Camera *cam = &gCamera;
+        gCurTask->main = Task_PlayerDied;
+        p->charState = CHARSTATE_DEAD;
+        p->qSpeedAirX = 0;
+
+#if (GAME == GAME_SA2)
+        if (p->qSpeedAirY < -Q(4)) {
+            p->qSpeedAirY = -Q(2);
+        } else if (p->qSpeedAirY > 0) {
+            p->qSpeedAirY = 0;
+        }
+#endif
+
+        p->timerInvulnerability = 2;
+        p->itemEffect = 0;
+        p->moveState &= ~MOVESTATE_20;
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        p->stoodObj = NULL;
+        cam->SA2_LABEL(unk50) |= 3;
+
+        if (IS_SINGLE_PLAYER) {
+            gStageFlags |= STAGE_FLAG__ACT_START;
+        }
+
+        p->spriteInfoBody->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+        p->spriteInfoBody->s.frameFlags |= SPRITE_FLAG(PRIORITY, 1);
+        p->SA2_LABEL(unk80) = 0x100;
+        p->SA2_LABEL(unk82) = 0x100;
+
+#if (GAME == GAME_SA1)
+        m4aSongNumStop(28);
+        m4aSongNumStop(27);
+        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+#elif (GAME == GAME_SA2)
+        // TODO: macro IS_SONG_PLAYING(...)
+        if (gMPlayTable[0].info->songHeader == gSongTable[MUS_DROWNING].header) {
+            m4aSongNumStartOrContinue(gLevelSongs[gCurrentLevel]);
+        }
+        if (gMPlayTable[0].info->songHeader == gSongTable[MUS_INVINCIBILITY].header) {
+            m4aSongNumStartOrContinue(gLevelSongs[gCurrentLevel]);
+        }
+
+        m4aSongNumStop(MUS_DROWNING);
+
+        if (p->character == CHARACTER_TAILS) {
+            m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+        }
+
+        if (p->character == CHARACTER_CREAM) {
+            m4aSongNumStop(SE_CREAM_FLYING);
+        }
+#endif
+
+        if (p->secondsUntilDrown < 0) {
+            m4aSongNumStart(192);
+        } else {
+            m4aSongNumStart(SE_LIFE_LOST);
+        }
+    } else
+    {
+#if (GAME == GAME_SA1)
+        sub_8045CFC(p);
+        SA2_LABEL(sub_8023878)(p);
+#endif
+    }
+}
+#endif

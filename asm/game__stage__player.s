@@ -5,137 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start Task_PlayerDied
-Task_PlayerDied: @ 0x08045418
-	push {r4, r5, r6, r7, lr}
-	ldr r4, _08045430 @ =gPlayer
-	ldr r6, [r4, #0x64]
-	ldr r7, [r4, #0x68]
-	ldr r5, _08045434 @ =gCamera
-	ldr r3, [r4, #4]
-	ldr r0, [r4, #0x10]
-	cmp r0, #0
-	bge _0804543C
-	ldr r2, _08045438 @ =gStageFlags
-	b _08045494
-	.align 2, 0
-_08045430: .4byte gPlayer
-_08045434: .4byte gCamera
-_08045438: .4byte gStageFlags
-_0804543C:
-	ldr r2, _08045458 @ =gStageFlags
-	ldrh r1, [r2]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _08045460
-	movs r1, #2
-	ldrsh r0, [r5, r1]
-	lsls r0, r0, #8
-	ldr r1, _0804545C @ =0x0000EFFF
-	adds r0, r0, r1
-	cmp r3, r0
-	blt _0804546E
-	b _08045474
-	.align 2, 0
-_08045458: .4byte gStageFlags
-_0804545C: .4byte 0x0000EFFF
-_08045460:
-	movs r1, #2
-	ldrsh r0, [r5, r1]
-	subs r0, #0x50
-	lsls r0, r0, #8
-	movs r1, #1
-	cmp r3, r0
-	ble _08045470
-_0804546E:
-	movs r1, #0
-_08045470:
-	cmp r1, #0
-	beq _08045494
-_08045474:
-	ldr r0, _0804548C @ =gCurTask
-	ldr r2, [r0]
-	ldrh r0, [r2, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	movs r1, #0x3c
-	str r1, [r0, #4]
-	ldr r0, _08045490 @ =Task_PlayerHandleDeath
-	str r0, [r2, #8]
-	b _08045504
-	.align 2, 0
-_0804548C: .4byte gCurTask
-_08045490: .4byte Task_PlayerHandleDeath
-_08045494:
-	movs r0, #8
-	ldrsh r1, [r4, r0]
-	ldr r0, [r4]
-	adds r0, r0, r1
-	str r0, [r4]
-	ldr r1, _080454C8 @ =sa2__gUnknown_0300544C
-	ldrh r0, [r2]
-	ldrh r1, [r1]
-	eors r0, r1
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _080454B4
-	ldrh r0, [r4, #0xa]
-	rsbs r0, r0, #0
-	strh r0, [r4, #0xa]
-_080454B4:
-	ldrh r1, [r2]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _080454CC
-	movs r0, #0xa
-	ldrsh r1, [r4, r0]
-	ldr r0, [r4, #4]
-	subs r0, r0, r1
-	b _080454D4
-	.align 2, 0
-_080454C8: .4byte sa2__gUnknown_0300544C
-_080454CC:
-	movs r0, #0xa
-	ldrsh r1, [r4, r0]
-	ldr r0, [r4, #4]
-	adds r0, r0, r1
-_080454D4:
-	str r0, [r4, #4]
-	ldr r0, [r4, #0x10]
-	movs r1, #0x40
-	ands r0, r1
-	cmp r0, #0
-	bne _080454E6
-	ldrh r0, [r4, #0xa]
-	adds r0, #0x2a
-	b _080454EA
-_080454E6:
-	ldrh r0, [r4, #0xa]
-	adds r0, #0xc
-_080454EA:
-	strh r0, [r4, #0xa]
-	adds r0, r4, #0
-	adds r1, r6, #0
-	bl sub_8046008
-	adds r0, r4, #0
-	adds r1, r6, #0
-	bl sub_80462FC
-	adds r0, r4, #0
-	adds r1, r7, #0
-	bl sub_8046AF4
-_08045504:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
+.if 01
 	thumb_func_start Task_PlayerMain
 Task_PlayerMain: @ 0x0804550C
 	push {r4, r5, r6, r7, lr}
@@ -277,13 +147,13 @@ _0804562A:
 _08045630:
 	ldr r1, [r7, #0x64]
 	adds r0, r7, #0
-	bl sub_8046008
+	bl sa2__sub_802486C
 	ldr r1, [r7, #0x64]
 	adds r0, r7, #0
-	bl sub_80462FC
+	bl sa2__sub_8024B10
 	ldr r1, [r7, #0x68]
 	adds r0, r7, #0
-	bl sub_8046AF4
+	bl sa2__sub_8024F74
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	cmp r0, #0xf
@@ -388,6 +258,7 @@ _0804570C: .4byte gMPlayInfo_BGM
 _08045710: .4byte gDispCnt
 _08045714: .4byte 0x00007FFF
 _08045718: .4byte gWinRegs
+.endif
 
 	thumb_func_start sub_804571C
 sub_804571C: @ 0x0804571C
@@ -870,13 +741,13 @@ _08045AB6:
 	strh r0, [r4, #0xa]
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_8046008
+	bl sa2__sub_802486C
 	adds r0, r4, #0
 	adds r1, r6, #0
-	bl sub_80462FC
+	bl sa2__sub_8024B10
 	adds r0, r4, #0
 	adds r1, r7, #0
-	bl sub_8046AF4
+	bl sa2__sub_8024F74
 _08045AD0:
 	pop {r4, r5, r6, r7}
 	pop {r0}
@@ -901,13 +772,13 @@ sub_8045AD8: @ 0x08045AD8
 _08045AF6:
 	ldr r1, [r4, #0x64]
 	adds r0, r4, #0
-	bl sub_8046008
+	bl sa2__sub_802486C
 	ldr r1, [r4, #0x64]
 	adds r0, r4, #0
-	bl sub_80462FC
+	bl sa2__sub_8024B10
 	ldr r1, [r4, #0x68]
 	adds r0, r4, #0
-	bl sub_8046AF4
+	bl sa2__sub_8024F74
 	adds r0, r4, #0
 	adds r0, #0x40
 	ldrb r0, [r0]
@@ -1131,13 +1002,13 @@ _08045CBE:
 _08045CC4:
 	ldr r1, [r5, #0x64]
 	adds r0, r5, #0
-	bl sub_8046008
+	bl sa2__sub_802486C
 	ldr r1, [r5, #0x64]
 	adds r0, r5, #0
-	bl sub_80462FC
+	bl sa2__sub_8024B10
 	ldr r1, [r5, #0x68]
 	adds r0, r5, #0
-	bl sub_8046AF4
+	bl sa2__sub_8024F74
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	cmp r0, #0xf
@@ -1559,8 +1430,8 @@ _08045FF4:
 _08046000: .4byte gPlayerControls
 _08046004: .4byte 0x0000FF3F
 
-	thumb_func_start sub_8046008
-sub_8046008: @ 0x08046008
+	thumb_func_start sa2__sub_802486C
+sa2__sub_802486C: @ 0x08046008
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1961,8 +1832,8 @@ _080462F8: .4byte gGameMode
 @ This giant function is (also) used to draw characters
 @ R0 = Player *
 @ R1 = PlayerSpriteInfo *
-	thumb_func_start sub_80462FC
-sub_80462FC: @ 0x080462FC
+	thumb_func_start sa2__sub_8024B10
+sa2__sub_8024B10: @ 0x080462FC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2678,7 +2549,7 @@ _08046836:
 	beq _0804684E
 	adds r0, r4, #0
 	mov r1, sl
-	bl sub_8046008
+	bl sa2__sub_802486C
 	b _0804633E
 _0804684E:
 	ldr r0, _080468E4 @ =gGameMode
@@ -3030,8 +2901,8 @@ _08046AE8: .4byte 0x0000F7FF
 _08046AEC: .4byte 0x04000128
 _08046AF0: .4byte 0x0000F9FF
 
-	thumb_func_start sub_8046AF4
-sub_8046AF4: @ 0x08046AF4
+	thumb_func_start sa2__sub_8024F74
+sa2__sub_8024F74: @ 0x08046AF4
 	push {r4, r5, r6, r7, lr}
 	adds r5, r0, #0
 	adds r6, r1, #0
