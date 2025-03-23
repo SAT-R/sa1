@@ -8,239 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sa2__sub_8023B5C
-sa2__sub_8023B5C: @ 0x0804516C
-	push {r4, lr}
-	adds r3, r0, #0
-	adds r4, r1, #0
-	movs r0, #0xf
-	ldrsb r0, [r3, r0]
-	cmp r0, r4
-	beq _08045216
-	ldrb r2, [r3, #0x14]
-	ldr r0, _080451AC @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _0804519A
-	adds r0, r2, #0
-	adds r0, #0x40
-	lsls r0, r0, #0x18
-	rsbs r0, r0, #0
-	lsrs r2, r0, #0x18
-	adds r0, r2, #0
-	subs r0, #0x40
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-_0804519A:
-	adds r0, r2, #0
-	adds r0, #0x20
-	cmp r0, #0
-	ble _080451B4
-	cmp r2, #0
-	beq _080451B0
-	subs r0, #1
-	b _080451B8
-	.align 2, 0
-_080451AC: .4byte gStageFlags
-_080451B0:
-	movs r2, #0x20
-	b _080451C0
-_080451B4:
-	cmp r2, #0
-	beq _080451BE
-_080451B8:
-	lsls r0, r0, #0x18
-	lsrs r2, r0, #0x18
-	b _080451C0
-_080451BE:
-	movs r2, #0x1f
-_080451C0:
-	lsrs r0, r2, #6
-	cmp r0, #1
-	beq _080451FA
-	cmp r0, #1
-	bgt _080451D0
-	cmp r0, #0
-	beq _080451DA
-	b _08045216
-_080451D0:
-	cmp r0, #2
-	beq _080451EA
-	cmp r0, #3
-	beq _08045208
-	b _08045216
-_080451DA:
-	movs r1, #0xf
-	ldrsb r1, [r3, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3, #4]
-	subs r0, r0, r1
-	str r0, [r3, #4]
-	b _08045216
-_080451EA:
-	movs r1, #0xf
-	ldrsb r1, [r3, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3, #4]
-	adds r0, r0, r1
-	str r0, [r3, #4]
-	b _08045216
-_080451FA:
-	movs r1, #0xf
-	ldrsb r1, [r3, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3]
-	adds r0, r0, r1
-	b _08045214
-_08045208:
-	movs r1, #0xf
-	ldrsb r1, [r3, r1]
-	subs r1, r4, r1
-	lsls r1, r1, #8
-	ldr r0, [r3]
-	subs r0, r0, r1
-_08045214:
-	str r0, [r3]
-_08045216:
-	pop {r4}
-	pop {r0}
-	bx r0
-
-@ As unused as in SA2
-	thumb_func_start Player_Debug_TestRingScatter
-Player_Debug_TestRingScatter: @ 0x0804521C
-	push {r4, lr}
-	adds r4, r0, #0
-	ldr r0, [r4, #0x10]
-	cmp r0, #0
-	bge _080452FA
-	movs r0, #0xc
-	ldrsh r3, [r4, r0]
-	ldr r2, _0804524C @ =gInput
-	ldrh r1, [r2]
-	movs r0, #0xf0
-	ands r0, r1
-	cmp r0, #0
-	beq _08045256
-	adds r3, #0x20
-	cmp r3, #0
-	blt _08045250
-	adds r0, r3, #0
-	movs r1, #0x80
-	lsls r1, r1, #5
-	cmp r0, r1
-	ble _08045252
-	adds r0, r1, #0
-	b _08045252
-	.align 2, 0
-_0804524C: .4byte gInput
-_08045250:
-	movs r0, #0
-_08045252:
-	adds r3, r0, #0
-	b _08045258
-_08045256:
-	movs r3, #0
-_08045258:
-	strh r3, [r4, #0xc]
-	ldrh r0, [r2]
-	movs r1, #0x30
-	ands r1, r0
-	cmp r1, #0x10
-	beq _0804526C
-	cmp r1, #0x20
-	bne _08045270
-	rsbs r0, r3, #0
-	b _08045272
-_0804526C:
-	strh r3, [r4, #8]
-	b _08045274
-_08045270:
-	movs r0, #0
-_08045272:
-	strh r0, [r4, #8]
-_08045274:
-	ldrh r0, [r2]
-	movs r1, #0xc0
-	ands r1, r0
-	cmp r1, #0x40
-	beq _08045288
-	cmp r1, #0x80
-	beq _0804528E
-	movs r0, #0
-	strh r0, [r4, #0xa]
-	b _08045290
-_08045288:
-	rsbs r0, r3, #0
-	strh r0, [r4, #0xa]
-	b _08045290
-_0804528E:
-	strh r3, [r4, #0xa]
-_08045290:
-	movs r0, #8
-	ldrsh r1, [r4, r0]
-	ldr r0, [r4]
-	adds r0, r0, r1
-	str r0, [r4]
-	ldr r2, _080452C8 @ =gStageFlags
-	ldr r1, _080452CC @ =sa2__gUnknown_0300544C
-	ldrh r0, [r2]
-	ldrh r1, [r1]
-	eors r0, r1
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _080452B2
-	ldrh r0, [r4, #0xa]
-	rsbs r0, r0, #0
-	strh r0, [r4, #0xa]
-_080452B2:
-	ldrh r1, [r2]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _080452D0
-	movs r0, #0xa
-	ldrsh r1, [r4, r0]
-	ldr r0, [r4, #4]
-	subs r0, r0, r1
-	b _080452D8
-	.align 2, 0
-_080452C8: .4byte gStageFlags
-_080452CC: .4byte sa2__gUnknown_0300544C
-_080452D0:
-	movs r0, #0xa
-	ldrsh r1, [r4, r0]
-	ldr r0, [r4, #4]
-	adds r0, r0, r1
-_080452D8:
-	str r0, [r4, #4]
-	adds r0, r4, #0
-	bl Player_8043EC0
-	ldr r0, _08045300 @ =gPressedKeys
-	ldrh r1, [r0]
-	movs r0, #2
-	ands r0, r1
-	cmp r0, #0
-	beq _080452FA
-	ldr r0, [r4]
-	asrs r0, r0, #8
-	ldr r1, [r4, #4]
-	asrs r1, r1, #8
-	movs r2, #1
-	bl InitScatteringRings
-_080452FA:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08045300: .4byte gPressedKeys
-
 	thumb_func_start Task_PlayerHandleDeath
 Task_PlayerHandleDeath: @ 0x08045304
 	push {r4, r5, r6, r7, lr}
@@ -4525,7 +4292,7 @@ sub_80472B8: @ 0x080472B8
 	adds r0, r4, #0
 	bl sub_80449D8
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	movs r0, #8
 	ldrsh r1, [r4, r0]
 	ldr r0, [r4]
@@ -4727,7 +4494,7 @@ _08047444:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -4752,7 +4519,7 @@ _0804747C:
 	bl Player_8043DDC
 _0804749E:
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -4777,7 +4544,7 @@ _080474D2:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5163,7 +4930,7 @@ _08047796:
 	adds r0, r4, #0
 	bl Player_8044F7C
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5184,7 +4951,7 @@ _080477D4:
 	bl sub_8047668
 _080477E8:
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5210,7 +4977,7 @@ sub_804780C: @ 0x0804780C
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5240,7 +5007,7 @@ sub_804784C: @ 0x0804784C
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5272,7 +5039,7 @@ _080478AC:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5757,7 +5524,7 @@ _08047C2C:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5769,7 +5536,7 @@ _08047C66:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 _08047C7E:
@@ -5793,7 +5560,7 @@ _08047C8C:
 	bl Player_8043DDC
 _08047CAE:
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -5811,7 +5578,7 @@ _08047CC8:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -6052,7 +5819,7 @@ _08047EB6:
 	adds r0, r4, #0
 	bl Player_8044F7C
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -6073,7 +5840,7 @@ _08047EF4:
 	bl sub_8047B04
 _08047F08:
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -6106,7 +5873,7 @@ sub_8047F2C: @ 0x08047F2C
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -6122,7 +5889,7 @@ _08047F74:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -6151,7 +5918,7 @@ sub_8047FA0: @ 0x08047FA0
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -6176,7 +5943,7 @@ sub_8047FE4: @ 0x08047FE4
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -7931,7 +7698,7 @@ _08048CD2:
 	bl Player_8044F7C
 _08048CF2:
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -7979,7 +7746,7 @@ _08048D4A:
 	bl sa2__sub_80231C0
 _08048D56:
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8175,7 +7942,7 @@ _08048EA4:
 	bl sub_80492E4
 _08048EDC:
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8227,7 +7994,7 @@ _08048F4C:
 	adds r0, r4, #0
 	bl sub_8048980
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8284,7 +8051,7 @@ _08048FD0:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8342,7 +8109,7 @@ _08049032:
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8390,7 +8157,7 @@ _080490BC:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8528,7 +8295,7 @@ sub_80491C4: @ 0x080491C4
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8583,7 +8350,7 @@ _08049258:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -8950,7 +8717,7 @@ _08049532:
 	adds r0, r4, #0
 	bl Player_8044F7C
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -9025,7 +8792,7 @@ _080495C6:
 	adds r0, r4, #0
 	bl sa2__sub_80231C0
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -9046,7 +8813,7 @@ Player_80495F0: @ 0x080495F0
 	adds r0, r4, #0
 	bl Player_8047280
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -9328,7 +9095,7 @@ _08049822:
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0
@@ -9360,7 +9127,7 @@ sub_8049854: @ 0x08049854
 	adds r0, r4, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8043EC0
+	bl sa2__sub_80232D0
 	adds r0, r4, #0
 	bl Player_80470E8
 	adds r0, r4, #0

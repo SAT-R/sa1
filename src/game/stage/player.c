@@ -54,7 +54,7 @@ extern s16 gUnknown_084ADFC0[NUM_LEVEL_IDS][2];
 extern s16 gUnknown_084AE188[9];
 extern s16 gUnknown_084AE19A[9];
 
-void Player_8043EC0(Player *p);
+void SA2_LABEL(sub_80232D0)(Player *p);
 void Task_8045B38(void);
 void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
@@ -74,6 +74,24 @@ void TaskDestructor_Player(struct Task *);
 void AllocateCharacterStageGfx(Player *p, PlayerSpriteInfo *param2);
 void AllocateCharacterMidAirGfx(Player *p, PlayerSpriteInfo *param2);
 
+#if (GAME == GAME_SA1)
+#define UPDATE_POS_SPEEDCAP
+#elif (GAME >= GAME_SA2)
+#define UPDATE_POS_SPEEDCAP player->qSpeedAirY = MIN(player->qSpeedAirY, Q(PLAYER_AIR_SPEED_MAX));
+#endif
+
+#define PLAYERFN_UPDATE_POSITION(player)                                                                                                   \
+    {                                                                                                                                      \
+        player->qWorldX += player->qSpeedAirX;                                                                                             \
+                                                                                                                                           \
+        if ((gStageFlags ^ sa2__gUnknown_0300544C) & STAGE_FLAG__GRAVITY_INVERTED) {                                                       \
+            player->qSpeedAirY = -player->qSpeedAirY;                                                                                      \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        UPDATE_POS_SPEEDCAP;                                                                                                               \
+                                                                                                                                           \
+        player->qWorldY = GRAVITY_IS_INVERTED ? player->qWorldY - player->qSpeedAirY : player->qWorldY + player->qSpeedAirY;               \
+    }
 void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *player)
 {
     struct Task *t;
@@ -2616,8 +2634,9 @@ void Player_8043DDC(Player *p)
     SA2_LABEL(sub_8023128)(p);
 }
 
+// TODO: Check how this differs from SA2 func sub_80232D0!
 // (98.92%) https://decomp.me/scratch/KZphy
-NONMATCH("asm/non_matching/game/stage/Player__Player_8043EC0.inc", void Player_8043EC0(Player *p))
+NONMATCH("asm/non_matching/game/stage/Player__Player_8043EC0.inc", void SA2_LABEL(sub_80232D0)(Player *p))
 {
     Camera *cam = &gCamera;
     s32 qWorldX = p->qWorldX;
@@ -2799,7 +2818,7 @@ bool32 Player_Spindash(Player *p)
         Player_8047280(p);
     }
 
-    Player_8043EC0(p);
+    SA2_LABEL(sub_80232D0)(p);
     SA2_LABEL(sub_8022D6C)(p);
 
     return TRUE;
@@ -3597,4 +3616,99 @@ void Player_8044F7C(Player *p)
     p->qSpeedAirY = Q_MUL(qSpeed, SIN_24_8(rot * 4));
 
     SA2_LABEL(sub_8023128)(p);
+}
+
+void SA2_LABEL(sub_8023B5C)(Player *p, s32 spriteOffsetY)
+{
+    u8 rot;
+    if (p->spriteOffsetY == spriteOffsetY) {
+        return;
+    }
+
+    rot = p->rotation;
+    if (GRAVITY_IS_INVERTED) {
+        rot += Q(1. / 4.);
+        rot = -rot;
+        rot -= Q(1. / 4.);
+    }
+
+    if ((s32)(rot + Q(1. / 8.)) > 0) {
+        if (rot != 0) {
+            rot = (rot + Q(1. / 8.)) - 1;
+            ;
+        } else {
+            rot = Q(1. / 8.);
+        }
+    } else {
+        if (rot != 0) {
+            rot = (rot + Q(1. / 8.));
+        } else {
+            rot = Q(1. / 8.) - 1;
+        }
+    }
+
+    switch ((rot >> 6)) {
+        case 0: {
+            p->qWorldY -= Q(spriteOffsetY - p->spriteOffsetY);
+        } break;
+
+        case 2: {
+            p->qWorldY += Q(spriteOffsetY - p->spriteOffsetY);
+        } break;
+
+        case 1: {
+            p->qWorldX += Q(spriteOffsetY - p->spriteOffsetY);
+        } break;
+
+        case 3: {
+            p->qWorldX -= Q(spriteOffsetY - p->spriteOffsetY);
+        } break;
+    }
+}
+
+void Player_Debug_TestRingScatter(Player *p)
+{
+    if (p->moveState & MOVESTATE_80000000) {
+        s32 qSpeedGround = p->qSpeedGround;
+        if (gInput & DPAD_ANY) {
+            qSpeedGround += Q(0.125);
+            qSpeedGround = qSpeedGround >= Q(0) ? CLAMP(qSpeedGround, Q(0), Q(16)) : Q(0);
+        } else {
+            qSpeedGround = 0;
+        }
+        p->qSpeedGround = qSpeedGround;
+
+        switch (gInput & DPAD_SIDEWAYS) {
+            case DPAD_LEFT:
+                p->qSpeedAirX = -qSpeedGround;
+                break;
+
+            case DPAD_RIGHT:
+                p->qSpeedAirX = +qSpeedGround;
+                break;
+
+            default:
+                p->qSpeedAirX = 0;
+        }
+
+        switch (gInput & DPAD_VERTICAL) {
+            case DPAD_UP:
+                p->qSpeedAirY = -qSpeedGround;
+                break;
+
+            case DPAD_DOWN:
+                p->qSpeedAirY = +qSpeedGround;
+                break;
+
+            default:
+                p->qSpeedAirY = 0;
+        }
+
+        PLAYERFN_UPDATE_POSITION(p);
+        SA2_LABEL(sub_80232D0)(p);
+
+        if (gPressedKeys & B_BUTTON) {
+            InitScatteringRings(I(p->qWorldX), I(p->qWorldY), 1);
+        }
+    }
 }
