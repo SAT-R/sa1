@@ -571,7 +571,7 @@ void HandleLifeLost(void)
 }
 
 #if (GAME == GAME_SA1)
-void sub_803D66C(void)
+void HandleDeath(void)
 {
     gStageFlags |= STAGE_FLAG__DISABLE_PAUSE_MENU;
 

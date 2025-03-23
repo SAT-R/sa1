@@ -8,6 +8,7 @@
 #include "game/sa1_sa2_shared/camera.h"
 #include "game/sa1_sa2_shared/music_manager.h"
 #include "game/sa1_sa2_shared/player.h"
+#include "game/save.h"
 #include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
 #include "game/stage/dust_effect_spindash.h"
@@ -15,6 +16,7 @@
 #include "game/stage/player_controls.h"
 #include "game/stage/rings_scatter.h"
 #include "game/stage/spawn_positions.h"
+#include "game/stage/stage.h"
 #include "game/stage/underwater_effects.h"
 #include "game/water_effects.h"
 
@@ -3710,5 +3712,74 @@ void Player_Debug_TestRingScatter(Player *p)
         if (gPressedKeys & B_BUTTON) {
             InitScatteringRings(I(p->qWorldX), I(p->qWorldY), 1);
         }
+    }
+}
+
+void Task_PlayerHandleDeath(void)
+{
+    player_0_Task *gt = TASK_DATA(gCurTask);
+    u32 val = gt->unk4;
+    if (val == 0) {
+        if (IS_SINGLE_PLAYER) {
+            TaskDestroy(gCurTask);
+
+            if ((!LOADED_SAVE->timeLimitDisabled
+                 && (gCourseTime > MAX_COURSE_TIME || (gStageFlags & STAGE_FLAG__TIMER_REVERSED && gCourseTime == 0)))
+#if (GAME == GAME_SA2)
+                || ((gGameMode == GAME_MODE_TIME_ATTACK || gGameMode == GAME_MODE_BOSS_TIME_ATTACK) && gCourseTime > MAX_COURSE_TIME)
+#endif
+            ) {
+                HandleDeath();
+            } else {
+                gRingCount = 0;
+#if (GAME == GAME_SA2)
+                gSpecialRingCount = 0;
+#endif
+                HandleLifeLost();
+            }
+        } else {
+#if (GAME == GAME_SA1)
+            if (gGameMode != GAME_MODE_CHAO_HUNT && gGameMode != GAME_MODE_TEAM_PLAY)
+#endif
+            {
+                gRingCount = 0;
+            }
+
+#if (GAME == GAME_SA2)
+            if (gGameMode == GAME_MODE_MULTI_PLAYER) {
+                gRingCount = 1;
+            }
+#endif
+
+#if (GAME == GAME_SA2)
+            gSpecialRingCount = 0;
+#endif
+            InitializePlayer(&gPlayer);
+            gCamera.x = I(gPlayer.qWorldX) + gCamera.shiftX - (DISPLAY_WIDTH / 2);
+            gCamera.y = I(gPlayer.qWorldY) + gCamera.shiftY - (DISPLAY_HEIGHT / 2);
+            m4aMPlayTempoControl(&gMPlayInfo_BGM, 256);
+            gPlayer.moveState = 0;
+            gStageFlags &= ~STAGE_FLAG__GRAVITY_INVERTED;
+
+            gPlayer.spriteInfoBody->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+            gPlayer.spriteInfoBody->s.frameFlags |= SPRITE_FLAG(PRIORITY, 2);
+            gPlayer.spriteInfoLimbs->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+            gPlayer.spriteInfoLimbs->s.frameFlags |= SPRITE_FLAG(PRIORITY, 2);
+
+            gCamera.SA2_LABEL(unk50) &= ~0x3;
+
+#if (GAME == GAME_SA2)
+            if (gPlayer.character == CHARACTER_CREAM && gCheese != NULL) {
+                gCheese->posX = gPlayer.qWorldX;
+                gCheese->posY = gPlayer.qWorldY;
+            }
+#endif
+
+            gCurTask->main = Task_PlayerMain;
+            // gPlayer.callback = Player_TouchGround;
+        }
+    } else {
+        val--;
+        gt->unk4 = val;
     }
 }
