@@ -10,6 +10,7 @@
 #include "game/sa1_sa2_shared/music_manager.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/save.h"
+#include "game/some_task_manager.h"
 #include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
 #include "game/stage/dust_effect_spindash.h"
@@ -65,7 +66,7 @@ void Player_804726C(Player *p);
 void Player_8047280(Player *p);
 void Player_8044750(Player *p);
 void Player_80447D8(Player *p);
-void sub_8045CFC(Player *p);
+void SA2_LABEL(sub_802460C)(Player *p);
 void sub_8045DF0(Player *p);
 
 void Player_Sonic_80473AC(Player *p);
@@ -3983,7 +3984,7 @@ void Task_PlayerMain(void)
         }
     } else {
 #if (GAME == GAME_SA1)
-        sub_8045CFC(p);
+        SA2_LABEL(sub_802460C)(p);
         SA2_LABEL(sub_8023878)(p);
 
         if (!(p->moveState & 0x400000)) {
@@ -4350,4 +4351,59 @@ void Task_8045B38(void)
     }
 
     partner->SA2_LABEL(unk25) = 120;
+}
+
+// Confusion state related
+void SA2_LABEL(sub_802460C)(Player *p)
+{
+    u8 r0;
+    u8 r1;
+    u8 r2;
+    u16 r6;
+
+    if (IS_MULTI_PLAYER && (SIO_MULTI_CNT->id != gCamera.spectatorTarget)) {
+        p->heldInput = 0;
+        r6 = 0;
+        sub_804D13C(0);
+    } else {
+        r6 = p->heldInput;
+
+        if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
+            p->heldInput = gInput;
+
+            if (IS_MULTI_PLAYER && (p->itemEffect & PLAYER_ITEM_EFFECT__CONFUSION)) {
+                r2 = ((p->heldInput & DPAD_ANY) >> 4);
+                r1 = ((gStageTime + p->timerConfusion) & 0x3);
+
+                if (r1 == 0) {
+                    r1 = 1;
+                }
+
+                r2 <<= r1;
+                r0 = ((r2 >> 4) | r2);
+                r2 = r0 << 4;
+
+                p->heldInput = (p->heldInput & 0xFF0F) | r2;
+                if (--p->timerConfusion == 0) {
+                    p->itemEffect &= ~PLAYER_ITEM_EFFECT__CONFUSION;
+                }
+            }
+
+            sub_804D13C(p->heldInput);
+        } else {
+            sub_804D13C(0);
+        }
+    }
+
+    r6 ^= p->heldInput;
+    r6 &= p->heldInput;
+    p->frameInput = r6;
+
+    if (p->heldInput & DPAD_SIDEWAYS) {
+        p->heldInput &= ~DPAD_VERTICAL;
+    }
+
+    if (p->frameInput & DPAD_SIDEWAYS) {
+        p->frameInput &= ~DPAD_VERTICAL;
+    }
 }

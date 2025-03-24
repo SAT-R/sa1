@@ -1,0 +1,6 @@
+#ifndef GUARD_SOME_TASK_MANAGER_H
+#define GUARD_SOME_TASK_MANAGER_H
+
+void sub_804D13C(u16 param0);
+
+#endif // GUARD_SOME_TASK_MANAGER_H
