@@ -66,6 +66,7 @@ void Player_8047280(Player *p);
 void Player_8044750(Player *p);
 void Player_80447D8(Player *p);
 void sub_8045CFC(Player *p);
+void sub_8045DF0(Player *p);
 
 void Player_Sonic_80473AC(Player *p);
 void Player_Tails_8047BA0(Player *p);
@@ -4254,6 +4255,97 @@ void Task_8045AD8(void)
     if (gPartner.charState != CHARSTATE_HIT_AIR) {
         if (gPartner.timerInvulnerability > 0) {
             gPartner.timerInvulnerability--;
+        }
+    }
+
+    partner->SA2_LABEL(unk25) = 120;
+}
+
+void Task_8045B38(void)
+{
+    Player *partner = &gPartner;
+    PlayerSpriteInfo *psiBody;
+
+    if (!IS_ALIVE(partner)) {
+        gCurTask->main = Task_804597C;
+
+        partner->charState = CHARSTATE_DEAD;
+        partner->qSpeedAirX = Q(0);
+        partner->timerInvulnerability = 2;
+        partner->itemEffect = 0;
+        partner->moveState &= ~MOVESTATE_20;
+        partner->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        partner->stoodObj = NULL;
+        psiBody = partner->spriteInfoBody;
+        psiBody->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+        psiBody->s.frameFlags |= SPRITE_FLAG(PRIORITY, 1);
+        partner->SA2_LABEL(unk80) = Q(1.0);
+        partner->SA2_LABEL(unk82) = Q(1.0);
+
+        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+
+        if (partner->secondsUntilDrown < 0) {
+            m4aSongNumStart(SE_DROWNED);
+        } else {
+            m4aSongNumStart(SE_LIFE_LOST);
+        }
+    } else {
+        sub_8045DF0(partner);
+        SA2_LABEL(sub_8023878)(partner);
+
+        if ((I(partner->qWorldX) < gCamera.x - CAM_REGION_WIDTH) || (I(partner->qWorldX) > gCamera.x + DISPLAY_WIDTH + CAM_REGION_WIDTH)
+            || (I(partner->qWorldY) < gCamera.y - CAM_REGION_WIDTH)
+            || (I(partner->qWorldY) > gCamera.y + DISPLAY_HEIGHT + CAM_REGION_WIDTH)) {
+            if (partner->character == CHARACTER_TAILS) {
+                if (partner->moveState & MOVESTATE_IN_WATER) {
+                    partner->charState = CHARSTATE_SWIMMING;
+                } else {
+                    partner->charState = CHARSTATE_FLYING;
+                }
+            }
+
+            partner->moveState |= MOVESTATE_DEAD;
+            partner->moveState &= ~MOVESTATE_20;
+            partner->framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
+            partner->secondsUntilDrown = 30;
+
+            if (partner->playerID == PLAYER_1) {
+                m4aSongNumStop(MUS_DROWNING);
+            }
+
+            gCurTask->main = Task_8045AD8;
+        } else if (!(partner->moveState & MOVESTATE_IA_OVERRIDE)) {
+            // TODO: This might be a macro.
+            //       Task_8045B38 explicitly loads the partner data
+            //       and that can only be Tails.
+            //       (Unless gPartner is also used in MP matches?)
+            switch (partner->character) {
+                case CHARACTER_SONIC: {
+                    Player_Sonic_80473AC(partner);
+                } break;
+
+                case CHARACTER_TAILS: {
+                    Player_Tails_8047BA0(partner);
+                } break;
+
+                case CHARACTER_KNUCKLES: {
+                    Player_Knuckles_8049000(partner);
+                } break;
+
+                case CHARACTER_AMY: {
+                    Player_Amy_80497AC(partner);
+                } break;
+            }
+        }
+    }
+
+    SA2_LABEL(sub_802486C)(partner, partner->spriteInfoBody);
+    SA2_LABEL(sub_8024B10)(partner, partner->spriteInfoBody);
+    SA2_LABEL(sub_8024F74)(partner, partner->spriteInfoLimbs);
+
+    if (partner->charState != CHARSTATE_HIT_AIR) {
+        if (partner->timerInvulnerability > 0) {
+            partner->timerInvulnerability--;
         }
     }
 

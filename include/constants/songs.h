@@ -102,6 +102,8 @@
 #define SE_BUMPER 184
 
 #define SE_WATERFALL_SURFACE_HIT 190
+#define SE_AIR_BUBBLE            191
+#define SE_DROWNED               192
 
 #define SE_VS_MULTIPAK_CONN_CLOSE 303
 #define SE_VS_MULTIPAK_ROUND_OVER 304
