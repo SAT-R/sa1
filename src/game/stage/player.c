@@ -58,6 +58,7 @@ extern s16 gUnknown_084AE188[9];
 extern s16 gUnknown_084AE19A[9];
 
 void SA2_LABEL(sub_80232D0)(Player *p);
+void Task_8045AD8(void);
 void Task_8045B38(void);
 void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
@@ -4149,5 +4150,89 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_Tails_804571C.inc", void Pl
 
         p->qWorldY += qDelta;
     }
+}
+END_NONMATCH
+
+// (90.78%) https://decomp.me/scratch/SwkK7
+NONMATCH("asm/non_matching/game/stage/Player__Task_804597C.inc", void Task_804597C(void))
+{
+    PlayerSpriteInfo *psiPartnerBody = gPartner.spriteInfoBody;
+    PlayerSpriteInfo *psiPartnerLimbs = gPartner.spriteInfoLimbs;
+    s32 qPartnerWorldY = gPartner.qWorldY;
+    u32 qPartnerMovestate = gPartner.moveState;
+    Camera *cam = &gCamera;
+    s32 qWorld;
+
+    if (!(qPartnerMovestate & MOVESTATE_80000000)) {
+        s32 r1;
+
+        if (!GRAVITY_IS_INVERTED) {
+            if (qPartnerWorldY >= Q(cam->y) + Q(DISPLAY_WIDTH) - 1) {
+                r1 = 1;
+            } else {
+                r1 = 0;
+            }
+        } else {
+            if (qPartnerWorldY > Q(cam->y - (DISPLAY_HEIGHT / 2))) {
+                r1 = 0;
+            } else {
+                r1 = 1;
+            }
+        }
+
+        if (r1) {
+            // _080459D8
+
+            gPartner.qWorldX = Q(cam->x - 256);
+            gPartner.qWorldY = Q(cam->y - 256);
+            gPartner.spriteInfoBody->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+            gPartner.spriteInfoBody->s.frameFlags |= SPRITE_FLAG(PRIORITY, 2);
+            gPartner.moveState &= ~MOVESTATE_20;
+            gPartner.moveState &= ~MOVESTATE_DEAD;
+
+            if (gPartner.moveState & MOVESTATE_IN_WATER) {
+                gPartner.charState = CHARSTATE_SWIMMING;
+            } else {
+                gPartner.charState = CHARSTATE_FLYING;
+            }
+
+            gPartner.framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
+            gPartner.secondsUntilDrown = 30;
+
+            if (gPartner.playerID == 0) {
+                m4aSongNumStop(MUS_DROWNING);
+            }
+            // _08045A4E
+
+            gCurTask->main = Task_8045AD8;
+            return;
+        }
+    }
+    // _08045A60
+
+    gPartner.qWorldX += gPartner.qSpeedAirX;
+
+    if ((gStageFlags ^ SA2_LABEL(gUnknown_0300544C)) & STAGE_FLAG__GRAVITY_INVERTED) {
+        gPartner.qSpeedAirY = -gPartner.qSpeedAirY;
+    }
+    // _08045A80
+
+    if (gStageFlags & STAGE_FLAG__GRAVITY_INVERTED) {
+        qWorld = gPartner.qWorldY - gPartner.qSpeedAirY;
+    } else {
+        qWorld = gPartner.qWorldY + gPartner.qSpeedAirY;
+    }
+
+    gPartner.qWorldY = qWorld;
+
+    if (!(gPartner.moveState & MOVESTATE_IN_WATER)) {
+        gPartner.qSpeedAirY += Q(42. / 256.);
+    } else {
+        gPartner.qSpeedAirY += Q(12. / 256.);
+    }
+
+    SA2_LABEL(sub_802486C)(&gPartner, psiPartnerBody);
+    SA2_LABEL(sub_8024B10)(&gPartner, psiPartnerBody);
+    SA2_LABEL(sub_8024F74)(&gPartner, psiPartnerLimbs);
 }
 END_NONMATCH
