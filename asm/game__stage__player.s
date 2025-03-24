@@ -8,54 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Task_8045AD8
-Task_8045AD8: @ 0x08045AD8
-	push {r4, lr}
-	ldr r4, _08045B34 @ =gPartner
-	adds r0, r4, #0
-	bl sa2__sub_8023878
-	adds r0, r4, #0
-	adds r0, #0x59
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #1
-	bne _08045AF6
-	adds r0, r4, #0
-	bl Player_Tails_804571C
-_08045AF6:
-	ldr r1, [r4, #0x64]
-	adds r0, r4, #0
-	bl sa2__sub_802486C
-	ldr r1, [r4, #0x64]
-	adds r0, r4, #0
-	bl sa2__sub_8024B10
-	ldr r1, [r4, #0x68]
-	adds r0, r4, #0
-	bl sa2__sub_8024F74
-	adds r0, r4, #0
-	adds r0, #0x40
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0xf
-	beq _08045B2A
-	ldrh r1, [r4, #0x1c]
-	movs r2, #0x1c
-	ldrsh r0, [r4, r2]
-	cmp r0, #0
-	ble _08045B2A
-	subs r0, r1, #1
-	strh r0, [r4, #0x1c]
-_08045B2A:
-	movs r0, #0x78
-	strb r0, [r4, #0x15]
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08045B34: .4byte gPartner
-
 	thumb_func_start Task_8045B38
 Task_8045B38: @ 0x08045B38
 	push {r4, r5, r6, lr}

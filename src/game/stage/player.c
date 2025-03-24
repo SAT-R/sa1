@@ -4236,3 +4236,26 @@ NONMATCH("asm/non_matching/game/stage/Player__Task_804597C.inc", void Task_80459
     SA2_LABEL(sub_8024F74)(&gPartner, psiPartnerLimbs);
 }
 END_NONMATCH
+
+void Task_8045AD8(void)
+{
+    Player *partner = &gPartner;
+
+    SA2_LABEL(sub_8023878)(partner);
+
+    if (gPartner.character == CHARACTER_TAILS) {
+        Player_Tails_804571C(partner);
+    }
+
+    SA2_LABEL(sub_802486C)(partner, gPartner.spriteInfoBody);
+    SA2_LABEL(sub_8024B10)(partner, gPartner.spriteInfoBody);
+    SA2_LABEL(sub_8024F74)(partner, gPartner.spriteInfoLimbs);
+
+    if (gPartner.charState != CHARSTATE_HIT_AIR) {
+        if (gPartner.timerInvulnerability > 0) {
+            gPartner.timerInvulnerability--;
+        }
+    }
+
+    partner->SA2_LABEL(unk25) = 120;
+}
