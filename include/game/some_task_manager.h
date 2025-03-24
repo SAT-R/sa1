@@ -3,4 +3,6 @@
 
 void sub_804D13C(u16 param0);
 
+extern ALIGNED(16) u16 gUnknown_030060F0[64];
+
 #endif // GUARD_SOME_TASK_MANAGER_H

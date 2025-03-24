@@ -4407,3 +4407,25 @@ void SA2_LABEL(sub_802460C)(Player *p)
         p->frameInput &= ~DPAD_VERTICAL;
     }
 }
+
+// UNFINISHED!
+NONMATCH("asm/non_matching/game/stage/Player__sub_8045DF0.inc", void sub_8045DF0(Player *p))
+{
+    u16 r4 = p->heldInput;
+
+    if (!(p->heldInput & MOVESTATE_IGNORE_INPUT)) {
+        r4 = gUnknown_030060F0[20];
+
+        if (((p->rotation + Q(0.125)) & 0xC0) == 0) {
+            if ((p->qWorldX + Q(16)) < gPlayer.qWorldX) {
+
+                if (!(gUnknown_030060F0[20] & 0x80)) {
+                    // gUnknown_030060F0[20]
+                }
+            } else if ((p->qWorldX - Q(16)) > gPlayer.qWorldX) {
+                // _08045E48 + 0x8
+            }
+        }
+    }
+}
+END_NONMATCH

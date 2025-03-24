@@ -17,7 +17,6 @@ bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY) { ret
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
-void sa2__sub_8023B5C() { }
 
 void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p);
 void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { SetStageSpawnPos(character, level, playerID, p); }
@@ -35,14 +34,19 @@ void DestroyPlayerTasks() { }
 void CreateEggRocketStageSeparation(CamCoord worldY) { }
 
 // Player
-void Task_PlayerMain(void) { }
-void Task_8045B38(void) { }
 void Player_80470AC(Player *p) { }
 void Player_804726C(Player *p) { }
 void Player_8047280(Player *p) { }
 void Task_8049898(void) { }
+void sa2__sub_802486C() { }
+void sa2__sub_8024B10() { }
+void sa2__sub_8024F74() { }
 void sa2__sub_8029AC0() { }
 void sa2__sub_8029B0C() { }
+void Player_Sonic_80473AC() { }
+void Player_Tails_8047BA0() { }
+void Player_Knuckles_8049000() { }
+void Player_Amy_80497AC() { }
 void Player_Sonic_JumpHeld() { }
 void Player_Tails_JumpHeld() { }
 void Player_Knuckles_JumpHeld() { }
