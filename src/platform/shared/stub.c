@@ -18,9 +18,6 @@ void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
 
-void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p);
-void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { SetStageSpawnPos(character, level, playerID, p); }
-
 void CreatePauseMenu(void) { }
 
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
@@ -29,7 +26,6 @@ u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
 void sub_804A5D8() { }
 
 void sub_805B9E8() { }
-void DestroyPlayerTasks() { }
 
 void CreateEggRocketStageSeparation(CamCoord worldY) { }
 
@@ -38,7 +34,6 @@ void Player_80470AC(Player *p) { }
 void Player_804726C(Player *p) { }
 void Player_8047280(Player *p) { }
 void Task_8049898(void) { }
-void sa2__sub_8024F74() { }
 void sa2__sub_8029AC0() { }
 void sa2__sub_8029B0C() { }
 void Player_Sonic_80473AC() { }

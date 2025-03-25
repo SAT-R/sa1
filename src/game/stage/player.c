@@ -4607,8 +4607,7 @@ END_NONMATCH
 
 // NOT DONE!
 // (42.94%) https://decomp.me/scratch/q6scN
-NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc",
-    void sa2__sub_8024B10(Player *p, PlayerSpriteInfo *inPsi))
+NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void sa2__sub_8024B10(Player *p, PlayerSpriteInfo *inPsi))
 {
     struct MultiSioData_0_4 *send;
     MultiplayerPlayer *mpp;
@@ -4616,7 +4615,6 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc",
 
     Sprite *s = &inPsi->s;
     PlayerSpriteInfo *psi = inPsi;
-    
 
     struct Camera *cam = &gCamera;
     s16 camX = cam->x;
@@ -4634,14 +4632,14 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc",
     psi->transform.x = I(p->qWorldX) - camX;
     psi->transform.y = I(p->qWorldY) - camY;
 #if (GAME == GAME_SA1)
-    if(p->charState == CHARSTATE_4 || p->charState == 23 || p->charState == 32 || p->charState == 40 )
+    if (p->charState == CHARSTATE_4 || p->charState == 23 || p->charState == 32 || p->charState == 40)
 #elif (GAME == GAME_SA2)
     if (p->charState == CHARSTATE_WALK_A || p->charState == CHARSTATE_GRINDING || p->charState == CHARSTATE_ICE_SLIDE
         || p->charState == CHARSTATE_WALK_B || (p->charState == CHARSTATE_CREAM_CHAO_ATTACK && p->character == CHARACTER_CREAM))
 #endif
     {
-        if(p->charState != 32) {
-            psi->transform.rotation = p->rotation << 2;            
+        if (p->charState != 32) {
+            psi->transform.rotation = p->rotation << 2;
         }
         s->frameFlags &= ~(SPRITE_FLAG_MASK_X_FLIP | SPRITE_FLAG_MASK_Y_FLIP);
         s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
@@ -4669,20 +4667,20 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc",
         } else {
             s->frameFlags &= ~SPRITE_FLAG_MASK_Y_FLIP;
         }
-        
+
         acmdRes = UpdateSpriteAnimation(s);
 #if (GAME == GAME_SA1)
-        if(acmdRes == ACMD_RESULT__ENDED) {
+        if (acmdRes == ACMD_RESULT__ENDED) {
             // TODO: Seems like this is a switch-case?
-            if(p->charState == 7) {
+            if (p->charState == 7) {
                 p->charState = 6;
-            } else if(p->charState == 3) {
-                if(p->qSpeedGround == 0) {
+            } else if (p->charState == 3) {
+                if (p->qSpeedGround == 0) {
                     p->charState == CHARSTATE_IDLE;
                 }
-            } else if(p->charState == 11) {
+            } else if (p->charState == 11) {
                 p->charState == CHARSTATE_IDLE;
-            } else if(p->charState != 22) {
+            } else if (p->charState != 22) {
             }
         }
 #endif
@@ -4794,3 +4792,113 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc",
     send->unk8 |= (mpp->unk64 << 9);
 }
 END_NONMATCH
+
+void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *inPsi)
+{
+    struct MultiSioData_0_4 *recv;
+
+    Sprite *s = &inPsi->s;
+    PlayerSpriteInfo *psi = inPsi;
+
+    struct Camera *cam = &gCamera;
+    s16 camX = cam->x;
+    s16 camY = cam->y;
+
+    if (IS_MULTI_PLAYER) {
+        s32 id = SIO_MULTI_CNT->id;
+        recv = &gMultiSioRecv[id].pat4;
+        psi->transform.x = recv->x - camX;
+        psi->transform.y = recv->y - camY;
+    } else {
+        psi->transform.x = I(p->qWorldX) - camX;
+        psi->transform.y = I(p->qWorldY) - camY;
+    }
+
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    if (p->moveState & MOVESTATE_IN_WATER) {
+        s->animSpeed = 8;
+    }
+
+    switch (p->character) {
+        case CHARACTER_AMY:
+        case CHARACTER_KNUCKLES:
+        case CHARACTER_SONIC:
+            break;
+
+#if (GAME == GAME_SA2)
+        case CHARACTER_CREAM: {
+            u16 anim = p->anim;
+            u16 variant = p->variant;
+            anim = anim - gPlayerCharacterIdleAnims[p->character];
+            if (MACRO_8024F74_ANIM_CHECK(anim, variant)) {
+                u8 rotation = p->rotation;
+                p->w.cf.unkB0 = rotation;
+                psi->transform.rotation = rotation << 2;
+                s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
+                s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++ | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
+
+                MACRO_8024B10_PSI_UPDATE(p, psi);
+                TransformSprite(s, &psi->transform);
+
+                if (p->moveState & MOVESTATE_DEAD
+                    || (!(p->moveState & MOVESTATE_100000) && (p->timerInvulnerability == 0 || (gStageTime & 2) == 0))) {
+                    DisplaySprite(s);
+                }
+            }
+            break;
+        }
+#endif
+        case CHARACTER_TAILS: {
+            s32 asx = p->qSpeedAirX;
+            s32 asy = p->qSpeedAirY;
+
+            u16 anim = p->anim;
+            u16 variant = p->variant;
+            anim = anim - gPlayerCharacterIdleAnims[p->character];
+
+#if (GAME == GAME_SA2)
+            if (MACRO_8024F74_ANIM_CHECK(anim, variant))
+#endif
+            {
+                u8 shift;
+                if (asx != 0 || asy != 0) {
+                    shift = (I(ArcTan2(asx, asy)) + 0x40);
+                } else {
+                    shift = p->moveState & MOVESTATE_FACING_LEFT ? 0xC0 : 0x40;
+                }
+                p->w.tf.shift = shift;
+
+#if (GAME == GAME_SA1)
+                if (p->charState == CHARSTATE_SPINATTACK)
+#endif
+                {
+                    psi->transform.rotation = shift << 2;
+                    s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
+                    s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++ | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
+
+                    MACRO_8024B10_PSI_UPDATE(p, psi);
+                    TransformSprite(s, &psi->transform);
+
+                    if (p->moveState & MOVESTATE_DEAD
+                        || (!(p->moveState & MOVESTATE_100000) && (p->timerInvulnerability == 0 || (gStageTime & 2) == 0))) {
+                        DisplaySprite(s);
+                    }
+                }
+            }
+            break;
+        }
+    }
+}
+
+void CallSetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p) { SetStageSpawnPos(character, level, playerID, p); }
+
+void DestroyPlayerTasks(Player *p)
+{
+    TaskDestroy(p->spriteTask);
+    p->spriteTask = NULL;
+
+    if (p->playerID == 0) {
+        DestroyBrakingDustEffectRelatedTask();
+        DestroyRingsScatterTask();
+    }
+}

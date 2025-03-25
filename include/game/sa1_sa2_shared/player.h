@@ -164,8 +164,8 @@ typedef struct Player {
     // TODO: Could these be a matrix?
     /* 0x50 */ u16 SA2_LABEL(unk7C);
     /* 0x52 */ u16 SA2_LABEL(unk7E);
-    /* 0x54 */ u16 SA2_LABEL(unk80);
-    /* 0x56 */ u16 SA2_LABEL(unk82);
+    /* 0x54 */ s16 SA2_LABEL(unk80);
+    /* 0x56 */ s16 SA2_LABEL(unk82);
 
     /* 0x58 */ s8 defeatScoreIndex;
     /* 0x59 */ s8 character;
