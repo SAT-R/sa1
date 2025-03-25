@@ -21,8 +21,8 @@ gUnknown_084ADFC0:
 gPlayerCharacterIdleAnims:
     .short 0, 99, 199, 298
 
-    .global gUnknown_084AE010
-gUnknown_084AE010:
+    .global sCharStateAnimInfo
+sCharStateAnimInfo:
     .incbin "baserom.gba", 0x004AE010, 0x178
 
     .global gUnknown_084AE188

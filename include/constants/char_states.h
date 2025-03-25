@@ -23,6 +23,7 @@
 #define CHARSTATE_13              13
 #define CHARSTATE_16              16
 #define CHARSTATE_17              17
+#define CHARSTATE_18              18
 #define CHARSTATE_RAIL_EXTRA_JUMP 20
 #define CHARSTATE_21              21
 #define CHARSTATE_22              22
@@ -47,5 +48,11 @@
 
 #define CHARSTATE_85 85
 #define CHARSTATE_91 91
+
+#if (GAME == GAME_SA1)
+#define CHARSTATE_SHARED_COUNT 43
+#elif (GAME == GAME_SA2)
+#define CHARSTATE_SHARED_COUNT 80
+#endif
 
 #endif // GUARD_SA1_CHAR_STATES_H

@@ -4429,3 +4429,145 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8045DF0.inc", void sub_8045DF0
     }
 }
 END_NONMATCH
+
+// (92.39%) https://decomp.me/scratch/VY7Nt
+NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LABEL(sub_802486C)(Player *p, PlayerSpriteInfo *psi))
+{
+    s32 speed;
+    s32 r0;
+    Sprite *s = &psi->s;
+
+    if (p->moveState & MOVESTATE_20) {
+        p->SA2_LABEL(unk62) = 0;
+        p->SA2_LABEL(unk63) = 0;
+        p->charState = 14;
+    }
+
+    p->anim = sCharStateAnimInfo[p->charState][0];
+
+    if (p->charState < CHARSTATE_SHARED_COUNT) {
+        p->anim += gPlayerCharacterIdleAnims[p->character];
+    }
+    p->variant = sCharStateAnimInfo[p->charState][1];
+    psi->s.animSpeed = SPRITE_ANIM_SPEED(1.0);
+
+#if (GAME == GAME_SA1)
+    if ((p->qSpeedGround != Q(0)) || (p->heldInput & (DPAD_ANY | A_BUTTON | B_BUTTON))) {
+        p->SA2_LABEL(unk72) = ZONE_TIME_TO_INT(0, 6);
+    }
+
+#endif
+    switch (p->charState) {
+        case 0: {
+            if (p->SA2_LABEL(unk72) != 0) {
+                p->SA2_LABEL(unk72)--;
+            } else {
+                p->anim = gPlayerCharacterIdleAnims[p->character] + 1; // SA1_CHAR_ANIM_WALK;
+                p->variant = 0; // p->walkAnim;
+            }
+        } break;
+
+        case 4: {
+            speed = p->qSpeedGround;
+            speed = ABS(speed);
+
+            if (speed >= Q(4.5)) {
+                p->anim = gPlayerCharacterIdleAnims[p->character] + 5;
+                p->variant = 0;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                break;
+            }
+        } // FALLTHROUGH
+
+        case 24:
+        case 25:
+        case 26: {
+            s32 animSpeed = (ABS(p->qSpeedGround) >> 4);
+            if (animSpeed >= SPRITE_ANIM_SPEED(0.5)) {
+                if (animSpeed > SPRITE_ANIM_SPEED(1.0)) {
+                    animSpeed = SPRITE_ANIM_SPEED(1.0);
+                }
+            } else {
+                animSpeed = SPRITE_ANIM_SPEED(0.5);
+            }
+            s->animSpeed = animSpeed;
+        }
+
+        case 21:
+        case 85: {
+            if (p->qSpeedAirY >= -Q(1.5)) {
+                p->charState = CHARSTATE_18;
+            }
+        } break;
+
+        case 9: {
+            if (ABS(p->qSpeedGround) < Q(1.5)) {
+                // _080461A2 + 0x6
+                p->anim = gPlayerCharacterIdleAnims[p->character] + 7;
+                p->variant = 0;
+            }
+            // _080461C4
+
+            if ((gStageTime & 0x3) == 0) {
+                s32 offsetY = p->spriteOffsetY;
+
+                if (GRAVITY_IS_INVERTED) {
+                    offsetY = -offsetY;
+                }
+
+                CreateBrakingDustEffect(I(p->qWorldX), I(p->qWorldY) + offsetY);
+            }
+        } break;
+
+        case 16: {
+            if ((((p->rotation + Q(0.125)) & 0xC0) != 0)) {
+                p->anim = gPlayerCharacterIdleAnims[p->character] + 44;
+                p->variant = 1;
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+            }
+
+        } break;
+    }
+
+    if (p->moveState & MOVESTATE_IN_WATER) {
+        s->animSpeed -= (s->animSpeed >> 1);
+    }
+
+    if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+        p->moveState |= MOVESTATE_SPINDASH;
+    } else {
+        p->moveState &= ~MOVESTATE_SPINDASH;
+    }
+
+    if (GRAVITY_IS_INVERTED) {
+        p->moveState |= MOVESTATE_800;
+    } else {
+        p->moveState &= ~MOVESTATE_800;
+    }
+
+    if (IS_MULTI_PLAYER) {
+        p->SA2_LABEL(unk98) = 0;
+    }
+
+    if (
+#if (GAME == GAME_SA2)
+        p->SA2_LABEL(unk6C) ||
+#endif
+        (s->graphics.anim != p->anim) || (s->variant != p->variant)) {
+#if (GAME == GAME_SA2)
+        p->SA2_LABEL(unk6C) = FALSE;
+#endif
+        s->graphics.anim = p->anim;
+        s->variant = p->variant;
+        s->prevVariant = -1;
+        s->hitboxes[0].index = -1;
+        s->hitboxes[1].index = -1;
+
+        if (IS_MULTI_PLAYER) {
+            p->SA2_LABEL(unk98) = 1;
+        }
+    }
+
+    p->prevCharState = p->charState;
+}
+END_NONMATCH
