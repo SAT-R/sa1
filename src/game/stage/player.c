@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "gba/io_reg.h"
 #include "lib/m4a/m4a.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/parameters/characters.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
@@ -123,6 +124,37 @@ void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *psi);
         player->qSpeedAirY += Q(PLAYER_GRAVITY);                                                                                           \
     }
 #endif
+
+#define MACRO_8024B10_PSI_UPDATE(p, psi)                                                                                                   \
+    ({                                                                                                                                     \
+        s32 x, y;                                                                                                                          \
+        if (!(p->moveState & MOVESTATE_FACING_LEFT)) {                                                                                     \
+            psi->transform.qScaleX = -Q(1.0);                                                                                              \
+        } else {                                                                                                                           \
+            psi->transform.qScaleX = +Q(1.0);                                                                                              \
+        }                                                                                                                                  \
+        if (GRAVITY_IS_INVERTED) {                                                                                                         \
+            psi->transform.qScaleX = -psi->transform.qScaleX;                                                                              \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (psi->transform.qScaleX < 0) {                                                                                                  \
+            psi->transform.x--;                                                                                                            \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        if (GRAVITY_IS_INVERTED) {                                                                                                         \
+            psi->transform.qScaleY = Q(1.0);                                                                                               \
+            /* requires double clamp to match */                                                                                           \
+            psi->transform.rotation = CLAMP_SIN_PERIOD(CLAMP_SIN_PERIOD(-Q(1.0) - (psi->transform.rotation + psi->transform.qScaleY)));    \
+        } else {                                                                                                                           \
+            psi->transform.qScaleY = Q(1.0);                                                                                               \
+        }                                                                                                                                  \
+                                                                                                                                           \
+        x = I(psi->transform.qScaleX * p->SA2_LABEL(unk80));                                                                               \
+        y = I(psi->transform.qScaleY * p->SA2_LABEL(unk82));                                                                               \
+        psi->transform.qScaleX = x;                                                                                                        \
+        psi->transform.qScaleY = y;                                                                                                        \
+        UpdateSpriteAnimation(s);                                                                                                          \
+    })
 
 void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *player)
 {
@@ -4430,6 +4462,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8045DF0.inc", void sub_8045DF0
 }
 END_NONMATCH
 
+// This function is in SA2, but looks very different in many aspects
 // (92.39%) https://decomp.me/scratch/VY7Nt
 NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LABEL(sub_802486C)(Player *p, PlayerSpriteInfo *psi))
 {
@@ -4569,5 +4602,195 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
     }
 
     p->prevCharState = p->charState;
+}
+END_NONMATCH
+
+// NOT DONE!
+// (42.94%) https://decomp.me/scratch/q6scN
+NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc",
+    void sa2__sub_8024B10(Player *p, PlayerSpriteInfo *inPsi))
+{
+    struct MultiSioData_0_4 *send;
+    MultiplayerPlayer *mpp;
+    AnimCmdResult acmdRes;
+
+    Sprite *s = &inPsi->s;
+    PlayerSpriteInfo *psi = inPsi;
+    
+
+    struct Camera *cam = &gCamera;
+    s16 camX = cam->x;
+    s16 camY = cam->y;
+
+    // required for match
+    bool32 cond = ({
+        bool32 r2 = s->prevVariant == 0xFF || s->prevAnim == 0xFFFF;
+        r2;
+    });
+
+    s->x = I(p->qWorldX) - camX;
+    s->y = I(p->qWorldY) - camY;
+
+    psi->transform.x = I(p->qWorldX) - camX;
+    psi->transform.y = I(p->qWorldY) - camY;
+#if (GAME == GAME_SA1)
+    if(p->charState == CHARSTATE_4 || p->charState == 23 || p->charState == 32 || p->charState == 40 )
+#elif (GAME == GAME_SA2)
+    if (p->charState == CHARSTATE_WALK_A || p->charState == CHARSTATE_GRINDING || p->charState == CHARSTATE_ICE_SLIDE
+        || p->charState == CHARSTATE_WALK_B || (p->charState == CHARSTATE_CREAM_CHAO_ATTACK && p->character == CHARACTER_CREAM))
+#endif
+    {
+        if(p->charState != 32) {
+            psi->transform.rotation = p->rotation << 2;            
+        }
+        s->frameFlags &= ~(SPRITE_FLAG_MASK_X_FLIP | SPRITE_FLAG_MASK_Y_FLIP);
+        s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
+        s->frameFlags |= p->playerID | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
+
+        MACRO_8024B10_PSI_UPDATE(p, psi);
+        if (IS_SINGLE_PLAYER) {
+            TransformSprite(s, &psi->transform);
+        }
+    } else {
+        psi->transform.rotation = 0;
+        s->frameFlags &= ~(SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG_MASK_ROT_SCALE);
+
+        if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+            s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
+        } else {
+            s->frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
+            s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
+            s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
+            s->x++;
+        }
+
+        if (GRAVITY_IS_INVERTED) {
+            s->frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
+        } else {
+            s->frameFlags &= ~SPRITE_FLAG_MASK_Y_FLIP;
+        }
+        
+        acmdRes = UpdateSpriteAnimation(s);
+#if (GAME == GAME_SA1)
+        if(acmdRes == ACMD_RESULT__ENDED) {
+            // TODO: Seems like this is a switch-case?
+            if(p->charState == 7) {
+                p->charState = 6;
+            } else if(p->charState == 3) {
+                if(p->qSpeedGround == 0) {
+                    p->charState == CHARSTATE_IDLE;
+                }
+            } else if(p->charState == 11) {
+                p->charState == CHARSTATE_IDLE;
+            } else if(p->charState != 22) {
+            }
+        }
+#endif
+    }
+    if (IS_SINGLE_PLAYER) {
+        // Draw Player sprite in SP modes
+        if (p->moveState & MOVESTATE_DEAD
+            || (!(p->moveState & MOVESTATE_100000) && (p->timerInvulnerability == 0 || (gStageTime & 2) == 0))) {
+            DisplaySprite(s);
+        }
+
+#ifndef NON_MATCHING
+        if (IS_SINGLE_PLAYER)
+#endif
+        {
+            return;
+        }
+    }
+
+    send = &gMultiSioSend.pat4;
+    mpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
+    send->unk0 = 0x5000;
+    send->x = I(p->qWorldX) + p->SA2_LABEL(unk7C);
+    send->y = I(p->qWorldY);
+    send->unk6 = s->graphics.anim;
+    send->unkA = p->itemEffect;
+    if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+        send->unk6 -= gPlayerCharacterIdleAnims[p->character];
+        send->unk6 |= gRingCount << 8;
+    }
+    send->unkB = s->variant | (p->spriteOffsetY << 4);
+    send->unkC = s->animSpeed;
+    send->unkD = psi->transform.rotation >> 2;
+
+    if (s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
+        send->unk8 |= 1;
+    } else {
+        send->unk8 &= ~1;
+    }
+
+    if (!(p->moveState & 1)) {
+        send->unk8 |= 2;
+    } else {
+        send->unk8 &= ~2;
+    }
+
+    if (GRAVITY_IS_INVERTED) {
+        send->unk8 |= 8;
+    } else {
+        send->unk8 &= ~8;
+    }
+
+    if (p->moveState & MOVESTATE_DEAD || mpp->unk5C & 1
+#if (GAME == GAME_SA2)
+        || p->moveState & MOVESTATE_IN_SCRIPTED
+#endif
+        || p->timerInvulnerability != 0) {
+        send->unk8 |= 4;
+    } else {
+        send->unk8 &= ~4;
+    }
+
+    if (mpp->unk5C & 1) {
+        send->unk8 |= 0x100;
+    } else {
+        send->unk8 &= ~0x100;
+    }
+
+    if (p->moveState & MOVESTATE_100000) {
+        send->unk8 |= 0x40;
+    } else {
+        send->unk8 &= ~0x40;
+    }
+
+    send->unk8 &= ~0x30;
+    send->unk8 |= ((gPlayer.spriteInfoBody->s.frameFlags & 0x3000) >> 8);
+    if (p->layer != 0) {
+        send->unk8 |= 0x80;
+    } else {
+        send->unk8 &= ~0x80;
+    }
+
+    if (cond) {
+        send->unk8 |= 0x800;
+    } else {
+        send->unk8 &= ~0x800;
+    }
+
+    mpp->unk64 = SIO_MULTI_CNT->id;
+    if (gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) {
+        u8 i;
+        for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
+            s32 id = SIO_MULTI_CNT->id;
+            if (id != i) {
+                MultiplayerPlayer *mpp2;
+                if (gMultiplayerPlayerTasks[i] == NULL) {
+                    break;
+                }
+
+                mpp2 = TASK_DATA(gMultiplayerPlayerTasks[i]);
+                if (gPlayer.stoodObj == &mpp2->s) {
+                    mpp->unk64 = i;
+                }
+            }
+        }
+    }
+
+    send->unk8 &= ~0x600;
+    send->unk8 |= (mpp->unk64 << 9);
 }
 END_NONMATCH

@@ -38,8 +38,6 @@ void Player_80470AC(Player *p) { }
 void Player_804726C(Player *p) { }
 void Player_8047280(Player *p) { }
 void Task_8049898(void) { }
-void sa2__sub_802486C() { }
-void sa2__sub_8024B10() { }
 void sa2__sub_8024F74() { }
 void sa2__sub_8029AC0() { }
 void sa2__sub_8029B0C() { }
