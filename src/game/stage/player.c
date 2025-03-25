@@ -4902,3 +4902,54 @@ void DestroyPlayerTasks(Player *p)
         DestroyRingsScatterTask();
     }
 }
+
+// Called anytime the player actively jumps, "autojumps" through touching an IA,
+// touches a Boost Pad or a Rotating Handle, touches the ground, etc.
+// TODO: Find a better name.
+void Player_TransitionCancelFlyingAndBoost(Player *p)
+{
+#if (GAME == GAME_SA1)
+    p->moveState &= ~MOVESTATE_20;
+    p->moveState &= ~MOVESTATE_100;
+    p->moveState &= ~MOVESTATE_SPINDASH;
+
+    p->SA2_LABEL(unk61) = 0;
+    p->SA2_LABEL(unk62) = 0;
+    p->SA2_LABEL(unk63) = 0;
+
+    p->moveState &= ~MOVESTATE_8000;
+#elif (GAME == GAME_SA2)
+    if (p->moveState & MOVESTATE_20000) {
+        m4aSongNumStop(SE_281);
+    }
+
+    p->moveState &= ~(MOVESTATE_SOME_ATTACK | MOVESTATE_10000000 | MOVESTATE_1000000 | MOVESTATE_80000 | MOVESTATE_40000 | MOVESTATE_20000
+                      | MOVESTATE_8000 | MOVESTATE_4000 | MOVESTATE_2000 | MOVESTATE_400 | MOVESTATE_200 | MOVESTATE_100 | MOVESTATE_20
+                      | MOVESTATE_FLIP_WITH_MOVE_DIR);
+
+    p->SA2_LABEL(unk61) = 0;
+    p->SA2_LABEL(unk62) = 0;
+    p->SA2_LABEL(unk63) = 0;
+
+    p->SA2_LABEL(unk71) = 0;
+    p->SA2_LABEL(unk70) = FALSE;
+#endif
+
+    if (p->character == CHARACTER_TAILS) {
+        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+    }
+
+#if (GAME == GAME_SA1)
+    if (p->character == CHARACTER_AMY) {
+        p->moveState &= ~(MOVESTATE_4000000 | MOVESTATE_2000000);
+    }
+#elif (GAME == GAME_SA2)
+    if (p->character == CHARACTER_CREAM) {
+        m4aSongNumStop(SE_CREAM_FLYING);
+    }
+
+    if (p->character == CHARACTER_SONIC) {
+        p->moveState &= ~MOVESTATE_BOOST_EFFECT_ON;
+    }
+#endif
+}

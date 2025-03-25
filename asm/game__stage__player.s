@@ -8,57 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Player_TransitionCancelFlyingAndBoost
-Player_TransitionCancelFlyingAndBoost: @ 0x08046CEC
-	push {r4, r5, lr}
-	adds r4, r0, #0
-	ldr r0, [r4, #0x10]
-	movs r1, #0x21
-	rsbs r1, r1, #0
-	ands r0, r1
-	subs r1, #0xe0
-	ands r0, r1
-	ldr r1, _08046D44 @ =0xFFFFFBFF
-	ands r0, r1
-	str r0, [r4, #0x10]
-	adds r1, r4, #0
-	adds r1, #0x3d
-	movs r0, #0
-	strb r0, [r1]
-	adds r1, #1
-	strb r0, [r1]
-	adds r1, #1
-	strb r0, [r1]
-	ldr r0, [r4, #0x10]
-	ldr r1, _08046D48 @ =0xFFFF7FFF
-	ands r0, r1
-	str r0, [r4, #0x10]
-	adds r5, r4, #0
-	adds r5, #0x59
-	movs r0, #0
-	ldrsb r0, [r5, r0]
-	cmp r0, #1
-	bne _08046D2C
-	movs r0, #0x78
-	bl m4aSongNumStop
-_08046D2C:
-	movs r0, #0
-	ldrsb r0, [r5, r0]
-	cmp r0, #3
-	bne _08046D3C
-	ldr r0, [r4, #0x10]
-	ldr r1, _08046D4C @ =0xF9FFFFFF
-	ands r0, r1
-	str r0, [r4, #0x10]
-_08046D3C:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08046D44: .4byte 0xFFFFFBFF
-_08046D48: .4byte 0xFFFF7FFF
-_08046D4C: .4byte 0xF9FFFFFF
-
 	thumb_func_start sub_8046D50
 sub_8046D50: @ 0x08046D50
 	push {r4, lr}

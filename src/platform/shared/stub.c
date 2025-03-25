@@ -188,8 +188,6 @@ void CreateMultiplayerChao() { }
 void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
 
-void Player_TransitionCancelFlyingAndBoost() { }
-
 void sub_800E934() { }
 void sub_800F318() { }
 void sub_804EEA8() { }
