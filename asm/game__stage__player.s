@@ -8,38 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8048110
-sub_8048110: @ 0x08048110
-	push {r4, lr}
-	adds r4, r0, #0
-	movs r0, #0xc
-	ldrsh r1, [r4, r0]
-	cmp r1, #0
-	ble _08048128
-	ldr r0, [r4, #0x34]
-	asrs r0, r0, #1
-	subs r1, r1, r0
-	cmp r1, #0
-	bge _08048134
-	b _08048132
-_08048128:
-	ldr r0, [r4, #0x34]
-	asrs r0, r0, #1
-	adds r1, r1, r0
-	cmp r1, #0
-	ble _08048134
-_08048132:
-	movs r1, #0
-_08048134:
-	strh r1, [r4, #0xc]
-	adds r0, r4, #0
-	bl Player_80470AC
-	adds r0, r4, #0
-	bl sa2__sub_80231C0
-	pop {r4}
-	pop {r0}
-	bx r0
-
 	thumb_func_start Player_Knuckles_InitGlide
 Player_Knuckles_InitGlide: @ 0x08048148
 	adds r2, r0, #0

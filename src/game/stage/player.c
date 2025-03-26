@@ -641,7 +641,7 @@ void Player_TransitionCancelFlyingAndBoost(Player *p)
 }
 #endif
 
-// Very similar to sa2__sub_8029BB8
+// Very similar to SA2_LABEL(sub_8029BB8)
 s32 SA2_LABEL(sub_802195C)(Player *p, u8 *p1, s32 *out)
 {
     u8 dummy;
@@ -691,7 +691,7 @@ s32 SA2_LABEL(sub_802195C)(Player *p, u8 *p1, s32 *out)
     return result;
 }
 
-// Very similar to sa2__sub_802195C
+// Very similar to SA2_LABEL(sub_802195C)
 s32 SA2_LABEL(sub_8021A34)(Player *p, u8 *p1, s32 *out)
 {
     u8 dummy;
@@ -741,7 +741,7 @@ s32 SA2_LABEL(sub_8021A34)(Player *p, u8 *p1, s32 *out)
     return result;
 }
 
-// Very similar to sa2__sub_802195C
+// Very similar to SA2_LABEL(sub_802195C)
 s32 SA2_LABEL(sub_8021B08)(Player *p, u8 *p1, s32 *out)
 {
     u8 dummy;
@@ -3929,9 +3929,9 @@ void Task_PlayerDied(void)
     PLAYERFN_UPDATE_AIR_FALL_SPEED(p);
     PLAYERFN_UPDATE_POSITION(p);
 #endif
-    sa2__sub_802486C(p, psi1);
-    sa2__sub_8024B10(p, psi1);
-    sa2__sub_8024F74(p, psi2);
+    SA2_LABEL(sub_802486C)(p, psi1);
+    SA2_LABEL(sub_8024B10)(p, psi1);
+    SA2_LABEL(sub_8024F74)(p, psi2);
 }
 
 void Task_PlayerMain(void)
@@ -4069,9 +4069,9 @@ void Task_PlayerMain(void)
     }
     // 124
 #if (GAME == GAME_SA1)
-    sa2__sub_802486C(p, p->spriteInfoBody);
-    sa2__sub_8024B10(p, p->spriteInfoBody);
-    sa2__sub_8024F74(p, p->spriteInfoLimbs);
+    SA2_LABEL(sub_802486C)(p, p->spriteInfoBody);
+    SA2_LABEL(sub_8024B10)(p, p->spriteInfoBody);
+    SA2_LABEL(sub_8024F74)(p, p->spriteInfoLimbs);
 
     if ((p->charState != CHARSTATE_HIT_AIR) && (p->timerInvulnerability > 0)) {
         p->timerInvulnerability--;
@@ -4637,7 +4637,7 @@ END_NONMATCH
 
 // NOT DONE!
 // (42.94%) https://decomp.me/scratch/q6scN
-NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void sa2__sub_8024B10(Player *p, PlayerSpriteInfo *inPsi))
+NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LABEL(sub_8024B10)(Player *p, PlayerSpriteInfo *inPsi))
 {
     struct MultiSioData_0_4 *send;
     MultiplayerPlayer *mpp;
@@ -5138,7 +5138,7 @@ s32 SA2_LABEL(sub_8029B88)(Player *p, u8 *p1, s32 *out)
     return result;
 }
 
-// Very similar to sa2__sub_802195C
+// Very similar to SA2_LABEL(sub_802195C)
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out)
 {
     u8 dummy;
@@ -5747,12 +5747,12 @@ void sub_8047774(Player *p)
     if (p->SA2_LABEL(unk62) == 0) {
         if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8047668(p) == 0)) {
             if (!Player_Spindash(p) && !sub_8044250(p)) {
-                sa2__sub_8029CA0(p);
+                SA2_LABEL(sub_8029CA0)(p);
                 Player_8044F7C(p);
-                sa2__sub_80232D0(p);
+                SA2_LABEL(sub_80232D0)(p);
                 Player_UpdatePosition(p);
-                sa2__sub_8022D6C(p);
-                sa2__sub_8029ED8(p);
+                SA2_LABEL(sub_8022D6C)(p);
+                SA2_LABEL(sub_8029ED8)(p);
             }
         }
     } else {
@@ -5809,11 +5809,11 @@ void sub_8047890(Player *p)
 
     Player_8044670(p);
     Player_AirInputControls(p);
-    sa2__sub_80232D0(p);
+    SA2_LABEL(sub_80232D0)(p);
     Player_UpdatePosition(p);
     PlayerFn_Cmd_UpdateAirFallSpeed(p);
     Player_8047224(p);
-    sa2__sub_8022190(p);
+    SA2_LABEL(sub_8022190)(p);
 }
 
 void Player_Sonic_InitInstaShield(Player *p)
@@ -5964,7 +5964,7 @@ s32 sub_8047B04(Player *p)
             p->qSpeedGround = qSpeed;
 
             Player_80470AC(p);
-            sa2__sub_80231C0(p);
+            SA2_LABEL(sub_80231C0)(p);
 
             return p->SA2_LABEL(unk62);
         } break;
@@ -6157,18 +6157,18 @@ void sub_8047F2C(Player *p)
     if (p->SA2_LABEL(unk61) == 0) {
         Player_8044670(p);
         Player_AirInputControls(p);
-        sa2__sub_80232D0(p);
+        SA2_LABEL(sub_80232D0)(p);
         Player_UpdatePosition(p);
         PlayerFn_Cmd_UpdateAirFallSpeed(p);
         Player_8047224(p);
-        sa2__sub_8022190(p);
+        SA2_LABEL(sub_8022190)(p);
     } else {
         sub_8047A3C(p);
         Player_AirInputControls(p);
-        sa2__sub_80232D0(p);
+        SA2_LABEL(sub_80232D0)(p);
         Player_UpdatePosition(p);
         Player_8047224(p);
-        sa2__sub_8022190(p);
+        SA2_LABEL(sub_8022190)(p);
     }
 }
 
@@ -6178,12 +6178,12 @@ void sub_8047FA0(Player *p)
     Player_8047280(p);
 
     if (sub_8044250(p) == 0) {
-        sa2__sub_8029D14(p);
+        SA2_LABEL(sub_8029D14)(p);
         Player_8043DDC(p);
-        sa2__sub_80232D0(p);
+        SA2_LABEL(sub_80232D0)(p);
         Player_UpdatePosition(p);
-        sa2__sub_8022D6C(p);
-        sa2__sub_8029ED8(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
     }
 }
 
@@ -6193,11 +6193,11 @@ void sub_8047FE4(Player *p)
     Player_8047280(p);
     Player_8044670(p);
     Player_AirInputControls(p);
-    sa2__sub_80232D0(p);
+    SA2_LABEL(sub_80232D0)(p);
     Player_UpdatePosition(p);
     PlayerFn_Cmd_UpdateAirFallSpeed(p);
     Player_8047224(p);
-    sa2__sub_8022190(p);
+    SA2_LABEL(sub_8022190)(p);
 }
 
 void Player_Tails_InitFlying(Player *p)
@@ -6235,4 +6235,28 @@ void sub_80480C4(Player *p)
         p->charState = CHARSTATE_GROUND_ATTACK;
         Player_Tails_InitGfx_TailSwipe(p);
     }
+}
+
+/* Knuckles Start */
+
+void sub_8048110(Player *p)
+{
+    s32 qSpeed = p->qSpeedGround;
+
+    if (qSpeed > Q(0)) {
+        qSpeed -= (p->deceleration >> 1);
+        if (qSpeed < 0) {
+            qSpeed = 0;
+        }
+    } else {
+        qSpeed += (p->deceleration >> 1);
+        if (qSpeed > Q(0)) {
+            qSpeed = 0;
+        }
+    }
+
+    p->qSpeedGround = qSpeed;
+
+    Player_80470AC(p);
+    SA2_LABEL(sub_80231C0)(p);
 }
