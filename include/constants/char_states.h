@@ -38,6 +38,7 @@
 #define CHARSTATE_ACT_CLEAR_B 29
 #endif
 
+#define CHARSTATE_32 32
 #define CHARSTATE_43 43
 #define CHARSTATE_44 44
 #define CHARSTATE_45 45
@@ -51,7 +52,7 @@
 #define CHARSTATE_56            56
 #define CHARSTATE_SWIMMING      57
 #define CHARSTATE_58            58
-#define CHARSTATE_60            60
+#define CHARSTATE_GROUND_ATTACK 60
 
 // NOTE: Inferred from CHARSTATE_KNUCKLES_GLIDE in SA2_LABEL(sub_8022318)
 #define CHARSTATE_KNUCKLES_GLIDE 62

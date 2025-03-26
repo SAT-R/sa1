@@ -72,17 +72,17 @@ void Player_80447D8(Player *p);
 void SA2_LABEL(sub_802460C)(Player *p);
 void sub_8045DF0(Player *p);
 void sub_8047714(Player *p);
-struct Task *sub_804792C(Player *p);
-void sub_8048060(Player *p);
+struct Task *Player_Sonic_InitGfx_InstaShield(Player *p);
+struct Task *Player_Tails_InitGfx_TailSwipe(Player *p);
 
 void Player_Sonic_80473AC(Player *p);
 void Player_Tails_8047BA0(Player *p);
 void Player_Knuckles_8049000(Player *p);
 void Player_Amy_80497AC(Player *p);
 
-void Player_Sonic_JumpHeld(Player *p);
-void Player_Tails_JumpHeld(Player *p);
-void Player_Knuckles_JumpHeld(Player *p);
+void Player_Sonic_InitInstaShield(Player *p);
+void Player_Tails_InitFlying(Player *p);
+void Player_Knuckles_InitGlide(Player *p);
 
 void Task_8049898(void);
 void sub_804A1B8(Player *p);
@@ -3162,6 +3162,7 @@ void Player_8044670(Player *p)
                 p->qSpeedAirY = r4;
             }
         } else {
+            // Init mid-air action, if Jump button pressed
             if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (p->SA2_LABEL(unk61) == 0) && (p->frameInput & gPlayerControls.jump)
                 && (p->charState != CHARSTATE_HIT_AIR)) {
                 p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
@@ -3169,15 +3170,15 @@ void Player_8044670(Player *p)
 
                 switch (p->character) {
                     case CHARACTER_SONIC: {
-                        Player_Sonic_JumpHeld(p);
+                        Player_Sonic_InitInstaShield(p);
                     } break;
 
                     case CHARACTER_TAILS: {
-                        Player_Tails_JumpHeld(p);
+                        Player_Tails_InitFlying(p);
                     } break;
 
                     case CHARACTER_KNUCKLES: {
-                        Player_Knuckles_JumpHeld(p);
+                        Player_Knuckles_InitGlide(p);
                     } break;
 
                     case CHARACTER_AMY: {
@@ -5815,7 +5816,7 @@ void sub_8047890(Player *p)
     sa2__sub_8022190(p);
 }
 
-void Player_Sonic_JumpHeld(Player *p)
+void Player_Sonic_InitInstaShield(Player *p)
 {
     struct Task *t;
     MultiplayerSpriteTask *mps;
@@ -5824,7 +5825,7 @@ void Player_Sonic_JumpHeld(Player *p)
     p->charState = CHARSTATE_43;
     m4aSongNumStart(SE_SONIC_INSTA_SHIELD);
 
-    t = sub_804792C(p);
+    t = Player_Sonic_InitGfx_InstaShield(p);
     mps = TASK_DATA(t);
     s = &mps->s;
 
@@ -5835,15 +5836,15 @@ void Player_Sonic_JumpHeld(Player *p)
     }
 }
 
-struct Task *sub_804792C(Player *p)
+struct Task *Player_Sonic_InitGfx_InstaShield(Player *p)
 {
     struct Task *t
         = CreateMultiplayerSpriteTask(0, 0, 160, p->playerID, Task_UpdateMpSpriteTaskSprite, TaskDestructor_MultiplayerSpriteTask);
     MultiplayerSpriteTask *mps = TASK_DATA(t);
     Sprite *s = &mps->s;
 
-    s->graphics.dest = ALLOC_TILES(SA1_ANIM_SONIC_50);
-    s->graphics.anim = SA1_ANIM_SONIC_50;
+    s->graphics.dest = ALLOC_TILES(SA1_CHAR_ANIM_50);
+    s->graphics.anim = SA1_CHAR_ANIM_50;
     s->variant = 1;
     s->oamFlags = 0x200;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
@@ -5939,8 +5940,8 @@ s32 sub_8047B04(Player *p)
             if (!(p->moveState & MOVESTATE_SPINDASH) && ((p->rotation + Q(0.25)) << 24 > 0) && !(p->moveState & MOVESTATE_20)
                 && (p->frameInput & gPlayerControls.attack)) {
                 p->SA2_LABEL(unk62)++;
-                p->charState = CHARSTATE_60;
-                sub_8048060(p);
+                p->charState = CHARSTATE_GROUND_ATTACK;
+                Player_Tails_InitGfx_TailSwipe(p);
             }
             return p->SA2_LABEL(unk62);
         } break;
@@ -6052,5 +6053,186 @@ void Player_Tails_8047BA0(Player *p)
     }
 }
 
-#if 01
-#endif
+void Task_8047D04(void)
+{
+    MultiplayerSpriteTask *mps = TASK_DATA(gCurTask);
+    u8 mpid = mps->mpPlayerID;
+    Sprite *s = &mps->s;
+    SpriteTransform *tf = &mps->transform;
+    Camera *cam = &gCamera;
+    Player *p;
+    s32 v, w;
+
+    if (IS_MULTI_PLAYER) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    p = &gPlayer;
+    if (mpid != PLAYER_1) {
+        p = &gPartner;
+    }
+
+    if ((p->character != CHARACTER_TAILS) || (p->charState != CHARSTATE_32) || (p->SA2_LABEL(unk99)[0] == 0x7F)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    tf->x = (I(p->qWorldX) - cam->x) + p->SA2_LABEL(unk7C);
+    tf->y = (I(p->qWorldY) - cam->y);
+
+    s->frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+    s->frameFlags |= SPRITE_FLAG(PRIORITY, 0);
+
+    s->frameFlags |= p->spriteInfoLimbs->s.frameFlags & 0x3000;
+    s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
+    s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++ | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
+
+    tf->rotation = (u8)p->w.tf.shift * 4;
+    tf->qScaleX = Q(1.0);
+    tf->qScaleY = Q(1.0);
+    v = p->SA2_LABEL(unk80);
+    w = p->SA2_LABEL(unk82);
+    tf->qScaleX = v;
+    tf->qScaleY = w;
+
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+}
+
+struct Task *Player_Tails_InitGfxMarbleTrack(Player *p)
+{
+    struct Task *t = CreateMultiplayerSpriteTask(0, 0, 96, p->playerID, Task_8047D04, TaskDestructor_MultiplayerSpriteTask);
+    MultiplayerSpriteTask *mps = TASK_DATA(t);
+    Sprite *s = &mps->s;
+    SpriteTransform *tf = &mps->transform;
+
+    s->graphics.dest = ALLOC_TILES(SA1_CHAR_ANIM_MARBLE_TRACK);
+    s->graphics.anim = SA1_CHAR_ANIM_MARBLE_TRACK + SA1_ANIM_TAILS_IDLE;
+    s->variant = 1;
+    s->oamFlags = 0x400;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    tf->rotation = 0;
+    tf->qScaleX = Q(1.0);
+    tf->qScaleY = Q(1.0);
+    tf->x = 0;
+    tf->y = 0;
+    return t;
+}
+
+void sub_8047E94(Player *p)
+{
+    if (p->SA2_LABEL(unk62) == 0) {
+        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8047B04(p) == 0)) {
+            if (!Player_Spindash(p) && !sub_8044250(p)) {
+                SA2_LABEL(sub_8029CA0)(p);
+                Player_8044F7C(p);
+                SA2_LABEL(sub_80232D0)(p);
+                Player_UpdatePosition(p);
+                SA2_LABEL(sub_8022D6C)(p);
+                SA2_LABEL(sub_8029ED8)(p);
+            }
+        }
+    } else {
+        SA2_LABEL(sub_8029CA0)(p);
+
+        if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+            sub_8047B04(p);
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+
+void sub_8047F2C(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+
+    if (p->SA2_LABEL(unk61) == 0) {
+        Player_8044670(p);
+        Player_AirInputControls(p);
+        sa2__sub_80232D0(p);
+        Player_UpdatePosition(p);
+        PlayerFn_Cmd_UpdateAirFallSpeed(p);
+        Player_8047224(p);
+        sa2__sub_8022190(p);
+    } else {
+        sub_8047A3C(p);
+        Player_AirInputControls(p);
+        sa2__sub_80232D0(p);
+        Player_UpdatePosition(p);
+        Player_8047224(p);
+        sa2__sub_8022190(p);
+    }
+}
+
+void sub_8047FA0(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+
+    if (sub_8044250(p) == 0) {
+        sa2__sub_8029D14(p);
+        Player_8043DDC(p);
+        sa2__sub_80232D0(p);
+        Player_UpdatePosition(p);
+        sa2__sub_8022D6C(p);
+        sa2__sub_8029ED8(p);
+    }
+}
+
+void sub_8047FE4(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+    Player_8044670(p);
+    Player_AirInputControls(p);
+    sa2__sub_80232D0(p);
+    Player_UpdatePosition(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    Player_8047224(p);
+    sa2__sub_8022190(p);
+}
+
+void Player_Tails_InitFlying(Player *p)
+{
+    if (p->moveState & MOVESTATE_4) {
+        p->moveState &= ~MOVESTATE_4;
+        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+    }
+
+    p->w.tf.flyingDuration = ZONE_TIME_TO_INT(0, 4);
+    Player_Tails_8047990(p);
+}
+
+struct Task *Player_Tails_InitGfx_TailSwipe(Player *p)
+{
+    struct Task *t
+        = CreateMultiplayerSpriteTask(0, 0, 224, p->playerID, Task_UpdateMpSpriteTaskSprite, TaskDestructor_MultiplayerSpriteTask);
+    MultiplayerSpriteTask *mps = TASK_DATA(t);
+    Sprite *s = &mps->s;
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_TAILS_TAIL_SWIPE);
+    s->graphics.anim = SA1_ANIM_TAILS_TAIL_SWIPE;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    return t;
+}
+
+void sub_80480C4(Player *p)
+{
+    if ((!(p->moveState & MOVESTATE_SPINDASH)) && (((p->rotation + Q(0.25)) << 24) > 0) && !(p->moveState & MOVESTATE_20)
+        && (p->frameInput & gPlayerControls.attack)) {
+        p->SA2_LABEL(unk62)++;
+        p->charState = CHARSTATE_GROUND_ATTACK;
+        Player_Tails_InitGfx_TailSwipe(p);
+    }
+}

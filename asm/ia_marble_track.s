@@ -2254,7 +2254,7 @@ _0808320C:
 	beq _0808321C
 	ldr r0, _0808328C @ =gPartner
 _0808321C:
-	bl sub_8047E18
+	bl Player_Tails_InitGfxMarbleTrack
 _08083220:
 	adds r1, r5, r6
 	ldrb r0, [r1]
