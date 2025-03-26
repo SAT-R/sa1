@@ -576,8 +576,8 @@ void InitializePlayer(Player *p)
     switch (p->character) {
         case CHARACTER_SONIC: {
             p->w.sf.flags = 0;
-            p->w.sf.unkAE = 0;
-            p->w.sf.unkB0 = 0;
+            p->w.sf.SA2_LABEL(unkAE) = 0;
+            p->w.sf.SA2_LABEL(unkB0) = 0;
         } break;
 
 #if (GAME == GAME_SA2)
@@ -5851,3 +5851,33 @@ struct Task *sub_804792C(Player *p)
 }
 
 void nullsub_804798C() { }
+
+/* Tails Start */
+
+void Player_Tails_8047990(Player *p)
+{
+    if (p->w.tf.flyingDuration == 0) {
+        p->charState = CHARSTATE_FLY_EXHAUSTED;
+        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+    } else if (p->moveState & MOVESTATE_IN_WATER) {
+        if (((p->heldInput & DPAD_LEFT) && !(p->moveState & MOVESTATE_FACING_LEFT))
+            || ((p->heldInput & DPAD_RIGHT) && (p->moveState & MOVESTATE_FACING_LEFT))) {
+            p->charState = CHARSTATE_58;
+        } else if (p->charState != CHARSTATE_54) {
+            p->charState = CHARSTATE_SWIMMING;
+        }
+
+        RandomlySpawnAirBubbles(p);
+
+        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+    } else {
+        if (((p->heldInput & DPAD_LEFT) && !(p->moveState & MOVESTATE_FACING_LEFT))
+            || ((p->heldInput & DPAD_RIGHT) && (p->moveState & MOVESTATE_FACING_LEFT))) {
+            p->charState = CHARSTATE_54;
+        } else if (p->charState != CHARSTATE_54) {
+            p->charState = CHARSTATE_FLYING;
+        }
+
+        m4aSongNumStartOrChange(SE_TAILS_PROPELLER_FLYING);
+    }
+}

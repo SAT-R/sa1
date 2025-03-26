@@ -5,109 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_8047990
-sub_8047990: @ 0x08047990
-	push {lr}
-	adds r2, r0, #0
-	adds r0, #0x84
-	ldr r0, [r0]
-	cmp r0, #0
-	bne _080479A6
-	adds r1, r2, #0
-	adds r1, #0x40
-	movs r0, #0x37
-	strb r0, [r1]
-	b _080479F0
-_080479A6:
-	ldr r1, [r2, #0x10]
-	movs r0, #0x40
-	ands r0, r1
-	cmp r0, #0
-	beq _080479F8
-	ldrh r3, [r2, #0x38]
-	movs r0, #0x20
-	ands r0, r3
-	cmp r0, #0
-	beq _080479C2
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _080479D2
-_080479C2:
-	movs r0, #0x10
-	ands r0, r3
-	cmp r0, #0
-	beq _080479DA
-	movs r0, #1
-	ands r1, r0
-	cmp r1, #0
-	beq _080479DA
-_080479D2:
-	adds r1, r2, #0
-	adds r1, #0x40
-	movs r0, #0x3a
-	b _080479E8
-_080479DA:
-	adds r1, r2, #0
-	adds r1, #0x40
-	movs r0, #0
-	ldrsb r0, [r1, r0]
-	cmp r0, #0x36
-	beq _080479EA
-	movs r0, #0x39
-_080479E8:
-	strb r0, [r1]
-_080479EA:
-	adds r0, r2, #0
-	bl RandomlySpawnAirBubbles
-_080479F0:
-	movs r0, #0x78
-	bl m4aSongNumStop
-	b _08047A38
-_080479F8:
-	ldrh r3, [r2, #0x38]
-	movs r0, #0x20
-	ands r0, r3
-	cmp r0, #0
-	beq _08047A0A
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08047A1A
-_08047A0A:
-	movs r0, #0x10
-	ands r0, r3
-	cmp r0, #0
-	beq _08047A22
-	movs r0, #1
-	ands r1, r0
-	cmp r1, #0
-	beq _08047A22
-_08047A1A:
-	adds r1, r2, #0
-	adds r1, #0x40
-	movs r0, #0x36
-	b _08047A30
-_08047A22:
-	adds r1, r2, #0
-	adds r1, #0x40
-	movs r0, #0
-	ldrsb r0, [r1, r0]
-	cmp r0, #0x36
-	beq _08047A32
-	movs r0, #0x35
-_08047A30:
-	strb r0, [r1]
-_08047A32:
-	movs r0, #0x78
-	bl m4aSongNumStartOrChange
-_08047A38:
-	pop {r0}
-	bx r0
-
+.if 01
 	thumb_func_start sub_8047A3C
 sub_8047A3C: @ 0x08047A3C
 	push {r4, lr}
@@ -209,12 +107,13 @@ _08047AD6:
 	strh r0, [r2, #0xa]
 _08047AF2:
 	adds r0, r2, #0
-	bl sub_8047990
+	bl Player_Tails_8047990
 	pop {r4}
 	pop {r0}
 	bx r0
 	.align 2, 0
 _08047B00: .4byte gCamera
+.endif
 
 	thumb_func_start sub_8047B04
 sub_8047B04: @ 0x08047B04
@@ -848,7 +747,7 @@ _0804804A:
 	movs r0, #0xf0
 	str r0, [r1]
 	adds r0, r4, #0
-	bl sub_8047990
+	bl Player_Tails_8047990
 	pop {r4}
 	pop {r0}
 	bx r0
