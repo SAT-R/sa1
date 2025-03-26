@@ -45,10 +45,13 @@
 #define CHARSTATE_47 47
 #define CHARSTATE_48 48
 
-#define CHARSTATE_FLYING 53
-
-#define CHARSTATE_56       56
-#define CHARSTATE_SWIMMING 57
+#define CHARSTATE_FLYING        53
+#define CHARSTATE_54            54
+#define CHARSTATE_FLY_EXHAUSTED 55
+#define CHARSTATE_56            56
+#define CHARSTATE_SWIMMING      57
+#define CHARSTATE_58            58
+#define CHARSTATE_60            60
 
 // NOTE: Inferred from CHARSTATE_KNUCKLES_GLIDE in SA2_LABEL(sub_8022318)
 #define CHARSTATE_KNUCKLES_GLIDE 62

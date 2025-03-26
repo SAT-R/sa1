@@ -24,34 +24,34 @@ typedef void (*PlayerCallback)(struct Player *);
 // TODO: Better name.
 //       This is used for an apparent around the value Cream uses for flying duration
 typedef struct {
-    /* 0xAC */ u8 flags;
-    /* 0xAD */ s8 unkAD;
-    /* 0xAE */ u16 unkAE;
-    /* 0xB0 */ u16 unkB0;
+    /* 0x80|0xAC */ u8 flags;
+    /* 0x81|0xAD */ s8 SA2_LABEL(unkAD);
+    /* 0x82|0xAE */ u16 SA2_LABEL(unkAE);
+    /* 0x84|0xB0 */ u16 SA2_LABEL(unkB0);
 } SonicFlags;
 
 #if (GAME == GAME_SA2)
 typedef struct {
-    /* 0xAC */ s16 flyingDuration;
-    /* 0xAE */ u16 unkAE;
-    /* 0xB0 */ s8 unkB0;
+    /* 0x80|0xAC */ s16 flyingDuration;
+    /* 0x82|0xAE */ u16 SA2_LABEL(unkAE);
+    /* 0x93|0xB0 */ s8 SA2_LABEL(unkB0);
 } CreamFlags;
 #endif
 
 typedef struct {
-    /* 0xAC */ u8 flags;
-    /* 0xAD */ s8 shift;
-    /* 0xAE */ s8 unkAE;
-    /* 0xAF */ s8 unkAF;
+    /* 0x80|0xAC */ u8 flags;
+    /* 0x81|0xAD */ s8 shift;
+    /* 0x82|0xAE */ s8 SA2_LABEL(unkAE);
+    /* 0x83|0xAF */ s8 SA2_LABEL(unkAF);
 
     // NOTE: For some reason this is a 4-byte value, while Cream's is a 2-byte
-    /* 0xB0 */ s32 flyingDuration;
+    /* 0x84|0xB0 */ s32 flyingDuration;
 } TailsFlags;
 
 typedef struct {
     /* 0xAC */ u8 flags;
     /* 0xAD */ s8 shift; // TODO: Name
-    /* 0xAE */ s8 unkAE;
+    /* 0xAE */ s8 SA2_LABEL(unkAE);
 } KnucklesFlags;
 
 typedef struct {
