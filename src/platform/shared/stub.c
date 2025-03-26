@@ -34,8 +34,6 @@ void Player_80470AC(Player *p) { }
 void Player_804726C(Player *p) { }
 void Player_8047280(Player *p) { }
 void Task_8049898(void) { }
-void sa2__sub_8029AC0() { }
-void sa2__sub_8029B0C() { }
 void Player_Sonic_80473AC() { }
 void Player_Tails_8047BA0() { }
 void Player_Knuckles_8049000() { }
@@ -43,7 +41,6 @@ void Player_Amy_80497AC() { }
 void Player_Sonic_JumpHeld() { }
 void Player_Tails_JumpHeld() { }
 void Player_Knuckles_JumpHeld() { }
-s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out) { }
 void sub_804A1B8(Player *p) { }
 void TaskDestructor_Player(struct Task *t) { }
 

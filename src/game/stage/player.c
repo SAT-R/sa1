@@ -86,6 +86,7 @@ void Task_PlayerMain(void);
 void TaskDestructor_Player(struct Task *);
 void AllocateCharacterStageGfx(Player *p, PlayerSpriteInfo *param2);
 void AllocateCharacterMidAirGfx(Player *p, PlayerSpriteInfo *param2);
+s32 SA2_LABEL(sub_802195C)(Player *p, u8 *p1, s32 *out);
 void SA2_LABEL(sub_802486C)(Player *p, PlayerSpriteInfo *psi);
 void SA2_LABEL(sub_8024B10)(Player *p, PlayerSpriteInfo *psi);
 void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *psi);
@@ -155,6 +156,11 @@ void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *psi);
         psi->transform.qScaleY = y;                                                                                                        \
         UpdateSpriteAnimation(s);                                                                                                          \
     })
+
+// >> acceleration = (sin(angle) * 3) / 32
+#define GET_ROTATED_ACCEL(angle)   ((SIN_24_8((angle)*4) * 3) >> 5)
+#define GET_ROTATED_ACCEL_2(angle) ((SIN_24_8((angle)*4) * 5) >> 5)
+#define GET_ROTATED_ACCEL_3(angle) ((SIN_24_8((angle)*4) * 60))
 
 void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *player)
 {
@@ -616,7 +622,7 @@ void Player_TransitionCancelFlyingAndBoost(Player *p)
 }
 #endif
 
-// Very similar to sub_8029BB8
+// Very similar to sa2__sub_8029BB8
 s32 SA2_LABEL(sub_802195C)(Player *p, u8 *p1, s32 *out)
 {
     u8 dummy;
@@ -666,7 +672,7 @@ s32 SA2_LABEL(sub_802195C)(Player *p, u8 *p1, s32 *out)
     return result;
 }
 
-// Very similar to sub_802195C
+// Very similar to sa2__sub_802195C
 s32 SA2_LABEL(sub_8021A34)(Player *p, u8 *p1, s32 *out)
 {
     u8 dummy;
@@ -716,7 +722,7 @@ s32 SA2_LABEL(sub_8021A34)(Player *p, u8 *p1, s32 *out)
     return result;
 }
 
-// Very similar to sub_802195C
+// Very similar to sa2__sub_802195C
 s32 SA2_LABEL(sub_8021B08)(Player *p, u8 *p1, s32 *out)
 {
     u8 dummy;
@@ -4952,4 +4958,391 @@ void Player_TransitionCancelFlyingAndBoost(Player *p)
         p->moveState &= ~MOVESTATE_BOOST_EFFECT_ON;
     }
 #endif
+}
+
+// s32 SA2_LABEL(sub_8029A28)(Player *p, u8 *p1, s32 *out)
+s32 SA2_LABEL(sub_8029A28)(Player *p, u8 *p1, s32 *out)
+{
+    s32 result;
+
+    u8 dummy;
+
+    // TODO: Why is dummyInt unused?
+    s32 dummyInt;
+    s32 p1Value;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    result = SA2_LABEL(sub_802195C)(p, p1, out);
+
+    p1Value = *p1;
+
+    if (p1Value & 0x1)
+        *p1 = 0;
+    else {
+        if (GRAVITY_IS_INVERTED) {
+            s32 val = -0x80;
+            val -= p1Value;
+            *p1 = val;
+        }
+    }
+
+    return result;
+}
+
+s32 SA2_LABEL(sub_8029A74)(Player *p, u8 *p1, s32 *out)
+{
+    s32 result;
+
+    u8 dummy;
+
+    s32 dummyInt;
+    s32 p1Value;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    result = SA2_LABEL(sub_8021A34)(p, p1, out);
+
+    p1Value = *p1;
+
+    if (p1Value & 0x1)
+        *p1 = 0;
+    else {
+        if (GRAVITY_IS_INVERTED) {
+            s32 val = -0x80;
+            val -= p1Value;
+            *p1 = val;
+        }
+    }
+
+    return result;
+}
+
+s32 SA2_LABEL(sub_8029AC0)(Player *p, u8 *p1, s32 *out)
+{
+    s32 result;
+
+    u8 dummy;
+
+    // TODO: Why is dummyInt unused?
+    s32 dummyInt;
+    s32 p1Value;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    result = SA2_LABEL(sub_8021B08)(p, p1, out);
+
+    p1Value = *p1;
+
+    if (p1Value & 0x1)
+        *p1 = 0;
+    else {
+        if (GRAVITY_IS_INVERTED) {
+            s32 val = -0x80;
+            val -= p1Value;
+            *p1 = val;
+        }
+    }
+
+    return result;
+}
+
+s32 SA2_LABEL(sub_8029B0C)(Player *p, u8 *p1, s32 *out)
+{
+    s32 result;
+
+    u8 dummy;
+
+    // TODO: Why is dummyInt unused?
+    s32 dummyInt;
+    s32 p1Value;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    result = SA2_LABEL(sub_8029BB8)(p, p1, out);
+
+    p1Value = *p1;
+
+    if (p1Value & 0x1)
+        *p1 = 0;
+    else {
+        if (GRAVITY_IS_INVERTED) {
+            s32 val = -0x80;
+            val -= p1Value;
+            *p1 = val;
+        }
+    }
+
+    return result;
+}
+
+s32 SA2_LABEL(sub_8029B58)(Player *p, u8 *p1, s32 *out)
+{
+    s32 result;
+
+    if (GRAVITY_IS_INVERTED) {
+        result = SA2_LABEL(sub_8029B0C)(p, p1, out);
+    } else {
+        result = SA2_LABEL(sub_8029AC0)(p, p1, out);
+    }
+
+    return result;
+}
+
+s32 SA2_LABEL(sub_8029B88)(Player *p, u8 *p1, s32 *out)
+{
+    s32 result;
+
+    if (GRAVITY_IS_INVERTED) {
+        result = SA2_LABEL(sub_8029AC0)(p, p1, out);
+    } else {
+        result = SA2_LABEL(sub_8029B0C)(p, p1, out);
+    }
+
+    return result;
+}
+
+// Very similar to sa2__sub_802195C
+s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out)
+{
+    u8 dummy;
+    s32 dummyInt;
+    s32 playerX, playerY;
+    s32 playerX2, playerY2;
+    u32 mask;
+    u8 anotherByte, anotherByte2;
+    s32 r5, r1;
+    s32 result;
+
+    if (p1 == NULL)
+        p1 = &dummy;
+    if (out == NULL)
+        out = &dummyInt;
+
+    playerY2 = I(p->qWorldY) + p->spriteOffsetY;
+    playerX2 = I(p->qWorldX) - (2 + p->spriteOffsetX);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < 0) {
+        mask |= 0x80;
+    }
+
+    r5 = SA2_LABEL(sub_801E4E4)(playerY2, playerX2, mask, 8, &anotherByte, SA2_LABEL(sub_801EE64));
+
+    playerY = I(p->qWorldY) + p->spriteOffsetY;
+    playerX = I(p->qWorldX) + (2 + p->spriteOffsetX);
+
+    mask = p->layer;
+    if (p->qSpeedAirY < 0) {
+        mask |= 0x80;
+    }
+
+    r1 = SA2_LABEL(sub_801E4E4)(playerY, playerX, mask, 8, &anotherByte2, SA2_LABEL(sub_801EE64));
+
+    if (r5 < r1) {
+        result = r5;
+        *p1 = anotherByte;
+        *out = r1;
+    } else {
+        result = r1;
+        *p1 = anotherByte2;
+        *out = r5;
+    }
+
+    return result;
+}
+
+#if (GAME == GAME_SA2)
+void SA2_LABEL(sub_8029C84)(Player *p)
+{
+    s32 rot = p->rotation + Q(0.25);
+
+    if ((rot & UINT8_MAX) > INT8_MAX)
+        p->qSpeedGround = 0;
+}
+#endif
+
+void SA2_LABEL(sub_8029CA0)(Player *p)
+{
+#if (GAME == GAME_SA1)
+    s32 rot;
+    if (((p->rotation + Q(0.375)) & 0xFF) < Q(0.75))
+#else
+    s32 rot = p->rotation;
+    if (((rot + Q(0.375)) & 0xFF) < Q(0.75))
+#endif
+    {
+#if (GAME == GAME_SA1)
+        rot = GET_ROTATED_ACCEL(p->rotation);
+#else
+        rot = GET_ROTATED_ACCEL(rot);
+#endif
+
+        if (p->qSpeedGround != 0) {
+            p->qSpeedGround += rot;
+        }
+    }
+}
+
+#if (GAME == GAME_SA1)
+void SA2_LABEL(sub_8029CE0)(Player *p)
+{
+    s8 rot;
+    if (((p->rotation + Q(0.375)) & 0xFF) < Q(0.75)) {
+        rot = GET_ROTATED_ACCEL_2(p->rotation);
+
+        p->qSpeedGround += rot;
+    }
+}
+#else
+void SA2_LABEL(sub_8029CE0)(Player *p)
+{
+    s32 rot = p->rotation;
+    if (((rot + Q(0.375)) & 0xFF) < Q(0.75)) {
+        s32 other = GET_ROTATED_ACCEL_2(rot);
+
+        p->qSpeedGround += other;
+    }
+}
+#endif
+
+void SA2_LABEL(sub_8029D14)(Player *p)
+{
+#ifndef NON_MATCHING
+    register s32 grndSpeed asm("r2") = p->qSpeedGround;
+#else
+    s32 grndSpeed = p->qSpeedGround;
+#endif
+
+    if ((((p->rotation + Q(0.375)) & 0xFF) < Q(0.75)) && grndSpeed != 0) {
+        s32 accelInt = I(GET_ROTATED_ACCEL_3(p->rotation));
+
+        if (grndSpeed > 0) {
+            if (accelInt <= 0) {
+                accelInt = (accelInt >> 2);
+            }
+        } else {
+            if (accelInt >= 0) {
+                accelInt = (accelInt >> 2);
+            }
+        }
+
+        p->qSpeedGround = grndSpeed + accelInt;
+    }
+}
+
+// Code part of SA2_LABEL(sub_802A660)
+// They merged Player_8047064 and Player_8047088 into one!
+void Player_8047064(Player *p)
+{
+    s32 qSpeed = p->qSpeedGround;
+    if (qSpeed <= Q(0)) {
+        p->moveState |= MOVESTATE_FACING_LEFT;
+    } else if (qSpeed - Q(24. / 256.) < Q(0)) {
+        qSpeed = Q(96. / 256.);
+        p->qSpeedGround = -qSpeed;
+    } else {
+        p->qSpeedGround = qSpeed - Q(24. / 256.);
+    }
+}
+
+// Code part of SA2_LABEL(sub_802A660)
+// They merged Player_8047064 and Player_8047088 into one!
+void Player_8047088(Player *p)
+{
+    s32 qSpeed = p->qSpeedGround;
+    if (qSpeed >= Q(0)) {
+        p->moveState &= ~MOVESTATE_FACING_LEFT;
+    } else if (qSpeed + Q(24. / 256.) > Q(0)) {
+        qSpeed = Q(96. / 256.);
+        p->qSpeedGround = +qSpeed;
+    } else {
+        p->qSpeedGround = qSpeed + Q(24. / 256.);
+    }
+}
+
+void Player_80470AC(Player *p)
+{
+    s32 qSpeed = p->qSpeedGround;
+    u32 rot;
+#ifndef NON_MATCHING
+    const s16 *sinTbl = &gSineTable[0];
+    asm("" ::"r"(sinTbl));
+#endif
+    rot = p->rotation;
+
+    p->qSpeedAirX = Q_MUL(qSpeed, COS_24_8(rot * 4));
+    p->qSpeedAirY = Q_MUL(qSpeed, SIN_24_8(rot * 4));
+}
+
+void Player_UpdatePosition(Player *p) { PLAYERFN_UPDATE_POSITION(p); }
+
+void PlayerFn_Cmd_UpdateAirFallSpeed(Player *p) { PLAYERFN_UPDATE_AIR_FALL_SPEED(p); }
+
+bool32 SA2_LABEL(sub_8029DE8)(Player *p)
+{
+    struct Camera *cam = &gCamera;
+    s32 playerY = p->qWorldY;
+
+    if (!(p->moveState & MOVESTATE_80000000)) {
+#if (GAME == GAME_SA1)
+        if (!GRAVITY_IS_INVERTED) {
+            if (playerY >= Q(cam->maxY) - 1)
+                return TRUE;
+        } else {
+            if (playerY <= Q(cam->minY))
+                return TRUE;
+        }
+#elif (GAME == GAME_SA2)
+        if (GRAVITY_IS_INVERTED) {
+            if (playerY <= Q(cam->minY))
+                return TRUE;
+        } else {
+            if (playerY >= Q(cam->maxY) - 1)
+                return TRUE;
+        }
+#endif
+    }
+
+    return FALSE;
+}
+
+bool32 DeadPlayerLeftScreen_UnusedCopy(Player *p)
+{
+    struct Camera *cam = &gCamera;
+    s32 playerY = p->qWorldY;
+
+    if (!(p->moveState & MOVESTATE_80000000)) {
+#if (GAME == GAME_SA1)
+        if (!GRAVITY_IS_INVERTED) {
+            if (playerY >= Q(cam->y) + Q(DISPLAY_HEIGHT + 80) - 1)
+                return TRUE;
+        } else {
+            if (playerY <= Q(cam->y - 80))
+                return TRUE;
+        }
+#elif (GAME == GAME_SA2)
+        if (GRAVITY_IS_INVERTED) {
+            if (playerY <= Q(cam->y - 80))
+                return TRUE;
+        } else {
+            if (playerY >= Q(cam->y) + Q(DISPLAY_HEIGHT + 80) - 1)
+                return TRUE;
+        }
+#endif
+    }
+
+    return FALSE;
 }

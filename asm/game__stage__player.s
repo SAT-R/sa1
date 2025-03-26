@@ -8,673 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8046D50
-sub_8046D50: @ 0x08046D50
-	push {r4, lr}
-	sub sp, #8
-	adds r4, r1, #0
-	cmp r4, #0
-	bne _08046D5C
-	mov r4, sp
-_08046D5C:
-	cmp r2, #0
-	bne _08046D62
-	add r2, sp, #4
-_08046D62:
-	adds r1, r4, #0
-	bl sa2__sub_802195C
-	adds r3, r0, #0
-	ldrb r2, [r4]
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _08046D78
-	movs r0, #0
-	b _08046D8A
-_08046D78:
-	ldr r0, _08046D98 @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _08046D8C
-	movs r0, #0x80
-	rsbs r0, r0, #0
-	subs r0, r0, r2
-_08046D8A:
-	strb r0, [r4]
-_08046D8C:
-	adds r0, r3, #0
-	add sp, #8
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08046D98: .4byte gStageFlags
-
-	thumb_func_start sub_8046D9C
-sub_8046D9C: @ 0x08046D9C
-	push {r4, lr}
-	sub sp, #8
-	adds r4, r1, #0
-	cmp r4, #0
-	bne _08046DA8
-	mov r4, sp
-_08046DA8:
-	cmp r2, #0
-	bne _08046DAE
-	add r2, sp, #4
-_08046DAE:
-	adds r1, r4, #0
-	bl sa2__sub_8021A34
-	adds r3, r0, #0
-	ldrb r2, [r4]
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _08046DC4
-	movs r0, #0
-	b _08046DD6
-_08046DC4:
-	ldr r0, _08046DE4 @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _08046DD8
-	movs r0, #0x80
-	rsbs r0, r0, #0
-	subs r0, r0, r2
-_08046DD6:
-	strb r0, [r4]
-_08046DD8:
-	adds r0, r3, #0
-	add sp, #8
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08046DE4: .4byte gStageFlags
-
-	thumb_func_start sa2__sub_8029AC0
-sa2__sub_8029AC0: @ 0x08046DE8
-	push {r4, lr}
-	sub sp, #8
-	adds r4, r1, #0
-	cmp r4, #0
-	bne _08046DF4
-	mov r4, sp
-_08046DF4:
-	cmp r2, #0
-	bne _08046DFA
-	add r2, sp, #4
-_08046DFA:
-	adds r1, r4, #0
-	bl sa2__sub_8021B08
-	adds r3, r0, #0
-	ldrb r2, [r4]
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _08046E10
-	movs r0, #0
-	b _08046E22
-_08046E10:
-	ldr r0, _08046E30 @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _08046E24
-	movs r0, #0x80
-	rsbs r0, r0, #0
-	subs r0, r0, r2
-_08046E22:
-	strb r0, [r4]
-_08046E24:
-	adds r0, r3, #0
-	add sp, #8
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08046E30: .4byte gStageFlags
-
-	thumb_func_start sa2__sub_8029B0C
-sa2__sub_8029B0C: @ 0x08046E34
-	push {r4, lr}
-	sub sp, #8
-	adds r4, r1, #0
-	cmp r4, #0
-	bne _08046E40
-	mov r4, sp
-_08046E40:
-	cmp r2, #0
-	bne _08046E46
-	add r2, sp, #4
-_08046E46:
-	adds r1, r4, #0
-	bl sa2__sub_8029BB8
-	adds r3, r0, #0
-	ldrb r2, [r4]
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _08046E5C
-	movs r0, #0
-	b _08046E6E
-_08046E5C:
-	ldr r0, _08046E7C @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _08046E70
-	movs r0, #0x80
-	rsbs r0, r0, #0
-	subs r0, r0, r2
-_08046E6E:
-	strb r0, [r4]
-_08046E70:
-	adds r0, r3, #0
-	add sp, #8
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08046E7C: .4byte gStageFlags
-
-	thumb_func_start sub_8046E80
-sub_8046E80: @ 0x08046E80
-	push {r4, lr}
-	adds r3, r0, #0
-	adds r4, r1, #0
-	ldr r0, _08046E9C @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _08046EA0
-	adds r0, r3, #0
-	adds r1, r4, #0
-	bl sa2__sub_8029B0C
-	b _08046EA8
-	.align 2, 0
-_08046E9C: .4byte gStageFlags
-_08046EA0:
-	adds r0, r3, #0
-	adds r1, r4, #0
-	bl sa2__sub_8029AC0
-_08046EA8:
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
-	thumb_func_start sub_8046EB0
-sub_8046EB0: @ 0x08046EB0
-	push {r4, lr}
-	adds r3, r0, #0
-	adds r4, r1, #0
-	ldr r0, _08046ECC @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _08046ED0
-	adds r0, r3, #0
-	adds r1, r4, #0
-	bl sa2__sub_8029AC0
-	b _08046ED8
-	.align 2, 0
-_08046ECC: .4byte gStageFlags
-_08046ED0:
-	adds r0, r3, #0
-	adds r1, r4, #0
-	bl sa2__sub_8029B0C
-_08046ED8:
-	pop {r4}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
-	thumb_func_start sa2__sub_8029BB8
-sa2__sub_8029BB8: @ 0x08046EE0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x10
-	adds r4, r0, #0
-	adds r6, r1, #0
-	adds r7, r2, #0
-	cmp r6, #0
-	bne _08046EF8
-	add r6, sp, #8
-_08046EF8:
-	cmp r7, #0
-	bne _08046EFE
-	add r7, sp, #0xc
-_08046EFE:
-	ldr r0, [r4, #4]
-	asrs r0, r0, #8
-	movs r1, #0xf
-	ldrsb r1, [r4, r1]
-	adds r3, r0, r1
-	ldr r0, [r4]
-	asrs r0, r0, #8
-	subs r0, #2
-	movs r1, #0xe
-	ldrsb r1, [r4, r1]
-	subs r1, r0, r1
-	movs r0, #0x27
-	adds r0, r0, r4
-	mov r8, r0
-	ldrb r2, [r0]
-	movs r5, #0xa
-	ldrsh r0, [r4, r5]
-	cmp r0, #0
-	bge _08046F28
-	movs r0, #0x80
-	orrs r2, r0
-_08046F28:
-	movs r0, #9
-	add r0, sp
-	mov sb, r0
-	str r0, [sp]
-	ldr r5, _08046F8C @ =sa2__sub_801EE64
-	mov sl, r5
-	str r5, [sp, #4]
-	adds r0, r3, #0
-	movs r3, #8
-	bl sa2__sub_801E4E4
-	adds r5, r0, #0
-	ldr r0, [r4, #4]
-	asrs r0, r0, #8
-	movs r1, #0xf
-	ldrsb r1, [r4, r1]
-	adds r0, r0, r1
-	mov ip, r0
-	ldr r0, [r4]
-	asrs r0, r0, #8
-	adds r0, #2
-	movs r1, #0xe
-	ldrsb r1, [r4, r1]
-	adds r1, r0, r1
-	mov r0, r8
-	ldrb r2, [r0]
-	movs r3, #0xa
-	ldrsh r0, [r4, r3]
-	cmp r0, #0
-	bge _08046F68
-	movs r0, #0x80
-	orrs r2, r0
-_08046F68:
-	mov r4, sp
-	adds r4, #0xa
-	str r4, [sp]
-	mov r0, sl
-	str r0, [sp, #4]
-	mov r0, ip
-	movs r3, #8
-	bl sa2__sub_801E4E4
-	adds r1, r0, #0
-	cmp r5, r1
-	bge _08046F90
-	adds r2, r5, #0
-	mov r3, sb
-	ldrb r0, [r3]
-	strb r0, [r6]
-	str r1, [r7]
-	b _08046F98
-	.align 2, 0
-_08046F8C: .4byte sa2__sub_801EE64
-_08046F90:
-	adds r2, r1, #0
-	ldrb r0, [r4]
-	strb r0, [r6]
-	str r5, [r7]
-_08046F98:
-	adds r0, r2, #0
-	add sp, #0x10
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
-	thumb_func_start Player_8046FAC
-Player_8046FAC: @ 0x08046FAC
-	push {r4, lr}
-	adds r2, r0, #0
-	ldrb r3, [r2, #0x14]
-	adds r0, r3, #0
-	adds r0, #0x60
-	movs r1, #0xff
-	ands r0, r1
-	cmp r0, #0xbf
-	bgt _08046FDE
-	ldr r1, _08046FE4 @ =gSineTable
-	lsls r0, r3, #3
-	adds r0, r0, r1
-	ldrh r1, [r0]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x16
-	lsls r0, r1, #1
-	adds r0, r0, r1
-	asrs r3, r0, #5
-	ldrh r1, [r2, #0xc]
-	movs r4, #0xc
-	ldrsh r0, [r2, r4]
-	cmp r0, #0
-	beq _08046FDE
-	adds r0, r1, r3
-	strh r0, [r2, #0xc]
-_08046FDE:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08046FE4: .4byte gSineTable
-
-	thumb_func_start sub_8046FE8
-sub_8046FE8: @ 0x08046FE8
-	adds r3, r0, #0
-	ldrb r2, [r3, #0x14]
-	adds r0, r2, #0
-	adds r0, #0x60
-	movs r1, #0xff
-	ands r0, r1
-	cmp r0, #0xbf
-	bgt _08047010
-	ldr r1, _08047014 @ =gSineTable
-	lsls r0, r2, #3
-	adds r0, r0, r1
-	ldrh r1, [r0]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x16
-	lsls r0, r1, #2
-	adds r0, r0, r1
-	asrs r0, r0, #5
-	ldrh r1, [r3, #0xc]
-	adds r0, r0, r1
-	strh r0, [r3, #0xc]
-_08047010:
-	bx lr
-	.align 2, 0
-_08047014: .4byte gSineTable
-
-	thumb_func_start sub_8047018
-sub_8047018: @ 0x08047018
-	push {r4, lr}
-	adds r4, r0, #0
-	movs r0, #0xc
-	ldrsh r2, [r4, r0]
-	ldrb r3, [r4, #0x14]
-	adds r0, r3, #0
-	adds r0, #0x60
-	movs r1, #0xff
-	ands r0, r1
-	cmp r0, #0xbf
-	bgt _0804705E
-	cmp r2, #0
-	beq _0804705E
-	ldr r1, _08047050 @ =gSineTable
-	lsls r0, r3, #3
-	adds r0, r0, r1
-	ldrh r1, [r0]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x16
-	lsls r0, r1, #4
-	subs r0, r0, r1
-	lsls r0, r0, #2
-	asrs r1, r0, #8
-	cmp r2, #0
-	ble _08047054
-	cmp r1, #0
-	bgt _0804705A
-	b _08047058
-	.align 2, 0
-_08047050: .4byte gSineTable
-_08047054:
-	cmp r1, #0
-	blt _0804705A
-_08047058:
-	asrs r1, r0, #0xa
-_0804705A:
-	adds r2, r2, r1
-	strh r2, [r4, #0xc]
-_0804705E:
-	pop {r4}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_8047064
-sub_8047064: @ 0x08047064
-	adds r2, r0, #0
-	movs r1, #0xc
-	ldrsh r0, [r2, r1]
-	cmp r0, #0
-	bgt _08047078
-	ldr r0, [r2, #0x10]
-	movs r1, #1
-	orrs r0, r1
-	str r0, [r2, #0x10]
-	b _08047084
-_08047078:
-	subs r0, #0x18
-	cmp r0, #0
-	bge _08047082
-	movs r0, #0x60
-	rsbs r0, r0, #0
-_08047082:
-	strh r0, [r2, #0xc]
-_08047084:
-	bx lr
-	.align 2, 0
-
-@ Unused / Inline ?
-	thumb_func_start Player_8047088
-Player_8047088: @ 0x08047088
-	adds r2, r0, #0
-	movs r1, #0xc
-	ldrsh r0, [r2, r1]
-	cmp r0, #0
-	blt _0804709E
-	ldr r0, [r2, #0x10]
-	movs r1, #2
-	rsbs r1, r1, #0
-	ands r0, r1
-	str r0, [r2, #0x10]
-	b _080470A8
-_0804709E:
-	adds r0, #0x18
-	cmp r0, #0
-	ble _080470A6
-	movs r0, #0x60
-_080470A6:
-	strh r0, [r2, #0xc]
-_080470A8:
-	bx lr
-	.align 2, 0
-
-	thumb_func_start Player_80470AC
-Player_80470AC: @ 0x080470AC
-	push {r4, r5, lr}
-	movs r1, #0xc
-	ldrsh r4, [r0, r1]
-	ldr r3, _080470E4 @ =gSineTable
-	ldrb r2, [r0, #0x14]
-	lsls r1, r2, #3
-	movs r5, #0x80
-	lsls r5, r5, #2
-	adds r1, r1, r5
-	adds r1, r1, r3
-	ldrh r1, [r1]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x16
-	muls r1, r4, r1
-	asrs r1, r1, #8
-	strh r1, [r0, #8]
-	lsls r2, r2, #3
-	adds r2, r2, r3
-	ldrh r1, [r2]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x16
-	muls r1, r4, r1
-	asrs r1, r1, #8
-	strh r1, [r0, #0xa]
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080470E4: .4byte gSineTable
-
-@ Player_Walk?
-@ Input:
-    @ R0 = Player
-	thumb_func_start Player_80470E8
-Player_80470E8: @ 0x080470E8
-	adds r2, r0, #0
-	movs r0, #8
-	ldrsh r1, [r2, r0]
-	ldr r0, [r2]
-	adds r0, r0, r1
-	str r0, [r2]
-	ldr r3, _08047120 @ =gStageFlags
-	ldr r1, _08047124 @ =sa2__gUnknown_0300544C
-	ldrh r0, [r3]
-	ldrh r1, [r1]
-	eors r0, r1
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _0804710C
-	ldrh r0, [r2, #0xa]
-	rsbs r0, r0, #0
-	strh r0, [r2, #0xa]
-_0804710C:
-	ldrh r1, [r3]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _08047128
-	movs r0, #0xa
-	ldrsh r1, [r2, r0]
-	ldr r0, [r2, #4]
-	subs r0, r0, r1
-	b _08047130
-	.align 2, 0
-_08047120: .4byte gStageFlags
-_08047124: .4byte sa2__gUnknown_0300544C
-_08047128:
-	movs r0, #0xa
-	ldrsh r1, [r2, r0]
-	ldr r0, [r2, #4]
-	adds r0, r0, r1
-_08047130:
-	str r0, [r2, #4]
-	bx lr
-
-	thumb_func_start Player_8047134
-Player_8047134: @ 0x08047134
-	adds r2, r0, #0
-	ldr r0, [r2, #0x10]
-	movs r1, #0x40
-	ands r0, r1
-	cmp r0, #0
-	bne _08047146
-	ldrh r0, [r2, #0xa]
-	adds r0, #0x2a
-	b _0804714A
-_08047146:
-	ldrh r0, [r2, #0xa]
-	adds r0, #0xc
-_0804714A:
-	strh r0, [r2, #0xa]
-	bx lr
-	.align 2, 0
-
-	thumb_func_start sub_8047150
-sub_8047150: @ 0x08047150
-	ldr r3, _08047178 @ =gCamera
-	ldr r2, [r0, #4]
-	ldr r0, [r0, #0x10]
-	cmp r0, #0
-	blt _0804718A
-	ldr r0, _0804717C @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _08047180
-	movs r1, #0x16
-	ldrsh r0, [r3, r1]
-	lsls r0, r0, #8
-	subs r0, #1
-	cmp r2, r0
-	blt _0804718A
-_08047172:
-	movs r0, #1
-	b _0804718C
-	.align 2, 0
-_08047178: .4byte gCamera
-_0804717C: .4byte gStageFlags
-_08047180:
-	movs r1, #0x14
-	ldrsh r0, [r3, r1]
-	lsls r0, r0, #8
-	cmp r2, r0
-	ble _08047172
-_0804718A:
-	movs r0, #0
-_0804718C:
-	bx lr
-	.align 2, 0
-
-	thumb_func_start sub_8047190
-sub_8047190: @ 0x08047190
-	ldr r3, _080471B8 @ =gCamera
-	ldr r2, [r0, #4]
-	ldr r0, [r0, #0x10]
-	cmp r0, #0
-	blt _080471D0
-	ldr r0, _080471BC @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _080471C4
-	movs r1, #2
-	ldrsh r0, [r3, r1]
-	lsls r0, r0, #8
-	ldr r1, _080471C0 @ =0x0000EFFF
-	adds r0, r0, r1
-	cmp r2, r0
-	blt _080471D0
-_080471B4:
-	movs r0, #1
-	b _080471D2
-	.align 2, 0
-_080471B8: .4byte gCamera
-_080471BC: .4byte gStageFlags
-_080471C0: .4byte 0x0000EFFF
-_080471C4:
-	movs r1, #2
-	ldrsh r0, [r3, r1]
-	subs r0, #0x50
-	lsls r0, r0, #8
-	cmp r2, r0
-	ble _080471B4
-_080471D0:
-	movs r0, #0
-_080471D2:
-	bx lr
-
 	thumb_func_start Player_80471D4
 Player_80471D4: @ 0x080471D4
 	push {r4, lr}
@@ -1002,7 +335,7 @@ _08047402:
 	cmp r0, #0
 	bne _080474FC
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	adds r0, r4, #0
 	bl Player_8044F7C
 	b _0804749E
@@ -1010,7 +343,7 @@ _08047402:
 _08047424: .4byte gGameMode
 _08047428:
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	ldr r0, _08047440 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #6
@@ -1032,9 +365,9 @@ _08047444:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -1050,14 +383,14 @@ _0804747C:
 	cmp r0, #0
 	bne _080474FC
 	adds r0, r4, #0
-	bl sub_8047018
+	bl sa2__sub_8029D14
 	adds r0, r4, #0
 	bl Player_8043DDC
 _0804749E:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -1082,9 +415,9 @@ _080474D2:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -1462,13 +795,13 @@ _08047796:
 	cmp r0, #0
 	bne _08047800
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	adds r0, r4, #0
 	bl Player_8044F7C
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -1478,7 +811,7 @@ _08047796:
 _080477D0: .4byte gGameMode
 _080477D4:
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	ldr r0, _08047808 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #6
@@ -1489,7 +822,7 @@ _080477E8:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -1515,9 +848,9 @@ sub_804780C: @ 0x0804780C
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -1539,13 +872,13 @@ sub_804784C: @ 0x0804784C
 	cmp r0, #0
 	bne _08047888
 	adds r0, r4, #0
-	bl sub_8047018
+	bl sa2__sub_8029D14
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -1577,9 +910,9 @@ _080478AC:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -2025,7 +1358,7 @@ _08047BF2:
 	b _08047CFE
 _08047BFE:
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	adds r0, r4, #0
 	bl Player_8044F7C
 	b _08047CAE
@@ -2033,7 +1366,7 @@ _08047BFE:
 _08047C0C: .4byte gGameMode
 _08047C10:
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	ldr r0, _08047C28 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #6
@@ -2062,9 +1395,9 @@ _08047C2C:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	b _08047C7E
 _08047C66:
 	adds r0, r4, #0
@@ -2074,7 +1407,7 @@ _08047C66:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 _08047C7E:
 	adds r0, r4, #0
 	bl Player_8047224
@@ -2091,14 +1424,14 @@ _08047C8C:
 	cmp r0, #0
 	bne _08047CFE
 	adds r0, r4, #0
-	bl sub_8047018
+	bl sa2__sub_8029D14
 	adds r0, r4, #0
 	bl Player_8043DDC
 _08047CAE:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -2116,9 +1449,9 @@ _08047CC8:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -2351,13 +1684,13 @@ _08047EB6:
 	cmp r0, #0
 	bne _08047F20
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	adds r0, r4, #0
 	bl Player_8044F7C
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -2367,7 +1700,7 @@ _08047EB6:
 _08047EF0: .4byte gGameMode
 _08047EF4:
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	ldr r0, _08047F28 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #6
@@ -2378,7 +1711,7 @@ _08047F08:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -2411,9 +1744,9 @@ sub_8047F2C: @ 0x08047F2C
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -2427,7 +1760,7 @@ _08047F74:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -2450,13 +1783,13 @@ sub_8047FA0: @ 0x08047FA0
 	cmp r0, #0
 	bne _08047FDC
 	adds r0, r4, #0
-	bl sub_8047018
+	bl sa2__sub_8029D14
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -2481,9 +1814,9 @@ sub_8047FE4: @ 0x08047FE4
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -2893,7 +2226,7 @@ _080482F2:
 	adds r0, r5, #0
 	movs r1, #0
 	add r2, sp, #8
-	bl sub_8046D50
+	bl sa2__sub_8029A28
 	adds r6, r0, #0
 	ldr r0, [sp, #8]
 	cmp r6, r0
@@ -2983,7 +2316,7 @@ _080483B4:
 	adds r0, r5, #0
 	movs r1, #0
 	add r2, sp, #8
-	bl sub_8046D9C
+	bl sa2__sub_8029A74
 	adds r6, r0, #0
 	ldr r0, [sp, #8]
 	cmp r6, r0
@@ -3129,7 +2462,7 @@ sub_80484CC: @ 0x080484CC
 	adds r4, r0, #0
 	bl Player_AirInputControls
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl sa2__sub_8022838
 	adds r0, r4, #0
@@ -3200,7 +2533,7 @@ _08048556:
 	add r2, sp, #4
 	adds r0, r4, #0
 	mov r1, sp
-	bl sub_8046EB0
+	bl sa2__sub_8029B88
 	adds r2, r0, #0
 	cmp r2, #0xb
 	bgt _08048594
@@ -4229,14 +3562,14 @@ _08048CD2:
 	cmp r0, #0
 	bne _08048D6E
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	adds r0, r4, #0
 	bl Player_8044F7C
 _08048CF2:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -4246,7 +3579,7 @@ _08048CF2:
 _08048D0C: .4byte gGameMode
 _08048D10:
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	ldr r0, _08048D38 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #6
@@ -4284,7 +3617,7 @@ _08048D56:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -4480,9 +3813,9 @@ _08048EDC:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -4532,7 +3865,7 @@ _08048F4C:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	adds r0, #0x3d
 	ldrb r0, [r0]
@@ -4589,11 +3922,11 @@ _08048FD0:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sub_8048D74
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -4641,13 +3974,13 @@ _08049032:
 	cmp r0, #0
 	bne _080490E0
 	adds r0, r4, #0
-	bl sub_8047018
+	bl sa2__sub_8029D14
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -4695,9 +4028,9 @@ _080490BC:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -4827,13 +4160,13 @@ sub_80491C4: @ 0x080491C4
 	cmp r0, #0
 	bne _08049200
 	adds r0, r4, #0
-	bl sub_8047018
+	bl sa2__sub_8029D14
 	adds r0, r4, #0
 	bl Player_8043DDC
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -4888,9 +4221,9 @@ _08049258:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -5242,20 +4575,20 @@ _0804950A:
 	cmp r0, #0
 	bne _0804952C
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	b _08049532
 	.align 2, 0
 _08049528: .4byte gGameMode
 _0804952C:
 	adds r0, r4, #0
-	bl sub_8047018
+	bl sa2__sub_8029D14
 _08049532:
 	adds r0, r4, #0
 	bl Player_8044F7C
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -5300,7 +4633,7 @@ _08049552:
 	strb r3, [r2]
 _0804959A:
 	adds r0, r4, #0
-	bl Player_8046FAC
+	bl sa2__sub_8029CA0
 	movs r1, #0xc
 	ldrsh r0, [r4, r1]
 	cmp r0, #0
@@ -5330,7 +4663,7 @@ _080495C6:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl sa2__sub_8022D6C
 	adds r0, r4, #0
@@ -5351,9 +4684,9 @@ Player_80495F0: @ 0x080495F0
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r2, r4, #0
@@ -5524,7 +4857,7 @@ _0804974C:
 	adds r0, r4, #0
 	mov r1, sp
 	movs r2, #0
-	bl sub_8046EB0
+	bl sa2__sub_8029B88
 	adds r2, r0, #0
 	cmp r2, #6
 	bgt _08049788
@@ -5633,9 +4966,9 @@ _08049822:
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -5665,9 +4998,9 @@ sub_8049854: @ 0x08049854
 	adds r0, r4, #0
 	bl sa2__sub_80232D0
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_8047134
+	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
@@ -6018,9 +5351,9 @@ _08049B34:
 _08049B38:
 	str r2, [r4]
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl Player_804A0B8
 	adds r1, r4, #0
@@ -6059,9 +5392,9 @@ _08049B84:
 _08049B88:
 	str r2, [r4]
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl Player_804A0B8
 	adds r1, r4, #0
@@ -6228,9 +5561,9 @@ _08049CC2:
 _08049CC6:
 	str r2, [r4]
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	ldrh r0, [r4, #0xa]
 	adds r0, #0x20
 	strh r0, [r4, #0xa]
@@ -6309,9 +5642,9 @@ _08049D54:
 _08049D58:
 	str r2, [r4]
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r4, #0
 	bl Player_804A0B8
 	adds r1, r4, #0
@@ -6337,9 +5670,9 @@ sub_8049D7C: @ 0x08049D7C
 	subs r0, #0xc
 	strb r0, [r5, #0x14]
 	adds r0, r5, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r5, #0
-	bl Player_80470E8
+	bl Player_UpdatePosition
 	adds r0, r5, #0
 	bl Player_804A0B8
 	b _08049E20
