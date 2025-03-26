@@ -49,9 +49,9 @@ typedef struct {
 } TailsFlags;
 
 typedef struct {
-    /* 0xAC */ u8 flags;
-    /* 0xAD */ s8 shift; // TODO: Name
-    /* 0xAE */ s8 SA2_LABEL(unkAE);
+    /* 0x80|0xAC */ u8 flags;
+    /* 0x81|0xAD */ s8 shift; // TODO: Name
+    /* 0x82|0xAE */ s8 SA2_LABEL(unkAE);
 } KnucklesFlags;
 
 typedef struct {

@@ -58,8 +58,10 @@
 #define CHARSTATE_KNUCKLES_GLIDE 62
 #define CHARSTATE_64             64
 
-#define CHARSTATE_85 85
-#define CHARSTATE_91 91
+#define CHARSTATE_KNUCKLES_SWIM  81
+#define CHARSTATE_KNUCKLES_FLOAT 82
+#define CHARSTATE_85             85
+#define CHARSTATE_91             91
 
 #if (GAME == GAME_SA1)
 #define CHARSTATE_SHARED_COUNT 43

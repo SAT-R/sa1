@@ -59,6 +59,7 @@ extern s16 gUnknown_084ADF78[NUM_LEVEL_IDS][2];
 extern s16 gUnknown_084ADFC0[NUM_LEVEL_IDS][2];
 extern s16 gUnknown_084AE188[9];
 extern s16 gUnknown_084AE19A[9];
+extern const u8 gCharStatesKnucklesGlideTurn[];
 
 void SA2_LABEL(sub_80232D0)(Player *p);
 void Task_8045AD8(void);
@@ -6259,4 +6260,65 @@ void sub_8048110(Player *p)
 
     Player_80470AC(p);
     SA2_LABEL(sub_80231C0)(p);
+}
+
+void Player_Knuckles_InitGlide(Player *p)
+{
+    p->moveState &= ~MOVESTATE_4;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 6;
+    p->qSpeedAirY += Q(1.5);
+
+    if (p->qSpeedAirY < 0) {
+        p->qSpeedAirY = 0;
+    }
+
+    p->qSpeedGround = Q(3);
+
+    if (p->moveState & MOVESTATE_IN_WATER) {
+        HALVE(p->qSpeedGround);
+    }
+
+    if (p->moveState & MOVESTATE_FACING_LEFT) {
+        p->qSpeedGround = -p->qSpeedGround;
+        p->qSpeedAirX = p->qSpeedGround;
+        p->w.kf.shift = -128;
+    } else {
+        p->qSpeedAirX = p->qSpeedGround;
+        p->w.kf.shift = 0;
+    }
+    p->rotation = 0;
+    p->w.kf.flags = 0x2;
+}
+
+void sub_80481B8(Player *p)
+{
+    // TODO: Maybe "w.kf.shift" is a bitfield (7:1) ?
+    u8 shift = p->w.kf.shift;
+    s32 sgnShift;
+
+    p->moveState &= ~MOVESTATE_20;
+    p->moveState &= ~MOVESTATE_FACING_LEFT;
+
+    sgnShift = (s8)shift;
+    if ((sgnShift % 128u) == 0) {
+        if (p->moveState & MOVESTATE_IN_WATER) {
+            p->charState = CHARSTATE_KNUCKLES_SWIM;
+            RandomlySpawnAirBubbles(p);
+        } else {
+            // _080481F4
+            p->charState = CHARSTATE_KNUCKLES_GLIDE;
+        }
+        // _080481FC
+
+        if (shift == 0x80) {
+            p->moveState |= MOVESTATE_FACING_LEFT;
+        }
+    } else {
+        if (sgnShift < 0) {
+            shift = -sgnShift;
+        }
+
+        p->charState = gCharStatesKnucklesGlideTurn[(shift & 0x7F) >> 5];
+    }
 }

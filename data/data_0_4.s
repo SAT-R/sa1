@@ -33,8 +33,8 @@ gUnknown_084AE188:
 gUnknown_084AE19A:
     .incbin "baserom.gba", 0x004AE19A, 0x12
 
-    .global gUnknown_084AE1AC
-gUnknown_084AE1AC:
+    .global gCharStatesKnucklesGlideTurn
+gCharStatesKnucklesGlideTurn:
     .byte 0x42, 0x43, 0x44, 0x45
 
     .global gUnknown_084AE1B0
