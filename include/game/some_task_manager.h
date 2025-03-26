@@ -1,6 +1,7 @@
 #ifndef GUARD_SOME_TASK_MANAGER_H
 #define GUARD_SOME_TASK_MANAGER_H
 
+s32 sub_804D060(s32 n);
 void sub_804D13C(u16 param0);
 
 extern ALIGNED(16) u16 gUnknown_030060F0[64];

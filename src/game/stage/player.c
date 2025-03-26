@@ -15,6 +15,7 @@
 #include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
 #include "game/stage/dust_effect_spindash.h"
+#include "game/stage/mp_sprite_task.h"
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h"
 #include "game/stage/rings_scatter.h"
@@ -65,10 +66,13 @@ void Task_8045B38(void);
 void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
 void Player_8047280(Player *p);
+s32 sub_8047668(Player *p);
 void Player_8044750(Player *p);
 void Player_80447D8(Player *p);
 void SA2_LABEL(sub_802460C)(Player *p);
 void sub_8045DF0(Player *p);
+void sub_8047714(Player *p);
+struct Task *sub_804792C(Player *p);
 
 void Player_Sonic_80473AC(Player *p);
 void Player_Tails_8047BA0(Player *p);
@@ -101,7 +105,7 @@ void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *psi);
     {                                                                                                                                      \
         player->qWorldX += player->qSpeedAirX;                                                                                             \
                                                                                                                                            \
-        if ((gStageFlags ^ sa2__gUnknown_0300544C) & STAGE_FLAG__GRAVITY_INVERTED) {                                                       \
+        if ((gStageFlags ^ SA2_LABEL(gUnknown_0300544C)) & STAGE_FLAG__GRAVITY_INVERTED) {                                                 \
             player->qSpeedAirY = -player->qSpeedAirY;                                                                                      \
         }                                                                                                                                  \
                                                                                                                                            \
@@ -3466,7 +3470,7 @@ void SA2_LABEL(sub_8023878)(Player *p)
             p->deceleration = Q(192. / 256.);
         }
 #endif
-        // Inline of Player_InitializeDrowing?
+        // Inline of Player_InitializeDrowning?
         p->framesUntilDrownCountDecrement = 60;
         p->secondsUntilDrown = 30;
 
@@ -4251,7 +4255,7 @@ NONMATCH("asm/non_matching/game/stage/Player__Task_804597C.inc", void Task_80459
                 gPartner.charState = CHARSTATE_FLYING;
             }
 
-            // Inline of Player_InitializeDrowing?
+            // Inline of Player_InitializeDrowning?
             gPartner.framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
             gPartner.secondsUntilDrown = 30;
 
@@ -4362,7 +4366,7 @@ void Task_8045B38(void)
             partner->moveState |= MOVESTATE_DEAD;
             partner->moveState &= ~MOVESTATE_20;
 
-            // Inline of Player_InitializeDrowing?
+            // Inline of Player_InitializeDrowning?
             partner->framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
             partner->secondsUntilDrown = 30;
 
@@ -5437,7 +5441,7 @@ void sub_80472B8(Player *p)
     }
 }
 
-void Player_InitializeDrowing(Player *p)
+void Player_InitializeDrowning(Player *p)
 {
     p->framesUntilDrownCountDecrement = 60;
     p->secondsUntilDrown = 30;
@@ -5472,3 +5476,378 @@ void TaskDestructor_Player(struct Task *t)
         VramFree(p->spriteInfoLimbs->s.graphics.dest);
     }
 }
+
+void Player_Sonic_80473AC(Player *p)
+{
+    switch (p->moveState & MOVESTATE_JUMPING) {
+        case 0: {
+            if (p->moveState & MOVESTATE_1000000) {
+                sub_80472B8(p);
+            } else {
+                if (p->SA2_LABEL(unk62) == 0) {
+                    if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8047668(p) == 0)) {
+                        if (!Player_Spindash(p) && !sub_8044250(p)) {
+                            SA2_LABEL(sub_8029CA0)(p);
+                            Player_8044F7C(p);
+
+                            SA2_LABEL(sub_80232D0)(p);
+                            Player_UpdatePosition(p);
+                            SA2_LABEL(sub_8022D6C)(p);
+                            SA2_LABEL(sub_8029ED8)(p);
+                        }
+                    }
+                } else {
+                    SA2_LABEL(sub_8029CA0)(p);
+                    if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+                        sub_8047668(p);
+                    }
+
+                    SA2_LABEL(sub_80232D0)(p);
+                    Player_UpdatePosition(p);
+                    SA2_LABEL(sub_8022D6C)(p);
+                    SA2_LABEL(sub_8029ED8)(p);
+                }
+            }
+        } break;
+
+        case MOVESTATE_IN_AIR: {
+            Player_804726C(p);
+            Player_8047280(p);
+            Player_8044670(p);
+            Player_AirInputControls(p);
+            SA2_LABEL(sub_80232D0)(p);
+            Player_UpdatePosition(p);
+            PlayerFn_Cmd_UpdateAirFallSpeed(p);
+            Player_8047224(p);
+            SA2_LABEL(sub_8022190)(p);
+        } break;
+
+        case MOVESTATE_4: {
+            Player_804726C(p);
+            Player_8047280(p);
+            if (!sub_8044250(p)) {
+                SA2_LABEL(sub_8029D14)(p);
+                Player_8043DDC(p);
+
+                // _0804749E
+                SA2_LABEL(sub_80232D0)(p);
+                Player_UpdatePosition(p);
+                SA2_LABEL(sub_8022D6C)(p);
+                SA2_LABEL(sub_8029ED8)(p);
+            }
+        } break;
+
+        case MOVESTATE_JUMPING: {
+            Player_804726C(p);
+            Player_8047280(p);
+
+            if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+                sub_8047714(p);
+            }
+
+            Player_8044670(p);
+            Player_AirInputControls(p);
+            SA2_LABEL(sub_80232D0)(p);
+            Player_UpdatePosition(p);
+            PlayerFn_Cmd_UpdateAirFallSpeed(p);
+            Player_8047224(p);
+            SA2_LABEL(sub_8022190)(p);
+        } break;
+    }
+}
+
+void sub_8047508(Player *p)
+{
+    if (!(p->moveState & MOVESTATE_SPINDASH) && ((p->rotation + Q(0.25)) << 24 > 0) && !(p->moveState & MOVESTATE_20)
+        && (p->frameInput & gPlayerControls.attack)) {
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
+            p->qSpeedGround = -Q(2.0);
+        } else {
+            p->qSpeedGround = +Q(2.0);
+        }
+
+        p->qSpeedAirX = 0;
+        p->SA2_LABEL(unk62)++;
+        p->charState = CHARSTATE_45;
+        m4aSongNumStart(SE_SPIN_ATTACK);
+    }
+}
+
+void sub_804756C(Player *p)
+{
+    s32 qSpeed = p->qSpeedGround;
+
+    if (qSpeed > 0) {
+        if ((qSpeed - Q(8. / 256.)) < 0) {
+            qSpeed = 0;
+        } else {
+            qSpeed -= Q(8. / 256.);
+        }
+
+        p->qSpeedGround = qSpeed;
+    } else if (qSpeed < 0) {
+        if ((qSpeed + Q(8. / 256.)) > 0) {
+            qSpeed = 0;
+        } else {
+            qSpeed += Q(8. / 256.);
+        }
+
+        p->qSpeedGround = qSpeed;
+    }
+
+    Player_80470AC(p);
+
+    if (p->qSpeedGround == Q(0)) {
+        p->charState = 0;
+        p->SA2_LABEL(unk62) = 0;
+    }
+
+    if (p->frameInput & gPlayerControls.attack) {
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
+            p->qSpeedGround = -Q(3);
+        } else {
+            p->qSpeedGround = +Q(3);
+        }
+
+        p->SA2_LABEL(unk62)++;
+        p->SA2_LABEL(unk63) = 0;
+        p->charState = CHARSTATE_46;
+
+        m4aSongNumStart(SE_TAILS_TAIL_SWIPE);
+    }
+
+    SA2_LABEL(sub_80231C0)(p);
+}
+
+void sub_80475FC(Player *p)
+{
+    s32 qSpeed = p->qSpeedGround;
+    s32 v;
+
+    if (qSpeed > 0) {
+        if ((qSpeed - Q(8. / 256.)) < 0) {
+            qSpeed = 0;
+        } else {
+            qSpeed -= Q(8. / 256.);
+        }
+
+        p->qSpeedGround = qSpeed;
+    } else if (qSpeed < 0) {
+        if ((qSpeed + Q(8. / 256.)) > 0) {
+            qSpeed = 0;
+        } else {
+            qSpeed += Q(8. / 256.);
+        }
+
+        p->qSpeedGround = qSpeed;
+    }
+
+    Player_80470AC(p);
+
+    v = p->SA2_LABEL(unk63);
+    if (v == 0) {
+        if (p->frameInput & gPlayerControls.attack) {
+            p->SA2_LABEL(unk63) = 1;
+        }
+
+        v = p->SA2_LABEL(unk63);
+        if (v == 0) {
+            if (p->frameInput & gPlayerControls.jump) {
+                p->SA2_LABEL(unk63) = 2;
+            }
+        }
+    }
+
+    SA2_LABEL(sub_80231C0)(p);
+}
+
+s32 sub_8047668(Player *p)
+{
+    switch (p->SA2_LABEL(unk62)) {
+        case 0: {
+            sub_8047508(p);
+            return p->SA2_LABEL(unk62);
+        } break;
+
+        case 1: {
+            sub_804756C(p);
+            return p->SA2_LABEL(unk62);
+        } break;
+
+        case 2: {
+            sub_80475FC(p);
+            return p->SA2_LABEL(unk62);
+        } break;
+
+        case 3: {
+            s32 qSpeed = p->qSpeedGround;
+
+            if (qSpeed > 0) {
+                if ((qSpeed - Q(32. / 256.)) < 0) {
+                    qSpeed = 0;
+                } else {
+                    qSpeed -= Q(32. / 256.);
+                }
+
+                p->qSpeedGround = qSpeed;
+            } else if (qSpeed < 0) {
+                if ((qSpeed + Q(32. / 256.)) > 0) {
+                    qSpeed = 0;
+                } else {
+                    qSpeed += Q(32. / 256.);
+                }
+
+                p->qSpeedGround = qSpeed;
+            }
+
+            Player_80470AC(p);
+
+            if (p->qSpeedGround == 0) {
+                p->charState = CHARSTATE_48;
+                p->SA2_LABEL(unk62)++;
+            }
+
+            SA2_LABEL(sub_80231C0)(p);
+            return p->SA2_LABEL(unk62);
+        } break;
+
+        case 4: {
+            return p->SA2_LABEL(unk62);
+        } break;
+    }
+
+    return 0;
+}
+
+void sub_8047714(Player *p)
+{
+    if ((p->SA2_LABEL(unk61) == 0) && (p->moveState & MOVESTATE_100)) {
+        s32 res = sub_804D060(10);
+
+        if (res != 0) {
+            p->SA2_LABEL(unk61) = 2;
+            p->charState = CHARSTATE_44;
+            m4aSongNumStart(SE_SONIC_MIDAIR_SOMERSAULT);
+
+            if (res > 0) {
+                p->qSpeedAirX += (p->maxSpeed >> 2);
+            } else if (res < 0) {
+                p->qSpeedAirX -= (p->maxSpeed >> 2);
+            }
+
+            p->qSpeedAirY = 0;
+        }
+    }
+}
+
+void sub_8047774(Player *p)
+{
+    if (p->SA2_LABEL(unk62) == 0) {
+        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8047668(p) == 0)) {
+            if (!Player_Spindash(p) && !sub_8044250(p)) {
+                sa2__sub_8029CA0(p);
+                Player_8044F7C(p);
+                sa2__sub_80232D0(p);
+                Player_UpdatePosition(p);
+                sa2__sub_8022D6C(p);
+                sa2__sub_8029ED8(p);
+            }
+        }
+    } else {
+        // _080477D4
+        SA2_LABEL(sub_8029CA0)(p);
+
+        if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+            sub_8047668(p);
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+
+void sub_804780C(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+    Player_8044670(p);
+    Player_AirInputControls(p);
+    SA2_LABEL(sub_80232D0)(p);
+    Player_UpdatePosition(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    Player_8047224(p);
+    SA2_LABEL(sub_8022190)(p);
+}
+
+void sub_804784C(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+
+    if (sub_8044250(p) == 0) {
+        SA2_LABEL(sub_8029D14)(p);
+        Player_8043DDC(p);
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+
+void sub_8047890(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+
+    if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+        sub_8047714(p);
+    }
+
+    Player_8044670(p);
+    Player_AirInputControls(p);
+    sa2__sub_80232D0(p);
+    Player_UpdatePosition(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    Player_8047224(p);
+    sa2__sub_8022190(p);
+}
+
+void Player_Sonic_JumpHeld(Player *p)
+{
+    struct Task *t;
+    MultiplayerSpriteTask *mps;
+    Sprite *s;
+
+    p->charState = CHARSTATE_43;
+    m4aSongNumStart(SE_SONIC_INSTA_SHIELD);
+
+    t = sub_804792C(p);
+    mps = TASK_DATA(t);
+    s = &mps->s;
+
+    if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+        s->frameFlags |= SPRITE_FLAG(X_FLIP, 1);
+    } else {
+        s->frameFlags &= ~SPRITE_FLAG(X_FLIP, 1);
+    }
+}
+
+struct Task *sub_804792C(Player *p)
+{
+    struct Task *t
+        = CreateMultiplayerSpriteTask(0, 0, 160, p->playerID, Task_UpdateMpSpriteTaskSprite, TaskDestructor_MultiplayerSpriteTask);
+    MultiplayerSpriteTask *mps = TASK_DATA(t);
+    Sprite *s = &mps->s;
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_SONIC_50);
+    s->graphics.anim = SA1_ANIM_SONIC_50;
+    s->variant = 1;
+    s->oamFlags = 0x200;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    return t;
+}
+
+void nullsub_804798C() { }

@@ -150,8 +150,8 @@ typedef struct Player {
     /* 0x3A */ u16 frameInput;
     /* 0x3C */ s8 playerID;
     /* 0x3D */ s8 SA2_LABEL(unk61);
-    /* 0x3E */ u8 SA2_LABEL(unk62);
-    /* 0x3E */ u8 SA2_LABEL(unk63);
+    /* 0x3E */ s8 SA2_LABEL(unk62);
+    /* 0x3F */ s8 SA2_LABEL(unk63);
     /* 0x40 */ s8 charState;
     /* 0x41 */ s8 prevCharState;
     /* 0x42 */ u16 anim;

@@ -19,6 +19,8 @@
 #define SA1_CHAR_ANIM_SPIN_ATTACK 8
 #define SA1_CHAR_ANIM_GRINDING    44
 
+#define SA1_ANIM_SONIC_50 50
+
 #define SA1_NUM_PLAYER_CHAR_ANIMATIONS (99) // TODO: Don't use constant here
 #define SA1_ANIM_CHAR(character, anim) ((SA1_CHAR_ANIM_##anim) + CHARACTER_##character * SA1_NUM_PLAYER_CHAR_ANIMATIONS)
 

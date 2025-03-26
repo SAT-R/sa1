@@ -20,11 +20,11 @@ typedef struct {
     /* 0x18 */ u16 playerVariant;
     /* 0x1A */ u8 mpPlayerID;
 #endif
-    /* 0x1C */ Sprite s;
-    /* 0x4C */ SpriteTransform transform;
+    /* 0x18|0x1C */ Sprite s;
+    /* 0x48|0x4C */ SpriteTransform transform;
 } MultiplayerSpriteTask; /* size: 0x58 */
 
-extern struct Task *CreateMultiplayerSpriteTask(s16, s16, u8, s8, TaskMain, TaskDestructor);
+extern struct Task *CreateMultiplayerSpriteTask(s16 x, s16 y, u8 param2, s8 param3, TaskMain main, TaskDestructor dtor);
 extern void TaskDestructor_MultiplayerSpriteTask(struct Task *);
 
 void CreateGrindEffect2(void);
