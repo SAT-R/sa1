@@ -30,7 +30,7 @@
 #include "constants/zones.h"
 
 typedef struct {
-    /* 0x00 */ u8 pid;
+    /* 0x00 */ s8 pid;
     /* 0x04 */ u32 unk4; // TODO: Check the type!
 } player_0_Task; /* size: 0x8 */
 
@@ -161,6 +161,20 @@ void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *psi);
 #define GET_ROTATED_ACCEL(angle)   ((SIN_24_8((angle)*4) * 3) >> 5)
 #define GET_ROTATED_ACCEL_2(angle) ((SIN_24_8((angle)*4) * 5) >> 5)
 #define GET_ROTATED_ACCEL_3(angle) ((SIN_24_8((angle)*4) * 60))
+
+#define PLAYERFN_UPDATE_UNK2A(player)                                                                                                      \
+    {                                                                                                                                      \
+        if (player->SA2_LABEL(unk2A) != 0) {                                                                                               \
+            player->SA2_LABEL(unk2A) -= 1;                                                                                                 \
+        } else if ((player->rotation + Q(0.125)) & 0xC0) {                                                                                 \
+            if (ABS(player->qSpeedGround) < Q(1.875)) {                                                                                    \
+                player->qSpeedGround = 0;                                                                                                  \
+                                                                                                                                           \
+                player->moveState |= MOVESTATE_IN_AIR;                                                                                     \
+                player->SA2_LABEL(unk2A) = GBA_FRAMES_PER_SECOND / 2;                                                                      \
+            }                                                                                                                              \
+        }                                                                                                                                  \
+    }
 
 void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *player)
 {
@@ -3452,6 +3466,7 @@ void SA2_LABEL(sub_8023878)(Player *p)
             p->deceleration = Q(192. / 256.);
         }
 #endif
+        // Inline of Player_InitializeDrowing?
         p->framesUntilDrownCountDecrement = 60;
         p->secondsUntilDrown = 30;
 
@@ -4236,6 +4251,7 @@ NONMATCH("asm/non_matching/game/stage/Player__Task_804597C.inc", void Task_80459
                 gPartner.charState = CHARSTATE_FLYING;
             }
 
+            // Inline of Player_InitializeDrowing?
             gPartner.framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
             gPartner.secondsUntilDrown = 30;
 
@@ -4345,6 +4361,8 @@ void Task_8045B38(void)
 
             partner->moveState |= MOVESTATE_DEAD;
             partner->moveState &= ~MOVESTATE_20;
+
+            // Inline of Player_InitializeDrowing?
             partner->framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
             partner->secondsUntilDrown = 30;
 
@@ -5345,4 +5363,112 @@ bool32 DeadPlayerLeftScreen_UnusedCopy(Player *p)
     }
 
     return FALSE;
+}
+
+void SA2_LABEL(sub_8029ED8)(Player *p)
+{
+#if (GAME == GAME_SA1)
+    // TODO: Is this part of the macro in SA1?
+    if (!(p->moveState & MOVESTATE_800))
+#endif
+    {
+        PLAYERFN_UPDATE_UNK2A(p);
+    }
+}
+
+void Player_8047224(Player *p)
+{
+    s32 rot = (s8)p->rotation;
+
+    if (p->charState == CHARSTATE_23) {
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
+            p->rotation -= Q(4. / 256.);
+        } else {
+            p->rotation += Q(4. / 256.);
+        }
+    } else {
+        if (rot < 0) {
+            if (rot + 2 > 0) {
+                rot = 0;
+            } else {
+                rot += 2;
+            }
+        } else if (rot > 0) {
+            if (rot - 2 < 0) {
+                rot = 0;
+            } else {
+                rot -= 2;
+            }
+        }
+
+        p->rotation = rot;
+    }
+}
+
+void Player_804726C(Player *p)
+{
+    if (p->playerID == 0) {
+        p->SA2_LABEL(unk25) = 120;
+    }
+}
+
+void Player_8047280(Player *p)
+{
+    if (p->playerID == PLAYER_1) {
+        if (gCamera.SA2_LABEL(unk4C) > 0) {
+            gCamera.SA2_LABEL(unk4C) -= 2;
+        } else if (gCamera.SA2_LABEL(unk4C) < 0) {
+            gCamera.SA2_LABEL(unk4C) += 2;
+        }
+    }
+}
+
+void sub_80472AC(Player *p) { p->SA2_LABEL(unk72) = ZONE_TIME_TO_INT(0, 6); }
+
+void sub_80472B8(Player *p)
+{
+    if (!sub_8044434(p)) {
+        sub_80449D8(p);
+        SA2_LABEL(sub_80232D0)(p);
+
+        PLAYERFN_UPDATE_POSITION(p);
+
+        SA2_LABEL(sub_8022D6C)(p);
+    }
+}
+
+void Player_InitializeDrowing(Player *p)
+{
+    p->framesUntilDrownCountDecrement = 60;
+    p->secondsUntilDrown = 30;
+
+#if (GAME == GAME_SA1)
+    if (p->playerID == 0) {
+        m4aSongNumStop(MUS_DROWNING);
+    }
+#endif
+}
+
+void TaskDestructor_Player(struct Task *t)
+{
+    player_0_Task *gt = TASK_DATA(t);
+    Player *p;
+
+    if (gt->pid != PLAYER_1) {
+        p = &gPartner;
+    } else {
+        p = &gPlayer;
+    }
+
+    p->spriteTask = NULL;
+
+    if (p->playerID != PLAYER_1) {
+        // Free Tails' Body
+        VramFree(p->spriteInfoBody->s.graphics.dest);
+    }
+
+    if (p->character == CHARACTER_TAILS) {
+        // Free Tails' tails
+        VramFree(p->spriteInfoLimbs->s.graphics.dest);
+    }
 }
