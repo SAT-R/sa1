@@ -6474,3 +6474,76 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8048230.inc", void sub_8048230
     }
 }
 END_NONMATCH
+
+void sub_80484CC(Player *p)
+{
+    Player_AirInputControls(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    SA2_LABEL(sub_8022838)(p);
+
+    if (!(p->w.kf.flags & 0x2)) {
+        p->qSpeedGround = 0;
+        p->qSpeedAirX = 0;
+        p->qSpeedAirY = 0;
+        p->spriteOffsetX = 6;
+        p->spriteOffsetY = 14;
+        SA2_LABEL(sub_8022318)(p);
+
+        if (((p->rotation + Q(0.125)) & 0xC0) == 0) {
+            p->SA2_LABEL(unk2A) = 15;
+            p->charState = CHARSTATE_64;
+        }
+    }
+}
+
+// (100.0%) https://decomp.me/scratch/s2CMM
+void sub_8048524(Player *inPlayer)
+{
+#ifndef NON_MATCHING
+    register Player *p asm("r4") = inPlayer;
+#else
+    Player *p = inPlayer;
+#endif
+    u8 sp00;
+    u32 sp04;
+    s32 offsetY;
+
+    if ((gStageTime & 0x3) == 0) {
+        offsetY = p->spriteOffsetY;
+
+        if (GRAVITY_IS_INVERTED) {
+            offsetY = -offsetY;
+        }
+
+        CreateBrakingDustEffect(I(p->qWorldX), I(p->qWorldY) + offsetY);
+    }
+
+    SA2_LABEL(sub_8022838)(p);
+
+    offsetY = SA2_LABEL(sub_8029B88)(p, &sp00, &sp04);
+    if (offsetY < 12) {
+        if (GRAVITY_IS_INVERTED) {
+            offsetY = -offsetY;
+        }
+
+        p->qWorldY += Q(offsetY);
+        p->rotation = sp00;
+    } else if (!(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
+#ifndef NON_MATCHING
+        register u32 flag asm("r0");
+        register u32 r1 asm("r1");
+        register u8 *r2 asm("r2");
+#else
+        u32 flag;
+        u32 r1;
+        u8 *r2;
+#endif
+
+        p->SA2_LABEL(unk61) = flag = 2;
+        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+        r2 = &p->w.kf.flags;
+        r1 = *r2;
+        flag = 2;
+        *r2 = flag | r1;
+    }
+}
