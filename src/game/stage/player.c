@@ -6322,3 +6322,155 @@ void sub_80481B8(Player *p)
         p->charState = gCharStatesKnucklesGlideTurn[(shift & 0x7F) >> 5];
     }
 }
+
+// TODO: Remove gotos
+// (98.53%) https://decomp.me/scratch/3hZ4x
+NONMATCH("asm/non_matching/game/stage/Player__sub_8048230.inc", void sub_8048230(Player *p))
+{
+    s32 sp08;
+    u8 *knuxFlags;
+    s32 r6;
+    u8 flags;
+    u32 mask;
+
+    SA2_LABEL(sub_8022838)(p);
+
+    knuxFlags = &p->w.kf.flags;
+    flags = *knuxFlags;
+    mask = 2;
+    if (!(flags & 2)) {
+        if (p->qSpeedAirX <= Q(0)) {
+            p->moveState |= MOVESTATE_FACING_LEFT;
+        } else {
+            p->moveState &= ~MOVESTATE_FACING_LEFT;
+        }
+        // _08048268
+
+        if ((((p->rotation + Q(0.125)) & -Q(0.25)) << 24) != 0) {
+            if (((u8)p->w.kf.shift + 0x40) << 24 <= 0) {
+                p->moveState |= MOVESTATE_FACING_LEFT;
+            } else {
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+            }
+
+            p->qSpeedAirY = 0;
+            SA2_LABEL(sub_8022318)(p);
+
+            if (p->qSpeedGround != Q(0)) {
+                p->charState = CHARSTATE_4;
+            } else {
+                p->charState = CHARSTATE_IDLE;
+            }
+        } else {
+            // _080482C2
+            p->SA2_LABEL(unk61) = 3;
+            p->charState = CHARSTATE_65;
+            m4aSongNumStart(SE_SONIC_SKID_ATTACK);
+        }
+
+    } else if (*knuxFlags & 0x20) {
+        // _080482D8 + 0x10
+        // _080482E2
+        if (p->w.kf.SA2_LABEL(unkAE) >= 0) {
+            // _080482F2
+            if (((u8)p->w.kf.shift + 0x40) << 24 <= 0) {
+                p->moveState |= MOVESTATE_FACING_LEFT;
+                r6 = SA2_LABEL(sub_8029A28)(p, NULL, &sp08);
+
+                if (r6 == sp08) {
+                    // _08048324
+
+                    if (r6 != 0) {
+                        if (GRAVITY_IS_INVERTED) {
+                            s32 worldX, worldY;
+                            worldY = (I(p->qWorldY) - 1);
+                            worldY -= p->spriteOffsetY;
+                            worldX = (I(p->qWorldX) - 1);
+                            worldX -= p->spriteOffsetX;
+
+                            if (SA2_LABEL(sub_801E4E4)(worldY, worldX, p->layer, -8, NULL, SA2_LABEL(sub_801EE64)) < 0) {
+                                p->SA2_LABEL(unk61) = mask;
+                                goto _08048454;
+                            } else {
+                                goto lbl0;
+                            }
+                        } else {
+                            // _08048378
+                            s32 worldX, worldY;
+                            worldY = (I(p->qWorldY) + 1);
+                            worldY += p->spriteOffsetY;
+                            worldX = (I(p->qWorldX) - 1);
+                            worldX -= p->spriteOffsetX;
+
+                            if (SA2_LABEL(sub_801E4E4)(worldY, worldX, p->layer, +8, NULL, SA2_LABEL(sub_801EE64)) < 0) {
+                                goto _08048450;
+                            } else {
+                            lbl0:
+                                p->qWorldX -= Q(r6);
+
+                                goto nullset;
+                            }
+                        }
+                    } else {
+                        goto nullset;
+                    }
+                }
+            } else {
+                // _080483B4
+                p->moveState &= ~MOVESTATE_FACING_LEFT;
+                r6 = SA2_LABEL(sub_8029A74)(p, 0, &sp08);
+                if (r6 != sp08) {
+                    p->SA2_LABEL(unk61) = mask;
+                    asm("");
+                    goto _08048454;
+                } else if (r6 != 0) {
+                    if (!GRAVITY_IS_INVERTED) {
+                        s32 worldX, worldY;
+                        worldY = (I(p->qWorldY) + 1);
+                        worldY += p->spriteOffsetY;
+                        worldX = (I(p->qWorldX) + 1);
+                        worldX += p->spriteOffsetX;
+
+                        if (SA2_LABEL(sub_801E4E4)(worldY, worldX, p->layer, +8, NULL, sa2__sub_801EE64) < 0) {
+                            goto _08048450;
+                        }
+                    }
+
+                    p->qWorldX += Q(r6);
+                }
+            nullset:
+                p->qSpeedGround = 0;
+                p->qSpeedAirX = 0;
+                p->qSpeedAirY = 0;
+                p->SA2_LABEL(unk61) = 4;
+                p->w.kf.shift = 3;
+                p->charState = 70;
+                return;
+            }
+        }
+    _08048450:
+        p->SA2_LABEL(unk61) = mask;
+    _08048454:
+        p->charState = CHARSTATE_63;
+    _08048458:
+        p->spriteOffsetX = 6;
+        p->spriteOffsetY = 14;
+        *knuxFlags |= 0x2;
+    } else if (!(p->heldInput & gPlayerControls.jump)) {
+        p->SA2_LABEL(unk61) = mask;
+        p->charState = CHARSTATE_63;
+
+        if (p->qSpeedAirX <= Q(0)) {
+            p->moveState |= MOVESTATE_FACING_LEFT;
+        } else {
+            p->moveState &= ~MOVESTATE_FACING_LEFT;
+        }
+
+        p->qSpeedAirX >>= 2;
+        p->spriteOffsetX = 6;
+        p->spriteOffsetY = 14;
+    } else {
+        sub_80481B8(p);
+    }
+}
+END_NONMATCH

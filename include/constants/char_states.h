@@ -56,7 +56,9 @@
 
 // NOTE: Inferred from CHARSTATE_KNUCKLES_GLIDE in SA2_LABEL(sub_8022318)
 #define CHARSTATE_KNUCKLES_GLIDE 62
+#define CHARSTATE_63             63
 #define CHARSTATE_64             64
+#define CHARSTATE_65             65
 
 #define CHARSTATE_KNUCKLES_SWIM  81
 #define CHARSTATE_KNUCKLES_FLOAT 82
