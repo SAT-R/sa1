@@ -8,158 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80485CC
-sub_80485CC: @ 0x080485CC
-	push {r4, lr}
-	adds r4, r0, #0
-	ldr r0, _080485F4 @ =gPlayerControls
-	ldrh r1, [r4, #0x38]
-	ldrh r0, [r0]
-	ands r0, r1
-	cmp r0, #0
-	beq _0804860C
-	ldrh r1, [r4, #8]
-	movs r2, #8
-	ldrsh r0, [r4, r2]
-	cmp r0, #0
-	bgt _080485F8
-	adds r0, r1, #0
-	adds r0, #0x18
-	strh r0, [r4, #8]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	bge _0804860C
-	b _08048604
-	.align 2, 0
-_080485F4: .4byte gPlayerControls
-_080485F8:
-	adds r0, r1, #0
-	subs r0, #0x18
-	strh r0, [r4, #8]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	ble _0804860C
-_08048604:
-	adds r0, r4, #0
-	bl sub_8048524
-	b _08048644
-_0804860C:
-	movs r0, #0
-	strh r0, [r4, #0xc]
-	strh r0, [r4, #8]
-	strh r0, [r4, #0xa]
-	movs r0, #0xf
-	ldrsb r0, [r4, r0]
-	adds r2, r0, #0
-	subs r2, #0xe
-	ldr r0, _0804864C @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #0x80
-	ands r0, r1
-	cmp r0, #0
-	beq _0804862A
-	rsbs r2, r2, #0
-_0804862A:
-	lsls r1, r2, #8
-	ldr r0, [r4, #4]
-	adds r0, r0, r1
-	str r0, [r4, #4]
-	adds r0, r4, #0
-	bl sa2__sub_8022318
-	movs r0, #0xf
-	strh r0, [r4, #0x1a]
-	adds r1, r4, #0
-	adds r1, #0x40
-	movs r0, #3
-	strb r0, [r1]
-_08048644:
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804864C: .4byte gStageFlags
-
-	thumb_func_start sub_8048650
-sub_8048650: @ 0x08048650
-	push {r4, r5, r6, lr}
-	sub sp, #0xc
-	adds r5, r0, #0
-	ldr r0, [r5, #0x10]
-	movs r6, #1
-	ands r0, r6
-	cmp r0, #0
-	beq _0804869C
-	ldr r0, [r5]
-	asrs r0, r0, #8
-	subs r0, #2
-	movs r1, #0xe
-	ldrsb r1, [r5, r1]
-	subs r0, r0, r1
-	ldr r1, [r5, #4]
-	asrs r1, r1, #8
-	adds r2, r5, #0
-	adds r2, #0x27
-	ldrb r2, [r2]
-	movs r3, #8
-	rsbs r3, r3, #0
-	add r4, sp, #8
-	str r4, [sp]
-	ldr r4, _08048698 @ =sa2__sub_801ED24
-	str r4, [sp, #4]
-	bl sa2__sub_801E4E4
-	adds r2, r0, #0
-	add r0, sp, #8
-	ldrb r1, [r0]
-	adds r0, r6, #0
-	ands r0, r1
-	cmp r0, #0
-	beq _080486CE
-	movs r0, #0x40
-	b _080486DA
-	.align 2, 0
-_08048698: .4byte sa2__sub_801ED24
-_0804869C:
-	ldr r0, [r5]
-	asrs r0, r0, #8
-	adds r0, #2
-	movs r1, #0xe
-	ldrsb r1, [r5, r1]
-	adds r0, r0, r1
-	ldr r1, [r5, #4]
-	asrs r1, r1, #8
-	adds r2, r5, #0
-	adds r2, #0x27
-	ldrb r2, [r2]
-	add r3, sp, #8
-	str r3, [sp]
-	ldr r3, _080486D4 @ =sa2__sub_801ED24
-	str r3, [sp, #4]
-	movs r3, #8
-	bl sa2__sub_801E4E4
-	adds r2, r0, #0
-	add r0, sp, #8
-	ldrb r1, [r0]
-	adds r0, r6, #0
-	ands r0, r1
-	cmp r0, #0
-	bne _080486D8
-_080486CE:
-	strb r1, [r5, #0x14]
-	b _080486DC
-	.align 2, 0
-_080486D4: .4byte sa2__sub_801ED24
-_080486D8:
-	movs r0, #0xc0
-_080486DA:
-	strb r0, [r5, #0x14]
-_080486DC:
-	adds r0, r2, #0
-	add sp, #0xc
-	pop {r4, r5, r6}
-	pop {r1}
-	bx r1
-	.align 2, 0
-
 	thumb_func_start sub_80486E8
 sub_80486E8: @ 0x080486E8
 	push {r4, r5, r6, r7, lr}
@@ -1771,6 +1619,8 @@ sub_8049348: @ 0x08049348
 sub_804936C:
 	bx lr
     .align 2 , 0
+    
+@ Amy Start ?
 
 	thumb_func_start sub_8049370
 sub_8049370: @ 0x08049370
@@ -1966,7 +1816,7 @@ _080494E2:
 	pop {r4, r5, r6}
 	pop {r0}
 	bx r0
-
+    
 	thumb_func_start sub_80494E8
 sub_80494E8: @ 0x080494E8
 	push {r4, lr}
