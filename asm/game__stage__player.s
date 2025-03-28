@@ -8,59 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8048ADC
-sub_8048ADC: @ 0x08048ADC
-	adds r2, r0, #0
-	ldr r3, [r2, #0x10]
-	movs r0, #0x80
-	lsls r0, r0, #3
-	ands r0, r3
-	cmp r0, #0
-	bne _08048B08
-	ldrb r0, [r2, #0x14]
-	adds r0, #0x40
-	lsls r0, r0, #0x18
-	cmp r0, #0
-	ble _08048B08
-	movs r0, #0x20
-	ands r0, r3
-	cmp r0, #0
-	bne _08048B08
-	ldr r0, _08048B0C @ =gPlayerControls
-	ldrh r1, [r2, #0x3a]
-	ldrh r0, [r0, #2]
-	ands r0, r1
-	cmp r0, #0
-	bne _08048B10
-_08048B08:
-	movs r0, #0
-	b _08048B36
-	.align 2, 0
-_08048B0C: .4byte gPlayerControls
-_08048B10:
-	movs r1, #0xc0
-	lsls r1, r1, #2
-	movs r0, #1
-	ands r3, r0
-	cmp r3, #0
-	beq _08048B1E
-	rsbs r1, r1, #0
-_08048B1E:
-	ldrh r0, [r2, #0xc]
-	adds r0, r0, r1
-	strh r0, [r2, #0xc]
-	adds r1, r2, #0
-	adds r1, #0x3e
-	ldrb r0, [r1]
-	adds r0, #1
-	strb r0, [r1]
-	adds r1, #2
-	movs r0, #0x4c
-	strb r0, [r1]
-	movs r0, #1
-_08048B36:
-	bx lr
-
 	thumb_func_start sub_8048B38
 sub_8048B38: @ 0x08048B38
 	push {r4, r5, r6, r7, lr}

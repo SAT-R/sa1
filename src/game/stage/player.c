@@ -6915,3 +6915,22 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8048980.inc", void sub_8048980
     }
 }
 END_NONMATCH
+
+bool32 sub_8048ADC(Player *p)
+{
+    if ((p->moveState & MOVESTATE_SPINDASH) || ((s8)(p->rotation + Q(0.25)) <= Q(0)) || (p->moveState & MOVESTATE_20)
+        || !(p->frameInput & gPlayerControls.attack)) {
+        return 0;
+    } else {
+        s32 qSpeed = Q(3);
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
+            qSpeed = -qSpeed;
+        }
+        p->qSpeedGround += qSpeed;
+
+        p->SA2_LABEL(unk62)++;
+        p->charState = CHARSTATE_76;
+
+        return 1;
+    }
+}
