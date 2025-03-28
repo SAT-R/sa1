@@ -76,6 +76,7 @@
 
 #define CHARSTATE_KNUCKLES_SWIM  81
 #define CHARSTATE_KNUCKLES_FLOAT 82
+#define CHARSTATE_83             83
 #define CHARSTATE_85             85
 #define CHARSTATE_91             91
 

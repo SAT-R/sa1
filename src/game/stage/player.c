@@ -74,6 +74,7 @@ void SA2_LABEL(sub_802460C)(Player *p);
 void sub_8045DF0(Player *p);
 void sub_8047714(Player *p);
 void sub_8049284(Player *p);
+void sub_80492E4(Player *p);
 struct Task *Player_Sonic_InitGfx_InstaShield(Player *p);
 struct Task *Player_Tails_InitGfx_TailSwipe(Player *p);
 
@@ -7067,16 +7068,53 @@ void sub_8048CB0(Player *p)
     }
 }
 
-#if 0
 void Player_Knuckles_SwimFloat_8048D74(Player *p)
 {
     Water *water = &gWater;
 
-    if(p->heldInput & DPAD_DOWN) {
+    if (p->heldInput & DPAD_DOWN) {
         p->charState = CHARSTATE_18;
         p->SA2_LABEL(unk61) = 0;
-    } else {
+        return;
+    } else if (p->moveState & MOVESTATE_IN_WATER) {
+        s16 qSpeed;
+#ifndef NON_MATCHING
+        register s32 r3 asm("r3");
+#else
+        s32 r3;
+#endif
+        s32 qOldSpeed = (u16)p->qSpeedAirY - Q(24. / 256.);
+        p->qSpeedAirY -= Q(24. / 256.);
+        r3 = qOldSpeed;
+        qSpeed = qOldSpeed;
 
+        if (qSpeed < -Q(1)) {
+            r3 = -Q(1);
+        }
+
+        p->qSpeedAirY = r3;
+    }
+
+    if (I(p->qWorldY) - 4 < water->currentWaterLevel) {
+        p->qWorldY = Q(water->currentWaterLevel + 4);
+        p->qSpeedAirY = 0;
+        p->moveState |= MOVESTATE_IN_WATER;
+        p->framesUntilDrownCountDecrement = GBA_FRAMES_PER_SECOND;
+        p->secondsUntilDrown = 30;
+        m4aSongNumStop(27);
+    }
+
+    if (p->heldInput & DPAD_UP) {
+        p->charState = CHARSTATE_83;
+        Player_8044750(p);
+    } else {
+        Player_804726C(p);
+        Player_8047280(p);
+
+        if (p->charState != CHARSTATE_KNUCKLES_FLOAT) {
+            sub_80492E4(p);
+        }
+
+        p->charState = CHARSTATE_KNUCKLES_FLOAT;
     }
 }
-#endif
