@@ -4496,11 +4496,10 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8045DF0.inc", void sub_8045DF0
 END_NONMATCH
 
 // This function is in SA2, but looks very different in many aspects
-// (92.39%) https://decomp.me/scratch/VY7Nt
+// (99.16%) https://decomp.me/scratch/7kBSw
 NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LABEL(sub_802486C)(Player *p, PlayerSpriteInfo *psi))
 {
     s32 speed;
-    s32 r0;
     Sprite *s = &psi->s;
 
     if (p->moveState & MOVESTATE_20) {
@@ -4534,10 +4533,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
         } break;
 
         case 4: {
-            speed = p->qSpeedGround;
-            speed = ABS(speed);
-
-            if (speed >= Q(4.5)) {
+            if (ABS(p->qSpeedGround) >= Q(4.5)) {
                 p->anim = gPlayerCharacterIdleAnims[p->character] + 5;
                 p->variant = 0;
                 s->animSpeed = SPRITE_ANIM_SPEED(1.0);
@@ -4557,7 +4553,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
                 animSpeed = SPRITE_ANIM_SPEED(0.5);
             }
             s->animSpeed = animSpeed;
-        }
+        } break;
 
         case 21:
         case 85: {
@@ -4600,15 +4596,15 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
     }
 
     if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
-        p->moveState |= MOVESTATE_SPINDASH;
+        SPRITE_FLAG_SET(s, X_FLIP);
     } else {
-        p->moveState &= ~MOVESTATE_SPINDASH;
+        SPRITE_FLAG_CLEAR(s, X_FLIP);
     }
 
     if (GRAVITY_IS_INVERTED) {
-        p->moveState |= MOVESTATE_800;
+        SPRITE_FLAG_SET(s, Y_FLIP);
     } else {
-        p->moveState &= ~MOVESTATE_800;
+        SPRITE_FLAG_CLEAR(s, Y_FLIP);
     }
 
     if (IS_MULTI_PLAYER) {
