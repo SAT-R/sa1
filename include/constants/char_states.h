@@ -59,6 +59,15 @@
 #define CHARSTATE_63             63
 #define CHARSTATE_64             64
 #define CHARSTATE_65             65
+#define CHARSTATE_66             66
+#define CHARSTATE_67             67
+#define CHARSTATE_68             68
+#define CHARSTATE_69             69
+#define CHARSTATE_70             70
+#define CHARSTATE_71             71
+#define CHARSTATE_72             72
+#define CHARSTATE_73             73
+#define CHARSTATE_74             74
 
 #define CHARSTATE_KNUCKLES_SWIM  81
 #define CHARSTATE_KNUCKLES_FLOAT 82

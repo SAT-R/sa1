@@ -6622,3 +6622,212 @@ s32 sub_8048650(Player *p)
 
     return result;
 }
+
+// TODO: Remove gotos and register fake-match
+void sub_80486E8(Player *p)
+{
+    u8 sp00;
+    s32 res;
+    s32 offsetY;
+    s32 qSpeed;
+
+    if (p->w.kf.SA2_LABEL(unkAE) < 0) {
+        goto _08048924;
+    }
+
+    if (p->moveState & MOVESTATE_STOOD_ON_OBJ) {
+        goto _08048924;
+    }
+
+    // _08048710
+    p->qSpeedGround = Q(0);
+    p->qSpeedAirX = Q(0);
+    p->qSpeedAirY = Q(0);
+
+    if (p->charState != CHARSTATE_70) {
+        p->charState = CHARSTATE_71;
+    }
+    // _08048728
+
+    if (p->heldInput & DPAD_UP) {
+        // __08048738
+        offsetY = Q(p->spriteOffsetY);
+
+        if (GRAVITY_IS_INVERTED) {
+            offsetY = -offsetY;
+        }
+        // _08048750
+
+        p->qWorldY -= offsetY;
+        res = sub_8048650(p);
+        p->qWorldY += offsetY;
+
+        if (res > 2) {
+            goto _0804893A;
+        } else if (res < 0) {
+            goto _080488CA;
+        } else {
+            // _08048770
+            offsetY = Q(9);
+
+            if (GRAVITY_IS_INVERTED) {
+                offsetY = -offsetY;
+            }
+            // _08048780
+
+            p->qWorldY -= offsetY;
+            res = SA2_LABEL(sub_8029AC0)(p, &sp00, NULL);
+            p->qWorldY += offsetY;
+
+            if (res < 0) {
+                p->charState = CHARSTATE_72;
+                p->qWorldY -= Q(res);
+
+                goto _08048862;
+            } else {
+                // _080487AC
+                p->charState = CHARSTATE_72;
+                qSpeed = Q(0.75);
+
+                if (p->moveState & MOVESTATE_IN_WATER) {
+                    qSpeed = Q(0.50);
+                }
+                // _080487C0
+
+                if (p->moveState & MOVESTATE_2000) {
+                    qSpeed <<= 1;
+                }
+                // _080487CC
+
+                p->qSpeedAirY = -qSpeed;
+            }
+        }
+
+        goto _08048862;
+    } else if (p->heldInput & DPAD_DOWN) {
+        // _080487D2 + 0xA
+        offsetY = Q(p->spriteOffsetY);
+
+        if (GRAVITY_IS_INVERTED) {
+            offsetY = -offsetY;
+        }
+
+        p->qWorldY += offsetY;
+        res = sub_8048650(p);
+        p->qWorldY -= offsetY;
+
+        if (res > 0) {
+            goto _08048924;
+        }
+        // _0804880A
+
+        res = SA2_LABEL(sub_8029B0C)(p, &sp00, NULL);
+
+        if (res < 0) {
+            p->qWorldY += Q(res);
+            p->rotation = sp00;
+            p->qSpeedGround = Q(0);
+            p->qSpeedAirX = Q(0);
+            p->qSpeedAirY = Q(0);
+
+            SA2_LABEL(sub_8022318)(p);
+            p->charState = CHARSTATE_63;
+            return;
+        } else {
+            // _08048840
+            p->charState = CHARSTATE_73;
+
+            qSpeed = Q(0.75);
+
+            if (p->moveState & MOVESTATE_IN_WATER) {
+                qSpeed = Q(0.50);
+            }
+            // _080487C0
+
+            if (p->moveState & MOVESTATE_2000) {
+                qSpeed <<= 1;
+            }
+            // _080487CC
+
+            p->qSpeedAirY = +qSpeed;
+        }
+
+    _08048862:
+        Player_8047280(p);
+        goto _08048876;
+    } else {
+        res = sub_8048650(p);
+        if (res > 0) {
+            goto _08048924;
+        }
+    }
+    // _08048876
+_08048876:
+    res = 1;
+
+    if (!(p->heldInput & DPAD_VERTICAL)) {
+        res = SA2_LABEL(sub_8029B0C)(p, &sp00, NULL);
+        if (res < 0) {
+            p->qWorldY += Q(res);
+            p->rotation = sp00;
+            p->qSpeedGround = Q(0);
+            p->qSpeedAirX = Q(0);
+            p->qSpeedAirY = Q(0);
+
+            SA2_LABEL(sub_8022318)(p);
+            p->charState = CHARSTATE_63;
+            return;
+        }
+    }
+    // _080488B2
+
+    if (res != 0) {
+        if (--p->w.kf.shift == 0) {
+            p->w.kf.shift = 3;
+        }
+    }
+
+_080488CA:
+    if (p->frameInput & gPlayerControls.jump) {
+#ifndef NON_MATCHING
+        register s32 v asm("r1");
+#else
+        s32 v;
+#endif
+        p->qSpeedAirY = -Q(2.625);
+        p->qSpeedAirX = +Q(3.0);
+        p->moveState ^= MOVESTATE_FACING_LEFT;
+
+        if (p->moveState & MOVESTATE_FACING_LEFT) {
+            p->qSpeedAirX = -p->qSpeedAirX;
+        }
+        // _080488F2
+
+        p->moveState |= MOVESTATE_4;
+        p->moveState |= MOVESTATE_IN_AIR;
+        p->moveState |= MOVESTATE_100;
+        p->spriteOffsetX = 6;
+        p->spriteOffsetY = 9;
+        v = 0;
+        p->charState = 5;
+        p->SA2_LABEL(unk61) = v;
+    }
+    return;
+_08048924:
+    p->SA2_LABEL(unk61) = 2;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 14;
+    p->charState = CHARSTATE_63;
+    return;
+_0804893A:
+    p->charState = CHARSTATE_74;
+
+    if (GRAVITY_IS_INVERTED) {
+        p->qWorldY += Q(p->spriteOffsetY);
+    } else {
+        p->qWorldY -= Q(p->spriteOffsetY);
+    }
+
+    p->SA2_LABEL(unk61) = 5;
+    p->w.kf.shift = 0;
+}
