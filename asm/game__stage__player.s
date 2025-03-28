@@ -6,11 +6,11 @@
 .arm
 
 .if 01
-	thumb_func_start sub_8048D74
-sub_8048D74: @ 0x08048D74
+	thumb_func_start Player_Knuckles_SwimFloat_8048D74
+Player_Knuckles_SwimFloat_8048D74: @ 0x08048D74
 	push {r4, r5, lr}
-	adds r4, r0, #0
-	ldr r5, _08048D98 @ =gWater
+	adds r4, r0, #0     @ r4 = p
+	ldr r5, _08048D98   @ r5 = gWater
 	ldrh r1, [r4, #0x38]
 	movs r0, #0x80
 	ands r0, r1
@@ -24,7 +24,7 @@ sub_8048D74: @ 0x08048D74
 	adds r0, r4, #0
 	adds r0, #0x3d
 	strb r2, [r0]
-	b _08048E2E
+	b _08048E2E_return
 	.align 2, 0
 _08048D98: .4byte gWater
 _08048D9C:
@@ -82,7 +82,7 @@ _08048DEE:
 	strb r0, [r1]
 	adds r0, r4, #0
 	bl Player_8044750
-	b _08048E2E
+	b _08048E2E_return
 	.align 2, 0
 _08048E08: .4byte 0xFFFFFF00
 _08048E0C:
@@ -101,7 +101,7 @@ _08048E0C:
 _08048E2A:
 	movs r0, #0x52
 	strb r0, [r5]
-_08048E2E:
+_08048E2E_return:
 	pop {r4, r5}
 	pop {r0}
 	bx r0
@@ -200,7 +200,7 @@ _08048EDC:
 	bl Player_8047224
 	adds r0, r4, #0
 	bl sa2__sub_8022190
-	b _08048FFA
+	b _08048FFA_return
 _08048EFC:
 	cmp r0, #8
 	bgt _08048FB8
@@ -252,7 +252,7 @@ _08048F4C:
 	lsls r0, r0, #0x18
 	asrs r0, r0, #0x18
 	cmp r0, #6
-	bhi _08048FFA
+	bhi _08048FFA_return
 	lsls r0, r0, #2
 	ldr r1, _08048F78 @ =_08048F7C
 	adds r0, r0, r1
@@ -261,29 +261,29 @@ _08048F4C:
 	.align 2, 0
 _08048F78: .4byte _08048F7C
 _08048F7C: @ jump table
-	.4byte _08048FFA @ case 0
-	.4byte _08048F98 @ case 1
-	.4byte _08048FA0 @ case 2
-	.4byte _08048FA8 @ case 3
-	.4byte _08048FB0 @ case 4
-	.4byte _08048FFA @ case 5
-	.4byte _08048FFA @ case 6
-_08048F98:
+	.4byte _08048FFA_return @ case 0
+	.4byte _08048F98_case_1 @ case 1
+	.4byte _08048FA0_case_2 @ case 2
+	.4byte _08048FA8_case_3 @ case 3
+	.4byte _08048FB0_case_4 @ case 4
+	.4byte _08048FFA_return @ case 5
+	.4byte _08048FFA_return @ case 6
+_08048F98_case_1:
 	adds r0, r4, #0
 	bl sub_8048230
-	b _08048FFA
-_08048FA0:
+	b _08048FFA_return
+_08048FA0_case_2:
 	adds r0, r4, #0
 	bl sub_80484CC
-	b _08048FFA
-_08048FA8:
+	b _08048FFA_return
+_08048FA8_case_3:
 	adds r0, r4, #0
 	bl sub_80485CC
-	b _08048FFA
-_08048FB0:
+	b _08048FFA_return
+_08048FB0_case_4:
 	adds r0, r4, #0
 	bl sub_80486E8
-	b _08048FFA
+	b _08048FFA_return
 _08048FB8:
 	adds r0, r4, #0
 	bl sub_8044250
@@ -295,7 +295,7 @@ _08048FB8:
 	movs r1, #0
 	strh r0, [r4, #0xa]
 	strb r1, [r5]
-	b _08048FFA
+	b _08048FFA_return
 _08048FD0:
 	adds r0, r4, #0
 	bl Player_AirInputControls
@@ -304,14 +304,14 @@ _08048FD0:
 	adds r0, r4, #0
 	bl Player_UpdatePosition
 	adds r0, r4, #0
-	bl sub_8048D74
+	bl Player_Knuckles_SwimFloat_8048D74
 	adds r0, r4, #0
 	bl PlayerFn_Cmd_UpdateAirFallSpeed
 	adds r0, r4, #0
 	bl Player_8047224
 	adds r0, r4, #0
 	bl sa2__sub_8022190
-_08048FFA:
+_08048FFA_return:
 	pop {r4, r5}
 	pop {r0}
 	bx r0

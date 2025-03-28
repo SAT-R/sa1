@@ -28,10 +28,10 @@ typedef struct {
     /* 0x02 */ u8 unk2;
     /* 0x03 */ u8 unk3;
 #endif
-    /* 0x04 */ s16 currentWaterLevel;
-    /* 0x06 */ s16 targetWaterLevel;
-    /* 0x08 */ u32 unk8;
-    /* 0x0C */ u32 mask;
+    /* 0x02|0x04 */ s16 currentWaterLevel;
+    /* 0x04|0x06 */ s16 targetWaterLevel;
+    /* 0x08|0x08 */ u32 unk8;
+    /* 0x0C|0x0C */ u32 mask;
 
     // Additional "palette memory", statically alloced in SA1!
     /* 0x10 */ struct Task *t; /* size: SA1: 0x00, SA2: 0x400 */

@@ -7036,47 +7036,6 @@ void sub_8048CB0(Player *p)
     } else {
         SA2_LABEL(sub_8029CA0)(p);
         if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (sub_8048C3C(p) != 3)) {
-            if (p->qSpeedGround > Q(0)) {
-                if ((p->qSpeedGround - Q(96. / 256.)) < Q(0)) {
-                    p->qSpeedGround = 0;
-                } else {
-                    p->qSpeedGround -= Q(96. / 256.);
-                }
-            } else if (p->qSpeedGround < Q(0)) {
-                if ((p->qSpeedGround + Q(96. / 256.)) < Q(0)) {
-                    p->qSpeedGround = 0;
-                } else {
-                    p->qSpeedGround += Q(96. / 256.);
-                }
-            }
-        }
-
-        SA2_LABEL(sub_80232D0)(p);
-        Player_UpdatePosition(p);
-        SA2_LABEL(sub_8022D6C)(p);
-        SA2_LABEL(sub_8029ED8)(p);
-    }
-}
-
-void sub_8048CB0(Player *p)
-{
-    if (p->SA2_LABEL(unk62) == 0) {
-        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8048C3C(p) == 0)) {
-            if (Player_Spindash(p) || sub_8044250(p)) {
-                return;
-            }
-
-            SA2_LABEL(sub_8029CA0)(p);
-            Player_8044F7C(p);
-        }
-
-        SA2_LABEL(sub_80232D0)(p);
-        Player_UpdatePosition(p);
-        SA2_LABEL(sub_8022D6C)(p);
-        SA2_LABEL(sub_8029ED8)(p);
-    } else {
-        SA2_LABEL(sub_8029CA0)(p);
-        if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (sub_8048C3C(p) != 3)) {
             s32 qSpeed = p->qSpeedGround;
 
             if (qSpeed > Q(0)) {
@@ -7107,3 +7066,17 @@ void sub_8048CB0(Player *p)
         SA2_LABEL(sub_8029ED8)(p);
     }
 }
+
+#if 0
+void Player_Knuckles_SwimFloat_8048D74(Player *p)
+{
+    Water *water = &gWater;
+
+    if(p->heldInput & DPAD_DOWN) {
+        p->charState = CHARSTATE_18;
+        p->SA2_LABEL(unk61) = 0;
+    } else {
+
+    }
+}
+#endif
