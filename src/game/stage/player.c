@@ -64,15 +64,16 @@ extern const u8 gCharStatesKnucklesGlideTurn[];
 void SA2_LABEL(sub_80232D0)(Player *p);
 void Task_8045AD8(void);
 void Task_8045B38(void);
+void Player_8044750(Player *p);
+void Player_80447D8(Player *p);
 void Player_80470AC(Player *p);
 void Player_804726C(Player *p);
 void Player_8047280(Player *p);
 s32 sub_8047668(Player *p);
-void Player_8044750(Player *p);
-void Player_80447D8(Player *p);
 void SA2_LABEL(sub_802460C)(Player *p);
 void sub_8045DF0(Player *p);
 void sub_8047714(Player *p);
+void sub_8049284(Player *p);
 struct Task *Player_Sonic_InitGfx_InstaShield(Player *p);
 struct Task *Player_Tails_InitGfx_TailSwipe(Player *p);
 
@@ -6933,4 +6934,52 @@ bool32 sub_8048ADC(Player *p)
 
         return 1;
     }
+}
+
+bool32 sub_8048B38(Player *p)
+{
+    u8 rot = p->rotation;
+    s32 qSpeed;
+
+    if (GRAVITY_IS_INVERTED) {
+        rot += Q(0.25);
+        rot = -rot;
+        rot -= Q(0.25);
+    }
+
+    if (SA2_LABEL(sub_8022F58)(rot + Q(0.5), p) < 4) {
+        SA2_LABEL(sub_8021BE0)(p);
+        return FALSE;
+    }
+
+    p->moveState |= MOVESTATE_IN_AIR;
+    p->moveState &= ~(MOVESTATE_1000000 | MOVESTATE_20);
+    p->moveState &= ~(MOVESTATE_800);
+
+    // 1st speed apply
+    if (p->moveState & MOVESTATE_IN_WATER) {
+        qSpeed = Q(1);
+    } else {
+        qSpeed = Q(2);
+    }
+
+    rot = p->rotation - Q(0.25);
+    p->qSpeedAirX += Q_MUL(qSpeed, COS_24_8(rot * 4));
+    p->qSpeedAirY += Q_MUL(qSpeed, SIN_24_8(rot * 4));
+
+    // 2nd speed apply
+    if (p->moveState & MOVESTATE_FACING_LEFT) {
+        qSpeed = -Q(2);
+    } else {
+        qSpeed = +Q(2);
+    }
+
+    rot += Q(0.25); // turn 90 degrees
+    p->qSpeedAirX += Q_MUL(qSpeed, COS_24_8(rot * 4));
+    p->qSpeedAirY += Q_MUL(qSpeed, SIN_24_8(rot * 4));
+
+    p->charState = CHARSTATE_79;
+    sub_8049284(p);
+
+    return TRUE;
 }
