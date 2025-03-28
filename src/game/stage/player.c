@@ -6831,3 +6831,87 @@ _0804893A:
     p->SA2_LABEL(unk61) = 5;
     p->w.kf.shift = 0;
 }
+
+// (96.50%) https://decomp.me/scratch/4vHPC
+NONMATCH("asm/non_matching/game/stage/Player__sub_8048980.inc", void sub_8048980(Player *p))
+{
+    s32 qSpeedGround = ABS(p->qSpeedGround);
+    s8 shift = p->w.kf.shift;
+
+    if (p->SA2_LABEL(unk61) == 1) {
+        if (qSpeedGround < Q(3)) {
+            qSpeedGround += Q(6. / 256.);
+        } else if ((qSpeedGround < Q(18)) && ((shift & 0x7F) == 0)) {
+            qSpeedGround += Q(3. / 256.);
+
+            if (p->moveState & MOVESTATE_2000) {
+                qSpeedGround += Q(6. / 256.);
+            }
+        }
+        // _080489D8
+
+        if (p->moveState & MOVESTATE_IN_WATER) {
+            s32 qSpeedCap = Q(3);
+            if (qSpeedGround > qSpeedCap) {
+                qSpeedGround -= Q(9. / 256.);
+
+                if (p->moveState & MOVESTATE_2000) {
+                    qSpeedGround -= Q(3. / 256.);
+                }
+
+                if (qSpeedGround < qSpeedCap) {
+                    qSpeedGround = qSpeedCap;
+                }
+            }
+        }
+        // _080489FC
+
+        if (((u8)p->w.kf.shift + 0x40) << 24 <= 0) {
+            p->qSpeedGround = -qSpeedGround;
+        } else {
+            p->qSpeedGround = +qSpeedGround;
+        }
+        // _08048A18
+
+        if (p->heldInput & DPAD_LEFT) {
+            // _08048A18 + 0xC
+
+            if ((u8)shift != 0x80) {
+                if (shift < 0) {
+                    shift = -shift;
+                }
+
+                shift += 2;
+            }
+        } else if (p->heldInput & DPAD_RIGHT) {
+            // _08048A42 + 0x8
+            if (shift != 0) {
+                if (shift > 0) {
+                    shift = -shift;
+                }
+
+                shift += 2;
+            }
+        } else if ((shift & 0x7F) != 0) {
+            shift += 2;
+        }
+        // _08048A78
+        p->w.kf.shift = shift;
+
+        p->qSpeedAirX = Q_MUL(COS_24_8((u8)shift << 2), qSpeedGround);
+
+        if (p->qSpeedAirY < Q(0.5)) {
+            p->qSpeedAirY += Q(24. / 256.);
+        } else {
+            p->qSpeedAirY -= Q(24. / 256.);
+        }
+    }
+    // _08048AB8
+
+    if (gCamera.SA2_LABEL(unk4C) > 0) {
+        gCamera.SA2_LABEL(unk4C) -= 2;
+    } else if (gCamera.SA2_LABEL(unk4C) < 0) {
+        gCamera.SA2_LABEL(unk4C) += 4;
+    }
+}
+END_NONMATCH
