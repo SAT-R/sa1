@@ -5790,7 +5790,7 @@ void sub_804784C(Player *p)
     Player_804726C(p);
     Player_8047280(p);
 
-    if (sub_8044250(p) == 0) {
+    if (!sub_8044250(p)) {
         SA2_LABEL(sub_8029D14)(p);
         Player_8043DDC(p);
         SA2_LABEL(sub_80232D0)(p);
@@ -6179,7 +6179,7 @@ void sub_8047FA0(Player *p)
     Player_804726C(p);
     Player_8047280(p);
 
-    if (sub_8044250(p) == 0) {
+    if (!sub_8044250(p)) {
         SA2_LABEL(sub_8029D14)(p);
         Player_8043DDC(p);
         SA2_LABEL(sub_80232D0)(p);
@@ -6956,25 +6956,25 @@ bool32 sub_8048B38(Player *p)
     p->moveState &= ~(MOVESTATE_1000000 | MOVESTATE_20);
     p->moveState &= ~(MOVESTATE_800);
 
-    // 1st speed apply
+    /* 1st speed apply */
     if (p->moveState & MOVESTATE_IN_WATER) {
         qSpeed = Q(1);
     } else {
         qSpeed = Q(2);
     }
 
-    rot = p->rotation - Q(0.25);
+    rot = p->rotation - Q(0.25); // turn 90 degrees left
     p->qSpeedAirX += Q_MUL(qSpeed, COS_24_8(rot * 4));
     p->qSpeedAirY += Q_MUL(qSpeed, SIN_24_8(rot * 4));
 
-    // 2nd speed apply
+    /* 2nd speed apply */
     if (p->moveState & MOVESTATE_FACING_LEFT) {
         qSpeed = -Q(2);
     } else {
         qSpeed = +Q(2);
     }
 
-    rot += Q(0.25); // turn 90 degrees
+    rot += Q(0.25); // turn 90 degrees right (back to original)
     p->qSpeedAirX += Q_MUL(qSpeed, COS_24_8(rot * 4));
     p->qSpeedAirY += Q_MUL(qSpeed, SIN_24_8(rot * 4));
 
@@ -6982,4 +6982,128 @@ bool32 sub_8048B38(Player *p)
     sub_8049284(p);
 
     return TRUE;
+}
+
+s32 sub_8048C3C(Player *p)
+{
+    switch (p->SA2_LABEL(unk62)) {
+        case 0: {
+            sub_8048ADC(p);
+            return p->SA2_LABEL(unk62);
+        } break;
+
+        case 1: {
+            if (p->frameInput & gPlayerControls.attack) {
+                p->SA2_LABEL(unk63) = 1;
+            }
+
+            return p->SA2_LABEL(unk62);
+        } break;
+
+        case 2: {
+            if (p->frameInput & gPlayerControls.attack) {
+                p->SA2_LABEL(unk63) = 1;
+            }
+
+            return p->SA2_LABEL(unk62);
+        } break;
+
+        case 3: {
+            sub_8048B38(p);
+            return p->SA2_LABEL(unk62);
+        } break;
+    }
+
+    return 0;
+}
+
+void sub_8048CB0(Player *p)
+{
+    if (p->SA2_LABEL(unk62) == 0) {
+        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8048C3C(p) == 0)) {
+            if (Player_Spindash(p) || sub_8044250(p)) {
+                return;
+            }
+
+            SA2_LABEL(sub_8029CA0)(p);
+            Player_8044F7C(p);
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    } else {
+        SA2_LABEL(sub_8029CA0)(p);
+        if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (sub_8048C3C(p) != 3)) {
+            if (p->qSpeedGround > Q(0)) {
+                if ((p->qSpeedGround - Q(96. / 256.)) < Q(0)) {
+                    p->qSpeedGround = 0;
+                } else {
+                    p->qSpeedGround -= Q(96. / 256.);
+                }
+            } else if (p->qSpeedGround < Q(0)) {
+                if ((p->qSpeedGround + Q(96. / 256.)) < Q(0)) {
+                    p->qSpeedGround = 0;
+                } else {
+                    p->qSpeedGround += Q(96. / 256.);
+                }
+            }
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+
+void sub_8048CB0(Player *p)
+{
+    if (p->SA2_LABEL(unk62) == 0) {
+        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8048C3C(p) == 0)) {
+            if (Player_Spindash(p) || sub_8044250(p)) {
+                return;
+            }
+
+            SA2_LABEL(sub_8029CA0)(p);
+            Player_8044F7C(p);
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    } else {
+        SA2_LABEL(sub_8029CA0)(p);
+        if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (sub_8048C3C(p) != 3)) {
+            s32 qSpeed = p->qSpeedGround;
+
+            if (qSpeed > Q(0)) {
+                if ((qSpeed - Q(96. / 256.)) < Q(0)) {
+                    qSpeed = 0;
+                } else {
+                    qSpeed -= Q(96. / 256.);
+                }
+
+                p->qSpeedGround = qSpeed;
+            } else if (qSpeed < Q(0)) {
+                if ((qSpeed + Q(96. / 256.)) > Q(0)) {
+                    qSpeed = 0;
+                } else {
+                    qSpeed += Q(96. / 256.);
+                }
+
+                p->qSpeedGround = qSpeed;
+            }
+
+            Player_80470AC(p);
+            SA2_LABEL(sub_80231C0)(p);
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
 }
