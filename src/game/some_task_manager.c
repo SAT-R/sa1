@@ -221,39 +221,35 @@ void SetFaceButtonConfig(bool32 flipFaceButtons)
     }
 }
 
-// (86.15%) https://decomp.me/scratch/2Touh
+// (92.37%) https://decomp.me/scratch/2Touh
 NONMATCH("asm/non_matching/game/some_task_manager__sub_804D060.inc", s32 sub_804D060(s32 n))
 {
     u16 *data0 = gUnknown_03006170;
     u16 *data1 = gUnknown_030060F0;
-#ifndef NON_MATCHING
-    // TEMP, matches better
-    register s32 i asm("r3");
-#else
     s32 i;
-#endif
+    u16 *data;
 
     u16 chkMask = *data0++ & 0x30;
 
     if (chkMask == 0x20) {
-        for (i = 0; i < n; data0++, data1++, i++) {
+        for (i = 0, data = data0; i < n; data++, data1++, i++) {
             if (*data1 & 0xD0) {
                 return 0;
             }
 
-            chkMask = *data0 & 0x20;
+            chkMask = *data & 0x20;
 
             if (i >= 4 && chkMask != 0) {
                 return -1;
             }
         }
     } else if (chkMask == 0x10) {
-        for (i = 0; i < n; data0++, data1++, i++) {
+        for (i = 0, data = data0; i < n; data++, data1++, i++) {
             if (*data1 & 0xE0) {
                 return 0;
             }
 
-            chkMask = *data0 & 0x10;
+            chkMask = *data & 0x10;
 
             if (i >= 4 && chkMask != 0) {
                 return +1;
