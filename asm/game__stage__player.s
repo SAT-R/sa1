@@ -8,113 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80490E8
-sub_80490E8: @ 0x080490E8
-	push {r4, r5, r6, r7, lr}
-	ldr r0, _08049128 @ =gCurTask
-	ldr r2, [r0]
-	ldrh r1, [r2, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r1, r0
-	ldrb r3, [r0, #0x16]
-	ldr r0, _0804912C @ =0x03000018
-	adds r4, r1, r0
-	ldr r6, _08049130 @ =gCamera
-	ldr r0, _08049134 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bhi _0804911E
-	ldr r5, _08049138 @ =gPlayer
-	cmp r3, #0
-	beq _0804910E
-	ldr r5, _0804913C @ =gPartner
-_0804910E:
-	ldr r7, _08049140 @ =gWater
-	adds r0, r5, #0
-	adds r0, #0x40
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0x52
-	beq _08049144
-_0804911E:
-	adds r0, r2, #0
-	bl TaskDestroy
-	b _080491B8
-	.align 2, 0
-_08049128: .4byte gCurTask
-_0804912C: .4byte 0x03000018
-_08049130: .4byte gCamera
-_08049134: .4byte gGameMode
-_08049138: .4byte gPlayer
-_0804913C: .4byte gPartner
-_08049140: .4byte gWater
-_08049144:
-	ldr r0, [r5]
-	asrs r0, r0, #8
-	ldrh r1, [r6]
-	adds r2, r5, #0
-	adds r2, #0x50
-	subs r0, r0, r1
-	ldrh r2, [r2]
-	adds r0, r0, r2
-	strh r0, [r4, #0x16]
-	ldr r1, [r5, #4]
-	asrs r1, r1, #8
-	ldrh r0, [r6, #2]
-	adds r0, #4
-	subs r1, r1, r0
-	strh r1, [r4, #0x18]
-	ldr r1, [r4, #0x10]
-	ldr r0, _0804918C @ =0xFFFFCFFF
-	ands r1, r0
-	str r1, [r4, #0x10]
-	ldr r0, [r5, #0x64]
-	ldr r2, [r0, #0x1c]
-	movs r0, #0xc0
-	lsls r0, r0, #6
-	ands r2, r0
-	orrs r2, r1
-	str r2, [r4, #0x10]
-	ldr r0, [r5, #0x10]
-	movs r1, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _08049190
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r2, r0
-	b _08049194
-	.align 2, 0
-_0804918C: .4byte 0xFFFFCFFF
-_08049190:
-	ldr r0, _080491C0 @ =0xFFFFFBFF
-	ands r2, r0
-_08049194:
-	str r2, [r4, #0x10]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	movs r1, #2
-	ldrsh r0, [r7, r1]
-	cmp r0, #0
-	blt _080491B8
-	ldr r0, [r5, #4]
-	asrs r0, r0, #8
-	subs r0, #6
-	movs r2, #2
-	ldrsh r1, [r7, r2]
-	cmp r0, r1
-	bge _080491B8
-	adds r0, r4, #0
-	bl DisplaySprite
-_080491B8:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080491C0: .4byte 0xFFFFFBFF
-
 	thumb_func_start sub_80491C4
 sub_80491C4: @ 0x080491C4
 	push {r4, lr}
@@ -252,7 +145,7 @@ sub_80492E4: @ 0x080492E4
 	adds r0, #0x3c
 	movs r3, #0
 	ldrsb r3, [r0, r3]
-	ldr r0, _08049334 @ =sub_80490E8
+	ldr r0, _08049334 @ =Task_80490E8
 	str r0, [sp]
 	ldr r0, _08049338 @ =TaskDestructor_MultiplayerSpriteTask
 	str r0, [sp, #4]
@@ -285,7 +178,7 @@ sub_80492E4: @ 0x080492E4
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08049334: .4byte sub_80490E8
+_08049334: .4byte Task_80490E8
 _08049338: .4byte TaskDestructor_MultiplayerSpriteTask
 _0804933C: .4byte 0x03000018
 _08049340: .4byte 0x0000030E

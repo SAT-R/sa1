@@ -7353,3 +7353,54 @@ void Player_Knuckles_8049000(Player *p)
         } break;
     }
 }
+
+void Task_80490E8(void)
+{
+    struct Task *t = gCurTask;
+    MultiplayerSpriteTask *mps = TASK_DATA(gCurTask);
+    u8 mpid = mps->mpPlayerID;
+    Sprite *s = &mps->s;
+    Camera *cam = &gCamera;
+    Water *water;
+    Player *p;
+    u32 mask;
+
+    if (IS_SINGLE_PLAYER) {
+        p = &gPlayer;
+
+        if (mpid != PLAYER_1) {
+            p = &gPartner;
+        }
+
+        water = &gWater;
+
+        if (p->charState != CHARSTATE_KNUCKLES_FLOAT) {
+            TaskDestroy(t);
+            return;
+        }
+    } else {
+        TaskDestroy(t);
+        return;
+    }
+
+    s->x = (I(p->qWorldX) - cam->x) + p->SA2_LABEL(unk7C);
+    s->y = (I(p->qWorldY) - ({ (u16) cam->y + 4; }));
+
+    s->frameFlags &= ~0x3000;
+    mask = p->spriteInfoBody->s.frameFlags & 0x3000;
+    s->frameFlags |= mask;
+
+    if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+        SPRITE_FLAG_SET(s, X_FLIP);
+    } else {
+        SPRITE_FLAG_CLEAR(s, X_FLIP);
+    }
+
+    UpdateSpriteAnimation(s);
+
+    if (water->currentWaterLevel >= 0) {
+        if (I(p->qWorldY) - 6 < water->currentWaterLevel) {
+            DisplaySprite(s);
+        }
+    }
+}
