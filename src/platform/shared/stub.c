@@ -31,8 +31,9 @@ void CreateEggRocketStageSeparation(CamCoord worldY) { }
 
 // Player
 void Task_8049898(void) { }
-void Player_Knuckles_8049000() { }
 void Player_Amy_80497AC() { }
+void sub_8049284() { }
+void sub_80492E4() { }
 void sub_804A1B8(Player *p) { }
 
 // Interactables / Gimmicks

@@ -11,7 +11,7 @@
 #define CHARSTATE_DEAD            1
 #define CHARSTATE_CROUCH          2
 #define CHARSTATE_3               3 // Look-down state?
-#define CHARSTATE_4               4
+#define CHARSTATE_WALK            4
 #define CHARSTATE_SPINATTACK      5
 #define CHARSTATE_SPINDASH        6
 #define CHARSTATE_7               7
@@ -38,13 +38,13 @@
 #define CHARSTATE_ACT_CLEAR_B 29
 #endif
 
-#define CHARSTATE_32 32
-#define CHARSTATE_43 43
-#define CHARSTATE_44 44
-#define CHARSTATE_45 45
-#define CHARSTATE_46 46
-#define CHARSTATE_47 47
-#define CHARSTATE_48 48
+#define CHARSTATE_32       32
+#define CHARSTATE_43       43
+#define CHARSTATE_AIR_DASH 44
+#define CHARSTATE_45       45
+#define CHARSTATE_46       46
+#define CHARSTATE_47       47
+#define CHARSTATE_48       48
 
 #define CHARSTATE_FLYING        53
 #define CHARSTATE_54            54
@@ -73,10 +73,11 @@
 #define CHARSTATE_77             77
 #define CHARSTATE_78             78
 #define CHARSTATE_79             79
-
+#define CHARSTATE_80             80
 #define CHARSTATE_KNUCKLES_SWIM  81
 #define CHARSTATE_KNUCKLES_FLOAT 82
 #define CHARSTATE_83             83
+#define CHARSTATE_84             84
 #define CHARSTATE_85             85
 #define CHARSTATE_91             91
 

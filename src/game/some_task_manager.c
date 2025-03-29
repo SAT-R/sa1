@@ -208,50 +208,54 @@ bool32 sub_804CFE0(u16 *param0, u16 param1, u16 param2)
     return TRUE;
 }
 
-void sub_804D02C(bool32 bValue)
+void SetFaceButtonConfig(bool32 flipFaceButtons)
 {
     struct ButtonConfig *controls = &gPlayerControls;
 
-    if (!bValue || gStageFlags & STAGE_FLAG__DEMO_RUNNING) {
+    if (!flipFaceButtons || gStageFlags & STAGE_FLAG__DEMO_RUNNING) {
         controls->jump = A_BUTTON;
         controls->attack = B_BUTTON;
-    } else if (bValue == TRUE) {
+    } else if (flipFaceButtons == TRUE) {
         controls->jump = B_BUTTON;
         controls->attack = A_BUTTON;
     }
 }
 
-// (40%) https://decomp.me/scratch/P6J3g
+// (86.15%) https://decomp.me/scratch/2Touh
 NONMATCH("asm/non_matching/game/some_task_manager__sub_804D060.inc", s32 sub_804D060(s32 n))
 {
     u16 *data0 = gUnknown_03006170;
     u16 *data1 = gUnknown_030060F0;
-    s32 ip;
+#ifndef NON_MATCHING
+    // TEMP, matches better
+    register s32 i asm("r3");
+#else
     s32 i;
+#endif
 
     u16 chkMask = *data0++ & 0x30;
 
     if (chkMask == 0x20) {
-        for (i = 0; i < n || chkMask; data0++, data1++, i++) {
+        for (i = 0; i < n; data0++, data1++, i++) {
             if (*data1 & 0xD0) {
-                break;
+                return 0;
             }
 
             chkMask = *data0 & 0x20;
 
-            if (chkMask != 0) {
+            if (i >= 4 && chkMask != 0) {
                 return -1;
             }
         }
     } else if (chkMask == 0x10) {
         for (i = 0; i < n; data0++, data1++, i++) {
             if (*data1 & 0xE0) {
-                break;
+                return 0;
             }
 
             chkMask = *data0 & 0x10;
 
-            if (chkMask != 0) {
+            if (i >= 4 && chkMask != 0) {
                 return +1;
             }
         }

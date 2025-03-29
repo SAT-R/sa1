@@ -49,7 +49,7 @@ CreateSpecialStage: @ 0x08029908
 	strb r0, [r1]
 	ldr r0, _080299AC @ =gLoadedSaveGame
 	ldrb r0, [r0, #0x1c]
-	bl sub_804D02C
+	bl SetFaceButtonConfig
 	bl sub_802D158
 	bl sub_802D190
 	bl sub_802D1D8

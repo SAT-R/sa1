@@ -45,7 +45,7 @@ extern bool32 CreateSpotlightsManager(void); // Spotlight-beam related
 extern void CreateMultiplayerMultiPakUI();
 extern void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask);
 extern struct Task *CreateMultiplayerChao(u8, u8);
-extern void sub_804D02C(bool32);
+extern void SetFaceButtonConfig(bool32);
 
 void SA2_LABEL(sub_801F044)(void);
 #if (GAME == GAME_SA1)
@@ -782,7 +782,7 @@ void ApplyGameStageSettings(void)
         gLoadedSaveGame.difficultyLevel = DIFFICULTY_NORMAL;
     }
 
-    sub_804D02C(gLoadedSaveGame.unk1C);
+    SetFaceButtonConfig(gLoadedSaveGame.unk1C);
     GameStageStart();
 }
 

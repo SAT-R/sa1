@@ -2241,7 +2241,7 @@ void Player_8043970(Player *p)
 
         if (!(p->moveState & (MOVESTATE_800000 | MOVESTATE_8000))) {
             if (p->charState != 22) {
-                p->charState = CHARSTATE_4;
+                p->charState = CHARSTATE_WALK;
 
                 SA2_LABEL(sub_8023B5C)(p, 14);
                 PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
@@ -2310,7 +2310,7 @@ void Player_8043A2C(Player *p)
 
         if (!(p->moveState & (MOVESTATE_800000 | MOVESTATE_8000))) {
             if (p->charState != 22) {
-                p->charState = CHARSTATE_4;
+                p->charState = CHARSTATE_WALK;
 
                 SA2_LABEL(sub_8023B5C)(p, 14);
                 PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
@@ -2705,7 +2705,7 @@ void Player_8043DDC(Player *p)
                 if (p->heldInput & DPAD_DOWN) {
                     p->charState = CHARSTATE_CROUCH;
                 } else {
-                    p->charState = CHARSTATE_4;
+                    p->charState = CHARSTATE_WALK;
                 }
 
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
@@ -3610,7 +3610,7 @@ void Player_8044F7C(Player *p)
             case 0: {
                 if (p->qSpeedGround != Q(0)) {
                     if ((p->charState == CHARSTATE_8) || (p->charState == CHARSTATE_BRAKE) || (p->charState == CHARSTATE_IDLE)) {
-                        p->charState = CHARSTATE_4;
+                        p->charState = CHARSTATE_WALK;
 
                         SA2_LABEL(sub_8023B5C)(p, 14);
                         PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
@@ -4473,27 +4473,117 @@ void SA2_LABEL(sub_802460C)(Player *p)
     }
 }
 
-// UNFINISHED!
-NONMATCH("asm/non_matching/game/stage/Player__sub_8045DF0.inc", void sub_8045DF0(Player *p))
+// TODO: Remove gotos
+void sub_8045DF0(Player *p)
 {
     u16 r4 = p->heldInput;
+    u16 r6 = r4;
+    u32 r5;
 
-    if (!(p->heldInput & MOVESTATE_IGNORE_INPUT)) {
+    if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
         r4 = gUnknown_030060F0[20];
 
         if (((p->rotation + Q(0.125)) & 0xC0) == 0) {
             if ((p->qWorldX + Q(16)) < gPlayer.qWorldX) {
 
-                if (!(gUnknown_030060F0[20] & 0x80)) {
-                    // gUnknown_030060F0[20]
+                if (!(r4 & DPAD_DOWN)) {
+                    r4 |= DPAD_RIGHT;
+                    r4 &= ~DPAD_LEFT;
                 }
+
             } else if ((p->qWorldX - Q(16)) > gPlayer.qWorldX) {
                 // _08045E48 + 0x8
+                if (!(r4 & DPAD_DOWN)) {
+                    r4 |= DPAD_LEFT;
+                    r4 &= ~DPAD_RIGHT;
+                }
+            } else {
+                r4 &= ~(DPAD_LEFT | DPAD_RIGHT);
+            }
+            // _08045E74
+
+            if (!(r4 & DPAD_SIDEWAYS) && (p->qSpeedGround == Q(0)) && !(p->moveState & MOVESTATE_IN_AIR) && (p->SA2_LABEL(unk62) == 0)
+                && ((p->charState == 4) || (p->charState == 0))
+                && !(p->moveState & (MOVESTATE_800000 | MOVESTATE_8000 | MOVESTATE_SPINDASH | MOVESTATE_200 | MOVESTATE_STOOD_ON_OBJ))) {
+                if (gPlayer.moveState & MOVESTATE_FACING_LEFT) {
+                    if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+                        p->moveState |= MOVESTATE_FACING_LEFT;
+                        p->charState = CHARSTATE_8;
+                    }
+                } else {
+                    if (p->moveState & MOVESTATE_FACING_LEFT) {
+                        p->moveState &= ~MOVESTATE_FACING_LEFT;
+                        p->charState = CHARSTATE_8;
+                    }
+                }
             }
         }
     }
+    // _08045EEE
+    r5 = r4;
+    r5 &= ~r6;
+
+    if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
+        switch (p->moveState & MOVESTATE_IN_AIR) {
+            case 0: {
+                if (!GRAVITY_IS_INVERTED) {
+                    if (p->qWorldY - Q(80) > gPlayer.qWorldY) {
+                        goto _08045FC6;
+                    }
+                } else {
+                    // _08045F38
+                    if (p->qWorldY + Q(80) < gPlayer.qWorldY) {
+                        r5 |= gPlayerControls.jump;
+                    }
+                }
+            } break;
+
+            case MOVESTATE_IN_AIR: {
+                if (!GRAVITY_IS_INVERTED) {
+                    if (p->qWorldY > gPlayer.qWorldY - Q(16)) {
+                        goto _08045F90;
+                    }
+                } else {
+                    // _08045F7C
+                    if (p->qWorldY < gPlayer.qWorldY + Q(16)) {
+                    _08045F90:
+                        if ((p->SA2_LABEL(unk61) != 0) || (p->qSpeedAirY > Q(0))) {
+                            // _08045FA8
+                            if (!GRAVITY_IS_INVERTED) {
+                                if (p->qWorldY > gPlayer.qWorldY) {
+                                    goto _08045FC6;
+                                }
+                            } else {
+                                // _08045FC0
+                                if (p->qWorldY < gPlayer.qWorldY) {
+                                _08045FC6:
+                                    r5 |= gPlayerControls.jump;
+                                }
+                            }
+                        } else {
+                            r4 |= gPlayerControls.jump;
+                        }
+                    }
+                }
+            } break;
+        }
+    }
+    // _08045FDA
+
+    if (r4 & DPAD_SIDEWAYS) {
+        r4 &= ~DPAD_VERTICAL;
+    }
+    // _08045FE8
+
+    if (r5 & DPAD_SIDEWAYS) {
+        u16 mask = ~DPAD_VERTICAL;
+        r5 &= mask;
+    }
+
+    // _08045FF4
+    p->heldInput = r4;
+    p->frameInput = r5;
 }
-END_NONMATCH
 
 // This function is in SA2, but looks very different in many aspects
 // (99.16%) https://decomp.me/scratch/7kBSw
@@ -4661,7 +4751,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LA
     psi->transform.x = I(p->qWorldX) - camX;
     psi->transform.y = I(p->qWorldY) - camY;
 #if (GAME == GAME_SA1)
-    if (p->charState == CHARSTATE_4 || p->charState == 23 || p->charState == 32 || p->charState == 40)
+    if (p->charState == CHARSTATE_WALK || p->charState == 23 || p->charState == 32 || p->charState == 40)
 #elif (GAME == GAME_SA2)
     if (p->charState == CHARSTATE_WALK_A || p->charState == CHARSTATE_GRINDING || p->charState == CHARSTATE_ICE_SLIDE
         || p->charState == CHARSTATE_WALK_B || (p->charState == CHARSTATE_CREAM_CHAO_ATTACK && p->character == CHARACTER_CREAM))
@@ -5727,7 +5817,7 @@ void sub_8047714(Player *p)
 
         if (res != 0) {
             p->SA2_LABEL(unk61) = 2;
-            p->charState = CHARSTATE_44;
+            p->charState = CHARSTATE_AIR_DASH;
             m4aSongNumStart(SE_SONIC_MIDAIR_SOMERSAULT);
 
             if (res > 0) {
@@ -5755,7 +5845,6 @@ void sub_8047774(Player *p)
             }
         }
     } else {
-        // _080477D4
         SA2_LABEL(sub_8029CA0)(p);
 
         if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
@@ -6355,7 +6444,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8048230.inc", void sub_8048230
             SA2_LABEL(sub_8022318)(p);
 
             if (p->qSpeedGround != Q(0)) {
-                p->charState = CHARSTATE_4;
+                p->charState = CHARSTATE_WALK;
             } else {
                 p->charState = CHARSTATE_IDLE;
             }
