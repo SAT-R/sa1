@@ -4634,7 +4634,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
 }
 END_NONMATCH
 
-// NOT DONE!
+// UNFINISHED!
 // (42.94%) https://decomp.me/scratch/q6scN
 NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LABEL(sub_8024B10)(Player *p, PlayerSpriteInfo *inPsi))
 {
@@ -5412,7 +5412,7 @@ void Player_8047224(Player *p)
 
 void Player_804726C(Player *p)
 {
-    if (p->playerID == 0) {
+    if (p->playerID == PLAYER_1) {
         p->SA2_LABEL(unk25) = 120;
     }
 }
@@ -7112,5 +7112,155 @@ void Player_Knuckles_SwimFloat_8048D74(Player *p)
         }
 
         p->charState = CHARSTATE_KNUCKLES_FLOAT;
+    }
+}
+
+void sub_8048E34(Player *p)
+{
+    if (p->SA2_LABEL(unk61) == 0) {
+        Player_804726C(p);
+        Player_8047280(p);
+
+        if (p->SA2_LABEL(unk62) == 0) {
+            Player_8044670(p);
+
+            if (p->moveState & MOVESTATE_1000) {
+                if ((p->moveState & MOVESTATE_IN_WATER) && (p->qSpeedAirY >= Q(0))) {
+                    p->SA2_LABEL(unk61) = 9;
+                    p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
+                    p->charState = CHARSTATE_KNUCKLES_FLOAT;
+                    sub_80492E4(p);
+                }
+            }
+            Player_AirInputControls(p);
+        } else {
+            if (p->moveState & MOVESTATE_1000) {
+                if ((p->moveState & MOVESTATE_IN_WATER) && (p->qSpeedAirY >= Q(0))) {
+                    p->SA2_LABEL(unk61) = 9;
+                    p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
+                    p->charState = CHARSTATE_KNUCKLES_FLOAT;
+                    sub_80492E4(p);
+                }
+            }
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        PlayerFn_Cmd_UpdateAirFallSpeed(p);
+        Player_8047224(p);
+        SA2_LABEL(sub_8022190)(p);
+    } else if (p->SA2_LABEL(unk61) < 9) {
+        Player_804726C(p);
+        Player_8047280(p);
+
+        if (p->SA2_LABEL(unk61) == 2) {
+            if (p->moveState & MOVESTATE_1000) {
+                if ((p->moveState & MOVESTATE_IN_WATER) && (p->qSpeedAirY >= Q(0))) {
+                    p->SA2_LABEL(unk61) = 9;
+                    p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
+                    p->charState = CHARSTATE_KNUCKLES_FLOAT;
+                    sub_80492E4(p);
+                }
+            }
+        }
+
+        sub_8048980(p);
+        sa2__sub_80232D0(p);
+        Player_UpdatePosition(p);
+
+        switch (p->SA2_LABEL(unk61)) {
+            case 0: {
+                return;
+            } break;
+
+            case 1: {
+                sub_8048230(p);
+            } break;
+
+            case 2: {
+                sub_80484CC(p);
+            } break;
+
+            case 3: {
+                sub_80485CC(p);
+            } break;
+
+            case 4: {
+                sub_80486E8(p);
+            } break;
+
+            case 5: {
+                return;
+            } break;
+
+            case 6: {
+                return;
+            } break;
+        }
+    } else if (sub_8044250(p)) {
+        p->qSpeedAirY >>= 1;
+        p->SA2_LABEL(unk61) = 0;
+    } else {
+        Player_AirInputControls(p);
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        Player_Knuckles_SwimFloat_8048D74(p);
+        PlayerFn_Cmd_UpdateAirFallSpeed(p);
+        Player_8047224(p);
+        SA2_LABEL(sub_8022190)(p);
+    }
+}
+
+void Player_Knuckles_8049000(Player *p)
+{
+    switch (p->moveState & MOVESTATE_JUMPING) {
+        case 0: {
+            {
+                sub_8048CB0(p);
+            }
+
+        } break;
+
+        case MOVESTATE_IN_AIR: {
+            sub_8048E34(p);
+        } break;
+
+        case MOVESTATE_4: {
+            Player_804726C(p);
+            Player_8047280(p);
+            if (!sub_8044250(p)) {
+                SA2_LABEL(sub_8029D14)(p);
+                Player_8043DDC(p);
+
+                // _0804749E
+                SA2_LABEL(sub_80232D0)(p);
+                Player_UpdatePosition(p);
+                SA2_LABEL(sub_8022D6C)(p);
+                SA2_LABEL(sub_8029ED8)(p);
+            }
+        } break;
+
+        case MOVESTATE_JUMPING: {
+            Player_804726C(p);
+            Player_8047280(p);
+            Player_8044670(p);
+
+            if (p->moveState & MOVESTATE_1000) {
+                if ((p->moveState & MOVESTATE_IN_WATER) && (p->qSpeedAirY >= Q(0))) {
+                    p->SA2_LABEL(unk61) = 9;
+                    p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
+
+                    p->charState = CHARSTATE_KNUCKLES_FLOAT;
+
+                    sub_80492E4(p);
+                }
+            }
+            Player_AirInputControls(p);
+            SA2_LABEL(sub_80232D0)(p);
+            Player_UpdatePosition(p);
+            PlayerFn_Cmd_UpdateAirFallSpeed(p);
+            Player_8047224(p);
+            SA2_LABEL(sub_8022190)(p);
+        } break;
     }
 }
