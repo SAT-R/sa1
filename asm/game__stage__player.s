@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Player_80499CC
 Player_80499CC: @ 0x080499CC
 	push {r4, r5, r6, lr}
@@ -18,7 +16,7 @@ Player_80499CC: @ 0x080499CC
 	ands r0, r1
 	cmp r0, #0
 	bne _08049A22
-	ldr r0, _08049A2C @ =gUnknown_030061F0
+	ldr r0, _08049A2C @ =gExtraBossTaskData
 	ldr r0, [r0]
 	ldr r0, [r0, #0x58]
 	movs r6, #0x80
@@ -59,8 +57,9 @@ _08049A22:
 	bx r0
 	.align 2, 0
 _08049A28: .4byte gStageFlags
-_08049A2C: .4byte gUnknown_030061F0
+_08049A2C: .4byte gExtraBossTaskData
 _08049A30: .4byte gRingCount
+.endif
 
 	thumb_func_start sub_8049A34
 sub_8049A34: @ 0x08049A34
@@ -1800,11 +1799,11 @@ _0804A740:
 	ldrsh r0, [r5, r1]
 	cmp r0, #0
 	bne _0804A758
-	ldr r0, _0804A784 @ =gUnknown_030061F0
+	ldr r0, _0804A784 @ =gExtraBossTaskData
 	ldr r2, [r0]
 	ldr r0, [r2, #0x58]
 	ldr r1, _0804A788 @ =0xFFBFFFFF
-	ands r0, r1
+	ands r0, r1         @ ~SER_FLAG__400000
 	str r0, [r2, #0x58]
 _0804A758:
 	ldr r0, [r5, #0x50]
@@ -1830,7 +1829,7 @@ _0804A758:
 	asrs r0, r0, #0x16
 	b _0804A7D2
 	.align 2, 0
-_0804A784: .4byte gUnknown_030061F0
+_0804A784: .4byte gExtraBossTaskData
 _0804A788: .4byte 0xFFBFFFFF
 _0804A78C: .4byte 0x00003FFF
 _0804A790: .4byte gSineTable
@@ -2252,7 +2251,7 @@ sub_804AAC4: @ 0x0804AAC4
 	adds r6, r0, r1
 	subs r1, #0xc
 	adds r7, r0, r1
-	ldr r0, _0804AB1C @ =gUnknown_030061F0
+	ldr r0, _0804AB1C @ =gExtraBossTaskData
 	ldr r0, [r0]
 	mov sb, r0
 	ldr r0, _0804AB20 @ =gPlayer
@@ -2281,7 +2280,7 @@ _0804AB10:
 	b _0804AC38
 	.align 2, 0
 _0804AB18: .4byte gCurTask
-_0804AB1C: .4byte gUnknown_030061F0
+_0804AB1C: .4byte gExtraBossTaskData
 _0804AB20: .4byte gPlayer
 _0804AB24: .4byte gCamera
 _0804AB28:
@@ -2341,7 +2340,7 @@ _0804AB8C:
 	mov r1, sb
 	ldr r0, [r1, #0x58]
 	movs r1, #0x80
-	ands r0, r1
+	ands r0, r1     @ & SER_FLAG__80
 	cmp r0, #0
 	bne _0804ABB2
 	lsls r1, r4, #0x10
@@ -2531,7 +2530,7 @@ sub_804AD0C: @ 0x0804AD0C
 	adds r4, r1, r0
 	adds r0, #0x18
 	adds r5, r1, r0
-	ldr r0, _0804AD60 @ =gUnknown_030061F0
+	ldr r0, _0804AD60 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	mov ip, r0
 	ldr r1, _0804AD64 @ =gPlayer
@@ -2560,7 +2559,7 @@ sub_804AD0C: @ 0x0804AD0C
 	b _0804ADFE
 	.align 2, 0
 _0804AD5C: .4byte gCurTask
-_0804AD60: .4byte gUnknown_030061F0
+_0804AD60: .4byte gExtraBossTaskData
 _0804AD64: .4byte gPlayer
 _0804AD68: .4byte gCamera
 _0804AD6C:
@@ -3315,7 +3314,7 @@ sub_804B370: @ 0x0804B370
 	adds r5, r1, r0
 	adds r0, #0x18
 	adds r4, r1, r0
-	ldr r0, _0804B3C4 @ =gUnknown_030061F0
+	ldr r0, _0804B3C4 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	mov ip, r0
 	ldr r7, _0804B3C8 @ =gPlayer
@@ -3344,7 +3343,7 @@ sub_804B370: @ 0x0804B370
 	b _0804B414
 	.align 2, 0
 _0804B3C0: .4byte gCurTask
-_0804B3C4: .4byte gUnknown_030061F0
+_0804B3C4: .4byte gExtraBossTaskData
 _0804B3C8: .4byte gPlayer
 _0804B3CC: .4byte gCamera
 _0804B3D0:
@@ -3406,7 +3405,7 @@ Task_804B420: @ 0x0804B420
 	adds r4, r1, r0
 	adds r0, #0x18
 	adds r5, r1, r0
-	ldr r0, _0804B470 @ =gUnknown_030061F0
+	ldr r0, _0804B470 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	mov sb, r0
 	ldr r1, _0804B474 @ =gPlayer
@@ -3432,7 +3431,7 @@ _0804B464:
 	b _0804B554
 	.align 2, 0
 _0804B46C: .4byte gCurTask
-_0804B470: .4byte gUnknown_030061F0
+_0804B470: .4byte gExtraBossTaskData
 _0804B474: .4byte gPlayer
 _0804B478: .4byte gCamera
 _0804B47C:
@@ -3496,7 +3495,7 @@ _0804B4A2:
 	bne _0804B50E
 	mov r1, sb
 	ldr r0, [r1, #0x58]
-	movs r1, #0x80
+	movs r1, #0x80  @ SER_FLAG__80
 	ands r0, r1
 	cmp r0, #0
 	bne _0804B50E

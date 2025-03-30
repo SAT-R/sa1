@@ -389,7 +389,7 @@ _0805014E:
 	beq _08050182
 	adds r5, r4, #0
 	adds r5, #0x54
-	ldr r0, _08050190 @ =gUnknown_030061F0
+	ldr r0, _08050190 @ =gExtraBossTaskData
 	movs r2, #0
 	adds r3, r0, #4
 	movs r1, #0x11
@@ -412,7 +412,7 @@ _08050182:
 	.align 2, 0
 _08050188: .4byte 0xFFFFEB00
 _0805018C: .4byte 0xFFFFF600
-_08050190: .4byte gUnknown_030061F0
+_08050190: .4byte gExtraBossTaskData
 
 	thumb_func_start sub_8050194
 sub_8050194: @ 0x08050194
@@ -423,7 +423,7 @@ sub_8050194: @ 0x08050194
 	push {r5, r6, r7}
 	sub sp, #0x14
 	str r0, [sp, #4]
-	ldr r1, _080504B8 @ =gUnknown_030061F0
+	ldr r1, _080504B8 @ =gExtraBossTaskData
 	ldr r0, [r1, #0x3c]
 	mov r8, r0
 	adds r0, #0x70
@@ -575,7 +575,7 @@ _080502BE:
 	ldr r1, _080504D8 @ =0x0000FFFC
 	strh r1, [r0, #4]
 _080502D2:
-	ldr r1, _080504B8 @ =gUnknown_030061F0
+	ldr r1, _080504B8 @ =gExtraBossTaskData
 	ldr r0, [r1, #0x48]
 	mov r8, r0
 	adds r0, #0x70
@@ -725,7 +725,7 @@ _080503EA:
 	ldr r1, _080504D8 @ =0x0000FFFC
 	strh r1, [r0, #4]
 _080503FE:
-	ldr r0, _080504B8 @ =gUnknown_030061F0
+	ldr r0, _080504B8 @ =gExtraBossTaskData
 	ldr r0, [r0, #4]
 	str r0, [sp, #0x10]
 	adds r0, #0x70
@@ -820,7 +820,7 @@ _080504A6:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080504B8: .4byte gUnknown_030061F0
+_080504B8: .4byte gExtraBossTaskData
 _080504BC: .4byte gStageTime
 _080504C0: .4byte 0x00000A7F
 _080504C4: .4byte gSineTable
@@ -830,6 +830,9 @@ _080504D0: .4byte 0x00196225
 _080504D4: .4byte 0x3C6EF35F
 _080504D8: .4byte 0x0000FFFC
 
+@ Input:
+@ R0 = (SuperEggRobo *)robo
+@ R1 = (MapEntity *)me
 	thumb_func_start sub_80504DC
 sub_80504DC: @ 0x080504DC
 	push {r4, r5, r6, r7, lr}
@@ -838,7 +841,7 @@ sub_80504DC: @ 0x080504DC
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x14
-	mov sl, r0
+	mov sl, r0      @ sl = r0 = robo
 	movs r4, #0
 	str r4, [r0, #0x60]
 	ldrb r1, [r1, #1]
@@ -846,14 +849,14 @@ sub_80504DC: @ 0x080504DC
 	ldrh r0, [r0, #6]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	mov r0, sl
+	mov r0, sl      @ r0 = sl = robo
 	str r1, [r0, #0x64]
 	ldr r1, _08050848 @ =0xFFFF0000
 	str r1, [r0, #0x44]
 	ldr r0, _0805084C @ =0xFFFFCA00
-	mov r2, sl
+	mov r2, sl      @ r2 = sl = robo
 	str r0, [r2, #0x48]
-	mov r0, sl
+	mov r0, sl      @ r0 = sl = robo
 	adds r0, #0x4c
 	strh r4, [r0]
 	adds r0, #2
@@ -865,12 +868,12 @@ sub_80504DC: @ 0x080504DC
 	ldr r0, _08050850 @ =0x00400002
 	str r0, [r2, #0x58]
 	str r4, [r2, #0x5c]
-	mov r0, sl
+	mov r0, sl      @ r0 = sl = robo
 	adds r0, #0x54
 	strh r4, [r0]
 	adds r0, #2
 	strh r4, [r0]
-	mov r1, sl
+	mov r1, sl      @ r1 = sl = robo
 	adds r1, #0x6c
 	movs r0, #0xf0
 	strh r0, [r1]
@@ -881,25 +884,25 @@ sub_80504DC: @ 0x080504DC
 	movs r3, #8
 	subs r0, r3, r0
 	strb r0, [r1]
-	mov r0, sl
+	mov r0, sl      @ r0 = sl = robo
 	adds r0, #0x69
 	movs r1, #0
 	strb r1, [r0]
-	mov r1, sl
+	mov r1, sl      @ r1 = sl = robo
 	adds r1, #0x6a
 	movs r0, #0x24
 	strb r0, [r1]
 	adds r1, #1
 	movs r0, #0x36
 	strb r0, [r1]
-	mov r0, sl
+	mov r0, sl      @ r0 = sl = robo
 	adds r0, #0x6e
 	movs r2, #0
 	strb r2, [r0]
 	adds r0, #1
 	strb r2, [r0]
-	ldr r6, _08050858 @ =gUnknown_030061F0
-	mov r0, sl
+	ldr r6, _08050858 @ =gExtraBossTaskData
+	mov r0, sl      @ r0 = sl = robo
 	movs r1, #0
 	movs r2, #0
 	movs r3, #0x15
@@ -1229,7 +1232,7 @@ sub_80504DC: @ 0x080504DC
 	ldrh r0, [r0]
 	cmp r0, #0xfa
 	bne _08050836
-	mov r2, sl
+	mov r2, sl      @ r2 = sl = robo
 	ldr r0, [r2, #0x58]
 	movs r1, #0x80
 	lsls r1, r1, #0x18
@@ -1249,7 +1252,7 @@ _08050848: .4byte 0xFFFF0000
 _0805084C: .4byte 0xFFFFCA00
 _08050850: .4byte 0x00400002
 _08050854: .4byte gLoadedSaveGame
-_08050858: .4byte gUnknown_030061F0
+_08050858: .4byte gExtraBossTaskData
 _0805085C: .4byte 0xFFFFE400
 _08050860: .4byte 0xFFFFE900
 _08050864: .4byte 0xFFFFCFFF
@@ -1275,7 +1278,7 @@ sub_8050888: @ 0x08050888
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r5, r2, r0
-	ldr r0, _08050978 @ =gUnknown_030061F0
+	ldr r0, _08050978 @ =gExtraBossTaskData
 	ldr r7, [r0]
 	ldr r0, _0805097C @ =0x03000018
 	adds r6, r2, r0
@@ -1381,7 +1384,7 @@ _08050968:
 	mov pc, r0
 	.align 2, 0
 _08050974: .4byte gCurTask
-_08050978: .4byte gUnknown_030061F0
+_08050978: .4byte gExtraBossTaskData
 _0805097C: .4byte 0x03000018
 _08050980: .4byte gPlayer
 _08050984: .4byte gCamera
@@ -1406,7 +1409,7 @@ _08050998: @ jump table
 	.4byte _08050A4C @ case 13
 	.4byte _08050A5A @ case 14
 _080509D4:
-	ldr r0, _080509F4 @ =gUnknown_030061F0
+	ldr r0, _080509F4 @ =gExtraBossTaskData
 	ldr r1, [r0, #0xc]
 	adds r1, #0x76
 	ldr r3, _080509F8 @ =0xFFFFC000
@@ -1423,10 +1426,10 @@ _080509D4:
 	beq _08050A1A
 	b _08050A30
 	.align 2, 0
-_080509F4: .4byte gUnknown_030061F0
+_080509F4: .4byte gExtraBossTaskData
 _080509F8: .4byte 0xFFFFC000
 _080509FC:
-	ldr r0, _08050A28 @ =gUnknown_030061F0
+	ldr r0, _08050A28 @ =gExtraBossTaskData
 	ldr r1, [r0, #0x20]
 	adds r1, #0x76
 	ldr r3, _08050A2C @ =0xFFFFC000
@@ -1448,7 +1451,7 @@ _08050A1A:
 	bl sub_804CFE0
 	b _08050A78
 	.align 2, 0
-_08050A28: .4byte gUnknown_030061F0
+_08050A28: .4byte gExtraBossTaskData
 _08050A2C: .4byte 0xFFFFC000
 _08050A30:
 	adds r0, r5, #0
@@ -1516,12 +1519,12 @@ sub_8050A88: @ 0x08050A88
 	adds r7, r4, r0
 	ldr r0, [r7, #8]
 	mov ip, r0
-	ldr r0, _08050C48 @ =gUnknown_030061F0
+	ldr r0, _08050C48 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	mov sl, r0
 	ldr r1, _08050C4C @ =0x03000018
 	adds r1, r1, r4
-	mov sb, r1
+	mov sb, r1      @ sb = s
 	ldr r2, _08050C50 @ =0x0300000C
 	adds r2, r4, r2
 	str r2, [sp]
@@ -1728,7 +1731,7 @@ _08050BC2:
 	b _08050CC2
 	.align 2, 0
 _08050C44: .4byte gCurTask
-_08050C48: .4byte gUnknown_030061F0
+_08050C48: .4byte gExtraBossTaskData
 _08050C4C: .4byte 0x03000018
 _08050C50: .4byte 0x0300000C
 _08050C54: .4byte gSineTable
@@ -2143,7 +2146,7 @@ sub_8050FB4: @ 0x08050FB4
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r7, r4, r0
-	ldr r0, _080510D4 @ =gUnknown_030061F0
+	ldr r0, _080510D4 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	mov sb, r0
 	ldr r0, _080510D8 @ =0x03000018
@@ -2273,7 +2276,7 @@ _080510C6:
 	mov pc, r0
 	.align 2, 0
 _080510D0: .4byte gCurTask
-_080510D4: .4byte gUnknown_030061F0
+_080510D4: .4byte gExtraBossTaskData
 _080510D8: .4byte 0x03000018
 _080510DC: .4byte 0x0300000C
 _080510E0: .4byte gSineTable
@@ -2588,7 +2591,7 @@ sub_8051344: @ 0x08051344
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r7, r4, r0
-	ldr r0, _08051464 @ =gUnknown_030061F0
+	ldr r0, _08051464 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	str r0, [sp]
 	ldr r0, _08051468 @ =0x03000018
@@ -2718,7 +2721,7 @@ _08051456:
 	mov pc, r0
 	.align 2, 0
 _08051460: .4byte gCurTask
-_08051464: .4byte gUnknown_030061F0
+_08051464: .4byte gExtraBossTaskData
 _08051468: .4byte 0x03000018
 _0805146C: .4byte 0x0300000C
 _08051470: .4byte gSineTable
@@ -2929,7 +2932,7 @@ sub_8051604: @ 0x08051604
 	adds r7, r4, r0
 	ldr r0, [r7, #8]
 	mov sl, r0
-	ldr r0, _080517B0 @ =gUnknown_030061F0
+	ldr r0, _080517B0 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	str r0, [sp]
 	ldr r1, _080517B4 @ =0x03000018
@@ -3127,7 +3130,7 @@ _080517A2:
 	mov pc, r0
 	.align 2, 0
 _080517AC: .4byte gCurTask
-_080517B0: .4byte gUnknown_030061F0
+_080517B0: .4byte gExtraBossTaskData
 _080517B4: .4byte 0x03000018
 _080517B8: .4byte 0x0300000C
 _080517BC: .4byte gSineTable
@@ -3401,7 +3404,7 @@ sub_80519E8: @ 0x080519E8
 	adds r7, r4, r0
 	ldr r0, [r7, #8]
 	str r0, [sp]
-	ldr r0, _08051B10 @ =gUnknown_030061F0
+	ldr r0, _08051B10 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	str r0, [sp, #4]
 	ldr r1, _08051B14 @ =0x03000018
@@ -3533,7 +3536,7 @@ _08051B02:
 	mov pc, r0
 	.align 2, 0
 _08051B0C: .4byte gCurTask
-_08051B10: .4byte gUnknown_030061F0
+_08051B10: .4byte gExtraBossTaskData
 _08051B14: .4byte 0x03000018
 _08051B18: .4byte 0x0300000C
 _08051B1C: .4byte gSineTable
@@ -3684,7 +3687,7 @@ sub_8051C44: @ 0x08051C44
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r7, r4, r0
-	ldr r0, _08051D68 @ =gUnknown_030061F0
+	ldr r0, _08051D68 @ =gExtraBossTaskData
 	ldr r0, [r0]
 	str r0, [sp]
 	ldr r0, _08051D6C @ =0x03000018
@@ -3814,7 +3817,7 @@ sub_8051C44: @ 0x08051C44
 	mov pc, r0
 	.align 2, 0
 _08051D64: .4byte gCurTask
-_08051D68: .4byte gUnknown_030061F0
+_08051D68: .4byte gExtraBossTaskData
 _08051D6C: .4byte 0x03000018
 _08051D70: .4byte 0x0300000C
 _08051D74: .4byte gSineTable
@@ -3916,7 +3919,7 @@ sub_8051E38: @ 0x08051E38
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r7, r4, r0
-	ldr r0, _08051F5C @ =gUnknown_030061F0
+	ldr r0, _08051F5C @ =gExtraBossTaskData
 	ldr r0, [r0]
 	str r0, [sp]
 	ldr r0, _08051F60 @ =0x03000018
@@ -4046,7 +4049,7 @@ sub_8051E38: @ 0x08051E38
 	mov pc, r0
 	.align 2, 0
 _08051F58: .4byte gCurTask
-_08051F5C: .4byte gUnknown_030061F0
+_08051F5C: .4byte gExtraBossTaskData
 _08051F60: .4byte 0x03000018
 _08051F64: .4byte 0x0300000C
 _08051F68: .4byte gSineTable
@@ -4584,7 +4587,7 @@ _08052370:
 	adds r0, r4, #0
 	adds r1, r5, #0
 	bl sub_80504DC
-	ldr r0, _080523BC @ =gUnknown_030061F0
+	ldr r0, _080523BC @ =gExtraBossTaskData
 	str r4, [r0]
 _080523AC:
 	add sp, #4
@@ -4595,7 +4598,7 @@ _080523AC:
 	bx r0
 	.align 2, 0
 _080523B8: .4byte Task_SuperEggRobotInit
-_080523BC: .4byte gUnknown_030061F0
+_080523BC: .4byte gExtraBossTaskData
 
 	thumb_func_start sub_80523C0
 sub_80523C0: @ 0x080523C0

@@ -75,7 +75,7 @@ src/input_recorder.o(.data);
 src/game/stage/player_controls.o(.data);
 src/game/some_task_manager.o(.data);
 
-. = 0x000061F0; gUnknown_030061F0 = .;
+. = 0x000061F0; gExtraBossTaskData = .;
 
 . = 0x00006240; 
 src/game/stage/ui_rendering.o(.data);
