@@ -6592,7 +6592,7 @@ void sub_8048524(Player *inPlayer)
 #else
     Player *p = inPlayer;
 #endif
-    u8 sp00;
+    u8 rot;
     u32 sp04;
     s32 offsetY;
 
@@ -6608,14 +6608,14 @@ void sub_8048524(Player *inPlayer)
 
     SA2_LABEL(sub_8022838)(p);
 
-    offsetY = SA2_LABEL(sub_8029B88)(p, &sp00, &sp04);
+    offsetY = SA2_LABEL(sub_8029B88)(p, &rot, &sp04);
     if (offsetY < 12) {
         if (GRAVITY_IS_INVERTED) {
             offsetY = -offsetY;
         }
 
         p->qWorldY += Q(offsetY);
-        p->rotation = sp00;
+        p->rotation = rot;
     } else if (!(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
 #ifndef NON_MATCHING
         register u32 flag asm("r0");
@@ -7633,3 +7633,197 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_Amy_80494E8.inc", void Play
     }
 }
 END_NONMATCH
+
+void Player_80495F0(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+    sa2__sub_80232D0(p);
+    Player_UpdatePosition(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    Player_8047224(p);
+
+    switch (p->SA2_LABEL(unk62)) {
+        case 0: {
+            if ((p->frameInput & gPlayerControls.attack) && (p->charState != CHARSTATE_HIT_AIR)) {
+                p->charState = CHARSTATE_92;
+                p->SA2_LABEL(unk62) = 1;
+            }
+
+            SA2_LABEL(sub_8022190)(p);
+        } break;
+
+        case 1: {
+            SA2_LABEL(sub_8022838)(p);
+
+            if (!(p->w.kf.flags & 0x2)) {
+                // _08049676
+#ifndef NON_MATCHING
+                register s32 r0 asm("r0");
+#else
+                s32 r0;
+#endif
+
+                u32 isInWater = p->moveState & MOVESTATE_IN_WATER;
+                s32 qSpeed = Q(2);
+
+                if (isInWater) {
+                    qSpeed -= Q(0.75);
+                }
+
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    s32 r1 = -p->qSpeedAirX;
+                    r0 = qSpeed;
+                    if (r0 < r1) {
+                        r0 = r1;
+                    }
+                    r0 = -r0;
+                } else {
+                    // _0804969E
+                    s32 r1 = +p->qSpeedAirX;
+                    r0 = qSpeed;
+                    if (r0 < r1) {
+                        r0 = r1;
+                    }
+                }
+                p->qSpeedAirX = r0;
+
+#ifndef NON_MATCHING
+                p->qSpeedGround = *(volatile s16 *)&p->qSpeedAirX;
+#else
+                p->qSpeedGround = qSpeed;
+#endif
+                p->SA2_LABEL(unk62) = 2;
+
+                m4aSongNumStart(SE_SONIC_SKID_ATTACK);
+            }
+        } break;
+
+        case 2: {
+            SA2_LABEL(sub_8022838)(p);
+
+            if (!(p->w.kf.flags & 0x2)) {
+                if (p->qSpeedAirX <= 0) {
+                    p->qSpeedAirX += Q(24. / 256.);
+
+                    if (p->qSpeedAirX < Q(0)) {
+                        goto _08049720;
+                    }
+                } else {
+                    // _080496EC
+                    p->qSpeedAirX -= Q(24. / 256.);
+
+                    if (p->qSpeedAirX > Q(0)) {
+                        goto _08049720;
+                    }
+                }
+                // _080496F8
+
+                p->qSpeedGround = Q(0);
+                p->qSpeedAirX = Q(0);
+                p->qSpeedAirY = Q(0);
+
+                SA2_LABEL(sub_8022318)(p);
+
+                p->moveState &= ~MOVESTATE_4000000;
+                p->SA2_LABEL(unk2A) = 15;
+
+                p->charState = CHARSTATE_93;
+                return;
+            }
+        _08049720:
+            // _08049720
+
+            { // TODO: Not direct inline of sub_8048524, but similar structure!
+                s32 offsetY;
+                u8 rot;
+
+                if ((gStageTime & 0x3) == 0) {
+                    offsetY = p->spriteOffsetY;
+
+                    if (GRAVITY_IS_INVERTED) {
+                        offsetY = -offsetY;
+                    }
+
+                    CreateBrakingDustEffect(I(p->qWorldX), I(p->qWorldY) + offsetY);
+                }
+
+                SA2_LABEL(sub_8022838)(p);
+
+                offsetY = SA2_LABEL(sub_8029B88)(p, &rot, NULL);
+                if (offsetY < 7) {
+                    if (GRAVITY_IS_INVERTED) {
+                        offsetY = -offsetY;
+                    }
+
+                    p->qWorldY += Q(offsetY);
+                    p->rotation = rot;
+                } else if (!(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
+                    p->SA2_LABEL(unk62) = 1;
+                    p->w.kf.flags |= 2;
+                }
+            }
+        } break;
+    }
+}
+
+void Player_Amy_80497AC(Player *p)
+{
+    switch (p->moveState & MOVESTATE_IN_AIR) {
+        case 0: {
+            if (p->moveState & MOVESTATE_1000000) {
+                sub_80472B8(p);
+            } else {
+                Player_Amy_80494E8(p);
+            }
+        } break;
+
+        case MOVESTATE_IN_AIR: {
+            switch (p->moveState & (MOVESTATE_2000000 | MOVESTATE_4000000)) {
+                case 0: {
+                    Player_804726C(p);
+                    Player_8047280(p);
+                    Player_804948C(p);
+                    Player_8044670(p);
+
+                    Player_AirInputControls(p);
+                    SA2_LABEL(sub_80232D0)(p);
+                    Player_UpdatePosition(p);
+                    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+                    Player_8047224(p);
+                    SA2_LABEL(sub_8022190)(p);
+                } break;
+
+                case MOVESTATE_2000000: {
+                    Player_804726C(p);
+                    Player_8047280(p);
+
+                    Player_AirInputControls(p);
+                    SA2_LABEL(sub_80232D0)(p);
+                    Player_UpdatePosition(p);
+                    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+                    Player_8047224(p);
+                    SA2_LABEL(sub_8022190)(p);
+                } break;
+
+                case MOVESTATE_4000000: {
+                    Player_80495F0(p);
+                } break;
+            }
+        } break;
+    }
+}
+
+void Player_Amy_8049854(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+    Player_804948C(p);
+    Player_8044670(p);
+    Player_AirInputControls(p);
+    SA2_LABEL(sub_80232D0)(p);
+    Player_UpdatePosition(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    Player_8047224(p);
+    SA2_LABEL(sub_8022190)(p);
+}

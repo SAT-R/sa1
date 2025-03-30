@@ -85,6 +85,8 @@
 #define CHARSTATE_89             89
 #define CHARSTATE_90             90
 #define CHARSTATE_91             91
+#define CHARSTATE_92             92
+#define CHARSTATE_93             93
 
 #if (GAME == GAME_SA1)
 #define CHARSTATE_SHARED_COUNT 43
