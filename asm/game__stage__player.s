@@ -5,136 +5,8 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start Player_80499CC
-Player_80499CC: @ 0x080499CC
-	push {r4, r5, r6, lr}
-	adds r5, r0, #0
-	ldr r0, _08049A28 @ =gStageFlags
-	ldrh r1, [r0]
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _08049A22
-	ldr r0, _08049A2C @ =gExtraBossTaskData
-	ldr r0, [r0]
-	ldr r0, [r0, #0x58]
-	movs r6, #0x80
-	ands r0, r6
-	cmp r0, #0
-	bne _08049A22
-	ldrh r1, [r5, #0x20]
-	adds r0, r1, #1
-	strh r0, [r5, #0x20]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0x3b
-	ble _08049A22
-	adds r0, r1, #0
-	subs r0, #0x3b
-	strh r0, [r5, #0x20]
-	ldr r4, _08049A30 @ =gRingCount
-	ldrh r0, [r4]
-	subs r0, #1
-	strh r0, [r4]
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0xa
-	bhi _08049A14
-	movs r0, #0x8b
-	bl m4aSongNumStart
-_08049A14:
-	ldrh r0, [r4]
-	cmp r0, #0
-	bne _08049A22
-	strh r0, [r4]
-	ldr r0, [r5, #0x10]
-	orrs r0, r6
-	str r0, [r5, #0x10]
-_08049A22:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08049A28: .4byte gStageFlags
-_08049A2C: .4byte gExtraBossTaskData
-_08049A30: .4byte gRingCount
+.if 0
 .endif
-
-	thumb_func_start sub_8049A34
-sub_8049A34: @ 0x08049A34
-	push {r4, lr}
-	adds r2, r0, #0
-	ldrh r0, [r2, #0x38]
-	movs r3, #0x30
-	ands r3, r0
-	cmp r3, #0x10
-	beq _08049A98
-	cmp r3, #0x10
-	bgt _08049A4C
-	cmp r3, #0
-	beq _08049A52
-	b _08049AAC
-_08049A4C:
-	cmp r3, #0x20
-	beq _08049A80
-	b _08049AAC
-_08049A52:
-	ldrh r0, [r2, #0xc]
-	movs r4, #0xc
-	ldrsh r1, [r2, r4]
-	cmp r1, #0
-	beq _08049AAC
-	cmp r1, #0
-	ble _08049A6E
-	subs r0, #0x60
-	strh r0, [r2, #0xc]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	bge _08049AAC
-	strh r3, [r2, #0xc]
-	b _08049AAC
-_08049A6E:
-	cmp r1, #0
-	bge _08049AAC
-	adds r0, #0x60
-	strh r0, [r2, #0xc]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	ble _08049AAC
-	strh r3, [r2, #0xc]
-	b _08049AAC
-_08049A80:
-	ldrh r0, [r2, #0xc]
-	subs r0, #0x24
-	strh r0, [r2, #0xc]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	ldr r1, _08049A94 @ =0xFFFFFE00
-	cmp r0, r1
-	bge _08049AAC
-	b _08049AAA
-	.align 2, 0
-_08049A94: .4byte 0xFFFFFE00
-_08049A98:
-	ldrh r0, [r2, #0xc]
-	adds r0, #0x24
-	strh r0, [r2, #0xc]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	movs r1, #0x80
-	lsls r1, r1, #2
-	cmp r0, r1
-	ble _08049AAC
-_08049AAA:
-	strh r1, [r2, #0xc]
-_08049AAC:
-	ldrh r0, [r2, #0xc]
-	strh r0, [r2, #8]
-	pop {r4}
-	pop {r0}
-	bx r0
-	.align 2, 0
 
 	thumb_func_start Player_8049AB8
 Player_8049AB8: @ 0x08049AB8
@@ -175,7 +47,7 @@ _08049AFC: .4byte gPlayerControls
 _08049B00: .4byte 0xFFFFFBC0
 _08049B04:
 	adds r0, r4, #0
-	bl sub_8049A34
+	bl Player_SuperSonic_8049A34
 	ldr r2, [r4]
 	adds r3, r2, #0
 	cmp r2, #0

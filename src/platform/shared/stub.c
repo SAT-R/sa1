@@ -32,7 +32,7 @@ void CreateEggRocketStageSeparation(CamCoord worldY) { }
 
 // Player
 void sub_804A1B8(Player *p) { }
-void Player_80499CC(Player *p) { }
+void Player_SuperSonic_80499CC(Player *p) { }
 void Player_8049E3C(Player *p) { }
 void Player_804A20C(Player *p) { }
 void Player_804A254(Player *p) { }

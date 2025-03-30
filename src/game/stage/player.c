@@ -92,7 +92,7 @@ void Player_Tails_InitFlying(Player *p);
 void Player_Knuckles_InitGlide(Player *p);
 
 void Task_8049898(void);
-void Player_80499CC(Player *p);
+void Player_SuperSonic_80499CC(Player *p);
 void sub_8049D7C(Player *p);
 void Player_8049E3C(Player *p);
 void sub_804A1B8(Player *p);
@@ -7841,6 +7841,7 @@ void Player_Amy_8049854(Player *p)
 }
 
 /* Start of Super Sonic ? */
+#include "game/enemies/boss_super_egg_robo.h"
 
 void Task_8049898(void)
 {
@@ -7900,5 +7901,66 @@ void Task_8049898(void)
         p->timerInvulnerability--;
     }
 
-    Player_80499CC(p);
+    Player_SuperSonic_80499CC(p);
+}
+
+void Player_SuperSonic_80499CC(Player *p)
+{
+    if (!(gStageFlags & STAGE_FLAG__ACT_START)) {
+        if (!(gExtraBossTaskData->flags58 & SER_FLAG__80)) {
+            if (++p->timerSpeedup >= GBA_FRAMES_PER_SECOND) {
+                p->timerSpeedup -= GBA_FRAMES_PER_SECOND;
+
+                if (--gRingCount <= 10) {
+                    m4aSongNumStart(SE_TIMER);
+                }
+
+                if (gRingCount == 0) {
+                    // TODO: Is this a macro?
+                    gRingCount = 0;
+                    p->moveState |= MOVESTATE_DEAD;
+                }
+            }
+        }
+    }
+}
+
+void Player_SuperSonic_8049A34(Player *p)
+{
+    switch (p->heldInput & DPAD_SIDEWAYS) {
+        case 0: {
+            if (p->qSpeedGround != 0) {
+                if (p->qSpeedGround > Q(0)) {
+                    p->qSpeedGround -= Q(96. / 256.);
+
+                    if (p->qSpeedGround < Q(0)) {
+                        p->qSpeedGround = Q(0);
+                    }
+                } else if (p->qSpeedGround < Q(0)) {
+                    p->qSpeedGround += Q(96. / 256.);
+                    if (p->qSpeedGround > Q(0)) {
+                        p->qSpeedGround = Q(0);
+                    }
+                }
+            }
+        } break;
+
+        case DPAD_LEFT: {
+            p->qSpeedGround -= Q(36. / 256.);
+
+            if (p->qSpeedGround < -Q(2)) {
+                p->qSpeedGround = -Q(2);
+            }
+        } break;
+
+        case DPAD_RIGHT: {
+            p->qSpeedGround += Q(36. / 256.);
+
+            if (p->qSpeedGround > +Q(2)) {
+                p->qSpeedGround = +Q(2);
+            }
+        } break;
+    }
+
+    p->qSpeedAirX = p->qSpeedGround;
 }
