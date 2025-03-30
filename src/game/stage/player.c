@@ -96,8 +96,12 @@ void Player_SuperSonic_80499CC(Player *p);
 void sub_8049D7C(Player *p);
 void Player_8049E3C(Player *p);
 void sub_804A1B8(Player *p);
+bool32 sub_8049BAC(Player *p);
+void Player_804A0B8(Player *p);
 void Player_804A20C(Player *p);
 void Player_804A254(Player *p);
+void sub_804A2FC(Player *p);
+void sub_804A854(Player *p);
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out);
 void Task_PlayerMain(void);
 void TaskDestructor_Player(struct Task *);
@@ -7964,3 +7968,108 @@ void Player_SuperSonic_8049A34(Player *p)
 
     p->qSpeedAirX = p->qSpeedGround;
 }
+
+void Player_SuperSonic_8049AB8(Player *p)
+{
+    s32 r0;
+    s32 qWorldX;
+    s32 r3;
+
+    if (p->SA2_LABEL(unk62) == 0) {
+        if (!sub_8049BAC(p)) {
+            if (p->frameInput & gPlayerControls.jump) {
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->moveState |= MOVESTATE_100;
+
+                p->qSpeedAirY -= Q(4.25);
+                m4aSongNumStart(SE_JUMP);
+            } else {
+                // _08049B04
+                Player_SuperSonic_8049A34(p);
+
+                qWorldX = p->qWorldX;
+                r3 = qWorldX;
+                if (p->qWorldX >= 0) {
+                    r0 = qWorldX;
+                    if (r0 > Q(480)) {
+                        r0 = Q(480);
+                    }
+                } else {
+                    r0 = 0;
+                }
+                qWorldX = r0;
+
+                if (qWorldX != r3) {
+                    if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                        p->qSpeedGround = Q(0);
+                    }
+
+                    p->qSpeedAirX = 0;
+                }
+
+                p->qWorldX = qWorldX;
+
+                Player_UpdatePosition(p);
+                Player_UpdatePosition(p);
+                Player_804A0B8(p);
+
+                // TODO: Do CHARSTATE_ values have different meanings for Super Sonic?
+                p->charState = CHARSTATE_CROUCH;
+                return;
+            }
+        }
+    } else {
+        sub_804A2FC(p);
+
+        qWorldX = p->qWorldX;
+        r3 = qWorldX;
+        if (p->qWorldX >= 0) {
+            r0 = qWorldX;
+            if (r0 > Q(480)) {
+                r0 = Q(480);
+            }
+        } else {
+            r0 = 0;
+        }
+        qWorldX = r0;
+
+        if (qWorldX != r3) {
+            if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                p->qSpeedGround = Q(0);
+            }
+
+            p->qSpeedAirX = 0;
+        }
+
+        p->qWorldX = qWorldX;
+
+        Player_UpdatePosition(p);
+        Player_UpdatePosition(p);
+        Player_804A0B8(p);
+
+        // TODO: Do CHARSTATE_ values have different meanings for Super Sonic?
+        p->charState = CHARSTATE_3;
+        return;
+    }
+}
+
+// (87.78%) https://decomp.me/scratch/wiHzX
+NONMATCH("asm/non_matching/game/stage/Player__sub_8049BAC.inc", bool32 sub_8049BAC(Player *p))
+{
+    if ((p->SA2_LABEL(unk61) == 0) || (--p->SA2_LABEL(unk61) == 0)) {
+        if (p->frameInput & gPlayerControls.attack) {
+            p->SA2_LABEL(unk61) = 8;
+            p->SA2_LABEL(unk62) = 1;
+            p->qSpeedGround = Q(4);
+            p->qSpeedAirX = Q(0);
+            p->qSpeedAirY = Q(0);
+
+            sub_804A854(p);
+            m4aSongNumStart(SE_SONIC_MIDAIR_SOMERSAULT);
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+END_NONMATCH
