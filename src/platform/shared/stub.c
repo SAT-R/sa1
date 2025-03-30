@@ -1,6 +1,7 @@
 /* General module of stub of functions that have not been decompiled */
 
 #include "global.h"
+#include "core.h"
 #include "sprite.h"
 #include "game/game_over.h"
 #include "game/sa1_sa2_shared/camera.h"
@@ -37,92 +38,156 @@ void Player_804A20C(Player *p) { }
 void Player_804A254(Player *p) { }
 void sub_8049D7C(Player *p) { }
 
+// Dummy
+#include "constants/animations.h"
+#include "game/entity.h"
+#include "malloc_vram.h"
+typedef struct {
+    SpriteBase base;
+    Sprite s;
+} DummyEnt;
+
+void Task_DummyEnt(void)
+{
+    DummyEnt *dummy = TASK_DATA(gCurTask);
+    MapEntity *me = dummy->base.me;
+    Sprite *s = &dummy->s;
+
+    s->x = TO_WORLD_POS(dummy->base.meX, dummy->base.regionX) - gCamera.x;
+    s->y = TO_WORLD_POS(me->y, dummy->base.regionY) - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, dummy->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_DummyEnt(struct Task *t)
+{
+    DummyEnt *dummy = TASK_DATA(t);
+    MapEntity *me = dummy->base.me;
+    Sprite *s = &dummy->s;
+
+    VramFree(s->graphics.dest);
+}
+
+void CreateEntity_DummyEnt(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_DummyEnt, sizeof(DummyEnt), 0x2000, 0, TaskDestructor_DummyEnt);
+    DummyEnt *dummy = TASK_DATA(t);
+    Sprite *s = &dummy->s;
+    s32 worldX, worldY;
+
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+
+    SPRITE_INIT(s, 4, SA1_ANIM_TRIANGLE_BLUE, 0, 0, 2);
+
+    dummy->base.me = me;
+    dummy->base.regionX = regionX;
+    dummy->base.regionY = regionY;
+    dummy->base.meX = me->x;
+    dummy->base.id = id;
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
 // Interactables / Gimmicks
-void CreateEntity_StageGoal() { }
-void CreateEntity_Spikes_Up() { }
-void CreateEntity_Spikes_Down() { }
-void CreateEntity_Spikes_Horizontal() { }
-void CreateEntity_Spikes_HidingUp() { }
-void CreateEntity_Spikes_HidingDown() { }
-void CreateEntity_Spring_Normal_Up() { }
-void CreateEntity_Spring_Normal_Down() { }
-void CreateEntity_Spring_Horizontal() { }
-void CreateEntity_Spring_Big_Up() { }
-void CreateEntity_Spring_Big_Down() { }
-void CreateEntity_Spring_Small_Up() { }
-void CreateEntity_Spring_Small_Down() { }
-void CreateEntity_Decoration() { }
-void CreateEntity_PlatformThin() { }
-void CreateEntity_PlatformThin_Falling() { }
-void CreateEntity_PlatformCrumbling() { }
-void CreateEntity_BounceBlock() { }
-void CreateEntity_InclineRamp() { }
-void CreateEntity_Waterfall() { }
-void CreateEntity_HalfPipeStart() { }
-void CreateEntity_HalfPipeEnd() { }
-void CreateEntity_Booster() { }
-void CreateEntity_Booster_SlightLeft() { }
-void CreateEntity_Booster_SlightRight() { }
-void CreateEntity_RedFlag() { }
-void CreateEntity_WallPole_Left() { }
-void CreateEntity_WallPole_Right() { }
-void CreateEntity_ForcedIceSlide() { }
-void CreateEntity_Booster_Wall() { }
-void CreateEntity_BumperHexagon() { }
-void CreateEntity_BumperRound_LinearMov() { }
-void CreateEntity_BumperRound_CircularMov() { }
-void CreateEntity_BumperTriHorizontal() { }
-void CreateEntity_BumperTriVertical() { }
-void CreateEntity_BumperTriBig() { }
-void CreateEntity_Flipper() { }
-void CreateEntity_Platform_Square() { }
-void CreateEntity_Flipper_Vertical() { }
-void CreateEntity_BarrelOfDoomMini() { }
-void CreateEntity_PartyBalloon() { }
-void CreateEntity_ShipSwing() { }
-void CreateEntity_Platform_Spiked() { }
-void CreateEntity_Bowl() { }
-void CreateEntity_PanelGate_Vertical() { }
-void CreateEntity_PanelGate_Horizontal() { }
-void CreateEntity_MarbleTrack_Dir() { }
-void CreateEntity_MarbleTrack_Unk() { }
-void CreateEntity_MarbleTrack_Entrance() { }
-void CreateEntity_MarbleTrack_Exit() { }
-void CreateEntity_ConveyorBelt() { }
-void CreateEntity_TeleportOrb() { }
-void CreateEntity_Flipper_SmallBlue() { }
-void CreateEntity_Carousel() { }
-void CreateEntity_HookRail() { }
-void CreateEntity_SwingingHook() { }
-void CreateEntity_SwingRope() { }
-void CreateEntity_SteamExhaust() { }
-void CreateEntity_CraneClaw() { }
-void CreateEntity_MovingSpring() { }
-void CreateEntity_HangBar() { }
-void CreateEntity_SkatingStone() { }
-void CreateEntity_Interactable085() { }
-void CreateEntity_RunWheel() { }
-void CreateEntity_Lift() { }
-void CreateEntity_Interactable089() { }
-void CreateEntity_PlayerFloat() { }
-void CreateEntity_FerrisWheel() { }
-void CreateEntity_BoulderSpawner() { }
-void CreateEntity_SpikedBarrel() { }
-void CreateEntity_AirBubbles() { }
-void CreateEntity_IceBlock() { }
-void CreateEntity_UnderwaterLavaPlatform() { }
-void CreateEntity_Booster_Steep() { }
-void CreateEntity_Booster_Steep2() { }
-void CreateEntity_SpecialSpring() { }
-void CreateEntity_SpikedBarrel_ChaoHunt() { }
-void CreateEntity_SmallFallBlock() { }
-void CreateEntity_Track() { }
-void CreateEntity_Interactable107() { }
-void CreateEntity_Spring_Hiding() { }
-void CreateEntity_PipeEntrance() { }
-void CreateEntity_PipeExit() { }
-void CreateEntity_BreakableWall() { }
-void CreateEntity_ItemBox_ChaoHunt() { }
+
+void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spikes_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spikes_HidingUp(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spikes_HidingDown(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Normal_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Normal_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Big_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Big_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Small_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Small_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Decoration(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PlatformThin(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PlatformThin_Falling(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PlatformCrumbling(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BounceBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_InclineRamp(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Waterfall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_HalfPipeStart(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_HalfPipeEnd(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Booster(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Booster_SlightLeft(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Booster_SlightRight(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_RedFlag(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_WallPole_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_WallPole_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_ForcedIceSlide(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Booster_Wall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BumperRound_LinearMov(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BumperRound_CircularMov(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_DummyEnt(me, regionX, regionY, id);
+}
+void CreateEntity_BumperTriHorizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BumperTriVertical(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BumperTriBig(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Flipper(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Platform_Square(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Flipper_Vertical(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BarrelOfDoomMini(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PartyBalloon(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_ShipSwing(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Bowl(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PanelGate_Vertical(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PanelGate_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_MarbleTrack_Dir(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_MarbleTrack_Unk(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_MarbleTrack_Entrance(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_MarbleTrack_Exit(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_ConveyorBelt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_TeleportOrb(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Flipper_SmallBlue(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Carousel(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_HookRail(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SwingingHook(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SwingRope(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SteamExhaust(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_CraneClaw(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_MovingSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_HangBar(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Interactable085(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_RunWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Interactable089(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PlayerFloat(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BoulderSpawner(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SpikedBarrel(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_AirBubbles(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_IceBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_UnderwaterLavaPlatform(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    CreateEntity_DummyEnt(me, regionX, regionY, id);
+}
+void CreateEntity_Booster_Steep(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Booster_Steep2(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SpecialSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SpikedBarrel_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_SmallFallBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Track(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Interactable107(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_Spring_Hiding(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_PipeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
+void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 
 // Enemies
 void CreateEntity_Kiki() { }

@@ -471,6 +471,10 @@ void SetStageSpawnPos(u32 character, u32 level, u32 playerID, Player *p)
 void InitializePlayer(Player *p)
 {
 #if (GAME == GAME_SA1)
+#if DEBUG
+    p->character = CHARACTER_TAILS;
+#endif
+
     p->qWorldX = Q(p->checkPointX);
     p->qWorldY = Q(p->checkPointY);
     p->heldInput = gPlayerControls.jump | gPlayerControls.attack;
