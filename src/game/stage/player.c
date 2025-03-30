@@ -73,8 +73,8 @@ s32 sub_8047668(Player *p);
 void SA2_LABEL(sub_802460C)(Player *p);
 void sub_8045DF0(Player *p);
 void sub_8047714(Player *p);
-void sub_8049284(Player *p);
-void sub_80492E4(Player *p);
+struct Task *Player_Knuckles_InitGfx_UppercutFlame(Player *p);
+struct Task *Player_Knuckles_InitGfx_FloatSplash(Player *p);
 struct Task *Player_Sonic_InitGfx_InstaShield(Player *p);
 struct Task *Player_Tails_InitGfx_TailSwipe(Player *p);
 
@@ -7065,7 +7065,7 @@ bool32 sub_8048B38(Player *p)
     p->qSpeedAirY += Q_MUL(qSpeed, SIN_24_8(rot * 4));
 
     p->charState = CHARSTATE_79;
-    sub_8049284(p);
+    Player_Knuckles_InitGfx_UppercutFlame(p);
 
     return TRUE;
 }
@@ -7197,7 +7197,7 @@ void Player_Knuckles_SwimFloat_8048D74(Player *p)
         Player_8047280(p);
 
         if (p->charState != CHARSTATE_KNUCKLES_FLOAT) {
-            sub_80492E4(p);
+            Player_Knuckles_InitGfx_FloatSplash(p);
         }
 
         p->charState = CHARSTATE_KNUCKLES_FLOAT;
@@ -7218,7 +7218,7 @@ void sub_8048E34(Player *p)
                     p->SA2_LABEL(unk61) = 9;
                     p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
                     p->charState = CHARSTATE_KNUCKLES_FLOAT;
-                    sub_80492E4(p);
+                    Player_Knuckles_InitGfx_FloatSplash(p);
                 }
             }
             Player_AirInputControls(p);
@@ -7228,7 +7228,7 @@ void sub_8048E34(Player *p)
                     p->SA2_LABEL(unk61) = 9;
                     p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
                     p->charState = CHARSTATE_KNUCKLES_FLOAT;
-                    sub_80492E4(p);
+                    Player_Knuckles_InitGfx_FloatSplash(p);
                 }
             }
         }
@@ -7248,7 +7248,7 @@ void sub_8048E34(Player *p)
                     p->SA2_LABEL(unk61) = 9;
                     p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
                     p->charState = CHARSTATE_KNUCKLES_FLOAT;
-                    sub_80492E4(p);
+                    Player_Knuckles_InitGfx_FloatSplash(p);
                 }
             }
         }
@@ -7330,6 +7330,7 @@ void Player_Knuckles_8049000(Player *p)
         } break;
 
         case MOVESTATE_JUMPING: {
+            // Inline of sub_8049208?
             Player_804726C(p);
             Player_8047280(p);
             Player_8044670(p);
@@ -7341,7 +7342,7 @@ void Player_Knuckles_8049000(Player *p)
 
                     p->charState = CHARSTATE_KNUCKLES_FLOAT;
 
-                    sub_80492E4(p);
+                    Player_Knuckles_InitGfx_FloatSplash(p);
                 }
             }
             Player_AirInputControls(p);
@@ -7354,7 +7355,7 @@ void Player_Knuckles_8049000(Player *p)
     }
 }
 
-void Task_80490E8(void)
+void Task_KnucklesFloatSplash(void)
 {
     struct Task *t = gCurTask;
     MultiplayerSpriteTask *mps = TASK_DATA(gCurTask);
@@ -7404,3 +7405,94 @@ void Task_80490E8(void)
         }
     }
 }
+
+void sub_80491C4(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+
+    if (!sub_8044250(p)) {
+        SA2_LABEL(sub_8029D14)(p);
+        Player_8043DDC(p);
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+
+void sub_8049208(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+    Player_8044670(p);
+
+    if (p->moveState & MOVESTATE_1000) {
+        if ((p->moveState & MOVESTATE_IN_WATER) && (p->qSpeedAirY >= Q(0))) {
+            p->SA2_LABEL(unk61) = 9;
+            p->moveState &= ~(MOVESTATE_4 | MOVESTATE_FLIP_WITH_MOVE_DIR);
+
+            p->charState = CHARSTATE_KNUCKLES_FLOAT;
+
+            Player_Knuckles_InitGfx_FloatSplash(p);
+        }
+    }
+    Player_AirInputControls(p);
+    SA2_LABEL(sub_80232D0)(p);
+    Player_UpdatePosition(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    Player_8047224(p);
+    SA2_LABEL(sub_8022190)(p);
+}
+
+struct Task *Player_Knuckles_InitGfx_UppercutFlame(Player *p)
+{
+    struct Task *t
+        = CreateMultiplayerSpriteTask(0, 0, 224, p->playerID, Task_UpdateMpSpriteTaskSprite, TaskDestructor_MultiplayerSpriteTask);
+    MultiplayerSpriteTask *mps = TASK_DATA(t);
+    Sprite *s = &mps->s;
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_KNUCKLES_UPPERCUT);
+    s->graphics.anim = SA1_ANIM_CHAR(KNUCKLES, ATTACK);
+    s->variant = 3;
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    return t;
+}
+
+struct Task *Player_Knuckles_InitGfx_FloatSplash(Player *p)
+{
+    struct Task *t = CreateMultiplayerSpriteTask(0, 0, 96, p->playerID, Task_KnucklesFloatSplash, TaskDestructor_MultiplayerSpriteTask);
+    MultiplayerSpriteTask *mps = TASK_DATA(t);
+    Sprite *s = &mps->s;
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_KNUCKLES_FLOAT_SPLASH);
+    s->graphics.anim = SA1_ANIM_KNUCKLES_FLOAT_SPLASH;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    return t;
+}
+
+void sub_8049348(Player *p)
+{
+    p->SA2_LABEL(unk61) = 2;
+    p->charState = CHARSTATE_63;
+    p->spriteOffsetX = 6;
+    p->spriteOffsetY = 14;
+#ifndef NON_MATCHING
+    {
+        u32 flag;
+        u32 r1 = p->w.kf.flags;
+        asm("mov %0, #2" : "=r"(flag));
+        p->w.kf.flags = flag | r1;
+    }
+#else
+    // This generates the correct instruction with ANY other value, except for 2, because 2 is used in the 1st line...
+    p->w.kf.flags |= 2;
+#endif
+}
+
+void sub_804936C() { }
