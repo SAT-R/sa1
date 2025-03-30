@@ -30,11 +30,12 @@ void sub_805B9E8() { }
 void CreateEggRocketStageSeparation(CamCoord worldY) { }
 
 // Player
-void Task_8049898(void) { }
-void Player_Amy_80497AC() { }
-void sub_8049284() { }
-void sub_80492E4() { }
 void sub_804A1B8(Player *p) { }
+void Player_80499CC(Player *p) { }
+void Player_8049E3C(Player *p) { }
+void Player_804A20C(Player *p) { }
+void Player_804A254(Player *p) { }
+void sub_8049D7C(Player *p) { }
 
 // Interactables / Gimmicks
 void CreateEntity_StageGoal() { }

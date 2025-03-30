@@ -138,7 +138,7 @@ typedef u32 collPxDim_t;
 #endif
 
 // Thanks @MainMemory_ for figuring out how collision is stored!
-typedef struct {
+typedef struct Collision {
     /* 0x00 */ const s8 *height_map;
     /* 0x04 */ const u8 *tile_rotation;
     /* 0x08 */ const u16 *metatiles;

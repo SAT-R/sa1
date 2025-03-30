@@ -13,6 +13,7 @@
 #include "game/sa1_sa2_shared/player.h"
 #include "game/save.h"
 #include "game/some_task_manager.h"
+#include "game/stage/camera.h"
 #include "game/stage/collision.h"
 #include "game/stage/dust_effect_braking.h"
 #include "game/stage/dust_effect_spindash.h"
@@ -38,7 +39,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ player_0_Task unk0;
-    /* 0x08 */ u8 filler[0x84];
+    /* 0x08 */ s32 unk8; // counter of some kind
+    /* 0x0C */ s32 qXs[16];
+    /* 0x0C */ s32 qYs[16];
 } MaybeSuperSonic; /* size: 0x8C */
 
 Player ALIGNED(8) gPlayer = {};
@@ -89,7 +92,12 @@ void Player_Tails_InitFlying(Player *p);
 void Player_Knuckles_InitGlide(Player *p);
 
 void Task_8049898(void);
+void Player_80499CC(Player *p);
+void sub_8049D7C(Player *p);
+void Player_8049E3C(Player *p);
 void sub_804A1B8(Player *p);
+void Player_804A20C(Player *p);
+void Player_804A254(Player *p);
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out);
 void Task_PlayerMain(void);
 void TaskDestructor_Player(struct Task *);
@@ -7826,4 +7834,67 @@ void Player_Amy_8049854(Player *p)
     PlayerFn_Cmd_UpdateAirFallSpeed(p);
     Player_8047224(p);
     SA2_LABEL(sub_8022190)(p);
+}
+
+/* Start of Super Sonic ? */
+
+void Task_8049898(void)
+{
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    const Collision *coll = gRefCollision;
+    MaybeSuperSonic *super;
+    Sprite *s;
+    s32 r3;
+
+    cam->minY = coll->pxHeight - 200;
+    cam->maxX = 480;
+    cam->shiftX = 64;
+    cam->shiftY = 0;
+
+    Player_804A254(p);
+
+    if (!IS_ALIVE(p)) {
+        gCurTask->main = Task_PlayerDied;
+        p->charState = CHARSTATE_DEAD;
+        p->qSpeedAirX = Q(0);
+        p->timerInvulnerability = 2;
+        p->itemEffect = 0;
+        cam->SA2_LABEL(unk50) |= 3;
+
+        if (IS_SINGLE_PLAYER) {
+            gStageFlags |= STAGE_FLAG__ACT_START;
+        }
+
+        p->spriteInfoBody->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+        p->spriteInfoBody->s.frameFlags |= SPRITE_FLAG(PRIORITY, 1);
+
+        p->SA2_LABEL(unk80) = Q(1.0);
+        p->SA2_LABEL(unk82) = Q(1.0);
+        m4aSongNumStop(0x1C);
+        m4aSongNumStop(0x1B);
+        m4aSongNumStop(0x78);
+    } else if (!(p->moveState & MOVESTATE_IA_OVERRIDE)) {
+        sub_8049D7C(p);
+    }
+
+    Player_804A20C(p);
+
+    super = TASK_DATA(p->spriteTask);
+    r3 = (super->unk8 + 1) & 0xF;
+
+    super->qXs[r3] = p->qWorldX;
+    super->qYs[r3] = p->qWorldY;
+
+    super->unk8 = r3;
+
+    Player_8049E3C(p);
+
+    if (p->SA2_LABEL(unk2A) != 0) {
+        p->SA2_LABEL(unk2A)--;
+    } else if (p->timerInvulnerability > 0) {
+        p->timerInvulnerability--;
+    }
+
+    Player_80499CC(p);
 }
