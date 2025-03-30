@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "gba/io_reg.h"
 #include "lib/m4a/m4a.h"
+#include "game/amy_attack_heart_effect.h"
 #include "game/multiplayer/mp_player.h"
 #include "game/parameters/characters.h"
 #include "game/sa1_sa2_shared/globals.h"
@@ -7496,3 +7497,139 @@ void sub_8049348(Player *p)
 }
 
 void sub_804936C() { }
+
+/* Amy Start */
+
+bool32 sub_8049370(Player *p)
+{
+    s32 qSpeed;
+    u8 rot; // r3
+
+    if ((p->frameInput & gPlayerControls.attack) && !(p->moveState & MOVESTATE_8000)) {
+        rot = p->rotation;
+
+        if (!(p->heldInput & DPAD_DOWN)) {
+            if (((p->rotation + Q(0.25)) << 24 > Q(0)) && !(p->moveState & MOVESTATE_20)) {
+                p->SA2_LABEL(unk62) = 1;
+                p->charState = CHARSTATE_87;
+                CreateAmyAttackHeartEffect();
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        } else {
+            if (GRAVITY_IS_INVERTED) {
+                rot += Q(0.25);
+                rot = -rot;
+                rot -= Q(0.25);
+            }
+
+            if (SA2_LABEL(sub_8022F58)(rot + Q(0.5), p) < 4) {
+                return FALSE;
+            }
+        }
+    } else {
+        return FALSE;
+    }
+
+    p->charState = CHARSTATE_86;
+
+    qSpeed = (p->moveState & MOVESTATE_IN_WATER) ? Q(3.375) : Q(6.0);
+
+    rot = p->rotation - Q(0.25);
+    p->qSpeedAirX += Q_MUL(qSpeed, COS_24_8(rot * 4));
+    p->qSpeedAirY += Q_MUL(qSpeed, SIN_24_8(rot * 4));
+
+    p->moveState |= MOVESTATE_IN_AIR;
+    p->moveState &= ~(MOVESTATE_1000000 | MOVESTATE_20);
+    p->moveState |= MOVESTATE_100;
+    p->moveState &= ~MOVESTATE_800;
+
+    m4aSongNumStart(SE_JUMP);
+
+    p->moveState &= ~MOVESTATE_4000000;
+    p->moveState |= MOVESTATE_2000000;
+
+    return TRUE;
+}
+
+void Player_804948C(Player *p)
+{
+    if ((p->SA2_LABEL(unk62) == 0) && (p->frameInput & gPlayerControls.attack) && (p->charState != CHARSTATE_HIT_AIR)) {
+        p->SA2_LABEL(unk62) = 1;
+
+        if (p->heldInput & DPAD_DOWN) {
+            // Downwards "Hammer Swirl"
+            m4aSongNumStart(SE_AMY_HAMMER_SWIRL);
+            p->charState = CHARSTATE_90;
+            p->qSpeedAirX = Q(0);
+        } else {
+            // "Super Hammer Attack"
+            m4aSongNumStart(SE_AMY_SUPER_HAMMER_ATTACK);
+            p->charState = CHARSTATE_89;
+        }
+
+        CreateAmyAttackHeartEffect();
+    }
+}
+
+// (95.75%) https://decomp.me/scratch/kGINh
+NONMATCH("asm/non_matching/game/stage/Player__Player_Amy_80494E8.inc", void Player_Amy_80494E8(Player *p))
+{
+    if (p->SA2_LABEL(unk62) == 0) {
+        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8049370(p) == 0)) {
+            if (!sub_8044250(p)) {
+
+                if (!(p->moveState & MOVESTATE_200)) {
+                    SA2_LABEL(sub_8029CA0)(p);
+                } else {
+                    SA2_LABEL(sub_8029D14)(p);
+                }
+
+                Player_8044F7C(p);
+                SA2_LABEL(sub_80232D0)(p);
+                Player_UpdatePosition(p);
+                SA2_LABEL(sub_8022D6C)(p);
+                SA2_LABEL(sub_8029ED8)(p);
+            }
+        }
+    } else {
+        // _08049552
+        s32 qSpeed;
+
+        if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (p->SA2_LABEL(unk62) == 1) && !(p->moveState & MOVESTATE_SPINDASH)
+            && ((p->rotation + Q(0.25)) << 24 > Q(0)) && !(p->moveState & MOVESTATE_20) && (p->SA2_LABEL(unk63) == 0)
+            && (p->frameInput & gPlayerControls.attack)) {
+            p->SA2_LABEL(unk63) = 1;
+        }
+
+        // _0804959A
+
+        SA2_LABEL(sub_8029CA0)(p);
+
+        qSpeed = p->qSpeedGround;
+        if (qSpeed > Q(0)) {
+            qSpeed -= Q(0.375);
+
+            if (qSpeed < 0) {
+                qSpeed = Q(0);
+            }
+            p->qSpeedGround = qSpeed;
+        } else if (qSpeed < Q(0)) {
+            qSpeed += Q(0.375);
+
+            if (qSpeed > 0) {
+                qSpeed = Q(0);
+            }
+            p->qSpeedGround = qSpeed;
+        }
+
+        Player_80470AC(p);
+        SA2_LABEL(sub_80231C0)(p);
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+END_NONMATCH

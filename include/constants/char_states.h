@@ -79,6 +79,11 @@
 #define CHARSTATE_83             83
 #define CHARSTATE_84             84
 #define CHARSTATE_85             85
+#define CHARSTATE_86             86
+#define CHARSTATE_87             87
+#define CHARSTATE_88             88
+#define CHARSTATE_89             89
+#define CHARSTATE_90             90
 #define CHARSTATE_91             91
 
 #if (GAME == GAME_SA1)
