@@ -907,12 +907,15 @@ static void RenderMetatileLayers(s32 x, s32 y)
 
 #if (GAME == GAME_SA1)
     if (IS_EXTRA_STAGE(gCurrentLevel)) {
-        s32 scrollX;
-        scrollX = (x + gStageTime * 8);
+        s32 scrollX = (x + gStageTime * 8);
+        // 2688(0xA80) =
+        //          3072         -          600
+        // Moon Zone Pixel Width - (4 * Metatile_Width)
+        const s32 scrollMaxX = (28 * 96);
 
-        if (scrollX - 72 >= Q(10.5)) {
+        if (scrollX - 72 >= scrollMaxX) {
             scrollX -= 72;
-            scrollX = Mod(scrollX, Q(10.5)) + 72;
+            scrollX = Mod(scrollX, scrollMaxX) + 72;
         }
 
         x = scrollX;

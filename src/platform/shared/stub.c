@@ -12,6 +12,10 @@ void *iwram_end = 0;
 char gNumMusicPlayers = 4;
 int gMaxLines = 0;
 
+// TEMP
+#include "game/enemies/boss_super_egg_robo.h"
+SuperEggRobo *gExtraBossTaskData = { 0 };
+
 u32 sub_80096B0() { return 0; }
 u32 sub_800ABEC() { return 0; }
 bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY) { return FALSE; }
@@ -31,11 +35,14 @@ void sub_805B9E8() { }
 void CreateEggRocketStageSeparation(CamCoord worldY) { }
 
 // Player
-void sub_804A1B8(Player *p) { }
-void Player_8049E3C(Player *p) { }
+u32 gUnknown_03005C74;
+void Set_3005C74_to_4(void) { gUnknown_03005C74 = 4; }
+
 void Player_804A20C(Player *p) { }
 void Player_804A254(Player *p) { }
-void sub_8049D7C(Player *p) { }
+void sub_804A2FC(Player *p) { }
+void sub_804A498(Player *p) { }
+void sub_804A854(Player *p) { }
 
 // Dummy
 #include "constants/animations.h"

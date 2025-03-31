@@ -82,6 +82,8 @@ struct Task *Player_Knuckles_InitGfx_FloatSplash(Player *p);
 struct Task *Player_Sonic_InitGfx_InstaShield(Player *p);
 struct Task *Player_Tails_InitGfx_TailSwipe(Player *p);
 
+void Set_3005C74_to_4(void);
+
 void Player_Sonic_80473AC(Player *p);
 void Player_Tails_8047BA0(Player *p);
 void Player_Knuckles_8049000(Player *p);
@@ -113,6 +115,8 @@ s32 SA2_LABEL(sub_802195C)(Player *p, u8 *p1, s32 *out);
 void SA2_LABEL(sub_802486C)(Player *p, PlayerSpriteInfo *psi);
 void SA2_LABEL(sub_8024B10)(Player *p, PlayerSpriteInfo *psi);
 void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *psi);
+
+#define EXTRA_BOSS__INITIAL_RING_COUNT 50
 
 #if (GAME == GAME_SA1)
 #define UPDATE_POS_SPEEDCAP
@@ -478,7 +482,8 @@ void InitializePlayer(Player *p)
 {
 #if (GAME == GAME_SA1)
 #if DEBUG
-    p->character = CHARACTER_TAILS;
+    gSelectedCharacter = CHARACTER_TAILS;
+    p->character = gSelectedCharacter;
 #endif
 
     p->qWorldX = Q(p->checkPointX);
@@ -8297,7 +8302,7 @@ void Player_8049E3C(Player *p)
         for (; r6 < 4; r7 -= 2, r6++) {
             s32 index = r7 % ARRAY_COUNT(superSonic->qXs);
 #ifndef NON_MATCHING
-            // All this for an add with swapped params
+            // All this for an add with swapped params...
             s32 x;
             asm("mov r3, %1\n"
                 "add %0, r3, %2\n"
@@ -8327,4 +8332,166 @@ void Player_8049E3C(Player *p)
     }
 
     s->frameFlags &= ~(SPRITE_FLAG(18, 1) | SPRITE_FLAG(19, 1));
+}
+
+void sub_8049FD0(Player *p)
+{
+#ifndef NON_MATCHING
+    register s32 x asm("r4") = gCamera.x;
+#else
+    s32 x = gCamera.x;
+#endif
+    s32 scrollX = (x + gStageTime * 8);
+    s32 y;
+    s32 sp08;
+    s32 px, py;
+    s32 res0;
+    s32 res1;
+    u8 layer;
+    // 2688(0xA80) =
+    //          3072         -          600
+    // Moon Zone Pixel Width - (4 * Metatile_Width)
+    const s32 scrollMaxX = (28 * 96);
+
+    if (scrollX - 72 >= scrollMaxX) {
+        scrollX -= 72;
+        scrollX = Mod(scrollX, scrollMaxX) + 72;
+    }
+
+    px = Q(x - scrollX);
+    x = p->qWorldX;
+    x -= px;
+
+    y = p->qWorldY;
+
+    sp08 = p->SA2_LABEL(unk61);
+    layer = p->layer;
+    y = I(y);
+    py = y + p->spriteOffsetY;
+    x = I(x);
+    px = x - 2;
+    px -= p->spriteOffsetX;
+    res0 = SA2_LABEL(sub_801E4E4)(py, px, layer, +8, 0, SA2_LABEL(sub_801EE64));
+
+    y += p->spriteOffsetY;
+    x += 2;
+    x += p->spriteOffsetX;
+    res1 = SA2_LABEL(sub_801E4E4)(y, x, layer, +8, 0, SA2_LABEL(sub_801EE64));
+
+    if (res1 > res0) {
+        res1 = res0;
+    }
+
+    if (res1 < 0) {
+        p->qWorldY += Q(res1);
+        p->qSpeedGround = p->qSpeedAirX;
+        p->qSpeedAirY = 0;
+
+        SA2_LABEL(sub_8021BE0)(p);
+
+        p->SA2_LABEL(unk61) = sp08;
+    }
+}
+
+void Player_804A0B8(Player *p)
+{
+#ifndef NON_MATCHING
+    register s32 x asm("r4") = gCamera.x;
+#else
+    s32 x = gCamera.x;
+#endif
+    s32 y;
+    s32 anotherY;
+    s32 scrollX = (x + gStageTime * 8);
+    s32 sp08;
+    s32 px, py;
+    s32 res0;
+    s32 res1;
+    u8 layer;
+    // 2688(0xA80) =
+    //          3072         -          600
+    // Moon Zone Pixel Width - (4 * Metatile_Width)
+    const s32 scrollMaxX = (28 * 96);
+
+    if (scrollX - 72 >= scrollMaxX) {
+        scrollX -= 72;
+        scrollX = Mod(scrollX, scrollMaxX) + 72;
+    }
+
+    px = Q(x - scrollX);
+    x = p->qWorldX;
+    x -= px;
+
+    y = p->qWorldY;
+
+    layer = p->layer;
+    anotherY = I(y);
+    py = anotherY + p->spriteOffsetY;
+    x = I(x);
+    px = x - 2;
+    px -= p->spriteOffsetX;
+    res0 = SA2_LABEL(sub_801E4E4)(py, px, layer, +8, 0, SA2_LABEL(sub_801EE64));
+
+    anotherY += p->spriteOffsetY;
+    x += 2;
+    x += p->spriteOffsetX;
+    res1 = SA2_LABEL(sub_801E4E4)(anotherY, x, layer, +8, 0, SA2_LABEL(sub_801EE64));
+
+    if (res1 > res0) {
+        res1 = res0;
+    }
+
+    if (res1 != 0) {
+        if (res1 < 0) {
+            if (res1 < -11) {
+                return;
+            }
+
+            y += Q(res1);
+        } else {
+            // bc:
+            s32 airX = I(ABS(p->qSpeedAirX));
+
+            if ((airX += 11) > 11) {
+                airX = 11;
+            }
+
+            if (res1 > airX) {
+                if (!(p->moveState & MOVESTATE_GOAL_REACHED)) {
+                    p->moveState |= MOVESTATE_IN_AIR;
+                } else {
+                    p->qWorldY = y;
+                }
+
+                return;
+            }
+
+            y += Q(res1);
+        }
+    }
+
+    p->qWorldY = y;
+}
+
+// Called when Super Sonic is initialized
+void sub_804A1B8(Player *p)
+{
+    MaybeSuperSonic *superSonic = TASK_DATA(p->spriteTask);
+    s32 ringCount;
+    s32 i;
+
+    superSonic->unk8 = 0;
+    ringCount = gRingCount;
+
+    for (i = 0; i < (s32)ARRAY_COUNT(superSonic->qXs); i++) {
+        superSonic->qXs[i] = p->qWorldX;
+        superSonic->qYs[i] = p->qWorldY;
+    }
+
+    gRingCount = EXTRA_BOSS__INITIAL_RING_COUNT;
+
+    p->spriteInfoBody->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
+    p->spriteInfoBody->s.frameFlags |= SPRITE_FLAG(PRIORITY, 1);
+
+    Set_3005C74_to_4();
 }
