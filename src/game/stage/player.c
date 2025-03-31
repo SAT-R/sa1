@@ -8236,3 +8236,95 @@ void sub_8049D7C(Player *p)
         }
     }
 }
+
+// (100.0%) https://decomp.me/scratch/S7Q8B
+void Player_8049E3C(Player *p)
+{
+    Sprite *s = &p->spriteInfoBody->s;
+    PlayerSpriteInfo *psiBody = p->spriteInfoBody;
+    MaybeSuperSonic *superSonic;
+    s32 sp00;
+
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE_ENABLE);
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+    SPRITE_FLAG_SET(s, X_FLIP);
+    UpdateSpriteAnimation(s);
+
+    if (IS_ALIVE(p)) {
+        if (p->moveState & MOVESTATE_100000) {
+            return;
+        }
+
+        if ((p->SA2_LABEL(unk2A) == 0) && (p->timerInvulnerability != 0) && (gStageTime & 0x2)) {
+            return;
+        }
+    }
+
+    superSonic = TASK_DATA(p->spriteTask);
+    sp00 = superSonic->unk8;
+
+    {
+        psiBody->transform.x = s->x = I(p->qWorldX) - gCamera.x;
+        psiBody->transform.y = s->y = I(p->qWorldY) - gCamera.y;
+
+        if (p->charState == CHARSTATE_WALK) {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+            SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+            SPRITE_FLAG_SET(s, ROT_SCALE_ENABLE);
+
+            psiBody->transform.rotation = p->rotation * 4;
+            psiBody->transform.qScaleX = -Q(1);
+
+            TransformSprite(s, &psiBody->transform);
+        }
+
+        DisplaySprite(s);
+    }
+
+    s->frameFlags |= (SPRITE_FLAG(18, 1) | SPRITE_FLAG(19, 1));
+
+    if ((gStageTime & 0x2) == 0) {
+        s32 r6 = 1;
+#ifndef NON_MATCHING
+        register s32 *qXs asm("sl") = &superSonic->qXs[0];
+        register s32 *qYs asm("r9") = &superSonic->qYs[0];
+#else
+        s32 *qXs = &superSonic->qXs[0];
+        s32 *qYs = &superSonic->qYs[0];
+#endif
+        s32 r7 = sp00 - 2;
+
+        for (; r6 < 4; r7 -= 2, r6++) {
+            s32 index = r7 % ARRAY_COUNT(superSonic->qXs);
+#ifndef NON_MATCHING
+            // All this for an add with swapped params
+            s32 x;
+            asm("mov r3, %1\n"
+                "add %0, r3, %2\n"
+                "ldr %0, [%0]\n"
+                : "=r"(x)
+                : "r"(qXs), "r"(index * 4));
+#else
+            s32 x = qXs[index];
+#endif
+            psiBody->transform.x = s->x = I(x) - r6 * 8 - gCamera.x;
+            psiBody->transform.y = s->y = I(qYs[index]) - gCamera.y;
+
+            if (p->charState == 4) {
+                SPRITE_FLAG_CLEAR(s, X_FLIP);
+                SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+                SPRITE_FLAG_SET(s, ROT_SCALE_ENABLE);
+                SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, r6);
+
+                psiBody->transform.rotation = p->rotation * 4;
+                psiBody->transform.qScaleX = -Q(1);
+
+                TransformSprite(s, &psiBody->transform);
+            }
+
+            DisplaySprite(s);
+        }
+    }
+
+    s->frameFlags &= ~(SPRITE_FLAG(18, 1) | SPRITE_FLAG(19, 1));
+}
