@@ -95,12 +95,14 @@ void Task_8049898(void);
 void Player_SuperSonic_80499CC(Player *p);
 void sub_8049D7C(Player *p);
 void Player_8049E3C(Player *p);
-void sub_804A1B8(Player *p);
+void sub_8049FD0(Player *p);
 bool32 sub_8049BAC(Player *p);
 void Player_804A0B8(Player *p);
+void sub_804A1B8(Player *p);
 void Player_804A20C(Player *p);
 void Player_804A254(Player *p);
 void sub_804A2FC(Player *p);
+void sub_804A498(s32 qWorldX, s32 qWorldY, bool32 param2);
 void sub_804A854(Player *p);
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out);
 void Task_PlayerMain(void);
@@ -4677,7 +4679,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
             }
             // _080461C4
 
-            if ((gStageTime & 0x3) == 0) {
+            if ((gStageTime % 4u) == 0) {
                 s32 offsetY = p->spriteOffsetY;
 
                 if (GRAVITY_IS_INVERTED) {
@@ -6612,7 +6614,7 @@ void sub_8048524(Player *inPlayer)
     u32 sp04;
     s32 offsetY;
 
-    if ((gStageTime & 0x3) == 0) {
+    if ((gStageTime % 4u) == 0) {
         offsetY = p->spriteOffsetY;
 
         if (GRAVITY_IS_INVERTED) {
@@ -7754,7 +7756,7 @@ void Player_80495F0(Player *p)
                 s32 offsetY;
                 u8 rot;
 
-                if ((gStageTime & 0x3) == 0) {
+                if ((gStageTime % 4u) == 0) {
                     offsetY = p->spriteOffsetY;
 
                     if (GRAVITY_IS_INVERTED) {
@@ -7971,9 +7973,8 @@ void Player_SuperSonic_8049A34(Player *p)
 
 void Player_SuperSonic_8049AB8(Player *p)
 {
-    s32 r0;
+    s32 r0, r3;
     s32 qWorldX;
-    s32 r3;
 
     if (p->SA2_LABEL(unk62) == 0) {
         if (!sub_8049BAC(p)) {
@@ -8073,3 +8074,165 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8049BAC.inc", bool32 sub_8049B
     return FALSE;
 }
 END_NONMATCH
+
+// TODO: Fake-match
+void Player_SuperSonic_8049C0C(Player *p)
+{
+    s32 r0;
+    s32 r3;
+    s32 qWorldX;
+    s32 rot;
+
+    if (p->SA2_LABEL(unk62) == 0) {
+        if (!sub_8049BAC(p)) {
+            if (!(p->heldInput & gPlayerControls.jump) && (p->moveState & MOVESTATE_100)) {
+                s32 qSpeed;
+                r0 = p->qSpeedAirY;
+#ifndef NON_MATCHING
+                asm("movs %0, %1" : "=r"(qSpeed) : "r"(r0));
+#else
+                qSpeed = r0;
+#endif
+
+                if (p->qSpeedAirY < -Q(1.5)) {
+                    qSpeed = -Q(1.5);
+                }
+
+                p->qSpeedAirY = qSpeed;
+            }
+
+            switch (p->heldInput & DPAD_SIDEWAYS) {
+                case DPAD_LEFT: {
+                    p->qSpeedAirX -= Q(72. / 256.);
+
+                    if (p->qSpeedAirX < -Q(2)) {
+                        p->qSpeedAirX = -Q(2);
+                    }
+                } break;
+
+                case DPAD_RIGHT: {
+                    p->qSpeedAirX += Q(72. / 256.);
+
+                    if (p->qSpeedAirX > +Q(2)) {
+                        p->qSpeedAirX = +Q(2);
+                    }
+                } break;
+            }
+
+            qWorldX = p->qWorldX;
+            r3 = qWorldX;
+            if (p->qWorldX >= 0) {
+                r0 = qWorldX;
+                if (r0 > Q(480)) {
+                    r0 = Q(480);
+                }
+            } else {
+                r0 = 0;
+            }
+            qWorldX = r0;
+
+            if (qWorldX != r3) {
+                if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                    p->qSpeedGround = Q(0);
+                }
+
+                p->qSpeedAirX = 0;
+            }
+            p->qWorldX = qWorldX;
+
+            // TODO: Find out why Player_UpdatePosition is often called twice in Super Sonic code
+            Player_UpdatePosition(p);
+            Player_UpdatePosition(p);
+
+            p->qSpeedAirY += Q(32. / 256.);
+
+            rot = (s8)p->rotation;
+            if (rot < 0) {
+                rot += 2;
+
+                if (rot > 0) {
+                    rot = 0;
+                }
+            } else if (rot > 0) {
+                rot -= 2;
+
+                if (rot < 0) {
+                    rot = 0;
+                }
+            }
+
+            p->rotation = rot;
+
+            if (p->qSpeedAirY >= 0) {
+                sub_8049FD0(p);
+            }
+
+            p->charState = CHARSTATE_CROUCH;
+        }
+    } else {
+        p->qSpeedGround -= Q(0.25);
+
+        if (p->qSpeedGround <= Q(0)) {
+            p->SA2_LABEL(unk62) = Q(0);
+            p->qSpeedAirX = Q(0);
+            p->qSpeedAirY = Q(0);
+        } else {
+            p->qSpeedAirX = p->qSpeedGround;
+        }
+
+        qWorldX = p->qWorldX;
+        r3 = qWorldX;
+        if (p->qWorldX >= 0) {
+            r0 = qWorldX;
+            if (r0 > Q(480)) {
+                r0 = Q(480);
+            }
+        } else {
+            r0 = 0;
+        }
+        qWorldX = r0;
+
+        if (qWorldX != r3) {
+            if (!(p->moveState & MOVESTATE_IN_AIR)) {
+                p->qSpeedGround = Q(0);
+            }
+
+            p->qSpeedAirX = 0;
+        }
+        p->qWorldX = qWorldX;
+
+        // TODO: Find out why Player_UpdatePosition is often called twice in Super Sonic code
+        Player_UpdatePosition(p);
+        Player_UpdatePosition(p);
+        Player_804A0B8(p);
+        p->charState = CHARSTATE_3;
+    }
+}
+
+void sub_8049D7C(Player *p)
+{
+    if (p->SA2_LABEL(unk2A) != 0) {
+        p->rotation -= Q(12. / 256.);
+        Player_UpdatePosition(p);
+        Player_UpdatePosition(p);
+        Player_804A0B8(p);
+    } else {
+        if (p->moveState & MOVESTATE_IN_AIR) {
+            Player_SuperSonic_8049C0C(p);
+        } else {
+            Player_SuperSonic_8049AB8(p);
+        }
+
+        if ((gStageTime % 4u) == 0) {
+            if (PseudoRandom32() & 0x10000) {
+                s32 qWorldX, qWorldY;
+                s32 qRand;
+                qWorldX = p->qWorldX + (((u32)PseudoRandom32() & 0xF0000) >> 8);
+                qWorldY = p->qWorldY + (((u32)PseudoRandom32() & 0xF0000) >> 8) - Q(8);
+                qRand = (((u32)PseudoRandom32() & 0x10000) >> 16);
+
+                sub_804A498(qWorldX, qWorldY, qRand);
+            }
+        }
+    }
+}
