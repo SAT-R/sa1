@@ -38,9 +38,6 @@ void CreateEggRocketStageSeparation(CamCoord worldY) { }
 u32 gUnknown_03005C74;
 void Set_3005C74_to_4(void) { gUnknown_03005C74 = 4; }
 
-void Player_804A20C(Player *p) { }
-void Player_804A254(Player *p) { }
-void sub_804A2FC(Player *p) { }
 void sub_804A498(Player *p) { }
 void sub_804A854(Player *p) { }
 

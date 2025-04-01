@@ -63,6 +63,7 @@ extern s16 gUnknown_084ADF78[NUM_LEVEL_IDS][2];
 extern s16 gUnknown_084ADFC0[NUM_LEVEL_IDS][2];
 extern s16 gUnknown_084AE188[9];
 extern s16 gUnknown_084AE19A[9];
+extern TileInfoFirework gUnknown_084AE1B0[5];
 extern const u8 gCharStatesKnucklesGlideTurn[];
 
 void SA2_LABEL(sub_80232D0)(Player *p);
@@ -8495,3 +8496,156 @@ void sub_804A1B8(Player *p)
 
     Set_3005C74_to_4();
 }
+
+void Player_804A20C(Player *p)
+{
+    Sprite *s = &p->spriteInfoBody->s;
+    TileInfoFirework *tileInfo = &gUnknown_084AE1B0[p->charState];
+
+    if ((s->graphics.anim != tileInfo->anim) || (s->variant != tileInfo->variant)) {
+        s->graphics.anim = tileInfo->anim;
+        s->variant = tileInfo->variant;
+        s->prevVariant = -1;
+    }
+}
+
+void Player_804A254(Player *p)
+{
+    u16 input = p->heldInput;
+
+    if (!(p->moveState & MOVESTATE_IGNORE_INPUT)) {
+        p->heldInput = gInput;
+    }
+
+    input ^= p->heldInput;
+    input &= p->heldInput;
+
+    p->frameInput = input;
+}
+
+bool32 Player_SuperSonic_UnusedJump(Player *p)
+{
+    bool32 result;
+
+    if (p->frameInput & gPlayerControls.jump) {
+        p->moveState |= MOVESTATE_IN_AIR;
+        p->moveState |= MOVESTATE_100;
+
+        p->qSpeedAirY -= Q(4.25);
+
+        m4aSongNumStart(SE_JUMP);
+        result = TRUE;
+    } else {
+        result = FALSE;
+    }
+
+    return result;
+}
+
+void sub_804A2B8(Player *p)
+{
+    switch (p->heldInput & DPAD_SIDEWAYS) {
+        case DPAD_LEFT: {
+            p->qSpeedAirX -= Q(72. / 256.);
+
+            if (p->qSpeedAirX < -Q(2)) {
+                p->qSpeedAirX = -Q(2);
+            }
+        } break;
+
+        case DPAD_RIGHT: {
+            p->qSpeedAirX += Q(72. / 256.);
+
+            if (p->qSpeedAirX > +Q(2)) {
+                p->qSpeedAirX = +Q(2);
+            }
+        } break;
+    }
+}
+
+void sub_804A2FC(Player *p)
+{
+    p->qSpeedGround = (p->qSpeedGround - Q(0.25));
+
+    if (p->qSpeedGround <= Q(0)) {
+        p->SA2_LABEL(unk62) = 0;
+        p->qSpeedAirX = Q(0);
+        p->qSpeedAirY = Q(0);
+    } else {
+        p->qSpeedAirX = p->qSpeedGround;
+    }
+}
+
+void sub_804A320(Player *p)
+{
+    bool32 result;
+
+    if (!(p->heldInput & gPlayerControls.jump) && (p->moveState & MOVESTATE_100)) {
+#ifndef NON_MATCHING
+        register s32 r3 asm("r3");
+#else
+        s32 r3;
+#endif
+        s32 qSpeed = p->qSpeedAirY;
+        r3 = qSpeed;
+        if (qSpeed < -Q(1.5)) {
+            r3 = -Q(1.5);
+        }
+
+        p->qSpeedAirY = r3;
+    }
+}
+
+void sub_804A354(Player *p) { p->qSpeedAirX = p->qSpeedGround; }
+
+void sub_804A35C(Player *p)
+{
+    s32 rot = (s8)p->rotation;
+
+    if (rot < 0) {
+        rot += 2;
+
+        if (rot > 0) {
+            rot = 0;
+        }
+    } else if (rot > 0) {
+        rot -= 2;
+
+        if (rot < 0) {
+            rot = 0;
+        }
+    }
+
+    p->rotation = rot;
+}
+
+void sub_804A37C(Player *p)
+{
+    s32 r2 = p->qWorldX;
+    s32 r4 = r2;
+    s32 r0;
+
+    if (p->qWorldX >= Q(0)) {
+        r0 = p->qWorldX;
+
+        if (r0 > Q(480)) {
+            r0 = Q(480);
+        }
+    } else {
+        r0 = 0;
+    }
+
+    r2 = r0;
+
+    if (r2 != r4) {
+        if (!(p->moveState & MOVESTATE_IN_AIR)) {
+            p->qSpeedGround = 0;
+        }
+
+        p->qSpeedAirX = 0;
+    }
+
+    p->qWorldX = r2;
+}
+
+void sub_804A3B8(Player *p) { p->qSpeedAirY += Q(32. / 256.); }
