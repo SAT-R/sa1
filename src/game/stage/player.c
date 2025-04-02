@@ -483,7 +483,7 @@ void InitializePlayer(Player *p)
 {
 #if (GAME == GAME_SA1)
 #if DEBUG
-    gSelectedCharacter = CHARACTER_TAILS;
+    gSelectedCharacter = CHARACTER_AMY;
     p->character = gSelectedCharacter;
 #endif
 
@@ -8649,3 +8649,49 @@ void sub_804A37C(Player *p)
 }
 
 void sub_804A3B8(Player *p) { p->qSpeedAirY += Q(32. / 256.); }
+
+void Task_804A3C0(void)
+{
+#ifndef NON_MATCHING
+    register struct Task *t asm("r2") = gCurTask;
+#else
+    struct Task *t = gCurTask;
+#endif
+    SomeTaskManager_60 *mgr = TASK_DATA(t);
+    Sprite *s = &mgr->s;
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    s32 x, y;
+
+    mgr->qUnk50 = p->qWorldX;
+    mgr->qUnk54 = p->qWorldY;
+
+    if (!IS_ALIVE(p) || ((mgr->unk2) && (s->frameFlags & 0x4000))) {
+        TaskDestroy(t);
+        return;
+    }
+
+    if ((p->SA2_LABEL(unk62) == 0) || (p->moveState & MOVESTATE_GOAL_REACHED)) {
+        mgr->unk2 = 1;
+
+        s->graphics.anim = SA1_ANIM_SUPER_SONIC_DASH;
+        s->variant = 1;
+    }
+
+    x = I(mgr->qUnk50) - cam->x;
+    y = I(mgr->qUnk54) - cam->y;
+
+    s->x = x;
+    s->y = y;
+
+    if (gStageTime & 0x2) {
+        SPRITE_FLAG_CLEAR(s, PRIORITY);
+        SPRITE_FLAG_SET_VALUE(s, PRIORITY, 2);
+    } else {
+        SPRITE_FLAG_CLEAR(s, PRIORITY);
+        SPRITE_FLAG_SET_VALUE(s, PRIORITY, 1);
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}

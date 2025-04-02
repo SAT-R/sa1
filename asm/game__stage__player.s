@@ -8,116 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_804A3C0
-sub_804A3C0: @ 0x0804A3C0
-	push {r4, r5, r6, lr}
-	ldr r0, _0804A404 @ =gCurTask
-	ldr r2, [r0]
-	ldrh r1, [r2, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r1, r0
-	adds r0, #0x18
-	adds r4, r1, r0
-	ldr r5, _0804A408 @ =gPlayer
-	ldr r6, _0804A40C @ =gCamera
-	ldr r0, [r5]
-	str r0, [r3, #0x50]
-	ldr r0, [r5, #4]
-	str r0, [r3, #0x54]
-	ldr r0, [r5, #0x10]
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _0804A3FA
-	ldrb r0, [r3, #2]
-	cmp r0, #0
-	beq _0804A410
-	ldr r0, [r4, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #7
-	ands r0, r1
-	cmp r0, #0
-	beq _0804A410
-_0804A3FA:
-	adds r0, r2, #0
-	bl TaskDestroy
-	b _0804A48E
-	.align 2, 0
-_0804A404: .4byte gCurTask
-_0804A408: .4byte gPlayer
-_0804A40C: .4byte gCamera
-_0804A410:
-	adds r0, r5, #0
-	adds r0, #0x3e
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0
-	beq _0804A42A
-	ldr r0, [r5, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #0x14
-	ands r0, r1
-	cmp r0, #0
-	beq _0804A43A
-_0804A42A:
-	movs r0, #1
-	strb r0, [r3, #2]
-	movs r1, #0xc8
-	lsls r1, r1, #1
-	strh r1, [r4, #0xa]
-	adds r1, r4, #0
-	adds r1, #0x20
-	strb r0, [r1]
-_0804A43A:
-	ldr r2, [r3, #0x50]
-	asrs r2, r2, #8
-	movs r1, #0
-	ldrsh r0, [r6, r1]
-	subs r2, r2, r0
-	ldr r0, [r3, #0x54]
-	asrs r0, r0, #8
-	movs r3, #2
-	ldrsh r1, [r6, r3]
-	subs r0, r0, r1
-	strh r2, [r4, #0x16]
-	strh r0, [r4, #0x18]
-	ldr r0, _0804A46C @ =gStageTime
-	ldr r0, [r0]
-	movs r1, #2
-	ands r0, r1
-	cmp r0, #0
-	beq _0804A474
-	ldr r0, [r4, #0x10]
-	ldr r1, _0804A470 @ =0xFFFFCFFF
-	ands r0, r1
-	movs r1, #0x80
-	lsls r1, r1, #6
-	b _0804A47E
-	.align 2, 0
-_0804A46C: .4byte gStageTime
-_0804A470: .4byte 0xFFFFCFFF
-_0804A474:
-	ldr r0, [r4, #0x10]
-	ldr r1, _0804A494 @ =0xFFFFCFFF
-	ands r0, r1
-	movs r1, #0x80
-	lsls r1, r1, #5
-_0804A47E:
-	orrs r0, r1
-	str r0, [r4, #0x10]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-_0804A48E:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804A494: .4byte 0xFFFFCFFF
-
 	thumb_func_start sub_804A498
 sub_804A498: @ 0x0804A498
 	push {r4, r5, lr}
@@ -599,7 +489,7 @@ sub_804A854: @ 0x0804A854
 	movs r0, #0x28
 	bl VramMalloc
 	str r0, [sp, #4]
-	ldr r1, _0804A8A0 @ =sub_804A3C0
+	ldr r1, _0804A8A0 @ =Task_804A3C0
 	ldr r2, _0804A8A4 @ =TaskDestructor_SomeTaskManager_60_Common
 	mov r0, sp
 	bl CreateSomeTaskManager_60_Task
@@ -619,7 +509,7 @@ sub_804A854: @ 0x0804A854
 	.align 2, 0
 _0804A898: .4byte 0xFFFF0000
 _0804A89C: .4byte 0xFF00FFFF
-_0804A8A0: .4byte sub_804A3C0
+_0804A8A0: .4byte Task_804A3C0
 _0804A8A4: .4byte TaskDestructor_SomeTaskManager_60_Common
 
 	thumb_func_start sub_804A8A8
