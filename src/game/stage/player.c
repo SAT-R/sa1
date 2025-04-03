@@ -483,7 +483,7 @@ void InitializePlayer(Player *p)
 {
 #if (GAME == GAME_SA1)
 #if DEBUG
-    gSelectedCharacter = CHARACTER_AMY;
+    gSelectedCharacter = CHARACTER_TAILS;
     p->character = gSelectedCharacter;
 #endif
 
@@ -7919,18 +7919,23 @@ void Task_8049898(void)
 void Player_SuperSonic_80499CC(Player *p)
 {
     if (!(gStageFlags & STAGE_FLAG__ACT_START)) {
-        if (!(gExtraBossTaskData->flags58 & SER_FLAG__80)) {
-            if (++p->timerSpeedup >= GBA_FRAMES_PER_SECOND) {
-                p->timerSpeedup -= GBA_FRAMES_PER_SECOND;
+#ifdef BUG_FIX
+        if (gExtraBossTaskData)
+#endif
+        {
+            if (!(gExtraBossTaskData->flags58 & SER_FLAG__80)) {
+                if (++p->timerSpeedup >= GBA_FRAMES_PER_SECOND) {
+                    p->timerSpeedup -= GBA_FRAMES_PER_SECOND;
 
-                if (--gRingCount <= 10) {
-                    m4aSongNumStart(SE_TIMER);
-                }
+                    if (--gRingCount <= 10) {
+                        m4aSongNumStart(SE_TIMER);
+                    }
 
-                if (gRingCount == 0) {
-                    // TODO: Is this a macro?
-                    gRingCount = 0;
-                    p->moveState |= MOVESTATE_DEAD;
+                    if (gRingCount == 0) {
+                        // TODO: Is this a macro?
+                        gRingCount = 0;
+                        p->moveState |= MOVESTATE_DEAD;
+                    }
                 }
             }
         }
@@ -8754,3 +8759,158 @@ void Task_804A54C(void)
     mgr->qUnk50 += mgr->qUnk58;
     mgr->qUnk58 += mgr->qUnk5C;
 }
+
+void Task_804A71C(void);
+
+void sub_804A5D8(s32 screenX, s32 screenY)
+{
+    struct Task *t;
+    SomeTaskManager_60 *mgr;
+    SomeTaskManager_Graphic sp00, sp08, sp0C, sp10;
+
+    sp00.tileInfo.anim = SA1_ANIM_WARNING;
+    sp00.tileInfo.variant = 0;
+    sp00.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 0);
+    t = CreateSomeTaskManager_60_Task(&sp00, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
+    mgr = TASK_DATA(t);
+    mgr->unk0 = 0;
+    mgr->qUnk50 = screenX; // NOTE: Q-value set to integer
+    mgr->qUnk54 = screenY; // NOTE: Q-value set to integer
+    mgr->s.oamFlags = 0;
+    mgr->s.frameFlags = 0;
+    mgr->transform.qScaleX = Q(1);
+    mgr->transform.qScaleY = Q(1);
+
+    sp08.tileInfo.anim = SA1_ANIM_WARNING;
+    sp08.tileInfo.variant = 1;
+    sp08.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
+    t = CreateSomeTaskManager_60_Task(&sp08, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
+    mgr = TASK_DATA(t);
+    mgr->unk0 = 1;
+    mgr->qUnk50 = screenX; // NOTE: Q-value set to integer
+    mgr->qUnk54 = screenY; // NOTE: Q-value set to integer
+    mgr->s.oamFlags = 0;
+    mgr->transform.qScaleX = Q(1);
+    mgr->transform.qScaleY = Q(1);
+    mgr->s.frameFlags = SPRITE_FLAG(18, 1);
+
+    sp0C.tileInfo.anim = SA1_ANIM_WARNING;
+    sp0C.tileInfo.variant = 2;
+    sp0C.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
+    t = CreateSomeTaskManager_60_Task(&sp0C, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
+    mgr = TASK_DATA(t);
+    mgr->unk0 = 2;
+    mgr->qUnk50 = screenX; // NOTE: Q-value set to integer
+    mgr->qUnk54 = screenY; // NOTE: Q-value set to integer
+    mgr->s.oamFlags = 0;
+    mgr->transform.qScaleX = Q(1);
+    mgr->transform.qScaleY = Q(1);
+
+#ifndef NON_MATCHING
+    asm("lsl %0, %0, #0xB\n"
+        "str %0, [%1, #0x28]" ::"r"(0x80),
+        "r"(mgr));
+#else
+    mgr->s.frameFlags = SPRITE_FLAG(18, 1);
+#endif
+
+    sp10.tileInfo.anim = SA1_ANIM_WARNING;
+    sp10.tileInfo.variant = 3;
+    sp10.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
+    t = CreateSomeTaskManager_60_Task(&sp10, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
+    mgr = TASK_DATA(t);
+    mgr->unk0 = 3;
+    mgr->qUnk50 = screenX; // NOTE: Q-value set to integer
+    mgr->qUnk54 = screenY; // NOTE: Q-value set to integer
+    mgr->s.oamFlags = 0;
+    mgr->s.frameFlags = 0;
+    mgr->transform.qScaleX = Q(1);
+    mgr->transform.qScaleY = Q(1);
+    mgr->s.frameFlags = SPRITE_FLAG(18, 1);
+}
+
+void Task_804A71C(void)
+{
+    SomeTaskManager_60 *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->s;
+    SpriteTransform *tf;
+    s32 x, y;
+    s32 v;
+#ifndef NON_MATCHING
+    register s32 r0 asm("r0");
+#else
+    s32 r0;
+#endif
+    s32 r2;
+
+    if (mgr->unk4 >= 0xC0) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((mgr->unk4 == 0x80) && (mgr->unk0 == 0)) {
+#ifdef BUG_FIX
+        if (gExtraBossTaskData)
+#endif
+        {
+            gExtraBossTaskData->flags58 &= ~0x400000;
+        }
+    }
+
+    x = I(mgr->qUnk50);
+    y = I(mgr->qUnk54);
+
+    v = ((mgr->unk4 & 0x1F) << 11);
+    if (v != 0) {
+        if (v < 0x4000) {
+            r2 = Q(1);
+
+            r0 = SIN_24_8(v >> 6);
+
+        } else if (v >= 0xE000) {
+            // TODO: Remove ONE_CYCLE
+            s32 theta = (v - 0xE000) << 1;
+            r0 = SIN_24_8((theta >> 6) & ONE_CYCLE);
+            r2 = r0 + Q(1);
+            r0 = Q(1) - r0;
+        } else {
+            r0 = Q(1);
+            r2 = r0;
+        }
+    } else {
+        r0 = Q(1);
+        r2 = r0;
+    }
+
+    if (r2 == 0) {
+        r2 = 2;
+    }
+
+    if (r0 == 0) {
+        r0 = 2;
+    }
+
+    tf = &mgr->transform;
+    tf->x = x;
+    tf->y = y;
+    tf->qScaleX = r2;
+    tf->qScaleY = r0;
+
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+    s->frameFlags |= SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SA2_LABEL(gUnknown_030054B8)++;
+
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    mgr->unk4++;
+}
+
+void TaskDestructor_804A830(struct Task *t)
+{
+    SomeTaskManager_60 *mgr = TASK_DATA(t);
+    gUnknown_03005C74++;
+    TaskDestructor_SomeTaskManager_60_Common(t);
+}
+
+void Set_3005C74_to_4() { gUnknown_03005C74 = 4; }

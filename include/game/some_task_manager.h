@@ -7,10 +7,10 @@ typedef struct {
 } SomeTaskManager_Graphic;
 
 typedef struct {
-    /* 0x00 */ u16 unk0;
+    /* 0x00 */ s16 unk0;
     /* 0x02 */ u8 unk2;
     /* 0x03 */ u8 unk3;
-    /* 0x04 */ u32 unk4;
+    /* 0x04 */ s32 unk4;
     /* 0x08 */ u32 unk8;
     /* 0x0C */ SpriteTransform transform;
     /* 0x18 */ Sprite s;

@@ -28,17 +28,13 @@ void CreatePauseMenu(void) { }
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
 u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
 
-void sub_804A5D8() { }
-
 void sub_805B9E8() { }
 
 void CreateEggRocketStageSeparation(CamCoord worldY) { }
 
 // Player
-s32 gUnknown_03005C74;
-void Set_3005C74_to_4(void) { gUnknown_03005C74 = 4; }
+s32 gUnknown_03005C74 = 0;
 
-void sub_804A498(Player *p) { }
 void sub_804A854(Player *p) { }
 
 // Dummy
