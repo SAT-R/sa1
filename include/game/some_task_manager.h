@@ -2,7 +2,7 @@
 #define GUARD_SOME_TASK_MANAGER_H
 
 typedef struct {
-    TileInfoFirework tileInfo;
+    TileInfoBitfield tileInfo;
     void *vram4;
 } SomeTaskManager_Graphic;
 

@@ -8695,3 +8695,38 @@ void Task_804A3C0(void)
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
+
+extern s32 gUnknown_03005C74;
+extern void Task_804A54C(void);
+extern void TaskDestructor_804A830(struct Task *);
+
+void sub_804A498(s32 qWorldX, s32 qWorldY, bool32 param2)
+{
+    struct Task *t;
+    SomeTaskManager_Graphic sp00;
+    SomeTaskManager_60 *mgr;
+
+    if (gUnknown_03005C74 > 0) {
+        gUnknown_03005C74--;
+
+        if (param2) {
+            sp00.tileInfo.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
+            sp00.tileInfo.variant = 1;
+
+        } else {
+            sp00.tileInfo.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
+            sp00.tileInfo.variant = 0;
+        }
+
+        sp00.vram4 = ALLOC_TILES(SA1_ANIM_SUPER_SONIC_SPARKLE);
+
+        t = CreateSomeTaskManager_60_Task(&sp00, Task_804A54C, TaskDestructor_804A830);
+        mgr = TASK_DATA(t);
+        mgr->qUnk50 = qWorldX;
+        mgr->qUnk54 = qWorldY;
+        mgr->qUnk58 = 0;
+        mgr->qUnk5C = -Q(0.25);
+        mgr->s.oamFlags = SPRITE_OAM_ORDER(8);
+        mgr->s.frameFlags = SPRITE_FLAG(X_FLIP, 1) | SPRITE_FLAG(PRIORITY, 1);
+    }
+}

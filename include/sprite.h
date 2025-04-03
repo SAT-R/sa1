@@ -205,7 +205,14 @@ typedef struct {
     /* 0x06 */ u8 variant;
 } TileInfo;
 
+typedef struct {
+    u32 anim : 16;
+    u32 variant : 8;
+    u32 size : 8;
+} TileInfoBitfield;
+
 // Used in the background code of Casino Paradise
+// TODO: Maybe just TileInfoFirework?
 typedef struct {
     /* 0x00 */ AnimId anim;
     /* 0x04 */ u8 variant;
