@@ -5,79 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start Task_804A54C
-Task_804A54C: @ 0x0804A54C
-	push {r4, r5, r6, r7, lr}
-	ldr r0, _0804A594 @ =gCurTask
-	ldr r0, [r0]
-	mov ip, r0
-	ldrh r6, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r6, r0
-	adds r0, #0x18
-	adds r4, r6, r0
-	ldr r2, _0804A598 @ =gCamera
-	ldr r0, [r5, #0x50]
-	asrs r0, r0, #8
-	movs r3, #0
-	ldrsh r1, [r2, r3]
-	subs r3, r0, r1
-	ldr r0, [r5, #0x54]
-	asrs r0, r0, #8
-	movs r7, #2
-	ldrsh r1, [r2, r7]
-	subs r2, r0, r1
-	ldr r0, [r4, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #7
-	ands r0, r1
-	cmp r0, #0
-	bne _0804A58C
-	adds r1, r3, #0
-	adds r1, #0x10
-	ldr r0, _0804A59C @ =0x0000010F
-	cmp r1, r0
-	bls _0804A5A0
-_0804A58C:
-	mov r0, ip
-	bl TaskDestroy
-	b _0804A5CA
-	.align 2, 0
-_0804A594: .4byte gCurTask
-_0804A598: .4byte gCamera
-_0804A59C: .4byte 0x0000010F
-_0804A5A0:
-	strh r3, [r4, #0x16]
-	strh r2, [r4, #0x18]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-	ldr r0, _0804A5D0 @ =0x03000058
-	adds r1, r6, r0
-	movs r3, #0
-	ldrsh r2, [r1, r3]
-	ldr r0, [r5, #0x50]
-	adds r0, r0, r2
-	str r0, [r5, #0x50]
-	ldr r7, _0804A5D4 @ =0x0300005C
-	adds r0, r6, r7
-	ldrh r0, [r0]
-	ldrh r2, [r1]
-	adds r0, r0, r2
-	strh r0, [r1]
-_0804A5CA:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804A5D0: .4byte 0x03000058
-_0804A5D4: .4byte 0x0300005C
-
+.if 01
 	thumb_func_start sub_804A5D8
 sub_804A5D8: @ 0x0804A5D8
 	push {r4, r5, r6, r7, lr}
@@ -230,6 +158,7 @@ _0804A70C: .4byte 0x000002CF
 _0804A710: .4byte 0xFF00FFFF
 _0804A714: .4byte Task_804A71C
 _0804A718: .4byte TaskDestructor_SomeTaskManager_60_Common
+.endif
 
 	thumb_func_start Task_804A71C
 Task_804A71C: @ 0x0804A71C

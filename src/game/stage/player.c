@@ -8730,3 +8730,27 @@ void sub_804A498(s32 qWorldX, s32 qWorldY, bool32 param2)
         mgr->s.frameFlags = SPRITE_FLAG(X_FLIP, 1) | SPRITE_FLAG(PRIORITY, 1);
     }
 }
+
+void Task_804A54C(void)
+{
+    SomeTaskManager_60 *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->s;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    screenX = I(mgr->qUnk50) - cam->x;
+    screenY = I(mgr->qUnk54) - cam->y;
+
+    if ((s->frameFlags & 0x4000) || ((screenX < -16) || screenX >= DISPLAY_WIDTH + 16)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    s->x = screenX;
+    s->y = screenY;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    mgr->qUnk50 += mgr->qUnk58;
+    mgr->qUnk58 += mgr->qUnk5C;
+}
