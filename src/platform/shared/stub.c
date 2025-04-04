@@ -35,8 +35,6 @@ void CreateEggRocketStageSeparation(CamCoord worldY) { }
 // Player
 s32 gUnknown_03005C74 = 0;
 
-void sub_804A854(Player *p) { }
-
 // Dummy
 #include "constants/animations.h"
 #include "game/entity.h"

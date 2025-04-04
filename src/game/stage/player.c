@@ -30,6 +30,7 @@
 #include "constants/anim_sizes.h"
 #include "constants/char_states.h"
 #include "constants/songs.h"
+#include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -82,6 +83,13 @@ struct Task *Player_Knuckles_InitGfx_UppercutFlame(Player *p);
 struct Task *Player_Knuckles_InitGfx_FloatSplash(Player *p);
 struct Task *Player_Sonic_InitGfx_InstaShield(Player *p);
 struct Task *Player_Tails_InitGfx_TailSwipe(Player *p);
+
+// Super Sonic
+extern s32 gUnknown_03005C74;
+void Task_804A54C(void);
+void Task_804A71C(void);
+void TaskDestructor_804A830(struct Task *);
+void Task_804AAC4(void);
 
 void Set_3005C74_to_4(void);
 
@@ -8701,10 +8709,6 @@ void Task_804A3C0(void)
     DisplaySprite(s);
 }
 
-extern s32 gUnknown_03005C74;
-extern void Task_804A54C(void);
-extern void TaskDestructor_804A830(struct Task *);
-
 void sub_804A498(s32 qWorldX, s32 qWorldY, bool32 param2)
 {
     struct Task *t;
@@ -8759,8 +8763,6 @@ void Task_804A54C(void)
     mgr->qUnk50 += mgr->qUnk58;
     mgr->qUnk58 += mgr->qUnk5C;
 }
-
-void Task_804A71C(void);
 
 void sub_804A5D8(s32 screenX, s32 screenY)
 {
@@ -8914,3 +8916,88 @@ void TaskDestructor_804A830(struct Task *t)
 }
 
 void Set_3005C74_to_4() { gUnknown_03005C74 = 4; }
+
+void sub_804A854(Player *p)
+{
+    SomeTaskManager_Graphic sp00;
+    SomeTaskManager_60 *mgr;
+    struct Task *t;
+
+    sp00.tileInfo.anim = SA1_ANIM_SUPER_SONIC_DASH;
+    sp00.tileInfo.variant = 0;
+    sp00.vram4 = ALLOC_TILES(SA1_ANIM_SUPER_SONIC_DASH);
+    t = CreateSomeTaskManager_60_Task(&sp00, Task_804A3C0, TaskDestructor_SomeTaskManager_60_Common);
+    mgr = TASK_DATA(t);
+    mgr->s.oamFlags = SPRITE_OAM_ORDER(8);
+    mgr->s.frameFlags = SPRITE_FLAG(X_FLIP, 1) | SPRITE_FLAG(PRIORITY, 1);
+}
+
+void sub_804A8A8(s32 qX, s32 qY, s32 param2)
+{
+    SomeTaskManager_Graphic sp00;
+    struct Task *t;
+    SomeTaskManager_7C *mgr;
+
+    switch (param2) {
+        case 0: {
+            sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_ROCK0;
+            sp00.tileInfo.variant = 0;
+            sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_ROCK0;
+        } break;
+
+        case 1: {
+            sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_ROCK1;
+            sp00.tileInfo.variant = 0;
+            sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_ROCK1;
+        } break;
+
+        case 2: {
+            sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_ROCK2;
+            sp00.tileInfo.variant = 0;
+            sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_ROCK2;
+        } break;
+    }
+
+    t = CreateSomeTaskManager_7C_Task(&sp00, Task_804AAC4, NULL);
+    mgr = TASK_DATA(t);
+    mgr->unk0.unk0 = param2;
+    mgr->unk0.qUnk50 = qX;
+    mgr->unk0.qUnk54 = qY;
+
+    if (qX == Q(512)) {
+        mgr->unk0.qUnk58 = -(((u32)PseudoRandom32() << 14) >> 22);
+        mgr->unk0.qUnk5A = ((u32)PseudoRandom32() & 0xFF00) >> 8;
+    } else {
+        mgr->unk0.qUnk58 = (((u32)PseudoRandom32() & 0x3FF00) >> 8) - 0x300;
+        mgr->unk0.qUnk5A = -(((u32)PseudoRandom32() & 0x3FF00) >> 8) - 0x80;
+    }
+
+    if (param2 == 2) {
+        mgr->unk0.qUnk58 >>= 2;
+        mgr->unk0.qUnk5A >>= 2;
+    }
+
+    mgr->unk0.qUnk5E = Q(7. / 256.);
+    mgr->unk70 = (u32)PseudoRandom32() >> 8;
+    mgr->unk72 = (((u32)PseudoRandom32() << 11) >> 19) - 0x1000;
+
+    mgr->unk0.s.oamFlags = SPRITE_OAM_ORDER(12);
+    mgr->unk0.s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    if (param2 == 0) {
+        s32 a, b;
+        u32 v;
+        mgr->unk72 >>= 1;
+
+        v = (u32)PseudoRandom32();
+        a = mgr->unk0.transform.qScaleX;
+        mgr->unk0.transform.qScaleX = a - ((v & 0x4000) >> 8);
+        v = (u32)PseudoRandom32();
+        b = mgr->unk0.transform.qScaleY;
+        mgr->unk0.transform.qScaleY = b - ((v & 0x4000) >> 8);
+    }
+
+    if ((u32)PseudoRandom32() & 0x10000) {
+        mgr->unk0.transform.qScaleY = -mgr->unk0.transform.qScaleY;
+    }
+}

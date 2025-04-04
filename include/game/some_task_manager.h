@@ -30,7 +30,7 @@ typedef struct {
     /* 0x68 */ u32 unk68;
     /* 0x6C */ u32 unk6C;
     /* 0x70 */ u16 unk70;
-    /* 0x72 */ u16 unk72;
+    /* 0x72 */ s16 unk72;
     /* 0x74 */ u16 unk74;
     /* 0x76 */ u16 unk76;
     /* 0x78 */ u8 filler78[0x4];
