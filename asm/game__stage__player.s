@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_804AAC4
 Task_804AAC4: @ 0x0804AAC4
 	push {r4, r5, r6, r7, lr}
@@ -20,18 +18,18 @@ Task_804AAC4: @ 0x0804AAC4
 	ldrh r0, [r3, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
-	adds r5, r0, r1
+	adds r5, r0, r1     @ r5 = mgr
 	adds r1, #0x18
-	adds r6, r0, r1
+	adds r6, r0, r1     @ r6 = s
 	subs r1, #0xc
-	adds r7, r0, r1
+	adds r7, r0, r1     @ r7 = transform
 	ldr r0, _0804AB1C @ =gExtraBossTaskData
 	ldr r0, [r0]
-	mov sb, r0
+	mov sb, r0          @ sb = extraBoss
 	ldr r0, _0804AB20 @ =gPlayer
-	mov ip, r0
+	mov ip, r0          @ ip = gPlayer
 	ldr r1, _0804AB24 @ =gCamera
-	mov r8, r1
+	mov r8, r1          @ r8 = gCamera
 	ldr r4, [r5, #0x50]
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -58,17 +56,17 @@ _0804AB1C: .4byte gExtraBossTaskData
 _0804AB20: .4byte gPlayer
 _0804AB24: .4byte gCamera
 _0804AB28:
-	asrs r4, r4, #8
+	asrs r4, r4, #8 @ r4 = I(mgr->unk0.qUnk50)
 	mov r1, r8
 	movs r3, #0
 	ldrsh r0, [r1, r3]
 	subs r0, r4, r0
-	mov sl, r0
-	asrs r2, r2, #8
+	mov sl, r0      @ sl = screenX = I(mgr->unk0.qUnk50) - cam->x;
+	asrs r2, r2, #8 @ r2 = I(mgr->unk0.qUnk54)
 	movs r3, #2
 	ldrsh r0, [r1, r3]
 	subs r0, r2, r0
-	mov r8, r0
+	mov r8, r0      @ r8 = screenY = I(mgr->unk0.qUnk54) - cam->y;
 	mov r0, ip
 	adds r0, #0x3e
 	ldrb r0, [r0]
@@ -199,6 +197,7 @@ _0804AC38:
 	bx r0
 	.align 2, 0
 _0804AC48: .4byte sa2__gUnknown_030054B8
+.endif
 
 	thumb_func_start sub_804AC4C
 sub_804AC4C: @ 0x0804AC4C

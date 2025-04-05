@@ -9001,3 +9001,43 @@ void sub_804A8A8(s32 qX, s32 qY, s32 param2)
         mgr->unk0.transform.qScaleY = -mgr->unk0.transform.qScaleY;
     }
 }
+
+#if 0
+// UNFINISHED!
+void Task_804AAC4(void)
+{
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
+    SpriteTransform *transform = &mgr->unk0.transform;
+    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    if(((mgr->unk0.qUnk50 < -Q(32))
+    || (mgr->unk0.qUnk50 > +Q(2*DISPLAY_WIDTH + 32)))
+    || ((mgr->unk0.qUnk54 < -Q(32))
+    || (mgr->unk0.qUnk54 > +Q((DISPLAY_HEIGHT + 128) + 32))))
+    {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _0804AB28
+
+    screenX = I(mgr->unk0.qUnk50) - cam->x;
+    screenY = I(mgr->unk0.qUnk54) - cam->y;
+
+    if(p->SA2_LABEL(unk62) != 0) {
+        if(sub_800C0E0(s, screenX, screenY, p) != 0) {
+
+        }
+    } else if ((p->timerInvulnerability == 0) && !(extraBoss->flags58 & SER_FLAG__80)){
+        // _0804AB8C
+        sub_800BFEC(s, I(mgr->unk0.qUnk50), I(mgr->unk0.qUnk54), p);
+    }
+    // _0804ABB2
+
+    transform->x = screenX;
+    transform->y = screenY;
+}
+#endif

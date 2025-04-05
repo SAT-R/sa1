@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "game/game_over.h"
 #include "game/sa1_sa2_shared/camera.h"
+#include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/player.h"
 
 void *ewram_end = 0;
@@ -16,8 +17,8 @@ int gMaxLines = 0;
 #include "game/enemies/boss_super_egg_robo.h"
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
-u32 sub_80096B0() { return 0; }
-u32 sub_800ABEC() { return 0; }
+u32 sub_80096B0(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
+u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY) { return FALSE; }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
@@ -26,7 +27,8 @@ void sub_801C704() { }
 void CreatePauseMenu(void) { }
 
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
-u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p) { }
+
+void Task_804AAC4(void) { }
 
 void sub_805B9E8() { }
 

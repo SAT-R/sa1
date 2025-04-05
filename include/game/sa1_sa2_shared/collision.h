@@ -26,7 +26,8 @@ u32 CheckRectCollision_SpritePlayer(Sprite *s, s32 sx, s32 sy, Player *p, struct
 // param4 might be hitbox index?
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4);
 
-u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p);
+u32 sub_800B2BC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 
 // TODO: Include header this belongs to
 u32 sub_800C944(Sprite *, s32, s32);

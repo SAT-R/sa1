@@ -24,10 +24,9 @@
 #include "constants/zones.h"
 
 #if 0 // MATCH
-
 // (Link included because of register-match)
 // (100.00%) https://decomp.me/scratch/0Ro0I
-u32 sub_800C060(Sprite *s, s32 sx, s32 sy, Player *p)
+u32 SA2_LABEL(sub_800C060)(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
 {
     s8 rectPlayer[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
 
@@ -38,12 +37,12 @@ u32 sub_800C060(Sprite *s, s32 sx, s32 sy, Player *p)
         return result;
     }
 
-    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->unk3C == s)) {
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
         p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
         ip = TRUE;
     }
 
-    if (RECT_COLLISION_2(sx, sy, &s->hitboxes[0].b, p->qWorldX, p->qWorldY, (struct Rect8 *)rectPlayer) && (p->speedAirY >= 0)) {
+    if (RECT_COLLISION_2(sx, sy, &s->hitboxes[0].b, p->qWorldX, p->qWorldY, (struct Rect8 *)rectPlayer) && (p->qSpeedAirY >= 0)) {
 
 #ifndef NON_MATCHING
         register s32 y asm("r1");
@@ -60,8 +59,8 @@ u32 sub_800C060(Sprite *s, s32 sx, s32 sy, Player *p)
             p->rotation = 0;
         }
 
-        p->unk3C = s;
-        p->speedAirY = 0;
+        p->stoodObj = s;
+        p->qSpeedAirY = 0;
 
         if (GRAVITY_IS_INVERTED) {
             y = s->hitboxes[0].b.bottom;
@@ -700,6 +699,30 @@ bool32 sub_800DD54(Player *p)
 }
 
 #endif // MATCH
+
+// Exclusively used by Boss 5, Extra Boss and called in player.c
+u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+{
+    PlayerSpriteInfo *psiBody = p->spriteInfoBody;
+    Sprite *sprBody = &psiBody->s;
+
+    if (HITBOX_IS_ACTIVE(s->hitboxes[0]) && HITBOX_IS_ACTIVE(sprBody->hitboxes[1]) && IS_ALIVE(p)) {
+        if (HB_COLLISION(screenX, screenY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[1].b)) {
+            if (!IS_EXTRA_STAGE(gCurrentLevel)) {
+                if (p->character != CHARACTER_AMY) {
+                    p->qSpeedAirX = -p->qSpeedAirX;
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                } else {
+                    p->qSpeedAirX >>= 1;
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                }
+            }
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 // (97.67%) https://decomp.me/scratch/e4jLp
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc",
