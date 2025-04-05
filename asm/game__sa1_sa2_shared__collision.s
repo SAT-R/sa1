@@ -1384,7 +1384,8 @@ _0800BF04:
 	pop {r4, r5, r6, r7}
 	pop {r1}
 	bx r1
-    
+
+.if 0
 @ Exclusively used by Bosses 3, 5, Egg X and throwback bosses
 	thumb_func_start sub_800BF10
 sub_800BF10: @ 0x0800BF10
@@ -1503,6 +1504,4 @@ _0800BFE0:
 	pop {r1}
 	bx r1
 	.align 2, 0
-    
-.if 0
 .endif

@@ -702,6 +702,23 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
+// Exclusively used by SA1 Bosses 3, 5, Egg X and throwback bosses
+u32 sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+{
+    PlayerSpriteInfo *psiBody = p->spriteInfoBody;
+    Sprite *sprBody = &psiBody->s;
+
+    if (HITBOX_IS_ACTIVE(s->hitboxes[0]) && IS_ALIVE(p) && HITBOX_IS_ACTIVE(sprBody->hitboxes[0])) {
+        if (HB_COLLISION(screenX, screenY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
+            SA2_LABEL(sub_800CBA4)(p);
+
+            return 2;
+        }
+    }
+
+    return 0;
+}
+
 // Exclusively used by SA1 Bosses 4, 5, Egg Drillster and Extra Boss
 u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
