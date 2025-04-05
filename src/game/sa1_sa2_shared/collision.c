@@ -23,6 +23,8 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+bool32 sub_800C714(Player *p);
+
 #if 0 // MATCH
 // (Link included because of register-match)
 // (100.00%) https://decomp.me/scratch/0Ro0I
@@ -700,7 +702,27 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
-// Exclusively used by Boss 5, Extra Boss and called in player.c
+// Exclusively used by SA1 Bosses 4, 5, Egg Drillster and Extra Boss
+u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+{
+    PlayerSpriteInfo *psiBody = p->spriteInfoBody;
+    Sprite *sprBody = &psiBody->s;
+
+    if (HITBOX_IS_ACTIVE(s->hitboxes[1]) && HITBOX_IS_ACTIVE(sprBody->hitboxes[0]) && IS_ALIVE(p)) {
+        if (HB_COLLISION(screenX, screenY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
+            if (!IS_EXTRA_STAGE(gCurrentLevel)) {
+                SA2_LABEL(sub_800CBA4)(p);
+            } else {
+                sub_800C714(p);
+            }
+            return 2;
+        }
+    }
+
+    return 0;
+}
+
+// Exclusively used by SA1 Boss 5, Extra Boss and called in player.c
 u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;
