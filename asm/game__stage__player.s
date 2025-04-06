@@ -6,10 +6,8 @@
 .arm
 
 .if 0
-.endif
-
-	thumb_func_start sub_804AC4C
-sub_804AC4C: @ 0x0804AC4C
+	thumb_func_start Task_804AC4C
+Task_804AC4C: @ 0x0804AC4C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -20,10 +18,10 @@ sub_804AC4C: @ 0x0804AC4C
 	ldrh r5, [r7, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r4, r5, r0
+	adds r4, r5, r0     @ r4 = mgr
 	ldr r1, _0804AC9C @ =0x03000018
 	adds r1, r1, r5
-	mov r8, r1
+	mov r8, r1          @ r8 = s
 	ldr r3, _0804ACA0 @ =gCamera
 	ldr r2, [r4, #0x50]
 	asrs r1, r2, #8
@@ -54,7 +52,7 @@ _0804ACA4:
 	mov r0, r8
 	mov r1, ip
 	adds r2, r3, #0
-	bl sub_804B32C
+	bl ExtraBossCapsule_UpdateSprite
 	adds r0, r4, #0
 	bl sub_804CFA0
 	ldr r0, [r4, #4]
@@ -97,6 +95,7 @@ _0804ACFC: .4byte 0x03000038
 _0804AD00: .4byte 0x03000039
 _0804AD04: .4byte 0x03000058
 _0804AD08: .4byte Task_804AD0C
+.endif
 
 	thumb_func_start Task_804AD0C
 Task_804AD0C: @ 0x0804AD0C
@@ -168,13 +167,13 @@ _0804AD92:
 	adds r0, r5, #0
 	mov r1, r8
 	adds r2, r7, #0
-	bl sub_804B32C
+	bl ExtraBossCapsule_UpdateSprite
 	b _0804ADAA
 _0804AD9E:
 	adds r0, r5, #0
 	mov r1, r8
 	adds r2, r7, #0
-	bl sub_804B32C
+	bl ExtraBossCapsule_UpdateSprite
 	b _0804ADFE
 _0804ADAA:
 	adds r0, r4, #0
@@ -288,7 +287,7 @@ _0804AE6C:
 	subs r2, r2, r0
 	mov r0, r8
 	mov r1, sl
-	bl sub_804B32C
+	bl ExtraBossCapsule_UpdateSprite
 	mov r1, r8
 	ldr r0, [r1, #0x10]
 	movs r1, #0x80
@@ -433,7 +432,7 @@ _0804AF78:
 	ldrsh r0, [r4, r3]
 	subs r2, r2, r0
 	adds r0, r7, #0
-	bl sub_804B32C
+	bl ExtraBossCapsule_UpdateSprite
 _0804AFC2:
 	pop {r3}
 	mov r8, r3
@@ -815,7 +814,7 @@ sub_804B2BC: @ 0x0804B2BC
 	movs r0, #8
 	bl VramMalloc
 	str r0, [sp, #4]
-	ldr r1, _0804B320 @ =sub_804AC4C
+	ldr r1, _0804B320 @ =Task_804AC4C
 	ldr r2, _0804B324 @ =TaskDestructor_SomeTaskManager_60_Common
 	mov r0, sp
 	bl CreateSomeTaskManager_7C_Task
@@ -846,12 +845,13 @@ sub_804B2BC: @ 0x0804B2BC
 _0804B314: .4byte 0xFFFF0000
 _0804B318: .4byte 0x0000029E
 _0804B31C: .4byte 0xFF00FFFF
-_0804B320: .4byte sub_804AC4C
+_0804B320: .4byte Task_804AC4C
 _0804B324: .4byte TaskDestructor_SomeTaskManager_60_Common
 _0804B328: .4byte 0x03000058
 
-	thumb_func_start sub_804B32C
-sub_804B32C: @ 0x0804B32C
+@ TODO: Maybe not just the ring capsule?
+	thumb_func_start ExtraBossCapsule_UpdateSprite
+ExtraBossCapsule_UpdateSprite: @ 0x0804B32C
 	push {r4, lr}
 	adds r4, r0, #0
 	strh r1, [r4, #0x16]
@@ -952,13 +952,13 @@ _0804B3F6:
 	adds r0, r4, #0
 	mov r1, r8
 	adds r2, r7, #0
-	bl sub_804B32C
+	bl ExtraBossCapsule_UpdateSprite
 	b _0804B40E
 _0804B402:
 	adds r0, r4, #0
 	mov r1, r8
 	adds r2, r7, #0
-	bl sub_804B32C
+	bl ExtraBossCapsule_UpdateSprite
 	b _0804B414
 _0804B40E:
 	adds r0, r5, #0

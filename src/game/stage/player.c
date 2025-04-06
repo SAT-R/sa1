@@ -71,6 +71,7 @@ extern const u8 gCharStatesKnucklesGlideTurn[];
 void SA2_LABEL(sub_80232D0)(Player *p);
 void Task_8045AD8(void);
 void Task_8045B38(void);
+void Task_804AD0C(void);
 void Player_8044750(Player *p);
 void Player_80447D8(Player *p);
 void Player_80470AC(Player *p);
@@ -102,6 +103,8 @@ void Player_Amy_80497AC(Player *p);
 void Player_Sonic_InitInstaShield(Player *p);
 void Player_Tails_InitFlying(Player *p);
 void Player_Knuckles_InitGlide(Player *p);
+
+void ExtraBossCapsule_UpdateSprite(Sprite *s, s32 screenX, s32 screenY);
 
 void Task_8049898(void);
 void Player_SuperSonic_80499CC(Player *p);
@@ -9012,7 +9015,8 @@ void Task_804AAC4(void)
     Camera *cam = &gCamera;
     s32 screenX, screenY;
 
-    if (((mgr->unk0.qUnk50 < -Q(32)) || (mgr->unk0.qUnk50 > +Q(2 * DISPLAY_WIDTH + 32)))
+    // TODO: 2 * DISPLAY_<dim> does not feel correct!
+    if (((mgr->unk0.qUnk50 < -Q(32)) || (mgr->unk0.qUnk50 > +Q(DISPLAY_WIDTH + 240 + 32)))
         || ((mgr->unk0.qUnk54 < -Q(32)) || (mgr->unk0.qUnk54 > +Q((DISPLAY_HEIGHT + 128) + 32)))) {
         TaskDestroy(gCurTask);
         return;
@@ -9054,4 +9058,35 @@ void Task_804AAC4(void)
     mgr->unk0.qUnk58 += mgr->unk0.qUnk5C;
     mgr->unk0.qUnk5A += mgr->unk0.qUnk5E;
     mgr->unk70 += mgr->unk72;
+}
+
+void Task_804AC4C(void)
+{
+    SomeTaskManager_60 *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->s;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    screenX = I(mgr->qUnk50) - cam->x;
+    screenY = I(mgr->qUnk54) - cam->y;
+
+    // TODO: 2 * DISPLAY_<dim> does not feel correct!
+    if ((mgr->qUnk50 < -Q(32)) || (mgr->qUnk50 > +Q(DISPLAY_WIDTH + 240))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+    sub_804CFA0(mgr);
+
+    if (--mgr->unk4 <= 0) {
+        s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
+        s->variant = 2;
+        s->prevVariant = -1;
+
+        mgr->qUnk58 = 0;
+        mgr->qUnk5A = 0;
+
+        gCurTask->main = Task_804AD0C;
+    }
 }
