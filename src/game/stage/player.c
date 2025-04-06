@@ -9147,6 +9147,7 @@ void Task_804AD0C(void)
 
 void sub_804AFCC(s32 qX, s32 qY);
 void Task_804AF00(void);
+void Task_804B0D8(void);
 
 void Task_804AE14(void)
 {
@@ -9225,6 +9226,40 @@ void Task_804AF00(void)
         mgr->unk68 = (input << 5);
 
         ExtraBossCapsule_UpdateSprite(s, I(mgr->unk0.qUnk50) - cam->x, I(mgr->unk0.qUnk54) - cam->y);
+    }
+}
+
+void sub_804AFCC(s32 qX, s32 qY)
+{
+    SomeTaskManager_Graphic sp00;
+    SomeTaskManager_7C *mgr;
+    struct Task *t;
+    s32 i;
+
+    sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE_PART;
+    sp00.tileInfo.variant = 0;
+    sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_CAPSULE;
+
+    for (i = 0; i < 2; i++) {
+        t = CreateSomeTaskManager_7C_Task(&sp00, Task_804B0D8, NULL);
+        mgr = TASK_DATA(t);
+
+        mgr->unk0.qUnk50 = qX;
+        mgr->unk0.qUnk54 = qY;
+
+        mgr->unk0.qUnk58 = -((((u32)PseudoRandom32() & 0x7F00) >> 8) + 0x80);
+        mgr->unk0.qUnk5A = +((((u32)PseudoRandom32() & 0x7F00) >> 8) + 0x40);
+        mgr->unk0.qUnk5E = Q(7. / 256.);
+
+        mgr->unk72 = (((u32)PseudoRandom32() << 13) >> 21) - Q(4);
+
+        if (i & 1) {
+            mgr->unk0.transform.qScaleX = -Q(1);
+            mgr->unk0.qUnk58 = -mgr->unk0.qUnk58;
+        }
+
+        mgr->unk0.s.oamFlags = SPRITE_OAM_ORDER(12);
+        mgr->unk0.s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
     }
 }
 
