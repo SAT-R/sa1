@@ -36,6 +36,7 @@ typedef struct {
     /* 0x78 */ u8 filler78[0x4];
 } SomeTaskManager_7C; /* 0x7C */
 
+void sub_804CFA0(SomeTaskManager_60 *taskData);
 s32 sub_804D060(s32 n);
 void sub_804D13C(u16 param0);
 struct Task *CreateSomeTaskManager_60_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor);
