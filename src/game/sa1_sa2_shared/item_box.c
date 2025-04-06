@@ -14,7 +14,7 @@
 #include "game/stage/item_tasks.h"
 #include "game/stage/player.h"
 #include "game/stage/camera.h"
-#include "game/stage/collision.h"
+#include "game/stage/terrain_collision.h"
 
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/multiplayer/mp_player.h"

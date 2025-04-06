@@ -4,7 +4,7 @@ src/lib/m4a/m4a.o(.bss.code);
 
 . = 0x0000400;
 src/multi_boot.o(.bss);
-src/game/stage/collision.o(.bss);
+src/game/stage/terrain_collision.o(.bss);
 
 . = 0x00000424;
 src/lib/agb_flash/agb_flash.o(.bss);

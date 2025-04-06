@@ -8,7 +8,7 @@
 #include "game/stage/camera.h"
 #include "game/stage/stage.h"
 #include "game/stage/player.h"
-#include "game/stage/collision.h"
+#include "game/stage/terrain_collision.h"
 
 #if (GAME == GAME_SA1)
 #include "game/multiplayer/mp_player.h"
