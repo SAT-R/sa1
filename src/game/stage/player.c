@@ -7868,7 +7868,7 @@ void Player_Amy_8049854(Player *p)
 /* Start of Super Sonic ? */
 #include "game/enemies/boss_super_egg_robo.h"
 
-s32 sub_804B1FC(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p);
+s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p);
 void Task_804B370(void);
 
 void Task_8049898(void)
@@ -9114,7 +9114,7 @@ void Task_804AD0C(void)
         return;
     }
 
-    switch (sub_804B1FC(mgr, s, extraBoss, p)) {
+    switch (ExtraBoss__CapsuleGetCaptureState(mgr, s, extraBoss, p)) {
         case -1: {
             return;
         } break;
@@ -9262,6 +9262,80 @@ void sub_804AFCC(s32 qX, s32 qY)
         mgr->unk0.s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
     }
 }
+
+// TODO: Similar to Task_804AAC4, document diffs
+void Task_804B0D8(void)
+{
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
+    SpriteTransform *transform = &mgr->unk0.transform;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    screenX = I(mgr->unk0.qUnk50) - cam->x;
+    screenY = I(mgr->unk0.qUnk54) - cam->y;
+
+    // TODO: 2 * DISPLAY_<dim> does not feel correct!
+    if (((mgr->unk0.qUnk50 < -Q(32)) || (mgr->unk0.qUnk50 > +Q(DISPLAY_WIDTH + 240 + 32)))
+        || ((mgr->unk0.qUnk54 < -Q(32)) || (mgr->unk0.qUnk54 > +Q((DISPLAY_HEIGHT + 128) + 32)))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    transform->x = screenX;
+    transform->y = screenY;
+    transform->rotation = mgr->unk70 >> 6;
+
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+    s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++ | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
+
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, transform);
+    DisplaySprite(s);
+
+    mgr->unk0.qUnk50 += mgr->unk0.qUnk58;
+    mgr->unk0.qUnk54 += mgr->unk0.qUnk5A;
+    mgr->unk0.qUnk58 += mgr->unk0.qUnk5C;
+    mgr->unk0.qUnk5A += mgr->unk0.qUnk5E;
+    mgr->unk70 += mgr->unk72;
+}
+
+// (97.70%) https://decomp.me/scratch/CSS1H
+NONMATCH("asm/non_matching/game/stage/ExtraBoss__CapsuleGetCaptureState.inc",
+         s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p))
+{
+    s16 screenX, screenY;
+
+    if (!(p->moveState & MOVESTATE_GOAL_REACHED)) {
+        return 0;
+    }
+
+    screenX = I(mgr->unk0.qUnk50);
+    screenY = I(mgr->unk0.qUnk54);
+
+    if (sub_800C0E0(s, screenX, screenY, p) != 0) {
+        if (p->SA2_LABEL(unk62) != 0) {
+            m4aSongNumStart(SE_ITEM_BOX);
+            InitScatteringRings_ExtraBossCapsule(mgr->unk0.qUnk50, mgr->unk0.qUnk54, 8);
+            sub_804AFCC(mgr->unk0.qUnk50, mgr->unk0.qUnk54);
+
+            TaskDestroy(gCurTask);
+            return -1;
+        } else if ((p->timerInvulnerability == 0) && !(extraBoss->flags58 & SER_FLAG__80)) {
+            s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
+            s->variant = 3;
+            s->prevVariant = -1;
+            p->moveState |= MOVESTATE_GOAL_REACHED;
+
+            gCurTask->main = Task_804AE14;
+
+            return +1;
+        }
+    }
+
+    return 0;
+}
+END_NONMATCH
 
 #if 1
 #endif

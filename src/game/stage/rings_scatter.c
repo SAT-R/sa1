@@ -271,8 +271,8 @@ void InitScatteringRings(s32 x, s32 y, s32 numRings)
 // TODO: Either not in SA2, or in a different place!
 //       Most of the structure is the same as InitScatteringRings,
 //       but it uses random values in more places.
-
-void sub_8040C1C(s32 x, s32 y, s32 numRings)
+// TODO: Seems to be specifically for the Extra Boss ring capsules.
+void InitScatteringRings_ExtraBossCapsule(s32 x, s32 y, s32 numRings)
 {
     RingsScatter *rs = TASK_DATA(gRingsScatterTask);
     ScatterRing *ring = &rs->rings[0];

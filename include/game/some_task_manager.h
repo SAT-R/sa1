@@ -15,8 +15,8 @@ typedef struct {
     /* 0x0C */ SpriteTransform transform;
     /* 0x18 */ Sprite s;
     /* 0x48 */ Hitbox reserved;
-    /* 0x50 */ s32 qUnk50;
-    /* 0x54 */ s32 qUnk54;
+    /* 0x50 */ s32 qUnk50; // TODO: qWorldX;
+    /* 0x54 */ s32 qUnk54; // TODO: qWorldY;
     /* 0x58 */ s16 qUnk58;
     /* 0x5A */ s16 qUnk5A;
     /* 0x5C */ u16 qUnk5C;
