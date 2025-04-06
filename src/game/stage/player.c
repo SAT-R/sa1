@@ -69,18 +69,9 @@ extern TileInfoFirework gUnknown_084AE1B0[5];
 extern const u8 gCharStatesKnucklesGlideTurn[];
 
 void SA2_LABEL(sub_80232D0)(Player *p);
-void Task_8045AD8(void);
-void Task_8045B38(void);
-void Task_804AD0C(void);
 void Player_8044750(Player *p);
 void Player_80447D8(Player *p);
-void Player_80470AC(Player *p);
-void Player_804726C(Player *p);
-void Player_8047280(Player *p);
-s32 sub_8047668(Player *p);
 void SA2_LABEL(sub_802460C)(Player *p);
-void sub_8045DF0(Player *p);
-void sub_8047714(Player *p);
 struct Task *Player_Knuckles_InitGfx_UppercutFlame(Player *p);
 struct Task *Player_Knuckles_InitGfx_FloatSplash(Player *p);
 struct Task *Player_Sonic_InitGfx_InstaShield(Player *p);
@@ -106,6 +97,14 @@ void Player_Knuckles_InitGlide(Player *p);
 
 void ExtraBossCapsule_UpdateSprite(Sprite *s, s32 screenX, s32 screenY);
 
+void Task_8045AD8(void);
+void Task_8045B38(void);
+void sub_8045DF0(Player *p);
+void Player_80470AC(Player *p);
+void Player_804726C(Player *p);
+void Player_8047280(Player *p);
+s32 sub_8047668(Player *p);
+void sub_8047714(Player *p);
 void Task_8049898(void);
 void Player_SuperSonic_80499CC(Player *p);
 void sub_8049D7C(Player *p);
@@ -119,6 +118,8 @@ void Player_804A254(Player *p);
 void sub_804A2FC(Player *p);
 void sub_804A498(s32 qWorldX, s32 qWorldY, bool32 param2);
 void sub_804A854(Player *p);
+void Task_804AD0C(void);
+
 s32 SA2_LABEL(sub_8029BB8)(Player *p, u8 *p1, s32 *out);
 void Task_PlayerMain(void);
 void TaskDestructor_Player(struct Task *);
@@ -7867,6 +7868,9 @@ void Player_Amy_8049854(Player *p)
 /* Start of Super Sonic ? */
 #include "game/enemies/boss_super_egg_robo.h"
 
+s32 sub_804B1FC(SomeTaskManager_60 *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p);
+void Task_804B370(void);
+
 void Task_8049898(void)
 {
     Player *p = &gPlayer;
@@ -9005,6 +9009,7 @@ void sub_804A8A8(s32 qX, s32 qY, s32 param2)
         mgr->unk0.transform.qScaleY = -mgr->unk0.transform.qScaleY;
     }
 }
+
 void Task_804AAC4(void)
 {
     SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
@@ -9089,4 +9094,55 @@ void Task_804AC4C(void)
 
         gCurTask->main = Task_804AD0C;
     }
+}
+
+
+void Task_804AD0C(void)
+{
+    SomeTaskManager_60 *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->s;
+    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    screenX = I(mgr->qUnk50) - cam->x;
+    screenY = I(mgr->qUnk54) - cam->y;
+
+    // TODO: 2 * DISPLAY_<dim> does not feel correct!
+    if ((mgr->qUnk50 < -Q(32)) || (mgr->qUnk50 > +Q(DISPLAY_WIDTH + 240))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    switch(sub_804B1FC(mgr, s, extraBoss, p))
+    {
+    case -1: {
+        return;
+    } break;
+
+    case 0: {
+        ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+    } break;
+
+    case 1: {
+        ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+        return;
+    } break;
+    }
+
+    sub_804CFA0(mgr);
+
+    if(p->qWorldY - mgr->qUnk54 < -Q(8)) {
+        mgr->qUnk5A = -Q(1);
+        return;
+    } else if(p->qWorldY - mgr->qUnk54 > +Q(8)) {
+        mgr->qUnk5A = +Q(1);
+        return;
+    }
+
+    mgr->qUnk58 = -Q(3);
+    mgr->qUnk5A = +Q(0);
+
+    gCurTask->main = Task_804B370;
 }

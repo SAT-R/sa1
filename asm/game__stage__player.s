@@ -5,138 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start Task_804AD0C
-Task_804AD0C: @ 0x0804AD0C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	ldr r0, _0804AD5C @ =gCurTask
-	ldr r6, [r0]
-	ldrh r1, [r6, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	adds r0, #0x18
-	adds r5, r1, r0
-	ldr r0, _0804AD60 @ =gExtraBossTaskData
-	ldr r0, [r0]
-	mov ip, r0
-	ldr r1, _0804AD64 @ =gPlayer
-	mov sb, r1
-	ldr r3, _0804AD68 @ =gCamera
-	ldr r2, [r4, #0x50]
-	asrs r1, r2, #8
-	movs r7, #0
-	ldrsh r0, [r3, r7]
-	subs r1, r1, r0
-	mov r8, r1
-	ldr r0, [r4, #0x54]
-	asrs r0, r0, #8
-	movs r7, #2
-	ldrsh r1, [r3, r7]
-	subs r7, r0, r1
-	movs r0, #0x80
-	lsls r0, r0, #6
-	adds r2, r2, r0
-	movs r0, #0x80
-	lsls r0, r0, #0xa
-	cmp r2, r0
-	bls _0804AD6C
-	adds r0, r6, #0
-	bl TaskDestroy
-	b _0804ADFE
-	.align 2, 0
-_0804AD5C: .4byte gCurTask
-_0804AD60: .4byte gExtraBossTaskData
-_0804AD64: .4byte gPlayer
-_0804AD68: .4byte gCamera
-_0804AD6C:
-	adds r0, r4, #0
-	adds r1, r5, #0
-	mov r2, ip
-	mov r3, sb
-	bl sub_804B1FC
-	adds r1, r0, #0
-	cmp r1, #0
-	beq _0804AD92
-	cmp r1, #0
-	bgt _0804AD8C
-	movs r0, #1
-	rsbs r0, r0, #0
-	cmp r1, r0
-	beq _0804ADFE
-	b _0804ADAA
-_0804AD8C:
-	cmp r1, #1
-	beq _0804AD9E
-	b _0804ADAA
-_0804AD92:
-	adds r0, r5, #0
-	mov r1, r8
-	adds r2, r7, #0
-	bl ExtraBossCapsule_UpdateSprite
-	b _0804ADAA
-_0804AD9E:
-	adds r0, r5, #0
-	mov r1, r8
-	adds r2, r7, #0
-	bl ExtraBossCapsule_UpdateSprite
-	b _0804ADFE
-_0804ADAA:
-	adds r0, r4, #0
-	bl sub_804CFA0
-	mov r1, sb
-	ldr r0, [r1, #4]
-	ldr r1, [r4, #0x54]
-	subs r3, r0, r1
-	ldr r0, _0804ADCC @ =0xFFFFF800
-	cmp r3, r0
-	bge _0804ADD0
-	adds r1, r4, #0
-	adds r1, #0x5a
-	movs r0, #0xff
-	lsls r0, r0, #8
-	strh r0, [r1]
-	b _0804ADFE
-	.align 2, 0
-_0804ADCC: .4byte 0xFFFFF800
-_0804ADD0:
-	movs r0, #0x80
-	lsls r0, r0, #4
-	cmp r3, r0
-	ble _0804ADE4
-	adds r1, r4, #0
-	adds r1, #0x5a
-	movs r0, #0x80
-	lsls r0, r0, #1
-	strh r0, [r1]
-	b _0804ADFE
-_0804ADE4:
-	adds r1, r4, #0
-	adds r1, #0x58
-	movs r2, #0
-	movs r0, #0xfd
-	lsls r0, r0, #8
-	strh r0, [r1]
-	adds r0, r4, #0
-	adds r0, #0x5a
-	strh r2, [r0]
-	ldr r0, _0804AE0C @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0804AE10 @ =sub_804B370
-	str r0, [r1, #8]
-_0804ADFE:
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804AE0C: .4byte gCurTask
-_0804AE10: .4byte sub_804B370
+.if 0
 .endif
 
 	thumb_func_start sub_804AE14
@@ -792,8 +661,8 @@ ExtraBossCapsule_UpdateSprite: @ 0x0804B32C
 _0804B368: .4byte 0xFFF3FFFF
 _0804B36C: .4byte 0xFFFFF7FF
 
-	thumb_func_start sub_804B370
-sub_804B370: @ 0x0804B370
+	thumb_func_start Task_804B370
+Task_804B370: @ 0x0804B370
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
