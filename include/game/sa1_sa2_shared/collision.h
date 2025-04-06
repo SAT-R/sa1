@@ -27,6 +27,7 @@ u32 CheckRectCollision_SpritePlayer(Sprite *s, s32 sx, s32 sy, Player *p, struct
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4);
 
 u32 sub_800B2BC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 
 // TODO: Include header this belongs to

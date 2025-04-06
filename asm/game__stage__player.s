@@ -49,7 +49,7 @@ Task_804AAC4: @ 0x0804AAC4
 _0804AB10:
 	adds r0, r3, #0
 	bl TaskDestroy
-	b _0804AC38
+	b _0804AC38_return
 	.align 2, 0
 _0804AB18: .4byte gCurTask
 _0804AB1C: .4byte gExtraBossTaskData
@@ -100,7 +100,7 @@ _0804AB68:
 	ldr r0, _0804AB88 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	b _0804AC38
+	b _0804AC38_return
 	.align 2, 0
 _0804AB88: .4byte gCurTask
 _0804AB8C:
@@ -187,7 +187,7 @@ _0804ABB2:
 	ldrh r3, [r4]
 	adds r0, r0, r3
 	strh r0, [r4]
-_0804AC38:
+_0804AC38_return:
 	pop {r3, r4, r5}
 	mov r8, r3
 	mov sb, r4

@@ -74,6 +74,8 @@
 #define SE_TAILS_PROPELLER_FLYING  120
 #define SE_TAILS_TAIL_SWIPE        121
 
+#define SE_126 126
+
 #define SE_AMY_SUPER_HAMMER_ATTACK 130
 #define SE_AMY_HAMMER_SWIRL        131
 #define SE_AMY_ROLLS               133

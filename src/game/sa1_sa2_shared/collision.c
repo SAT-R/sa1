@@ -719,7 +719,7 @@ u32 sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
     return 0;
 }
 
-// Exclusively used by SA1 Bosses 4, 5, Egg Drillster and Extra Boss
+// Exclusively used by SA1 Bosses 4, 5, Egg Drillster, Extra Boss and called in player.c
 u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;

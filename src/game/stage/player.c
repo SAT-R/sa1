@@ -9,6 +9,7 @@
 #include "game/parameters/characters.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
+#include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/music_manager.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/save.h"
@@ -9029,7 +9030,16 @@ void Task_804AAC4(void)
 
     if(p->SA2_LABEL(unk62) != 0) {
         if(sub_800C0E0(s, screenX, screenY, p) != 0) {
+            s32 i;
 
+            for(i = 3 - mgr->unk0.unk0; i != 0; i--) {
+                sub_804A8A8(mgr->unk0.qUnk50, mgr->unk0.qUnk54, 2);
+            }
+
+            m4aSongNumStart(SE_126);
+
+            TaskDestroy(gCurTask);
+            return;
         }
     } else if ((p->timerInvulnerability == 0) && !(extraBoss->flags58 & SER_FLAG__80)){
         // _0804AB8C
