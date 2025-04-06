@@ -27,7 +27,7 @@ typedef struct {
     /* 0x00 */ SomeTaskManager_60 unk0;
     /* 0x60 */ u32 unk60;
     /* 0x64 */ u32 unk64;
-    /* 0x68 */ u32 unk68;
+    /* 0x68 */ s32 unk68;
     /* 0x6C */ u32 unk6C;
     /* 0x70 */ u16 unk70;
     /* 0x72 */ s16 unk72;

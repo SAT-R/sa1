@@ -28,9 +28,11 @@ void CreatePauseMenu(void) { }
 
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
 
-void Task_804AAC4(void) { }
-
+void sub_804AFCC() { }
+void sub_804B1FC() { }
+void Task_804B370() { }
 void sub_805B9E8() { }
+void ExtraBossCapsule_UpdateSprite() { }
 
 void CreateEggRocketStageSeparation(CamCoord worldY) { }
 

@@ -7868,7 +7868,7 @@ void Player_Amy_8049854(Player *p)
 /* Start of Super Sonic ? */
 #include "game/enemies/boss_super_egg_robo.h"
 
-s32 sub_804B1FC(SomeTaskManager_60 *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p);
+s32 sub_804B1FC(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p);
 void Task_804B370(void);
 
 void Task_8049898(void)
@@ -9067,82 +9067,166 @@ void Task_804AAC4(void)
 
 void Task_804AC4C(void)
 {
-    SomeTaskManager_60 *mgr = TASK_DATA(gCurTask);
-    Sprite *s = &mgr->s;
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
     Camera *cam = &gCamera;
     s32 screenX, screenY;
 
-    screenX = I(mgr->qUnk50) - cam->x;
-    screenY = I(mgr->qUnk54) - cam->y;
+    screenX = I(mgr->unk0.qUnk50) - cam->x;
+    screenY = I(mgr->unk0.qUnk54) - cam->y;
 
     // TODO: 2 * DISPLAY_<dim> does not feel correct!
-    if ((mgr->qUnk50 < -Q(32)) || (mgr->qUnk50 > +Q(DISPLAY_WIDTH + 240))) {
+    if ((mgr->unk0.qUnk50 < -Q(32)) || (mgr->unk0.qUnk50 > +Q(DISPLAY_WIDTH + 240))) {
         TaskDestroy(gCurTask);
         return;
     }
 
     ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
-    sub_804CFA0(mgr);
+    sub_804CFA0(&mgr->unk0);
 
-    if (--mgr->unk4 <= 0) {
+    if (--mgr->unk0.unk4 <= 0) {
         s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
         s->variant = 2;
         s->prevVariant = -1;
 
-        mgr->qUnk58 = 0;
-        mgr->qUnk5A = 0;
+        mgr->unk0.qUnk58 = 0;
+        mgr->unk0.qUnk5A = 0;
 
         gCurTask->main = Task_804AD0C;
     }
 }
 
-
 void Task_804AD0C(void)
 {
-    SomeTaskManager_60 *mgr = TASK_DATA(gCurTask);
-    Sprite *s = &mgr->s;
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
     SuperEggRobo *extraBoss = gExtraBossTaskData;
     Player *p = &gPlayer;
     Camera *cam = &gCamera;
     s32 screenX, screenY;
 
-    screenX = I(mgr->qUnk50) - cam->x;
-    screenY = I(mgr->qUnk54) - cam->y;
+    screenX = I(mgr->unk0.qUnk50) - cam->x;
+    screenY = I(mgr->unk0.qUnk54) - cam->y;
 
     // TODO: 2 * DISPLAY_<dim> does not feel correct!
-    if ((mgr->qUnk50 < -Q(32)) || (mgr->qUnk50 > +Q(DISPLAY_WIDTH + 240))) {
+    if ((mgr->unk0.qUnk50 < -Q(32)) || (mgr->unk0.qUnk50 > +Q(DISPLAY_WIDTH + 240))) {
         TaskDestroy(gCurTask);
         return;
     }
 
-    switch(sub_804B1FC(mgr, s, extraBoss, p))
-    {
-    case -1: {
-        return;
-    } break;
+    switch (sub_804B1FC(mgr, s, extraBoss, p)) {
+        case -1: {
+            return;
+        } break;
 
-    case 0: {
-        ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
-    } break;
+        case 0: {
+            ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+        } break;
 
-    case 1: {
-        ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
-        return;
-    } break;
+        case 1: {
+            ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+            return;
+        } break;
     }
 
-    sub_804CFA0(mgr);
+    sub_804CFA0(&mgr->unk0);
 
-    if(p->qWorldY - mgr->qUnk54 < -Q(8)) {
-        mgr->qUnk5A = -Q(1);
+    if (p->qWorldY - mgr->unk0.qUnk54 < -Q(8)) {
+        mgr->unk0.qUnk5A = -Q(1);
         return;
-    } else if(p->qWorldY - mgr->qUnk54 > +Q(8)) {
-        mgr->qUnk5A = +Q(1);
+    } else if (p->qWorldY - mgr->unk0.qUnk54 > +Q(8)) {
+        mgr->unk0.qUnk5A = +Q(1);
         return;
     }
 
-    mgr->qUnk58 = -Q(3);
-    mgr->qUnk5A = +Q(0);
+    mgr->unk0.qUnk58 = -Q(3);
+    mgr->unk0.qUnk5A = +Q(0);
 
     gCurTask->main = Task_804B370;
 }
+
+void sub_804AFCC(s32 qX, s32 qY);
+void Task_804AF00(void);
+
+void Task_804AE14(void)
+{
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    if (p->timerInvulnerability != 0) {
+        p->moveState &= ~MOVESTATE_GOAL_REACHED;
+
+        sub_804AFCC(mgr->unk0.qUnk50, mgr->unk0.qUnk54);
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _0804AE6C
+
+    mgr->unk0.qUnk50 = p->qWorldX;
+    mgr->unk0.qUnk54 = p->qWorldY;
+
+    screenX = I(mgr->unk0.qUnk50) - cam->x;
+    screenY = I(mgr->unk0.qUnk54) - cam->y;
+    ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+
+    if (s->frameFlags & SPRITE_FLAG(ANIM_OVER, 1)) {
+        mgr->unk0.unk4 = 240;
+
+        p->qSpeedGround = 0;
+        p->qSpeedAirX = 0;
+        p->qSpeedAirY = 0;
+        p->SA2_LABEL(unk62) = 0;
+        p->moveState |= MOVESTATE_IA_OVERRIDE;
+        p->moveState |= MOVESTATE_100000;
+
+        s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
+        s->variant = 1;
+        s->prevVariant = -1;
+
+        gCurTask->main = Task_804AF00;
+    }
+}
+
+void Task_804AF00(void)
+{
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    if ((p->timerInvulnerability != 0) || (--mgr->unk0.unk4 < 0)) {
+        p->moveState &= ~MOVESTATE_GOAL_REACHED;
+        p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+        p->moveState &= ~MOVESTATE_100000;
+
+        sub_804AFCC(mgr->unk0.qUnk50, mgr->unk0.qUnk54);
+
+        TaskDestroy(gCurTask);
+        return;
+    } else {
+        u32 input;
+
+        if (p->frameInput & DPAD_SIDEWAYS) {
+            mgr->unk0.unk4 -= 20;
+        }
+
+        Player_804A0B8(p);
+
+        mgr->unk0.qUnk50 = p->qWorldX + mgr->unk68;
+        mgr->unk0.qUnk54 = p->qWorldY;
+        mgr->unk68 -= mgr->unk68 >> 2;
+
+        input = (p->frameInput & DPAD_RIGHT) << 1;
+        input -= (p->frameInput & DPAD_LEFT);
+        mgr->unk68 = (input << 5);
+
+        ExtraBossCapsule_UpdateSprite(s, I(mgr->unk0.qUnk50) - cam->x, I(mgr->unk0.qUnk54) - cam->y);
+    }
+}
+
+#if 1
+#endif
