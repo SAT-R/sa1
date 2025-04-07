@@ -69,7 +69,7 @@ NONMATCH("asm/non_matching/game/interactables/Task_PartyBalloon.inc", void Task_
     PartyBalloon *balloon = TASK_DATA(gCurTask);
     Sprite *s = &balloon->s;
     MapEntity *me = balloon->base.me;
-    s16 worldX, worldY;
+    CamCoord worldX, worldY;
     s32 i;
     s32 r9;
 
@@ -142,7 +142,7 @@ NONMATCH("asm/non_matching/game/interactables/Task_PartyBalloon.inc", void Task_
         // _0807F1A0
 
         if (IS_MULTI_PLAYER && ((s8)me->x == -3)) {
-            balloon->unk40 = 0x21;
+            balloon->unk40 = 33;
             s->prevVariant = -1;
             s->variant = r9;
 
@@ -155,3 +155,38 @@ NONMATCH("asm/non_matching/game/interactables/Task_PartyBalloon.inc", void Task_
     DisplaySprite(s);
 }
 END_NONMATCH
+
+void Task_PartyBalloonPopped(void)
+{
+    PartyBalloon *balloon = TASK_DATA(gCurTask);
+    Sprite *s = &balloon->s;
+    MapEntity *me = balloon->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(balloon->base.meX, balloon->base.regionX);
+    worldY = TO_WORLD_POS(me->y, balloon->base.regionY);
+
+    s->x = (worldX - gCamera.x);
+    s->y = (worldY - gCamera.y);
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, balloon->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (--balloon->unk40 == 0) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, balloon->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_PartyBalloon(struct Task *t)
+{
+    PartyBalloon *balloon = TASK_DATA(t);
+    VramFree(balloon->s.graphics.dest);
+}
