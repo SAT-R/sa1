@@ -114,7 +114,6 @@ SECTIONS {
         src/game/stage/grind_effect_1.o(.text);
         src/game/stage/rings_scatter.o(.text);
         src/game/stage/player.o(.text);
-        asm/game__stage__player.o(.text);
         src/game/stage/item_tasks.o(.text);
         src/game/stage/underwater_effects.o(.text);
         src/game/water_effects.o(.text);

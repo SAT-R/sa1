@@ -9121,15 +9121,15 @@ void Task_804AD0C(void)
     }
 
     switch (ExtraBoss__CapsuleGetCaptureState(mgr, s, extraBoss, p)) {
-        case -1: {
+        case CAPSULE_STATE__DESTROYED: {
             return;
         } break;
 
-        case 0: {
+        case CAPSULE_STATE__MOVING: {
             ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
         } break;
 
-        case 1: {
+        case CAPSULE_STATE__CAPTURED: {
             ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
             return;
         } break;
@@ -9306,6 +9306,9 @@ void Task_804B0D8(void)
     mgr->unk70 += mgr->unk72;
 }
 
+// NOTE: If you change this function or use a different compiler to agbcc,
+//       you HAVE to remove the NON_MATCHING block.
+//       Best by declaring -D NON_MATCHING as a compiler flag, if it isn't set already.
 // (100.0%) https://decomp.me/scratch/CSS1H
 s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p)
 {
@@ -9317,6 +9320,7 @@ s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperE
 
 #ifndef NON_MATCHING
     // TODO: Fix this, holy [REDACTED]!!!
+    //       This only works because p is still in R3 at this point in time, when using agbcc.
     res = ((FakematchFuncCast)sub_800C0E0)(s, I(mgr->unk0.qUnk50), I(mgr->unk0.qUnk54));
 #else
     res = sub_800C0E0(s, I(mgr->unk0.qUnk50), I(mgr->unk0.qUnk54), p);
@@ -9344,5 +9348,159 @@ s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperE
     return CAPSULE_STATE__MOVING;
 }
 
+void sub_804B2BC(s32 qWorldX, s32 qWorldY)
+{
+    SomeTaskManager_Graphic sp00;
+    struct Task *t;
+    SomeTaskManager_7C *mgr;
+
+    sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
+    sp00.tileInfo.variant = 0;
+    sp00.vram4 = ALLOC_TILES(SA1_ANIM_EXTRA_BOSS_CAPSULE);
+
+    t = CreateSomeTaskManager_7C_Task(&sp00, Task_804AC4C, TaskDestructor_SomeTaskManager_60_Common);
+    mgr = TASK_DATA(t);
+
+    mgr->unk0.qUnk50 = qWorldX;
+    mgr->unk0.qUnk54 = qWorldY;
+    mgr->unk0.qUnk58 = -Q(1);
+    mgr->unk0.unk4 = 48;
+    mgr->unk0.s.oamFlags = SPRITE_OAM_ORDER(12);
+    mgr->unk0.s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
+}
+
+// TODO: Maybe not just the ring capsule?
+void ExtraBossCapsule_UpdateSprite(Sprite *s, s32 screenX, s32 screenY)
+{
+    s->x = screenX;
+    s->y = screenY;
+    UpdateSpriteAnimation(s);
+
+    s->frameFlags |= SPRITE_FLAG(18, 1) | SPRITE_FLAG(19, 1);
+    s->frameFlags |= SPRITE_FLAG(Y_FLIP, 1);
+    DisplaySprite(s);
+
+    s->frameFlags &= ~(SPRITE_FLAG(18, 1) | SPRITE_FLAG(19, 1));
+    s->frameFlags &= ~(SPRITE_FLAG(Y_FLIP, 1));
+    DisplaySprite(s);
+}
+
+// NOTE: Almost a complete copy of Task_804AD0C, just without lines below sub_804CFA0() call.
+// TODO: Maybe this was used as an inline?
+void Task_804B370(void)
+{
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
+    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    screenX = I(mgr->unk0.qUnk50) - cam->x;
+    screenY = I(mgr->unk0.qUnk54) - cam->y;
+
+    // TODO: 2 * DISPLAY_<dim> does not feel correct!
+    if ((mgr->unk0.qUnk50 < -Q(32)) || (mgr->unk0.qUnk50 > +Q(DISPLAY_WIDTH + 240))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    switch (ExtraBoss__CapsuleGetCaptureState(mgr, s, extraBoss, p)) {
+        case CAPSULE_STATE__DESTROYED: {
+            return;
+        } break;
+
+        case CAPSULE_STATE__MOVING: {
+            ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+        } break;
+
+        case CAPSULE_STATE__CAPTURED: {
+            ExtraBossCapsule_UpdateSprite(s, screenX, screenY);
+            return;
+        } break;
+    }
+
+    sub_804CFA0(&mgr->unk0);
+}
+
+void Task_804B420(void)
+{
+    SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->unk0.s;
+    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    s32 scrollX;
+
+    // TODO: 2 * DISPLAY_<dim> does not feel correct!
+    if ((s->frameFlags & SPRITE_FLAG(ANIM_OVER, 1)) || ((mgr->unk0.qUnk50 < -Q(32)) || (mgr->unk0.qUnk50 > +Q(DISPLAY_WIDTH + 240 + 32)))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    {
+        s32 screenX, screenY;
+        s32 res;
+        s32 x;
+        s32 scrollX = cam->x;
+        const s32 scrollMaxX = (28 * 96);
+
+        scrollX = (scrollX + gStageTime * 8);
+
+        // 2688(0xA80) =
+        //          3072         -          600
+        // Moon Zone Pixel Width - (4 * Metatile_Width)
+
+        if (scrollX - 72 >= scrollMaxX) {
+            scrollX -= 72;
+            scrollX = Mod(scrollX, scrollMaxX) + 72;
+        }
+        // _0804B4A2
+
+        x = scrollX - cam->x;
+
+        res = SA2_LABEL(sub_801F100)(I(mgr->unk0.qUnk54), I(mgr->unk0.qUnk50) + x, 1, +8, SA2_LABEL(sub_801EC3C));
+
+        mgr->unk0.qUnk54 += Q(res);
+
+        screenX = I(mgr->unk0.qUnk50) - cam->x;
+        screenY = I(mgr->unk0.qUnk54) - cam->y;
+
+        if ((p->SA2_LABEL(unk62) == 0) && (p->timerInvulnerability == 0) && !(extraBoss->flags58 & SER_FLAG__80)) {
+            sub_800BFEC(s, I(mgr->unk0.qUnk50), I(mgr->unk0.qUnk54), p);
+        }
+
+        s->x = screenX;
+        s->y = screenY;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+
+        mgr->unk0.qUnk50 += mgr->unk0.qUnk58;
+        mgr->unk0.qUnk54 += mgr->unk0.qUnk5A;
+        mgr->unk0.qUnk58 += mgr->unk0.qUnk5C;
+        mgr->unk0.qUnk5A += mgr->unk0.qUnk5E;
+    }
+}
+
 #if 1
+// Create Laser
+void sub_804B570(s32 qWorldX, s32 qWorldY)
+{
+    SomeTaskManager_Graphic sp00;
+    struct Task *t;
+    SomeTaskManager_7C *mgr;
+
+    sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_LASER;
+    sp00.tileInfo.variant = 0;
+    sp00.vram4 = ALLOC_TILES(SA1_ANIM_EXTRA_BOSS_LASER);
+
+    t = CreateSomeTaskManager_7C_Task(&sp00, Task_804B420, TaskDestructor_SomeTaskManager_60_Common);
+    mgr = TASK_DATA(t);
+
+    mgr->unk0.qUnk50 = qWorldX;
+    mgr->unk0.qUnk54 = qWorldY;
+
+    mgr->unk0.s.oamFlags = SPRITE_OAM_ORDER(12);
+    mgr->unk0.s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
+}
 #endif
