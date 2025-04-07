@@ -3261,6 +3261,7 @@ void Player_8044750(Player *p)
 }
 
 // TODO: Look up|down function?
+// (98.79%) https://decomp.me/scratch/yy7rw
 NONMATCH("asm/non_matching/game/stage/Player__Player_80447D8.inc", void Player_80447D8(Player *p))
 {
     Camera *cam = &gCamera;
@@ -3298,7 +3299,7 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_80447D8.inc", void Player_8
             //       (also twice in sub_80448D0)
             p->SA2_LABEL(unk25) = 120;
 
-            if (p->playerID == 0) {
+            if (p->playerID == PLAYER_1) {
                 if (cam->SA2_LABEL(unk4C) > 0) {
                     cam->SA2_LABEL(unk4C) -= 2;
                     asm("");
@@ -4762,14 +4763,15 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
 }
 END_NONMATCH
 
-// UNFINISHED!
-// (42.94%) https://decomp.me/scratch/q6scN
+// NOTE: Main thing preventing this to match are the jumps due to the
+//       if-else blocks setting CHARSTATE_IDLE and CHARSTATE_WALK.
+//       It "matches semantically".
+// (99.99%) https://decomp.me/scratch/e9oqw
 NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LABEL(sub_8024B10)(Player *p, PlayerSpriteInfo *inPsi))
 {
     struct MultiSioData_0_4 *send;
     MultiplayerPlayer *mpp;
     AnimCmdResult acmdRes;
-
     Sprite *s = &inPsi->s;
     PlayerSpriteInfo *psi = inPsi;
 
@@ -4778,11 +4780,20 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LA
     s16 camY = cam->y;
 
     // required for match
+#ifndef BUG_FIX
+    // The prevAnim check compares to a 0xFF, not 0xFFFF!
+    bool32 cond = ({
+        bool32 r2 = s->prevVariant == 0xFF || s->prevAnim == 0xFF;
+        r2;
+    });
+#else
     bool32 cond = ({
         bool32 r2 = s->prevVariant == 0xFF || s->prevAnim == 0xFFFF;
         r2;
     });
+#endif
 
+top:
     s->x = I(p->qWorldX) - camX;
     s->y = I(p->qWorldY) - camY;
 
@@ -4798,50 +4809,279 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LA
         if (p->charState != 32) {
             psi->transform.rotation = p->rotation << 2;
         }
+        // _08046386
+
         s->frameFlags &= ~(SPRITE_FLAG_MASK_X_FLIP | SPRITE_FLAG_MASK_Y_FLIP);
         s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
         s->frameFlags |= p->playerID | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
 
         MACRO_8024B10_PSI_UPDATE(p, psi);
         if (IS_SINGLE_PLAYER) {
+            // _08046464
             TransformSprite(s, &psi->transform);
         }
     } else {
+        // _08046474
         psi->transform.rotation = 0;
         s->frameFlags &= ~(SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG_MASK_ROT_SCALE);
 
         if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
             s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
         } else {
+            // _08046498
             s->frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
             s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE;
             s->frameFlags &= ~SPRITE_FLAG_MASK_ROT_SCALE_ENABLE;
             s->x++;
         }
+        // _080464A8
 
         if (GRAVITY_IS_INVERTED) {
             s->frameFlags |= SPRITE_FLAG_MASK_Y_FLIP;
         } else {
             s->frameFlags &= ~SPRITE_FLAG_MASK_Y_FLIP;
         }
+        // _080464D6
 
         acmdRes = UpdateSpriteAnimation(s);
 #if (GAME == GAME_SA1)
         if (acmdRes == ACMD_RESULT__ENDED) {
+            s8 oldCharState = p->charState; // sp04
+
             // TODO: Seems like this is a switch-case?
-            if (p->charState == 7) {
-                p->charState = 6;
-            } else if (p->charState == 3) {
-                if (p->qSpeedGround == 0) {
-                    p->charState == CHARSTATE_IDLE;
+            if (p->charState == CHARSTATE_7) {
+                p->charState = CHARSTATE_SPINDASH;
+            } else if (p->charState == CHARSTATE_3) {
+                if (p->qSpeedGround != 0) {
+                    p->charState = CHARSTATE_WALK;
+                } else {
+                    p->charState = CHARSTATE_IDLE;
                 }
-            } else if (p->charState == 11) {
-                p->charState == CHARSTATE_IDLE;
-            } else if (p->charState != 22) {
+            } else if (p->charState == CHARSTATE_11) {
+                p->charState = CHARSTATE_IDLE;
+            } else if (p->charState == CHARSTATE_22) {
+                p->charState = CHARSTATE_WALK;
+            } else if (p->charState == CHARSTATE_17) {
+                p->charState = CHARSTATE_19;
+            } else if (p->charState == CHARSTATE_18) {
+                p->charState = CHARSTATE_19;
+            } else if (p->charState == CHARSTATE_27) {
+                p->charState = CHARSTATE_WALK;
+            } else if (p->charState == CHARSTATE_74) {
+                // _0804652C + 0x4
+                if (p->moveState & MOVESTATE_FACING_LEFT) {
+                    p->qWorldX -= Q(p->spriteOffsetX + 3);
+                } else {
+                    // _08046548
+                    p->qWorldX += Q(p->spriteOffsetX + 3);
+                }
+                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+
+                // TODO: What is going on here?
+                if (GRAVITY_IS_INVERTED) {
+                    p->qWorldY += Q(p->spriteOffsetY);
+                } else {
+                    p->qWorldY -= Q(14);
+                }
+                // _0804657E
+
+                p->charState = CHARSTATE_75;
+
+                p->SA2_LABEL(unk62)++;
+
+            } else if (p->charState == CHARSTATE_75) {
+                // _08046594 + 0x4
+                p->rotation = 0;
+                SA2_LABEL(sub_8021BE0)(p);
+            } else if (p->charState == CHARSTATE_45 || p->charState == CHARSTATE_48) {
+                // _080465A4
+                p->moveState &= ~MOVESTATE_20;
+                p->moveState &= ~MOVESTATE_100;
+                p->moveState &= ~MOVESTATE_SPINDASH;
+
+                p->SA2_LABEL(unk61) = 0;
+                p->SA2_LABEL(unk62) = 0;
+                p->SA2_LABEL(unk63) = 0;
+                p->moveState &= ~MOVESTATE_8000;
+
+                if (p->character == CHARACTER_TAILS) {
+                    m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+                }
+                // _080465E0
+
+                if (p->character == CHARACTER_AMY) {
+                    p->moveState &= ~(MOVESTATE_2000000 | MOVESTATE_4000000);
+                }
+                // _080465F0
+                if (p->qSpeedGround == 0) {
+                    p->charState = CHARSTATE_IDLE;
+                } else {
+                    p->charState = CHARSTATE_WALK;
+                }
+            } else if (p->charState == CHARSTATE_46) {
+                // _08046608 + 0xA
+                if (p->SA2_LABEL(unk63) == 1) {
+                    if (p->moveState & MOVESTATE_FACING_LEFT) {
+                        p->qSpeedGround = -Q(4);
+                    } else {
+                        p->qSpeedGround = +Q(4);
+                    }
+                    // _08046632
+
+                    p->SA2_LABEL(unk62)++;
+                    p->SA2_LABEL(unk63) = 0;
+
+                    p->charState = CHARSTATE_47;
+
+                    m4aSongNumStart(SE_SONIC_SKID_ATTACK);
+                } else if (p->SA2_LABEL(unk63) == 2) {
+                    // _0804664E + 0x4
+                    p->moveState &= ~MOVESTATE_20;
+                    p->moveState &= ~MOVESTATE_100;
+                    p->moveState &= ~MOVESTATE_SPINDASH;
+
+                    p->SA2_LABEL(unk61) = 0;
+                    p->SA2_LABEL(unk62) = 0;
+                    p->SA2_LABEL(unk63) = 0;
+                    p->moveState &= ~MOVESTATE_8000;
+
+                    if (p->character == CHARACTER_TAILS) {
+                        m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+                    }
+                    // _0804668C
+
+                    if (p->character == CHARACTER_AMY) {
+                        p->moveState &= ~(MOVESTATE_2000000 | MOVESTATE_4000000);
+                    }
+                    // _0804669C
+
+                    p->qSpeedAirX = -p->qSpeedAirX;
+                    p->qSpeedAirY = -Q(4.875);
+
+                    if (p->moveState & MOVESTATE_IN_WATER) {
+                        p->qSpeedAirY = -Q(2.625);
+                    }
+                    // _080466B4
+
+                    p->moveState |= MOVESTATE_IN_AIR;
+                    p->moveState |= MOVESTATE_4;
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 9);
+
+                    p->charState = CHARSTATE_49;
+
+                    m4aSongNumStart(SE_JUMP);
+                } else {
+                    // _080466F0
+                    p->SA2_LABEL(unk62) = 0;
+                    p->SA2_LABEL(unk63) = 0;
+                    p->charState = CHARSTATE_IDLE;
+                    p->defeatScoreIndex = 0;
+                    p->qSpeedGround = 0;
+                }
+
+            } else if (p->charState == CHARSTATE_54) {
+                // _08046704 + 4
+                p->charState = CHARSTATE_FLYING;
+            } else if (p->charState == CHARSTATE_58) {
+                p->charState = CHARSTATE_SWIMMING;
+            } else if (p->charState == CHARSTATE_GROUND_ATTACK) {
+                // _08046714 + 0x4
+
+                p->SA2_LABEL(unk62) = 0;
+                p->SA2_LABEL(unk63) = 0;
+
+                if (p->qSpeedGround == 0) {
+                    p->charState = CHARSTATE_IDLE;
+                } else {
+                    p->charState = CHARSTATE_WALK;
+                }
+
+                p->defeatScoreIndex = 0;
+            } else if (p->charState == CHARSTATE_64) {
+                SA2_LABEL(sub_8021BE0)(p);
+            } else if (p->charState == CHARSTATE_70) {
+                p->charState = CHARSTATE_71;
+            } else if (p->charState == CHARSTATE_76 || p->charState == CHARSTATE_77) {
+                // _0804674E + 0xA
+
+                if (p->SA2_LABEL(unk63) != 0) {
+                    s32 qSpeed;
+
+                    p->SA2_LABEL(unk62)++;
+                    p->SA2_LABEL(unk63) = 0;
+
+                    if (p->charState == CHARSTATE_77) {
+                        m4aSongNumStart(SE_127);
+                    } else {
+                        m4aSongNumStart(SE_126);
+                    }
+                    // _08046788
+
+                    p->charState++;
+
+                    qSpeed = Q(3);
+                    if (p->moveState & MOVESTATE_FACING_LEFT) {
+                        qSpeed = -qSpeed;
+                    }
+                    p->qSpeedGround += qSpeed;
+                } else {
+                    // _080467A6
+                    p->SA2_LABEL(unk62) = 0;
+                    p->SA2_LABEL(unk63) = 0;
+                    p->charState = CHARSTATE_IDLE;
+                    p->defeatScoreIndex = 0;
+                    p->qSpeedGround = 0;
+                }
+            } else if (p->charState == CHARSTATE_87) {
+                s32 qSpeed;
+                // _080467B8 + 0x4
+
+                if (p->SA2_LABEL(unk63) == 0) {
+                    p->SA2_LABEL(unk62) = 0;
+
+                    if (p->qSpeedGround != 0) {
+                        p->charState = CHARSTATE_WALK;
+                    } else {
+                        p->charState = CHARSTATE_IDLE;
+                    }
+                } else {
+                    p->SA2_LABEL(unk63) = 0;
+                    p->SA2_LABEL(unk62)++;
+                    p->charState = CHARSTATE_88;
+
+                    qSpeed = Q(3);
+                    if (p->moveState & MOVESTATE_FACING_LEFT) {
+                        qSpeed = -qSpeed;
+                    }
+                    p->qSpeedGround += qSpeed;
+
+                    CreateAmyAttackHeartEffect();
+                }
+            } else if (p->charState == CHARSTATE_88) {
+                p->SA2_LABEL(unk62) = 0;
+
+                if (p->qSpeedGround != 0) {
+                    p->charState = CHARSTATE_WALK;
+                } else {
+                    p->charState = CHARSTATE_IDLE;
+                }
+            } else if (p->charState == CHARSTATE_93) {
+                p->SA2_LABEL(unk62) = 0;
+                p->SA2_LABEL(unk63) = 0;
+                p->charState = CHARSTATE_IDLE;
+                p->defeatScoreIndex = 0;
+            }
+
+            // _08046836
+            if (p->charState != oldCharState) {
+                SA2_LABEL(sub_802486C)(p, inPsi);
+                goto top;
             }
         }
 #endif
     }
+    // _0804684E
+
     if (IS_SINGLE_PLAYER) {
         // Draw Player sprite in SP modes
         if (p->moveState & MOVESTATE_DEAD
@@ -4859,16 +5099,28 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LA
 
     send = &gMultiSioSend.pat4;
     mpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
+#if (GAME == GAME_SA1)
+    send->unk0 = 0x1000;
+#elif (GAME == GAME_SA2)
     send->unk0 = 0x5000;
+#endif
     send->x = I(p->qWorldX) + p->SA2_LABEL(unk7C);
     send->y = I(p->qWorldY);
     send->unk6 = s->graphics.anim;
     send->unkA = p->itemEffect;
     if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+#if (GAME == GAME_SA2)
         send->unk6 -= gPlayerCharacterIdleAnims[p->character];
+#endif
         send->unk6 |= gRingCount << 8;
     }
-    send->unkB = s->variant | (p->spriteOffsetY << 4);
+#if (GAME == GAME_SA1)
+    else if (gGameMode == 4 || gGameMode == 5) {
+        send->unk6 |= (mpp->unk5C & 0x70000) >> 4;
+    }
+#endif
+
+    send->unkB = s->variant | (p->spriteOffsetY << 3);
     send->unkC = s->animSpeed;
     send->unkD = psi->transform.rotation >> 2;
 

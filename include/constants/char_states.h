@@ -24,6 +24,7 @@
 #define CHARSTATE_16              16
 #define CHARSTATE_17              17
 #define CHARSTATE_18              18
+#define CHARSTATE_19              19
 #define CHARSTATE_RAIL_EXTRA_JUMP 20
 #define CHARSTATE_21              21
 #define CHARSTATE_22              22
@@ -45,6 +46,7 @@
 #define CHARSTATE_46       46
 #define CHARSTATE_47       47
 #define CHARSTATE_48       48
+#define CHARSTATE_49       49
 
 #define CHARSTATE_FLYING        53
 #define CHARSTATE_54            54
@@ -52,6 +54,7 @@
 #define CHARSTATE_56            56
 #define CHARSTATE_SWIMMING      57
 #define CHARSTATE_58            58
+#define CHARSTATE_59            59
 #define CHARSTATE_GROUND_ATTACK 60
 
 // NOTE: Inferred from CHARSTATE_KNUCKLES_GLIDE in SA2_LABEL(sub_8022318)

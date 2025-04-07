@@ -8,15 +8,15 @@
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x10
-	adds r4, r0, #0
-	mov sl, r1
+	adds r4, r0, #0     @ r4 = p
+	mov sl, r1          @ sl = inPsi
 	movs r0, #0xc
 	add r0, sl
-	mov r8, r0
-	mov sb, sl
+	mov r8, r0          @ r8 = s
+	mov sb, sl          @ sb = psi
 	ldr r0, _080463BC @ =gCamera
-	ldrh r2, [r0]
-	ldrh r1, [r0, #2]
+	ldrh r2, [r0]       @ r2 = camX = cam->x
+	ldrh r1, [r0, #2]   @ r1 = camY = cam->y
 	movs r3, #0
 	mov r0, sb
 	adds r0, #0x2d
@@ -30,7 +30,7 @@
 _0804632E:
 	movs r3, #1
 _08046330:
-	str r3, [sp]
+	str r3, [sp]        @ sp00 = r3 = cond
 	lsls r2, r2, #0x10
 	str r2, [sp, #8]
 	lsls r1, r1, #0x10
@@ -44,14 +44,14 @@ _0804633E:
 	asrs r0, r1, #0x10
 	subs r2, r2, r0
 	mov r3, r8
-	strh r2, [r3, #0x16]
+	strh r2, [r3, #0x16]    @ s->x = I(p->qWorldX) - camX;
 	ldr r0, [r4, #4]
 	asrs r0, r0, #8
 	ldr r3, [sp, #0xc]
 	asrs r1, r3, #0x10
 	subs r0, r0, r1
 	mov r1, r8
-	strh r0, [r1, #0x18]
+	strh r0, [r1, #0x18]    @ s->y = I(p->qWorldY) - camY;
 	mov r3, sb
 	strh r2, [r3, #6]
 	strh r0, [r3, #8]
@@ -249,21 +249,21 @@ _080464CC:
 _080464D6:
 	mov r0, r8
 	bl UpdateSpriteAnimation
-	adds r1, r0, #0
+	adds r1, r0, #0     @ r1 = acmdRes
 	cmp r1, #0
 	beq _080464E4
 	b _0804684E
 _080464E4:
 	ldrb r0, [r5]
-	str r0, [sp, #4]
+	str r0, [sp, #4]    @ sp04 = oldCharState
 	movs r0, #0
 	ldrsb r0, [r5, r0]
 	cmp r0, #7
 	bne _080464FC
 	movs r0, #6
-_080464F2:
+_080464F2_set_charState:
 	strb r0, [r5]
-	b _08046836
+	b _08046836_post_ifelse
 	.align 2, 0
 _080464F8: .4byte 0xFFFFF7FF
 _080464FC:
@@ -273,7 +273,7 @@ _080464FC:
 	ldrsh r0, [r4, r2]
 	cmp r0, #0
 	beq _0804650A
-	b _0804681C
+	b _0804681C_set_charState_to_WALK
 _0804650A:
 	b _08046510
 _0804650C:
@@ -281,11 +281,11 @@ _0804650C:
 	bne _08046514
 _08046510:
 	strb r1, [r5]
-	b _08046836
+	b _08046836_post_ifelse
 _08046514:
 	cmp r0, #0x16
 	bne _0804651A
-	b _0804681C
+	b _0804681C_set_charState_to_WALK
 _0804651A:
 	cmp r0, #0x11
 	beq _08046522
@@ -293,11 +293,11 @@ _0804651A:
 	bne _08046526
 _08046522:
 	movs r0, #0x13
-	b _080464F2
+	b _080464F2_set_charState
 _08046526:
 	cmp r0, #0x1b
 	bne _0804652C
-	b _0804681C
+	b _0804681C_set_charState_to_WALK
 _0804652C:
 	cmp r0, #0x4a
 	bne _08046594
@@ -351,7 +351,7 @@ _0804657E:
 	ldrb r0, [r1]
 	adds r0, #1
 	strb r0, [r1]
-	b _08046836
+	b _08046836_post_ifelse
 	.align 2, 0
 _08046590: .4byte 0xFFFFF200
 _08046594:
@@ -373,7 +373,7 @@ _080465A4:
 	ands r0, r1
 	ldr r1, _080465FC @ =0xFFFFFBFF
 	ands r0, r1
-	str r0, [r4, #0x10]
+	str r0, [r4, #0x10] @ p->moveState &= ~MOVESTATE_SPINDASH;
 	adds r1, r4, #0
 	adds r1, #0x3d
 	movs r0, #0
@@ -408,9 +408,9 @@ _080465F0:
 	ldrsh r0, [r4, r1]
 	cmp r0, #0
 	beq _080465FA
-	b _0804681C
+	b _0804681C_set_charState_to_WALK
 _080465FA:
-	b _080464F2
+	b _080464F2_set_charState
 	.align 2, 0
 _080465FC: .4byte 0xFFFFFBFF
 _08046600: .4byte 0xFFFF7FFF
@@ -451,7 +451,7 @@ _08046632:
 	strb r0, [r5]
 	movs r0, #0x6f
 	bl m4aSongNumStart
-	b _08046836
+	b _08046836_post_ifelse
 _0804664E:
 	cmp r7, #2
 	bne _080466F0
@@ -522,7 +522,7 @@ _080466B4:
 	strb r0, [r5]
 	movs r0, #0x74
 	bl m4aSongNumStart
-	b _08046836
+	b _08046836_post_ifelse
 	.align 2, 0
 _080466DC: .4byte 0xFFFFFBFF
 _080466E0: .4byte 0xFFFF7FFF
@@ -539,17 +539,17 @@ _080466F0:
 	adds r1, #0x1a
 	strb r0, [r1]
 	strh r0, [r4, #0xc]
-	b _08046836
+	b _08046836_post_ifelse
 _08046704:
 	cmp r1, #0x36
 	bne _0804670C
 	movs r0, #0x35
-	b _080464F2
+	b _080464F2_set_charState
 _0804670C:
 	cmp r1, #0x3a
 	bne _08046714
 	movs r0, #0x39
-	b _080464F2
+	b _080464F2_set_charState
 _08046714:
 	cmp r1, #0x3c
 	bne _0804673A
@@ -570,19 +570,19 @@ _0804672E:
 	adds r1, #0x58
 	movs r0, #0
 	strb r0, [r1]
-	b _08046836
+	b _08046836_post_ifelse
 _0804673A:
 	cmp r1, #0x40
 	bne _08046746
 _0804673E:
 	adds r0, r4, #0
 	bl sa2__sub_8021BE0
-	b _08046836
+	b _08046836_post_ifelse
 _08046746:
 	cmp r1, #0x46
 	bne _0804674E
 	movs r0, #0x47
-	b _080464F2
+	b _080464F2_set_charState
 _0804674E:
 	subs r0, #0x4c
 	lsls r0, r0, #0x18
@@ -628,7 +628,7 @@ _0804679E:
 	ldrh r0, [r4, #0xc]
 	adds r0, r0, r2
 	strh r0, [r4, #0xc]
-	b _08046836
+	b _08046836_post_ifelse
 _080467A6:
 	adds r0, r4, #0
 	adds r0, #0x3e
@@ -638,7 +638,7 @@ _080467A6:
 	adds r0, #0x1a
 	strb r1, [r0]
 	strh r1, [r4, #0xc]
-	b _08046836
+	b _08046836_post_ifelse
 _080467B8:
 	cmp r1, #0x57
 	bne _08046806
@@ -654,8 +654,8 @@ _080467B8:
 	movs r3, #0xc
 	ldrsh r0, [r4, r3]
 	cmp r0, #0
-	bne _0804681C
-	b _080464F2
+	bne _0804681C_set_charState_to_WALK
+	b _080464F2_set_charState
 _080467D8:
 	movs r0, #0
 	strb r0, [r2]
@@ -679,7 +679,7 @@ _080467FA:
 	adds r0, r0, r2
 	strh r0, [r4, #0xc]
 	bl CreateAmyAttackHeartEffect
-	b _08046836
+	b _08046836_post_ifelse
 _08046806:
 	cmp r1, #0x58
 	bne _08046820
@@ -690,14 +690,14 @@ _08046806:
 	movs r1, #0xc
 	ldrsh r0, [r4, r1]
 	cmp r0, #0
-	bne _0804681C
-	b _080464F2
-_0804681C:
+	bne _0804681C_set_charState_to_WALK
+	b _080464F2_set_charState
+_0804681C_set_charState_to_WALK:
 	movs r0, #4
-	b _080464F2
+	b _080464F2_set_charState
 _08046820:
 	cmp r1, #0x5d
-	bne _08046836
+	bne _08046836_post_ifelse
 	adds r0, r4, #0
 	adds r0, #0x3e
 	movs r1, #0
@@ -707,16 +707,16 @@ _08046820:
 	strb r1, [r5]
 	adds r0, #0x19
 	strb r1, [r0]
-_08046836:
+_08046836_post_ifelse:
 	movs r1, #0
 	ldrsb r1, [r5, r1]
-	ldr r2, [sp, #4]
+	ldr r2, [sp, #4]    @ r2 = sp04 = oldCharState
 	lsls r0, r2, #0x18
 	asrs r0, r0, #0x18
 	cmp r1, r0
 	beq _0804684E
 	adds r0, r4, #0
-	mov r1, sl
+	mov r1, sl          @ r1 = sl = inPsi
 	bl sa2__sub_802486C
 	b _0804633E
 _0804684E:
