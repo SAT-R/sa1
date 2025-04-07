@@ -7868,6 +7868,12 @@ void Player_Amy_8049854(Player *p)
 /* Start of Super Sonic ? */
 #include "game/enemies/boss_super_egg_robo.h"
 
+#define CAPSULE_STATE__CAPTURED  +1
+#define CAPSULE_STATE__MOVING    0
+#define CAPSULE_STATE__DESTROYED -1
+
+typedef s32 CapsuleState;
+
 s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p);
 void Task_804B370(void);
 
@@ -9300,27 +9306,29 @@ void Task_804B0D8(void)
     mgr->unk70 += mgr->unk72;
 }
 
-// (97.70%) https://decomp.me/scratch/CSS1H
-NONMATCH("asm/non_matching/game/stage/ExtraBoss__CapsuleGetCaptureState.inc",
-         s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p))
+// (100.0%) https://decomp.me/scratch/CSS1H
+s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperEggRobo *extraBoss, Player *p)
 {
-    s16 screenX, screenY;
-
-    if (!(p->moveState & MOVESTATE_GOAL_REACHED)) {
+    u32 res;
+    typedef u32 (*FakematchFuncCast)(Sprite *, CamCoord, CamCoord);
+    if (p->moveState & MOVESTATE_GOAL_REACHED) {
         return 0;
     }
 
-    screenX = I(mgr->unk0.qUnk50);
-    screenY = I(mgr->unk0.qUnk54);
-
-    if (sub_800C0E0(s, screenX, screenY, p) != 0) {
+#ifndef NON_MATCHING
+    // TODO: Fix this, holy [REDACTED]!!!
+    res = ((FakematchFuncCast)sub_800C0E0)(s, I(mgr->unk0.qUnk50), I(mgr->unk0.qUnk54));
+#else
+    res = sub_800C0E0(s, I(mgr->unk0.qUnk50), I(mgr->unk0.qUnk54), p);
+#endif
+    if (res != 0) {
         if (p->SA2_LABEL(unk62) != 0) {
             m4aSongNumStart(SE_ITEM_BOX);
-            InitScatteringRings_ExtraBossCapsule(mgr->unk0.qUnk50, mgr->unk0.qUnk54, 8);
+            InitScatteringRings_ExtraBossCapsule(I(mgr->unk0.qUnk50), I(mgr->unk0.qUnk54), 8);
             sub_804AFCC(mgr->unk0.qUnk50, mgr->unk0.qUnk54);
 
             TaskDestroy(gCurTask);
-            return -1;
+            return CAPSULE_STATE__DESTROYED;
         } else if ((p->timerInvulnerability == 0) && !(extraBoss->flags58 & SER_FLAG__80)) {
             s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
             s->variant = 3;
@@ -9329,13 +9337,12 @@ NONMATCH("asm/non_matching/game/stage/ExtraBoss__CapsuleGetCaptureState.inc",
 
             gCurTask->main = Task_804AE14;
 
-            return +1;
+            return CAPSULE_STATE__CAPTURED;
         }
     }
 
-    return 0;
+    return CAPSULE_STATE__MOVING;
 }
-END_NONMATCH
 
 #if 1
 #endif
