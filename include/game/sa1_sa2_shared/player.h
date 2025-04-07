@@ -16,6 +16,7 @@ typedef struct {
 
 // extern PlayerSpriteInfo gPlayerLimbsPSI;
 extern PlayerSpriteInfo gPlayerBodyPSI;
+extern PlayerSpriteInfo gPartnerBodyPSI;
 
 // Declared beforehand because it's used inside Player struct
 struct Player;
@@ -90,6 +91,8 @@ typedef struct {
 #define GET_SP_PLAYER_V0(index) ((index == 0) ? &gPlayer : &gPartner)
 #define GET_SP_PLAYER_V1(index) ((index != 0) ? &gPartner : &gPlayer)
 
+#define GET_SP_PLAYER_SPR_INFO_V0(index) ((index == 0) ? &gPlayerBodyPSI : &gPartnerBodyPSI)
+#define GET_SP_PLAYER_SPR_INFO_V1(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
 // NOTE: DO NOT USE, only for matching in SA1!!!
 #ifndef NON_MATCHING
 #define GET_SP_PLAYER_MEMBER_V0(index, _memb) ((index == 0) ? gPlayer._memb : gPartner._memb)

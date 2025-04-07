@@ -107,6 +107,7 @@
 
 #define SE_BUMPER 184
 
+#define SE_BALLOON_POP           189
 #define SE_WATERFALL_SURFACE_HIT 190
 #define SE_AIR_BUBBLE            191
 #define SE_DROWNED               192

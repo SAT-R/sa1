@@ -40,6 +40,7 @@
 #endif
 
 #define CHARSTATE_32       32
+#define CHARSTATE_33       33
 #define CHARSTATE_43       43
 #define CHARSTATE_AIR_DASH 44
 #define CHARSTATE_45       45
