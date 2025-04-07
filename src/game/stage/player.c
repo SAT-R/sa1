@@ -9482,7 +9482,6 @@ void Task_804B420(void)
     }
 }
 
-#if 1
 // Create Laser
 void sub_804B570(s32 qWorldX, s32 qWorldY)
 {
@@ -9503,4 +9502,3 @@ void sub_804B570(s32 qWorldX, s32 qWorldY)
     mgr->unk0.s.oamFlags = SPRITE_OAM_ORDER(12);
     mgr->unk0.s.frameFlags = SPRITE_FLAG(PRIORITY, 1);
 }
-#endif
