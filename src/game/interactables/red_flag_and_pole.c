@@ -16,6 +16,9 @@ typedef struct {
 } RedFlagPole;
 
 void Task_RedFlag(void);
+void Task_8077760(void);
+bool32 sub_8077FA4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY);
+bool32 sub_80780B4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY);
 void TaskDestructor_RedFlag(struct Task *t);
 
 void CreateEntity_RedFlag(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -58,4 +61,45 @@ void CreateEntity_RedFlag(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 
     UpdateSpriteAnimation(s);
+}
+
+void Task_RedFlag(void)
+{
+#ifndef NON_MATCHING
+    register struct Task **t asm("r8") = &gCurTask;
+#else
+    struct Task **t = &gCurTask;
+#endif
+    RedFlagPole *pole = TASK_DATA(*t);
+    Sprite *s = &pole->s;
+    MapEntity *me = pole->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(pole->base.meX, pole->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pole->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (PLAYER_IS_ALIVE) {
+        bool32 res;
+        if (pole->data1) {
+            res = sub_8077FA4(pole, s, worldX, worldY);
+        } else {
+            res = sub_80780B4(pole, s, worldX, worldY);
+        }
+
+        if (res) {
+            (*t)->main = Task_8077760;
+        }
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, pole->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
