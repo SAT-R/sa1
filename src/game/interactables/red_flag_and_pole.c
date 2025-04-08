@@ -6,6 +6,7 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/char_states.h"
+#include "constants/zones.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -19,6 +20,7 @@ typedef struct {
 void Task_RedFlag(void);
 void Task_8077760(void);
 void Task_8077918(void);
+void Task_8077C5C(void);
 bool32 sub_8077FA4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY);
 bool32 sub_80780B4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY);
 void TaskDestructor_RedFlag(struct Task *t);
@@ -45,8 +47,8 @@ void CreateEntity_RedFlag(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    s->graphics.dest = ALLOC_TILES(SA1_ANIM_RED_FLAG);
-    s->graphics.anim = SA1_ANIM_RED_FLAG;
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_RED_FLAG_V);
+    s->graphics.anim = SA1_ANIM_RED_FLAG_V;
     s->variant = 0;
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->graphics.size = 0;
@@ -204,10 +206,98 @@ void Task_8077918(void)
     if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
         pole->unk3D = 0;
         s->prevVariant = -1;
-        s->graphics.anim = SA1_ANIM_RED_FLAG;
+        s->graphics.anim = SA1_ANIM_RED_FLAG_V;
         s->variant = 0;
         (gCurTask)->main = Task_RedFlag;
     }
 
     DisplaySprite(s);
+}
+
+void CreateEntity_WallPole_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    u8 zone = LEVEL_TO_ZONE(gCurrentLevel);
+    struct Task *t = TaskCreate(Task_8077C5C, sizeof(RedFlagPole), 0x2000, 0, TaskDestructor_RedFlag);
+    RedFlagPole *pole = TASK_DATA(t);
+    Sprite *s = &pole->s;
+
+    pole->base.regionX = regionX;
+    pole->base.regionY = regionY;
+    pole->base.me = me;
+    pole->base.meX = me->x;
+    pole->base.id = id;
+
+    pole->data1 = me->d.sData[1];
+    pole->unk3D = 0;
+    pole->unk3E = 0;
+    pole->tuggingPlayerIndex = 0;
+
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    if ((zone == ZONE_1) || (gCurrentLevel == ACT_CHAO_HUNT_A)) {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOUNCY_BAR);
+        s->graphics.anim = SA1_ANIM_BOUNCY_BAR;
+        s->variant = 0;
+    } else {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_RED_FLAG_H);
+        s->graphics.anim = SA1_ANIM_RED_FLAG_H;
+        s->variant = 0;
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+}
+
+void CreateEntity_WallPole_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    u8 zone = LEVEL_TO_ZONE(gCurrentLevel);
+    struct Task *t = TaskCreate(Task_8077C5C, sizeof(RedFlagPole), 0x2000, 0, TaskDestructor_RedFlag);
+    RedFlagPole *pole = TASK_DATA(t);
+    Sprite *s = &pole->s;
+
+    pole->base.regionX = regionX;
+    pole->base.regionY = regionY;
+    pole->base.me = me;
+    pole->base.meX = me->x;
+    pole->base.id = id;
+
+    pole->data1 = me->d.sData[1];
+    pole->unk3D = 0;
+    pole->unk3E = 0;
+    pole->tuggingPlayerIndex = 0;
+
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    if ((zone == ZONE_1) || (gCurrentLevel == ACT_CHAO_HUNT_A)) {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOUNCY_BAR);
+        s->graphics.anim = SA1_ANIM_BOUNCY_BAR;
+        s->variant = 0;
+    } else {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_RED_FLAG_H);
+        s->graphics.anim = SA1_ANIM_RED_FLAG_H;
+        s->variant = 0;
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2) | SPRITE_FLAG(X_FLIP, 1);
 }
