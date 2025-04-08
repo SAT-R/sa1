@@ -2,6 +2,7 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
+#include "game/stage/player.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -21,8 +22,11 @@ void Task_RedFlag(void);
 void Task_8077760(void);
 void Task_8077918(void);
 void Task_8077C5C(void);
+void Task_8077D1C(void);
+void Task_8077E9C(void);
 bool32 sub_8077FA4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY);
 bool32 sub_80780B4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY);
+bool32 sub_80781E4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY);
 void TaskDestructor_RedFlag(struct Task *t);
 
 void CreateEntity_RedFlag(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -300,4 +304,126 @@ void CreateEntity_WallPole_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->palId = 0;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2) | SPRITE_FLAG(X_FLIP, 1);
+}
+
+void Task_8077C5C(void)
+{
+    RedFlagPole *pole = TASK_DATA(gCurTask);
+    Sprite *s = &pole->s;
+    MapEntity *me = pole->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(pole->base.meX, pole->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pole->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (PLAYER_IS_ALIVE) {
+        bool32 res = sub_80781E4(pole, s, worldX, worldY);
+
+        if (res) {
+            gCurTask->main = Task_8077D1C;
+        }
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, pole->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8077D1C(void)
+{
+    s16 arr[15] = {
+        1, 1, 1, 1, 1, 1, 1, 1, 16, 7, 7, 7, 7, 7, 7,
+    };
+    RedFlagPole *pole = TASK_DATA(gCurTask);
+    Sprite *s = &pole->s;
+    MapEntity *me = pole->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(pole->base.meX, pole->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pole->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, pole->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    {
+        Player *p = GET_SP_PLAYER_V1(pole->tuggingPlayerIndex);
+        if (PLAYER_IS_ALIVE) {
+            if (pole->unk3D > 6) {
+                p->qWorldY -= Q(arr[pole->unk3D]);
+            } else {
+                p->qWorldY += Q(arr[pole->unk3D]);
+            }
+
+            if (++pole->unk3D > 13) {
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->moveState &= ~MOVESTATE_100;
+                p->moveState &= ~MOVESTATE_4;
+                p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+                p->charState = CHARSTATE_21;
+                p->qSpeedAirY = -Q(7.5);
+                p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+
+                gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                gCurTask->main = Task_8077E9C;
+            }
+        } else {
+            p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+            gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8077E9C(void)
+{
+    u8 zone = LEVEL_TO_ZONE(gCurrentLevel);
+    RedFlagPole *pole = TASK_DATA(gCurTask);
+    Sprite *s = &pole->s;
+    MapEntity *me = pole->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(pole->base.meX, pole->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pole->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, pole->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+        pole->unk3D = 0;
+        s->prevVariant = -1;
+        if ((zone == ZONE_1) || (gCurrentLevel == ACT_CHAO_HUNT_A)) {
+            s->graphics.anim = SA1_ANIM_BOUNCY_BAR;
+            s->variant = 0;
+        } else {
+            s->graphics.anim = SA1_ANIM_RED_FLAG_H;
+            s->variant = 0;
+        }
+
+        (gCurTask)->main = Task_8077C5C;
+    }
+
+    DisplaySprite(s);
 }

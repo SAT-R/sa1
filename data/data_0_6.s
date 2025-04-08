@@ -749,11 +749,3 @@ gUnknown_086CED28:
     .short 0x01D0 @ SA1_ANIM_WATER_SPLASH_1  @ 2-Player Secret Base
     .short 0x01D0 @ SA1_ANIM_WATER_SPLASH_1  @ 2-Player Casino Paradise
     .short 0x01D0 @ SA1_ANIM_WATER_SPLASH_1  @ 2-Player Cosmic Angel
-
-    .global gUnknown_086CED4C
-gUnknown_086CED4C:
-    .incbin "baserom.gba", 0x006CED4C, 0x20
-
-    .global gUnknown_086CED6C
-gUnknown_086CED6C:
-    .incbin "baserom.gba", 0x006CED6C, 0x24
