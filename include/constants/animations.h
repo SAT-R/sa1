@@ -94,8 +94,8 @@
 
 #define SA1_ANIM_SHRUBBERY               467
 #define SA1_ANIM_BOUNCE_BAR              468
-#define SA1_ANIM_FLAG_H                  469
-#define SA1_ANIM_FLAG_V                  470
+#define SA1_ANIM_RED_FLAG                469
+#define SA1_ANIM_POLE                    470
 #define SA1_ANIM_BOOSTER                 471
 #define SA1_ANIM_BOOSTER_VERT            472
 #define SA1_ANIM_WATER_BRIDGE_SPLASH     473
