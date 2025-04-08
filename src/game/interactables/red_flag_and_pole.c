@@ -181,3 +181,33 @@ void Task_8077760(void)
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
+
+void Task_8077918(void)
+{
+    RedFlagPole *pole = TASK_DATA(gCurTask);
+    Sprite *s = &pole->s;
+    MapEntity *me = pole->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(pole->base.meX, pole->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pole->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, pole->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+        pole->unk3D = 0;
+        s->prevVariant = -1;
+        s->graphics.anim = SA1_ANIM_RED_FLAG;
+        s->variant = 0;
+        (gCurTask)->main = Task_RedFlag;
+    }
+
+    DisplaySprite(s);
+}
