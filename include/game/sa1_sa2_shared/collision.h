@@ -44,6 +44,7 @@ bool32 sa2__sub_800CBA4(Player *);
 void Collision_AdjustPlayerSpeed(Player *);
 
 u32 sub_80096B0(Sprite *, s32 x, s32 y, Player *);
+bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800ABEC(Sprite *, s32 x, s32 y, Player *);
 u32 sub_800CCB8(Sprite *, s32 x, s32 y, Player *);
 

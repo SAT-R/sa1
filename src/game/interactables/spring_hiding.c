@@ -1,10 +1,15 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/player.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
+#include "constants/songs.h"
 
 typedef struct {
     SpriteBase base;
@@ -13,7 +18,7 @@ typedef struct {
 
 void Task_Spring_Hiding(void);
 void Task_8095158(void);
-bool32 sub_8095224(SpringHiding *spring, Sprite *s, CamCoord worldX, CamCoord worldY);
+bool32 sub_8095224(SpringHiding *spring, Sprite *s, s32 worldX, s32 worldY);
 void TaskDestructor_Spring_Hiding(struct Task *t);
 
 void CreateEntity_Spring_Hiding(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -100,4 +105,70 @@ void Task_8095158(void)
     }
 
     DisplaySprite(s);
+}
+
+// (93.31%) https://decomp.me/scratch/LSXV2
+NONMATCH("asm/non_matching/game/interactables/spring_hiding__sub_8095224.inc",
+         bool32 sub_8095224(SpringHiding *spring, Sprite *s, s32 worldX, s32 worldY))
+{
+    bool32 result = FALSE;
+    MapEntity *me = spring->base.me;
+    bool32 sp0C = FALSE;
+    s32 i = 0;
+
+    do {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
+                if (!SA2_LABEL(sub_800DF38)(s, worldX, worldY, GET_SP_PLAYER_V1(i))) {
+                    sp0C = sub_800A768(s, worldX, worldY, GET_SP_PLAYER_V1(i));
+                    if (!sp0C) {
+                        continue;
+                    }
+                }
+
+                SA2_LABEL(sub_8021BE0)(GET_SP_PLAYER_V1(i));
+
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -(me->d.uData[1] << 6);
+                // _08095360
+
+                if (sp0C) {
+                    s16 qSpeed = GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) >> 1;
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) += qSpeed;
+                }
+                // _08095390
+
+                if (me->d.uData[0] & 0x1) {
+                    Sprite *infoSprite;
+                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                    GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_21;
+                    GET_SP_PLAYER_SPR_INFO_V1(i)->s.prevVariant = -1;
+                    asm("");
+                } else {
+                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                    GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_17;
+                    GET_SP_PLAYER_SPR_INFO_V1(i)->s.prevVariant = -1;
+                }
+
+                s->variant = 1;
+                s->prevVariant = -1;
+
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+                m4aSongNumStart(SE_SPRING);
+                result = TRUE;
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+END_NONMATCH
+
+void TaskDestructor_Spring_Hiding(struct Task *t)
+{
+    SpringHiding *spring = TASK_DATA(t);
+    VramFree(spring->s.graphics.dest);
 }

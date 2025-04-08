@@ -6,7 +6,7 @@
 #include "constants/move_states.h"
 
 #define PLAYER_IS_ALIVE  (!(gPlayer.moveState & MOVESTATE_DEAD))
-#define IS_ALIVE(player) (!(player->moveState & MOVESTATE_DEAD))
+#define IS_ALIVE(player) (!((player)->moveState & MOVESTATE_DEAD))
 
 typedef struct {
     /*0x00 */ SpriteTransform transform;

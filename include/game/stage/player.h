@@ -41,6 +41,7 @@ void Player_DisableInputAndBossTimer_FinalBoss(void);
 void SetStageSpawnPos(u32 character, u32 level, u32 p2, Player *player);
 void CallSetStageSpawnPos(u32 character, u32 level, u32 p2, Player *p);
 
+void SA2_LABEL(sub_8021BE0)(Player *p);
 s32 SA2_LABEL(sub_8029B88)(Player *player, u8 *p1, int *out);
 s32 SA2_LABEL(sub_8029AC0)(Player *player, u8 *p1, s32 *out);
 s32 SA2_LABEL(sub_8029B0C)(Player *player, u8 *p1, s32 *out);
