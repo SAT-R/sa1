@@ -67,7 +67,7 @@ typedef struct {
 #define PLAYER_ITEM_EFFECT__MP_SLOW_DOWN    0x10
 #define PLAYER_ITEM_EFFECT__20              0x20
 #define PLAYER_ITEM_EFFECT__CONFUSION       0x40
-#define PLAYER_ITEM_EFFECT__TELEPORT        0x80
+#define PLAYER_ITEM_EFFECT__TELEPORT        0x80 // The name doesn't seem right...
 
 #define HAS_SHIELD(p) ((p)->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC | PLAYER_ITEM_EFFECT__SHIELD_NORMAL))
 
