@@ -161,6 +161,7 @@ SECTIONS {
         src/game/interactables/trampoline.o(.text);
         asm/ia_bounce_block.o(.text);
         asm/ia_incline_ramp.o(.text);
+        src/game/interactables/incline_ramp.o(.text);
         asm/ia_waterfall.o(.text);
         src/game/interactables/shrubbery.o(.text);
         asm/ia_booster.o(.text);
