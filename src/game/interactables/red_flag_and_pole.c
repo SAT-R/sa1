@@ -492,3 +492,71 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_8077FA4.inc",
     return result;
 }
 END_NONMATCH
+
+// (59.64%) https://decomp.me/scratch/VtSQc
+NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80780B4.inc",
+         bool32 sub_80780B4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY))
+{
+    s32 qWorldX;
+    u8 *ptrPrevVariant;
+#ifndef NON_MATCHING
+    register s32 i asm("r9");
+    register u8 *ptrItemEffect asm("r8");
+    register bool32 result asm("sl") = FALSE;
+#else
+    s32 i;
+    u8 *ptrItemEffect;
+    bool32 result = FALSE;
+#endif
+
+    i = 0;
+    qWorldX = Q(worldX - 15);
+    ptrItemEffect = &gPlayer.itemEffect;
+    ptrPrevVariant = &s->prevVariant;
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+        u32 res;
+
+        res = SA2_LABEL(sub_800DF38)(s, worldX, worldY, p);
+
+        if (!(res & 0x80000) || (p->moveState & MOVESTATE_IN_AIR)) {
+            continue;
+        }
+
+        if (!(p->moveState & MOVESTATE_4) && (p->qSpeedGround <= +Q(3))) {
+            if ((p->qSpeedGround > Q(5.25)) && (!p->moveState & MOVESTATE_FACING_LEFT)) {
+                Player_TransitionCancelFlyingAndBoost(p);
+                m4aSongNumStart(SE_POLE);
+                p->qWorldX = qWorldX;
+            } else {
+                continue;
+            }
+        }
+
+        if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
+            u8 itemEffect;
+            Player_TransitionCancelFlyingAndBoost(p);
+            m4aSongNumStart(SE_POLE);
+
+            p->qWorldX = qWorldX;
+
+            p->moveState |= MOVESTATE_IA_OVERRIDE;
+            itemEffect = *ptrItemEffect | PLAYER_ITEM_EFFECT__TELEPORT;
+            *ptrItemEffect = itemEffect;
+
+            *ptrPrevVariant = -1;
+            s->graphics.anim = SA1_ANIM_RED_FLAG_V;
+            s->variant = 1;
+
+            pole->tuggingPlayerIndex = p->playerID;
+            pole->unk3E = p->charState;
+
+            p->charState = CHARSTATE_30;
+
+            result = TRUE;
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+END_NONMATCH
