@@ -101,6 +101,7 @@
 #define SE_ACTIVATE_SHIELD     168
 #define SE_CHECKPOINT          169
 #define SE_SPRING              170
+#define SE_POLE                175
 #define SE_TRAMPOLINE          176
 #define SE_WATER_BRIDGE_SPLASH 177
 #define SE_SHRUBBERY           178

@@ -39,6 +39,8 @@
 #define CHARSTATE_ACT_CLEAR_B 29
 #endif
 
+#define CHARSTATE_30       30
+#define CHARSTATE_31       31
 #define CHARSTATE_32       32
 #define CHARSTATE_33       33
 #define CHARSTATE_43       43
