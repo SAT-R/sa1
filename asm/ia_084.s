@@ -1816,7 +1816,7 @@ _0808D500:
 _0808D52A:
 	ldr r0, [sp, #0xc]
 	adds r1, r7, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _0808D538
 	b _0808D7F6

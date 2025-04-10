@@ -172,7 +172,7 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_807
 
     if (s->hitboxes[0].index != HITBOX_STATE_INACTIVE) {
         if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(gPlayer.qWorldX), I(gPlayer.qWorldY), gPlayerBodyPSI.s.hitboxes[0].b)) {
-            SA2_LABEL(sub_800CBA4)(&gPlayer);
+            Coll_DamagePlayer(&gPlayer);
         }
     }
 

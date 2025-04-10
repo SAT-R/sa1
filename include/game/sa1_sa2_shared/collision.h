@@ -40,7 +40,7 @@ bool32 IsColliding_Cheese(Sprite *sprTarget, s32 sx, s32 sy, s16 hbIndex, Player
 u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer);
 
 // Lose rings?
-bool32 sa2__sub_800CBA4(Player *);
+bool32 Coll_DamagePlayer(Player *);
 void Collision_AdjustPlayerSpeed(Player *);
 
 u32 sub_80096B0(Sprite *, s32 x, s32 y, Player *);

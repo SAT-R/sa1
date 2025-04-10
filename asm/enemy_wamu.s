@@ -777,7 +777,7 @@ _0806F6FE:
 	blt _0806F716
 _0806F710:
 	adds r0, r2, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0806F716:
 	ldr r4, _0806F93C @ =0x000001C1
 	add r4, sb
@@ -915,7 +915,7 @@ _0806F80C:
 	blt _0806F824
 _0806F81E:
 	adds r0, r2, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0806F824:
 	ldr r4, _0806F93C @ =0x000001C1
 	add r4, sb
@@ -1065,7 +1065,7 @@ _0806F94C:
 	blt _0806F954
 _0806F94E:
 	adds r0, r2, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0806F954:
 	ldr r4, _0806FA74 @ =0x000001C1
 	add r4, sb
@@ -1204,7 +1204,7 @@ _0806FA4C:
 	blt _0806FA64
 _0806FA5E:
 	adds r0, r2, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0806FA64:
 	add sp, #0x1c
 	pop {r3, r4, r5}

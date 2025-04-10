@@ -557,7 +557,7 @@ _08092A66:
 	adds r1, r7, #0
 	adds r2, r4, #0
 	adds r3, r5, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _08092AA0
 	movs r1, #1
@@ -1070,7 +1070,7 @@ _08092E38:
 	beq _08092E40
 	ldr r0, _08092E60 @ =gPartner
 _08092E40:
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _08092E44:
 	adds r5, #1
 	ldr r0, _08092E64 @ =gNumSingleplayerCharacters

@@ -311,7 +311,7 @@ _08089CA6:
 	asrs r1, r3, #0x10
 	asrs r2, r2, #0x10
 	adds r3, r5, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	mov r1, sl
 	lsls r1, r1, #0x10
 	str r1, [sp, #0x10]
@@ -2074,7 +2074,7 @@ _0808AB0A:
 	asrs r1, r2, #0x10
 	asrs r2, r4, #0x10
 	adds r3, r5, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	ldr r3, [sp]
 	lsls r3, r3, #0x10
 	str r3, [sp, #0x10]

@@ -535,7 +535,7 @@ _08091232:
 	ldr r3, _08091274 @ =gPartner
 _08091250:
 	adds r0, r7, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _0809125C
 	b _080913EA

@@ -71,7 +71,7 @@ _08078130:
 	mov r3, sb
 	asrs r2, r3, #0x10
 	adds r3, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	movs r1, #0x80
 	lsls r1, r1, #0xc
 	ands r1, r0

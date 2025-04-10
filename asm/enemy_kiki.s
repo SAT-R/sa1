@@ -1048,7 +1048,7 @@ _0801DBFE:
 	blt _0801DC16
 _0801DC10:
 	mov r0, sl
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0801DC16:
 	ldr r2, _0801DC50 @ =gCamera
 	ldrh r0, [r4, #0x16]

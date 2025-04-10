@@ -675,7 +675,7 @@ _0807FE86:
 	ldr r0, [sp, #0x10]
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	beq _0807FE96
 	b _080803AE
@@ -1155,7 +1155,7 @@ _080801DA:
 	beq _080801E2
 	ldr r0, _080801EC @ =gPartner
 _080801E2:
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	b _080803AE
 	.align 2, 0
 _080801E8: .4byte gPlayer
@@ -1584,7 +1584,7 @@ _080804C6:
 	beq _080804E8
 	ldr r0, _080804F4 @ =gPartner
 _080804E8:
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	b _08080520
 	.align 2, 0
 _080804F0: .4byte gPlayer

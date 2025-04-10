@@ -349,7 +349,7 @@ _0808E0BE:
 _0808E0FE:
 	ldr r0, [sp, #8]
 	adds r1, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _0808E150
 	cmp r5, #0
@@ -991,7 +991,7 @@ _0808E5E6:
 	mov r0, sb
 	adds r2, r3, #0
 	adds r3, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _0808E618
 	cmp r6, #0

@@ -319,7 +319,7 @@ _0800BC8E:
 	blt _0800BCAA
 _0800BCA0:
 	adds r0, r5, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	movs r0, #2
 	b _0800BCAC
 _0800BCAA:
@@ -642,7 +642,7 @@ _0800BEE6:
 	blt _0800BF02
 _0800BEF8:
 	adds r0, r3, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	movs r0, #2
 	b _0800BF04
 _0800BF02:

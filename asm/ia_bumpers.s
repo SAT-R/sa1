@@ -545,7 +545,7 @@ _08078DD8:
 	ldr r3, _08078E1C @ =gPartner
 _08078DF6:
 	ldr r0, [sp]
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _08078E02
 	b _080790D6
@@ -1613,7 +1613,7 @@ _080795FE:
 	ldr r3, _0807964C @ =gPartner
 _08079626:
 	ldr r0, [sp]
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _08079632
 	b _080798F6
@@ -2744,7 +2744,7 @@ _08079EC4:
 	ldr r3, _08079F08 @ =gPartner
 _08079EE8:
 	ldr r0, [sp]
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _08079EF4
 	b _0807A192
@@ -4623,7 +4623,7 @@ _0807AD64:
 	ldr r3, _0807ADA4 @ =gPartner
 _0807AD86:
 	ldr r0, [sp]
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _0807AD92
 	b _0807B066
@@ -5114,7 +5114,7 @@ _0807B0F2:
 	ldr r3, _0807B134 @ =gPartner
 _0807B110:
 	ldr r0, [sp]
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _0807B11C
 	b _0807B3FA
@@ -5585,7 +5585,7 @@ _0807B478:
 	ldr r3, _0807B510 @ =gPartner
 _0807B48A:
 	ldr r0, [sp, #4]
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	adds r2, r6, #1
 	str r2, [sp, #0x10]
 	cmp r0, #0

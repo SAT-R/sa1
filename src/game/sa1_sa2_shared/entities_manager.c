@@ -234,7 +234,7 @@ extern void CreateEntity_RunWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id
 extern void CreateEntity_Torch(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Interactable089(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_PlayerFloat(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Toggle_PlayerFloat(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_BoulderSpawner(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_SpikedBarrel(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -352,7 +352,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 087 */ CreateEntity_Torch, // Cosmic Angel: Antigravity field elements
     /* 088 */ CreateEntity_Lift,
     /* 089 */ CreateEntity_Interactable089,
-    /* 090 */ CreateEntity_PlayerFloat, // data[0]: 0 = Whirlwind, 1 = Antigravity
+    /* 090 */ CreateEntity_Toggle_PlayerFloat, // data[0]: 0 = Whirlwind, 1 = Antigravity
     /* 091 */ CreateEntity_FerrisWheel,
     /* 092 */ CreateEntity_BoulderSpawner,
     /* 093 */ CreateEntity_SpikedBarrel,

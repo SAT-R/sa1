@@ -825,7 +825,7 @@ _0801633E:
 	ldrsh r2, [r3, r0]
 	adds r0, r7, #0
 	adds r3, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	movs r6, #0x80
 	lsls r6, r6, #0xc
 	ands r0, r6
@@ -838,7 +838,7 @@ _0801633E:
 	ldrsh r2, [r3, r0]
 	ldr r0, [sp, #4]
 	adds r3, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	ands r0, r6
 	cmp r0, #0
 	beq _0801645E

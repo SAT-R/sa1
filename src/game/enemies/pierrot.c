@@ -123,7 +123,7 @@ NONMATCH("asm/non_matching/game/enemies/Task_Pierrot.inc", void Task_Pierrot(voi
                     NEGATE(gPlayer.qSpeedAirX);
                 } else {
                     // _0806DFB0
-                    SA2_LABEL(sub_800CBA4)(&gPlayer);
+                    Coll_DamagePlayer(&gPlayer);
                 }
             }
         }

@@ -68,7 +68,7 @@ _08095296:
 	mov r0, sb
 	adds r1, r6, #0
 	adds r2, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _080952BE
 	ldr r3, _080952DC @ =gPlayer

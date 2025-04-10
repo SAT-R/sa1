@@ -88,7 +88,7 @@ _0807EFDE_loop:
 	ldr r3, _0807F004 @ =gPartner
 _0807EFEE:
 	adds r0, r7, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _0807EFFA
 	b _0807F1A0

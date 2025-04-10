@@ -166,7 +166,7 @@ NONMATCH("asm/non_matching/game/enemies/Kuraa__Task_80737A8.inc", void Task_8073
 
     if (s->hitboxes[0].index != HITBOX_STATE_INACTIVE) {
         if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(gPlayer.qWorldX), I(gPlayer.qWorldY), gPlayerBodyPSI.s.hitboxes[0].b)) {
-            SA2_LABEL(sub_800CBA4)(&gPlayer);
+            Coll_DamagePlayer(&gPlayer);
         }
     }
 

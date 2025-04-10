@@ -99,7 +99,7 @@ _0800C28E:
 	blt _0800C2AA
 _0800C2A0:
 	mov r0, r8
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	movs r0, #2
 	b _0800C2AC
 _0800C2AA:

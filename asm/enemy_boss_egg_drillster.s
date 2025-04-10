@@ -2624,7 +2624,7 @@ _08037074:
 	cmp r0, #0
 	bne _0803708E
 	ldr r0, _080370B0 @ =gPlayer
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	movs r5, #0
 _0803708E:
 	adds r0, r5, #0

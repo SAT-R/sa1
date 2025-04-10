@@ -196,7 +196,7 @@ _08073910:
 	blt _08073928
 _08073922:
 	mov r0, sb
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _08073928:
 	mov r1, r8
 	adds r1, #0x42

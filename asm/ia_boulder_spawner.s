@@ -364,7 +364,7 @@ _0809012E:
 _08090156:
 	adds r0, r7, #0
 	adds r1, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	beq _0809016E
 	adds r0, r6, #0
@@ -372,7 +372,7 @@ _08090156:
 	beq _0809016A
 	ldr r0, _080901C4 @ =gPartner
 _0809016A:
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0809016E:
 	adds r5, #1
 	ldr r0, _080901C8 @ =gNumSingleplayerCharacters

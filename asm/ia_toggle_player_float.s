@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 	thumb_func_start Task_PlayerFloatMain
 Task_PlayerFloatMain: @ 0x0808F288
 	push {r4, r5, r6, r7, lr}
@@ -139,7 +140,7 @@ _0808F38C:
 	ldr r0, _0808F3A0 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	b _0808F6E6
+	b _0808F6E6_return
 	.align 2, 0
 _0808F39C: .4byte gNumSingleplayerCharacters
 _0808F3A0: .4byte gCurTask
@@ -161,7 +162,7 @@ _0808F3A4:
 	movs r1, #0x40
 	adds r1, r1, r5
 	mov sb, r1
-_0808F3C6:
+_0808F3C6_loop:
 	cmp r6, #0
 	beq _0808F3E0
 	mov r2, sl
@@ -200,7 +201,7 @@ _0808F406:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808F410
-	b _0808F6BC
+	b _0808F6BC_continue
 _0808F410:
 	ldr r1, [sp, #4]
 	lsls r0, r1, #0x10
@@ -576,7 +577,7 @@ _0808F69C:
 _0808F6B8:
 	ldrb r0, [r0]
 	strb r0, [r1]
-_0808F6BC:
+_0808F6BC_continue:
 	adds r6, #1
 	ldr r0, _0808F704 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -584,7 +585,7 @@ _0808F6BC:
 	asrs r0, r0, #0x18
 	cmp r6, r0
 	bge _0808F6CC
-	b _0808F3C6
+	b _0808F3C6_loop
 _0808F6CC:
 	ldr r1, _0808F6F8 @ =gCurTask
 	ldr r0, [r1]
@@ -599,7 +600,7 @@ _0808F6CC:
 	mov r2, sp
 	ldrb r2, [r2, #0xc]
 	strb r2, [r0]
-_0808F6E6:
+_0808F6E6_return:
 	add sp, #0x10
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -615,76 +616,4 @@ _0808F700: .4byte 0x0300003A
 _0808F704: .4byte gNumSingleplayerCharacters
 _0808F708: .4byte 0x0300003D
 _0808F70C: .4byte 0x0300003E
-
-	thumb_func_start CreateEntity_PlayerFloat
-CreateEntity_PlayerFloat: @ 0x0808F710
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	ldr r0, _0808F794 @ =Task_PlayerFloatMain
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r6, #0
-	str r6, [sp]
-	movs r1, #0x3f
-	movs r3, #0
-	bl TaskCreate
-	ldrh r1, [r0, #6]
-	ldr r2, _0808F798 @ =0x03000034
-	adds r1, r1, r2
-	strh r4, [r1]
-	ldrh r1, [r0, #6]
-	adds r2, #2
-	adds r1, r1, r2
-	strh r5, [r1]
-	ldrh r1, [r0, #6]
-	adds r2, #2
-	adds r1, r1, r2
-	movs r3, #0
-	strh r6, [r1]
-	ldrh r1, [r0, #6]
-	adds r2, #2
-	adds r1, r1, r2
-	strh r6, [r1]
-	ldrh r1, [r0, #6]
-	subs r2, #0x3a
-	adds r1, r1, r2
-	mov r2, r8
-	str r2, [r1]
-	ldrh r1, [r0, #6]
-	ldr r2, _0808F79C @ =0x0300003D
-	adds r1, r1, r2
-	strb r3, [r1]
-	ldrh r1, [r0, #6]
-	adds r2, #1
-	adds r1, r1, r2
-	strb r3, [r1]
-	ldrh r0, [r0, #6]
-	ldr r1, _0808F7A0 @ =0x0300003C
-	adds r0, r0, r1
-	mov r2, r8
-	ldrb r1, [r2]
-	strb r1, [r0]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r2]
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0808F794: .4byte Task_PlayerFloatMain
-_0808F798: .4byte 0x03000034
-_0808F79C: .4byte 0x0300003D
-_0808F7A0: .4byte 0x0300003C
+.endif

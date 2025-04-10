@@ -351,7 +351,7 @@ _0806FD56:
 	blt _0806FD6E
 _0806FD68:
 	mov r0, sl
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0806FD6E:
 	ldr r0, [r7, #0x3c]
 	asrs r2, r0, #8

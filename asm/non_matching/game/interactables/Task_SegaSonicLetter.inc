@@ -211,7 +211,7 @@ _0807ED80:
 	adds r0, r7, #0
 	mov r1, sb
 	mov r2, r8
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	beq _0807EDB8
 	cmp r4, #0

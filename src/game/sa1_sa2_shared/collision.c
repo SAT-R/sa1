@@ -209,7 +209,7 @@ bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex)
             if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[0])
                 && (HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(player->qWorldX), I(player->qWorldY), sprPlayer->hitboxes[0]))) {
                 if (!(player->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
-                    sub_800CBA4(player);
+                    Coll_DamagePlayer(player);
                 } else {
                     if (IS_MULTI_PLAYER) {
                         RoomEvent *v = CreateRoomEvent();
@@ -271,7 +271,7 @@ bool32 sub_800C84C(Sprite *s, s32 sx, s32 sy)
         }
 
         if ((HB_COLLISION(sx, sy, s->hitboxes[0], I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0]))) {
-            sub_800CBA4(p);
+            Coll_DamagePlayer(p);
             result = TRUE;
         }
     }
@@ -303,7 +303,7 @@ bool32 sub_800CA20(Sprite *s, s32 sx, s32 sy, s16 hbIndex, Player *p)
 
     if (IS_ALIVE(p) && (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]) && HITBOX_IS_ACTIVE(sprPlayer->hitboxes[0]))) {
         if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0])) {
-            sub_800CBA4(p);
+            Coll_DamagePlayer(p);
             return TRUE;
         }
     }
@@ -338,7 +338,7 @@ void Collision_AdjustPlayerSpeed(Player *p)
 
 // (100.00%) https://decomp.me/scratch/verla
 // TODO: Register fake-match
-bool32 sub_800CBA4(Player *p)
+bool32 Coll_DamagePlayer(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
         return FALSE;
@@ -710,7 +710,7 @@ u32 sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 
     if (HITBOX_IS_ACTIVE(s->hitboxes[0]) && IS_ALIVE(p) && HITBOX_IS_ACTIVE(sprBody->hitboxes[0])) {
         if (HB_COLLISION(screenX, screenY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
-            SA2_LABEL(sub_800CBA4)(p);
+            Coll_DamagePlayer(p);
 
             return 2;
         }
@@ -728,7 +728,7 @@ u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
     if (HITBOX_IS_ACTIVE(s->hitboxes[1]) && HITBOX_IS_ACTIVE(sprBody->hitboxes[0]) && IS_ALIVE(p)) {
         if (HB_COLLISION(screenX, screenY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
             if (!IS_EXTRA_STAGE(gCurrentLevel)) {
-                SA2_LABEL(sub_800CBA4)(p);
+                Coll_DamagePlayer(p);
             } else {
                 sub_800C714(p);
             }
@@ -777,7 +777,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc",
 
     if (IS_ALIVE(p) && (HITBOX_IS_ACTIVE(sprBody->hitboxes[0]))) {
         if (HB_COLLISION(sx, sy, rectB, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
-            sa2__sub_800CBA4(p);
+            Coll_DamagePlayer(p);
             return 2;
         }
     }
@@ -831,7 +831,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C394.inc", u32 
 }
 END_NONMATCH
 
-bool32 sa2__sub_800CBA4(Player *p)
+bool32 Coll_DamagePlayer(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
         return FALSE;
@@ -1159,7 +1159,7 @@ END_NONMATCH
 // TODO: This might be an inline.
 //       Code identical to beginning of sub_800C060
 #if (GAME == GAME_SA1)
-u32 sa2__sub_800DF38(Sprite *s, s16 x, s16 y, Player *p)
+u32 Coll_Player_Entity_Intersection(Sprite *s, s16 x, s16 y, Player *p)
 #elif (GAME == GAME_SA2)
 u32 sub_800DF38(Sprite *s, s32 x, s32 y, Player *p)
 #endif

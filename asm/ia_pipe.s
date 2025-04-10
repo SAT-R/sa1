@@ -1708,7 +1708,7 @@ _080963D2:
 	mov r1, sl
 	adds r2, r7, #0
 	adds r3, r4, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	beq _08096500
 	ldr r1, _080964D4 @ =0x0300003E

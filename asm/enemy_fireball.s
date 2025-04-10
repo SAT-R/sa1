@@ -294,11 +294,11 @@ _080710C8:
 	ldrsh r2, [r0, r3]
 	adds r0, r4, #0
 	adds r3, r6, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	beq _080710F2
 	adds r0, r6, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _080710F2:
 	movs r7, #0x3c
 	ldrsh r0, [r5, r7]
@@ -451,11 +451,11 @@ _0807120C:
 	ldrsh r2, [r0, r3]
 	adds r0, r4, #0
 	adds r3, r6, #0
-	bl sa2__sub_800DF38
+	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	beq _08071236
 	adds r0, r6, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _08071236:
 	movs r7, #0x3c
 	ldrsh r1, [r5, r7]

@@ -119,7 +119,7 @@ NONMATCH("asm/non_matching/game/interactables/spring_hiding__sub_8095224.inc",
     do {
         if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
-                if (!SA2_LABEL(sub_800DF38)(s, worldX, worldY, GET_SP_PLAYER_V1(i))) {
+                if (!Coll_Player_Entity_Intersection(s, worldX, worldY, GET_SP_PLAYER_V1(i))) {
                     sp0C = sub_800A768(s, worldX, worldY, GET_SP_PLAYER_V1(i));
                     if (!sp0C) {
                         continue;

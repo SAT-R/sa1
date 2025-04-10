@@ -329,7 +329,7 @@ _0800B742:
 _0800B764: .4byte gGameMode
 _0800B768:
 	adds r0, r7, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 _0800B76E:
 	ldr r1, [sp, #4]
 	adds r1, #1
@@ -479,7 +479,7 @@ _0800B86A:
 	blt _0800B886
 _0800B87C:
 	adds r0, r7, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	movs r0, #1
 	mov sb, r0
 _0800B886:
@@ -723,7 +723,7 @@ _0800BA32:
 	blt _0800BA4E
 _0800BA44:
 	adds r0, r3, #0
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	movs r0, #2
 	b _0800BA50
 _0800BA4E:

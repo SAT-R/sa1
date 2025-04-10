@@ -454,7 +454,7 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_8077FA4.inc",
         Player *p = GET_SP_PLAYER_V1(i);
         u32 res;
 
-        res = SA2_LABEL(sub_800DF38)(s, worldX, worldY, p);
+        res = Coll_Player_Entity_Intersection(s, worldX, worldY, p);
 
         if (!(res & 0x80000) || (p->moveState & MOVESTATE_IN_AIR)) {
             continue;
@@ -517,7 +517,7 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80780B4.inc",
         Player *p = GET_SP_PLAYER_V1(i);
         u32 res;
 
-        res = SA2_LABEL(sub_800DF38)(s, worldX, worldY, p);
+        res = Coll_Player_Entity_Intersection(s, worldX, worldY, p);
 
         if (!(res & 0x80000) || (p->moveState & MOVESTATE_IN_AIR)) {
             continue;
@@ -580,7 +580,7 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80781E4.inc",
         u32 res;
         u8 itemEffect;
 
-        res = SA2_LABEL(sub_800DF38)(s, worldX, worldY, p);
+        res = Coll_Player_Entity_Intersection(s, worldX, worldY, p);
 
         if (!(res & 0x80000) || ((p->character == CHARACTER_TAILS || p->character == CHARACTER_KNUCKLES) && (p->SA2_LABEL(unk61) != 0))) {
             continue;

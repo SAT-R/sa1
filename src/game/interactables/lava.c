@@ -71,7 +71,7 @@ void Task_Lava(void)
                 && !(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
                 if (me->d.sData[0] == 0) {
                     if (~GET_SP_PLAYER_MEMBER_V1(i, itemEffect) & PLAYER_ITEM_EFFECT__INVINCIBILITY) {
-                        SA2_LABEL(sub_800CBA4)(GET_SP_PLAYER_V1(i));
+                        Coll_DamagePlayer(GET_SP_PLAYER_V1(i));
                     }
                 } else {
                     GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_DEAD;

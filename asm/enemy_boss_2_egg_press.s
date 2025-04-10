@@ -1766,7 +1766,7 @@ _0802E554:
 	beq _0802E5F2
 _0802E5D8:
 	ldr r0, _0802E688 @ =gPlayer
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	mov r1, r8
 	adds r1, #0x20
 	movs r0, #1
@@ -1789,7 +1789,7 @@ _0802E5F2:
 	cmp r0, #0
 	bne _0802E620
 	ldr r0, _0802E688 @ =gPlayer
-	bl sa2__sub_800CBA4
+	bl Coll_DamagePlayer
 	mov r1, r8
 	adds r1, #0x20
 	movs r0, #1
