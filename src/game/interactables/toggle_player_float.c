@@ -24,7 +24,7 @@ typedef struct {
 #ifndef NON_MATCHING
 #define PLAYERFLOAT_DATA_SIZE 0x3F
 #else
-#define PLAYERFLOAT_DATA_SIZE sizeof(PlayerFloat)
+#define PLAYERFLOAT_DATA_SIZE sizeof(TogglePlayerFloat)
 #endif
 
 void Task_PlayerFloatMain(void);
