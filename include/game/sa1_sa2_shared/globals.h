@@ -107,6 +107,7 @@ extern s8 gSelectedCharacter;
 // NOTE: Treat gTailsEnabled as bool8, it just does not match unsigned
 extern s8 gTailsEnabled;
 extern s8 gNumSingleplayerCharacters;
+#define NUM_SINGLEPLAYER_CHARS_MAX 2
 #endif
 
 extern u8 gMultiplayerLanguage;

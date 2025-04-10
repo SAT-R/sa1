@@ -61,9 +61,9 @@ void CreateEntity_WaterBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     bridge->height = height;
 
     s = &bridge->s;
-    s->graphics.dest = ALLOC_TILES(SA1_ANIM_SPLASH_ON_PLAYER);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_WATER_SLIDE_SPLASH);
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_SPLASH_ON_PLAYER;
+    s->graphics.anim = SA1_ANIM_WATER_SLIDE_SPLASH;
     s->variant = 0;
     s->prevVariant = -1;
     s->oamFlags = SPRITE_OAM_ORDER(15);

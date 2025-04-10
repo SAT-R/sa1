@@ -190,7 +190,7 @@ extern void CreateEntity_RedFlag(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 extern void CreateEntity_WaterBridgeSplash(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_WallPole_Left(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_WallPole_Right(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_ForcedIceSlide(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_ForcedSlide(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Booster_Wall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_BumperRound_LinearMov(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -308,7 +308,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 043 */ CreateEntity_WaterBridgeSplash,
     /* 044 */ CreateEntity_WallPole_Left,
     /* 045 */ CreateEntity_WallPole_Right,
-    /* 046 */ CreateEntity_ForcedIceSlide,
+    /* 046 */ CreateEntity_ForcedSlide,
     /* 047 */ CreateEntity_Booster_Wall,
     /* 048 */ CreateEntity_BumperHexagon,
     /* 049 */ CreateEntity_BumperRound_LinearMov,
