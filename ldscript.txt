@@ -195,7 +195,6 @@ SECTIONS {
         asm/ia_platforms_085_089.o(.text);
         asm/ia_run_wheel.o(.text);
         src/game/interactables/torch.o(.text);
-        asm/ia_toggle_player_float.o(.text);
         src/game/interactables/toggle_player_float.o(.text);
         asm/ia_ferris_wheel.o(.text);
         asm/ia_boulder_spawner.o(.text);

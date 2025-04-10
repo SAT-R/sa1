@@ -116,7 +116,6 @@ void Task_ForcedSlide(void)
         if ((x <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (x + me->d.uData[2] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
             && (y <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
             && (y + me->d.uData[3] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
-            // _08078574
             if (slide->unk3D[i] == 0) {
                 s32 res;
 
@@ -125,14 +124,11 @@ void Task_ForcedSlide(void)
 
                 if (res > 3) {
                     goto set_sp14;
-                    continue;
                 }
             }
-            // _080785C2
 
             if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ)) {
                 if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IN_AIR)) {
-                    // _080785F4
                     if (slide->unk3D[i] == 0 && LEVEL_TO_ZONE(gCurrentLevel) == ZONE_5) {
                         m4aSongNumStart(SE_201);
                     }
@@ -152,12 +148,10 @@ void Task_ForcedSlide(void)
                         GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = -Q(4);
                         GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(4);
                     } else {
-                        // _0807871A
                         GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FACING_LEFT;
                         GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = +Q(4);
                         GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(4);
                     }
-                    // _08078758
 
                     GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(0);
                     GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_HIT_AIR;
@@ -168,9 +162,7 @@ void Task_ForcedSlide(void)
 
                     UpdateSpriteAnimation(s);
                     DisplaySprite(s);
-                    // continue;
                 } else {
-                    // _080787EE
                     if ((slide->unk3D[i] != 0) && (--slide->unk3D[i] == 0)) {
                         GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IGNORE_INPUT;
                         GET_SP_PLAYER_MEMBER_V1(i, heldInput) |= (gPlayerControls.jump | gPlayerControls.attack);
@@ -193,7 +185,6 @@ void Task_ForcedSlide(void)
         }
 
     } while (++i < gNumSingleplayerCharacters);
-    // _080788C0
 
     if (sp14 & ((1 << NUM_SINGLEPLAYER_CHARS_MAX) - 1)) {
         return;
@@ -205,7 +196,6 @@ void Task_ForcedSlide(void)
     // x|y = screen-coords
 
     if (IS_OUT_OF_CAM_RANGE(x, y)) {
-        // _0807890C
         s32 i = 0;
         do {
             if (slide->unk3D[i] != 0) {
