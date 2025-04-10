@@ -1,15 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-.if 0
-.endif
-
-	thumb_func_start sub_80781E4
-sub_80781E4: @ 0x080781E4
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -183,15 +175,4 @@ _08078326:
 	pop {r1}
 	bx r1
 
-@ Shared with WallPole
-	thumb_func_start TaskDestructor_RedFlag
-TaskDestructor_RedFlag: @ 0x08078338
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0x10]
-	bl VramFree
-	pop {r0}
-	bx r0
+.syntax divided

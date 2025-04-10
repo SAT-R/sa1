@@ -560,3 +560,72 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80780B4.inc",
     return result;
 }
 END_NONMATCH
+
+// (83.63%) https://decomp.me/scratch/cEJMI
+NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80781E4.inc",
+         bool32 sub_80781E4(RedFlagPole *pole, Sprite *s, s32 worldX, s32 worldY))
+{
+    u8 *ptrPrevVariant;
+    u8 zone;
+    s32 i;
+    u8 *ptrItemEffect;
+    bool32 result = FALSE;
+
+    i = 0;
+    zone = LEVEL_TO_ZONE(gCurrentLevel);
+    ptrItemEffect = &gPlayer.itemEffect;
+    ptrPrevVariant = &s->prevVariant;
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+        u32 res;
+        u8 itemEffect;
+
+        res = SA2_LABEL(sub_800DF38)(s, worldX, worldY, p);
+
+        if (!(res & 0x80000) || ((p->character == CHARACTER_TAILS || p->character == CHARACTER_KNUCKLES) && (p->SA2_LABEL(unk61) != 0))) {
+            continue;
+        }
+
+        Player_TransitionCancelFlyingAndBoost(p);
+        m4aSongNumStart(SE_POLE);
+        p->moveState |= MOVESTATE_IA_OVERRIDE;
+
+        itemEffect = *ptrItemEffect | PLAYER_ITEM_EFFECT__TELEPORT;
+        *ptrItemEffect = itemEffect;
+        p->qWorldY = Q(worldY + 16);
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            p->qWorldX = Q(worldX - 8);
+            p->moveState &= ~MOVESTATE_FACING_LEFT;
+        } else {
+            p->qWorldX = Q(worldX + 8);
+            p->moveState |= MOVESTATE_FACING_LEFT;
+        }
+
+        s->prevVariant = -1;
+        if ((zone == ZONE_1) || (gCurrentLevel == ACT_CHAO_HUNT_A)) {
+            s->graphics.anim = SA1_ANIM_BOUNCY_BAR;
+            s->variant = 1;
+        } else {
+            s->graphics.anim = SA1_ANIM_RED_FLAG_H;
+            s->variant = 1;
+        }
+
+        pole->tuggingPlayerIndex = p->playerID;
+        pole->unk3E = p->charState;
+
+        p->charState = CHARSTATE_31;
+
+        result = TRUE;
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+END_NONMATCH
+
+// Shared with WallPole
+void TaskDestructor_RedFlag(struct Task *t)
+{
+    RedFlagPole *pole = TASK_DATA(t);
+    VramFree(pole->s.graphics.dest);
+}
