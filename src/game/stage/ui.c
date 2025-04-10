@@ -96,7 +96,8 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_StageUIMain.inc", void Task_Stage
     sub_80530CC(&gUnknown_0865F178[0], &overB);
 
     if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
-        overB.unkC = 0x90;
+        // Lives Character Icon
+        overB.unkC = DISPLAY_HEIGHT - 16;
         overB.qUnkA = 2;
         overB.unk10 = 1;
 
@@ -388,9 +389,10 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
     sub_80530CC(ptr, &overB);
 
     if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
+        // Num Lives
         ptr += 0x10;
         overB.qUnkA = 22;
-        overB.unkC = 143;
+        overB.unkC = DISPLAY_HEIGHT - 17;
         overB.unkE = 1;
         sub_80530CC(ptr, &overB);
     }
