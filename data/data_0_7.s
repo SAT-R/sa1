@@ -16,11 +16,3 @@ gUnknown_086CEDC0:
     .global gUnknown_086CEE2C
 gUnknown_086CEE2C:
     .incbin "baserom.gba", 0x006CEE2C, 0x24
-
-    .global gUnknown_086CEE50
-gUnknown_086CEE50:
-    .incbin "baserom.gba", 0x006CEE50, 0x10
-
-    .global gUnknown_086CEE60
-gUnknown_086CEE60:
-    .incbin "baserom.gba", 0x006CEE60, 0x10

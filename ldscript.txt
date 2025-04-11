@@ -198,6 +198,7 @@ SECTIONS {
         src/game/interactables/toggle_player_float.o(.text);
         asm/ia_ferris_wheel.o(.text);
         asm/ia_boulder_spawner.o(.text);
+        src/game/interactables/spiked_barrel.o(.text);
         asm/ia_spiked_barrel.o(.text);
         asm/ia_air_bubbles.o(.text);
         asm/ia_ice_block.o(.text);
@@ -311,6 +312,8 @@ SECTIONS {
         src/game/interactables/forced_slide.o(.rodata);
         src/game/interactables/sega_sonic_letters.o(.rodata);
         data/data_0_7.o(.rodata);
+        src/game/interactables/spiked_barrel.o(.rodata);
+        asm/ia_air_bubbles.o(.rodata);
         src/data/entities.o(.rodata);
         src/lib/m4a/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);

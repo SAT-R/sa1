@@ -219,6 +219,11 @@ typedef struct {
     /* 0x06 */ u8 numTiles;
 } TileInfoFirework;
 
+typedef struct {
+    AnimId anim;
+    u16 variant;
+} TileInfoBarrel;
+
 extern const u8 gOamShapesSizes[12][2];
 
 typedef enum {

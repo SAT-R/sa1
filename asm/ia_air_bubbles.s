@@ -1,6 +1,13 @@
 .include "asm/macros.inc"
 .include "constants/constants.inc"
 
+    .section .rodata
+    .align 2, 0
+    .global gUnknown_086CEE60
+gUnknown_086CEE60:
+    .incbin "baserom.gba", 0x006CEE60, 0x10
+    .align 2, 0
+
 .text
 .syntax unified
 .arm
