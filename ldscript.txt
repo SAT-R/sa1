@@ -199,7 +199,6 @@ SECTIONS {
         asm/ia_ferris_wheel.o(.text);
         asm/ia_boulder_spawner.o(.text);
         src/game/interactables/spiked_barrel.o(.text);
-        asm/ia_spiked_barrel.o(.text);
         asm/ia_air_bubbles.o(.text);
         asm/ia_ice_block.o(.text);
         src/game/interactables/096.o(.text);

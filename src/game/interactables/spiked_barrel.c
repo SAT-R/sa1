@@ -1,10 +1,14 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/sa1_sa2_shared/collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -15,8 +19,8 @@ typedef struct {
     /* 0x46 */ u16 unk46;
     /* 0x48 */ s32 unk48;
     /* 0x4C */ s32 unk4C;
-    /* 0x50 */ u16 unk50;
-    /* 0x52 */ u16 unk52;
+    /* 0x50 */ s16 unk50;
+    /* 0x52 */ s16 unk52;
     /* 0x54 */ u16 unk54;
     /* 0x56 */ u8 unk56;
     /* 0x57 */ u8 unk57;
@@ -91,4 +95,121 @@ void CreateEntity_SpikedBarrel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     UpdateSpriteAnimation(s);
+}
+
+// INCOMPLETE!
+// NOTE: Collision works, but getting hurt by spikes does not.
+// (52.27%) https://decomp.me/scratch/rmoZI
+NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.inc", void Task_SpikedBarrel(void))
+{
+    s32 qSp10 = 0;
+    SpikedBarrel *barrel = TASK_DATA(gCurTask);
+    Sprite *s = &barrel->s;
+    MapEntity *me = barrel->base.me;
+    s32 unk50 = barrel->unk50;
+    s16 worldX;
+    s16 worldY; // sp00, sp04
+    s32 qSp0C;
+    s32 r3, r6, r8;
+    s32 theta;
+    s32 i;
+
+    if (barrel->unk50 != 0) {
+        r8 = barrel->unk48;
+        r3 = Q(me->d.uData[2] * TILE_WIDTH);
+        theta = CLAMP_SIN_PERIOD(barrel->unk50 * ((gStageTime + barrel->unk44) & 0xFF));
+        barrel->unk48 = (r3 * SIN(theta)) >> 14;
+        qSp0C = barrel->unk48 - r8;
+    } else {
+        // _080909F4
+        qSp0C = 0;
+        barrel->unk48 = qSp10;
+    }
+    // _080909FC
+
+    if (barrel->unk52 != 0) {
+        r6 = barrel->unk4C;
+        r3 = Q(me->d.uData[3] * TILE_WIDTH);
+        theta = CLAMP_SIN_PERIOD(barrel->unk52 * ((gStageTime + barrel->unk44) & 0xFF));
+        barrel->unk4C = (r3 * SIN(theta)) >> 14;
+        qSp0C = barrel->unk4C - r6;
+    } else {
+        // _08090A4C
+        qSp10 = 0;
+        barrel->unk4C = 0;
+    }
+    // _08090A52
+
+    worldX = TO_WORLD_POS(barrel->base.meX, barrel->base.regionX);
+    worldY = TO_WORLD_POS(me->y, barrel->base.regionY);
+
+    s->x = worldX - gCamera.x + Div(barrel->unk48, 0x100);
+    s->y = worldY - gCamera.y + Div(barrel->unk4C, 0x100);
+
+    i = 0;
+    do {
+        // _08090AB2_loop
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            p->qWorldX += qSp0C;
+            p->qWorldY += Q(1) + qSp10;
+        }
+        // _08090AE2
+
+        sub_800B2BC(s, I(barrel->unk48) + worldX, I(barrel->unk4C) + worldY, p);
+
+        if ((barrel->unk56 == 0) || (barrel->unk56 == 2)) {
+            if (s->hitboxes[1].index != HITBOX_STATE_INACTIVE) {
+                // _08090B2C
+                s32 r0, r2;
+
+                r0 = worldX + Div(barrel->unk48, 0x100) + s->hitboxes[1].b.left;
+                r2 = I(p->qWorldX) + p->spriteInfoBody->s.hitboxes[0].b.left;
+
+                if (r0 <= r2) { }
+                // _08090B80
+
+                // _08090C6C
+
+                if (!(gPlayer.moveState & MOVESTATE_DEAD)) {
+                    if (Coll_DamagePlayer(p)) {
+                        m4aSongNumStart(SE_171);
+                    }
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+    // _08090C9C
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, barrel->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _08090D1C
+
+    if (--barrel->unk57 == 0) {
+        if (barrel->unk56 == 0 || barrel->unk56 == 2) {
+            barrel->unk57 = 0x30;
+        } else {
+            barrel->unk57 = 0x10;
+        }
+        // _08090DB6
+
+        barrel->unk56 = (barrel->unk56 + 1) % 4u;
+        s->prevVariant = -1;
+        s->variant = barrel->unk56;
+    }
+
+    // _08090DD4
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+END_NONMATCH
+
+void TaskDestructor_SpikedBarrel(struct Task *t)
+{
+    SpikedBarrel *barrel = TASK_DATA(t);
+    VramFree(barrel->s.graphics.dest);
 }
