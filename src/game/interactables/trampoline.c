@@ -67,7 +67,7 @@ void Task_Trampoline(void)
     Trampoline *trampoline = TASK_DATA(gCurTask);
     Sprite *s = &trampoline->s;
     MapEntity *me = trampoline->base.me;
-    s16 worldX, worldY;
+    CamCoord worldX, worldY;
 
     worldX = TO_WORLD_POS(trampoline->base.meX, trampoline->base.regionX);
     worldY = TO_WORLD_POS(me->y, trampoline->base.regionY);

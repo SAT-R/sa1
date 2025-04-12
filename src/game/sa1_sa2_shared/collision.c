@@ -1129,6 +1129,7 @@ bool32 sub_800DE44(Player *p)
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C934.inc",
          bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6))
 {
+    return FALSE;
 }
 END_NONMATCH
 

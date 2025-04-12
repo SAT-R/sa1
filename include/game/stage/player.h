@@ -64,8 +64,8 @@ bool32 Player_TryAttack(Player *);
 
 #define PLAYERFN_SET_SHIFT_OFFSETS(player, x, y)                                                                                           \
     {                                                                                                                                      \
-        player->spriteOffsetX = x;                                                                                                         \
-        player->spriteOffsetY = y;                                                                                                         \
+        (player)->spriteOffsetX = x;                                                                                                       \
+        (player)->spriteOffsetY = y;                                                                                                       \
     }
 #define PLAYERFN_CHANGE_SHIFT_OFFSETS(player, x, y)                                                                                        \
     {                                                                                                                                      \

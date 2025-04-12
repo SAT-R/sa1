@@ -206,6 +206,7 @@ SECTIONS {
         src/game/interactables/updraft.o(.text);
         asm/ia_underwater_lava_platform.o(.text);
         src/game/interactables/conveyor_belt_object.o(.text);
+        src/game/interactables/special_spring.o(.text);
         asm/ia_special_spring.o(.text);
         src/game/interactables/propeller.o(.text);
         asm/ia_small_fall_block.o(.text);
