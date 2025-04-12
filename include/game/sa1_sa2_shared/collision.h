@@ -43,7 +43,7 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
 bool32 Coll_DamagePlayer(Player *);
 void Collision_AdjustPlayerSpeed(Player *);
 
-u32 sub_80096B0(Sprite *, s32 x, s32 y, Player *);
+u32 sub_80096B0(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800ABEC(Sprite *, s32 x, s32 y, Player *);
 u32 sub_800CCB8(Sprite *, s32 x, s32 y, Player *);

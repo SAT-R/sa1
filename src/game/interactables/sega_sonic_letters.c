@@ -84,7 +84,7 @@ NONMATCH("asm/non_matching/game/interactables/Task_SegaSonicLetter.inc", void Ta
     Letter *letter;
     Sprite *s;
     MapEntity *me;
-    s16 worldX, worldY;
+    CamCoord worldX, worldY;
     s32 i;
     s32 sl; // isSolid?
     u32 r1;

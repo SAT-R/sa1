@@ -17,7 +17,7 @@ int gMaxLines = 0;
 #include "game/enemies/boss_super_egg_robo.h"
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
-u32 sub_80096B0(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
+u32 sub_80096B0(Sprite *s, CamCoord x, CamCoord y, Player *p) { return 0; }
 u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY) { return FALSE; }
 void sa2__sub_8019CCC() { }
@@ -112,7 +112,6 @@ void CreateEntity_Decoration(MapEntity *me, u16 regionX, u16 regionY, u8 id) { C
 void CreateEntity_PlatformThin(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_PlatformThin_Falling(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_PlatformCrumbling(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
-void CreateEntity_BounceBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_Waterfall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_HalfPipeStart(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_HalfPipeEnd(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }

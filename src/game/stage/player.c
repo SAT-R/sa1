@@ -3132,7 +3132,7 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_AirInputControls.inc", void
             u16 qAirSpeedU = p->qSpeedAirX;
 
             if (p->heldInput & DPAD_LEFT) {
-                if (p->charState != CHARSTATE_23) {
+                if (p->charState != CHARSTATE_BOUNCE) {
                     p->moveState |= MOVESTATE_FACING_LEFT;
                 }
 
@@ -3149,7 +3149,7 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_AirInputControls.inc", void
                     }
                 }
             } else if (p->heldInput & DPAD_RIGHT) {
-                if ((p->charState != CHARSTATE_23)) {
+                if ((p->charState != CHARSTATE_BOUNCE)) {
                     p->moveState &= ~MOVESTATE_FACING_LEFT;
                 }
 
@@ -5765,7 +5765,7 @@ void Player_8047224(Player *p)
 {
     s32 rot = (s8)p->rotation;
 
-    if (p->charState == CHARSTATE_23) {
+    if (p->charState == CHARSTATE_BOUNCE) {
         if (p->moveState & MOVESTATE_FACING_LEFT) {
             p->rotation -= Q(4. / 256.);
         } else {
