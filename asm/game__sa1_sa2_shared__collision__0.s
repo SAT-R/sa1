@@ -5,10 +5,11 @@
 .syntax unified
 .arm
 
+.if 0
 @ Input:
 @ R0 = Sprite *
-@ R1 = s16 x
-@ R2 = s16 y
+@ R1 = CamCoord x
+@ R2 = CamCoord y
 @ R3 = Player *
 	thumb_func_start sub_80096B0
 sub_80096B0: @ 0x080096B0
@@ -65,8 +66,8 @@ sub_80096B0: @ 0x080096B0
 	movs r2, #4
 	bl memcpy
 	str r6, [sp, #0x18]
-	mov sb, r6
-	mov r0, r8
+	mov sb, r6          @ sb = 0
+	mov r0, r8          @ r0 = r8 = s
 	ldr r1, [r0, #0x28]
 	movs r0, #1
 	rsbs r0, r0, #0
@@ -121,9 +122,9 @@ _08009782:
 	asrs r6, r6, #0x10
 	asrs r5, r5, #0x10
 	mov r0, sb
-	str r0, [sp]
-	str r7, [sp, #4]
-	str r4, [sp, #8]
+	str r0, [sp]        @ sp00 = 
+	str r7, [sp, #4]    @ sp04 = p
+	str r4, [sp, #8]    @ sp08 = 
 	mov r0, r8
 	adds r1, r6, #0
 	adds r2, r5, #0
@@ -167,6 +168,7 @@ _080097D4:
 	pop {r4, r5, r6, r7}
 	pop {r1}
 	bx r1
+.endif
 
 	thumb_func_start sub_80097E4
 sub_80097E4: @ 0x080097E4

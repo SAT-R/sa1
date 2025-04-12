@@ -83,7 +83,6 @@ void Task_BounceBlock(void)
         gCurTask->main = Task_80752A4;
         m4aSongNumStart(SE_SPRING);
     }
-    // _08075248
 
     if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, block->base.meX);
@@ -145,7 +144,6 @@ bool32 sub_80753D0(Sprite *s, s32 worldX, s32 worldY)
                 if (gGameMode == 3 || gGameMode == 5) {
                     GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
                 }
-                // _0807545C
 
                 Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
                 GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
