@@ -88,7 +88,7 @@ HomingTarget gHomingTarget = {};
 u8 ALIGNED(4) gDemoPlayCounter = 0;
 
 #if (GAME == GAME_SA1)
-u16 ALIGNED(8) gUnknown_03005058 = 0;
+u16 ALIGNED(8) gSpecialStageReturnX = 0;
 #endif
 
 u8 ALIGNED(4) gGameMode = 0;
@@ -98,7 +98,11 @@ s32 ALIGNED(4) gStageGoalX = 0;
 #endif
 
 u8 ALIGNED(4) gMultiplayerMissingHeartbeats[MULTI_SIO_PLAYERS_MAX] = {};
+#if (GAME == GAME_SA1)
+u16 ALIGNED(4) gSpecialStageReturnY = 0;
+#elif (GAME == GAME_SA2)
 u8 ALIGNED(4) gMultiplayerUnlockedLevels = 0;
+#endif
 struct Task *ALIGNED(4) gEntitiesManagerTask = NULL;
 
 #if (GAME == GAME_SA2)

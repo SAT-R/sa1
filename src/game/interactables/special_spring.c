@@ -6,6 +6,7 @@
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/stage/player.h"
+#include "game/special_stage/main.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -23,6 +24,9 @@ typedef struct {
 void Task_SpecialSpringMain(void);
 void Task_TransitionSpStage(void);
 void TaskDestructor_SpecialSpring(struct Task *t);
+
+extern u16 gSpecialStageReturnX;
+extern u16 gSpecialStageReturnY;
 
 void CreateEntity_SpecialSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -126,7 +130,10 @@ void Task_SpecialSpringMain(void)
             s->prevVariant = -1;
             PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
             m4aSongNumStart(SE_SPRING);
+#if !PORTABLE
+            // TEMP
             gCurTask->main = Task_TransitionSpStage;
+#endif
         }
     }
 
@@ -138,4 +145,79 @@ void Task_SpecialSpringMain(void)
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
+}
+
+void Task_TransitionSpStage(void)
+{
+    SpecialSpring *spring = TASK_DATA(gCurTask);
+    Sprite *s = &spring->s;
+    MapEntity *me = spring->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spring->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spring->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        if (sub_80096B0(s, worldX, worldY, &gPartner) & COLL_FLAG_8) {
+            SA2_LABEL(sub_8021BE0)(&gPartner);
+            gPartner.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            gPartner.moveState |= MOVESTATE_IN_AIR;
+            gPartner.moveState &= ~MOVESTATE_100;
+            gPartner.qSpeedAirY = -Q(7.5);
+            gPartner.charState = CHARSTATE_21;
+            s->variant = 0;
+            s->prevVariant = -1;
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPartner, 6, 14);
+            m4aSongNumStart(SE_SPRING);
+        }
+    }
+
+    if (gPlayer.SA2_LABEL(unk99)[1] == 0) {
+        gCamera.x = spring->camX;
+        gCamera.y = spring->camY;
+
+        gPlayer.qWorldY -= Q(7.5);
+
+        if (I(gPlayer.qWorldY) - gCamera.y < -128) {
+            gSpecialStageReturnX = gPlayer.checkPointX;
+            gSpecialStageReturnY = gPlayer.checkPointY;
+
+            gPlayer.checkPointX = worldX;
+            gPlayer.checkPointY = worldY;
+
+            TaskDestroy(gCurTask);
+            TasksDestroyAll();
+            PAUSE_BACKGROUNDS_QUEUE();
+            SA2_LABEL(gUnknown_03005390) = 0;
+            PAUSE_GRAPHICS_QUEUE();
+            CreateSpecialStageIntro();
+            return;
+        } else {
+            UpdateSpriteAnimation(s);
+        }
+    } else {
+        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+            s->prevVariant = -1;
+            s->graphics.anim = SA1_ANIM_SPECIAL_SPRING;
+            s->variant = 1;
+            gCurTask->main = Task_SpecialSpringMain;
+            UpdateSpriteAnimation(s);
+        }
+    }
+    DisplaySprite(s);
+}
+
+void TaskDestructor_SpecialSpring(struct Task *t)
+{
+    SpecialSpring *spring = TASK_DATA(t);
+    VramFree(spring->s.graphics.dest);
 }

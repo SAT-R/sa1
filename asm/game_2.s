@@ -10158,11 +10158,11 @@ _0805D586:
 	ldr r5, _0805D620 @ =gCourseTime
 	ldr r6, [r5]
 	bl CreateGameStage
-	ldr r0, _0805D624 @ =gUnknown_03005058
+	ldr r0, _0805D624 @ =gSpecialStageReturnX
 	ldrh r0, [r0]
 	mov r1, sb
 	strh r0, [r1]
-	ldr r0, _0805D628 @ =gMultiplayerUnlockedLevels
+	ldr r0, _0805D628 @ =gSpecialStageReturnY
 	ldrh r0, [r0]
 	mov r1, r8
 	strh r0, [r1]
@@ -10183,8 +10183,8 @@ _0805D614: .4byte sa2__gUnknown_03005390
 _0805D618: .4byte gVramGraphicsCopyCursor
 _0805D61C: .4byte gVramGraphicsCopyQueueIndex
 _0805D620: .4byte gCourseTime
-_0805D624: .4byte gUnknown_03005058
-_0805D628: .4byte gMultiplayerUnlockedLevels
+_0805D624: .4byte gSpecialStageReturnX
+_0805D628: .4byte gSpecialStageReturnY
 _0805D62C:
 	movs r0, #0x28
 	ldrsh r1, [r5, r0]

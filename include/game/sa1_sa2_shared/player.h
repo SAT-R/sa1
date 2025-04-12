@@ -160,8 +160,8 @@ typedef struct Player {
     /* 0x42 */ u16 anim;
     /* 0x44 */ u16 variant;
     /* 0x46 */ s16 SA2_LABEL(unk72);
-    /* 0x48 */ s16 checkPointX;
-    /* 0x4A */ s16 checkPointY;
+    /* 0x48 */ s16 checkPointX; // TODO: Make their type CamCoord ?
+    /* 0x4A */ s16 checkPointY; // TODO: Make their type CamCoord ?
     /* 0x4C */ u32 checkpointTime;
 
     // TODO: Could these be a matrix?
