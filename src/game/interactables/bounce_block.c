@@ -75,7 +75,7 @@ void Task_BounceBlock(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if(sub_80753D0(s, worldX, worldY)) {
+    if (sub_80753D0(s, worldX, worldY)) {
         block->unk40 = 30;
         block->bounceOffset = 0;
         s->variant = 0;
@@ -101,7 +101,7 @@ void Task_80752A4(void)
     MapEntity *me = block->base.me;
     CamCoord worldX, worldY;
     s32 newBounceOffset;
-    
+
     worldX = TO_WORLD_POS(block->base.meX, block->base.regionX);
     worldY = TO_WORLD_POS(me->y, block->base.regionY);
 
@@ -109,7 +109,7 @@ void Task_80752A4(void)
     newBounceOffset = Div(SIN(block->bounceOffset & (SIN_PERIOD - 1)), SIN_PERIOD);
     s->y = worldY - gCamera.y + newBounceOffset;
 
-    if(sub_80753D0(s, worldX, worldY)) {
+    if (sub_80753D0(s, worldX, worldY)) {
         block->unk40 = 30;
         block->bounceOffset = 0;
         s->variant = 0;
@@ -124,12 +124,12 @@ void Task_80752A4(void)
     } else {
         block->bounceOffset += Q(360. / 1024.);
 
-        if(--block->unk40 == 0) {
+        if (--block->unk40 == 0) {
             gCurTask->main = Task_BounceBlock;
         }
 
         UpdateSpriteAnimation(s);
-        DisplaySprite(s);        
+        DisplaySprite(s);
     }
 }
 
@@ -142,7 +142,7 @@ bool32 sub_80753D0(Sprite *s, s32 worldX, s32 worldY)
     do {
         if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if ((sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i)) & 0x8)) {
-                if(gGameMode == 3 || gGameMode == 5) {
+                if (gGameMode == 3 || gGameMode == 5) {
                     GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
                 }
                 // _0807545C
@@ -154,14 +154,13 @@ bool32 sub_80753D0(Sprite *s, s32 worldX, s32 worldY)
                 GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_4;
                 GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
 
-                if(gSelectedCharacter == CHARACTER_AMY) {
+                if (gSelectedCharacter == CHARACTER_AMY) {
                     GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_2000000;
-
                 }
 
-                if(GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {
                     GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_FACING_LEFT;
-                } else if(GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
+                } else if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
                     GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FACING_LEFT;
                 }
 
@@ -174,7 +173,7 @@ bool32 sub_80753D0(Sprite *s, s32 worldX, s32 worldY)
             }
         }
 
-    } while(++i < gNumSingleplayerCharacters);
+    } while (++i < gNumSingleplayerCharacters);
 
     return result;
 }

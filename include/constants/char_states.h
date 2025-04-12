@@ -28,7 +28,7 @@
 #define CHARSTATE_RAIL_EXTRA_JUMP 20
 #define CHARSTATE_21              21
 #define CHARSTATE_22              22
-#define CHARSTATE_BOUNCE              23
+#define CHARSTATE_BOUNCE          23
 #define CHARSTATE_27              27
 
 #if (GAME == GAME_SA1)
