@@ -129,7 +129,7 @@
 #define SA1_ANIM_STEAM_EXHAUST_LID       501
 
 #define SA1_ANIM_HANDLES_SEC_BAS_ANCHOR 503
-#define SA1_ANIM_HANDLES_SEC_BAS        504
+#define SA1_ANIM_HOOK_RAIL_2            504 // Variants: 0 = Rail, 1 = Anchor
 #define SA1_ANIM_TRAMPOLINE2            505
 #define SA1_ANIM_PLATFORM2              506
 #define SA1_ANIM_BOUNCE_BLOCK_2_1       507
@@ -171,14 +171,14 @@
 #define SA1_ANIM_FIRE                558
 #define SA1_ANIM_DESTRUCTABLE_PILLAR 559
 
-#define SA1_ANIM_ICE_SLIDE_SPLASH 562
-#define SA1_ANIM_WATER_SURFACE    563
-#define SA1_ANIM_DEBRIS_A         564
-#define SA1_ANIM_DEBRIS_B         565
-#define SA1_ANIM_DEBRIS_C         566
-#define SA1_ANIM_STEAM_EXHAUST    567 // Version without lid (with lid: SA1_ANIM_STEAM_EXHAUST_LID)
-#define SA1_ANIM_MUD_SLIDE_SPLASH 568
-
+#define SA1_ANIM_ICE_SLIDE_SPLASH                 562
+#define SA1_ANIM_WATER_SURFACE                    563
+#define SA1_ANIM_DEBRIS_A                         564
+#define SA1_ANIM_DEBRIS_B                         565
+#define SA1_ANIM_DEBRIS_C                         566
+#define SA1_ANIM_STEAM_EXHAUST                    567 // Version without lid (with lid: SA1_ANIM_STEAM_EXHAUST_LID)
+#define SA1_ANIM_MUD_SLIDE_SPLASH                 568
+#define SA1_ANIM_HOOK_RAIL_3                      569
 #define SA1_ANIM_BOOSTER_TURNED_CLOCKWISE         570
 #define SA1_ANIM_BOOSTER_TURNED_COUNTER_CLOCKWISE 571
 #define SA1_ANIM_SPECIAL_SPRING                   572

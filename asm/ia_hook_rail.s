@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start CreateEntity_HookRail
 CreateEntity_HookRail: @ 0x080865C4
 	push {r4, r5, r6, r7, lr}
@@ -13,16 +14,16 @@ CreateEntity_HookRail: @ 0x080865C4
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #4
-	adds r6, r0, #0
+	adds r6, r0, #0     @ r6 = me
 	lsls r1, r1, #0x10
 	lsrs r1, r1, #0x10
-	mov r8, r1
+	mov r8, r1          @ r8 = regionX
 	lsls r2, r2, #0x10
 	lsrs r2, r2, #0x10
-	mov sb, r2
+	mov sb, r2          @ sb = regionY
 	lsls r3, r3, #0x18
 	lsrs r3, r3, #0x18
-	mov sl, r3
+	mov sl, r3          @ sl = id
 	movs r0, #3
 	ldrsb r0, [r6, r0]
 	cmp r0, #1
@@ -60,9 +61,9 @@ _08086626:
 	ldrh r5, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r0, r5, r0
+	adds r0, r5, r0     @ r0 = hookRail
 	ldr r1, _0808669C @ =0x0300000C
-	adds r4, r5, r1
+	adds r4, r5, r1     @ r4 = s
 	movs r7, #0
 	movs r2, #0
 	mov r1, r8
@@ -166,6 +167,7 @@ _080866C2:
 	bx r0
 	.align 2, 0
 _0808670C: .4byte 0x0300002C
+.endif
 
 	thumb_func_start Task_HookRail_Type1
 Task_HookRail_Type1: @ 0x08086710

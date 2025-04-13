@@ -49,7 +49,7 @@ Task_HangBar: @ 0x0808C038
 	ldr r5, _0808C0BC @ =gPlayer
 	movs r1, #0
 	str r1, [sp, #0xc]
-_0808C08C:
+_0808C08C_loop:
 	mov r0, sb
 	adds r0, #0x3c
 	ldrb r0, [r0]
@@ -86,7 +86,7 @@ _0808C0CA:
 	ldrb r0, [r3]
 	bics r0, r1
 	strb r0, [r3]
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C0D8:
 	cmp r7, #0
 	beq _0808C0E8
@@ -314,13 +314,13 @@ _0808C24E:
 	asrs r0, r0, #8
 	cmp r1, r0
 	blt _0808C27A
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C270:
 	ldr r0, [r5]
 	asrs r0, r0, #8
 	cmp r1, r0
 	blt _0808C27A
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C27A:
 	ldr r0, _0808C294 @ =gPlayer
 	cmp r7, #0
@@ -568,7 +568,7 @@ _0808C41E:
 	ldrb r0, [r2]
 	bics r0, r1
 	strb r0, [r2]
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C42C:
 	cmp r7, #0
 	beq _0808C434
@@ -581,7 +581,7 @@ _0808C436:
 	ands r0, r1
 	cmp r0, #0
 	beq _0808C440
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C440:
 	cmp r7, #0
 	beq _0808C44E
@@ -589,13 +589,13 @@ _0808C440:
 	ldrsh r0, [r4, r3]
 	cmp r0, #0
 	bgt _0808C458
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C44E:
 	movs r6, #0xa
 	ldrsh r0, [r5, r6]
 	cmp r0, #0
 	bgt _0808C458
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C458:
 	ldr r0, [sp]
 	lsls r3, r0, #0x10
@@ -613,13 +613,13 @@ _0808C458:
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _0808C484
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C47A:
 	ldr r0, [r5]
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _0808C484
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C484:
 	asrs r1, r6, #0x10
 	lsls r0, r3, #3
@@ -634,13 +634,13 @@ _0808C484:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _0808C4AA
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C4A0:
 	ldr r0, [r5]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _0808C4AA
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C4AA:
 	ldr r6, [sp, #4]
 	lsls r3, r6, #0x10
@@ -658,13 +658,13 @@ _0808C4AA:
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _0808C4D6
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C4CC:
 	ldr r0, [r5, #4]
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _0808C4D6
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C4D6:
 	mov r2, r8
 	asrs r1, r2, #0x10
@@ -680,13 +680,13 @@ _0808C4D6:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _0808C4FE
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C4F4:
 	ldr r0, [r5, #4]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _0808C4FE
-	b _0808C6B0
+	b _0808C6B0_continue
 _0808C4FE:
 	cmp r7, #0
 	beq _0808C508
@@ -929,7 +929,7 @@ _0808C6A0:
 _0808C6AC:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
-_0808C6B0:
+_0808C6B0_continue:
 	ldr r0, [sp, #0xc]
 	adds r0, #4
 	str r0, [sp, #0xc]
@@ -940,7 +940,7 @@ _0808C6B0:
 	asrs r0, r0, #0x18
 	cmp r7, r0
 	bge _0808C6C6
-	b _0808C08C
+	b _0808C08C_loop
 _0808C6C6:
 	mov r2, sl
 	ldrb r1, [r2]

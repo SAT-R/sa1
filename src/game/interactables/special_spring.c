@@ -196,9 +196,11 @@ void Task_TransitionSpStage(void)
 
             TaskDestroy(gCurTask);
             TasksDestroyAll();
+
             PAUSE_BACKGROUNDS_QUEUE();
             SA2_LABEL(gUnknown_03005390) = 0;
             PAUSE_GRAPHICS_QUEUE();
+
             CreateSpecialStageIntro();
             return;
         } else {
