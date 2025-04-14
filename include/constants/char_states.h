@@ -47,6 +47,7 @@
 #define CHARSTATE_35       35
 #define CHARSTATE_36       36
 #define CHARSTATE_37       37
+#define CHARSTATE_38       38
 #define CHARSTATE_43       43
 #define CHARSTATE_AIR_DASH 44
 #define CHARSTATE_45       45

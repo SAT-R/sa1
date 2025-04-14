@@ -106,6 +106,8 @@
 #define SE_TRAMPOLINE          176
 #define SE_WATER_BRIDGE_SPLASH 177
 #define SE_SHRUBBERY           178
+#define SE_179                 179
+#define SE_HOOK_RAIL           180
 
 #define SE_BUMPER 184
 
