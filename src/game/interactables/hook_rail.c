@@ -24,9 +24,11 @@ typedef struct {
 
 void Task_HookRail_Type0(void);
 void Task_HookRail_Type1(void);
+void Task_HookRail_Type0_2(void);
 void Task_HookRail_Type1_2(void);
 void Task_HookRail_Type2(void);
 void Task_HookRail_Shared0(void);
+void Task_HookRail_Shared1(void);
 void TaskDestructor_HookRail(struct Task *t);
 
 #define HOOK_PLAYER_OFFSET_X       (-6)
@@ -136,7 +138,9 @@ void Task_HookRail_Type1(void)
 
                 gCurTask->main = Task_HookRail_Type1_2;
 
-                gPlayer.moveState |= MOVESTATE_STOOD_ON_OBJ;
+                // NOTE(Jace): |= not needed for matching *here*, but I feel
+                //             like they used a macro.
+                gPlayer.moveState |= gPlayer.moveState | MOVESTATE_STOOD_ON_OBJ;
                 gPlayer.stoodObj = s;
 
                 // |= Needed for matching
@@ -273,6 +277,220 @@ NONMATCH("asm/non_matching/game/interactables/hook_rail__Task_HookRail_Type1_2.i
 }
 END_NONMATCH
 
+void Task_HookRail_Type0(void)
+{
+    HookRail *hookRail = TASK_DATA(gCurTask);
+    Sprite *s = &hookRail->s;
+    MapEntity *me = hookRail->base.me;
+    CamCoord worldX, worldY;
+    s16 screenX, screenY;
+
+    worldX = TO_WORLD_POS(hookRail->base.meX, hookRail->base.regionX);
+    worldY = TO_WORLD_POS(hookRail->base.me->y, hookRail->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    screenX = s->x;
+    screenY = s->y;
+
+    if (PLAYER_IS_ALIVE) {
+        if (!(gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) || (gPlayer.stoodObj == s)) {
+            if (Coll_Player_Entity_Intersection(s, worldX, worldY, &gPlayer)) {
+                hookRail->qUnk40 = -ABS(gPlayer.qSpeedGround);
+                hookRail->unk44 = 0;
+
+                gPlayer.qWorldY = Q(worldY + HOOK_PLAYER_OFFSET_Y);
+                gPlayer.qWorldX = Q(worldX);
+                hookRail->qUnk48 = gPlayer.qWorldX;
+
+                Player_TransitionCancelFlyingAndBoost(&gPlayer);
+
+                gPlayer.moveState = MOVESTATE_IA_OVERRIDE;
+
+                gPlayer.rotation = 0;
+                gPlayer.qSpeedAirY = Q(0);
+                gPlayer.charState = CHARSTATE_38;
+
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
+
+                m4aSongNumStart(SE_HOOK_RAIL);
+
+                gCurTask->main = Task_HookRail_Type0_2;
+
+                // |= Needed for matching
+                gPlayer.moveState |= gPlayer.moveState | MOVESTATE_STOOD_ON_OBJ;
+                gPlayer.stoodObj = s;
+
+                // |= Needed for matching
+                gPlayer.itemEffect |= gPlayer.itemEffect | PLAYER_ITEM_EFFECT__TELEPORT;
+            }
+        }
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+        if ((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s)) {
+            gPlayer.stoodObj = NULL;
+            gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, hookRail->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+
+NONMATCH("asm/non_matching/game/interactables/hook_rail__Task_HookRail_Type0_2.inc", void Task_HookRail_Type0_2(void))
+{
+    HookRail *hookRail = TASK_DATA(gCurTask);
+    Sprite *s = &hookRail->s;
+    MapEntity *me = hookRail->base.me;
+    Player *p;
+    CamCoord worldX, worldY;
+    s32 qWorldX, qWorldY;
+    s16 screenX, screenY;
+
+    worldX = TO_WORLD_POS(hookRail->base.meX, hookRail->base.regionX);
+    worldY = TO_WORLD_POS(hookRail->base.me->y, hookRail->base.regionY);
+
+    if (PLAYER_IS_ALIVE) {
+        // _080868D8
+
+        if (gPlayer.charState != CHARSTATE_38) {
+            Player_TransitionCancelFlyingAndBoost(&gPlayer);
+            gPlayer.charState = CHARSTATE_38;
+        }
+
+        gPlayer.qSpeedAirY = 0;
+
+        if (hookRail->unk50 != 0) {
+            hookRail->qUnk40 += Q(20. / 256.);
+            hookRail->qUnk4C += hookRail->qUnk40;
+
+            qWorldX = Q(worldX);
+            qWorldX -= Q(6);
+            gPlayer.qWorldX = qWorldX + hookRail->qUnk4C;
+            qWorldY = Q(worldY + 276);
+            qWorldY += (hookRail->qUnk4C >> 1);
+            gPlayer.qWorldY = qWorldY;
+            s->y = worldY + I(hookRail->qUnk4C >> 1) - gCamera.y + (DISPLAY_HEIGHT + 80);
+
+            if (I(hookRail->qUnk4C) > 2) {
+                m4aSongNumStop(SE_HOOK_RAIL);
+                Player_TransitionCancelFlyingAndBoost(&gPlayer);
+                gPlayer.moveState &= ~MOVESTATE_IA_OVERRIDE;
+                gPlayer.charState = CHARSTATE_WALK;
+
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
+
+                gCurTask->main = Task_HookRail_Shared0;
+
+                gPlayer.qSpeedGround = hookRail->qUnk40;
+
+                gPlayer.qWorldY -= Q(10);
+                s->y = worldY + I(hookRail->qUnk4C >> 1) - gCamera.y + 120;
+                gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+
+                if ((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s)) {
+                    gPlayer.stoodObj = NULL;
+                    gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                }
+            }
+        } else {
+            // _08086984
+            hookRail->qUnk40 -= Q(9. / 256.);
+
+            if (hookRail->qUnk40 < -Q(6)) {
+                hookRail->qUnk40 = -Q(6);
+            }
+
+            hookRail->qUnk4C += hookRail->qUnk40;
+
+            qWorldX = Q(worldX);
+            qWorldX -= Q(6);
+            qWorldX += hookRail->qUnk4C;
+            gPlayer.qWorldX = qWorldX;
+            qWorldY = Q(worldY + 38);
+            qWorldY -= (hookRail->qUnk4C >> 1);
+            gPlayer.qWorldY = qWorldY;
+            s->y = worldY - I(hookRail->qUnk4C >> 1) - gCamera.y;
+            // Player_TransitionCancelFlyingAndBoost(&gPlayer);
+            if (I(gPlayer.qWorldX - hookRail->qUnk48) < -(DISPLAY_WIDTH + 4)) {
+                hookRail->unk50 = 1;
+            }
+        }
+
+        if (IS_MULTI_PLAYER) {
+            struct MultiSioData_0_4 *sioData = &gMultiSioRecv[SIO_MULTI_CNT->id].pat4;
+            s->x = (sioData->x - gCamera.x) + HOOK_PLAYER_OFFSET_T1_2_X;
+            s->y = (sioData->y - gCamera.y) - 36;
+        } else {
+            // _08086A0C
+            s->x = I(gPlayer.qWorldX) - gCamera.x + HOOK_PLAYER_OFFSET_T1_2_X;
+            s->y = I(gPlayer.qWorldY) - gCamera.y - HOOK_PLAYER_OFFSET_Y;
+        }
+
+        screenX = I(gPlayer.qWorldX) - gCamera.x + HOOK_PLAYER_OFFSET_T1_2_X;
+        screenY = I(gPlayer.qWorldY) - gCamera.y - HOOK_PLAYER_OFFSET_Y;
+        goto lblMaybeDestroy;
+    } else if (hookRail->unk50) {
+
+        hookRail->qUnk40 += Q(20. / 256.);
+        hookRail->qUnk4C += hookRail->qUnk40;
+
+        s->y = (worldY + (I(hookRail->qUnk4C) >> 1)) - gCamera.y + DISPLAY_HEIGHT + 80;
+
+        if (I(hookRail->qUnk4C) > 2) {
+            m4aSongNumStop(SE_HOOK_RAIL);
+            gCurTask->main = Task_HookRail_Shared1;
+
+            if ((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s)) {
+                gPlayer.stoodObj = NULL;
+                gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            }
+        }
+
+    } else {
+        hookRail->qUnk40 -= Q(9. / 256.);
+
+        if (hookRail->qUnk40 < -Q(6)) {
+            hookRail->qUnk40 = -Q(6);
+        }
+
+        hookRail->qUnk4C += hookRail->qUnk40;
+
+        if (I(Q(worldX) + hookRail->qUnk4C - hookRail->qUnk48) < -(DISPLAY_WIDTH + 4)) {
+            hookRail->unk50 = 1;
+        }
+
+        screenX = s->x;
+        screenY = s->y;
+        s->y = worldY - I(hookRail->qUnk4C >> 1) - gCamera.y;
+    }
+
+    s->x = worldX + I(hookRail->qUnk4C) - gCamera.x;
+    // _08086AD2
+
+    screenX = s->x;
+    screenY = s->y;
+
+lblMaybeDestroy:
+    if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+        if ((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s)) {
+            gPlayer.stoodObj = NULL;
+            gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, hookRail->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+END_NONMATCH
 /*
 void TaskDestructor_HookRail(struct Task *t) {
     HookRail *hookRail = TASK_DATA(t);
