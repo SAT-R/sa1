@@ -208,6 +208,7 @@ SECTIONS {
         src/game/interactables/conveyor_belt_object.o(.text);
         src/game/interactables/special_spring.o(.text);
         src/game/interactables/propeller.o(.text);
+        src/game/interactables/small_fall_block.o(.text);
         asm/ia_small_fall_block.o(.text);
         src/game/interactables/lava.o(.text);
         asm/ia_track.o(.text);

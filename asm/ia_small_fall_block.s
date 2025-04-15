@@ -5,131 +5,7 @@
 .syntax unified
 .arm
 
-@ In X-Zone
-	thumb_func_start CreateEntity_SmallFallBlock
-CreateEntity_SmallFallBlock: @ 0x080938A8
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sb, r0
-	adds r4, r1, #0
-	mov r8, r2
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	ldr r0, _0809398C @ =Task_SmallFallBlockMain
-	movs r7, #0x80
-	lsls r7, r7, #6
-	ldr r1, _08093990 @ =TaskDestructor_SmallFallBlock
-	str r1, [sp]
-	movs r1, #0x50
-	adds r2, r7, #0
-	movs r3, #0
-	bl TaskCreate
-	ldrh r6, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r6, r0
-	ldr r1, _08093994 @ =0x0300000C
-	adds r2, r6, r1
-	movs r3, #0
-	mov sl, r3
-	movs r5, #0
-	strh r4, [r0, #4]
-	mov r1, r8
-	strh r1, [r0, #6]
-	mov r3, sb
-	str r3, [r0]
-	ldrb r1, [r3]
-	strb r1, [r0, #8]
-	str r5, [r0, #0x40]
-	str r5, [r0, #0x44]
-	ldr r1, _08093998 @ =0x0300004C
-	adds r0, r6, r1
-	strh r5, [r0]
-	ldr r3, _0809399C @ =0x03000048
-	adds r0, r6, r3
-	strh r5, [r0]
-	subs r1, #2
-	adds r0, r6, r1
-	strh r5, [r0]
-	mov r3, sb
-	ldrb r0, [r3]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	strh r0, [r2, #0x16]
-	ldrb r0, [r3, #1]
-	lsls r0, r0, #3
-	mov r1, r8
-	lsls r1, r1, #8
-	mov r8, r1
-	add r0, r8
-	strh r0, [r2, #0x18]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r0, r3, #0
-	mov r1, sb
-	strb r0, [r1]
-	movs r0, #6
-	str r2, [sp, #4]
-	bl VramMalloc
-	ldr r2, [sp, #4]
-	str r0, [r2, #4]
-	ldr r3, _080939A0 @ =0x0300002C
-	adds r0, r6, r3
-	mov r1, sl
-	strb r1, [r0]
-	ldr r0, _080939A4 @ =0x0000023E
-	strh r0, [r2, #0xa]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r2, #0x1a]
-	strh r5, [r2, #8]
-	strh r5, [r2, #0x14]
-	strh r5, [r2, #0x1c]
-	adds r3, #1
-	adds r1, r6, r3
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _080939A8 @ =0x0300002E
-	adds r1, r6, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _080939AC @ =0x03000031
-	adds r6, r6, r1
-	mov r3, sl
-	strb r3, [r6]
-	subs r0, #0x11
-	str r0, [r2, #0x28]
-	str r7, [r2, #0x10]
-	adds r0, r2, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0809398C: .4byte Task_SmallFallBlockMain
-_08093990: .4byte TaskDestructor_SmallFallBlock
-_08093994: .4byte 0x0300000C
-_08093998: .4byte 0x0300004C
-_0809399C: .4byte 0x03000048
-_080939A0: .4byte 0x0300002C
-_080939A4: .4byte 0x0000023E
-_080939A8: .4byte 0x0300002E
-_080939AC: .4byte 0x03000031
-
+.if 01
 	thumb_func_start Task_SmallFallBlockMain
 Task_SmallFallBlockMain: @ 0x080939B0
 	push {r4, r5, r6, r7, lr}
@@ -144,39 +20,39 @@ Task_SmallFallBlockMain: @ 0x080939B0
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r1
-	mov r8, r0
+	mov r8, r0          @ r8 = block
 	ldr r2, _08093AD8 @ =0x0300000C
-	adds r7, r1, r2
+	adds r7, r1, r2     @ r7 = s
 	ldr r3, [r0]
-	str r3, [sp, #4]
+	str r3, [sp, #4]    @ sp04 = r3 = me
 	ldrb r2, [r0, #8]
 	lsls r2, r2, #3
 	ldrh r0, [r0, #4]
 	lsls r0, r0, #8
 	adds r2, r2, r0
-	lsls r2, r2, #0x10
+	lsls r2, r2, #0x10  @ r2 = worldX << 16
 	ldrb r1, [r3, #1]
 	lsls r1, r1, #3
-	mov r4, r8
+	mov r4, r8          @ r4 = r8 = block
 	ldrh r0, [r4, #6]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	lsls r1, r1, #0x10
+	lsls r1, r1, #0x10  @ r1 = worldY << 16
 	ldr r3, _08093ADC @ =gCamera
 	ldrh r0, [r3]
-	lsrs r4, r2, #0x10
-	mov sl, r4
-	asrs r6, r2, #0x10
+	lsrs r4, r2, #0x10  @ r4 = worldX
+	mov sl, r4          @ sl = r4 = worldX
+	asrs r6, r2, #0x10  @ r6 = worldX
 	subs r0, r6, r0
-	strh r0, [r7, #0x16]
+	strh r0, [r7, #0x16] @ s->x = TO_WORLD_POS(me->x, regionX);
 	ldrh r0, [r3, #2]
 	lsrs r2, r1, #0x10
 	str r2, [sp]
-	asrs r5, r1, #0x10
+	asrs r5, r1, #0x10  @ r5 = r1 = worldY
 	subs r0, r5, r0
-	strh r0, [r7, #0x18]
+	strh r0, [r7, #0x18] @ s->y = TO_WORLD_POS(me->y, regionY);
 	ldr r3, _08093AE0 @ =gPlayer
-	mov sb, r3
+	mov sb, r3          @ sb = gPlayer
 	adds r0, r7, #0
 	adds r1, r6, #0
 	adds r2, r5, #0
@@ -366,6 +242,7 @@ _08093B74:
 	bx r0
 	.align 2, 0
 _08093B84: .4byte gSineTable
+.endif
 
 	thumb_func_start Task_SmallFallBlock1
 Task_SmallFallBlock1: @ 0x08093B88
