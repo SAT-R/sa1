@@ -82,7 +82,7 @@ void CreateEntity_DummyEnt(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
 
-    SPRITE_INIT(s, 4, SA1_ANIM_TRIANGLE_BLUE, 0, 0, 2);
+    SPRITE_INIT(s, 4, SA1_ANIM_INDICATOR_SONIC, 0, 0, 2);
 
     dummy->base.me = me;
     dummy->base.regionX = regionX;
@@ -223,7 +223,6 @@ void CreateMultiplayerPlayer() { }
 void CreateMultipackOutcomeScreen() { }
 void MultiPakCommunicationError() { }
 void ShowSinglePakResults() { }
-void CreateOpponentPositionIndicator() { }
 void CreateMultiplayerChao() { }
 void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
