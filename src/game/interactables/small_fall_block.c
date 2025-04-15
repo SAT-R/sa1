@@ -16,9 +16,9 @@ typedef struct {
     /* 0x0C */ Sprite s;
     /* 0x3C */ u16 unk3C;
     /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 unk44;
-    /* 0x48 */ u16 unk48;
-    /* 0x4A */ u16 unk4A;
+    /* 0x44 */ s32 qUnk44; // Q()
+    /* 0x48 */ s16 qUnk48; // Q() worldX?
+    /* 0x4A */ s16 qUnk4A; // Q() worldY?
     /* 0x4C */ u16 unk4C;
 } SmallFallBlock;
 
@@ -54,10 +54,10 @@ void CreateEntity_SmallFallBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 #endif
 
     block->unk40 = 0;
-    block->unk44 = 0;
+    block->qUnk44 = 0;
     block->unk4C = 0;
-    block->unk48 = 0;
-    block->unk4A = 0;
+    block->qUnk48 = 0;
+    block->qUnk4A = 0;
 
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
@@ -191,4 +191,73 @@ void Task_SmallFallBlock1(void)
     s->y += (SIN(block->unk4C) >> 12);
 
     DisplaySprite(s);
+}
+
+void Task_SmallFallBlock2(void)
+{
+    SmallFallBlock *block = TASK_DATA(gCurTask);
+    Sprite *s = &block->s;
+    CamCoord worldX, worldY;
+    MapEntity *me = block->base.me;
+    u32 res;
+    s32 i;
+
+    block->qUnk4A += 0x2A;
+    block->qUnk44 += block->qUnk4A;
+
+    worldX = TO_WORLD_POS(block->base.meX, block->base.regionX);
+    worldY = TO_WORLD_POS(me->y, block->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + I(block->qUnk44);
+    block->unk3C++;
+
+    i = 0;
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            if (block->unk3C > 32) {
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                p->qSpeedAirY = block->qUnk4A;
+            } else {
+                p->qWorldX += block->qUnk48;
+                p->qWorldY += Q(1) + block->qUnk4A;
+            }
+        }
+
+        if (block->unk3C < 32) {
+            sub_800B2BC(s, worldX, worldY + I(block->qUnk44), p);
+        }
+
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, block->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+        || ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX)
+            && ((gPartner.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPartner.stoodObj == s)))) {
+        if (block->unk4C != 0x100) {
+            block->unk4C += 0x10;
+        }
+    } else {
+        if (block->unk4C != 0) {
+            block->unk4C -= 0x10;
+        }
+    }
+
+    s->y += (SIN(block->unk4C) >> 12);
+
+    DisplaySprite(s);
+}
+
+void TaskDestructor_SmallFallBlock(struct Task *t)
+{
+    SmallFallBlock *block = TASK_DATA(t);
+    VramFree(block->s.graphics.dest);
 }
