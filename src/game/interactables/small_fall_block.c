@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/multiplayer/multiplayer_event_mgr.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -41,6 +42,16 @@ void CreateEntity_SmallFallBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     block->base.regionY = regionY;
     block->base.me = me;
     block->base.meX = me->x;
+#ifdef BUG_FIX
+    // NOTE(Jace): In Task_SmallFallBlock1() a Multiplayer-Event gets triggered,
+    //             but without this fix, block->base.id never gets set.
+    //
+    //             So the call will just trigger the event for a random ID,
+    //             instead of the specific one this entity is referred to.
+    //
+    // This bug could be the reason why these blocks only appear in the X-Zone.
+    block->base.id = id;
+#endif
 
     block->unk40 = 0;
     block->unk44 = 0;
@@ -98,6 +109,65 @@ void Task_SmallFallBlockMain(void)
     if (IS_MULTI_PLAYER) {
         block->unk3C = 0;
         gCurTask->main = Task_SmallFallBlock2;
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, block->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+        || ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX)
+            && ((gPartner.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPartner.stoodObj == s)))) {
+        if (block->unk4C != 0x100) {
+            block->unk4C += 0x10;
+        }
+    } else {
+        if (block->unk4C != 0) {
+            block->unk4C -= 0x10;
+        }
+    }
+
+    s->y += (SIN(block->unk4C) >> 12);
+
+    DisplaySprite(s);
+}
+
+void Task_SmallFallBlock1(void)
+{
+    SmallFallBlock *block = TASK_DATA(gCurTask);
+    Sprite *s = &block->s;
+    CamCoord worldX, worldY;
+    MapEntity *me = block->base.me;
+
+    worldX = TO_WORLD_POS(block->base.meX, block->base.regionX);
+    worldY = TO_WORLD_POS(me->y, block->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    sub_800B2BC(s, worldX, worldY, &gPlayer);
+
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        sub_800B2BC(s, worldX, worldY, &gPartner);
+    }
+
+    if (IS_MULTI_PLAYER && ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
+        block->unk3C = 0;
+        gCurTask->main = Task_SmallFallBlock2;
+    } else if (--block->unk3C == 0) {
+        block->unk3C = 0;
+        gCurTask->main = Task_SmallFallBlock2;
+
+        if (IS_MULTI_PLAYER) {
+            RoomEvent_PlatformChange *roomEvent = CreateRoomEvent();
+            roomEvent->type = ROOMEVENT_TYPE_PLATFORM_CHANGE;
+            roomEvent->x = block->base.regionX;
+            roomEvent->y = block->base.regionY;
+            roomEvent->id = block->base.id;
+            roomEvent->action = 1;
+        }
     }
 
     if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
