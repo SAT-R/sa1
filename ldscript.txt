@@ -184,7 +184,6 @@ SECTIONS {
         asm/ia_flipper_small_blue.o(.text);
         asm/ia_carousel.o(.text);
         src/game/interactables/hook_rail.o(.text);
-        asm/ia_hook_rail.o(.text);
         asm/ia_swinging_hook.o(.text);
         src/game/interactables/security_gate.o(.text);
         asm/ia_swing_rope.o(.text);
