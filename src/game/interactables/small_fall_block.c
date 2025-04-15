@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
@@ -14,10 +15,10 @@ typedef struct {
     /* 0x0C */ Sprite s;
     /* 0x3C */ u16 unk3C;
     /* 0x40 */ s32 unk40;
-    /* 0x40 */ s32 unk44;
-    /* 0x40 */ u16 unk48;
-    /* 0x40 */ u16 unk4A;
-    /* 0x44 */ s16 unk4C;
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ u16 unk48;
+    /* 0x4A */ u16 unk4A;
+    /* 0x4C */ u16 unk4C;
 } SmallFallBlock;
 
 void Task_SmallFallBlockMain(void);
@@ -69,13 +70,12 @@ void CreateEntity_SmallFallBlock(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
 void Task_SmallFallBlockMain(void)
 {
     SmallFallBlock *block = TASK_DATA(gCurTask);
     Sprite *s = &block->s;
-    MapEntity *me = block->base.me;
     CamCoord worldX, worldY;
+    MapEntity *me = block->base.me;
     u32 res;
 
     worldX = TO_WORLD_POS(block->base.meX, block->base.regionX);
@@ -86,21 +86,39 @@ void Task_SmallFallBlockMain(void)
 
     res = sub_800B2BC(s, worldX, worldY, &gPlayer);
 
-    if(gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX)
-    {
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
         res |= sub_800B2BC(s, worldX, worldY, &gPartner);
     }
-    // _08093A30
 
-    if((res & COLL_FLAG_8) && (gPlayer.stoodObj == s))
-    {
+    if ((res & COLL_FLAG_8) && (gPlayer.stoodObj == s)) {
         gCurTask->main = Task_SmallFallBlock1;
         block->unk3C = 30;
     }
 
-    if(IS_MULTI_PLAYER) {
+    if (IS_MULTI_PLAYER) {
         block->unk3C = 0;
         gCurTask->main = Task_SmallFallBlock2;
     }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, block->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+        || ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX)
+            && ((gPartner.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPartner.stoodObj == s)))) {
+        if (block->unk4C != 0x100) {
+            block->unk4C += 0x10;
+        }
+    } else {
+        if (block->unk4C != 0) {
+            block->unk4C -= 0x10;
+        }
+    }
+
+    s->y += (SIN(block->unk4C) >> 12);
+
+    DisplaySprite(s);
 }
-#endif
