@@ -16,9 +16,9 @@ typedef struct {
     /* 0x0C */ Sprite s;
     /* 0x3C */ u16 unk3C;
     /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 qUnk44; // Q()
-    /* 0x48 */ s16 qUnk48; // Q() worldX?
-    /* 0x4A */ s16 qUnk4A; // Q() worldY?
+    /* 0x44 */ s32 qUnk44; //
+    /* 0x48 */ s16 qUnk48; // worldX?
+    /* 0x4A */ s16 qUnk4A; // worldY?
     /* 0x4C */ u16 unk4C;
 } SmallFallBlock;
 

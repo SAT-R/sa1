@@ -211,6 +211,7 @@ SECTIONS {
         src/game/interactables/small_fall_block.o(.text);
         src/game/interactables/lava.o(.text);
         asm/ia_track.o(.text);
+        src/game/interactables/107.o(.text);
         asm/ia_107.o(.text);
         src/game/interactables/spring_hiding.o(.text);
         src/game/interactables/109.o(.text);

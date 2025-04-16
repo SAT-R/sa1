@@ -5,77 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Interactable107
-CreateEntity_Interactable107: @ 0x080949B8
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r7, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08094A38 @ =Task_Interactable107
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r1, #0
-	str r1, [sp]
-	movs r1, #0x44
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	movs r3, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #8]
-	strb r6, [r0, #9]
-	ldr r1, _08094A3C @ =0x0300003C
-	adds r0, r2, r1
-	strb r3, [r0]
-	ldrb r1, [r7, #3]
-	ldr r3, _08094A40 @ =0x0300003D
-	adds r0, r2, r3
-	strb r1, [r0]
-	movs r1, #0
-	ldr r0, _08094A44 @ =0x0300003E
-	adds r4, r2, r0
-	movs r3, #0
-	ldr r5, _08094A48 @ =gNumSingleplayerCharacters
-	adds r0, #2
-	adds r2, r2, r0
-_08094A14:
-	adds r0, r4, r1
-	strb r3, [r0]
-	strh r3, [r2]
-	adds r2, #2
-	adds r1, #1
-	movs r0, #0
-	ldrsb r0, [r5, r0]
-	cmp r1, r0
-	blt _08094A14
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08094A38: .4byte Task_Interactable107
-_08094A3C: .4byte 0x0300003C
-_08094A40: .4byte 0x0300003D
-_08094A44: .4byte 0x0300003E
-_08094A48: .4byte gNumSingleplayerCharacters
+.if 0
+.endif
 
 	thumb_func_start Task_Interactable107
 Task_Interactable107: @ 0x08094A4C
