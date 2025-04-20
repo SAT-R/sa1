@@ -2,13 +2,16 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/stage/player.h"
 #include "game/sa1_sa2_shared/collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
-
-/* Blocks that fall down after stepping on them, in X-Zone */
+#include "constants/char_states.h"
+#include "constants/move_states.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -48,4 +51,129 @@ void CreateEntity_Interactable107(MapEntity *me, u16 regionX, u16 regionY, u8 id
     } while (++i < gNumSingleplayerCharacters);
 
     SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+void Task_Interactable107(void)
+{
+    IA107 *ia = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    s16 screenX, screenY;
+    s16 sp10;
+    s16 sp14;
+    s32 sp18;
+    MapEntity *me = ia->base.me;
+    s32 i;
+
+    worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
+    worldY = TO_WORLD_POS(me->y, ia->base.regionY);
+
+    screenX = worldX - gCamera.x;
+    screenY = worldY - gCamera.y;
+
+    i = 0;
+    do {
+        s16 theta;
+
+        sp10 = 0;
+        sp14 = 0;
+
+        if (GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD) {
+            continue;
+        }
+
+        if (GetBit(ia->unk3C, i)) {
+            if (ia->unk3D == 0) {
+                sp18 = 4;
+
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_RIGHT) {
+                    sp10 = Q(9);
+                } else if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_DOWN) {
+                    sp14 = Q(9);
+                }
+            } else if (ia->unk3D == 1) {
+                sp18 = 0;
+
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_RIGHT) {
+                    sp10 = Q(7);
+                    sp14 = Q(8);
+                } else if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_LEFT) {
+                    sp10 = -Q(9);
+                    sp14 = Q(7);
+                }
+            } else if (ia->unk3D == 2) {
+                sp18 = 0;
+
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_RIGHT) {
+                    sp10 = Q(9);
+                }
+            } else if (ia->unk3D == 3) {
+                sp18 = 0;
+
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_DOWN) {
+                    sp14 = Q(9);
+                }
+            }
+
+            ia->unk40[i] += 4;
+
+            if (ia->unk40[i] > SIN_PERIOD) {
+                s32 theta = -SIN_PERIOD;
+                ia->unk40[i] += theta;
+            }
+
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX) + Div(COS((ia->unk40[i] * 8) & ONE_CYCLE), 16);
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(worldY - sp18) + Div(SIN((ia->unk40[i] * 8) & ONE_CYCLE), 16);
+
+            Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+            GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IA_OVERRIDE;
+
+            if (sp10 != 0 || sp14 != 0) {
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX);
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(worldY);
+
+                ia->unk3E[i] = 20;
+                ClearBit(ia->unk3C, i);
+
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
+                GET_SP_PLAYER_MEMBER_V1(i, rotation) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = sp14;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = sp10;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = sp10;
+            }
+        } else if (ia->unk3E[i] > 0) {
+            ia->unk3E[i]--;
+        } else {
+            if (((worldX - 10 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 10 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))))
+                && ((worldY - 10 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 10 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))))) {
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IA_OVERRIDE;
+
+                ia->unk40[i] = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX);
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(worldY);
+
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = 0;
+
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+
+                m4aSongNumStart(SE_SPRING);
+
+                SetBit(ia->unk3C, i);
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if ((ia->unk3C & 0x3) == 0) {
+        if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
 }

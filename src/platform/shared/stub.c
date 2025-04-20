@@ -167,7 +167,6 @@ void CreateEntity_Booster_Steep(MapEntity *me, u16 regionX, u16 regionY, u8 id) 
 void CreateEntity_Booster_Steep2(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_SpikedBarrel_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_Track(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
-void CreateEntity_Interactable107(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_PipeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
