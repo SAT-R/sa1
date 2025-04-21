@@ -2,25 +2,140 @@
 #include "core.h"
 #include "trig.h"
 #include "game/entity.h"
+#include "game/stage/player_controls.h"
 
 #include "constants/char_states.h"
 
 typedef struct {
-    MapEntity *me;
-    s32 unk4;
-    s32 unk8;
-    s32 left;
-    s32 right;
-    s32 top;
-    s32 bottom;
-    s32 unk1C;
-    u8 unk20;
-    u8 unk21;
+    /* 0x00 */ MapEntity *me;
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 left;
+    /* 0x10 */ s32 right;
+    /* 0x14 */ s32 top;
+    /* 0x18 */ s32 bottom;
+    /* 0x1C */ s32 unk1C;
+    /* 0x20 */ u8 unk20;
+    /* 0x24 */ u8 meX;
 } HalfPipe;
 
 void Task_HalfPipeStart(void);
 void Task_HalfPipeEnd(void);
 void sub_804D4A0(s32 param0, s32 unusedParam1, Player *p);
+
+void Task_HalfPipeStart(void)
+{
+    HalfPipe *halfpipe = TASK_DATA(gCurTask);
+    s32 i;
+
+    i = 0;
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+        s32 oldWorldX, oldWorldY;
+
+        oldWorldX = I(p->qWorldX);
+        oldWorldY = I(p->qWorldY);
+
+        if ((halfpipe->unk4 > gCamera.x + 368) || (halfpipe->unk4 < gCamera.x - 800) || (halfpipe->unk8 > gCamera.y + DISPLAY_HEIGHT + 128)
+            || (halfpipe->unk8 < gCamera.y - 128)) {
+            p->moveState &= ~MOVESTATE_8000;
+
+            halfpipe->me->x = halfpipe->meX;
+            TaskDestroy(gCurTask);
+            return;
+        }
+
+        if ((halfpipe->left <= oldWorldX) && (oldWorldX < halfpipe->right) && (halfpipe->top <= oldWorldY)
+            && (oldWorldY < halfpipe->bottom)) {
+            if (p->qSpeedAirX > +Q(2.25)) {
+                if (!(p->moveState & MOVESTATE_IN_AIR) && (p->SA2_LABEL(unk62) == 0)) {
+                    p->moveState |= MOVESTATE_8000;
+                    halfpipe->unk1C = p->qWorldY + Q(p->spriteOffsetY);
+                } else {
+                    p->moveState &= ~MOVESTATE_8000;
+                }
+            } else {
+                p->moveState &= ~MOVESTATE_8000;
+            }
+        } else {
+            if ((p->moveState & MOVESTATE_8000) && (halfpipe->right <= oldWorldX)) {
+                s16 qSpeed;
+                if (!IS_ALIVE(p)) {
+                    return;
+                }
+
+                qSpeed = p->qSpeedAirX + Q(2.25) - 1;
+                if ((qSpeed >= Q(0) && qSpeed < Q(4.5) - 1) || (p->frameInput & gPlayerControls.jump)) {
+                    p->moveState &= ~MOVESTATE_8000;
+
+                    if (p->charState == CHARSTATE_24 || p->charState == CHARSTATE_25 || p->charState == CHARSTATE_26) {
+                        p->charState = CHARSTATE_WALK;
+                    }
+
+                } else if ((p->qSpeedAirX >= +Q(2.25))) {
+                    sub_804D4A0(oldWorldX - halfpipe->right, halfpipe->unk1C, p);
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+}
+
+void Task_HalfPipeEnd(void)
+{
+    HalfPipe *halfpipe = TASK_DATA(gCurTask);
+    s32 i;
+
+    i = 0;
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+        s32 oldWorldX, oldWorldY;
+
+        oldWorldX = I(p->qWorldX);
+        oldWorldY = I(p->qWorldY);
+
+        if ((halfpipe->unk4 > gCamera.x + 1040) || (halfpipe->unk4 < gCamera.x - 128) || (halfpipe->unk8 > gCamera.y + DISPLAY_HEIGHT + 128)
+            || (halfpipe->unk8 < gCamera.y - 128)) {
+            p->moveState &= ~MOVESTATE_8000;
+
+            halfpipe->me->x = halfpipe->meX;
+            TaskDestroy(gCurTask);
+            return;
+        }
+
+        if ((halfpipe->left <= oldWorldX) && (oldWorldX < halfpipe->right) && (halfpipe->top <= oldWorldY)
+            && (oldWorldY < halfpipe->bottom)) {
+            if (p->qSpeedAirX < -Q(2.25)) {
+                if (!(p->moveState & MOVESTATE_IN_AIR) && (p->SA2_LABEL(unk62) == 0)) {
+                    p->moveState |= MOVESTATE_8000;
+                    halfpipe->unk1C = p->qWorldY + Q(p->spriteOffsetY);
+                } else {
+                    p->moveState &= ~MOVESTATE_8000;
+                }
+            } else {
+                p->moveState &= ~MOVESTATE_8000;
+            }
+        } else {
+            if ((p->moveState & MOVESTATE_8000) && (oldWorldX < halfpipe->left)) {
+                s16 qSpeed;
+                if (!IS_ALIVE(p)) {
+                    return;
+                }
+
+                qSpeed = p->qSpeedAirX + Q(2.25) - 1;
+                if ((qSpeed >= Q(0) && qSpeed < Q(4.5) - 1) || (p->frameInput & gPlayerControls.jump)) {
+                    p->moveState &= ~MOVESTATE_8000;
+
+                    if (p->charState == CHARSTATE_24 || p->charState == CHARSTATE_25 || p->charState == CHARSTATE_26) {
+                        p->charState = CHARSTATE_WALK;
+                    }
+
+                } else if ((p->qSpeedAirX <= -Q(2.25))) {
+                    sub_804D4A0(oldWorldX - halfpipe->left + Q(2.625), halfpipe->unk1C, p);
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+}
 
 // (93.82%) https://decomp.me/scratch/Qgh0B
 NONMATCH("asm/non_matching/game/interactables/half_pipe__sub_804D4A0.inc", void sub_804D4A0(s32 param0, s32 unusedParam1, Player *p))
@@ -126,7 +241,7 @@ void CreateEntity_HalfPipeStart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s32 worldX, worldY;
 
     halfpipe->me = me;
-    halfpipe->unk21 = me->x;
+    halfpipe->meX = me->x;
     halfpipe->unk20 = 0;
 
     worldX = TO_WORLD_POS_INV(me->x, regionX);
@@ -150,7 +265,7 @@ void CreateEntity_HalfPipeEnd(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s32 worldX, worldY;
 
     halfpipe->me = me;
-    halfpipe->unk21 = me->x;
+    halfpipe->meX = me->x;
     halfpipe->unk20 = 0;
 
     worldX = TO_WORLD_POS_INV(me->x, regionX);
