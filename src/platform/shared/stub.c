@@ -27,6 +27,7 @@ void CreatePauseMenu(void) { }
 
 bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p) { return FALSE; }
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
+bool32 sub_800B798(Sprite *s, CamCoord screenX, CamCoord screenY) { return FALSE; }
 
 void sub_805B9E8() { }
 
@@ -179,7 +180,6 @@ void CreateEntity_GamiGami() { }
 void CreateEntity_Rhinotank() { }
 void CreateEntity_KeroKero() { }
 void CreateEntity_Tentou() { }
-void CreateEntity_Fireball() { }
 void CreateEntity_Hanabii() { }
 void CreateEntity_Slot() { }
 void CreateEntity_Leon() { }
