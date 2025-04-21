@@ -36,8 +36,8 @@ void Task_HalfPipeStart(void)
         oldWorldX = I(p->qWorldX);
         oldWorldY = I(p->qWorldY);
 
-        if ((halfpipe->unk4 > gCamera.x + 368) || (halfpipe->unk4 < gCamera.x - 800) || (halfpipe->unk8 > gCamera.y + DISPLAY_HEIGHT + 128)
-            || (halfpipe->unk8 < gCamera.y - 128)) {
+        if ((halfpipe->unk4 > gCamera.x + DISPLAY_WIDTH + 128) || (halfpipe->unk4 < gCamera.x - 800)
+            || (halfpipe->unk8 > gCamera.y + DISPLAY_HEIGHT + 128) || (halfpipe->unk8 < gCamera.y - 128)) {
             p->moveState &= ~MOVESTATE_8000;
 
             halfpipe->me->x = halfpipe->meX;
