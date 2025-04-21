@@ -27,6 +27,7 @@ u32 CheckRectCollision_SpritePlayer(Sprite *s, s32 sx, s32 sy, Player *p, struct
 u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4);
 
 u32 sub_800B2BC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+bool32 sub_800B798(Sprite *s, CamCoord screenX, CamCoord screenY); // might be in SA2?
 u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 
@@ -39,7 +40,6 @@ bool32 sub_800CA20(Sprite *s, s32 sx, s32 sy, s16 hbIndex, Player *p);
 bool32 IsColliding_Cheese(Sprite *sprTarget, s32 sx, s32 sy, s16 hbIndex, Player *p);
 u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer);
 
-// Lose rings?
 bool32 Coll_DamagePlayer(Player *);
 void Collision_AdjustPlayerSpeed(Player *);
 

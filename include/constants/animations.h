@@ -42,13 +42,14 @@
 // Defeating enemies / opening item boxes
 #define SA1_ANIM_DUST_CLOUD 407
 
-#define SA1_ANIM_SENBON       411
-#define SA1_ANIM_TENTOU       412
-#define SA1_ANIM_FIREBALL     413
-#define SA1_ANIM_HANABII      415
-#define SA1_ANIM_HANABII_PROJ 416
-#define SA1_ANIM_SLOT         417
-#define SA1_ANIM_PIERROT      418
+#define SA1_ANIM_SENBON        411
+#define SA1_ANIM_TENTOU        412
+#define SA1_ANIM_FIREBALL      413
+#define SA1_ANIM_FIREBALL_PROJ 414
+#define SA1_ANIM_HANABII       415
+#define SA1_ANIM_HANABII_PROJ  416
+#define SA1_ANIM_SLOT          417
+#define SA1_ANIM_PIERROT       418
 
 #define SA1_ANIM_YUKIMARU 422
 #define SA1_ANIM_DRISAME  424

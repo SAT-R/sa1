@@ -18,7 +18,7 @@ Task_Fireball: @ 0x08070E94
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
-	adds r7, r0, r1
+	adds r7, r0, r1     @ r7 = (FireballParent*)fireball
 	ldr r3, [r7]
 	mov sl, r3
 	ldrb r0, [r7, #6]
@@ -85,7 +85,7 @@ _08070F1C:
 	mov sb, r0
 	cmp r0, #0
 	bne _08070FE8
-	ldr r0, _08070FFC @ =sub_807101C
+	ldr r0, _08070FFC @ =Task_807101C
 	ldr r1, _08071000 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x48
@@ -184,7 +184,7 @@ _08070FE8:
 	bx r0
 	.align 2, 0
 _08070FF8: .4byte gStageTime
-_08070FFC: .4byte sub_807101C
+_08070FFC: .4byte Task_807101C
 _08071000: .4byte TaskDestructor_EntityShared
 _08071004: .4byte 0x0300000C
 _08071008: .4byte 0x0000019D
@@ -193,8 +193,8 @@ _08071010: .4byte 0x0300002D
 _08071014: .4byte 0x0300002E
 _08071018: .4byte 0x03000031
 
-	thumb_func_start sub_807101C
-sub_807101C: @ 0x0807101C
+	thumb_func_start Task_807101C
+Task_807101C: @ 0x0807101C
 	push {r4, r5, r6, r7, lr}
 	ldr r3, _080710BC @ =gCurTask
 	ldr r0, [r3]
@@ -312,7 +312,7 @@ _080710F2:
 	subs r1, #0x10
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_8071288
+	bl CreateFireballSparks
 	adds r1, r4, #0
 	adds r1, #0x21
 	movs r0, #0xff
@@ -322,7 +322,7 @@ _080710F2:
 	strb r0, [r1]
 	ldr r0, _08071154 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08071158 @ =sub_8071160
+	ldr r0, _08071158 @ =Task_8071160
 	str r0, [r1, #8]
 _08071124:
 	adds r0, r4, #0
@@ -347,11 +347,11 @@ _08071148:
 	.align 2, 0
 _08071150: .4byte gPlayer
 _08071154: .4byte gCurTask
-_08071158: .4byte sub_8071160
+_08071158: .4byte Task_8071160
 _0807115C: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_8071160
-sub_8071160: @ 0x08071160
+	thumb_func_start Task_8071160
+Task_8071160: @ 0x08071160
 	push {r4, r5, r6, r7, lr}
 	ldr r3, _08071200 @ =gCurTask
 	ldr r0, [r3]
@@ -493,227 +493,5 @@ _0807127C:
 	.align 2, 0
 _08071284: .4byte 0xFFFFFBFF
 
-	thumb_func_start sub_8071288
-sub_8071288: @ 0x08071288
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	movs r6, #0
-	movs r4, #0
-	lsls r0, r0, #0x10
-	asrs r7, r0, #0x10
-	lsls r5, r7, #2
-	movs r0, #8
-	adds r0, r0, r7
-	mov r8, r0
-_080712A8:
-	str r4, [sp]
-	ldr r0, _080712DC @ =sub_8071344
-	movs r1, #0x38
-	movs r2, #0xc0
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r1, r0, r2
-	strh r5, [r1, #0x30]
-	movs r0, #0xfe
-	lsls r0, r0, #8
-	strh r0, [r1, #0x34]
-	movs r0, #6
-	strh r0, [r1, #0x32]
-	cmp r6, #0
-	beq _080712E0
-	rsbs r0, r0, #0
-	strh r0, [r1, #0x32]
-	adds r0, r7, #0
-	subs r0, #8
-	b _080712E4
-	.align 2, 0
-_080712DC: .4byte sub_8071344
-_080712E0:
-	strh r5, [r1, #0x30]
-	mov r0, r8
-_080712E4:
-	strh r0, [r1, #0x16]
-	mov r2, sb
-	strh r2, [r1, #0x18]
-	ldr r0, _08071340 @ =0x06012580
-	str r0, [r1, #4]
-	movs r0, #0x90
-	lsls r0, r0, #2
-	strh r0, [r1, #0x1a]
-	strh r4, [r1, #8]
-	subs r0, #0xa2
-	strh r0, [r1, #0xa]
-	adds r0, r1, #0
-	adds r0, #0x20
-	strb r4, [r0]
-	strh r4, [r1, #0x14]
-	strh r4, [r1, #0x1c]
-	adds r2, r1, #0
-	adds r2, #0x21
-	movs r0, #0xff
-	strb r0, [r2]
-	adds r2, #1
-	movs r0, #0x10
-	strb r0, [r2]
-	adds r0, r1, #0
-	adds r0, #0x25
-	strb r4, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r1, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r1, #0x10]
-	adds r0, r1, #0
-	bl UpdateSpriteAnimation
-	adds r6, #1
-	cmp r6, #1
-	ble _080712A8
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08071340: .4byte 0x06012580
-
-	thumb_func_start sub_8071344
-sub_8071344: @ 0x08071344
-	push {r4, r5, r6, r7, lr}
-	ldr r0, _080713C8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r1, r0
-	adds r5, r4, #0
-	ldrh r0, [r4, #0x32]
-	ldrh r1, [r4, #0x30]
-	adds r0, r0, r1
-	strh r0, [r4, #0x30]
-	movs r1, #0x30
-	ldrsh r0, [r4, r1]
-	cmp r0, #0
-	bge _08071366
-	adds r0, #3
-_08071366:
-	asrs r0, r0, #2
-	strh r0, [r4, #0x16]
-	ldrh r0, [r4, #0x34]
-	adds r0, #0x28
-	strh r0, [r4, #0x34]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x18
-	ldrh r1, [r4, #0x18]
-	adds r0, r0, r1
-	strh r0, [r4, #0x18]
-	ldrh r6, [r4, #0x16]
-	movs r0, #0x16
-	ldrsh r1, [r4, r0]
-	ldrh r7, [r4, #0x18]
-	movs r0, #0x18
-	ldrsh r2, [r4, r0]
-	adds r0, r4, #0
-	bl sub_800B798
-	ldr r3, _080713CC @ =gCamera
-	ldrh r0, [r4, #0x16]
-	ldrh r1, [r3]
-	subs r0, r0, r1
-	strh r0, [r4, #0x16]
-	ldrh r2, [r4, #0x18]
-	ldrh r1, [r3, #2]
-	subs r2, r2, r1
-	strh r2, [r4, #0x18]
-	adds r0, #0x14
-	lsls r0, r0, #0x10
-	movs r1, #0x8a
-	lsls r1, r1, #0x11
-	cmp r0, r1
-	bhi _080713BC
-	movs r1, #0x18
-	ldrsh r0, [r4, r1]
-	adds r0, #0x14
-	cmp r0, #0
-	blt _080713BC
-	lsls r0, r2, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0xf0
-	ble _080713D0
-_080713BC:
-	ldr r0, _080713C8 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _080713E0
-	.align 2, 0
-_080713C8: .4byte gCurTask
-_080713CC: .4byte gCamera
-_080713D0:
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	bl DisplaySprite
-	strh r6, [r5, #0x16]
-	strh r7, [r5, #0x18]
-_080713E0:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
-	thumb_func_start CreateEntity_Fireball
-CreateEntity_Fireball: @ 0x080713E8
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	ldr r0, _0807143C @ =Task_Fireball
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r1, #0
-	mov r8, r1
-	str r1, [sp]
-	movs r1, #0xc
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	str r6, [r0]
-	mov r1, r8
-	strh r1, [r0, #4]
-	ldrb r1, [r6]
-	strb r1, [r0, #6]
-	strh r4, [r0, #8]
-	strh r5, [r0, #0xa]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r6]
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0807143C: .4byte Task_Fireball
+.if 0
+.endif
