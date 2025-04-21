@@ -52,14 +52,14 @@ void Task_Fireball(void)
 
     worldX = TO_WORLD_POS(spawner->meX, spawner->regionX);
     worldY = TO_WORLD_POS(me->y, spawner->regionY);
-    
-    if(IS_OUT_OF_DISPLAY_RANGE(worldX, worldY)) {
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, spawner->meX);
         TaskDestroy(gCurTask);
         return;
     }
 
-    if(Mod(gStageTime + spawner->unk4, ZONE_TIME_TO_INT(0, 0.1)) == 0) {
+    if (Mod(gStageTime + spawner->unk4, ZONE_TIME_TO_INT(0, 4)) == 0) {
         struct Task *t = TaskCreate(Task_FireballUpdateRise, sizeof(Fireball), 0x2000, 0, TaskDestructor_EntityShared);
         Fireball *fireball = TASK_DATA(t);
         Sprite *s = &fireball->shared.s;
@@ -105,20 +105,19 @@ void Task_FireballUpdateRise(void)
     fireball->unk40 += I(fireball->qUnk3C);
     s->y = fireball->unk40 - gCamera.y;
 
-    if(IS_OUT_OF_DISPLAY_RANGE(fireball->unk3E, fireball->unk44)
-    && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+    if (IS_OUT_OF_DISPLAY_RANGE(fireball->unk3E, fireball->unk44) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, fireball->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }
 
-    if(IS_ALIVE(&gPlayer)) {
-        if(Coll_Player_Entity_Intersection(s, fireball->unk3E, fireball->unk40, &gPlayer)) {
+    if (IS_ALIVE(&gPlayer)) {
+        if (Coll_Player_Entity_Intersection(s, fireball->unk3E, fireball->unk40, &gPlayer)) {
             Coll_DamagePlayer(&gPlayer);
         }
     }
 
-    if(fireball->qUnk3C >= Q(0)) {
+    if (fireball->qUnk3C >= Q(0)) {
         CreateFireballSparks(fireball->unk3E, fireball->unk40 - 16);
         s->prevVariant = -1;
         s->variant = 1;
@@ -145,20 +144,19 @@ void Task_FireballExtinguish(void)
     fireball->unk40 += I(fireball->qUnk3C);
     s->y = fireball->unk40 - gCamera.y;
 
-    if(IS_OUT_OF_DISPLAY_RANGE(fireball->unk3E, fireball->unk44) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+    if (IS_OUT_OF_DISPLAY_RANGE(fireball->unk3E, fireball->unk44) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, fireball->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }
 
-    if(IS_ALIVE(&gPlayer)) {
-        if(Coll_Player_Entity_Intersection(s, fireball->unk3E, fireball->unk40, &gPlayer)) {
+    if (IS_ALIVE(&gPlayer)) {
+        if (Coll_Player_Entity_Intersection(s, fireball->unk3E, fireball->unk40, &gPlayer)) {
             Coll_DamagePlayer(&gPlayer);
         }
     }
 
-    if(fireball->qUnk3C >= Q(2)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, fireball->shared.base.meX);
+    if (fireball->qUnk3C >= Q(2)) {
         TaskDestroy(gCurTask);
         return;
     }
