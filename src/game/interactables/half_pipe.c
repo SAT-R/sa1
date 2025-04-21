@@ -8,8 +8,8 @@
 
 typedef struct {
     /* 0x00 */ MapEntity *me;
-    /* 0x04 */ s32 unk4;
-    /* 0x08 */ s32 unk8;
+    /* 0x04 */ s32 worldX;
+    /* 0x08 */ s32 worldY;
     /* 0x0C */ s32 left;
     /* 0x10 */ s32 right;
     /* 0x14 */ s32 top;
@@ -36,8 +36,8 @@ void Task_HalfPipeStart(void)
         oldWorldX = I(p->qWorldX);
         oldWorldY = I(p->qWorldY);
 
-        if ((halfpipe->unk4 > gCamera.x + DISPLAY_WIDTH + 128) || (halfpipe->unk4 < gCamera.x - 800)
-            || (halfpipe->unk8 > gCamera.y + DISPLAY_HEIGHT + 128) || (halfpipe->unk8 < gCamera.y - 128)) {
+        if ((halfpipe->worldX > gCamera.x + DISPLAY_WIDTH + 128) || (halfpipe->worldX < gCamera.x - 800)
+            || (halfpipe->worldY > gCamera.y + DISPLAY_HEIGHT + 128) || (halfpipe->worldY < gCamera.y - 128)) {
             p->moveState &= ~MOVESTATE_8000;
 
             halfpipe->me->x = halfpipe->meX;
@@ -93,8 +93,8 @@ void Task_HalfPipeEnd(void)
         oldWorldX = I(p->qWorldX);
         oldWorldY = I(p->qWorldY);
 
-        if ((halfpipe->unk4 > gCamera.x + 1040) || (halfpipe->unk4 < gCamera.x - 128) || (halfpipe->unk8 > gCamera.y + DISPLAY_HEIGHT + 128)
-            || (halfpipe->unk8 < gCamera.y - 128)) {
+        if ((halfpipe->worldX > gCamera.x + DISPLAY_WIDTH + 800) || (halfpipe->worldX < gCamera.x - 128)
+            || (halfpipe->worldY > gCamera.y + DISPLAY_HEIGHT + 128) || (halfpipe->worldY < gCamera.y - 128)) {
             p->moveState &= ~MOVESTATE_8000;
 
             halfpipe->me->x = halfpipe->meX;
@@ -247,8 +247,8 @@ void CreateEntity_HalfPipeStart(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     worldX = TO_WORLD_POS_INV(me->x, regionX);
     worldY = TO_WORLD_POS_INV(me->y, regionY);
 
-    halfpipe->unk4 = worldX;
-    halfpipe->unk8 = worldY;
+    halfpipe->worldX = worldX;
+    halfpipe->worldY = worldY;
 
     halfpipe->left = worldX + me->d.sData[0] * TILE_WIDTH;
     halfpipe->top = worldY + me->d.sData[1] * TILE_WIDTH;
@@ -271,8 +271,8 @@ void CreateEntity_HalfPipeEnd(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     worldX = TO_WORLD_POS_INV(me->x, regionX);
     worldY = TO_WORLD_POS_INV(me->y, regionY);
 
-    halfpipe->unk4 = worldX;
-    halfpipe->unk8 = worldY;
+    halfpipe->worldX = worldX;
+    halfpipe->worldY = worldY;
 
     halfpipe->left = worldX + me->d.sData[0] * TILE_WIDTH;
     halfpipe->top = worldY + me->d.sData[1] * TILE_WIDTH;
