@@ -14,7 +14,7 @@ typedef struct {
     /* 0x10 */ s32 right;
     /* 0x14 */ s32 top;
     /* 0x18 */ s32 bottom;
-    /* 0x1C */ s32 unk1C;
+    /* 0x1C */ s32 qOffsetY;
     /* 0x20 */ u8 unk20;
     /* 0x24 */ u8 meX;
 } HalfPipe;
@@ -50,7 +50,7 @@ void Task_HalfPipeStart(void)
             if (p->qSpeedAirX > +Q(2.25)) {
                 if (!(p->moveState & MOVESTATE_IN_AIR) && (p->SA2_LABEL(unk62) == 0)) {
                     p->moveState |= MOVESTATE_8000;
-                    halfpipe->unk1C = p->qWorldY + Q(p->spriteOffsetY);
+                    halfpipe->qOffsetY = p->qWorldY + Q(p->spriteOffsetY);
                 } else {
                     p->moveState &= ~MOVESTATE_8000;
                 }
@@ -73,7 +73,7 @@ void Task_HalfPipeStart(void)
                     }
 
                 } else if ((p->qSpeedAirX >= +Q(2.25))) {
-                    sub_804D4A0(oldWorldX - halfpipe->right, halfpipe->unk1C, p);
+                    sub_804D4A0(oldWorldX - halfpipe->right, halfpipe->qOffsetY, p);
                 }
             }
         }
@@ -107,7 +107,7 @@ void Task_HalfPipeEnd(void)
             if (p->qSpeedAirX < -Q(2.25)) {
                 if (!(p->moveState & MOVESTATE_IN_AIR) && (p->SA2_LABEL(unk62) == 0)) {
                     p->moveState |= MOVESTATE_8000;
-                    halfpipe->unk1C = p->qWorldY + Q(p->spriteOffsetY);
+                    halfpipe->qOffsetY = p->qWorldY + Q(p->spriteOffsetY);
                 } else {
                     p->moveState &= ~MOVESTATE_8000;
                 }
@@ -130,7 +130,7 @@ void Task_HalfPipeEnd(void)
                     }
 
                 } else if ((p->qSpeedAirX <= -Q(2.25))) {
-                    sub_804D4A0(oldWorldX - halfpipe->left + Q(2.625), halfpipe->unk1C, p);
+                    sub_804D4A0(oldWorldX - halfpipe->left + Q(2.625), halfpipe->qOffsetY, p);
                 }
             }
         }
@@ -216,7 +216,7 @@ NONMATCH("asm/non_matching/game/interactables/half_pipe__sub_804D4A0.inc", void 
     p->moveState &= ~MOVESTATE_IN_AIR;
     p->qSpeedAirY = 0;
 
-    r1 = halfpipe->unk1C;
+    r1 = halfpipe->qOffsetY;
     r1 -= r6;
     r1 -= Q(p->spriteOffsetY);
     r1 -= p->qWorldY;
