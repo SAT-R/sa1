@@ -17,13 +17,15 @@ typedef struct {
     /* 0x00 */ EntityShared shared;
     /* 0x3C */ s32 qUnk3C;
     /* 0x40 */ s16 qUnk40;
-    /* 0x44 */ u16 unk42;
+    /* 0x44 */ s16 frames;
     /* 0x44 */ u16 unk44;
     /* 0x46 */ s16 unk46;
 } Mirror; /* 0x48 */
 
 void Task_Mirror(void);
 void Task_806FE2C(void);
+
+void CreateMirrorProjectile(CamCoord worldX, CamCoord worldY, u8);
 
 #define FIREBALL_SPAWN_RATE ZONE_TIME_TO_INT(0, 4)
 
@@ -44,7 +46,7 @@ void CreateEntity_Mirror(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         mirror->qUnk40 = -Q(0.625);
         mirror->qUnk3C = Q(0);
         mirror->unk44 = 0;
-        mirror->unk42 = 0;
+        mirror->frames = 0;
         mirror->unk46 = 0;
 
         s->x = TO_WORLD_POS(me->x, regionX);
@@ -115,7 +117,7 @@ void Task_Mirror(void)
         }
 
         mirror->unk46 = 90;
-        mirror->unk42 = 0;
+        mirror->frames = 0;
         s->variant = 1;
         gCurTask->main = Task_806FE2C;
     }
@@ -124,5 +126,52 @@ void Task_Mirror(void)
     DisplaySprite(s);
 }
 
-#if 01
-#endif
+void Task_806FE2C(void)
+{
+    Mirror *mirror = TASK_DATA(gCurTask);
+    Sprite *s = &mirror->shared.s;
+    MapEntity *me = mirror->shared.base.me;
+    s32 prevWorldX, prevWorldY;
+    s16 screenX, screenY;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(mirror->shared.base.meX, mirror->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, mirror->shared.base.regionY);
+
+    prevWorldX = worldX;
+    prevWorldY = worldY;
+
+    screenX = s->x;
+    screenY = s->y;
+
+    worldX += I(mirror->qUnk3C);
+    s->x = (worldX)-gCamera.x;
+    s->y = (prevWorldY)-gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(prevWorldX, prevWorldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, mirror->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (SA2_LABEL(sub_800C4FC)(s, worldX, worldY) != 0) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (++mirror->frames == 20) {
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            CreateMirrorProjectile(worldX + 8, worldY - 16, 1);
+        } else {
+            CreateMirrorProjectile(worldX - 8, worldY - 16, 0);
+        }
+    }
+
+    if (mirror->frames == ZONE_TIME_TO_INT(0, 1)) {
+        s->variant = 0;
+        gCurTask->main = Task_Mirror;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
