@@ -5,149 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Mirror
-CreateEntity_Mirror: @ 0x0806FAB0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov sl, r3
-	ldr r0, _0806FBAC @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #5
-	bne _0806FAE4
-	ldr r0, _0806FBB0 @ =gLoadedSaveGame
-	ldrb r0, [r0, #0x18]
-	cmp r0, #0
-	bne _0806FB9C
-_0806FAE4:
-	ldr r0, _0806FBB4 @ =sub_806FBDC
-	ldr r1, _0806FBB8 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x48
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r4, r1
-	ldr r0, _0806FBBC @ =0x0300000C
-	adds r5, r4, r0
-	movs r6, #0
-	mov r2, sb
-	strh r2, [r1, #4]
-	mov r0, r8
-	strh r0, [r1, #6]
-	str r7, [r1]
-	ldrb r0, [r7]
-	strb r0, [r1, #8]
-	mov r2, sl
-	strb r2, [r1, #9]
-	ldr r0, _0806FBC0 @ =0x03000040
-	adds r2, r4, r0
-	ldr r0, _0806FBC4 @ =0x0000FF60
-	strh r0, [r2]
-	str r6, [r1, #0x3c]
-	ldr r1, _0806FBC8 @ =0x03000044
-	adds r0, r4, r1
-	strh r6, [r0]
-	ldr r2, _0806FBCC @ =0x03000042
-	adds r0, r4, r2
-	strh r6, [r0]
-	adds r1, #2
-	adds r0, r4, r1
-	strh r6, [r0]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	mov r2, sb
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	movs r0, #0x14
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	strh r6, [r5, #8]
-	movs r0, #0xd8
-	lsls r0, r0, #1
-	strh r0, [r5, #0xa]
-	ldr r2, _0806FBD0 @ =0x0300002C
-	adds r0, r4, r2
-	movs r1, #0
-	strb r1, [r0]
-	strh r6, [r5, #0x14]
-	strh r6, [r5, #0x1c]
-	adds r2, #1
-	adds r1, r4, r2
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0806FBD4 @ =0x0300002E
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0806FBD8 @ =0x03000031
-	adds r4, r4, r1
-	movs r2, #0
-	strb r2, [r4]
-	subs r0, #0x11
-	str r0, [r5, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-_0806FB9C:
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806FBAC: .4byte gCurrentLevel
-_0806FBB0: .4byte gLoadedSaveGame
-_0806FBB4: .4byte sub_806FBDC
-_0806FBB8: .4byte TaskDestructor_EntityShared
-_0806FBBC: .4byte 0x0300000C
-_0806FBC0: .4byte 0x03000040
-_0806FBC4: .4byte 0x0000FF60
-_0806FBC8: .4byte 0x03000044
-_0806FBCC: .4byte 0x03000042
-_0806FBD0: .4byte 0x0300002C
-_0806FBD4: .4byte 0x0300002E
-_0806FBD8: .4byte 0x03000031
-
-	thumb_func_start sub_806FBDC
-sub_806FBDC: @ 0x0806FBDC
+.if 01
+	thumb_func_start Task_Mirror
+Task_Mirror: @ 0x0806FBDC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -429,7 +289,7 @@ _0806FDE6:
 	strb r0, [r1]
 	ldr r0, _0806FE24 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806FE28 @ =sub_806FE2C
+	ldr r0, _0806FE28 @ =Task_806FE2C
 	str r0, [r1, #8]
 _0806FE04:
 	adds r0, r5, #0
@@ -448,10 +308,11 @@ _0806FE10:
 	.align 2, 0
 _0806FE20: .4byte 0xFFFFFBFF
 _0806FE24: .4byte gCurTask
-_0806FE28: .4byte sub_806FE2C
+_0806FE28: .4byte Task_806FE2C
+.endif
 
-	thumb_func_start sub_806FE2C
-sub_806FE2C: @ 0x0806FE2C
+	thumb_func_start Task_806FE2C
+Task_806FE2C: @ 0x0806FE2C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -597,7 +458,7 @@ _0806FF20:
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	movs r2, #1
-	bl sub_806FFA8
+	bl CreateMirrorProjectile
 	b _0806FF6E
 _0806FF58:
 	adds r0, r4, #0
@@ -609,7 +470,7 @@ _0806FF58:
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	movs r2, #0
-	bl sub_806FFA8
+	bl CreateMirrorProjectile
 _0806FF6E:
 	movs r2, #0
 	ldrsh r0, [r5, r2]
@@ -621,7 +482,7 @@ _0806FF6E:
 	strb r0, [r1]
 	ldr r0, _0806FFA0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806FFA4 @ =sub_806FBDC
+	ldr r0, _0806FFA4 @ =Task_Mirror
 	str r0, [r1, #8]
 _0806FF86:
 	adds r0, r7, #0
@@ -638,10 +499,10 @@ _0806FF92:
 	bx r0
 	.align 2, 0
 _0806FFA0: .4byte gCurTask
-_0806FFA4: .4byte sub_806FBDC
+_0806FFA4: .4byte Task_Mirror
 
-	thumb_func_start sub_806FFA8
-sub_806FFA8: @ 0x0806FFA8
+	thumb_func_start CreateMirrorProjectile
+CreateMirrorProjectile: @ 0x0806FFA8
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r4, r2, #0
@@ -651,7 +512,7 @@ sub_806FFA8: @ 0x0806FFA8
 	lsrs r6, r1, #0x10
 	lsls r4, r4, #0x18
 	lsrs r4, r4, #0x18
-	ldr r0, _0806FFE4 @ =sub_8070044
+	ldr r0, _0806FFE4 @ =Task_MirrorProjectile
 	movs r2, #0xc0
 	lsls r2, r2, #6
 	movs r1, #0
@@ -671,7 +532,7 @@ sub_806FFA8: @ 0x0806FFA8
 	lsls r0, r0, #2
 	b _0806FFEE
 	.align 2, 0
-_0806FFE4: .4byte sub_8070044
+_0806FFE4: .4byte Task_MirrorProjectile
 _0806FFE8:
 	strh r5, [r3, #0x16]
 	movs r0, #0xfe
@@ -720,8 +581,8 @@ _0806FFEE:
 	.align 2, 0
 _08070040: .4byte 0x06012580
 
-	thumb_func_start sub_8070044
-sub_8070044: @ 0x08070044
+	thumb_func_start Task_MirrorProjectile
+Task_MirrorProjectile: @ 0x08070044
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _080700B4 @ =gCurTask
 	ldr r0, [r0]

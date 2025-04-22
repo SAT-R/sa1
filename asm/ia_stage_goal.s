@@ -30,7 +30,7 @@ CreateEntity_StageGoal: @ 0x0801F180
 	ldr r0, _0801F1B4 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
-	bls _0801F262
+	bls _0801F262_return
 	b _0801F1CC
 	.align 2, 0
 _0801F1B4: .4byte gGameMode
@@ -44,7 +44,7 @@ _0801F1B8:
 	ldr r0, _0801F278 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
-	bhi _0801F262
+	bhi _0801F262_return
 _0801F1CC:
 	ldr r0, _0801F27C @ =Task_StageGoal
 	ldr r1, _0801F280 @ =TaskDestructor_EntityShared
@@ -118,7 +118,7 @@ _0801F1CC:
 	str r0, [r4, #0x10]
 	adds r0, r4, #0
 	bl UpdateSpriteAnimation
-_0801F262:
+_0801F262_return:
 	add sp, #4
 	pop {r3, r4, r5}
 	mov r8, r3
