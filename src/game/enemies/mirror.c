@@ -11,6 +11,11 @@
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
+typedef enum {
+    DIR_LEFT = 0,
+    DIR_RIGHT = 1,
+} MirrorDir;
+
 typedef struct {
     // NOTE: EntityShared HAS to be the first element,
     //       as long as TaskDestructor_EntityShared is used.
@@ -22,12 +27,21 @@ typedef struct {
     /* 0x46 */ s16 unk46;
 } Mirror; /* 0x48 */
 
+typedef struct {
+    // NOTE: EntityShared HAS to be the first element,
+    //       as long as TaskDestructor_EntityShared is used.
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s32 qWorldX;
+    /* 0x34 */ s16 qSpeed;
+} MirrorProjectile; /* 0x48 */
+
 void Task_Mirror(void);
-void Task_806FE2C(void);
+void Task_MirrorShoot(void);
 
 void CreateMirrorProjectile(CamCoord worldX, CamCoord worldY, u8);
+void Task_MirrorProjectile(void);
 
-#define FIREBALL_SPAWN_RATE ZONE_TIME_TO_INT(0, 4)
+#define PROJ_SPEED Q(2)
 
 void CreateEntity_Mirror(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -119,14 +133,14 @@ void Task_Mirror(void)
         mirror->unk46 = 90;
         mirror->frames = 0;
         s->variant = 1;
-        gCurTask->main = Task_806FE2C;
+        gCurTask->main = Task_MirrorShoot;
     }
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
 
-void Task_806FE2C(void)
+void Task_MirrorShoot(void)
 {
     Mirror *mirror = TASK_DATA(gCurTask);
     Sprite *s = &mirror->shared.s;
@@ -161,9 +175,9 @@ void Task_806FE2C(void)
 
     if (++mirror->frames == 20) {
         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-            CreateMirrorProjectile(worldX + 8, worldY - 16, 1);
+            CreateMirrorProjectile(worldX + 8, worldY - 16, DIR_RIGHT);
         } else {
-            CreateMirrorProjectile(worldX - 8, worldY - 16, 0);
+            CreateMirrorProjectile(worldX - 8, worldY - 16, DIR_LEFT);
         }
     }
 
@@ -174,4 +188,72 @@ void Task_806FE2C(void)
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+void CreateMirrorProjectile(CamCoord worldX, CamCoord worldY, u8 dir)
+{
+    struct Task *t = TaskCreate(Task_MirrorProjectile, sizeof(MirrorProjectile), 0x3000, 0, NULL);
+    MirrorProjectile *proj = TASK_DATA(t);
+    Sprite *s = &proj->s;
+
+    if (dir != DIR_LEFT) {
+        s->x = worldX;
+        proj->qSpeed = +PROJ_SPEED;
+    } else {
+        s->x = worldX;
+        proj->qSpeed = -PROJ_SPEED;
+    }
+
+    proj->qWorldX = Q(worldX);
+    s->y = worldY;
+
+    s->graphics.dest = VRAM_RESERVED_EN_MIRROR_PROJ;
+    s->oamFlags = SPRITE_OAM_ORDER(9);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_MIRROR_PROJ;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+
+    UpdateSpriteAnimation(s);
+}
+
+void Task_MirrorProjectile(void)
+{
+    MirrorProjectile *proj = TASK_DATA(gCurTask);
+    Sprite *s = &proj->s;
+    s16 oldWorldX, oldWorldY;
+    s16 screenX, screenY;
+    s32 worldX;
+
+    proj->qWorldX += proj->qSpeed;
+
+    s->x = I(proj->qWorldX);
+
+    oldWorldX = proj->s.x;
+    oldWorldY = proj->s.y;
+
+    // WorldPos -> ScreenPos
+    proj->s.x -= gCamera.x;
+    proj->s.y -= gCamera.y;
+
+    sub_800B798(s, oldWorldX, oldWorldY);
+
+    // TODO:
+    //   if(IS_OUT_OF_RANGE_OLD(u16, s->x, s->y, 40))
+    if ((((u16)(s->x + (40 / 2)) > DISPLAY_WIDTH + 36) || (s->y + (40 / 2) < 0) || (s->y > DISPLAY_HEIGHT + 80))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s->x = oldWorldX;
+    s->y = oldWorldY;
 }

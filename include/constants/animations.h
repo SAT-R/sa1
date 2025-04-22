@@ -57,11 +57,12 @@
 #define SA1_ANIM_KURAA    425
 #define SA1_ANIM_PEN      426
 
-#define SA1_ANIM_LEON   430
-#define SA1_ANIM_WAMU   431
-#define SA1_ANIM_MIRROR 432
-#define SA1_ANIM_OCTO   433
-#define SA1_ANIM_MOLE   434
+#define SA1_ANIM_LEON        430
+#define SA1_ANIM_WAMU        431
+#define SA1_ANIM_MIRROR      432
+#define SA1_ANIM_OCTO        433
+#define SA1_ANIM_MOLE        434
+#define SA1_ANIM_MIRROR_PROJ 435
 
 // Animals
 #define SA1_ANIM_ANIMAL_SEAL      437
