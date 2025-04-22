@@ -52,8 +52,7 @@ SECTIONS {
         src/game/multiplayer/multiplayer_event_recv_mgr.o(.text);
         asm/game__mp__results.o(.text);
         asm/ia_itembox_chaohunt.o(.text);
-        asm/game_tasks_0.o(.text);
-        asm/game_tasks_1.o(.text);
+        asm/game__some_mp_tasks.o(.text);
         asm/enemy_kiki.o(.text);
         asm/enemy_buzzer.o(.text);
         src/game/sa1_sa2_shared/collect_ring_effect.o(.text);
@@ -140,7 +139,7 @@ SECTIONS {
         asm/game__edit_language_screen.o(.text);
         asm/game_3.o(.text);
 
-        asm/enemy_gamigami.o(.text);
+        src/game/enemies/gamigami.o(.text);
         asm/enemy_rhinotank.o(.text);
         asm/enemy_kerokero.o(.text);
         asm/enemy_hanabii.o(.text);

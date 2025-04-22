@@ -43,6 +43,8 @@ void CreateFireballSparks(s16 screenX, s16 screenY);
 void Task_FireballUpdateRise(void);
 void Task_FireballExtinguish(void);
 
+#define FIREBALL_SPAWN_RATE ZONE_TIME_TO_INT(0, 4)
+
 void Task_Fireball(void)
 {
     FireballSpawner *spawner = TASK_DATA(gCurTask);
@@ -59,7 +61,7 @@ void Task_Fireball(void)
         return;
     }
 
-    if (Mod(gStageTime + spawner->unk4, ZONE_TIME_TO_INT(0, 4)) == 0) {
+    if (Mod(gStageTime + spawner->unk4, FIREBALL_SPAWN_RATE) == 0) {
         struct Task *t = TaskCreate(Task_FireballUpdateRise, sizeof(Fireball), 0x2000, 0, TaskDestructor_EntityShared);
         Fireball *fireball = TASK_DATA(t);
         Sprite *s = &fireball->shared.s;
@@ -199,7 +201,7 @@ NONMATCH("asm/non_matching/game/enemies/fireball__CreateFireballSparks.inc", voi
 
         s->y = screenY;
 
-        s->graphics.dest = VRAM_RESERVED_FIREBALL_SPARK;
+        s->graphics.dest = VRAM_RESERVED_EN_FIREBALL_SPARK;
         s->oamFlags = SPRITE_OAM_ORDER(9);
         s->graphics.size = 0;
         s->graphics.anim = SA1_ANIM_FIREBALL_PROJ;

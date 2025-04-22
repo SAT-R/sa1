@@ -174,7 +174,6 @@ void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 i
 // Enemies
 void CreateEntity_Kiki() { }
 void CreateEntity_Buzzer() { }
-void CreateEntity_GamiGami() { }
 void CreateEntity_Rhinotank() { }
 void CreateEntity_KeroKero() { }
 void CreateEntity_Tentou() { }
