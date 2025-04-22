@@ -16,13 +16,14 @@ typedef struct {
     //       as long as TaskDestructor_EntityShared is used.
     /* 0x00 */ EntityShared shared;
     /* 0x3C */ s32 qUnk3C;
-    /* 0x40 */ s16 unk40;
+    /* 0x40 */ s16 qUnk40;
     /* 0x44 */ u16 unk42;
     /* 0x44 */ u16 unk44;
     /* 0x46 */ s16 unk46;
 } Mirror; /* 0x48 */
 
 void Task_Mirror(void);
+void Task_806FE2C(void);
 
 #define FIREBALL_SPAWN_RATE ZONE_TIME_TO_INT(0, 4)
 
@@ -40,7 +41,7 @@ void CreateEntity_Mirror(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         mirror->shared.base.meX = me->x;
         mirror->shared.base.id = id;
 
-        mirror->unk40 = -160;
+        mirror->qUnk40 = -Q(0.625);
         mirror->qUnk3C = Q(0);
         mirror->unk44 = 0;
         mirror->unk42 = 0;
@@ -67,3 +68,61 @@ void CreateEntity_Mirror(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         UpdateSpriteAnimation(s);
     }
 }
+
+void Task_Mirror(void)
+{
+    Mirror *mirror = TASK_DATA(gCurTask);
+    Sprite *s = &mirror->shared.s;
+    MapEntity *me = mirror->shared.base.me;
+    s32 prevWorldX, prevWorldY;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(mirror->shared.base.meX, mirror->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, mirror->shared.base.regionY);
+
+    prevWorldX = worldX;
+    prevWorldY = worldY;
+
+    mirror->qUnk3C += mirror->qUnk40;
+
+    worldX += I(mirror->qUnk3C);
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(prevWorldX, prevWorldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, mirror->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (s->hitboxes[0].index != HITBOX_STATE_INACTIVE) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(gPlayer.qWorldX), I(gPlayer.qWorldY), gPlayerBodyPSI.s.hitboxes[0].b)) {
+            Coll_DamagePlayer(&gPlayer);
+        }
+    }
+
+    if (I(mirror->qUnk3C) <= me->d.sData[0] * TILE_WIDTH) {
+        mirror->qUnk40 = +Q(0.625);
+    } else if (I(mirror->qUnk3C) >= (me->d.sData[0] + me->d.uData[2]) * TILE_WIDTH) {
+        mirror->qUnk40 = -Q(0.625);
+    } else if (mirror->unk46 != 0) {
+        mirror->unk46--;
+    } else {
+        if (I(gPlayer.qWorldX) > worldX) {
+            SPRITE_FLAG_SET(s, X_FLIP);
+        } else {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+        }
+
+        mirror->unk46 = 90;
+        mirror->unk42 = 0;
+        s->variant = 1;
+        gCurTask->main = Task_806FE2C;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+#if 01
+#endif
