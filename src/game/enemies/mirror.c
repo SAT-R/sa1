@@ -22,7 +22,7 @@ typedef struct {
     /* 0x00 */ EntityShared shared;
     /* 0x3C */ s32 qUnk3C;
     /* 0x40 */ s16 qUnk40;
-    /* 0x44 */ s16 frames;
+    /* 0x42 */ s16 frames;
     /* 0x44 */ u16 unk44;
     /* 0x46 */ s16 unk46;
 } Mirror; /* 0x48 */
