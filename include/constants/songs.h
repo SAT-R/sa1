@@ -82,6 +82,7 @@
 #define SE_AMY_HAMMER_SWIRL        131
 #define SE_AMY_ROLLS               133
 #define SE_AMY_GRINDING            134
+#define SE_GOAL                    135
 
 #define SE_ITEM_BOX                  138
 #define SE_TIMER                     139 // Almost Time Up / Extra Boss Rings low
