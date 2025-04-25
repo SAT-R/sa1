@@ -116,14 +116,10 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
                     // _0801F380
                     // TODO: Use RECT_COLLISION macro?
                     if ((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1))
-                        || ((I(gPlayer.qWorldX) + gPlayer.spriteInfoBody->s.hitboxes[0].b.left) > worldX)
-                        || ((I(gPlayer.qWorldX) + gPlayer.spriteInfoBody->s.hitboxes[0].b.left
-                             + (gPlayer.spriteInfoBody->s.hitboxes[0].b.right - gPlayer.spriteInfoBody->s.hitboxes[0].b.left))
-                            < worldX)
-                        || ((I(gPlayer.qWorldY) + gPlayer.spriteInfoBody->s.hitboxes[0].b.top) > worldY)
-                        || ((I(gPlayer.qWorldY) + gPlayer.spriteInfoBody->s.hitboxes[0].b.top
-                             + (gPlayer.spriteInfoBody->s.hitboxes[0].b.bottom - gPlayer.spriteInfoBody->s.hitboxes[0].b.top))
-                            < worldY)) {
+                        || (RECT_LEFT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) > worldX)
+                        || (RECT_RIGHT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) < worldX)
+                        || (RECT_TOP(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) > worldY)
+                        || (RECT_BOTTOM(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) < worldY)) {
                     _0801F3C4:
                         if ((gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2)) || (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))) {
 #if 1
@@ -190,14 +186,10 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
             if (((IS_MULTI_PLAYER && (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1) || I(gPlayer.qWorldY) >= worldY))
                  || (IS_SINGLE_PLAYER
                      && ((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1))
-                         || (I(gPlayer.qWorldX) + gPlayer.spriteInfoBody->s.hitboxes[0].b.left > worldX)
-                         || (I(gPlayer.qWorldX) + gPlayer.spriteInfoBody->s.hitboxes[0].b.left
-                                 + (gPlayer.spriteInfoBody->s.hitboxes[0].b.right - gPlayer.spriteInfoBody->s.hitboxes[0].b.left)
-                             < worldX)
-                         || (I(gPlayer.qWorldY) + gPlayer.spriteInfoBody->s.hitboxes[0].b.top > worldY)
-                         || (I(gPlayer.qWorldY) + gPlayer.spriteInfoBody->s.hitboxes[0].b.top
-                                 + (gPlayer.spriteInfoBody->s.hitboxes[0].b.bottom - gPlayer.spriteInfoBody->s.hitboxes[0].b.top)
-                             < worldY))))) {
+                         || (RECT_LEFT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) > worldX)
+                         || (RECT_RIGHT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) < worldX)
+                         || (RECT_TOP(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) > worldY)
+                         || (RECT_BOTTOM(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) < worldY))))) {
                 // _0801F564
                 if ((gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2)) || (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))) {
                     goto _0801F620;
@@ -248,4 +240,5 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
         }
     }
 }
+
 END_NONMATCH
