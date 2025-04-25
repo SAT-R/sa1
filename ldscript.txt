@@ -57,6 +57,7 @@ SECTIONS {
         asm/enemy_buzzer.o(.text);
         src/game/sa1_sa2_shared/collect_ring_effect.o(.text);
         src/game/sa1_sa2_shared/item_box.o(.text);
+        src/game/interactables/stage_goal.o(.text);
         asm/ia_stage_goal.o(.text);
         src/game/sa1_sa2_shared/dust_cloud.o(.text);
         asm/ia_spikes.o(.text);

@@ -28,8 +28,6 @@ typedef struct {
 } Mirror; /* 0x48 */
 
 typedef struct {
-    // NOTE: EntityShared HAS to be the first element,
-    //       as long as TaskDestructor_EntityShared is used.
     /* 0x00 */ Sprite s;
     /* 0x30 */ s32 qWorldX;
     /* 0x34 */ s16 qSpeed;

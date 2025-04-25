@@ -95,7 +95,6 @@ void CreateEntity_DummyEnt(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 // Interactables / Gimmicks
 
-void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_Spikes_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
@@ -187,17 +186,18 @@ void CreateEntity_Drisame() { }
 void CreateEntity_PenMk1() { }
 
 // Bosses
-void CreateEntity_EggHammerTank_Intro() { }
-void CreateEntity_EggHammerTank() { }
-void CreateEntity_EggPress() { }
-void CreateEntity_EggBall() { }
-void CreateEntity_EggSpider() { }
-void CreateEntity_MechaKnuckles() { }
-void CreateEntity_EggSnake() { }
-void CreateEntity_EggWrecker() { }
-void CreateEntity_EggDrillster() { }
-void CreateEntity_EggX() { }
-void CreateEntity_SuperEggRobot() { }
+extern void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggPress(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_MechaKnuckles(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggSnake(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
+void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 
 void LoadTinyChaoGarden() { }
 void CreateSegaLogo() { }

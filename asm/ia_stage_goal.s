@@ -5,139 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_StageGoal
-CreateEntity_StageGoal: @ 0x0801F180
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sl, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov sb, r2
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov r8, r3
-	movs r0, #4
-	ldrsb r0, [r7, r0]
-	cmp r0, #0
-	bne _0801F1B8
-	ldr r0, _0801F1B4 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bls _0801F262_return
-	b _0801F1CC
-	.align 2, 0
-_0801F1B4: .4byte gGameMode
-_0801F1B8:
-	ldr r0, _0801F274 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0xa
-	bne _0801F1CC
-	ldr r0, _0801F278 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bhi _0801F262_return
-_0801F1CC:
-	ldr r0, _0801F27C @ =Task_StageGoal
-	ldr r1, _0801F280 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x40
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r5, r0
-	ldr r1, _0801F284 @ =0x0300000C
-	adds r4, r5, r1
-	movs r6, #0
-	mov r2, sl
-	strh r2, [r0, #4]
-	mov r1, sb
-	strh r1, [r0, #6]
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #8]
-	mov r2, r8
-	strb r2, [r0, #9]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	mov r2, sl
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r4, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r2, sb
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r4, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r4, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r4, #0x1a]
-	strh r6, [r4, #8]
-	ldr r0, _0801F288 @ =0x000001C5
-	strh r0, [r4, #0xa]
-	ldr r2, _0801F28C @ =0x0300002C
-	adds r0, r5, r2
-	movs r1, #0
-	strb r1, [r0]
-	strh r6, [r4, #0x14]
-	strh r6, [r4, #0x1c]
-	adds r2, #1
-	adds r1, r5, r2
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0801F290 @ =0x0300002E
-	adds r1, r5, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0801F294 @ =0x03000031
-	adds r5, r5, r1
-	movs r2, #0
-	strb r2, [r5]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r4, #0x10]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-_0801F262_return:
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801F274: .4byte gCurrentLevel
-_0801F278: .4byte gGameMode
-_0801F27C: .4byte Task_StageGoal
-_0801F280: .4byte TaskDestructor_EntityShared
-_0801F284: .4byte 0x0300000C
-_0801F288: .4byte 0x000001C5
-_0801F28C: .4byte 0x0300002C
-_0801F290: .4byte 0x0300002E
-_0801F294: .4byte 0x03000031
-
+.if 01
 	thumb_func_start Task_StageGoal
 Task_StageGoal: @ 0x0801F298
 	push {r4, r5, r6, r7, lr}
@@ -162,7 +30,7 @@ Task_StageGoal: @ 0x0801F298
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r1, r1, r0
-	mov sl, r1
+	mov sl, r1          @ sl = mpp
 _0801F2C6:
 	ldr r4, _0801F36C @ =gCurTask
 	ldr r0, [r4]
@@ -170,7 +38,7 @@ _0801F2C6:
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r1
-	mov sb, r0
+	mov sb, r0          @ sb = goal
 	ldr r0, _0801F370 @ =0x0300000C
 	adds r0, r0, r1
 	mov r8, r0
@@ -634,6 +502,7 @@ _0801F670:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start Task_StageGoal2
 Task_StageGoal2: @ 0x0801F680
