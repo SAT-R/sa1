@@ -17,7 +17,11 @@ typedef struct {
     /* 0x16C */ s32 unk16C;
 } StageResultsBase; /* size: 0x174 */
 
+#if (GAME == GAME_SA1)
+u16 CreateStageResults(u32, u16);
+#elif (GAME == GAME_SA2)
 u16 CreateStageResults(u32, u16, u8);
+#endif
 void StageResults_AnimateSeparator(void);
 void StageResults_AnimateTitle(void);
 

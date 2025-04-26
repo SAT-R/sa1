@@ -6,11 +6,15 @@
 /* NOTE: Copied from SA2! */
 
 // TODO: Be consistent about whether these are Q() or I() values!
+//
+// TODO: We should consider making these defaults per-second values, instead of per-frame values!
 
 /*** Common ***/
 #define PLAYER_FLYING_END_GRAVITY  (0.033) // = (8. / 256.)
 #define PLAYER_GRAVITY             (42.0 / 256.0)
 #define PLAYER_GRAVITY_UNDER_WATER (12.0 / 256.0)
+
+#define PLAYER_POST_GOAL_RUN_SPEED (4.5)
 
 #define PLAYER_JUMP_HEIGHT             (4.875)
 #define PLAYER_JUMP_HEIGHT_UNDER_WATER (2.625)

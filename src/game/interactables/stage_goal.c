@@ -4,10 +4,15 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
+#include "game/multiplayer/finish.h"
 #include "game/multiplayer/mp_player.h"
+#include "game/multiplayer/multiplayer_event_mgr.h"
+#include "game/parameters/characters.h"
+#include "game/stage/results.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
 
@@ -16,12 +21,14 @@ typedef struct {
     //       as long as TaskDestructor_EntityShared is used.
     /* 0x00 */ EntityShared shared;
     /* 0x3C */ u16 unk3C;
-    /* 0x3E */ u8 unk3E;
+    /* 0x3E */ s8 unk3E;
 } StageGoal;
 
 void Task_StageGoal(void);
 void Task_StageGoal2(void);
 void Task_StageGoal3(void);
+void Task_StageGoal4(void);
+void Task_ShowResults(void);
 void TaskDestructor_EntityShared(struct Task *t);
 
 void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -231,6 +238,161 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
         } else if (me->d.sData[0] != 0) {
             DisplaySprite(s);
         }
+    }
+}
+END_NONMATCH
+
+// (99.93%) https://decomp.me/scratch/0Q8OG
+NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", void Task_StageGoal2(void))
+{
+    StageGoal *goal = TASK_DATA(gCurTask);
+    Sprite *s = &goal->shared.s;
+    MapEntity *me = goal->shared.base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(goal->shared.base.meX, goal->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, goal->shared.base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_SINGLE_PLAYER) {
+        // _0801F6D2
+
+        if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
+            gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
+            gPlayer.heldInput = DPAD_RIGHT;
+
+            if (gCamera.shiftY > -56)
+                gCamera.shiftY--;
+
+            if (gPlayer.qSpeedGround > Q(PLAYER_POST_GOAL_RUN_SPEED))
+                gPlayer.qSpeedGround = Q(PLAYER_POST_GOAL_RUN_SPEED);
+
+        } else {
+            // _0801F728
+            gPlayer.moveState |= MOVESTATE_IA_OVERRIDE;
+            m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
+        }
+        // _0801F73A
+
+        if ((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) && (goal->unk3C > 30) && (goal->unk3E == 0)) {
+            goal->unk3E = 1;
+            TaskCreate(Task_ShowResults, 0, 0x2000, 0, NULL);
+        }
+
+        SA2_LABEL(gUnknown_030054B4)[0] = 0;
+
+        if (goal->unk3C++ > 120) {
+            if ((gPlayer.charState == CHARSTATE_28) || (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))) {
+                TaskDestroy(gCurTask);
+
+                CreateStageResults(gRingCount, gCourseTime);
+                return;
+            }
+        }
+    } else if (gGameMode == GAME_MODE_RACE) {
+        // _0801F7D0_mp_race
+        s32 count = 0;
+        u32 i;
+        struct Task **mppTasks = &gMultiplayerPlayerTasks[0];
+        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
+        gPlayer.itemEffect &= ~(PLAYER_ITEM_EFFECT__CONFUSION);
+        gPlayer.timerConfusion = count;
+
+        for (i = 0; i < MULTI_SIO_PLAYERS_MAX && gMultiplayerPlayerTasks[i]; i++) {
+            MultiplayerPlayer *mppLoop = TASK_DATA(gMultiplayerPlayerTasks[i]);
+
+            if (mppLoop->unk5C & 0x1) {
+                ++count;
+            }
+        }
+        // _0801F824
+
+        SA2_LABEL(sub_8019CCC)(SIO_MULTI_CNT->id, count);
+        mpp->unk5C |= 0x1;
+
+        if (count == 0) {
+            gStageFlags |= FLAGS_4;
+            gCourseTime = ZONE_TIME_TO_INT(1, 0);
+        }
+
+        gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
+        gPlayer.heldInput = DPAD_RIGHT;
+
+        {
+            RoomEvent *roomEvent;
+            roomEvent = CreateRoomEvent();
+            roomEvent->type = ROOMEVENT_TYPE_REACHED_STAGE_GOAL;
+        }
+
+        gCurTask->main = Task_StageGoal4;
+
+        gCamera.SA2_LABEL(unk50) |= 0x4;
+        return;
+    } else {
+        // _0801F8A6_mp_other
+        s32 r8 = 0;
+        u32 i;
+        s32 r2, r3;
+        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
+
+        gPlayer.itemEffect &= ~(PLAYER_ITEM_EFFECT__CONFUSION);
+        gPlayer.timerConfusion = r8;
+
+        for (i = 0; i < MULTI_SIO_PLAYERS_MAX && gMultiplayerPlayerTasks[i] != NULL; i++) {
+            mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
+
+            r2 = (gMultiplayerConnections & (0x10 << i)) >> (i + 4);
+            r3 = (gMultiplayerConnections & (0x10 << SIO_MULTI_CNT->id)) >> (SIO_MULTI_CNT->id + 4);
+
+            if (r2 != r3) {
+                if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                    r8 = 1;
+                    break;
+                }
+            }
+        }
+        // _0801F916
+
+        for (i = 0; i < MULTI_SIO_PLAYERS_MAX && (gMultiplayerPlayerTasks[i] != NULL); i++) {
+            if (SA2_LABEL(gUnknown_030054B4)[i] == -1) {
+                mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
+
+                r2 = (gMultiplayerConnections & (0x10 << i)) >> (i + 4);
+                r3 = (gMultiplayerConnections & (0x10 << SIO_MULTI_CNT->id)) >> (SIO_MULTI_CNT->id + 4);
+
+                if (r2 == r3) {
+                    SA2_LABEL(sub_8019CCC)(i, r8);
+                } else {
+                    SA2_LABEL(sub_8019CCC)(i, (r8 ^ 0x1));
+                }
+            }
+        }
+        // _0801F9AC
+
+        gStageFlags |= FLAGS_4;
+        gCourseTime = ZONE_TIME_TO_INT(1, 0);
+
+        gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
+        gPlayer.heldInput = DPAD_RIGHT;
+
+        {
+            RoomEvent *roomEvent;
+            roomEvent = CreateRoomEvent();
+            roomEvent->type = ROOMEVENT_TYPE_REACHED_STAGE_GOAL;
+        }
+
+        gCurTask->main = Task_StageGoal4;
+
+        gCamera.SA2_LABEL(unk50) |= 0x4;
+        return;
+    }
+    // _0801FA04
+
+    if (me->d.sData[0] != 0) {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
     }
 }
 END_NONMATCH

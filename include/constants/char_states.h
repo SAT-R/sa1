@@ -33,6 +33,7 @@
 #define CHARSTATE_25              25 // Halfpipe run?
 #define CHARSTATE_26              26 // Halfpipe run?
 #define CHARSTATE_27              27
+#define CHARSTATE_28              28
 
 #if (GAME == GAME_SA1)
 #define CHARSTATE_HIT_AIR     15
