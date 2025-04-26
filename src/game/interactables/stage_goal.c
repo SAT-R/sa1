@@ -596,7 +596,7 @@ void Task_StageGoal6(void)
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
-    
+
     if (me->d.sData[0] != 0) {
         if ((worldX + 32) <= I(gPlayer.qWorldX)) {
             s->variant = 2;
@@ -609,7 +609,7 @@ void Task_StageGoal6(void)
 
 void Task_ShowResults(void)
 {
-    if(!(gPlayer.moveState & MOVESTATE_IN_AIR) && gPlayer.qSpeedGround >= Q(2.25)) {
+    if (!(gPlayer.moveState & MOVESTATE_IN_AIR) && gPlayer.qSpeedGround >= Q(2.25)) {
         SA2_LABEL(sub_8021BE0)(&gPlayer);
         gPlayer.charState = CHARSTATE_28;
         gPlayer.moveState |= MOVESTATE_800000;
