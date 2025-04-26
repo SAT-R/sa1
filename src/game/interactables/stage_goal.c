@@ -68,7 +68,7 @@ void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 }
 
-// (91.05%) https://decomp.me/scratch/VAW5A
+// (91.49%) https://decomp.me/scratch/VAW5A
 NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", void Task_StageGoal(void))
 {
     StageGoal *goal;
@@ -99,14 +99,13 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
 
     if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
         bool32 sp08 = TRUE;
-        s32 playerWorldX = I(gPlayer.qWorldX);
 
-        if (playerWorldX > worldX) {
+        if (I(gPlayer.qWorldX) > worldX) {
             // _0801F336
 
             if ((gCurrentLevel != LEVEL_INDEX(ZONE_4, ACT_2)) || I(gPlayer.qWorldY) <= worldY - (DISPLAY_HEIGHT / 2)) {
                 // _0801F34C
-                if (!IS_SINGLE_PLAYER) {
+                if (IS_MULTI_PLAYER) {
                     if ((gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1)) && (I(gPlayer.qWorldY) < worldY)) {
                         goto _0801F3D2;
                     } else {
@@ -170,67 +169,61 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
                     goto _0801F5DA;
                 }
                 // _0801F5DA
-            } else {
-                goto _0801F620;
             }
         } else {
         _0801F4B8:
             gCamera.maxX = gRefCollision->pxWidth;
             mpp->unk5C &= ~0x1;
-            goto _0801F620;
         }
     } else if (I(gPlayer.qWorldX) > worldX) {
         // _0801F4D8 + 0x10
         // _0801F4E6
-        if (gCurrentLevel != LEVEL_INDEX(ZONE_4, ACT_2) || (I(gPlayer.qWorldY) <= worldY - (DISPLAY_HEIGHT / 2))) {
-            if (((IS_MULTI_PLAYER && (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1) || I(gPlayer.qWorldY) >= worldY))
+        if ((gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2) && (I(gPlayer.qWorldY) > worldY - (DISPLAY_HEIGHT / 2)))
+            || (((IS_MULTI_PLAYER && (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1) && I(gPlayer.qWorldY) < worldY))
                  || (IS_SINGLE_PLAYER
-                     && ((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1))
-                         || (RECT_LEFT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) > worldX)
-                         || (RECT_RIGHT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) < worldX)
-                         || (RECT_TOP(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) > worldY)
-                         || (RECT_BOTTOM(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) < worldY))))) {
-                // _0801F564
-                if ((gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2)) || (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))) {
-                    goto _0801F620;
+                     && ((gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))
+                         && ((RECT_LEFT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) <= worldX)
+                             && (RECT_RIGHT(I(gPlayer.qWorldX), &gPlayer.spriteInfoBody->s.hitboxes[0].b) >= worldX)
+                             && (RECT_TOP(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) <= worldY)
+                             && (RECT_BOTTOM(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) >= worldY))))))
+            || !((gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2)) || (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1)))) {
+            if (IS_MULTI_PLAYER) {
+                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != -1) {
+                    goto _30C;
+                }
+            } else {
+                // _0801F5A4
+                if (SA2_LABEL(gUnknown_030054B4)[0] != -1) {
+                _30C:
+                    s->variant = 1;
+                    gCurTask->main = Task_StageGoal3;
+                    gCurTask->main();
+                    return;
+                } else {
+                    gStageFlags |= (FLAGS_UPDATE_BACKGROUND_PALETTES | FLAGS_UPDATE_SPRITE_PALETTES);
                 }
             }
-        }
-        // _0801F572
 
-        if (IS_MULTI_PLAYER) {
-            if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != -1) {
-                goto _30C;
+        _0801F5DA:
+            if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
+                // Don't play the goal SFX in Egg Rocket, because it's not the Goal Post.
+                m4aSongNumStart(SE_GOAL);
             }
-        } else {
-            // _0801F5A4
-            if (SA2_LABEL(gUnknown_030054B4)[0] != -1) {
-            _30C:
-                s->variant = 1;
-                gCurTask->main = Task_StageGoal3;
-                gCurTask->main();
-                return;
-            } else {
-                gStageFlags |= (FLAGS_UPDATE_BACKGROUND_PALETTES | FLAGS_UPDATE_SPRITE_PALETTES);
-            }
+            // _0801F5EA
+
+            goal->unk3C = 0;
+            goal->unk3E = 0;
+
+            s->variant = 1;
+            gCurTask->main = Task_StageGoal2;
+            gCurTask->main();
+            return;
         }
+    }
+    // _0801F572
 
-    _0801F5DA:
-        if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
-            // Don't play the goal SFX in Egg Rocket, because it's not the Goal Post.
-            m4aSongNumStart(SE_GOAL);
-        }
-        // _0801F5EA
-
-        goal->unk3C = 0;
-        goal->unk3E = 0;
-
-        s->variant = 1;
-        gCurTask->main = Task_StageGoal2;
-        gCurTask->main();
-        return;
-    } else {
-    _0801F620:
+    {
+        //_0801F620:
         if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
             SET_MAP_ENTITY_NOT_INITIALIZED(me, goal->shared.base.meX);
             TaskDestroy(gCurTask);
@@ -240,5 +233,4 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
         }
     }
 }
-
 END_NONMATCH
