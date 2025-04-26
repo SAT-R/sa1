@@ -396,3 +396,26 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
     }
 }
 END_NONMATCH
+
+void Task_StageGoal3(void)
+{
+    StageGoal *goal = TASK_DATA(gCurTask);
+    Sprite *s = &goal->shared.s;
+    MapEntity *me = goal->shared.base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(goal->shared.base.meX, goal->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, goal->shared.base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (me->d.sData[0] != 0) {
+        if (IS_MULTI_PLAYER && ((worldX + 32) <= I(gPlayer.qWorldX))) {
+            s->variant = 2;
+        }
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
