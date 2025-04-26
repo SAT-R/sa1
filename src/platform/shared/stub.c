@@ -210,6 +210,7 @@ void CreateOptionsMenu() { }
 void CreateEditLanguageScreen() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
+void CreateStageResults() { }
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }
 void CreateMultiplayerPlayer() { }

@@ -242,8 +242,7 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
 }
 END_NONMATCH
 
-// (99.93%) https://decomp.me/scratch/0Q8OG
-NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", void Task_StageGoal2(void))
+void Task_StageGoal2(void)
 {
     StageGoal *goal = TASK_DATA(gCurTask);
     Sprite *s = &goal->shared.s;
@@ -257,8 +256,7 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
     s->y = worldY - gCamera.y;
 
     if (IS_SINGLE_PLAYER) {
-        // _0801F6D2
-
+        // Singleplayer
         if (gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) {
             gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
             gPlayer.heldInput = DPAD_RIGHT;
@@ -270,11 +268,9 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
                 gPlayer.qSpeedGround = Q(PLAYER_POST_GOAL_RUN_SPEED);
 
         } else {
-            // _0801F728
             gPlayer.moveState |= MOVESTATE_IA_OVERRIDE;
             m4aSongNumStop(SE_TAILS_PROPELLER_FLYING);
         }
-        // _0801F73A
 
         if ((gCurrentLevel != LEVEL_INDEX(ZONE_6, ACT_1)) && (goal->unk3C > 30) && (goal->unk3E == 0)) {
             goal->unk3E = 1;
@@ -292,7 +288,7 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
             }
         }
     } else if (gGameMode == GAME_MODE_RACE) {
-        // _0801F7D0_mp_race
+        // MP Race
         s32 count = 0;
         u32 i;
         struct Task **mppTasks = &gMultiplayerPlayerTasks[0];
@@ -307,7 +303,6 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
                 ++count;
             }
         }
-        // _0801F824
 
         SA2_LABEL(sub_8019CCC)(SIO_MULTI_CNT->id, count);
         mpp->unk5C |= 0x1;
@@ -331,7 +326,7 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
         gCamera.SA2_LABEL(unk50) |= 0x4;
         return;
     } else {
-        // _0801F8A6_mp_other
+        // MP Other
         s32 r8 = 0;
         u32 i;
         s32 r2, r3;
@@ -353,9 +348,12 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
                 }
             }
         }
-        // _0801F916
 
-        for (i = 0; i < MULTI_SIO_PLAYERS_MAX && (gMultiplayerPlayerTasks[i] != NULL); i++) {
+        for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
+            struct Task *t = gMultiplayerPlayerTasks[i];
+            if (t == NULL)
+                break;
+
             if (SA2_LABEL(gUnknown_030054B4)[i] == -1) {
                 mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
 
@@ -369,7 +367,6 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
                 }
             }
         }
-        // _0801F9AC
 
         gStageFlags |= FLAGS_4;
         gCourseTime = ZONE_TIME_TO_INT(1, 0);
@@ -388,14 +385,12 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal2.inc", 
         gCamera.SA2_LABEL(unk50) |= 0x4;
         return;
     }
-    // _0801FA04
 
     if (me->d.sData[0] != 0) {
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
 }
-END_NONMATCH
 
 void Task_StageGoal3(void)
 {
@@ -419,3 +414,28 @@ void Task_StageGoal3(void)
         DisplaySprite(s);
     }
 }
+
+#if 0
+void Task_StageGoal4(void)
+{
+    s32 sioId;
+    StageGoal *goal;
+    s32 sp04;
+    Sprite *s;
+    MapEntity *me;
+    CamCoord worldX, worldY;
+    
+    sioId = SIO_MULTI_CNT->id;
+    sp04 = 0;
+    goal = TASK_DATA(gCurTask);
+    s = &goal->shared.s;
+    me = goal->shared.base.me;
+    
+    worldX = TO_WORLD_POS(goal->shared.base.meX, goal->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, goal->shared.base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+}
+#endif

@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_StageGoal4
 Task_StageGoal4: @ 0x0801FAB8
 	push {r4, r5, r6, r7, lr}
@@ -20,9 +18,9 @@ Task_StageGoal4: @ 0x0801FAB8
 	ldr r0, [r7]
 	lsls r0, r0, #0x1a
 	lsrs r0, r0, #0x1e
-	mov sl, r0
+	mov sl, r0          @ sl = sioId
 	movs r0, #0
-	str r0, [sp, #4]
+	str r0, [sp, #4]    @sp04 = 0
 	ldr r0, _0801FD30 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r1, [r0, #6]
@@ -32,8 +30,8 @@ Task_StageGoal4: @ 0x0801FAB8
 	str r0, [sp]
 	ldr r3, _0801FD34 @ =0x0300000C
 	adds r3, r3, r1
-	mov sb, r3
-	ldr r5, [r0]
+	mov sb, r3          @ sb = s
+	ldr r5, [r0]        @ r5 = me
 	ldrb r2, [r0, #8]
 	lsls r2, r2, #3
 	ldrh r0, [r0, #4]
@@ -381,6 +379,7 @@ _0801FD8E:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start Task_StageGoal5
 Task_StageGoal5: @ 0x0801FDA0
