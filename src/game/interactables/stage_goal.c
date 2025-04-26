@@ -8,6 +8,7 @@
 #include "game/multiplayer/mp_player.h"
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/parameters/characters.h"
+#include "game/stage/player.h"
 #include "game/stage/results.h"
 
 #include "constants/animations.h"
@@ -28,6 +29,8 @@ void Task_StageGoal(void);
 void Task_StageGoal2(void);
 void Task_StageGoal3(void);
 void Task_StageGoal4(void);
+void Task_StageGoal5(void);
+void Task_StageGoal6(void);
 void Task_ShowResults(void);
 void TaskDestructor_EntityShared(struct Task *t);
 
@@ -415,27 +418,150 @@ void Task_StageGoal3(void)
     }
 }
 
-#if 0
+// TODO: Fake-match
 void Task_StageGoal4(void)
 {
     s32 sioId;
     StageGoal *goal;
     s32 sp04;
+    s8 sp08;
     Sprite *s;
     MapEntity *me;
     CamCoord worldX, worldY;
-    
+    s16 r4;
+    s32 r6;
+    u32 i;
+
     sioId = SIO_MULTI_CNT->id;
     sp04 = 0;
     goal = TASK_DATA(gCurTask);
     s = &goal->shared.s;
     me = goal->shared.base.me;
-    
+
     worldX = TO_WORLD_POS(goal->shared.base.meX, goal->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, goal->shared.base.regionY);
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-}
+    if (SA2_LABEL(gUnknown_030054B4)[sioId] == -1) {
+        return;
+    }
+
+    r6 = SA2_LABEL(gUnknown_030054B4)[sioId];
+
+    if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+        s32 count = 0;
+        u32 i;
+        s32 r2, r3;
+        struct Task **mppTasks;
+        MultiplayerPlayer *mpp;
+        mppTasks = &gMultiplayerPlayerTasks[0];
+
+        for (i = 0; i < MULTI_SIO_PLAYERS_MAX && gMultiplayerPlayerTasks[i] && i != sioId; i++) {
+            mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
+
+            r2 = (gMultiplayerConnections & (0x10 << i)) >> (i + 4);
+            r3 = (gMultiplayerConnections & (0x10 << SIO_MULTI_CNT->id)) >> (SIO_MULTI_CNT->id + 4);
+
+            if (r2 == r3) {
+                r6++;
+            }
+        }
+    }
+
+    r4 = (r6 + 1) * 32;
+
+    if (me->d.sData[0] != 0) {
+        if (worldX + 32 <= I(gPlayer.qWorldX)) {
+            s->variant = 2;
+        }
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    if (gPlayer.qSpeedAirX > Q(0)) {
+        MultiplayerPlayer *mpp;
+        s32 zero;
+        gPlayer.heldInput = DPAD_RIGHT;
+
+        if (worldX + r4 < I(gPlayer.qWorldX)) {
+            gPlayer.qWorldX = Q(worldX + r4);
+            Player_TransitionCancelFlyingAndBoost(&gPlayer);
+
+            gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            gPlayer.moveState &= ~MOVESTATE_20;
+            gPlayer.moveState &= ~MOVESTATE_4;
+            gPlayer.moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+            gPlayer.moveState |= MOVESTATE_IN_AIR;
+            gPlayer.moveState &= ~MOVESTATE_SPINDASH;
+            gPlayer.moveState &= ~MOVESTATE_100;
+
+            gPlayer.charState = CHARSTATE_HIT_AIR;
+
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
+
+#ifndef NON_MATCHING
+            asm("mov %0, #0" : "=r"(zero) : "r"(&gPlayer.SA2_LABEL(unk61)));
+#else
+            zero = 0;
 #endif
+            gPlayer.SA2_LABEL(unk61) = zero;
+            gPlayer.SA2_LABEL(unk62) = gPlayer.SA2_LABEL(unk61);
+
+            gPlayer.qSpeedGround = zero;
+            gPlayer.qSpeedAirX = zero;
+
+            gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
+            gPlayer.heldInput = zero;
+            gPlayer.moveState |= MOVESTATE_FACING_LEFT;
+
+            gPlayer.charState = CHARSTATE_ACT_CLEAR_B;
+            gPlayer.moveState |= MOVESTATE_800000;
+
+            for (i = 0; i < MULTI_SIO_PLAYERS_MAX && gMultiplayerPlayerTasks[i]; i++) {
+                struct Task *t = gMultiplayerPlayerTasks[i];
+                if (t == NULL)
+                    break;
+
+                mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
+
+                if (mpp->unk54 & 0x100) {
+                    sp04++;
+                }
+            }
+
+            if (sp04 >= (i - 1) || gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+                u32 j;
+                for (j = 0; j < MULTI_SIO_PLAYERS_MAX && gMultiplayerPlayerTasks[j]; j++) {
+                    struct Task *t = gMultiplayerPlayerTasks[j];
+                    if (t == NULL)
+                        break;
+
+                    mpp = TASK_DATA(gMultiplayerPlayerTasks[j]);
+
+                    if (!(mpp->unk5C & 0x1) && (gGameMode != GAME_MODE_MULTI_PLAYER) && (gGameMode != GAME_MODE_TEAM_PLAY)) {
+                        SA2_LABEL(sub_8019CCC)(j, i - 1);
+                        mpp->unk5C |= 0x1;
+
+                        gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
+                        gPlayer.heldInput = 0;
+                    }
+                }
+
+                goal->unk3C = 0;
+                gCurTask->main = Task_StageGoal6;
+                SA2_LABEL(sub_8019F08)();
+            } else {
+                gCurTask->main = Task_StageGoal5;
+            }
+        }
+    } else {
+        gPlayer.heldInput = DPAD_LEFT;
+
+        if (worldX + r4 > I(gPlayer.qWorldX)) {
+            gPlayer.heldInput = DPAD_RIGHT;
+        }
+    }
+}
