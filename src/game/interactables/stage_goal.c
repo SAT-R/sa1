@@ -565,3 +565,55 @@ void Task_StageGoal4(void)
         }
     }
 }
+
+void Task_StageGoal5(void)
+{
+    StageGoal *goal = TASK_DATA(gCurTask);
+    Sprite *s = &goal->shared.s;
+    MapEntity *me = goal->shared.base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(goal->shared.base.meX, goal->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, goal->shared.base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (me->d.sData[0] != 0) {
+        DisplaySprite(s);
+    }
+}
+
+void Task_StageGoal6(void)
+{
+    StageGoal *goal = TASK_DATA(gCurTask);
+    Sprite *s = &goal->shared.s;
+    MapEntity *me = goal->shared.base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(goal->shared.base.meX, goal->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, goal->shared.base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    
+    if (me->d.sData[0] != 0) {
+        if ((worldX + 32) <= I(gPlayer.qWorldX)) {
+            s->variant = 2;
+        }
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void Task_ShowResults(void)
+{
+    if(!(gPlayer.moveState & MOVESTATE_IN_AIR) && gPlayer.qSpeedGround >= Q(2.25)) {
+        SA2_LABEL(sub_8021BE0)(&gPlayer);
+        gPlayer.charState = CHARSTATE_28;
+        gPlayer.moveState |= MOVESTATE_800000;
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
