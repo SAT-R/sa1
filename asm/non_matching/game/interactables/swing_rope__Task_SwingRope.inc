@@ -1,12 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-	thumb_func_start Task_SwingRope
-Task_SwingRope: @ 0x08088824
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -19,9 +14,9 @@ Task_SwingRope: @ 0x08088824
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r1, r1, r0
-	mov sb, r1
-	ldr r0, [r1]
-	str r0, [sp, #0xc]
+	mov sb, r1          @ sb = r1 = rope
+	ldr r0, [r1]        @ r0 = me
+	str r0, [sp, #0xc]  @ sp0C = r0 = me
 	ldrb r0, [r1, #8]
 	lsls r0, r0, #3
 	ldrh r1, [r1, #4]
@@ -29,23 +24,23 @@ Task_SwingRope: @ 0x08088824
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	str r0, [sp, #4]
+	str r0, [sp, #4]    @ sp04 = worldX
 	ldr r1, [sp, #0xc]
 	ldrb r0, [r1, #1]
 	lsls r0, r0, #3
-	mov r2, sb
+	mov r2, sb      @ r2 = sb = rope
 	ldrh r1, [r2, #6]
 	lsls r1, r1, #8
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	str r0, [sp, #8]
+	str r0, [sp, #8]    @ sp08 = worldY
 	movs r7, #0
 	ldr r5, _0808887C @ =gPartner
 	ldr r6, _08088880 @ =gPlayer
 	movs r3, #0
 	mov sl, r3
-_08088870:
+_08088870_loop:
 	cmp r7, #0
 	beq _08088884
 	ldr r0, [r5, #0x10]
@@ -61,25 +56,25 @@ _08088886:
 	ands r0, r1
 	cmp r0, #0
 	beq _08088890
-	b _08088F1C
+	b _08088F1C_p_is_dead
 _08088890:
-	mov r2, sb
+	mov r2, sb      @ r2 = sb = rope
 	adds r2, #0x3c
 	ldrb r1, [r2]
 	asrs r1, r7
 	movs r0, #1
 	ands r1, r0
-	str r2, [sp, #0x14]
+	str r2, [sp, #0x14] @ sp14 = rope->unk3C
 	cmp r1, #0
 	bne _080888A4
 	b _08088CF8
 _080888A4:
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x40
-	mov r2, sl
+	mov r2, sl      @ r2 = sl = i*4
 	adds r1, r0, r2
 	ldr r2, [r1]
-	adds r4, r0, #0
+	adds r4, r0, #0 @ r4 = &rope->unk40
 	cmp r2, #0xe7
 	bgt _080888BA
 	adds r0, r2, #0
@@ -93,20 +88,20 @@ _080888BA:
 	ble _080888C6
 	str r2, [r1]
 _080888C6:
-	mov r2, sb
+	mov r2, sb      @ r2 = sb = rope
 	adds r2, #0x48
-	add r2, sl
+	add r2, sl      @ r2 = sl = i*4
 	ldr r0, [r2]
 	ldr r1, [r1]
 	adds r0, r0, r1
 	str r0, [r2]
-	ldr r3, [sp, #8]
+	ldr r3, [sp, #8]    @ r3 = sp08 = worldY
 	lsls r1, r3, #0x10
 	asrs r0, r1, #8
 	movs r2, #0x80
 	lsls r2, r2, #1
 	adds r0, r0, r2
-	str r1, [sp, #0x10]
+	str r1, [sp, #0x10] @ sp10 = worldY << 16
 	cmp r7, #0
 	beq _080888EA
 	str r0, [r5, #4]
@@ -114,10 +109,10 @@ _080888C6:
 _080888EA:
 	str r0, [r6, #4]
 _080888EC:
-	ldr r0, [sp, #4]
+	ldr r0, [sp, #4]    @ r0 = sp04 = worldX
 	lsls r3, r0, #0x10
 	asrs r2, r3, #0x10
-	ldr r0, [sp, #0xc]
+	ldr r0, [sp, #0xc]  @ r0 = sp0C = me
 	movs r1, #3
 	ldrsb r1, [r0, r1]
 	lsls r0, r1, #3
@@ -141,7 +136,7 @@ _08088916:
 	asrs r1, r2, #0x10
 	lsls r0, r3, #3
 	adds r1, r1, r0
-	ldr r3, [sp, #0xc]
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = me
 	ldrb r0, [r3, #5]
 	lsls r0, r0, #3
 	adds r1, r1, r0
@@ -158,8 +153,8 @@ _08088934:
 	cmp r1, r0
 	blt _080889FE
 _0808893C:
-	mov r1, sl
-	adds r0, r4, r1
+	mov r1, sl      @ r1 = sl = i*4
+	adds r0, r4, r1 @ r0 = &rope->unk40[i]
 	ldr r1, [r0]
 	cmp r7, #0
 	beq _0808894E
@@ -187,8 +182,8 @@ _08088964:
 	cmp r0, #0
 	beq _08088978
 _0808896E:
-	mov r2, sl
-	adds r1, r4, r2
+	mov r2, sl      @ r2 = sl = i*4
+	adds r1, r4, r2 @ r1 = &rope->unk40[i]
 	ldr r0, [r1]
 	adds r0, #0x10
 	b _0808899E
@@ -208,8 +203,8 @@ _08088988:
 	cmp r0, #0
 	beq _080889A0
 _08088992:
-	mov r3, sl
-	adds r1, r4, r3
+	mov r3, sl      @ r3 = sl = i*4
+	adds r1, r4, r3 @ r1 = &rope->unk40[i]
 	ldr r0, [r1]
 	cmp r0, #0xe8
 	ble _080889A0
@@ -296,14 +291,14 @@ _08088A20:
 	bne _08088A2A
 	b _08088CD6
 _08088A2A:
-	mov r2, sl
-	adds r0, r4, r2
+	mov r2, sl      @ r2 = sl = i*4
+	adds r0, r4, r2 @ r0 = &rope->unk40[i]
 	ldr r0, [r0]
 	cmp r0, #0
 	bge _08088A5A
 	mov r3, r8
 	asrs r1, r3, #0x10
-	ldr r2, [sp, #0xc]
+	ldr r2, [sp, #0xc]  @ r2 = sp0C = me
 	movs r0, #3
 	ldrsb r0, [r2, r0]
 	lsls r0, r0, #3
@@ -317,8 +312,8 @@ _08088A2A:
 _08088A4E:
 	str r1, [r6]
 _08088A50:
-	mov r3, sl
-	adds r0, r4, r3
+	mov r3, sl      @ r3 = sl = i*4
+	adds r0, r4, r3 @ r0 = &rope->unk40[i]
 	movs r1, #0
 	str r1, [r0]
 	b _08088FC6
@@ -518,9 +513,9 @@ _08088BBC:
 	strh r0, [r3, #0xa]
 	b _08088BFE
 _08088BC4:
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x50
-	add r0, sl
+	add r0, sl      @ r0 += sl = i*4
 	ldr r0, [r0]
 	movs r1, #0xf
 	bl Div
@@ -588,7 +583,7 @@ _08088C32:
 _08088C40:
 	movs r0, #9
 	strb r0, [r1, #0xf]
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10] @ r2 = sp10 = worldY << 16
 	asrs r0, r2, #8
 	movs r1, #0x90
 	lsls r1, r1, #4
@@ -621,16 +616,16 @@ _08088C78:
 _08088C7A:
 	movs r1, #1
 	lsls r1, r7
-	ldr r2, [sp, #0x14]
+	ldr r2, [sp, #0x14] @ r2 = sp14 = rope->unk3C
 	ldrb r0, [r2]
 	bics r0, r1
 	strb r0, [r2]
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x50
-	add r0, sl
+	add r0, sl      @ r0 += sl = i*4
 	movs r3, #0
 	str r3, [r0]
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x3d
 	adds r0, r0, r7
 	movs r1, #0x14
@@ -670,22 +665,22 @@ _08088CCA:
 	orrs r0, r1
 	str r0, [r2, #0x1c]
 _08088CD6:
-	mov r4, sb
+	mov r4, sb      @ r4 = sb = rope
 	adds r4, #0x50
-	add r4, sl
+	add r4, sl      @ r4 += sl = i*4
 	ldr r0, [r4]
 	adds r0, #1
 	str r0, [r4]
 	movs r1, #0x1e
 	bl Mod
 	str r0, [r4]
-	b _08088F54
+	b _08088F54_continue
 	.align 2, 0
 _08088CEC: .4byte gPlayer + 0x64
 _08088CF0: .4byte gPartner + 0x64
 _08088CF4: .4byte 0xFFFFCFFF
 _08088CF8:
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x3d
 	adds r1, r0, r7
 	ldrb r0, [r1]
@@ -693,17 +688,17 @@ _08088CF8:
 	beq _08088D0A
 	subs r0, #1
 	strb r0, [r1]
-	b _08088F54
+	b _08088F54_continue
 _08088D0A:
-	ldr r0, [sp, #4]
+	ldr r0, [sp, #4]    @ r0 = sp04 = worldX
 	lsls r3, r0, #0x10
-	asrs r2, r3, #0x10
-	ldr r0, [sp, #0xc]
+	asrs r2, r3, #0x10  @ r2 = worldX
+	ldr r0, [sp, #0xc]  @ r0 = sp0C = me
 	movs r1, #3
 	ldrsb r1, [r0, r1]
 	lsls r0, r1, #3
 	adds r2, r2, r0
-	mov r8, r3
+	mov r8, r3          @ r8 = r3 = worldX << 16
 	adds r3, r1, #0
 	cmp r7, #0
 	beq _08088D2C
@@ -711,19 +706,19 @@ _08088D0A:
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _08088D36
-	b _08088F54
+	b _08088F54_continue
 _08088D2C:
 	ldr r0, [r6]
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _08088D36
-	b _08088F54
+	b _08088F54_continue
 _08088D36:
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = worldX << 16
 	asrs r1, r2, #0x10
 	lsls r0, r3, #3
 	adds r1, r1, r0
-	ldr r3, [sp, #0xc]
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = me
 	ldrb r0, [r3, #5]
 	lsls r0, r0, #3
 	adds r1, r1, r0
@@ -733,23 +728,23 @@ _08088D36:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08088D5E
-	b _08088F54
+	b _08088F54_continue
 _08088D54:
 	ldr r0, [r6]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08088D5E
-	b _08088F54
+	b _08088F54_continue
 _08088D5E:
-	ldr r0, [sp, #8]
+	ldr r0, [sp, #8]    @ r0 = sp08 = worldY
 	lsls r3, r0, #0x10
 	asrs r2, r3, #0x10
-	ldr r0, [sp, #0xc]
+	ldr r0, [sp, #0xc]  @ r0 = sp0C = me
 	movs r1, #4
 	ldrsb r1, [r0, r1]
 	lsls r0, r1, #3
 	adds r2, r2, r0
-	str r3, [sp, #0x10]
+	str r3, [sp, #0x10] @ sp10 = worldY << 16
 	adds r3, r1, #0
 	cmp r7, #0
 	beq _08088D80
@@ -757,19 +752,19 @@ _08088D5E:
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _08088D8A
-	b _08088F54
+	b _08088F54_continue
 _08088D80:
 	ldr r0, [r6, #4]
 	asrs r0, r0, #8
 	cmp r2, r0
 	ble _08088D8A
-	b _08088F54
+	b _08088F54_continue
 _08088D8A:
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10] @ r2 = sp10 = worldY << 16
 	asrs r1, r2, #0x10
 	lsls r0, r3, #3
 	adds r1, r1, r0
-	ldr r3, [sp, #0xc]
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = me
 	ldrb r0, [r3, #6]
 	lsls r0, r0, #3
 	adds r1, r1, r0
@@ -779,19 +774,19 @@ _08088D8A:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08088DB2
-	b _08088F54
+	b _08088F54_continue
 _08088DA8:
 	ldr r0, [r6, #4]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08088DB2
-	b _08088F54
+	b _08088F54_continue
 _08088DB2:
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x40
-	mov r2, sl
-	adds r1, r0, r2
-	adds r4, r0, #0
+	mov r2, sl      @ r2 = sl = i*4
+	adds r1, r0, r2 @ r1 = &rope->unk40[i]
+	adds r4, r0, #0 @ r4 = rope->unk40
 	cmp r7, #0
 	beq _08088DC6
 	movs r3, #0xc
@@ -803,8 +798,8 @@ _08088DC6:
 _08088DCA:
 	asrs r0, r0, #1
 	str r0, [r1]
-	ldr r3, _08088DF0 @ =gPlayer
-	mov r0, sl
+	ldr r3, _08088DF0 @ r3 = gPlayer
+	mov r0, sl      @ r0 = sl = i*4
 	adds r1, r4, r0
 	ldr r0, [r1]
 	cmp r0, #0
@@ -812,8 +807,8 @@ _08088DCA:
 	movs r2, #0
 	str r2, [r1]
 _08088DDE:
-	mov r0, r8
-	asrs r1, r0, #8
+	mov r0, r8      @ r0 = r8 = worldX << 16
+	asrs r1, r0, #8 @ r1 = Q(worldX)
 	cmp r7, #0
 	beq _08088DF4
 	ldr r0, [r5]
@@ -827,10 +822,10 @@ _08088DF4:
 	cmp r0, r1
 	ble _08088E16
 _08088DFA:
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x48
-	mov r1, sl
-	adds r2, r0, r1
+	mov r1, sl      @ r1 = sl = i*4
+	adds r2, r0, r1 @ r2 = &rope->unk48[i]
 	mov r0, r8
 	asrs r1, r0, #8
 	cmp r7, #0
@@ -843,9 +838,9 @@ _08088E10:
 	subs r0, r0, r1
 	b _08088E2E
 _08088E16:
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x48
-	mov r1, sl
+	mov r1, sl      @ r1 = sl = i*4
 	adds r2, r0, r1
 	mov r0, r8
 	asrs r1, r0, #8
@@ -918,7 +913,7 @@ _08088E90:
 _08088E98:
 	movs r0, #1
 	lsls r0, r7
-	ldr r2, [sp, #0x14]
+	ldr r2, [sp, #0x14] @ r2 = sp14 = rope->unk3C
 	ldrb r1, [r2]
 	orrs r0, r1
 	strb r0, [r2]
@@ -958,9 +953,9 @@ _08088ED6:
 _08088EE2:
 	movs r0, #0xe
 	strb r0, [r1, #0xf]
-	mov r0, sb
+	mov r0, sb      @ r0 = sb = rope
 	adds r0, #0x50
-	add r0, sl
+	add r0, sl      @ r0 += sl = i*4
 	movs r1, #0
 	str r1, [r0]
 	cmp r7, #0
@@ -980,19 +975,19 @@ _08088F0C:
 	movs r1, #0x80
 	orrs r0, r1
 	strb r0, [r3]
-	b _08088F54
+	b _08088F54_continue
 	.align 2, 0
 _08088F18: .4byte gPlayer + 0x26
-_08088F1C:
-	mov r2, sb
+_08088F1C_p_is_dead:
+	mov r2, sb          @ r2 = sb = rope
 	adds r2, #0x3c
 	ldrb r1, [r2]
 	asrs r1, r7
 	movs r0, #1
 	ands r1, r0
-	str r2, [sp, #0x14]
+	str r2, [sp, #0x14] @ sp14 = rope->unk3C
 	cmp r1, #0
-	beq _08088F54
+	beq _08088F54_continue
 	cmp r7, #0
 	beq _08088F40
 	ldr r0, [r5, #0x10]
@@ -1010,14 +1005,14 @@ _08088F40:
 _08088F48:
 	movs r1, #1
 	lsls r1, r7
-	ldr r2, [sp, #0x14]
+	ldr r2, [sp, #0x14] @ r2 = sp14 = rope->unk3C
 	ldrb r0, [r2]
 	bics r0, r1
 _08088F52:
 	strb r0, [r2]
-_08088F54:
+_08088F54_continue:
 	movs r3, #4
-	add sl, r3
+	add sl, r3      @ sl += 4
 	adds r7, #1
 	ldr r0, _08088FDC @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -1025,9 +1020,9 @@ _08088F54:
 	asrs r0, r0, #0x18
 	cmp r7, r0
 	bge _08088F68
-	b _08088870
+	b _08088870_loop
 _08088F68:
-	ldr r0, [sp, #0x14]
+	ldr r0, [sp, #0x14] @ r0 = sp14 = rope->unk3C
 	ldrb r1, [r0]
 	movs r0, #3
 	ands r0, r1
@@ -1035,7 +1030,7 @@ _08088F68:
 	bne _08088FC6
 	ldr r2, _08088FE0 @ =gCamera
 	ldrh r0, [r2]
-	ldr r3, [sp, #4]
+	ldr r3, [sp, #4]    @ r3 = sp04 = worldX
 	lsls r1, r3, #0x10
 	asrs r1, r1, #0x10
 	subs r1, r1, r0
@@ -1067,9 +1062,9 @@ _08088F68:
 	cmp r1, r0
 	ble _08088FC6
 _08088FB6:
-	mov r2, sb
+	mov r2, sb      @ r2 = sb = rope
 	ldrb r0, [r2, #8]
-	ldr r3, [sp, #0xc]
+	ldr r3, [sp, #0xc]  @ r3 = sp0C = me
 	strb r0, [r3]
 	ldr r0, _08088FE4 @ =gCurTask
 	ldr r0, [r0]
@@ -1089,66 +1084,4 @@ _08088FDC: .4byte gNumSingleplayerCharacters
 _08088FE0: .4byte gCamera
 _08088FE4: .4byte gCurTask
 
-	thumb_func_start CreateEntity_SwingRope
-CreateEntity_SwingRope: @ 0x08088FE8
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r7, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0808905C @ =Task_SwingRope
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r1, #0
-	str r1, [sp]
-	movs r1, #0x58
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	movs r3, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #8]
-	strb r6, [r0, #9]
-	ldr r1, _08089060 @ =0x0300003C
-	adds r0, r2, r1
-	strb r3, [r0]
-	movs r1, #0
-	movs r3, #0
-	ldr r0, _08089064 @ =0x0300003D
-	adds r4, r2, r0
-	adds r0, #3
-	adds r2, r2, r0
-_0808903A:
-	str r3, [r2]
-	str r3, [r2, #8]
-	adds r0, r4, r1
-	strb r3, [r0]
-	adds r2, #4
-	adds r1, #1
-	cmp r1, #1
-	ble _0808903A
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0808905C: .4byte Task_SwingRope
-_08089060: .4byte 0x0300003C
-_08089064: .4byte 0x0300003D
+.syntax divided
