@@ -28,21 +28,21 @@ NONMATCH("asm/non_matching/game/interactables/swing_rope__Task_SwingRope.inc", v
     MapEntity *me = rope->base.me;
     s32 i;
 
-// world-pos
+    // world-pos
     x = TO_WORLD_POS(rope->base.meX, rope->base.regionX);
     y = TO_WORLD_POS(me->y, rope->base.regionY);
 
     i = 0;
     do {
-        if(!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             // _08088890
-            if(GetBit(rope->unk3C, i)) {
+            if (GetBit(rope->unk3C, i)) {
                 // _080888A4
-                if(rope->unk40[i] < Q(0.90625)) {
+                if (rope->unk40[i] < Q(0.90625)) {
                     rope->unk40[i] += Q(0.0625);
                 }
 
-                if(rope->unk40[i] > Q(9)) {
+                if (rope->unk40[i] > Q(9)) {
                     rope->unk40[i] = Q(9);
                 }
                 // _080888C6
@@ -51,111 +51,106 @@ NONMATCH("asm/non_matching/game/interactables/swing_rope__Task_SwingRope.inc", v
 
                 GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(y) + Q(1);
                 // _080888EC
-                if((x + me->d.sData[0] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
-                && (x + me->d.sData[0] * TILE_WIDTH + me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) {
+                if ((x + me->d.sData[0] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
+                    && (x + me->d.sData[0] * TILE_WIDTH + me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) {
                     s8 res;
 
                     GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += rope->unk40[i];
 
-                    if(GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
-                            rope->unk40[i] += 0x10;
-                    } else if(GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {                        
-                        if(rope->unk40[i] > Q(0.90625)) {
+                    if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
+                        rope->unk40[i] += 0x10;
+                    } else if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {
+                        if (rope->unk40[i] > Q(0.90625)) {
                             rope->unk40[i] -= 0x10;
                         }
                     }
-                    
-                    res= SA2_LABEL(sub_801F100)(
-                        I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - 8,
-                        I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)),
-                        GET_SP_PLAYER_MEMBER_V1(i, layer),
-                        -8,
-                        SA2_LABEL(sub_801EB44));
 
-                    if(res < 0) {
+                    res = SA2_LABEL(sub_801F100)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - 8, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)),
+                                                 GET_SP_PLAYER_MEMBER_V1(i, layer), -8, SA2_LABEL(sub_801EB44));
+
+                    if (res < 0) {
                         GET_SP_PLAYER_MEMBER_V1(i, qWorldX) -= Q(res);
                     }
                 }
-                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = 0;
-                    // _08088A0A
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = 0;
+                // _08088A0A
 
-                    if(GET_SP_PLAYER_MEMBER_V1(i, frameInput) & gPlayerControls.jump) {
-                        if(rope->unk40[i] < 0) {
-                            GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(x + (me->d.sData[0] * TILE_WIDTH) + 2);                            
-                            rope->unk40[i] = 0;
-                            return;
-                        }
-                        
-                        Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
-
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IGNORE_INPUT;
-                        GET_SP_PLAYER_MEMBER_V1(i, heldInput) |= gPlayerControls.jump | gPlayerControls.attack;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
-                        GET_SP_PLAYER_MEMBER_V1(i, itemEffect) &= ~PLAYER_ITEM_EFFECT__TELEPORT;
-                        if(GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_VERTICAL) {
-                            if(GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_UP) {
-                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(6.75);                                
-                            } else {
-                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(6.75);                                
-                            }
-    
-                        } else {
-                            if(Div(rope->unk50[i], 15) != 0) {
-                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(6.75);
-                            } else {
-                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(6.75);
-                            }
-                        }
-
-                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
-
-                        PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 9);
-                    
-                        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(y) + Q(9);
-                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = Q(0);
-                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = Q(0);
-
-                        ClearBit(rope->unk3C, i);
-
-                        rope->unk50[i] = 0;
-                        rope->unk3D[i] = 20;
-
-                        GET_SP_PLAYER_V1(i)->spriteInfoBody->s.frameFlags &= ~0x3000;
-                        GET_SP_PLAYER_V1(i)->spriteInfoBody->s.frameFlags |= 0x2000;
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & gPlayerControls.jump) {
+                    if (rope->unk40[i] < 0) {
+                        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(x + (me->d.sData[0] * TILE_WIDTH) + 2);
+                        rope->unk40[i] = 0;
+                        return;
                     }
-                    // _08088CD6
+
+                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IGNORE_INPUT;
+                    GET_SP_PLAYER_MEMBER_V1(i, heldInput) |= gPlayerControls.jump | gPlayerControls.attack;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                    GET_SP_PLAYER_MEMBER_V1(i, itemEffect) &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                    if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_VERTICAL) {
+                        if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_UP) {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(6.75);
+                        } else {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(6.75);
+                        }
+
+                    } else {
+                        if (Div(rope->unk50[i], 15) != 0) {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(6.75);
+                        } else {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(6.75);
+                        }
+                    }
+
+                    GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 9);
+
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(y) + Q(9);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = Q(0);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = Q(0);
+
+                    ClearBit(rope->unk3C, i);
+
+                    rope->unk50[i] = 0;
+                    rope->unk3D[i] = 20;
+
+                    GET_SP_PLAYER_V1(i)->spriteInfoBody->s.frameFlags &= ~0x3000;
+                    GET_SP_PLAYER_V1(i)->spriteInfoBody->s.frameFlags |= 0x2000;
+                }
+                // _08088CD6
 
 #ifndef NON_MATCHING
-                    rope->unk50[i] = Mod(++rope->unk50[i], 30);
+                rope->unk50[i] = Mod(++rope->unk50[i], 30);
 #else
-                    rope->unk50[i] = (rope->unk50[i] + 1) % 30;
+                rope->unk50[i] = (rope->unk50[i] + 1) % 30;
 #endif
-                
+
             } else {
                 // _08088CF8 - not on rope
-                if(rope->unk3D[i] > 0) {
+                if (rope->unk3D[i] > 0) {
                     rope->unk3D[i]--;
                     continue;
                 } else {
                     // _08088D0A
-                    if((x + me->d.sData[0] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
-                    && (x + me->d.sData[0] * TILE_WIDTH + me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
-                    && (y + me->d.sData[1] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))
-                    && (y + me->d.sData[1] * TILE_WIDTH + me->d.uData[3] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))
-                    ) {
+                    if ((x + me->d.sData[0] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
+                        && (x + me->d.sData[0] * TILE_WIDTH + me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
+                        && (y + me->d.sData[1] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))
+                        && (y + me->d.sData[1] * TILE_WIDTH + me->d.uData[3] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) {
                         // _08088DB2
                         rope->unk40[i] = GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) >> 1;
 
                         // TODO: Clamp macro?
-                        if(rope->unk40[i] < 0)
+                        if (rope->unk40[i] < 0)
                             rope->unk40[i] = 0;
                         // _08088DDE
 
-                        if(GET_SP_PLAYER_MEMBER_V1(i, qWorldX) > Q(x)) {
+                        if (GET_SP_PLAYER_MEMBER_V1(i, qWorldX) > Q(x)) {
                             // _08088DFA
                             rope->unk48[i] = (GET_SP_PLAYER_MEMBER_V1(i, qWorldX) - Q(x));
                         } else {
@@ -183,20 +178,20 @@ NONMATCH("asm/non_matching/game/interactables/swing_rope__Task_SwingRope.inc", v
             }
         } else {
             // _08088F1C - Player dead
-            if(GetBit(rope->unk3C, i)) {
+            if (GetBit(rope->unk3C, i)) {
                 GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
                 ClearBit(rope->unk3C, i);
             }
         }
-    } while(++i < gNumSingleplayerCharacters);
+    } while (++i < gNumSingleplayerCharacters);
 
     // _08088F68
-    if((rope->unk3C & 0x3) == 0) {
+    if ((rope->unk3C & 0x3) == 0) {
         // screen-pos
         x -= gCamera.x;
         y -= gCamera.y;
 
-        if(IS_OUT_OF_CAM_RANGE(x, y)) {
+        if (IS_OUT_OF_CAM_RANGE(x, y)) {
             SET_MAP_ENTITY_NOT_INITIALIZED(me, rope->base.meX);
             TaskDestroy(gCurTask);
             return;
