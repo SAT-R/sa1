@@ -173,7 +173,6 @@ void CreateEntity_Buzzer() { }
 void CreateEntity_Rhinotank() { }
 void CreateEntity_KeroKero() { }
 void CreateEntity_Tentou() { }
-void CreateEntity_Hanabii() { }
 void CreateEntity_Slot() { }
 void CreateEntity_Leon() { }
 void CreateEntity_Wamu() { }
