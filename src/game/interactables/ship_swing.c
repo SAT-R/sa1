@@ -1,8 +1,10 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
 #include "game/stage/player.h"
+#include "game/sa1_sa2_shared/collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -12,16 +14,16 @@ typedef struct {
     /* 0x0C */ Sprite sprShip;
     /* 0x3C */ Sprite sprSegment;
     /* 0x6C */ Sprite sprHook;
-    /* 0x9C */ s32 unk9C;
-    /* 0xA0 */ s32 unkA0;
+    /* 0x9C */ s32 unk9C[NUM_SINGLEPLAYER_CHARS_MAX];
     /* 0xA4 */ u8 unkA4;
-    /* 0xA5 */ u8 unkA5;
-    /* 0xA6 */ u8 unkA6;
+    /* 0xA5 */ u8 unkA5[NUM_SINGLEPLAYER_CHARS_MAX];
     /* 0xA7 */ u8 unkA7;
 } ShipSwing;
 
 void Task_ShipSwing(void);
 void TaskDestructor_ShipSwing(struct Task *t);
+
+#define SHIP_SWING_NUM_SEGMENTS 5
 
 void CreateEntity_ShipSwing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -40,10 +42,10 @@ void CreateEntity_ShipSwing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     swing->unkA4 = 0;
     swing->unkA7 = 0;
-    swing->unk9C = 0;
-    swing->unkA0 = 0;
-    swing->unkA6 = 0;
-    swing->unkA5 = 0;
+    swing->unk9C[PLAYER_1] = 0;
+    swing->unk9C[PLAYER_2] = 0;
+    swing->unkA5[PLAYER_2] = 0;
+    swing->unkA5[PLAYER_1] = 0;
 
     sprShip->x = TO_WORLD_POS(me->x, regionX);
     sprShip->y = TO_WORLD_POS(me->y, regionY);
@@ -92,4 +94,144 @@ void CreateEntity_ShipSwing(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(sprShip);
     UpdateSpriteAnimation(sprHook);
     UpdateSpriteAnimation(sprSegment);
+}
+
+void Task_ShipSwing(void)
+{
+    Sprite *sprShip;
+    Sprite *sprHook;
+    Sprite *sprSegment;
+    CamCoord worldX, worldY;
+    CamCoord worldX2, worldY2;
+    s32 dirX, dirY;
+    s32 dtDirX;
+    s32 dtDirY;
+    u32 modRes;
+    s16 sinRes;
+    s32 theta;
+    s8 r3;
+    s32 i;
+    u8 j;
+    MapEntity *me;
+    ShipSwing *swing;
+
+    swing = TASK_DATA(gCurTask);
+    sprShip = &swing->sprShip;
+    sprSegment = &swing->sprSegment;
+    sprHook = &swing->sprHook;
+    me = swing->base.me;
+    dtDirX = 0;
+    dtDirY = 0;
+
+    worldX = TO_WORLD_POS(swing->base.meX, swing->base.regionX);
+    worldY = TO_WORLD_POS(me->y, swing->base.regionY);
+
+    worldX2 = worldX;
+    worldY2 = worldY;
+
+    modRes = Mod(gStageTime * 2, 0x200);
+
+    if (modRes > 0x100) {
+        modRes -= 0x100;
+        modRes = 0x100 - modRes;
+
+        r3 = (SIN(modRes * 2) >> 8);
+    } else {
+        r3 = -(SIN(modRes * 2) >> 8);
+    }
+
+    sinRes = SIN(((modRes - 0x7E) & 0x1FF) * 2);
+    theta = ((sinRes >> 7) & 0x1FF);
+    theta *= 2;
+    dirX = SIN(theta);
+    dirY = COS(theta) + r3;
+
+    sprShip->x = worldX - gCamera.x;
+    sprShip->y = worldY - gCamera.y;
+    sprHook->x = worldX - gCamera.x;
+    sprHook->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(sprShip->x, sprShip->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, swing->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(sprHook);
+
+    // Inside this loop dtDirX|Y is used for segments,
+    // afterwards it's the position-delta of the ship.
+    for (j = 0; j < SHIP_SWING_NUM_SEGMENTS; j++) {
+        dtDirX += Div(dirX * 110, 100);
+        dtDirY += Div(dirY * 110, 100);
+
+        sprSegment->x = worldX - gCamera.x + (dtDirX >> 10);
+        sprSegment->y = worldY - gCamera.y + (dtDirY >> 10);
+
+        if (j == SHIP_SWING_NUM_SEGMENTS - 1) {
+            sprSegment->oamFlags = SPRITE_OAM_ORDER(3);
+        } else {
+            sprSegment->oamFlags = SPRITE_OAM_ORDER(18);
+        }
+
+        DisplaySprite(sprSegment);
+    }
+
+    sprShip->x = sprSegment->x;
+    sprShip->y = sprSegment->y;
+
+    i = 0;
+    do {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if (Q(worldY - 4) > GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) {
+                if (sub_800B2BC(sprHook, worldX, worldY, GET_SP_PLAYER_V1(i)) & COLL_FLAG_8) {
+                    if (!GetBit(swing->unkA7, i)) {
+                        SetBit(swing->unkA7, i);
+                    }
+                } else {
+                    if (GetBit(swing->unkA7, i)) {
+                        ClearBit(swing->unkA7, i);
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_20;
+                    }
+                }
+            }
+
+            if (swing->unkA5[i] > 0) {
+                swing->unkA5[i]--;
+            } else {
+                if (sub_800B2BC(sprShip, (dtDirX >> 10) + worldX, (dtDirY >> 10) + worldY, GET_SP_PLAYER_V1(i)) & COLL_FLAG_8) {
+                    if (!GetBit(swing->unkA4, i)) {
+                        SetBit(swing->unkA4, i);
+                    } else {
+                        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += Q((worldX + (dtDirX >> 10)) - swing->unk9C[i]);
+                        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q((worldY - 5 + (dtDirY >> 10)));
+                    }
+
+                    swing->unk9C[i] = worldX + (dtDirX >> 10);
+                } else {
+                    if (GetBit(swing->unkA4, i)) {
+                        ClearBit(swing->unkA4, i);
+                        swing->unkA5[i] = 5;
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_20;
+                    }
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    DisplaySprite(sprShip);
+    SPRITE_FLAG_SET(sprShip, X_FLIP);
+    DisplaySprite(sprShip);
+    SPRITE_FLAG_CLEAR(sprShip, X_FLIP);
+}
+
+void TaskDestructor_ShipSwing(struct Task *t)
+{
+    ShipSwing *swing = TASK_DATA(t);
+
+    VramFree(swing->sprShip.graphics.dest);
+    VramFree(swing->sprSegment.graphics.dest);
+    VramFree(swing->sprHook.graphics.dest);
 }

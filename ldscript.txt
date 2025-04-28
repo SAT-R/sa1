@@ -172,7 +172,6 @@ SECTIONS {
         src/game/interactables/sega_sonic_letters.o(.text);
         src/game/interactables/party_balloon.o(.text);
         src/game/interactables/ship_swing.o(.text);
-        asm/ia_ship_swing.o(.text);
         asm/ia_platform_spiked.o(.text);
         asm/ia_bowl.o(.text);
         asm/ia_panel_gate.o(.text);
