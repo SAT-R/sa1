@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
+.if 01
 	thumb_func_start Task_HanabiiInit
 Task_HanabiiInit: @ 0x0806D5E8
 	push {r4, r5, r6, r7, lr}
