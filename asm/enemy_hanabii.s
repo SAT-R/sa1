@@ -19,9 +19,9 @@ Task_HanabiiInit: @ 0x0806D5E8
 	ldrh r3, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r5, r3, r0
+	adds r5, r3, r0     @ r5 = hanabii
 	adds r0, #0xc
-	adds r7, r3, r0
+	adds r7, r3, r0     @ r7 = s
 	ldr r1, [r5]
 	mov r8, r1
 	ldrb r2, [r5, #8]
@@ -35,10 +35,10 @@ Task_HanabiiInit: @ 0x0806D5E8
 	lsls r0, r0, #8
 	adds r1, r1, r0
 	lsls r2, r2, #0x10
-	asrs r6, r2, #0x10
+	asrs r6, r2, #0x10  @ r6 = worldX
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	mov ip, r1
+	mov ip, r1          @ ip = worldY
 	ldr r2, _0806D6C0 @ =0x03000044
 	adds r3, r3, r2
 	movs r0, #0
@@ -47,16 +47,16 @@ Task_HanabiiInit: @ 0x0806D5E8
 	adds r0, r0, r1
 	str r0, [r5, #0x3c]
 	asrs r0, r0, #8
-	adds r0, r6, r0
-	lsls r0, r0, #0x10
+	adds r0, r6, r0     @ screenX = worldX - I(hanabii->qUnk3C);
+	lsls r0, r0, #0x10  @ deltaX = worldX - I(hanabii->qUnk3C); << 16
 	ldr r1, [r5, #0x40]
 	add r1, ip
-	lsls r1, r1, #0x10
+	lsls r1, r1, #0x10  @ deltaY = worldY - hanabii->unk40; << 16
 	ldr r3, _0806D6C4 @ =gCamera
 	ldrh r2, [r3]
 	mov sb, r2
 	lsrs r2, r0, #0x10
-	mov sl, r2
+	mov sl, r2          @ sl = deltaX
 	asrs r0, r0, #0x10
 	mov r2, sb
 	subs r0, r0, r2
@@ -66,7 +66,7 @@ Task_HanabiiInit: @ 0x0806D5E8
 	mov sb, r2
 	asrs r1, r1, #0x10
 	subs r1, r1, r0
-	strh r1, [r7, #0x18]
+	strh r1, [r7, #0x18]    @ s->y = deltaX - gCamera.y;
 	movs r0, #0
 	ldrsh r1, [r3, r0]
 	movs r2, #0xb8
@@ -120,7 +120,7 @@ _0806D6BC: .4byte gCurTask
 _0806D6C0: .4byte 0x03000044
 _0806D6C4: .4byte gCamera
 _0806D6C8:
-	mov r2, sl
+	mov r2, sl          @ r2 = sl = deltaX
 	lsls r0, r2, #0x10
 	asrs r4, r0, #0x10
 	mov r6, sb
@@ -149,31 +149,31 @@ _0806D6F0:
 	bl sa2__sub_801F07C
 	ldr r1, [r5, #0x40]
 	adds r1, r1, r0
-	str r1, [r5, #0x40]
+	str r1, [r5, #0x40] @ hanabii->unk40 += ...
 	ldr r1, _0806D764 @ =gPlayer
 	ldr r0, [r1]
 	asrs r0, r0, #8
 	subs r0, r0, r4
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
-	adds r2, r0, #0
+	adds r2, r0, #0 @ r2 = I(gPlayer.qWorldX) - deltaX;
 	muls r2, r0, r2
 	adds r0, r2, #0
 	lsls r0, r0, #0x10
-	lsrs r2, r0, #0x10
+	lsrs r2, r0, #0x10  @ r2 = r2*r2
 	ldr r0, [r1, #4]
 	asrs r0, r0, #8
 	subs r0, r0, r6
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	adds r6, r0, #0
-	muls r6, r0, r6
+	muls r6, r0, r6     @ r6 = r6*r6;
 	adds r0, r6, #0
 	lsls r0, r0, #0x10
-	lsrs r1, r0, #0x10
+	lsrs r1, r0, #0x10  @ r1 = r6
 	ldr r0, [r5, #0x3c]
 	asrs r4, r0, #8
-	mov r0, r8
+	mov r0, r8          @ r0 = r8 = me
 	movs r3, #3
 	ldrsb r3, [r0, r3]
 	adds r0, r3, #1
