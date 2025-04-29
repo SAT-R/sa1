@@ -17,12 +17,14 @@ typedef struct {
     /* 0x3C */ s32 qUnk3C;
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s16 qUnk44;
-    /* 0x46 */ u16 unk46;
+    /* 0x46 */ s16 unk46;
     /* 0x48 */ s16 unk48;
 } Hanabii;
 
 void Task_HanabiiInit(void);
 void Task_806D804(void);
+
+void CreateHanabiiProjectile(s16 a, s16 b);
 
 void CreateEntity_Hanabii(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -134,5 +136,59 @@ void Task_HanabiiInit(void)
     DisplaySprite(s);
 }
 
-#if 01
-#endif
+void Task_806D804(void)
+{
+    Hanabii *hanabii = TASK_DATA(gCurTask);
+    Sprite *s = &hanabii->shared.s;
+    MapEntity *me = hanabii->shared.base.me;
+    CamCoord worldX, worldY;
+    s32 worldX2, worldY2;
+    u8 sp08;
+    CamCoord deltaX, deltaY;
+    CamCoord aSquared, bSquared;
+
+    s16 screenX, screenY;
+
+    worldX = TO_WORLD_POS(hanabii->shared.base.meX, hanabii->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, hanabii->shared.base.regionY);
+
+    worldX2 = worldX;
+    worldY2 = worldY;
+
+    deltaX = worldX2 + I(hanabii->qUnk3C);
+    deltaY = worldY2 + hanabii->unk40;
+
+    s->x = deltaX - gCamera.x;
+    s->y = deltaY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, hanabii->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (SA2_LABEL(sub_800C4FC)(s, deltaX, deltaY)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    hanabii->unk40 += SA2_LABEL(sub_801F07C)(deltaY, deltaX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+
+    if (++hanabii->unk46 == 7) {
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            CreateHanabiiProjectile(deltaX + 4, deltaY - 20);
+        } else {
+            CreateHanabiiProjectile(deltaX - 6, deltaY - 20);
+        }
+    }
+
+    if (hanabii->unk46 == 19) {
+        hanabii->unk46 = 0;
+        s->prevVariant = -1;
+        s->variant = 0;
+        gCurTask->main = Task_HanabiiInit;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
