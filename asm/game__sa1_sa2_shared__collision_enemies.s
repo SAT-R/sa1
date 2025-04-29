@@ -355,7 +355,7 @@ _0800B784:
 	.align 2, 0
 _0800B794: .4byte gNumSingleplayerCharacters
 
-@ Exclusively used by enemies
+@ Exclusively used by enemies; projectile coll?
 	thumb_func_start sub_800B798
 sub_800B798: @ 0x0800B798
 	push {r4, r5, r6, r7, lr}

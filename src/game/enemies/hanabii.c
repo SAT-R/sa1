@@ -21,10 +21,20 @@ typedef struct {
     /* 0x48 */ s16 unk48;
 } Hanabii;
 
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s32 unk30;
+    /* 0x34 */ s16 qUnk34;
+    /* 0x36 */ u8 unk36;
+} HanabiiProjectile;
+
 void Task_HanabiiInit(void);
 void Task_806D804(void);
 
 void CreateHanabiiProjectile(s16 a, s16 b);
+void Task_HanabiiProjectile(void);
+void Task_HanabiiProjectile2(void);
+void TaskDestructor_HanabiiProjectile(struct Task *t);
 
 void CreateEntity_Hanabii(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -191,4 +201,141 @@ void Task_806D804(void)
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+void CreateHanabiiProjectile(CamCoord worldX, CamCoord worldY)
+{
+    struct Task *t = TaskCreate(Task_HanabiiProjectile, sizeof(HanabiiProjectile), 0x3000, 0, TaskDestructor_HanabiiProjectile);
+    HanabiiProjectile *proj = TASK_DATA(t);
+    Sprite *s = &proj->s;
+
+    proj->unk30 = worldX * 4;
+    proj->qUnk34 = -Q(3.6875);
+    proj->unk36 = 0;
+
+    // NOTE: x|y set to world- not screen-pos!
+    s->x = worldX;
+    s->y = worldY;
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_HANABII_FIREWORK); /* MAX_TILES(SA1_ANIM_HANABII_FIREWORK, SA1_ANIM_HANABII_PROJ) */
+    s->oamFlags = SPRITE_OAM_ORDER(9);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_HANABII_PROJ;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    UpdateSpriteAnimation(s);
+}
+
+void Task_HanabiiProjectile(void)
+{
+    HanabiiProjectile *proj = TASK_DATA(gCurTask);
+    Sprite *s = &proj->s;
+    s16 oldWorldX, oldWorldY;
+    s16 screenX, screenY;
+    s32 worldX;
+
+    // proj->unk30 += proj->unk32;
+
+    worldX = proj->unk30;
+    if (worldX < 0) {
+        worldX += 3;
+    }
+
+    s->x = worldX >> 2;
+
+    proj->qUnk34 += Q(44. / 256.);
+    s->y += I(proj->qUnk34);
+    oldWorldX = proj->s.x;
+    oldWorldY = proj->s.y;
+
+    sub_800B798(s, oldWorldX, oldWorldY);
+
+    // WorldPos -> ScreenPos
+    proj->s.x -= gCamera.x;
+    proj->s.y -= gCamera.y;
+
+    // TODO:
+    //   if(IS_OUT_OF_RANGE_OLD(u16, s->x, s->y, 40))
+    if ((((u16)(s->x + (120 / 2)) > DISPLAY_WIDTH + 120) || (s->y + (120 / 2) < 0) || (s->y > DISPLAY_HEIGHT + 140))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (proj->qUnk34 > -16) {
+        s->graphics.anim = SA1_ANIM_HANABII_FIREWORK;
+        s->variant = 0;
+        s->prevVariant = -1;
+        gCurTask->main = Task_HanabiiProjectile2;
+    }
+
+    s->x = oldWorldX;
+    s->y = oldWorldY;
+}
+
+void Task_HanabiiProjectile2(void)
+{
+    HanabiiProjectile *proj = TASK_DATA(gCurTask);
+    Sprite *s = &proj->s;
+    s16 oldWorldX, oldWorldY;
+    s16 screenX, screenY;
+    s32 worldX;
+    u32 unk36;
+
+    // proj->unk30 += proj->unk32;
+
+    worldX = proj->unk30;
+    if (worldX < 0) {
+        worldX += 3;
+    }
+
+    s->x = worldX >> 2;
+
+    s->y += I(proj->qUnk34);
+    oldWorldX = proj->s.x;
+    oldWorldY = proj->s.y;
+
+    sub_800B798(s, oldWorldX, oldWorldY);
+
+    // WorldPos -> ScreenPos
+    proj->s.x -= gCamera.x;
+    proj->s.y -= gCamera.y;
+
+    unk36 = proj->unk36 + 1;
+    proj->unk36 = unk36;
+
+    // TODO:
+    //   if(IS_OUT_OF_RANGE_OLD(u16, s->x, s->y, 40))
+    if ((((u16)(s->x + (120 / 2)) > DISPLAY_WIDTH + 120) || (s->y + (120 / 2) < 0) || (s->y > DISPLAY_HEIGHT + 140) || ((u8)unk36 > 20))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    SPRITE_FLAG_SET(s, Y_FLIP);
+    DisplaySprite(s);
+    SPRITE_FLAG_SET(s, X_FLIP);
+    DisplaySprite(s);
+    SPRITE_FLAG_CLEAR(s, Y_FLIP);
+    DisplaySprite(s);
+    SPRITE_FLAG_CLEAR(s, X_FLIP);
+
+    s->x = oldWorldX;
+    s->y = oldWorldY;
+}
+
+void TaskDestructor_HanabiiProjectile(struct Task *t)
+{
+    HanabiiProjectile *proj = TASK_DATA(t);
+    VramFree(proj->s.graphics.dest);
 }

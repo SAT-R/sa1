@@ -143,7 +143,6 @@ SECTIONS {
         asm/enemy_rhinotank.o(.text);
         asm/enemy_kerokero.o(.text);
         src/game/enemies/hanabii.o(.text);
-        asm/enemy_hanabii.o(.text);
         src/game/enemies/pierrot.o(.text);
         asm/enemy_slot.o(.text);
         asm/enemy_leon.o(.text);

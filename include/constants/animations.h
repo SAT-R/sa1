@@ -42,20 +42,22 @@
 // Defeating enemies / opening item boxes
 #define SA1_ANIM_DUST_CLOUD 407
 
-#define SA1_ANIM_GAMIGAMI_PROJ 410 // TODO: shared?
-#define SA1_ANIM_SENBON        411
-#define SA1_ANIM_TENTOU        412
-#define SA1_ANIM_FIREBALL      413
-#define SA1_ANIM_FIREBALL_PROJ 414
-#define SA1_ANIM_HANABII       415
-#define SA1_ANIM_HANABII_PROJ  416
-#define SA1_ANIM_SLOT          417
-#define SA1_ANIM_PIERROT       418
+#define SA1_ANIM_GAMIGAMI_PROJ    410 // TODO: shared?
+#define SA1_ANIM_SENBON           411
+#define SA1_ANIM_TENTOU           412
+#define SA1_ANIM_FIREBALL         413
+#define SA1_ANIM_FIREBALL_PROJ    414
+#define SA1_ANIM_HANABII          415
+#define SA1_ANIM_HANABII_FIREWORK 416
+#define SA1_ANIM_SLOT             417
+#define SA1_ANIM_PIERROT          418
+#define SA1_ANIM_HANABII_PROJ     419
 
-#define SA1_ANIM_YUKIMARU 422
-#define SA1_ANIM_DRISAME  424
-#define SA1_ANIM_KURAA    425
-#define SA1_ANIM_PEN      426
+#define SA1_ANIM_YUKIMARU          422
+#define SA1_ANIM_YUKIMARU_SIDEWAYS 423
+#define SA1_ANIM_DRISAME           424
+#define SA1_ANIM_KURAA             425
+#define SA1_ANIM_PEN               426
 
 #define SA1_ANIM_LEON        430
 #define SA1_ANIM_WAMU        431
