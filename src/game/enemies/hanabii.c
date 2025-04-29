@@ -1,8 +1,10 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
+#include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -16,10 +18,11 @@ typedef struct {
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s16 qUnk44;
     /* 0x46 */ u16 unk46;
-    /* 0x48 */ u16 unk48;
+    /* 0x48 */ s16 unk48;
 } Hanabii;
 
 void Task_HanabiiInit(void);
+void Task_806D804(void);
 
 void CreateEntity_Hanabii(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -61,63 +64,75 @@ void CreateEntity_Hanabii(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
 void Task_HanabiiInit(void)
 {
     Hanabii *hanabii = TASK_DATA(gCurTask);
     Sprite *s = &hanabii->shared.s;
     MapEntity *me = hanabii->shared.base.me;
     CamCoord worldX, worldY;
+    s32 worldX2, worldY2;
     CamCoord deltaX, deltaY;
-    CamCoord r2, r6;
+    CamCoord aSquared, bSquared;
 
     s16 screenX, screenY;
 
     worldX = TO_WORLD_POS(hanabii->shared.base.meX, hanabii->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, hanabii->shared.base.regionY);
 
+    worldX2 = worldX;
+    worldY2 = worldY;
+
     hanabii->qUnk3C += hanabii->qUnk44;
 
-    deltaX = worldX - I(hanabii->qUnk3C);
-    deltaY = worldY - hanabii->unk40;
+    deltaX = worldX2 + I(hanabii->qUnk3C);
+    deltaY = worldY2 + hanabii->unk40;
 
     s->x = deltaX - gCamera.x;
-    s->y = deltaX - gCamera.y;
-    
-    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY)
-    &&  IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
-        SET_MAP_ENTITY_NOT_INITIALIZED(me, kuraa->shared.base.meX);
+    s->y = deltaY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, hanabii->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }
-    // _0806D6C8
 
-    if(SA2_LABEL(sub_800C4FC)(s, deltaX, deltaY)) {
+    if (SA2_LABEL(sub_800C4FC)(s, deltaX, deltaY)) {
         TaskDestroy(gCurTask);
         return;
     }
-    // _0806D6F0
 
-    hanabii->unk40 += SA2_LABEL(sub_801F07C)(
-        deltaY, deltaX, 1, +8, SA2_LABEL(sub_801EE64));
+    hanabii->unk40 += SA2_LABEL(sub_801F07C)(deltaY, deltaX, 1, +8, NULL, SA2_LABEL(sub_801EE64));
 
-    r2 = I(gPlayer.qWorldX) - deltaX;
-    r2 = r2*r2;
-    r6 = I(gPlayer.qWorldY) - deltay;
-    r6 = r6*r6;
+    aSquared = I(gPlayer.qWorldX) - deltaX;
+    aSquared = aSquared * aSquared;
+    bSquared = I(gPlayer.qWorldY) - deltaY;
+    bSquared = bSquared * bSquared;
 
-    if(I(hanabii->qUnk3C) <= (me->d.sData[0] + 1) * TILE_WIDTH) {
-        if(~s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+    if (I(hanabii->qUnk3C) <= (me->d.sData[0] + 1) * TILE_WIDTH) {
+        if (~s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
             SPRITE_FLAG_SET(s, X_FLIP);
-            hanabii->qUnk44 = Q(0.625);
+            hanabii->qUnk44 = +Q(0.625);
         }
+    } else if (I(hanabii->qUnk3C) >= (me->d.sData[0] + me->d.uData[2]) * TILE_WIDTH) {
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+            hanabii->qUnk44 = -Q(0.625);
+        }
+    } else if (hanabii->unk48 != 0) {
+        hanabii->unk48--;
     } else {
-        // _0806D768
-
+        if (aSquared + bSquared < 100 * 100) {
+            hanabii->unk46 = 0;
+            hanabii->unk48 = 100;
+            s->variant = 1;
+            s->prevVariant = -1;
+            gCurTask->main = Task_806D804;
+        }
     }
-    // _0806D7DC
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
+
+#if 01
 #endif
