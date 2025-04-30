@@ -2630,7 +2630,7 @@ _080359B0:
 	adds r1, r7, #0
 	adds r2, r6, #0
 	mov r3, r8
-	bl sub_800B8B4
+	bl Coll_Player_Boss
 	mov r8, r0
 	movs r1, #0
 	ldr r0, _08035A54 @ =gNumSingleplayerCharacters
@@ -2643,7 +2643,7 @@ _080359B0:
 	adds r0, r5, #0
 	adds r1, r7, #0
 	adds r2, r6, #0
-	bl sub_800B8B4
+	bl Coll_Player_Boss
 	adds r1, r0, #0
 _080359F2:
 	ldr r0, _08035A5C @ =0x0300003C

@@ -281,3 +281,40 @@ bool32 Coll_Player_Projectile(Sprite *s, CamCoord sx, CamCoord sy)
 
     return result;
 }
+    
+//u32 Coll_Player_Enemy(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
+u32 Coll_Player_Boss(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
+{
+    PlayerSpriteInfo *psi = p->spriteInfoBody;
+    Sprite *sprPlayer = &psi->s;
+#if (GAME == GAME_SA1)
+    const int hbIndex = 0;
+#endif
+
+    if(HITBOX_IS_ACTIVE(s->hitboxes[0]))
+    {
+        if (IS_ALIVE(p))
+        {
+            if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[1]) && HB_COLLISION(sx, sy, s->hitboxes[hbIndex].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[1].b)) {
+                if(p->character != CHARACTER_AMY) {
+                    p->qSpeedAirX = -p->qSpeedAirX;
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                } else {
+                    p->qSpeedAirX >>= 1;
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                }
+    
+                return 1;
+            }
+            
+            if ((HITBOX_IS_ACTIVE(sprPlayer->hitboxes[0]))) {
+                if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+                    Coll_DamagePlayer(p);
+                    return 2;
+                }
+            }
+        }
+    }
+
+    return FALSE;
+}

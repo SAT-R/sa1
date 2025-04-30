@@ -2387,7 +2387,7 @@ _08036E6E:
 	asrs r2, r2, #0x10
 	adds r0, r7, #0
 	mov r3, sl
-	bl sub_800B8B4
+	bl Coll_Player_Boss
 	mov sb, r0
 _08036EA2:
 	mov r0, sb
@@ -2420,7 +2420,7 @@ _08036EBA:
 	asrs r2, r2, #0x10
 	ldr r3, _08036F5C @ =gPartner
 	adds r0, r7, #0
-	bl sub_800B8B4
+	bl Coll_Player_Boss
 	mov r8, r0
 _08036EE4:
 	mov r0, r8
