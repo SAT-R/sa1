@@ -253,17 +253,14 @@ bool32 Coll_Player_Projectile(Sprite *s, CamCoord sx, CamCoord sy)
     const s32 hbIndex = 0;
 
 #if (GAME == GAME_SA1)
-    if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex])) {
+    if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]))
 #elif (GAME == GAME_SA2)
-    if (gPlayer.moveState & MOVESTATE_IN_SCRIPTED) {
-        return result;
-    }
+    if (!(gPlayer.moveState & MOVESTATE_IN_SCRIPTED))
 #endif
-
+    {
         i = 0;
         do {
             p = GET_SP_PLAYER_V1(i);
-            // if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]))
             {
                 sprPlayer = &p->spriteInfoBody->s;
 

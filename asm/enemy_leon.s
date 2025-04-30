@@ -34,7 +34,7 @@ CreateEntity_Leon: @ 0x0806E990
 	cmp r0, #0
 	bne _0806EA76
 _0806E9C4:
-	ldr r0, _0806EA90 @ =sub_806EAB8
+	ldr r0, _0806EA90 @ =Task_LeonInit
 	ldr r1, _0806EA94 @ =TaskDestructor_EntityShared
 	str r1, [sp]
 	movs r1, #0x50
@@ -132,7 +132,7 @@ _0806EA76:
 	.align 2, 0
 _0806EA88: .4byte gCurrentLevel
 _0806EA8C: .4byte gLoadedSaveGame
-_0806EA90: .4byte sub_806EAB8
+_0806EA90: .4byte Task_LeonInit
 _0806EA94: .4byte TaskDestructor_EntityShared
 _0806EA98: .4byte 0x0300000C
 _0806EA9C: .4byte 0x03000048
@@ -143,8 +143,8 @@ _0806EAAC: .4byte 0x0300002C
 _0806EAB0: .4byte 0x0300002E
 _0806EAB4: .4byte 0x03000031
 
-	thumb_func_start sub_806EAB8
-sub_806EAB8: @ 0x0806EAB8
+	thumb_func_start Task_LeonInit
+Task_LeonInit: @ 0x0806EAB8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -619,7 +619,7 @@ _0806EE3C:
 	strb r0, [r1]
 	ldr r0, _0806EE9C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806EEA0 @ =sub_806EAB8
+	ldr r0, _0806EEA0 @ =Task_LeonInit
 	str r0, [r1, #8]
 _0806EE7C:
 	adds r0, r7, #0
@@ -638,7 +638,7 @@ _0806EE88:
 	.align 2, 0
 _0806EE98: .4byte sa2__sub_801EE64
 _0806EE9C: .4byte gCurTask
-_0806EEA0: .4byte sub_806EAB8
+_0806EEA0: .4byte Task_LeonInit
 
 	thumb_func_start sub_806EEA4
 sub_806EEA4: @ 0x0806EEA4
@@ -904,7 +904,7 @@ _0806F078:
 	strb r0, [r1]
 	ldr r0, _0806F0D8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806F0DC @ =sub_806EAB8
+	ldr r0, _0806F0DC @ =Task_LeonInit
 	str r0, [r1, #8]
 _0806F0B8:
 	adds r0, r6, #0
@@ -923,4 +923,4 @@ _0806F0C4:
 	.align 2, 0
 _0806F0D4: .4byte sa2__sub_801EE64
 _0806F0D8: .4byte gCurTask
-_0806F0DC: .4byte sub_806EAB8
+_0806F0DC: .4byte Task_LeonInit

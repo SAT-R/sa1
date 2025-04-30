@@ -5,144 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Rhinotank
-CreateEntity_Rhinotank: @ 0x0806C5A8
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sl, r0
-	adds r6, r1, #0
-	mov r8, r2
-	mov sb, r3
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	mov r1, sb
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov sb, r1
-	ldr r0, _0806C6A0 @ =sub_806C6D0
-	ldr r1, _0806C6A4 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x4c
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r4, r0
-	ldr r2, _0806C6A8 @ =0x0300000C
-	adds r5, r4, r2
-	movs r7, #0
-	movs r3, #0
-	strh r6, [r0, #4]
-	mov r1, r8
-	strh r1, [r0, #6]
-	mov r2, sl
-	str r2, [r0]
-	ldrb r1, [r2]
-	strb r1, [r0, #8]
-	mov r1, sb
-	strb r1, [r0, #9]
-	ldr r1, _0806C6AC @ =0x03000046
-	adds r2, r4, r1
-	ldr r1, _0806C6B0 @ =0x0000FF60
-	strh r1, [r2]
-	str r3, [r0, #0x40]
-	strh r3, [r0, #0x3c]
-	ldr r2, _0806C6B4 @ =0x03000044
-	adds r0, r4, r2
-	strh r3, [r0]
-	ldr r1, _0806C6B8 @ =0x03000048
-	adds r0, r4, r1
-	strb r7, [r0]
-	adds r2, #5
-	adds r0, r4, r2
-	strb r7, [r0]
-	mov r1, sl
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r6, r6, #8
-	adds r0, r0, r6
-	strh r0, [r5, #0x16]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r2, r2, #8
-	mov r8, r2
-	add r0, r8
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r2, sl
-	strb r0, [r2]
-	movs r0, #0x14
-	str r3, [sp, #4]
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	ldr r3, [sp, #4]
-	strh r3, [r5, #8]
-	ldr r0, _0806C6BC @ =0x00000195
-	strh r0, [r5, #0xa]
-	ldr r1, _0806C6C0 @ =0x0300002C
-	adds r0, r4, r1
-	strb r7, [r0]
-	strh r3, [r5, #0x14]
-	strh r3, [r5, #0x1c]
-	ldr r2, _0806C6C4 @ =0x0300002D
-	adds r1, r4, r2
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0806C6C8 @ =0x0300002E
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0806C6CC @ =0x03000031
-	adds r4, r4, r1
-	strb r7, [r4]
-	subs r0, #0x11
-	str r0, [r5, #0x28]
-	movs r2, #0x80
-	lsls r2, r2, #6
-	str r2, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806C6A0: .4byte sub_806C6D0
-_0806C6A4: .4byte TaskDestructor_EntityShared
-_0806C6A8: .4byte 0x0300000C
-_0806C6AC: .4byte 0x03000046
-_0806C6B0: .4byte 0x0000FF60
-_0806C6B4: .4byte 0x03000044
-_0806C6B8: .4byte 0x03000048
-_0806C6BC: .4byte 0x00000195
-_0806C6C0: .4byte 0x0300002C
-_0806C6C4: .4byte 0x0300002D
-_0806C6C8: .4byte 0x0300002E
-_0806C6CC: .4byte 0x03000031
+.if 0
+.endif
 
-	thumb_func_start sub_806C6D0
-sub_806C6D0: @ 0x0806C6D0
+	thumb_func_start Task_RhinotankInit
+Task_RhinotankInit: @ 0x0806C6D0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -763,7 +630,7 @@ _0806CB9E:
 	strb r0, [r7]
 	ldr r0, _0806CBC8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806CBCC @ =sub_806C6D0
+	ldr r0, _0806CBCC @ =Task_RhinotankInit
 	str r0, [r1, #8]
 _0806CBAA:
 	adds r0, r6, #0
@@ -781,7 +648,7 @@ _0806CBB6:
 	bx r0
 	.align 2, 0
 _0806CBC8: .4byte gCurTask
-_0806CBCC: .4byte sub_806C6D0
+_0806CBCC: .4byte Task_RhinotankInit
 
 	thumb_func_start sub_806CBD0
 sub_806CBD0: @ 0x0806CBD0
@@ -936,7 +803,7 @@ _0806CCC8:
 	strb r0, [r1]
 	ldr r0, _0806CD24 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806CD28 @ =sub_806C6D0
+	ldr r0, _0806CD28 @ =Task_RhinotankInit
 	str r0, [r1, #8]
 _0806CD04:
 	adds r0, r6, #0
@@ -955,4 +822,4 @@ _0806CD10:
 	.align 2, 0
 _0806CD20: .4byte sa2__sub_801EE64
 _0806CD24: .4byte gCurTask
-_0806CD28: .4byte sub_806C6D0
+_0806CD28: .4byte Task_RhinotankInit
