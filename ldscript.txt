@@ -140,7 +140,6 @@ SECTIONS {
 
         src/game/enemies/gamigami.o(.text);
         src/game/enemies/rhinotank.o(.text);
-        asm/enemy_rhinotank.o(.text);
         asm/enemy_kerokero.o(.text);
         src/game/enemies/hanabii.o(.text);
         src/game/enemies/pierrot.o(.text);
