@@ -86,8 +86,6 @@ void Task_HanabiiInit(void)
     CamCoord deltaX, deltaY;
     CamCoord aSquared, bSquared;
 
-    s16 screenX, screenY;
-
     worldX = TO_WORLD_POS(hanabii->shared.base.meX, hanabii->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, hanabii->shared.base.regionY);
 
@@ -156,8 +154,6 @@ void Task_806D804(void)
     u8 sp08;
     CamCoord deltaX, deltaY;
     CamCoord aSquared, bSquared;
-
-    s16 screenX, screenY;
 
     worldX = TO_WORLD_POS(hanabii->shared.base.meX, hanabii->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, hanabii->shared.base.regionY);
@@ -238,7 +234,6 @@ void Task_HanabiiProjectile(void)
     HanabiiProjectile *proj = TASK_DATA(gCurTask);
     Sprite *s = &proj->s;
     s16 oldWorldX, oldWorldY;
-    s16 screenX, screenY;
     s32 worldX;
 
     // proj->unk30 += proj->unk32;
@@ -287,7 +282,6 @@ void Task_HanabiiProjectile2(void)
     HanabiiProjectile *proj = TASK_DATA(gCurTask);
     Sprite *s = &proj->s;
     s16 oldWorldX, oldWorldY;
-    s16 screenX, screenY;
     s32 worldX;
     u32 unk36;
 

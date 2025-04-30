@@ -221,12 +221,12 @@ _0806C866:
 	strb r0, [r1]
 	ldr r0, _0806C88C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806C890 @ =sub_806C9A0
+	ldr r0, _0806C890 @ =Task_806C9A0
 	b _0806C978
 	.align 2, 0
 _0806C888: .4byte sa2__sub_801EE64
 _0806C88C: .4byte gCurTask
-_0806C890: .4byte sub_806C9A0
+_0806C890: .4byte Task_806C9A0
 _0806C894:
 	mov r0, sb
 	ldrb r0, [r0, #5]
@@ -265,13 +265,13 @@ _0806C8C0:
 	strb r0, [r1]
 	ldr r0, _0806C8E8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806C8EC @ =sub_806C9A0
+	ldr r0, _0806C8EC @ =Task_806C9A0
 	b _0806C978
 	.align 2, 0
 _0806C8E0: .4byte 0xFFFFFD00
 _0806C8E4: .4byte 0x0000FF60
 _0806C8E8: .4byte gCurTask
-_0806C8EC: .4byte sub_806C9A0
+_0806C8EC: .4byte Task_806C9A0
 _0806C8F0:
 	adds r3, r4, #0
 	adds r3, #0x48
