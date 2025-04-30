@@ -240,7 +240,7 @@ void Task_MirrorProjectile(void)
     proj->s.x -= gCamera.x;
     proj->s.y -= gCamera.y;
 
-    sub_800B798(s, oldWorldX, oldWorldY);
+    Coll_Player_Projectile(s, oldWorldX, oldWorldY);
 
     // TODO:
     //   if(IS_OUT_OF_RANGE_OLD(u16, s->x, s->y, 40))

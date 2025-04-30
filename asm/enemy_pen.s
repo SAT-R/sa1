@@ -885,7 +885,7 @@ _0807407E:
 	mov sl, r0
 	adds r0, r6, #0
 	mov r2, sl
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	cmp r0, #0
 	bne _080740A0
 	ldrh r0, [r7]

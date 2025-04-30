@@ -1062,7 +1062,7 @@ sub_807090C: @ 0x0807090C
 	lsls r2, r6, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r4, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	ldr r3, _08070984 @ =gCamera
 	ldrh r0, [r4, #0x16]
 	ldrh r1, [r3]

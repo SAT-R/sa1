@@ -687,7 +687,7 @@ sub_806E590: @ 0x0806E590
 	asrs r7, r0, #0x10
 	adds r0, r6, #0
 	adds r2, r7, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	rsbs r1, r0, #0
 	orrs r1, r0
 	lsrs r1, r1, #0x1f

@@ -868,7 +868,7 @@ _08071EA6:
 	movs r0, #0x18
 	ldrsh r2, [r4, r0]
 	adds r0, r4, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	ldr r3, _08071F0C @ =gCamera
 	ldrh r0, [r4, #0x16]
 	ldrh r1, [r3]
@@ -2301,7 +2301,7 @@ sub_8072A1C: @ 0x08072A1C
 	lsls r2, r6, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r4, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	ldr r3, _08072A98 @ =gCamera
 	ldrh r0, [r4, #0x16]
 	ldrh r1, [r3]

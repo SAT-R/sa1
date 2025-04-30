@@ -1145,7 +1145,7 @@ sub_8074C50: @ 0x08074C50
 	adds r1, r6, #0
 	adds r2, r7, #0
 	adds r0, r4, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	ldr r3, _08074CCC @ =gCamera
 	ldrh r0, [r4, #0x16]
 	ldrh r1, [r3]

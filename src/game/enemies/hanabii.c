@@ -255,7 +255,7 @@ void Task_HanabiiProjectile(void)
     oldWorldX = proj->s.x;
     oldWorldY = proj->s.y;
 
-    sub_800B798(s, oldWorldX, oldWorldY);
+    Coll_Player_Projectile(s, oldWorldX, oldWorldY);
 
     // WorldPos -> ScreenPos
     proj->s.x -= gCamera.x;
@@ -304,7 +304,7 @@ void Task_HanabiiProjectile2(void)
     oldWorldX = proj->s.x;
     oldWorldY = proj->s.y;
 
-    sub_800B798(s, oldWorldX, oldWorldY);
+    Coll_Player_Projectile(s, oldWorldX, oldWorldY);
 
     // WorldPos -> ScreenPos
     proj->s.x -= gCamera.x;

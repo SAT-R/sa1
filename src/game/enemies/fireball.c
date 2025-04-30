@@ -241,7 +241,7 @@ void Task_FireballSpark(void)
     oldWorldX = fireball->s.x;
     oldWorldY = fireball->s.y;
 
-    sub_800B798(s, oldWorldX, oldWorldY);
+    Coll_Player_Projectile(s, oldWorldX, oldWorldY);
 
     // WorldPos -> ScreenPos
     fireball->s.x -= gCamera.x;

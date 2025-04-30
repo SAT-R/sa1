@@ -242,3 +242,42 @@ bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord sx, CamCoord sy, u8 hbIndex)
 #endif
     return FALSE;
 }
+
+// TODO: Simplify and merge SA1 and SA2 versions!
+bool32 Coll_Player_Projectile(Sprite *s, CamCoord sx, CamCoord sy)
+{
+    Player *p;
+    Sprite *sprPlayer;
+    bool32 result = FALSE;
+    s32 i;
+    const s32 hbIndex = 0;
+
+#if (GAME == GAME_SA1)
+    if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex])) {
+#elif (GAME == GAME_SA2)
+    if (gPlayer.moveState & MOVESTATE_IN_SCRIPTED) {
+        return result;
+    }
+#endif
+
+        i = 0;
+        do {
+            p = GET_SP_PLAYER_V1(i);
+            // if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]))
+            {
+                sprPlayer = &p->spriteInfoBody->s;
+
+                if (!IS_ALIVE(p) || !HITBOX_IS_ACTIVE(sprPlayer->hitboxes[hbIndex])) {
+                    continue;
+                }
+
+                if ((HB_COLLISION(sx, sy, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b))) {
+                    Coll_DamagePlayer(p);
+                    result = TRUE;
+                }
+            }
+        } while (++i < gNumSingleplayerCharacters);
+    }
+
+    return result;
+}

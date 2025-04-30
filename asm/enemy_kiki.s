@@ -719,7 +719,7 @@ _0801D972:
 	adds r0, r4, #0
 	adds r1, r6, #0
 	adds r2, r5, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	cmp r0, #0
 	beq _0801D9BC
 	adds r1, r4, #0
@@ -808,7 +808,7 @@ _0801DA2C:
 	adds r0, r2, #0
 	adds r1, r6, #0
 	adds r2, r5, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	cmp r0, #0
 	beq _0801DA52
 	adds r0, r6, #0

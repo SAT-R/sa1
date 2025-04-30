@@ -948,7 +948,7 @@ Task_BuzzerProjectileMain: @ 0x0801E3DC
 	movs r0, #0x18
 	ldrsh r2, [r4, r0]
 	adds r0, r4, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	ldr r3, _0801E454 @ =gCamera
 	ldrh r0, [r4, #0x16]
 	ldrh r1, [r3]

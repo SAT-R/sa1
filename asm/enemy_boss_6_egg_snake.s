@@ -3272,7 +3272,7 @@ _080337EC:
 	lsls r2, r3, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r4, #0
-	bl sub_800B798
+	bl Coll_Player_Projectile
 	cmp r0, #0
 	beq _08033860
 	ldrh r3, [r6, #0x16]
