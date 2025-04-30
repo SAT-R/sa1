@@ -298,7 +298,7 @@ _0806DFB6:
 	mov r3, sb              @ r3 = sb = 
 	asrs r2, r3, #0x10
 	adds r0, r5, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _0806DFD8
 	ldr r0, _0806DFD4 @ =gCurTask

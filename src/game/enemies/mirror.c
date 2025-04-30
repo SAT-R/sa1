@@ -166,7 +166,7 @@ void Task_MirrorShoot(void)
         return;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, worldX, worldY) != 0) {
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY) != 0) {
         TaskDestroy(gCurTask);
         return;
     }

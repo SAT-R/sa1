@@ -125,7 +125,7 @@ void Task_Mole_8071640(void)
         gCurTask->main = Task_Mole;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, worldX, worldY) != 0) {
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY) != 0) {
         s->variant = 0;
         me->d.sData[1] = 0;
         gCurTask->main = Task_Mole2;

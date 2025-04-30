@@ -158,7 +158,7 @@ bool32 IsColliding_Cheese(Sprite *sprTarget, s32 sx, s32 sy, s16 hbIndex, Player
 }
 
 #if (GAME == GAME_SA1)
-bool32 sa2__sub_800C4FC(Sprite *s, s16 sx, s16 sy, u8 hbIndex)
+bool32 Coll_Player_Enemy_Attack(Sprite *s, s16 sx, s16 sy, u8 hbIndex)
 #elif (GAME == GAME_SA2)
 bool32 sub_800C4FC(Sprite *s, s32 sx, s32 sy, u8 hbIndex)
 #endif

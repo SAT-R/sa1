@@ -105,7 +105,7 @@ void Task_GamiGamiInit(void)
         return;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, worldX, worldY)) {
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
         TaskDestroy(gCurTask);
         return;
     }
@@ -169,7 +169,7 @@ void Task_806C2A4(void)
         return;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, worldX, worldY)) {
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
         TaskDestroy(gCurTask);
         return;
     }

@@ -18,7 +18,6 @@ int gMaxLines = 0;
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
 u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
-bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY) { return FALSE; }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }

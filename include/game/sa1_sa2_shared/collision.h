@@ -57,7 +57,7 @@ u32 sub_800D0A0(Sprite *, s16, s16, s16, s16, u8, u32);
 
 // HandlePlayerDestroy?
 #if (GAME == GAME_SA1)
-bool32 SA2_LABEL(sub_800C4FC)(Sprite *s, CamCoord worldX, CamCoord worldY);
+bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord worldX, CamCoord worldY);
 #elif (GAME == GAME_SA2)
 bool32 sub_800C4FC(Sprite *s, CamCoord worldX, CamCoord worldY, u8 hbIndex);
 #endif

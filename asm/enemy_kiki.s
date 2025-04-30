@@ -262,7 +262,7 @@ _0801D5E6:
 	asrs r2, r2, #0x10
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	bne _0801D62A
 	ldrh r2, [r6, #0x16]
@@ -385,7 +385,7 @@ sub_801D680: @ 0x0801D680
 	strh r0, [r4, #0x18]
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _0801D704
 	mov r2, sl

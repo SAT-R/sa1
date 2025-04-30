@@ -360,7 +360,7 @@ _080745E8:
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _08074694
 	b _080746F2
@@ -385,7 +385,7 @@ _08074674:
 	lsls r2, r3, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	bne _080746F2
 	ldrh r0, [r7, #2]
@@ -665,7 +665,7 @@ _080748A0:
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r7, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _080748CC
 _080748BE:
@@ -904,7 +904,7 @@ _08074A88:
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r7, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	adds r4, r0, #0
 	cmp r4, #0
 	beq _08074AB8

@@ -128,7 +128,7 @@ NONMATCH("asm/non_matching/game/enemies/Task_Pierrot.inc", void Task_Pierrot(voi
             }
         }
 
-        if (SA2_LABEL(sub_800C4FC)(s, worldX, worldY)) {
+        if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
             TaskDestroy(gCurTask);
             return;
         }

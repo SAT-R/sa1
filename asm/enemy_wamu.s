@@ -546,7 +546,7 @@ _0806F53C:
 	lsls r2, r4, #0x10
 	asrs r2, r2, #0x10
 	mov r0, sl
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _0806F560
 _0806F552:

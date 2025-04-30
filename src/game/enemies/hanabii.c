@@ -108,7 +108,7 @@ void Task_HanabiiInit(void)
         return;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, deltaX, deltaY)) {
+    if (Coll_Player_Enemy_Attack(s, deltaX, deltaY)) {
         TaskDestroy(gCurTask);
         return;
     }
@@ -177,7 +177,7 @@ void Task_806D804(void)
         return;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, deltaX, deltaY)) {
+    if (Coll_Player_Enemy_Attack(s, deltaX, deltaY)) {
         TaskDestroy(gCurTask);
         return;
     }

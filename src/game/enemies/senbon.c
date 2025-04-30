@@ -95,7 +95,7 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_SenbonInit.inc", void Task_
         return;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, offsetWorldX, worldY)) {
+    if (Coll_Player_Enemy_Attack(s, offsetWorldX, worldY)) {
         // Enemy defeated
         TaskDestroy(gCurTask);
         return;

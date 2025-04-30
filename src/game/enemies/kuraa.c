@@ -98,7 +98,7 @@ NONMATCH("asm/non_matching/game/enemies/Kuraa__Task_KuraaInit.inc", void Task_Ku
         return;
     }
 
-    if (SA2_LABEL(sub_800C4FC)(s, offsetWorldX, worldY)) {
+    if (Coll_Player_Enemy_Attack(s, offsetWorldX, worldY)) {
         // Enemy defeated
         TaskDestroy(gCurTask);
         return;

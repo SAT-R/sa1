@@ -279,7 +279,7 @@ _0806CF48:
 	mov r0, sb
 	mov r1, r8
 	adds r2, r7, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _0806CF7C
 _0806CF6C:
@@ -626,7 +626,7 @@ _0806D204:
 	mov r0, r8
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _0806D22C
 	ldr r0, _0806D228 @ =gCurTask
@@ -868,7 +868,7 @@ _0806D3EC:
 	adds r0, r6, #0
 	adds r1, r7, #0
 	adds r2, r5, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	mov sb, r4
 	cmp r0, #0
 	beq _0806D414

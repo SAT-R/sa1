@@ -121,7 +121,7 @@ _08070BAC:
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _08070BD4
 	ldr r0, _08070BD0 @ =gCurTask

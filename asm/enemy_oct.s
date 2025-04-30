@@ -243,7 +243,7 @@ _080702B0:
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
 	adds r1, r4, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	adds r2, r0, #0
 	cmp r2, #0
 	beq _080702D8
@@ -419,7 +419,7 @@ _08070414:
 	lsls r2, r3, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r6, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	adds r3, r0, #0
 	cmp r3, #0
 	beq _08070440
@@ -705,7 +705,7 @@ _08070664:
 	asrs r1, r1, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r5, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _08070684
 _08070676:
@@ -879,7 +879,7 @@ _080707B8:
 	adds r0, r4, #0
 	adds r1, r7, #0
 	adds r2, r6, #0
-	bl sa2__sub_800C4FC
+	bl Coll_Player_Enemy_Attack
 	cmp r0, #0
 	beq _080707E0
 	ldr r0, _080707DC @ =gCurTask
