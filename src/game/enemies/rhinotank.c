@@ -67,14 +67,15 @@ void CreateEntity_Rhinotank(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-// (95.96%) https://decomp.me/scratch/luokt
+// (97.35%) https://decomp.me/scratch/luokt
 NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void Task_RhinotankInit(void))
 {
     Rhinotank *rhinotank = TASK_DATA(gCurTask);
     Sprite *s = &rhinotank->shared.s;
     MapEntity *me = rhinotank->shared.base.me;
-    s32 worldX, worldY;
-    CamCoord worldX2, worldY2;
+    CamCoord worldX, worldY;
+    s32 worldX2, worldY2;
+    CamCoord deltaX, deltaY;
     u8 sp08;
 
     worldX = TO_WORLD_POS(rhinotank->shared.base.meX, rhinotank->shared.base.regionX);
@@ -82,6 +83,9 @@ NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void
 
     worldX2 = worldX;
     worldY2 = worldY;
+
+    deltaX = worldX2;
+    deltaY = worldY2;
 
     rhinotank->qUnk40 += rhinotank->qUnk46;
 
@@ -95,21 +99,21 @@ NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void
         }
     }
 
-    worldX2 += Div(rhinotank->qUnk40, 0x100);
-    worldY2 += rhinotank->unk3C;
+    deltaX += Div(rhinotank->qUnk40, 0x100);
+    deltaY += rhinotank->unk3C;
 
-    s->x = worldX2 - gCamera.x;
-    s->y = worldY2 - gCamera.y;
+    s->x = deltaX - gCamera.x;
+    s->y = deltaY - gCamera.y;
 
     if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, rhinotank->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
-    } else if (Coll_Player_Enemy_Attack(s, worldX2, worldY2)) {
+    } else if (Coll_Player_Enemy_Attack(s, deltaX, deltaY)) {
         TaskDestroy(gCurTask);
         return;
     } else {
-        rhinotank->unk3C += sa2__sub_801F07C(worldY2, worldX2, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+        rhinotank->unk3C += sa2__sub_801F07C(deltaY, deltaX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
         if (I(rhinotank->qUnk40) <= (me->d.sData[0] + 1) * TILE_WIDTH) {
             if (~s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
@@ -120,7 +124,7 @@ NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void
                 rhinotank->unk44 = 0;
                 rhinotank->qUnk46 = +Q(0.625);
                 s->variant = 2;
-                gCurTask->main = Task_806C9A0;
+                gCurTask->main = sub_806C9A0;
             }
         } else if (I(rhinotank->qUnk40) >= ((me->d.sData[0] + me->d.uData[2]) - 1) * TILE_WIDTH) {
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
@@ -132,11 +136,11 @@ NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void
                 rhinotank->qUnk46 = -Q(0.625);
 
                 s->variant = 2;
-                gCurTask->main = Task_806C9A0;
+                gCurTask->main = sub_806C9A0;
             }
-        } else if ((rhinotank->unk48 == 0) && I(gPlayer.qWorldY) <= (worldY2 + 8) && (worldY2 - 32 <= I(gPlayer.qWorldY))) {
+        } else if ((rhinotank->unk48 == 0) && I(gPlayer.qWorldY) <= (deltaY + 8) && (deltaY - 32 <= I(gPlayer.qWorldY))) {
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                if ((I(gPlayer.qWorldX) >= worldX2) && (worldX2 + 80 >= I(gPlayer.qWorldX))) {
+                if ((I(gPlayer.qWorldX) >= deltaX) && (deltaX + 80 >= I(gPlayer.qWorldX))) {
                     rhinotank->unk48 = 1;
                     rhinotank->unk44 = 0;
                     rhinotank->qUnk46 = +Q(3);
@@ -144,7 +148,7 @@ NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void
                     gCurTask->main = Task_806CBD0;
                 }
             } else {
-                if ((I(gPlayer.qWorldX) <= worldX2) && (worldX2 - 80 <= I(gPlayer.qWorldX))) {
+                if ((I(gPlayer.qWorldX) <= deltaX) && (deltaX - 80 <= I(gPlayer.qWorldX))) {
                     rhinotank->unk48 = 1;
                     rhinotank->unk44 = 0;
                     rhinotank->qUnk46 = -Q(3);
@@ -168,7 +172,6 @@ void Task_806C9A0(void)
     CamCoord worldX, worldY;
     s32 worldX2, worldY2;
     CamCoord deltaX, deltaY;
-    s16 screenX, screenY;
     u8 sp08;
 
     worldX = TO_WORLD_POS(rhinotank->shared.base.meX, rhinotank->shared.base.regionX);
