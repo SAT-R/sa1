@@ -42,6 +42,7 @@
 // Defeating enemies / opening item boxes
 #define SA1_ANIM_DUST_CLOUD 407
 
+#define SA1_ANIM_BUZZER_PROJ      409
 #define SA1_ANIM_GAMIGAMI_PROJ    410 // TODO: shared?
 #define SA1_ANIM_SENBON           411
 #define SA1_ANIM_TENTOU           412
