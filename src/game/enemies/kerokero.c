@@ -2,24 +2,29 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
+#include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
+#include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 
 typedef struct {
     EntityShared shared;
-    s32 unk3C;
+    s32 qUnk3C;
     s16 qUnk40;
     s16 unk42;
-    s16 unk44;
+    s16 unk44; // Q() ?
     u8 unk46;
     u8 unk47;
-    u16 unk48;
-    u16 unk4A;
+    s16 unk48;
+    s16 unk4A;
 } KeroKero;
 
 void Task_KeroKeroInit(void);
+void Task_806D804(void);
+void sub_806D124(void);
+void Task_806D2B8(void);
 
 void CreateEntity_KeroKero(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -34,7 +39,7 @@ void CreateEntity_KeroKero(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     kerokero->shared.base.id = id;
 
     kerokero->qUnk40 = -Q(1);
-    kerokero->unk3C = 0;
+    kerokero->qUnk3C = Q(0);
     kerokero->unk42 = 0;
     kerokero->unk44 = 0;
     kerokero->unk46 = 0;
@@ -62,4 +67,84 @@ void CreateEntity_KeroKero(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 
     UpdateSpriteAnimation(s);
+}
+
+void Task_KeroKeroInit(void)
+{
+    const u8 arr[8] = { 54, 43, 34, 32, 12, 100, 25, 32 };
+    KeroKero *kerokero = TASK_DATA(gCurTask);
+    Sprite *s = &kerokero->shared.s;
+    MapEntity *me = kerokero->shared.base.me;
+    CamCoord worldX, worldY;
+    s32 worldX2, worldY2;
+    u8 sp10;
+
+    worldX = TO_WORLD_POS(kerokero->shared.base.meX, kerokero->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, kerokero->shared.base.regionY);
+
+    worldX2 = worldX;
+    worldY2 = worldY;
+
+    worldX = worldX + I(kerokero->qUnk3C);
+    worldY = worldY + kerokero->unk42;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, kerokero->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    kerokero->unk48++;
+
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (kerokero->unk4A != 0) {
+        kerokero->unk42 += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp10, SA2_LABEL(sub_801EE64));
+    } else {
+        kerokero->unk42 += SA2_LABEL(sub_801F07C)(worldY, worldX, 0, +8, &sp10, SA2_LABEL(sub_801EE64));
+    }
+
+    if (I(gPlayer.qWorldX) > worldX) {
+        SPRITE_FLAG_SET(s, X_FLIP);
+    } else {
+        SPRITE_FLAG_CLEAR(s, X_FLIP);
+    }
+
+    if (kerokero->unk48 > 250) {
+        kerokero->unk46 = 0;
+        kerokero->unk48 -= 250;
+        s->variant = 1;
+        gCurTask->main = sub_806D124;
+    } else if (kerokero->unk46 != 0) {
+        kerokero->unk46--;
+    } else {
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            if ((I(kerokero->qUnk3C) <= (me->d.sData[0] + me->d.uData[2] - 8) * TILE_WIDTH) && (I(gPlayer.qWorldX) >= worldX)
+                && (worldX + 80 >= I(gPlayer.qWorldX))) {
+                kerokero->unk44 = -Q(5);
+                s->variant = 0;
+                gCurTask->main = Task_806D2B8;
+
+                kerokero->unk48 += arr[kerokero->unk47++];
+                kerokero->unk47 &= 0x7;
+            }
+        } else if (I(kerokero->qUnk3C) >= ((me->d.sData[0] + 8) * TILE_WIDTH) && (I(gPlayer.qWorldX) <= worldX)
+                   && (worldX - 80 <= I(gPlayer.qWorldX))) {
+            {
+                kerokero->unk44 = -Q(5);
+                s->variant = 0;
+                gCurTask->main = Task_806D2B8;
+                kerokero->unk48 += arr[kerokero->unk47++];
+                kerokero->unk47 &= 0x7;
+            }
+        }
+    }
+
+    DisplaySprite(s);
 }

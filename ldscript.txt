@@ -307,6 +307,8 @@ SECTIONS {
         src/data/credits.o(.rodata);
         data/data_sound_test.o(.rodata);
         data/data_0_6.o(.rodata);
+        src/game/enemies/kerokero.o(.rodata);
+        data/data_0_6_2.o(.rodata);
         src/game/interactables/red_flag_and_pole.o(.rodata);
         src/game/interactables/forced_slide.o(.rodata);
         src/game/interactables/sega_sonic_letters.o(.rodata);
