@@ -5,177 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Buzzer
-CreateEntity_Buzzer: @ 0x0801DC84
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x10
-	adds r6, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov sl, r3
-	ldr r0, _0801DDB4 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsrs r0, r0, #1
-	cmp r0, #0
-	bne _0801DCB6
-	ldr r0, _0801DDB8 @ =gLoadedSaveGame
-	ldrb r0, [r0, #0x18]
-	cmp r0, #0
-	bne _0801DDA2
-_0801DCB6:
-	ldr r0, _0801DDBC @ =Task_BuzzerMain
-	ldr r1, _0801DDC0 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x48
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r5, #0xc0
-	lsls r5, r5, #0x12
-	adds r5, r4, r5
-	ldr r0, _0801DDC4 @ =0x0300000C
-	adds r7, r4, r0
-	movs r2, #0
-	movs r3, #0
-	mov r1, sb
-	strh r1, [r5, #4]
-	mov r0, r8
-	strh r0, [r5, #6]
-	str r6, [r5]
-	ldrb r0, [r6]
-	strb r0, [r5, #8]
-	mov r1, sl
-	strb r1, [r5, #9]
-	ldr r0, _0801DDC8 @ =0x03000040
-	adds r0, r4, r0
-	str r0, [sp, #0xc]
-	strb r2, [r0]
-	ldr r1, _0801DDCC @ =0x03000041
-	strb r2, [r1, r4]
-	ldr r0, _0801DDD0 @ =0x03000042
-	adds r0, r0, r4
-	mov sl, r0
-	movs r1, #0xff
-	lsls r1, r1, #8
-	mov ip, r1
-	mov r1, ip
-	strh r1, [r0]
-	str r3, [r5, #0x3c]
-	ldr r0, [sp, #0xc]
-	strb r2, [r0]
-	ldrb r0, [r6]
-	lsls r0, r0, #3
-	mov r1, sb
-	lsls r1, r1, #8
-	mov sb, r1
-	add r0, sb
-	strh r0, [r7, #0x16]
-	ldrb r0, [r6, #1]
-	lsls r0, r0, #3
-	mov r1, r8
-	lsls r1, r1, #8
-	mov sb, r1
-	add r0, sb
-	strh r0, [r7, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r6]
-	movs r0, #0x14
-	str r2, [sp, #4]
-	str r3, [sp, #8]
-	bl VramMalloc
-	str r0, [r7, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r7, #0x1a]
-	ldr r3, [sp, #8]
-	strh r3, [r7, #8]
-	ldr r0, _0801DDD4 @ =0x00000193
-	strh r0, [r7, #0xa]
-	ldr r1, _0801DDD8 @ =0x0300002C
-	adds r0, r4, r1
-	ldr r2, [sp, #4]
-	strb r2, [r0]
-	strh r3, [r7, #0x14]
-	strh r3, [r7, #0x1c]
-	ldr r0, _0801DDDC @ =0x0300002D
-	adds r1, r4, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0801DDE0 @ =0x0300002E
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0801DDE4 @ =0x03000031
-	adds r4, r4, r1
-	strb r2, [r4]
-	subs r0, #0x11
-	str r0, [r7, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r7, #0x10]
-	ldr r0, _0801DDE8 @ =gPlayer
-	ldr r2, [r0]
-	asrs r2, r2, #8
-	ldrb r1, [r5, #8]
-	lsls r1, r1, #3
-	ldrh r0, [r5, #4]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	cmp r2, r1
-	blt _0801DD9C
-	movs r0, #0x80
-	lsls r0, r0, #1
-	mov r1, sl
-	strh r0, [r1]
-	ldr r0, [r7, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	orrs r0, r1
-	str r0, [r7, #0x10]
-_0801DD9C:
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-_0801DDA2:
-	add sp, #0x10
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801DDB4: .4byte gCurrentLevel
-_0801DDB8: .4byte gLoadedSaveGame
-_0801DDBC: .4byte Task_BuzzerMain
-_0801DDC0: .4byte TaskDestructor_EntityShared
-_0801DDC4: .4byte 0x0300000C
-_0801DDC8: .4byte 0x03000040
-_0801DDCC: .4byte 0x03000041
-_0801DDD0: .4byte 0x03000042
-_0801DDD4: .4byte 0x00000193
-_0801DDD8: .4byte 0x0300002C
-_0801DDDC: .4byte 0x0300002D
-_0801DDE0: .4byte 0x0300002E
-_0801DDE4: .4byte 0x03000031
-_0801DDE8: .4byte gPlayer
-
-	thumb_func_start Task_BuzzerMain
-Task_BuzzerMain: @ 0x0801DDEC
+.if 01
+	thumb_func_start Task_BuzzerInit
+Task_BuzzerInit: @ 0x0801DDEC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -459,6 +291,7 @@ _0801E018:
 _0801E028: .4byte gPlayer
 _0801E02C: .4byte gCurTask
 _0801E030: .4byte Task_801E034
+.endif
 
 	thumb_func_start Task_801E034
 Task_801E034: @ 0x0801E034
@@ -611,7 +444,7 @@ _0801E140:
 	strb r2, [r0]
 	ldr r0, _0801E188 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0801E18C @ =Task_BuzzerMain
+	ldr r0, _0801E18C @ =Task_BuzzerInit
 	str r0, [r1, #8]
 	adds r1, r7, #0
 	adds r1, #0x41
@@ -633,7 +466,7 @@ _0801E176:
 	bx r0
 	.align 2, 0
 _0801E188: .4byte gCurTask
-_0801E18C: .4byte Task_BuzzerMain
+_0801E18C: .4byte Task_BuzzerInit
 
 	thumb_func_start Task_Buzzer_801E190
 Task_Buzzer_801E190: @ 0x0801E190
@@ -769,7 +602,7 @@ _0801E280:
 	strb r1, [r0]
 	ldr r0, _0801E2B8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0801E2BC @ =Task_BuzzerMain
+	ldr r0, _0801E2BC @ =Task_BuzzerInit
 	str r0, [r1, #8]
 _0801E2A4:
 	adds r0, r6, #0
@@ -784,7 +617,7 @@ _0801E2AA:
 	bx r0
 	.align 2, 0
 _0801E2B8: .4byte gCurTask
-_0801E2BC: .4byte Task_BuzzerMain
+_0801E2BC: .4byte Task_BuzzerInit
 
 
 	thumb_func_start CreateBuzzerProjectile

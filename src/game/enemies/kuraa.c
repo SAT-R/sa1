@@ -16,7 +16,7 @@ typedef struct {
     /* 0x40 */ s16 qUnk40;
     /* 0x42 */ s16 unk42;
     /* 0x44 */ s16 unk44;
-    /* 0x46 */ u16 unk46;
+    /* 0x46 */ s16 unk46;
 } Kuraa;
 
 void Task_KuraaInit(void);
@@ -62,43 +62,35 @@ void CreateEntity_Kuraa(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-// (98.55%) https://decomp.me/scratch/0jMnq
-NONMATCH("asm/non_matching/game/enemies/Kuraa__Task_KuraaInit.inc", void Task_KuraaInit(void))
+void Task_KuraaInit(void)
 {
     Kuraa *kuraa = TASK_DATA(gCurTask);
     Sprite *s = &kuraa->shared.s;
     MapEntity *me = kuraa->shared.base.me;
     s16 worldX, worldY;
-
-#ifndef NON_MATCHING
-    register s32 r9 asm("r9");
-    register s32 sl asm("sl");
-#else
-    s32 r9;
-    s32 sl;
-#endif
+    s32 worldX2, worldY2;
     s16 offsetWorldX;
 
     worldX = TO_WORLD_POS(kuraa->shared.base.meX, kuraa->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, kuraa->shared.base.regionY);
 
-    r9 = worldY;
-    sl = worldY;
+    worldX2 = worldX;
+    worldY2 = worldY;
 
     kuraa->qUnk3C += kuraa->qUnk40;
 
-    offsetWorldX = worldX + I(kuraa->qUnk3C);
+    worldX = worldX + I(kuraa->qUnk3C);
 
-    s->x = offsetWorldX - gCamera.x;
+    s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, kuraa->shared.base.meX);
         TaskDestroy(gCurTask);
         return;
     }
 
-    if (Coll_Player_Enemy_Attack(s, offsetWorldX, worldY)) {
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
         // Enemy defeated
         TaskDestroy(gCurTask);
         return;
@@ -128,7 +120,6 @@ NONMATCH("asm/non_matching/game/enemies/Kuraa__Task_KuraaInit.inc", void Task_Ku
     DisplaySprite(s);
     SPRITE_FLAG_CLEAR(s, X_FLIP);
 }
-END_NONMATCH
 
 // (97.49%) https://decomp.me/scratch/DL0Fb
 NONMATCH("asm/non_matching/game/enemies/Kuraa__Task_80737A8.inc", void Task_80737A8(void))

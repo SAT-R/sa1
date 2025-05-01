@@ -53,6 +53,7 @@ SECTIONS {
         asm/ia_itembox_chaohunt.o(.text);
         asm/game__some_mp_tasks.o(.text);
         asm/enemy_kiki.o(.text);
+        src/game/enemies/buzzer.o(.text);
         asm/enemy_buzzer.o(.text);
         src/game/sa1_sa2_shared/collect_ring_effect.o(.text);
         src/game/sa1_sa2_shared/item_box.o(.text);
