@@ -170,7 +170,6 @@ void CreateEntity_Kiki() { }
 void CreateEntity_Tentou() { }
 void CreateEntity_Slot() { }
 void CreateEntity_Wamu() { }
-void CreateEntity_Oct() { }
 void CreateEntity_Yukimaru() { }
 void CreateEntity_Yukimaru_Wall() { }
 void CreateEntity_Drisame() { }
