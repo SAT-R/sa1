@@ -5,155 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_KeroKero
-CreateEntity_KeroKero: @ 0x0806CD2C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sl, r0
-	adds r6, r1, #0
-	mov r8, r2
-	mov sb, r3
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	mov r1, sb
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov sb, r1
-	ldr r0, _0806CE3C @ =Task_KeroKero
-	ldr r1, _0806CE40 @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x4c
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r4, r1
-	ldr r2, _0806CE44 @ =0x0300000C
-	adds r5, r4, r2
-	movs r7, #0
-	movs r3, #0
-	strh r6, [r1, #4]
-	mov r0, r8
-	strh r0, [r1, #6]
-	mov r2, sl
-	str r2, [r1]
-	ldrb r0, [r2]
-	strb r0, [r1, #8]
-	mov r0, sb
-	strb r0, [r1, #9]
-	ldr r0, _0806CE48 @ =0x03000040
-	adds r2, r4, r0
-	movs r0, #0xff
-	lsls r0, r0, #8
-	strh r0, [r2]
-	str r3, [r1, #0x3c]
-	ldr r1, _0806CE4C @ =0x03000042
-	adds r0, r4, r1
-	strh r3, [r0]
-	ldr r2, _0806CE50 @ =0x03000044
-	adds r0, r4, r2
-	strh r3, [r0]
-	adds r1, #4
-	adds r0, r4, r1
-	strb r7, [r0]
-	adds r2, #3
-	adds r0, r4, r2
-	strb r7, [r0]
-	adds r1, #2
-	adds r0, r4, r1
-	strh r3, [r0]
-	mov r2, sl
-	ldrb r1, [r2, #6]
-	ldr r2, _0806CE54 @ =0x0300004A
-	adds r0, r4, r2
-	strh r1, [r0]
-	mov r1, sl
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r6, r6, #8
-	adds r0, r0, r6
-	strh r0, [r5, #0x16]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r2, r2, #8
-	mov r8, r2
-	add r0, r8
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	mov r2, sl
-	strb r0, [r2]
-	movs r0, #0x14
-	str r3, [sp, #4]
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	ldr r3, [sp, #4]
-	strh r3, [r5, #8]
-	movs r0, #0xcb
-	lsls r0, r0, #1
-	strh r0, [r5, #0xa]
-	ldr r1, _0806CE58 @ =0x0300002C
-	adds r0, r4, r1
-	strb r7, [r0]
-	strh r3, [r5, #0x14]
-	strh r3, [r5, #0x1c]
-	ldr r2, _0806CE5C @ =0x0300002D
-	adds r1, r4, r2
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0806CE60 @ =0x0300002E
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0806CE64 @ =0x03000031
-	adds r4, r4, r1
-	strb r7, [r4]
-	subs r0, #0x11
-	str r0, [r5, #0x28]
-	movs r2, #0x80
-	lsls r2, r2, #6
-	str r2, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806CE3C: .4byte Task_KeroKero
-_0806CE40: .4byte TaskDestructor_EntityShared
-_0806CE44: .4byte 0x0300000C
-_0806CE48: .4byte 0x03000040
-_0806CE4C: .4byte 0x03000042
-_0806CE50: .4byte 0x03000044
-_0806CE54: .4byte 0x0300004A
-_0806CE58: .4byte 0x0300002C
-_0806CE5C: .4byte 0x0300002D
-_0806CE60: .4byte 0x0300002E
-_0806CE64: .4byte 0x03000031
+.if 0
+.endif
 
-	thumb_func_start Task_KeroKero
-Task_KeroKero: @ 0x0806CE68
+	thumb_func_start Task_KeroKeroInit
+Task_KeroKeroInit: @ 0x0806CE68
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -684,7 +540,7 @@ _0806D25A:
 	strb r1, [r0]
 	ldr r0, _0806D2B0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806D2B4 @ =Task_KeroKero
+	ldr r0, _0806D2B4 @ =Task_KeroKeroInit
 	str r0, [r1, #8]
 _0806D28E:
 	mov r0, r8
@@ -703,7 +559,7 @@ _0806D29A:
 	.align 2, 0
 _0806D2AC: .4byte sa2__sub_801EE64
 _0806D2B0: .4byte gCurTask
-_0806D2B4: .4byte Task_KeroKero
+_0806D2B4: .4byte Task_KeroKeroInit
 
 	thumb_func_start sub_806D2B8
 sub_806D2B8: @ 0x0806D2B8
@@ -928,7 +784,7 @@ _0806D442:
 	strb r5, [r4]
 	ldr r0, _0806D494 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806D498 @ =Task_KeroKero
+	ldr r0, _0806D498 @ =Task_KeroKeroInit
 	str r0, [r1, #8]
 	ldr r0, _0806D49C @ =gPlayer
 	ldr r0, [r0]
@@ -945,7 +801,7 @@ _0806D442:
 	.align 2, 0
 _0806D490: .4byte sa2__sub_801EE64
 _0806D494: .4byte gCurTask
-_0806D498: .4byte Task_KeroKero
+_0806D498: .4byte Task_KeroKeroInit
 _0806D49C: .4byte gPlayer
 _0806D4A0:
 	ldr r0, [r6, #0x10]
