@@ -67,7 +67,7 @@ void CreateEntity_Rhinotank(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-// (97.35%) https://decomp.me/scratch/luokt
+// (99.32%) https://decomp.me/scratch/luokt
 NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void Task_RhinotankInit(void))
 {
     Rhinotank *rhinotank = TASK_DATA(gCurTask);
@@ -99,8 +99,8 @@ NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void
         }
     }
 
-    deltaX += Div(rhinotank->qUnk40, 0x100);
-    deltaY += rhinotank->unk3C;
+    deltaX = worldX + Div(rhinotank->qUnk40, 0x100);
+    deltaY = worldY + rhinotank->unk3C;
 
     s->x = deltaX - gCamera.x;
     s->y = deltaY - gCamera.y;
@@ -139,6 +139,8 @@ NONMATCH("asm/non_matching/game/enemies/Rhinotank__Task_RhinotankInit.inc", void
                 gCurTask->main = Task_806C9A0;
             }
         } else if ((rhinotank->unk48 == 0) && I(gPlayer.qWorldY) <= (deltaY + 8) && (deltaY - 32 <= I(gPlayer.qWorldY))) {
+            // TODO: Find out, whether this should actually be deltaX, or worldX2 instead,
+            //       in both cases.
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
                 if ((I(gPlayer.qWorldX) >= deltaX) && (deltaX + 80 >= I(gPlayer.qWorldX))) {
                     rhinotank->unk48 = 1;

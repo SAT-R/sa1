@@ -171,7 +171,6 @@ void CreateEntity_Buzzer() { }
 void CreateEntity_KeroKero() { }
 void CreateEntity_Tentou() { }
 void CreateEntity_Slot() { }
-void CreateEntity_Leon() { }
 void CreateEntity_Wamu() { }
 void CreateEntity_Oct() { }
 void CreateEntity_Yukimaru() { }
