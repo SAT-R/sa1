@@ -145,7 +145,6 @@ SECTIONS {
         src/game/enemies/pierrot.o(.text);
         asm/enemy_slot.o(.text);
         src/game/enemies/leon.o(.text);
-        asm/enemy_leon.o(.text);
         asm/enemy_wamu.o(.text);
         src/game/enemies/mirror.o(.text);
         asm/enemy_oct.o(.text);

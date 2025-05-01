@@ -78,8 +78,6 @@ NONMATCH("asm/non_matching/game/enemies/Leon__Task_LeonInit.inc", void Task_Leon
     MapEntity *me = leon->shared.base.me;
     CamCoord worldX, worldY;
     s32 worldX2, worldY2;
-    CamCoord deltaX, deltaY;
-    CamCoord aSquared, bSquared;
     u8 sp08;
 
     worldX = TO_WORLD_POS(leon->shared.base.meX, leon->shared.base.regionX);
@@ -90,11 +88,11 @@ NONMATCH("asm/non_matching/game/enemies/Leon__Task_LeonInit.inc", void Task_Leon
 
     leon->qUnk44 += leon->qUnk48;
 
-    deltaX = worldX2 + I(leon->qUnk44);
-    deltaY = worldY2 + leon->unk4C;
+    worldX += I(leon->qUnk44);
+    worldY += leon->unk4C;
 
-    s->x = deltaX - gCamera.x;
-    s->y = deltaY - gCamera.y;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
 
     if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, leon->shared.base.meX);
@@ -102,12 +100,12 @@ NONMATCH("asm/non_matching/game/enemies/Leon__Task_LeonInit.inc", void Task_Leon
         return;
     }
 
-    if (Coll_Player_Enemy_Attack(s, deltaX, deltaY)) {
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
         TaskDestroy(gCurTask);
         return;
     }
 
-    leon->unk4C += SA2_LABEL(sub_801F07C)(deltaY + 3, deltaX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+    leon->unk4C += SA2_LABEL(sub_801F07C)(worldY + 3, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
     if (I(leon->qUnk44) <= me->d.sData[0] * TILE_WIDTH) {
         if (~s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
@@ -127,16 +125,16 @@ NONMATCH("asm/non_matching/game/enemies/Leon__Task_LeonInit.inc", void Task_Leon
         }
     } else {
         if (leon->unk4E == 0) {
-            if ((I(gPlayer.qWorldY) <= deltaY + 8) && (deltaY - 32 <= I(gPlayer.qWorldY))) {
+            if ((I(gPlayer.qWorldY) <= worldY + 8) && (worldY - 32 <= I(gPlayer.qWorldY))) {
                 if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                    if (I(gPlayer.qWorldX) >= deltaX && (deltaX + 80 >= I(gPlayer.qWorldX))) {
+                    if (I(gPlayer.qWorldX) >= worldX && (worldX + 80 >= I(gPlayer.qWorldX))) {
                         leon->unk4E = 60;
                         leon->unk4A = 0;
                         s->variant = 1;
                         gCurTask->main = Task_806EEA4;
                     }
                 } else {
-                    if ((I(gPlayer.qWorldX) <= deltaX) && (deltaX - 80 <= I(gPlayer.qWorldX))) {
+                    if ((I(gPlayer.qWorldX) <= worldX) && (worldX - 80 <= I(gPlayer.qWorldX))) {
                         leon->unk4E = 60;
                         leon->unk4A = 0;
                         s->variant = 1;
@@ -189,6 +187,55 @@ void Task_806ED3C(void)
     leon->unk4C += SA2_LABEL(sub_801F07C)(worldY + 3, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
     if (++leon->unk4A == 14) {
+        s->variant = 0;
+        gCurTask->main = Task_LeonInit;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_806EEA4(void)
+{
+    Leon *leon = TASK_DATA(gCurTask);
+    Sprite *s = &leon->shared.s;
+    MapEntity *me = leon->shared.base.me;
+    CamCoord worldX, worldY;
+    s32 worldX2, worldY2;
+    u8 sp08;
+
+    worldX = TO_WORLD_POS(leon->shared.base.meX, leon->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, leon->shared.base.regionY);
+
+    worldX2 = worldX;
+    worldY2 = worldY;
+
+    worldX += I(leon->qUnk44);
+    worldY += leon->unk4C;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, leon->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (HITBOX_IS_ACTIVE(s->hitboxes[1])) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(gPlayer.qWorldX), I(gPlayer.qWorldY), gPlayerBodyPSI.s.hitboxes[0].b)) {
+            Coll_DamagePlayer(&gPlayer);
+        }
+    }
+
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    leon->unk4C += SA2_LABEL(sub_801F07C)(worldY + 3, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+
+    if (++leon->unk4A == 31) {
         s->variant = 0;
         gCurTask->main = Task_LeonInit;
     }
