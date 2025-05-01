@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_806ED3C
 Task_806ED3C: @ 0x0806ED3C
 	push {r4, r5, r6, r7, lr}
@@ -186,6 +184,7 @@ _0806EE88:
 _0806EE98: .4byte sa2__sub_801EE64
 _0806EE9C: .4byte gCurTask
 _0806EEA0: .4byte Task_LeonInit
+.endif
 
 	thumb_func_start Task_806EEA4
 Task_806EEA4: @ 0x0806EEA4

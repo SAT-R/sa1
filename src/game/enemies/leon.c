@@ -153,3 +153,46 @@ NONMATCH("asm/non_matching/game/enemies/Leon__Task_LeonInit.inc", void Task_Leon
     DisplaySprite(s);
 }
 END_NONMATCH
+
+void Task_806ED3C(void)
+{
+    Leon *leon = TASK_DATA(gCurTask);
+    Sprite *s = &leon->shared.s;
+    MapEntity *me = leon->shared.base.me;
+    CamCoord worldX, worldY;
+    s32 worldX2, worldY2;
+    u8 sp08;
+
+    worldX = TO_WORLD_POS(leon->shared.base.meX, leon->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, leon->shared.base.regionY);
+
+    worldX2 = worldX;
+    worldY2 = worldY;
+
+    worldX = worldX2 + I(leon->qUnk44);
+    worldY = worldY2 + leon->unk4C;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, leon->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    leon->unk4C += SA2_LABEL(sub_801F07C)(worldY + 3, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+
+    if (++leon->unk4A == 14) {
+        s->variant = 0;
+        gCurTask->main = Task_LeonInit;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
