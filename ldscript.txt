@@ -152,6 +152,7 @@ SECTIONS {
         src/game/enemies/fireball.o(.text);
         src/game/enemies/mole.o(.text);
         asm/enemy_yukimaru.o(.text);
+        src/game/enemies/drisame.o(.text);
         asm/enemy_drisame.o(.text);
         src/game/enemies/kuraa.o(.text);
         asm/enemy_pen.o(.text);
