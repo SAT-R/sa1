@@ -69,3 +69,35 @@ void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
 
 	drisame->iceBlock = CreateIceBlock(s->x, s->y);
 }
+
+#if 0
+void Task_DrisameInit(void)
+{
+    Drisame *drisame = TASK_DATA(gCurTask);
+    Sprite *s = &drisame->shared.s;
+    MapEntity *me = drisame->shared.base.me;
+    s16 worldX, worldY;
+    s32 worldX2, worldY2;
+
+    worldX = TO_WORLD_POS(drisame->shared.base.meX, drisame->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, drisame->shared.base.regionY);
+
+    worldX2 = worldX;
+    worldY2 = worldY;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, drisame->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
+        // Enemy defeated
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
+#endif

@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_DrisameInit
 Task_DrisameInit: @ 0x08072BE0
 	push {r4, r5, r6, r7, lr}
@@ -21,10 +19,10 @@ Task_DrisameInit: @ 0x08072BE0
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r7, r1, r0
+	adds r7, r1, r0		@ r7 = drisame
 	adds r0, #0xc
 	adds r0, r0, r1
-	mov sb, r0
+	mov sb, r0			@ sb = s
 	ldr r5, [r7]
 	ldrb r2, [r7, #8]
 	lsls r2, r2, #3
@@ -39,11 +37,11 @@ Task_DrisameInit: @ 0x08072BE0
 	adds r1, r1, r0
 	lsls r1, r1, #0x10
 	lsrs r4, r2, #0x10
-	mov ip, r4
+	mov ip, r4			@ ip = r4 = worldX
 	asrs r2, r2, #0x10
 	str r2, [r7, #0x4c]
 	lsrs r6, r1, #0x10
-	mov r8, r6
+	mov r8, r6			@ r = worldY
 	asrs r1, r1, #0x10
 	str r1, [r7, #0x50]
 	ldr r4, _08072C9C @ =gCamera
@@ -319,6 +317,7 @@ _08072E58:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start sub_8072E68
 sub_8072E68: @ 0x08072E68
