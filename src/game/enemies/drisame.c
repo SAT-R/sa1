@@ -11,28 +11,32 @@
 #include "constants/zones.h"
 
 typedef struct {
-    u8 filler[1];
+    u8 filler[0xBC];
+    u8 unkBC;
+    u8 unkBD;
 } IceBlock;
 
-typedef struct
-{
+typedef struct {
     // NOTE: EntityShared HAS to be the first element,
     //       as long as TaskDestructor_EntityShared is used.
     /* 0x00 */ EntityShared shared;
-    /* 0x3c */ s32 unk3c;
+    /* 0x3c */ s32 unk3C;
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s32 unk44;
     /* 0x48 */ s32 unk48;
-    /* 0x4C */ u8 filler4C[0x8];
-    /* 0x54 */ IceBlock *iceBlock;
+    /* 0x4C */ s32 worldX;
+    /* 0x50 */ s32 worldY;
+    /* 0x54 */ struct Task *iceBlock; // -> IceBlock *
 } Drisame; /* 0x58 */
 
 void Task_DrisameInit(void);
-IceBlock *CreateIceBlock(s16, s16);
+void sub_8072E68(void);
+struct Task *CreateIceBlock(s16, s16);
 
-void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
+void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
     struct Task *t = TaskCreate(Task_DrisameInit, sizeof(Drisame), 0x2000, 0, TaskDestructor_EntityShared);
-    Drisame  *drisame = TASK_DATA(t);
+    Drisame *drisame = TASK_DATA(t);
     Sprite *s = &drisame->shared.s;
 
     drisame->shared.base.regionX = regionX;
@@ -41,9 +45,9 @@ void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
     drisame->shared.base.meX = me->x;
     drisame->shared.base.id = id;
 
-	drisame->unk44 = 0;
+    drisame->unk44 = 0;
     drisame->unk48 = 0;
-    drisame->unk3c = 0;
+    drisame->unk3C = 0;
     drisame->unk40 = 0;
 
     // NOTE: x|y set to world- not screen-pos!
@@ -67,23 +71,25 @@ void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
 
     UpdateSpriteAnimation(s);
 
-	drisame->iceBlock = CreateIceBlock(s->x, s->y);
+    drisame->iceBlock = CreateIceBlock(s->x, s->y);
 }
 
-#if 0
-void Task_DrisameInit(void)
+NONMATCH("asm/non_matching/game/enemies/Drisame__Task_DrisameInit.inc", void Task_DrisameInit(void))
 {
     Drisame *drisame = TASK_DATA(gCurTask);
     Sprite *s = &drisame->shared.s;
     MapEntity *me = drisame->shared.base.me;
+    IceBlock *iceBlock;
     s16 worldX, worldY;
     s32 worldX2, worldY2;
+    s16 res;
+    s32 some, someX, someY;
 
     worldX = TO_WORLD_POS(drisame->shared.base.meX, drisame->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, drisame->shared.base.regionY);
 
-    worldX2 = worldX;
-    worldY2 = worldY;
+    drisame->worldX = worldX2 = worldX;
+    drisame->worldY = worldY2 = worldY;
 
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
@@ -94,10 +100,62 @@ void Task_DrisameInit(void)
         return;
     }
 
+    res = CLAMP_SIN_PERIOD(SA2_LABEL(sub_8004418)(I(gPlayer.qWorldY) - worldY, I(gPlayer.qWorldX) - worldX));
+
+    if (res >= 385 && res < 640) {
+        some = I(gPlayer.qWorldY) - worldY;
+        someY = some * some;
+        some = I(gPlayer.qWorldX) - worldX;
+        someX = some * some;
+        someY += someX;
+
+        if (someY < 0x1900) {
+            IceBlock *iceBlock = TASK_DATA(drisame->iceBlock);
+            iceBlock->unkBD = 1;
+
+            SPRITE_FLAG_CLEAR(s, X_FLIP);
+
+            if (Div(COS(res), 35) < 0) {
+                drisame->unk3C = +Div(COS(res), 35);
+            } else {
+                drisame->unk3C = -Div(COS(res), 35);
+            }
+            drisame->unk40 = +Div(SIN(res), 35);
+            drisame->unk44 = 0;
+            drisame->unk48 = 0;
+            gCurTask->main = sub_8072E68;
+        }
+    }
+    // 1aa
+
+    if (res < 128 || res > 896) {
+        some = I(gPlayer.qWorldY) - worldY;
+        someY = some * some;
+        some = I(gPlayer.qWorldX) - worldX;
+        someX = some * some;
+        someY += someX;
+
+        if (someY < 0x1900) {
+            IceBlock *iceBlock = TASK_DATA(drisame->iceBlock);
+            iceBlock->unkBD = 1;
+
+            SPRITE_FLAG_SET(s, X_FLIP);
+
+            drisame->unk3C = +Div(COS(res), 35);
+            drisame->unk40 = +Div(SIN(res), 35);
+            drisame->unk44 = 0;
+            drisame->unk48 = 0;
+            gCurTask->main = sub_8072E68;
+        }
+    }
+
     if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
         // Enemy defeated
         TaskDestroy(gCurTask);
         return;
     }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
-#endif
+END_NONMATCH
