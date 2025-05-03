@@ -1,9 +1,5 @@
 	.section .rodata
 
-    .global gUnknown_086CECFC
-gUnknown_086CECFC:
-    .incbin "baserom.gba", 0x006CECFC, 0x8
-
     .global sBounceBlockAnims
 sBounceBlockAnims:
     .short 0x01CE @ SA1_ANIM_BOUNCE_BLOCK_1   @ Neo Green Hill 1

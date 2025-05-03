@@ -172,7 +172,6 @@ void CreateEntity_Slot() { }
 void CreateEntity_Wamu() { }
 void CreateEntity_Yukimaru() { }
 void CreateEntity_Yukimaru_Wall() { }
-void CreateEntity_Drisame() { }
 void CreateEntity_PenMk1() { }
 
 // Bosses

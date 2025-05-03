@@ -11,9 +11,23 @@
 #include "constants/zones.h"
 
 typedef struct {
-    u8 filler[0xBC];
-    u8 unkBC;
-    u8 unkBD;
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ Sprite s2;
+    /* 0x60 */ Sprite s3;
+    /* 0x90 */ s16 unk90;
+    /* 0x92 */ s16 unk92;
+    /* 0x94 */ s16 unk94[2];
+    /* 0x98 */ u8 filler98[0x4];
+    /* 0x9C */ s16 unk9C[2];
+    /* 0xA0 */ u8 fillerA0[0x4];
+    /* 0xA4 */ s16 unkA4[2];
+    /* 0xA8 */ u8 fillerA8[0x4];
+    /* 0xAC */ s16 unkAC[2];
+    /* 0xB0 */ u8 fillerB0[0x4];
+    /* 0xB4 */ s16 unkB4[2];
+    /* 0xB6 */ u8 fillerB8[0x4];
+    /* 0xBC */ u8 unkBC;
+    /* 0xBD */ bool8 shattered;
 } IceBlock;
 
 typedef struct {
@@ -31,7 +45,9 @@ typedef struct {
 
 void Task_DrisameInit(void);
 void sub_8072E68(void);
-struct Task *CreateIceBlock(s16, s16);
+struct Task *CreateIceBlock(s16 worldX, s16 worldY);
+void Task_IceBlockInit(void);
+void TaskDestructor_IceBlock(struct Task *t);
 
 void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -74,6 +90,7 @@ void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     drisame->iceBlock = CreateIceBlock(s->x, s->y);
 }
 
+// (91.58%) https://decomp.me/scratch/5vT74
 NONMATCH("asm/non_matching/game/enemies/Drisame__Task_DrisameInit.inc", void Task_DrisameInit(void))
 {
     Drisame *drisame = TASK_DATA(gCurTask);
@@ -109,9 +126,9 @@ NONMATCH("asm/non_matching/game/enemies/Drisame__Task_DrisameInit.inc", void Tas
         someX = some * some;
         someY += someX;
 
-        if (someY < 0x1900) {
+        if (someY < SQUARE(80)) {
             IceBlock *iceBlock = TASK_DATA(drisame->iceBlock);
-            iceBlock->unkBD = 1;
+            iceBlock->shattered = TRUE;
 
             SPRITE_FLAG_CLEAR(s, X_FLIP);
 
@@ -135,9 +152,9 @@ NONMATCH("asm/non_matching/game/enemies/Drisame__Task_DrisameInit.inc", void Tas
         someX = some * some;
         someY += someX;
 
-        if (someY < 0x1900) {
+        if (someY < SQUARE(80)) {
             IceBlock *iceBlock = TASK_DATA(drisame->iceBlock);
-            iceBlock->unkBD = 1;
+            iceBlock->shattered = TRUE;
 
             SPRITE_FLAG_SET(s, X_FLIP);
 
@@ -159,3 +176,148 @@ NONMATCH("asm/non_matching/game/enemies/Drisame__Task_DrisameInit.inc", void Tas
     DisplaySprite(s);
 }
 END_NONMATCH
+
+void sub_8072E68(void)
+{
+    Drisame *drisame = TASK_DATA(gCurTask);
+    Sprite *s = &drisame->shared.s;
+    MapEntity *me = drisame->shared.base.me;
+    IceBlock *iceBlock;
+    s16 worldX, worldY;
+    s32 worldX2, worldY2;
+    s16 res;
+    s32 some, someX, someY;
+
+    drisame->unk44 += drisame->unk3C;
+    drisame->unk48 += drisame->unk40;
+
+    worldX = TO_WORLD_POS(drisame->shared.base.meX, drisame->shared.base.regionX);
+    worldY = TO_WORLD_POS(me->y, drisame->shared.base.regionY);
+
+    worldX += I(drisame->unk44);
+    worldY += I(drisame->unk48);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+#ifndef BUG_FIX
+    // The buggy version uses drisame->worldX for both macro params, not X and Y!
+    if (IS_OUT_OF_DISPLAY_RANGE(drisame->worldX, drisame->worldX) && IS_OUT_OF_CAM_RANGE(s->x, s->y))
+#else
+    if (IS_OUT_OF_DISPLAY_RANGE(drisame->worldX, drisame->worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y))
+#endif
+    {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, drisame->shared.base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (Coll_Player_Enemy_Attack(s, worldX, worldY)) {
+        // Enemy defeated
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+struct Task *CreateIceBlock(s16 worldX, s16 worldY)
+{
+    s8 arr[4][2] = { { 16, 0 }, { 0, 8 }, { -16, 0 }, { 0, -8 } }; // maybe u8[4][2]?
+    struct Task *t;
+    Sprite *s;
+    Sprite *s2;
+    Sprite *s3;
+    IceBlock *iceBlock;
+    u8 i;
+    t = TaskCreate(Task_IceBlockInit, sizeof(IceBlock), 0x3000, 0, TaskDestructor_IceBlock);
+    iceBlock = TASK_DATA(t);
+    s = &iceBlock->s;
+    s2 = &iceBlock->s2;
+    s3 = &iceBlock->s3;
+
+    iceBlock->unk90 = worldX;
+    iceBlock->unk92 = worldY;
+
+    iceBlock->unkBC = 0;
+    iceBlock->shattered = FALSE;
+
+    for (i = 0; i < ARRAY_COUNT(iceBlock->unkAC); i++) {
+        // _08073024_loop
+        iceBlock->unkB4[i] = -Q(1);
+
+        if ((i % 2u) != 0) {
+            iceBlock->unkAC[i] = -2;
+        } else {
+            iceBlock->unkAC[i] = +3;
+        }
+        // _08073078
+
+        iceBlock->unkA4[i] = (worldX + arr[i][0]) * 4;
+        iceBlock->unk94[i] = worldX + arr[i][0];
+        iceBlock->unk9C[i] = worldY + arr[i][1];
+    }
+
+    for (; i < ARRAY_COUNT(arr); i++) {
+        iceBlock->unkB4[i] = -Q(1.3125);
+
+        if ((i % 2u) != 0) {
+            iceBlock->unkAC[i] = +2;
+        } else {
+            iceBlock->unkAC[i] = -3;
+        }
+        // _08073078
+
+        iceBlock->unkA4[i] = (worldX + arr[i][0]) * 4;
+        iceBlock->unk94[i] = worldX + arr[i][0];
+        iceBlock->unk9C[i] = worldY + arr[i][1];
+    }
+
+    s->y = worldY;
+    s->x = worldX;
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_DRISAME_ICEBLOCK_DEBRIS_LARGE);
+    s->oamFlags = SPRITE_OAM_ORDER(10);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_DRISAME_ICEBLOCK_DEBRIS_LARGE;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    s2->y = worldY;
+    s2->x = worldX;
+    s2->graphics.dest = ALLOC_TILES(SA1_ANIM_DRISAME_ICEBLOCK_DEBRIS_SMALL);
+    s2->oamFlags = SPRITE_OAM_ORDER(10);
+    s2->graphics.size = 0;
+    s2->graphics.anim = SA1_ANIM_DRISAME_ICEBLOCK_DEBRIS_SMALL;
+    s2->variant = 0;
+    s2->animCursor = 0;
+    s2->qAnimDelay = Q(0);
+    s2->prevVariant = -1;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s2->palId = 0;
+    s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s2->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    s3->y = worldY;
+    s3->x = worldX;
+    s3->graphics.dest = ALLOC_TILES(SA1_ANIM_DRISAME_ICEBLOCK);
+    s3->oamFlags = SPRITE_OAM_ORDER(10);
+    s3->graphics.size = 0;
+    s3->graphics.anim = SA1_ANIM_DRISAME_ICEBLOCK;
+    s3->variant = 0;
+    s3->animCursor = 0;
+    s3->qAnimDelay = Q(0);
+    s3->prevVariant = -1;
+    s3->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s3->palId = 0;
+    s3->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s3->frameFlags = SPRITE_FLAG(PRIORITY, 1);
+
+    return t;
+}
