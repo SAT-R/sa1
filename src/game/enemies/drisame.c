@@ -24,9 +24,9 @@ typedef struct {
     /* 0xA8 */ u8 fillerA8[0x4];
     /* 0xAC */ s16 unkAC[2];
     /* 0xB0 */ u8 fillerB0[0x4];
-    /* 0xB4 */ s16 unkB4[2];
+    /* 0xB4 */ s16 qUnkB4[2];
     /* 0xB6 */ u8 fillerB8[0x4];
-    /* 0xBC */ u8 unkBC;
+    /* 0xBC */ s8 unkBC;
     /* 0xBD */ bool8 shattered;
 } IceBlock;
 
@@ -47,6 +47,7 @@ void Task_DrisameInit(void);
 void sub_8072E68(void);
 struct Task *CreateIceBlock(s16 worldX, s16 worldY);
 void Task_IceBlockInit(void);
+void Task_IceBlock_8073364(void);
 void TaskDestructor_IceBlock(struct Task *t);
 
 void CreateEntity_Drisame(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -244,15 +245,13 @@ struct Task *CreateIceBlock(s16 worldX, s16 worldY)
     iceBlock->shattered = FALSE;
 
     for (i = 0; i < ARRAY_COUNT(iceBlock->unkAC); i++) {
-        // _08073024_loop
-        iceBlock->unkB4[i] = -Q(1);
+        iceBlock->qUnkB4[i] = -Q(1);
 
         if ((i % 2u) != 0) {
             iceBlock->unkAC[i] = -2;
         } else {
             iceBlock->unkAC[i] = +3;
         }
-        // _08073078
 
         iceBlock->unkA4[i] = (worldX + arr[i][0]) * 4;
         iceBlock->unk94[i] = worldX + arr[i][0];
@@ -260,14 +259,13 @@ struct Task *CreateIceBlock(s16 worldX, s16 worldY)
     }
 
     for (; i < ARRAY_COUNT(arr); i++) {
-        iceBlock->unkB4[i] = -Q(1.3125);
+        iceBlock->qUnkB4[i] = -Q(1.3125);
 
         if ((i % 2u) != 0) {
             iceBlock->unkAC[i] = +2;
         } else {
             iceBlock->unkAC[i] = -3;
         }
-        // _08073078
 
         iceBlock->unkA4[i] = (worldX + arr[i][0]) * 4;
         iceBlock->unk94[i] = worldX + arr[i][0];
@@ -320,4 +318,92 @@ struct Task *CreateIceBlock(s16 worldX, s16 worldY)
     s3->frameFlags = SPRITE_FLAG(PRIORITY, 1);
 
     return t;
+}
+
+void Task_IceBlockInit(void)
+{
+    struct Task *t;
+    Sprite *s3;
+    IceBlock *iceBlock;
+    CamCoord screenX, screenY;
+    u8 i;
+    iceBlock = TASK_DATA(gCurTask);
+    s3 = &iceBlock->s3;
+
+    screenX = iceBlock->unk90;
+    screenY = iceBlock->unk92;
+
+    s3->x = iceBlock->unk90 - gCamera.x;
+    s3->y = iceBlock->unk92 - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(screenX, screenY) && IS_OUT_OF_CAM_RANGE(s3->x, s3->y)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (iceBlock->shattered) {
+        gCurTask->main = Task_IceBlock_8073364;
+    }
+
+    UpdateSpriteAnimation(s3);
+
+    s3->x = screenX - gCamera.x;
+    s3->y = screenY - gCamera.y;
+
+    DisplaySprite(s3);
+}
+
+void Task_IceBlock_8073364(void)
+{
+    IceBlock *iceBlock;
+    struct Task *t;
+    Sprite *s;
+    Sprite *s2;
+    CamCoord worldX, worldY;
+    s32 r0;
+    u8 i;
+
+    iceBlock = TASK_DATA(gCurTask);
+    s = &iceBlock->s;
+    s2 = &iceBlock->s2;
+
+    if (++iceBlock->unkBC >= 30) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    if (iceBlock->unkBC & 0x2) {
+        for (i = 0; i < 4; i++) {
+            if (i & 0x1) {
+                iceBlock->unkA4[i] += iceBlock->unkAC[i];
+                iceBlock->unk94[i] = iceBlock->unkA4[i] / 4;
+                iceBlock->qUnkB4[i] += Q(20. / 256.);
+                iceBlock->unk9C[i] += I(iceBlock->qUnkB4[i]);
+                s->x = iceBlock->unk94[i] - gCamera.x;
+                s->y = iceBlock->unk9C[i] - gCamera.y;
+
+                DisplaySprite(s);
+            } else {
+                iceBlock->unkA4[i] += iceBlock->unkAC[i];
+                iceBlock->unk94[i] = iceBlock->unkA4[i] / 4;
+                iceBlock->qUnkB4[i] += Q(20. / 256.);
+                iceBlock->unk9C[i] += I(iceBlock->qUnkB4[i]);
+                s2->x = iceBlock->unk94[i] - gCamera.x;
+                s2->y = iceBlock->unk9C[i] - gCamera.y;
+
+                DisplaySprite(s2);
+            }
+        }
+    }
+}
+
+void TaskDestructor_IceBlock(struct Task *t)
+{
+    IceBlock *iceBlock = TASK_DATA(t);
+    VramFree(iceBlock->s.graphics.dest);
+    VramFree(iceBlock->s2.graphics.dest);
+    VramFree(iceBlock->s3.graphics.dest);
 }
