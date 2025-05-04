@@ -60,14 +60,16 @@
 #define SA1_ANIM_DRISAME           424
 #define SA1_ANIM_KURAA             425
 #define SA1_ANIM_PEN               426
-
-#define SA1_ANIM_LEON        430
-#define SA1_ANIM_WAMU        431
-#define SA1_ANIM_MIRROR      432
-#define SA1_ANIM_OCT         433
-#define SA1_ANIM_MOLE        434
-#define SA1_ANIM_MIRROR_PROJ 435
-#define SA1_ANIM_OCT_PROJ    436
+#define SA1_ANIM_PEN_PROJ_1        427
+#define SA1_ANIM_PEN_PROJ_2        428
+#define SA1_ANIM_PEN_PROJ_3        429
+#define SA1_ANIM_LEON              430
+#define SA1_ANIM_WAMU              431
+#define SA1_ANIM_MIRROR            432
+#define SA1_ANIM_OCT               433
+#define SA1_ANIM_MOLE              434
+#define SA1_ANIM_MIRROR_PROJ       435
+#define SA1_ANIM_OCT_PROJ          436
 
 // Animals
 #define SA1_ANIM_ANIMAL_SEAL      437

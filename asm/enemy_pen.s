@@ -5,361 +5,9 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start Task_8073CC4
-Task_8073CC4: @ 0x08073CC4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x14
-	ldr r0, _08073DB0 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r4, r0
-	adds r0, #0xc
-	adds r0, r0, r4
-	mov sb, r0
-	ldr r1, [r7]
-	mov sl, r1
-	ldrb r2, [r7, #8]
-	lsls r2, r2, #3
-	ldrh r0, [r7, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	ldrb r1, [r1, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r7, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	lsls r2, r2, #0x10
-	asrs r6, r2, #0x10
-	lsls r1, r1, #0x10
-	asrs r5, r1, #0x10
-	ldr r1, [r7, #0x3c]
-	asrs r1, r1, #8
-	adds r1, r6, r1
-	lsls r1, r1, #0x10
-	ldr r0, [r7, #0x40]
-	adds r0, r5, r0
-	lsls r0, r0, #0x10
-	ldr r2, _08073DB4 @ =gCamera
-	mov r8, r2
-	ldrh r2, [r2]
-	lsrs r3, r1, #0x10
-	str r3, [sp, #0x10]
-	asrs r1, r1, #0x10
-	subs r2, r1, r2
-	mov r3, sb
-	strh r2, [r3, #0x16]
-	mov r3, r8
-	ldrh r2, [r3, #2]
-	lsrs r3, r0, #0x10
-	str r3, [sp, #0xc]
-	asrs r0, r0, #0x10
-	subs r2, r0, r2
-	mov r3, sb
-	strh r2, [r3, #0x18]
-	add r2, sp, #8
-	str r2, [sp]
-	ldr r2, _08073DB8 @ =sa2__sub_801EE64
-	str r2, [sp, #4]
-	movs r2, #1
-	movs r3, #8
-	bl sa2__sub_801F07C
-	ldr r1, [r7, #0x40]
-	adds r1, r1, r0
-	str r1, [r7, #0x40]
-	ldr r3, _08073DBC @ =0x03000046
-	adds r4, r4, r3
-	ldrh r0, [r4]
-	adds r0, #1
-	strh r0, [r4]
-	mov r0, r8
-	movs r2, #0
-	ldrsh r1, [r0, r2]
-	movs r3, #0xb8
-	lsls r3, r3, #1
-	adds r0, r1, r3
-	cmp r6, r0
-	bgt _08073D80
-	adds r0, r1, #0
-	subs r0, #0x80
-	cmp r6, r0
-	blt _08073D80
-	mov r0, r8
-	movs r1, #2
-	ldrsh r2, [r0, r1]
-	subs r3, #0x50
-	adds r0, r2, r3
-	cmp r5, r0
-	bgt _08073D80
-	adds r0, r2, #0
-	subs r0, #0x80
-	cmp r5, r0
-	bge _08073DC0
-_08073D80:
-	mov r1, sb
-	ldrh r0, [r1, #0x16]
-	adds r0, #0x80
-	lsls r0, r0, #0x10
-	movs r1, #0xf8
-	lsls r1, r1, #0x11
-	cmp r0, r1
-	bhi _08073DA8
-	mov r2, sb
-	movs r3, #0x18
-	ldrsh r0, [r2, r3]
-	adds r0, #0x80
-	cmp r0, #0
-	blt _08073DA8
-	movs r0, #0x18
-	ldrsh r1, [r2, r0]
-	movs r0, #0x90
-	lsls r0, r0, #1
-	cmp r1, r0
-	ble _08073DC0
-_08073DA8:
-	ldrb r0, [r7, #8]
-	mov r1, sl
-	strb r0, [r1]
-	b _08073DE0
-	.align 2, 0
-_08073DB0: .4byte gCurTask
-_08073DB4: .4byte gCamera
-_08073DB8: .4byte sa2__sub_801EE64
-_08073DBC: .4byte 0x03000046
-_08073DC0:
-	ldr r2, [sp, #0x10]
-	lsls r5, r2, #0x10
-	asrs r6, r5, #0x10
-	ldr r3, [sp, #0xc]
-	lsls r4, r3, #0x10
-	asrs r0, r4, #0x10
-	mov r8, r0
-	mov r0, sb
-	adds r1, r6, #0
-	mov r2, r8
-	bl Coll_Player_Enemy_Attack
-	mov sl, r5
-	adds r5, r4, #0
-	cmp r0, #0
-	beq _08073DF0
-_08073DE0:
-	ldr r0, _08073DEC @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _08073E76
-	.align 2, 0
-_08073DEC: .4byte gCurTask
-_08073DF0:
-	adds r0, r7, #0
-	adds r0, #0x46
-	movs r2, #0
-	ldrsh r1, [r0, r2]
-	adds r4, r0, #0
-	cmp r1, #0xd
-	bne _08073E2A
-	mov r3, sb
-	ldr r0, [r3, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	ands r0, r1
-	cmp r0, #0
-	beq _08073E1C
-	adds r0, r6, #4
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	mov r1, r8
-	movs r2, #1
-	bl sub_8073E94
-	b _08073E2A
-_08073E1C:
-	subs r0, r6, #6
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	mov r1, r8
-	movs r2, #0
-	bl sub_8073E94
-_08073E2A:
-	asrs r0, r5, #0x10
-	mov r2, sl
-	asrs r1, r2, #0x10
-	add r3, sp, #8
-	str r3, [sp]
-	ldr r2, _08073E88 @ =sa2__sub_801EE64
-	str r2, [sp, #4]
-	movs r2, #1
-	movs r3, #8
-	bl sa2__sub_801F07C
-	ldr r1, [r7, #0x40]
-	adds r1, r1, r0
-	str r1, [r7, #0x40]
-	movs r1, #0
-	ldrsh r0, [r4, r1]
-	cmp r0, #0x10
-	ble _08073E6A
-	movs r1, #0
-	movs r0, #0
-	strh r0, [r4]
-	mov r2, sb
-	adds r2, #0x21
-	movs r0, #0xff
-	strb r0, [r2]
-	mov r0, sb
-	adds r0, #0x20
-	strb r1, [r0]
-	ldr r0, _08073E8C @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08073E90 @ =Task_PenMk1Main
-	str r0, [r1, #8]
-_08073E6A:
-	mov r0, sb
-	bl UpdateSpriteAnimation
-	mov r0, sb
-	bl DisplaySprite
-_08073E76:
-	add sp, #0x14
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08073E88: .4byte sa2__sub_801EE64
-_08073E8C: .4byte gCurTask
-_08073E90: .4byte Task_PenMk1Main
-
-	thumb_func_start sub_8073E94
-sub_8073E94: @ 0x08073E94
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #0xc
-	adds r4, r2, #0
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov sb, r0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov r8, r1
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _08073EDC @ =sub_8073F84
-	movs r2, #0xc0
-	lsls r2, r2, #6
-	movs r5, #0
-	str r5, [sp]
-	movs r1, #0x4c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r6, r0, r1
-	adds r7, r6, #0
-	adds r1, #0x4a
-	adds r0, r0, r1
-	strb r5, [r0]
-	cmp r4, #0
-	beq _08073EE0
-	movs r0, #0x80
-	lsls r0, r0, #2
-	b _08073EE4
-	.align 2, 0
-_08073EDC: .4byte sub_8073F84
-_08073EE0:
-	movs r0, #0xfe
-	lsls r0, r0, #8
-_08073EE4:
-	strh r0, [r6, #0x30]
-	movs r5, #0
-	movs r4, #0
-	strh r4, [r7, #0x32]
-	str r4, [r7, #0x34]
-	str r4, [r7, #0x38]
-	mov r2, sb
-	lsls r1, r2, #0x10
-	asrs r1, r1, #0x10
-	str r1, [r7, #0x3c]
-	mov r2, r8
-	lsls r0, r2, #0x10
-	asrs r0, r0, #0x10
-	str r0, [r7, #0x44]
-	adds r2, r7, #0
-	adds r2, #0x4b
-	strb r5, [r2]
-	adds r3, r7, #0
-	adds r3, #0x48
-	movs r2, #0xc8
-	lsls r2, r2, #2
-	strh r2, [r3]
-	add r2, sp, #8
-	str r2, [sp]
-	ldr r2, _08073F7C @ =sa2__sub_801EE64
-	str r2, [sp, #4]
-	movs r2, #1
-	movs r3, #8
-	bl sa2__sub_801F07C
-	ldr r1, [r7, #0x38]
-	adds r1, r1, r0
-	str r1, [r7, #0x38]
-	mov r0, sb
-	strh r0, [r6, #0x16]
-	mov r1, r8
-	strh r1, [r6, #0x18]
-	ldr r0, _08073F80 @ =0x060125A0
-	str r0, [r6, #4]
-	movs r0, #0x90
-	lsls r0, r0, #2
-	strh r0, [r6, #0x1a]
-	strh r4, [r6, #8]
-	subs r0, #0x94
-	strh r0, [r6, #0xa]
-	adds r0, r6, #0
-	adds r0, #0x20
-	strb r5, [r0]
-	strh r4, [r6, #0x14]
-	strh r4, [r6, #0x1c]
-	adds r1, r6, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	adds r0, r6, #0
-	adds r0, #0x25
-	strb r5, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r6, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r6, #0x10]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	add sp, #0xc
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08073F7C: .4byte sa2__sub_801EE64
-_08073F80: .4byte 0x060125A0
-
-	thumb_func_start sub_8073F84
-sub_8073F84: @ 0x08073F84
+.if 01
+	thumb_func_start Task_PenMk1Snowball
+Task_PenMk1Snowball: @ 0x08073F84
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -371,8 +19,8 @@ sub_8073F84: @ 0x08073F84
 	ldrh r3, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r6, r3, r0
-	mov r8, r6
+	adds r6, r3, r0     @ r6 = s
+	mov r8, r6          @ r8 = proj = s
 	ldr r1, _08074014 @ =0x0300004B
 	adds r0, r3, r1
 	ldrb r0, [r0]
@@ -499,7 +147,7 @@ _0807407E:
 _080740A0:
 	mov r0, sb
 	mov r1, sl
-	bl sub_80741E8
+	bl CreatePeMk1SnowballDebris
 	b _080741BC
 	.align 2, 0
 _080740AC: .4byte gSineTable
@@ -604,7 +252,7 @@ _0807415E:
 _08074166:
 	asrs r0, r5, #0x10
 	asrs r1, r4, #0x10
-	bl sub_80741E8
+	bl CreatePeMk1SnowballDebris
 	b _080741BC
 _08074170:
 	ldr r0, [sp, #0x10]
@@ -668,9 +316,10 @@ _080741D8:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
-	thumb_func_start sub_80741E8
-sub_80741E8: @ 0x080741E8
+	thumb_func_start CreatePeMk1SnowballDebris
+CreatePeMk1SnowballDebris: @ 0x080741E8
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb

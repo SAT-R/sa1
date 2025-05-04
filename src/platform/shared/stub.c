@@ -171,7 +171,6 @@ void CreateEntity_Tentou() { }
 void CreateEntity_Wamu() { }
 void CreateEntity_Yukimaru() { }
 void CreateEntity_Yukimaru_Wall() { }
-void CreateEntity_PenMk1() { }
 
 // Bosses
 extern void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
