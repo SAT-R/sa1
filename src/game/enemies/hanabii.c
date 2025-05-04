@@ -84,7 +84,7 @@ void Task_HanabiiInit(void)
     CamCoord worldX, worldY;
     s32 worldX2, worldY2;
     CamCoord deltaX, deltaY;
-    CamCoord aSquared, bSquared;
+    CamCoord xSquared, ySquared;
 
     worldX = TO_WORLD_POS(hanabii->shared.base.meX, hanabii->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, hanabii->shared.base.regionY);
@@ -113,10 +113,10 @@ void Task_HanabiiInit(void)
 
     hanabii->unk40 += SA2_LABEL(sub_801F07C)(deltaY, deltaX, 1, +8, NULL, SA2_LABEL(sub_801EE64));
 
-    aSquared = I(gPlayer.qWorldX) - deltaX;
-    aSquared = aSquared * aSquared;
-    bSquared = I(gPlayer.qWorldY) - deltaY;
-    bSquared = bSquared * bSquared;
+    xSquared = I(gPlayer.qWorldX) - deltaX;
+    xSquared = xSquared * xSquared;
+    ySquared = I(gPlayer.qWorldY) - deltaY;
+    ySquared = ySquared * ySquared;
 
     if (I(hanabii->qUnk3C) <= (me->d.sData[0] + 1) * TILE_WIDTH) {
         if (~s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
@@ -131,7 +131,7 @@ void Task_HanabiiInit(void)
     } else if (hanabii->unk48 != 0) {
         hanabii->unk48--;
     } else {
-        if (aSquared + bSquared < 100 * 100) {
+        if (xSquared + ySquared < 100 * 100) {
             hanabii->unk46 = 0;
             hanabii->unk48 = 100;
             s->variant = 1;
@@ -153,7 +153,7 @@ void Task_806D804(void)
     s32 worldX2, worldY2;
     u8 sp08;
     CamCoord deltaX, deltaY;
-    CamCoord aSquared, bSquared;
+    CamCoord xSquared, ySquared;
 
     worldX = TO_WORLD_POS(hanabii->shared.base.meX, hanabii->shared.base.regionX);
     worldY = TO_WORLD_POS(me->y, hanabii->shared.base.regionY);
