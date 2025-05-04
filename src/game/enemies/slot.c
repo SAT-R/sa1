@@ -14,8 +14,8 @@
 
 typedef struct {
     /* 0x00 */ Sprite s;
-    /* 0x30 */ u16 unk30;
-    /* 0x30 */ u16 unk32;
+    /* 0x30 */ s16 unk30;
+    /* 0x32 */ u16 unk32;
     /* 0x34 */ s32 qUnk34[6];
     /* 0x4C */ s16 qUnk4C[6];
     /* 0x58 */ s16 unk58[6];
@@ -222,6 +222,8 @@ void CreateSlotProjectile(s16 worldX, s16 worldY)
     UpdateSpriteAnimation(s);
 }
 
+// Stack allocs
+// (99.88%) https://decomp.me/scratch/GHyrC
 NONMATCH("asm/non_matching/game/enemies/Slot__Task_SlotProjectileMain.inc", void Task_SlotProjectileMain(void))
 {
     SlotProjectile *proj = TASK_DATA(gCurTask);
@@ -292,3 +294,68 @@ NONMATCH("asm/non_matching/game/enemies/Slot__Task_SlotProjectileMain.inc", void
     s->y = oldWorldY;
 }
 END_NONMATCH
+
+void sub_806E7E0()
+{
+    SlotProjectile *proj = TASK_DATA(gCurTask);
+    Sprite *s = &proj->s;
+    s32 res;
+    u8 sp08;
+    u8 i;
+
+    UpdateSpriteAnimation(s);
+
+    if (--proj->unk30 == 0) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    for (i = 0; i < 6; i++) {
+        if (proj->unk88[i] != 0) {
+            CamCoord worldX, worldY;
+
+            proj->qUnk4C[i] = Div(proj->qUnk4C[i] * 1000, 1045 - proj->unk30);
+            proj->qUnk34[i] += proj->unk70[i];
+            proj->unk58[i] = I(proj->qUnk34[i]);
+            proj->qUnk4C[i] += Q(40. / 256.);
+            proj->unk64[i] += I(proj->qUnk4C[i]);
+
+            // World pos
+            s->x = proj->unk58[i]; // r8
+            s->y = proj->unk64[i]; // sp0C
+
+            worldX = s->x;
+            worldY = s->y;
+
+            // Screen pos
+            s->x -= gCamera.x;
+            s->y -= gCamera.y;
+
+            // TODO:
+            //   if(IS_OUT_OF_RANGE_OLD(u16, s->x, s->y, 40))
+            if ((((u16)(s->x + (40 / 2)) > DISPLAY_WIDTH + 36) || (s->y + (40 / 2) < 0) || (s->y > DISPLAY_HEIGHT + 80))) {
+                proj->unk88[i] = 0;
+                continue;
+            }
+
+            res = SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+
+            if (res <= 0) {
+                proj->unk64[i] += res;
+                proj->qUnk4C[i] = Div(-(proj->qUnk4C[i] * 10), 21);
+                proj->unk70[i] += Div(SIN(sp08 * 4), 30);
+            }
+
+            if (proj->unk30 < 30) {
+                if (proj->unk30 & 0x2) {
+                    DisplaySprite(s);
+                }
+            } else {
+                DisplaySprite(s);
+            }
+
+            s->x = worldX;
+            s->y = worldY;
+        }
+    }
+}

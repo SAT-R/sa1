@@ -144,7 +144,6 @@ SECTIONS {
         src/game/enemies/hanabii.o(.text);
         src/game/enemies/pierrot.o(.text);
         src/game/enemies/slot.o(.text);
-        asm/enemy_slot.o(.text);
         src/game/enemies/leon.o(.text);
         asm/enemy_wamu.o(.text);
         src/game/enemies/mirror.o(.text);
