@@ -5,149 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Slot
-CreateEntity_Slot: @ 0x0806E064
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov r8, r2
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	mov sl, r3
-	ldr r0, _0806E160 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #2
-	bne _0806E098
-	ldr r0, _0806E164 @ =gLoadedSaveGame
-	ldrb r0, [r0, #0x18]
-	cmp r0, #0
-	bne _0806E150
-_0806E098:
-	ldr r0, _0806E168 @ =sub_806E190
-	ldr r1, _0806E16C @ =TaskDestructor_EntityShared
-	str r1, [sp]
-	movs r1, #0x48
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r4, r0
-	ldr r1, _0806E170 @ =0x0300000C
-	adds r5, r4, r1
-	movs r6, #0
-	mov r2, sb
-	strh r2, [r0, #4]
-	mov r1, r8
-	strh r1, [r0, #6]
-	str r7, [r0]
-	ldrb r1, [r7]
-	strb r1, [r0, #8]
-	mov r2, sl
-	strb r2, [r0, #9]
-	ldr r1, _0806E174 @ =0x0000FF60
-	strh r1, [r0, #0x3e]
-	strh r6, [r0, #0x3c]
-	ldr r1, _0806E178 @ =0x03000044
-	adds r0, r4, r1
-	strh r6, [r0]
-	ldr r2, _0806E17C @ =0x03000040
-	adds r0, r4, r2
-	strh r6, [r0]
-	subs r1, #2
-	adds r0, r4, r1
-	strh r6, [r0]
-	adds r2, #6
-	adds r0, r4, r2
-	strh r6, [r0]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	mov r2, sb
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	movs r0, #0xf
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	strh r6, [r5, #8]
-	ldr r0, _0806E180 @ =0x000001A1
-	strh r0, [r5, #0xa]
-	ldr r2, _0806E184 @ =0x0300002C
-	adds r0, r4, r2
-	movs r1, #0
-	strb r1, [r0]
-	strh r6, [r5, #0x14]
-	strh r6, [r5, #0x1c]
-	adds r2, #1
-	adds r1, r4, r2
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0806E188 @ =0x0300002E
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0806E18C @ =0x03000031
-	adds r4, r4, r1
-	movs r2, #0
-	strb r2, [r4]
-	subs r0, #0x11
-	str r0, [r5, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-_0806E150:
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806E160: .4byte gCurrentLevel
-_0806E164: .4byte gLoadedSaveGame
-_0806E168: .4byte sub_806E190
-_0806E16C: .4byte TaskDestructor_EntityShared
-_0806E170: .4byte 0x0300000C
-_0806E174: .4byte 0x0000FF60
-_0806E178: .4byte 0x03000044
-_0806E17C: .4byte 0x03000040
-_0806E180: .4byte 0x000001A1
-_0806E184: .4byte 0x0300002C
-_0806E188: .4byte 0x0300002E
-_0806E18C: .4byte 0x03000031
+.if 0
+.endif
 
-	thumb_func_start sub_806E190
-sub_806E190: @ 0x0806E190
+	thumb_func_start Task_SlotInit
+Task_SlotInit: @ 0x0806E190
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -532,7 +394,7 @@ _0806E47C:
 	strb r0, [r1]
 	ldr r0, _0806E4D4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806E4D8 @ =sub_806E190
+	ldr r0, _0806E4D8 @ =Task_SlotInit
 	str r0, [r1, #8]
 _0806E4A0:
 	adds r0, r5, #0
@@ -560,7 +422,7 @@ _0806E4C4:
 	bx r0
 	.align 2, 0
 _0806E4D4: .4byte gCurTask
-_0806E4D8: .4byte sub_806E190
+_0806E4D8: .4byte Task_SlotInit
 _0806E4DC: .4byte 0xFFFFFBFF
 
 	thumb_func_start sub_806E4E0
