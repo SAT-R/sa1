@@ -309,7 +309,7 @@ void CreateOctProjectile(CamCoord worldX, CamCoord worldY)
     s->graphics.dest = VRAM_RESERVED_EN_OCT_PROJ;
     s->oamFlags = SPRITE_OAM_ORDER(9);
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_OCT + 3;
+    s->graphics.anim = SA1_ANIM_OCT_PROJ;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = Q(0);
@@ -326,7 +326,7 @@ void Task_OctProjectile(void)
 {
     OctProjectile *proj = TASK_DATA(gCurTask);
     Sprite *s = &proj->s;
-    s16 oldWorldX, oldWorldY;
+    CamCoord oldWorldX, oldWorldY;
     u32 unk36;
 
     s->x = I(proj->qUnk30);

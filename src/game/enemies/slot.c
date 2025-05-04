@@ -4,12 +4,25 @@
 #include "malloc_vram.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/entities_manager.h"
+#include "game/stage/terrain_collision.h"
 #include "game/save.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
+
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ u16 unk30;
+    /* 0x30 */ u16 unk32;
+    /* 0x34 */ s32 qUnk34[6];
+    /* 0x4C */ s16 qUnk4C[6];
+    /* 0x58 */ s16 unk58[6];
+    /* 0x64 */ s16 unk64[6];
+    /* 0x70 */ s32 unk70[6];
+    /* 0x88 */ u8 unk88[6];
+} SlotProjectile;
 
 typedef struct {
     // NOTE: EntityShared HAS to be the first element,
@@ -26,6 +39,8 @@ typedef struct {
 void Task_SlotInit(void);
 void sub_806E374(void);
 void CreateSlotProjectile(s16 worldX, s16 worldY);
+void Task_SlotProjectileMain(void);
+void sub_806E7E0(void);
 
 void CreateEntity_Slot(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -90,7 +105,6 @@ void Task_SlotInit(void)
     slot->qUnk3C += slot->qUnk3E;
 
     worldX = worldX2 + I(slot->qUnk3C);
-    ;
     worldY = worldY2 - slot->unk44;
 
     s->x = worldX - gCamera.x;
@@ -178,3 +192,103 @@ void sub_806E374(void)
     DisplaySprite(s);
     SPRITE_FLAG_CLEAR(s, X_FLIP);
 }
+
+void CreateSlotProjectile(s16 worldX, s16 worldY)
+{
+    struct Task *t = TaskCreate(Task_SlotProjectileMain, sizeof(SlotProjectile), 0x3000, 0, NULL);
+    SlotProjectile *proj = TASK_DATA(t);
+    Sprite *s = &proj->s;
+
+    proj->qUnk34[0] = Q(worldX);
+    proj->qUnk4C[0] = 0;
+
+    // NOTE: x|y set to world- not screen-pos!
+    s->x = worldX;
+    s->y = worldY;
+
+    s->graphics.dest = VRAM_RESERVED_EN_SLOT_PROJ;
+    s->oamFlags = SPRITE_OAM_ORDER(9);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_SLOT_PROJ;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    UpdateSpriteAnimation(s);
+}
+
+NONMATCH("asm/non_matching/game/enemies/Slot__Task_SlotProjectileMain.inc", void Task_SlotProjectileMain(void))
+{
+    SlotProjectile *proj = TASK_DATA(gCurTask);
+    Sprite *s = &proj->s;
+    CamCoord oldWorldX, oldWorldY;
+    u8 sp08;
+    s32 sb;
+    u32 v;
+    bool32 playerWasHit;
+    u8 i; // r7
+
+    s->x = Div(proj->qUnk34[0], 0x100);
+    proj->qUnk4C[0] += Q(40. / 256.);
+    s->y += I(proj->qUnk4C[0]);
+    oldWorldX = proj->s.x;
+    oldWorldY = proj->s.y;
+
+    v = Coll_Player_Projectile(s, oldWorldX, oldWorldY);
+    playerWasHit = (-v | v) >> 31; // TODO: work this out!
+
+    // WorldPos -> ScreenPos
+    s->x -= gCamera.x;
+    s->y -= gCamera.y;
+
+    if ((((u16)(s->x + (40 / 2)) > DISPLAY_WIDTH + 36) || (s->y + (40 / 2) < 0) || (s->y > DISPLAY_HEIGHT + 80))) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    sb = SA2_LABEL(sub_801F07C)(oldWorldY, oldWorldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+
+    if (sb <= 0 || playerWasHit) {
+        s32 unk34;
+        s16 qUnk4C;
+        if (playerWasHit) {
+            sp08 = 0;
+        }
+
+        qUnk4C = proj->qUnk4C[0];
+
+        unk34 = proj->qUnk34[0];
+        proj->unk30 = 45;
+
+        for (i = 0; i < 6; i++) {
+            s32 r4 = qUnk4C * 10; // ???
+            s32 modRes = Mod(PseudoRandom32(), 4) + 0x10;
+            s32 r0 = Div(-r4, modRes);
+
+            proj->qUnk4C[i] = (r0 * SIN(((sp08 * 4) & 0x7F) + 0x100)) / 20000;
+            proj->unk58[i] = oldWorldX;
+            proj->unk64[i] = oldWorldY + sb;
+            proj->qUnk34[i] = unk34;
+            proj->unk70[i] = Div(SIN(((sp08 - 24 + i * 8) * 4) & ONE_CYCLE), 30);
+            proj->unk88[i] = 1;
+        }
+
+        s->prevVariant = -1;
+        s->graphics.dest = VRAM_RESERVED_EN_SLOT_PROJ2;
+        s->graphics.anim = SA1_ANIM_YUKIMARU_PROJ;
+        s->variant = 0;
+        gCurTask->main = sub_806E7E0;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s->x = oldWorldX;
+    s->y = oldWorldY;
+}
+END_NONMATCH
