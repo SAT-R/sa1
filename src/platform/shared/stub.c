@@ -168,7 +168,6 @@ void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 i
 // Enemies
 void CreateEntity_Kiki() { }
 void CreateEntity_Tentou() { }
-void CreateEntity_Slot() { }
 void CreateEntity_Wamu() { }
 void CreateEntity_Yukimaru() { }
 void CreateEntity_Yukimaru_Wall() { }
