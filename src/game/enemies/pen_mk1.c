@@ -259,4 +259,4 @@ void CreatePenMk1Snowball(CamCoord worldX, CamCoord worldY, u8 dir)
     UpdateSpriteAnimation(s);
 }
 
-//void Task_PenMk1Snowball(void) { }
+// void Task_PenMk1Snowball(void) { }
