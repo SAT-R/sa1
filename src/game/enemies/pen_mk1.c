@@ -16,17 +16,17 @@
 //       This one shoots ice balls that slide on the ground.
 
 typedef struct {
-    Sprite s;
-    s16 qUnk30;
-    s16 qUnk32;
-    s32 qUnk34;
-    s32 unk38;
-    s32 qUnk3C;
-    u8 filler40[0x4];
-    s32 qUnk44;
-    s16 unk48;
-    u8 unk4A;
-    u8 unk4B;
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s16 qUnk30;
+    /* 0x32 */ s16 qUnk32;
+    /* 0x34 */ s32 qUnk34;
+    /* 0x38 */ s32 qUnk38;
+    /* 0x3C */ s32 unk3C;
+    /* 0x40 */ u8 filler40[0x4];
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ u16 unk48;
+    /* 0x4A */ u8 unk4A;
+    /* 0x4B */ bool8 unk4B;
 } PenMk1Snowball;
 
 typedef struct {
@@ -44,7 +44,7 @@ void Task_PenMk1Main(void);
 void Task_8073CC4(void);
 void CreatePenMk1Snowball(CamCoord worldX, CamCoord worldY, u8 dir);
 void Task_PenMk1Snowball(void);
-void sub_80741E8(CamCoord worldX, CamCoord worldY);
+void CreatePeMk1SnowballDebris(CamCoord worldX, CamCoord worldY);
 
 void CreateEntity_PenMk1(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -230,14 +230,15 @@ void CreatePenMk1Snowball(CamCoord worldX, CamCoord worldY, u8 dir)
 
     proj->qUnk32 = 0;
     proj->qUnk34 = 0;
-    proj->unk38 = 0;
-    proj->qUnk3C = worldX;
-    proj->qUnk44 = worldY;
+    proj->qUnk38 = 0;
+    proj->unk3C = worldX;
+    proj->unk44 = worldY;
 
     proj->unk4B = 0;
     proj->unk48 = 800;
 
-    proj->unk38 += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+    // TODO: It doesn't make sense for proj->qUnk38 to be a Q() value, as result of sub_801F07C!
+    proj->qUnk38 += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
     // NOTE: x|y set to world- not screen-pos!
     s->x = worldX;
@@ -259,4 +260,140 @@ void CreatePenMk1Snowball(CamCoord worldX, CamCoord worldY, u8 dir)
     UpdateSpriteAnimation(s);
 }
 
-// void Task_PenMk1Snowball(void) { }
+NONMATCH("asm/non_matching/game/enemies/Pen__Task_PenMk1Snowball.inc", void Task_PenMk1Snowball(void))
+{
+    PenMk1Snowball *proj = TASK_DATA(gCurTask);
+    Sprite *s = &proj->s;
+    CamCoord oldWorldX, oldWorldY;
+    s16 divRes;
+    s32 res;
+    u8 sp08;
+    s32 divisor;
+
+    if (proj->unk4B) {
+        proj->qUnk32 += Q(60. / 256.);
+    }
+
+    proj->qUnk34 += proj->qUnk30;
+    proj->qUnk38 += proj->qUnk32;
+
+    // World pos
+    s->x = proj->unk3C + I(proj->qUnk34);
+    s->y = proj->unk44 + I(proj->qUnk38);
+
+    oldWorldX = proj->s.x;
+    oldWorldY = proj->s.y;
+
+    divRes = Div(SIN(proj->unk4A * 4), 1000);
+
+    // Check for slopes (pn the right?).
+    if ((divRes < 0) && ((s32)(divRes + proj->qUnk30) > (u16)-2)) {
+        proj->qUnk30 = -1; // TODO: Q = -1?
+    } else {
+        proj->qUnk30 += Div(SIN((proj->unk4A * 4) & ONE_CYCLE), 1000);
+    }
+    // _08074048
+
+    proj->qUnk38 += Div(COS(proj->unk4A * 4), 1000);
+
+    if (proj->unk48 != 0) {
+        proj->unk48--;
+    }
+    // _0807407E
+
+    if (Coll_Player_Projectile(s, oldWorldX, oldWorldY) || (proj->unk48 == 0)) {
+        CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _080740B0
+
+    // Screen pos
+    s->x -= gCamera.x;
+    s->y -= gCamera.y;
+
+    res = SA2_LABEL(sub_801F07C)(oldWorldY, oldWorldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+
+    if (res > 0) {
+        if (proj->unk4B == 0) {
+            proj->qUnk32 = 0;
+        }
+
+        proj->unk4B = 1;
+    } else {
+        // _080740F8
+        if (proj->unk4B != 0) {
+            proj->unk4A = 0;
+
+            if (proj->qUnk32 > Q(4)) {
+                CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+
+                TaskDestroy(gCurTask);
+                return;
+            }
+        }
+
+        if (res < 0) {
+            proj->unk4B = 0;
+        }
+    }
+    // _08074120
+
+    if (!proj->unk4B) {
+        s8 rot;
+        u8 urot;
+
+        if (res < 0) {
+            proj->qUnk38 += Q(res);
+            proj->qUnk32 = 0;
+        } else {
+            // _08074138
+            proj->qUnk32 += (res << 6);
+        }
+        // _08074144
+
+        rot = urot = proj->unk4A - sp08;
+        if (rot < 0)
+            urot = ABS(rot);
+
+        if ((s8)urot >= Q(0.25)) {
+            CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+
+            TaskDestroy(gCurTask);
+            return;
+        }
+
+        proj->unk4A = sp08;
+    }
+    // _08074174
+
+    if (res >= -5 && res <= 0) {
+        // TODO: Improve condition
+        if ((u8)(sp08 + 63) <= 28) {
+            CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+
+            TaskDestroy(gCurTask);
+            return;
+        }
+
+        if ((u8)(sp08 + 93) <= 28) {
+            CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+
+            TaskDestroy(gCurTask);
+            return;
+        }
+    } else {
+        // TODO:
+        //   if(IS_OUT_OF_RANGE_OLD(u16, s->x, s->y, 40))
+        if ((((u16)(s->x + (120 / 2)) > DISPLAY_WIDTH + 120) || (s->y + (120 / 2) < 0) || (s->y > DISPLAY_HEIGHT + 140))) {
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+    // _08074198
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+END_NONMATCH
