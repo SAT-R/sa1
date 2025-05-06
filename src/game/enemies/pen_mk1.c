@@ -21,8 +21,22 @@ typedef struct {
     /* 0x32 */ s16 qUnk32;
     /* 0x34 */ s32 qUnk34;
     /* 0x38 */ s32 qUnk38;
+    /* 0x3C */ s32 qWorldX;
+    /* 0x40 */ s32 qUnk40;
+    /* 0x44 */ s32 qWorldY;
+    /* 0x48 */ u16 unk48;
+    /* 0x4A */ u8 unk4A;
+    /* 0x4B */ bool8 unk4B;
+} PenMk1Debris;
+
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s16 qUnk30;
+    /* 0x32 */ s16 qUnk32;
+    /* 0x34 */ s32 qUnk34;
+    /* 0x38 */ s32 qUnk38;
     /* 0x3C */ s32 unk3C;
-    /* 0x40 */ u8 filler40[0x4];
+    /* 0x40 */ s32 unused40;
     /* 0x44 */ s32 unk44;
     /* 0x48 */ u16 unk48;
     /* 0x4A */ u8 unk4A;
@@ -44,7 +58,8 @@ void Task_PenMk1Main(void);
 void Task_8073CC4(void);
 void CreatePenMk1Snowball(CamCoord worldX, CamCoord worldY, u8 dir);
 void Task_PenMk1Snowball(void);
-void CreatePeMk1SnowballDebris(CamCoord worldX, CamCoord worldY);
+void CreatePenMk1SnowballDebris(CamCoord worldX, CamCoord worldY);
+void Task_SnowballDebris(void);
 
 void CreateEntity_PenMk1(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -302,7 +317,7 @@ NONMATCH("asm/non_matching/game/enemies/Pen__Task_PenMk1Snowball.inc", void Task
     // _0807407E
 
     if (Coll_Player_Projectile(s, oldWorldX, oldWorldY) || (proj->unk48 == 0)) {
-        CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+        CreatePenMk1SnowballDebris(oldWorldX, oldWorldY);
 
         TaskDestroy(gCurTask);
         return;
@@ -327,7 +342,7 @@ NONMATCH("asm/non_matching/game/enemies/Pen__Task_PenMk1Snowball.inc", void Task
             proj->unk4A = 0;
 
             if (proj->qUnk32 > Q(4)) {
-                CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+                CreatePenMk1SnowballDebris(oldWorldX, oldWorldY);
 
                 TaskDestroy(gCurTask);
                 return;
@@ -358,7 +373,7 @@ NONMATCH("asm/non_matching/game/enemies/Pen__Task_PenMk1Snowball.inc", void Task
             urot = ABS(rot);
 
         if ((s8)urot >= Q(0.25)) {
-            CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+            CreatePenMk1SnowballDebris(oldWorldX, oldWorldY);
 
             TaskDestroy(gCurTask);
             return;
@@ -371,14 +386,14 @@ NONMATCH("asm/non_matching/game/enemies/Pen__Task_PenMk1Snowball.inc", void Task
     if (res >= -5 && res <= 0) {
         // TODO: Improve condition
         if ((u8)(sp08 + 63) <= 28) {
-            CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+            CreatePenMk1SnowballDebris(oldWorldX, oldWorldY);
 
             TaskDestroy(gCurTask);
             return;
         }
 
         if ((u8)(sp08 + 93) <= 28) {
-            CreatePeMk1SnowballDebris(oldWorldX, oldWorldY);
+            CreatePenMk1SnowballDebris(oldWorldX, oldWorldY);
 
             TaskDestroy(gCurTask);
             return;
@@ -397,3 +412,79 @@ NONMATCH("asm/non_matching/game/enemies/Pen__Task_PenMk1Snowball.inc", void Task
     DisplaySprite(s);
 }
 END_NONMATCH
+
+void CreatePenMk1SnowballDebris(CamCoord worldX, CamCoord worldY)
+{
+    struct Task *t = TaskCreate(Task_SnowballDebris, sizeof(PenMk1Debris), 0x3000, 0, NULL);
+    PenMk1Debris *proj = TASK_DATA(t);
+    Sprite *s = &proj->s;
+
+    proj->qUnk30 = -Q(1);
+    proj->qUnk32 = -Q(3.75);
+    proj->qUnk34 = 0;
+    proj->qUnk38 = 0;
+    proj->qWorldX = Q(worldX);
+    proj->qUnk40 = proj->qWorldX;
+    proj->qWorldY = Q(worldY);
+    proj->unk4B = 0;
+
+    proj->qUnk38 += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, NULL, SA2_LABEL(sub_801EE64));
+
+    // World pos
+    s->x = worldX;
+    s->y = worldY;
+
+    s->graphics.dest = VRAM_RESERVED_EN_PEN_MK1_PROJ3;
+    s->oamFlags = SPRITE_OAM_ORDER(9);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_PEN_PROJ_3; // debris
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    UpdateSpriteAnimation(s);
+}
+
+void Task_SnowballDebris(void)
+{
+    PenMk1Debris *proj = TASK_DATA(gCurTask);
+    Sprite *s = &proj->s;
+
+    // World pos
+    proj->qWorldX += proj->qUnk30;
+    proj->qUnk40 -= proj->qUnk30;
+    s->x = I(proj->qWorldX);
+
+    proj->qUnk32 += Q(60. / 256.);
+    proj->qWorldY += proj->qUnk32;
+    s->y = I(proj->qWorldY);
+
+    // Screen pos
+#ifndef NON_MATCHING
+    {
+        // This is so stupid... but it matches!
+        u16 screenX = s->x;
+        s->x = screenX - gCamera.x;
+        s->y -= gCamera.y;
+    }
+#else
+    s->x -= gCamera.x;
+    s->y -= gCamera.y;
+#endif
+
+    if (s->y > DISPLAY_HEIGHT + 80) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s->x = I(proj->qUnk40) - gCamera.x;
+    DisplaySprite(s);
+}

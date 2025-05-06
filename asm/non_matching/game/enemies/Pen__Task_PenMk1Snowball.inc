@@ -141,7 +141,7 @@ _0807407E:
 _080740A0:
 	mov r0, sb
 	mov r1, sl
-	bl CreatePeMk1SnowballDebris
+	bl CreatePenMk1SnowballDebris
 	b _080741BC_destroy_n_return
 	.align 2, 0
 _080740AC: .4byte gSineTable
@@ -246,7 +246,7 @@ _0807415E:
 _08074166_debr_destroy_ret:
 	asrs r0, r5, #0x10  @ oldWorldX
 	asrs r1, r4, #0x10  @ oldWorldY
-	bl CreatePeMk1SnowballDebris
+	bl CreatePenMk1SnowballDebris
 	b _080741BC_destroy_n_return
 _08074170:
 	ldr r0, [sp, #0x10] @ r0 = sp10 = &proj->unk4A
