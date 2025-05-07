@@ -166,7 +166,6 @@ void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id) 
 void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 
 // Enemies
-void CreateEntity_Kiki() { }
 void CreateEntity_Tentou() { }
 void CreateEntity_Wamu() { }
 void CreateEntity_Yukimaru() { }

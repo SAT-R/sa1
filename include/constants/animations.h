@@ -33,14 +33,15 @@
 #define SA1_ANIM_SUPER_SONIC_DASH      400
 
 // Enemies
-#define SA1_ANIM_KIKI      401
-#define SA1_ANIM_KIKI_PROJ 402
-#define SA1_ANIM_BUZZER    403
-#define SA1_ANIM_GAMIGAMI  404
-#define SA1_ANIM_RHINOTANK 405
-#define SA1_ANIM_KEROKERO  406
+#define SA1_ANIM_KIKI                401
+#define SA1_ANIM_KIKI_PROJ_EXPLOSION 402
+#define SA1_ANIM_BUZZER              403
+#define SA1_ANIM_GAMIGAMI            404
+#define SA1_ANIM_RHINOTANK           405
+#define SA1_ANIM_KEROKERO            406
 // Defeating enemies / opening item boxes
 #define SA1_ANIM_DUST_CLOUD 407
+#define SA1_ANIM_KIKI_PROJ  408
 
 #define SA1_ANIM_BUZZER_PROJ       409
 #define SA1_ANIM_GAMIGAMI_PROJ     410 // TODO: shared?

@@ -114,11 +114,18 @@ u32 sub_800DF38(Sprite *s, s32 x, s32 y, Player *p);
     _enemy->offsetX = 0;                                                                                                                   \
     _enemy->offsetY = Q(sub_801F07C(I(_enemy->spawnY), I(_enemy->spawnX), _enemy->clampParam, 8, NULL, sub_801EE64));
 
+#if (GAME == GAME_SA1)
+#define ENEMY_UPDATE_EX_RAW(_s, _posX, _posY, code_insert)                                                                                 \
+    { code_insert };                                                                                                                       \
+    UpdateSpriteAnimation(_s);                                                                                                             \
+    DisplaySprite(_s);
+#else
 #define ENEMY_UPDATE_EX_RAW(_s, _posX, _posY, code_insert)                                                                                 \
     Player_UpdateHomingPosition(_posX, _posY);                                                                                             \
     { code_insert };                                                                                                                       \
     UpdateSpriteAnimation(_s);                                                                                                             \
     DisplaySprite(_s);
+#endif
 
 #define ENEMY_UPDATE_EX(_s, _posX, _posY, code_insert) ENEMY_UPDATE_EX_RAW(_s, QS(_posX), QS(_posY), code_insert);
 
