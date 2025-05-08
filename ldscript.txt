@@ -146,7 +146,6 @@ SECTIONS {
         src/game/enemies/slot.o(.text);
         src/game/enemies/leon.o(.text);
         src/game/enemies/wamu.o(.text);
-        asm/enemy_wamu.o(.text);
         src/game/enemies/mirror.o(.text);
         src/game/enemies/oct.o(.text);
         src/game/enemies/senbon.o(.text);
