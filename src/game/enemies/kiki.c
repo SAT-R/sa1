@@ -51,11 +51,12 @@ void CreateEntity_Kiki(MapEntity *me, u16 spriteRegionX, u16 spriteRegionY, u8 s
 {
 #if (GAME == GAME_SA1)
     const s32 taskPriority = 0x2000;
-    struct Task *t = TaskCreate(Task_KikiMain, sizeof(Sprite_Kiki), taskPriority, 0, TaskDestructor_EntityShared);
+    const TaskDestructor dtor = TaskDestructor_EntityShared;
 #else
     const s32 taskPriority = 0x4020;
-    struct Task *t = TaskCreate(Task_KikiMain, sizeof(Sprite_Kiki), taskPriority, 0, TaskDestructor_80095E8);
+    const TaskDestructor dtor = TaskDestructor_80095E8;
 #endif
+    struct Task *t = TaskCreate(Task_KikiMain, sizeof(Sprite_Kiki), taskPriority, 0, dtor);
     Sprite_Kiki *kiki = TASK_DATA(t);
     Sprite *s = &kiki->s;
 
