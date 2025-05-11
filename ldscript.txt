@@ -156,7 +156,6 @@ SECTIONS {
         src/game/enemies/kuraa.o(.text);
         src/game/enemies/pen_mk1.o(.text);
         src/game/enemies/tentou.o(.text);
-        asm/enemy_tentou.o(.text);
 
         src/game/interactables/trampoline.o(.text);
         src/game/interactables/bounce_block.o(.text);
