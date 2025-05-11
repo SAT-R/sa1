@@ -151,7 +151,9 @@ SECTIONS {
         src/game/enemies/senbon.o(.text);
         src/game/enemies/fireball.o(.text);
         src/game/enemies/mole.o(.text);
-        asm/enemy_yukimaru.o(.text);
+        src/game/enemies/yukimaru.o(.text);
+        asm/enemy_yukimaru_ground.o(.text);
+        asm/enemy_yukimaru_wall.o(.text);
         src/game/enemies/drisame.o(.text);
         src/game/enemies/kuraa.o(.text);
         src/game/enemies/pen_mk1.o(.text);
