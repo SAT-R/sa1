@@ -25,6 +25,7 @@ typedef struct {
 } Yukimaru;
 
 void Task_YukimaruGroundInit(void);
+void Task_8071BFC(void);
 void TaskDestructor_YukimaruGround(struct Task *t);
 
 void CreateEntity_Yukimaru(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -99,3 +100,68 @@ void CreateEntity_Yukimaru(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     UpdateSpriteAnimation(s);
 }
+
+NONMATCH("asm/non_matching/game/enemies/Yukimaru__YukimaruGroundInit.inc", void Task_YukimaruGroundInit(void))
+{
+    Yukimaru *yukimaru = TASK_DATA(gCurTask);
+    Sprite *s = &yukimaru->s;
+    Sprite *s2 = &yukimaru->s2;
+    MapEntity *me = yukimaru->base.me;
+    CamCoord worldX, worldY;
+    s32 worldX2, worldY2;
+    CamCoord deltaX, deltaY;
+
+    worldX = TO_WORLD_POS(yukimaru->base.meX, yukimaru->base.regionX);
+    worldY = TO_WORLD_POS(me->y, yukimaru->base.regionY);
+
+    yukimaru->qUnk7A += yukimaru->qUnk78;
+
+    deltaX = worldX + I(yukimaru->qUnk7A);
+    deltaY = worldY - 6;
+
+    worldX2 = worldX;
+    worldY2 = worldY;
+
+    s->x = deltaX - gCamera.x;
+    s->y = deltaY - gCamera.y;
+
+    s2->x = deltaX - gCamera.x;
+    s2->y = deltaY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX2, worldY2) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, yukimaru->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (Coll_Player_Enemy_Attack(s, deltaX, deltaY)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    yukimaru->qUnk7C += SA2_LABEL(sub_801F07C)(deltaY, deltaX, 1, +8, NULL, SA2_LABEL(sub_801EE64));
+
+    if (I(yukimaru->qUnk7A) <= (me->d.sData[0]) * TILE_WIDTH) {
+        yukimaru->qUnk78 = +Q(0.625);
+    } else if (I(yukimaru->qUnk7A) >= (me->d.sData[0] + me->d.uData[2]) * TILE_WIDTH) {
+        yukimaru->qUnk78 = -Q(0.625);
+    } else if (yukimaru->unk80 != 0) {
+        yukimaru->unk80--;
+    } else {
+        if ((I(gPlayer.qWorldY) <= deltaY) && (I(gPlayer.qWorldX) <= deltaX + 8) && (deltaX - 8 <= I(gPlayer.qWorldX))) {
+            yukimaru->unk80 = 60;
+            yukimaru->qUnk7E = Q(0);
+            s->variant = 0;
+            s2->variant = 0;
+            gCurTask->main = Task_8071BFC;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    SPRITE_FLAG_SET(s2, X_FLIP);
+    DisplaySprite(s2);
+    SPRITE_FLAG_CLEAR(s2, X_FLIP);
+}
+END_NONMATCH
