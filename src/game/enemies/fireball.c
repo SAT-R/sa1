@@ -223,8 +223,7 @@ void Task_FireballSpark(void)
 {
     FireballSpark *fireball = TASK_DATA(gCurTask);
     Sprite *s = &fireball->s;
-    s16 oldWorldX, oldWorldY;
-    s16 screenX, screenY;
+    CamCoord oldWorldX, oldWorldY;
     s32 worldX;
 
     fireball->unk30 += fireball->unk32;
