@@ -22,7 +22,7 @@ typedef struct {
 
 void Task_HangBar(void);
 
-extern s8 gUnknown_086CEDBC[MULTI_SIO_PLAYERS_MAX];
+extern const s8 gUnknown_086CEDBC[MULTI_SIO_PLAYERS_MAX];
 
 void Task_HangBar(void)
 {

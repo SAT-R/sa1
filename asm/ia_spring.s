@@ -5,159 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Spring_Normal_Up
-CreateEntity_Spring_Normal_Up: @ 0x080219A0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sb, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08021A94 @ =sub_8021AE4
-	ldr r1, _08021A98 @ =sub_802316C
-	str r1, [sp]
-	movs r1, #0x3c
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	ldr r1, _08021A9C @ =0x0300000C
-	adds r7, r2, r1
-	movs r3, #0
-	mov sl, r3
-	movs r1, #0
-	mov r8, r1
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r3, sb
-	str r3, [r0]
-	ldrb r1, [r3]
-	strb r1, [r0, #8]
-	strb r6, [r0, #9]
-	ldrb r0, [r3]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	strh r0, [r7, #0x16]
-	ldrb r0, [r3, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r7, #0x18]
-	movs r4, #2
-	rsbs r4, r4, #0
-	adds r0, r4, #0
-	strb r0, [r3]
-	movs r0, #0x10
-	str r2, [sp, #4]
-	bl VramMalloc
-	str r0, [r7, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r7, #0x1a]
-	mov r0, r8
-	strh r0, [r7, #8]
-	ldr r0, _08021AA0 @ =0x000001C7
-	strh r0, [r7, #0xa]
-	ldr r2, [sp, #4]
-	ldr r1, _08021AA4 @ =0x0300002C
-	adds r0, r2, r1
-	mov r3, sl
-	strb r3, [r0]
-	mov r4, r8
-	strh r4, [r7, #0x14]
-	strh r4, [r7, #0x1c]
-	ldr r0, _08021AA8 @ =0x0300002D
-	adds r1, r2, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r3, _08021AAC @ =0x0300002E
-	adds r1, r2, r3
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r4, _08021AB0 @ =0x03000031
-	adds r2, r2, r4
-	mov r0, sl
-	strb r0, [r2]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r7, #0x28]
-	mov r3, sb
-	ldrb r1, [r3, #3]
-	movs r3, #2
-	adds r0, r3, #0
-	ands r0, r1
-	cmp r0, #0
-	bne _08021AC8
-	ldr r1, _08021AB4 @ =0x040000D4
-	ldr r0, _08021AB8 @ =gRefSpriteTables
-	ldr r0, [r0]
-	ldr r0, [r0, #0xc]
-	movs r4, #0x90
-	lsls r4, r4, #3
-	adds r0, r0, r4
-	str r0, [r1]
-	ldr r0, _08021ABC @ =gObjPalette+0x100
-	str r0, [r1, #4]
-	ldr r0, _08021AC0 @ =0x84000008
-	str r0, [r1, #8]
-	ldr r0, [r1, #8]
-	ldr r1, _08021AC4 @ =gFlags
-	ldr r0, [r1]
-	orrs r0, r3
-	str r0, [r1]
-	movs r0, #0x84
-	lsls r0, r0, #0xb
-	str r0, [r7, #0x10]
-	movs r0, #1
-	strb r0, [r2]
-	b _08021ACE
-	.align 2, 0
-_08021A94: .4byte sub_8021AE4
-_08021A98: .4byte sub_802316C
-_08021A9C: .4byte 0x0300000C
-_08021AA0: .4byte 0x000001C7
-_08021AA4: .4byte 0x0300002C
-_08021AA8: .4byte 0x0300002D
-_08021AAC: .4byte 0x0300002E
-_08021AB0: .4byte 0x03000031
-_08021AB4: .4byte 0x040000D4
-_08021AB8: .4byte gRefSpriteTables
-_08021ABC: .4byte gObjPalette+0x100
-_08021AC0: .4byte 0x84000008
-_08021AC4: .4byte gFlags
-_08021AC8:
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r7, #0x10]
-_08021ACE:
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
+.if 0
+.endif
 
-	thumb_func_start sub_8021AE4
-sub_8021AE4: @ 0x08021AE4
+	thumb_func_start Task_Spring_Normal_Up
+Task_Spring_Normal_Up: @ 0x08021AE4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -361,7 +213,7 @@ _08021C6C:
 	bl UpdateSpriteAnimation
 	ldr r0, _08021C98 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08021C9C @ =sub_8021AE4
+	ldr r0, _08021C9C @ =Task_Spring_Normal_Up
 	str r0, [r1, #8]
 _08021C8C:
 	adds r0, r4, #0
@@ -372,7 +224,7 @@ _08021C92:
 	bx r0
 	.align 2, 0
 _08021C98: .4byte gCurTask
-_08021C9C: .4byte sub_8021AE4
+_08021C9C: .4byte Task_Spring_Normal_Up
 
 	thumb_func_start CreateEntity_Spring_Normal_Down
 CreateEntity_Spring_Normal_Down: @ 0x08021CA0
@@ -397,7 +249,7 @@ CreateEntity_Spring_Normal_Down: @ 0x08021CA0
 	ldr r0, _08021D74 @ =sub_8021D94
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08021D78 @ =sub_802316C
+	ldr r1, _08021D78 @ =TaskDestructor_Spring
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r3, #0
@@ -481,7 +333,7 @@ CreateEntity_Spring_Normal_Down: @ 0x08021CA0
 	bx r0
 	.align 2, 0
 _08021D74: .4byte sub_8021D94
-_08021D78: .4byte sub_802316C
+_08021D78: .4byte TaskDestructor_Spring
 _08021D7C: .4byte 0x0300000C
 _08021D80: .4byte 0x000001C7
 _08021D84: .4byte 0x0300002C
@@ -729,7 +581,7 @@ CreateEntity_Spring_Horizontal: @ 0x08021F50
 	lsrs r0, r0, #0x18
 	mov r8, r0
 	ldr r0, _0802201C @ =sub_8022068
-	ldr r1, _08022020 @ =sub_802316C
+	ldr r1, _08022020 @ =TaskDestructor_Spring
 	str r1, [sp]
 	movs r1, #0x3c
 	movs r2, #0x80
@@ -812,7 +664,7 @@ CreateEntity_Spring_Horizontal: @ 0x08021F50
 	b _08022044
 	.align 2, 0
 _0802201C: .4byte sub_8022068
-_08022020: .4byte sub_802316C
+_08022020: .4byte TaskDestructor_Spring
 _08022024: .4byte 0x0300000C
 _08022028: .4byte 0x000001C7
 _0802202C: .4byte 0x0300002C
@@ -1027,7 +879,7 @@ CreateEntity_Spring_Big_Up: @ 0x080221A8
 	lsrs r0, r0, #0x18
 	mov r8, r0
 	ldr r0, _08022274 @ =sub_80222C0
-	ldr r1, _08022278 @ =sub_802316C
+	ldr r1, _08022278 @ =TaskDestructor_Spring
 	str r1, [sp]
 	movs r1, #0x44
 	movs r2, #0x80
@@ -1110,7 +962,7 @@ CreateEntity_Spring_Big_Up: @ 0x080221A8
 	b _0802229C
 	.align 2, 0
 _08022274: .4byte sub_80222C0
-_08022278: .4byte sub_802316C
+_08022278: .4byte TaskDestructor_Spring
 _0802227C: .4byte 0x0300000C
 _08022280: .4byte 0x000001C7
 _08022284: .4byte 0x0300002C
@@ -1325,7 +1177,7 @@ CreateEntity_Spring_Small_Up: @ 0x08022400
 	lsrs r0, r0, #0x18
 	mov r8, r0
 	ldr r0, _080224E4 @ =sub_8022500
-	ldr r1, _080224E8 @ =sub_802316C
+	ldr r1, _080224E8 @ =TaskDestructor_Spring
 	str r1, [sp]
 	movs r1, #0x44
 	movs r2, #0x80
@@ -1420,7 +1272,7 @@ _080224CE:
 	bx r0
 	.align 2, 0
 _080224E4: .4byte sub_8022500
-_080224E8: .4byte sub_802316C
+_080224E8: .4byte TaskDestructor_Spring
 _080224EC: .4byte 0x0300000C
 _080224F0: .4byte 0x000001C7
 _080224F4: .4byte 0x0300002C
@@ -3071,8 +2923,8 @@ _0802315A:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start sub_802316C
-sub_802316C: @ 0x0802316C
+	thumb_func_start TaskDestructor_Spring
+TaskDestructor_Spring: @ 0x0802316C
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
