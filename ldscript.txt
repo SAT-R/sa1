@@ -190,6 +190,7 @@ SECTIONS {
         asm/ia_moving_spring.o(.text);
         src/game/interactables/iron_ball.o(.text);
         asm/ia_hang_bar.o(.text);
+        src/game/interactables/hang_bar.o(.text);
         asm/ia_084.o(.text);
         asm/ia_platforms_085_089.o(.text);
         asm/ia_run_wheel.o(.text);
