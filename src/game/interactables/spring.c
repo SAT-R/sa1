@@ -5,6 +5,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/stage/player.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/stage/player_controls.h"
@@ -43,6 +44,8 @@ bool32 sub_8022804(Sprite *s, MapEntity *me, SpringA *spring, Player *p);
 bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p);
 bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p);
 bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p);
+
+extern const s16 gUnknown_080BB4F4[4];
 
 void CreateEntity_Spring_Normal_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -561,3 +564,97 @@ void Task_8022594(void)
     }
     DisplaySprite(s);
 }
+
+// (94.11%) https://decomp.me/scratch/h1tYL
+NONMATCH("asm/non_matching/game/interactables/Spring__sub_8022640.inc",
+         bool32 sub_8022640(Sprite *s, MapEntity *me, SpringA *spring, Player *p))
+{
+#ifndef NON_MATCHING
+    register s32 sb asm("sb") = 0;
+    register bool32 r6 asm("r6") = FALSE;
+#else
+    s32 sb = 0;
+    bool32 r6 = FALSE;
+#endif
+    CamCoord worldX, worldY;
+    u8 i;
+
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spring->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+        for (i = 0; i < MULTI_SIO_PLAYERS_MAX && gMultiplayerPlayerTasks[i]; i++) {
+            if (i != SIO_MULTI_CNT->id) {
+                MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
+
+                if (mpp->unk5C & 0x4) {
+                    r6 = TRUE;
+                }
+            }
+            // _080226CE
+        }
+    }
+    // _080226E2
+
+    if (!(p->moveState & MOVESTATE_IA_OVERRIDE) || r6) {
+        // _080226F2
+
+        if (!(sub_80096B0(s, worldX, worldY, p) & COLL_FLAG_8)) {
+            sb = sub_800A768(s, worldX, worldY, p);
+
+            if (!sb) {
+                return FALSE;
+            }
+        }
+        // _08022724
+
+        if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+            p->timerInvulnerability = 2;
+        }
+
+        SA2_LABEL(sub_8021BE0)(p);
+
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        p->moveState |= MOVESTATE_IN_AIR;
+        p->moveState &= ~MOVESTATE_100;
+        p->SA2_LABEL(unk61) = 0;
+
+        if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            p->qSpeedAirY = -(me->d.uData[1] << 4);
+        } else {
+            p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+        }
+
+        if (sb) {
+            // p->qSpeedAirY * 1.5
+            s16 qNewSpeed = (p->qSpeedAirY >> 1);
+            qNewSpeed += p->qSpeedAirY;
+            p->qSpeedAirY = qNewSpeed;
+        }
+
+        if (me->d.sData[0] & 0x1) {
+            Player_TransitionCancelFlyingAndBoost(p);
+            p->charState = CHARSTATE_21;
+        } else {
+            Player_TransitionCancelFlyingAndBoost(p);
+            p->charState = CHARSTATE_17;
+        }
+        // _080227C0
+
+        p->spriteInfoBody->s.prevVariant = -1;
+        s->variant = 1;
+        s->prevVariant = -1;
+
+        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+
+        m4aSongNumStart(SE_SPRING);
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
+END_NONMATCH

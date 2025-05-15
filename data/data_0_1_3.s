@@ -45,8 +45,8 @@ gUnknown_080BB4F0:
     .byte 8, 9, 10, 9
 
     .global gUnknown_080BB4F4
-gUnknown_080BB4F4:
-    .byte 0x80, 0x07, 0x00, 0x09, 0x80, 0x0A, 0x00, 0x0C
+gUnknown_080BB4F4: @ Q-values!
+    .short 0x780, 0x900, 0xA80, 0xC00
 
     .global gUnknown_080BB4FC
 gUnknown_080BB4FC:
