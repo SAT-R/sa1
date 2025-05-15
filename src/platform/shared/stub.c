@@ -17,6 +17,7 @@ int gMaxLines = 0;
 #include "game/enemies/boss_super_egg_robo.h"
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
+u32 sub_800A850(Sprite *s, CamCoord x, CamCoord y, Player *p) { return 0; }
 u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }

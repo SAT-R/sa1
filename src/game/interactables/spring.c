@@ -658,3 +658,169 @@ NONMATCH("asm/non_matching/game/interactables/Spring__sub_8022640.inc",
     return FALSE;
 }
 END_NONMATCH
+
+bool32 sub_8022804(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
+{
+    s32 sb = 0;
+    bool32 r6 = FALSE;
+    CamCoord worldX, worldY;
+    u8 i;
+    u32 collRes;
+
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spring->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    // _080226F2
+
+    collRes = sub_80096B0(s, worldX, worldY, p);
+    if (collRes & COLL_FLAG_10000) {
+        if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+            p->timerInvulnerability = 2;
+        }
+
+        p->moveState |= MOVESTATE_IN_AIR;
+        p->moveState &= ~MOVESTATE_100;
+        p->SA2_LABEL(unk61) = 0;
+
+        if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            p->qSpeedAirY = +(me->d.uData[1] << 4);
+        } else {
+            p->qSpeedAirY = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+        }
+
+        s->variant = 1;
+        s->prevVariant = -1;
+
+        m4aSongNumStart(SE_SPRING);
+
+        return TRUE;
+    } else if (collRes & 0x28) {
+        SA2_LABEL(sub_8021BE0)(p);
+    }
+
+    return FALSE;
+}
+
+bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
+{
+    s32 sb = 0;
+    bool32 r6 = FALSE;
+    CamCoord worldX, worldY;
+    u8 i;
+    u32 collRes;
+    s32 iaIndex;
+
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spring->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    // _080226F2
+
+    collRes = sub_800A850(s, worldX, worldY, p);
+    if (collRes & COLL_FLAG_20000) {
+        iaIndex = 10;
+        if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+            iaIndex = 8;
+        }
+
+        if (iaIndex == me->index) {
+            if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+                p->timerInvulnerability = 2;
+            }
+
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+                p->qSpeedAirX = -(me->d.uData[1] << 4);
+                p->qSpeedGround = -(me->d.uData[1] << 4);
+            } else {
+                p->qSpeedAirX = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedGround = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+            }
+
+            Player_TransitionCancelFlyingAndBoost(p);
+
+            if (p->moveState & MOVESTATE_4) {
+                p->charState = CHARSTATE_SPINATTACK;
+            } else {
+                p->charState = CHARSTATE_WALK;
+            }
+
+            p->rotation = 0;
+            p->moveState |= MOVESTATE_FACING_LEFT;
+
+            s->variant = 3;
+            s->prevVariant = -1;
+            m4aSongNumStart(SE_SPRING);
+
+            return TRUE;
+        } else {
+            SA2_LABEL(sub_8021BE0)(p);
+
+            if (!(collRes & 0x20)) {
+                return FALSE;
+            }
+
+            p->moveState |= 0x20;
+            p->qSpeedAirX = Q(0);
+            p->qSpeedGround = Q(0);
+        }
+    } else {
+        if (!(collRes & COLL_FLAG_40000)) {
+            return FALSE;
+        }
+
+        iaIndex = 11;
+        if (gGameMode == 6) {
+            iaIndex = 9;
+        }
+
+        if (iaIndex == me->index) {
+            if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+                p->timerInvulnerability = 2;
+            }
+
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+                p->qSpeedAirX = +(me->d.uData[1] << 4);
+                p->qSpeedGround = +(me->d.uData[1] << 4);
+            } else {
+                p->qSpeedAirX = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedGround = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+            }
+
+            Player_TransitionCancelFlyingAndBoost(p);
+
+            if (p->moveState & MOVESTATE_4) {
+                p->charState = CHARSTATE_SPINATTACK;
+            } else {
+                p->charState = CHARSTATE_WALK;
+            }
+
+            p->rotation = 0;
+            p->moveState &= ~MOVESTATE_FACING_LEFT;
+
+            s->variant = 3;
+            s->prevVariant = -1;
+            m4aSongNumStart(SE_SPRING);
+
+            return TRUE;
+        } else {
+            SA2_LABEL(sub_8021BE0)(p);
+
+            if (!(collRes & 0x20)) {
+                return FALSE;
+            }
+
+            p->moveState |= 0x20;
+            p->qSpeedAirX = Q(0);
+            p->qSpeedGround = Q(0);
+        }
+    }
+
+    PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+
+    return FALSE;
+}
