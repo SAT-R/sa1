@@ -24,7 +24,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ u8 filler3C[8];
+    /* 0x3C */ Hitbox reserved;
 } SpringB;
 
 void Task_Spring_Normal_Up(void);
@@ -1072,4 +1072,10 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
     }
 
     return FALSE;
+}
+
+void TaskDestructor_Spring(struct Task *t)
+{
+    SpringA *spring = TASK_DATA(t);
+    VramFree(spring->s.graphics.dest);
 }
