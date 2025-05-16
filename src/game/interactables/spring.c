@@ -951,3 +951,125 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
 
     return FALSE;
 }
+
+bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
+{
+    u8 arr[4] = { -(p->spriteOffsetX + 6), -(p->spriteOffsetY + 1), +(p->spriteOffsetX + 6), +(p->spriteOffsetY + 1) };
+    s32 sb = 0;
+    bool32 r6 = FALSE;
+    CamCoord worldX, worldY;
+    u8 i;
+    u32 collRes;
+    s32 iaIndex;
+
+    worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spring->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (p->moveState & MOVESTATE_DEAD) {
+        return FALSE;
+    }
+
+    collRes = sub_800A768(s, worldX, worldY, p);
+
+    if (collRes || HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), (*((Rect8 *)&arr)))) {
+        p->moveState &= ~MOVESTATE_4;
+        p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+        iaIndex = IA__SPRING__SMALL_UPLEFT;
+
+        if ((iaIndex == me->index) && (collRes || (worldX - ({ I(p->qWorldX) + 20; })) > 0)) {
+            if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+                p->timerInvulnerability = 2;
+            }
+
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState |= MOVESTATE_IN_AIR;
+            p->moveState &= ~MOVESTATE_100;
+            p->SA2_LABEL(unk61) = 0;
+
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+                p->qSpeedAirY = -(me->d.uData[1] << 4);
+                p->qSpeedAirX = -(me->d.uData[1] << 4);
+            } else {
+                p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+            }
+
+            if (collRes) {
+                // qSpeedAirX|Y *= 1.5
+                p->qSpeedAirX = p->qSpeedAirX + (p->qSpeedAirX >> 1);
+                p->qSpeedAirY = p->qSpeedAirY + (p->qSpeedAirY >> 1);
+            }
+
+            if (GRAVITY_IS_INVERTED) {
+                p->qSpeedAirY = -p->qSpeedAirY;
+            }
+
+            if (me->d.sData[0] & 0x1) {
+                Player_TransitionCancelFlyingAndBoost(p);
+                p->charState = CHARSTATE_21;
+            } else {
+                Player_TransitionCancelFlyingAndBoost(p);
+                p->charState = CHARSTATE_17;
+            }
+
+            p->spriteInfoBody->s.prevVariant = -1;
+            s->variant = 7;
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+            m4aSongNumStart(SE_SPRING);
+
+            return TRUE;
+        } else if (collRes || worldX - I(p->qWorldX) + 20 < 0) {
+            if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
+                p->timerInvulnerability = 2;
+            }
+
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState |= MOVESTATE_IN_AIR;
+            p->moveState &= ~MOVESTATE_100;
+            p->SA2_LABEL(unk61) = 0;
+
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+                p->qSpeedAirY = -(me->d.uData[1] << 4);
+                p->qSpeedAirX = +(me->d.uData[1] << 4);
+            } else {
+                p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+            }
+
+            if (collRes) {
+                // qSpeedAirX|Y *= 1.5
+                p->qSpeedAirX = p->qSpeedAirX + (p->qSpeedAirX >> 1);
+                p->qSpeedAirY = p->qSpeedAirY + (p->qSpeedAirY >> 1);
+            }
+
+            if (GRAVITY_IS_INVERTED) {
+                p->qSpeedAirY = -p->qSpeedAirY;
+            }
+
+            if (me->d.sData[0] & 0x1) {
+                Player_TransitionCancelFlyingAndBoost(p);
+                p->charState = CHARSTATE_21;
+            } else {
+                Player_TransitionCancelFlyingAndBoost(p);
+                p->charState = CHARSTATE_17;
+            }
+
+            p->spriteInfoBody->s.prevVariant = -1;
+            s->variant = 7;
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+            m4aSongNumStart(SE_SPRING);
+
+            return TRUE;
+        } else {
+            sub_80096B0(s, worldX, worldY, p);
+        }
+    } else {
+        sub_80096B0(s, worldX, worldY, p);
+    }
+
+    return FALSE;
+}
