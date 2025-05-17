@@ -11,9 +11,10 @@
 extern void SA2_LABEL(sub_8021BE0)(Player *p);
 
 // sa2__sub_800C060
+// 'Coll_Player_PlatformCrumbling' name from SA2, called by many Entities in SA1!
 // (86.62%) https://decomp.me/scratch/icjnK
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sa2__800C060.inc",
-         u32 sub_800B2BC(Sprite *s, CamCoord sx, CamCoord sy, Player *p))
+         u32 Coll_Player_PlatformCrumbling(Sprite *s, CamCoord sx, CamCoord sy, Player *p))
 {
     s8 rectPlayer[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
 

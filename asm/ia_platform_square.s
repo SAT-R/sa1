@@ -3071,7 +3071,7 @@ _0807E756:
 _0807E77C:
 	mov r0, sl
 	adds r1, r5, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	cmp r0, #0
 	bne _0807E7C0
 	cmp r4, #0
@@ -3137,7 +3137,7 @@ _0807E7D4:
 _0807E7FA:
 	mov r0, sl
 	adds r1, r5, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	movs r1, #8
 	ands r1, r0
 	cmp r1, #0

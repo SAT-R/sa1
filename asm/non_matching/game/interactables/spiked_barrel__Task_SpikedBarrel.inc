@@ -205,7 +205,7 @@ _08090AE2:
 	asrs r2, r2, #0x10
 	mov r0, sb
 	adds r3, r6, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	ldr r3, [sp, #0x20] @ barrel->unk56
 	ldrb r0, [r3]
 	str r5, [sp, #0x18] @ sp18 = worldX << 16

@@ -553,7 +553,7 @@ _0808FBF2:
 _0808FC14:
 	ldr r0, [sp]
 	adds r1, r5, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	cmp r6, #0
 	beq _0808FC38
 	mov r3, r8

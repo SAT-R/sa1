@@ -14,7 +14,7 @@ typedef struct {
 
 void Task_TrackAirCorner(void);
 
-u32 sub_800B2BC(Sprite *s, s16 worldX, s16 worldY, Player *p);
+u32 Coll_Player_PlatformCrumbling(Sprite *s, s16 worldX, s16 worldY, Player *p);
 
 void CreateEntity_TrackAirCorner(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -76,7 +76,7 @@ void Task_TrackAirCorner(void)
     do {
         if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
-                u32 res = sub_800B2BC(s, worldX, worldY, GET_SP_PLAYER_V1(i));
+                u32 res = Coll_Player_PlatformCrumbling(s, worldX, worldY, GET_SP_PLAYER_V1(i));
 
                 if (res & 0x8) {
                     GET_SP_PLAYER_MEMBER_V1(i, qWorldY) += Q(2);

@@ -95,10 +95,10 @@ void Task_SmallFallBlockMain(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    res = sub_800B2BC(s, worldX, worldY, &gPlayer);
+    res = Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPlayer);
 
     if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
-        res |= sub_800B2BC(s, worldX, worldY, &gPartner);
+        res |= Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPartner);
     }
 
     if ((res & COLL_FLAG_8) && (gPlayer.stoodObj == s)) {
@@ -147,10 +147,10 @@ void Task_SmallFallBlock1(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    sub_800B2BC(s, worldX, worldY, &gPlayer);
+    Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPlayer);
 
     if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
-        sub_800B2BC(s, worldX, worldY, &gPartner);
+        Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPartner);
     }
 
     if (IS_MULTI_PLAYER && ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
@@ -228,7 +228,7 @@ void Task_SmallFallBlock2(void)
         }
 
         if (block->unk3C < 32) {
-            sub_800B2BC(s, worldX, worldY + I(block->qUnk44), p);
+            Coll_Player_PlatformCrumbling(s, worldX, worldY + I(block->qUnk44), p);
         }
 
     } while (++i < gNumSingleplayerCharacters);

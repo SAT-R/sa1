@@ -477,7 +477,7 @@ _08085906:
 _08085918:
 	ldr r0, [sp]
 	adds r1, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	adds r1, r4, #0
 	subs r1, #8
 	cmp r5, #0
@@ -992,7 +992,7 @@ _08085CBC:
 	ldr r3, _08085D0C @ =gPartner
 _08085CE2:
 	ldr r0, [sp]
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	movs r1, #8
 	ands r1, r0
 	cmp r1, #0
@@ -2091,7 +2091,7 @@ _080864DA:
 _080864F6:
 	adds r0, r7, #0
 	adds r1, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 _080864FE:
 	adds r6, #1
 	ldr r0, _08086580 @ =gNumSingleplayerCharacters

@@ -157,7 +157,7 @@ NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.i
         }
         // _08090AE2
 
-        sub_800B2BC(s, I(barrel->unk48) + worldX, I(barrel->unk4C) + worldY, p);
+        Coll_Player_PlatformCrumbling(s, I(barrel->unk48) + worldX, I(barrel->unk4C) + worldY, p);
 
         if ((barrel->unk56 == 0) || (barrel->unk56 == 2)) {
             if (s->hitboxes[1].index != HITBOX_STATE_INACTIVE) {

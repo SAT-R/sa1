@@ -66,7 +66,7 @@ SECTIONS {
         src/game/interactables/grind_rail.o(.text);
         asm/ia_platform_thin.o(.text);
         src/game/sa1_sa2_shared/magnetic_ring.o(.text);
-        asm/ia_platform_crumbling.o(.text);
+        src/game/interactables/platform_crumbling.o(.text);
         src/game/interactables/fadein_to_be_continued.o(.text);
         src/game/special_stage/temporary_sound_play_task.o(.text);
         asm/enemy_boss_1_egg_hammer_tank.o(.text);
@@ -190,7 +190,7 @@ SECTIONS {
         asm/ia_moving_spring.o(.text);
         src/game/interactables/iron_ball.o(.text);
         src/game/interactables/hang_bar.o(.text);
-        asm/ia_084.o(.text);
+        asm/ia_skating_stone.o(.text);
         asm/ia_platforms_085_089.o(.text);
         asm/ia_run_wheel.o(.text);
         src/game/interactables/torch.o(.text);
@@ -275,6 +275,8 @@ SECTIONS {
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
         data/data_0_1_3.o(.rodata);
+        src/game/interactables/platform_crumbling.o(.rodata);
+        data/data_0_1_4.o(.rodata);
         src/data/tilemap_data_0.o(.rodata);
         src/data/sprite_tables.o(.rodata);
         src/data/animations/animations.o(.rodata);

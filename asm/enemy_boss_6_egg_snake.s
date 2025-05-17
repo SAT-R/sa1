@@ -3665,7 +3665,7 @@ _08033AF4:
 	strh r0, [r4, #0x18]
 	adds r0, r4, #0
 	ldr r3, _08033B70 @ =gPlayer
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	cmp r0, #0
 	bne _08033B74
 	adds r0, r5, #1
@@ -4347,7 +4347,7 @@ _0803402C:
 	asrs r2, r2, #0x10
 	adds r0, r4, #0
 	ldr r3, _08034094 @ =gPartner
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	cmp r0, #0
 	bne _08034072
 	adds r0, r5, #1

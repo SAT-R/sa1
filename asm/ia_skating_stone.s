@@ -2282,7 +2282,7 @@ _0808D84A:
 _0808D872:
 	ldr r0, [sp, #0xc]
 	adds r1, r7, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	movs r1, #8
 	ands r1, r0
 	cmp r1, #0

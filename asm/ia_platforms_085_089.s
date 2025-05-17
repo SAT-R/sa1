@@ -501,7 +501,7 @@ _0808E1FA:
 _0808E21C:
 	ldr r0, [sp, #8]
 	adds r1, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	movs r1, #8
 	ands r1, r0
 	cmp r1, #0
@@ -1085,7 +1085,7 @@ _0808E672:
 _0808E694:
 	mov r0, sb
 	adds r1, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	movs r1, #8
 	ands r1, r0
 	cmp r1, #0

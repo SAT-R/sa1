@@ -104,6 +104,7 @@
 #define SE_SPRING              170
 #define SE_171                 171
 #define SE_POLE                175
+#define SE_CRUMBLING_PLATFORM  173
 #define SE_TRAMPOLINE          176
 #define SE_WATER_BRIDGE_SPLASH 177
 #define SE_SHRUBBERY           178

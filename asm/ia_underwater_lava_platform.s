@@ -264,7 +264,7 @@ _0809281A:
 	ldr r0, [sp, #0xc]
 	adds r1, r2, #0
 	adds r2, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	movs r1, #8
 	ands r1, r0
 	cmp r1, #0
@@ -619,7 +619,7 @@ _08092AEC:
 	adds r1, r7, #0
 	adds r2, r3, #0
 	adds r3, r5, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	cmp r0, #0
 	beq _08092BD8
 	mov r5, sl

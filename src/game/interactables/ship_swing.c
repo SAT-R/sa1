@@ -184,7 +184,7 @@ void Task_ShipSwing(void)
     do {
         if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if (Q(worldY - 4) > GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) {
-                if (sub_800B2BC(sprHook, worldX, worldY, GET_SP_PLAYER_V1(i)) & COLL_FLAG_8) {
+                if (Coll_Player_PlatformCrumbling(sprHook, worldX, worldY, GET_SP_PLAYER_V1(i)) & COLL_FLAG_8) {
                     if (!GetBit(swing->unkA7, i)) {
                         SetBit(swing->unkA7, i);
                     }
@@ -200,7 +200,8 @@ void Task_ShipSwing(void)
             if (swing->unkA5[i] > 0) {
                 swing->unkA5[i]--;
             } else {
-                if (sub_800B2BC(sprShip, (dtDirX >> 10) + worldX, (dtDirY >> 10) + worldY, GET_SP_PLAYER_V1(i)) & COLL_FLAG_8) {
+                if (Coll_Player_PlatformCrumbling(sprShip, (dtDirX >> 10) + worldX, (dtDirY >> 10) + worldY, GET_SP_PLAYER_V1(i))
+                    & COLL_FLAG_8) {
                     if (!GetBit(swing->unkA4, i)) {
                         SetBit(swing->unkA4, i);
                     } else {

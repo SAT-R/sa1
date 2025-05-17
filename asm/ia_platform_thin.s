@@ -381,7 +381,7 @@ _080242CC:
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
 	mov r0, r8
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 _080242F8:
 	movs r2, #1
 	add sb, r2
@@ -744,7 +744,7 @@ sub_8024574: @ 0x08024574
 	adds r0, r6, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	movs r3, #8
 	mov r8, r3
 	ands r0, r3
@@ -754,7 +754,7 @@ sub_8024574: @ 0x08024574
 	adds r0, r6, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	mov r4, r8
 	ands r0, r4
 	cmp r0, #0
@@ -975,12 +975,12 @@ sub_802473C: @ 0x0802473C
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	ldr r3, _080247DC @ =gPartner
 	adds r0, r7, #0
 	adds r1, r5, #0
 	adds r2, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 	ldr r0, _080247E0 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
@@ -1315,7 +1315,7 @@ _08024A26:
 	mov r3, sl
 	asrs r1, r3, #0x10
 	adds r3, r4, #0
-	bl sub_800B2BC
+	bl Coll_Player_PlatformCrumbling
 _08024A48:
 	movs r0, #1
 	add r8, r0
