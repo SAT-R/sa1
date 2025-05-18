@@ -131,7 +131,6 @@ void CreateEntity_MarbleTrack_Exit(MapEntity *me, u16 regionX, u16 regionY, u8 i
 void CreateEntity_Flipper_SmallBlue(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_Carousel(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_SwingingHook(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
-void CreateEntity_CraneClaw(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_MovingSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 void CreateEntity_Interactable085(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }

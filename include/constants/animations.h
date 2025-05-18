@@ -135,12 +135,12 @@
 #define SA1_ANIM_PLATFORM_HORZ_CAS_PAR   495
 #define SA1_ANIM_ONEWAY_TURN_SIDEWAYS    496
 #define SA1_ANIM_ONEWAY_TURN_UPDOWN      497
-#define SA1_ANIM_GRABBER_SEC_BAS         498
+#define SA1_ANIM_CRANE_CLAW_2            498
 #define SA1_ANIM_BOUNCE_BLOCK_2          499
-#define SA1_ANIM_GRABBER_SEC_BAS_COPY    500
+#define SA1_ANIM_CRANE_CLAW_2_2          500
 #define SA1_ANIM_STEAM_EXHAUST_LID       501
 #define SA1_ANIM_CRUMBLE_PLATFORM_2_3    502
-#define SA1_ANIM_HANDLES_SEC_BAS_ANCHOR  503
+#define SA1_ANIM_ANCHOR_HANDLES          503
 #define SA1_ANIM_HOOK_RAIL_2             504 // Variants: 0 = Rail, 1 = Anchor
 #define SA1_ANIM_TRAMPOLINE2             505
 #define SA1_ANIM_PLATFORM2               506
