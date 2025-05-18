@@ -51,25 +51,25 @@ const AnimId sPlatformCrumblingAnims[NUM_LEVEL_IDS] = {
     SA1_ANIM_CRUMBLE_PLATFORM_6_2, //
 };
 
-void CreateEntity_PlatformCrumbling(MapEntity *me, u16 spriteRegionX, u16 spriteRegionY, u8 spriteY)
+void CreateEntity_PlatformCrumbling(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_PlatformCrumbling, sizeof(PlatformCrumbling), 0x2000, 0, TaskDestructor_PlatformCrumbling);
     PlatformCrumbling *platform = TASK_DATA(t);
     SpriteBase *base = &platform->base;
     Sprite *s = &platform->s;
 
-    base->regionX = spriteRegionX;
-    base->regionY = spriteRegionY;
+    base->regionX = regionX;
+    base->regionY = regionY;
     base->me = me;
     base->meX = me->x;
-    base->id = spriteY;
+    base->id = id;
     SET_MAP_ENTITY_INITIALIZED(me);
 
     platform->unk3C = 0;
 
     // @BUG Loads the -2 set through SET_MAP_ENTITY_INITIALIZED
-    s->x = TO_WORLD_POS(me->x, spriteRegionX);
-    s->y = TO_WORLD_POS(me->y, spriteRegionY);
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_CRUMBLE_PLATFORM);
 
 #ifdef BUG_FIX

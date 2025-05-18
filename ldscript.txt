@@ -185,7 +185,7 @@ SECTIONS {
         asm/ia_swinging_hook.o(.text);
         src/game/interactables/security_gate.o(.text);
         src/game/interactables/swing_rope.o(.text);
-        asm/ia_steam_exhaust.o(.text);
+        src/game/interactables/steam_exhaust.o(.text);
         asm/ia_crane_claw_lift.o(.text);
         asm/ia_moving_spring.o(.text);
         src/game/interactables/iron_ball.o(.text);
