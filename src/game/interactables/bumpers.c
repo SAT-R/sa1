@@ -20,7 +20,7 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ s16 unk3C;
+    /* 0x3C */ u16 unk3C;
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s32 unk44;
     /* 0x48 */ s16 unk48;
@@ -30,7 +30,10 @@ typedef struct {
 } BumperA;
 
 void Task_BumperHexagon(void);
+void Task_BumperHexagon2(void);
 void TaskDestructor_BumperHexagon(struct Task *t);
+
+bool32 sub_8078DA4(BumperA *bumper, Sprite *s, CamCoord worldX, CamCoord worldY);
 
 void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -87,4 +90,70 @@ void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     UpdateSpriteAnimation(s);
+}
+
+void Task_BumperHexagon(void)
+{
+    BumperA *bumper = TASK_DATA(gCurTask);
+    Sprite *s = &bumper->s;
+    MapEntity *me = bumper->base.me;
+    CamCoord worldX, worldY;
+
+    if (bumper->unk48 != 0) {
+        s32 r2 = Q(me->d.uData[2] * TILE_WIDTH);
+
+        bumper->unk40 = (r2 * SIN(((bumper->unk48 * ((gStageTime + bumper->unk3C) & 0xFF)) & ONE_CYCLE))) >> 14;
+    }
+
+    worldX = TO_WORLD_POS(bumper->base.meX, bumper->base.regionX);
+    worldY = TO_WORLD_POS(me->y, bumper->base.regionY);
+
+    s->x = worldX - gCamera.x + I(bumper->unk40);
+    s->y = worldY - gCamera.y + I(bumper->unk44);
+
+    if (sub_8078DA4(bumper, s, worldX, worldY)) {
+        gCurTask->main = Task_BumperHexagon2;
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, bumper->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+
+void Task_BumperHexagon2(void)
+{
+    BumperA *bumper = TASK_DATA(gCurTask);
+    Sprite *s = &bumper->s;
+    MapEntity *me = bumper->base.me;
+    CamCoord worldX, worldY;
+
+    if (++bumper->unk4E > 8) {
+        gCurTask->main = Task_BumperHexagon;
+    }
+
+    if (bumper->unk48 != 0) {
+        s32 r2 = Q(me->d.uData[2] * TILE_WIDTH);
+
+        bumper->unk40 = (r2 * SIN(((bumper->unk48 * ((gStageTime + bumper->unk3C) & 0xFF)) & ONE_CYCLE))) >> 14;
+    }
+
+    worldX = TO_WORLD_POS(bumper->base.meX, bumper->base.regionX);
+    worldY = TO_WORLD_POS(me->y, bumper->base.regionY);
+
+    sub_8078DA4(bumper, s, worldX, worldY);
+
+    s->x = worldX - gCamera.x + I(bumper->unk40) - (COS(bumper->unk4E * 128) >> 12);
+    s->y = worldY - gCamera.y + I(bumper->unk44) + (SIN(bumper->unk4E * 128) >> 12);
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, bumper->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
 }
