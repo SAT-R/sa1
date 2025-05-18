@@ -165,6 +165,7 @@ SECTIONS {
         asm/ia_booster.o(.text);
         src/game/interactables/red_flag_and_pole.o(.text);
         src/game/interactables/forced_slide.o(.text);
+        src/game/interactables/bumpers.o(.text);
         asm/ia_bumpers.o(.text);
         asm/ia_flipper.o(.text);
         asm/ia_platform_square.o(.text);
