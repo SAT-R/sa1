@@ -172,7 +172,7 @@
 #define SA1_ANIM_WOODWHEEL_ANG_ISL             542
 #define SA1_ANIM_BOUNCE_BLOCK_5                543
 #define SA1_ANIM_PLATFORM_SQUARE_ARROW_ANG_ISL 544
-#define SA1_ANIM_SILVER_HANDLE                 545
+#define SA1_ANIM_LIFT                          545
 #define SA1_ANIM_BIG_BOWL_ANG_ISL              546
 #define SA1_ANIM_ACCEL_PLATFORM_ANG_ISL        547
 
