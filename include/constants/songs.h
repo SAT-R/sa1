@@ -110,7 +110,7 @@
 #define SE_SHRUBBERY           178
 #define SE_179                 179
 #define SE_HOOK_RAIL           180
-#define SE_181                 181
+#define SE_LIFT                181
 #define SE_182                 182
 
 #define SE_BUMPER 184

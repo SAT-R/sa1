@@ -24,11 +24,18 @@ typedef struct {
     /* 0x6C */ Sprite s3;
     /* 0x9C */ u16 unk9C;
     /* 0x9E */ u16 unk9E;
-    /* 0xA0 */ u8 unkA0;
+    /* 0xA0 */ s8 playerID;
 } CraneClaw;
 
 void Task_CraneClawMain(void);
-void TaskDestructor_CraneClaw(struct Task *);
+void Task_CraneClaw2(void);
+void Task_CraneClaw3(void);
+void Task_CraneClaw4(void);
+void Task_CraneClaw5(void);
+void Task_CraneClaw6(void);
+void Task_CraneClaw7(void);
+void Task_CraneClaw8(void);
+void TaskDestructor_CraneClaw(struct Task *t);
 
 void CreateEntity_CraneClaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -46,7 +53,7 @@ void CreateEntity_CraneClaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     crane->unk9C = 0;
     crane->unk9E = 0;
-    crane->unkA0 = 0;
+    crane->playerID = PLAYER_1;
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
@@ -89,4 +96,402 @@ void CreateEntity_CraneClaw(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s3->palId = 0;
     s3->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s3->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+}
+
+void Task_CraneClawMain(void)
+{
+    s32 i = 0;
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s2 = &crane->s2;
+    Sprite *s3 = &crane->s3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + 48;
+    s2->x = worldX - gCamera.x;
+    s2->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x;
+    s3->y = worldY - gCamera.y;
+
+    do {
+        Player *p = GET_SP_PLAYER_V1(i);
+
+        if (Coll_Player_Entity_Intersection(s, worldX, worldY + 48, p)) {
+            crane->unk9C = 0;
+            crane->playerID = p->playerID;
+            s->variant = 1;
+            p->moveState |= MOVESTATE_IA_OVERRIDE;
+            gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+            gCurTask->main = Task_CraneClaw2;
+            m4aSongNumStart(SE_LIFT);
+            break;
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    s2->y = worldY - gCamera.y + 24;
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
+}
+
+void Task_CraneClaw2(void)
+{
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s2 = &crane->s2;
+    Sprite *s3 = &crane->s3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + 48;
+    s2->x = worldX - gCamera.x;
+    s2->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x;
+    s3->y = worldY - gCamera.y;
+
+    {
+        Player *p = GET_SP_PLAYER_V1(crane->playerID);
+
+        if (IS_ALIVE(p)) {
+            p->qWorldX = Q(worldX);
+            p->qWorldY = Q(worldY + 104);
+        }
+
+        if (++crane->unk9C >= 4) {
+            crane->unk9C = 0;
+
+            if (IS_ALIVE(p)) {
+                p->qSpeedAirX = Q(0);
+                p->qSpeedGround = Q(0);
+                p->qSpeedAirY = Q(0);
+                Player_TransitionCancelFlyingAndBoost(p);
+                p->charState = CHARSTATE_38;
+            }
+            gCurTask->main = Task_CraneClaw3;
+        }
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    s2->y = worldY - gCamera.y + 24;
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
+}
+
+void Task_CraneClaw3(void)
+{
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    s16 sp08;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s2 = &crane->s2;
+    Sprite *s3 = &crane->s3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    sp08 = Div((30 - crane->unk9C) * 48, 30);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + sp08;
+    s2->x = worldX - gCamera.x;
+    s2->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x;
+    s3->y = worldY - gCamera.y;
+
+    {
+        Player *p = GET_SP_PLAYER_V1(crane->playerID);
+
+        if (IS_ALIVE(p)) {
+            p->qWorldX = Q(worldX);
+            p->qWorldY = Q(worldY + sp08 + 56);
+        }
+
+        if (++crane->unk9C > 30) {
+            crane->unk9C = 0;
+
+            if (IS_ALIVE(p)) {
+                p->qSpeedAirX = Q(0);
+                p->qSpeedGround = Q(0);
+                p->qSpeedAirY = Q(0);
+                Player_TransitionCancelFlyingAndBoost(p);
+                p->charState = CHARSTATE_38;
+            }
+            gCurTask->main = Task_CraneClaw4;
+        }
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    s2->y = worldY - gCamera.y + (sp08 >> 1);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
+}
+
+void Task_CraneClaw4(void)
+{
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s3 = &crane->s3;
+    s16 r3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    r3 = (crane->unk9C * 2);
+    s->x = worldX - gCamera.x + r3;
+    s->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x + r3;
+    s3->y = worldY - gCamera.y;
+
+    {
+        Player *p = GET_SP_PLAYER_V1(crane->playerID);
+
+        if (IS_ALIVE(p)) {
+            p->qWorldX = Q(worldX + r3);
+            p->qWorldY = Q(worldY + 56);
+        }
+
+        if (r3 > me->d.uData[2] * TILE_WIDTH) {
+
+            if (IS_ALIVE(p)) {
+                p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+
+                p->qSpeedAirX = Q(0);
+                p->qSpeedGround = Q(0);
+                p->qSpeedAirY = Q(0);
+                Player_TransitionCancelFlyingAndBoost(p);
+                p->charState = CHARSTATE_18;
+            }
+
+            crane->unk9E = 0;
+            s->variant = 2;
+            m4aSongNumStop(SE_LIFT);
+
+            gCurTask->main = Task_CraneClaw5;
+            p->itemEffect &= ~0x80;
+        } else {
+            crane->unk9C++;
+        }
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
+}
+
+void Task_CraneClaw5(void)
+{
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s3 = &crane->s3;
+    s16 r3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    r3 = (crane->unk9C * 2);
+    s->x = worldX - gCamera.x + r3;
+    s->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x + r3;
+    s3->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (++crane->unk9E > 30) {
+        gCurTask->main = Task_CraneClaw6;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
+}
+
+void Task_CraneClaw6(void)
+{
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s3 = &crane->s3;
+    s16 r3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    r3 = (crane->unk9C * 2);
+    s->x = worldX - gCamera.x + r3;
+    s->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x + r3;
+    s3->y = worldY - gCamera.y;
+
+    if (crane->unk9C == 0) {
+        gCurTask->main = Task_CraneClaw7;
+    } else {
+        crane->unk9C--;
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
+}
+
+void Task_CraneClaw7(void)
+{
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    s16 sp08;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s2 = &crane->s2;
+    Sprite *s3 = &crane->s3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    sp08 = 48 - Div((30 - crane->unk9C) * 48, 30);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + sp08;
+    s2->x = worldX - gCamera.x;
+    s2->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x;
+    s3->y = worldY - gCamera.y;
+
+    if (++crane->unk9C > 30) {
+        crane->unk9C = 0;
+        gCurTask->main = Task_CraneClaw8;
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    s2->y = worldY - gCamera.y + (sp08 >> 1);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
+}
+
+void Task_CraneClaw8(void)
+{
+    CraneClaw *crane = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    MapEntity *me = crane->base.me;
+    Sprite *s = &crane->s;
+    Sprite *s2 = &crane->s2;
+    Sprite *s3 = &crane->s3;
+
+    worldX = TO_WORLD_POS(crane->base.meX, crane->base.regionX);
+    worldY = TO_WORLD_POS(me->y, crane->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + 48;
+    s2->x = worldX - gCamera.x;
+    s2->y = worldY - gCamera.y;
+    s3->x = worldX - gCamera.x;
+    s3->y = worldY - gCamera.y;
+
+    if (++crane->unk9C > 3) {
+        crane->unk9C = 0;
+        crane->playerID = PLAYER_1;
+        gCurTask->main = Task_CraneClawMain;
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, crane->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    s2->y = worldY - gCamera.y + 24;
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+
+    UpdateSpriteAnimation(s3);
+    DisplaySprite(s3);
 }
