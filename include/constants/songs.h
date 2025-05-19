@@ -112,8 +112,8 @@
 #define SE_HOOK_RAIL           180
 #define SE_LIFT                181
 #define SE_182                 182
-
-#define SE_BUMPER 184
+#define SE_BUMPER_A            183
+#define SE_BUMPER_B            184
 
 #define SE_BALLOON_POP           189
 #define SE_WATERFALL_SURFACE_HIT 190

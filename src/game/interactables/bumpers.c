@@ -21,8 +21,8 @@ typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x3C */ u16 unk3C;
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 unk44;
+    /* 0x40 */ s32 unk40; // Q
+    /* 0x44 */ s32 unk44; // Q
     /* 0x48 */ s16 unk48;
     /* 0x4A */ s16 unk4A;
     /* 0x4C */ s16 unk4C;
@@ -33,7 +33,7 @@ void Task_BumperHexagon(void);
 void Task_BumperHexagon2(void);
 void TaskDestructor_BumperHexagon(struct Task *t);
 
-bool32 sub_8078DA4(BumperA *bumper, Sprite *s, CamCoord worldX, CamCoord worldY);
+bool32 sub_8078DA4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY);
 
 void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -156,4 +156,76 @@ void Task_BumperHexagon2(void)
     }
 
     DisplaySprite(s);
+}
+
+bool32 sub_8078DA4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY)
+{
+    s32 i;
+    bool32 result = FALSE;
+    s32 rot;
+
+    i = 0;
+    do {
+        s32 qTempPlayerX = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
+
+        if (Coll_Player_Entity_Intersection(s, worldX + I(bumper->unk40), worldY + I(bumper->unk44), GET_SP_PLAYER_V1(i))
+            && !(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
+            if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                 || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+            }
+
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+            GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+            GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+            rot = SA2_LABEL(sub_8004418)( //
+                I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY - I(bumper->unk44), //
+                I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - worldX - I(bumper->unk40));
+
+            if ((u32)(rot - 0x40) > (s32)(0.875 * SIN_PERIOD)) {
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(6.3984375);
+            } else if ((u32)(rot - (s32)(0.4375 * SIN_PERIOD) - 1) <= (s32)(0.1328125 * SIN_PERIOD)) {
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(6.3984375);
+            } else {
+                if ((u32)rot > 0x249) {
+                    if ((u32)rot > 0x300) {
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +0x297;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x5D9;
+                    } else {
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -0x297;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x5D9;
+                    }
+                } else if ((u32)rot > (s32)(0.25 * SIN_PERIOD)) {
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -0x297;
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = 0x5D9;
+                } else {
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = 0x297;
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = 0x5D9;
+                }
+            }
+
+            m4aSongNumStart(SE_BUMPER_A);
+
+            bumper->unk4E = 0;
+            result = TRUE;
+        }
+
+        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = qTempPlayerX;
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+
+void TaskDestructor_BumperHexagon(struct Task *t)
+{
+    BumperA *bumper = TASK_DATA(t);
+    VramFree(bumper->s.graphics.dest);
 }

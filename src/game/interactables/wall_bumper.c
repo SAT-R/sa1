@@ -29,7 +29,7 @@ void Task_WallBumper(void)
             && worldX + me->d.uData[2] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
             && worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))
             && worldY + me->d.uData[3] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) {
-            m4aSongNumStart(SE_BUMPER);
+            m4aSongNumStart(SE_BUMPER_B);
             GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
             GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
             GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
