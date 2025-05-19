@@ -6,6 +6,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h"
 #include "game/stage/terrain_collision.h"
@@ -74,12 +75,12 @@ void Task_BumperTriVertical2(void);
 void Task_BumperTriBig(void);
 void Task_BumperTriBig2(void);
 
-bool32 sub_8078DA4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY);
-bool32 sub_80795C4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY);
-bool32 sub_8079E78(BumperB *bumper, Sprite *s, s32 worldX, s32 worldY);
-bool32 sub_807AC7C(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY);
-bool32 sub_807B0A0(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY);
-bool32 sub_807B434(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY);
+bool32 BumperCheckCollAndPosA1(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY);
+bool32 BumperCheckCollAndPosA2(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY);
+bool32 BumperCheckCollAndPosB(BumperB *bumper, Sprite *s, s32 worldX, s32 worldY);
+bool32 BumperCheckCollAndPosC1(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY);
+bool32 BumperCheckCollAndPosC2(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY);
+bool32 BumperCheckCollAndPosC3(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY);
 
 void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -157,7 +158,7 @@ void Task_BumperHexagon(void)
     s->x = worldX - gCamera.x + I(bumper->unk40);
     s->y = worldY - gCamera.y + I(bumper->unk44);
 
-    if (sub_8078DA4(bumper, s, worldX, worldY)) {
+    if (BumperCheckCollAndPosA1(bumper, s, worldX, worldY)) {
         gCurTask->main = Task_BumperHexagon2;
     }
 
@@ -190,7 +191,7 @@ void Task_BumperHexagon2(void)
     worldX = TO_WORLD_POS(bumper->base.meX, bumper->base.regionX);
     worldY = TO_WORLD_POS(me->y, bumper->base.regionY);
 
-    sub_8078DA4(bumper, s, worldX, worldY);
+    BumperCheckCollAndPosA1(bumper, s, worldX, worldY);
 
     s->x = worldX - gCamera.x + I(bumper->unk40) - (COS(bumper->unk4E * 128) >> 12);
     s->y = worldY - gCamera.y + I(bumper->unk44) + (SIN(bumper->unk4E * 128) >> 12);
@@ -204,7 +205,7 @@ void Task_BumperHexagon2(void)
     DisplaySprite(s);
 }
 
-bool32 sub_8078DA4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY)
+bool32 BumperCheckCollAndPosA1(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY)
 {
     s32 i;
     bool32 result = FALSE;
@@ -370,7 +371,7 @@ void Task_BumperRound_LinearMov(void)
     s->x = worldX - gCamera.x + I(bumper->unk40);
     s->y = worldY - gCamera.y + I(bumper->unk44);
 
-    if (sub_80795C4(bumper, s, worldX, worldY)) {
+    if (BumperCheckCollAndPosA2(bumper, s, worldX, worldY)) {
         gCurTask->main = Task_BumperRound_LinearMov2;
     }
 
@@ -409,7 +410,7 @@ void Task_BumperRound_LinearMov2(void)
     worldX = TO_WORLD_POS(bumper->base.meX, bumper->base.regionX);
     worldY = TO_WORLD_POS(me->y, bumper->base.regionY);
 
-    sub_80795C4(bumper, s, worldX, worldY);
+    BumperCheckCollAndPosA2(bumper, s, worldX, worldY);
 
     s->x = worldX - gCamera.x + I(bumper->unk40) - (COS(bumper->unk4E * 128) >> 12);
     s->y = worldY - gCamera.y + I(bumper->unk44) + (SIN(bumper->unk4E * 128) >> 12);
@@ -423,7 +424,7 @@ void Task_BumperRound_LinearMov2(void)
     DisplaySprite(s);
 }
 
-bool32 sub_80795C4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY)
+bool32 BumperCheckCollAndPosA2(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY)
 {
     s32 i;
     bool32 result = FALSE;
@@ -554,7 +555,7 @@ void Task_BumperRound_CircularMov(void)
     s->x = worldX - gCamera.x + (I(bumper->unk40) >> 3);
     s->y = worldY - gCamera.y + (I(bumper->unk44) >> 3);
 
-    if (sub_8079E78(bumper, s, worldX, worldY)) {
+    if (BumperCheckCollAndPosB(bumper, s, worldX, worldY)) {
         gCurTask->main = Task_BumperRound_CircularMov2;
     }
 
@@ -594,7 +595,7 @@ void Task_BumperRound_CircularMov2(void)
     s->x = worldX - gCamera.x + I(bumper->unk40 >> 3) - (COS(bumper->unk51 * 128) >> 12);
     s->y = worldY - gCamera.y + I(bumper->unk44 >> 3) + (SIN(bumper->unk51 * 128) >> 12);
 
-    sub_8079E78(bumper, s, worldX, worldY);
+    BumperCheckCollAndPosB(bumper, s, worldX, worldY);
 
     if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, bumper->base.meX);
@@ -607,7 +608,7 @@ void Task_BumperRound_CircularMov2(void)
     DisplaySprite(s);
 }
 
-bool32 sub_8079E78(BumperB *bumper, Sprite *s, s32 worldX, s32 worldY)
+bool32 BumperCheckCollAndPosB(BumperB *bumper, Sprite *s, s32 worldX, s32 worldY)
 {
     s32 i;
     bool32 result = FALSE;
@@ -810,7 +811,7 @@ void Task_BumperTriHorizontal(void)
     s->x = worldX - gCamera.x + (I(bumper->unk40));
     s->y = worldY - gCamera.y + (I(bumper->unk44));
 
-    if (sub_807AC7C(bumper, s, worldX, worldY)) {
+    if (BumperCheckCollAndPosC1(bumper, s, worldX, worldY)) {
         gCurTask->main = Task_BumperTriHorizontal2;
     }
 
@@ -845,7 +846,7 @@ void Task_BumperTriHorizontal2(void)
 
     s->y = worldY - gCamera.y + (SIN(bumper->unk4C * 128) >> 12);
 
-    sub_807AC7C(bumper, s, worldX, worldY);
+    BumperCheckCollAndPosC1(bumper, s, worldX, worldY);
 
     if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, bumper->base.meX);
@@ -869,7 +870,7 @@ void Task_BumperTriVertical(void)
     s->x = worldX - gCamera.x + I(bumper->unk40);
     s->y = worldY - gCamera.y + I(bumper->unk44);
 
-    if (sub_807B0A0(bumper, s, worldX, worldY) != 0) {
+    if (BumperCheckCollAndPosC2(bumper, s, worldX, worldY) != 0) {
         gCurTask->main = Task_BumperTriVertical2;
     }
 
@@ -896,7 +897,7 @@ void Task_BumperTriVertical2(void)
     worldX = TO_WORLD_POS(bumper->base.meX, bumper->base.regionX);
     worldY = TO_WORLD_POS(me->y, bumper->base.regionY);
 
-    sub_807B0A0(bumper, s, worldX, worldY);
+    BumperCheckCollAndPosC2(bumper, s, worldX, worldY);
 
     if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
         s->x = worldX - gCamera.x + (COS(bumper->unk4C * 128) >> 12);
@@ -928,7 +929,7 @@ void Task_BumperTriBig(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if (sub_807B434(bumper, s, worldX, worldY)) {
+    if (BumperCheckCollAndPosC3(bumper, s, worldX, worldY)) {
         gCurTask->main = Task_BumperTriBig2;
     }
     if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
@@ -962,7 +963,7 @@ void Task_BumperTriBig2(void)
 
     s->y = worldY - gCamera.y + (SIN(bumper->unk4C * 128) >> 12);
 
-    sub_807B434(bumper, s, worldX, worldY);
+    BumperCheckCollAndPosC3(bumper, s, worldX, worldY);
 
     if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, bumper->base.meX);
@@ -971,4 +972,172 @@ void Task_BumperTriBig2(void)
     }
 
     DisplaySprite(s);
+}
+
+// (94.48%) https://decomp.me/scratch/LOH2M
+NONMATCH("asm/non_matching/game/interactables/bumpers__BumperCheckCollAndPosC1.inc",
+         bool32 BumperCheckCollAndPosC1(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY))
+{
+    s32 i;
+    bool32 result = FALSE;
+    bool32 sp10 = FALSE;
+    s32 rot;
+
+    i = 0;
+    do {
+        s32 qTempPlayerX = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
+
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if ((gGameMode == 3 || gGameMode == 5)) {
+                u8 j;
+                for (j = 0; j < 4 && gMultiplayerPlayerTasks[j]; j++) {
+                    if (j != SIO_MULTI_CNT->id) {
+                        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[j]);
+                        if (mpp->unk5C & 0x4) {
+                            sp10 = TRUE;
+                        }
+                    }
+                }
+            }
+
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE) || sp10) {
+                if (Coll_Player_Entity_Intersection(s, worldX + I(bumper->unk40), worldY + I(bumper->unk44), GET_SP_PLAYER_V1(i))) {
+                    if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                         || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                        && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                        Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+                    }
+
+                    if (gGameMode == 3 || gGameMode == 5) {
+                        GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
+                    }
+
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+                    GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                    GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+                    rot = SA2_LABEL(sub_8004418)( //
+                        I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY - I(bumper->unk44), //
+                        I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - worldX - I(bumper->unk40));
+
+                    if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
+                        if ((u32)rot >= 0x200) {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(6.3984375);
+                        } else if ((u32)rot < 0x100) {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +0x297;
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +0x5D9;
+                        } else {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -0x297;
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +0x5D9;
+                        }
+                    } else {
+                        if ((u32)rot > (s32)(0.482421875 * SIN_PERIOD)) {
+                            if ((u32)rot > (s32)(0.75 * SIN_PERIOD)) {
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +0x297;
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x5D9;
+                            } else {
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -0x297;
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x5D9;
+                            }
+                        } else {
+                            if ((u32)rot < 0x15) {
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +0x297;
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x5D9;
+                            } else {
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(6.3984375);
+                            }
+                        }
+                    }
+
+                    m4aSongNumStart(SE_BUMPER_B);
+
+                    bumper->unk4C = 0;
+                    result = TRUE;
+                }
+            }
+        }
+
+        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = qTempPlayerX;
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+END_NONMATCH
+
+bool32 BumperCheckCollAndPosC2(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY)
+{
+    s32 i;
+    bool32 result = FALSE;
+    s32 rot;
+
+    i = 0;
+    do {
+        s32 qTempPlayerX = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
+
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+
+            if (Coll_Player_Entity_Intersection(s, worldX + I(bumper->unk40), worldY + I(bumper->unk44), GET_SP_PLAYER_V1(i))) {
+                if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
+                    if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                         || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                        && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                        Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+                    }
+
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+                    GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                    GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+                    rot = SA2_LABEL(sub_8004418)( //
+                        I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY - I(bumper->unk44), //
+                        I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - worldX - I(bumper->unk40));
+
+                    if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                        if ((u32)rot - 0xFD >= 0x207) {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(6.3984375);
+                        } else if ((u32)rot > 0x200) {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -0x5D9;
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x297;
+                        } else {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -0x5D9;
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +0x297;
+                        }
+                    } else {
+                        if ((u32)(rot - 0x104) <= (s32)(0.4921875 * SIN_PERIOD)) {
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -0x666;
+                        } else {
+                            if ((u32)rot > 0x200) {
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +0x5D9;
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x297;
+                            } else {
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +0x5D9;
+                                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +0x297;
+                            }
+                        }
+                    }
+
+                    m4aSongNumStart(SE_BUMPER_B);
+
+                    bumper->unk4C = 0;
+                    result = TRUE;
+                }
+            }
+        }
+
+        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = qTempPlayerX;
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
 }
