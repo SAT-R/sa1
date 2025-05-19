@@ -15,6 +15,7 @@
 #include "constants/char_states.h"
 #include "constants/interactables.h"
 #include "constants/songs.h"
+#include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -31,9 +32,12 @@ typedef struct {
 
 void Task_BumperHexagon(void);
 void Task_BumperHexagon2(void);
+void Task_BumperRound_LinearMov2(void);
+void Task_BumperRound_LinearMov(void);
 void TaskDestructor_BumperHexagon(struct Task *t);
 
 bool32 sub_8078DA4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY);
+bool32 sub_80795C4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY);
 
 void CreateEntity_BumperHexagon(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -196,7 +200,7 @@ bool32 sub_8078DA4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY)
                 GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(6.3984375);
             } else {
                 if ((u32)rot > 0x249) {
-                    if ((u32)rot > 0x300) {
+                    if ((u32)rot > (s32)(0.75 * SIN_PERIOD)) {
                         GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +0x297;
                         GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -0x5D9;
                     } else {
@@ -228,4 +232,205 @@ void TaskDestructor_BumperHexagon(struct Task *t)
 {
     BumperA *bumper = TASK_DATA(t);
     VramFree(bumper->s.graphics.dest);
+}
+
+void CreateEntity_BumperRound_LinearMov(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_BumperRound_LinearMov, sizeof(BumperA), 0x2000, 0, NULL);
+    BumperA *bumper = TASK_DATA(t);
+    Sprite *s = &bumper->s;
+
+    bumper->base.regionX = regionX;
+    bumper->base.regionY = regionY;
+    bumper->base.me = me;
+    bumper->base.meX = me->x;
+    bumper->base.id = id;
+
+    bumper->unk40 = 0;
+    bumper->unk44 = 0;
+    bumper->unk4E = 0;
+    bumper->unk4C = 0;
+
+    if (me->d.uData[2] > me->d.uData[3]) {
+        if (me->d.sData[0] >= 0) {
+            bumper->unk48 = 4;
+            bumper->unk3C = 0;
+            bumper->unk4A = 0;
+        } else {
+            bumper->unk48 = 4;
+            bumper->unk3C = 0x80;
+            bumper->unk4A = 0;
+        }
+    } else {
+        if (me->d.sData[1] >= 0) {
+            bumper->unk48 = 0;
+            bumper->unk4A = 4;
+            bumper->unk3C = 0;
+        } else {
+            bumper->unk48 = 0;
+            bumper->unk4A = 4;
+            bumper->unk3C = 0x80;
+        }
+    }
+
+#ifndef NON_MATCHING
+    // TODO:
+    if (!(*((u32 *)&me->d.uData[1]) & 0x00FFFF00))
+#else
+    if (!me->d.uData[2] && !me->d.uData[3])
+#endif
+    {
+        bumper->unk48 = 0;
+    }
+
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    s->graphics.dest = VRAM_RESERVED_BUMPER;
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BUMPER_ROUND;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+    UpdateSpriteAnimation(s);
+}
+
+void Task_BumperRound_LinearMov(void)
+{
+    BumperA *bumper = TASK_DATA(gCurTask);
+    Sprite *s = &bumper->s;
+    MapEntity *me = bumper->base.me;
+    CamCoord worldX, worldY;
+
+    if (bumper->unk48 != 0) {
+        s32 r2 = Q(me->d.uData[2] * TILE_WIDTH);
+
+        bumper->unk40 = (r2 * SIN(((bumper->unk48 * ((gStageTime + bumper->unk3C) & 0xFF)) & ONE_CYCLE))) >> 14;
+    }
+
+    if (bumper->unk4A != 0) {
+        s32 r2 = Q(me->d.uData[3] * TILE_WIDTH);
+
+        bumper->unk44 = (r2 * SIN(((bumper->unk4A * ((gStageTime + bumper->unk3C) & 0xFF)) & ONE_CYCLE))) >> 14;
+    }
+
+    worldX = TO_WORLD_POS(bumper->base.meX, bumper->base.regionX);
+    worldY = TO_WORLD_POS(me->y, bumper->base.regionY);
+
+    s->x = worldX - gCamera.x + I(bumper->unk40);
+    s->y = worldY - gCamera.y + I(bumper->unk44);
+
+    if (sub_80795C4(bumper, s, worldX, worldY)) {
+        gCurTask->main = Task_BumperRound_LinearMov2;
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, bumper->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+
+void Task_BumperRound_LinearMov2(void)
+{
+    BumperA *bumper = TASK_DATA(gCurTask);
+    Sprite *s = &bumper->s;
+    MapEntity *me = bumper->base.me;
+    CamCoord worldX, worldY;
+
+    if (++bumper->unk4E > 8) {
+        gCurTask->main = Task_BumperRound_LinearMov;
+    }
+
+    if (bumper->unk48 != 0) {
+        s32 r2 = Q(me->d.uData[2] * TILE_WIDTH);
+
+        bumper->unk40 = (r2 * SIN(((bumper->unk48 * ((gStageTime + bumper->unk3C) & 0xFF)) & ONE_CYCLE))) >> 14;
+    }
+
+    if (bumper->unk4A != 0) {
+        s32 r2 = Q(me->d.uData[3] * TILE_WIDTH);
+
+        bumper->unk44 = (r2 * SIN(((bumper->unk4A * ((gStageTime + bumper->unk3C) & 0xFF)) & ONE_CYCLE))) >> 14;
+    }
+
+    worldX = TO_WORLD_POS(bumper->base.meX, bumper->base.regionX);
+    worldY = TO_WORLD_POS(me->y, bumper->base.regionY);
+
+    sub_80795C4(bumper, s, worldX, worldY);
+
+    s->x = worldX - gCamera.x + I(bumper->unk40) - (COS(bumper->unk4E * 128) >> 12);
+    s->y = worldY - gCamera.y + I(bumper->unk44) + (SIN(bumper->unk4E * 128) >> 12);
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, bumper->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+
+bool32 sub_80795C4(BumperA *bumper, Sprite *s, s32 worldX, s32 worldY)
+{
+    s32 i;
+    bool32 result = FALSE;
+    s32 rot;
+
+    i = 0;
+    do {
+        s32 qTempPlayerX = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
+
+        if (Coll_Player_Entity_Intersection(s, worldX + I(bumper->unk40), worldY + I(bumper->unk44), GET_SP_PLAYER_V1(i))
+            && !(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
+            if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                 || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+            }
+
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+            GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+            GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+            rot = SA2_LABEL(sub_8004418)( //
+                I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY - I(bumper->unk44), //
+                I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - worldX - I(bumper->unk40));
+
+            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = Div(COS(rot), 15);
+            GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = Div(COS(rot), 15);
+            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = Div(SIN(rot), 15);
+
+            if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) == Q(0)) {
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(8. / 256.);
+            }
+
+            INCREMENT_SCORE(10);
+
+            m4aSongNumStart(SE_BUMPER_A);
+
+            bumper->unk4E = 0;
+            result = TRUE;
+        }
+
+        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = qTempPlayerX;
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
 }
