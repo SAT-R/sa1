@@ -1141,3 +1141,180 @@ bool32 BumperCheckCollAndPosC2(BumperC *bumper, Sprite *s, s32 worldX, s32 world
 
     return result;
 }
+
+// (90.80%) https://decomp.me/scratch/FTsLY
+NONMATCH("asm/non_matching/game/interactables/bumpers__BumperCheckCollAndPosC3.inc",
+         bool32 BumperCheckCollAndPosC3(BumperC *bumper, Sprite *s, s32 worldX, s32 worldY))
+{
+    s32 i;
+#ifndef NON_MATCHING
+    register bool32 result asm("r9") = FALSE;
+#else
+    bool32 result = FALSE;
+#endif
+    bool32 sp0C = FALSE;
+    s32 rot;
+
+    i = 0;
+    do {
+        s32 qTempPlayerX = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
+
+        if (Coll_Player_Entity_Intersection(s, worldX, worldY, GET_SP_PLAYER_V1(i))) {
+            if ((gGameMode == 3 || gGameMode == 5)) {
+                u8 j;
+                for (j = 0; j < 4 && gMultiplayerPlayerTasks[j]; j++) {
+                    if (j != SIO_MULTI_CNT->id) {
+                        MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[j]);
+                        if (mpp->unk5C & 0x4) {
+                            sp0C = TRUE;
+                        }
+                    }
+                }
+            }
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE) || sp0C) {
+                if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
+                    if ((s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
+                        if ((I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY) < 65 - (worldX - I(qTempPlayerX))) {
+                            if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                                 || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                                && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+                            }
+
+                            if ((gGameMode == 3 || gGameMode == 5)) {
+                                GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
+                            }
+
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+                            GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                            GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(4.6875);
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(4.6875);
+
+#if 01
+                            goto lbl2;
+#else
+                            m4aSongNumStart(SE_BUMPER_B);
+
+                            bumper->unk4C = 0;
+                            result = TRUE;
+#endif
+                        }
+                    } else {
+                        if ((I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY) < 65 - (I(qTempPlayerX) - worldX)) {
+                            if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                                 || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                                && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+                            }
+
+                            if ((gGameMode == 3 || gGameMode == 5)) {
+                                GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
+                            }
+
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+                            GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                            GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(4.6875);
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(4.6875);
+
+#if 01
+                            goto lbl;
+#else
+                            m4aSongNumStart(SE_BUMPER_B);
+
+                            bumper->unk4C = 0;
+                            result = TRUE;
+#endif
+                        }
+                    }
+                } else { // !Y_FLIP
+                    if ((s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
+                        if ((I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY) > worldX - I(qTempPlayerX) - 60) {
+                            if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                                 || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                                && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+                            }
+
+                            if ((gGameMode == 3 || gGameMode == 5)) {
+                                GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
+                            }
+
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+                            GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                            GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(4.6875);
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(4.6875);
+
+                            asm("");
+                        lbl:
+                            m4aSongNumStart(SE_BUMPER_B);
+
+                            bumper->unk4C = 0;
+                            result = TRUE;
+                            asm("");
+                        }
+                    } else {
+                        if ((I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - worldY) > I(qTempPlayerX) - worldX - 60) {
+                            if (((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
+                                 || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES))
+                                && (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) != 0)) {
+                                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+                            }
+
+                            if ((gGameMode == 3 || gGameMode == 5)) {
+                                GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
+                            }
+
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+
+                            GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                            GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(4.6875);
+                            GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(4.6875);
+
+                        lbl2:
+                            m4aSongNumStart(SE_BUMPER_B);
+
+                            bumper->unk4C = 0;
+                            result = TRUE;
+                        }
+                    }
+                }
+            }
+        }
+
+        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = qTempPlayerX;
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+END_NONMATCH
