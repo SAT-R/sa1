@@ -5,227 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Spikes_Up
-CreateEntity_Spikes_Up: @ 0x0801FFC4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov sb, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08020094 @ =Task_Spikes_Up
-	movs r1, #0x80
-	lsls r1, r1, #6
-	mov sl, r1
-	movs r2, #0
-	mov r8, r2
-	str r2, [sp]
-	movs r1, #0x44
-	mov r2, sl
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r3, r1
-	ldr r7, _08020098 @ =0x0300000C
-	adds r0, r3, r7
-	mov r2, r8
-	str r2, [r1, #0x40]
-	str r2, [r1, #0x3c]
-	movs r7, #0
-	mov ip, r7
-	strh r4, [r1, #4]
-	strh r5, [r1, #6]
-	mov r2, sb
-	str r2, [r1]
-	ldrb r2, [r2]
-	strb r2, [r1, #8]
-	strb r6, [r1, #9]
-	mov r7, sb
-	ldrb r1, [r7]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	strh r1, [r0, #0x16]
-	ldrb r1, [r7, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	strh r1, [r0, #0x18]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	strb r1, [r7]
-	ldr r1, _0802009C @ =0x06011B00
-	str r1, [r0, #4]
-	movs r1, #0x88
-	lsls r1, r1, #3
-	strh r1, [r0, #0x1a]
-	mov r7, r8
-	strh r7, [r0, #8]
-	movs r1, #0xe3
-	lsls r1, r1, #1
-	strh r1, [r0, #0xa]
-	ldr r1, _080200A0 @ =0x0300002C
-	adds r2, r3, r1
-	movs r1, #2
-	strb r1, [r2]
-	mov r2, r8
-	strh r2, [r0, #0x14]
-	strh r2, [r0, #0x1c]
-	ldr r7, _080200A4 @ =0x0300002D
-	adds r2, r3, r7
-	movs r1, #0xff
-	strb r1, [r2]
-	ldr r1, _080200A8 @ =0x0300002E
-	adds r2, r3, r1
-	movs r1, #0x10
-	strb r1, [r2]
-	ldr r2, _080200AC @ =0x03000031
-	adds r3, r3, r2
-	mov r7, ip
-	strb r7, [r3]
-	subs r1, #0x11
-	str r1, [r0, #0x28]
-	mov r1, sl
-	str r1, [r0, #0x10]
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08020094: .4byte Task_Spikes_Up
-_08020098: .4byte 0x0300000C
-_0802009C: .4byte 0x06011B00
-_080200A0: .4byte 0x0300002C
-_080200A4: .4byte 0x0300002D
-_080200A8: .4byte 0x0300002E
-_080200AC: .4byte 0x03000031
-
-	thumb_func_start CreateEntity_Spikes_Down
-CreateEntity_Spikes_Down: @ 0x080200B0
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	mov sb, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _08020178 @ =Task_Spikes_Down
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r1, #0
-	mov r8, r1
-	str r1, [sp]
-	movs r1, #0x44
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r3, r1
-	ldr r2, _0802017C @ =0x0300000C
-	adds r0, r3, r2
-	mov r7, r8
-	str r7, [r1, #0x40]
-	str r7, [r1, #0x3c]
-	movs r2, #0
-	mov sl, r2
-	strh r4, [r1, #4]
-	strh r5, [r1, #6]
-	mov r7, sb
-	str r7, [r1]
-	ldrb r2, [r7]
-	strb r2, [r1, #8]
-	strb r6, [r1, #9]
-	ldrb r1, [r7]
-	lsls r1, r1, #3
-	lsls r4, r4, #8
-	adds r1, r1, r4
-	strh r1, [r0, #0x16]
-	ldrb r1, [r7, #1]
-	lsls r1, r1, #3
-	lsls r5, r5, #8
-	adds r1, r1, r5
-	strh r1, [r0, #0x18]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	strb r1, [r7]
-	ldr r1, _08020180 @ =0x06011B00
-	str r1, [r0, #4]
-	movs r1, #0x88
-	lsls r1, r1, #3
-	strh r1, [r0, #0x1a]
-	movs r1, #0xe3
-	lsls r1, r1, #1
-	strh r1, [r0, #0xa]
-	ldr r7, _08020184 @ =0x0300002C
-	adds r2, r3, r7
-	movs r1, #2
-	strb r1, [r2]
-	mov r1, r8
-	strh r1, [r0, #0x14]
-	strh r1, [r0, #0x1c]
-	adds r7, #1
-	adds r2, r3, r7
-	movs r1, #0xff
-	strb r1, [r2]
-	ldr r1, _08020188 @ =0x0300002E
-	adds r2, r3, r1
-	movs r1, #0x10
-	strb r1, [r2]
-	ldr r2, _0802018C @ =0x03000031
-	adds r3, r3, r2
-	mov r7, sl
-	strb r7, [r3]
-	subs r1, #0x11
-	str r1, [r0, #0x28]
-	movs r1, #0xa0
-	lsls r1, r1, #6
-	str r1, [r0, #0x10]
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08020178: .4byte Task_Spikes_Down
-_0802017C: .4byte 0x0300000C
-_08020180: .4byte 0x06011B00
-_08020184: .4byte 0x0300002C
-_08020188: .4byte 0x0300002E
-_0802018C: .4byte 0x03000031
-
+.if 01
 	thumb_func_start Task_Spikes_Up
 Task_Spikes_Up: @ 0x08020190
 	push {r4, r5, r6, r7, lr}
@@ -238,11 +18,11 @@ Task_Spikes_Up: @ 0x08020190
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r6, r1, r0
+	adds r6, r1, r0     @ r6 = spikes
 	adds r0, #0xc
-	adds r7, r1, r0
+	adds r7, r1, r0     @ r7 = s
 	ldr r1, [r6]
-	mov r8, r1
+	mov r8, r1          @ r8 = me
 	ldrb r1, [r6, #8]
 	lsls r1, r1, #3
 	ldrh r0, [r6, #4]
@@ -457,6 +237,7 @@ _08020344:
 	.align 2, 0
 _08020354: .4byte gGameMode
 _08020358: .4byte sa2__gUnknown_030053E0
+.endif
 
 	thumb_func_start Task_Spikes_Down
 Task_Spikes_Down: @ 0x0802035C
