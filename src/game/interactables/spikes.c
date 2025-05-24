@@ -22,12 +22,14 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ s32 unk3C;
-    /* 0x40 */ s32 unk40;
+    /* 0x3C */ u32 movestateBuffer[NUM_SINGLEPLAYER_CHARS_MAX];
 } Spikes;
 
 void Task_Spikes_Up(void);
 void Task_Spikes_Down(void);
+
+bool32 sub_8020D44(Sprite *s, MapEntity *me, Spikes *spikes, Player *p);
+bool32 sub_8020E98(Sprite *s, MapEntity *me, Spikes *spikes, Player *p);
 
 void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -36,8 +38,8 @@ void CreateEntity_Spikes_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     Sprite *s = &spikes->s;
     CamCoord worldX, worldY;
 
-    spikes->unk40 = 0;
-    spikes->unk3C = 0;
+    spikes->movestateBuffer[PLAYER_2] = 0;
+    spikes->movestateBuffer[PLAYER_1] = 0;
 
     spikes->base.regionX = regionX;
     spikes->base.regionY = regionY;
@@ -72,8 +74,8 @@ void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     Sprite *s = &spikes->s;
     CamCoord worldX, worldY;
 
-    spikes->unk40 = 0;
-    spikes->unk3C = 0;
+    spikes->movestateBuffer[PLAYER_2] = 0;
+    spikes->movestateBuffer[PLAYER_1] = 0;
 
     spikes->base.regionX = regionX;
     spikes->base.regionY = regionY;
@@ -103,4 +105,104 @@ void CreateEntity_Spikes_Down(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2) | SPRITE_FLAG(Y_FLIP, 1);
     UpdateSpriteAnimation(s);
+}
+
+void Task_Spikes_Up(void)
+{
+    Spikes *spikes = TASK_DATA(gCurTask);
+    Sprite *s = &spikes->s;
+    MapEntity *me = spikes->base.me;
+    CamCoord worldX, worldY;
+    s32 i, j;
+
+    worldX = TO_WORLD_POS(spikes->base.meX, spikes->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (me->d.sData[0] != 0) || (SA2_LABEL(gUnknown_030053E0) != 0)) {
+        i = 0;
+        do {
+            // This if-else is the only diff between Up/Down
+            if (!GRAVITY_IS_INVERTED) {
+                sub_8020D44(s, me, spikes, GET_SP_PLAYER_V1(i));
+            } else {
+                sub_8020E98(s, me, spikes, GET_SP_PLAYER_V1(i));
+            }
+        } while (++i < gNumSingleplayerCharacters);
+    }
+
+    if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (me->d.sData[0] == 0) && (SA2_LABEL(gUnknown_030053E0) == 0)) {
+        j = 0;
+        do {
+            if (spikes->movestateBuffer[j] & 0x20) {
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_20;
+            }
+
+            if (spikes->movestateBuffer[j] & 0x8) {
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+            }
+        } while (++j < gNumSingleplayerCharacters);
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (me->d.sData[0] != 0) || (SA2_LABEL(gUnknown_030053E0) != 0)) {
+        DisplaySprite(s);
+    }
+}
+
+void Task_Spikes_Down(void)
+{
+    Spikes *spikes = TASK_DATA(gCurTask);
+    Sprite *s = &spikes->s;
+    MapEntity *me = spikes->base.me;
+    CamCoord worldX, worldY;
+    s32 i, j;
+
+    worldX = TO_WORLD_POS(spikes->base.meX, spikes->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (me->d.sData[0] != 0) || (SA2_LABEL(gUnknown_030053E0) != 0)) {
+        i = 0;
+        do {
+            // This if-else is the only diff between Up/Down
+            if (!GRAVITY_IS_INVERTED) {
+                sub_8020E98(s, me, spikes, GET_SP_PLAYER_V1(i));
+            } else {
+                sub_8020D44(s, me, spikes, GET_SP_PLAYER_V1(i));
+            }
+        } while (++i < gNumSingleplayerCharacters);
+    }
+
+    if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (me->d.sData[0] == 0) && (SA2_LABEL(gUnknown_030053E0) == 0)) {
+        j = 0;
+        do {
+            if (spikes->movestateBuffer[j] & MOVESTATE_20) {
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_20;
+            }
+
+            if (spikes->movestateBuffer[j] & MOVESTATE_STOOD_ON_OBJ) {
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+            }
+        } while (++j < gNumSingleplayerCharacters);
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spikes->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (me->d.sData[0] != 0) || (SA2_LABEL(gUnknown_030053E0) != 0)) {
+        DisplaySprite(s);
+    }
 }
