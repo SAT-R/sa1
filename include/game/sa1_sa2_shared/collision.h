@@ -30,6 +30,7 @@ u32 Coll_Player_PlatformCrumbling(Sprite *s, CamCoord worldX, CamCoord worldY, P
 bool32 Coll_Player_Projectile(Sprite *s, CamCoord screenX, CamCoord screenY); // might be in SA2?
 u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
+u32 sub_800C394(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 
 // TODO: Include header this belongs to
 u32 sub_800C944(Sprite *, s32, s32);

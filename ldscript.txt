@@ -61,6 +61,7 @@ SECTIONS {
         src/game/interactables/spikes.o(.text);
         src/game/interactables/checkpoint.o(.text);
         src/game/interactables/spring.o(.text);
+        src/game/interactables/decoration.o(.text);
         asm/ia_decoration.o(.text);
         src/game/interactables/toggle_player_layer.o(.text);
         src/game/interactables/grind_rail.o(.text);
