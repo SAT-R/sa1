@@ -59,7 +59,6 @@ SECTIONS {
         src/game/interactables/stage_goal.o(.text);
         src/game/sa1_sa2_shared/dust_cloud.o(.text);
         src/game/interactables/spikes.o(.text);
-        asm/ia_spikes.o(.text);
         src/game/interactables/checkpoint.o(.text);
         src/game/interactables/spring.o(.text);
         asm/ia_decoration.o(.text);

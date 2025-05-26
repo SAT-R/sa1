@@ -699,4 +699,144 @@ bool32 sub_8020F2C(Sprite *s, MapEntity *me, Spikes *spikes, Player *p, bool32 *
     return TRUE;
 }
 
-void TaskDestructor_Spikes(struct Task *t) { }
+bool32 sub_8021208(Sprite *s, MapEntity *me, Spikes *spikes, Player *p, bool32 *out)
+{
+    CamCoord worldX, worldY;
+    u32 sp0C;
+    s32 tempPlayerID;
+    s32 i;
+
+    sp0C = gStageTime % 128u;
+    tempPlayerID = p->playerID;
+
+    worldX = TO_WORLD_POS(spikes->base.meX, spikes->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spikes->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (sp0C < 60) {
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState |= MOVESTATE_IN_AIR;
+        }
+
+        if (spikes->movestateBuffer[tempPlayerID] & MOVESTATE_20) {
+            p->moveState &= ~MOVESTATE_20;
+            spikes->movestateBuffer[tempPlayerID] = 0;
+        }
+
+        return FALSE;
+    } else if (sp0C < 62) {
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState |= MOVESTATE_IN_AIR;
+        }
+
+        if (spikes->movestateBuffer[tempPlayerID] & MOVESTATE_20) {
+            p->moveState &= ~MOVESTATE_20;
+            spikes->movestateBuffer[tempPlayerID] = 0;
+        }
+
+        s->graphics.anim = SA1_ANIM_SPIKES;
+        s->variant = 0;
+        UpdateSpriteAnimation(s);
+    } else if (sp0C < 64) {
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState |= MOVESTATE_IN_AIR;
+        }
+
+        if (spikes->movestateBuffer[tempPlayerID] & MOVESTATE_20) {
+            p->moveState &= ~MOVESTATE_20;
+            spikes->movestateBuffer[tempPlayerID] = 0;
+        }
+
+        s->graphics.anim = SA1_ANIM_SPIKES;
+        s->variant = 1;
+        UpdateSpriteAnimation(s);
+    } else if (sp0C < 124) {
+#ifndef NON_MATCHING
+        // TODO: Register fake-match
+        register u32 res asm("r0");
+#else
+        u32 res;
+#endif
+        u8 variant = s->variant;
+        u8 pid = p->playerID;
+
+        if ((variant != 2) || ((pid != PLAYER_1) && (*out))) {
+            if (pid == PLAYER_1) {
+                {
+                    *out = TRUE;
+                }
+            }
+
+            s->graphics.anim = SA1_ANIM_SPIKES;
+            s->variant = 2;
+            UpdateSpriteAnimation(s);
+
+            if (Coll_Player_Entity_Intersection(s, worldX, worldY, p) == COLL_FLAG_80000) {
+                s8 arr[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), +(p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
+
+                // Change 1 from sub_8020F2C: change Y-offsets
+                if (!GRAVITY_IS_INVERTED) {
+                    p->qWorldY = Q(worldY + s->hitboxes[0].b.bottom - arr[1]);
+                } else {
+                    p->qWorldY = Q(worldY + s->hitboxes[0].b.top + arr[1]);
+                }
+
+                if (Coll_DamagePlayer(p)) {
+                    m4aSongNumStart(SE_171);
+                }
+            }
+            // Change 2 from sub_8020F2C: removed else-block here
+        } else {
+            res = sub_80096B0(s, worldX, worldY, p);
+            spikes->movestateBuffer[tempPlayerID] = res;
+
+            // Change 3 from sub_8020F2C: COLL_FLAG_10000 not COLL_FLAG_8
+            if (res & COLL_FLAG_10000) {
+                if (Coll_DamagePlayer(p)) {
+                    m4aSongNumStart(SE_171);
+                }
+            }
+        }
+    } else if (sp0C < 126) {
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState |= MOVESTATE_IN_AIR;
+        }
+
+        if (spikes->movestateBuffer[tempPlayerID] & MOVESTATE_20) {
+            p->moveState &= ~MOVESTATE_20;
+            spikes->movestateBuffer[tempPlayerID] = 0;
+        }
+
+        s->graphics.anim = SA1_ANIM_SPIKES;
+        s->variant = 1;
+        UpdateSpriteAnimation(s);
+    } else {
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState |= MOVESTATE_IN_AIR;
+        }
+
+        if (spikes->movestateBuffer[tempPlayerID] & MOVESTATE_20) {
+            p->moveState &= ~MOVESTATE_20;
+            spikes->movestateBuffer[tempPlayerID] = 0;
+        }
+
+        s->graphics.anim = SA1_ANIM_SPIKES;
+        s->variant = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    return TRUE;
+}
+
+void TaskDestructor_Spikes(struct Task *t)
+{
+    Spikes *spikes = TASK_DATA(t);
+    VramFree(spikes->s.graphics.dest);
+}
