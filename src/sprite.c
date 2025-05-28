@@ -543,6 +543,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
     UnkSpriteStruct us;
     if (sprite->dimensions != (void *)-1) {
         const SpriteOffset *sprDims = sprite->dimensions;
+
         u16 *affine;
 
         us.affineIndex = sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
@@ -594,21 +595,30 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
             s16 offsetX, offsetY;
             s32 x, y;
 
-            if (transform->qScaleX > 0) {
-                offsetX = sprDims->offsetX;
-                width = sprDims->width;
-            } else {
-                offsetX = sprDims->width - sprDims->offsetX;
-                width = sprDims->width;
-            }
-            // _0800515A
+#ifdef BUG_FIX
+            // TODO: TEMP? Func doesn't match anyway...
+            //       Better way might be to have an assert(sprDims != NULL) at the top.
+            //       sprite->dimensions gets set by UpdateSpriteAnimation().
+            //       And if it wasn't set, that's a bug.
+            if (sprDims)
+#endif
+            {
+                if (transform->qScaleX > 0) {
+                    offsetX = sprDims->offsetX;
+                    width = sprDims->width;
+                } else {
+                    offsetX = sprDims->width - sprDims->offsetX;
+                    width = sprDims->width;
+                }
+                // _0800515A
 
-            if (transform->qScaleY > 0) {
-                offsetY = sprDims->offsetY;
-                height = sprDims->height;
-            } else {
-                offsetY = sprDims->height - sprDims->offsetY;
-                height = sprDims->height;
+                if (transform->qScaleY > 0) {
+                    offsetY = sprDims->offsetY;
+                    height = sprDims->height;
+                } else {
+                    offsetY = sprDims->height - sprDims->offsetY;
+                    height = sprDims->height;
+                }
             }
             // _0800517A
 

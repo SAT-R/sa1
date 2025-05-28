@@ -33,13 +33,18 @@ typedef struct {
     /* 0x30 */ Sprite s2;
     /* 0x60 */ Sprite s3;
     /* 0x90 */ Sprite s4;
-    /* 0xC0 */ Sprite s5;
-    /* 0xF0 */ s16 unkF0;
-    /* 0xF2 */ s16 unkF2;
+    /* 0xC0 */ SpriteTransform transform1;
+    /* 0xCC */ SpriteTransform transform2;
+    /* 0xD8 */ SpriteTransform transform3;
+    /* 0xE4 */ SpriteTransform transform4;
+    /* 0xF0 */ u16 unkF0;
+    /* 0xF2 */ s16 qUnkF2;
 } DecorationDebris; /* 0xF4 */
 
 void Task_DecorationMain(void);
 void CreateDecorationDebris(s16 vecX, s16 vecY);
+void Task_DecorationDebrisMain(void);
+void TaskDestructor_DecorationDebris(struct Task *t);
 
 void CreateEntity_Decoration(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -155,4 +160,203 @@ void Task_DecorationMain(void)
             }
         }
     }
+}
+
+void CreateDecorationDebris(s16 vecX, s16 vecY)
+{
+    struct Task *t = TaskCreate(Task_DecorationDebrisMain, sizeof(DecorationDebris), 0x2000, 0, TaskDestructor_DecorationDebris);
+    DecorationDebris *debris = TASK_DATA(t);
+    Sprite *s = &debris->s1;
+    SpriteTransform *tf = &debris->transform1;
+    s32 tfOffsetY;
+
+    debris->unkF0 = 0;
+    debris->qUnkF2 = -Q(2);
+
+    /* Sprite/Transform 1 */
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_S);
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_S;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 16);
+
+    tf->rotation = 0;
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
+    tf->x = vecX;
+    tf->y = vecY;
+    UpdateSpriteAnimation(s);
+
+    /* Sprite/Transform 2 */
+#ifdef BUG_FIX
+    DmaCopy16(3, s, &debris->s2, sizeof(debris->s2));
+    s = &debris->s2;
+    DmaCopy16(3, tf, &debris->transform2, sizeof(debris->transform2));
+    tf = &debris->transform2;
+#else
+    DmaCopy16(3, s, (s = &debris->s2), sizeof(debris->s2));
+    DmaCopy16(3, tf, (tf = &debris->transform2), sizeof(debris->transform2));
+#endif
+
+    s->frameFlags = SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 17);
+    tf->y = vecY - 16;
+
+    /* Sprite/Transform 3 */
+    s = &debris->s3;
+    DmaCopy16(3, tf, (tf = &debris->transform3), sizeof(debris->transform3));
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_L);
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_L;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 18);
+
+    tf->y = vecY;
+    UpdateSpriteAnimation(s);
+
+    /* Sprite/Transform 4 */
+#ifdef BUG_FIX
+    DmaCopy16(3, s, &debris->s4, sizeof(debris->s4));
+    s = &debris->s4;
+    DmaCopy16(3, tf, &debris->transform4, sizeof(debris->transform4));
+    tf = &debris->transform4;
+#else
+    DmaCopy16(3, s, (s = &debris->s4), sizeof(debris->s4));
+    DmaCopy16(3, tf, (tf = &debris->transform4), sizeof(debris->transform4));
+#endif
+
+    s->frameFlags = SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 19);
+    tf->y = vecY - 16;
+}
+
+void Task_DecorationDebrisMain(void)
+{
+    DecorationDebris *debris = TASK_DATA(gCurTask);
+    Sprite *s = &debris->s1;
+    SpriteTransform *tf;
+    u16 oldTransformX, oldTransformY;
+    s16 qScale;
+
+    if (debris->unkF0++ > 60) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _080236D8
+
+    debris->qUnkF2 += Q(40. / 256.);
+
+    tf = &debris->transform1;
+    tf->y += I(debris->qUnkF2);
+    oldTransformX = tf->x;
+    oldTransformY = tf->y;
+    tf->x -= gCamera.x;
+    tf->y -= gCamera.y;
+    tf->x -= debris->unkF0 * 2;
+
+    qScale = tf->qScaleX + 8;
+
+    if (qScale > Q(2)) {
+        qScale = Q(2);
+    }
+
+    tf->qScaleX = qScale;
+    tf->qScaleY = qScale;
+    tf->rotation -= 42;
+
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+    SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+    SA2_LABEL(sub_8004E14)(s, tf);
+    DisplaySprite(s);
+
+    tf->x = oldTransformX;
+    tf->y = oldTransformY;
+
+    /* Sprite/Transform 2 */
+    s = &debris->s2;
+    tf = &debris->transform2;
+    tf->y += I(debris->qUnkF2);
+    oldTransformX = tf->x;
+    oldTransformY = tf->y;
+    tf->x -= gCamera.x;
+    tf->y -= gCamera.y;
+    tf->x += debris->unkF0;
+
+    tf->qScaleX = qScale;
+    tf->qScaleY = qScale;
+    tf->rotation += 42;
+
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+    SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+    SA2_LABEL(sub_8004E14)(s, tf);
+    DisplaySprite(s);
+
+    tf->x = oldTransformX;
+    tf->y = oldTransformY;
+
+    /* Sprite/Transform 3 */
+    s = &debris->s3;
+    tf = &debris->transform3;
+    tf->y += I(debris->qUnkF2);
+    oldTransformX = tf->x;
+    oldTransformY = tf->y;
+    tf->x -= gCamera.x;
+    tf->y -= gCamera.y;
+    tf->x += debris->unkF0 * 2;
+
+    tf->qScaleX = qScale;
+    tf->qScaleY = qScale;
+    tf->rotation += 14;
+
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+    SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+    SA2_LABEL(sub_8004E14)(s, tf);
+    DisplaySprite(s);
+
+    tf->x = oldTransformX;
+    tf->y = oldTransformY;
+
+    /* Sprite/Transform 4 */
+    s = &debris->s4;
+    tf = &debris->transform4;
+    tf->y += I(debris->qUnkF2);
+    oldTransformX = tf->x;
+    oldTransformY = tf->y;
+    tf->x -= gCamera.x;
+    tf->y -= gCamera.y;
+    tf->x -= debris->unkF0;
+
+    tf->qScaleX = qScale;
+    tf->qScaleY = qScale;
+    tf->rotation -= 14;
+
+    SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+    SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+    SA2_LABEL(sub_8004E14)(s, tf);
+    DisplaySprite(s);
+
+    tf->x = oldTransformX;
+    tf->y = oldTransformY;
+}
+
+void TaskDestructor_DecorationDebris(struct Task *t)
+{
+    DecorationDebris *debris = TASK_DATA(t);
+    VramFree(debris->s1.graphics.dest);
+    VramFree(debris->s3.graphics.dest);
 }

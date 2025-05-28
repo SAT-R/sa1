@@ -236,25 +236,25 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *);
 
 void DisplaySprite(Sprite *);
 void DrawBackground(Background *);
-u32 sa2__sub_8004010(void);
-u32 sa2__sub_80039E4(void);
-bool32 sa2__sub_8002B20(void);
+u32 SA2_LABEL(sub_8004010)(void);
+u32 SA2_LABEL(sub_80039E4)(void);
+bool32 SA2_LABEL(sub_8002B20)(void);
 void CopyOamBufferToOam(void);
 OamData *OamMalloc(u8 order);
 
 void TransformSprite(Sprite *, SpriteTransform *);
 void sub_8004ABC(Sprite *, SpriteTransform *);
-void sub_8004E14(Sprite *, SpriteTransform *);
+void SA2_LABEL(sub_8004E14)(Sprite *, SpriteTransform *);
 
 void sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, BgAffineReg *affine);
-void sa2__sub_8006228(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
-void sa2__sub_80064A8(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
+void SA2_LABEL(sub_8006228)(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
+void SA2_LABEL(sub_80064A8)(u8 p0, u8 p1, u8 p2, u8 p3, u8 p4, u8 p5);
 
-s32 sa2__sub_80036E0(Sprite *);
+s32 SA2_LABEL(sub_80036E0)(Sprite *);
 void sub_8003914(Sprite *);
 void SA2_LABEL(sub_80047A0)(u16 angle, s16 p1, s16 p2, u16 affineIndex);
 
-s16 sa2__sub_8004418(s16 x, s16 y);
+s16 SA2_LABEL(sub_8004418)(s16 x, s16 y);
 void numToASCII(u8 digits[5], u16 number);
 
 #if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
