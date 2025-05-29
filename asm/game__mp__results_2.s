@@ -5,6 +5,8 @@
 .syntax unified
 .arm
 
+@ Module exists in some form in SA2!
+
 	thumb_func_start MultiPakCommunicationError
 MultiPakCommunicationError: @ 0x0801A728
 	push {lr}

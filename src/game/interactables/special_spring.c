@@ -123,7 +123,7 @@ void Task_SpecialSpringMain(void)
 
             if (gPlayer.SA2_LABEL(unk99)[1] == 0) {
                 gPlayer.moveState |= MOVESTATE_IA_OVERRIDE;
-                gStageFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+                gStageFlags |= STAGE_FLAG__ACT_START;
             }
 
             s->variant = 0;

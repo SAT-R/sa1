@@ -31,7 +31,7 @@ void Task_80297E8(void)
 
     if (--shake->unkC == 0) {
         if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
-            gStageFlags |= FLAGS_4;
+            gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
             gCourseTime = ZONE_TIME_TO_INT(5, 0);
         }
 

@@ -311,7 +311,7 @@ void Task_StageGoal2(void)
         mpp->unk5C |= 0x1;
 
         if (count == 0) {
-            gStageFlags |= FLAGS_4;
+            gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
             gCourseTime = ZONE_TIME_TO_INT(1, 0);
         }
 
@@ -371,7 +371,7 @@ void Task_StageGoal2(void)
             }
         }
 
-        gStageFlags |= FLAGS_4;
+        gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
         gCourseTime = ZONE_TIME_TO_INT(1, 0);
 
         gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;

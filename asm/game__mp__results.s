@@ -5,6 +5,8 @@
 .syntax unified
 .arm
 
+@ Module exists in some form in SA2!
+
 @ NOTE: Not sure whether this module is only about the result screen
 
 	thumb_func_start sub_8018538

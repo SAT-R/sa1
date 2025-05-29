@@ -108,7 +108,7 @@ void Task_CheckpointMain(void)
 
                 if (gBossIndex == 2) {
                     if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
-                        gStageFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+                        gStageFlags |= STAGE_FLAG__ACT_START;
                     }
 
                     CreateEggRocketStageSeparation((58 * METATILE_DIM) - 1);
@@ -116,7 +116,7 @@ void Task_CheckpointMain(void)
 
                 if (gBossIndex == 3) {
                     if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
-                        gStageFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+                        gStageFlags |= STAGE_FLAG__ACT_START;
                     }
 
                     CreateEggRocketStageSeparation((34 * METATILE_DIM) - 1);
