@@ -839,8 +839,6 @@ bool32 Coll_DamagePlayer(Player *p)
 
     p->timerInvulnerability = PLAYER_INVULNERABLE_DURATION;
 
-    p->timerInvulnerability = PLAYER_INVULNERABLE_DURATION;
-
     if ((p->qSpeedAirX < 0) || (p->qSpeedAirX == 0 && (p->moveState & MOVESTATE_FACING_LEFT))) {
         p->qSpeedAirX = +Q(1.5);
     } else {
@@ -1040,11 +1038,7 @@ bool32 sub_800C760(Player *p)
     return TRUE;
 }
 
-#if (GAME == GAME_SA1)
-bool32 sa2__sub_800DE44(Player *p)
-#elif (GAME == GAME_SA2)
-bool32 sub_800DE44(Player *p)
-#endif
+bool32 SA2_LABEL(sub_800DE44)(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
         return FALSE;

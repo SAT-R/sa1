@@ -1499,7 +1499,7 @@ _0808D2B2:
 	subs r1, r1, r3
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_808D9E4
+	bl CreateSkatingStoneDebris
 	mov r7, sl
 	ldrb r0, [r7, #8]
 	ldr r1, [sp, #0x10]
@@ -2477,8 +2477,8 @@ _0808D9D8: .4byte gPartner
 _0808D9DC: .4byte gNumSingleplayerCharacters
 _0808D9E0: .4byte gCamera
 
-	thumb_func_start sub_808D9E4
-sub_808D9E4: @ 0x0808D9E4
+	thumb_func_start CreateSkatingStoneDebris
+CreateSkatingStoneDebris: @ 0x0808D9E4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
