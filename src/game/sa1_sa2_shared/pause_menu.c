@@ -160,7 +160,7 @@ void Task_PauseMenuInit(void)
 {
     u32 i;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(gMPlayTable); i++) {
         if (i != gSongTable[SE_PAUSE].ms) {
             MPlayStop(gMPlayTable[i].info);
         }

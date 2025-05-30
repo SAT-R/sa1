@@ -91,11 +91,13 @@
 #endif
 
 #if PLATFORM_GBA
-#define NUM_MUSIC_PLAYERS ((u16)gNumMusicPlayers)
-#define MAX_LINES         ((u32)gMaxLines)
+#define NUM_MUSIC_PLAYERS        ((u16)gNumMusicPlayers)
+#define NUM_MUSIC_PLAYERS_STATIC 4 // @HACK because of how gNumMusicPlayers was defined to match
+#define MAX_LINES                ((u32)gMaxLines)
 #else
-#define NUM_MUSIC_PLAYERS 4
-#define MAX_LINES         0
+#define NUM_MUSIC_PLAYERS        4
+#define NUM_MUSIC_PLAYERS_STATIC NUM_MUSIC_PLAYERS
+#define MAX_LINES                0
 #endif
 
 struct MP2KTrack;
@@ -367,7 +369,7 @@ extern u8 gMPlayMemAccArea[];
 extern MPlayFunc gMPlayJumpTable[];
 extern struct MixerSource gCgbChans[];
 
-extern const struct MusicPlayer gMPlayTable[];
+extern const struct MusicPlayer gMPlayTable[NUM_MUSIC_PLAYERS_STATIC];
 extern const struct Song gSongTable[];
 extern const XcmdFunc gXcmdTable[];
 

@@ -5,349 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_PipeEntrance
-CreateEntity_PipeEntrance: @ 0x0809570C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	str r1, [sp, #4]
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov sl, r2
-	lsls r3, r3, #0x18
-	lsrs r3, r3, #0x18
-	str r3, [sp, #8]
-	movs r0, #0
-	mov r8, r0
-	movs r1, #0
-	mov sb, r1
-	movs r6, #0
-_08095736:
-	ldrb r2, [r7, #6]
-	movs r3, #0x80
-	lsls r3, r3, #6
-	adds r0, r3, #0
-	orrs r2, r0
-	ldr r0, _08095800 @ =TaskDestructor_PipeEntrance
-	str r0, [sp]
-	ldr r0, _08095804 @ =Task_PipeEntrance
-	movs r1, #0x5c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r2, r0
-	ldr r1, _08095808 @ =0x0300000C
-	adds r4, r2, r1
-	mov r3, sp
-	ldrh r3, [r3, #4]
-	strh r3, [r5, #4]
-	mov r0, sl
-	strh r0, [r5, #6]
-	str r7, [r5]
-	ldrb r0, [r7]
-	strb r0, [r5, #8]
-	mov r1, sp
-	ldrb r1, [r1, #8]
-	strb r1, [r5, #9]
-	ldr r3, _0809580C @ =0x0300003C
-	adds r0, r2, r3
-	mov r1, r8
-	strb r1, [r0]
-	adds r3, #2
-	adds r1, r2, r3
-	movs r0, #0x14
-	strb r0, [r1]
-	ldr r1, _08095810 @ =0x0300003F
-	adds r0, r2, r1
-	mov r3, sb
-	strb r3, [r0]
-	str r6, [r5, #0x40]
-	str r6, [r5, #0x44]
-	str r6, [r5, #0x50]
-	str r6, [r5, #0x54]
-	movs r0, #3
-	ldrsb r0, [r7, r0]
-	lsls r0, r0, #3
-	str r0, [r5, #0x48]
-	movs r0, #4
-	ldrsb r0, [r7, r0]
-	lsls r0, r0, #3
-	str r0, [r5, #0x4c]
-	adds r1, #0x19
-	adds r0, r2, r1
-	strb r3, [r0]
-	ldrb r1, [r7, #6]
-	ldr r3, _08095814 @ =0x0300003D
-	adds r0, r2, r3
-	strb r1, [r0]
-	ldrb r0, [r7, #5]
-	ldr r1, _08095818 @ =0x03000059
-	adds r2, r2, r1
-	strb r0, [r2]
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	ldr r3, [sp, #4]
-	lsls r1, r3, #8
-	adds r0, r0, r1
-	strh r0, [r4, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r3, sl
-	lsls r1, r3, #8
-	adds r0, r0, r1
-	strh r0, [r4, #0x18]
-	ldrb r0, [r2]
-	cmp r0, #1
-	bhi _080958B4
-	str r6, [r4, #0x10]
-	ldr r0, _0809581C @ =gCurrentLevel
-	ldrb r2, [r0]
-	lsls r0, r2, #0x18
-	asrs r1, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #5
-	beq _080957E8
-	cmp r1, #0x11
-	bne _08095854
-_080957E8:
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _08095840
-	mov r0, r8
-	cmp r0, #0
-	bne _08095820
-	movs r0, #0x4d
-	bl VramMalloc
-	str r0, [r4, #4]
-	b _08095822
-	.align 2, 0
-_08095800: .4byte TaskDestructor_PipeEntrance
-_08095804: .4byte Task_PipeEntrance
-_08095808: .4byte 0x0300000C
-_0809580C: .4byte 0x0300003C
-_08095810: .4byte 0x0300003F
-_08095814: .4byte 0x0300003D
-_08095818: .4byte 0x03000059
-_0809581C: .4byte gCurrentLevel
-_08095820:
-	str r6, [r4, #4]
-_08095822:
-	ldr r0, _0809583C @ =0x0000024F
-	strh r0, [r4, #0xa]
-	adds r0, r4, #0
-	adds r0, #0x20
-	mov r1, sb
-	strb r1, [r0]
-	adds r0, r5, #0
-	adds r0, #0x59
-	ldrb r0, [r0]
-	cmp r0, #0
-	bne _08095886
-	b _0809587C
-	.align 2, 0
-_0809583C: .4byte 0x0000024F
-_08095840:
-	mov r3, r8
-	cmp r3, #0
-	bne _0809584C
-	movs r0, #0x46
-	bl VramMalloc
-_0809584C:
-	str r0, [r4, #4]
-	movs r0, #0x92
-	lsls r0, r0, #2
-	b _08095868
-_08095854:
-	mov r3, r8
-	cmp r3, #0
-	bne _08095864
-	movs r0, #0x46
-	bl VramMalloc
-	str r0, [r4, #4]
-	b _08095866
-_08095864:
-	str r6, [r4, #4]
-_08095866:
-	ldr r0, _080958B0 @ =0x0000024D
-_08095868:
-	strh r0, [r4, #0xa]
-	adds r0, r4, #0
-	adds r0, #0x20
-	mov r1, sb
-	strb r1, [r0]
-	adds r0, r5, #0
-	adds r0, #0x59
-	ldrb r0, [r0]
-	cmp r0, #0
-	beq _08095886
-_0809587C:
-	ldr r0, [r4, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #4
-	orrs r0, r1
-	str r0, [r4, #0x10]
-_08095886:
-	movs r0, #0xa0
-	lsls r0, r0, #1
-	strh r0, [r4, #0x1a]
-	strh r6, [r4, #8]
-	strh r6, [r4, #0x14]
-	strh r6, [r4, #0x1c]
-	adds r1, r4, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	adds r0, r4, #0
-	adds r0, #0x25
-	mov r3, sb
-	strb r3, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r4, #0x28]
-	b _08095966
-	.align 2, 0
-_080958B0: .4byte 0x0000024D
-_080958B4:
-	ldr r0, _080958E0 @ =gCurrentLevel
-	ldrb r2, [r0]
-	lsls r0, r2, #0x18
-	asrs r1, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #5
-	beq _080958C6
-	cmp r1, #0x11
-	bne _08095908
-_080958C6:
-	movs r0, #1
-	ands r0, r2
-	cmp r0, #0
-	beq _080958F0
-	mov r0, r8
-	cmp r0, #0
-	bne _080958E4
-	movs r0, #0x5b
-	bl VramMalloc
-	str r0, [r4, #4]
-	b _080958E6
-	.align 2, 0
-_080958E0: .4byte gCurrentLevel
-_080958E4:
-	str r6, [r4, #4]
-_080958E6:
-	ldr r0, _080958EC @ =0x0000024E
-	b _0809591E
-	.align 2, 0
-_080958EC: .4byte 0x0000024E
-_080958F0:
-	mov r3, r8
-	cmp r3, #0
-	bne _080958FC
-	movs r0, #0x46
-	bl VramMalloc
-_080958FC:
-	str r0, [r4, #4]
-	ldr r0, _08095904 @ =0x0000024A
-	b _0809591E
-	.align 2, 0
-_08095904: .4byte 0x0000024A
-_08095908:
-	mov r3, r8
-	cmp r3, #0
-	bne _08095918
-	movs r0, #0x46
-	bl VramMalloc
-	str r0, [r4, #4]
-	b _0809591A
-_08095918:
-	str r6, [r4, #4]
-_0809591A:
-	movs r0, #0x93
-	lsls r0, r0, #2
-_0809591E:
-	strh r0, [r4, #0xa]
-	adds r0, r4, #0
-	adds r0, #0x20
-	mov r1, sb
-	strb r1, [r0]
-	movs r0, #0xa0
-	lsls r0, r0, #1
-	strh r0, [r4, #0x1a]
-	strh r6, [r4, #8]
-	strh r6, [r4, #0x14]
-	strh r6, [r4, #0x1c]
-	adds r1, r4, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	adds r0, r4, #0
-	adds r0, #0x25
-	mov r3, sb
-	strb r3, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r4, #0x28]
-	str r6, [r4, #0x10]
-	adds r0, r5, #0
-	adds r0, #0x59
-	ldrb r1, [r0]
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	beq _08095966
-	movs r0, #0x80
-	lsls r0, r0, #3
-	str r0, [r4, #0x10]
-_08095966:
-	mov r0, r8
-	cmp r0, #0
-	beq _08095976
-	ldr r0, [r4, #0x10]
-	movs r1, #0xc0
-	lsls r1, r1, #0xc
-	orrs r0, r1
-	str r0, [r4, #0x10]
-_08095976:
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	movs r1, #1
-	add r8, r1
-	ldr r0, _080959A8 @ =gNumSingleplayerCharacters
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r8, r0
-	bge _0809598E
-	b _08095736
-_0809598E:
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r0, r3, #0
-	strb r0, [r7]
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080959A8: .4byte gNumSingleplayerCharacters
+.if 0
+.endif
 
 	thumb_func_start Task_PipeEntrance
 Task_PipeEntrance: @ 0x080959AC
@@ -696,7 +355,7 @@ _08095C54:
 	ldr r0, _08095C84 @ =gCurTask
 	ldr r1, [r0]
 _08095C6C:
-	ldr r0, _08095C88 @ =sub_8095D28
+	ldr r0, _08095C88 @ =Task_8095D28
 	str r0, [r1, #8]
 	adds r2, r5, #0
 	adds r2, #0x26
@@ -708,7 +367,7 @@ _08095C6C:
 	.align 2, 0
 _08095C80: .4byte 0xFFFFFEFF
 _08095C84: .4byte gCurTask
-_08095C88: .4byte sub_8095D28
+_08095C88: .4byte Task_8095D28
 _08095C8C:
 	adds r0, r5, #0
 	bl Player_TransitionCancelFlyingAndBoost
@@ -789,8 +448,8 @@ _08095D16:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8095D28
-sub_8095D28: @ 0x08095D28
+	thumb_func_start Task_8095D28
+Task_8095D28: @ 0x08095D28
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -932,7 +591,7 @@ _08095E2C:
 	str r0, [r4, #0x10]
 	mov r2, r8
 	ldr r1, [r2]
-	ldr r0, _08095E60 @ =sub_8095E90
+	ldr r0, _08095E60 @ =Task_8095E90
 	str r0, [r1, #8]
 _08095E4A:
 	adds r0, r4, #0
@@ -944,7 +603,7 @@ _08095E4A:
 	b _08095E6A
 	.align 2, 0
 _08095E5C: .4byte 0x03000058
-_08095E60: .4byte sub_8095E90
+_08095E60: .4byte Task_8095E90
 _08095E64:
 	ldr r0, _08095E8C @ =0xFFBFFFFF
 	ands r3, r0
@@ -969,8 +628,8 @@ _08095E80:
 	.align 2, 0
 _08095E8C: .4byte 0xFFBFFFFF
 
-	thumb_func_start sub_8095E90
-sub_8095E90: @ 0x08095E90
+	thumb_func_start Task_8095E90
+Task_8095E90: @ 0x08095E90
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
