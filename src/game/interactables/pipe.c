@@ -435,8 +435,7 @@ void Task_8095D28(void)
     }
 }
 
-// (86.15%) https://decomp.me/scratch/y32S1
-NONMATCH("asm/non_matching/game/interactables/pipe__Task_8095E90.inc", void Task_8095E90(void))
+void Task_8095E90(void)
 {
     Sprite *s;
     s16 screenX, screenY;
@@ -482,10 +481,12 @@ NONMATCH("asm/non_matching/game/interactables/pipe__Task_8095E90.inc", void Task
 
                 } else {
                     Player_TransitionCancelFlyingAndBoost(p);
-                    p->moveState |= MOVESTATE_IA_OVERRIDE;
+                    do {
+                        p->moveState |= MOVESTATE_IA_OVERRIDE;
 
-                    p->charState = CHARSTATE_SPINATTACK;
-                    PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+                        p->charState = CHARSTATE_SPINATTACK;
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+                    } while (0);
 
                     pipe->unk58 = 1;
                 }
@@ -524,7 +525,6 @@ NONMATCH("asm/non_matching/game/interactables/pipe__Task_8095E90.inc", void Task
         DisplaySprite(s);
     }
 }
-END_NONMATCH
 
 void TaskDestructor_PipeEntrance(struct Task *t)
 {
