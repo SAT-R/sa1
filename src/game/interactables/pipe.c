@@ -844,7 +844,6 @@ void Task_8096724(void)
             }
         }
     } else {
-        // _0809681C
         gCurTask->main = Task_PipeExit;
 
         if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
