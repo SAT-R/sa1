@@ -41,6 +41,7 @@ typedef struct {
 
 void Task_PipeEntrance(void);
 void Task_8095D28(void);
+void Task_8095E90(void);
 void TaskDestructor_PipeEntrance(struct Task *t);
 
 void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -261,7 +262,6 @@ void Task_PipeEntrance(void)
                 p->qSpeedAirY = Q(0);
                 p->qSpeedAirX = Q(0);
                 p->qSpeedGround = Q(0);
-                // goto _08095C54;
                 p->SA2_LABEL(unk99)[0] = 0;
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
 
@@ -346,5 +346,178 @@ void Task_PipeEntrance(void)
 
     if (pipe->unk3C == 0) {
         DisplaySprite(s);
+    }
+}
+
+void Task_8095D28(void)
+{
+    PipeEntrance *pipe = TASK_DATA(gCurTask);
+    MapEntity *me = pipe->base.me;
+    Sprite *s = &pipe->s;
+    Player *p = GET_SP_PLAYER_V1(pipe->unk3C);
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pipe->base.regionY);
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_ALIVE(p)) {
+        if (pipe->unk3F != 0) {
+            if (p->qWorldY != Q(worldY)) {
+                if (p->qWorldY < Q(worldY)) {
+                    p->qWorldY += Q(1.5);
+
+                    if (p->qWorldY > Q(worldY)) {
+                        p->qWorldY = Q(worldY);
+                    }
+                } else {
+                    p->qWorldY -= Q(1.5);
+
+                    if (p->qWorldY < Q(worldY)) {
+                        p->qWorldY = Q(worldY);
+                    }
+                }
+            }
+
+            if (p->qWorldX != Q(worldX)) {
+                if (p->qWorldX < Q(worldX)) {
+                    p->qWorldX += Q(1.5);
+
+                    if (p->qWorldX > Q(worldX)) {
+                        p->qWorldX = Q(worldX);
+                    }
+                } else {
+                    p->qWorldX -= Q(1.5);
+
+                    if (p->qWorldX < Q(worldX)) {
+                        p->qWorldX = Q(worldX);
+                    }
+                }
+            }
+
+            if (--pipe->unk3F == 45) {
+                m4aSongNumStart(SE_SPIN_ATTACK);
+            }
+        } else {
+            pipe->unk40 = worldX;
+            pipe->unk44 = worldY;
+
+            pipe->unk58 = 1;
+
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            gCurTask->main = Task_8095E90;
+        }
+
+        Player_TransitionCancelFlyingAndBoost(p);
+        p->charState = CHARSTATE_SPINATTACK;
+    } else {
+        p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+    }
+
+    UpdateSpriteAnimation(s);
+
+    if (pipe->unk3C == 0) {
+        DisplaySprite(s);
+    }
+}
+
+// (86.15%) https://decomp.me/scratch/y32S1
+NONMATCH("asm/non_matching/game/interactables/pipe__Task_8095E90.inc", void Task_8095E90(void))
+{
+    Sprite *s;
+    s16 screenX, screenY;
+    CamCoord worldX, worldY;
+    Player *p;
+    s32 test;
+    PipeEntrance *pipe = TASK_DATA(gCurTask);
+    MapEntity *me = pipe->base.me;
+    s = &pipe->s;
+
+    p = GET_SP_PLAYER_V1(pipe->unk3C);
+
+    worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pipe->base.regionY);
+    screenX = worldX - gCamera.x;
+    screenY = worldY - gCamera.y;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (pipe->unk58) {
+        if (IS_ALIVE(p)) {
+            if (p->SA2_LABEL(unk99)[0] == pipe->unk3D) {
+                s32 r6 = Div(pipe->unk48 * pipe->unk3F, pipe->unk3E);
+                s32 res2 = Div(pipe->unk4C * pipe->unk3F, pipe->unk3E);
+
+                p->qWorldX = Q(pipe->unk40 + r6);
+                p->qWorldY = Q(pipe->unk44 + res2);
+
+                p->qSpeedAirY = p->qWorldY - pipe->unk54;
+                p->qSpeedGround = p->qWorldX - pipe->unk50;
+                p->qSpeedAirX = p->qSpeedGround;
+
+                pipe->unk3F++;
+
+                if ((I(p->qWorldX) == pipe->unk40 + pipe->unk48) && (I(p->qWorldY) == pipe->unk44 + pipe->unk4C)) {
+                    if (p->SA2_LABEL(unk99)[0] == pipe->unk3D) {
+                        p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+                        gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                    }
+
+                    pipe->unk58 = 0;
+                    p->itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+
+                } else {
+                    Player_TransitionCancelFlyingAndBoost(p);
+                    p->moveState |= MOVESTATE_IA_OVERRIDE;
+
+                    p->charState = CHARSTATE_SPINATTACK;
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+
+                    pipe->unk58 = 1;
+                }
+
+                pipe->unk50 = p->qWorldX;
+                pipe->unk54 = p->qWorldY;
+            } else {
+                pipe->unk58 = 0;
+            }
+        } else {
+            pipe->unk58 = 0;
+            p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+        }
+    } else {
+        gCurTask->main = Task_PipeEntrance;
+
+        if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+            if (pipe->unk58) {
+                if (p->SA2_LABEL(unk99)[0] == pipe->unk3D) {
+                    p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+                    gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                }
+            }
+
+            if (pipe->unk3C == 0) {
+                SET_MAP_ENTITY_NOT_INITIALIZED(me, pipe->base.meX);
+            }
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+
+    if (pipe->unk3C == 0) {
+        DisplaySprite(s);
+    }
+}
+END_NONMATCH
+
+void TaskDestructor_PipeEntrance(struct Task *t)
+{
+    PipeEntrance *pipe = TASK_DATA(t);
+
+    if (pipe->unk3C == 0) {
+        VramFree(pipe->s.graphics.dest);
     }
 }
