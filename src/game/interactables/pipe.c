@@ -54,6 +54,7 @@ void Task_8095D28(void);
 void Task_8095E90(void);
 void TaskDestructor_PipeEntrance(struct Task *t);
 void Task_PipeExit(void);
+void Task_809656C(void);
 void TaskDestructor_PipeExit(struct Task *t);
 
 void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -631,3 +632,91 @@ void CreateEntity_PipeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 }
+
+// (98.25%) https://decomp.me/scratch/rvdlH
+NONMATCH("asm/non_matching/game/interactables/pipe__Task_PipeExit.inc", void Task_PipeExit(void))
+{
+    Sprite *s;
+    s16 screenX, screenY;
+    CamCoord worldX, worldY;
+    PipeEntrance *pipe;
+    s32 test;
+    Player *p;
+    MapEntity *me;
+#ifndef NON_MATCHING
+    register SpriteBase *base asm("r3");
+#else
+    SpriteBase *base;
+#endif
+
+    pipe = TASK_DATA(gCurTask);
+    me = pipe->base.me;
+
+    s = &pipe->s;
+
+    p = GET_SP_PLAYER_V1(pipe->unk3C);
+
+    base = &pipe->base;
+
+    worldX = TO_WORLD_POS(base->meX, base->regionX);
+    worldY = TO_WORLD_POS(me->y, base->regionY);
+    screenX = worldX - gCamera.x;
+    s->x = worldX - gCamera.x;
+    screenY = worldY - gCamera.y;
+    s->y = worldY - gCamera.y;
+
+    if (IS_ALIVE(p)) {
+        if (p->moveState & MOVESTATE_IA_OVERRIDE) {
+            if (p->SA2_LABEL(unk99)[0] < pipe->unk3D) {
+                if (Coll_Player_Entity_Intersection(s, worldX, worldY, p)) {
+                    pipe->unk3E = 0;
+                    Player_TransitionCancelFlyingAndBoost(p);
+                    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    p->moveState &= ~MOVESTATE_IN_AIR;
+                    p->moveState &= ~MOVESTATE_100;
+                    p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                    p->moveState &= ~MOVESTATE_20;
+                    p->moveState |= MOVESTATE_4;
+                    p->moveState |= MOVESTATE_IA_OVERRIDE;
+
+                    p->charState = CHARSTATE_SPINATTACK;
+
+                    p->qWorldY = Q(worldY);
+                    p->qWorldX = Q(worldX);
+                    p->qSpeedAirY = Q(0);
+                    p->qSpeedAirX = Q(0);
+                    p->qSpeedGround = Q(0);
+                    p->heldInput = 0;
+                    p->frameInput = 0;
+                    p->SA2_LABEL(unk99)[0] = 0x7F;
+
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+
+                    gCurTask->main = Task_809656C;
+                    p->itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+                }
+            }
+        } else {
+            sub_80096B0(s, worldX, worldY, p);
+        }
+    } else {
+        Player_TransitionCancelFlyingAndBoost(p);
+        p->moveState |= MOVESTATE_DEAD; // NOTE: This OR is redundant...
+        p->charState = CHARSTATE_DEAD;
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        if (pipe->unk3C == 0) {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, pipe->base.meX);
+        }
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+
+    if (pipe->unk3C == 0) {
+        DisplaySprite(s);
+    }
+}
+END_NONMATCH
