@@ -39,10 +39,22 @@ typedef struct {
     /* 0x59 */ u8 unk59;
 } PipeEntrance;
 
+typedef struct {
+    /* 0x00 */ SpriteBase base;
+    /* 0x0C */ Sprite s;
+    /* 0x3C */ u8 unk3C;
+    /* 0x3D */ u8 unk3D;
+    /* 0x3E */ u8 unk3E;
+    /* 0x3F */ u8 unk3F;
+    /* 0x40 */ u16 unk40;
+} PipeExit;
+
 void Task_PipeEntrance(void);
 void Task_8095D28(void);
 void Task_8095E90(void);
 void TaskDestructor_PipeEntrance(struct Task *t);
+void Task_PipeExit(void);
+void TaskDestructor_PipeExit(struct Task *t);
 
 void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -520,4 +532,102 @@ void TaskDestructor_PipeEntrance(struct Task *t)
     if (pipe->unk3C == 0) {
         VramFree(pipe->s.graphics.dest);
     }
+}
+
+void CreateEntity_PipeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    s32 i;
+
+    i = 0;
+    do {
+        struct Task *t = TaskCreate(Task_PipeExit, sizeof(PipeExit), me->d.uData[3] | 0x2000, 0, TaskDestructor_PipeExit);
+        PipeExit *pipe = TASK_DATA(t);
+        Sprite *s = &pipe->s;
+
+        pipe->base.regionX = regionX;
+        pipe->base.regionY = regionY;
+        pipe->base.me = me;
+        pipe->base.meX = me->x;
+        pipe->base.id = id;
+
+        pipe->unk3C = i;
+        pipe->unk3E = 0;
+        pipe->unk3D = me->d.uData[3];
+        pipe->unk3F = me->d.uData[2];
+        pipe->unk40 = (me->d.sData[1] * TILE_WIDTH) * 8;
+
+        // NOTE: Initializing sprite pos to world pos
+        s->x = TO_WORLD_POS(me->x, regionX);
+        s->y = TO_WORLD_POS(me->y, regionY);
+
+        s->oamFlags = SPRITE_OAM_ORDER(5);
+
+        if (pipe->unk3F == 0 || pipe->unk3F == 1) {
+            if ((LEVEL_TO_ZONE(gCurrentLevel) == ZONE_6) || (gCurrentLevel == ACT_CHAO_HUNT_D)) {
+                if ((gCurrentLevel & 0x1) != ACT_1) {
+                    s->graphics.dest = (i == 0) ? ALLOC_TILES(SA1_ANIM_PIPE_ENTER_6_2_V) : NULL;
+                    s->graphics.anim = SA1_ANIM_PIPE_ENTER_6_2_V;
+                    s->variant = 1;
+                } else {
+                    s->graphics.dest = (i == 0) ? ALLOC_TILES(SA1_ANIM_PIPE_EXIT_6_1_V) : NULL;
+                    s->graphics.anim = SA1_ANIM_PIPE_EXIT_6_1_V;
+                    s->variant = 0;
+                }
+            } else {
+                s->graphics.dest = (i == 0) ? ALLOC_TILES(SA1_ANIM_PIPE_GATE_2_V) : NULL;
+                s->graphics.anim = SA1_ANIM_PIPE_GATE_2_V;
+                s->variant = 1;
+            }
+
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 0);
+
+            if (pipe->unk3F != 0) {
+                SPRITE_FLAG_SET(s, Y_FLIP);
+            }
+        } else {
+            if ((LEVEL_TO_ZONE(gCurrentLevel) == ZONE_6) || (gCurrentLevel == ACT_CHAO_HUNT_D)) {
+                if ((gCurrentLevel & 0x1) != ACT_1) {
+                    s->graphics.dest = (i == 0) ? ALLOC_TILES(SA1_ANIM_PIPE_ENTER_6_2_H) : NULL;
+                    s->graphics.anim = SA1_ANIM_PIPE_ENTER_6_2_H;
+                    s->variant = 1;
+                } else {
+                    s->graphics.dest = (i == 0) ? ALLOC_TILES(SA1_ANIM_PIPE_EXIT_6_1_H) : NULL;
+                    s->graphics.anim = SA1_ANIM_PIPE_EXIT_6_1_H;
+                    s->variant = 0;
+                }
+            } else {
+                s->graphics.dest = (i == 0) ? ALLOC_TILES(SA1_ANIM_PIPE_GATE_2_H) : NULL;
+                s->graphics.anim = SA1_ANIM_PIPE_GATE_2_H;
+                s->variant = 1;
+            }
+
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0;
+
+            if ((pipe->unk3F & 0x1) != 0) {
+                s->frameFlags = SPRITE_FLAG(X_FLIP, 1);
+            }
+        }
+
+        if (i != 0) {
+            s->frameFlags |= (SPRITE_FLAG_MASK_18 | SPRITE_FLAG_MASK_19);
+        }
+
+        UpdateSpriteAnimation(s);
+    } while (++i < gNumSingleplayerCharacters);
+
+    SET_MAP_ENTITY_INITIALIZED(me);
 }
