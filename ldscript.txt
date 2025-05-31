@@ -215,7 +215,6 @@ SECTIONS {
         src/game/interactables/spring_hiding.o(.text);
         src/game/interactables/109.o(.text);
         src/game/interactables/pipe.o(.text);
-        asm/ia_pipe.o(.text);
         src/game/interactables/maze_air_corner.o(.text);
         src/game/interactables/113.o(.text);
 

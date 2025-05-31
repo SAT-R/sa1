@@ -55,6 +55,7 @@ void Task_8095E90(void);
 void TaskDestructor_PipeEntrance(struct Task *t);
 void Task_PipeExit(void);
 void Task_809656C(void);
+void Task_8096724(void);
 void TaskDestructor_PipeExit(struct Task *t);
 
 void CreateEntity_PipeEntrance(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -720,3 +721,153 @@ NONMATCH("asm/non_matching/game/interactables/pipe__Task_PipeExit.inc", void Tas
     }
 }
 END_NONMATCH
+
+void Task_809656C(void)
+{
+    PipeExit *pipe = TASK_DATA(gCurTask);
+    MapEntity *me = pipe->base.me;
+    Sprite *s = &pipe->s;
+    Player *p = GET_SP_PLAYER_V1(pipe->unk3C);
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pipe->base.regionY);
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_ALIVE(p)) {
+        if (pipe->unk3E != 0) {
+            if (p->qWorldY != Q(worldY)) {
+                if (p->qWorldY < Q(worldY)) {
+                    p->qWorldY += Q(1.5);
+
+                    if (p->qWorldY > Q(worldY)) {
+                        p->qWorldY = Q(worldY);
+                    }
+                } else {
+                    p->qWorldY -= Q(1.5);
+
+                    if (p->qWorldY < Q(worldY)) {
+                        p->qWorldY = Q(worldY);
+                    }
+                }
+            }
+
+            if (p->qWorldX != Q(worldX)) {
+                if (p->qWorldX < Q(worldX)) {
+                    p->qWorldX += Q(1.5);
+
+                    if (p->qWorldX > Q(worldX)) {
+                        p->qWorldX = Q(worldX);
+                    }
+                } else {
+                    p->qWorldX -= Q(1.5);
+
+                    if (p->qWorldX < Q(worldX)) {
+                        p->qWorldX = Q(worldX);
+                    }
+                }
+            }
+
+            --pipe->unk3E;
+        } else {
+            if (pipe->unk3F == 0 || pipe->unk3F == 1) {
+                if (pipe->unk3F & 0x1) {
+                    p->qSpeedAirY = -pipe->unk40;
+                    p->qSpeedAirX = 0;
+                    p->qSpeedGround = 0;
+                } else {
+                    p->qSpeedAirY = +pipe->unk40;
+                    p->qSpeedAirX = 0;
+                    p->qSpeedGround = 0;
+                }
+
+                pipe->unk3E = 15;
+            } else {
+                if (pipe->unk3F & 0x1) {
+                    p->moveState |= MOVESTATE_FACING_LEFT;
+                    p->qSpeedAirY = 0;
+                    p->qSpeedAirX = -pipe->unk40;
+                    p->qSpeedGround = -pipe->unk40;
+                } else {
+                    p->moveState &= ~MOVESTATE_FACING_LEFT;
+                    p->qSpeedAirY = 0;
+                    p->qSpeedAirX = +pipe->unk40;
+                    p->qSpeedGround = +pipe->unk40;
+                }
+                pipe->unk3E = 15;
+            }
+
+            gCurTask->main = Task_8096724;
+        }
+
+        Player_TransitionCancelFlyingAndBoost(p);
+        p->charState = CHARSTATE_SPINATTACK;
+        p->moveState |= MOVESTATE_IN_AIR;
+    }
+
+    UpdateSpriteAnimation(s);
+
+    if (pipe->unk3C == 0) {
+        DisplaySprite(s);
+    }
+}
+
+void Task_8096724(void)
+{
+    PipeExit *pipe = TASK_DATA(gCurTask);
+    MapEntity *me = pipe->base.me;
+    Sprite *s = &pipe->s;
+    Player *p = GET_SP_PLAYER_V1(pipe->unk3C);
+    CamCoord worldX, worldY;
+    s16 screenX, screenY;
+
+    worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
+    worldY = TO_WORLD_POS(me->y, pipe->base.regionY);
+    screenX = worldX - gCamera.x;
+    screenY = worldY - gCamera.y;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (pipe->unk3E != 0) {
+        if (IS_ALIVE(p)) {
+            pipe->unk3E--;
+            p->qWorldX += p->qSpeedAirX;
+            p->qWorldY += p->qSpeedAirY;
+
+            if (pipe->unk3E == 0) {
+                p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+                p->heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+                p->SA2_LABEL(unk99)[0] = 0x7F;
+                p->moveState &= ~MOVESTATE_IA_OVERRIDE;
+                p->itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+            }
+        }
+    } else {
+        // _0809681C
+        gCurTask->main = Task_PipeExit;
+
+        if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+            if (pipe->unk3C == 0) {
+                SET_MAP_ENTITY_NOT_INITIALIZED(me, pipe->base.meX);
+            }
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+
+    if (pipe->unk3C == 0) {
+        DisplaySprite(s);
+    }
+}
+
+void TaskDestructor_PipeExit(struct Task *t)
+{
+    PipeExit *pipe = TASK_DATA(t);
+
+    if (pipe->unk3C == 0) {
+        VramFree(pipe->s.graphics.dest);
+    }
+}
