@@ -121,6 +121,7 @@
 #define SE_DROWNED               192
 #define SE_200                   200
 #define SE_201                   201
+#define SE_202                   202
 
 #define SE_VS_MULTIPAK_CONN_CLOSE 303
 #define SE_VS_MULTIPAK_ROUND_OVER 304
