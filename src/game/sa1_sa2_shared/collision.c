@@ -1228,7 +1228,6 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C934.inc",
 
     return FALSE;
 }
-
 END_NONMATCH
 
 // TODO: Check type of x/y!
