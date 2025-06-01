@@ -4,7 +4,7 @@
 #include "core.h"
 #include "config.h"
 
-#if (GAME == GAME_SA1)
+#if ((GAME == GAME_SA1) || (PORTABLE))
 typedef s16 CamCoord;
 #else
 typedef s32 CamCoord;

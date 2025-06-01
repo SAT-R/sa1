@@ -1120,11 +1120,115 @@ bool32 SA2_LABEL(sub_800DE44)(Player *p)
 #if (GAME == GAME_SA1)
 
 // INCOMPLETE!
+// (91.10%) https://decomp.me/scratch/9kVDP
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C934.inc",
-         bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6))
+         bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 param4, Player *p, u32 *param6))
 {
+    bool16 gravityInverted = GRAVITY_IS_INVERTED;
+    // bottom = sl
+#ifndef NON_MATCHING
+    register s32 middleY asm("sl") = y + ((s->hitboxes[0].b.top + s->hitboxes[0].b.bottom) >> 1);
+#else
+    s32 middleY = y + ((s->hitboxes[0].b.top + s->hitboxes[0].b.bottom) >> 1);
+#endif
+
+    if (!HB_COLLISION(x, y, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rectPlayer))) {
+        return FALSE;
+    }
+
+    if (!gravityInverted) {
+        if (I(p->qWorldY) > middleY) {
+            p->qWorldY = Q_24_8_FRAC(p->qWorldY) + Q(s->hitboxes[0].b.bottom + y - rectPlayer->bottom);
+        } else {
+            goto test;
+        }
+    } else {
+        if (I(p->qWorldY) >= middleY) {
+        test:
+            if (!gravityInverted) {
+                p->qWorldY = Q_24_8_FRAC(p->qWorldY) + Q(s->hitboxes[0].b.top + y - rectPlayer->bottom);
+            } else {
+                p->qWorldY = Q_24_8_FRAC(p->qWorldY) + Q(s->hitboxes[0].b.bottom + y + rectPlayer->bottom);
+            }
+
+            if (p->qWorldY < Q(gCamera.minY)) {
+                p->qWorldY = Q(gCamera.minY);
+                return FALSE;
+            }
+
+            if (p->qWorldY >= Q(gCamera.maxY)) {
+                p->qWorldY = Q(gCamera.maxY);
+                return FALSE;
+            }
+
+            if (p->qSpeedAirY < 0) {
+                return FALSE;
+            }
+
+            rectPlayer->top = -p->spriteOffsetY;
+            rectPlayer->bottom = +p->spriteOffsetY;
+            p->qSpeedAirY = Q(0);
+
+            if (!(p->moveState & MOVESTATE_IN_AIR) && (((p->rotation + 0x20) & 0x40) != 0)) {
+                p->qSpeedGround = Q(0);
+            }
+
+            p->moveState |= MOVESTATE_STOOD_ON_OBJ;
+            *param6 |= MOVESTATE_STOOD_ON_OBJ;
+
+            if (p->character == CHARACTER_KNUCKLES) {
+                if (p->SA2_LABEL(unk61) == 1 || p->SA2_LABEL(unk61) == 3) {
+                    goto lbl;
+                }
+            }
+            if ((p->character != CHARACTER_AMY) || !(p->moveState & 0x04000000) || (p->SA2_LABEL(unk62) == 0)) {
+                p->moveState &= ~MOVESTATE_IN_AIR;
+            }
+        lbl:
+            p->stoodObj = s;
+
+            if (param4 == 0) {
+                if (p->character != CHARACTER_KNUCKLES || (p->SA2_LABEL(unk61) != 1 && p->SA2_LABEL(unk61) != 3)) {
+                    SA2_LABEL(sub_8021BE0)(p);
+                    p->qSpeedGround = p->qSpeedAirX;
+                }
+
+                p->rotation = 0;
+            }
+            return 1;
+        } else {
+            // 204
+            p->qWorldY = Q_24_8_FRAC(p->qWorldY) + Q(s->hitboxes[0].b.top + y + rectPlayer->top);
+        }
+    }
+
+    if (p->qWorldY < Q(gCamera.minY)) {
+        p->qWorldY = Q(gCamera.minY);
+        return FALSE;
+    }
+
+    if (p->qWorldY >= Q(gCamera.maxY)) {
+        p->qWorldY = Q(gCamera.maxY);
+        return FALSE;
+    }
+
+    *param6 |= 0x10000;
+
+    if (p->qSpeedAirY <= 0) {
+        p->qSpeedAirY = 0;
+
+        if (!(p->moveState & MOVESTATE_IN_AIR)) {
+            if ((p->rotation + 0x20) & 0x40) {
+                p->qSpeedGround = 0;
+            }
+        }
+
+        return TRUE;
+    }
+
     return FALSE;
 }
+
 END_NONMATCH
 
 // TODO: Check type of x/y!

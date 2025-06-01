@@ -32,16 +32,16 @@
 	adds r0, r0, r2
 	asrs r0, r0, #1
 	add r0, sb          @ r0 = y + (hbBottom - hbTop) / 2
-	mov sl, r0
+	mov sl, r0          @ sl = middleY
 	mov r0, r8
 	adds r0, #0x2c
 	movs r3, #0
-	ldrsb r3, [r0, r3]
-	adds r1, r1, r3     @ r1 = y += HB_LEFT(s->hitboxes[0].b)
+	ldrsb r3, [r0, r3]  @ r3 = HB_LEFT(s->hitboxes[0].b)
+	adds r1, r1, r3     @ r1 = x += HB_LEFT(s->hitboxes[0].b)
 	ldr r0, [r4]
 	asrs r0, r0, #8     @ r0 = I(p->qWorldX)
 	movs r5, #0
-	ldrsb r5, [r7, r5]
+	ldrsb r5, [r7, r5]  @ r5 = rectPlayer
 	adds r2, r0, r5     @ r2 = I(p->qWorldX) + HB_LEFT(rectPlayer)
 	cmp r1, r2
 	bgt _0800C9A2
@@ -59,7 +59,7 @@
 	b _0800CBA8_return_0
 _0800C9A2:
 	movs r0, #2
-	ldrsb r0, [r7, r0]
+	ldrsb r0, [r7, r0]  @ r0 = r7+2 = rectPlayer
 	subs r0, r0, r5
 	adds r0, r2, r0
 	cmp r0, r1
