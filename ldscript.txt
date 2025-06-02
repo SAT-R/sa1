@@ -194,6 +194,7 @@ SECTIONS {
         src/game/interactables/hang_bar.o(.text);
         asm/ia_skating_stone.o(.text);
         asm/ia_platforms_085_089.o(.text);
+        src/game/interactables/run_wheel.o(.text);
         asm/ia_run_wheel.o(.text);
         src/game/interactables/torch.o(.text);
         src/game/interactables/toggle_player_float.o(.text);

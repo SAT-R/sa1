@@ -5,143 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_RunWheel
-CreateEntity_RunWheel: @ 0x0808E77C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sl, r0
-	adds r5, r1, #0
-	mov r8, r2
-	mov sb, r3
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	mov r1, sb
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov sb, r1
-	ldr r0, _0808E87C @ =Task_RunWheel
-	ldr r1, _0808E880 @ =TaskDestructor_RunWheel
-	str r1, [sp]
-	movs r1, #0x50
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r6, [r0, #6]
-	movs r2, #0xc0
-	lsls r2, r2, #0x12
-	adds r2, r6, r2
-	ldr r7, _0808E884 @ =0x0300000C
-	adds r4, r6, r7
-	movs r3, #0
-	strh r5, [r2, #4]
-	mov r0, r8
-	strh r0, [r2, #6]
-	mov r1, sl
-	str r1, [r2]
-	ldrb r0, [r1]
-	strb r0, [r2, #8]
-	mov r7, sb
-	strb r7, [r2, #9]
-	ldrb r1, [r1, #5]
-	lsls r0, r1, #4
-	adds r0, r0, r1
-	lsls r0, r0, #3
-	subs r0, r0, r1
-	lsls r0, r0, #5
-	str r0, [r2, #0x3c]
-	str r3, [r2, #0x40]
-	mov r0, sl
-	ldrb r1, [r0, #3]
-	ldr r7, _0808E888 @ =0x0300004E
-	adds r0, r6, r7
-	strb r1, [r0]
-	str r3, [r2, #0x44]
-	ldr r1, _0808E88C @ =0x0300004C
-	adds r0, r6, r1
-	strh r3, [r0]
-	mov r7, sl
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r4, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r1, r8
-	lsls r1, r1, #8
-	mov r8, r1
-	add r0, r8
-	strh r0, [r4, #0x18]
-	movs r7, #2
-	rsbs r7, r7, #0
-	adds r0, r7, #0
-	mov r1, sl
-	strb r0, [r1]
-	movs r0, #0x10
-	str r3, [sp, #4]
-	bl VramMalloc
-	str r0, [r4, #4]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r4, #0x1a]
-	ldr r3, [sp, #4]
-	strh r3, [r4, #8]
-	ldr r0, _0808E890 @ =0x0000021E
-	strh r0, [r4, #0xa]
-	ldr r7, _0808E894 @ =0x0300002C
-	adds r1, r6, r7
-	movs r0, #1
-	strb r0, [r1]
-	strh r3, [r4, #0x14]
-	strh r3, [r4, #0x1c]
-	ldr r0, _0808E898 @ =0x0300002D
-	adds r1, r6, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r7, #2
-	adds r1, r6, r7
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, _0808E89C @ =0x03000031
-	adds r6, r6, r0
-	movs r1, #0
-	strb r1, [r6]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r4, #0x28]
-	movs r7, #0x80
-	lsls r7, r7, #6
-	str r7, [r4, #0x10]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0808E87C: .4byte Task_RunWheel
-_0808E880: .4byte TaskDestructor_RunWheel
-_0808E884: .4byte 0x0300000C
-_0808E888: .4byte 0x0300004E
-_0808E88C: .4byte 0x0300004C
-_0808E890: .4byte 0x0000021E
-_0808E894: .4byte 0x0300002C
-_0808E898: .4byte 0x0300002D
-_0808E89C: .4byte 0x03000031
-
+.if 01
 	thumb_func_start Task_RunWheel
 Task_RunWheel: @ 0x0808E8A0
 	push {r4, r5, r6, r7, lr}
@@ -382,6 +246,7 @@ _0808EA6C:
 	bx r0
 	.align 2, 0
 _0808EA7C: .4byte gNumSingleplayerCharacters
+.endif
 
 	thumb_func_start sub_808EA80
 sub_808EA80: @ 0x0808EA80

@@ -170,7 +170,7 @@
 #define SA1_ANIM_PLATFORM_SPIKE_ANG_ISL_DOWN   539
 #define SA1_ANIM_SPRING_PLATFORM_ANG_ISL       540
 #define SA1_ANIM_IRON_BALL_5                   541
-#define SA1_ANIM_WOODWHEEL_ANG_ISL             542
+#define SA1_ANIM_RUN_WHEEL                     542
 #define SA1_ANIM_BOUNCE_BLOCK_5                543
 #define SA1_ANIM_PLATFORM_SQUARE_ARROW_ANG_ISL 544
 #define SA1_ANIM_LIFT                          545
