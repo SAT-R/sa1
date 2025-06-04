@@ -106,4 +106,6 @@ void sub_804A5D8(s32 x, s32 y);
 void CreateStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
 
+bool32 sub_80549FC(void);
+
 #endif // GUARD_SA1_GAME_STAGE_UI_H

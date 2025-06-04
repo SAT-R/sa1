@@ -33,6 +33,7 @@ extern const u8 gUnknown_086883B8[];
 extern const u8 gUnknown_086883C4[];
 extern const u8 gUnknown_086883CC[24];
 
+/* TODO: Different module? */
 bool32 sub_80549FC(void)
 {
     bool32 result = FALSE;
@@ -46,6 +47,7 @@ bool32 sub_80549FC(void)
     return result;
 }
 
+/* TODO: Different module? */
 bool32 sub_8054A28(void)
 {
     bool32 result = FALSE;
@@ -59,6 +61,7 @@ bool32 sub_8054A28(void)
     return result;
 }
 
+/* TODO: Different module? */
 bool32 sub_8054A54(void)
 {
     bool32 result = FALSE;
