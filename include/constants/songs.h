@@ -114,6 +114,7 @@
 #define SE_182                 182
 #define SE_BUMPER_A            183
 #define SE_BUMPER_B            184
+#define SE_PANEL_GATE          185
 
 #define SE_BALLOON_POP           189
 #define SE_WATERFALL_SURFACE_HIT 190

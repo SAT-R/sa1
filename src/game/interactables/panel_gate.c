@@ -5,10 +5,12 @@
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/player.h"
 #include "game/stage/ui.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/songs.h"
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
@@ -23,8 +25,8 @@ void Task_PanelGate_Vertical2(void);
 void Task_PanelGate_Horizontal(void);
 void Task_PanelGate_Horizontal2(void);
 void TaskDestructor_PanelGate(struct Task *t);
-bool32 sub_8081C04(PanelGate *gate, Sprite *s, CamCoord worldX, CamCoord worldY);
-bool32 sub_8081F50(PanelGate *gate, Sprite *s, CamCoord worldX, CamCoord worldY);
+bool32 sub_8081C04(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY);
+bool32 sub_8081F50(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY);
 
 void CreateEntity_PanelGate_Vertical(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -274,4 +276,132 @@ void Task_PanelGate_Horizontal2(void)
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+bool32 sub_8081C04(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY)
+{
+    s32 i;
+    bool32 result = FALSE;
+    s32 qTempPlayerY;
+
+    i = 0;
+    do {
+        qTempPlayerY = GET_SP_PLAYER_MEMBER_V1(i, qWorldY);
+
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY - 40 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 40 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+                if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))) {
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < Q(0)) {
+                        gate->unk3C = 0x7D;
+                        s->variant = 1;
+
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+
+                        m4aSongNumStart(SE_PANEL_GATE);
+
+                        result = TRUE;
+                    } else {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
+                    }
+                } else {
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < Q(0)) {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = 0;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = 0;
+                    }
+                }
+            }
+        } else {
+            if ((worldX - 32 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 16 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY - 40 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 40 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+                if ((worldX - 32 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))) {
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) > Q(0)) {
+                        gate->unk3C = 0x7D;
+                        s->variant = 1;
+
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+
+                        m4aSongNumStart(SE_PANEL_GATE);
+
+                        result = TRUE;
+                    } else {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
+                    }
+                } else {
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < Q(0)) {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = 0;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = 0;
+                    }
+                }
+            }
+        }
+
+        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = qTempPlayerY;
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+
+bool32 sub_8081F50(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY)
+{
+    s32 i;
+    bool32 result = FALSE;
+    s32 qTempPlayerY;
+
+    i = 0;
+    do {
+        qTempPlayerY = GET_SP_PLAYER_MEMBER_V1(i, qWorldY);
+
+        if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
+            if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 28 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+
+                if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) < Q(0)) {
+                    gate->unk3C = 0x7D;
+                    s->variant = 0;
+
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+
+                    m4aSongNumStart(SE_PANEL_GATE);
+
+                    result = TRUE;
+                } else {
+                    sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
+                }
+
+            } else {
+                sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
+            }
+        } else {
+            if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY - 28 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+
+                if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) > Q(0)) {
+                    gate->unk3C = 0x7D;
+                    s->variant = 0;
+
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+
+                    m4aSongNumStart(SE_PANEL_GATE);
+
+                    result = TRUE;
+                } else {
+                    sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
+                }
+
+            } else {
+                sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+
+void TaskDestructor_PanelGate(struct Task *t)
+{
+    PanelGate *gate = TASK_DATA(t);
+    VramFree(gate->s.graphics.dest);
 }

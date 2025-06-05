@@ -176,7 +176,6 @@ SECTIONS {
         asm/ia_platform_spiked.o(.text);
         asm/ia_bowl.o(.text);
         src/game/interactables/panel_gate.o(.text);
-        asm/ia_panel_gate.o(.text);
         asm/ia_marble_track.o(.text);
         src/game/interactables/conveyor_belt_movement.o(.text);
         src/game/interactables/toggle_player_visibility.o(.text);
