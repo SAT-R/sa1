@@ -19,13 +19,13 @@ typedef struct {
     /* 0x0C */ Sprite s;
     /* 0x3C */ Sprite s2;
     /* 0x6C */ Sprite s3;
-    /* 0xA4 */ s16 unk9C;
+    /* 0xA4 */ u16 unk9C;
     /* 0xA0 */ s32 unkA0;
     /* 0xA4 */ s32 unkA4;
     /* 0xA8 */ s32 unkA8;
     /* 0xAC */ s16 unkAC;
     /* 0xAE */ s16 unkAE;
-    /* 0xB0 */ s16 unkB0;
+    /* 0xB0 */ u16 qUnkB0;
     /* 0xB4 */ u8 unkB2;
     /* 0xB4 */ u8 unkB3;
     /* 0xB4 */ u8 unkB4;
@@ -37,24 +37,11 @@ void Task_FerrisWheel(void);
 void TaskDestructor_FerrisWheel(struct Task *t);
 
 const u16 gUnknown_086CEE2C[NUM_LEVEL_IDS] = {
-    SA1_ANIM_PLATFORM_HORZ_1,
-    SA1_ANIM_PLATFORM_HORZ_1,
-    SA1_ANIM_PLATFORM_HORZ_2,
-    SA1_ANIM_PLATFORM_HORZ_2,
-    SA1_ANIM_PLATFORM_HORZ_3,
-    SA1_ANIM_PLATFORM_HORZ_3,
-    SA1_ANIM_PLATFORM_HORZ_4,
-    SA1_ANIM_PLATFORM_HORZ_4,
-    SA1_ANIM_PLATFORM_HORZ_5,
-    SA1_ANIM_PLATFORM_HORZ_5,
-    SA1_ANIM_PLATFORM_HORZ_6_1,
-    SA1_ANIM_PLATFORM_HORZ_6_2,
-    SA1_ANIM_PLATFORM_HORZ_6_1,
-    SA1_ANIM_PLATFORM_HORZ_6_1,
-    SA1_ANIM_PLATFORM_HORZ_1,
-    SA1_ANIM_PLATFORM_HORZ_2,
-    SA1_ANIM_PLATFORM_HORZ_3,
-    SA1_ANIM_PLATFORM_HORZ_6_2,
+    SA1_ANIM_PLATFORM_HORZ_1,   SA1_ANIM_PLATFORM_HORZ_1,   SA1_ANIM_PLATFORM_HORZ_2,   SA1_ANIM_PLATFORM_HORZ_2,
+    SA1_ANIM_PLATFORM_HORZ_3,   SA1_ANIM_PLATFORM_HORZ_3,   SA1_ANIM_PLATFORM_HORZ_4,   SA1_ANIM_PLATFORM_HORZ_4,
+    SA1_ANIM_PLATFORM_HORZ_5,   SA1_ANIM_PLATFORM_HORZ_5,   SA1_ANIM_PLATFORM_HORZ_6_1, SA1_ANIM_PLATFORM_HORZ_6_2,
+    SA1_ANIM_PLATFORM_HORZ_6_1, SA1_ANIM_PLATFORM_HORZ_6_1, SA1_ANIM_PLATFORM_HORZ_1,   SA1_ANIM_PLATFORM_HORZ_2,
+    SA1_ANIM_PLATFORM_HORZ_3,   SA1_ANIM_PLATFORM_HORZ_6_2,
 };
 
 void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -78,7 +65,7 @@ void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     wheel->unk9C = (me->d.sData[0] & 0xF) << 7;
     wheel->unkB4 = me->d.sData[1];
     wheel->unkB5 = 0;
-    wheel->unkB0 = 0;
+    wheel->qUnkB0 = 0;
     wheel->unkA0 = 0;
     wheel->unkB6 = 0;
 
@@ -140,4 +127,132 @@ void CreateEntity_FerrisWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s2->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     UpdateSpriteAnimation(s2);
+}
+
+void Task_FerrisWheel(void)
+{
+    Sprite *s;
+    Sprite *s3;
+    Sprite *s2;
+    FerrisWheel *wheel;
+    s32 data1;
+    CamCoord worldX;
+    CamCoord worldY;
+    MapEntity *me;
+    s32 sp14;
+    s32 sp18;
+    s32 i;
+    u8 j;
+
+    wheel = TASK_DATA(gCurTask);
+    s = &wheel->s;
+    s3 = &wheel->s3;
+    s2 = &wheel->s2;
+    me = wheel->base.me;
+
+    if (wheel->unkB2) {
+        wheel->unkA4 = SIN(((+me->d.sData[1] * gStageTime + wheel->unk9C) & 0x7FF) >> 1) * wheel->unkB3;
+        wheel->unkA8 = COS(((+me->d.sData[1] * gStageTime + wheel->unk9C) & 0x7FF) >> 1) * wheel->unkB3;
+    } else {
+        wheel->unkA4 = SIN(((-me->d.sData[1] * gStageTime + wheel->unk9C) & 0x7FF) >> 1) * wheel->unkB3;
+        wheel->unkA8 = COS(((-me->d.sData[1] * gStageTime + wheel->unk9C) & 0x7FF) >> 1) * wheel->unkB3;
+    }
+
+    worldX = TO_WORLD_POS(wheel->base.meX, wheel->base.regionX);
+    worldY = TO_WORLD_POS(me->y, wheel->base.regionY);
+
+    sp14 = wheel->unkA4 >> 11;
+    sp18 = wheel->unkA8 >> 11;
+
+    s->x = worldX - gCamera.x + sp14;
+    s->y = worldY - gCamera.y + sp18;
+
+    if ((LEVEL_TO_ZONE(gCurrentLevel) != ZONE_3) && (gCurrentLevel != ACT_CHAO_HUNT_C)) {
+        s3->x = worldX - gCamera.x;
+        s3->y = worldY - gCamera.y;
+    }
+
+    i = 0;
+    do {
+        if (GetBit(wheel->unkB6, i)) {
+            if (gStageTime & 0x1) {
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += ((wheel->unkA4 - wheel->unkA0) >> 3) + 1;
+            } else {
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += ((wheel->unkA4 - wheel->unkA0) >> 3) + 0;
+            }
+        }
+
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            Coll_Player_PlatformCrumbling(s, worldX + sp14, worldY + sp18, GET_SP_PLAYER_V1(i));
+
+            if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ) && GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s) {
+                SetBit(wheel->unkB6, i);
+
+                wheel->qUnkB0 += Q(0.0625);
+
+                if (wheel->qUnkB0 > Q(1.0)) {
+                    wheel->qUnkB0 = Q(1.0);
+                }
+
+                if (GET_SP_PLAYER_MEMBER_V1(i, moveState) & (MOVESTATE_SPINDASH | MOVESTATE_4)) {
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q((worldY + sp18) - 15);
+                } else {
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q((worldY + sp18) - 20);
+                }
+
+            } else {
+                ClearBit(wheel->unkB6, i);
+
+                if (wheel->qUnkB0 > Q(0.0625)) {
+                    wheel->qUnkB0 -= Q(0.0625);
+                } else {
+                    wheel->qUnkB0 = Q(0);
+                }
+            }
+        } else {
+            if (GetBit(wheel->unkB6, i)) {
+                ClearBit(wheel->unkB6, i);
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wheel->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    {
+        s32 r8 = 0;
+        s32 r4 = 0;
+
+        s->y += Div(SIN(wheel->qUnkB0), 2500);
+
+        DisplaySprite(s);
+
+        if ((LEVEL_TO_ZONE(gCurrentLevel) != ZONE_3) && (gCurrentLevel != ACT_CHAO_HUNT_C)) {
+            DisplaySprite(s3);
+
+            sp14 = Div(wheel->unkA4, 3);
+            sp18 = Div(wheel->unkA8, 3);
+
+            for (j = 0; j < 2; j++) {
+                r8 += sp14;
+                r4 += sp18;
+
+                s2->x = worldX - gCamera.x + (r8 >> 11);
+                s2->y = worldY - gCamera.y + (r4 >> 11);
+
+                DisplaySprite(s2);
+            }
+        }
+    }
+
+    wheel->unkA0 = wheel->unkA4;
+}
+
+void TaskDestructor_FerrisWheel(struct Task *t)
+{
+    FerrisWheel *wheel = TASK_DATA(t);
+    VramFree(wheel->s.graphics.dest);
 }

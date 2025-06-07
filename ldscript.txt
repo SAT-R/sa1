@@ -198,7 +198,6 @@ SECTIONS {
         src/game/interactables/torch.o(.text);
         src/game/interactables/toggle_player_float.o(.text);
         src/game/interactables/ferris_wheel.o(.text);
-        asm/ia_ferris_wheel.o(.text);
         asm/ia_boulder_spawner.o(.text);
         src/game/interactables/spiked_barrel.o(.text);
         asm/ia_air_bubbles.o(.text);
