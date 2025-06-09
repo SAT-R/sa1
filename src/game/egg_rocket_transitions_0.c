@@ -4,6 +4,7 @@
 #include "trig.h"
 #include "flags.h"
 #include "malloc_vram.h"
+#include "bg_triangles.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
 #include "game/stage/player.h"
@@ -17,14 +18,15 @@
 typedef struct {
     /* 0x00 */ struct Task *t;
     /* 0x04 */ CamCoord worldY;
-    /* 0x04 */ u16 unk6;
-    /* 0x04 */ u16 unk8;
+    /* 0x04 */ u16 qUnk6;
+    /* 0x04 */ u16 qUnk8;
     /* 0x04 */ u16 unkA;
     /* 0x0C */ u16 unkC;
 } EggRocketScreenShake; /* 0x10 */
 
 void Task_8028CE4(void);
 void Task_8028F20(void);
+void Task_8029070(void);
 
 // Maybe spawns bolts and stuff?
 typedef struct {
@@ -55,8 +57,8 @@ void CreateEggRocketStageSeparation(CamCoord worldY)
 
     shake->unkA = 0x100;
     shake->worldY = worldY;
-    shake->unk6 = 0;
-    shake->unk8 = 0;
+    shake->qUnk6 = 0;
+    shake->qUnk8 = 0;
 
     gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
     gPlayer.heldInput = 0;
@@ -134,5 +136,40 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_8028CE4.inc", void Task_8
     }
 }
 END_NONMATCH
+
+void Task_8028F20(void)
+{
+    EggRocketScreenShake *shake = TASK_DATA(gCurTask);
+    s16 ip;
+    s16 r7;
+
+    shake->qUnk6 += Q(8. / 256.);
+    shake->qUnk8 += Q(16. / 256.);
+
+    ip = shake->worldY + I(shake->qUnk6) - gCamera.y;
+    r7 = shake->worldY + I(shake->qUnk8) - gCamera.y;
+
+    if ((shake->qUnk6 >= Q(4)) && ((gBossIndex == 2) || ((-(gStageTime * 2) & 0x1FF) == 0x102))) {
+        gCurTask->main = Task_8029070;
+        shake->unkC = 0;
+
+        if (gBossIndex == 3) {
+            gCamera.SA2_LABEL(unk50) |= 0x4000;
+        }
+
+        Task_8029070();
+    } else if ((ip > 0) && (r7 < DISPLAY_HEIGHT)) {
+        if (shake->worldY - gCamera.y > 0) {
+            SA2_LABEL(sub_80078D4)(2, 0, shake->worldY - gCamera.y, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
+
+            SA2_LABEL(sub_8007858)(2, shake->worldY - gCamera.y, r7, gBgScrollRegs[2][0], 240);
+        } else {
+            SA2_LABEL(sub_8007858)(2, 0, r7, gBgScrollRegs[2][0], 240);
+        }
+        SA2_LABEL(sub_80078D4)(2, r7, DISPLAY_HEIGHT, gBgScrollRegs[2][0], gBgScrollRegs[2][1] - I(shake->qUnk8));
+    } else {
+        gFlags &= ~FLAGS_4;
+    }
+}
 
 // Next: void Task_80297E8(void)

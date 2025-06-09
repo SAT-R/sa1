@@ -22,7 +22,31 @@ typedef struct {
     /* 0x0C */ u16 unkC;
 } EggRocketScreenShake; /* 0x10 */
 
+void Task_8028CE4(void);
+void Task_8028F20(void);
 void Task_80298C0(void);
+
+// Maybe spawns bolts and stuff?
+typedef struct {
+    /* 0x00 */ u8 filler0[0x10];
+    /* 0x10 */ u32 unk10;
+    /* 0x12 */ u8 filler14[0x6];
+    /* 0x1A */ u16 unk1A;
+    /* 0x1C */ u8 filler1C[0x14];
+    /* 0x30 */ s32 qUnk30;
+    /* 0x34 */ s32 qUnk34;
+    /* 0x38 */ s16 qUnk38;
+    /* 0x3A */ s16 qUnk3A;
+    /* 0x3C */ u8 filler3C[0x2];
+    /* 0x3E */ s16 unk3E;
+    /* 0x40 */ s16 qUnk40;
+} Strc_801769C;
+extern struct Task *sub_801769C(u16 flags, void *vramTiles, u16 anim, u8 variant, TaskDestructor dtor);
+extern void TaskDestructor_80177EC(struct Task *);
+
+extern const u16 gUnknown_080BB41C[8];
+extern const u8 gUnknown_080BB42C[8];
+extern const u8 gUnknown_080BB434[8];
 
 void Task_80297E8(void)
 {
