@@ -74,6 +74,7 @@ SECTIONS {
         asm/enemy_boss_1_egg_hammer_tank.o(.text);
         asm/ia_breakable_wall.o(.text);
         asm/game__mp_chao.o(.text);
+        src/game/egg_rocket_transitions_0.o(.text);
         asm/game__egg_rocket_transitions.o(.text);
         src/game/egg_rocket_transitions.o(.text);
         asm/game__special_stage.o(.text);

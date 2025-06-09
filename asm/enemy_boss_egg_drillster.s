@@ -1163,7 +1163,7 @@ sub_8036478: @ 0x08036478
 	ldr r0, _08036598 @ =gUnknown_080BB42C
 	adds r4, r4, r0
 	ldrb r3, [r4]
-	ldr r0, _0803659C @ =sub_80177EC
+	ldr r0, _0803659C @ =TaskDestructor_80177EC
 	str r0, [sp]
 	mov r0, r8
 	bl sub_801769C
@@ -1262,7 +1262,7 @@ _0803658C: .4byte 0x3C6EF35F
 _08036590: .4byte gUnknown_080BB434
 _08036594: .4byte gUnknown_080BB41C
 _08036598: .4byte gUnknown_080BB42C
-_0803659C: .4byte sub_80177EC
+_0803659C: .4byte TaskDestructor_80177EC
 _080365A0: .4byte 0x03000040
 _080365A4: .4byte gSineTable
 _080365A8: .4byte 0x000001FF

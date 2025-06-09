@@ -1649,7 +1649,7 @@ _0802FCDC:
 	ldr r0, _0802FE70 @ =gUnknown_080BB42C
 	adds r4, r4, r0
 	ldrb r3, [r4]
-	ldr r0, _0802FE74 @ =sub_80177EC
+	ldr r0, _0802FE74 @ =TaskDestructor_80177EC
 	str r0, [sp]
 	adds r0, r6, #0
 	bl sub_801769C
@@ -1792,7 +1792,7 @@ _0802FE64: .4byte 0x3C6EF35F
 _0802FE68: .4byte gUnknown_080BB434
 _0802FE6C: .4byte gUnknown_080BB41C
 _0802FE70: .4byte gUnknown_080BB42C
-_0802FE74: .4byte sub_80177EC
+_0802FE74: .4byte TaskDestructor_80177EC
 _0802FE78: .4byte 0x03000040
 _0802FE7C: .4byte gSineTable
 _0802FE80: .4byte 0x000001FF
@@ -1962,7 +1962,7 @@ _0802FFA8:
 	ldr r0, _080300FC @ =gUnknown_080BB42C
 	adds r4, r4, r0
 	ldrb r3, [r4]
-	ldr r0, _08030100 @ =sub_80177EC
+	ldr r0, _08030100 @ =TaskDestructor_80177EC
 	str r0, [sp]
 	adds r0, r6, #0
 	bl sub_801769C
@@ -2095,7 +2095,7 @@ _080300F0: .4byte 0x3C6EF35F
 _080300F4: .4byte gUnknown_080BB434
 _080300F8: .4byte gUnknown_080BB41C
 _080300FC: .4byte gUnknown_080BB42C
-_08030100: .4byte sub_80177EC
+_08030100: .4byte TaskDestructor_80177EC
 _08030104: .4byte 0x03000040
 _08030108: .4byte gSineTable
 _0803010C: .4byte 0x000001FF

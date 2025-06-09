@@ -3265,6 +3265,8 @@ _08017698: .4byte sub_8017334
 @ Input:
 @ R0: flags 0x2000
 @ R1: vram*
+@ R2: u16 ???
+@ R3: u8  ???
 	thumb_func_start sub_801769C
 sub_801769C: @ 0x0801769C
 	push {r4, r5, r6, lr}
@@ -3431,8 +3433,8 @@ _080177E6:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80177EC
-sub_80177EC: @ 0x080177EC
+	thumb_func_start TaskDestructor_80177EC
+TaskDestructor_80177EC: @ 0x080177EC
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

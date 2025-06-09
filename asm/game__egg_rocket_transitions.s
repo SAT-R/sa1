@@ -5,333 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEggRocketStageSeparation
-CreateEggRocketStageSeparation: @ 0x08028C84
-	push {r4, r5, lr}
-	sub sp, #4
-	adds r4, r0, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	ldr r0, _08028CD8 @ =Task_8028CE4
-	movs r2, #0x80
-	lsls r2, r2, #7
-	movs r5, #0
-	str r5, [sp]
-	movs r1, #0x10
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	movs r1, #0x80
-	lsls r1, r1, #1
-	strh r1, [r0, #0xa]
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	strh r5, [r0, #8]
-	ldr r2, _08028CDC @ =gPlayer
-	ldr r0, [r2, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #0xe
-	orrs r0, r1
-	str r0, [r2, #0x10]
-	strh r5, [r2, #0x38]
-	strh r5, [r2, #8]
-	strh r5, [r2, #0xc]
-	ldr r0, _08028CE0 @ =gCamera
-	lsls r4, r4, #0x10
-	asrs r4, r4, #0x10
-	adds r4, #0xa0
-	strh r4, [r0, #0x16]
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08028CD8: .4byte Task_8028CE4
-_08028CDC: .4byte gPlayer
-_08028CE0: .4byte gCamera
+.if 0
+.endif
 
-	thumb_func_start Task_8028CE4
-Task_8028CE4: @ 0x08028CE4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x14
-	ldr r0, _08028EEC @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r1, r1, r0
-	str r1, [sp, #4]
-	ldr r3, _08028EF0 @ =gCamera
-	ldrh r0, [r3, #0xe]
-	adds r0, #1
-	strh r0, [r3, #0xe]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	movs r2, #4
-	ldrsh r1, [r1, r2]
-	movs r4, #2
-	ldrsh r2, [r3, r4]
-	subs r1, r1, r2
-	adds r1, #0x50
-	cmp r0, r1
-	bge _08028D1C
-	b _08028EDC
-_08028D1C:
-	ldrh r1, [r3]
-	ldrh r0, [r3, #2]
-	subs r0, #0x20
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	str r0, [sp, #8]
-	movs r6, #0
-	ldr r5, _08028EF4 @ =gPseudoRandom
-	ldr r0, _08028EF8 @ =0x00196225
-	mov r8, r0
-	ldr r7, _08028EFC @ =0x3C6EF35F
-	lsls r1, r1, #0x10
-	asrs r2, r1, #0x10
-	str r2, [sp, #0xc]
-	ldr r3, _08028F00 @ =gSineTable
-	mov sl, r3
-	str r1, [sp, #0x10]
-_08028D3E:
-	ldr r0, [r5]
-	mov r4, r8
-	muls r4, r0, r4
-	adds r0, r4, #0
-	adds r0, r0, r7
-	str r0, [r5]
-	movs r4, #7
-	ands r4, r0
-	ldr r0, _08028F04 @ =gUnknown_080BB434
-	adds r0, r4, r0
-	ldrb r0, [r0]
-	bl VramMalloc
-	adds r1, r0, #0
-	ldr r2, _08028F08 @ =gUnknown_080BB41C
-	lsls r0, r4, #1
-	adds r0, r0, r2
-	ldrh r2, [r0]
-	ldr r0, _08028F0C @ =gUnknown_080BB42C
-	adds r0, r4, r0
-	ldrb r3, [r0]
-	ldr r0, _08028F10 @ =sub_80177EC
-	str r0, [sp]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	bl sub_801769C
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r2, r0
-	ldr r0, [r5]
-	mov r1, r8
-	muls r1, r0, r1
-	adds r1, r1, r7
-	str r1, [r5]
-	movs r0, #0xff
-	ands r0, r1
-	ldr r3, [sp, #0xc]
-	adds r0, r3, r0
-	lsls r0, r0, #8
-	str r0, [r4, #0x30]
-	ldr r0, [sp, #8]
-	lsls r3, r0, #0x10
-	asrs r0, r3, #8
-	str r0, [r4, #0x34]
-	movs r0, #0xc0
-	lsls r0, r0, #6
-	str r0, [r4, #0x10]
-	movs r0, #0xf8
-	lsls r0, r0, #3
-	strh r0, [r4, #0x1a]
-	movs r0, #0x28
-	strh r0, [r4, #0x3e]
-	ldr r0, _08028F14 @ =0x03000040
-	adds r2, r2, r0
-	movs r0, #0x80
-	lsls r0, r0, #1
-	strh r0, [r2]
-	mov r0, r8
-	muls r0, r1, r0
-	adds r0, r0, r7
-	str r0, [r5]
-	ldr r1, _08028F18 @ =0x000001FF
-	ands r1, r0
-	lsls r0, r1, #1
-	add r0, sl
-	movs r2, #0
-	ldrsh r0, [r0, r2]
-	asrs r0, r0, #6
-	strh r0, [r4, #0x3a]
-	movs r2, #0x3a
-	ldrsh r0, [r4, r2]
-	mov sb, r3
-	cmp r0, #0
-	bge _08028DD8
-	rsbs r0, r0, #0
-_08028DD8:
-	strh r0, [r4, #0x3a]
-	movs r3, #0x80
-	lsls r3, r3, #1
-	adds r0, r1, r3
-	lsls r0, r0, #1
-	add r0, sl
-	movs r1, #0
-	ldrsh r0, [r0, r1]
-	lsls r0, r0, #8
-	rsbs r0, r0, #0
-	asrs r0, r0, #0xe
-	strh r0, [r4, #0x38]
-	adds r6, #1
-	cmp r6, #2
-	bls _08028D3E
-	movs r6, #0
-	ldr r5, _08028EF4 @ =gPseudoRandom
-	ldr r2, _08028EF8 @ =0x00196225
-	mov r8, r2
-	ldr r7, _08028EFC @ =0x3C6EF35F
-	ldr r3, _08028F00 @ =gSineTable
-	mov sl, r3
-_08028E04:
-	ldr r0, [r5]
-	mov r4, r8
-	muls r4, r0, r4
-	adds r0, r4, #0
-	adds r0, r0, r7
-	str r0, [r5]
-	movs r4, #7
-	ands r4, r0
-	ldr r0, _08028F04 @ =gUnknown_080BB434
-	adds r0, r4, r0
-	ldrb r0, [r0]
-	bl VramMalloc
-	adds r1, r0, #0
-	ldr r2, _08028F08 @ =gUnknown_080BB41C
-	lsls r0, r4, #1
-	adds r0, r0, r2
-	ldrh r2, [r0]
-	ldr r0, _08028F0C @ =gUnknown_080BB42C
-	adds r0, r4, r0
-	ldrb r3, [r0]
-	ldr r0, _08028F10 @ =sub_80177EC
-	str r0, [sp]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	bl sub_801769C
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r3, r0
-	ldr r0, [r5]
-	mov r2, r8
-	muls r2, r0, r2
-	adds r2, r2, r7
-	str r2, [r5]
-	ldr r0, [sp, #0x10]
-	asrs r1, r0, #0x10
-	movs r0, #0xff
-	ands r0, r2
-	adds r1, r1, r0
-	lsls r1, r1, #8
-	str r1, [r4, #0x30]
-	mov r1, sb
-	asrs r0, r1, #8
-	str r0, [r4, #0x34]
-	movs r0, #0
-	str r0, [r4, #0x10]
-	movs r0, #0x80
-	lsls r0, r0, #3
-	strh r0, [r4, #0x1a]
-	movs r0, #0x28
-	strh r0, [r4, #0x3e]
-	ldr r0, _08028F14 @ =0x03000040
-	adds r3, r3, r0
-	movs r1, #0x80
-	lsls r1, r1, #1
-	strh r1, [r3]
-	mov r0, r8
-	muls r0, r2, r0
-	adds r0, r0, r7
-	str r0, [r5]
-	adds r1, #0xff
-	ands r1, r0
-	lsls r0, r1, #1
-	add r0, sl
-	movs r2, #0
-	ldrsh r0, [r0, r2]
-	asrs r0, r0, #5
-	strh r0, [r4, #0x3a]
-	movs r3, #0x3a
-	ldrsh r0, [r4, r3]
-	cmp r0, #0
-	bge _08028E9A
-	rsbs r0, r0, #0
-_08028E9A:
-	strh r0, [r4, #0x3a]
-	movs r2, #0x80
-	lsls r2, r2, #1
-	adds r0, r1, r2
-	lsls r0, r0, #1
-	add r0, sl
-	movs r3, #0
-	ldrsh r0, [r0, r3]
-	lsls r0, r0, #9
-	rsbs r0, r0, #0
-	asrs r0, r0, #0xe
-	strh r0, [r4, #0x38]
-	adds r6, #1
-	cmp r6, #2
-	bls _08028E04
-	movs r0, #0x80
-	lsls r0, r0, #4
-	movs r1, #0x80
-	str r1, [sp]
-	movs r1, #8
-	movs r2, #0x10
-	movs r3, #0xa
-	bl CreateScreenShake
-	ldr r4, [sp, #4]
-	str r0, [r4]
-	movs r0, #0xad
-	bl m4aSongNumStart
-	ldr r0, _08028EEC @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08028F1C @ =sub_8028F20
-	str r0, [r1, #8]
-_08028EDC:
-	add sp, #0x14
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08028EEC: .4byte gCurTask
-_08028EF0: .4byte gCamera
-_08028EF4: .4byte gPseudoRandom
-_08028EF8: .4byte 0x00196225
-_08028EFC: .4byte 0x3C6EF35F
-_08028F00: .4byte gSineTable
-_08028F04: .4byte gUnknown_080BB434
-_08028F08: .4byte gUnknown_080BB41C
-_08028F0C: .4byte gUnknown_080BB42C
-_08028F10: .4byte sub_80177EC
-_08028F14: .4byte 0x03000040
-_08028F18: .4byte 0x000001FF
-_08028F1C: .4byte sub_8028F20
-
-	thumb_func_start sub_8028F20
-sub_8028F20: @ 0x08028F20
+	thumb_func_start Task_8028F20
+Task_8028F20: @ 0x08028F20
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -731,7 +409,7 @@ _0802921C:
 	ldr r0, _080293D8 @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _080293DC @ =sub_80177EC
+	ldr r0, _080293DC @ =TaskDestructor_80177EC
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -831,7 +509,7 @@ _080292E4:
 	ldr r0, _080293D8 @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _080293DC @ =sub_80177EC
+	ldr r0, _080293DC @ =TaskDestructor_80177EC
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -925,7 +603,7 @@ _080293CC: .4byte 0x3C6EF35F
 _080293D0: .4byte gUnknown_080BB434
 _080293D4: .4byte gUnknown_080BB41C
 _080293D8: .4byte gUnknown_080BB42C
-_080293DC: .4byte sub_80177EC
+_080293DC: .4byte TaskDestructor_80177EC
 _080293E0: .4byte 0x03000040
 _080293E4: .4byte 0x000001FF
 _080293E8: .4byte gSineTable
@@ -1089,7 +767,7 @@ _080294FE:
 	ldr r0, _08029744 @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _08029748 @ =sub_80177EC
+	ldr r0, _08029748 @ =TaskDestructor_80177EC
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -1188,7 +866,7 @@ _080295C4:
 	ldr r0, _08029744 @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _08029748 @ =sub_80177EC
+	ldr r0, _08029748 @ =TaskDestructor_80177EC
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
@@ -1353,7 +1031,7 @@ _08029738: .4byte gSineTable
 _0802973C: .4byte gUnknown_080BB434
 _08029740: .4byte gUnknown_080BB41C
 _08029744: .4byte gUnknown_080BB42C
-_08029748: .4byte sub_80177EC
+_08029748: .4byte TaskDestructor_80177EC
 _0802974C: .4byte 0x03000040
 _08029750: .4byte 0x000001FF
 _08029754: .4byte gBossIndex
