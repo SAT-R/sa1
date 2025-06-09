@@ -27,6 +27,7 @@ typedef struct {
 void Task_8028CE4(void);
 void Task_8028F20(void);
 void Task_8029070(void);
+void Task_8029194(void);
 
 // Maybe spawns bolts and stuff?
 typedef struct {
@@ -158,6 +159,40 @@ void Task_8028F20(void)
         }
 
         Task_8029070();
+    } else if ((ip > 0) && (r7 < DISPLAY_HEIGHT)) {
+        if (shake->worldY - gCamera.y > 0) {
+            SA2_LABEL(sub_80078D4)(2, 0, shake->worldY - gCamera.y, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
+
+            SA2_LABEL(sub_8007858)(2, shake->worldY - gCamera.y, r7, gBgScrollRegs[2][0], 240);
+        } else {
+            SA2_LABEL(sub_8007858)(2, 0, r7, gBgScrollRegs[2][0], 240);
+        }
+        SA2_LABEL(sub_80078D4)(2, r7, DISPLAY_HEIGHT, gBgScrollRegs[2][0], gBgScrollRegs[2][1] - I(shake->qUnk8));
+    } else {
+        gFlags &= ~FLAGS_4;
+    }
+}
+
+void Task_8029070(void)
+{
+    EggRocketScreenShake *shake = TASK_DATA(gCurTask);
+    s16 ip;
+    s16 r7;
+
+    shake->qUnk6 += Q(8. / 256.);
+    shake->qUnk8 += Q(16. / 256.);
+
+    ip = shake->worldY + I(shake->qUnk6) - gCamera.y;
+    r7 = shake->worldY + I(shake->qUnk8) - gCamera.y;
+
+    if (shake->unkC++ > 40) {
+        gCurTask->main = Task_8029194;
+
+        shake->t = CreateScreenShake(0x800, 0x8, 0x10, -1, 0xD0);
+
+        shake->unkC = 0;
+
+        Task_8029194();
     } else if ((ip > 0) && (r7 < DISPLAY_HEIGHT)) {
         if (shake->worldY - gCamera.y > 0) {
             SA2_LABEL(sub_80078D4)(2, 0, shake->worldY - gCamera.y, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
