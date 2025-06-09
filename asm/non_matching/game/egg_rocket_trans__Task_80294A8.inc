@@ -67,11 +67,11 @@ _080294FE:
 	ldr r0, _08029744 @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _08029748 @ =TaskDestructor_80177EC
+	ldr r0, _08029748 @ =TaskDestructor_NutsAndBolts
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
-	bl sub_801769C
+	bl CreateNutsAndBoltsTask
 	ldrh r2, [r0, #6]
 	movs r3, #0xc0
 	lsls r3, r3, #0x12
@@ -166,11 +166,11 @@ _080295C4:
 	ldr r0, _08029744 @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _08029748 @ =TaskDestructor_80177EC
+	ldr r0, _08029748 @ =TaskDestructor_NutsAndBolts
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
-	bl sub_801769C
+	bl CreateNutsAndBoltsTask
 	ldrh r3, [r0, #6]
 	movs r2, #0xc0
 	lsls r2, r2, #0x12
@@ -331,7 +331,7 @@ _08029738: .4byte gSineTable
 _0802973C: .4byte gUnknown_080BB434
 _08029740: .4byte gUnknown_080BB41C
 _08029744: .4byte gUnknown_080BB42C
-_08029748: .4byte TaskDestructor_80177EC
+_08029748: .4byte TaskDestructor_NutsAndBolts
 _0802974C: .4byte 0x03000040
 _08029750: .4byte 0x000001FF
 _08029754: .4byte gBossIndex

@@ -2287,10 +2287,10 @@ sub_8038420: @ 0x08038420
 	ldr r0, _08038540 @ =gUnknown_080BB42C
 	adds r4, r4, r0
 	ldrb r3, [r4]
-	ldr r0, _08038544 @ =TaskDestructor_80177EC
+	ldr r0, _08038544 @ =TaskDestructor_NutsAndBolts
 	str r0, [sp]
 	mov r0, r8
-	bl sub_801769C
+	bl CreateNutsAndBoltsTask
 	ldrh r1, [r0, #6]
 	movs r3, #0xc0
 	lsls r3, r3, #0x12
@@ -2386,7 +2386,7 @@ _08038534: .4byte 0x3C6EF35F
 _08038538: .4byte gUnknown_080BB434
 _0803853C: .4byte gUnknown_080BB41C
 _08038540: .4byte gUnknown_080BB42C
-_08038544: .4byte TaskDestructor_80177EC
+_08038544: .4byte TaskDestructor_NutsAndBolts
 _08038548: .4byte 0x03000040
 _0803854C: .4byte gSineTable
 _08038550: .4byte 0x000001FF

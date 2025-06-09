@@ -69,11 +69,11 @@ _08028D3E_loop:
 	ldr r0, _08028F0C @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _08028F10 @ =TaskDestructor_80177EC
+	ldr r0, _08028F10 @ =TaskDestructor_NutsAndBolts
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
-	bl sub_801769C
+	bl CreateNutsAndBoltsTask
 	ldrh r2, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -168,11 +168,11 @@ _08028E04_loop_2:
 	ldr r0, _08028F0C @ =gUnknown_080BB42C
 	adds r0, r4, r0
 	ldrb r3, [r0]
-	ldr r0, _08028F10 @ =TaskDestructor_80177EC
+	ldr r0, _08028F10 @ =TaskDestructor_NutsAndBolts
 	str r0, [sp]
 	movs r0, #0x80
 	lsls r0, r0, #6
-	bl sub_801769C
+	bl CreateNutsAndBoltsTask
 	ldrh r3, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
@@ -272,7 +272,7 @@ _08028F00: .4byte gSineTable
 _08028F04: .4byte gUnknown_080BB434
 _08028F08: .4byte gUnknown_080BB41C
 _08028F0C: .4byte gUnknown_080BB42C
-_08028F10: .4byte TaskDestructor_80177EC
+_08028F10: .4byte TaskDestructor_NutsAndBolts
 _08028F14: .4byte 0x03000040
 _08028F18: .4byte 0x000001FF
 _08028F1C: .4byte Task_8028F20

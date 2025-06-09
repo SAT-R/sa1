@@ -1596,10 +1596,10 @@ _0803153A:
 	ldr r0, _080316F0 @ =gUnknown_080BB42C
 	adds r4, r4, r0
 	ldrb r3, [r4]
-	ldr r0, _080316F4 @ =TaskDestructor_80177EC
+	ldr r0, _080316F4 @ =TaskDestructor_NutsAndBolts
 	str r0, [sp]
 	adds r0, r6, #0
-	bl sub_801769C
+	bl CreateNutsAndBoltsTask
 	ldrh r3, [r0, #6]
 	movs r5, #0xc0
 	lsls r5, r5, #0x12
@@ -1756,7 +1756,7 @@ _080316E4: .4byte 0x3C6EF35F
 _080316E8: .4byte gUnknown_080BB434
 _080316EC: .4byte gUnknown_080BB41C
 _080316F0: .4byte gUnknown_080BB42C
-_080316F4: .4byte TaskDestructor_80177EC
+_080316F4: .4byte TaskDestructor_NutsAndBolts
 _080316F8: .4byte 0x03000040
 _080316FC: .4byte gSineTable
 _08031700: .4byte 0x000001FF
@@ -1896,10 +1896,10 @@ _080317EC:
 	ldr r0, _08031968 @ =gUnknown_080BB42C
 	adds r4, r4, r0
 	ldrb r3, [r4]
-	ldr r0, _0803196C @ =TaskDestructor_80177EC
+	ldr r0, _0803196C @ =TaskDestructor_NutsAndBolts
 	str r0, [sp]
 	adds r0, r6, #0
-	bl sub_801769C
+	bl CreateNutsAndBoltsTask
 	ldrh r3, [r0, #6]
 	adds r5, r3, r5
 	mov r1, r8
@@ -2050,7 +2050,7 @@ _0803195C: .4byte 0x3C6EF35F
 _08031960: .4byte gUnknown_080BB434
 _08031964: .4byte gUnknown_080BB41C
 _08031968: .4byte gUnknown_080BB42C
-_0803196C: .4byte TaskDestructor_80177EC
+_0803196C: .4byte TaskDestructor_NutsAndBolts
 _08031970: .4byte 0x03000040
 _08031974: .4byte gSineTable
 _08031978: .4byte 0x000001FF

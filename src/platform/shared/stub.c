@@ -28,8 +28,6 @@ u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
 
 void sub_805B9E8() { }
 
-void CreateEggRocketStageSeparation(CamCoord worldY) { }
-
 // Player
 s32 gUnknown_03005C74 = 0;
 

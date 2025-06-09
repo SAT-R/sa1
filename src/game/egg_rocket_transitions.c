@@ -5,6 +5,7 @@
 #include "flags.h"
 #include "malloc_vram.h"
 #include "bg_triangles.h"
+#include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/camera.h"
 #include "game/stage/player.h"
@@ -30,28 +31,6 @@ void Task_8029070(void);
 void Task_8029194(void);
 void Task_80294A8(void);
 void Task_80298C0(void);
-
-// Maybe spawns bolts and stuff?
-typedef struct {
-    /* 0x00 */ u8 filler0[0x10];
-    /* 0x10 */ u32 unk10;
-    /* 0x12 */ u8 filler14[0x6];
-    /* 0x1A */ u16 unk1A;
-    /* 0x1C */ u8 filler1C[0x14];
-    /* 0x30 */ s32 qUnk30;
-    /* 0x34 */ s32 qUnk34;
-    /* 0x38 */ s16 qUnk38;
-    /* 0x3A */ s16 qUnk3A;
-    /* 0x3C */ u8 filler3C[0x2];
-    /* 0x3E */ s16 unk3E;
-    /* 0x40 */ s16 qUnk40;
-} Strc_801769C;
-extern struct Task *sub_801769C(u16 flags, void *vramTiles, u16 anim, u8 variant, TaskDestructor dtor);
-extern void TaskDestructor_80177EC(struct Task *);
-
-extern const u16 gUnknown_080BB41C[8];
-extern const u8 gUnknown_080BB42C[8];
-extern const u8 gUnknown_080BB434[8];
 
 void CreateEggRocketStageSeparation(CamCoord worldY)
 {
@@ -81,54 +60,54 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_8028CE4.inc", void Task_8
         // _08028D1C
         void *tiles;
         struct Task *t;
-        Strc_801769C *strc;
+        NutsAndBolts *nuts;
         CamCoord prevCamX = gCamera.x, prevCamY = gCamera.y - 32;
 
         for (i = 0; i < 3; i++) {
             s32 index = PseudoRandom32() % 8u;
             s32 index2;
 
-            t = sub_801769C(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
-                            TaskDestructor_80177EC);
-            strc = TASK_DATA(t);
+            t = CreateNutsAndBoltsTask(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
+                                       TaskDestructor_NutsAndBolts);
+            nuts = TASK_DATA(t);
 
-            strc->qUnk30 = Q(prevCamX + (PseudoRandom32() & 0xFF));
-            strc->qUnk34 = Q(prevCamY);
+            nuts->qUnk30 = Q(prevCamX + (PseudoRandom32() & 0xFF));
+            nuts->qUnk34 = Q(prevCamY);
 
-            strc->unk10 = 0x3000;
-            strc->unk1A = 0x7C0;
-            strc->unk3E = 0x28;
-            strc->qUnk40 = Q(1);
+            nuts->s.frameFlags = 0x3000;
+            nuts->s.oamFlags = SPRITE_OAM_ORDER(31);
+            nuts->qUnk3E = Q(40. / 256.);
+            nuts->qUnk40 = Q(1);
 
             index2 = PseudoRandom32() & 0x1FF;
-            strc->qUnk3A = (SIN(index2) >> 6);
+            nuts->qUnk3A = (SIN(index2) >> 6);
 
-            strc->qUnk3A = ABS(strc->qUnk3A);
+            nuts->qUnk3A = ABS(nuts->qUnk3A);
 
-            strc->qUnk38 = -(COS(index2) << 8) >> 14;
+            nuts->qUnk38 = -(COS(index2) << 8) >> 14;
         }
 
         for (i = 0; i < 3; i++) {
             s32 index = PseudoRandom32() % 8u;
             s32 index2;
 
-            t = sub_801769C(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
-                            TaskDestructor_80177EC);
-            strc = TASK_DATA(t);
+            t = CreateNutsAndBoltsTask(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
+                                       TaskDestructor_NutsAndBolts);
+            nuts = TASK_DATA(t);
 
-            strc->qUnk30 = Q(prevCamX + (PseudoRandom32() % 256u));
-            strc->qUnk34 = Q(prevCamY);
+            nuts->qUnk30 = Q(prevCamX + (PseudoRandom32() % 256u));
+            nuts->qUnk34 = Q(prevCamY);
 
-            strc->unk10 = 0x0000;
-            strc->unk1A = 0x400;
-            strc->unk3E = 0x28;
-            strc->qUnk40 = Q(1);
+            nuts->s.frameFlags = 0x0000;
+            nuts->s.oamFlags = SPRITE_OAM_ORDER(16);
+            nuts->qUnk3E = Q(40. / 256.);
+            nuts->qUnk40 = Q(1);
 
             index2 = (PseudoRandom32() % 512u);
-            strc->qUnk3A = (SIN(index2) >> 5);
-            strc->qUnk3A = ABS(strc->qUnk3A);
+            nuts->qUnk3A = (SIN(index2) >> 5);
+            nuts->qUnk3A = ABS(nuts->qUnk3A);
 
-            strc->qUnk38 = -(COS(index2) << 9) >> 14;
+            nuts->qUnk38 = -(COS(index2) << 9) >> 14;
         }
 
         shake->t = CreateScreenShake(0x800, 0x8, 0x10, 0xA, 0x80);
@@ -228,54 +207,54 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_8029194.inc", void Task_8
     if ((shake->unkC++ & 0xF) == 0) {
         void *tiles;
         struct Task *t;
-        Strc_801769C *strc;
+        NutsAndBolts *nuts;
         CamCoord prevCamX = gCamera.x, prevCamY = gCamera.y - 32;
 
         for (i = 0; i < 3; i++) {
             s32 index2;
             index = PseudoRandBetween(0, 7);
 
-            t = sub_801769C(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
-                            TaskDestructor_80177EC);
-            strc = TASK_DATA(t);
+            t = CreateNutsAndBoltsTask(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
+                                       TaskDestructor_NutsAndBolts);
+            nuts = TASK_DATA(t);
 
-            strc->qUnk30 = Q(PseudoRandBetween(prevCamX, prevCamX + 255));
-            strc->qUnk34 = Q(prevCamY);
+            nuts->qUnk30 = Q(PseudoRandBetween(prevCamX, prevCamX + 255));
+            nuts->qUnk34 = Q(prevCamY);
 
-            strc->unk10 = 0x3000;
-            strc->unk1A = 0x7C0;
-            strc->unk3E = 0x28;
-            strc->qUnk40 = Q(1);
+            nuts->s.frameFlags = 0x3000;
+            nuts->s.oamFlags = SPRITE_OAM_ORDER(31);
+            nuts->qUnk3E = Q(40. / 256.);
+            nuts->qUnk40 = Q(1);
 
             index2 = PseudoRandom32() & 0x1FF;
-            strc->qUnk3A = (SIN(index2) >> 6);
+            nuts->qUnk3A = (SIN(index2) >> 6);
 
-            strc->qUnk3A = ABS(strc->qUnk3A);
+            nuts->qUnk3A = ABS(nuts->qUnk3A);
 
-            strc->qUnk38 = -(COS(index2) << 8) >> 14;
+            nuts->qUnk38 = -(COS(index2) << 8) >> 14;
         }
 
         for (i = 0; i < 3; i++) {
             s32 index2;
             index = PseudoRandBetween(0, 7);
 
-            t = sub_801769C(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
-                            TaskDestructor_80177EC);
-            strc = TASK_DATA(t);
+            t = CreateNutsAndBoltsTask(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
+                                       TaskDestructor_NutsAndBolts);
+            nuts = TASK_DATA(t);
 
-            strc->qUnk30 = Q(PseudoRandBetween(prevCamX, prevCamX + 255));
-            strc->qUnk34 = Q(prevCamY);
+            nuts->qUnk30 = Q(PseudoRandBetween(prevCamX, prevCamX + 255));
+            nuts->qUnk34 = Q(prevCamY);
 
-            strc->unk10 = 0x0000;
-            strc->unk1A = 0x400;
-            strc->unk3E = 0x28;
-            strc->qUnk40 = Q(1);
+            nuts->s.frameFlags = 0x0000;
+            nuts->s.oamFlags = SPRITE_OAM_ORDER(16);
+            nuts->qUnk3E = Q(40. / 256.);
+            nuts->qUnk40 = Q(1);
 
             index2 = PseudoRandBetween(0, 511);
-            strc->qUnk3A = (SIN(index2) >> 5);
-            strc->qUnk3A = ABS(strc->qUnk3A);
+            nuts->qUnk3A = (SIN(index2) >> 5);
+            nuts->qUnk3A = ABS(nuts->qUnk3A);
 
-            strc->qUnk38 = -(COS(index2) << 9) >> 14;
+            nuts->qUnk38 = -(COS(index2) << 9) >> 14;
         }
 
         m4aSongNumStart(SE_EXPLOSION);
@@ -315,7 +294,7 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_80294A8.inc", void Task_8
     if ((shake->unkC++ & 0xF) == 0) {
         void *tiles;
         struct Task *t;
-        Strc_801769C *strc;
+        NutsAndBolts *nuts;
         prevCamX = gCamera.x;
         prevCamY = gCamera.y - 32;
 
@@ -323,47 +302,47 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_80294A8.inc", void Task_8
             s32 index2;
             index = PseudoRandBetween(0, 7);
 
-            t = sub_801769C(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
-                            TaskDestructor_80177EC);
-            strc = TASK_DATA(t);
+            t = CreateNutsAndBoltsTask(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
+                                       TaskDestructor_NutsAndBolts);
+            nuts = TASK_DATA(t);
 
-            strc->qUnk30 = Q(prevCamX + (PseudoRandom32() & 0xFF));
-            strc->qUnk34 = Q(prevCamY);
+            nuts->qUnk30 = Q(prevCamX + (PseudoRandom32() & 0xFF));
+            nuts->qUnk34 = Q(prevCamY);
 
-            strc->unk10 = 0x3000;
-            strc->unk1A = 0x7C0;
-            strc->unk3E = 0x28;
-            strc->qUnk40 = Q(1);
+            nuts->s.frameFlags = 0x3000;
+            nuts->s.oamFlags = SPRITE_OAM_ORDER(31);
+            nuts->qUnk3E = Q(40. / 256.);
+            nuts->qUnk40 = Q(1);
 
             index2 = PseudoRandom32() & 0x1FF;
-            strc->qUnk3A = (SIN(index2) >> 6);
+            nuts->qUnk3A = (SIN(index2) >> 6);
 
-            strc->qUnk3A = ABS(strc->qUnk3A);
+            nuts->qUnk3A = ABS(nuts->qUnk3A);
 
-            strc->qUnk38 = -(COS(index2) << 8) >> 14;
+            nuts->qUnk38 = -(COS(index2) << 8) >> 14;
         }
 
         for (i = 0; i < 3; i++) {
             s32 index = PseudoRandBetween(0, 7);
             s32 index2;
 
-            t = sub_801769C(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
-                            TaskDestructor_80177EC);
-            strc = TASK_DATA(t);
+            t = CreateNutsAndBoltsTask(0x2000, VramMalloc(gUnknown_080BB434[index]), gUnknown_080BB41C[index], gUnknown_080BB42C[index],
+                                       TaskDestructor_NutsAndBolts);
+            nuts = TASK_DATA(t);
 
-            strc->qUnk30 = Q(PseudoRandBetween(prevCamX, prevCamX + 255));
-            strc->qUnk34 = Q(prevCamY);
+            nuts->qUnk30 = Q(PseudoRandBetween(prevCamX, prevCamX + 255));
+            nuts->qUnk34 = Q(prevCamY);
 
-            strc->unk10 = 0x0000;
-            strc->unk1A = 0x400;
-            strc->unk3E = 0x28;
-            strc->qUnk40 = Q(1);
+            nuts->s.frameFlags = 0x0000;
+            nuts->s.oamFlags = SPRITE_OAM_ORDER(16);
+            nuts->qUnk3E = Q(40. / 256.);
+            nuts->qUnk40 = Q(1);
 
             index2 = PseudoRandBetween(0, 511);
-            strc->qUnk3A = (SIN(index2) >> 5);
-            strc->qUnk3A = ABS(strc->qUnk3A);
+            nuts->qUnk3A = (SIN(index2) >> 5);
+            nuts->qUnk3A = ABS(nuts->qUnk3A);
 
-            strc->qUnk38 = -(COS(index2) << 9) >> 14;
+            nuts->qUnk38 = -(COS(index2) << 9) >> 14;
         }
 
         m4aSongNumStart(SE_EXPLOSION);
