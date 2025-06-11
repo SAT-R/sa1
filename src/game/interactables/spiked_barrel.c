@@ -99,20 +99,28 @@ void CreateEntity_SpikedBarrel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 // INCOMPLETE!
 // NOTE: Collision works, but getting hurt by spikes does not.
-// (52.27%) https://decomp.me/scratch/rmoZI
+// (97.43%) https://decomp.me/scratch/qM0DE
 NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.inc", void Task_SpikedBarrel(void))
 {
-    s32 qSp10 = 0;
-    SpikedBarrel *barrel = TASK_DATA(gCurTask);
-    Sprite *s = &barrel->s;
-    MapEntity *me = barrel->base.me;
-    s32 unk50 = barrel->unk50;
-    s16 worldX;
-    s16 worldY; // sp00, sp04
+    SpikedBarrel *barrel;
+    Sprite *s;
+    s32 unk50;
+    Player *p;
+    CamCoord worldX;
+    CamCoord worldY; // sp00, sp04
+    MapEntity *me;
     s32 qSp0C;
-    s32 r3, r6, r8;
+    s32 qSp10 = 0;
+    s32 r3;
+    s32 r6;
+    s32 r8;
     s32 theta;
     s32 i;
+    qSp10 = 0;
+    barrel = TASK_DATA(gCurTask);
+    s = &barrel->s;
+    me = barrel->base.me;
+    unk50 = barrel->unk50;
 
     if (barrel->unk50 != 0) {
         r8 = barrel->unk48;
@@ -132,9 +140,11 @@ NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.i
         r3 = Q(me->d.uData[3] * TILE_WIDTH);
         theta = CLAMP_SIN_PERIOD(barrel->unk52 * ((gStageTime + barrel->unk44) & 0xFF));
         barrel->unk4C = (r3 * SIN(theta)) >> 14;
-        qSp0C = barrel->unk4C - r6;
+        r6 = barrel->unk4C - r6;
+        qSp10 = r6;
     } else {
         // _08090A4C
+        r6 = 0;
         qSp10 = 0;
         barrel->unk4C = 0;
     }
@@ -149,7 +159,7 @@ NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.i
     i = 0;
     do {
         // _08090AB2_loop
-        Player *p = GET_SP_PLAYER_V1(i);
+        p = GET_SP_PLAYER_V1(i);
 
         if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
             p->qWorldX += qSp0C;
@@ -164,17 +174,16 @@ NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.i
                 // _08090B2C
                 s32 r0, r2;
 
-                r0 = worldX + Div(barrel->unk48, 0x100) + s->hitboxes[1].b.left;
-                r2 = I(p->qWorldX) + p->spriteInfoBody->s.hitboxes[0].b.left;
+                // r0 = worldX + Div(barrel->unk48, 0x100) + s->hitboxes[1].b.left;
+                // r2 = I(p->qWorldX) + p->spriteInfoBody->s.hitboxes[0].b.left;
 
-                if (r0 <= r2) { }
-                // _08090B80
-
-                // _08090C6C
-
-                if (!(gPlayer.moveState & MOVESTATE_DEAD)) {
-                    if (Coll_DamagePlayer(p)) {
-                        m4aSongNumStart(SE_171);
+                // RECT_COLLISION(x0,y0,hb0,x1,y1,hb1)
+                if (RECT_COLLISION(worldX + Div(barrel->unk48, 0x100), worldY + Div(barrel->unk4C, 0x100), &s->hitboxes[1].b, I(p->qWorldX),
+                                   I(p->qWorldY), &p->spriteInfoBody->s.hitboxes[0].b)) {
+                    if (!(gPlayer.moveState & MOVESTATE_DEAD)) {
+                        if (Coll_DamagePlayer(p)) {
+                            m4aSongNumStart(SE_171);
+                        }
                     }
                 }
             }
@@ -186,8 +195,19 @@ NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.i
         SET_MAP_ENTITY_NOT_INITIALIZED(me, barrel->base.meX);
         TaskDestroy(gCurTask);
         return;
+    } else if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+               || ((gNumSingleplayerCharacters == 2) && ((gPartner.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPartner.stoodObj == s)))) {
+        // _08090D1C
+        if (barrel->unk54 != 0x100) {
+            barrel->unk54 += 0x10;
+        }
+    } else {
+        if (barrel->unk54 != 0x0) {
+            barrel->unk54 -= 0x10;
+        }
     }
-    // _08090D1C
+
+    s->y += (SIN(barrel->unk54) >> 12);
 
     if (--barrel->unk57 == 0) {
         if (barrel->unk56 == 0 || barrel->unk56 == 2) {
