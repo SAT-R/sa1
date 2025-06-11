@@ -97,8 +97,6 @@ void CreateEntity_SpikedBarrel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-// INCOMPLETE!
-// NOTE: Collision works, but getting hurt by spikes does not.
 // (97.43%) https://decomp.me/scratch/qM0DE
 NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.inc", void Task_SpikedBarrel(void))
 {
