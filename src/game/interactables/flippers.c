@@ -70,7 +70,7 @@ void CreateEntity_Flipper(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 // INCOMPLETE
 // Code does NOT work as intended!
-// (89.47%) https://decomp.me/scratch/vRy5t
+// (90.10%) https://decomp.me/scratch/vRy5t
 NONMATCH("asm/non_matching/game/interactables/flippers__Task_Flipper_Horizontal.inc", void Task_Flipper_Horizontal(void))
 {
     Sprite *s;

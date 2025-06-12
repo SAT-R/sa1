@@ -5,139 +5,11 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_BreakableWall
-CreateEntity_BreakableWall: @ 0x08027970
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov sb, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	mov r8, r3
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	ldr r0, _08027A60 @ =Task_Interactable114
-	ldr r1, _08027A64 @ =TaskDestructor_Interactable114
-	str r1, [sp]
-	movs r1, #0x44
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r6, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r6, r0
-	ldr r1, _08027A68 @ =0x0300000C
-	adds r7, r6, r1
-	movs r3, #0
-	mov sl, r3
-	movs r2, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r1, sb
-	str r1, [r0]
-	ldrb r1, [r1]
-	strb r1, [r0, #8]
-	mov r3, r8
-	strb r3, [r0, #9]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r1, r3, #0
-	mov r3, sb
-	strb r1, [r3]
-	strh r2, [r0, #0x3c]
-	ldrb r0, [r3]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	strh r0, [r7, #0x16]
-	ldrb r0, [r3, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r7, #0x18]
-	movs r0, #0x20
-	str r2, [sp, #4]
-	bl VramMalloc
-	str r0, [r7, #4]
-	ldr r1, _08027A6C @ =gUnknown_080BB544
-	ldr r0, _08027A70 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	strh r0, [r7, #0xa]
-	ldr r1, _08027A74 @ =0x0300002C
-	adds r0, r6, r1
-	mov r3, sl
-	strb r3, [r0]
-	movs r0, #0xf0
-	lsls r0, r0, #2
-	strh r0, [r7, #0x1a]
-	ldr r2, [sp, #4]
-	strh r2, [r7, #8]
-	strh r2, [r7, #0x14]
-	strh r2, [r7, #0x1c]
-	ldr r0, _08027A78 @ =0x0300002D
-	adds r1, r6, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r3, _08027A7C @ =0x0300002E
-	adds r1, r6, r3
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, _08027A80 @ =0x03000031
-	adds r6, r6, r0
-	mov r1, sl
-	strb r1, [r6]
-	movs r3, #0x80
-	lsls r3, r3, #6
-	str r3, [r7, #0x10]
-	mov r1, sb
-	movs r0, #3
-	ldrsb r0, [r1, r0]
-	cmp r0, #0
-	beq _08027A4A
-	movs r0, #0x80
-	lsls r0, r0, #3
-	orrs r0, r3
-	str r0, [r7, #0x10]
-_08027A4A:
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08027A60: .4byte Task_Interactable114
-_08027A64: .4byte TaskDestructor_Interactable114
-_08027A68: .4byte 0x0300000C
-_08027A6C: .4byte gUnknown_080BB544
-_08027A70: .4byte gCurrentLevel
-_08027A74: .4byte 0x0300002C
-_08027A78: .4byte 0x0300002D
-_08027A7C: .4byte 0x0300002E
-_08027A80: .4byte 0x03000031
+.if 0
+.endif
 
-	thumb_func_start Task_Interactable114
-Task_Interactable114: @ 0x08027A84
+	thumb_func_start Task_BreakableWall
+Task_BreakableWall: @ 0x08027A84
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -883,8 +755,8 @@ _08028014: .4byte 0x000001FF
 _08028018: .4byte 0xFFFFF000
 _0802801C: .4byte 0xF9FF0000
 
-	thumb_func_start TaskDestructor_Interactable114
-TaskDestructor_Interactable114: @ 0x08028020
+	thumb_func_start TaskDestructor_BreakableWall
+TaskDestructor_BreakableWall: @ 0x08028020
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
