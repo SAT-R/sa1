@@ -27,4 +27,26 @@
 #define USE_NEW_DMA 1
 #endif
 
+#ifndef TAS_TESTING
+#define TAS_TESTING 0
+#endif
+
+#define TAS_INPUT_LOGGING 0
+
+#ifndef HEADLESS
+#define HEADLESS 0
+#endif
+
+#define TAS_TESTING_WIDESCREEN_HACK 1
+
+#define RENDERER_SOFTWARE 0
+#define RENDERER_OPENGL   1
+#define RENDERER_COUNT    2
+#if PLATFORM_WIN32 && !PLATFORM_SDL
+// TODO: Only win32 for now
+#define RENDERER RENDERER_OPENGL
+#else
+#define RENDERER RENDERER_SOFTWARE
+#endif
+
 #endif // GUARD_SA1_CONFIG_H

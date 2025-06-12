@@ -4,14 +4,14 @@
 #include "flags.h"
 #include "sprite.h"
 #include "trig.h"
-//#include "code_z_1.h"
 #include "lib/m4a/m4a.h"
 #include "data/sprite_data.h"
 #include "animation_commands.h"
-#include "constants/anim_commands.h"
-#include "constants/move_states.h"
+#include "platform/platform.h"
 
-extern const AnimationCommandFunc animCmdTable[];
+#if !PLATFORM_GBA && !PLATFORM_SDL
+extern void Platform_DisplaySprite(Sprite *sprite, u8 oamPaletteNum);
+#endif
 
 #define ReadInstruction(script, cursor) ((void *)(script) + (cursor * sizeof(s32)))
 
@@ -719,6 +719,15 @@ void DisplaySprite(Sprite *sprite)
                 oam->all.attr0 &= 0xFE00;
 
                 oam->all.attr2 += sprite->palId << 12;
+
+#if !PLATFORM_GBA && !PLATFORM_SDL
+                // TEMP
+                // Quick hack for getting output in OpenGL test
+                // The whole function call should be replaced by this!
+                Platform_DisplaySprite(sprite, oam->split.paletteNum);
+                return;
+#endif
+
                 if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
                     oam->all.attr0 |= 0x100;
                     if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
