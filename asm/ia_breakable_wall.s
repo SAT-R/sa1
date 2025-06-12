@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_BreakableWall
 Task_BreakableWall: @ 0x08027A84
 	push {r4, r5, r6, r7, lr}
@@ -143,7 +141,7 @@ _08027B78:
 	strh r0, [r6, #0x3e]
 	ldr r0, _08027B9C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08027BA0 @ =sub_8027D88
+	ldr r0, _08027BA0 @ =Task_BreakableWall2
 	str r0, [r1, #8]
 	movs r0, #0xad
 	bl m4aSongNumStart
@@ -156,7 +154,7 @@ _08027B78:
 	b _08027AE4
 	.align 2, 0
 _08027B9C: .4byte gCurTask
-_08027BA0: .4byte sub_8027D88
+_08027BA0: .4byte Task_BreakableWall2
 _08027BA4:
 	ldr r2, [sp, #4]
 	lsls r1, r2, #0x10
@@ -185,7 +183,7 @@ _08027BBC:
 	bl m4aSongNumStart
 	ldr r0, _08027BF8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08027BFC @ =sub_8027D88
+	ldr r0, _08027BFC @ =Task_BreakableWall2
 	str r0, [r1, #8]
 	movs r0, #0
 	strh r0, [r6, #0x3c]
@@ -199,7 +197,7 @@ _08027BBC:
 _08027BF0: .4byte gPlayer
 _08027BF4: .4byte gPartner
 _08027BF8: .4byte gCurTask
-_08027BFC: .4byte sub_8027D88
+_08027BFC: .4byte Task_BreakableWall2
 _08027C00:
 	movs r1, #8
 	ldrsh r0, [r7, r1]
@@ -409,9 +407,10 @@ _08027D76:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
-	thumb_func_start sub_8027D88
-sub_8027D88: @ 0x08027D88
+	thumb_func_start Task_BreakableWall2
+Task_BreakableWall2: @ 0x08027D88
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

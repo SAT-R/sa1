@@ -4,6 +4,7 @@
 #include "malloc_vram.h"
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h"
 
@@ -24,22 +25,23 @@ typedef struct {
 extern u16 gUnknown_080BB544[NUM_LEVEL_IDS];
 
 void Task_BreakableWall(void);
+void Task_BreakableWall2(void);
 void TaskDestructor_BreakableWall(struct Task *);
 
 void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_BreakableWall, sizeof(Wall), 0x2000, 0, TaskDestructor_BreakableWall);
-    Wall *flipper = TASK_DATA(t);
-    Sprite *s = &flipper->s;
+    Wall *wall = TASK_DATA(t);
+    Sprite *s = &wall->s;
 
-    flipper->base.regionX = regionX;
-    flipper->base.regionY = regionY;
-    flipper->base.me = me;
-    flipper->base.meX = me->x;
-    flipper->base.id = id;
+    wall->base.regionX = regionX;
+    wall->base.regionY = regionY;
+    wall->base.me = me;
+    wall->base.meX = me->x;
+    wall->base.id = id;
 
     SET_MAP_ENTITY_INITIALIZED(me);
-    flipper->unk3C = 0;
+    wall->unk3C = 0;
 
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
@@ -61,4 +63,98 @@ void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 
     UpdateSpriteAnimation(s);
+}
+
+// TODO: Fake-match
+// (100.0%) https://decomp.me/scratch/3KiDd
+void Task_BreakableWall(void)
+{
+    CamCoord worldX, worldY;
+    MapEntity *me;
+    Sprite *s;
+    s32 i;
+
+#ifndef NON_MATCHING
+    register Wall *wall asm("r6");
+    register s32 offset asm("r1") = gCurTask->data;
+    asm("add %0, %1, %2" : "=r"(wall) : "r"(offset), "r"(IWRAM_START));
+    asm("add r0, #0xC");
+    asm("add r0, r1");
+    asm("mov %0, r0" : "=r"(s));
+#else
+    Wall *wall;
+    wall = TASK_DATA(gCurTask);
+    s = &wall->s;
+#endif
+    me = wall->base.me;
+
+    worldX = TO_WORLD_POS(wall->base.meX, wall->base.regionX);
+    worldY = TO_WORLD_POS(me->y, wall->base.regionY);
+
+    i = 0;
+    do {
+        if (IS_MULTI_PLAYER && ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
+            if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ) && (GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s)) {
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            }
+
+            wall->unk3C = 0;
+            wall->unk3E = 0;
+
+            gCurTask->main = Task_BreakableWall2;
+
+            m4aSongNumStart(0xAD);
+        } else if (sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 1) & COLL_FLAG_8) {
+            m4aSongNumStart(0xAD);
+            gCurTask->main = Task_BreakableWall2;
+
+            wall->unk3C = 0;
+
+            if ((wall->unk3E = GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) >> 1) == 0) {
+                s16 qVal;
+                if (worldX < I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                    qVal = -Q(1);
+                else
+                    qVal = +Q(1);
+
+                wall->unk3E = qVal;
+            }
+
+            if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ) && (GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s)) {
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            }
+
+#ifndef NON_MATCHING
+            // NOTE: This is entirely unnecessary because it's handled in the codeblock above.
+            if ((gNumSingleplayerCharacters == 2) && ((gPartner.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPartner.stoodObj == s))) {
+                gPartner.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                gPartner.moveState |= MOVESTATE_IN_AIR;
+            }
+#endif
+
+            if (IS_MULTI_PLAYER) {
+                RoomEvent_PlatformChange *event = CreateRoomEvent();
+                event->type = ROOMEVENT_TYPE_PLATFORM_CHANGE;
+                event->x = wall->base.regionX;
+                event->y = wall->base.regionY;
+                event->id = wall->base.id;
+                event->action = 1;
+            }
+
+            break;
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, wall->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
 }
