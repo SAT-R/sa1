@@ -168,7 +168,6 @@ SECTIONS {
         src/game/interactables/red_flag_and_pole.o(.text);
         src/game/interactables/forced_slide.o(.text);
         src/game/interactables/bumpers.o(.text);
-        asm/ia_flipper.o(.text);
         src/game/interactables/flippers.o(.text);
         asm/ia_platform_square.o(.text);
         src/game/interactables/sega_sonic_letters.o(.text);
