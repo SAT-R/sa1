@@ -233,10 +233,10 @@ void Task_SteamExhaust2(void)
     } else if (((exhaust->unk84 + 1) >= 50) && ((exhaust->unk84 + 1) < 97)) {
         s32 i = 0;
         do {
-            Hitbox *hb = &GET_SP_PLAYER_SPR_INFO_V1(i)->s.hitboxes[0];
+            Hitbox *hb = &PLAYER_SPR_INFO(i)->s.hitboxes[0];
             if (hb->index != HITBOX_STATE_INACTIVE
                 && HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY),
-                                (&GET_SP_PLAYER_SPR_INFO_V1(i)->s.hitboxes[0])->b)) {
+                                (&PLAYER_SPR_INFO(i)->s.hitboxes[0])->b)) {
                 if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
                     Coll_DamagePlayer(&PLAYER(i));
                 }

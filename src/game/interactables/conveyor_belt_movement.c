@@ -31,37 +31,34 @@ void Task_ConveyorBeltMvt(void)
 
     i = 0;
     do {
-        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
-            if ((x <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (x + me->d.uData[2] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
-                && (y <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
-                && (y + me->d.uData[3] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
-                && !(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IN_AIR)) {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if ((x <= I(PLAYER(i).qWorldX)) && (x + me->d.uData[2] * TILE_WIDTH >= I(PLAYER(i).qWorldX)) && (y <= I(PLAYER(i).qWorldY))
+                && (y + me->d.uData[3] * TILE_WIDTH >= I(PLAYER(i).qWorldY)) && !(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
                 if (mvt->type != 0) {
-                    GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += Q(CONVEYOR_BELT_SPEED);
+                    PLAYER(i).qWorldX += Q(CONVEYOR_BELT_SPEED);
 
-                    res = SA2_LABEL(sub_801F100)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) + 8, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)),
-                                                 GET_SP_PLAYER_MEMBER_V1(i, layer), +8, SA2_LABEL(sub_801EB44));
+                    res = SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) + 8, I(PLAYER(i).qWorldY), PLAYER(i).layer, +8,
+                                                 SA2_LABEL(sub_801EB44));
 
                     if (res < 0) {
-                        qRes = Q(SA2_LABEL(sub_801F100)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) + 8, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)),
-                                                        GET_SP_PLAYER_MEMBER_V1(i, layer), +8, SA2_LABEL(sub_801EB44)));
-                        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += qRes;
+                        qRes = Q(SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) + 8, I(PLAYER(i).qWorldY), PLAYER(i).layer, +8,
+                                                        SA2_LABEL(sub_801EB44)));
+                        PLAYER(i).qWorldX += qRes;
                     }
                 } else {
-                    GET_SP_PLAYER_MEMBER_V1(i, qWorldX) -= Q(CONVEYOR_BELT_SPEED);
+                    PLAYER(i).qWorldX -= Q(CONVEYOR_BELT_SPEED);
                 }
 
-                res = (SA2_LABEL(sub_801F100)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - 8, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)),
-                                              GET_SP_PLAYER_MEMBER_V1(i, layer), -8, SA2_LABEL(sub_801EB44)));
+                res = (SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) - 8, I(PLAYER(i).qWorldY), PLAYER(i).layer, -8, SA2_LABEL(sub_801EB44)));
 
                 if (res < 0) {
-                    qRes = Q(SA2_LABEL(sub_801F100)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - 8, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)),
-                                                    GET_SP_PLAYER_MEMBER_V1(i, layer), -8, SA2_LABEL(sub_801EB44)));
+                    qRes = Q(SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) - 8, I(PLAYER(i).qWorldY), PLAYER(i).layer, -8,
+                                                    SA2_LABEL(sub_801EB44)));
 
                     if (i != 0) {
-                        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) -= qRes;
+                        PLAYER(i).qWorldX -= qRes;
                     } else {
-                        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) -= qRes;
+                        PLAYER(i).qWorldX -= qRes;
                     }
                 }
             }
@@ -93,14 +90,12 @@ void Task_SlowingSnow(void)
 
     i = 0;
     do {
-        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
-            if ((x <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (x + me->d.uData[2] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
-                && (y <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
-                && (y + me->d.uData[3] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
-                && !(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IN_AIR)) {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if ((x <= I(PLAYER(i).qWorldX)) && (x + me->d.uData[2] * TILE_WIDTH >= I(PLAYER(i).qWorldX)) && (y <= I(PLAYER(i).qWorldY))
+                && (y + me->d.uData[3] * TILE_WIDTH >= I(PLAYER(i).qWorldY)) && !(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
                 // Reduce Player's speed by 5% each frame
-                s32 qSpeed = Div(GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) * 95, 100);
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = qSpeed;
+                s32 qSpeed = Div(PLAYER(i).qSpeedGround * 95, 100);
+                PLAYER(i).qSpeedGround = qSpeed;
             }
         }
     } while (++i < gNumSingleplayerCharacters);

@@ -139,33 +139,33 @@ bool32 sub_80753D0(Sprite *s, s32 worldX, s32 worldY)
 
     i = 0;
     do {
-        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
-            if ((sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i)) & 0x8)) {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if ((sub_80096B0(s, worldX, worldY, &PLAYER(i)) & 0x8)) {
                 if (gGameMode == 3 || gGameMode == 5) {
-                    GET_SP_PLAYER_MEMBER_V1(i, timerInvulnerability) = 30;
+                    PLAYER(i).timerInvulnerability = 30;
                 }
 
-                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_4;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                PLAYER(i).moveState &= ~MOVESTATE_100;
+                PLAYER(i).moveState &= ~MOVESTATE_4;
+                PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
 
                 if (gSelectedCharacter == CHARACTER_AMY) {
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_2000000;
+                    PLAYER(i).moveState |= MOVESTATE_2000000;
                 }
 
-                if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_FACING_LEFT;
-                } else if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FACING_LEFT;
+                if (PLAYER(i).heldInput & DPAD_LEFT) {
+                    PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
+                } else if (PLAYER(i).heldInput & DPAD_RIGHT) {
+                    PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
                 }
 
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(5);
-                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_BOUNCE;
+                PLAYER(i).qSpeedAirY = -Q(5);
+                PLAYER(i).charState = CHARSTATE_BOUNCE;
 
-                PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
 
                 result = TRUE;
             }
