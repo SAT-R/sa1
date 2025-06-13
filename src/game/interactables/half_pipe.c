@@ -30,7 +30,7 @@ void Task_HalfPipeStart(void)
 
     i = 0;
     do {
-        Player *p = GET_SP_PLAYER_V1(i);
+        Player *p = &PLAYER(i);
         s32 oldWorldX, oldWorldY;
 
         oldWorldX = I(p->qWorldX);
@@ -87,7 +87,7 @@ void Task_HalfPipeEnd(void)
 
     i = 0;
     do {
-        Player *p = GET_SP_PLAYER_V1(i);
+        Player *p = &PLAYER(i);
         s32 oldWorldX, oldWorldY;
 
         oldWorldX = I(p->qWorldX);

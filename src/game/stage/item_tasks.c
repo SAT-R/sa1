@@ -160,7 +160,7 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Normal.inc", 
         item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
         item->s.frameFlags |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
     } else {
-        p = GET_SP_PLAYER_V1(pid);
+        p = &PLAYER(pid);
 
         if ((p->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_NORMAL)) == 0) {
             TaskDestroy(t);
@@ -219,7 +219,7 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Magnetic.inc"
         item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
         item->s.frameFlags |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
     } else {
-        p = GET_SP_PLAYER_V1(pid);
+        p = &PLAYER(pid);
 
         if ((p->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_NORMAL)) == 0) {
             TaskDestroy(t);
@@ -274,7 +274,7 @@ void sub_804BABC(void)
 
         r2 |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
     } else {
-        Player *p = GET_SP_PLAYER_V1(pid);
+        Player *p = &PLAYER(pid);
         screenX = I(p->qWorldX) + p->SA2_LABEL(unk7C);
         screenY = I(p->qWorldY);
 
@@ -316,7 +316,7 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Invincibility.inc", 
 
         flags = mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
     } else {
-        Player *p = GET_SP_PLAYER_V1(pid);
+        Player *p = &PLAYER(pid);
 
         if (!(p->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
             TaskDestroy(t);

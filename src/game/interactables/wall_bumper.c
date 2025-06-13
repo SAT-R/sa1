@@ -25,38 +25,35 @@ void Task_WallBumper(void)
 
     i = 0;
     do {
-        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD) && worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
-            && worldX + me->d.uData[2] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))
-            && worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))
-            && worldY + me->d.uData[3] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && worldX <= I(PLAYER(i).qWorldX)
+            && worldX + me->d.uData[2] * TILE_WIDTH >= I(PLAYER(i).qWorldX) && worldY <= I(PLAYER(i).qWorldY)
+            && worldY + me->d.uData[3] * TILE_WIDTH >= I(PLAYER(i).qWorldY)) {
             m4aSongNumStart(SE_BUMPER_B);
-            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
-            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
-            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+            PLAYER(i).moveState &= ~MOVESTATE_100;
+            PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+            PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
 
             if (bumper->unk3C & 0x1) {
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(5);
+                PLAYER(i).qSpeedAirX = +Q(5);
             } else {
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(5);
+                PLAYER(i).qSpeedAirX = -Q(5);
             }
 
             // NOTE/BUG(?): Positive and negative are not the same!
             if (bumper->unk3C < 3) {
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(7);
+                PLAYER(i).qSpeedAirY = -Q(7);
             } else {
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(6);
+                PLAYER(i).qSpeedAirY = +Q(6);
             }
 
-            if ((GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_TAILS)
-                || (GET_SP_PLAYER_MEMBER_V1(i, character) == CHARACTER_KNUCKLES)) {
+            if ((PLAYER(i).character == CHARACTER_TAILS) || (PLAYER(i).character == CHARACTER_KNUCKLES)) {
 
-                if (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61))) {
-                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
-                    GET_SP_PLAYER_MEMBER_V1(i, charState) = 5;
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                if (PLAYER(i).SA2_LABEL(unk61)) {
+                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                    PLAYER(i).charState = 5;
+                    PLAYER(i).moveState |= MOVESTATE_4;
 
-                    GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
-                    GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
+                    PLAYERFN_SET_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
                 }
             }
         }

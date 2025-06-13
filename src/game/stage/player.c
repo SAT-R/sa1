@@ -1312,8 +1312,7 @@ void SA2_LABEL(sub_8022318)(Player *p)
     s32 offsetY;
 
     if (!(p->moveState & MOVESTATE_4)) {
-        p->spriteOffsetX = 6;
-        p->spriteOffsetY = 14;
+        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
     } else {
         p->moveState &= ~MOVESTATE_4;
         p->charState = CHARSTATE_IDLE;
@@ -1328,8 +1327,7 @@ void SA2_LABEL(sub_8022318)(Player *p)
             offsetY = -offsetY;
         }
 
-        p->spriteOffsetX = 6;
-        p->spriteOffsetY = 14;
+        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
 
         p->qWorldY += Q(offsetY);
     }
@@ -2257,8 +2255,7 @@ void Player_8043970(Player *p)
             p->moveState &= ~MOVESTATE_20;
             p->charState = CHARSTATE_22;
 
-            SA2_LABEL(sub_8023B5C)(p, 14);
-            PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
         }
 
         p->moveState |= MOVESTATE_FACING_LEFT;
@@ -2281,8 +2278,7 @@ void Player_8043970(Player *p)
             if (p->charState != 22) {
                 p->charState = CHARSTATE_WALK;
 
-                SA2_LABEL(sub_8023B5C)(p, 14);
-                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
             }
         }
     } else {
@@ -2302,8 +2298,7 @@ void Player_8043970(Player *p)
 
         p->charState = CHARSTATE_BRAKE;
 
-        SA2_LABEL(sub_8023B5C)(p, 14);
-        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
     }
 }
 
@@ -2326,8 +2321,7 @@ void Player_8043A2C(Player *p)
             p->moveState &= ~MOVESTATE_20;
             p->charState = CHARSTATE_22;
 
-            SA2_LABEL(sub_8023B5C)(p, 14);
-            PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
         }
 
         p->moveState &= ~MOVESTATE_FACING_LEFT;
@@ -2350,8 +2344,7 @@ void Player_8043A2C(Player *p)
             if (p->charState != 22) {
                 p->charState = CHARSTATE_WALK;
 
-                SA2_LABEL(sub_8023B5C)(p, 14);
-                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
             }
         }
     } else {
@@ -2371,8 +2364,7 @@ void Player_8043A2C(Player *p)
 
         p->charState = CHARSTATE_BRAKE;
 
-        SA2_LABEL(sub_8023B5C)(p, 14);
-        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
     }
 }
 #endif
@@ -2582,8 +2574,7 @@ void SA2_LABEL(sub_8023128)(Player *p)
 
 #if (GAME == GAME_SA1)
                 p->moveState &= ~MOVESTATE_4;
-                SA2_LABEL(sub_8023B5C)(p, 14);
-                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
 #endif
 
                 p->qSpeedGround = 0;
@@ -2602,8 +2593,7 @@ void SA2_LABEL(sub_8023128)(Player *p)
 
 #if (GAME == GAME_SA1)
                 p->moveState &= ~MOVESTATE_4;
-                SA2_LABEL(sub_8023B5C)(p, 14);
-                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
 #endif
 
                 p->qSpeedGround = 0;
@@ -2650,8 +2640,7 @@ void SA2_LABEL(sub_80231C0)(Player *p)
                 p->qSpeedAirX = 0;
                 p->moveState &= ~MOVESTATE_4;
 
-                SA2_LABEL(sub_8023B5C)(p, 14);
-                PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
                 p->qSpeedGround = 0;
             } break;
 
@@ -3651,8 +3640,7 @@ void Player_8044F7C(Player *p)
                     if ((p->charState == CHARSTATE_8) || (p->charState == CHARSTATE_BRAKE) || (p->charState == CHARSTATE_IDLE)) {
                         p->charState = CHARSTATE_WALK;
 
-                        SA2_LABEL(sub_8023B5C)(p, 14);
-                        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
                     }
                 } else if (!(p->moveState & MOVESTATE_800000)) {
                     if ((p->character != CHARACTER_AMY) || !(p->moveState & MOVESTATE_200)) {
@@ -3665,8 +3653,7 @@ void Player_8044F7C(Player *p)
                             p->charState = CHARSTATE_IDLE;
                         }
 
-                        SA2_LABEL(sub_8023B5C)(p, 14);
-                        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
                     }
                 }
 
@@ -6642,8 +6629,7 @@ void sub_8048110(Player *p)
 void Player_Knuckles_InitGlide(Player *p)
 {
     p->moveState &= ~MOVESTATE_4;
-    p->spriteOffsetX = 6;
-    p->spriteOffsetY = 6;
+    PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 6);
     p->qSpeedAirY += Q(1.5);
 
     if (p->qSpeedAirY < 0) {
@@ -7183,8 +7169,7 @@ _080488CA:
         p->moveState |= MOVESTATE_4;
         p->moveState |= MOVESTATE_IN_AIR;
         p->moveState |= MOVESTATE_100;
-        p->spriteOffsetX = 6;
-        p->spriteOffsetY = 9;
+        PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 9);
         v = 0;
         p->charState = 5;
         p->SA2_LABEL(unk61) = v;
@@ -7192,8 +7177,7 @@ _080488CA:
     return;
 _08048924:
     p->SA2_LABEL(unk61) = 2;
-    p->spriteOffsetX = 6;
-    p->spriteOffsetY = 14;
+    PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
     p->charState = CHARSTATE_63;
     return;
 _0804893A:
@@ -7770,8 +7754,7 @@ void sub_8049348(Player *p)
 {
     p->SA2_LABEL(unk61) = 2;
     p->charState = CHARSTATE_63;
-    p->spriteOffsetX = 6;
-    p->spriteOffsetY = 14;
+    PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
 #ifndef NON_MATCHING
     {
         u32 flag;
