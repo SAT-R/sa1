@@ -88,15 +88,16 @@ typedef struct {
 #define PLAYER_4 3
 
 #if (GAME == GAME_SA1)
-#define GET_SP_PLAYER_V0(index) ((index == 0) ? &gPlayer : &gPartner)
-#define GET_SP_PLAYER_V1(index) ((index != 0) ? &gPartner : &gPlayer)
+// Prevoiusly called GET_SP_PLAYER_V0/GET_SP_PLAYER_V1
+#define PLAYER_V0(index) ((index == 0) ? &gPlayer : &gPartner)
+#define PLAYER(index)    (((index) != 0) ? gPartner : gPlayer)
 
 #define GET_SP_PLAYER_SPR_INFO_V0(index) ((index == 0) ? &gPlayerBodyPSI : &gPartnerBodyPSI)
 #define GET_SP_PLAYER_SPR_INFO_V1(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
 // NOTE: DO NOT USE, only for matching in SA1!!!
 #ifndef NON_MATCHING
-#define GET_SP_PLAYER_MEMBER_V0(index, _memb) ((index == 0) ? gPlayer._memb : gPartner._memb)
-#define GET_SP_PLAYER_MEMBER_V1(index, _memb) ((index != 0) ? gPartner._memb : gPlayer._memb)
+#define GET_SP_PLAYER_MEMBER_V0(index, _memb)             ((index == 0) ? gPlayer._memb : gPartner._memb)
+#define GET_SP_PLAYER_MEMBER_V1_temp_rename(index, _memb) ((index != 0) ? gPartner._memb : gPlayer._memb)
 #else
 // NOTE: Modern compilers do not like having the regular macros as l-value!
 #define GET_SP_PLAYER_MEMBER_V0(index, _memb) GET_SP_PLAYER_V0(index)->_memb
