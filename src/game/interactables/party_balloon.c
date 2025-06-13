@@ -95,19 +95,21 @@ NONMATCH("asm/non_matching/game/interactables/Task_PartyBalloon.inc", void Task_
 #endif
     loopJmp:
         // _0807EFDE_loop
-        if (Coll_Player_Entity_Intersection(s, worldX, worldY, &PLAYER(i))) {
+        if (Coll_Player_Entity_Intersection(s, worldX, worldY, GET_SP_PLAYER_V1(i))) {
             // _0807EFFA
-            if (!(PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE)) {
-                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
+                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
 
-                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                PLAYER(i).moveState &= ~MOVESTATE_100;
-                PLAYER(i).moveState &= ~MOVESTATE_4;
-                PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-                PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
-                PLAYER(i).qSpeedAirY = -Q(6);
-                PLAYER(i).charState = CHARSTATE_21;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_4;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                SA2_LABEL(sub_8023B5C)(GET_SP_PLAYER_V1(i), 14);
+                GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                GET_SP_PLAYER_V1(i)->spriteOffsetY = 14;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(6);
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_21;
 
                 if (i != 0) {
                     gPlayerBodyPSI.s.prevVariant = -1;
@@ -118,7 +120,9 @@ NONMATCH("asm/non_matching/game/interactables/Task_PartyBalloon.inc", void Task_
                 balloon->unk40 = 0x21;
                 s->prevVariant = -1;
                 s->variant = r9;
-                PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                SA2_LABEL(sub_8023B5C)(GET_SP_PLAYER_V1(i), 14);
+                GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                GET_SP_PLAYER_V1(i)->spriteOffsetY = 14;
 
                 m4aSongNumStart(SE_BALLOON_POP);
                 gCurTask->main = Task_PartyBalloonPopped;

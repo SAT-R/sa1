@@ -53,7 +53,7 @@ _08095276:
 	cmp r0, #0
 	beq _08095282
 	b _08095456_continue
-_08095282:  @ (!(PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE))
+_08095282:  @ (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE))
 	ldr r1, [sp]        @ r1 = worldX
 	lsls r0, r1, #0x10
 	asrs r6, r0, #0x10

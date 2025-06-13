@@ -137,7 +137,7 @@ void Task_SecurityGate2(void)
 
     i = 0;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
 
         if (IS_ALIVE(p)) {
             sub_800AFDC(s, worldX, worldY + gate->unk3C, p, 0);

@@ -133,7 +133,7 @@ bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord sx, CamCoord sy, u8 hbIndex)
     i = 0;
     eb = TASK_DATA(gCurTask);
     do {
-        player = &PLAYER(i);
+        player = GET_SP_PLAYER_V1(i);
         sprPlayer = &player->spriteInfoBody->s;
 #endif
 
@@ -261,7 +261,7 @@ bool32 Coll_Player_Projectile(Sprite *s, CamCoord sx, CamCoord sy)
     {
         i = 0;
         do {
-            p = &PLAYER(i);
+            p = GET_SP_PLAYER_V1(i);
             {
                 sprPlayer = &p->spriteInfoBody->s;
 

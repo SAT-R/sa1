@@ -134,7 +134,7 @@ void Task_8077760(void)
     }
 
     {
-        Player *p = &PLAYER(pole->tuggingPlayerIndex);
+        Player *p = GET_SP_PLAYER_V1(pole->tuggingPlayerIndex);
         if (PLAYER_IS_ALIVE) {
             if (pole->unk3D > 6) {
                 if (pole->unk3D == 7) {
@@ -362,7 +362,7 @@ void Task_8077D1C(void)
     }
 
     {
-        Player *p = &PLAYER(pole->tuggingPlayerIndex);
+        Player *p = GET_SP_PLAYER_V1(pole->tuggingPlayerIndex);
         if (PLAYER_IS_ALIVE) {
             if (pole->unk3D > 6) {
                 p->qWorldY -= Q(arr[pole->unk3D]);
@@ -451,7 +451,7 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_8077FA4.inc",
     ptrItemEffect = &gPlayer.itemEffect;
     ptrPrevVariant = &s->prevVariant;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
         u32 res;
 
         res = Coll_Player_Entity_Intersection(s, worldX, worldY, p);
@@ -514,7 +514,7 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80780B4.inc",
     ptrItemEffect = &gPlayer.itemEffect;
     ptrPrevVariant = &s->prevVariant;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
         u32 res;
 
         res = Coll_Player_Entity_Intersection(s, worldX, worldY, p);
@@ -576,7 +576,7 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80781E4.inc",
     ptrItemEffect = &gPlayer.itemEffect;
     ptrPrevVariant = &s->prevVariant;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
         u32 res;
         u8 itemEffect;
 

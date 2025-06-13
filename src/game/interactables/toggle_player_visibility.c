@@ -29,17 +29,19 @@ void Task_Toggle_PlayerVisibility(void)
     player = &gPlayer;
     partner = &gPartner;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-            if ((worldX <= I(PLAYER(i).qWorldX)) && ((worldX + (me->d.uData[2] * TILE_WIDTH)) >= I(PLAYER(i).qWorldX))
-                && (worldY <= I(PLAYER(i).qWorldY)) && ((worldY + (me->d.uData[3] * TILE_WIDTH)) >= I(PLAYER(i).qWorldY))) {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && ((worldX + (me->d.uData[2] * TILE_WIDTH)) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+                && ((worldY + (me->d.uData[3] * TILE_WIDTH)) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
                 if (ia->visibility) {
-                    PLAYER(i).moveState |= MOVESTATE_100000;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_100000;
                 } else {
-                    PLAYER(i).moveState &= ~MOVESTATE_100000;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100000;
                 }
             }
         } else {
-            PLAYER(i).moveState &= ~MOVESTATE_100000;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100000;
         }
     } while (++i < gNumSingleplayerCharacters);
 

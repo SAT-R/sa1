@@ -46,8 +46,10 @@ void Task_Toggle_PlayerLayer(void)
 
     i = 0;
     do {
-        if ((screenX <= I(PLAYER(i).qWorldX)) && (screenX + (me->width * TILE_WIDTH) >= I(PLAYER(i).qWorldX))
-            && (screenY <= I(PLAYER(i).qWorldY)) && (screenY + (me->height * TILE_WIDTH) >= I(PLAYER(i).qWorldY))) {
+        if ((screenX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+            && (screenX + (me->width * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+            && (screenY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+            && (screenY + (me->height * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
             s32 frontIAIndex = IA__TOGGLE_PLAYER_LAYER__FRONT;
 
             if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {

@@ -117,46 +117,46 @@ NONMATCH("asm/non_matching/game/interactables/spring_hiding__sub_8095224.inc",
     s32 i = 0;
 
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-            if (!(PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE)) {
-                if (!Coll_Player_Entity_Intersection(s, worldX, worldY, &PLAYER(i))) {
-                    sp0C = sub_800A768(s, worldX, worldY, &PLAYER(i));
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
+                if (!Coll_Player_Entity_Intersection(s, worldX, worldY, GET_SP_PLAYER_V1(i))) {
+                    sp0C = sub_800A768(s, worldX, worldY, GET_SP_PLAYER_V1(i));
                     if (!sp0C) {
                         continue;
                     }
                 }
 
-                SA2_LABEL(sub_8021BE0)(&PLAYER(i));
+                SA2_LABEL(sub_8021BE0)(GET_SP_PLAYER_V1(i));
 
-                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                PLAYER(i).moveState &= ~MOVESTATE_100;
-                PLAYER(i).SA2_LABEL(unk61) = 0;
-                PLAYER(i).qSpeedAirY = -(me->d.uData[1] << 6);
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk61)) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -(me->d.uData[1] << 6);
                 // _08095360
 
                 if (sp0C) {
-                    s16 qSpeed = PLAYER(i).qSpeedAirY >> 1;
-                    PLAYER(i).qSpeedAirY += qSpeed;
+                    s16 qSpeed = GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) >> 1;
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) += qSpeed;
                 }
                 // _08095390
 
                 if (me->d.uData[0] & 0x1) {
                     Sprite *infoSprite;
-                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                    PLAYER(i).charState = CHARSTATE_21;
-                    PLAYER_SPR_INFO(i)->s.prevVariant = -1;
+                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                    GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_21;
+                    GET_SP_PLAYER_SPR_INFO_V1(i)->s.prevVariant = -1;
                     asm("");
                 } else {
-                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                    PLAYER(i).charState = CHARSTATE_17;
-                    PLAYER_SPR_INFO(i)->s.prevVariant = -1;
+                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                    GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_17;
+                    GET_SP_PLAYER_SPR_INFO_V1(i)->s.prevVariant = -1;
                 }
 
                 s->variant = 1;
                 s->prevVariant = -1;
 
-                PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
                 m4aSongNumStart(SE_SPRING);
                 result = TRUE;
             }

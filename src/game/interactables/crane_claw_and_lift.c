@@ -136,7 +136,7 @@ void Task_CraneClawMain(void)
     s3->y = worldY - gCamera.y;
 
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
 
         if (Coll_Player_Entity_Intersection(s, worldX, worldY + 48, p)) {
             crane->unk9C = 0;
@@ -189,7 +189,7 @@ void Task_CraneClaw2(void)
     s3->y = worldY - gCamera.y;
 
     {
-        Player *p = &PLAYER(crane->playerID);
+        Player *p = GET_SP_PLAYER_V1(crane->playerID);
 
         if (IS_ALIVE(p)) {
             p->qWorldX = Q(worldX);
@@ -252,7 +252,7 @@ void Task_CraneClaw3(void)
     s3->y = worldY - gCamera.y;
 
     {
-        Player *p = &PLAYER(crane->playerID);
+        Player *p = GET_SP_PLAYER_V1(crane->playerID);
 
         if (IS_ALIVE(p)) {
             p->qWorldX = Q(worldX);
@@ -311,7 +311,7 @@ void Task_CraneClaw4(void)
     s3->y = worldY - gCamera.y;
 
     {
-        Player *p = &PLAYER(crane->playerID);
+        Player *p = GET_SP_PLAYER_V1(crane->playerID);
 
         if (IS_ALIVE(p)) {
             p->qWorldX = Q(worldX + r3);
@@ -580,7 +580,7 @@ void Task_LiftMain(void)
     s2->y = worldY - gCamera.y - 16;
 
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
 
         if (Coll_Player_Entity_Intersection(s, worldX, worldY, p)) {
             lift->unk9C = 0;
@@ -637,7 +637,7 @@ void Task_Lift2(void)
     s2->y = worldY - gCamera.y - sp08 - 16;
 
     {
-        Player *p = &PLAYER(lift->playerID);
+        Player *p = GET_SP_PLAYER_V1(lift->playerID);
 
         if (IS_ALIVE(p)) {
             if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
@@ -705,7 +705,7 @@ void Task_Lift3(void)
     }
 
     {
-        Player *p = &PLAYER(lift->playerID);
+        Player *p = GET_SP_PLAYER_V1(lift->playerID);
 
         if (IS_ALIVE(p)) {
             if (p->frameInput & gPlayerControls.jump) {

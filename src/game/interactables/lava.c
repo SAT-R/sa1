@@ -47,7 +47,7 @@ void Task_Lava(void)
         do {
             if (TASK_GET_MEMBER(Lava, gCurTask, u16, unk3A) == 1) {
 #ifndef NON_MATCHING
-                PLAYER(i).qSpeedAirY = Div(PLAYER(i).qSpeedAirY, 2);
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = Div(GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY), 2);
 #else
                 GET_SP_PLAYER_V0(i)->qSpeedAirY >>= 1;
 #endif
@@ -64,15 +64,17 @@ void Task_Lava(void)
         i = 0;
 
         do {
-            if (!(PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE) && (x <= I(PLAYER(i).qWorldX))
-                && (x + (me->d.uData[2] * TILE_WIDTH) >= I(PLAYER(i).qWorldX)) && (y <= I(PLAYER(i).qWorldY))
-                && (y + (me->d.uData[3] * TILE_WIDTH) >= I(PLAYER(i).qWorldY)) && !(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE) && (x <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (x + (me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (y <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+                && (y + (me->d.uData[3] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+                && !(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
                 if (me->d.sData[0] == 0) {
-                    if (~PLAYER(i).itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY) {
-                        Coll_DamagePlayer(&PLAYER(i));
+                    if (~GET_SP_PLAYER_MEMBER_V1(i, itemEffect) & PLAYER_ITEM_EFFECT__INVINCIBILITY) {
+                        Coll_DamagePlayer(GET_SP_PLAYER_V1(i));
                     }
                 } else {
-                    PLAYER(i).moveState |= MOVESTATE_DEAD;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_DEAD;
                 }
             }
         } while (++i < gNumSingleplayerCharacters);

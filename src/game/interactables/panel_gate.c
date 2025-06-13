@@ -87,7 +87,7 @@ void Task_PanelGate_Vertical(void)
 
     i = 0;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if (sub_8081C04(gate, s, worldX, worldY)) {
                 gCurTask->main = Task_PanelGate_Vertical2;
             }
@@ -125,19 +125,19 @@ void Task_PanelGate_Vertical2(void)
 
     i = 0;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                u32 res = Coll_Player_Entity_Intersection(s, worldX - 6, worldY, &PLAYER(i));
+                u32 res = Coll_Player_Entity_Intersection(s, worldX - 6, worldY, GET_SP_PLAYER_V1(i));
                 if (res) {
-                    if (PLAYER(i).qSpeedAirX > Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) > Q(0)) {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
                     }
                 }
             } else {
-                u32 res = Coll_Player_Entity_Intersection(s, worldX + 6, worldY, &PLAYER(i));
+                u32 res = Coll_Player_Entity_Intersection(s, worldX + 6, worldY, GET_SP_PLAYER_V1(i));
                 if (res) {
-                    if (PLAYER(i).qSpeedAirX < Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < Q(0)) {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
                     }
                 }
             }
@@ -212,7 +212,7 @@ void Task_PanelGate_Horizontal(void)
 
     i = 0;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if (sub_8081F50(gate, s, worldX, worldY)) {
                 gCurTask->main = Task_PanelGate_Horizontal2;
             }
@@ -250,19 +250,19 @@ void Task_PanelGate_Horizontal2(void)
 
     i = 0;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
             if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
-                u32 res = Coll_Player_Entity_Intersection(s, worldX, worldY + 5, &PLAYER(i));
+                u32 res = Coll_Player_Entity_Intersection(s, worldX, worldY + 5, GET_SP_PLAYER_V1(i));
                 if (res) {
-                    if (PLAYER(i).qSpeedAirY > Q(0)) {
-                        sub_80096B0(s, worldX, worldY, &PLAYER(i));
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) > Q(0)) {
+                        sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
                     }
                 }
             } else {
-                u32 res = Coll_Player_Entity_Intersection(s, worldX, worldY - 5, &PLAYER(i));
+                u32 res = Coll_Player_Entity_Intersection(s, worldX, worldY - 5, GET_SP_PLAYER_V1(i));
                 if (res) {
-                    if (PLAYER(i).qSpeedAirY < Q(0)) {
-                        sub_80096B0(s, worldX, worldY, &PLAYER(i));
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) < Q(0)) {
+                        sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
                     }
                 }
             }
@@ -286,59 +286,59 @@ bool32 sub_8081C04(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY)
 
     i = 0;
     do {
-        qTempPlayerY = PLAYER(i).qWorldY;
+        qTempPlayerY = GET_SP_PLAYER_MEMBER_V1(i, qWorldY);
 
         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-            if ((worldX <= I(PLAYER(i).qWorldX)) && (worldX + 32 >= I(PLAYER(i).qWorldX)) && (worldY - 40 <= I(PLAYER(i).qWorldY))
-                && (worldY + 40 >= I(PLAYER(i).qWorldY))) {
-                if ((worldX <= I(PLAYER(i).qWorldX)) && (worldX + 32 >= I(PLAYER(i).qWorldX))) {
-                    if (PLAYER(i).qSpeedAirX < Q(0)) {
+            if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY - 40 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 40 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+                if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))) {
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < Q(0)) {
                         gate->unk3C = 0x7D;
                         s->variant = 1;
 
-                        PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
                         m4aSongNumStart(SE_PANEL_GATE);
 
                         result = TRUE;
                     } else {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
                     }
                 } else {
-                    if (PLAYER(i).qSpeedAirX < Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
-                        PLAYER(i).qSpeedGround = 0;
-                        PLAYER(i).qSpeedAirX = 0;
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < Q(0)) {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = 0;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = 0;
                     }
                 }
             }
         } else {
-            if ((worldX - 32 <= I(PLAYER(i).qWorldX)) && (worldX + 16 >= I(PLAYER(i).qWorldX)) && (worldY - 40 <= I(PLAYER(i).qWorldY))
-                && (worldY + 40 >= I(PLAYER(i).qWorldY))) {
-                if ((worldX - 32 <= I(PLAYER(i).qWorldX)) && (worldX >= I(PLAYER(i).qWorldX))) {
-                    if (PLAYER(i).qSpeedAirX > Q(0)) {
+            if ((worldX - 32 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 16 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY - 40 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 40 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+                if ((worldX - 32 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))) {
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) > Q(0)) {
                         gate->unk3C = 0x7D;
                         s->variant = 1;
 
-                        PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
                         m4aSongNumStart(SE_PANEL_GATE);
 
                         result = TRUE;
                     } else {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
                     }
                 } else {
-                    if (PLAYER(i).qSpeedAirX < Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
-                        PLAYER(i).qSpeedGround = 0;
-                        PLAYER(i).qSpeedAirX = 0;
+                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < Q(0)) {
+                        sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 0);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = 0;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = 0;
                     }
                 }
             }
         }
 
-        PLAYER(i).qWorldY = qTempPlayerY;
+        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = qTempPlayerY;
     } while (++i < gNumSingleplayerCharacters);
 
     return result;
@@ -352,47 +352,47 @@ bool32 sub_8081F50(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY)
 
     i = 0;
     do {
-        qTempPlayerY = PLAYER(i).qWorldY;
+        qTempPlayerY = GET_SP_PLAYER_MEMBER_V1(i, qWorldY);
 
         if (s->frameFlags & SPRITE_FLAG_MASK_Y_FLIP) {
-            if ((worldX <= I(PLAYER(i).qWorldX)) && (worldX + 32 >= I(PLAYER(i).qWorldX)) && (worldY <= I(PLAYER(i).qWorldY))
-                && (worldY + 28 >= I(PLAYER(i).qWorldY))) {
+            if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 28 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
 
-                if (PLAYER(i).qSpeedAirY < Q(0)) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) < Q(0)) {
                     gate->unk3C = 0x7D;
                     s->variant = 0;
 
-                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
                     m4aSongNumStart(SE_PANEL_GATE);
 
                     result = TRUE;
                 } else {
-                    sub_80096B0(s, worldX, worldY, &PLAYER(i));
+                    sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
                 }
 
             } else {
-                sub_80096B0(s, worldX, worldY, &PLAYER(i));
+                sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
             }
         } else {
-            if ((worldX <= I(PLAYER(i).qWorldX)) && (worldX + 32 >= I(PLAYER(i).qWorldX)) && (worldY - 28 <= I(PLAYER(i).qWorldY))
-                && (worldY >= I(PLAYER(i).qWorldY))) {
+            if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 32 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY - 28 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
 
-                if (PLAYER(i).qSpeedAirY > Q(0)) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) > Q(0)) {
                     gate->unk3C = 0x7D;
                     s->variant = 0;
 
-                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
                     m4aSongNumStart(SE_PANEL_GATE);
 
                     result = TRUE;
                 } else {
-                    sub_80096B0(s, worldX, worldY, &PLAYER(i));
+                    sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
                 }
 
             } else {
-                sub_80096B0(s, worldX, worldY, &PLAYER(i));
+                sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
             }
         }
     } while (++i < gNumSingleplayerCharacters);

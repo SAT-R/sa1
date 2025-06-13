@@ -41,93 +41,93 @@ void Task_HangBar(void)
     i = 0;
     do {
         if (GetBit(bar->isPlayerOnBits, i)) {
-            if ((PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
                 ClearBit(bar->isPlayerOnBits, i);
                 continue;
             }
             // _0808C0D8
 
-            if (PLAYER(i).heldInput & DPAD_RIGHT) {
-                PLAYER(i).charState = CHARSTATE_36;
-                PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
-                PLAYER(i).qWorldX = bar->qPlayerWorldX[i] + Q(2);
-            } else if (PLAYER(i).heldInput & DPAD_LEFT) {
+            if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_36;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FACING_LEFT;
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = bar->qPlayerWorldX[i] + Q(2);
+            } else if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {
                 // _0808C1AC
-                PLAYER(i).charState = CHARSTATE_36;
-                PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
-                PLAYER(i).qWorldX = bar->qPlayerWorldX[i] - Q(2);
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_36;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_FACING_LEFT;
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = bar->qPlayerWorldX[i] - Q(2);
             } else {
-                PLAYER(i).charState = CHARSTATE_35;
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_35;
             }
             // _0808C1C6
 
-            PLAYER(i).qWorldY = Q(barY + gUnknown_086CEDBC[PLAYER(i).character]);
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(barY + gUnknown_086CEDBC[GET_SP_PLAYER_MEMBER_V1(i, character)]);
             // _0808C206
 
-            bar->qPlayerWorldX[i] = PLAYER(i).qWorldX;
+            bar->qPlayerWorldX[i] = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
 
-            if ((PLAYER(i).frameInput & gPlayerControls.jump)
-                || ((barX + (me->d.sData[0] * TILE_WIDTH) > I(PLAYER(i).qWorldX))
-                    || (barX + (me->d.sData[0] * TILE_WIDTH) + (me->d.uData[2] * TILE_WIDTH) < I(PLAYER(i).qWorldX)))) {
-                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
-                PLAYER(i).moveState |= MOVESTATE_4;
-                PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-                PLAYER(i).qSpeedAirY = Q(0);
-                PLAYER(i).charState = CHARSTATE_SPINATTACK;
+            if ((GET_SP_PLAYER_MEMBER_V1(i, frameInput) & gPlayerControls.jump)
+                || ((barX + (me->d.sData[0] * TILE_WIDTH) > I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                    || (barX + (me->d.sData[0] * TILE_WIDTH) + (me->d.uData[2] * TILE_WIDTH) < I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))))) {
+                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = Q(0);
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
 
-                PLAYER(i).qWorldY = Q(barY) + Q(22);
-                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                PLAYER(i).charState = CHARSTATE_18;
-                PLAYER(i).itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(barY) + Q(22);
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_18;
+                GET_SP_PLAYER_MEMBER_V1(i, itemEffect) &= ~PLAYER_ITEM_EFFECT__TELEPORT;
 
-                if (PLAYER(i).heldInput & DPAD_RIGHT) {
-                    PLAYER(i).qSpeedGround = +Q(2);
-                    PLAYER(i).qSpeedAirX = +Q(2);
-                } else if (PLAYER(i).heldInput & DPAD_LEFT) {
-                    PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
-                    PLAYER(i).qSpeedGround = -Q(2);
-                    PLAYER(i).qSpeedAirX = -Q(2);
+                if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = +Q(2);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(2);
+                } else if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_FACING_LEFT;
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = -Q(2);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(2);
                 } else {
-                    PLAYER(i).qSpeedGround = Q(0);
-                    PLAYER(i).qSpeedAirX = Q(0);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = Q(0);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = Q(0);
                 }
 
                 ClearBit(bar->isPlayerOnBits, i);
             }
 
         } else {
-            if (PLAYER(i).moveState & MOVESTATE_DEAD) {
+            if (GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD) {
                 continue;
             }
 
-            if (PLAYER(i).qSpeedAirY > Q(0)) {
-                if ((barX + (me->d.sData[0] * TILE_WIDTH) <= I(PLAYER(i).qWorldX))
-                    && (barX + (me->d.sData[0] * TILE_WIDTH) + (me->d.uData[2] * TILE_WIDTH) >= I(PLAYER(i).qWorldX))
-                    && (barY + (me->d.sData[1] * TILE_WIDTH) <= I(PLAYER(i).qWorldY))
-                    && (barY + (me->d.sData[1] * TILE_WIDTH) + (me->d.uData[3] * TILE_WIDTH) >= I(PLAYER(i).qWorldY))) {
-                    PLAYER(i).rotation = 0;
-                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                    PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
-                    PLAYER(i).moveState &= ~MOVESTATE_IN_AIR;
-                    PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-                    PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+            if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) > Q(0)) {
+                if ((barX + (me->d.sData[0] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                    && (barX + (me->d.sData[0] * TILE_WIDTH) + (me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                    && (barY + (me->d.sData[1] * TILE_WIDTH) <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+                    && (barY + (me->d.sData[1] * TILE_WIDTH) + (me->d.uData[3] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+                    GET_SP_PLAYER_MEMBER_V1(i, rotation) = 0;
+                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IA_OVERRIDE;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IN_AIR;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                    GET_SP_PLAYER_MEMBER_V1(i, itemEffect) |= PLAYER_ITEM_EFFECT__TELEPORT;
 
-                    if (PLAYER(i).heldInput & DPAD_RIGHT) {
-                        PLAYER(i).charState = CHARSTATE_36;
-                        PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
-                    } else if (PLAYER(i).heldInput & DPAD_LEFT) {
-                        PLAYER(i).charState = CHARSTATE_36;
-                        PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
+                    if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_RIGHT) {
+                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_36;
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FACING_LEFT;
+                    } else if (GET_SP_PLAYER_MEMBER_V1(i, heldInput) & DPAD_LEFT) {
+                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_36;
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_FACING_LEFT;
                     } else {
-                        PLAYER(i).charState = CHARSTATE_35;
+                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_35;
                     }
 
-                    PLAYER(i).qWorldY = Q(barY) + Q(18);
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(barY) + Q(18);
                     SetBit(bar->isPlayerOnBits, i);
-                    bar->qPlayerWorldX[i] = PLAYER(i).qWorldX;
+                    bar->qPlayerWorldX[i] = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
 
-                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
                 }
             }
         }

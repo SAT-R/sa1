@@ -32,19 +32,21 @@ void Task_Interactable113(void)
     player = &gPlayer;
     partner = &gPartner;
     do {
-        if ((worldX <= I(PLAYER(i).qWorldX)) && ((worldX + (me->d.uData[2] * TILE_WIDTH)) >= I(PLAYER(i).qWorldX))
-            && (worldY <= I(PLAYER(i).qWorldY)) && ((worldY + (me->d.uData[3] * TILE_WIDTH)) >= I(PLAYER(i).qWorldY))) {
-            if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && !GetBit(ia->unk3C, i)) {
+        if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+            && ((worldX + (me->d.uData[2] * TILE_WIDTH)) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+            && (worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+            && ((worldY + (me->d.uData[3] * TILE_WIDTH)) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD) && !GetBit(ia->unk3C, i)) {
                 SetBit(ia->unk3C, i);
-                PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
-                PLAYER(i).frameInput = 0;
-                PLAYER(i).heldInput = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IGNORE_INPUT;
+                GET_SP_PLAYER_MEMBER_V1(i, frameInput) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, heldInput) = 0;
             }
         } else if (GetBit(ia->unk3C, i)) {
             ClearBit(ia->unk3C, i);
-            PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IGNORE_INPUT;
 
-            PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+            GET_SP_PLAYER_MEMBER_V1(i, heldInput) |= (gPlayerControls.jump | gPlayerControls.attack);
         }
     } while (++i < gNumSingleplayerCharacters);
 

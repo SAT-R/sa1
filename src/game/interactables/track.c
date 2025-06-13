@@ -88,72 +88,73 @@ void Task_Track(void)
     i = 0;
     do {
         if (GetBit(track->unk6C, i)) {
-            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-                if (PLAYER(i).SA2_LABEL(unk99)[0] == track->unk3C[i]) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk99))[0] == track->unk3C[i]) {
                     s32 resA, resB;
                     resA = Div(track->unk3F[i] * track->unk54, track->unk3E);
                     resB = Div(track->unk3F[i] * track->unk58, track->unk3E);
 
-                    PLAYER(i).qWorldX = Q(track->unk44[i] + resA);
-                    PLAYER(i).qWorldY = Q(track->unk4C[i] + resB);
-                    PLAYER(i).qSpeedAirY = PLAYER(i).qWorldY - track->unk64[i];
-                    PLAYER(i).qSpeedGround = PLAYER(i).qWorldX - track->unk5C[i];
-                    PLAYER(i).qSpeedAirX = PLAYER(i).qSpeedGround;
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(track->unk44[i] + resA);
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(track->unk4C[i] + resB);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = GET_SP_PLAYER_MEMBER_V1(i, qWorldY) - track->unk64[i];
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = GET_SP_PLAYER_MEMBER_V1(i, qWorldX) - track->unk5C[i];
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround);
                     track->unk3F[i]++;
 
-                    if ((I(PLAYER(i).qWorldX) == track->unk44[i] + track->unk54)
-                        && (I(PLAYER(i).qWorldY) == track->unk4C[i] + track->unk58)) {
-                        if (PLAYER(i).SA2_LABEL(unk99)[0] == track->unk3C[i]) {
-                            PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
-                            PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                            PLAYER(i).itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                    if ((I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) == track->unk44[i] + track->unk54)
+                        && (I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) == track->unk4C[i] + track->unk58)) {
+                        if (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk99))[0] == track->unk3C[i]) {
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
+                            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+                            GET_SP_PLAYER_MEMBER_V1(i, itemEffect) &= ~PLAYER_ITEM_EFFECT__TELEPORT;
                         }
 
                         ClearBit(track->unk6C, i);
                     } else {
-                        Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                        PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
-                        PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
-                        PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                        Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FACING_LEFT;
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IA_OVERRIDE;
+                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
 
-                        PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
                         SetBit(track->unk6C, i);
                     }
 
-                    track->unk5C[i] = PLAYER(i).qWorldX;
-                    track->unk64[i] = PLAYER(i).qWorldY;
+                    track->unk5C[i] = GET_SP_PLAYER_MEMBER_V1(i, qWorldX);
+                    track->unk64[i] = GET_SP_PLAYER_MEMBER_V1(i, qWorldY);
 
                 } else {
                     ClearBit(track->unk6C, i);
                 }
             } else {
-                PLAYER(i).moveState &= ~MOVESTATE_100000;
-                PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100000;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
 
                 ClearBit(track->unk6C, i);
             }
         } else {
-            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-                if (PLAYER(i).SA2_LABEL(unk99)[0] < track->unk3C[i] || track->unk3C[i] == 0) {
-                    if ((worldX - 10 <= I(PLAYER(i).qWorldX)) && (worldX + 10 >= I(PLAYER(i).qWorldX))
-                        && (worldY - 10 <= I(PLAYER(i).qWorldY)) && (worldY + 10 >= I(PLAYER(i).qWorldY))) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk99))[0] < track->unk3C[i] || track->unk3C[i] == 0) {
+                    if ((worldX - 10 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 10 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                        && (worldY - 10 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+                        && (worldY + 10 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
                         track->unk3F[i] = 0;
-                        Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                        PLAYER(i).moveState |= MOVESTATE_4;
-                        PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
-                        PLAYER(i).qWorldX = Q(worldX);
-                        PLAYER(i).qWorldY = Q(worldY);
+                        Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IA_OVERRIDE;
+                        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX);
+                        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(worldY);
 
                         track->unk44[i] = worldX;
                         track->unk4C[i] = worldY;
 
-                        PLAYER(i).qSpeedAirY = Q(0);
-                        PLAYER(i).qSpeedAirX = Q(0);
-                        PLAYER(i).qSpeedGround = Q(0);
-                        PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = Q(0);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = Q(0);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = Q(0);
+                        GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
 
-                        PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
                         do {
                             // For matching
@@ -162,12 +163,12 @@ void Task_Track(void)
 
                         SetBit(track->unk6C, i);
 
-                        PLAYER(i).SA2_LABEL(unk99)[0] = track->unk3C[i];
-                        PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+                        GET_SP_PLAYER_MEMBER_V1(i, SA2_LABEL(unk99))[0] = track->unk3C[i];
+                        GET_SP_PLAYER_MEMBER_V1(i, itemEffect) |= PLAYER_ITEM_EFFECT__TELEPORT;
                     }
                 }
             } else {
-                PLAYER(i).moveState &= ~MOVESTATE_100000;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100000;
             }
         }
     } while (++i < gNumSingleplayerCharacters);

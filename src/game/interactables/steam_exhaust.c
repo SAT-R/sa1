@@ -101,39 +101,39 @@ void Task_SteamExhaust(void)
 
     i = 0;
     do {
-        if (sub_80096B0(s2, worldX, worldY, &PLAYER(i)) & COLL_FLAG_8) {
-            PLAYER(i).qWorldY += Q(1);
+        if (sub_80096B0(s2, worldX, worldY, GET_SP_PLAYER_V1(i)) & COLL_FLAG_8) {
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldY) += Q(1);
             continue;
         } else {
-            if (((PLAYER(i).stoodObj == s)
+            if (((GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s)
 #ifdef BUG_FIX
                  // TODO: Either we check for s2, or this 2nd check can go away entirely!
-                 || (PLAYER(i).stoodObj == s2)
+                 || (GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s2)
 #else
-                 || (PLAYER(i).stoodObj == s)
+                 || (GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s)
 #endif
                      )
-                && (PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ)) {
-                if (PLAYER(i).frameInput & gPlayerControls.jump) {
-                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-                    PLAYER(i).stoodObj = NULL;
+                && (GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ)) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & gPlayerControls.jump) {
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                    GET_SP_PLAYER_MEMBER_V1(i, stoodObj) = NULL;
                 }
 
                 {
-                    s32 res = SA2_LABEL(sub_801E4E4)(I(PLAYER(i).qWorldY) - 19, I(PLAYER(i).qWorldX), PLAYER(i).layer, -8, NULL,
-                                                     SA2_LABEL(sub_801EE64));
+                    s32 res = SA2_LABEL(sub_801E4E4)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - 19, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)),
+                                                     GET_SP_PLAYER_MEMBER_V1(i, layer), -8, NULL, SA2_LABEL(sub_801EE64));
 
                     if (res < 0) {
-                        PLAYER(i).qWorldY += Q(res);
+                        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) += Q(res);
                     }
                 }
             } else {
-                if (sub_80096B0(s, worldX, worldY, &PLAYER(i))) {
-                    s32 res = SA2_LABEL(sub_801E4E4)(I(PLAYER(i).qWorldY) - 19, I(PLAYER(i).qWorldX), PLAYER(i).layer, -8, NULL,
-                                                     SA2_LABEL(sub_801EE64));
+                if (sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i))) {
+                    s32 res = SA2_LABEL(sub_801E4E4)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - 19, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)),
+                                                     GET_SP_PLAYER_MEMBER_V1(i, layer), -8, NULL, SA2_LABEL(sub_801EE64));
 
                     if (res < 0) {
-                        PLAYER(i).qWorldY += Q(res);
+                        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) += Q(res);
                     }
                 }
             }
@@ -191,24 +191,24 @@ void Task_SteamExhaust2(void)
     i = 0;
     do {
         if (GetBit(exhaust->unk74, i)) {
-            PLAYER(i).qWorldY += exhaust->qLidAcceleration;
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldY) += exhaust->qLidAcceleration;
 
-            if (PLAYER(i).moveState & MOVESTATE_IN_AIR) {
+            if (GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IN_AIR) {
                 ClearBit(exhaust->unk74, i);
             }
 
-            if (!Coll_Player_Entity_Intersection(s2, worldX, worldY + I(exhaust->qLidOffsetY), &PLAYER(i))) {
+            if (!Coll_Player_Entity_Intersection(s2, worldX, worldY + I(exhaust->qLidOffsetY), GET_SP_PLAYER_V1(i))) {
                 ClearBit(exhaust->unk74, i);
             }
         }
 
-        if (Coll_Player_PlatformCrumbling(s2, worldX, worldY + I(exhaust->qLidOffsetY), &PLAYER(i))) {
+        if (Coll_Player_PlatformCrumbling(s2, worldX, worldY + I(exhaust->qLidOffsetY), GET_SP_PLAYER_V1(i))) {
             SetBit(exhaust->unk74, i);
 
-            PLAYER(i).qWorldY += Q(1);
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldY) += Q(1);
         }
 
-        sub_80096B0(s, worldX, worldY, &PLAYER(i));
+        sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
     } while (++i < gNumSingleplayerCharacters);
 
     if (exhaust->qLidOffsetY >= 0) {
@@ -233,12 +233,12 @@ void Task_SteamExhaust2(void)
     } else if (((exhaust->unk84 + 1) >= 50) && ((exhaust->unk84 + 1) < 97)) {
         s32 i = 0;
         do {
-            Hitbox *hb = &PLAYER_SPR_INFO(i)->s.hitboxes[0];
+            Hitbox *hb = &GET_SP_PLAYER_SPR_INFO_V1(i)->s.hitboxes[0];
             if (hb->index != HITBOX_STATE_INACTIVE
-                && HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY),
-                                (&PLAYER_SPR_INFO(i)->s.hitboxes[0])->b)) {
-                if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-                    Coll_DamagePlayer(&PLAYER(i));
+                && HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)),
+                                I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)), (&GET_SP_PLAYER_SPR_INFO_V1(i)->s.hitboxes[0])->b)) {
+                if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+                    Coll_DamagePlayer(GET_SP_PLAYER_V1(i));
                 }
             }
         } while (++i < gNumSingleplayerCharacters);

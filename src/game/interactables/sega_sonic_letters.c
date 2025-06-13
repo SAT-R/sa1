@@ -151,9 +151,9 @@ NONMATCH("asm/non_matching/game/interactables/Task_SegaSonicLetter.inc", void Ta
 
         i = 0;
         do {
-            u32 res = Coll_Player_Entity_Intersection(s, worldX, worldY, &PLAYER(i));
+            u32 res = Coll_Player_Entity_Intersection(s, worldX, worldY, GET_SP_PLAYER_V1(i));
             if (res != 0) {
-                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
             }
         } while (++i < gNumSingleplayerCharacters);
     }
@@ -161,7 +161,7 @@ NONMATCH("asm/non_matching/game/interactables/Task_SegaSonicLetter.inc", void Ta
     i = 0;
     do {
         if (sl == 1) {
-            sub_80096B0(s, worldX, worldY, &PLAYER(i));
+            sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
         }
     } while (++i < gNumSingleplayerCharacters);
 

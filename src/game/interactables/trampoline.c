@@ -130,7 +130,7 @@ bool32 sub_8074FB0(Sprite *s, s16 worldX, s16 worldY)
 
     i = 0;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
         s32 qSpeedAirY = p->qSpeedAirY;
         u32 res = sub_80096B0(s, worldX, worldY, p);
 
@@ -143,7 +143,8 @@ bool32 sub_8074FB0(Sprite *s, s16 worldX, s16 worldY)
             p->moveState &= ~MOVESTATE_100;
             p->moveState &= ~MOVESTATE_4;
             p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-            PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
+            p->spriteOffsetX = 6;
+            p->spriteOffsetY = 14;
 
             if (qSpeedAirY == 0) {
                 p->qWorldY -= Q(8);

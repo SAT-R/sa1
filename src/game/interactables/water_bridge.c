@@ -86,7 +86,11 @@ NONMATCH("asm/non_matching/game/interactables/water_bridge__Task_WaterBridge.inc
 
     i = 0;
     do {
-        p = &PLAYER(i);
+        // TODO: Does it match with GET_SP_PLAYER_V1(i) ?
+        p = &gPlayer;
+        if (i != 0) {
+            p = &gPartner;
+        }
 
         playerWorldX = I(p->qWorldX);
         playerWorldY = I(p->qWorldY) + p->spriteOffsetY;

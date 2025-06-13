@@ -100,7 +100,7 @@ void Task_UpdateMpSpriteTaskSprite(void)
                         ts->y = mpp->pos.y;
 #endif
                     } else {
-                        Player *p = &PLAYER(id);
+                        Player *p = GET_SP_PLAYER_V1(id);
 
                         ts->x = I(p->qWorldX);
                         ts->y = I(p->qWorldY);

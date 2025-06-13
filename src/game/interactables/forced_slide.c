@@ -113,57 +113,59 @@ void Task_ForcedSlide(void)
                 continue;
         }
 
-        if ((x <= I(PLAYER(i).qWorldX)) && (x + me->d.uData[2] * TILE_WIDTH >= I(PLAYER(i).qWorldX)) && (y <= I(PLAYER(i).qWorldY))
-            && (y + me->d.uData[3] * TILE_WIDTH >= I(PLAYER(i).qWorldY))) {
+        if ((x <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (x + me->d.uData[2] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+            && (y <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
+            && (y + me->d.uData[3] * TILE_WIDTH >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
             if (slide->unk3D[i] == 0) {
                 s32 res;
 
-                res = SA2_LABEL(sub_801F07C)(I(PLAYER(i).qWorldY), I(PLAYER(i).qWorldX), PLAYER(i).layer, +8, 0, SA2_LABEL(sub_801EE64));
+                res = SA2_LABEL(sub_801F07C)(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)), I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)),
+                                             GET_SP_PLAYER_MEMBER_V1(i, layer), +8, 0, SA2_LABEL(sub_801EE64));
 
                 if (res > 3) {
                     goto set_sp14;
                 }
             }
 
-            if (!(PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ)) {
-                if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ)) {
+                if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IN_AIR)) {
                     if (slide->unk3D[i] == 0 && LEVEL_TO_ZONE(gCurrentLevel) == ZONE_5) {
                         m4aSongNumStart(SE_201);
                     }
 
                     slide->unk3D[i] = 1;
-                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-                    PLAYER(i).moveState &= ~MOVESTATE_100;
-                    PLAYER(i).moveState &= ~MOVESTATE_4;
-                    PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-                    PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
-                    PLAYER(i).heldInput = 0;
-                    PLAYER(i).frameInput = 0;
+                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_4;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IGNORE_INPUT;
+                    GET_SP_PLAYER_MEMBER_V1(i, heldInput) = 0;
+                    GET_SP_PLAYER_MEMBER_V1(i, frameInput) = 0;
 
                     if (slide->unk3C != 0) {
-                        PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
-                        PLAYER(i).qSpeedGround = -Q(4);
-                        PLAYER(i).qSpeedAirX = -Q(4);
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_FACING_LEFT;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = -Q(4);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(4);
                     } else {
-                        PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
-                        PLAYER(i).qSpeedGround = +Q(4);
-                        PLAYER(i).qSpeedAirX = +Q(4);
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_FACING_LEFT;
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = +Q(4);
+                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = +Q(4);
                     }
 
-                    PLAYER(i).qSpeedAirY = +Q(0);
-                    PLAYER(i).charState = CHARSTATE_HIT_AIR;
-                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = +Q(0);
+                    GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_HIT_AIR;
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
-                    s->x = I(PLAYER(i).qWorldX) - gCamera.x;
-                    s->y = I(PLAYER(i).qWorldY) - gCamera.y;
+                    s->x = I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) - gCamera.x;
+                    s->y = I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) - gCamera.y;
 
                     UpdateSpriteAnimation(s);
                     DisplaySprite(s);
                 } else {
                     if ((slide->unk3D[i] != 0) && (--slide->unk3D[i] == 0)) {
-                        PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
-                        PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IGNORE_INPUT;
+                        GET_SP_PLAYER_MEMBER_V1(i, heldInput) |= (gPlayerControls.jump | gPlayerControls.attack);
                     }
                 }
             }
@@ -175,8 +177,8 @@ void Task_ForcedSlide(void)
                 m4aMPlayFadeOut(&gMPlayInfo_SE2, 4);
                 slide->unk3D[i] = 0;
 
-                PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
-                PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IGNORE_INPUT;
+                GET_SP_PLAYER_MEMBER_V1(i, heldInput) |= (gPlayerControls.jump | gPlayerControls.attack);
             } else if (slide->unk3D[i] > 0) {
                 slide->unk3D[i]--;
             }
@@ -201,8 +203,8 @@ void Task_ForcedSlide(void)
 
                 slide->unk3D[i] = 0;
 
-                PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
-                PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IGNORE_INPUT;
+                GET_SP_PLAYER_MEMBER_V1(i, heldInput) |= (gPlayerControls.jump | gPlayerControls.attack);
             }
         } while (++i < gNumSingleplayerCharacters);
 

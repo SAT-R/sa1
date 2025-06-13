@@ -29,16 +29,18 @@ void Task_Interactable096(void)
 
     i = 0;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-            if ((worldX - 8 <= I(PLAYER(i).qWorldX)) && ((worldX + 8) >= I(PLAYER(i).qWorldX)) && (worldY - 8 <= I(PLAYER(i).qWorldY))
-                && ((worldY + 8) >= I(PLAYER(i).qWorldY))) {
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if ((worldX - 8 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && ((worldX + 8) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                && (worldY - 8 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && ((worldY + 8) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
 
-                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
 
-                PLAYER(i).moveState |= MOVESTATE_4;
-                PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
 
-                PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
+                SA2_LABEL(sub_8023B5C)(GET_SP_PLAYER_V1(i), 9);
+                GET_SP_PLAYER_V1(i)->spriteOffsetX = 6;
+                GET_SP_PLAYER_V1(i)->spriteOffsetY = 9;
             }
         }
     } while (++i < gNumSingleplayerCharacters);

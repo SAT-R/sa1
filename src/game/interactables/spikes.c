@@ -133,9 +133,9 @@ void Task_Spikes_Up(void)
         do {
             // This if-else is the only diff between Up/Down
             if (!GRAVITY_IS_INVERTED) {
-                sub_8020D44(s, me, spikes, &PLAYER(i));
+                sub_8020D44(s, me, spikes, GET_SP_PLAYER_V1(i));
             } else {
-                sub_8020E98(s, me, spikes, &PLAYER(i));
+                sub_8020E98(s, me, spikes, GET_SP_PLAYER_V1(i));
             }
         } while (++i < gNumSingleplayerCharacters);
     }
@@ -144,11 +144,11 @@ void Task_Spikes_Up(void)
         j = 0;
         do {
             if (spikes->movestateBuffer[j] & 0x20) {
-                PLAYER(j).moveState &= ~MOVESTATE_20;
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_20;
             }
 
             if (spikes->movestateBuffer[j] & 0x8) {
-                PLAYER(j).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
             }
         } while (++j < gNumSingleplayerCharacters);
     }
@@ -183,9 +183,9 @@ void Task_Spikes_Down(void)
         do {
             // This if-else is the only diff between Up/Down
             if (!GRAVITY_IS_INVERTED) {
-                sub_8020E98(s, me, spikes, &PLAYER(i));
+                sub_8020E98(s, me, spikes, GET_SP_PLAYER_V1(i));
             } else {
-                sub_8020D44(s, me, spikes, &PLAYER(i));
+                sub_8020D44(s, me, spikes, GET_SP_PLAYER_V1(i));
             }
         } while (++i < gNumSingleplayerCharacters);
     }
@@ -194,11 +194,11 @@ void Task_Spikes_Down(void)
         j = 0;
         do {
             if (spikes->movestateBuffer[j] & MOVESTATE_20) {
-                PLAYER(j).moveState &= ~MOVESTATE_20;
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_20;
             }
 
             if (spikes->movestateBuffer[j] & MOVESTATE_STOOD_ON_OBJ) {
-                PLAYER(j).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
             }
         } while (++j < gNumSingleplayerCharacters);
     }
@@ -277,7 +277,7 @@ void Task_Spikes_Horizontal(void)
     if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (me->d.sData[0] != 0) || (SA2_LABEL(gUnknown_030053E0) != 0)) {
         i = 0;
         do {
-            u32 res = sub_80096B0(s, worldX, worldY, &PLAYER(i));
+            u32 res = sub_80096B0(s, worldX, worldY, GET_SP_PLAYER_V1(i));
             s32 r2;
 
             if (res & 0x10008) {
@@ -291,25 +291,25 @@ void Task_Spikes_Horizontal(void)
 
             if (res & 0x20000) {
                 if (r2 == me->index) {
-                    if (Coll_DamagePlayer(&PLAYER(i))) {
+                    if (Coll_DamagePlayer(GET_SP_PLAYER_V1(i))) {
                         m4aSongNumStart(SE_171);
                     }
                 } else {
-                    s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), -(PLAYER(i).spriteOffsetY + 1), +(PLAYER(i).spriteOffsetX + 5),
-                                  +(PLAYER(i).spriteOffsetY + 1) };
+                    s8 arr[4] = { -(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetX) + 5), -(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetY) + 1),
+                                  +(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetX) + 5), +(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetY) + 1) };
 
-                    PLAYER(i).qWorldX = Q(worldX + s->hitboxes[0].b.right - arr[0] + 1);
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX + s->hitboxes[0].b.right - arr[0] + 1);
                 }
             } else if (res & 0x40000) {
                 if ((r2 + 1) == me->index) {
-                    if (Coll_DamagePlayer(&PLAYER(i))) {
+                    if (Coll_DamagePlayer(GET_SP_PLAYER_V1(i))) {
                         m4aSongNumStart(SE_171);
                     }
                 } else {
-                    s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), -(PLAYER(i).spriteOffsetY + 1), +(PLAYER(i).spriteOffsetX + 5),
-                                  +(PLAYER(i).spriteOffsetY + 1) };
+                    s8 arr[4] = { -(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetX) + 5), -(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetY) + 1),
+                                  +(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetX) + 5), +(GET_SP_PLAYER_MEMBER_V1(i, spriteOffsetY) + 1) };
 
-                    PLAYER(i).qWorldX = Q(worldX + s->hitboxes[0].b.left - arr[2] - 1);
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX + s->hitboxes[0].b.left - arr[2] - 1);
                 }
             }
         } while (++i < gNumSingleplayerCharacters);
@@ -319,11 +319,11 @@ void Task_Spikes_Horizontal(void)
         j = 0;
         do {
             if (spikes->movestateBuffer[j] & MOVESTATE_20) {
-                PLAYER(j).moveState &= ~MOVESTATE_20;
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_20;
             }
 
             if (spikes->movestateBuffer[j] & MOVESTATE_STOOD_ON_OBJ) {
-                PLAYER(j).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                GET_SP_PLAYER_MEMBER_V1(j, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
             }
         } while (++j < gNumSingleplayerCharacters);
     }
@@ -401,9 +401,9 @@ void Task_Spikes_HidingUp(void)
         do {
             // This if-else is the only diff between Up/Down
             if (!GRAVITY_IS_INVERTED) {
-                res = sub_8020F2C(s, me, spikes, &PLAYER(i), &sp04);
+                res = sub_8020F2C(s, me, spikes, GET_SP_PLAYER_V1(i), &sp04);
             } else {
-                res = sub_8021208(s, me, spikes, &PLAYER(i), &sp04);
+                res = sub_8021208(s, me, spikes, GET_SP_PLAYER_V1(i), &sp04);
             }
         } while (++i < gNumSingleplayerCharacters);
 
@@ -475,9 +475,9 @@ void Task_Spikes_HidingDown(void)
         do {
             // This if-else is the only diff between Up/Down
             if (!GRAVITY_IS_INVERTED) {
-                res = sub_8021208(s, me, spikes, &PLAYER(i), &sp04);
+                res = sub_8021208(s, me, spikes, GET_SP_PLAYER_V1(i), &sp04);
             } else {
-                res = sub_8020F2C(s, me, spikes, &PLAYER(i), &sp04);
+                res = sub_8020F2C(s, me, spikes, GET_SP_PLAYER_V1(i), &sp04);
             }
         } while (++i < gNumSingleplayerCharacters);
 

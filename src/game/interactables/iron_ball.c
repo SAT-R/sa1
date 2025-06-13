@@ -113,9 +113,9 @@ void Task_IronBallMain(void)
 
     i = 0;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-            if (Coll_Player_Entity_Intersection(s, worldX + I(ball->unk40), worldY + I(ball->unk44), &PLAYER(i))) {
-                Coll_DamagePlayer(&PLAYER(i));
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if (Coll_Player_Entity_Intersection(s, worldX + I(ball->unk40), worldY + I(ball->unk44), GET_SP_PLAYER_V1(i))) {
+                Coll_DamagePlayer(GET_SP_PLAYER_V1(i));
             }
         }
     } while (++i < gNumSingleplayerCharacters);

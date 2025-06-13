@@ -77,7 +77,7 @@ void Task_Interactable107(void)
         sp10 = 0;
         sp14 = 0;
 
-        if (PLAYER(i).moveState & MOVESTATE_DEAD) {
+        if (GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD) {
             continue;
         }
 
@@ -85,31 +85,31 @@ void Task_Interactable107(void)
             if (ia->unk3D == 0) {
                 sp18 = 4;
 
-                if (PLAYER(i).frameInput & DPAD_RIGHT) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_RIGHT) {
                     sp10 = Q(9);
-                } else if (PLAYER(i).frameInput & DPAD_DOWN) {
+                } else if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_DOWN) {
                     sp14 = Q(9);
                 }
             } else if (ia->unk3D == 1) {
                 sp18 = 0;
 
-                if (PLAYER(i).frameInput & DPAD_RIGHT) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_RIGHT) {
                     sp10 = Q(7);
                     sp14 = Q(8);
-                } else if (PLAYER(i).frameInput & DPAD_LEFT) {
+                } else if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_LEFT) {
                     sp10 = -Q(9);
                     sp14 = Q(7);
                 }
             } else if (ia->unk3D == 2) {
                 sp18 = 0;
 
-                if (PLAYER(i).frameInput & DPAD_RIGHT) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_RIGHT) {
                     sp10 = Q(9);
                 }
             } else if (ia->unk3D == 3) {
                 sp18 = 0;
 
-                if (PLAYER(i).frameInput & DPAD_DOWN) {
+                if (GET_SP_PLAYER_MEMBER_V1(i, frameInput) & DPAD_DOWN) {
                     sp14 = Q(9);
                 }
             }
@@ -121,46 +121,46 @@ void Task_Interactable107(void)
                 ia->unk40[i] += theta;
             }
 
-            PLAYER(i).qWorldX = Q(worldX) + Div(COS((ia->unk40[i] * 8) & ONE_CYCLE), 16);
-            PLAYER(i).qWorldY = Q(worldY - sp18) + Div(SIN((ia->unk40[i] * 8) & ONE_CYCLE), 16);
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX) + Div(COS((ia->unk40[i] * 8) & ONE_CYCLE), 16);
+            GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(worldY - sp18) + Div(SIN((ia->unk40[i] * 8) & ONE_CYCLE), 16);
 
-            Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-            PLAYER(i).charState = CHARSTATE_SPINATTACK;
-            PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
-            PLAYER(i).moveState |= MOVESTATE_4;
-            PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-            PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+            Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
+            GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_SPINATTACK;
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IA_OVERRIDE;
 
             if (sp10 != 0 || sp14 != 0) {
-                PLAYER(i).qWorldX = Q(worldX);
-                PLAYER(i).qWorldY = Q(worldY);
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX);
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(worldY);
 
                 ia->unk3E[i] = 20;
                 ClearBit(ia->unk3C, i);
 
-                PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
-                PLAYER(i).rotation = 0;
-                PLAYER(i).qSpeedAirY = sp14;
-                PLAYER(i).qSpeedAirX = sp10;
-                PLAYER(i).qSpeedGround = sp10;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_IA_OVERRIDE;
+                GET_SP_PLAYER_MEMBER_V1(i, rotation) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = sp14;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = sp10;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = sp10;
             }
         } else if (ia->unk3E[i] > 0) {
             ia->unk3E[i]--;
         } else {
-            if (((worldX - 10 <= I(PLAYER(i).qWorldX)) && (worldX + 10 >= I(PLAYER(i).qWorldX)))
-                && ((worldY - 10 <= I(PLAYER(i).qWorldY)) && (worldY + 10 >= I(PLAYER(i).qWorldY)))) {
-                PLAYER(i).moveState |= MOVESTATE_4;
-                PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+            if (((worldX - 10 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) && (worldX + 10 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))))
+                && ((worldY - 10 <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) && (worldY + 10 >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))))) {
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_4;
+                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IA_OVERRIDE;
 
                 ia->unk40[i] = 0;
-                PLAYER(i).qWorldX = Q(worldX);
-                PLAYER(i).qWorldY = Q(worldY);
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) = Q(worldX);
+                GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q(worldY);
 
-                PLAYER(i).qSpeedAirY = 0;
-                PLAYER(i).qSpeedAirX = 0;
-                PLAYER(i).qSpeedGround = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = 0;
+                GET_SP_PLAYER_MEMBER_V1(i, qSpeedGround) = 0;
 
-                PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
 
                 m4aSongNumStart(SE_SPRING);
 

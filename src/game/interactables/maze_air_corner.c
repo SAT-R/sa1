@@ -74,12 +74,12 @@ void Task_TrackAirCorner(void)
 
     i = 0;
     do {
-        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-            if (!(PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE)) {
-                u32 res = Coll_Player_PlatformCrumbling(s, worldX, worldY, &PLAYER(i));
+        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_IA_OVERRIDE)) {
+                u32 res = Coll_Player_PlatformCrumbling(s, worldX, worldY, GET_SP_PLAYER_V1(i));
 
                 if (res & 0x8) {
-                    PLAYER(i).qWorldY += Q(2);
+                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) += Q(2);
                 }
             }
         }

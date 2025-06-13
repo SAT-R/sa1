@@ -25,7 +25,7 @@ void Task_MiniLoop_StartBoost(void)
 
     i = 0;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
         s32 worldX, worldY;
 
         worldX = I(p->qWorldX);
@@ -53,7 +53,7 @@ void Task_MiniLoop_Exit(void)
 
     i = 0;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
         s32 worldX, worldY;
 
         worldX = I(p->qWorldX);
@@ -131,7 +131,7 @@ void Task_MiniLoop_Entrance(void)
 
     i = 0;
     do {
-        Player *p = &PLAYER(i);
+        Player *p = GET_SP_PLAYER_V1(i);
         s32 worldX, worldY;
 
         worldX = I(p->qWorldX);
