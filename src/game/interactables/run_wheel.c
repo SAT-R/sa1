@@ -97,10 +97,10 @@ void Task_RunWheel(void)
 
     i = 0;
     do {
-        if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ) && GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s) {
-            sub_808EC84(wheel, s, worldX, worldY, GET_SP_PLAYER_V1(i));
+        if ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && PLAYER(i).stoodObj == s) {
+            sub_808EC84(wheel, s, worldX, worldY, &PLAYER(i));
         } else {
-            sub_808EA80(wheel, s, worldX, worldY, GET_SP_PLAYER_V1(i));
+            sub_808EA80(wheel, s, worldX, worldY, &PLAYER(i));
         }
     } while (++i < gNumSingleplayerCharacters);
 
