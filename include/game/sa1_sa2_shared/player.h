@@ -91,37 +91,24 @@ typedef struct {
 
 #ifndef NON_MATCHING
 // Previously called GET_SP_PLAYER_V0/GET_SP_PLAYER_V1
-#define PLAYER_V0(index)       ((index == 0) ? gPlayer : gPartner)
-#define PLAYER(index)          (((index) != 0) ? gPartner : gPlayer)
+#define PLAYER_V0(index) ((index == 0) ? gPlayer : gPartner)
+#define PLAYER(index)    (((index) != 0) ? gPartner : gPlayer)
 #else
 // Modern GCC does not accept the pointerless macro as l-value,
 // but even though agbcc does, it generates non-matching code, so we have to account for that.
-#define PLAYER_V0(index)       (*(((index) == 0) ? &gPlayer : &gPartner))
-#define PLAYER(index)          (*(((index) != 0) ? &gPartner : &gPlayer))
+#define PLAYER_V0(index) (*(((index) == 0) ? &gPlayer : &gPartner))
+#define PLAYER(index)    (*(((index) != 0) ? &gPartner : &gPlayer))
 #endif
 
 #define PLAYER_SPR_INFO(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
-// NOTE: DO NOT USE!!! (temporarily left for aligning with SA2/SA3)
-//#define GET_SP_PLAYER_MEMBER_V0(index, _memb) PLAYER(index)._memb
-//#define GET_SP_PLAYER_MEMBER_V1(index, _memb) PLAYER(index)._memb
 
 #elif (GAME == GAME_SA2)
 // NOTE: Ignores index, in SA2 you only ever have 1 player char in single player mode
-#define GET_SP_PLAYER_V0(index)               (&gPlayer)
-#define GET_SP_PLAYER_V1(index)               (&gPlayer)
-
-// NOTE: DO NOT USE, only for matching in SA1!!!
-#define GET_SP_PLAYER_MEMBER_V0(index, _memb) gPlayer._memb
-#define GET_SP_PLAYER_MEMBER_V1(index, _memb) gPlayer._memb
+#define GET_SP_PLAYER_V0(index) (&gPlayer)
+#define GET_SP_PLAYER_V1(index) (&gPlayer)
 #elif (GAME == GAME_SA3)
 #define GET_SP_PLAYER_V0(index) ((index == PLAYER_1) ? &gPlayers[gStageData.playerIndex] : &gPlayers[p->charFlags.partnerIndex])
 #define GET_SP_PLAYER_V1(index) ((index != PLAYER_1) ? &gPlayers[p->charFlags.partnerIndex] : &gPlayers[gStageData.playerIndex])
-
-// NOTE: DO NOT USE, only for matching in SA1!!!
-#define GET_SP_PLAYER_MEMBER_V0(index, _memb)                                                                                              \
-    ((index == 0) ? gPlayers[gStageData.playerIndex]._memb : gPlayers[p->charFlags.partnerIndex]._memb)
-#define GET_SP_PLAYER_MEMBER_V1(index, _memb)                                                                                              \
-    ((index != 0) ? gPlayers[p->charFlags.partnerIndex]._memb : gPlayers[gStageData.playerIndex]._memb)
 #endif
 
 typedef struct Player {

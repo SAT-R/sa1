@@ -87,8 +87,11 @@ void CreateEntity_Lava(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     TASK_SET_MEMBER(Lava, t, u16, regionY, regionY);
     TASK_SET_MEMBER(Lava, t, u16, unk38, 0);
     TASK_SET_MEMBER(Lava, t, u16, unk3A, 0);
-    TASK_SET_MEMBER(Lava, t, u16, unk3A, 0); // *sigh*
-    TASK_SET_MEMBER(Lava, t, u16, unk3A, 0); //
+#ifndef NON_MATCHING
+    // *sigh*
+    TASK_SET_MEMBER(Lava, t, u16, unk3A, 0);
+    TASK_SET_MEMBER(Lava, t, u16, unk3A, 0);
+#endif
     TASK_SET_MEMBER(Lava, t, MapEntity *, base.me, me);
     TASK_SET_MEMBER(Lava, t, u8, unk3D, 0);
     TASK_SET_MEMBER(Lava, t, u8, unk3E, 0);
