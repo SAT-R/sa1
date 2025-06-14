@@ -14,6 +14,10 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+// TODO: Rename
+#define NUM_OUTER_ELEMS 8
+#define NUM_INNER_ELEMS 4
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -94,9 +98,9 @@ void Task_BreakableWall(void)
     i = 0;
     do {
         if (IS_MULTI_PLAYER && ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
-            if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ) && (GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s)) {
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            if ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)) {
+                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
             }
 
             wall->qUnk3C = 0;
@@ -105,15 +109,15 @@ void Task_BreakableWall(void)
             gCurTask->main = Task_BreakableWall2;
 
             m4aSongNumStart(SE_173);
-        } else if (sub_800AFDC(s, worldX, worldY, GET_SP_PLAYER_V1(i), 1) & COLL_FLAG_8) {
+        } else if (sub_800AFDC(s, worldX, worldY, &PLAYER(i), 1) & COLL_FLAG_8) {
             m4aSongNumStart(SE_173);
             gCurTask->main = Task_BreakableWall2;
 
             wall->qUnk3C = 0;
 
-            if ((wall->qUnk3E = GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) >> 1) == 0) {
+            if ((wall->qUnk3E = PLAYER(i).qSpeedAirX >> 1) == 0) {
                 s16 qVal;
-                if (worldX < I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
+                if (worldX < I(PLAYER(i).qWorldX))
                     qVal = -Q(1);
                 else
                     qVal = +Q(1);
@@ -121,9 +125,9 @@ void Task_BreakableWall(void)
                 wall->qUnk3E = qVal;
             }
 
-            if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ) && (GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s)) {
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
+            if ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)) {
+                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
             }
 
 #ifndef NON_MATCHING
@@ -158,9 +162,6 @@ void Task_BreakableWall(void)
 
     DisplaySprite(s);
 }
-
-#define NUM_OUTER_ELEMS 8
-#define NUM_INNER_ELEMS 4
 
 // (76.51%) https://decomp.me/scratch/Hx9vh
 NONMATCH("asm/non_matching/game/interactables/BreakableWall__Task_BreakableWall2.inc", void Task_BreakableWall2(void))

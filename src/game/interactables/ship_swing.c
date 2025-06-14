@@ -182,17 +182,17 @@ void Task_ShipSwing(void)
 
     i = 0;
     do {
-        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
-            if (Q(worldY - 4) > GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) {
-                if (Coll_Player_PlatformCrumbling(sprHook, worldX, worldY, GET_SP_PLAYER_V1(i)) & COLL_FLAG_8) {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (Q(worldY - 4) > PLAYER(i).qWorldY) {
+                if (Coll_Player_PlatformCrumbling(sprHook, worldX, worldY, &PLAYER(i)) & COLL_FLAG_8) {
                     if (!GetBit(swing->unkA7, i)) {
                         SetBit(swing->unkA7, i);
                     }
                 } else {
                     if (GetBit(swing->unkA7, i)) {
                         ClearBit(swing->unkA7, i);
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_20;
+                        PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                        PLAYER(i).moveState &= ~MOVESTATE_20;
                     }
                 }
             }
@@ -200,13 +200,12 @@ void Task_ShipSwing(void)
             if (swing->unkA5[i] > 0) {
                 swing->unkA5[i]--;
             } else {
-                if (Coll_Player_PlatformCrumbling(sprShip, (dtDirX >> 10) + worldX, (dtDirY >> 10) + worldY, GET_SP_PLAYER_V1(i))
-                    & COLL_FLAG_8) {
+                if (Coll_Player_PlatformCrumbling(sprShip, (dtDirX >> 10) + worldX, (dtDirY >> 10) + worldY, &PLAYER(i)) & COLL_FLAG_8) {
                     if (!GetBit(swing->unkA4, i)) {
                         SetBit(swing->unkA4, i);
                     } else {
-                        GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += Q((worldX + (dtDirX >> 10)) - swing->unk9C[i]);
-                        GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q((worldY - 5 + (dtDirY >> 10)));
+                        PLAYER(i).qWorldX += Q((worldX + (dtDirX >> 10)) - swing->unk9C[i]);
+                        PLAYER(i).qWorldY = Q((worldY - 5 + (dtDirY >> 10)));
                     }
 
                     swing->unk9C[i] = worldX + (dtDirX >> 10);
@@ -214,8 +213,8 @@ void Task_ShipSwing(void)
                     if (GetBit(swing->unkA4, i)) {
                         ClearBit(swing->unkA4, i);
                         swing->unkA5[i] = 5;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
-                        GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_20;
+                        PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                        PLAYER(i).moveState &= ~MOVESTATE_20;
                     }
                 }
             }

@@ -197,7 +197,7 @@ void Task_PipeEntrance(void)
     pipe = TASK_DATA(gCurTask);
     me = pipe->base.me;
     s = &pipe->s;
-    p = GET_SP_PLAYER_V1(pipe->unk3C);
+    p = &PLAYER(pipe->unk3C);
 
     worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
     worldY = TO_WORLD_POS(me->y, pipe->base.regionY);
@@ -368,7 +368,7 @@ void Task_8095D28(void)
     PipeEntrance *pipe = TASK_DATA(gCurTask);
     MapEntity *me = pipe->base.me;
     Sprite *s = &pipe->s;
-    Player *p = GET_SP_PLAYER_V1(pipe->unk3C);
+    Player *p = &PLAYER(pipe->unk3C);
     CamCoord worldX, worldY;
 
     worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
@@ -447,7 +447,7 @@ void Task_8095E90(void)
     MapEntity *me = pipe->base.me;
     s = &pipe->s;
 
-    p = GET_SP_PLAYER_V1(pipe->unk3C);
+    p = &PLAYER(pipe->unk3C);
 
     worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
     worldY = TO_WORLD_POS(me->y, pipe->base.regionY);
@@ -655,7 +655,7 @@ NONMATCH("asm/non_matching/game/interactables/pipe__Task_PipeExit.inc", void Tas
 
     s = &pipe->s;
 
-    p = GET_SP_PLAYER_V1(pipe->unk3C);
+    p = &PLAYER(pipe->unk3C);
 
     base = &pipe->base;
 
@@ -727,7 +727,7 @@ void Task_809656C(void)
     PipeExit *pipe = TASK_DATA(gCurTask);
     MapEntity *me = pipe->base.me;
     Sprite *s = &pipe->s;
-    Player *p = GET_SP_PLAYER_V1(pipe->unk3C);
+    Player *p = &PLAYER(pipe->unk3C);
     CamCoord worldX, worldY;
 
     worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX);
@@ -818,7 +818,7 @@ void Task_8096724(void)
     PipeExit *pipe = TASK_DATA(gCurTask);
     MapEntity *me = pipe->base.me;
     Sprite *s = &pipe->s;
-    Player *p = GET_SP_PLAYER_V1(pipe->unk3C);
+    Player *p = &PLAYER(pipe->unk3C);
     CamCoord worldX, worldY;
     s16 screenX, screenY;
 

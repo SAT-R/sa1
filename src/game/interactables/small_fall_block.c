@@ -214,7 +214,7 @@ void Task_SmallFallBlock2(void)
 
     i = 0;
     do {
-        Player *p = GET_SP_PLAYER_V1(i);
+        Player *p = &PLAYER(i);
 
         if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
             if (block->unk3C > 32) {

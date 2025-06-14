@@ -45,14 +45,12 @@ void Task_ShrubberyMain(void)
 
     i = 0;
     do {
-        if ((worldX <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
-            && (worldX + (me->d.uData[2] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)))
-            && (worldY <= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))
-            && (worldY + (me->d.uData[3] * TILE_WIDTH) >= I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)))) {
-            if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
+        if ((worldX <= I(PLAYER(i).qWorldX)) && (worldX + (me->d.uData[2] * TILE_WIDTH) >= I(PLAYER(i).qWorldX))
+            && (worldY <= I(PLAYER(i).qWorldY)) && (worldY + (me->d.uData[3] * TILE_WIDTH) >= I(PLAYER(i).qWorldY))) {
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
                 if (!GetBit(shrubbery->unk3C, i)) {
-                    CreateShrubberyParticles(I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX)) + (((u32)PseudoRandom32() & 0x1F00) >> 8) - 16,
-                                             I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY)) + (((u32)PseudoRandom32() & 0x0F00) >> 8) - 8);
+                    CreateShrubberyParticles(I(PLAYER(i).qWorldX) + (((u32)PseudoRandom32() & 0x1F00) >> 8) - 16,
+                                             I(PLAYER(i).qWorldY) + (((u32)PseudoRandom32() & 0x0F00) >> 8) - 8);
                     m4aSongNumStart(SE_SHRUBBERY);
                 }
 

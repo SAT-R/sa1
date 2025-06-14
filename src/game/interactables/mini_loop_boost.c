@@ -24,7 +24,7 @@ void Task_MiniLoop_Base(void)
 
     s32 i = 0;
     do {
-        Player *p = GET_SP_PLAYER_V1(i);
+        Player *p = &PLAYER(i);
 
         s32 playerX = I(p->qWorldX);
         s32 playerY = I(p->qWorldY);

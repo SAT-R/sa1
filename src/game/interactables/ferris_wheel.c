@@ -176,16 +176,16 @@ void Task_FerrisWheel(void)
     do {
         if (GetBit(wheel->unkB6, i)) {
             if (gStageTime & 0x1) {
-                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += ((wheel->unkA4 - wheel->unkA0) >> 3) + 1;
+                PLAYER(i).qWorldX += ((wheel->unkA4 - wheel->unkA0) >> 3) + 1;
             } else {
-                GET_SP_PLAYER_MEMBER_V1(i, qWorldX) += ((wheel->unkA4 - wheel->unkA0) >> 3) + 0;
+                PLAYER(i).qWorldX += ((wheel->unkA4 - wheel->unkA0) >> 3) + 0;
             }
         }
 
-        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
-            Coll_Player_PlatformCrumbling(s, worldX + sp14, worldY + sp18, GET_SP_PLAYER_V1(i));
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            Coll_Player_PlatformCrumbling(s, worldX + sp14, worldY + sp18, &PLAYER(i));
 
-            if ((GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_STOOD_ON_OBJ) && GET_SP_PLAYER_MEMBER_V1(i, stoodObj) == s) {
+            if ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && PLAYER(i).stoodObj == s) {
                 SetBit(wheel->unkB6, i);
 
                 wheel->qUnkB0 += Q(0.0625);
@@ -194,10 +194,10 @@ void Task_FerrisWheel(void)
                     wheel->qUnkB0 = Q(1.0);
                 }
 
-                if (GET_SP_PLAYER_MEMBER_V1(i, moveState) & (MOVESTATE_SPINDASH | MOVESTATE_4)) {
-                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q((worldY + sp18) - 15);
+                if (PLAYER(i).moveState & (MOVESTATE_SPINDASH | MOVESTATE_4)) {
+                    PLAYER(i).qWorldY = Q((worldY + sp18) - 15);
                 } else {
-                    GET_SP_PLAYER_MEMBER_V1(i, qWorldY) = Q((worldY + sp18) - 20);
+                    PLAYER(i).qWorldY = Q((worldY + sp18) - 20);
                 }
 
             } else {

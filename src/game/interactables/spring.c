@@ -105,9 +105,9 @@ void Task_Spring_Normal_Up(void)
         bool32 res;
 
         if (!GRAVITY_IS_INVERTED) {
-            res = sub_8022640(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022640(s, me, spring, &PLAYER(i));
         } else {
-            res = sub_8022804(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022804(s, me, spring, &PLAYER(i));
         }
 
         if (res) {
@@ -136,9 +136,9 @@ void Task_8021BC0(void)
         bool32 res;
 
         if (!GRAVITY_IS_INVERTED) {
-            res = sub_8022640(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022640(s, me, spring, &PLAYER(i));
         } else {
-            res = sub_8022804(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022804(s, me, spring, &PLAYER(i));
         }
     } while (++i < gNumSingleplayerCharacters);
 
@@ -208,9 +208,9 @@ void Task_Spring_Normal_Down(void)
         bool32 res;
 
         if (!GRAVITY_IS_INVERTED) {
-            res = sub_8022804(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022804(s, me, spring, &PLAYER(i));
         } else {
-            res = sub_8022640(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022640(s, me, spring, &PLAYER(i));
         }
 
         if (res) {
@@ -239,9 +239,9 @@ void Task_8021E70(void)
         bool32 res;
 
         if (!GRAVITY_IS_INVERTED) {
-            res = sub_8022804(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022804(s, me, spring, &PLAYER(i));
         } else {
-            res = sub_8022640(s, me, spring, GET_SP_PLAYER_V1(i));
+            res = sub_8022640(s, me, spring, &PLAYER(i));
         }
     } while (++i < gNumSingleplayerCharacters);
 
@@ -319,7 +319,7 @@ void Task_Spring_Horizontal(void)
     do {
         bool32 res;
 
-        res = sub_80228D0(s, me, spring, GET_SP_PLAYER_V1(i));
+        res = sub_80228D0(s, me, spring, &PLAYER(i));
 
         if (res) {
             gCurTask->main = Task_80220FC;
@@ -346,7 +346,7 @@ void Task_80220FC(void)
     do {
         bool32 res;
 
-        sub_80228D0(s, me, spring, GET_SP_PLAYER_V1(i));
+        sub_80228D0(s, me, spring, &PLAYER(i));
 
     } while (++i < gNumSingleplayerCharacters);
 
@@ -423,7 +423,7 @@ void Task_Spring_Big_Up(void)
     do {
         bool32 res;
 
-        res = sub_8022AB4(s, me, spring, GET_SP_PLAYER_V1(i));
+        res = sub_8022AB4(s, me, spring, &PLAYER(i));
 
         if (res) {
             gCurTask->main = Task_8022354;
@@ -450,7 +450,7 @@ void Task_8022354(void)
     do {
         bool32 res;
 
-        sub_8022AB4(s, me, spring, GET_SP_PLAYER_V1(i));
+        sub_8022AB4(s, me, spring, &PLAYER(i));
 
     } while (++i < gNumSingleplayerCharacters);
 
@@ -519,7 +519,7 @@ void Task_Spring_Small_Up(void)
     do {
         bool32 res;
 
-        res = sub_8022E14(s, me, spring, GET_SP_PLAYER_V1(i));
+        res = sub_8022E14(s, me, spring, &PLAYER(i));
 
         if (res) {
             gCurTask->main = Task_8022594;
@@ -546,7 +546,7 @@ void Task_8022594(void)
     do {
         bool32 res;
 
-        sub_8022E14(s, me, spring, GET_SP_PLAYER_V1(i));
+        sub_8022E14(s, me, spring, &PLAYER(i));
 
     } while (++i < gNumSingleplayerCharacters);
 

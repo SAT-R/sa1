@@ -157,7 +157,7 @@ NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.i
     i = 0;
     do {
         // _08090AB2_loop
-        p = GET_SP_PLAYER_V1(i);
+        p = &PLAYER(i);
 
         if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
             p->qWorldX += qSp0C;

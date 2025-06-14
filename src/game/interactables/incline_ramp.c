@@ -44,65 +44,65 @@ NONMATCH("asm/non_matching/game/interactables/Task_InclineRamp.inc", void Task_I
     i = 0;
     do {
         // _08075678_loop
-        if (!(GET_SP_PLAYER_MEMBER_V1(i, moveState) & MOVESTATE_DEAD)) {
-            if (worldX > I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (worldX > I(PLAYER(i).qWorldX)) {
                 continue;
             }
             // _080756E6
 
-            if (worldX + me->d.uData[2] * TILE_WIDTH < I(GET_SP_PLAYER_MEMBER_V1(i, qWorldX))) {
+            if (worldX + me->d.uData[2] * TILE_WIDTH < I(PLAYER(i).qWorldX)) {
                 continue;
             }
 
-            if (worldY > I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) {
+            if (worldY > I(PLAYER(i).qWorldY)) {
                 continue;
             }
 
-            if (worldY + me->d.uData[3] * TILE_WIDTH < I(GET_SP_PLAYER_MEMBER_V1(i, qWorldY))) {
+            if (worldY + me->d.uData[3] * TILE_WIDTH < I(PLAYER(i).qWorldY)) {
                 continue;
             }
 
             if (incline != 0) {
-                if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) > Q(4)) {
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
-                    GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_4;
+                if (PLAYER(i).qSpeedAirX > Q(4)) {
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                    PLAYER(i).moveState &= ~MOVESTATE_100;
+                    PLAYER(i).moveState &= ~MOVESTATE_4;
 
-                    PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
 
-                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(8);
-                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) += +Q(4);
+                    PLAYER(i).qSpeedAirY = -Q(8);
+                    PLAYER(i).qSpeedAirX += +Q(4);
 
-                    if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) > Q(17)) {
-                        GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = Q(17);
+                    if (PLAYER(i).qSpeedAirX > Q(17)) {
+                        PLAYER(i).qSpeedAirX = Q(17);
                     }
                     // _08075880
 
-                    Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
-                    GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_17;
+                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                    PLAYER(i).charState = CHARSTATE_17;
 
                     m4aSongNumStart(SE_SPRING);
                     continue;
                 }
-            } else if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < -Q(4)) {
+            } else if (PLAYER(i).qSpeedAirX < -Q(4)) {
                 // _080758AC
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_STOOD_ON_OBJ;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) |= MOVESTATE_IN_AIR;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_100;
-                GET_SP_PLAYER_MEMBER_V1(i, moveState) &= ~MOVESTATE_4;
+                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                PLAYER(i).moveState &= ~MOVESTATE_100;
+                PLAYER(i).moveState &= ~MOVESTATE_4;
 
-                PLAYERFN_CHANGE_SHIFT_OFFSETS(GET_SP_PLAYER_V1(i), 6, 14);
+                PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
 
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirY) = -Q(8);
-                GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) += -Q(4);
+                PLAYER(i).qSpeedAirY = -Q(8);
+                PLAYER(i).qSpeedAirX += -Q(4);
 
-                if (GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) < -Q(17)) {
-                    GET_SP_PLAYER_MEMBER_V1(i, qSpeedAirX) = -Q(17);
+                if (PLAYER(i).qSpeedAirX < -Q(17)) {
+                    PLAYER(i).qSpeedAirX = -Q(17);
                 }
 
-                Player_TransitionCancelFlyingAndBoost(GET_SP_PLAYER_V1(i));
-                GET_SP_PLAYER_MEMBER_V1(i, charState) = CHARSTATE_17;
+                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                PLAYER(i).charState = CHARSTATE_17;
 
                 m4aSongNumStart(SE_SPRING);
             }
