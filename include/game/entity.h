@@ -17,7 +17,7 @@
 #define ENTITY_DATA_SIZE_SA1 4
 #define ENTITY_DATA_SIZE_SA2 4
 #define ENTITY_DATA_SIZE_SA3 5
-#define ENTITY_DATA_SIZE     ENTITY_DATA_SIZE_SA2
+#define ENTITY_DATA_SIZE     ENTITY_DATA_SIZE_SA1
 
 PACKED(MapEntity, {
     /* 0x00 */ u8 x; // While an enemy is active, x gets repurposed as a "state"

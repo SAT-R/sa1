@@ -2,6 +2,10 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
+#include "game/multiplayer/multiplayer_event_mgr.h"
+#include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/player.h"
+#include "game/stage/ui.h" // for sub_80549FC
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -26,6 +30,7 @@ typedef struct {
 } SkatingStone;
 
 void Task_SkatingStoneInit(void);
+void Task_SkatingStone2(void);
 void TaskDestructor_SkatingStone(struct Task *t);
 
 void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -78,14 +83,13 @@ void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
 void Task_SkatingStoneInit(void)
 {
     bool32 sl = FALSE;
     SkatingStone *stone = TASK_DATA(gCurTask);
     Sprite *s = &stone->s;
-    MapEntity *me = stone->base.me;
     CamCoord worldX, worldY;
+    MapEntity *me = stone->base.me;
     s32 i;
 
     worldX = TO_WORLD_POS(stone->base.meX, stone->base.regionX);
@@ -95,30 +99,68 @@ void Task_SkatingStoneInit(void)
 
     i = 0;
     do {
-        if(!(GET_SP_PLAYER_MEMBER(i, moveState) & MOVESTATE_DEAD))
-        {
-            // _0808C9AE
-
-            if(sub_80549FC()) {
-                if(GET_SP_PLAYER_MEMBER_V1(i, qWorldY) > Q(worldY))
-                {
-                    // _0808C9D2
-
-                    if(GET_SP_PLAYER_MEMBER_V1(i, charState) != CHARSTATE_73)
-                    {
-                        if(sub_800B1D4(s, worldX, worldY, GET_SP_PLAYER_V1(i)))
-                        {
-
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (sub_80549FC()) {
+                if (PLAYER(i).qWorldY > Q(worldY)) {
+                    if (PLAYER(i).charState != CHARSTATE_73) {
+                        if (sub_800B1D4(s, worldX, worldY, &PLAYER(i)) & COLL_FLAG_10000) {
+                            PLAYER(i).qWorldY = Q(worldY + 6);
                         }
                     }
                 } else {
-                    // _0808CA36
+                    if (PLAYER(i).charState != CHARSTATE_72) {
+                        sub_800B1D4(s, worldX, worldY, &PLAYER(i));
+                    }
                 }
             } else {
-                // _0808CA7C
+                if (sub_800B1D4(s, worldX, worldY, &PLAYER(i)) & COLL_FLAG_8) {
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                    PLAYER(i).moveState &= ~MOVESTATE_100;
+                    PLAYER(i).moveState &= ~MOVESTATE_4;
+                    PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+
+                    PLAYER(i).qWorldY = Q(worldY) - Q(44);
+
+                    SetBit(stone->unkB2, i);
+                    stone->unkA0 = 0;
+                    stone->unkA4 = 0;
+                    stone->unkA8 = 0;
+                    stone->unkAC = 0;
+
+                    sl = TRUE;
+
+                    if (IS_MULTI_PLAYER) {
+                        RoomEvent_PlatformChange *roomEvent = CreateRoomEvent();
+                        roomEvent->type = sl;
+                        roomEvent->x = stone->base.regionX;
+                        roomEvent->y = stone->base.regionY;
+                        roomEvent->id = stone->base.id;
+                        roomEvent->action = 1;
+                    } else {
+                        continue;
+                    }
+                }
             }
         }
-        // _0808CBD0
-    } (++i < gNumSingleplayerCharacters);
+
+        if (IS_MULTI_PLAYER) {
+            if ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE) {
+                sl = TRUE;
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (sl) {
+        gCurTask->main = Task_SkatingStone2;
+    }
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, stone->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
 }
-#endif
