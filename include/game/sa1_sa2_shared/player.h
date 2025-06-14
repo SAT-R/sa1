@@ -88,19 +88,23 @@ typedef struct {
 #define PLAYER_4 3
 
 #if (GAME == GAME_SA1)
-// Prevoiusly called GET_SP_PLAYER_V0/GET_SP_PLAYER_V1
-#define PLAYER_V0(index)       ((index == 0) ? &gPlayer : &gPartner)
-#define PLAYER(index)          (((index) != 0) ? gPartner : gPlayer)
-#define PLAYER_SPR_INFO(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
+
 #ifndef NON_MATCHING
-// NOTE: DO NOT USE!!! (temporarily left for aligning with SA2/SA3)
-//#define GET_SP_PLAYER_MEMBER_V0(index, _memb)              ((index == 0) ? gPlayer._memb : gPartner._memb)
-//#define GET_SP_PLAYER_MEMBER_V1(index, _memb) ((index != 0) ? gPartner._memb : gPlayer._memb)
+// Previously called GET_SP_PLAYER_V0/GET_SP_PLAYER_V1
+#define PLAYER_V0(index)       ((index == 0) ? gPlayer : gPartner)
+#define PLAYER(index)          (((index) != 0) ? gPartner : gPlayer)
 #else
-// NOTE: Modern compilers do not like having the regular macros as l-value!
-#define GET_SP_PLAYER_MEMBER_V0(index, _memb) GET_SP_PLAYER_V0(index)->_memb
-#define GET_SP_PLAYER_MEMBER_V1(index, _memb) GET_SP_PLAYER_V1(index)->_memb
+// Modern GCC does not accept the pointerless macro as l-value,
+// but even though agbcc does, it generates non-matching code, so we have to account for that.
+#define PLAYER_V0(index)       (*(((index) == 0) ? &gPlayer : &gPartner))
+#define PLAYER(index)          (*(((index) != 0) ? &gPartner : &gPlayer))
 #endif
+
+#define PLAYER_SPR_INFO(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
+// NOTE: DO NOT USE!!! (temporarily left for aligning with SA2/SA3)
+//#define GET_SP_PLAYER_MEMBER_V0(index, _memb) PLAYER(index)._memb
+//#define GET_SP_PLAYER_MEMBER_V1(index, _memb) PLAYER(index)._memb
+
 #elif (GAME == GAME_SA2)
 // NOTE: Ignores index, in SA2 you only ever have 1 player char in single player mode
 #define GET_SP_PLAYER_V0(index)               (&gPlayer)

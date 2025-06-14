@@ -49,7 +49,7 @@ void Task_Lava(void)
 #ifndef NON_MATCHING
                 PLAYER(i).qSpeedAirY = Div(PLAYER(i).qSpeedAirY, 2);
 #else
-                GET_SP_PLAYER_V0(i)->qSpeedAirY >>= 1;
+                PLAYER(i).qSpeedAirY >>= 1;
 #endif
             }
         } while (++i < gNumSingleplayerCharacters);
