@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
+.if 01
 	thumb_func_start Task_SkatingStoneInit
 Task_SkatingStoneInit: @ 0x0808C920
 	push {r4, r5, r6, r7, lr}

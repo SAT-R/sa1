@@ -5,6 +5,7 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
 #include "constants/zones.h"
 
 /* Platform that falls and slides once the player steps on it */
@@ -54,8 +55,7 @@ void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    if(LEVEL_TO_ZONE(gCurrentLevel) == ZONE_4)
-    {
+    if (LEVEL_TO_ZONE(gCurrentLevel) == ZONE_4) {
         s->graphics.dest = ALLOC_TILES(SA1_ANIM_SKATING_STONE_4);
         s->graphics.anim = SA1_ANIM_SKATING_STONE_4;
         s->variant = 0;
@@ -78,6 +78,7 @@ void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
+#if 0
 void Task_SkatingStoneInit(void)
 {
     bool32 sl = FALSE;
@@ -120,3 +121,4 @@ void Task_SkatingStoneInit(void)
         // _0808CBD0
     } (++i < gNumSingleplayerCharacters);
 }
+#endif
