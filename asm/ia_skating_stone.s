@@ -5,180 +5,9 @@
 .syntax unified
 .arm
 
-@ Platform that falls and slides once the player steps on it
-	thumb_func_start CreateEntity_SkatingStone
-CreateEntity_SkatingStone: @ 0x0808C7B4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	mov sl, r6
-	ldr r0, _0808C890 @ =Task_SkatingStoneMain
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _0808C894 @ =TaskDestructor_SkatingStone
-	str r1, [sp]
-	movs r1, #0xb4
-	movs r3, #0
-	bl TaskCreate
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r3, r0
-	ldr r1, _0808C898 @ =0x0300000C
-	adds r7, r3, r1
-	movs r2, #0
-	mov sb, r2
-	movs r2, #0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r6, r8
-	str r6, [r0]
-	ldrb r1, [r6]
-	strb r1, [r0, #8]
-	mov r1, sl
-	strb r1, [r0, #9]
-	ldr r6, _0808C89C @ =0x0300009C
-	adds r0, r3, r6
-	str r2, [r0]
-	ldr r1, _0808C8A0 @ =0x030000A0
-	adds r0, r3, r1
-	str r2, [r0]
-	adds r6, #8
-	adds r0, r3, r6
-	str r2, [r0]
-	adds r1, #8
-	adds r0, r3, r1
-	str r2, [r0]
-	adds r6, #8
-	adds r0, r3, r6
-	str r2, [r0]
-	adds r1, #8
-	adds r0, r3, r1
-	mov r2, sb
-	strb r2, [r0]
-	mov r6, r8
-	ldrb r1, [r6, #3]
-	ldr r2, _0808C8A4 @ =0x030000B1
-	adds r0, r3, r2
-	strb r1, [r0]
-	ldr r6, _0808C8A8 @ =0x030000B2
-	adds r0, r3, r6
-	mov r1, sb
-	strb r1, [r0]
-	mov r2, r8
-	ldrb r1, [r2, #4]
-	adds r6, #1
-	adds r0, r3, r6
-	strb r1, [r0]
-	ldrb r0, [r2]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	strh r0, [r7, #0x16]
-	ldrb r0, [r2, #1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r7, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r2]
-	ldr r0, _0808C8AC @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #3
-	bne _0808C8B8
-	movs r0, #0x18
-	str r3, [sp, #4]
-	bl VramMalloc
-	str r0, [r7, #4]
-	ldr r0, _0808C8B0 @ =0x00000211
-	strh r0, [r7, #0xa]
-	ldr r3, [sp, #4]
-	ldr r2, _0808C8B4 @ =0x0300002C
-	adds r0, r3, r2
-	mov r6, sb
-	strb r6, [r0]
-	b _0808C8D0
-	.align 2, 0
-_0808C890: .4byte Task_SkatingStoneMain
-_0808C894: .4byte TaskDestructor_SkatingStone
-_0808C898: .4byte 0x0300000C
-_0808C89C: .4byte 0x0300009C
-_0808C8A0: .4byte 0x030000A0
-_0808C8A4: .4byte 0x030000B1
-_0808C8A8: .4byte 0x030000B2
-_0808C8AC: .4byte gCurrentLevel
-_0808C8B0: .4byte 0x00000211
-_0808C8B4: .4byte 0x0300002C
-_0808C8B8:
-	movs r0, #0x18
-	str r3, [sp, #4]
-	bl VramMalloc
-	str r0, [r7, #4]
-	ldr r0, _0808C918 @ =0x00000223
-	strh r0, [r7, #0xa]
-	ldr r3, [sp, #4]
-	ldr r1, _0808C91C @ =0x0300002C
-	adds r0, r3, r1
-	mov r2, sb
-	strb r2, [r0]
-_0808C8D0:
-	movs r2, #0
-	movs r1, #0
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r7, #0x1a]
-	strh r1, [r7, #8]
-	strh r1, [r7, #0x14]
-	strh r1, [r7, #0x1c]
-	adds r1, r7, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	adds r0, r7, #0
-	adds r0, #0x25
-	strb r2, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r7, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r7, #0x10]
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0808C918: .4byte 0x00000223
-_0808C91C: .4byte 0x0300002C
-
-	thumb_func_start Task_SkatingStoneMain
-Task_SkatingStoneMain: @ 0x0808C920
+.if 0
+	thumb_func_start Task_SkatingStoneInit
+Task_SkatingStoneInit: @ 0x0808C920
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -192,12 +21,12 @@ Task_SkatingStoneMain: @ 0x0808C920
 	ldrh r1, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
-	adds r6, r1, r0
+	adds r6, r1, r0     @ r6 = stone
 	ldr r2, _0808C990 @ =0x0300000C
 	adds r2, r2, r1
-	mov sb, r2
+	mov sb, r2          @ sb = r2 = s
 	ldr r4, [r6]
-	str r4, [sp, #8]
+	str r4, [sp, #8]    @ sp08 = r4 = me
 	ldrb r2, [r6, #8]
 	lsls r2, r2, #3
 	ldrh r0, [r6, #4]
@@ -213,19 +42,19 @@ Task_SkatingStoneMain: @ 0x0808C920
 	ldr r3, _0808C994 @ =gCamera
 	ldrh r0, [r3]
 	lsrs r4, r2, #0x10
-	str r4, [sp]
+	str r4, [sp]        @ sp00 = worldX
 	asrs r2, r2, #0x10
 	subs r2, r2, r0
 	mov r0, sb
 	strh r2, [r0, #0x16]
 	ldrh r0, [r3, #2]
 	lsrs r2, r1, #0x10
-	str r2, [sp, #4]
+	str r2, [sp, #4]    @ sp04 = worldY
 	asrs r1, r1, #0x10
 	subs r1, r1, r0
 	mov r4, sb
 	strh r1, [r4, #0x18]
-	movs r5, #0
+	movs r5, #0         @ r5 = i = 0
 	ldr r7, _0808C998 @ =gPartner
 	ldr r0, _0808C99C @ =gPlayer
 	mov r8, r0
@@ -253,10 +82,10 @@ _0808C9AE:
 	bl sub_80549FC
 	cmp r0, #0
 	beq _0808CA7C
-	ldr r2, [sp, #4]
+	ldr r2, [sp, #4]    @ r2 = sp04 = worldY
 	lsls r0, r2, #0x10
 	asrs r1, r0, #8
-	adds r4, r0, #0
+	adds r4, r0, #0     @ r4 = worldY << 16
 	cmp r5, #0
 	beq _0808C9CA
 	ldr r0, [r7, #4]
@@ -287,7 +116,7 @@ _0808C9E8:
 	bne _0808C9F4
 	b _0808CBD0
 _0808C9F4:
-	ldr r1, [sp]
+	ldr r1, [sp]        @ r1 = sp00 = worldX
 	lsls r0, r1, #0x10
 	asrs r1, r0, #0x10
 	asrs r4, r4, #0x10
@@ -522,7 +351,7 @@ _0808CB8A:
 	ldr r0, _0808CC40 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
-	bls _0808CBEA
+	bls _0808CBEA_continue
 	bl CreateRoomEvent
 	mov r1, sl
 	strb r1, [r0]
@@ -538,17 +367,17 @@ _0808CBD0:
 	ldr r0, _0808CC40 @ =gGameMode
 	ldrb r0, [r0]
 	cmp r0, #1
-	bls _0808CBEA
+	bls _0808CBEA_continue
 	ldr r4, [sp, #8]
 	movs r1, #0
 	ldrsb r1, [r4, r1]
 	movs r0, #3
 	rsbs r0, r0, #0
 	cmp r1, r0
-	bne _0808CBEA
+	bne _0808CBEA_continue
 	movs r0, #1
 	mov sl, r0
-_0808CBEA:
+_0808CBEA_continue:
 	adds r5, #1
 	ldr r0, _0808CC44 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -563,7 +392,7 @@ _0808CBFA:
 	beq _0808CC08
 	ldr r0, _0808CC48 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0808CC4C @ =sub_808CC68
+	ldr r0, _0808CC4C @ =Task_SkatingStone2
 	str r0, [r1, #8]
 _0808CC08:
 	mov r2, sb
@@ -597,7 +426,7 @@ _0808CC2E:
 _0808CC40: .4byte gGameMode
 _0808CC44: .4byte gNumSingleplayerCharacters
 _0808CC48: .4byte gCurTask
-_0808CC4C: .4byte sub_808CC68
+_0808CC4C: .4byte Task_SkatingStone2
 _0808CC50:
 	mov r0, sb
 	bl DisplaySprite
@@ -611,9 +440,10 @@ _0808CC56:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
-	thumb_func_start sub_808CC68
-sub_808CC68: @ 0x0808CC68
+	thumb_func_start Task_SkatingStone2
+Task_SkatingStone2: @ 0x0808CC68
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
