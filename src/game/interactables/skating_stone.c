@@ -1,15 +1,19 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/stage/player.h"
+#include "game/stage/terrain_collision.h"
 #include "game/stage/ui.h" // for sub_80549FC
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/char_states.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 /* Platform that falls and slides once the player steps on it */
@@ -19,12 +23,12 @@ typedef struct {
     /* 0x0C */ Sprite s;
     /* 0x3C */ u8 filler3C[0x60];
     /* 0x9C */ s32 unk9C;
-    /* 0xA0 */ s32 unkA0;
-    /* 0xA4 */ s32 unkA4;
-    /* 0xA8 */ s32 unkA8;
-    /* 0xAC */ s32 unkAC;
+    /* 0xA0 */ s32 qUnkA0;
+    /* 0xA4 */ s32 qUnkA4;
+    /* 0xA8 */ s32 qUnkA8;
+    /* 0xAC */ s32 qUnkAC;
     /* 0xB0 */ u8 unkB0;
-    /* 0xB1 */ s8 unkB1;
+    /* 0xB1 */ u8 unkB1;
     /* 0xB2 */ u8 unkB2;
     /* 0xB3 */ u8 unkB3;
 } SkatingStone;
@@ -32,6 +36,7 @@ typedef struct {
 void Task_SkatingStoneInit(void);
 void Task_SkatingStone2(void);
 void TaskDestructor_SkatingStone(struct Task *t);
+void CreateSkatingStoneDebris(CamCoord worldX, CamCoord worldY);
 
 void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -46,10 +51,10 @@ void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     stone->base.id = id;
 
     stone->unk9C = 0;
-    stone->unkA0 = 0;
-    stone->unkA4 = 0;
-    stone->unkA8 = 0;
-    stone->unkAC = 0;
+    stone->qUnkA0 = 0;
+    stone->qUnkA4 = 0;
+    stone->qUnkA8 = 0;
+    stone->qUnkAC = 0;
     stone->unkB0 = 0;
     stone->unkB1 = me->d.sData[0];
     stone->unkB2 = 0;
@@ -124,10 +129,10 @@ void Task_SkatingStoneInit(void)
                     PLAYER(i).qWorldY = Q(worldY) - Q(44);
 
                     SetBit(stone->unkB2, i);
-                    stone->unkA0 = 0;
-                    stone->unkA4 = 0;
-                    stone->unkA8 = 0;
-                    stone->unkAC = 0;
+                    stone->qUnkA0 = 0;
+                    stone->qUnkA4 = 0;
+                    stone->qUnkA8 = 0;
+                    stone->qUnkAC = 0;
 
                     sl = TRUE;
 
@@ -164,3 +169,360 @@ void Task_SkatingStoneInit(void)
 
     DisplaySprite(s);
 }
+
+// (98.42%) https://decomp.me/scratch/iqACh
+NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.inc", void Task_SkatingStone2(void))
+{
+    Sprite *s;
+    MapEntity *me;
+    SkatingStone *stone;
+    CamCoord worldX, worldY;
+    u8 sp08;
+    s32 i;
+    u8 layer = PLAYER_LAYER__FRONT;
+    stone = TASK_DATA(gCurTask);
+    s = &stone->s;
+    worldX, worldY;
+    me = stone->base.me;
+
+    worldX = TO_WORLD_POS(stone->base.meX, stone->base.regionX);
+    worldY = TO_WORLD_POS(me->y, stone->base.regionY);
+
+    stone->qUnkAC += stone->qUnkA4;
+
+    s->y = I(stone->qUnkAC) + worldY - gCamera.y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        m4aSongNumStop(SE_198);
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, stone->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+    // _0808CD48
+
+    i = 0;
+    do {
+        // _0808CD7C_loop
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (i == PLAYER_1) {
+                layer = gPlayer.layer;
+            }
+            // _0808CDA8
+
+            if (GetBit(stone->unkB2, i)) {
+                if (!(PLAYER(i).moveState & (MOVESTATE_SPINDASH | MOVESTATE_4))) {
+                    PLAYER(i).qWorldY = Q(worldY) + stone->qUnkAC - Q(46);
+                } else {
+                    PLAYER(i).qWorldY = Q(worldY) + stone->qUnkAC - Q(42);
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (stone->unkB0 != 0) {
+        // _0808CE08
+
+        s32 res = SA2_LABEL(sub_801F07C)(worldY + I(stone->qUnkAC), worldX + I(stone->qUnkA8), layer, +8, NULL, SA2_LABEL(sub_801EE64));
+
+        if (res >= 0) {
+            stone->qUnkA4 += Q(32. / 256.);
+            // goto _0808D15E;
+        } else {
+            stone->qUnkA4 = Q(0);
+
+            stone->unkB0 = 0;
+
+            if (stone->unkB1 != 0) {
+                m4aSongNumStart(SE_198);
+                stone->unkB1--;
+                // goto _0808D15E;
+            } else {
+                i = 0;
+                do {
+                    // _0808CE86
+                    if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && GetBit(stone->unkB2, i)) {
+                        PLAYER(i).qSpeedAirY = -Q(3);
+                        PLAYER(i).qSpeedAirX = stone->qUnkA0;
+                        PLAYER(i).qSpeedGround = stone->qUnkA0;
+                        // _0808CEE0
+
+                        Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                        PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                        PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                        PLAYER(i).stoodObj = NULL;
+
+                        if (PLAYER(i).character != CHARACTER_AMY) {
+                            PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                        } else {
+                            // _0808CF58
+                            PLAYER(i).charState = CHARSTATE_85;
+                        }
+
+                        ClearBit(stone->unkB2, i);
+                    }
+                } while (++i < gNumSingleplayerCharacters);
+                // _0808CF82
+
+#if 1
+                goto _0808D2B2;
+#else
+                m4aSongNumStop(SE_198);
+
+                SA2_LABEL(gUnknown_0300194C) = s->x;
+                SA2_LABEL(gUnknown_03002820) = s->y;
+
+                CreateSkatingStoneDebris(worldX + I(stone->qUnkA8) - s->x, worldY + I(stone->qUnkAC) - s->y + 20);
+
+                SET_MAP_ENTITY_NOT_INITIALIZED(me, stone->base.meX);
+                TaskDestroy(gCurTask);
+                return;
+#endif
+            }
+        }
+    } else {
+        // _0808CF88
+        s32 res = SA2_LABEL(sub_801E4E4)(worldY + I(stone->qUnkAC), worldX + I(stone->qUnkA8), layer, +8, &sp08, SA2_LABEL(sub_801EE64));
+
+        if (res > 5) {
+            m4aSongNumStop(SE_198);
+
+            if (LEVEL_TO_ZONE(gCurrentLevel) != ZONE_4) {
+                stone->qUnkA4 += -ABS2(Div(stone->qUnkA0 * 3, 5));
+            } else {
+                // _0808D006
+                stone->qUnkA4 += +ABS2(Div(stone->qUnkA0 * 2, 5));
+            }
+            stone->unkB0 = 1;
+        } else {
+            // _0808D03E
+            i = 0;
+            do {
+                if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && GetBit(stone->unkB2, i)) {
+                    if (stone->unkB3 != 0) {
+                        PLAYER(i).qWorldX += Div(COS(sp08 * 4), 6070);
+                    } else {
+                        // _0808D0BE
+                        PLAYER(i).qWorldX -= Div(COS(sp08 * 4), 6070);
+                    }
+                }
+            } while (++i < gNumSingleplayerCharacters);
+            // _0808D0F0 + 0xE
+
+            if (stone->unkB3 != 0) {
+                stone->qUnkA0 -= Div(COS(sp08 * 4), 1440);
+            } else {
+                stone->qUnkA0 += Div(COS(sp08 * 4), 1440);
+            }
+            // _0808D152
+
+            stone->qUnkAC += Q(res + 3);
+        }
+    }
+    // _0808D15E
+
+    {
+        s32 res = SA2_LABEL(sub_801F07C)(worldX + I(stone->qUnkA8) + 18, worldY + I(stone->qUnkAC) - 30, layer, +8, &sp08,
+                                         SA2_LABEL(sub_801EE64));
+
+        if (res < 0) {
+            // _0808D190
+            i = 0;
+            do {
+                if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && GetBit(stone->unkB2, i)) {
+                    PLAYER(i).qSpeedAirY = -Q(3);
+                    PLAYER(i).qSpeedAirX = stone->qUnkA0;
+                    PLAYER(i).qSpeedGround = stone->qUnkA0;
+
+                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                    PLAYER(i).stoodObj = NULL;
+
+                    if (PLAYER(i).character != CHARACTER_AMY) {
+                        PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                    } else {
+                        PLAYER(i).charState = CHARSTATE_85;
+                    }
+
+                    ClearBit(stone->unkB2, i);
+                }
+                // _0808D2A2
+            } while (++i < gNumSingleplayerCharacters);
+        _0808D2B2:
+
+            m4aSongNumStop(SE_198);
+
+            SA2_LABEL(gUnknown_0300194C) = s->x;
+            SA2_LABEL(gUnknown_03002820) = s->y;
+
+            CreateSkatingStoneDebris(worldX + I(stone->qUnkA8) - s->x, worldY + I(stone->qUnkAC) - 20 - s->y);
+
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, stone->base.meX);
+            TaskDestroy(gCurTask);
+            return;
+        } else {
+            // _0808D314
+            i = 0;
+            do {
+                // _0808D320_loop
+                if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+                    if (GetBit(stone->unkB2, i)) {
+                        // _0808D350
+                        if (PLAYER(i).moveState & MOVESTATE_IN_AIR) {
+                            ClearBit(stone->unkB2, i);
+                        } else {
+                            // _0808D378
+                            s32 res;
+
+                            PLAYER(i).moveState &= ~MOVESTATE_IN_AIR;
+                            PLAYER(i).moveState &= ~MOVESTATE_100;
+                            PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                            // _0808D3CA
+
+                            res = SA2_LABEL(sub_801F07C)(I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY), PLAYER(i).layer, +8, NULL,
+                                                         SA2_LABEL(sub_801ED24));
+
+                            if (res < 0) {
+                                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                                // _0808D444
+
+                                ClearBit(stone->unkB2, i);
+
+                                PLAYER(i).qWorldX += Q(res);
+                            }
+                            // _0808D464
+
+                            res = SA2_LABEL(sub_801F07C)(I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY), PLAYER(i).layer, -8, NULL,
+                                                         SA2_LABEL(sub_801ED24));
+
+                            if (res < 0) {
+                                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+
+                                ClearBit(stone->unkB2, i);
+
+                                PLAYER(i).qWorldX -= Q(res);
+                            }
+                            // _0808D500
+
+                            if (Coll_Player_Entity_Intersection(s, worldX + I(stone->qUnkA8), worldY + I(stone->qUnkAC) - 12, &PLAYER(i))) {
+                                // _0808D538
+
+                                PLAYER(i).qWorldX += stone->qUnkA0 * 2;
+                                // _0808D55A
+
+                                res = SA2_LABEL(sub_801E4E4)(I(PLAYER(i).qWorldX + stone->qUnkA0 * 2), I(PLAYER(i).qWorldY),
+                                                             PLAYER(i).layer, +8, NULL, SA2_LABEL(sub_801ED24));
+
+                                if (res < 0) {
+                                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                                    PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+
+                                    if (PLAYER(i).character != CHARACTER_AMY) {
+                                        PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                                    } else {
+                                        PLAYER(i).charState = CHARSTATE_85;
+                                    }
+
+                                    PLAYER(i).stoodObj = NULL;
+
+                                    ClearBit(stone->unkB2, i);
+
+                                    PLAYER(i).qWorldX += Q(res);
+                                    PLAYER(i).qSpeedAirX = Q(0);
+                                } else {
+                                    // _0808D67A
+
+                                    res = SA2_LABEL(sub_801E4E4)(I(PLAYER(i).qWorldX + stone->qUnkA0 * 2), I(PLAYER(i).qWorldY),
+                                                                 PLAYER(i).layer, -8, NULL, SA2_LABEL(sub_801ED24));
+
+                                    if (res < 0) {
+                                        Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                                        PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                                        PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+
+                                        if (PLAYER(i).character != CHARACTER_AMY) {
+                                            PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                                        } else {
+                                            PLAYER(i).charState = CHARSTATE_85;
+                                        }
+
+                                        PLAYER(i).stoodObj = NULL;
+
+                                        ClearBit(stone->unkB2, i);
+
+                                        PLAYER(i).qWorldX -= Q(res);
+                                        PLAYER(i).qSpeedAirX = Q(0);
+                                    }
+                                }
+
+                                // _0808D79E
+                                if (!(PLAYER(i).moveState & (MOVESTATE_SPINDASH | MOVESTATE_4))) {
+                                    s->y = I(PLAYER(i).qWorldY) - gCamera.y + 46;
+                                } else {
+                                    // _0808D7D6
+                                    s->y = I(PLAYER(i).qWorldY) - gCamera.y + 42;
+                                }
+                            } else {
+                                // _0808D7F6
+                                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+
+                                ClearBit(stone->unkB2, i);
+                                continue;
+                            }
+                        }
+                    } else {
+                        // _0808D84A
+                        u32 collRes = Coll_Player_PlatformCrumbling(s, worldX + I(stone->qUnkA8), worldY + I(stone->qUnkAC), &PLAYER(i));
+
+                        if (collRes & COLL_FLAG_8) {
+                            PLAYER(i).qWorldY += Q(1);
+
+                            SetBit(stone->unkB2, i);
+
+                            Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                            PLAYER(i).moveState |= MOVESTATE_STOOD_ON_OBJ;
+                            PLAYER(i).moveState &= ~MOVESTATE_IN_AIR;
+                            PLAYER(i).moveState &= ~MOVESTATE_100;
+                            PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                            PLAYER(i).moveState &= ~MOVESTATE_4;
+
+                            PLAYER(i).charState = CHARSTATE_WALK;
+
+                            PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                        }
+                    }
+                }
+            } while (++i < gNumSingleplayerCharacters);
+            // _0808D994
+
+            stone->qUnkA8 += stone->qUnkA0 * 2;
+
+            s->x = worldX + I(stone->qUnkA8) - gCamera.x;
+
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+}
+END_NONMATCH
+
+#if 0
+void TaskDestructor_SkatingStone(struct Task *t)
+{
+    SkatingStone *stone = TASK_DATA(t);
+    VramFree(stone->s.graphics.dest);
+    m4aSongNumStop(SE_198);
+}
+#endif

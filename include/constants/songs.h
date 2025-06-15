@@ -121,6 +121,7 @@
 #define SE_WATERFALL_SURFACE_HIT 190
 #define SE_AIR_BUBBLE            191
 #define SE_DROWNED               192
+#define SE_198                   198
 #define SE_200                   200
 #define SE_201                   201
 #define SE_202                   202

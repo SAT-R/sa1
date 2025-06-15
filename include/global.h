@@ -229,7 +229,8 @@ typedef void (*VoidFn)(void);
         }                                                                                                                                  \
     })
 
-#define ABS(aValue) ((aValue) >= 0 ? (aValue) : -(aValue))
+#define ABS(aValue)  ((aValue) >= 0 ? (aValue) : -(aValue))
+#define ABS2(aValue) ((aValue) < 0 ? -(aValue) : (aValue))
 
 #define RECT_DISTANCE(aXA, aYA, aXB, aYB) (ABS((aXA) - (aXB)) + ABS((aYA) - (aYB)))
 
