@@ -29,7 +29,7 @@ typedef struct {
     /* 0x4A */ u16 unk4A;
     /* 0x4C */ s32 unk4C;
     /* 0x50 */ u8 unk50;
-} Platform085;
+} Platform085_089;
 
 void Task_Platform085(void);
 void Task_Platform089(void);
@@ -58,8 +58,8 @@ const u16 gUnknown_086CEDC0[NUM_LEVEL_IDS][3] = {
 
 void CreateEntity_Platform085(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Platform085, sizeof(Platform085), 0x2000, 0, TaskDestructor_Platforms_085_089);
-    Platform085 *platform = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_Platform085, sizeof(Platform085_089), 0x2000, 0, TaskDestructor_Platforms_085_089);
+    Platform085_089 *platform = TASK_DATA(t);
     Sprite *s = &platform->s;
 
     platform->base.regionX = regionX;
@@ -119,7 +119,7 @@ void CreateEntity_Platform085(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void Task_Platform085(void)
 {
-    Platform085 *platform;
+    Platform085_089 *platform;
     Sprite *s;
     CamCoord worldX, worldY;
     MapEntity *me;
@@ -199,8 +199,8 @@ void Task_Platform085(void)
 
 void CreateEntity_Platform089(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_Platform089, sizeof(Platform085), 0x2000, 0, TaskDestructor_Platforms_085_089);
-    Platform085 *platform = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_Platform089, sizeof(Platform085_089), 0x2000, 0, TaskDestructor_Platforms_085_089);
+    Platform085_089 *platform = TASK_DATA(t);
     Sprite *s = &platform->s;
 
     platform->base.regionX = regionX;
@@ -257,10 +257,72 @@ void CreateEntity_Platform089(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-#if 0
+void Task_Platform089(void)
+{
+    Platform085_089 *platform;
+    Sprite *s;
+    CamCoord worldX, worldY;
+    MapEntity *me;
+    s32 i;
+    u32 sp0C = 0;
+    u32 sp10 = 0;
+    platform = TASK_DATA(gCurTask);
+    s = &platform->s;
+    me = platform->base.me;
+
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y - I(platform->unk44);
+
+    i = 0;
+    do {
+        if ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)) {
+            sp0C = 1;
+
+            if (!Coll_Player_Entity_Intersection(s, worldX + I(platform->unk40), worldY - I(platform->unk44) - 4, &PLAYER(i))) {
+                PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            } else {
+                s8 res;
+
+                PLAYER(i).qWorldY -= Q(0.75);
+
+                if (I(platform->unk44) > me->d.uData[3] * 8) {
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    PLAYER(i).moveState |= MOVESTATE_DEAD;
+                }
+            }
+        } else {
+            if (!(Coll_Player_PlatformCrumbling(s, worldX, worldY - I(platform->unk44), &PLAYER(i)) & COLL_FLAG_8)) {
+                sp10 = 1;
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (sp0C) {
+        {
+            platform->unk44 += Q(0.75);
+        }
+    } else {
+        if (sp10) {
+            if (platform->unk44 != 0) {
+                platform->unk44 -= Q(0.75);
+            }
+        }
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+
 void TaskDestructor_Platforms_085_089(struct Task *t)
 {
-    Platform085 *platform = TASK_DATA(t);
+    Platform085_089 *platform = TASK_DATA(t);
     VramFree(platform->s.graphics.dest);
 }
-#endif
