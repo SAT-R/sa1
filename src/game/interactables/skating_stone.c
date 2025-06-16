@@ -179,8 +179,9 @@ void Task_SkatingStoneInit(void)
     DisplaySprite(s);
 }
 
-// (99.79%) https://decomp.me/scratch/wB8A1
+// (99.89%) https://decomp.me/scratch/wB8A1
 NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.inc", void Task_SkatingStone2(void))
+
 {
     Sprite *s;
     MapEntity *me;
@@ -189,7 +190,8 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
     u8 sp08;
     s32 i;
     s32 res;
-    u8 layer = PLAYER_LAYER__FRONT;
+    u8 layer;
+    layer = PLAYER_LAYER__FRONT;
     stone = TASK_DATA(gCurTask);
     s = &stone->s;
     worldX, worldY;
@@ -275,20 +277,16 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
                 } while (++i < gNumSingleplayerCharacters);
                 // _0808CF82
 
-#if 1
-                goto _0808D2B2;
-#else
                 m4aSongNumStop(SE_198);
 
                 SA2_LABEL(gUnknown_0300194C) = s->x;
                 SA2_LABEL(gUnknown_03002820) = s->y;
 
-                CreateSkatingStoneDebris(worldX + I(stone->qUnkA8) - s->x, worldY + I(stone->qUnkAC) - s->y + 20);
+                CreateSkatingStoneDebris(worldX + I(stone->qUnkA8) - s->x, worldY + I(stone->qUnkAC) - 20 - s->y);
 
                 SET_MAP_ENTITY_NOT_INITIALIZED(me, stone->base.meX);
                 TaskDestroy(gCurTask);
                 return;
-#endif
             }
         }
     } else {
