@@ -33,10 +33,19 @@ typedef struct {
     /* 0xB3 */ u8 unkB3;
 } SkatingStone;
 
+typedef struct {
+    /* 0x00 */ Sprite s[4];
+    /* 0xC0 */ SpriteTransform transform[4];
+    /* 0xF0 */ u16 unkF0;
+    /* 0xF2 */ s16 qUnkF2;
+} SkatingStoneDebris; /* 0xF4 */
+
 void Task_SkatingStoneInit(void);
 void Task_SkatingStone2(void);
-void TaskDestructor_SkatingStone(struct Task *t);
 void CreateSkatingStoneDebris(CamCoord worldX, CamCoord worldY);
+void Task_SkatingStoneDebris(void);
+void TaskDestructor_SkatingStone(struct Task *t);
+void TaskDestructor_SkatingStoneDebris(struct Task *t);
 
 void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -517,6 +526,105 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
     }
 }
 END_NONMATCH
+
+void CreateSkatingStoneDebris(CamCoord worldX, CamCoord worldY)
+{
+    struct Task *t = TaskCreate(Task_SkatingStoneDebris, sizeof(SkatingStoneDebris), 0x2000, 0, TaskDestructor_SkatingStoneDebris);
+    SkatingStoneDebris *debris = TASK_DATA(t);
+    Sprite *s = &debris->s[0];
+    SpriteTransform *tf = &debris->transform[0];
+
+    debris->unkF0 = 0;
+    debris->qUnkF2 = -Q(2);
+
+    if (LEVEL_TO_ZONE(gCurrentLevel) == ZONE_4) {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_SKATING_STONE_DEBRIS_4_S);
+        s->graphics.anim = SA1_ANIM_SKATING_STONE_DEBRIS_4_S;
+        s->variant = 0;
+    } else {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_SKATING_STONE_DEBRIS_S);
+        s->graphics.anim = SA1_ANIM_SKATING_STONE_DEBRIS_S;
+        s->variant = 0;
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = (SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 12));
+
+    tf->rotation = 0;
+    tf->qScaleX = Q(0.75);
+    tf->qScaleY = Q(0.75);
+    tf->x = worldX;
+    tf->y = worldY;
+
+    UpdateSpriteAnimation(s);
+
+#ifndef BUG_FIX
+    DmaCopy16(3, s, ++s, sizeof(*s));
+    DmaCopy16(3, tf, ++tf, sizeof(*tf));
+
+    s->frameFlags = (SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 13));
+
+    tf->y = worldY - 16;
+    s++;
+    DmaCopy16(3, tf, ++tf, sizeof(*tf));
+#else
+    DmaCopy16(3, s, (s + 1), sizeof(*s));
+    s = (s + 1);
+    DmaCopy16(3, tf, (tf + 1), sizeof(*tf));
+    tf = (tf + 1);
+
+    s->frameFlags = (SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 13));
+
+    tf->y = worldY - 16;
+    s++;
+    DmaCopy16(3, tf, (tf + 1), sizeof(*tf));
+    tf = (tf + 1);
+#endif
+
+    if (LEVEL_TO_ZONE(gCurrentLevel) == ZONE_4) {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_SKATING_STONE_DEBRIS_4_L);
+        s->graphics.anim = SA1_ANIM_SKATING_STONE_DEBRIS_4_L;
+        s->variant = 0;
+    } else {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_SKATING_STONE_DEBRIS_L);
+        s->graphics.anim = SA1_ANIM_SKATING_STONE_DEBRIS_L;
+        s->variant = 0;
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(8);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = (SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 14));
+    tf->y = worldY;
+
+    UpdateSpriteAnimation(s);
+
+#ifndef BUG_FIX
+    DmaCopy16(3, s, ++s, sizeof(*s));
+    DmaCopy16(3, tf, ++tf, sizeof(*tf));
+#else
+    DmaCopy16(3, s, (s + 1), sizeof(*s));
+    s = (s + 1);
+    DmaCopy16(3, tf, (tf + 1), sizeof(*tf));
+    tf = (tf + 1);
+#endif
+
+    s->frameFlags = (SPRITE_FLAG(ROT_SCALE_ENABLE, 1) | SPRITE_FLAG(ROT_SCALE_DOUBLE_SIZE, 1) | SPRITE_FLAG(ROT_SCALE, 15));
+
+    tf->y = worldY - 16;
+
+    m4aSongNumStart(SE_143);
+}
 
 #if 0
 void TaskDestructor_SkatingStone(struct Task *t)

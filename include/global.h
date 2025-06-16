@@ -229,6 +229,7 @@ typedef void (*VoidFn)(void);
         }                                                                                                                                  \
     })
 
+// TODO: Check whether ABS() can be replaced by ABS2!
 #define ABS(aValue)  ((aValue) >= 0 ? (aValue) : -(aValue))
 #define ABS2(aValue) ((aValue) < 0 ? -(aValue) : (aValue))
 

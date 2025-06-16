@@ -89,6 +89,7 @@
 #define SE_STAGE_RESULT_COUNTER      140
 #define SE_STAGE_RESULT_COUNTER_DONE 141
 #define SE_PAUSE                     142
+#define SE_143                       143
 
 #define SE_EXPLOSION 144
 #define SE_IMPACT    145 // Boss 1 Hammer hits ground
