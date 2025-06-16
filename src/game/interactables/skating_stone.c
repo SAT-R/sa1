@@ -626,11 +626,141 @@ void CreateSkatingStoneDebris(CamCoord worldX, CamCoord worldY)
     m4aSongNumStart(SE_143);
 }
 
-#if 0
+void Task_SkatingStoneDebris(void)
+{
+    SkatingStoneDebris *debris = TASK_DATA(gCurTask);
+    Sprite *s = &debris->s[0];
+    SpriteTransform *tf;
+    s16 oldTfX, oldTfY;
+    s16 qScaleX;
+
+    if (debris->unkF0++ > GBA_FRAMES_PER_SECOND) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    debris->qUnkF2 += Q(40. / 256.);
+
+    { // 0
+        tf = &debris->transform[0];
+        tf->y += I(debris->qUnkF2);
+        oldTfX = tf->x;
+        oldTfY = tf->y;
+        tf->x = tf->x - gCamera.x;
+        tf->y = tf->y - gCamera.y;
+
+        tf->x -= debris->unkF0 * 2;
+
+        // TODO: Can these be matched via CLAMP/MIN macros?
+        qScaleX = tf->qScaleX + Q(8. / 256.);
+        if (qScaleX > Q(2)) {
+            qScaleX = Q(2);
+        }
+
+        tf->qScaleX = qScaleX;
+        tf->qScaleY = qScaleX;
+        tf->rotation = (tf->rotation - Q(42. / 256.)) & (SIN_PERIOD - 1);
+
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+        SA2_LABEL(sub_8004E14)(s, tf);
+
+        DisplaySprite(s);
+
+        tf->x = oldTfX;
+        tf->y = oldTfY;
+    }
+
+    { // 1
+        s = &debris->s[1];
+        tf = &debris->transform[1];
+
+        tf->y += I(debris->qUnkF2);
+        oldTfX = tf->x;
+        oldTfY = tf->y;
+        tf->x = tf->x - gCamera.x;
+        tf->y = tf->y - gCamera.y;
+
+        tf->x += debris->unkF0;
+        tf->qScaleX = qScaleX;
+        tf->qScaleY = qScaleX;
+        tf->rotation = (tf->rotation + Q(42. / 256.)) & (SIN_PERIOD - 1);
+
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+        SA2_LABEL(sub_8004E14)(s, tf);
+
+        DisplaySprite(s);
+
+        tf->x = oldTfX;
+        tf->y = oldTfY;
+    }
+
+    { // 2
+        s = &debris->s[2];
+        tf = &debris->transform[2];
+
+        tf->y += I(debris->qUnkF2);
+        oldTfX = tf->x;
+        oldTfY = tf->y;
+        tf->x = tf->x - gCamera.x;
+        tf->y = tf->y - gCamera.y;
+
+        tf->x += debris->unkF0 * 2;
+        tf->qScaleX = qScaleX;
+        tf->qScaleY = qScaleX;
+        tf->rotation = (tf->rotation + Q(14. / 256.)) & (SIN_PERIOD - 1);
+
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+        SA2_LABEL(sub_8004E14)(s, tf);
+
+        DisplaySprite(s);
+
+        tf->x = oldTfX;
+        tf->y = oldTfY;
+    }
+
+    { // 3
+        s = &debris->s[3];
+        tf = &debris->transform[3];
+
+        tf->y += I(debris->qUnkF2);
+        oldTfX = tf->x;
+        oldTfY = tf->y;
+        tf->x = tf->x - gCamera.x;
+        tf->y = tf->y - gCamera.y;
+
+        tf->x -= debris->unkF0;
+        tf->qScaleX = qScaleX;
+        tf->qScaleY = qScaleX;
+        tf->rotation = (tf->rotation - Q(14. / 256.)) & (SIN_PERIOD - 1);
+
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        SPRITE_FLAG_SET_VALUE(s, ROT_SCALE, SA2_LABEL(gUnknown_030054B8)++);
+
+        SA2_LABEL(sub_8004E14)(s, tf);
+
+        DisplaySprite(s);
+
+        tf->x = oldTfX;
+        tf->y = oldTfY;
+    }
+}
+
 void TaskDestructor_SkatingStone(struct Task *t)
 {
     SkatingStone *stone = TASK_DATA(t);
     VramFree(stone->s.graphics.dest);
     m4aSongNumStop(SE_198);
 }
-#endif
+
+void TaskDestructor_SkatingStoneDebris(struct Task *t)
+{
+    SkatingStoneDebris *debris = TASK_DATA(t);
+    VramFree(debris->s[0].graphics.dest);
+    VramFree(debris->s[2].graphics.dest);
+}

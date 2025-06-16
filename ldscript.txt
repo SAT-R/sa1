@@ -193,7 +193,6 @@ SECTIONS {
         src/game/interactables/iron_ball.o(.text);
         src/game/interactables/hang_bar.o(.text);
         src/game/interactables/skating_stone.o(.text);
-        asm/ia_skating_stone.o(.text);
         asm/ia_platforms_085_089.o(.text);
         src/game/interactables/run_wheel.o(.text);
         src/game/interactables/torch.o(.text);
