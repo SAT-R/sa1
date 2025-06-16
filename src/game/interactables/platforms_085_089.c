@@ -32,6 +32,7 @@ typedef struct {
 } Platform085;
 
 void Task_Platform085(void);
+void Task_Platform089(void);
 void TaskDestructor_Platforms_085_089(struct Task *t);
 
 const u16 gUnknown_086CEDC0[NUM_LEVEL_IDS][3] = {
@@ -194,6 +195,66 @@ void Task_Platform085(void)
     }
 
     DisplaySprite(s);
+}
+
+void CreateEntity_Platform089(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_Platform089, sizeof(Platform085), 0x2000, 0, TaskDestructor_Platforms_085_089);
+    Platform085 *platform = TASK_DATA(t);
+    Sprite *s = &platform->s;
+
+    platform->base.regionX = regionX;
+    platform->base.regionY = regionY;
+    platform->base.me = me;
+    platform->base.meX = me->x;
+    platform->base.id = id;
+
+    platform->unk40 = 0;
+    platform->unk44 = 0;
+    platform->unk4C = 0;
+
+    if (me->d.uData[2] > me->d.uData[3]) {
+        if (me->d.sData[0] >= 0) {
+            platform->unk48 = 4;
+            platform->unk3C = 0;
+            platform->unk4A = 0;
+        } else {
+            platform->unk48 = 4;
+            platform->unk3C = 0x80;
+            platform->unk4A = 0;
+        }
+    } else {
+        if (me->d.sData[1] >= 0) {
+            platform->unk48 = 0;
+            platform->unk4A = 4;
+            platform->unk3C = 0;
+        } else {
+            platform->unk48 = 0;
+            platform->unk4A = 4;
+            platform->unk3C = 0x80;
+        }
+    }
+
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_PLATFORM_HORZ_4);
+    s->graphics.anim = SA1_ANIM_PLATFORM_HORZ_4;
+    s->variant = 0;
+
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    UpdateSpriteAnimation(s);
 }
 
 #if 0
