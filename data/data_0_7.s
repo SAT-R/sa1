@@ -8,7 +8,3 @@ gUnknown_086CED98:
     .global gUnknown_086CEDBC
 gUnknown_086CEDBC:
     .incbin "baserom.gba", 0x006CEDBC, 0x4
-
-    .global gUnknown_086CEDC0
-gUnknown_086CEDC0:
-    .incbin "baserom.gba", 0x006CEDC0, 0x6C

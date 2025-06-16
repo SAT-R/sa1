@@ -193,6 +193,7 @@ SECTIONS {
         src/game/interactables/iron_ball.o(.text);
         src/game/interactables/hang_bar.o(.text);
         src/game/interactables/skating_stone.o(.text);
+        src/game/interactables/platforms_085_089.o(.text);
         asm/ia_platforms_085_089.o(.text);
         src/game/interactables/run_wheel.o(.text);
         src/game/interactables/torch.o(.text);
@@ -317,6 +318,7 @@ SECTIONS {
         src/game/interactables/forced_slide.o(.rodata);
         src/game/interactables/sega_sonic_letters.o(.rodata);
         data/data_0_7.o(.rodata);
+        src/game/interactables/platforms_085_089.o(.rodata);
         src/game/interactables/ferris_wheel.o(.rodata);
         src/game/interactables/spiked_barrel.o(.rodata);
         asm/ia_air_bubbles.o(.rodata);
