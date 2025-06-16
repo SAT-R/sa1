@@ -179,9 +179,7 @@ void Task_SkatingStoneInit(void)
     DisplaySprite(s);
 }
 
-// (99.89%) https://decomp.me/scratch/wB8A1
-NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.inc", void Task_SkatingStone2(void))
-
+void Task_SkatingStone2(void)
 {
     Sprite *s;
     MapEntity *me;
@@ -211,16 +209,13 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
         TaskDestroy(gCurTask);
         return;
     }
-    // _0808CD48
 
     i = 0;
     do {
-        // _0808CD7C_loop
         if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
             if (i == PLAYER_1) {
                 layer = gPlayer.layer;
             }
-            // _0808CDA8
 
             if (GetBit(stone->unkB2, i)) {
                 if (!(PLAYER(i).moveState & (MOVESTATE_SPINDASH | MOVESTATE_4))) {
@@ -233,13 +228,10 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
     } while (++i < gNumSingleplayerCharacters);
 
     if (stone->unkB0 != 0) {
-        // _0808CE08
-
         res = SA2_LABEL(sub_801F07C)(worldY + I(stone->qUnkAC), worldX + I(stone->qUnkA8), layer, +8, NULL, SA2_LABEL(sub_801EE64));
 
         if (res >= 0) {
             stone->qUnkA4 += Q(32. / 256.);
-            // goto _0808D15E;
         } else {
             stone->qUnkA4 = Q(0);
 
@@ -248,16 +240,13 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
             if (stone->unkB1 != 0) {
                 m4aSongNumStart(SE_198);
                 stone->unkB1--;
-                // goto _0808D15E;
             } else {
                 s32 i = 0;
                 do {
-                    // _0808CE86
                     if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && GetBit(stone->unkB2, i)) {
                         PLAYER(i).qSpeedAirY = -Q(3);
                         PLAYER(i).qSpeedAirX = stone->qUnkA0;
                         PLAYER(i).qSpeedGround = stone->qUnkA0;
-                        // _0808CEE0
 
                         Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
 
@@ -268,14 +257,12 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
                         if (PLAYER(i).character != CHARACTER_AMY) {
                             PLAYER(i).charState = CHARSTATE_SPINATTACK;
                         } else {
-                            // _0808CF58
                             PLAYER(i).charState = CHARSTATE_85;
                         }
 
                         ClearBit(stone->unkB2, i);
                     }
                 } while (++i < gNumSingleplayerCharacters);
-                // _0808CF82
 
                 m4aSongNumStop(SE_198);
 
@@ -290,8 +277,7 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
             }
         }
     } else {
-        // _0808CF88
-        s32 res = SA2_LABEL(sub_801E4E4)(worldY + I(stone->qUnkAC), worldX + I(stone->qUnkA8), layer, +8, &sp08, SA2_LABEL(sub_801EE64));
+        res = SA2_LABEL(sub_801E4E4)(worldY + I(stone->qUnkAC), worldX + I(stone->qUnkA8), layer, +8, &sp08, SA2_LABEL(sub_801EE64));
 
         if (res > 5) {
             m4aSongNumStop(SE_198);
@@ -299,43 +285,36 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
             if (LEVEL_TO_ZONE(gCurrentLevel) != ZONE_4) {
                 stone->qUnkA4 += -ABS2(Div(stone->qUnkA0 * 3, 5));
             } else {
-                // _0808D006
                 stone->qUnkA4 += +ABS2(Div(stone->qUnkA0 * 2, 5));
             }
             stone->unkB0 = 1;
         } else {
-            // _0808D03E
             s32 i = 0;
             do {
                 if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && GetBit(stone->unkB2, i)) {
                     if (stone->unkB3 != 0) {
                         PLAYER(i).qWorldX += Div(COS(sp08 * 4), 6070);
                     } else {
-                        // _0808D0BE
                         PLAYER(i).qWorldX -= Div(COS(sp08 * 4), 6070);
                     }
                 }
             } while (++i < gNumSingleplayerCharacters);
-            // _0808D0F0 + 0xE
 
             if (stone->unkB3 != 0) {
                 stone->qUnkA0 -= Div(COS(sp08 * 4), 1440);
             } else {
                 stone->qUnkA0 += Div(COS(sp08 * 4), 1440);
             }
-            // _0808D152
 
             stone->qUnkAC += Q(res + 3);
         }
     }
-    // _0808D15E
 
     {
         s32 res = SA2_LABEL(sub_801F07C)(worldX + I(stone->qUnkA8) + 18, worldY + I(stone->qUnkAC) - 30, layer, +8, &sp08,
                                          SA2_LABEL(sub_801ED24));
 
         if (res < 0) {
-            // _0808D190
             s32 i = 0;
             do {
                 if (!(PLAYER(i).moveState & MOVESTATE_DEAD) && GetBit(stone->unkB2, i)) {
@@ -357,7 +336,6 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
 
                     ClearBit(stone->unkB2, i);
                 }
-                // _0808D2A2
             } while (++i < gNumSingleplayerCharacters);
         _0808D2B2:
 
@@ -372,23 +350,18 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
             TaskDestroy(gCurTask);
             return;
         } else {
-            // _0808D314
             s32 i = 0;
             do {
-                // _0808D320_loop
                 if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
                     if (GetBit(stone->unkB2, i)) {
-                        // _0808D350
                         if (PLAYER(i).moveState & MOVESTATE_IN_AIR) {
                             ClearBit(stone->unkB2, i);
                         } else {
-                            // _0808D378
                             s32 res;
 
                             PLAYER(i).moveState &= ~MOVESTATE_IN_AIR;
                             PLAYER(i).moveState &= ~MOVESTATE_100;
                             PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-                            // _0808D3CA
 
                             res = SA2_LABEL(sub_801F07C)(I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY), PLAYER(i).layer, +8, NULL,
                                                          SA2_LABEL(sub_801ED24));
@@ -396,13 +369,11 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
                             if (res < 0) {
                                 PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
                                 PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                                // _0808D444
 
                                 ClearBit(stone->unkB2, i);
 
                                 PLAYER(i).qWorldX += Q(res);
                             }
-                            // _0808D464
 
                             res = SA2_LABEL(sub_801F07C)(I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY), PLAYER(i).layer, -8, NULL,
                                                          SA2_LABEL(sub_801ED24));
@@ -415,13 +386,9 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
 
                                 PLAYER(i).qWorldX -= Q(res);
                             }
-                            // _0808D500
 
                             if (Coll_Player_Entity_Intersection(s, worldX + I(stone->qUnkA8), worldY + I(stone->qUnkAC) - 12, &PLAYER(i))) {
-                                // _0808D538
-
                                 PLAYER(i).qWorldX += stone->qUnkA0 * 2;
-                                // _0808D55A
 
                                 res = SA2_LABEL(sub_801E4E4)(I(PLAYER(i).qWorldX + stone->qUnkA0 * 2), I(PLAYER(i).qWorldY),
                                                              PLAYER(i).layer, +8, NULL, SA2_LABEL(sub_801ED24));
@@ -445,8 +412,6 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
                                     PLAYER(i).qWorldX += Q(res);
                                     PLAYER(i).qSpeedAirX = Q(0);
                                 } else {
-                                    // _0808D67A
-
                                     res = SA2_LABEL(sub_801E4E4)(I(PLAYER(i).qWorldX + stone->qUnkA0 * 2), I(PLAYER(i).qWorldY),
                                                                  PLAYER(i).layer, -8, NULL, SA2_LABEL(sub_801ED24));
 
@@ -471,15 +436,12 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
                                     }
                                 }
 
-                                // _0808D79E
                                 if (!(PLAYER(i).moveState & (MOVESTATE_SPINDASH | MOVESTATE_4))) {
                                     s->y = I(PLAYER(i).qWorldY) - gCamera.y + 46;
                                 } else {
-                                    // _0808D7D6
                                     s->y = I(PLAYER(i).qWorldY) - gCamera.y + 42;
                                 }
                             } else {
-                                // _0808D7F6
                                 Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
 
                                 PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
@@ -490,7 +452,6 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
                             }
                         }
                     } else {
-                        // _0808D84A
                         u32 collRes = Coll_Player_PlatformCrumbling(s, worldX + I(stone->qUnkA8), worldY + I(stone->qUnkAC), &PLAYER(i));
 
                         if (collRes & COLL_FLAG_8) {
@@ -513,7 +474,6 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
                     }
                 }
             } while (++i < gNumSingleplayerCharacters);
-            // _0808D994
 
             stone->qUnkA8 += stone->qUnkA0 * 2;
 
@@ -524,7 +484,6 @@ NONMATCH("asm/non_matching/game/interactables/SkatingStone__Task_SkatingStone2.i
         }
     }
 }
-END_NONMATCH
 
 void CreateSkatingStoneDebris(CamCoord worldX, CamCoord worldY)
 {
