@@ -260,10 +260,10 @@ void CreateEntity_Booster_Steep2(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void Task_Booster(void)
 {
-    Booster *booster;
-    Sprite *s;
     CamCoord worldX, worldY;
+    Sprite *s;
     MapEntity *me;
+    Booster *booster;
     s32 i;
 
     booster = TASK_DATA(gCurTask);
@@ -279,69 +279,55 @@ void Task_Booster(void)
     i = 0;
     do {
         // _08076FEE_loop
-		if(!(PLAYER(i).moveState & MOVESTATE_DEAD))
-		{
-			s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), (1 - PLAYER(i).spriteOffsetY), +(PLAYER(i).spriteOffsetX + 5), (PLAYER(i).spriteOffsetY - 1) };
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), (1 - PLAYER(i).spriteOffsetY), +(PLAYER(i).spriteOffsetX + 5),
+                          (PLAYER(i).spriteOffsetY - 1) };
 
-			// HB_COLLISION macro ?
-			if (((worldX + s->hitboxes[0].b.left) > PLAYER(i).qWorldX)
-			&&  ((worldX + s->hitboxes[0].b.right) < I(PLAYER(i).qWorldX) + arr[0])
-             && ((worldX + s->hitboxes[0].b.left) >= I(PLAYER(i).qWorldX)
-				/* && 4th check */)
-			)
-			{
-				// _080771F8
-
-				if (PLAYER(i).moveState & MOVESTATE_IN_AIR) {
+            // HB_COLLISION macro ?
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY), (*((Rect8 *)&arr)))) {
+                if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
                     Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
 
-					m4aSongNumStart(SE_BOOSTER);
+                    m4aSongNumStart(SE_BOOSTER);
 
-					if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                    if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
                         if (PLAYER(i).charState == CHARSTATE_BRAKE) {
                             PLAYER(i).charState = CHARSTATE_WALK;
                         }
 
-                        if ((PLAYER(i).charState != CHARSTATE_SPINATTACK)
-						&&  (PLAYER(i).charState != CHARSTATE_SPINDASH)
-						&&  (PLAYER(i).charState != CHARSTATE_7))
-						{
+                        if ((PLAYER(i).charState != CHARSTATE_SPINATTACK) && (PLAYER(i).charState != CHARSTATE_SPINDASH)
+                            && (PLAYER(i).charState != CHARSTATE_7)) {
                             PLAYER(i).charState = CHARSTATE_WALK;
-						}
+                        }
                         PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
                         if (PLAYER(i).qSpeedGround > -Q(9)) {
                             PLAYER(i).qSpeedGround = -Q(12);
                             PLAYER(i).qSpeedAirX = -Q(12);
-						}
+                        }
 
-						PLAYER(i).SA2_LABEL(unk62) = 0;
-					} else {
-                        // _08077388
+                        PLAYER(i).SA2_LABEL(unk62) = 0;
+                    } else {
                         if (PLAYER(i).charState == CHARSTATE_BRAKE) {
                             PLAYER(i).charState = CHARSTATE_WALK;
                         }
 
-                        if ((PLAYER(i).charState != CHARSTATE_SPINATTACK)
-						&&  (PLAYER(i).charState != CHARSTATE_SPINDASH)
-						&&  (PLAYER(i).charState != CHARSTATE_7))
-						{
+                        if ((PLAYER(i).charState != CHARSTATE_SPINATTACK) && (PLAYER(i).charState != CHARSTATE_SPINDASH)
+                            && (PLAYER(i).charState != CHARSTATE_7)) {
                             PLAYER(i).charState = CHARSTATE_WALK;
-						}
-                        
-						PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
+                        }
 
-                        if (PLAYER(i).qSpeedGround >= +Q(9)) {
+                        PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
+
+                        if (PLAYER(i).qSpeedGround < +Q(9)) {
                             PLAYER(i).qSpeedGround = +Q(12);
-                            PLAYER(i).qSpeedAirX   = +Q(12);
-						}
+                            PLAYER(i).qSpeedAirX = +Q(12);
+                        }
 
                         PLAYER(i).SA2_LABEL(unk62) = 0;
                     }
-				}
-			}
-			// 
-            PLAYER(i).qWorldX = Q(worldX + s->hitboxes[0].b.left - arr[2] - 1);
-		}
+                }
+            }
+        }
     } while (++i < gNumSingleplayerCharacters);
 
     if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
@@ -354,11 +340,8 @@ void Task_Booster(void)
     DisplaySprite(s);
 }
 
-#if 0
 void TaskDestructor_Booster(struct Task *t)
 {
     Booster *booster = TASK_DATA(t);
     VramFree(booster->s.graphics.dest);
 }
-
-#endif

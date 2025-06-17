@@ -165,7 +165,6 @@ SECTIONS {
         asm/ia_waterfall.o(.text);
         src/game/interactables/shrubbery.o(.text);
         src/game/interactables/booster.o(.text);
-        asm/ia_booster.o(.text);
         src/game/interactables/red_flag_and_pole.o(.text);
         src/game/interactables/forced_slide.o(.text);
         src/game/interactables/bumpers.o(.text);
