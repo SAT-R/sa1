@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_Booster
 Task_Booster: @ 0x08076F88
 	push {r4, r5, r6, r7, lr}
@@ -22,14 +20,14 @@ Task_Booster: @ 0x08076F88
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r1, r0
-	str r0, [sp, #0x14]
+	str r0, [sp, #0x14]     @ sp14 = booster
 	ldr r0, _08076FFC @ =0x0300000C
 	adds r0, r0, r1
-	mov sl, r0
+	mov sl, r0              @ sl = s
 	ldr r1, [sp, #0x14]
 	ldr r1, [r1]
-	str r1, [sp, #0x10]
-	ldr r3, [sp, #0x14]
+	str r1, [sp, #0x10]     @ sp10 = me
+	ldr r3, [sp, #0x14]     @ r3 = booster
 	ldrb r2, [r3, #8]
 	lsls r2, r2, #3
 	ldrh r0, [r3, #4]
@@ -61,7 +59,7 @@ Task_Booster: @ 0x08076F88
 	ldr r6, _08077004 @ =gPartner
 	ldr r5, _08077008 @ =gPlayer
 	mov sb, sp
-_08076FEE:
+_08076FEE_loop:
 	cmp r7, #0
 	beq _0807700C
 	ldr r0, [r6, #0x10]
@@ -91,7 +89,7 @@ _08077022:
 _08077024:
 	adds r0, #5
 	rsbs r1, r0, #0
-	add r0, sp, #4
+	add r0, sp, #4      @ r0 = &sp04
 	strb r1, [r0]
 	adds r3, r0, #0
 	cmp r7, #0
@@ -732,7 +730,7 @@ _080774C8:
 	asrs r0, r0, #0x18
 	cmp r7, r0
 	bge _080774D8
-	b _08076FEE
+	b _08076FEE_loop
 _080774D8:
 	mov r1, sl
 	ldrh r0, [r1, #0x16]
@@ -781,6 +779,7 @@ _0807752C:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start TaskDestructor_Booster
 TaskDestructor_Booster: @ 0x0807753C

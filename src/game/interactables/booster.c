@@ -259,6 +259,39 @@ void CreateEntity_Booster_Steep2(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 }
 
 #if 0
+void Task_Booster(void)
+{
+    Booster *booster;
+    Sprite *s;
+    CamCoord worldX, worldY;
+    MapEntity *me;
+    s32 i;
+
+    booster = TASK_DATA(gCurTask);
+    s = &booster->s;
+    me = booster->base.me;
+
+    worldX = TO_WORLD_POS(booster->base.meX, booster->base.regionX);
+    worldY = TO_WORLD_POS(me->y, booster->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    i = 0;
+    do {
+        // _08076FEE_loop
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, booster->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
 void TaskDestructor_Booster(struct Task *t)
 {
     Booster *booster = TASK_DATA(t);
