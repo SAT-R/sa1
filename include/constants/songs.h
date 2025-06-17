@@ -104,6 +104,7 @@
 #define SE_CHECKPOINT          169
 #define SE_SPRING              170
 #define SE_171                 171
+#define SE_BOOSTER             172
 #define SE_173                 173
 #define SE_POLE                175
 #define SE_CRUMBLING_PLATFORM  173

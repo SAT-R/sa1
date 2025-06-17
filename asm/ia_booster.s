@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
 	thumb_func_start Task_Booster
 Task_Booster: @ 0x08076F88
 	push {r4, r5, r6, r7, lr}
@@ -43,14 +43,14 @@ Task_Booster: @ 0x08076F88
 	ldr r3, _08077000 @ =gCamera
 	ldrh r0, [r3]
 	lsrs r4, r2, #0x10
-	str r4, [sp, #8]
+	str r4, [sp, #8]	@ sp08 = worldX
 	asrs r2, r2, #0x10
 	subs r2, r2, r0
 	mov r0, sl
 	strh r2, [r0, #0x16]
 	ldrh r0, [r3, #2]
 	lsrs r2, r1, #0x10
-	str r2, [sp, #0xc]
+	str r2, [sp, #0xc]	@ sp0C = worldY
 	asrs r1, r1, #0x10
 	subs r1, r1, r0
 	mov r3, sl
@@ -58,7 +58,7 @@ Task_Booster: @ 0x08076F88
 	movs r7, #0
 	ldr r6, _08077004 @ =gPartner
 	ldr r5, _08077008 @ =gPlayer
-	mov sb, sp
+	mov sb, sp		@ sb = sp00
 _08076FEE_loop:
 	cmp r7, #0
 	beq _0807700C
@@ -130,19 +130,19 @@ _0807705E:
 	adds r1, r3, #0
 	movs r2, #4
 	bl memcpy
-	mov r0, sb
+	mov r0, sb		@ r0 = sb = sp00
 	movs r4, #0
 	ldrsb r4, [r0, r4]
-	ldr r1, [sp, #8]
+	ldr r1, [sp, #8] @r2 = sp08 = worldX
 	lsls r3, r1, #0x10
 	asrs r2, r3, #0x10
-	mov r1, sl
+	mov r1, sl		@ r1 = sl = s
 	adds r1, #0x2c
 	movs r0, #0
 	ldrsb r0, [r1, r0]
 	adds r2, r2, r0
-	mov ip, r3
-	mov r8, r1
+	mov ip, r3		@ ip = r3 = worldX << 16
+	mov r8, r1		@ r8 = r1 = &s->hitboxes[0].left
 	cmp r7, #0
 	beq _0807709A
 	ldr r0, [r6]
@@ -158,11 +158,11 @@ _0807709A:
 	cmp r2, r0
 	bgt _080770CC
 _080770A4:
-	mov r3, sb
+	mov r3, sb			@ r3 = sb = sp00
 	movs r2, #0
 	ldrsb r2, [r3, r2]
-	mov r4, ip
-	asrs r1, r4, #0x10
+	mov r4, ip			@ r4 = ip = worldX << 16
+	asrs r1, r4, #0x10	@ r1 = worldX0
 	mov r0, sl
 	adds r0, #0x2e
 	ldrb r0, [r0]
@@ -181,10 +181,10 @@ _080770C4:
 	cmp r1, r0
 	bge _08077134
 _080770CC:
-	mov r0, sb
+	mov r0, sb		@ r0 = sb = sp00
 	movs r2, #0
 	ldrsb r2, [r0, r2]
-	mov r3, ip
+	mov r3, ip		@ r3 = ip = worldX << 16
 	asrs r1, r3, #0x10
 	mov r4, r8
 	movs r0, #0
@@ -215,7 +215,7 @@ _080770FA:
 	subs r3, r0, r2
 	mov r4, ip
 	asrs r1, r4, #0x10
-	mov r4, r8
+	mov r4, r8		@ r4 = r8 = s..left
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	adds r1, r1, r0
@@ -237,7 +237,7 @@ _08077126:
 	bge _08077134
 	b _080774C8
 _08077134:
-	mov r0, sb
+	mov r0, sb			@ r0 = sb = sp00
 	movs r4, #1
 	ldrsb r4, [r0, r4]
 	ldr r1, [sp, #0xc]
@@ -373,7 +373,7 @@ _08077224:
 	bl Player_TransitionCancelFlyingAndBoost
 	movs r0, #0xac
 	bl m4aSongNumStart
-	mov r1, sl
+	mov r1, sl			@ r1 = sl = 
 	ldr r0, [r1, #0x10]
 	movs r1, #0x80
 	lsls r1, r1, #3
