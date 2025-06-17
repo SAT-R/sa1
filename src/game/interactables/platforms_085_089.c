@@ -56,7 +56,7 @@ const u16 gUnknown_086CEDC0[NUM_LEVEL_IDS][3] = {
     { SA1_ANIM_PLATFORM_HORZ_6_1, 0x0000, MAX_TILES(SA1_ANIM_PLATFORM_HORZ_6_1) },
 };
 
-void CreateEntity_Platform085(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_Platform_SlowDescent(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_Platform085, sizeof(Platform085_089), 0x2000, 0, TaskDestructor_Platforms_085_089);
     Platform085_089 *platform = TASK_DATA(t);

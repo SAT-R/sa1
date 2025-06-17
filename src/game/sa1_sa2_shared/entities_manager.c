@@ -229,7 +229,7 @@ extern void CreateEntity_MovingSpring(MapEntity *me, u16 regionX, u16 regionY, u
 extern void CreateEntity_IronBall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_HangBar(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_SkatingStone(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_Platform085(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_Platform_SlowDescent(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_RunWheel(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Torch(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Lift(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -347,7 +347,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 082 */ CreateEntity_IronBall,
     /* 083 */ CreateEntity_HangBar,
     /* 084 */ CreateEntity_SkatingStone,
-    /* 085 */ CreateEntity_Platform085,
+    /* 085 */ CreateEntity_Platform_SlowDescent,
     /* 086 */ CreateEntity_RunWheel,
     /* 087 */ CreateEntity_Torch, // Cosmic Angel: Antigravity field elements
     /* 088 */ CreateEntity_Lift,

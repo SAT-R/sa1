@@ -195,19 +195,19 @@
 #define SA1_ANIM_TORCH5           558
 #define SA1_ANIM_BREAKABLE_WALL_1 559
 
-#define SA1_ANIM_ICE_SLIDE_SPLASH                 562
-#define SA1_ANIM_WATER_SURFACE                    563
-#define SA1_ANIM_DEBRIS_A                         564
-#define SA1_ANIM_DEBRIS_B                         565
-#define SA1_ANIM_DEBRIS_C                         566
-#define SA1_ANIM_STEAM_EXHAUST                    567 // Version without lid (with lid: SA1_ANIM_STEAM_EXHAUST_LID)
-#define SA1_ANIM_MUD_SLIDE_SPLASH                 568
-#define SA1_ANIM_HOOK_RAIL_3                      569
-#define SA1_ANIM_BOOSTER_TURNED_CLOCKWISE         570
-#define SA1_ANIM_BOOSTER_TURNED_COUNTER_CLOCKWISE 571
-#define SA1_ANIM_SPECIAL_SPRING                   572
-#define SA1_ANIM_DRISAME_ICEBLOCK                 573
-#define SA1_ANIM_FALLING_BRICK_XZONE              574
+#define SA1_ANIM_ICE_SLIDE_SPLASH                562
+#define SA1_ANIM_WATER_SURFACE                   563
+#define SA1_ANIM_DEBRIS_A                        564
+#define SA1_ANIM_DEBRIS_B                        565
+#define SA1_ANIM_DEBRIS_C                        566
+#define SA1_ANIM_STEAM_EXHAUST                   567 // Version without lid (with lid: SA1_ANIM_STEAM_EXHAUST_LID)
+#define SA1_ANIM_MUD_SLIDE_SPLASH                568
+#define SA1_ANIM_HOOK_RAIL_3                     569
+#define SA1_ANIM_BOOSTER_STEEP_CLOCKWISE         570
+#define SA1_ANIM_BOOSTER_STEEP_COUNTER_CLOCKWISE 571
+#define SA1_ANIM_SPECIAL_SPRING                  572
+#define SA1_ANIM_DRISAME_ICEBLOCK                573
+#define SA1_ANIM_FALLING_BRICK_XZONE             574
 
 #define SA1_ANIM_DRISAME_ICEBLOCK_DEBRIS_LARGE 579
 #define SA1_ANIM_DRISAME_ICEBLOCK_DEBRIS_SMALL 580
