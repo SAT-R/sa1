@@ -2699,7 +2699,7 @@ sub_803BEB8: @ 0x0803BEB8
 	ldr r0, _0803BFD0 @ =sub_803BFE8
 	movs r2, #0x88
 	lsls r2, r2, #6
-	ldr r1, _0803BFD4 @ =sub_803C198
+	ldr r1, _0803BFD4 @ =TaskDestructor_803C198
 	str r1, [sp]
 	movs r1, #0x68
 	movs r3, #0
@@ -2832,7 +2832,7 @@ _0803BFA4:
 	bx r0
 	.align 2, 0
 _0803BFD0: .4byte sub_803BFE8
-_0803BFD4: .4byte sub_803C198
+_0803BFD4: .4byte TaskDestructor_803C198
 _0803BFD8: .4byte gUiGraphics
 _0803BFDC: .4byte 0x00000694
 _0803BFE0: .4byte 0x03000060
@@ -3057,8 +3057,8 @@ TaskDestructor_803C184: @ 0x0803C184
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_803C198
-sub_803C198: @ 0x0803C198
+	thumb_func_start TaskDestructor_803C198
+TaskDestructor_803C198: @ 0x0803C198
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

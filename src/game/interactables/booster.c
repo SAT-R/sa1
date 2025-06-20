@@ -278,12 +278,10 @@ void Task_Booster(void)
 
     i = 0;
     do {
-        // _08076FEE_loop
         if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
             s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), (1 - PLAYER(i).spriteOffsetY), +(PLAYER(i).spriteOffsetX + 5),
                           (PLAYER(i).spriteOffsetY - 1) };
 
-            // HB_COLLISION macro ?
             if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY), (*((Rect8 *)&arr)))) {
                 if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
                     Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
