@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/game_over.h"
 #include "game/options_screen.h" // contains EditLanguageScreen
 #include "game/save.h"
@@ -8,6 +9,7 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/songs.h"
 #include "constants/tilemaps.h"
 
 #define LANGSCRN_BG_SCREENBASE 30
@@ -21,6 +23,9 @@ extern const u8 gUnknown_0868B722[NUM_LANGSCRN_SPRITES_TYPE_2][3];
 extern const u8 gUnknown_0868B728[NUM_LANGSCRN_SPRITES][2];
 extern const u8 gUnknown_0868B734[][NUM_LANGSCRN_SPRITES_TYPE_2][2];
 void Task_EditLanguageScreenInit(void);
+void Task_806ABD4(void);
+void sub_806AD44(void);
+void Task_806AF04(void);
 void TaskDestructor_EditLanguageScreen(struct Task *t);
 
 void CreateEditLanguageScreen(u8 param0)
@@ -47,7 +52,7 @@ void CreateEditLanguageScreen(u8 param0)
     unk280 = &screen->unk280;
     screen->unk28C = param0;
     screen->unk28D = LOADED_SAVE->language;
-    screen->unk254 = 0;
+    screen->spr250.graphics.dest = NULL;
 
     for (i = 0; i < NUM_LANGSCRN_SPRITES_TYPE_1; i++) {
         s = &screen->sprites[i];
@@ -131,4 +136,76 @@ void CreateEditLanguageScreen(u8 param0)
     unk280->unk8 = 0x100;
     unk280->unkA = 0x10;
     sub_805423C(unk280);
+}
+
+void Task_EditLanguageScreenInit(void)
+{
+    EditLanguageScreen *screen = TASK_DATA(gCurTask);
+    StrcUi_805423C *unk280 = &screen->unk280;
+    u32 inputMask;
+
+    if (sub_805423C(unk280)) {
+        if (gRepeatedKeys & DPAD_DOWN) {
+            screen->unk28D++;
+            m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+            if (screen->unk28D > 4) {
+                screen->unk28D = 0;
+            }
+        } else if (gRepeatedKeys & DPAD_UP) {
+            screen->unk28D--;
+            m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+            if (screen->unk28D < 0) {
+                screen->unk28D = 4;
+            }
+        }
+    }
+
+    inputMask = (screen->unk28C != 0) ? (A_BUTTON | START_BUTTON) : A_BUTTON;
+
+    if (gPressedKeys & inputMask) {
+        m4aSongNumStart(SE_SELECT);
+
+        if (screen->unk28D > 0) {
+            LOADED_SAVE->uiLanguage = UILANG_ENGLISH;
+        } else {
+            LOADED_SAVE->uiLanguage = UILANG_JAPANESE;
+        }
+
+        LOADED_SAVE->language = screen->unk28D;
+
+        if (screen->unk28D > 1) {
+            Sprite *s = &screen->spr250;
+            s->x = (DISPLAY_WIDTH / 2);
+            s->y = (DISPLAY_HEIGHT / 2);
+            s->graphics.dest = ALLOC_TILES(SA1_ANIM_ONLY_CHAO_MSGBOX);
+            s->oamFlags = SPRITE_OAM_ORDER(0);
+            s->graphics.size = 0;
+            s->graphics.anim = SA1_ANIM_ONLY_CHAO_MSGBOX;
+            s->variant = screen->unk28D - 2;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+            UpdateSpriteAnimation(s);
+
+            gCurTask->main = Task_806AF04;
+        } else {
+            unk280->unk4 = 1;
+            unk280->unk6 = 0;
+            gCurTask->main = Task_806ABD4;
+        }
+    } else if ((gPressedKeys & B_BUTTON) && (screen->unk28C == 0)) {
+        m4aSongNumStart(SE_RETURN);
+
+        unk280->unk4 = 1;
+        unk280->unk6 = 0;
+        gCurTask->main = Task_806ABD4;
+    }
+
+    sub_806AD44();
 }

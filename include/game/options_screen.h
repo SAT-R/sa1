@@ -22,9 +22,8 @@ typedef struct OptionsScreen {
 typedef struct {
     /* 0x000 */ Background bg;
     /* 0x040 */ Sprite sprites[NUM_LANGSCRN_SPRITES];
-    /* 0x220 */ u8 filler220[0x34];
-    /* 0x254 */ s32 unk254;
-    /* 0x258 */ u8 filler258[0x28];
+    /* 0x220 */ u8 filler220[0x30];
+    /* 0x250 */ Sprite spr250;
     /* 0x280 */ StrcUi_805423C unk280;
     /* 0x28C */ u8 unk28C;
     /* 0x28D */ s8 unk28D;

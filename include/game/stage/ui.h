@@ -10,7 +10,7 @@
          struct pointers as parameters.
 */
 
-bool32 sub_805423C(StrcUi_805423C *param0);
+bool8 sub_805423C(StrcUi_805423C *param0);
 void sub_80543A4(StrcUi_805423C *param0);
 
 #define UI_OAM_ORDER_INDEX 1

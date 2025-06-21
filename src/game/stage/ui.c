@@ -666,7 +666,7 @@ void CreateSpecialStageUI(void)
 
 void sub_8054238(void) { }
 
-bool32 sub_805423C(StrcUi_805423C *param0)
+bool8 sub_805423C(StrcUi_805423C *param0)
 {
     u16 r2;
 
