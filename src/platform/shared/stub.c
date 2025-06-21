@@ -138,7 +138,6 @@ void CreateMultiplayerModeSelectScreen() { }
 void CreateTimeAttackMenu() { }
 void CreateTimeAttackLobbyScreen() { }
 void CreateOptionsMenu() { }
-void CreateEditLanguageScreen() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
 void CreateStageResults() { }

@@ -2,6 +2,7 @@
 #define GUARD_OPTION_SCREEN_H
 
 #include "global.h"
+#include "game/game_over.h"
 #include "game/save.h"
 #include "sprite.h"
 #include "constants/text.h"
@@ -13,9 +14,21 @@ void CreateEditLanguageScreen(bool8 param0);
 typedef struct OptionsScreen {
 } OptionsScreen;
 
-typedef struct EditLanguageScreen {
-    u8 filler0[0x290];
-} EditLanguageScreen; /* size: 0x290 */
+#define NUM_LANGSCRN_SPRITES_TYPE_1 6
+#define NUM_LANGSCRN_SPRITES_TYPE_2 3
+#define NUM_LANGSCRN_SPRITES_TYPE_3 1
+#define NUM_LANGSCRN_SPRITES        (NUM_LANGSCRN_SPRITES_TYPE_1 + NUM_LANGSCRN_SPRITES_TYPE_2 + NUM_LANGSCRN_SPRITES_TYPE_3)
+
+typedef struct {
+    /* 0x000 */ Background bg;
+    /* 0x040 */ Sprite sprites[NUM_LANGSCRN_SPRITES];
+    /* 0x220 */ u8 filler220[0x34];
+    /* 0x254 */ s32 unk254;
+    /* 0x258 */ u8 filler258[0x28];
+    /* 0x280 */ StrcUi_805423C unk280;
+    /* 0x28C */ u8 unk28C;
+    /* 0x28D */ s8 unk28D;
+} EditLanguageScreen; /* 0x290 */
 
 #elif (GAME == GAME_SA2)
 //#include "game/stage/player_controls.h"

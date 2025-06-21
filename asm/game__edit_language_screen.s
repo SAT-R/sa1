@@ -5,7 +5,7 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
     @ Input:
     @ R0 = Some bool (>1 crashes)
 	thumb_func_start CreateEditLanguageScreen
@@ -90,7 +90,7 @@ _0806A772_loop:
 	adds r0, r4, r5
 	lsls r0, r0, #4
 	adds r0, #0x40
-	adds r7, r6, r0
+	adds r7, r6, r0     @ r7 = s
 	ldr r0, _0806A8B4 @ =gUnknown_0868B71C
 	adds r0, r5, r0
 	ldrb r0, [r0]
@@ -178,14 +178,14 @@ _0806A7B4:
 	str r2, [sp, #0x14]		@ sp14 = &screen->unk215
 	adds r3, r6, #0
 	adds r3, #0x2a
-	str r3, [sp, #4]		@ sp04 = screen->unk2A
+	str r3, [sp, #4]		@ sp04 = bg->paletteOffset
 	cmp r5, #8
 	bls _0806A832
 	b _0806A986_loop_skip
 _0806A832:
 	movs r0, #0xa3
 	lsls r0, r0, #2
-	adds r4, r6, r0
+	adds r4, r6, r0         @ r4 = &screen->unk28C
 	movs r1, #0
 	mov r8, r1
 	ldr r2, _0806A8D0 @ =gUnknown_0868B734
@@ -195,12 +195,12 @@ _0806A840_loop_inner:
 	adds r0, r0, r5
 	lsls r0, r0, #4
 	adds r0, #0x40
-	adds r7, r6, r0
-	ldr r2, _0806A8D4 @ =gUnknown_0868B722
-	ldrb r1, [r4]
+	adds r7, r6, r0     @ r7 = s
+	ldr r2, _0806A8D4 @ =gUnknown_0868B71C+0x6
+	ldrb r1, [r4]       @ r1 = *r4 = screen->unk28C
 	lsls r0, r1, #1
 	adds r0, r0, r1
-	subs r0, #6
+	subs r0, #6         @ r0 = (screen->unk28C * 3) - 6
 	adds r0, r5, r0
 	adds r0, r0, r2
 	ldrb r0, [r0]
@@ -341,7 +341,7 @@ _0806A986_loop_skip:
 	movs r4, #0
 	ldr r0, _0806AA3C @ =0x00000359
 	strh r0, [r7, #0xa]
-	ldr r1, [sp, #8]
+	ldr r1, [sp, #8]		@ r1 = sp08 = &screen->unk210
 	strb r5, [r1]
 	movs r0, #0x21
 	strh r0, [r7, #0x16]
@@ -351,14 +351,14 @@ _0806A986_loop_skip:
 	strh r4, [r7, #0x14]
 	strh r4, [r7, #0x1c]
 	movs r0, #0xff
-	ldr r2, [sp, #0xc]
+	ldr r2, [sp, #0xc]		@ r2 = sp0C = &screen->unk211
 	strb r0, [r2]
 	movs r3, #0x10
 	mov r8, r3
 	mov r1, r8
-	ldr r0, [sp, #0x10]
+	ldr r0, [sp, #0x10]		@ r0 = sp10 = &screen->unk212
 	strb r1, [r0]
-	ldr r2, [sp, #0x14]
+	ldr r2, [sp, #0x14]     @ r2 = sp14 = &screen->unk215
 	strb r5, [r2]
 	movs r0, #1
 	rsbs r0, r0, #0
@@ -389,7 +389,7 @@ _0806A986_loop_skip:
 	strh r0, [r6, #0x26]
 	movs r0, #0x14
 	strh r0, [r6, #0x28]
-	ldr r3, [sp, #4]
+	ldr r3, [sp, #4]		@ r3 = sp04 = bg->paletteOffset
 	strb r5, [r3]
 	strh r4, [r6, #0x2e]
 	adds r0, r6, #0
