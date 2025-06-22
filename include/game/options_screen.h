@@ -22,7 +22,7 @@ typedef struct {
     /* 0x000 */ Background bg;
     /* 0x040 */ Sprite sprites[NUM_LANGSCRN_SPRITES];
     /* 0x1F0 */ Sprite spr1F0;
-#if 1 //ndef NON_MATCHING
+#ifndef NON_MATCHING
     /* 0x220 */ Sprite sprUnused;
 #endif
     /* 0x250 */ Sprite spr250;
