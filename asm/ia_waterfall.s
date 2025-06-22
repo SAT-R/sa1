@@ -5,140 +5,9 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Waterfall
-CreateEntity_Waterfall: @ 0x08075AF0
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r7, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r4, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r5, r2, #0x10
-	ldr r0, _08075B10 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #4
-	bne _08075B18
-	ldr r0, _08075B14 @ =Task_Waterfall1
-	b _08075B1A
-	.align 2, 0
-_08075B10: .4byte gCurrentLevel
-_08075B14: .4byte Task_Waterfall1
-_08075B18:
-	ldr r0, _08075BE0 @ =Task_Waterfall0
-_08075B1A:
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _08075BE4 @ =TaskDestructor_Waterfall
-	str r1, [sp]
-	movs r1, #0x3f
-	movs r3, #0
-	bl TaskCreate
-	adds r2, r0, #0
-	ldrh r0, [r2, #6]
-	ldr r1, _08075BE8 @ =0x03000034
-	adds r0, r0, r1
-	strh r4, [r0]
-	ldrh r0, [r2, #6]
-	adds r1, #2
-	adds r0, r0, r1
-	strh r5, [r0]
-	ldrh r0, [r2, #6]
-	adds r1, #2
-	adds r0, r0, r1
-	movs r6, #0
-	strh r6, [r0]
-	ldrh r0, [r2, #6]
-	adds r1, #2
-	adds r0, r0, r1
-	strh r6, [r0]
-	ldrh r0, [r2, #6]
-	adds r0, r0, r1
-	strh r6, [r0]
-	ldrh r0, [r2, #6]
-	adds r0, r0, r1
-	strh r6, [r0]
-	ldrh r0, [r2, #6]
-	subs r1, #0x3a
-	adds r0, r0, r1
-	str r7, [r0]
-	ldrh r4, [r2, #6]
-	ldr r0, _08075BEC @ =0x03000004
-	adds r5, r4, r0
-	adds r1, #0x3d
-	adds r0, r4, r1
-	strb r6, [r0]
-	ldrh r0, [r2, #6]
-	adds r1, #1
-	adds r0, r0, r1
-	strb r6, [r0]
-	ldrh r0, [r2, #6]
-	ldr r2, _08075BF0 @ =0x0300003C
-	adds r0, r0, r2
-	ldrb r1, [r7]
-	strb r1, [r0]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	movs r0, #0x12
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r1, #0
-	movs r0, #0xa0
-	lsls r0, r0, #1
-	strh r0, [r5, #0x1a]
-	strh r1, [r5, #8]
-	ldr r2, _08075BF4 @ =gUnknown_086CED28
-	ldr r0, _08075BF8 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	lsls r0, r0, #1
-	adds r0, r0, r2
-	ldrh r0, [r0]
-	strh r0, [r5, #0xa]
-	ldr r2, _08075BFC @ =0x03000024
-	adds r0, r4, r2
-	strb r6, [r0]
-	strh r1, [r5, #0x14]
-	strh r1, [r5, #0x1c]
-	ldr r0, _08075C00 @ =0x03000025
-	adds r1, r4, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r2, #2
-	adds r1, r4, r2
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, _08075C04 @ =0x03000029
-	adds r4, r4, r0
-	strb r6, [r4]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r5, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08075BE0: .4byte Task_Waterfall0
-_08075BE4: .4byte TaskDestructor_Waterfall
-_08075BE8: .4byte 0x03000034
-_08075BEC: .4byte 0x03000004
-_08075BF0: .4byte 0x0300003C
-_08075BF4: .4byte gUnknown_086CED28
-_08075BF8: .4byte gCurrentLevel
-_08075BFC: .4byte 0x03000024
-_08075C00: .4byte 0x03000025
-_08075C04: .4byte 0x03000029
-
-	thumb_func_start Task_Waterfall0
-Task_Waterfall0: @ 0x08075C08
+.if 01
+	thumb_func_start Task_Waterfall
+Task_Waterfall: @ 0x08075C08
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -524,9 +393,10 @@ _08075EEC: .4byte 0x0300003A
 _08075EF0: .4byte gNumSingleplayerCharacters
 _08075EF4: .4byte 0x0300003D
 _08075EF8: .4byte 0x0300003E
+.endif
 
-	thumb_func_start Task_Waterfall1
-Task_Waterfall1: @ 0x08075EFC
+	thumb_func_start Task_WaterfallZone5
+Task_WaterfallZone5: @ 0x08075EFC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
