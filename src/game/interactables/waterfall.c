@@ -2,6 +2,7 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/entity.h"
+#include "game/stage/ui.h" // sub_80549FC
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -12,8 +13,8 @@ typedef struct {
     /* 0x04 */ Sprite s;
     /* 0x34 */ u16 regionX;
     /* 0x36 */ u16 regionY;
-    /* 0x38 */ u16 unk38;
-    /* 0x38 */ u16 unk3A;
+    /* 0x38 */ u8 unk38[2];
+    /* 0x38 */ u8 unk3A[2];
     /* 0x3C */ u8 meX;
     /* 0x3D */ u8 unk3D;
     /* 0x3E */ u8 unk3E;
@@ -78,3 +79,99 @@ void CreateEntity_Waterfall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 }
+
+void Task_Waterfall(void)
+{
+    u8 meX;
+    u16 regionX;
+    u16 regionY;
+    CamCoord x, y;
+    u8 unk3D;
+    u8 unk3E;
+    s32 i;
+    Sprite *s;
+    MapEntity *me;
+
+    me = TASK_GET_MEMBER(Waterfall, gCurTask, MapEntity *, me);
+    meX = TASK_GET_MEMBER(Waterfall, gCurTask, u8, meX);
+    regionX = TASK_GET_MEMBER(Waterfall, gCurTask, u16, regionX);
+    regionY = TASK_GET_MEMBER(Waterfall, gCurTask, u16, regionY);
+    s = &TASK_GET_MEMBER(Waterfall, gCurTask, Sprite, s);
+    unk3D = TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk3D);
+    unk3E = TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk3E);
+
+    // world x|y
+    x = TO_WORLD_POS(meX, regionX);
+    y = TO_WORLD_POS(me->y, regionY);
+
+    // screen x|y
+    x -= gCamera.x;
+    y -= gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(x, y)) {
+        s32 i = 0;
+        do {
+            if (TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk3A[i]) == 1) {
+#ifndef NON_MATCHING
+                PLAYER(i).qSpeedAirY = Div(PLAYER(i).qSpeedAirY, 2);
+#else
+                PLAYER(i).qSpeedAirY >>= 1;
+#endif
+            }
+        } while (++i < gNumSingleplayerCharacters);
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    // world x|y
+    x += gCamera.x;
+    y += gCamera.y;
+
+    i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            // NOTE: Changing something unrelated matches this if, so it might not be the nonmatch-cause
+            if ((x <= I(PLAYER(i).qWorldX)) && (x + me->d.uData[2] * TILE_WIDTH >= I(PLAYER(i).qWorldX))
+                && (y + me->d.sData[1] * TILE_WIDTH <= I(PLAYER(i).qWorldY))
+                && (y + me->d.sData[1] * TILE_WIDTH + me->d.uData[3] * TILE_WIDTH) >= I(PLAYER(i).qWorldY)) {
+                if (!sub_80549FC()) {
+#ifndef NON_MATCHING
+                    // NOTE: Redundant check
+                    if (!(PLAYER(i).moveState & MOVESTATE_DEAD))
+#endif
+                    {
+                        PLAYER(i).qSpeedAirY += Q(16 / 256.);
+                    }
+                }
+
+                s->x = I(PLAYER(i).qWorldX) - gCamera.x;
+                s->y = I(PLAYER(i).qWorldY) - gCamera.y + 10;
+
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+
+                TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3A[i], TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk38[i]));
+            } else {
+                TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk38[i], 0);
+                TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3A[i], TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk38[i]));
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3D, unk3D);
+    TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3E, unk3E);
+}
+
+#if 0
+void Task_WaterfallZone5(void)
+{
+}
+
+
+void TaskDestructor_Waterfall(struct Task *t)
+{
+    VramFree((&TASK_GET_MEMBER(Waterfall, t, Sprite, s))->graphics.dest);
+}
+#endif
