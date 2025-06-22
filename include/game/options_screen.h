@@ -16,13 +16,15 @@ typedef struct OptionsScreen {
 
 #define NUM_LANGSCRN_SPRITES_TYPE_1 6
 #define NUM_LANGSCRN_SPRITES_TYPE_2 3
-#define NUM_LANGSCRN_SPRITES_TYPE_3 1
-#define NUM_LANGSCRN_SPRITES        (NUM_LANGSCRN_SPRITES_TYPE_1 + NUM_LANGSCRN_SPRITES_TYPE_2 + NUM_LANGSCRN_SPRITES_TYPE_3)
+#define NUM_LANGSCRN_SPRITES        (NUM_LANGSCRN_SPRITES_TYPE_1 + NUM_LANGSCRN_SPRITES_TYPE_2)
 
 typedef struct {
     /* 0x000 */ Background bg;
     /* 0x040 */ Sprite sprites[NUM_LANGSCRN_SPRITES];
-    /* 0x220 */ u8 filler220[0x30];
+    /* 0x1F0 */ Sprite spr1F0;
+#if 1 //ndef NON_MATCHING
+    /* 0x220 */ Sprite sprUnused;
+#endif
     /* 0x250 */ Sprite spr250;
     /* 0x280 */ StrcUi_805423C unk280;
     /* 0x28C */ u8 unk28C;

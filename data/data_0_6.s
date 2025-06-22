@@ -1,3 +1,5 @@
+.include "asm/macros/portable.inc" @; for mPtr / mAlignWord
+
 	.section .rodata
 
     .global gUnknown_0868B0CC
@@ -224,6 +226,7 @@ gUnknown_0868B6B8:
 gUnknown_0868B6C4:
     .incbin "baserom.gba", 0x0068B6C4, 0x10
 
+@ Edit Language Screen - Data Start
     .global gUnknown_0868B6D4
 gUnknown_0868B6D4:
     .incbin "baserom.gba", 0x0068B6D4, 0x18
@@ -258,19 +261,19 @@ gUnknown_0868B729:
 
     .global gUnknown_0868B734
 gUnknown_0868B734:
-    .incbin "baserom.gba", 0x0068B734, 0x1
+    .incbin "baserom.gba", 0x0068B734, 0x24
 
-    .global gUnknown_0868B735
-gUnknown_0868B735:
-    .incbin "baserom.gba", 0x0068B735, 0x23
-
-    .global gUnknown_0868B758
-gUnknown_0868B758:
-    .incbin "baserom.gba", 0x0068B758, 0x8
+    mAlignWord
+    .global sLangScreenReturnProcs
+sLangScreenReturnProcs:
+    mPtr CreateOptionsMenu
+    mPtr CreateSegaLogo
 
     .global gUnknown_0868B760
 gUnknown_0868B760:
     .incbin "baserom.gba", 0x0068B760, 0xC
+
+@ Edit Language Screen - Data End
 
     .global gUnknown_0868B76C
 gUnknown_0868B76C:

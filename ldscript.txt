@@ -138,7 +138,6 @@ SECTIONS {
         asm/game__stage__results.o(.text);
         asm/game_2.o(.text);
         src/game/edit_language_screen.o(.text);
-        asm/game__edit_language_screen.o(.text);
         asm/game_3.o(.text);
 
         src/game/enemies/gamigami.o(.text);
