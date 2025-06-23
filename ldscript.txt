@@ -163,7 +163,6 @@ SECTIONS {
         src/game/interactables/bounce_block.o(.text);
         src/game/interactables/incline_ramp.o(.text);
         src/game/interactables/waterfall.o(.text);
-        asm/ia_waterfall.o(.text);
         src/game/interactables/shrubbery.o(.text);
         src/game/interactables/booster.o(.text);
         src/game/interactables/red_flag_and_pole.o(.text);
