@@ -1,11 +1,16 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/stage/player.h"
+#include "game/stage/player_controls.h" // for gPlayerControls
 #include "game/stage/ui.h" // sub_80549FC
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -20,7 +25,7 @@ typedef struct {
     /* 0x3E */ u8 unk3E;
 } Waterfall;
 
-#if !defined(NON_MATCHING) || defined(BUG_FIX)
+#if !defined(NON_MATCHING)
 #define WATERFALL_SIZE 0x3F
 #else
 #define WATERFALL_SIZE sizeof(Waterfall)
@@ -164,14 +169,161 @@ void Task_Waterfall(void)
     TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3E, unk3E);
 }
 
-#if 0
 void Task_WaterfallZone5(void)
 {
-}
+    u8 meX;
+    u16 regionX;
+    u16 regionY;
+    CamCoord x, y;
+    Sprite *s;
+    u8 unk3D;
+    u8 unk3E;
+    s32 i;
+    MapEntity *me;
 
+    me = TASK_GET_MEMBER(Waterfall, gCurTask, MapEntity *, me);
+    meX = TASK_GET_MEMBER(Waterfall, gCurTask, u8, meX);
+    regionX = TASK_GET_MEMBER(Waterfall, gCurTask, u16, regionX);
+    regionY = TASK_GET_MEMBER(Waterfall, gCurTask, u16, regionY);
+    s = &TASK_GET_MEMBER(Waterfall, gCurTask, Sprite, s);
+    unk3D = TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk3D);
+    unk3E = TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk3E);
 
-void TaskDestructor_Waterfall(struct Task *t)
-{
-    VramFree((&TASK_GET_MEMBER(Waterfall, t, Sprite, s))->graphics.dest);
-}
+    // world x|y
+    x = TO_WORLD_POS(meX, regionX);
+    y = TO_WORLD_POS(me->y, regionY);
+
+    // screen x|y
+    x -= gCamera.x;
+    y -= gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(x, y)) {
+        s32 i = 0;
+        do {
+            if (TASK_GET_MEMBER(Waterfall, gCurTask, u16, unk3A) == 1) {
+#ifndef NON_MATCHING
+                PLAYER(i).qSpeedAirY = Div(PLAYER(i).qSpeedAirY, 2);
+#else
+                PLAYER(i).qSpeedAirY >>= 1;
 #endif
+            }
+        } while (++i < gNumSingleplayerCharacters);
+
+        if (unk3D != 0) {
+            m4aMPlayFadeOut(&gMPlayInfo_SE2, 4);
+        }
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    // world x|y
+    x += gCamera.x;
+    y += gCamera.y;
+
+    UpdateSpriteAnimation(s);
+
+    i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            // NOTE: Changing something unrelated matches this if, so it might not be the nonmatch-cause
+            if ((x <= I(PLAYER(i).qWorldX)) && (x + me->d.uData[2] * TILE_WIDTH >= I(PLAYER(i).qWorldX))
+                && (y + me->d.sData[1] * TILE_WIDTH <= I(PLAYER(i).qWorldY))
+                && (y + me->d.sData[1] * TILE_WIDTH + me->d.uData[3] * TILE_WIDTH) >= I(PLAYER(i).qWorldY)) {
+                if ((PLAYER(i).qSpeedAirY >= 0) && (!(PLAYER(i).moveState & MOVESTATE_DEAD))) {
+                    {
+                        if (unk3D == 0) {
+                            unk3D = 1;
+                            m4aSongNumStart(SE_201);
+                        }
+                        if (PLAYER(i).frameInput & gPlayerControls.jump) {
+                            Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                            if (PLAYER(i).character != CHARACTER_AMY) {
+                                PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                            } else {
+                                PLAYER(i).charState = CHARSTATE_85;
+                            }
+
+#ifndef NON_MATCHING
+                            PLAYER(i).qSpeedAirY = -Div(Q(4.875), 2);
+#else
+                            PLAYER(i).qSpeedAirY = -(Q(4.875) >> 1);
+#endif
+                        } else {
+                            /* Jump Button NOT held */
+
+                            if (PLAYER(i).character == CHARACTER_KNUCKLES) {
+                                if (PLAYER(i).charState == CHARSTATE_KNUCKLES_GLIDE) {
+                                    PLAYER(i).charState = CHARSTATE_WALK;
+                                    PLAYER(i).qSpeedGround = Q(0);
+                                    PLAYER(i).qSpeedAirX = Q(0);
+
+                                    if (PLAYER(i).moveState & MOVESTATE_FACING_LEFT) {
+                                        // TODO: Uhh, this is kinda stupid?
+                                        PLAYER(i).moveState = MOVESTATE_FACING_LEFT;
+                                    } else {
+                                        PLAYER(i).moveState = 0;
+                                    }
+                                }
+
+                                if ((PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
+                                    if ((PLAYER(i).frameInput & gPlayerControls.attack)) {
+                                        PLAYER(i).qSpeedGround = Q(0);
+                                        PLAYER(i).qSpeedAirX = Q(0);
+                                    }
+                                } else {
+                                    if (PLAYER(i).frameInput & gPlayerControls.jump) {
+                                        PLAYER(i).qSpeedGround = Q(0);
+                                        PLAYER(i).qSpeedAirX = Q(0);
+                                    }
+                                }
+                            }
+                            Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+
+                            PLAYER(i).moveState &= ~MOVESTATE_IN_AIR;
+                            PLAYER(i).moveState &= ~MOVESTATE_4;
+                            PLAYER(i).charState = CHARSTATE_WALK;
+                            PLAYER(i).qWorldY += Q(0.6875);
+
+                            if (PLAYER(i).qSpeedAirY > Q(0)) {
+                                PLAYER(i).qSpeedAirY = Q(0);
+                            }
+
+                            if (PLAYER(i).heldInput & DPAD_LEFT) {
+                                PLAYER(i).qSpeedGround += Q(4. / 256.);
+                            } else if (PLAYER(i).heldInput & DPAD_RIGHT) {
+                                PLAYER(i).qSpeedGround -= Q(4. / 256.);
+                            } else {
+                                PLAYER(i).qSpeedGround -= Div(PLAYER(i).qSpeedGround, 20);
+                            }
+                        }
+                    }
+                }
+
+                s->x = I(PLAYER(i).qWorldX) - gCamera.x;
+                s->y = I(PLAYER(i).qWorldY) - gCamera.y + 10;
+
+                DisplaySprite(s);
+
+                TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3A[i], TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk38[i]));
+            } else {
+                if (unk3D == 1) {
+                    m4aMPlayFadeOut(&gMPlayInfo_SE2, 4);
+                    unk3D = 0;
+                } else if (unk3D != 0) {
+                    unk3D--;
+                }
+
+                TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk38[i], 0);
+                TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3A[i], TASK_GET_MEMBER(Waterfall, gCurTask, u8, unk38[i]));
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3D, unk3D);
+    TASK_SET_MEMBER(Waterfall, gCurTask, u8, unk3E, unk3E);
+}
+
+void TaskDestructor_Waterfall(struct Task *t) { VramFree((&TASK_GET_MEMBER(Waterfall, t, Sprite, s))->graphics.dest); }
