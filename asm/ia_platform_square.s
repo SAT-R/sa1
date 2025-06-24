@@ -5,301 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Platform_Square
-CreateEntity_Platform_Square: @ 0x0807D190
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	adds r6, r0, #0
-	adds r4, r3, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov sl, r2
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _0807D224 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x19
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	ldr r0, _0807D228 @ =Task_Platform_Square
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _0807D22C @ =TaskDestructor_Platform_Square
-	str r1, [sp]
-	movs r1, #0x54
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r2, r0
-	adds r0, #0xc
-	adds r5, r2, r0
-	movs r1, #0
-	movs r7, #0
-	mov r0, sb
-	strh r0, [r3, #4]
-	mov r0, sl
-	strh r0, [r3, #6]
-	str r6, [r3]
-	ldrb r0, [r6]
-	strb r0, [r3, #8]
-	strb r4, [r3, #9]
-	str r7, [r3, #0x40]
-	str r7, [r3, #0x44]
-	ldr r4, _0807D230 @ =0x0300004F
-	adds r0, r2, r4
-	strb r1, [r0]
-	subs r4, #1
-	adds r0, r2, r4
-	strb r1, [r0]
-	ldrb r0, [r6, #5]
-	ldrb r1, [r6, #6]
-	cmp r0, r1
-	bls _0807D260
-	movs r0, #3
-	ldrsb r0, [r6, r0]
-	cmp r0, #0
-	blt _0807D238
-	subs r4, #4
-	adds r1, r2, r4
-	movs r0, #4
-	strh r0, [r1]
-	ldr r1, _0807D234 @ =0x03000048
-	adds r0, r2, r1
-	strh r7, [r0]
-	adds r4, #2
-	adds r0, r2, r4
-	b _0807D24C
-	.align 2, 0
-_0807D224: .4byte gCurrentLevel
-_0807D228: .4byte Task_Platform_Square
-_0807D22C: .4byte TaskDestructor_Platform_Square
-_0807D230: .4byte 0x0300004F
-_0807D234: .4byte 0x03000048
-_0807D238:
-	ldr r0, _0807D254 @ =0x0300004A
-	adds r1, r2, r0
-	movs r0, #4
-	strh r0, [r1]
-	ldr r4, _0807D258 @ =0x03000048
-	adds r1, r2, r4
-	movs r0, #0x80
-	strh r0, [r1]
-	ldr r1, _0807D25C @ =0x0300004C
-	adds r0, r2, r1
-_0807D24C:
-	strh r7, [r0]
-	ldrb r1, [r6, #4]
-	b _0807D2A4
-	.align 2, 0
-_0807D254: .4byte 0x0300004A
-_0807D258: .4byte 0x03000048
-_0807D25C: .4byte 0x0300004C
-_0807D260:
-	movs r0, #4
-	ldrsb r0, [r6, r0]
-	cmp r0, #0
-	blt _0807D28C
-	ldr r4, _0807D280 @ =0x0300004A
-	adds r0, r2, r4
-	strh r7, [r0]
-	ldr r0, _0807D284 @ =0x0300004C
-	adds r1, r2, r0
-	movs r0, #4
-	strh r0, [r1]
-	ldr r1, _0807D288 @ =0x03000048
-	adds r0, r2, r1
-	strh r7, [r0]
-	b _0807D2A2
-	.align 2, 0
-_0807D280: .4byte 0x0300004A
-_0807D284: .4byte 0x0300004C
-_0807D288: .4byte 0x03000048
-_0807D28C:
-	ldr r4, _0807D30C @ =0x0300004A
-	adds r0, r2, r4
-	strh r7, [r0]
-	ldr r0, _0807D310 @ =0x0300004C
-	adds r1, r2, r0
-	movs r0, #4
-	strh r0, [r1]
-	subs r4, #2
-	adds r1, r2, r4
-	movs r0, #0x80
-	strh r0, [r1]
-_0807D2A2:
-	ldrb r1, [r6, #3]
-_0807D2A4:
-	adds r0, r3, #0
-	adds r0, #0x50
-	strb r1, [r0]
-	adds r2, r0, #0
-	ldrb r0, [r6]
-	lsls r0, r0, #3
-	mov r3, sb
-	lsls r1, r3, #8
-	adds r0, r0, r1
-	movs r4, #0
-	strh r0, [r5, #0x16]
-	ldrb r0, [r6, #1]
-	lsls r0, r0, #3
-	mov r3, sl
-	lsls r1, r3, #8
-	adds r0, r0, r1
-	strh r0, [r5, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r6]
-	mov r3, r8
-	cmp r3, #2
-	beq _0807D38E
-	ldr r0, _0807D314 @ =gCurrentLevel
-	ldrb r3, [r0]
-	movs r1, #0
-	ldrsb r1, [r0, r1]
-	cmp r1, #0x10
-	beq _0807D38E
-	mov r0, r8
-	cmp r0, #5
-	beq _0807D2EA
-	cmp r1, #0x11
-	bne _0807D350
-_0807D2EA:
-	movs r0, #1
-	ands r0, r3
-	cmp r0, #0
-	bne _0807D2F6
-	cmp r1, #0x11
-	bne _0807D328
-_0807D2F6:
-	ldrb r0, [r2]
-	cmp r0, #0
-	beq _0807D318
-	movs r0, #0x28
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x96
-	lsls r0, r0, #2
-	b _0807D39A
-	.align 2, 0
-_0807D30C: .4byte 0x0300004A
-_0807D310: .4byte 0x0300004C
-_0807D314: .4byte gCurrentLevel
-_0807D318:
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r5, #4]
-	ldr r0, _0807D324 @ =0x00000257
-	b _0807D39A
-	.align 2, 0
-_0807D324: .4byte 0x00000257
-_0807D328:
-	ldrb r0, [r2]
-	cmp r0, #0
-	beq _0807D340
-	movs r0, #0x28
-	bl VramMalloc
-	str r0, [r5, #4]
-	ldr r0, _0807D33C @ =0x00000207
-	b _0807D39A
-	.align 2, 0
-_0807D33C: .4byte 0x00000207
-_0807D340:
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r5, #4]
-	ldr r0, _0807D34C @ =0x00000206
-	b _0807D39A
-	.align 2, 0
-_0807D34C: .4byte 0x00000206
-_0807D350:
-	mov r1, r8
-	cmp r1, #4
-	bne _0807D37A
-	ldrb r0, [r2]
-	cmp r0, #0
-	beq _0807D36C
-	movs r0, #0x28
-	bl VramMalloc
-	str r0, [r5, #4]
-	ldr r0, _0807D368 @ =0x00000219
-	b _0807D39A
-	.align 2, 0
-_0807D368: .4byte 0x00000219
-_0807D36C:
-	movs r0, #0x28
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x86
-	lsls r0, r0, #2
-	b _0807D39A
-_0807D37A:
-	mov r3, r8
-	cmp r3, #3
-	bne _0807D38E
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x83
-	lsls r0, r0, #2
-	b _0807D39A
-_0807D38E:
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0xf7
-	lsls r0, r0, #1
-_0807D39A:
-	strh r0, [r5, #0xa]
-	adds r0, r5, #0
-	adds r0, #0x20
-	strb r4, [r0]
-	movs r2, #0
-	movs r1, #0
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	strh r1, [r5, #8]
-	strh r1, [r5, #0x14]
-	strh r1, [r5, #0x1c]
-	adds r1, r5, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	adds r0, r5, #0
-	adds r0, #0x25
-	strb r2, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r5, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-
+.if 01
 	thumb_func_start Task_Platform_Square
 Task_Platform_Square: @ 0x0807D3E8
 	push {r4, r5, r6, r7, lr}
@@ -309,23 +15,23 @@ Task_Platform_Square: @ 0x0807D3E8
 	push {r5, r6, r7}
 	sub sp, #0x3c
 	movs r0, #0
-	str r0, [sp, #0x20]
+	str r0, [sp, #0x20] @ sp20 = 0
 	movs r1, #0
-	str r1, [sp, #0x24]
+	str r1, [sp, #0x24] @ sp24 = 0
 	movs r2, #0
-	str r2, [sp, #0x28]
+	str r2, [sp, #0x28] @ sp28 = 0
 	ldr r0, _0807D500 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r7, [r0, #6]
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r7
-	mov sl, r0
+	mov sl, r0          @ sl = platform
 	ldr r3, _0807D504 @ =0x0300000C
 	adds r3, r7, r3
-	str r3, [sp, #0x10]
+	str r3, [sp, #0x10] @ sp10 = s
 	ldr r4, [r0]
-	str r4, [sp, #0x1c]
+	str r4, [sp, #0x1c] @ sp1C = me
 	ldr r0, _0807D508 @ =0x0300004A
 	adds r1, r7, r0
 	movs r2, #0
@@ -434,9 +140,7 @@ _0807D49E:
 	movs r5, #0
 	ldr r7, _0807D524 @ =gPartner
 	ldr r6, _0807D528 @ =gPlayer
-
-	thumb_func_start sub_807D4EC
-sub_807D4EC: @ 0x0807D4EC
+_807D4EC_loop: @ 0x0807D4EC
 	cmp r5, #0
 	beq _0807D52C
 	ldr r0, [r7, #0x10]
@@ -2456,7 +2160,7 @@ _0807E2DE:
 	asrs r0, r0, #0x18
 	cmp r5, r0
 	bge _0807E2F0
-	bl sub_807D4EC
+	bl _807D4EC_loop
 _0807E2F0:
 	ldr r2, [sp, #0x30]
 	asrs r1, r2, #0x10
@@ -2533,6 +2237,7 @@ _0807E378:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start CreateEntity_BarrelOfDoomMini
 CreateEntity_BarrelOfDoomMini: @ 0x0807E388

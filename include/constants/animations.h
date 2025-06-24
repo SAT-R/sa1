@@ -4,6 +4,7 @@
 /* Collection of animation indices for Sonic Advance 1.
  * - By JaceCear
  */
+#include "constants/anim_sizes.h"
 
 // "x_PROJ" means "projectile belonging to x"
 
@@ -155,7 +156,8 @@
 #define SA1_ANIM_PROPELLER         515
 #define SA1_ANIM_SPIKED_BARREL     516
 #define SA1_ANIM_PLATFORM_HORZ_6_1 517
-#define SA1_ANIM_PLATFORM_SQU_6    518
+#define SA1_ANIM_PLATFORM_SQU_6_1  518
+#define SA1_ANIM_PLATFORM_LONG_6_1 519
 
 #define SA1_ANIM_MINI_FLIPPER 522
 
@@ -172,19 +174,20 @@
 #define SA1_ANIM_MINIBUBBLES            533
 #define SA1_ANIM_SECURITY_GATE          534
 #define SA1_ANIM_PLATFORM_HORZ_5        535
-
-#define SA1_ANIM_PLATFORM_SPIKE_ANG_ISL_UP   538
-#define SA1_ANIM_PLATFORM_SPIKE_ANG_ISL_DOWN 539
-#define SA1_ANIM_SPRING_PLATFORM_5           540
-#define SA1_ANIM_IRON_BALL_5                 541
-#define SA1_ANIM_RUN_WHEEL                   542
-#define SA1_ANIM_BOUNCE_BLOCK_5              543
-#define SA1_ANIM_PLATFORM_SQU_ARROW          544
-#define SA1_ANIM_LIFT                        545
-#define SA1_ANIM_BIG_BOWL_ANG_ISL            546
-#define SA1_ANIM_SKATING_STONE               547
-#define SA1_ANIM_SKATING_STONE_DEBRIS_L      548
-#define SA1_ANIM_SKATING_STONE_DEBRIS_S      549
+#define SA1_ANIM_PLATFORM_LONG_V_5      536
+#define SA1_ANIM_PLATFORM_LONG_H_5      537
+#define SA1_ANIM_PLATFORM_SPIKE_5_UP    538
+#define SA1_ANIM_PLATFORM_SPIKE_5_DOWN  539
+#define SA1_ANIM_SPRING_PLATFORM_5      540
+#define SA1_ANIM_IRON_BALL_5            541
+#define SA1_ANIM_RUN_WHEEL              542
+#define SA1_ANIM_BOUNCE_BLOCK_5         543
+#define SA1_ANIM_PLATFORM_SQU_ARROW     544
+#define SA1_ANIM_LIFT                   545
+#define SA1_ANIM_BIG_BOWL_ANG_ISL       546
+#define SA1_ANIM_SKATING_STONE          547
+#define SA1_ANIM_SKATING_STONE_DEBRIS_L 548
+#define SA1_ANIM_SKATING_STONE_DEBRIS_S 549
 
 #define SA1_ANIM_CRUMBLE_PLATFORM_5       551
 #define SA1_ANIM_WATER_SPLASH_5           552
@@ -228,6 +231,8 @@
 #define SA1_ANIM_MAZE_AIR_CORNER  592
 
 #define SA1_ANIM_PLATFORM_HORZ_6_2    598
+#define SA1_ANIM_PLATFORM_SQU_6_2     599
+#define SA1_ANIM_PLATFORM_LONG_6_2    600
 #define SA1_ANIM_BOUNCE_BLOCK_6_2     601
 #define SA1_ANIM_CRUMBLE_PLATFORM_6_2 602
 #define SA1_ANIM_CONVEYOR_BELT_6_SLIM 603
