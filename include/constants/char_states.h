@@ -21,6 +21,8 @@
 #define CHARSTATE_11              11
 #define CHARSTATE_12              12
 #define CHARSTATE_13              13
+#define CHARSTATE_14              14
+#define CHARSTATE_15              15
 #define CHARSTATE_16              16
 #define CHARSTATE_17              17
 #define CHARSTATE_18              18

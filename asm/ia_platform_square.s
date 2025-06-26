@@ -64,7 +64,7 @@ Task_Platform_Square: @ 0x0807D3E8
 	mov r3, sl
 	str r0, [r3, #0x40]
 	subs r6, r0, r6
-	str r6, [sp, #0x20]
+	str r6, [sp, #0x20] @ sp20 = platform->qUnk40 - prevUnk40;
 _0807D45A:
 	ldr r4, _0807D51C @ =0x0300004C
 	adds r1, r7, r4
@@ -99,7 +99,7 @@ _0807D45A:
 	mov r3, sl
 	str r0, [r3, #0x44]
 	subs r6, r0, r6
-	str r6, [sp, #0x24]
+	str r6, [sp, #0x24] @ sp24 = platform->qUnk44 - prevUnk44;
 _0807D49E:
 	mov r4, sl
 	ldrb r1, [r4, #8]
@@ -107,21 +107,21 @@ _0807D49E:
 	ldrh r0, [r4, #4]
 	lsls r0, r0, #8
 	adds r1, r1, r0
-	lsls r1, r1, #0x10
+	lsls r1, r1, #0x10  @ r1 = worldX << 16
 	ldr r0, [sp, #0x1c]
 	ldrb r2, [r0, #1]
 	lsls r2, r2, #3
 	ldrh r0, [r4, #6]
 	lsls r0, r0, #8
 	adds r2, r2, r0
-	lsls r2, r2, #0x10
+	lsls r2, r2, #0x10  @ r2 = worldY << 16
 	ldr r3, _0807D520 @ =gCamera
 	ldrh r0, [r3]
 	lsrs r4, r1, #0x10
-	str r4, [sp, #0x14]
+	str r4, [sp, #0x14] @ sp14 = worldX
 	asrs r1, r1, #0x10
-	subs r1, r1, r0
-	mov r4, sl
+	subs r1, r1, r0     @ r1 = screenX = worldX - gCamera.x
+	mov r4, sl          @ r4 = sl = platform
 	ldr r0, [r4, #0x40]
 	asrs r0, r0, #8
 	adds r1, r1, r0
@@ -129,7 +129,7 @@ _0807D49E:
 	strh r1, [r0, #0x16]
 	ldrh r0, [r3, #2]
 	lsrs r1, r2, #0x10
-	str r1, [sp, #0x18]
+	str r1, [sp, #0x18] @ sp18 = worldY
 	asrs r2, r2, #0x10
 	subs r2, r2, r0
 	ldr r0, [r4, #0x44]
@@ -146,9 +146,9 @@ _807D4EC_loop: @ 0x0807D4EC
 	ldr r0, [r7, #0x10]
 	movs r4, #0x80
 	ands r0, r4
-	ldr r1, [sp, #0x14]
+	ldr r1, [sp, #0x14] @ r1 = sp14 = worldX
 	lsls r1, r1, #0x10
-	str r1, [sp, #0x30]
+	str r1, [sp, #0x30] @ sp30 = worldX << 16
 	b _0807D538
 	.align 2, 0
 _0807D500: .4byte gCurTask
@@ -166,13 +166,13 @@ _0807D52C:
 	ldr r0, [r6, #0x10]
 	movs r2, #0x80
 	ands r0, r2
-	ldr r3, [sp, #0x14]
+	ldr r3, [sp, #0x14] @ r3 = sp14 = worldX
 	lsls r3, r3, #0x10
 	str r3, [sp, #0x30]
 _0807D538:
 	cmp r0, #0
 	beq _0807D540
-	bl _0807E2DE
+	bl _0807E2DE_continue
 _0807D540:
 	cmp r5, #0
 	beq _0807D554
@@ -180,7 +180,7 @@ _0807D540:
 	movs r4, #0x80
 	lsls r4, r4, #0xf
 	ands r0, r4
-	ldr r1, [sp, #0x14]
+	ldr r1, [sp, #0x14] @ r1 = sp14 = worldX
 	lsls r1, r1, #0x10
 	str r1, [sp, #0x30]
 	b _0807D562
@@ -189,22 +189,22 @@ _0807D554:
 	movs r2, #0x80
 	lsls r2, r2, #0xf
 	ands r0, r2
-	ldr r3, [sp, #0x14]
+	ldr r3, [sp, #0x14] @ r3 = sp14 = worldX
 	lsls r3, r3, #0x10
 	str r3, [sp, #0x30]
 _0807D562:
 	cmp r0, #0
 	beq _0807D56A
-	bl _0807E2DE
+	bl _0807E2DE_continue
 _0807D56A:
 	cmp r5, #0
 	beq _0807D574
-	ldr r4, [r7]
-	mov sb, r4
+	ldr r4, [r7]    
+	mov sb, r4      @ sb = r4 = gPartner.qWorldX
 	b _0807D578
 _0807D574:
 	ldr r0, [r6]
-	mov sb, r0
+	mov sb, r0      @ sb = r0 = gPartner.qWorldX
 _0807D578:
 	mov r2, sl
 	adds r2, #0x4e
@@ -212,7 +212,7 @@ _0807D578:
 	asrs r1, r5
 	movs r0, #1
 	ands r1, r0
-	str r2, [sp, #0x38]
+	str r2, [sp, #0x38] @ sp38 = &platform->unk4E
 	cmp r1, #0
 	bne _0807D58C
 	b _0807D92C
@@ -220,13 +220,13 @@ _0807D58C:
 	cmp r5, #0
 	beq _0807D59A
 	ldr r0, [r7]
-	ldr r1, [sp, #0x20]
+	ldr r1, [sp, #0x20] @ r1 = sp20
 	adds r0, r0, r1
 	str r0, [r7]
 	b _0807D5A2
 _0807D59A:
 	ldr r0, [r6]
-	ldr r2, [sp, #0x20]
+	ldr r2, [sp, #0x20] @ r2 = sp20
 	adds r0, r0, r2
 	str r0, [r6]
 _0807D5A2:
@@ -245,7 +245,7 @@ _0807D5B6:
 	adds r0, r0, r1
 	str r0, [r6, #4]
 _0807D5BC:
-	ldr r0, [sp, #0x20]
+	ldr r0, [sp, #0x20] @ r0 = sp20
 	cmp r0, #0
 	ble _0807D6A2
 	cmp r5, #0
@@ -628,16 +628,16 @@ _0807D848:
 	adds r0, #0x4c
 	movs r1, #0
 	ldrsh r0, [r0, r1]
-	ldr r2, [sp, #0x14]
+	ldr r2, [sp, #0x14] @ r2 = sp14 = worldX
 	lsls r2, r2, #0x10
-	str r2, [sp, #0x30]
+	str r2, [sp, #0x30] @ sp30 = worldX << 16
 	cmp r0, #0
 	bne _0807D862
 	bl _0807E16A
 _0807D862:
 	cmp r5, #0
 	beq _0807D874
-	mov r3, sb
+	mov r3, sb      @ r3 = sb = 
 	str r3, [r7]
 	b _0807D878
 	.align 2, 0
@@ -682,9 +682,9 @@ _0807D8A8:
 	lsls r3, r3, #0xf
 	orrs r0, r3
 	str r0, [r7, #0x10]
-	ldr r4, [sp, #0x14]
+	ldr r4, [sp, #0x14] @ r4 = sp14 = worldX
 	lsls r4, r4, #0x10
-	str r4, [sp, #0x30]
+	str r4, [sp, #0x30] @ sp30 = worldX << 16
 	bl _0807E16A
 _0807D8C0:
 	ldr r0, [r6, #0x10]
@@ -692,36 +692,36 @@ _0807D8C0:
 	lsls r1, r1, #0xf
 	orrs r0, r1
 	str r0, [r6, #0x10]
-	ldr r2, [sp, #0x14]
+	ldr r2, [sp, #0x14] @ r2 = sp14 = worldX
 	lsls r2, r2, #0x10
-	str r2, [sp, #0x30]
+	str r2, [sp, #0x30] @ sp30 = worldX << 16
 	bl _0807E16A
 _0807D8D4:
-	mov r3, sl
+	mov r3, sl          @ r3 = sl = platform
 	ldr r1, [r3, #0x40]
 	asrs r1, r1, #8
-	ldr r4, [sp, #0x14]
+	ldr r4, [sp, #0x14] @ r4 = sp14 = worldX
 	lsls r2, r4, #0x10
 	asrs r0, r2, #0x10
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
-	mov ip, r0
+	mov ip, r0          @ ip = worldX + I(platform->qUnk40)
 	ldr r1, [r3, #0x44]
 	asrs r1, r1, #8
-	ldr r3, [sp, #0x18]
+	ldr r3, [sp, #0x18] @ r3 = sp18 = worldY
 	lsls r0, r3, #0x10
 	asrs r0, r0, #0x10
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
-	asrs r4, r0, #0x10
+	asrs r4, r0, #0x10  @ r4 = worldY + I(platform->qUnk44)
 	ldr r3, _0807D924 @ =gPlayer
-	str r2, [sp, #0x30]
+	str r2, [sp, #0x30] @ sp30 = worldX << 16
 	cmp r5, #0
 	beq _0807D902
 	ldr r3, _0807D928 @ =gPartner
 _0807D902:
-	ldr r0, [sp, #0x10]
+	ldr r0, [sp, #0x10] @ r0 = sp10 = s
 	mov r1, ip
 	adds r2, r4, #0
 	bl Coll_Player_Entity_Intersection
@@ -731,7 +731,7 @@ _0807D902:
 _0807D914:
 	movs r1, #1
 	lsls r1, r5
-	ldr r4, [sp, #0x38]
+	ldr r4, [sp, #0x38] @ r4 = sp38 = &platform->unk4E
 	ldrb r0, [r4]
 	bics r0, r1
 	bl sub_807E168
@@ -802,11 +802,11 @@ _0807D992:
 	cmp r5, #0
 	beq _0807D99C
 	ldr r2, [r7, #4]
-	str r2, [sp, #0x2c]
+	str r2, [sp, #0x2c] @ sp2C = PLAYER(i).qWorldY
 	b _0807D9A0
 _0807D99C:
 	ldr r3, [r6, #4]
-	str r3, [sp, #0x2c]
+	str r3, [sp, #0x2c] @ sp2C = PLAYER(i).qWorldY
 _0807D9A0:
 	cmp r5, #0
 	beq _0807D9A8
@@ -927,7 +927,7 @@ _0807DA4E:
 _0807DA68:
 	cmp r0, #0
 	bge _0807DAB4
-	ldr r1, [sp, #0x14]
+	ldr r1, [sp, #0x14] @ r1 = sp14 = worldX
 	lsls r3, r1, #0x10
 	asrs r1, r3, #0x10
 	mov r2, sl
@@ -935,7 +935,7 @@ _0807DA68:
 	asrs r0, r0, #8
 	adds r1, r1, r0
 	mov r8, r1
-	ldr r4, [sp, #0x18]
+	ldr r4, [sp, #0x18] @ r4 = sp18 = worldY
 	lsls r2, r4, #0x10
 	asrs r1, r2, #0x10
 	mov r4, sl
@@ -944,8 +944,8 @@ _0807DA68:
 	adds r4, r1, r0
 	add r0, sp, #8
 	mov ip, r0
-	str r3, [sp, #0x30]
-	str r2, [sp, #0x34]
+	str r3, [sp, #0x30] @ sp30 = worldX << 16
+	str r2, [sp, #0x34] @ sp34 = worldY << 16
 	cmp r5, #0
 	beq _0807DAA4
 	str r7, [sp]
@@ -966,7 +966,7 @@ _0807DAB4:
 	mov r2, sl
 	ldr r1, [r2, #0x40]
 	asrs r1, r1, #8
-	ldr r4, [sp, #0x14]
+	ldr r4, [sp, #0x14] @ r4 = sp14 = worldX
 	lsls r3, r4, #0x10
 	asrs r0, r3, #0x10
 	adds r0, r0, r1
@@ -975,7 +975,7 @@ _0807DAB4:
 	mov r8, r0
 	ldr r1, [r2, #0x44]
 	asrs r1, r1, #8
-	ldr r0, [sp, #0x18]
+	ldr r0, [sp, #0x18] @ r0 = sp18 = worldY
 	lsls r2, r0, #0x10
 	asrs r0, r2, #0x10
 	adds r0, r0, r1
@@ -983,8 +983,8 @@ _0807DAB4:
 	asrs r4, r0, #0x10
 	ldr r1, _0807DB34 @ =gPlayer
 	mov ip, r1
-	str r3, [sp, #0x30]
-	str r2, [sp, #0x34]
+	str r3, [sp, #0x30] @ sp30 = worldX << 16
+	str r2, [sp, #0x34] @ sp34 = worldY << 16
 	cmp r5, #0
 	beq _0807DAE8
 	ldr r2, _0807DB38 @ =gPartner
@@ -995,7 +995,7 @@ _0807DAE8:
 	adds r2, r4, #0
 	mov r3, ip
 	bl sub_80096B0
-	str r0, [sp, #0x28]
+	str r0, [sp, #0x28] @ sp28 = sp28
 _0807DAF6:
 	movs r0, #0xb8
 	lsls r0, r0, #0xd
@@ -1479,7 +1479,7 @@ _0807DE32:
 	ble _0807DE38
 	b _0807E16A
 _0807DE38:
-	ldr r1, [sp, #0x34]
+	ldr r1, [sp, #0x34] @ r1 = sp34 = worldY << 16
 	asrs r0, r1, #0x10
 	mov r2, sl
 	ldr r1, [r2, #0x44]
@@ -1519,11 +1519,11 @@ _0807DE7C:
 _0807DE80:
 	cmp r5, #0
 	beq _0807DE8A
-	ldr r0, [sp, #0x2c]
+	ldr r0, [sp, #0x2c] @ r0 = sp2C = PLAYER(i).qWorldY
 	str r0, [r7, #4]
 	b _0807DE8E
 _0807DE8A:
-	ldr r1, [sp, #0x2c]
+	ldr r1, [sp, #0x2c] @ r1 = sp2C = PLAYER(i).qWorldY
 	str r1, [r6, #4]
 _0807DE8E:
 	cmp r5, #0
@@ -1689,7 +1689,7 @@ _0807DF9C:
 	blt _0807DFA2
 	b _0807E16A
 _0807DFA2:
-	ldr r1, [sp, #0x34]
+	ldr r1, [sp, #0x34] @ r1 = sp34 = worldY << 16
 	asrs r0, r1, #0x10
 	mov r2, sl
 	ldr r1, [r2, #0x44]
@@ -1729,11 +1729,11 @@ _0807DFE4:
 _0807DFE8:
 	cmp r5, #0
 	beq _0807DFF2
-	ldr r0, [sp, #0x2c]
+	ldr r0, [sp, #0x2c] @ r0 = sp2C = PLAYER(i).qWorldY
 	str r0, [r7, #4]
 	b _0807DFF6
 _0807DFF2:
-	ldr r1, [sp, #0x2c]
+	ldr r1, [sp, #0x2c] @ r1 = sp2C = PLAYER(i).qWorldY
 	str r1, [r6, #4]
 _0807DFF6:
 	cmp r5, #0
@@ -1964,7 +1964,7 @@ _0807E17C:
 _0807E182:
 	cmp r0, #0
 	beq _0807E188
-	b _0807E2DE
+	b _0807E2DE_continue
 _0807E188:
 	cmp r5, #0
 	beq _0807E196
@@ -1972,35 +1972,35 @@ _0807E188:
 	ldrsh r0, [r7, r3]
 	cmp r0, #0
 	bge _0807E1A0
-	b _0807E2DE
+	b _0807E2DE_continue
 _0807E196:
 	movs r4, #0xa
 	ldrsh r0, [r6, r4]
 	cmp r0, #0
 	bge _0807E1A0
-	b _0807E2DE
+	b _0807E2DE_continue
 _0807E1A0:
-	ldr r0, [sp, #0x18]
+	ldr r0, [sp, #0x18] @ r0 = sp18 = worldY
 	lsls r2, r0, #0x10
 	asrs r1, r2, #0x10
 	mov r3, sl
 	ldr r0, [r3, #0x44]
 	asrs r0, r0, #8
 	adds r1, r1, r0
-	str r2, [sp, #0x34]
+	str r2, [sp, #0x34] @ sp34 = worldY << 16
 	cmp r5, #0
 	beq _0807E1BE
 	ldr r0, [r7, #4]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bgt _0807E1C8
-	b _0807E2DE
+	b _0807E2DE_continue
 _0807E1BE:
 	ldr r0, [r6, #4]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bgt _0807E1C8
-	b _0807E2DE
+	b _0807E2DE_continue
 _0807E1C8:
 	add r2, sp, #8
 	cmp r5, #0
@@ -2053,27 +2053,27 @@ _0807E20E:
 	adds r1, r3, #0
 	movs r2, #4
 	bl memcpy
-	ldr r4, [sp, #0x30]
+	ldr r4, [sp, #0x30] @ r4 = sp30 = worldX << 16
 	asrs r1, r4, #0x10
 	mov r2, sl
 	ldr r0, [r2, #0x40]
 	asrs r0, r0, #8
 	adds r4, r1, r0
-	ldr r3, [sp, #0x34]
+	ldr r3, [sp, #0x34] @ r3 = sp34 = worldY << 16
 	asrs r1, r3, #0x10
 	ldr r0, [r2, #0x44]
 	asrs r0, r0, #8
-	adds r2, r1, r0
-	add r3, sp, #8
+	adds r2, r1, r0     @ r2 = y
+	add r3, sp, #8      @ r3 = &sp08
 	cmp r5, #0
 	beq _0807E240
-	str r7, [sp]
+	str r7, [sp]        @ sp00 = &PLAYER(i)
 	b _0807E242
 _0807E240:
 	str r6, [sp]
 _0807E242:
-	ldr r0, [sp, #0x10]
-	adds r1, r4, #0
+	ldr r0, [sp, #0x10] @ r0 = sp10 = s
+	adds r1, r4, #0     @ r1 = x
 	bl sub_807E914
 	cmp r5, #0
 	beq _0807E254
@@ -2082,7 +2082,7 @@ _0807E242:
 	b _0807E258
 _0807E254:
 	ldr r0, [r6]
-	mov sb, r0
+	mov sb, r0      @ sb = PLAYER(i).qWorldX
 _0807E258:
 	ldr r3, _0807E2B0 @ =gPlayer
 	mov r2, sl
@@ -2095,7 +2095,7 @@ _0807E258:
 	asrs r4, r0, #0x10
 	ldr r1, [r2, #0x44]
 	asrs r1, r1, #8
-	ldr r2, [sp, #0x34]
+	ldr r2, [sp, #0x34] @ r2 = sp34 = worldY << 16
 	asrs r0, r2, #0x10
 	adds r0, r0, r1
 	lsls r0, r0, #0x10
@@ -2115,7 +2115,7 @@ _0807E27E:
 	beq _0807E2C4
 	movs r0, #1
 	lsls r0, r5
-	ldr r4, [sp, #0x38]
+	ldr r4, [sp, #0x38] @ r4 = sp38 = &platform->unk4E
 	ldrb r1, [r4]
 	orrs r0, r1
 	strb r0, [r4]
@@ -2126,7 +2126,7 @@ _0807E27E:
 	lsls r1, r1, #1
 	adds r0, r0, r1
 	str r0, [r7, #4]
-	b _0807E2DE
+	b _0807E2DE_continue
 	.align 2, 0
 _0807E2B0: .4byte gPlayer
 _0807E2B4: .4byte gPartner
@@ -2136,23 +2136,23 @@ _0807E2B8:
 	lsls r2, r2, #1
 	adds r0, r0, r2
 	str r0, [r6, #4]
-	b _0807E2DE
+	b _0807E2DE_continue
 _0807E2C4:
 	movs r0, #0x80
 	lsls r0, r0, #9
 	ldr r3, [sp, #0x28]
 	ands r0, r3
 	cmp r0, #0
-	beq _0807E2DE
+	beq _0807E2DE_continue
 	cmp r5, #0
 	beq _0807E2DA
 	mov r4, sb
 	str r4, [r7]
-	b _0807E2DE
+	b _0807E2DE_continue
 _0807E2DA:
 	mov r0, sb
 	str r0, [r6]
-_0807E2DE:
+_0807E2DE_continue:
 	adds r5, #1
 	ldr r0, _0807E360 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -2162,7 +2162,7 @@ _0807E2DE:
 	bge _0807E2F0
 	bl _807D4EC_loop
 _0807E2F0:
-	ldr r2, [sp, #0x30]
+	ldr r2, [sp, #0x30]     @ r2 = sp30 = worldX << 16
 	asrs r1, r2, #0x10
 	ldr r3, _0807E364 @ =gCamera
 	movs r0, #0
