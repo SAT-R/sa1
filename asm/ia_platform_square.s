@@ -5,130 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start CreateEntity_BarrelOfDoomMini
-CreateEntity_BarrelOfDoomMini: @ 0x0807E388
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	mov sb, r0
-	adds r5, r1, #0
-	adds r6, r2, #0
-	mov r8, r3
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	ldr r0, _0807E468 @ =Task_BarrelOfDoomMini
-	ldr r1, _0807E46C @ =TaskDestructor_Platform_Square
-	str r1, [sp]
-	movs r1, #0x54
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	ldr r1, _0807E470 @ =0x0300000C
-	adds r4, r2, r1
-	movs r7, #0
-	mov sl, r7
-	movs r3, #0
-	strh r5, [r0, #4]
-	strh r6, [r0, #6]
-	mov r1, sb
-	str r1, [r0]
-	ldrb r1, [r1]
-	strb r1, [r0, #8]
-	mov r7, r8
-	strb r7, [r0, #9]
-	str r3, [r0, #0x40]
-	str r3, [r0, #0x44]
-	ldr r7, _0807E474 @ =0x0300004E
-	adds r1, r2, r7
-	mov r7, sl
-	strb r7, [r1]
-	str r3, [r0, #0x3c]
-	mov r1, sb
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r5, r5, #8
-	adds r0, r0, r5
-	strh r0, [r4, #0x16]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	lsls r6, r6, #8
-	adds r0, r0, r6
-	strh r0, [r4, #0x18]
-	movs r0, #0xfe
-	strb r0, [r1]
-	movs r0, #0x14
-	str r2, [sp, #4]
-	str r3, [sp, #8]
-	bl VramMalloc
-	str r0, [r4, #4]
-	ldr r0, _0807E478 @ =0x000001ED
-	strh r0, [r4, #0xa]
-	ldr r2, [sp, #4]
-	ldr r7, _0807E47C @ =0x0300002C
-	adds r0, r2, r7
-	mov r1, sl
-	strb r1, [r0]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r4, #0x1a]
-	ldr r3, [sp, #8]
-	strh r3, [r4, #8]
-	strh r3, [r4, #0x14]
-	strh r3, [r4, #0x1c]
-	adds r7, #1
-	adds r1, r2, r7
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0807E480 @ =0x0300002E
-	adds r1, r2, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0807E484 @ =0x03000031
-	adds r2, r2, r1
-	mov r7, sl
-	strb r7, [r2]
-	subs r0, #0x11
-	str r0, [r4, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r4, #0x10]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0807E468: .4byte Task_BarrelOfDoomMini
-_0807E46C: .4byte TaskDestructor_Platform_Square
-_0807E470: .4byte 0x0300000C
-_0807E474: .4byte 0x0300004E
-_0807E478: .4byte 0x000001ED
-_0807E47C: .4byte 0x0300002C
-_0807E480: .4byte 0x0300002E
-_0807E484: .4byte 0x03000031
-
+.if 01
 	thumb_func_start Task_BarrelOfDoomMini
 Task_BarrelOfDoomMini: @ 0x0807E488
 	push {r4, r5, r6, r7, lr}
@@ -745,6 +622,7 @@ _0807E902:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start sub_807E914
 sub_807E914: @ 0x0807E914

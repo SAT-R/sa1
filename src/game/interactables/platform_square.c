@@ -17,7 +17,7 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ u8 filler3C[4];
+    /* 0x48 */ s32 unk3C;
     /* 0x40 */ s32 qUnk40;
     /* 0x44 */ s32 qUnk44;
     /* 0x48 */ u16 unk48;
@@ -30,6 +30,7 @@ typedef struct {
 
 void Task_Platform_Square(void);
 void TaskDestructor_Platform_Square(struct Task *t);
+void Task_BarrelOfDoomMini(void);
 bool32 sub_807E914(Sprite *s, s32 worldX, s32 worldY, Rect8 *unk08, Player *p);
 
 void CreateEntity_Platform_Square(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -436,6 +437,45 @@ void Task_Platform_Square(void)
     DisplaySprite(s);
 }
 
+void CreateEntity_BarrelOfDoomMini(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    u8 zone = LEVEL_TO_ZONE(gCurrentLevel);
+    struct Task *t = TaskCreate(Task_BarrelOfDoomMini, sizeof(PlatformSq), 0x2000, 0, TaskDestructor_Platform_Square);
+    PlatformSq *platform = TASK_DATA(t);
+    Sprite *s = &platform->s;
+    CamCoord worldX, worldY;
+
+    platform->base.regionX = regionX;
+    platform->base.regionY = regionY;
+    platform->base.me = me;
+    platform->base.meX = me->x;
+    platform->base.id = id;
+
+    platform->qUnk40 = 0;
+    platform->qUnk44 = 0;
+    platform->unk4E = 0;
+    platform->unk3C = 0;
+
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+
+    SET_MAP_ENTITY_INITIALIZED_SIMPLE(me);
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BARREL_OF_DOOM_MINI);
+    s->graphics.anim = SA1_ANIM_BARREL_OF_DOOM_MINI;
+    s->variant = 0;
+
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = FALSE;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+}
 #if 0
 void TaskDestructor_Platform_Square(struct Task *t)
 {
