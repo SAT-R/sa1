@@ -30,7 +30,7 @@ typedef struct {
 
 void Task_Platform_Square(void);
 void TaskDestructor_Platform_Square(struct Task *t);
-bool32 sub_807E914(Sprite *s, s32 worldX, s32 worldY, Rect8 *unk08, Player *p) {};
+bool32 sub_807E914(Sprite *s, s32 worldX, s32 worldY, Rect8 *unk08, Player *p);
 
 void CreateEntity_Platform_Square(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -436,7 +436,7 @@ void Task_Platform_Square(void)
     DisplaySprite(s);
 }
 
-#if 01
+#if 0
 void TaskDestructor_Platform_Square(struct Task *t)
 {
     PlatformSq *platform = TASK_DATA(t);
