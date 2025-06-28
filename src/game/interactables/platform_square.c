@@ -5,6 +5,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/stage/player.h"
+#include "game/stage/player_controls.h"
 #include "game/stage/terrain_collision.h"
 #include "game/sa1_sa2_shared/collision.h"
 
@@ -17,7 +18,7 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x48 */ s32 unk3C;
+    /* 0x48 */ s32 qUnk3C; // Barrel of Doom movement delta?
     /* 0x40 */ s32 qUnk40;
     /* 0x44 */ s32 qUnk44;
     /* 0x48 */ u16 unk48;
@@ -454,7 +455,7 @@ void CreateEntity_BarrelOfDoomMini(MapEntity *me, u16 regionX, u16 regionY, u8 i
     platform->qUnk40 = 0;
     platform->qUnk44 = 0;
     platform->unk4E = 0;
-    platform->unk3C = 0;
+    platform->qUnk3C = 0;
 
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
@@ -476,6 +477,105 @@ void CreateEntity_BarrelOfDoomMini(MapEntity *me, u16 regionX, u16 regionY, u8 i
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);
 }
+
+// (96.69%) https://decomp.me/scratch/jpuHI
+NONMATCH("asm/non_matching/game/interactables/platform_sq__Task_BarrelOfDoomMini.inc", void Task_BarrelOfDoomMini(void))
+{
+    PlatformSq *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    MapEntity *me = platform->base.me;
+    CamCoord worldX, worldY;
+    s32 i;
+    s32 qSpeedsY[NUM_SINGLEPLAYER_CHARS_MAX];
+
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    if (platform->qUnk44 != Q(0)) {
+        if (platform->qUnk44 < 0) {
+            platform->qUnk3C += Q(48. / 256.);
+        } else {
+            platform->qUnk3C -= Q(48. / 256.);
+        }
+    }
+    // _0807E4F0
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + I(platform->qUnk44);
+
+    i = 0;
+    do {
+        // _0807E526_loop
+        qSpeedsY[i] = PLAYER(i).qSpeedAirY;
+
+        if ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)) {
+            // _0807E586
+            PLAYER(i).qSpeedAirY = Q(0);
+            PLAYER(i).qWorldY += platform->qUnk3C;
+            // _0807E5AC
+            if ((PLAYER(i).frameInput & gPlayerControls.attack) && (PLAYER(i).heldInput & DPAD_DOWN)) {
+                // _0807E5E6
+                if (PLAYER(i).character == CHARACTER_AMY) {
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    PLAYER(i).qSpeedAirY = -Q(6);
+                }
+            } else if ((PLAYER(i).frameInput & gPlayerControls.jump) && (PLAYER(i).heldInput & DPAD_DOWN)) {
+                // _0807E638
+                if (PLAYER(i).character != CHARACTER_AMY) {
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
+                } else {
+                    // _0807E6C0
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                }
+            } else {
+                // _0807E6D8
+                if (PLAYER(i).frameInput & gPlayerControls.jump) {
+                    PLAYER(i).qSpeedAirY = (platform->qUnk3C >> 1) - Q(4);
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                } else {
+                    // _0807E72E
+                    PLAYER(i).qWorldY += Q(8);
+                    PLAYER(i).qSpeedAirY = 1;
+                    // _0807E756
+                    if (!Coll_Player_PlatformCrumbling(s, worldX + I(platform->qUnk40), worldY + I(platform->qUnk44), &PLAYER(i))) {
+                        PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                        PLAYER(i).qWorldY -= Q(8);
+                    }
+
+                    PLAYER(i).qSpeedAirY = Q(0);
+                }
+            }
+        } else {
+            // _0807E7D4
+            if (Coll_Player_PlatformCrumbling(s, worldX + I(platform->qUnk40), worldY + I(platform->qUnk44), &PLAYER(i)) & COLL_FLAG_8) {
+                platform->qUnk3C += Div(qSpeedsY[i] * 6, 10);
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+    // _0807E83A
+
+    // platform->qUnk3C *= 99%
+    platform->qUnk3C = Div(platform->qUnk3C * 9900, 10000);
+
+    if ((platform->qUnk3C > -48 && platform->qUnk3C < +48) && ((platform->qUnk44 > -Q(3))) && ((platform->qUnk44 < +Q(3)))) {
+        {
+            platform->qUnk3C = Q(0);
+        }
+    }
+
+    // _0807E864
+    platform->qUnk44 += platform->qUnk3C;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+END_NONMATCH
+
 #if 0
 void TaskDestructor_Platform_Square(struct Task *t)
 {
