@@ -589,27 +589,26 @@ NONMATCH("asm/non_matching/game/interactables/platform_sq__sub_807E914.inc",
             s32 val = ((worldX + (s->hitboxes[0].b.left) - rect->right) + 8);
             s32 playerX = I(p->qWorldX);
             s32 qPlayerX;
+
             if (playerX <= val) {
                 p->qWorldX = qPlayerX = Q(worldX + (s->hitboxes[0].b.left) - rect->right);
 
-                {
-                    res = SA2_LABEL(sub_801E4E4)(playerY + 9, I(p->qWorldX), p->layer, +8, NULL, SA2_LABEL(sub_801EE64));
+                res = SA2_LABEL(sub_801E4E4)(playerY + 9, I(p->qWorldX), p->layer, +8, NULL, SA2_LABEL(sub_801EE64));
 
-                    if (res < 0) {
-                        p->qWorldY += Q(res);
-                    }
-
-                    res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY), I(p->qWorldX), p->layer, -8, NULL, SA2_LABEL(sub_801EE64));
-
-                    if (res < 0) {
-                        p->qWorldY += Q(res);
-                    }
-
-                    p->moveState &= ~MOVESTATE_20;
-                    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-
-                    return TRUE;
+                if (res < 0) {
+                    p->qWorldY += Q(res);
                 }
+
+                res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY), I(p->qWorldX), p->layer, -8, NULL, SA2_LABEL(sub_801EE64));
+
+                if (res < 0) {
+                    p->qWorldY += Q(res);
+                }
+
+                p->moveState &= ~MOVESTATE_20;
+                p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+
+                return TRUE;
             } else if (playerX >= (worldX + s->hitboxes[0].b.right - rect->left) - 7) {
                 qPlayerX = ((worldX + s->hitboxes[0].b.right - rect->left) + 1);
                 p->qWorldX = Q(qPlayerX);
@@ -630,9 +629,6 @@ NONMATCH("asm/non_matching/game/interactables/platform_sq__sub_807E914.inc",
                 p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
 
                 return TRUE;
-
-            } else {
-                return FALSE;
             }
         }
     }
