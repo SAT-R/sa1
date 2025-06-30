@@ -170,7 +170,6 @@ SECTIONS {
         src/game/interactables/bumpers.o(.text);
         src/game/interactables/flippers.o(.text);
         src/game/interactables/platform_square.o(.text);
-        asm/ia_platform_square.o(.text);
         src/game/interactables/sega_sonic_letters.o(.text);
         src/game/interactables/party_balloon.o(.text);
         src/game/interactables/ship_swing.o(.text);

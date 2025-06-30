@@ -576,10 +576,73 @@ NONMATCH("asm/non_matching/game/interactables/platform_sq__Task_BarrelOfDoomMini
 }
 END_NONMATCH
 
-#if 0
+// (99.24%) https://decomp.me/scratch/5MxXq
+NONMATCH("asm/non_matching/game/interactables/platform_sq__sub_807E914.inc",
+         bool32 sub_807E914(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p))
+{
+    if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rect))) {
+        // _0807E9AA
+        s32 playerY = I(p->qWorldY);
+        s32 res;
+
+        if (playerY > (worldY + s->hitboxes[0].b.top - rect->bottom + 2)) {
+            s32 val = ((worldX + (s->hitboxes[0].b.left) - rect->right) + 8);
+            s32 playerX = I(p->qWorldX);
+            s32 qPlayerX;
+            if (playerX <= val) {
+                p->qWorldX = qPlayerX = Q(worldX + (s->hitboxes[0].b.left) - rect->right);
+
+                {
+                    res = SA2_LABEL(sub_801E4E4)(playerY + 9, I(p->qWorldX), p->layer, +8, NULL, SA2_LABEL(sub_801EE64));
+
+                    if (res < 0) {
+                        p->qWorldY += Q(res);
+                    }
+
+                    res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY), I(p->qWorldX), p->layer, -8, NULL, SA2_LABEL(sub_801EE64));
+
+                    if (res < 0) {
+                        p->qWorldY += Q(res);
+                    }
+
+                    p->moveState &= ~MOVESTATE_20;
+                    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+
+                    return TRUE;
+                }
+            } else if (playerX >= (worldX + s->hitboxes[0].b.right - rect->left) - 7) {
+                qPlayerX = ((worldX + s->hitboxes[0].b.right - rect->left) + 1);
+                p->qWorldX = Q(qPlayerX);
+
+                res = SA2_LABEL(sub_801E4E4)(playerY + 9, I(p->qWorldX), p->layer, +8, NULL, SA2_LABEL(sub_801EE64));
+
+                if (res < 0) {
+                    p->qWorldY += Q(res);
+                }
+
+                res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY), I(p->qWorldX), p->layer, -8, NULL, SA2_LABEL(sub_801EE64));
+
+                if (res < 0) {
+                    p->qWorldY += Q(res);
+                }
+
+                p->moveState &= ~MOVESTATE_20;
+                p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+
+                return TRUE;
+
+            } else {
+                return FALSE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+END_NONMATCH
+
 void TaskDestructor_Platform_Square(struct Task *t)
 {
     PlatformSq *platform = TASK_DATA(t);
     VramFree(platform->s.graphics.dest);
 }
-#endif
