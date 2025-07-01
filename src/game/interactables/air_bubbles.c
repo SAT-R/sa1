@@ -19,8 +19,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ s16 unk3C;
-    /* 0x3E */ s16 unk3E;
+    /* 0x3C */ u8 unk3C;
+    /* 0x3E */ u16 unk3E;
     /* 0x40 */ s16 unk40;
     /* 0x40 */ s16 unk42;
 } AirBubbleBig;
@@ -31,7 +31,7 @@ const u16 gUnknown_086CEE60[] = {
 
 void Task_AirBubbles(void);
 void CreateAirContainingBubble(CamCoord worldX, CamCoord worldY, u8 param2);
-void Task_CreateAirContainingBubble(void);
+void Task_AirContainingBubble(void);
 void sub_80914F8(CamCoord worldX, CamCoord worldY, u8 param2);
 void TaskDestructor_AirBubbles(struct Task *t);
 void TaskDestructor_AirBubbleBig(struct Task *t);
@@ -103,4 +103,33 @@ void Task_AirBubbles(void)
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+void CreateAirContainingBubble(CamCoord worldX, CamCoord worldY, u8 param2)
+{
+    struct Task *t = TaskCreate(Task_AirContainingBubble, sizeof(AirBubbleBig), 0x2000, 0, TaskDestructor_AirBubbleBig);
+    AirBubbleBig *bubbles = TASK_DATA(t);
+    Sprite *s = &bubbles->s;
+
+    bubbles->unk3C = param2;
+    bubbles->unk3E = 0;
+    bubbles->unk40 = worldX;
+    bubbles->unk42 = worldY;
+
+    s->x = worldX;
+    s->y = worldY;
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_AIR_BUBBLES);
+    s->graphics.anim = SA1_ANIM_AIR_BUBBLES;
+    s->variant = 0;
+    s->oamFlags = SPRITE_OAM_ORDER(15);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = FALSE;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
 }

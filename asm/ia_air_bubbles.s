@@ -6,114 +6,8 @@
 .arm
 
 .if 01
-	thumb_func_start CreateAirContainingBubble
-CreateAirContainingBubble: @ 0x08091034
-	push {r4, r5, r6, lr}
-	mov r6, sl
-	mov r5, sb
-	mov r4, r8
-	push {r4, r5, r6}
-	sub sp, #8
-	mov r8, r0
-	mov sb, r1
-	adds r6, r2, #0
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov sb, r1
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _080910F0 @ =AirContainingBubble
-	movs r2, #0x80
-	lsls r2, r2, #6
-	mov sl, r2
-	ldr r1, _080910F4 @ =TaskDestructor_AirBubbleBig
-	str r1, [sp]
-	movs r1, #0x44
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r4, r0
-	ldr r1, _080910F8 @ =0x0300000C
-	adds r5, r4, r1
-	ldr r2, _080910FC @ =0x0300003C
-	adds r1, r4, r2
-	movs r2, #0
-	strb r6, [r1]
-	movs r6, #0
-	strh r2, [r0, #0x3e]
-	ldr r1, _08091100 @ =0x03000040
-	adds r0, r4, r1
-	mov r1, r8
-	strh r1, [r0]
-	ldr r1, _08091104 @ =0x03000042
-	adds r0, r4, r1
-	mov r1, sb
-	strh r1, [r0]
-	mov r0, r8
-	strh r0, [r5, #0x16]
-	strh r1, [r5, #0x18]
-	movs r0, #9
-	str r2, [sp, #4]
-	bl VramMalloc
-	str r0, [r5, #4]
-	movs r0, #0x85
-	lsls r0, r0, #2
-	strh r0, [r5, #0xa]
-	ldr r1, _08091108 @ =0x0300002C
-	adds r0, r4, r1
-	strb r6, [r0]
-	movs r0, #0xf0
-	lsls r0, r0, #2
-	strh r0, [r5, #0x1a]
-	ldr r2, [sp, #4]
-	strh r2, [r5, #8]
-	strh r2, [r5, #0x14]
-	strh r2, [r5, #0x1c]
-	ldr r2, _0809110C @ =0x0300002D
-	adds r1, r4, r2
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _08091110 @ =0x0300002E
-	adds r1, r4, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _08091114 @ =0x03000031
-	adds r4, r4, r1
-	strb r6, [r4]
-	subs r0, #0x11
-	str r0, [r5, #0x28]
-	mov r2, sl
-	str r2, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080910F0: .4byte AirContainingBubble
-_080910F4: .4byte TaskDestructor_AirBubbleBig
-_080910F8: .4byte 0x0300000C
-_080910FC: .4byte 0x0300003C
-_08091100: .4byte 0x03000040
-_08091104: .4byte 0x03000042
-_08091108: .4byte 0x0300002C
-_0809110C: .4byte 0x0300002D
-_08091110: .4byte 0x0300002E
-_08091114: .4byte 0x03000031
-.endif
-
-	thumb_func_start AirContainingBubble
-AirContainingBubble: @ 0x08091118
+	thumb_func_start Task_AirContainingBubble
+Task_AirContainingBubble: @ 0x08091118
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -516,6 +410,7 @@ _08091400:
 _08091410: .4byte gCurTask
 _08091414: .4byte sub_809141C
 _08091418: .4byte gNumSingleplayerCharacters
+.endif
 
 	thumb_func_start sub_809141C
 sub_809141C: @ 0x0809141C
