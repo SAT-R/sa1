@@ -18,7 +18,6 @@
 #include "data/ui_graphics.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
 

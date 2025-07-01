@@ -8,7 +8,6 @@
 #include "game/stage/player_controls.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/char_states.h"
 #include "constants/songs.h"
 

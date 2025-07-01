@@ -7,7 +7,6 @@
 #include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/zones.h"
 

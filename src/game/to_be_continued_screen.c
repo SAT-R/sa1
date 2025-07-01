@@ -6,7 +6,6 @@
 #include "game/title_screen.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/vram_hardcoded.h"
 
 typedef struct {

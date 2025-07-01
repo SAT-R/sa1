@@ -26,7 +26,6 @@
 #endif
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/characters.h"
 #include "constants/tilemaps.h"
 #include "constants/zones.h"

@@ -8,7 +8,6 @@
 #include "game/egg_rocket_transitions.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/move_states.h"
 #include "constants/zones.h"
 

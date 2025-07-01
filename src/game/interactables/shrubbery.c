@@ -1,10 +1,10 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
-#include "game/entity.h"
 #include "lib/m4a/m4a.h"
+#include "game/entity.h"
+
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
 typedef struct {

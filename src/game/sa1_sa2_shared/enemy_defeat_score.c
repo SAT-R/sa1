@@ -6,7 +6,6 @@
 #include "game/stage/camera.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 void Task_CreateEnemyDefeatScore_MoveUp(void);
 void Task_CreateEnemyDefeatScore_Hold(void);

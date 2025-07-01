@@ -9,7 +9,6 @@
 #include "game/stage/ui.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
 

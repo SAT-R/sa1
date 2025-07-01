@@ -10,7 +10,6 @@
 #include "game/sa1_sa2_shared/collision.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/char_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"

@@ -6,7 +6,6 @@
 #include "game/sa1_sa2_shared/entities_manager.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 

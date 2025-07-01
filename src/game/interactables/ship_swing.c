@@ -7,7 +7,6 @@
 #include "game/sa1_sa2_shared/collision.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;

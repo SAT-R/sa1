@@ -1,288 +1,13 @@
 .include "asm/macros.inc"
 .include "constants/constants.inc"
 
-    .section .rodata
-    .align 2, 0
-    .global gUnknown_086CEE60
-gUnknown_086CEE60:
-    .incbin "baserom.gba", 0x006CEE60, 0x10
-    .align 2, 0
-
 .text
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_AirBubbles
-CreateEntity_AirBubbles: @ 0x08090E04
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	mov sb, r0
-	adds r4, r1, #0
-	adds r6, r2, #0
-	mov r8, r3
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	ldr r0, _08090EE4 @ =Task_AirBubbles
-	ldr r1, _08090EE8 @ =TaskDestructor_AirBubbles
-	str r1, [sp]
-	movs r1, #0x44
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r2, r1
-	ldr r7, _08090EEC @ =0x0300000C
-	adds r5, r2, r7
-	movs r0, #0
-	mov sl, r0
-	movs r3, #0
-	strh r4, [r1, #4]
-	strh r6, [r1, #6]
-	mov r7, sb
-	str r7, [r1]
-	ldrb r0, [r7]
-	strb r0, [r1, #8]
-	mov r0, r8
-	strb r0, [r1, #9]
-	movs r0, #0x78
-	strh r0, [r1, #0x3e]
-	ldr r7, _08090EF0 @ =0x03000040
-	adds r0, r2, r7
-	strh r3, [r0]
-	movs r0, #0x3c
-	strh r0, [r1, #0x3c]
-	mov r1, sb
-	ldrb r0, [r1]
-	lsls r0, r0, #3
-	lsls r4, r4, #8
-	adds r0, r0, r4
-	strh r0, [r5, #0x16]
-	ldrb r0, [r1, #1]
-	lsls r0, r0, #3
-	lsls r6, r6, #8
-	adds r0, r0, r6
-	strh r0, [r5, #0x18]
-	movs r7, #2
-	rsbs r7, r7, #0
-	adds r0, r7, #0
-	strb r0, [r1]
-	movs r0, #4
-	str r2, [sp, #4]
-	str r3, [sp, #8]
-	bl VramMalloc
-	str r0, [r5, #4]
-	ldr r0, _08090EF4 @ =0x00000215
-	strh r0, [r5, #0xa]
-	ldr r2, [sp, #4]
-	ldr r1, _08090EF8 @ =0x0300002C
-	adds r0, r2, r1
-	mov r7, sl
-	strb r7, [r0]
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r5, #0x1a]
-	ldr r3, [sp, #8]
-	strh r3, [r5, #8]
-	strh r3, [r5, #0x14]
-	strh r3, [r5, #0x1c]
-	ldr r0, _08090EFC @ =0x0300002D
-	adds r1, r2, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r7, _08090F00 @ =0x0300002E
-	adds r1, r2, r7
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, _08090F04 @ =0x03000031
-	adds r2, r2, r0
-	mov r1, sl
-	strb r1, [r2]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r5, #0x28]
-	movs r7, #0x80
-	lsls r7, r7, #6
-	str r7, [r5, #0x10]
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08090EE4: .4byte Task_AirBubbles
-_08090EE8: .4byte TaskDestructor_AirBubbles
-_08090EEC: .4byte 0x0300000C
-_08090EF0: .4byte 0x03000040
-_08090EF4: .4byte 0x00000215
-_08090EF8: .4byte 0x0300002C
-_08090EFC: .4byte 0x0300002D
-_08090F00: .4byte 0x0300002E
-_08090F04: .4byte 0x03000031
-
-	thumb_func_start Task_AirBubbles
-Task_AirBubbles: @ 0x08090F08
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	ldr r0, _08091000 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r7, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r7, r0
-	adds r0, #0xc
-	adds r6, r7, r0
-	ldr r1, [r5]
-	mov sl, r1
-	ldrb r1, [r5, #8]
-	lsls r1, r1, #3
-	ldrh r0, [r5, #4]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	mov r0, sl
-	ldrb r2, [r0, #1]
-	lsls r2, r2, #3
-	ldrh r0, [r5, #6]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	ldr r3, _08091004 @ =gCamera
-	ldrh r0, [r3]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	mov r8, r1
-	subs r0, r1, r0
-	strh r0, [r6, #0x16]
-	ldrh r0, [r3, #2]
-	lsls r2, r2, #0x10
-	asrs r4, r2, #0x10
-	subs r0, r4, r0
-	strh r0, [r6, #0x18]
-	ldrh r0, [r5, #0x3e]
-	subs r0, #1
-	strh r0, [r5, #0x3e]
-	ldr r1, _08091008 @ =0x0000FFFF
-	mov sb, r1
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	bne _08090F8C
-	subs r1, r4, #4
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	mov r0, r8
-	movs r2, #4
-	bl sub_8091034
-	ldr r1, _0809100C @ =gUnknown_086CEE60
-	ldr r0, _08091010 @ =0x03000040
-	adds r2, r7, r0
-	ldrh r0, [r2]
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	strh r0, [r5, #0x3e]
-	ldrh r0, [r2]
-	adds r0, #1
-	movs r1, #7
-	ands r0, r1
-	strh r0, [r2]
-_08090F8C:
-	ldrh r0, [r5, #0x3c]
-	subs r0, #1
-	strh r0, [r5, #0x3c]
-	mov r1, sb
-	ands r0, r1
-	cmp r0, #0
-	bne _08090FCA
-	subs r1, r4, #4
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	ldrh r2, [r5, #0x3e]
-	lsrs r2, r2, #3
-	ldr r4, _08091014 @ =gStageTime
-	ldr r0, [r4]
-	adds r2, r2, r0
-	lsls r2, r2, #0x18
-	lsrs r2, r2, #0x18
-	mov r0, r8
-	bl sub_80914F8
-	ldr r2, _0809100C @ =gUnknown_086CEE60
-	ldr r0, [r4]
-	movs r1, #7
-	ands r0, r1
-	lsls r0, r0, #1
-	adds r0, r0, r2
-	ldrh r0, [r0]
-	movs r1, #2
-	bl Div
-	strh r0, [r5, #0x3c]
-_08090FCA:
-	ldrh r0, [r6, #0x16]
-	adds r0, #0x80
-	lsls r0, r0, #0x10
-	movs r1, #0xf8
-	lsls r1, r1, #0x11
-	cmp r0, r1
-	bhi _08090FEE
-	movs r1, #0x18
-	ldrsh r0, [r6, r1]
-	adds r0, #0x80
-	cmp r0, #0
-	blt _08090FEE
-	movs r0, #0x18
-	ldrsh r1, [r6, r0]
-	movs r0, #0x90
-	lsls r0, r0, #1
-	cmp r1, r0
-	ble _08091018
-_08090FEE:
-	ldrb r0, [r5, #8]
-	mov r1, sl
-	strb r0, [r1]
-	ldr r0, _08091000 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _08091024
-	.align 2, 0
-_08091000: .4byte gCurTask
-_08091004: .4byte gCamera
-_08091008: .4byte 0x0000FFFF
-_0809100C: .4byte gUnknown_086CEE60
-_08091010: .4byte 0x03000040
-_08091014: .4byte gStageTime
-_08091018:
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	adds r0, r6, #0
-	bl DisplaySprite
-_08091024:
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
-	thumb_func_start sub_8091034
-sub_8091034: @ 0x08091034
+.if 01
+	thumb_func_start CreateAirContainingBubble
+CreateAirContainingBubble: @ 0x08091034
 	push {r4, r5, r6, lr}
 	mov r6, sl
 	mov r5, sb
@@ -300,11 +25,11 @@ sub_8091034: @ 0x08091034
 	mov sb, r1
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
-	ldr r0, _080910F0 @ =sub_8091118
+	ldr r0, _080910F0 @ =AirContainingBubble
 	movs r2, #0x80
 	lsls r2, r2, #6
 	mov sl, r2
-	ldr r1, _080910F4 @ =TaskDestructor_80916DC
+	ldr r1, _080910F4 @ =TaskDestructor_AirBubbleBig
 	str r1, [sp]
 	movs r1, #0x44
 	movs r3, #0
@@ -375,8 +100,8 @@ sub_8091034: @ 0x08091034
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080910F0: .4byte sub_8091118
-_080910F4: .4byte TaskDestructor_80916DC
+_080910F0: .4byte AirContainingBubble
+_080910F4: .4byte TaskDestructor_AirBubbleBig
 _080910F8: .4byte 0x0300000C
 _080910FC: .4byte 0x0300003C
 _08091100: .4byte 0x03000040
@@ -385,9 +110,10 @@ _08091108: .4byte 0x0300002C
 _0809110C: .4byte 0x0300002D
 _08091110: .4byte 0x0300002E
 _08091114: .4byte 0x03000031
+.endif
 
-	thumb_func_start sub_8091118
-sub_8091118: @ 0x08091118
+	thumb_func_start AirContainingBubble
+AirContainingBubble: @ 0x08091118
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -913,7 +639,7 @@ sub_80914F8: @ 0x080914F8
 	ldr r0, _08091574 @ =sub_80915F0
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08091578 @ =TaskDestructor_80916DC
+	ldr r1, _08091578 @ =TaskDestructor_AirBubbleBig
 	str r1, [sp]
 	movs r1, #0x44
 	movs r3, #0
@@ -959,7 +685,7 @@ sub_80914F8: @ 0x080914F8
 	b _080915A0
 	.align 2, 0
 _08091574: .4byte sub_80915F0
-_08091578: .4byte TaskDestructor_80916DC
+_08091578: .4byte TaskDestructor_AirBubbleBig
 _0809157C: .4byte 0x0300000C
 _08091580: .4byte 0x0300003C
 _08091584: .4byte 0x03000040
@@ -1127,8 +853,8 @@ TaskDestructor_AirBubbles: @ 0x080916C8
 	pop {r0}
 	bx r0
 
-	thumb_func_start TaskDestructor_80916DC
-TaskDestructor_80916DC: @ 0x080916DC
+	thumb_func_start TaskDestructor_AirBubbleBig
+TaskDestructor_AirBubbleBig: @ 0x080916DC
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

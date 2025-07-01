@@ -12,7 +12,6 @@
 #include "game/water_effects.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/vram_hardcoded.h"
 
 #define MAX_SMALL_BUBBLE_COUNT 11

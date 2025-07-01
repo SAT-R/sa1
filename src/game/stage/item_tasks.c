@@ -14,7 +14,6 @@
 #include "game/multiplayer/mp_player.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
 typedef struct {

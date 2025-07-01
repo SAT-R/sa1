@@ -17,7 +17,6 @@
 #include "game/title_screen.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 #if (GAME == GAME_SA1)
 #define DEMO_SPRITE_PRIO   1

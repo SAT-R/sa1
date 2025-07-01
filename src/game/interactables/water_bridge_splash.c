@@ -3,7 +3,6 @@
 #include "game/entity.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 typedef struct {
     /* 0x00 */ MapEntity *me;

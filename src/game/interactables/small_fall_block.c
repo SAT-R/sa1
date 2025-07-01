@@ -7,7 +7,6 @@
 #include "game/multiplayer/multiplayer_event_mgr.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 /* Blocks that fall down after stepping on them, in X-Zone */
 

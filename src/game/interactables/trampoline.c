@@ -7,7 +7,6 @@
 #include "game/stage/player.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 #include "constants/char_states.h"
 #include "constants/songs.h"
 #include "constants/zones.h"

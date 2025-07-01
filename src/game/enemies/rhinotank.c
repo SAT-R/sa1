@@ -8,7 +8,6 @@
 #include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 typedef struct {
     // NOTE: EntityShared HAS to be the first element,

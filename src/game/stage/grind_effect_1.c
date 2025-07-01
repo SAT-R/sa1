@@ -6,7 +6,6 @@
 #include "task.h"
 
 #include "constants/animations.h"
-#include "constants/anim_sizes.h"
 
 typedef struct {
     Sprite s;

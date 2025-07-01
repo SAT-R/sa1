@@ -200,6 +200,7 @@ SECTIONS {
         src/game/interactables/ferris_wheel.o(.text);
         asm/ia_boulder_spawner.o(.text);
         src/game/interactables/spiked_barrel.o(.text);
+        src/game/interactables/air_bubbles.o(.text);
         asm/ia_air_bubbles.o(.text);
         asm/ia_ice_block.o(.text);
         src/game/interactables/096.o(.text);
@@ -320,7 +321,7 @@ SECTIONS {
         src/game/interactables/platforms_085_089.o(.rodata);
         src/game/interactables/ferris_wheel.o(.rodata);
         src/game/interactables/spiked_barrel.o(.rodata);
-        asm/ia_air_bubbles.o(.rodata);
+        src/game/interactables/air_bubbles.o(.rodata);
         src/data/entities.o(.rodata);
         src/lib/m4a/m4a_tables.o(.rodata);
         data/sound_data.o(.rodata);
