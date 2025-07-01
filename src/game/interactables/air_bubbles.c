@@ -11,6 +11,7 @@
 #include "constants/char_states.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/vram_hardcoded.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -25,7 +26,7 @@ typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x3C */ u8 unk3C;
-    /* 0x3D */ u8 unk3D;
+    /* 0x3D */ s8 unk3D;
     /* 0x3E */ u16 unk3E;
     /* 0x40 */ s16 worldX;
     /* 0x42 */ s16 worldY;
@@ -40,6 +41,7 @@ void CreateBubbleContainingAir(CamCoord worldX, CamCoord worldY, u8 param2);
 void Task_BubbleContainingAir(void);
 void sub_80914F8(CamCoord worldX, CamCoord worldY, u8 param2);
 void Task_809141C(void);
+void Task_80915F0(void);
 void TaskDestructor_AirBubbles(struct Task *t);
 void TaskDestructor_AirBubbleBig(struct Task *t);
 
@@ -75,7 +77,7 @@ void CreateEntity_AirBubbles(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = FALSE;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
-    s->frameFlags = 0x2000;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 }
 
 void Task_AirBubbles(void)
@@ -138,7 +140,7 @@ void CreateBubbleContainingAir(CamCoord worldX, CamCoord worldY, u8 param2)
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = FALSE;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
-    s->frameFlags = 0x2000;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     UpdateSpriteAnimation(s);
 }
 
@@ -212,3 +214,92 @@ NONMATCH("asm/non_matching/game/interactables/air_bubbles__Task_BubbleContaining
     DisplaySprite(s);
 }
 END_NONMATCH
+
+void Task_809141C(void)
+{
+    AirBubbleBig *bubbles = TASK_DATA(gCurTask);
+    Sprite *s = &bubbles->s;
+
+    s->x = bubbles->worldX - gCamera.x + (SIN((bubbles->unk3E * 3) & (SIN_PERIOD - 1)) >> 11);
+    s->y = bubbles->worldY - gCamera.y - (bubbles->unk3E >> 1);
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y) || (--bubbles->unk3D < 0) || (gWater.currentWaterLevel < 0)
+        || (bubbles->worldY - (bubbles->unk3E >> 1) < gWater.currentWaterLevel)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_80914F8(CamCoord worldX, CamCoord worldY, u8 param2)
+{
+    struct Task *t = TaskCreate(Task_80915F0, sizeof(AirBubbleBig), 0x2000, 0, TaskDestructor_AirBubbleBig);
+    AirBubbleBig *bubbles = TASK_DATA(t);
+    Sprite *s = &bubbles->s;
+    MapEntity *me = bubbles->base.me;
+
+    bubbles->unk3C = param2 & 0xF;
+    bubbles->unk3E = 0;
+    bubbles->worldX = worldX - 8;
+    bubbles->worldY = worldY;
+
+    s->x = worldX;
+    s->y = worldY;
+
+    if (param2 & 0x1) {
+        s->graphics.dest = VRAM_RESERVED_BUBBLES_GROUP;
+        s->graphics.anim = SA1_ANIM_BUBBLES_GROUP;
+        s->variant = 0;
+    } else {
+        s->graphics.dest = VRAM_RESERVED_BUBBLES_SMALL;
+        s->graphics.anim = SA1_ANIM_BUBBLES_SMALL;
+        s->variant = 0;
+    }
+
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = FALSE;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+}
+
+void Task_80915F0(void)
+{
+    AirBubbleBig *bubbles = TASK_DATA(gCurTask);
+    Sprite *s = &bubbles->s;
+
+    s->x = bubbles->worldX - gCamera.x + (SIN((bubbles->unk3E * 3) & (SIN_PERIOD - 1)) >> 11) + bubbles->unk3C;
+    s->y = bubbles->worldY - gCamera.y - (bubbles->unk3E >> 1);
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y) || (gWater.currentWaterLevel < 0)
+        || (bubbles->worldY - (bubbles->unk3E >> 1) < gWater.currentWaterLevel)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    bubbles->unk3E++;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_AirBubbles(struct Task *t)
+{
+    AirBubbles *bubbles = TASK_DATA(t);
+    VramFree(bubbles->s.graphics.dest);
+}
+
+void TaskDestructor_AirBubbleBig(struct Task *t)
+{
+    AirBubbleBig *bubbles = TASK_DATA(t);
+
+    if (bubbles->unk3C == 4) {
+        VramFree(bubbles->s.graphics.dest);
+    }
+}
