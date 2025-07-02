@@ -175,7 +175,6 @@ SECTIONS {
         src/game/interactables/ship_swing.o(.text);
         asm/ia_platform_spiked.o(.text);
         src/game/interactables/bowl.o(.text);
-        asm/ia_bowl.o(.text);
         src/game/interactables/panel_gate.o(.text);
         asm/ia_marble_track.o(.text);
         src/game/interactables/conveyor_belt_movement.o(.text);

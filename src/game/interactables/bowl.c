@@ -17,8 +17,8 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ s16 unk3C[2];
-    /* 0x40 */ s16 unk40[2];
+    /* 0x3C */ u16 unk3C[2];
+    /* 0x40 */ u16 unk40[2];
     /* 0x44 */ u16 unk44;
     /* 0x48 */ u32 unk48[2];
     /* 0x50 */ u8 unk50;
@@ -148,99 +148,118 @@ void Task_Bowl(void)
     DisplaySprite(s);
 }
 
-#if 0
-void Task_BowlRotating(void)
+#if 01
+// (97.80%) https://decomp.me/scratch/rNMbG
+NONMATCH("asm/non_matching/game/interactables/bowl__Task_BowlRotating.inc", void Task_BowlRotating(void))
 {
-    Bowl *bowl = TASK_DATA(gCurTask);
-    Sprite *s = &bowl->s;
-    MapEntity *me = bowl->base.me;
+    Sprite *s;
+    Bowl *bowl;
+    s32 sp08;
     CamCoord worldX, worldY;
+    MapEntity *me;
     s32 i;
+
+    bowl = TASK_DATA(gCurTask);
+    s = &bowl->s;
+    me = bowl->base.me;
 
     worldX = TO_WORLD_POS(bowl->base.meX, bowl->base.regionX);
     worldY = TO_WORLD_POS(me->y, bowl->base.regionY);
 
     s->x = worldX - gCamera.x;
-    s->y = worldY - gCamera.y;
 
-    i = 0;
-    do {
-    } while (++i < gNumSingleplayerCharacters);
-    
+    if (bowl->unk48[0] > bowl->unk48[1]) {
+        s->y = worldY - gCamera.y + (bowl->unk48[0] >> 13);
+        sp08 = (bowl->unk48[0] >> 13);
+    } else {
+        s->y = worldY - gCamera.y + (bowl->unk48[1] >> 13);
+        sp08 = (bowl->unk48[1] >> 13);
+    }
+
     i = 0;
     do {
         if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            s32 unk48;
             s16 diff;
 
-            if (I(PLAYER(i).qWorldX) > worldX) {
-                diff = +10;
-            } else {
-                diff = -10;
-            }
-
-            if (Coll_Player_Entity_Intersection(s, worldX - diff, worldY + 5, &PLAYER(i))) {
-                SetBit(bowl->unk51, i);
-                bowl->unk40[i] = ABS2(PLAYER(i).qSpeedAirX) << 2;
-
-                bowl->unk3C[i] = (Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH) < 0)
-                    ? (0x300 - Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH))
-                        & (SIN_PERIOD - 1)
-                    : (0x300 + Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH))
-                        & (SIN_PERIOD - 1);
-
-                PLAYER(i).heldInput = 0;
-                PLAYER(i).frameInput = 0;
-
-                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-
-                PLAYER(i).charState = CHARSTATE_SPINATTACK;
-                PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
-
-                PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
-            }
-        }
-    } while (++i < gNumSingleplayerCharacters);
-        
-    i = 0;
-    do {
-        if((GetBit(bowl->unk51, i)))
-        {
-            s16 diff;
-            s32 theta = ((I(bowl->unk48[i]) + bowl->unk3C[i] + ((bowl->unk50 & 0xF) << 6)) & (SIN_PERIOD - 1));
-
-            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-                PLAYER(i).qWorldX += Div(SIN(theta) * 25, bowl->unk50 * 4 + 50);
-    
+            if (!GetBit(bowl->unk51, i)) {
                 if (I(PLAYER(i).qWorldX) > worldX) {
                     diff = +10;
                 } else {
                     diff = -10;
                 }
-    
-                if (Coll_Player_Entity_Intersection(s, worldX - diff, worldY + 5, &PLAYER(i))) {
+
+                if (Coll_Player_Entity_Intersection(s, worldX - diff, 13 + worldY + sp08, &PLAYER(i))) {
+                    if (bowl->unk40[0] > bowl->unk40[1]) {
+                        bowl->unk40[1] = bowl->unk40[0];
+                        bowl->unk48[1] = bowl->unk48[0];
+                    } else {
+                        bowl->unk40[0] = bowl->unk40[1];
+                        bowl->unk48[0] = bowl->unk48[1];
+                    }
+
                     SetBit(bowl->unk51, i);
-                    bowl->unk40[i] = ABS2(PLAYER(i).qSpeedAirX) << 2;
-    
+
+                    (unk48 = I(bowl->unk48[0]));
                     bowl->unk3C[i] = (Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH) < 0)
-                        ? (0x300 - Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH))
+                        ? (unk48 + 0x300 - Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH))
                             & (SIN_PERIOD - 1)
-                        : (0x300 + Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH))
+                        : (unk48 + 0x300 + Div((I(PLAYER(i).qWorldX) - worldX + (SA1_ANIM_BOWL_3_WIDTH / 2)) << 9, SA1_ANIM_BOWL_3_WIDTH))
                             & (SIN_PERIOD - 1);
-    
+
                     PLAYER(i).heldInput = 0;
                     PLAYER(i).frameInput = 0;
-    
+
                     Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-    
+
                     PLAYER(i).charState = CHARSTATE_SPINATTACK;
                     PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
-    
+
                     PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
                 }
             }
         }
     } while (++i < gNumSingleplayerCharacters);
-        
+
+    i = 0;
+    do {
+        if ((GetBit(bowl->unk51, i))) {
+            s16 diff;
+            s32 theta = ((I(bowl->unk48[i]) + bowl->unk3C[i] + ((bowl->unk50 & 0xF) << 6)) & (SIN_PERIOD - 1));
+
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+                PLAYER(i).qWorldX = Q(worldX) + Div(SIN(theta) * 25, bowl->unk50 * 4 + 50);
+                PLAYER(i).qWorldY = Q(worldY) - Q(17) + (bowl->unk48[i] >> 5);
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    i = 0;
+    do {
+        if (GetBit(bowl->unk51, i)) {
+            if ((bowl->unk48[i] >= 885000)) {
+                if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+                    PLAYER(i).qSpeedAirY = ((bowl->unk40[i] >> 2) - 0x7D0) * 2;
+                }
+            } else {
+                {
+                    bowl->unk40[i] += Q(0.25);
+                }
+            }
+
+            if (bowl->unk40[i] > 0x8000) {
+                bowl->unk40[i] = 0x8000;
+            }
+
+            s->animSpeed = Div(bowl->unk40[i] * 35, 0xA000);
+            if (s->animSpeed > SPRITE_ANIM_SPEED(1.0)) {
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            }
+
+            bowl->unk48[i] += bowl->unk40[i];
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
     if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, bowl->base.meX);
         TaskDestroy(gCurTask);
@@ -249,23 +268,22 @@ void Task_BowlRotating(void)
 
     i = 0;
     do {
-        if((GetBit(bowl->unk51, i)) && (bowl->unk48[i] >= 885000))
-        {
+        if ((GetBit(bowl->unk51, i)) && (bowl->unk48[i] >= 885000)) {
             bowl->unk48[i] = 885000;
-            
-            if(!(PLAYER(i).moveState & MOVESTATE_DEAD))
-            {
-                if(bowl->unk50 < 16) {
+
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+                if (bowl->unk50 < 16) {
                     PLAYER(i).qWorldY += bowl->unk50 * (Q(11.25) / 16);
                 } else {
-                    PLAYER(i).qWorldY += Q(11.25);                    
+                    PLAYER(i).qWorldY += Q(11.25);
                 }
             }
-            if(i == PLAYER_1) {
+
+            if (i == PLAYER_1) {
                 bowl->unk50++;
             }
-            
-            if(bowl->unk50 > 64) {
+
+            if (bowl->unk50 > 64) {
                 if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
                     PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
                     PLAYER(i).moveState |= MOVESTATE_4;
@@ -276,7 +294,7 @@ void Task_BowlRotating(void)
                     PLAYER(i).qWorldX = Q(worldX);
                     ClearBit(bowl->unk51, i);
                 }
-                
+
                 gCurTask->main = Task_Bowl3;
 
                 PLAYER(i).itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
@@ -284,22 +302,21 @@ void Task_BowlRotating(void)
         }
     } while (++i < gNumSingleplayerCharacters);
 
-    if(++bowl->unk44 > 240)
-    {
+    if (++bowl->unk44 > 240) {
         bowl->unk44 = 240;
     }
-    
-    if(bowl->unk44 == 56) {
+
+    if (bowl->unk44 == 56) {
         i = 0;
         do {
-            if(!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-                m4aSongNumStart(SE_BOWL_2);                
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+                m4aSongNumStart(SE_BOWL_2);
             }
         } while (++i < gNumSingleplayerCharacters);
-    } else if(bowl->unk44 == 112) {
+    } else if (bowl->unk44 == 112) {
         i = 0;
         do {
-            if(!(PLAYER(i).moveState & MOVESTATE_DEAD)) {            
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
                 m4aSongNumStart(SE_BOWL_3);
             }
         } while (++i < gNumSingleplayerCharacters);
@@ -308,6 +325,7 @@ void Task_BowlRotating(void)
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
+END_NONMATCH
 
 void Task_Bowl3(void)
 {
@@ -329,22 +347,21 @@ void Task_Bowl3(void)
         return;
     }
 
-    if(++bowl->unk44 > 240)
-    {
+    if (++bowl->unk44 > 240) {
         bowl->unk44 = 240;
     }
-    
-    if(bowl->unk44 == 56) {
+
+    if (bowl->unk44 == 56) {
         i = 0;
         do {
-            if(!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-                m4aSongNumStart(SE_BOWL_2);                
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+                m4aSongNumStart(SE_BOWL_2);
             }
         } while (++i < gNumSingleplayerCharacters);
-    } else if(bowl->unk44 == 112) {
+    } else if (bowl->unk44 == 112) {
         i = 0;
         do {
-            if(!(PLAYER(i).moveState & MOVESTATE_DEAD)) {            
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
                 m4aSongNumStart(SE_BOWL_3);
             }
         } while (++i < gNumSingleplayerCharacters);
