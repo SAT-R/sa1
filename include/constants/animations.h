@@ -124,7 +124,7 @@
 #define SA1_ANIM_FIREWORKS_SMALL      483
 #define SA1_ANIM_BUMPER_BIG           484
 #define SA1_ANIM_BUMPER_ROUND         485
-#define SA1_ANIM_BIG_BOWL_CAS_PAR     486
+#define SA1_ANIM_BOWL_3               486
 #define SA1_ANIM_GOROUND_CAS_PAR      487
 #define SA1_ANIM_CHAR_RESIZER         488
 #define SA1_ANIM_SHIP_SWING_SEGMENT   489
@@ -184,7 +184,7 @@
 #define SA1_ANIM_BOUNCE_BLOCK_5         543
 #define SA1_ANIM_PLATFORM_SQU_ARROW     544
 #define SA1_ANIM_LIFT                   545
-#define SA1_ANIM_BIG_BOWL_ANG_ISL       546
+#define SA1_ANIM_BOWL_5                 546
 #define SA1_ANIM_SKATING_STONE          547
 #define SA1_ANIM_SKATING_STONE_DEBRIS_L 548
 #define SA1_ANIM_SKATING_STONE_DEBRIS_S 549

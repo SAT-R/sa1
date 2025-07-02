@@ -21,7 +21,7 @@ typedef struct {
 
 void Task_HangBar(void);
 
-extern const s8 gUnknown_086CEDBC[MULTI_SIO_PLAYERS_MAX];
+const s8 sBarCharacterYOffsets[NUM_CHARACTERS] = { 16, 16, 16, 16 };
 
 void Task_HangBar(void)
 {
@@ -60,7 +60,7 @@ void Task_HangBar(void)
             }
             // _0808C1C6
 
-            PLAYER(i).qWorldY = Q(barY + gUnknown_086CEDBC[PLAYER(i).character]);
+            PLAYER(i).qWorldY = Q(barY + sBarCharacterYOffsets[PLAYER(i).character]);
             // _0808C206
 
             bar->qPlayerWorldX[i] = PLAYER(i).qWorldX;

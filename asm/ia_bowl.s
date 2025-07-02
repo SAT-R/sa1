@@ -5,150 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Bowl
-CreateEntity_Bowl: @ 0x08080730
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	mov sl, r0
-	adds r6, r1, #0
-	mov r8, r2
-	mov sb, r3
-	lsls r6, r6, #0x10
-	lsrs r6, r6, #0x10
-	mov r0, r8
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	mov r1, sb
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov sb, r1
-	ldr r0, _0808083C @ =Task_Bowl
-	ldr r1, _08080840 @ =TaskDestructor_Bowl
-	str r1, [sp]
-	movs r1, #0x54
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r3, #0
-	bl TaskCreate
-	ldrh r4, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r4, r1
-	ldr r7, _08080844 @ =0x0300000C
-	adds r2, r4, r7
-	movs r3, #0
-	movs r5, #0
-	strh r6, [r1, #4]
-	mov r0, r8
-	strh r0, [r1, #6]
-	mov r7, sl
-	str r7, [r1]
-	ldrb r0, [r7]
-	strb r0, [r1, #8]
-	mov r0, sb
-	strb r0, [r1, #9]
-	ldr r7, _08080848 @ =0x03000050
-	adds r0, r4, r7
-	strb r3, [r0]
-	subs r7, #0x10
-	adds r0, r4, r7
-	strh r5, [r0]
-	adds r7, #2
-	adds r0, r4, r7
-	strh r5, [r0]
-	str r5, [r1, #0x48]
-	str r5, [r1, #0x4c]
-	strh r5, [r1, #0x3c]
-	strh r5, [r1, #0x3e]
-	ldr r1, _0808084C @ =0x03000051
-	adds r0, r4, r1
-	strb r3, [r0]
-	mov r7, sl
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	lsls r6, r6, #8
-	adds r0, r0, r6
-	strh r0, [r2, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r1, r8
-	lsls r1, r1, #8
-	mov r8, r1
-	add r0, r8
-	strh r0, [r2, #0x18]
-	movs r7, #2
-	rsbs r7, r7, #0
-	adds r0, r7, #0
-	mov r1, sl
-	strb r0, [r1]
-	movs r0, #0x3c
-	str r2, [sp, #4]
-	str r3, [sp, #8]
-	bl VramMalloc
-	ldr r2, [sp, #4]
-	str r0, [r2, #4]
-	movs r0, #0xa0
-	lsls r0, r0, #1
-	strh r0, [r2, #0x1a]
-	strh r5, [r2, #8]
-	ldr r1, _08080850 @ =gUnknown_086CED98
-	ldr r0, _08080854 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	strh r0, [r2, #0xa]
-	ldr r7, _08080858 @ =0x0300002C
-	adds r0, r4, r7
-	ldr r3, [sp, #8]
-	strb r3, [r0]
-	strh r5, [r2, #0x14]
-	strh r5, [r2, #0x1c]
-	ldr r0, _0808085C @ =0x0300002D
-	adds r1, r4, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r7, #2
-	adds r1, r4, r7
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r0, _08080860 @ =0x03000031
-	adds r4, r4, r0
-	strb r3, [r4]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r2, #0x28]
-	movs r1, #0x80
-	lsls r1, r1, #6
-	str r1, [r2, #0x10]
-	adds r0, r2, #0
-	bl UpdateSpriteAnimation
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0808083C: .4byte Task_Bowl
-_08080840: .4byte TaskDestructor_Bowl
-_08080844: .4byte 0x0300000C
-_08080848: .4byte 0x03000050
-_0808084C: .4byte 0x03000051
-_08080850: .4byte gUnknown_086CED98
-_08080854: .4byte gCurrentLevel
-_08080858: .4byte 0x0300002C
-_0808085C: .4byte 0x0300002D
-_08080860: .4byte 0x03000031
+.if 0
+.endif
 
 	thumb_func_start Task_Bowl
 Task_Bowl: @ 0x08080864
@@ -644,7 +502,7 @@ _08080C00:
 	ldr r6, _08080C20 @ =gPartner
 	ldr r4, _08080C24 @ =gPlayer
 	mov r8, r4
-_08080C18:
+_08080C18_loop:
 	cmp r5, #0
 	beq _08080C28
 	ldr r0, [r6, #0x10]
@@ -907,13 +765,13 @@ _08080DF2:
 	ldrsb r1, [r0, r1]
 	cmp r5, r1
 	bge _08080E00
-	b _08080C18
+	b _08080C18_loop
 _08080E00:
 	movs r5, #0
 	mov r8, r5
 	ldr r4, _08080E54 @ =gPlayer
 	mov sb, r4
-_08080E08:
+_08080E08_loop:
 	ldr r1, [sp, #0x18]
 	ldrb r0, [r1]
 	asrs r0, r5
@@ -1018,11 +876,11 @@ _08080ECC:
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	cmp r5, r0
-	blt _08080E08
+	blt _08080E08_loop
 	movs r5, #0
 	mov r8, r5
 	mov sb, r5
-_08080EE2:
+_08080EE2_loop:
 	ldr r1, [sp, #0x18]
 	ldrb r0, [r1]
 	asrs r0, r5
@@ -1135,7 +993,7 @@ _08080FB0:
 	movs r0, #0
 	ldrsb r0, [r4, r0]
 	cmp r5, r0
-	blt _08080EE2
+	blt _08080EE2_loop
 	mov r0, sl
 	asrs r2, r0, #0x10
 	ldr r3, _08081034 @ =gCamera
