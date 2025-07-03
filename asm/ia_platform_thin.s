@@ -8,238 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start Task_PlatformThin_Falling
-Task_PlatformThin_Falling: @ 0x08024574
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	ldr r1, _0802468C @ =gCurTask
-	ldr r0, [r1]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r7, r1, r0
-	ldr r2, _08024690 @ =0x0300000C
-	adds r6, r1, r2
-	ldr r3, [r7]
-	mov sb, r3
-	ldrb r2, [r7, #8]
-	lsls r2, r2, #3
-	ldrh r0, [r7, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	lsls r2, r2, #0x10
-	ldrb r1, [r3, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r7, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	lsls r1, r1, #0x10
-	ldr r3, _08024694 @ =gCamera
-	ldrh r0, [r3]
-	lsrs r4, r2, #0x10
-	mov sl, r4
-	asrs r5, r2, #0x10
-	subs r0, r5, r0
-	strh r0, [r6, #0x16]
-	ldrh r0, [r3, #2]
-	lsrs r2, r1, #0x10
-	str r2, [sp]
-	asrs r4, r1, #0x10
-	subs r0, r4, r0
-	strh r0, [r6, #0x18]
-	ldr r3, _08024698 @ =gPlayer
-	adds r0, r6, #0
-	adds r1, r5, #0
-	adds r2, r4, #0
-	bl Coll_Player_PlatformCrumbling
-	movs r3, #8
-	mov r8, r3
-	ands r0, r3
-	cmp r0, #0
-	bne _080245F0
-	ldr r3, _0802469C @ =gPartner
-	adds r0, r6, #0
-	adds r1, r5, #0
-	adds r2, r4, #0
-	bl Coll_Player_PlatformCrumbling
-	mov r4, r8
-	ands r0, r4
-	cmp r0, #0
-	beq _080245FC
-_080245F0:
-	ldr r1, _0802468C @ =gCurTask
-	ldr r0, [r1]
-	ldr r1, _080246A0 @ =sub_802473C
-	str r1, [r0, #8]
-	movs r0, #0x1e
-	strh r0, [r7, #0x3c]
-_080245FC:
-	ldr r0, _080246A4 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bls _0802461E
-	mov r2, sb
-	movs r1, #0
-	ldrsb r1, [r2, r1]
-	movs r0, #3
-	rsbs r0, r0, #0
-	cmp r1, r0
-	bne _0802461E
-	movs r0, #0
-	strh r0, [r7, #0x3c]
-	ldr r0, _0802468C @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _080246A8 @ =sub_802492C
-	str r0, [r1, #8]
-_0802461E:
-	mov r3, sl
-	lsls r0, r3, #0x10
-	asrs r2, r0, #0x10
-	ldr r3, _08024694 @ =gCamera
-	movs r4, #0
-	ldrsh r1, [r3, r4]
-	movs r4, #0xb8
-	lsls r4, r4, #1
-	adds r0, r1, r4
-	cmp r2, r0
-	bgt _08024658
-	adds r0, r1, #0
-	subs r0, #0x80
-	cmp r2, r0
-	blt _08024658
-	ldr r1, [sp]
-	lsls r0, r1, #0x10
-	asrs r1, r0, #0x10
-	movs r4, #2
-	ldrsh r2, [r3, r4]
-	movs r3, #0x90
-	lsls r3, r3, #1
-	adds r0, r2, r3
-	cmp r1, r0
-	bgt _08024658
-	adds r0, r2, #0
-	subs r0, #0x80
-	cmp r1, r0
-	bge _080246AC
-_08024658:
-	ldrh r0, [r6, #0x16]
-	adds r0, #0x80
-	lsls r0, r0, #0x10
-	movs r1, #0xf8
-	lsls r1, r1, #0x11
-	cmp r0, r1
-	bhi _0802467C
-	movs r4, #0x18
-	ldrsh r0, [r6, r4]
-	adds r0, #0x80
-	cmp r0, #0
-	blt _0802467C
-	movs r0, #0x18
-	ldrsh r1, [r6, r0]
-	movs r0, #0x90
-	lsls r0, r0, #1
-	cmp r1, r0
-	ble _080246AC
-_0802467C:
-	ldrb r0, [r7, #8]
-	mov r1, sb
-	strb r0, [r1]
-	ldr r0, _0802468C @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _08024728
-	.align 2, 0
-_0802468C: .4byte gCurTask
-_08024690: .4byte 0x0300000C
-_08024694: .4byte gCamera
-_08024698: .4byte gPlayer
-_0802469C: .4byte gPartner
-_080246A0: .4byte sub_802473C
-_080246A4: .4byte gGameMode
-_080246A8: .4byte sub_802492C
-_080246AC:
-	ldr r1, _080246F0 @ =gPlayer
-	ldr r0, [r1, #0x10]
-	movs r2, #8
-	ands r0, r2
-	cmp r0, #0
-	beq _080246BE
-	ldr r0, [r1, #0x28]
-	cmp r0, r6
-	beq _080246DA
-_080246BE:
-	ldr r0, _080246F4 @ =gNumSingleplayerCharacters
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #2
-	bne _080246FC
-	ldr r1, _080246F8 @ =gPartner
-	ldr r0, [r1, #0x10]
-	ands r0, r2
-	cmp r0, #0
-	beq _080246FC
-	ldr r0, [r1, #0x28]
-	cmp r0, r6
-	bne _080246FC
-_080246DA:
-	adds r0, r7, #0
-	adds r0, #0x4c
-	ldrh r3, [r0]
-	movs r1, #0x80
-	lsls r1, r1, #1
-	adds r2, r0, #0
-	cmp r3, r1
-	beq _0802470E
-	adds r0, r3, #0
-	adds r0, #0x10
-	b _0802470C
-	.align 2, 0
-_080246F0: .4byte gPlayer
-_080246F4: .4byte gNumSingleplayerCharacters
-_080246F8: .4byte gPartner
-_080246FC:
-	adds r0, r7, #0
-	adds r0, #0x4c
-	ldrh r1, [r0]
-	adds r2, r0, #0
-	cmp r1, #0
-	beq _0802470E
-	adds r0, r1, #0
-	subs r0, #0x10
-_0802470C:
-	strh r0, [r2]
-_0802470E:
-	ldr r1, _08024738 @ =gSineTable
-	ldrh r0, [r2]
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x1c
-	ldrh r2, [r6, #0x18]
-	adds r0, r0, r2
-	strh r0, [r6, #0x18]
-	adds r0, r6, #0
-	bl DisplaySprite
-_08024728:
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08024738: .4byte gSineTable
-
-	thumb_func_start sub_802473C
-sub_802473C: @ 0x0802473C
+	thumb_func_start Task_802473C
+Task_802473C: @ 0x0802473C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -307,7 +77,7 @@ sub_802473C: @ 0x0802473C
 	strh r0, [r6, #0x3c]
 	mov r2, sb
 	ldr r1, [r2]
-	ldr r0, _080247E4 @ =sub_802492C
+	ldr r0, _080247E4 @ =Task_802492C
 	str r0, [r1, #8]
 	b _0802481E
 	.align 2, 0
@@ -317,7 +87,7 @@ _080247D4: .4byte gCamera
 _080247D8: .4byte gPlayer
 _080247DC: .4byte gPartner
 _080247E0: .4byte gGameMode
-_080247E4: .4byte sub_802492C
+_080247E4: .4byte Task_802492C
 _080247E8:
 	ldrh r0, [r6, #0x3c]
 	subs r0, #1
@@ -329,7 +99,7 @@ _080247E8:
 	strh r0, [r6, #0x3c]
 	ldr r0, _0802488C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08024890 @ =sub_802492C
+	ldr r0, _08024890 @ =Task_802492C
 	str r0, [r1, #8]
 	ldr r0, _08024894 @ =gGameMode
 	ldrb r0, [r0]
@@ -404,7 +174,7 @@ _0802487C:
 	b _08024918
 	.align 2, 0
 _0802488C: .4byte gCurTask
-_08024890: .4byte sub_802492C
+_08024890: .4byte Task_802492C
 _08024894: .4byte gGameMode
 _08024898: .4byte gCamera
 _0802489C:
@@ -484,8 +254,8 @@ _08024918:
 	.align 2, 0
 _08024928: .4byte gSineTable
 
-	thumb_func_start sub_802492C
-sub_802492C: @ 0x0802492C
+	thumb_func_start Task_802492C
+Task_802492C: @ 0x0802492C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb

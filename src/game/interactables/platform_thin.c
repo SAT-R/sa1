@@ -28,6 +28,8 @@ typedef struct {
 
 void Task_PlatformThin(void);
 void Task_PlatformThin_Falling(void);
+void Task_802473C(void);
+void Task_802492C(void);
 void TaskDestructor_PlatformThin(struct Task *t);
 
 extern const AnimId sPlatformThinAnims[NUM_LEVEL_IDS];
@@ -131,7 +133,7 @@ void Task_PlatformThin(void)
 #ifndef NON_MATCHING
         register s32 diff asm("r5") = platform->qUnk44;
 #else
-        s32 diff = platform->qUnk40;
+        s32 diff = platform->qUnk44;
 #endif
         platform->qUnk44 = (((me->d.uData[3] << 11) * SIN(platform->unk4A * (((gStageTime + platform->unk3C) & 0xFF)) & 0x3FF)) >> 14);
         diff = platform->qUnk44 - diff;
@@ -241,6 +243,60 @@ void CreateEntity_PlatformThin_Falling(MapEntity *me, u16 regionX, u16 regionY, 
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 
     UpdateSpriteAnimation(s);
+}
+
+void Task_PlatformThin_Falling(void)
+{
+    s32 sp00 = 0;
+    s32 sp04 = 0;
+    s32 i = 0;
+    PlatformThin *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    MapEntity *me = platform->base.me;
+    CamCoord worldX, worldY;
+    s32 diff;
+    s32 unk4A;
+
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if ((Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPlayer) & 0x8)
+        || (Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPartner) & 0x8)) {
+        gCurTask->main = Task_802473C;
+        platform->unk3C = 30;
+    }
+    if (IS_MULTI_PLAYER && ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
+        platform->unk3C = 0;
+        gCurTask->main = Task_802492C;
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    // if(!(gPlayer.moveState & MOVESTATE_IA_OVERRIDE))
+    {
+        if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+            || ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) && (gPartner.moveState & MOVESTATE_STOOD_ON_OBJ)
+                && (gPartner.stoodObj == s))) {
+            if (platform->unk4C != 0x100) {
+                platform->unk4C += 0x10;
+            }
+        } else {
+            if (platform->unk4C != 0) {
+                platform->unk4C -= 0x10;
+            }
+        }
+
+        s->y += SIN(platform->unk4C) >> 12;
+    }
+
+    DisplaySprite(s);
 }
 
 #if 0
