@@ -3,6 +3,7 @@
 #include "trig.h"
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/stage/player.h"
 #include "game/water_effects.h"
 #include "malloc_vram.h"
@@ -21,8 +22,8 @@ typedef struct {
     /* 0x3C */ u16 unk3C;
     /* 0x40 */ s32 qUnk40;
     /* 0x44 */ s32 qUnk44;
-    /* 0x48 */ s16 unk48;
-    /* 0x4A */ s16 unk4A;
+    /* 0x48 */ s16 qUnk48;
+    /* 0x4A */ s16 qUnk4A;
     /* 0x4C */ u16 unk4C;
 } PlatformThin;
 
@@ -53,22 +54,22 @@ void CreateEntity_PlatformThin(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     if (me->d.uData[2] > me->d.uData[3]) {
         if (me->d.sData[0] >= 0) {
-            platform->unk48 = 4;
+            platform->qUnk48 = 4;
             platform->unk3C = 0;
-            platform->unk4A = 0;
+            platform->qUnk4A = 0;
         } else {
-            platform->unk48 = 4;
+            platform->qUnk48 = 4;
             platform->unk3C = 0x80;
-            platform->unk4A = 0;
+            platform->qUnk4A = 0;
         }
     } else {
         if (me->d.sData[1] >= 0) {
-            platform->unk48 = 0;
-            platform->unk4A = 4;
+            platform->qUnk48 = 0;
+            platform->qUnk4A = 4;
             platform->unk3C = 0;
         } else {
-            platform->unk48 = 0;
-            platform->unk4A = 4;
+            platform->qUnk48 = 0;
+            platform->qUnk4A = 4;
             platform->unk3C = 0x80;
         }
     }
@@ -115,27 +116,27 @@ void Task_PlatformThin(void)
     MapEntity *me = platform->base.me;
     CamCoord worldX, worldY;
     s32 diff;
-    s32 unk4A;
+    s32 qUnk4A;
 
-    if (platform->unk48 != 0) {
+    if (platform->qUnk48 != 0) {
 #ifndef NON_MATCHING
         register s32 diff asm("r5") = platform->qUnk40;
 #else
         s32 diff = platform->qUnk40;
 #endif
-        platform->qUnk40 = (((me->d.uData[2] << 11) * SIN(platform->unk48 * (((gStageTime + platform->unk3C) & 0xFF)) & 0x3FF)) >> 14);
+        platform->qUnk40 = (((me->d.uData[2] << 11) * SIN(platform->qUnk48 * (((gStageTime + platform->unk3C) & 0xFF)) & 0x3FF)) >> 14);
         diff = platform->qUnk40 - diff;
         asm("" ::"r"(diff));
         sp00 = diff;
     }
 
-    if (platform->unk4A != 0) {
+    if (platform->qUnk4A != 0) {
 #ifndef NON_MATCHING
         register s32 diff asm("r5") = platform->qUnk44;
 #else
         s32 diff = platform->qUnk44;
 #endif
-        platform->qUnk44 = (((me->d.uData[3] << 11) * SIN(platform->unk4A * (((gStageTime + platform->unk3C) & 0xFF)) & 0x3FF)) >> 14);
+        platform->qUnk44 = (((me->d.uData[3] << 11) * SIN(platform->qUnk4A * (((gStageTime + platform->unk3C) & 0xFF)) & 0x3FF)) >> 14);
         diff = platform->qUnk44 - diff;
         asm("" ::"r"(diff));
         sp04 = diff;
@@ -211,8 +212,8 @@ void CreateEntity_PlatformThin_Falling(MapEntity *me, u16 regionX, u16 regionY, 
     platform->qUnk40 = 0;
     platform->qUnk44 = 0;
     platform->unk4C = 0;
-    platform->unk48 = 0;
-    platform->unk4A = 0;
+    platform->qUnk48 = 0;
+    platform->qUnk4A = 0;
 
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
@@ -255,7 +256,7 @@ void Task_PlatformThin_Falling(void)
     MapEntity *me = platform->base.me;
     CamCoord worldX, worldY;
     s32 diff;
-    s32 unk4A;
+    s32 qUnk4A;
 
     worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
     worldY = TO_WORLD_POS(me->y, platform->base.regionY);
@@ -299,10 +300,144 @@ void Task_PlatformThin_Falling(void)
     DisplaySprite(s);
 }
 
-#if 0
+void Task_802473C(void)
+{
+    s32 sp00 = 0;
+    s32 sp04 = 0;
+    s32 i = 0;
+    PlatformThin *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    MapEntity *me = platform->base.me;
+    CamCoord worldX, worldY;
+    s32 diff;
+    s32 qUnk4A;
+
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPlayer);
+    Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPartner);
+
+    if (IS_MULTI_PLAYER && ((s8)me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
+        platform->unk3C = 0;
+        gCurTask->main = Task_802492C;
+    } else if (--platform->unk3C == 0) {
+        platform->unk3C = 0;
+        gCurTask->main = Task_802492C;
+
+        if (IS_MULTI_PLAYER) {
+            RoomEvent_PlatformChange *roomEvent = CreateRoomEvent();
+            roomEvent->type = ROOMEVENT_TYPE_PLATFORM_CHANGE;
+            roomEvent->x = platform->base.regionX;
+            roomEvent->y = platform->base.regionY;
+            roomEvent->id = platform->base.id;
+            roomEvent->action = 1;
+        }
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    // if(!(gPlayer.moveState & MOVESTATE_IA_OVERRIDE))
+    {
+        if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+            || ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) && (gPartner.moveState & MOVESTATE_STOOD_ON_OBJ)
+                && (gPartner.stoodObj == s))) {
+            if (platform->unk4C != 0x100) {
+                platform->unk4C += 0x10;
+            }
+        } else {
+            if (platform->unk4C != 0) {
+                platform->unk4C -= 0x10;
+            }
+        }
+
+        s->y += SIN(platform->unk4C) >> 12;
+    }
+
+    DisplaySprite(s);
+}
+
+void Task_802492C(void)
+{
+    s32 i = 0;
+    PlatformThin *platform = TASK_DATA(gCurTask);
+    Sprite *s = &platform->s;
+    CamCoord worldX, worldY;
+    MapEntity *me;
+    s32 diff;
+    me = platform->base.me;
+
+    platform->qUnk4A += 42;
+    platform->qUnk44 += platform->qUnk4A;
+
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y + I(platform->qUnk44);
+
+    platform->unk3C++;
+
+    i = 0;
+    do {
+        Player *p = &PLAYER(i);
+
+        if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+            if (gPlayer.charState == 14) {
+                Player_TransitionCancelFlyingAndBoost(&gPlayer);
+                gPlayer.charState = 4;
+            }
+
+            if (platform->unk3C > 32) {
+                p->moveState |= MOVESTATE_IN_AIR;
+                p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                p->qSpeedAirY = platform->qUnk4A;
+            } else {
+                p->qWorldX += platform->qUnk48;
+                p->qWorldY += platform->qUnk4A + Q(1);
+            }
+        }
+
+        if (platform->unk3C < 32) {
+            Coll_Player_PlatformCrumbling(s, worldX, worldY + I(platform->qUnk44), p);
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    // if(!(gPlayer.moveState & MOVESTATE_IA_OVERRIDE))
+    {
+        if (((gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ) && (gPlayer.stoodObj == s))
+            || ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) && (gPartner.moveState & MOVESTATE_STOOD_ON_OBJ)
+                && (gPartner.stoodObj == s))) {
+            if (platform->unk4C != 0x100) {
+                platform->unk4C += 0x10;
+            }
+        } else {
+            if (platform->unk4C != 0) {
+                platform->unk4C -= 0x10;
+            }
+        }
+
+        s->y += SIN(platform->unk4C) >> 12;
+    }
+
+    DisplaySprite(s);
+}
+
 void TaskDestructor_PlatformThin(struct Task *t)
 {
     PlatformThin *platform = TASK_DATA(t);
     VramFree(platform->s.graphics.dest);
 }
-#endif
