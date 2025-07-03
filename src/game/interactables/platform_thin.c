@@ -33,7 +33,17 @@ void Task_802473C(void);
 void Task_802492C(void);
 void TaskDestructor_PlatformThin(struct Task *t);
 
-extern const AnimId sPlatformThinAnims[NUM_LEVEL_IDS];
+const AnimId sPlatformThinAnims[NUM_LEVEL_IDS] = {
+    SA1_ANIM_PLATFORM_HORZ_1,   SA1_ANIM_PLATFORM_HORZ_1, // Zone 1
+    SA1_ANIM_PLATFORM_HORZ_2,   SA1_ANIM_PLATFORM_HORZ_2, // Zone 2
+    SA1_ANIM_PLATFORM_HORZ_3,   SA1_ANIM_PLATFORM_HORZ_3, // Zone 3
+    SA1_ANIM_PLATFORM_HORZ_4,   SA1_ANIM_PLATFORM_HORZ_4, // Zone 4
+    SA1_ANIM_PLATFORM_HORZ_5,   SA1_ANIM_PLATFORM_HORZ_5, // Zone 5
+    SA1_ANIM_PLATFORM_HORZ_6_1, SA1_ANIM_PLATFORM_HORZ_6_2, // Zone 6
+    SA1_ANIM_PLATFORM_HORZ_7_1, SA1_ANIM_PLATFORM_HORZ_6_1, // Zone 7
+    SA1_ANIM_PLATFORM_HORZ_1,   SA1_ANIM_PLATFORM_HORZ_2, // MP 1, 2
+    SA1_ANIM_PLATFORM_HORZ_3,   SA1_ANIM_PLATFORM_HORZ_6_2, // MP 3, 4
+};
 
 void CreateEntity_PlatformThin(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {

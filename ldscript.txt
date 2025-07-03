@@ -173,6 +173,7 @@ SECTIONS {
         src/game/interactables/sega_sonic_letters.o(.text);
         src/game/interactables/party_balloon.o(.text);
         src/game/interactables/ship_swing.o(.text);
+        src/game/interactables/platform_spiked.o(.text);
         asm/ia_platform_spiked.o(.text);
         src/game/interactables/bowl.o(.text);
         src/game/interactables/panel_gate.o(.text);
@@ -277,6 +278,7 @@ SECTIONS {
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
         data/data_0_1_3.o(.rodata);
+        src/game/interactables/platform_thin.o(.rodata);
         src/game/interactables/platform_crumbling.o(.rodata);
         data/data_0_1_4.o(.rodata);
         src/data/tilemap_data_0.o(.rodata);

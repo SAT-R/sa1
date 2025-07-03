@@ -5,213 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateEntity_Platform_Spiked
-CreateEntity_Platform_Spiked: @ 0x0807F98C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	adds r7, r0, #0
-	adds r4, r3, #0
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov r8, r1
-	lsls r2, r2, #0x10
-	lsrs r2, r2, #0x10
-	mov sb, r2
-	lsls r4, r4, #0x18
-	lsrs r4, r4, #0x18
-	ldr r0, _0807FA0C @ =Task_Platform_Spiked
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _0807FA10 @ =TaskDestructor_Platform_Spiked
-	str r1, [sp]
-	movs r1, #0x54
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r2, r0
-	adds r0, #0xc
-	adds r6, r2, r0
-	movs r1, #0
-	movs r3, #0
-	mov r0, r8
-	strh r0, [r5, #4]
-	mov r0, sb
-	strh r0, [r5, #6]
-	str r7, [r5]
-	ldrb r0, [r7]
-	strb r0, [r5, #8]
-	strb r4, [r5, #9]
-	str r3, [r5, #0x3c]
-	str r3, [r5, #0x40]
-	ldr r4, _0807FA14 @ =0x0300004F
-	adds r0, r2, r4
-	strb r1, [r0]
-	subs r4, #1
-	adds r0, r2, r4
-	strb r1, [r0]
-	ldrb r0, [r7, #5]
-	ldrb r1, [r7, #6]
-	cmp r0, r1
-	bls _0807FA2C
-	movs r0, #3
-	ldrsb r0, [r7, r0]
-	cmp r0, #0
-	blt _0807FA18
-	movs r0, #4
-	str r0, [r5, #0x44]
-	subs r4, #2
-	adds r0, r2, r4
-	strh r3, [r0]
-	str r3, [r5, #0x48]
-	b _0807FA56
-	.align 2, 0
-_0807FA0C: .4byte Task_Platform_Spiked
-_0807FA10: .4byte TaskDestructor_Platform_Spiked
-_0807FA14: .4byte 0x0300004F
-_0807FA18:
-	movs r0, #4
-	str r0, [r5, #0x44]
-	ldr r0, _0807FA28 @ =0x0300004C
-	adds r1, r2, r0
-	movs r0, #0x80
-	strh r0, [r1]
-	str r3, [r5, #0x48]
-	b _0807FA56
-	.align 2, 0
-_0807FA28: .4byte 0x0300004C
-_0807FA2C:
-	movs r0, #4
-	ldrsb r0, [r7, r0]
-	cmp r0, #0
-	blt _0807FA48
-	str r3, [r5, #0x44]
-	movs r0, #4
-	str r0, [r5, #0x48]
-	ldr r1, _0807FA44 @ =0x0300004C
-	adds r0, r2, r1
-	strh r3, [r0]
-	b _0807FA56
-	.align 2, 0
-_0807FA44: .4byte 0x0300004C
-_0807FA48:
-	str r3, [r5, #0x44]
-	movs r0, #4
-	str r0, [r5, #0x48]
-	ldr r4, _0807FA98 @ =0x0300004C
-	adds r1, r2, r4
-	movs r0, #0x80
-	strh r0, [r1]
-_0807FA56:
-	ldrb r0, [r7]
-	lsls r0, r0, #3
-	mov r2, r8
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	movs r4, #0
-	strh r0, [r6, #0x16]
-	ldrb r0, [r7, #1]
-	lsls r0, r0, #3
-	mov r2, sb
-	lsls r1, r2, #8
-	adds r0, r0, r1
-	strh r0, [r6, #0x18]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	ldr r0, _0807FA9C @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r1, r0, #0x18
-	asrs r0, r0, #0x19
-	cmp r0, #2
-	beq _0807FA8A
-	cmp r1, #0x10
-	bne _0807FAA4
-_0807FA8A:
-	movs r0, #0x14
-	bl VramMalloc
-	str r0, [r6, #4]
-	ldr r0, _0807FAA0 @ =0x00000209
-	b _0807FAB6
-	.align 2, 0
-_0807FA98: .4byte 0x0300004C
-_0807FA9C: .4byte gCurrentLevel
-_0807FAA0: .4byte 0x00000209
-_0807FAA4:
-	movs r0, #3
-	ldrsb r0, [r7, r0]
-	cmp r0, #0
-	bne _0807FACC
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r6, #4]
-	ldr r0, _0807FAC8 @ =0x0000021A
-_0807FAB6:
-	strh r0, [r6, #0xa]
-	adds r0, r6, #0
-	adds r0, #0x20
-	strb r4, [r0]
-	adds r1, r5, #0
-	adds r1, #0x50
-	movs r0, #1
-	strb r0, [r1]
-	b _0807FAE4
-	.align 2, 0
-_0807FAC8: .4byte 0x0000021A
-_0807FACC:
-	movs r0, #0x24
-	bl VramMalloc
-	str r0, [r6, #4]
-	ldr r0, _0807FB28 @ =0x0000021B
-	strh r0, [r6, #0xa]
-	adds r0, r6, #0
-	adds r0, #0x20
-	strb r4, [r0]
-	adds r0, r5, #0
-	adds r0, #0x50
-	strb r4, [r0]
-_0807FAE4:
-	movs r2, #0
-	movs r1, #0
-	movs r0, #0x90
-	lsls r0, r0, #3
-	strh r0, [r6, #0x1a]
-	strh r1, [r6, #8]
-	strh r1, [r6, #0x14]
-	strh r1, [r6, #0x1c]
-	adds r1, r6, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #0x10
-	strb r0, [r1]
-	adds r0, r6, #0
-	adds r0, #0x25
-	strb r2, [r0]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r6, #0x28]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r6, #0x10]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0807FB28: .4byte 0x0000021B
+.if 0
+.endif
 
 	thumb_func_start Task_Platform_Spiked
 Task_Platform_Spiked: @ 0x0807FB2C
@@ -337,8 +132,7 @@ _0807FBCC:
 	ldr r7, _0807FC4C @ =gPartner
 	ldr r4, _0807FC50 @ =gPlayer
 	mov r8, r4
-
-_0807FC1C:
+_0807FC1C_loop:
 	cmp r6, #0
 	beq _0807FC54
 	ldr r0, [r7, #0x10]
@@ -1619,7 +1413,7 @@ _08080520:
 	asrs r0, r0, #0x18
 	cmp r6, r0
 	bge _08080532
-	bl _0807FC1C
+	bl _0807FC1C_loop
 _08080532:
 	ldr r3, [sp, #0x28]
 	asrs r1, r3, #0x10
