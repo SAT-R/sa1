@@ -148,7 +148,6 @@ void Task_Bowl(void)
     DisplaySprite(s);
 }
 
-#if 01
 // (97.80%) https://decomp.me/scratch/rNMbG
 NONMATCH("asm/non_matching/game/interactables/bowl__Task_BowlRotating.inc", void Task_BowlRotating(void))
 {
@@ -375,4 +374,3 @@ void TaskDestructor_Bowl(struct Task *t)
     Bowl *bowl = TASK_DATA(t);
     VramFree(bowl->s.graphics.dest);
 }
-#endif

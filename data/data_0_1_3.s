@@ -48,8 +48,8 @@ gUnknown_080BB4F0:
 gUnknown_080BB4F4: @ Q-values!
     .short 0x780, 0x900, 0xA80, 0xC00
 
-    .global gUnknown_080BB4FC
-gUnknown_080BB4FC:
+    .global sPlatformThinAnims
+sPlatformThinAnims:
     .short 0x01CF, 0x01CF
     .short 0x01FA, 0x01FA
     .short 0x01EF, 0x01EF
