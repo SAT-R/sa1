@@ -1,13 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-.if 01
-	thumb_func_start sub_80805C8
-sub_80805C8: @ 0x080805C8
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -188,15 +182,4 @@ _0808070E:
 	bx r1
 	.align 2, 0
 
-	thumb_func_start TaskDestructor_Platform_Spiked
-TaskDestructor_Platform_Spiked: @ 0x0808071C
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0x10]
-	bl VramFree
-	pop {r0}
-	bx r0
-.endif
+.syntax divided

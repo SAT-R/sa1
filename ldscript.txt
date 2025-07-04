@@ -174,7 +174,6 @@ SECTIONS {
         src/game/interactables/party_balloon.o(.text);
         src/game/interactables/ship_swing.o(.text);
         src/game/interactables/platform_spiked.o(.text);
-        asm/ia_platform_spiked.o(.text);
         src/game/interactables/bowl.o(.text);
         src/game/interactables/panel_gate.o(.text);
         asm/ia_marble_track.o(.text);

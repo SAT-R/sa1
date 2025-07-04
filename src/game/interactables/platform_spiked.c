@@ -32,7 +32,7 @@ typedef struct {
 
 void Task_Platform_Spiked(void);
 void TaskDestructor_Platform_Spiked(struct Task *t);
-void sub_80805C8(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p);
+bool32 sub_80805C8(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p);
 
 void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -339,15 +339,58 @@ void Task_Platform_Spiked(void)
     DisplaySprite(s);
 }
 
-#if 0
-void sub_80805C8(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p)
+// (99.64%) https://decomp.me/scratch/E9idQ
+NONMATCH("asm/non_matching/game/interactables/platform_spiked__sub_80805C8.inc",
+         bool32 sub_80805C8(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p))
 {
+    if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rect))) {
+        s32 res;
+        s32 valX = (worldX + s->hitboxes[0].b.left - rect->right + 8);
 
+        if (I(p->qWorldX) <= valX) {
+            p->qWorldX = Q(worldX + s->hitboxes[0].b.left - rect->right);
+            if (p->qSpeedAirX > Q(0)) {
+                p->qSpeedGround = 0;
+                p->qSpeedAirX = 0;
+            }
+        } else {
+            s32 valX = (worldX + s->hitboxes[0].b.right - rect->left);
+
+            if (I(p->qWorldX) >= valX - 8) {
+                p->qWorldX = Q(valX);
+
+                if (p->qSpeedAirX < 0) {
+                    p->qSpeedGround = 0;
+                    p->qSpeedAirX = 0;
+                }
+            } else {
+                return FALSE;
+            }
+        }
+        res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY) + 9, I(p->qWorldX), p->layer, +8, NULL, SA2_LABEL(sub_801EE64));
+
+        if (res < 0) {
+            p->qWorldY += Q(res);
+        }
+
+        res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY), I(p->qWorldX), p->layer, -8, NULL, SA2_LABEL(sub_801EE64));
+
+        if (res < 0) {
+            p->qWorldY += Q(res);
+        }
+
+        p->moveState &= ~MOVESTATE_20;
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+
+        return TRUE;
+    }
+
+    return FALSE;
 }
+END_NONMATCH
 
 void TaskDestructor_Platform_Spiked(struct Task *t)
 {
     PlatformSpiked *platform = TASK_DATA(t);
     VramFree(platform->s.graphics.dest);
 }
-#endif
