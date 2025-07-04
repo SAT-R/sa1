@@ -4,6 +4,7 @@
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/multiplayer/multiplayer_event_mgr.h"
+#include "game/stage/terrain_collision.h"
 #include "game/stage/player.h"
 #include "game/water_effects.h"
 #include "malloc_vram.h"
@@ -19,8 +20,8 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ s32 unk3C;
-    /* 0x40 */ s32 unk40;
+    /* 0x3C */ s32 qUnk3C;
+    /* 0x40 */ s32 qUnk40;
     /* 0x44 */ s32 qUnk44;
     /* 0x48 */ s32 qUnk48;
     /* 0x4C */ u16 unk4C;
@@ -31,6 +32,7 @@ typedef struct {
 
 void Task_Platform_Spiked(void);
 void TaskDestructor_Platform_Spiked(struct Task *t);
+void sub_80805C8(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p);
 
 void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -44,8 +46,8 @@ void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id
     platform->base.meX = me->x;
     platform->base.id = id;
 
-    platform->unk3C = 0;
-    platform->unk40 = 0;
+    platform->qUnk3C = 0;
+    platform->qUnk40 = 0;
     platform->unk4F = 0;
     platform->unk4E = 0;
 
@@ -106,3 +108,246 @@ void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id
 
     UpdateSpriteAnimation(s);
 }
+
+void Task_Platform_Spiked(void)
+{
+    Sprite *s;
+    PlatformSpiked *platform;
+    CamCoord worldX, worldY;
+    MapEntity *me;
+    s32 diff;
+    s32 qUnk4A;
+    s32 qPrevWorldX, qPrevWorldY;
+    u32 flags;
+    s32 res;
+    s32 i;
+
+    s32 sp20 = 0;
+    s32 sp24 = 0;
+
+    platform = TASK_DATA(gCurTask);
+    s = &platform->s;
+    me = platform->base.me;
+
+    // NOTE: Non-match Ripped from Task_PlatformThin() in platform_thin.c
+    if (platform->qUnk44 != 0) {
+#ifndef NON_MATCHING
+        register s32 diff asm("r5") = platform->qUnk3C;
+#else
+        s32 diff = platform->qUnk3C;
+#endif
+        platform->qUnk3C = (((me->d.uData[2] << 11) * SIN(platform->qUnk44 * (((gStageTime + platform->unk4C) & 0xFF)) & 0x3FF)) >> 14);
+        diff = platform->qUnk3C - diff;
+        asm("" ::"r"(diff));
+        sp20 = diff;
+    }
+
+    if (platform->qUnk48 != 0) {
+#ifndef NON_MATCHING
+        register s32 diff asm("r5") = platform->qUnk40;
+#else
+        s32 diff = platform->qUnk40;
+#endif
+        platform->qUnk40 = (((me->d.uData[3] << 11) * SIN(platform->qUnk48 * (((gStageTime + platform->unk4C) & 0xFF)) & 0x3FF)) >> 14);
+        diff = platform->qUnk40 - diff;
+        asm("" ::"r"(diff));
+        sp24 = diff;
+    }
+
+    worldX = TO_WORLD_POS(platform->base.meX, platform->base.regionX);
+    worldY = TO_WORLD_POS(me->y, platform->base.regionY);
+
+    s->x = worldX - gCamera.x + I(platform->qUnk3C);
+    s->y = worldY - gCamera.y + I(platform->qUnk40);
+
+    i = 0;
+    do {
+        if ((!(PLAYER(i).moveState & MOVESTATE_DEAD)) && !(PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE)) {
+            qPrevWorldX = PLAYER(i).qWorldX;
+
+            if (GetBit(platform->unk4E, i)) {
+                PLAYER(i).qWorldX += sp20;
+                PLAYER(i).qWorldY += sp24 + Q(1);
+
+                if (sp20 > Q(0)) {
+                    res = SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) + 4, I(PLAYER(i).qWorldY) + 0, PLAYER(i).layer, +8,
+                                                 SA2_LABEL(sub_801EB44));
+
+                    if (res < 0) {
+                        PLAYER(i).qWorldX += Q(res);
+                    }
+                } else {
+                    res = SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) + 0, I(PLAYER(i).qWorldY) + 0, PLAYER(i).layer, -8,
+                                                 SA2_LABEL(sub_801EB44));
+
+                    if (res < 0) {
+                        PLAYER(i).qWorldX -= Q(res);
+                    }
+                }
+
+                res = SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldY) - 5, I(PLAYER(i).qWorldX) + 0, PLAYER(i).layer, -8,
+                                             SA2_LABEL(sub_801EC3C));
+
+                if (res < 0) {
+                    if (platform->qUnk48 != Q(0)) {
+                        PLAYER(i).qWorldX = qPrevWorldX;
+                        PLAYER(i).moveState &= ~MOVESTATE_20;
+                        PLAYER(i).moveState |= MOVESTATE_DEAD;
+                    }
+                } else {
+                    if (!Coll_Player_Entity_Intersection(s, worldX + I(platform->qUnk3C), worldY + I(platform->qUnk40), &PLAYER(i))) {
+                        ClearBit(platform->unk4E, i);
+                    }
+                }
+            } else {
+                // // !GetBit(platform->unk4E, i)
+                s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), (1 - PLAYER(i).spriteOffsetY), +(PLAYER(i).spriteOffsetX + 5),
+                              (PLAYER(i).spriteOffsetY - 1) };
+
+                sub_80805C8(s, worldX + I(platform->qUnk3C), worldY + I(platform->qUnk40), (Rect8 *)&arr[0], &PLAYER(i));
+
+                qPrevWorldX = PLAYER(i).qWorldX;
+                qPrevWorldY = PLAYER(i).qWorldY;
+
+                flags = sub_80096B0(s, worldX + I(platform->qUnk3C), worldY + I(platform->qUnk40), &PLAYER(i));
+
+                if (flags & 0x70000) {
+                    SetBit(platform->unk4F, i);
+
+                    if (flags & 0x40000) {
+                        if (platform->qUnk44 != Q(0)) {
+                            if (gInput & DPAD_LEFT) {
+                                if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
+                                    PLAYER(i).qWorldX -= Q(2);
+                                    PLAYER(i).moveState |= MOVESTATE_20;
+                                }
+                            }
+
+                            res = SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) + 0, I(PLAYER(i).qWorldY) + 0, PLAYER(i).layer, -8,
+                                                         SA2_LABEL(sub_801EB44));
+
+                            if (res < 0) {
+                                PLAYER(i).moveState &= ~MOVESTATE_20;
+                                PLAYER(i).moveState |= MOVESTATE_DEAD;
+                            }
+                        }
+                    } else if (flags & 0x20000) {
+                        if (platform->qUnk44 != Q(0)) {
+                            if (gInput & DPAD_RIGHT) {
+                                if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
+                                    PLAYER(i).qWorldX += Q(2);
+                                    PLAYER(i).moveState |= MOVESTATE_20;
+                                }
+                            }
+
+                            res = SA2_LABEL(sub_801F100)(I(PLAYER(i).qWorldX) + 0, I(PLAYER(i).qWorldY) + 0, PLAYER(i).layer, +8,
+                                                         SA2_LABEL(sub_801EB44));
+
+                            if (res < 0) {
+                                PLAYER(i).moveState &= ~MOVESTATE_20;
+                                PLAYER(i).moveState |= MOVESTATE_DEAD;
+                            }
+                        }
+                    } else {
+                        if (platform->qUnk48 != Q(0)) {
+                            PLAYER(i).qWorldX = qPrevWorldX;
+
+                            if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
+                                PLAYER(i).qWorldX = qPrevWorldX;
+                                PLAYER(i).qWorldY = qPrevWorldY;
+
+                                PLAYER(i).moveState &= ~MOVESTATE_20;
+                                PLAYER(i).moveState |= MOVESTATE_DEAD;
+                            } else {
+                                if (!platform->facingUp) {
+                                    Coll_DamagePlayer(&PLAYER(i));
+                                }
+                            }
+                        } else {
+                            if (!platform->facingUp) {
+                                Coll_DamagePlayer(&PLAYER(i));
+                            }
+                        }
+                    }
+                } else {
+                    if (GetBit(platform->unk4F, i)) {
+                        if (PLAYER(i).charState == CHARSTATE_14) {
+                            ClearBit(platform->unk4F, i);
+                            PLAYER(i).qSpeedGround = 0;
+                            Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                            PLAYER(i).moveState &= ~MOVESTATE_20;
+
+                            if (PLAYER(i).charState == CHARSTATE_14) {
+                                if (PLAYER(i).character != CHARACTER_AMY) {
+                                    if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
+                                        PLAYER(i).charState = CHARSTATE_WALK;
+                                    } else {
+                                        if (PLAYER(i).character != CHARACTER_AMY) {
+                                            PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                                        } else {
+                                            PLAYER(i).charState = CHARSTATE_85;
+                                        }
+                                    }
+                                } else {
+                                    if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
+                                        PLAYER(i).charState = CHARSTATE_WALK;
+                                    } else {
+                                        if (PLAYER(i).character != CHARACTER_AMY) {
+                                            PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                                        } else {
+                                            PLAYER(i).charState = CHARSTATE_85;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+                if (PLAYER(i).qSpeedAirY >= Q(0)) {
+                    if (worldY + I(platform->qUnk40) > I(PLAYER(i).qWorldY)) {
+                        s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), (1 - PLAYER(i).spriteOffsetY), +(PLAYER(i).spriteOffsetX + 5),
+                                      (PLAYER(i).spriteOffsetY - 1) };
+                        u32 flags;
+
+                        sub_80805C8(s, worldX + I(platform->qUnk3C), worldY + I(platform->qUnk40), (Rect8 *)&arr[0], &PLAYER(i));
+
+                        flags = sub_80096B0(s, worldX + I(platform->qUnk3C), worldY + I(platform->qUnk40) - 8, &PLAYER(i));
+
+                        if (flags & 0x8) {
+                            if (platform->facingUp) {
+                                Coll_DamagePlayer(&PLAYER(i));
+                            } else {
+                                SetBit(platform->unk4E, i);
+                                PLAYER(i).qWorldY += Q(8);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, platform->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    DisplaySprite(s);
+}
+
+#if 0
+void sub_80805C8(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p)
+{
+
+}
+
+void TaskDestructor_Platform_Spiked(struct Task *t)
+{
+    PlatformSpiked *platform = TASK_DATA(t);
+    VramFree(platform->s.graphics.dest);
+}
+#endif
