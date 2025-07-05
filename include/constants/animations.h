@@ -199,6 +199,7 @@
 #define SA1_ANIM_TORCH5           558
 #define SA1_ANIM_BREAKABLE_WALL_1 559
 
+#define SA1_ANIM_PLATFORM_HORZ_4_PURPLE_LAVA     561
 #define SA1_ANIM_ICE_SLIDE_SPLASH                562
 #define SA1_ANIM_WATER_SURFACE                   563
 #define SA1_ANIM_DEBRIS_A                        564
