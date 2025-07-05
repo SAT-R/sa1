@@ -137,6 +137,7 @@ SECTIONS {
         src/game/game_over.o(.text);
         asm/game__stage__results.o(.text);
         asm/game_2.o(.text);
+        asm/game__time_attack__lobby.o(.text);
         src/game/edit_language_screen.o(.text);
         asm/game_3.o(.text);
 
@@ -199,6 +200,7 @@ SECTIONS {
         src/game/interactables/toggle_player_float.o(.text);
         src/game/interactables/ferris_wheel.o(.text);
         asm/ia_boulder_spawner.o(.text);
+        src/game/interactables/boulder_spawner.o(.text);
         src/game/interactables/spiked_barrel.o(.text);
         src/game/interactables/air_bubbles.o(.text);
         asm/ia_ice_block.o(.text);

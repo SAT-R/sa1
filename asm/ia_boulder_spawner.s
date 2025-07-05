@@ -455,7 +455,7 @@ _080901EC:
 	movs r4, #0
 	ldrsh r2, [r2, r4]
 	subs r1, r1, r2
-	bl sub_8090334
+	bl CreateBoulderDebris
 	ldrh r0, [r7, #0x16]
 	adds r0, #0x80
 	lsls r0, r0, #0x10
@@ -593,8 +593,8 @@ _0809031C:
 _0809032C: .4byte gSineTable
 _08090330: .4byte 0x000004E2
 
-	thumb_func_start sub_8090334
-sub_8090334: @ 0x08090334
+	thumb_func_start CreateBoulderDebris
+CreateBoulderDebris: @ 0x08090334
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -603,10 +603,10 @@ sub_8090334: @ 0x08090334
 	sub sp, #0xc
 	adds r4, r0, #0
 	str r1, [sp, #4]
-	ldr r0, _080904A0 @ =Task_BoulderPieces
+	ldr r0, _080904A0 @ =Task_BoulderDebris
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _080904A4 @ =TaskDestructor_BoulderPieces
+	ldr r1, _080904A4 @ =TaskDestructor_BoulderDebris
 	str r1, [sp]
 	movs r1, #0xf4
 	movs r3, #0
@@ -772,8 +772,8 @@ sub_8090334: @ 0x08090334
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080904A0: .4byte Task_BoulderPieces
-_080904A4: .4byte TaskDestructor_BoulderPieces
+_080904A0: .4byte Task_BoulderDebris
+_080904A4: .4byte TaskDestructor_BoulderDebris
 _080904A8: .4byte 0x030000C0
 _080904AC: .4byte 0x030000F0
 _080904B0: .4byte 0x030000F2
@@ -795,8 +795,9 @@ _080904EC: .4byte 0x03000082
 _080904F0: .4byte 0x03000085
 _080904F4: .4byte 0x03000090
 
-	thumb_func_start Task_BoulderPieces
-Task_BoulderPieces: @ 0x080904F8
+.if 01
+	thumb_func_start Task_BoulderDebris
+Task_BoulderDebris: @ 0x080904F8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -823,7 +824,7 @@ Task_BoulderPieces: @ 0x080904F8
 	bls _08090538
 	adds r0, r2, #0
 	bl TaskDestroy
-	b _08090708
+	b _08090708_return
 	.align 2, 0
 _08090530: .4byte gCurTask
 _08090534: .4byte 0x030000F0
@@ -1053,7 +1054,7 @@ _08090586:
 	strh r5, [r6, #6]
 	mov r3, sb
 	strh r3, [r6, #8]
-_08090708:
+_08090708_return:
 	add sp, #8
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -1073,85 +1074,4 @@ _08090730: .4byte 0x03000060
 _08090734: .4byte 0x030000D8
 _08090738: .4byte 0x03000090
 _0809073C: .4byte 0x030000E4
-
-	thumb_func_start CreateEntity_BoulderSpawner
-CreateEntity_BoulderSpawner: @ 0x08090740
-	push {r4, r5, r6, lr}
-	mov r6, r8
-	push {r6}
-	sub sp, #4
-	mov r8, r0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _080907A4 @ =Task_BoulderSpawnerMain
-	movs r2, #0x80
-	lsls r2, r2, #6
-	movs r1, #0
-	str r1, [sp]
-	movs r1, #0xbc
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r2, r0
-	strh r4, [r0, #4]
-	strh r5, [r0, #6]
-	mov r1, r8
-	str r1, [r0]
-	ldrb r1, [r1]
-	strb r1, [r0, #8]
-	strb r6, [r0, #9]
-	mov r3, r8
-	ldrb r0, [r3, #3]
-	ldr r1, _080907A8 @ =0x030000B1
-	adds r2, r2, r1
-	strb r0, [r2]
-	movs r3, #2
-	rsbs r3, r3, #0
-	adds r0, r3, #0
-	mov r1, r8
-	strb r0, [r1]
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080907A4: .4byte Task_BoulderSpawnerMain
-_080907A8: .4byte 0x030000B1
-
-	thumb_func_start TaskDestructor_Boulder
-TaskDestructor_Boulder: @ 0x080907AC
-	push {lr}
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldr r0, [r0, #0x10]
-	bl VramFree
-	pop {r0}
-	bx r0
-
-	thumb_func_start TaskDestructor_BoulderPieces
-TaskDestructor_BoulderPieces: @ 0x080907C0
-	push {r4, lr}
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	ldr r0, [r4, #4]
-	bl VramFree
-	ldr r0, [r4, #0x64]
-	bl VramFree
-	pop {r4}
-	pop {r0}
-	bx r0
+.endif
