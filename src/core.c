@@ -44,7 +44,7 @@ BgAffineReg gBgAffineRegs[NUM_AFFINE_BACKGROUNDS] ALIGNED(16) = {};
 void *gVramHeapStartAddr = NULL;
 u16 sa2__gUnknown_03001944 ALIGNED(4) = 0;
 u8 gNumVBlankIntrs ALIGNED(4) = 0;
-u16 sa2__gUnknown_0300194C ALIGNED(4) = 0;
+s16 sa2__gUnknown_0300194C ALIGNED(4) = 0;
 
 u32 gMultiSioStatusFlags = 0;
 bool8 gMultiSioEnabled = FALSE;
@@ -88,7 +88,7 @@ struct GraphicsData gVramGraphicsCopyQueueBuffer[32] = {};
 #endif
 struct GraphicsData *gVramGraphicsCopyQueue[] ALIGNED(16) = {};
 
-u16 sa2__gUnknown_03002820 = 0;
+s16 sa2__gUnknown_03002820 = 0;
 s16 gBgScrollRegs[][2] ALIGNED(16) = {};
 u16 gDispCnt = 0;
 u8 gKeysContinuedRepeatIntervals[10] ALIGNED(16) = {};

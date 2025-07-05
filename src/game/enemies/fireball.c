@@ -8,7 +8,8 @@
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
-#define NUM_SPARKS 2
+#define NUM_SPARKS          2
+#define FIREBALL_SPAWN_RATE ZONE_TIME_TO_INT(0, 4)
 
 typedef struct {
     /* 0x00 */ MapEntity *me;
@@ -41,8 +42,6 @@ void Task_FireballSpark(void);
 void CreateFireballSparks(s16 screenX, s16 screenY);
 void Task_FireballUpdateRise(void);
 void Task_FireballExtinguish(void);
-
-#define FIREBALL_SPAWN_RATE ZONE_TIME_TO_INT(0, 4)
 
 void Task_Fireball(void)
 {

@@ -17,6 +17,8 @@
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
+#define BOULDER_SPAWN_RATE ZONE_TIME_TO_INT(0, 2)
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -24,13 +26,15 @@ typedef struct {
     /* 0xB0 */ u8 unkB0;
     /* 0xB1 */ u8 unkB1;
     /* 0xB2 */ u8 fillerB2[0x2];
-    /* 0xB4 */ u8 fillerB4[0x8];
+    /* 0xB4 */ u8 fillerB4[0x7];
+    /* 0xBB */ u8 unkBB;
 } BoulderSpawner; /* 0xBC */
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ u8 filler3C[0x64];
+    /* 0x3C */ u8 filler3C[0x60];
+    /* 0x9C */ s32 qUnk9C;
     /* 0xA0 */ s32 qUnkA0;
     /* 0xA4 */ s32 qUnkA4;
     /* 0xA8 */ s32 qUnkA8;
@@ -39,6 +43,7 @@ typedef struct {
     /* 0xB1 */ u8 unkB1;
     /* 0xB2 */ s16 unkB2;
     /* 0xB4 */ s16 unkB4;
+    /* 0x3C */ u8 fillerB6[0x6];
 } Boulder; /* 0xBC */
 
 typedef struct {
@@ -54,6 +59,63 @@ void Task_BoulderSpawnerMain(void);
 void TaskDestructor_Boulder(struct Task *t);
 void TaskDestructor_BoulderDebris(struct Task *t);
 void CreateBoulderDebris(s32 x, s32 y);
+
+void Task_BoulderSpawnerMain(void)
+{
+    CamCoord worldX, worldY;
+    BoulderSpawner *spawner;
+    MapEntity *me;
+
+    spawner = TASK_DATA(gCurTask);
+    me = spawner->base.me;
+
+    worldX = TO_WORLD_POS(spawner->base.meX, spawner->base.regionX);
+    worldY = TO_WORLD_POS(me->y, spawner->base.regionY);
+
+    if (Mod(gStageTime, BOULDER_SPAWN_RATE) == 0) {
+        struct Task *t = TaskCreate(Task_BoulderMain, sizeof(Boulder), 0x2000, 0, TaskDestructor_Boulder);
+
+        Boulder *boulder = TASK_DATA(t);
+        Sprite *s = &boulder->s;
+
+        boulder->base.regionX = spawner->base.regionX;
+        boulder->base.regionY = spawner->base.regionY;
+        boulder->base.meX = spawner->base.meX;
+        // TODO: Isn't this reading undefined memory?
+        boulder->base.id = spawner->unkBB;
+        boulder->qUnk9C = Q(0);
+        boulder->qUnkA0 = Q(0.25);
+        boulder->qUnkA4 = Q(0);
+        boulder->qUnkA8 = Q(0);
+        boulder->qUnkAC = Q(0);
+        boulder->unkB0 = 0;
+        boulder->unkB1 = spawner->unkB1;
+
+        boulder->unkB2 = s->x = worldX;
+        boulder->unkB4 = s->y = worldY;
+
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_FALLING_BOULDER);
+        s->oamFlags = SPRITE_OAM_ORDER(18);
+        s->graphics.size = 0;
+        s->graphics.anim = SA1_ANIM_FALLING_BOULDER;
+        s->variant = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = Q(0);
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+        UpdateSpriteAnimation(s);
+    }
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY)) {
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, spawner->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+}
 
 void Task_BoulderMain(void)
 {
@@ -144,10 +206,18 @@ void CreateBoulderDebris(s32 x, s32 y)
 
         debris->unkF0 = 0;
         debris->qUnkF2 = -Q(2);
+#ifdef BUG_FIX
+        // BUG: Allocated wrong amount of VRAM data
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_S);
+        s->oamFlags = SPRITE_OAM_ORDER(8);
+        s->graphics.size = 0;
+        s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_S;
+#else
         s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_L);
         s->oamFlags = SPRITE_OAM_ORDER(8);
         s->graphics.size = 0;
         s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_S;
+#endif
         s->variant = 0;
         s->animCursor = 0;
         s->qAnimDelay = Q(0);
@@ -187,10 +257,18 @@ void CreateBoulderDebris(s32 x, s32 y)
     DmaCopy16(3, tf, (tf = &debris->transforms[2]), sizeof(*tf));
 #endif
     {
+#ifdef BUG_FIX
+        // BUG: Allocated wrong amount of VRAM data
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_L);
+        s->oamFlags = SPRITE_OAM_ORDER(8);
+        s->graphics.size = 0;
+        s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_L;
+#else
         s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_S);
         s->oamFlags = SPRITE_OAM_ORDER(8);
         s->graphics.size = 0;
         s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_L;
+#endif
         s->variant = 0;
         s->animCursor = 0;
         s->qAnimDelay = Q(0);
@@ -204,9 +282,9 @@ void CreateBoulderDebris(s32 x, s32 y)
         UpdateSpriteAnimation(s);
 
 #ifdef BUG_FIX
-        DmaCopy16(3, s, &debris->sprites[3], sizeof(debris->s2));
+        DmaCopy16(3, s, &debris->sprites[3], sizeof(debris->sprites[3]));
         s = &debris->sprites[3];
-        DmaCopy16(3, tf, &debris->transforms[3], sizeof(debris->transform2));
+        DmaCopy16(3, tf, &debris->transforms[3], sizeof(debris->transforms[3]));
         tf = &debris->transforms[3];
 #else
         DmaCopy16(3, s, (s = &debris->sprites[3]), sizeof(*s));
@@ -214,7 +292,6 @@ void CreateBoulderDebris(s32 x, s32 y)
 #endif
 
         s->frameFlags = SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 19);
-        ;
         tf->y = y - 16;
     }
 }
