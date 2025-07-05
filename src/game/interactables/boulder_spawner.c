@@ -36,13 +36,121 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Sprite sprites[4];
     /* 0xC0 */ SpriteTransform transforms[4];
-    /* 0xF0 */ s16 unkF0;
-    /* 0xF2 */ s16 unkF2;
+    /* 0xF0 */ u16 unkF0;
+    /* 0xF2 */ s16 qUnkF2;
 } BoulderDebris; /* 0xF4 */
 
 void Task_BoulderSpawnerMain(void);
 void TaskDestructor_Boulder(struct Task *t);
 void TaskDestructor_BoulderDebris(struct Task *t);
+
+void Task_BoulderDebris(void)
+{
+    BoulderDebris *debris = TASK_DATA(gCurTask);
+    Sprite *s = &debris->sprites[0];
+    SpriteTransform *tf;
+    s16 prevTransformX, prevTransformY;
+    s16 scale;
+
+    if (debris->unkF0++ > 60) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    
+    debris->qUnkF2 += Q(40. / 256.);
+
+    { // 0
+        tf = &debris->transforms[0];
+        tf->y += I(debris->qUnkF2);
+
+        prevTransformX = tf->x;
+        prevTransformY = tf->y;
+        tf->x -= gCamera.x;
+        tf->y -= gCamera.y;
+        tf->x -= debris->unkF0 * 2;
+
+        scale = tf->qScaleX + Q(8. / 256.);
+        if (scale > Q(2)) {
+            scale = Q(2);
+        }
+
+        tf->qScaleX = scale;
+        tf->qScaleY = scale;
+        tf->rotation -= Q(42. / 256.);
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++;
+        SA2_LABEL(sub_8004E14)(s, tf);
+        DisplaySprite(s);
+        tf->x = prevTransformX;
+        tf->y = prevTransformY;
+    }
+
+    { // 1
+        s = &debris->sprites[1];
+        tf = &debris->transforms[1];
+        tf->y += I(debris->qUnkF2);
+
+        prevTransformX = tf->x;
+        prevTransformY = tf->y;
+        tf->x -= gCamera.x;
+        tf->y -= gCamera.y;
+        tf->x += debris->unkF0;
+
+        tf->qScaleX = scale;
+        tf->qScaleY = scale;
+        tf->rotation += Q(42. / 256.);
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++;
+        SA2_LABEL(sub_8004E14)(s, tf);
+        DisplaySprite(s);
+        tf->x = prevTransformX;
+        tf->y = prevTransformY;
+    }
+
+    { // 2
+        s = &debris->sprites[2];
+        tf = &debris->transforms[2];
+        tf->y += I(debris->qUnkF2);
+
+        prevTransformX = tf->x;
+        prevTransformY = tf->y;
+        tf->x -= gCamera.x;
+        tf->y -= gCamera.y;
+        tf->x += debris->unkF0 * 2;
+
+        tf->qScaleX = scale;
+        tf->qScaleY = scale;
+        tf->rotation += Q(14. / 256.);
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++;
+        SA2_LABEL(sub_8004E14)(s, tf);
+        DisplaySprite(s);
+        tf->x = prevTransformX;
+        tf->y = prevTransformY;
+    }
+
+    { // 3
+        s = &debris->sprites[3];
+        tf = &debris->transforms[3];
+        tf->y += I(debris->qUnkF2);
+
+        prevTransformX = tf->x;
+        prevTransformY = tf->y;
+        tf->x -= gCamera.x;
+        tf->y -= gCamera.y;
+        tf->x -= debris->unkF0;
+
+        tf->qScaleX = scale;
+        tf->qScaleY = scale;
+        tf->rotation -= Q(14. / 256.);
+        SPRITE_FLAG_CLEAR(s, ROT_SCALE);
+        s->frameFlags |= SA2_LABEL(gUnknown_030054B8)++;
+        SA2_LABEL(sub_8004E14)(s, tf);
+        DisplaySprite(s);
+        tf->x = prevTransformX;
+        tf->y = prevTransformY;
+    }
+}
 
 void CreateEntity_BoulderSpawner(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
