@@ -23,14 +23,22 @@ typedef struct {
     /* 0x3C */ u8 unk3C[0x74];
     /* 0xB0 */ u8 unkB0;
     /* 0xB1 */ u8 unkB1;
-    /* 0xB2 */ u8 unkB2[0x2];
-    /* 0xB4 */ u8 unkB4[0x8];
+    /* 0xB2 */ u8 fillerB2[0x2];
+    /* 0xB4 */ u8 fillerB4[0x8];
 } BoulderSpawner; /* 0xBC */
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ u8 unk3C[0x80];
+    /* 0x3C */ u8 filler3C[0x64];
+    /* 0xA0 */ s32 qUnkA0;
+    /* 0xA4 */ s32 qUnkA4;
+    /* 0xA8 */ s32 qUnkA8;
+    /* 0xAC */ s32 qUnkAC;
+    /* 0xB0 */ u8 unkB0;
+    /* 0xB1 */ u8 unkB1;
+    /* 0xB2 */ s16 unkB2;
+    /* 0xB4 */ s16 unkB4;
 } Boulder; /* 0xBC */
 
 typedef struct {
@@ -40,10 +48,87 @@ typedef struct {
     /* 0xF2 */ s16 qUnkF2;
 } BoulderDebris; /* 0xF4 */
 
+void Task_BoulderMain(void);
 void Task_BoulderDebris(void);
 void Task_BoulderSpawnerMain(void);
 void TaskDestructor_Boulder(struct Task *t);
 void TaskDestructor_BoulderDebris(struct Task *t);
+void CreateBoulderDebris(s32 x, s32 y);
+
+void Task_BoulderMain(void)
+{
+    Boulder *boulder = TASK_DATA(gCurTask);
+    Sprite *s = &boulder->s;
+    s16 unkB2 = boulder->unkB2;
+    s16 unkB4 = boulder->unkB4;
+    s32 res;
+    s32 i;
+    u8 sp08[4];
+
+    s->x = unkB2 + I(boulder->qUnkA8) - gCamera.x;
+    s->y = unkB4 + I(boulder->qUnkAC) - gCamera.y;
+
+    if (IS_OUT_OF_CAM_RANGE(unkB2, unkB4) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (Coll_Player_Entity_Intersection(s, unkB2 + I(boulder->qUnkA8), unkB4 + I(boulder->qUnkAC), &PLAYER(i))) {
+                Coll_DamagePlayer(&PLAYER(i));
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (boulder->unkB0) {
+        res = SA2_LABEL(sub_801F07C)(unkB4 + I(boulder->qUnkAC), unkB2 + I(boulder->qUnkA8), 1, +8, NULL, SA2_LABEL(sub_801EE64));
+
+        if (res >= 0) {
+            boulder->qUnkA4 += 32;
+        } else {
+            boulder->qUnkA4 = 0;
+            boulder->unkB0 = 0;
+
+            if (boulder->unkB0 != 0) {
+                boulder->unkB0--;
+            } else {
+                if (boulder->unkB1 != 0) {
+                    boulder->unkB1--;
+                } else {
+                    SA2_LABEL(gUnknown_0300194C) = s->x;
+                    SA2_LABEL(gUnknown_03002820) = s->y;
+
+                    CreateBoulderDebris(unkB2 + I(boulder->qUnkA8) - SA2_LABEL(gUnknown_0300194C),
+                                        unkB4 + I(boulder->qUnkAC) - SA2_LABEL(gUnknown_03002820));
+
+                    if (!IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+                        m4aSongNumStart(SE_EXPLOSION);
+                    }
+
+                    TaskDestroy(gCurTask);
+                    return;
+                }
+            }
+        }
+    } else {
+        res = SA2_LABEL(sub_801F07C)(unkB4 + I(boulder->qUnkAC), unkB2 + I(boulder->qUnkA8), 1, +8, sp08, SA2_LABEL(sub_801EE64));
+
+        if (res > 5) {
+            boulder->qUnkA4 += ABS2(Div(boulder->qUnkA0 * 2, 5));
+            boulder->unkB0 = 1;
+        } else {
+            boulder->qUnkA0 += Div(COS(sp08[0] * 4), 1250);
+            boulder->qUnkAC += Q(res + 2);
+        }
+    }
+
+    boulder->qUnkA8 += boulder->qUnkA0;
+    boulder->qUnkAC += boulder->qUnkA4;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
 
 void CreateBoulderDebris(s32 x, s32 y)
 {
@@ -90,7 +175,6 @@ void CreateBoulderDebris(s32 x, s32 y)
 #endif
 
         s->frameFlags = SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 17);
-        ;
         tf->y = y - 16;
     }
 
