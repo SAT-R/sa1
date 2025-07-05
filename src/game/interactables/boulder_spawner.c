@@ -40,9 +40,100 @@ typedef struct {
     /* 0xF2 */ s16 qUnkF2;
 } BoulderDebris; /* 0xF4 */
 
+void Task_BoulderDebris(void);
 void Task_BoulderSpawnerMain(void);
 void TaskDestructor_Boulder(struct Task *t);
 void TaskDestructor_BoulderDebris(struct Task *t);
+
+void CreateBoulderDebris(s32 x, s32 y)
+{
+    struct Task *t = TaskCreate(Task_BoulderDebris, sizeof(BoulderDebris), 0x2000, 0, TaskDestructor_BoulderDebris);
+    BoulderDebris *debris = TASK_DATA(t);
+
+    Sprite *s;
+    SpriteTransform *tf;
+
+    {
+        s = &debris->sprites[0];
+        tf = &debris->transforms[0];
+
+        debris->unkF0 = 0;
+        debris->qUnkF2 = -Q(2);
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_L);
+        s->oamFlags = SPRITE_OAM_ORDER(8);
+        s->graphics.size = 0;
+        s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_S;
+        s->variant = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = Q(0);
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 16);
+
+        tf->rotation = 0;
+        tf->qScaleX = Q(1);
+        tf->qScaleY = Q(1);
+        tf->x = x;
+        tf->y = y;
+
+        UpdateSpriteAnimation(s);
+
+#ifdef BUG_FIX
+        DmaCopy16(3, s, &debris->sprites[1], sizeof(debris->sprites[1]));
+        s = &debris->sprites[1];
+        DmaCopy16(3, tf, &debris->transforms[1], sizeof(debris->transforms[1]));
+        tf = &debris->transforms[1];
+#else
+        DmaCopy16(3, s, (s = &debris->sprites[1]), sizeof(*s));
+        DmaCopy16(3, tf, (tf = &debris->transforms[1]), sizeof(*tf));
+#endif
+
+        s->frameFlags = SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 17);
+        ;
+        tf->y = y - 16;
+    }
+
+    s = &debris->sprites[2];
+
+#ifdef BUG_FIX
+    DmaCopy16(3, tf, &debris->transforms[2], sizeof(debris->transforms[1]));
+    tf = &debris->transforms[2];
+#else
+    DmaCopy16(3, tf, (tf = &debris->transforms[2]), sizeof(*tf));
+#endif
+    {
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_S);
+        s->oamFlags = SPRITE_OAM_ORDER(8);
+        s->graphics.size = 0;
+        s->graphics.anim = SA1_ANIM_ROCK_DEBRIS_L;
+        s->variant = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = Q(0);
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 18);
+
+        tf->y = y;
+
+        UpdateSpriteAnimation(s);
+
+#ifdef BUG_FIX
+        DmaCopy16(3, s, &debris->sprites[3], sizeof(debris->s2));
+        s = &debris->sprites[3];
+        DmaCopy16(3, tf, &debris->transforms[3], sizeof(debris->transform2));
+        tf = &debris->transforms[3];
+#else
+        DmaCopy16(3, s, (s = &debris->sprites[3]), sizeof(*s));
+        DmaCopy16(3, tf, (tf = &debris->transforms[3]), sizeof(*tf));
+#endif
+
+        s->frameFlags = SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG(ROT_SCALE, 19);
+        ;
+        tf->y = y - 16;
+    }
+}
 
 void Task_BoulderDebris(void)
 {
@@ -56,7 +147,7 @@ void Task_BoulderDebris(void)
         TaskDestroy(gCurTask);
         return;
     }
-    
+
     debris->qUnkF2 += Q(40. / 256.);
 
     { // 0

@@ -135,7 +135,7 @@ void CreateEntity_Platform_Square(MapEntity *me, u16 regionX, u16 regionY, u8 id
     s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
-    s->palId = FALSE;
+    s->palId = 0;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);
@@ -471,7 +471,7 @@ void CreateEntity_BarrelOfDoomMini(MapEntity *me, u16 regionX, u16 regionY, u8 i
     s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
-    s->palId = FALSE;
+    s->palId = 0;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);

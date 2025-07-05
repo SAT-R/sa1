@@ -102,7 +102,7 @@ void CreateEntity_Platform_Spiked(MapEntity *me, u16 regionX, u16 regionY, u8 id
     s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
-    s->palId = FALSE;
+    s->palId = 0;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 

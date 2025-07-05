@@ -84,7 +84,7 @@ void CreateEntity_PlatformCrumbling(MapEntity *me, u16 regionX, u16 regionY, u8 
     s->qAnimDelay = 0;
     s->prevVariant = -1;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
-    s->palId = FALSE;
+    s->palId = 0;
     s->frameFlags = 0x2000;
 
     if (me->d.sData[0] != 0) {
