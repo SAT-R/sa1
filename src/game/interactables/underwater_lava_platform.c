@@ -14,7 +14,6 @@
 #include "constants/char_states.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
-#include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
 #define LAVA_SPURT_RATE ZONE_TIME_TO_INT(0, 1.7)

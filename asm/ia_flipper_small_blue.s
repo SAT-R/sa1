@@ -209,7 +209,7 @@ Task_Flipper_SmallBlue: @ 0x08085038
 	mov sb, r3
 	movs r0, #0
 	str r0, [sp, #0x10]
-_08085096:
+_08085096_loop:
 	cmp r4, #0
 	beq _080850B8
 	ldr r1, [r6, #0x10]
@@ -764,7 +764,7 @@ _08085488:
 	asrs r0, r0, #0x18
 	cmp r4, r0
 	bge _0808549E
-	b _08085096
+	b _08085096_loop
 _0808549E:
 	mov r3, sl
 	ldrb r1, [r3]
