@@ -6,6 +6,7 @@
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/stage/terrain_collision.h"
 #include "game/stage/player.h"
+#include "game/stage/ui.h" // for sub_80549FC
 #include "game/water_effects.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
@@ -32,6 +33,7 @@ void Task_MovingSpringMain(void);
 void Task_808B5AC(void);
 void TaskDestructor_MovingSpring(struct Task *t);
 bool32 sub_808B7A0(MovingSpring *spring, Sprite *s, s32 worldX, s32 worldY);
+bool32 sub_808BB44(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p);
 
 // TODO: Fake-match
 void CreateEntity_MovingSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -187,4 +189,138 @@ void Task_808B5AC(void)
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+bool32 sub_808B7A0(MovingSpring *spring, Sprite *s, s32 worldX, s32 worldY)
+{
+    bool32 result = FALSE;
+
+    s32 i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), (1 - PLAYER(i).spriteOffsetY), +(PLAYER(i).spriteOffsetX + 5),
+                          (PLAYER(i).spriteOffsetY - 1) };
+
+            s32 r5 = sub_800A768(s, worldX + I(spring->qUnk40), worldY + I(spring->qUnk44), &PLAYER(i));
+            s32 qPrevPlayerX;
+
+            if (((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)) || r5) {
+                u8 zone = LEVEL_TO_ZONE(gCurrentLevel);
+
+                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                PLAYER(i).charState = CHARSTATE_17;
+                PLAYER_SPR_INFO(i).s.prevVariant = -1;
+                PLAYER(i).qSpeedAirY = -Q(7.5);
+
+                if (r5) {
+                    if (!(PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ)) {
+                        PLAYER(i).qSpeedAirY += PLAYER(i).qSpeedAirY >> 1;
+                    }
+                }
+
+                spring->unk4C = 0;
+
+                if (zone == ZONE_4) {
+                    s->variant = 0;
+                } else if ((zone == ZONE_6) || (gCurrentLevel == ACT_CHAO_HUNT_D)) {
+                    s->variant = 0;
+                } else {
+                    s->variant = 1;
+                }
+
+                m4aSongNumStart(SE_SPRING);
+                result = TRUE;
+            }
+
+            qPrevPlayerX = PLAYER(i).qWorldX;
+
+            sub_808BB44(s, worldX + I(spring->qUnk40), worldY + I(spring->qUnk44), (Rect8 *)arr, &PLAYER(i));
+
+            {
+                s32 r5 = sub_80096B0(s, worldX + I(spring->qUnk40), worldY + I(spring->qUnk44), &PLAYER(i));
+
+                if (PLAYER(i).charState == CHARSTATE_17) {
+                    PLAYER(i).qWorldX = qPrevPlayerX;
+                }
+
+                if ((r5 & (COLL_FLAG_100000 | COLL_FLAG_40000 | COLL_FLAG_20000 | COLL_FLAG_10000)) && sub_80549FC()) {
+                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                    PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                    PLAYER(i).moveState |= MOVESTATE_4;
+                    PLAYER(i).moveState |= MOVESTATE_IN_AIR;
+                }
+
+                if (!(r5 & COLL_FLAG_20)) {
+                    if (PLAYER(i).moveState & MOVESTATE_20) {
+                        PLAYER(i).moveState &= ~MOVESTATE_20;
+                        Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                        PLAYER(i).charState = CHARSTATE_WALK;
+                    }
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    return result;
+}
+
+// TODO: Very fake-match! :(
+bool32 sub_808BB44(Sprite *s, s32 worldX, s32 worldY, Rect8 *rect, Player *p)
+{
+    s32 res;
+    s32 qPlayerX;
+#ifndef NON_MATCHING
+    register s32 r1 asm("r1");
+    register s32 v1 asm("r2");
+#else
+    s32 r1;
+    s32 v1;
+#endif
+
+    if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rect))) {
+        s32 v0 = worldX + s->hitboxes[0].b.left - rect->right;
+        v1 = v0 + 8;
+        qPlayerX = p->qWorldX;
+        if (I(qPlayerX) <= v1) {
+            r1 = Q(v0);
+            p->qWorldX = r1;
+        } else {
+#ifndef NON_MATCHING
+            register s32 v0 asm("r0") = worldX + s->hitboxes[0].b.right - rect->left;
+#else
+            s32 v0 = worldX + s->hitboxes[0].b.right - rect->left;
+#endif
+            v1 = v0 - 8;
+            if (I(qPlayerX) >= v1) {
+                r1 = Q(v0);
+                p->qWorldX = r1;
+            } else {
+                return FALSE;
+            }
+        }
+
+        res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY) + 9, I(r1), p->layer, +8, NULL, SA2_LABEL(sub_801EE64));
+
+        if (res < 0) {
+            p->qWorldY += Q(res);
+        }
+
+        res = SA2_LABEL(sub_801E4E4)(I(p->qWorldY), I(p->qWorldX), p->layer, -8, NULL, SA2_LABEL(sub_801EE64));
+
+        if (res < 0) {
+            p->qWorldY += Q(res);
+        }
+
+        p->moveState &= ~MOVESTATE_20;
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        return TRUE;
+    }
+
+    return FALSE;
+}
+void TaskDestructor_MovingSpring(struct Task *t)
+{
+    MovingSpring *spring = TASK_DATA(t);
+    VramFree(spring->s.graphics.dest);
 }

@@ -94,13 +94,14 @@ typedef struct {
 #define PLAYER_V0(index) ((index == 0) ? gPlayer : gPartner)
 #define PLAYER(index)    (((index) != 0) ? gPartner : gPlayer)
 
-#define PLAYER_SPR_INFO(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
-
+#define PLAYER_SPR_INFO(index) ((index != 0) ? gPartnerBodyPSI : gPlayerBodyPSI)
 #else
 // Modern GCC does not accept the pointerless macro as l-value,
 // but even though agbcc does, it generates non-matching code, so we have to account for that.
 #define PLAYER_V0(index) (*(((index) == 0) ? &gPlayer : &gPartner))
 #define PLAYER(index)    (*(((index) != 0) ? &gPartner : &gPlayer))
+
+#define PLAYER_SPR_INFO(index) (*((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI))
 #endif
 
 #define PLAYER_SPR_INFO_HITBOX(index, hbIndex)                                                                                             \
