@@ -4659,15 +4659,8 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
         case 24:
         case 25:
         case 26: {
-            s32 animSpeed = (ABS(p->qSpeedGround) >> 4);
-            if (animSpeed >= SPRITE_ANIM_SPEED(0.5)) {
-                if (animSpeed > SPRITE_ANIM_SPEED(1.0)) {
-                    animSpeed = SPRITE_ANIM_SPEED(1.0);
-                }
-            } else {
-                animSpeed = SPRITE_ANIM_SPEED(0.5);
-            }
-            s->animSpeed = animSpeed;
+            s32 v = ABS(p->qSpeedGround) >> 4;
+            s->animSpeed = CLAMP_32(v, SPRITE_ANIM_SPEED(0.5), SPRITE_ANIM_SPEED(1.0));
         } break;
 
         case 21:
@@ -5211,7 +5204,7 @@ void SA2_LABEL(sub_8024F74)(Player *p, PlayerSpriteInfo *inPsi)
 
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     if (p->moveState & MOVESTATE_IN_WATER) {
-        s->animSpeed = 8;
+        s->animSpeed = SPRITE_ANIM_SPEED(0.5);
     }
 
     switch (p->character) {
@@ -7844,13 +7837,11 @@ void Player_804948C(Player *p)
     }
 }
 
-// (95.75%) https://decomp.me/scratch/kGINh
-NONMATCH("asm/non_matching/game/stage/Player__Player_Amy_80494E8.inc", void Player_Amy_80494E8(Player *p))
+void Player_Amy_80494E8(Player *p)
 {
     if (p->SA2_LABEL(unk62) == 0) {
         if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8049370(p) == 0)) {
             if (!sub_8044250(p)) {
-
                 if (!(p->moveState & MOVESTATE_200)) {
                     SA2_LABEL(sub_8029CA0)(p);
                 } else {
@@ -7865,16 +7856,16 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_Amy_80494E8.inc", void Play
             }
         }
     } else {
-        // _08049552
         s32 qSpeed;
 
-        if ((gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) && (p->SA2_LABEL(unk62) == 1) && !(p->moveState & MOVESTATE_SPINDASH)
-            && ((p->rotation + Q(0.25)) << 24 > Q(0)) && !(p->moveState & MOVESTATE_20) && (p->SA2_LABEL(unk63) == 0)
-            && (p->frameInput & gPlayerControls.attack)) {
-            p->SA2_LABEL(unk63) = 1;
-        }
+        if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+            s8 unk62 = p->SA2_LABEL(unk62);
 
-        // _0804959A
+            if ((unk62 == 1) && !(p->moveState & MOVESTATE_SPINDASH) && ((p->rotation + Q(0.25)) << 24 > Q(0))
+                && !(p->moveState & MOVESTATE_20) && (p->SA2_LABEL(unk63) == 0) && (p->frameInput & gPlayerControls.attack)) {
+                p->SA2_LABEL(unk63) = 1;
+            }
+        }
 
         SA2_LABEL(sub_8029CA0)(p);
 
@@ -7903,7 +7894,6 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_Amy_80494E8.inc", void Play
         SA2_LABEL(sub_8029ED8)(p);
     }
 }
-END_NONMATCH
 
 void Player_80495F0(Player *p)
 {
