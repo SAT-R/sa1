@@ -1,298 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-.if 0
-.endif
-
-	thumb_func_start Task_UnderwaterLavaPlatform
-Task_UnderwaterLavaPlatform: @ 0x08092760
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0x18
-	ldr r0, _080927E8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r0, r1
-	mov sl, r0
-	ldr r0, [r0]
-	str r0, [sp, #8]
-	ldr r2, _080927EC @ =0x0300000C
-	adds r2, r2, r1
-	mov sb, r2
-	ldr r3, _080927F0 @ =0x03000044
-	adds r3, r1, r3
-	str r3, [sp, #0xc]
-	mov r4, sl
-	ldrb r2, [r4, #8]
-	lsls r2, r2, #3
-	ldrh r0, [r4, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	lsls r2, r2, #0x10
-	ldr r0, [sp, #8]
-	ldrb r1, [r0, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r4, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	lsls r1, r1, #0x10
-	ldr r3, _080927F4 @ =gCamera
-	ldrh r0, [r3]
-	lsrs r4, r2, #0x10
-	str r4, [sp]
-	asrs r2, r2, #0x10
-	subs r0, r2, r0
-	mov r4, sb
-	strh r0, [r4, #0x16]
-	ldrh r0, [r3, #2]
-	lsrs r4, r1, #0x10
-	str r4, [sp, #4]
-	asrs r1, r1, #0x10
-	subs r0, r1, r0
-	subs r0, #3
-	mov r4, sb
-	strh r0, [r4, #0x18]
-	ldrh r0, [r3]
-	subs r2, r2, r0
-	ldr r0, [sp, #0xc]
-	strh r2, [r0, #0x16]
-	ldrh r0, [r3, #2]
-	subs r1, r1, r0
-	ldr r2, [sp, #0xc]
-	strh r1, [r2, #0x18]
-	movs r5, #0
-	ldr r3, _080927F8 @ =gPartner
-	mov r8, r3
-	ldr r7, _080927FC @ =gPlayer
-_080927DE:
-	cmp r5, #0
-	beq _08092800
-	mov r4, r8
-	ldr r6, [r4]
-	b _08092802
-	.align 2, 0
-_080927E8: .4byte gCurTask
-_080927EC: .4byte 0x0300000C
-_080927F0: .4byte 0x03000044
-_080927F4: .4byte gCamera
-_080927F8: .4byte gPartner
-_080927FC: .4byte gPlayer
-_08092800:
-	ldr r6, [r7]
-_08092802:
-	ldr r0, [sp]
-	lsls r1, r0, #0x10
-	asrs r2, r1, #0x10
-	ldr r3, [sp, #4]
-	lsls r0, r3, #0x10
-	asrs r4, r0, #0x10
-	ldr r3, _0809283C @ =gPlayer
-	str r1, [sp, #0x10]
-	str r0, [sp, #0x14]
-	cmp r5, #0
-	beq _0809281A
-	ldr r3, _08092840 @ =gPartner
-_0809281A:
-	ldr r0, [sp, #0xc]
-	adds r1, r2, #0
-	adds r2, r4, #0
-	bl Coll_Player_PlatformCrumbling
-	movs r1, #8
-	ands r1, r0
-	cmp r1, #0
-	beq _08092864
-	adds r0, r4, #0
-	subs r0, #0x1b
-	lsls r0, r0, #8
-	cmp r5, #0
-	beq _08092844
-	mov r4, r8
-	str r0, [r4, #4]
-	b _08092846
-	.align 2, 0
-_0809283C: .4byte gPlayer
-_08092840: .4byte gPartner
-_08092844:
-	str r0, [r7, #4]
-_08092846:
-	cmp r5, #0
-	beq _0809285A
-	mov r1, r8
-	ldr r0, [r1, #0x10]
-	movs r1, #3
-	rsbs r1, r1, #0
-	ands r0, r1
-	mov r2, r8
-	str r0, [r2, #0x10]
-	b _08092864
-_0809285A:
-	ldr r0, [r7, #0x10]
-	movs r1, #3
-	rsbs r1, r1, #0
-	ands r0, r1
-	str r0, [r7, #0x10]
-_08092864:
-	cmp r5, #0
-	beq _0809286E
-	mov r3, r8
-	str r6, [r3]
-	b _08092870
-_0809286E:
-	str r6, [r7]
-_08092870:
-	ldr r3, _08092900 @ =gPlayer
-	ldr r0, [sp, #0x10]
-	asrs r4, r0, #0x10
-	ldr r1, [sp, #0x14]
-	asrs r6, r1, #0x10
-	cmp r5, #0
-	beq _08092880
-	ldr r3, _08092904 @ =gPartner
-_08092880:
-	mov r0, sb
-	adds r1, r4, #0
-	adds r2, r6, #0
-	bl sub_80096B0
-	adds r5, #1
-	ldr r0, _08092908 @ =gNumSingleplayerCharacters
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r5, r0
-	blt _080927DE
-	ldr r2, _0809290C @ =gCamera
-	movs r3, #0
-	ldrsh r1, [r2, r3]
-	movs r3, #0xb8
-	lsls r3, r3, #1
-	adds r0, r1, r3
-	cmp r4, r0
-	bgt _080928C6
-	adds r0, r1, #0
-	subs r0, #0x80
-	cmp r4, r0
-	blt _080928C6
-	movs r4, #2
-	ldrsh r1, [r2, r4]
-	movs r2, #0x90
-	lsls r2, r2, #1
-	adds r0, r1, r2
-	cmp r6, r0
-	bgt _080928C6
-	adds r0, r1, #0
-	subs r0, #0x80
-	cmp r6, r0
-	bge _08092914
-_080928C6:
-	mov r3, sb
-	ldrh r0, [r3, #0x16]
-	adds r0, #0x80
-	lsls r0, r0, #0x10
-	movs r1, #0xf8
-	lsls r1, r1, #0x11
-	cmp r0, r1
-	bhi _080928EC
-	movs r4, #0x18
-	ldrsh r0, [r3, r4]
-	adds r0, #0x80
-	cmp r0, #0
-	blt _080928EC
-	movs r0, #0x18
-	ldrsh r1, [r3, r0]
-	movs r0, #0x90
-	lsls r0, r0, #1
-	cmp r1, r0
-	ble _08092914
-_080928EC:
-	mov r1, sl
-	ldrb r0, [r1, #8]
-	ldr r2, [sp, #8]
-	strb r0, [r2]
-	ldr r0, _08092910 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _0809297E
-	.align 2, 0
-_08092900: .4byte gPlayer
-_08092904: .4byte gPartner
-_08092908: .4byte gNumSingleplayerCharacters
-_0809290C: .4byte gCamera
-_08092910: .4byte gCurTask
-_08092914:
-	ldr r0, _08092990 @ =gStageTime
-	ldr r0, [r0]
-	movs r1, #0x66
-	bl Mod
-	adds r2, r0, #0
-	cmp r2, #0
-	bne _08092966
-	mov r1, sl
-	adds r1, #0x84
-	movs r0, #0x66
-	str r0, [r1]
-	mov r0, sl
-	adds r0, #0x74
-	strb r2, [r0]
-	ldr r0, _08092994 @ =0xFFFFFB00
-	mov r3, sl
-	str r0, [r3, #0x78]
-	str r2, [r3, #0x7c]
-	subs r1, #4
-	movs r0, #3
-	str r0, [r1]
-	movs r1, #0
-	movs r0, #0x8c
-	lsls r0, r0, #2
-	mov r4, sb
-	strh r0, [r4, #0xa]
-	mov r0, sb
-	adds r0, #0x20
-	strb r1, [r0]
-	mov r1, sb
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	movs r0, #0xb6
-	bl m4aSongNumStart
-	ldr r0, _08092998 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0809299C @ =sub_80929A0
-	str r0, [r1, #8]
-_08092966:
-	mov r0, sb
-	bl UpdateSpriteAnimation
-	mov r0, sb
-	bl DisplaySprite
-	ldr r0, [sp, #0xc]
-	bl UpdateSpriteAnimation
-	ldr r0, [sp, #0xc]
-	bl DisplaySprite
-_0809297E:
-	add sp, #0x18
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08092990: .4byte gStageTime
-_08092994: .4byte 0xFFFFFB00
-_08092998: .4byte gCurTask
-_0809299C: .4byte sub_80929A0
-
-	thumb_func_start sub_80929A0
-sub_80929A0: @ 0x080929A0
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -305,38 +14,38 @@ sub_80929A0: @ 0x080929A0
 	movs r0, #0xc0
 	lsls r0, r0, #0x12
 	adds r0, r0, r4
-	mov sl, r0
-	ldr r1, [r0]
+	mov sl, r0          @ sl = platform
+	ldr r1, [r0]        @ r1 = platform->base.me
 	ldr r0, _08092A88 @ =0x0300000C
 	adds r0, r0, r4
-	mov sb, r0
+	mov sb, r0          @ sb = s
 	ldr r2, _08092A8C @ =0x03000044
 	adds r2, r4, r2
-	str r2, [sp, #8]
-	mov r5, sl
+	str r2, [sp, #8]    @ sp08 = s2
+	mov r5, sl          @ r5 = sl = platform
 	ldrb r3, [r5, #8]
 	lsls r3, r3, #3
 	ldrh r0, [r5, #4]
 	lsls r0, r0, #8
 	adds r3, r3, r0
-	lsls r3, r3, #0x10
+	lsls r3, r3, #0x10  @ r3 = worldX << 16
 	ldrb r2, [r1, #1]
 	lsls r2, r2, #3
 	ldrh r0, [r5, #6]
 	lsls r0, r0, #8
 	adds r2, r2, r0
-	lsls r2, r2, #0x10
+	lsls r2, r2, #0x10  @ r2 = worldY << 16
 	ldr r1, [r5, #0x78]
 	adds r1, #0x25
-	str r1, [r5, #0x78]
+	str r1, [r5, #0x78] @ 
 	ldr r0, [r5, #0x7c]
 	adds r0, r0, r1
-	str r0, [r5, #0x7c]
+	str r0, [r5, #0x7c] @ platform->qUnk7C += platform->qUnk78;
 	ldr r1, _08092A90 @ =gCamera
 	ldrh r0, [r1]
 	lsrs r5, r3, #0x10
-	str r5, [sp]
-	asrs r3, r3, #0x10
+	str r5, [sp]        @ sp00 = worldX
+	asrs r3, r3, #0x10  @ r3 = worldX
 	subs r0, r3, r0
 	mov r5, sb
 	strh r0, [r5, #0x16]
@@ -363,11 +72,11 @@ sub_80929A0: @ 0x080929A0
 	movs r6, #0
 	ldr r5, _08092A94 @ =0x03000074
 	adds r5, r5, r4
-	mov r8, r5
+	mov r8, r5          @ r8 = r5 = &platform->unk74
 	ldr r0, _08092A94 @ =0x03000074
 	adds r0, r4, r0
-	str r0, [sp, #0x10]
-_08092A34:
+	str r0, [sp, #0x10] @ sp10 = &platform->unk74
+_08092A34_loop:
 	mov r1, r8
 	ldrb r0, [r1]
 	asrs r0, r6
@@ -407,7 +116,7 @@ _08092A66:
 	ldrb r0, [r2]
 	bics r0, r1
 	strb r0, [r2]
-	b _08092BE4
+	b _08092BE4_continue
 	.align 2, 0
 _08092A84: .4byte gCurTask
 _08092A88: .4byte 0x0300000C
@@ -425,7 +134,7 @@ _08092AA0:
 	ldr r0, [r5, #4]
 	adds r0, r0, r1
 	str r0, [r5, #4]
-	b _08092BE4
+	b _08092BE4_continue
 	.align 2, 0
 _08092AB4: .4byte gPartner
 _08092AB8:
@@ -433,19 +142,19 @@ _08092AB8:
 	ldr r0, [r2, #4]
 	adds r0, r0, r1
 	str r0, [r2, #4]
-	b _08092BE4
+	b _08092BE4_continue
 	.align 2, 0
 _08092AC4: .4byte gPlayer
 _08092AC8:
-	ldr r3, [sp]
+	ldr r3, [sp]        @ r3 = sp00 = worldX
 	lsls r0, r3, #0x10
-	asrs r7, r0, #0x10
-	mov r5, sl
+	asrs r7, r0, #0x10  @ r7 = worldX
+	mov r5, sl          @ r5 = sl = platform
 	ldr r1, [r5, #0x7c]
 	asrs r1, r1, #8
-	ldr r3, [sp, #4]
+	ldr r3, [sp, #4]    @ r3 = worldY
 	lsls r2, r3, #0x10
-	asrs r4, r2, #0x10
+	asrs r4, r2, #0x10  @ r4 = worldY
 	adds r1, r4, r1
 	lsls r1, r1, #0x10
 	asrs r3, r1, #0x10
@@ -483,7 +192,7 @@ _08092B1C:
 _08092B20:
 	movs r0, #1
 	lsls r0, r6
-	ldr r3, [sp, #0x10]
+	ldr r3, [sp, #0x10] @ r3 = &platform->unk74
 	ldrb r1, [r3]
 	orrs r0, r1
 	strb r0, [r3]
@@ -509,7 +218,7 @@ _08092B48:
 _08092B54:
 	movs r1, #1
 	lsls r1, r6
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10] @ r2 = &platform->unk74
 	ldrb r0, [r2]
 	bics r0, r1
 	strb r0, [r2]
@@ -529,7 +238,7 @@ _08092B74:
 	ldrsh r0, [r1, r2]
 _08092B7A:
 	cmp r0, #0
-	bne _08092BE4
+	bne _08092BE4_continue
 	cmp r6, #0
 	beq _08092B98
 	ldr r3, _08092B94 @ =gPartner + 0x40
@@ -537,7 +246,7 @@ _08092B7A:
 	ldrsb r0, [r3, r0]
 	cmp r0, #4
 	bne _08092BA2
-	b _08092BE4
+	b _08092BE4_continue
 	.align 2, 0
 _08092B90: .4byte gPlayer
 _08092B94: .4byte gPartner + 0x40
@@ -546,7 +255,7 @@ _08092B98:
 	movs r0, #0
 	ldrsb r0, [r5, r0]
 	cmp r0, #4
-	beq _08092BE4
+	beq _08092BE4_continue
 _08092BA2:
 	ldr r0, _08092BC0 @ =gPlayer
 	cmp r6, #0
@@ -559,7 +268,7 @@ _08092BAA:
 	movs r0, #4
 	ldr r1, _08092BC8 @ =gPartner + 0x40
 	strb r0, [r1]
-	b _08092BE4
+	b _08092BE4_continue
 	.align 2, 0
 _08092BBC: .4byte gPlayer + 0x40
 _08092BC0: .4byte gPlayer
@@ -569,7 +278,7 @@ _08092BCC:
 	movs r0, #4
 	ldr r2, _08092BD4 @ =gPlayer + 0x40
 	strb r0, [r2]
-	b _08092BE4
+	b _08092BE4_continue
 	.align 2, 0
 _08092BD4: .4byte gPlayer + 0x40
 _08092BD8:
@@ -579,7 +288,7 @@ _08092BD8:
 	ldrb r0, [r3]
 	bics r0, r1
 	strb r0, [r3]
-_08092BE4:
+_08092BE4_continue:
 	adds r6, #1
 	ldr r0, _08092C1C @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -587,7 +296,7 @@ _08092BE4:
 	asrs r0, r0, #0x18
 	cmp r6, r0
 	bge _08092BF4
-	b _08092A34
+	b _08092A34_loop
 _08092BF4:
 	mov r0, sl
 	adds r0, #0x84
@@ -628,7 +337,7 @@ _08092C2E:
 	ldr r1, [sp, #0x18]
 	asrs r1, r1, #0x10
 	mov r8, r1
-_08092C42:
+_08092C42_loop:
 	ldr r1, _08092C80 @ =gPlayerBodyPSI+0xC+0x28
 	cmp r5, #0
 	beq _08092C4A
@@ -639,7 +348,7 @@ _08092C4A:
 	rsbs r0, r0, #0
 	cmp r1, r0
 	bne _08092C56
-	b _08092E44
+	b _08092E44_continue
 _08092C56:
 	adds r0, r6, #0
 	cmp r5, #0
@@ -648,7 +357,7 @@ _08092C56:
 _08092C5E:
 	movs r3, #4
 	ldrsb r3, [r0, r3]
-	mov r1, sb
+	mov r1, sb          @ r1 = sb = s
 	adds r1, #0x34
 	movs r2, #0
 	ldrsb r2, [r1, r2]
@@ -719,7 +428,7 @@ _08092CD2:
 	adds r0, r0, r2
 	cmp r3, r0
 	bge _08092D00
-	b _08092E44
+	b _08092E44_continue
 	.align 2, 0
 _08092CF0: .4byte gPartnerBodyPSI+0xC+0x28
 _08092CF4:
@@ -728,7 +437,7 @@ _08092CF4:
 	adds r0, r0, r2
 	cmp r3, r0
 	bge _08092D00
-	b _08092E44
+	b _08092E44_continue
 _08092D00:
 	adds r0, r6, #0
 	cmp r5, #0
@@ -766,7 +475,7 @@ _08092D20:
 	adds r0, r0, r2
 	cmp r0, r1
 	bge _08092D56
-	b _08092E44
+	b _08092E44_continue
 	.align 2, 0
 _08092D44: .4byte gPartnerBodyPSI+0xC+0x28
 _08092D48:
@@ -776,7 +485,7 @@ _08092D48:
 	adds r0, r0, r2
 	cmp r0, r1
 	bge _08092D56
-	b _08092E44
+	b _08092E44_continue
 _08092D56:
 	adds r0, r6, #0
 	cmp r5, #0
@@ -850,7 +559,7 @@ _08092DBE:
 	adds r0, r0, r2
 	cmp r3, r0
 	bge _08092DE6
-	b _08092E44
+	b _08092E44_continue
 	.align 2, 0
 _08092DD8: .4byte gPartnerBodyPSI+0xC+0x28
 _08092DDC:
@@ -858,7 +567,7 @@ _08092DDC:
 	asrs r0, r0, #8
 	adds r0, r0, r2
 	cmp r3, r0
-	blt _08092E44
+	blt _08092E44_continue
 _08092DE6:
 	adds r0, r6, #0
 	cmp r5, #0
@@ -895,7 +604,7 @@ _08092E06:
 	adds r0, r0, r2
 	cmp r0, r1
 	bge _08092E38
-	b _08092E44
+	b _08092E44_continue
 	.align 2, 0
 _08092E28: .4byte gPartnerBodyPSI+0xC+0x28
 _08092E2C:
@@ -904,7 +613,7 @@ _08092E2C:
 	adds r0, r0, r3
 	adds r0, r0, r2
 	cmp r0, r1
-	blt _08092E44
+	blt _08092E44_continue
 _08092E38:
 	ldr r0, _08092E5C @ =gPlayer
 	cmp r5, #0
@@ -912,7 +621,7 @@ _08092E38:
 	ldr r0, _08092E60 @ =gPartner
 _08092E40:
 	bl Coll_DamagePlayer
-_08092E44:
+_08092E44_continue:
 	adds r5, #1
 	ldr r0, _08092E64 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -920,7 +629,7 @@ _08092E44:
 	asrs r0, r0, #0x18
 	cmp r5, r0
 	bge _08092E54
-	b _08092C42
+	b _08092C42_loop
 _08092E54:
 	mov r0, sb
 	bl UpdateSpriteAnimation
@@ -970,7 +679,7 @@ _08092E92:
 	mov r5, sl
 	str r0, [r5, #0x78]
 	movs r0, #0
-	ldr r1, [sp, #0x10]
+	ldr r1, [sp, #0x10] @ r1 = &platform->unk74
 	strb r0, [r1]
 	str r0, [r5, #0x7c]
 	b _08092EE6
@@ -1012,17 +721,4 @@ _08092F08: .4byte 0x00000231
 _08092F0C: .4byte gCurTask
 _08092F10: .4byte Task_UnderwaterLavaPlatform
 
-	thumb_func_start TaskDestructor_UnderwaterLavaPlatform
-TaskDestructor_UnderwaterLavaPlatform: @ 0x08092F14
-	push {r4, lr}
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	ldr r0, [r4, #0x10]
-	bl VramFree
-	ldr r0, [r4, #0x48]
-	bl VramFree
-	pop {r4}
-	pop {r0}
-	bx r0
+.syntax divided

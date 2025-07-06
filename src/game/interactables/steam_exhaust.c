@@ -156,7 +156,7 @@ void Task_SteamExhaust(void)
         s->variant = 0;
         s->prevVariant = -1;
 
-        m4aSongNumStart(SE_182);
+        m4aSongNumStart(SE_LAVA_PLATFORM_SPURT);
 
         gCurTask->main = Task_SteamExhaust2;
     }

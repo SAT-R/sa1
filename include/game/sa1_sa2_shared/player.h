@@ -93,6 +93,9 @@ typedef struct {
 // Previously called GET_SP_PLAYER_V0/GET_SP_PLAYER_V1
 #define PLAYER_V0(index) ((index == 0) ? gPlayer : gPartner)
 #define PLAYER(index)    (((index) != 0) ? gPartner : gPlayer)
+
+#define PLAYER_SPR_INFO(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
+
 #else
 // Modern GCC does not accept the pointerless macro as l-value,
 // but even though agbcc does, it generates non-matching code, so we have to account for that.
@@ -100,7 +103,8 @@ typedef struct {
 #define PLAYER(index)    (*(((index) != 0) ? &gPartner : &gPlayer))
 #endif
 
-#define PLAYER_SPR_INFO(index) ((index != 0) ? &gPartnerBodyPSI : &gPlayerBodyPSI)
+#define PLAYER_SPR_INFO_HITBOX(index, hbIndex)                                                                                             \
+    ((index != 0) ? (&gPartnerBodyPSI.s.hitboxes[hbIndex]) : (&gPlayerBodyPSI.s.hitboxes[hbIndex]))
 
 #elif (GAME == GAME_SA2)
 // NOTE: Ignores index, in SA2 you only ever have 1 player char in single player mode
