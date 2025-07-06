@@ -146,6 +146,7 @@ void Task_UnderwaterLavaPlatform(void)
     DisplaySprite(s2);
 }
 
+// (97.66%) https://decomp.me/scratch/cj6rs
 NONMATCH("asm/non_matching/game/interactables/lava_platform__Task_80929A0.inc", void Task_80929A0(void))
 {
     CamCoord worldX, worldY;
@@ -218,7 +219,6 @@ NONMATCH("asm/non_matching/game/interactables/lava_platform__Task_80929A0.inc", 
         i = 0;
         do {
             if (PLAYER_SPR_INFO_HITBOX(i, 0)->index != HITBOX_STATE_INACTIVE) {
-                // HB_COLLISION(x0, y0, hb0, x1, y1, hb1)
                 if (HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(PLAYER(i).qWorldX), I(PLAYER(i).qWorldY),
                                  PLAYER_SPR_INFO_HITBOX(i, 0)->b
 
