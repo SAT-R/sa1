@@ -182,6 +182,7 @@ SECTIONS {
         src/game/interactables/toggle_player_visibility.o(.text);
         src/game/interactables/wall_bumper.o(.text);
         src/game/interactables/teleport_orb.o(.text);
+        src/game/interactables/flipper_small_blue.o(.text);
         asm/ia_flipper_small_blue.o(.text);
         asm/ia_carousel.o(.text);
         src/game/interactables/hook_rail.o(.text);
