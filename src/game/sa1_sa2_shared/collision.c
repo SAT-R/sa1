@@ -803,9 +803,9 @@ u32 sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
     return 0;
 }
 
-// SA1-only ?
-// (48.33%) https://decomp.me/scratch/OX8oM
-NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C394.inc", u32 sub_800C394(Sprite *s, s16 sx, s16 sy, Player *p))
+#if (GAME == GAME_SA1)
+// TODO: Might be in SA3, too!
+u32 sub_800C394(Sprite *s, s16 sx, s16 sy, Player *p)
 {
     s8 rectPlayer[4] = { -(p->spriteOffsetX + 5), -(p->spriteOffsetY + 1), +(p->spriteOffsetX + 5), +(p->spriteOffsetY + 1) };
 
@@ -816,11 +816,11 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C394.inc", u32 
         return FALSE;
     }
 
-    if (((p->moveState & MOVESTATE_JUMPING) == MOVESTATE_JUMPING) && (p->qSpeedAirY > 0)
-        && RECT_COLLISION_2(sx, sy, &s->hitboxes[0].b, p->qWorldX, p->qWorldY, (struct Rect8 *)rectPlayer) && (p->qSpeedAirY >= 0)) {
-        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-        ip = TRUE;
-    } else {
+    if ((((p->moveState & MOVESTATE_JUMPING) == MOVESTATE_JUMPING) && (p->qSpeedAirY > 0)
+         && HB_COLLISION(sx, sy, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(struct Rect8 *)rectPlayer)))
+        || (p->spriteInfoBody->s.hitboxes[1].index != HITBOX_STATE_INACTIVE
+            && HB_COLLISION(sx, sy, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)
+            && !(p->moveState & (MOVESTATE_JUMPING)))) {
         if (p->qSpeedAirY > 0) {
             p->qSpeedAirY = -p->qSpeedAirY;
         }
@@ -829,7 +829,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C394.inc", u32 
 
     return FALSE;
 }
-END_NONMATCH
+#endif
 
 bool32 Coll_DamagePlayer(Player *p)
 {
@@ -961,7 +961,7 @@ bool32 sub_800C714(Player *p)
 
     return TRUE;
 }
-#endif
+#endif // (GAME == GAME_SA1)
 
 bool32 sub_800C760(Player *p)
 {
