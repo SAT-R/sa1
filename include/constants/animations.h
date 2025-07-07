@@ -190,15 +190,15 @@
 #define SA1_ANIM_SKATING_STONE_DEBRIS_L 548
 #define SA1_ANIM_SKATING_STONE_DEBRIS_S 549
 
-#define SA1_ANIM_CRUMBLE_PLATFORM_5       551
-#define SA1_ANIM_WATER_SPLASH_5           552
-#define SA1_ANIM_SKATING_STONE_DEBRIS_4_L 553
-#define SA1_ANIM_SKATING_STONE_DEBRIS_4_S 554
-#define SA1_ANIM_ICE_BLOCK                555
-
-#define SA1_ANIM_TORCH5           558
-#define SA1_ANIM_BREAKABLE_WALL_1 559
-
+#define SA1_ANIM_CRUMBLE_PLATFORM_5              551
+#define SA1_ANIM_WATER_SPLASH_5                  552
+#define SA1_ANIM_SKATING_STONE_DEBRIS_4_L        553
+#define SA1_ANIM_SKATING_STONE_DEBRIS_4_S        554
+#define SA1_ANIM_ICE_BLOCK                       555
+#define SA1_ANIM_ICE_BLOCK_SHARDS_L              556
+#define SA1_ANIM_ICE_BLOCK_SHARDS_S              557
+#define SA1_ANIM_TORCH5                          558
+#define SA1_ANIM_BREAKABLE_WALL_1                559
 #define SA1_ANIM_PLATFORM_LAVA_SPURT             560
 #define SA1_ANIM_PLATFORM_LAVA                   561
 #define SA1_ANIM_ICE_SLIDE_SPLASH                562

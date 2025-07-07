@@ -203,7 +203,6 @@ SECTIONS {
         src/game/interactables/spiked_barrel.o(.text);
         src/game/interactables/air_bubbles.o(.text);
         src/game/interactables/ice_block.o(.text);
-        asm/ia_ice_block.o(.text);
         src/game/interactables/096.o(.text);
         src/game/interactables/updraft.o(.text);
         src/game/interactables/underwater_lava_platform.o(.text);
