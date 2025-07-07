@@ -64,10 +64,10 @@ void CreateEntity_Flipper_SmallBlue(MapEntity *me, u16 regionX, u16 regionY, u8 
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    s->graphics.dest = ALLOC_TILES(SA1_ANIM_MINI_FLIPPER);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BLUE_FLIPPER);
     s->oamFlags = SPRITE_OAM_ORDER(18);
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_MINI_FLIPPER;
+    s->graphics.anim = SA1_ANIM_BLUE_FLIPPER;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = Q(0);
@@ -139,7 +139,7 @@ void Task_Flipper_SmallBlue(void)
 
                 if (flipper->unk5A[i] != 0) {
                     if (--flipper->unk5A[i] == 0) {
-                        s->graphics.anim = SA1_ANIM_MINI_FLIPPER;
+                        s->graphics.anim = SA1_ANIM_BLUE_FLIPPER;
                         s->variant = 0;
                         s->prevVariant = -1;
                     }
@@ -165,7 +165,7 @@ void Task_Flipper_SmallBlue(void)
                             SetBit(flipper->unk3C, i);
                             flipper->unk5A[i] = 24;
 
-                            s->graphics.anim = SA1_ANIM_MINI_FLIPPER;
+                            s->graphics.anim = SA1_ANIM_BLUE_FLIPPER;
                             s->variant = 1;
                             s->prevVariant = -1;
                         }
