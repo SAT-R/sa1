@@ -83,3 +83,117 @@ void CreateEntity_Flipper_SmallBlue(MapEntity *me, u16 regionX, u16 regionY, u8 
     }
     UpdateSpriteAnimation(s);
 }
+
+void Task_Flipper_SmallBlue(void)
+{
+    CamCoord worldX, worldY;
+    BlueFlipper *flipper = TASK_DATA(gCurTask);
+    Sprite *s = &flipper->s;
+    MapEntity *me = flipper->base.me;
+    s32 i;
+
+    worldX = TO_WORLD_POS(flipper->base.meX, flipper->base.regionX);
+    worldY = TO_WORLD_POS(me->y, flipper->base.regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (GetBit(flipper->unk3C, i)) {
+                if ((flipper->unk5A[i] != 0) && (--flipper->unk5A[i] == 0)) {
+                    s->graphics.anim = SA1_ANIM_FLIPPER;
+                    s->variant = 0;
+                    s->prevVariant = -1;
+                }
+
+                flipper->qUnk40[i] += Q(42. / 256.);
+                flipper->qUnk48[i] += flipper->qUnk40[i];
+                PLAYER(i).qWorldY = flipper->qUnk48[i];
+                PLAYER(i).qWorldX = flipper->qUnk50[i];
+                PLAYER(i).qSpeedAirY = flipper->qUnk40[i];
+                PLAYER(i).qSpeedAirX = 0;
+                PLAYER(i).qSpeedGround = 0;
+
+                if (++flipper->unk58[i] >= flipper->unk3D) {
+                    if (PLAYER(i).SA2_LABEL(unk99)[0] == flipper->unk3E) {
+                        PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
+                    }
+
+                    PLAYER(i).qSpeedAirY = flipper->qUnk40[i];
+                    ClearBit(flipper->unk3C, i);
+                    flipper->unk5A[i] = 0;
+                } else {
+                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                    PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+                    PLAYER(i).qSpeedAirX = 0;
+                    PLAYER(i).qSpeedGround = 0;
+                    PLAYER(i).charState = CHARSTATE_32;
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+
+                    SetBit(flipper->unk3C, i);
+                }
+            } else {
+                // !GetBit(flipper->unk3C, i)
+
+                if (flipper->unk5A[i] != 0) {
+                    if (--flipper->unk5A[i] == 0) {
+                        s->graphics.anim = SA1_ANIM_MINI_FLIPPER;
+                        s->variant = 0;
+                        s->prevVariant = -1;
+                    }
+                } else if (PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE) {
+                    if (PLAYER(i).SA2_LABEL(unk99)[0] < flipper->unk3E) {
+                        if (Coll_Player_Entity_Intersection(s, worldX, worldY, &PLAYER(i))) {
+                            flipper->unk58[i] = 0;
+                            Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                            PLAYER(i).moveState |= MOVESTATE_4;
+                            PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+                            PLAYER(i).SA2_LABEL(unk99)[0] = flipper->unk3E;
+                            flipper->qUnk48[i] = PLAYER(i).qWorldY;
+                            flipper->qUnk50[i] = PLAYER(i).qWorldX;
+                            flipper->qUnk40[i] = -Q(12.5625);
+                            PLAYER(i).qSpeedAirY = 0;
+                            PLAYER(i).qSpeedAirX = 0;
+                            PLAYER(i).qSpeedGround = 0;
+                            PLAYER(i).charState = CHARSTATE_32;
+                            PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+
+                            m4aSongNumStart(SE_BUMPER_A);
+
+                            SetBit(flipper->unk3C, i);
+                            flipper->unk5A[i] = 24;
+
+                            s->graphics.anim = SA1_ANIM_MINI_FLIPPER;
+                            s->variant = 1;
+                            s->prevVariant = -1;
+                        }
+                    }
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (((flipper->unk3C & 0x3) == 0) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
+        s32 i = 0;
+        do {
+            if (GetBit(flipper->unk3C, i) & 0x1) {
+                PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
+            }
+        } while (++i < gNumSingleplayerCharacters);
+
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, flipper->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_Flipper_SmallBlue(struct Task *t)
+{
+    BlueFlipper *flipper = TASK_DATA(t);
+    VramFree(flipper->s.graphics.dest);
+}
