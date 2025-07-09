@@ -329,6 +329,9 @@ void numToASCII(u8 digits[5], u16 number);
 
 #define SPRITE_FLAG_SET_VALUE(sprite, flagName, value) (sprite)->frameFlags |= SPRITE_FLAG(flagName, value)
 
+#define SPRITE_FLAG_ENABLE_ROTATION(value)                                                                                                 \
+    (SPRITE_FLAG(ROT_SCALE, value) | SPRITE_FLAG_MASK_ROT_SCALE_ENABLE | SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE)
+
 #define SPRITE_FLAG_SHIFT_ROT_SCALE             0
 #define SPRITE_FLAG_SHIFT_ROT_SCALE_ENABLE      5
 #define SPRITE_FLAG_SHIFT_ROT_SCALE_DOUBLE_SIZE 6

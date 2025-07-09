@@ -8,6 +8,9 @@
 #define PLAYER_IS_ALIVE  (!(gPlayer.moveState & MOVESTATE_DEAD))
 #define IS_ALIVE(player) (!((player)->moveState & MOVESTATE_DEAD))
 
+#define PLAYER_ON_SPRITE(p, s)   (((p).moveState & MOVESTATE_STOOD_ON_OBJ) && ((p).stoodObj == (s)))
+#define PLAYER_I_ON_SPRITE(i, s) ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == (s)))
+
 typedef struct {
     /*0x00 */ SpriteTransform transform;
     /*0x0C */ Sprite s;
