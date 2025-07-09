@@ -125,7 +125,7 @@
 #define SA1_ANIM_BUMPER_BIG           484
 #define SA1_ANIM_BUMPER_ROUND         485
 #define SA1_ANIM_BOWL_3               486
-#define SA1_ANIM_GOROUND_CAS_PAR      487
+#define SA1_ANIM_CAROUSEL             487
 #define SA1_ANIM_CHAR_RESIZER         488
 #define SA1_ANIM_SHIP_SWING_SEGMENT   489
 #define SA1_ANIM_SHIP_SWING_HOOK      490
@@ -218,6 +218,7 @@
 #define SA1_ANIM_DRISAME_ICEBLOCK_DEBRIS_SMALL 580
 #define SA1_ANIM_WATER_FALL_HIT_SURFACE        581
 #define SA1_ANIM_SPRING_PLATFORM_6             582
+#define SA1_ANIM_CAROUSEL_POLE                 583
 
 // 584
 #define SA1_ANIM_PIPE_ENTER_6_1_V 584
