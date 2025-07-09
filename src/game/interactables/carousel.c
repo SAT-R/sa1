@@ -29,8 +29,9 @@ typedef struct {
     /* 0x79 */ u8 unk79;
 } Carousel;
 
-void Task_Carousel(void) {};
-void TaskDestructor_Carousel(struct Task *t) {};
+void Task_Carousel(void);
+void Task_Carousel2(void);
+void TaskDestructor_Carousel(struct Task *t);
 
 void CreateEntity_Carousel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -93,3 +94,89 @@ void CreateEntity_Carousel(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s1);
     UpdateSpriteAnimation(s2);
 }
+
+// (97.13%) https://decomp.me/scratch/mgWIu
+NONMATCH("asm/non_matching/game/interactables/carousel__Task_Carousel.inc", void Task_Carousel(void))
+{
+    Carousel *carousel = TASK_DATA(gCurTask);
+    Sprite *s1 = &carousel->s1;
+    Sprite *s2 = &carousel->s2;
+    CamCoord worldX, worldY;
+    MapEntity *me = carousel->base.me;
+    s32 i;
+
+    worldX = TO_WORLD_POS(carousel->base.meX, carousel->base.regionX);
+    worldY = TO_WORLD_POS(me->y, carousel->base.regionY);
+
+    s1->x = worldX - gCamera.x;
+    s1->y = worldY - gCamera.y;
+    s2->x = s1->x;
+    s2->y = s1->y;
+
+    if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s1->x, s1->y)) {
+        // _080857BC
+        SET_MAP_ENTITY_NOT_INITIALIZED(me, carousel->base.meX);
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    // _080857DC
+    i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (PLAYER(i).character == CHARACTER_KNUCKLES) {
+                // _08085832
+                if ((PLAYER(i).charState == CHARSTATE_70) || (PLAYER(i).charState == CHARSTATE_71) || (PLAYER(i).charState == CHARSTATE_72)
+                    || (PLAYER(i).charState == CHARSTATE_73) || (PLAYER(i).charState == CHARSTATE_74)
+                    || (PLAYER(i).charState == CHARSTATE_75)) {
+                    continue;
+                }
+            }
+            // _08085906
+
+            Coll_Player_PlatformCrumbling(s1, worldX, worldY, &PLAYER(i));
+
+            if ((worldX - 8 <= I(PLAYER(i).qWorldX)) && (worldX + 8 >= I(PLAYER(i).qWorldX)) && (worldY - 48 <= I(PLAYER(i).qWorldY))
+                && (worldY + 12 >= I(PLAYER(i).qWorldY))) {
+                // _080859AA
+                s32 tempX;
+                SetBit(carousel->unk79, i);
+
+                carousel->unk6E = ABS2(PLAYER(i).qSpeedAirX) << 2;
+
+                carousel->unk6C = (Div(Q(I(PLAYER(i).qWorldX) - worldX + 48) << 1, 0x60) < 0)
+                    ? (0x300 - Div(Q(I(PLAYER(i).qWorldX) - worldX + 48) << 1, 0x60)) & 0x3FF
+                    : (0x300 + Div(Q(I(PLAYER(i).qWorldX) - worldX + 48) << 1, 0x60)) & 0x3FF;
+                // _08085A66
+
+                carousel->unk70 = 0;
+                carousel->unk76 = 0;
+                carousel->unk74 = 0;
+                PLAYER(i).qSpeedAirX = Q(0);
+                // _08085A8A
+
+                if (PLAYER(i).qSpeedGround > Q(0)) {
+                    carousel->unk78 = 1;
+                    PLAYER(i).qSpeedGround = +Q(7.5);
+                } else {
+                    // _08085AC2
+                    carousel->unk78 = 0;
+                    PLAYER(i).qSpeedGround = -Q(7.5);
+                }
+                // _08085ADC
+                PLAYER(i).heldInput = 0;
+                PLAYER(i).frameInput = 0;
+                Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                PLAYER(i).charState = CHARSTATE_33;
+                PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+                m4aSongNumStart(SE_CAROUSEL);
+                gCurTask->main = Task_Carousel2;
+                PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    DisplaySprite(s1);
+    DisplaySprite(s2);
+}
+END_NONMATCH
