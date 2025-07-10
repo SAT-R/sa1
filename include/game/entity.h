@@ -61,11 +61,7 @@ typedef struct {
 
 u32 sub_800CDBC(Sprite *, s32, s32, Player *);
 
-#if (GAME == GAME_SA1)
-u32 Coll_Player_Entity_Intersection(Sprite *s, s16 x, s16 y, Player *p);
-#elif (GAME == GAME_SA2)
-u32 sub_800DF38(Sprite *s, s32 x, s32 y, Player *p);
-#endif
+u32 Coll_Player_Entity_Intersection(Sprite *s, CamCoord x, CamCoord y, Player *p);
 
 // After a MapEntity is initialized, its x-value in the layout-data gets set to -2.
 // TODO:

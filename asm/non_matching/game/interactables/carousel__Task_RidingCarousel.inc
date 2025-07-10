@@ -1,15 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-.if 0
-.endif
-
-	thumb_func_start Task_Carousel2
-Task_Carousel2: @ 0x08085BAC
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -22,16 +14,16 @@ Task_Carousel2: @ 0x08085BAC
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
 	adds r1, r1, r0
-	mov sb, r1
+	mov sb, r1          @ sb = carousel
 	ldr r1, _08085C48 @ =0x0300000C
 	adds r1, r0, r1
-	str r1, [sp]
+	str r1, [sp]        @ sp00 = s1
 	ldr r2, _08085C4C @ =0x0300003C
 	adds r2, r0, r2
-	str r2, [sp, #4]
+	str r2, [sp, #4]    @ sp04 = s2
 	mov r3, sb
 	ldr r3, [r3]
-	str r3, [sp, #0x10]
+	str r3, [sp, #0x10] @ sp10 = me
 	mov r4, sb
 	ldrb r2, [r4, #8]
 	lsls r2, r2, #3
@@ -48,14 +40,14 @@ Task_Carousel2: @ 0x08085BAC
 	ldr r1, _08085C50 @ =gCamera
 	ldrh r0, [r1]
 	lsrs r4, r2, #0x10
-	str r4, [sp, #8]
+	str r4, [sp, #8]    @ sp08 = worldX
 	asrs r2, r2, #0x10
 	subs r2, r2, r0
-	ldr r0, [sp]
+	ldr r0, [sp]        @ r0 = sp00 = s1
 	strh r2, [r0, #0x16]
 	ldrh r1, [r1, #2]
 	lsrs r4, r3, #0x10
-	str r4, [sp, #0xc]
+	str r4, [sp, #0xc]  @ sp0C = worldY
 	asrs r3, r3, #0x10
 	subs r1, r3, r1
 	mov r4, sb
@@ -63,9 +55,9 @@ Task_Carousel2: @ 0x08085BAC
 	lsrs r0, r0, #0xd
 	adds r1, r1, r0
 	adds r1, #2
-	ldr r0, [sp]
+	ldr r0, [sp]        @ r0 = sp00 = s1
 	strh r1, [r0, #0x18]
-	ldr r1, [sp, #4]
+	ldr r1, [sp, #4]    @ r1 = sp04 = s2
 	strh r2, [r1, #0x16]
 	ldrh r0, [r0, #0x18]
 	adds r0, #2
@@ -73,19 +65,19 @@ Task_Carousel2: @ 0x08085BAC
 	movs r5, #0
 	ldr r4, _08085C54 @ =gPartner
 	ldr r7, _08085C58 @ =gPlayer
-	str r3, [sp, #0x14]
-_08085C2C:
+	str r3, [sp, #0x14] @ sp14 = worldY
+_08085C2C_loop:
 	cmp r5, #0
 	beq _08085C5C
 	ldr r1, [r4, #0x10]
 	movs r0, #0x80
 	ands r1, r0
-	ldr r2, [sp, #8]
+	ldr r2, [sp, #8]    @ r2 = sp08 = worldX
 	lsls r2, r2, #0x10
-	str r2, [sp, #0x18]
+	str r2, [sp, #0x18] @ sp18 = worldX << 16
 	mov r3, sb
 	adds r3, #0x79
-	str r3, [sp, #0x1c]
+	str r3, [sp, #0x1c] @ sp1C = &carousel->unk79
 	b _08085C6E
 	.align 2, 0
 _08085C44: .4byte gCurTask
@@ -98,12 +90,12 @@ _08085C5C:
 	ldr r1, [r7, #0x10]
 	movs r0, #0x80
 	ands r1, r0
-	ldr r0, [sp, #8]
+	ldr r0, [sp, #8]    @ r0 = sp08 = worldX
 	lsls r0, r0, #0x10
-	str r0, [sp, #0x18]
+	str r0, [sp, #0x18] @ sp18 = worldX << 16
 	mov r2, sb
 	adds r2, #0x79
-	str r2, [sp, #0x1c]
+	str r2, [sp, #0x1c] @ sp1C = &carousel->unk79
 _08085C6E:
 	cmp r1, #0
 	bne _08085CAC
@@ -113,10 +105,10 @@ _08085C6E:
 	asrs r0, r5
 	movs r3, #1
 	ands r0, r3
-	ldr r2, [sp, #8]
+	ldr r2, [sp, #8]    @ r2 = sp08 = worldX
 	lsls r2, r2, #0x10
-	str r2, [sp, #0x18]
-	str r1, [sp, #0x1c]
+	str r2, [sp, #0x18] @ sp18 = worldX << 16
+	str r1, [sp, #0x1c] @ sp1C = &carousel->unk79
 	cmp r0, #0
 	beq _08085CBC
 	asrs r0, r2, #8
@@ -130,7 +122,7 @@ _08085C96:
 	mov r3, sb
 	ldr r0, [r3, #0x70]
 	lsrs r0, r0, #0xd
-	ldr r1, [sp, #0x14]
+	ldr r1, [sp, #0x14] @ r1 = worldY
 	adds r0, r1, r0
 	lsls r0, r0, #8
 	cmp r5, #0
@@ -140,42 +132,42 @@ _08085C96:
 _08085CAA:
 	str r0, [r7, #4]
 _08085CAC:
-	ldr r2, [sp, #0x1c]
+	ldr r2, [sp, #0x1c] @ r2 = sp1C = &carousel->unk79
 	ldrb r0, [r2]
 	asrs r0, r5
 	movs r3, #1
 	ands r0, r3
 	cmp r0, #0
 	beq _08085CBC
-	b _08085EE8
+	b _08085EE8_continue
 _08085CBC:
 	mov r1, sb
 	ldr r0, [r1, #0x70]
 	lsls r0, r0, #3
-	ldr r2, [sp, #0x18]
-	asrs r1, r2, #0x10
+	ldr r2, [sp, #0x18] @ r2 = sp18 = worldX << 16
+	asrs r1, r2, #0x10  @ r1 = worldX
 	lsrs r3, r0, #0x10
 	mov sl, r3
 	asrs r0, r0, #0x10
-	ldr r2, [sp, #0x14]
-	adds r6, r2, r0
+	ldr r2, [sp, #0x14] @ r2 = worldY
+	adds r6, r2, r0     @ r6 = worldY + 
 	lsls r0, r6, #0x10
 	asrs r2, r0, #0x10
 	ldr r3, _08085D08 @ =gPlayer
-	ldr r0, [sp, #0xc]
+	ldr r0, [sp, #0xc]  @ r0 = sp0C = worldY
 	lsls r0, r0, #0x10
-	mov r8, r0
+	mov r8, r0          @ r8 = worldY << 16
 	cmp r5, #0
 	beq _08085CE2
 	ldr r3, _08085D0C @ =gPartner
 _08085CE2:
-	ldr r0, [sp]
+	ldr r0, [sp]        @ r0 = sp00 = s1
 	bl Coll_Player_PlatformCrumbling
 	movs r1, #8
 	ands r1, r0
 	cmp r1, #0
 	beq _08085D14
-	ldr r1, [sp, #0x1c]
+	ldr r1, [sp, #0x1c] @ r1 = sp1C = &carousel->unk79
 	ldrb r0, [r1]
 	asrs r0, r5
 	movs r2, #1
@@ -194,7 +186,7 @@ _08085D10:
 	str r0, [r7, #4]
 	b _08085D6A
 _08085D14:
-	ldr r3, [sp, #0x18]
+	ldr r3, [sp, #0x18] @ r3 = sp18 = worldX << 16
 	asrs r6, r3, #0x10
 	mov r0, r8
 	asrs r1, r0, #0x10
@@ -209,12 +201,12 @@ _08085D14:
 	beq _08085D30
 	ldr r3, _08085D5C @ =gPartner
 _08085D30:
-	ldr r0, [sp]
+	ldr r0, [sp]        @ r0 = sp00 = s1
 	adds r1, r6, #0
 	bl Coll_Player_Entity_Intersection
 	cmp r0, #0
 	bne _08085D6A
-	ldr r3, [sp, #0x1c]
+	ldr r3, [sp, #0x1c] @ r3 = sp1C = &carousel->unk79
 	ldrb r0, [r3]
 	asrs r0, r5
 	movs r1, #1
@@ -238,7 +230,7 @@ _08085D60:
 	ands r0, r1
 	str r0, [r7, #0x10]
 _08085D6A:
-	ldr r2, [sp, #0x18]
+	ldr r2, [sp, #0x18] @ r2 = sp18 = worldX << 16
 	asrs r0, r2, #0x10
 	adds r1, r0, #0
 	subs r1, #8
@@ -248,15 +240,15 @@ _08085D6A:
 	asrs r0, r0, #8
 	cmp r1, r0
 	ble _08085D8A
-	b _08085EE8
+	b _08085EE8_continue
 _08085D80:
 	ldr r0, [r7]
 	asrs r0, r0, #8
 	cmp r1, r0
 	ble _08085D8A
-	b _08085EE8
+	b _08085EE8_continue
 _08085D8A:
-	ldr r3, [sp, #0x18]
+	ldr r3, [sp, #0x18] @ r3 = sp18 = worldX << 16
 	asrs r0, r3, #0x10
 	adds r1, r0, #0
 	adds r1, #8
@@ -266,13 +258,13 @@ _08085D8A:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08085DAA
-	b _08085EE8
+	b _08085EE8_continue
 _08085DA0:
 	ldr r0, [r7]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08085DAA
-	b _08085EE8
+	b _08085EE8_continue
 _08085DAA:
 	mov r1, r8
 	asrs r0, r1, #0x10
@@ -288,13 +280,13 @@ _08085DAA:
 	asrs r0, r0, #8
 	cmp r3, r0
 	ble _08085DD2
-	b _08085EE8
+	b _08085EE8_continue
 _08085DC8:
 	ldr r0, [r7, #4]
 	asrs r0, r0, #8
 	cmp r3, r0
 	ble _08085DD2
-	b _08085EE8
+	b _08085EE8_continue
 _08085DD2:
 	mov r1, r8
 	asrs r0, r1, #0x10
@@ -308,22 +300,22 @@ _08085DD2:
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08085DF6
-	b _08085EE8
+	b _08085EE8_continue
 _08085DEC:
 	ldr r0, [r7, #4]
 	asrs r0, r0, #8
 	cmp r1, r0
 	bge _08085DF6
-	b _08085EE8
+	b _08085EE8_continue
 _08085DF6:
 	mov r2, sb
 	ldr r1, [r2, #0x70]
 	ldr r0, _08085E18 @ =0x003C2A57
 	cmp r1, r0
-	bhi _08085EE8
+	bhi _08085EE8_continue
 	movs r1, #1
 	lsls r1, r5
-	ldr r3, [sp, #0x1c]
+	ldr r3, [sp, #0x1c] @ r3 = sp1C = &carousel->unk79
 	ldrb r0, [r3]
 	orrs r1, r0
 	movs r0, #0
@@ -438,7 +430,7 @@ _08085EC6:
 	movs r0, #0x80
 	orrs r0, r1
 	strb r0, [r3]
-	b _08085EE8
+	b _08085EE8_continue
 	.align 2, 0
 _08085ED8: .4byte gPartner + 0x26
 _08085EDC:
@@ -448,7 +440,7 @@ _08085EDC:
 	orrs r0, r1
 	ldr r1, _08085F1C @ =gPlayer + 0x26
 	strb r0, [r1]
-_08085EE8:
+_08085EE8_continue:
 	adds r5, #1
 	ldr r0, _08085F20 @ =gNumSingleplayerCharacters
 	movs r1, #0
@@ -456,7 +448,7 @@ _08085EE8:
 	adds r2, r0, #0
 	cmp r5, r1
 	bge _08085EF8
-	b _08085C2C
+	b _08085C2C_loop
 _08085EF8:
 	mov r3, sb
 	ldr r1, [r3, #0x70]
@@ -466,12 +458,12 @@ _08085EF8:
 	movs r4, #0
 	movs r0, #0x6e
 	add r0, sb
-	mov r8, r0
-	ldr r7, [sp]
-	adds r7, #0x22
+	mov r8, r0          @ r8 = carousel->unk6E
+	ldr r7, [sp]        @ r7 = sp00 = s1
+	adds r7, #0x22      @ r7 = &s1->animSpeed
 	ldr r6, _08085F28 @ =gPartner
 	ldr r5, _08085F2C @ =gPlayer
-_08085F12:
+_08085F12_loop:
 	cmp r4, #0
 	beq _08085F30
 	ldr r0, [r6, #0x10]
@@ -489,14 +481,14 @@ _08085F32:
 	ands r0, r1
 	cmp r0, #0
 	bne _08085F8C
-	ldr r1, [sp, #0x1c]
+	ldr r1, [sp, #0x1c] @ r1 = sp1C = &carousel->unk79
 	ldrb r0, [r1]
 	asrs r0, r4
 	movs r1, #1
 	ands r0, r1
 	cmp r0, #0
 	beq _08085F8C
-	mov r2, r8
+	mov r2, r8          @ r2 = r8 = carousel->unk6E
 	ldrh r0, [r2]
 	lsrs r0, r0, #2
 	ldr r3, _08085F64 @ =0xFFFFF830
@@ -513,7 +505,7 @@ _08085F64: .4byte 0xFFFFF830
 _08085F68:
 	strh r0, [r5, #8]
 _08085F6A:
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = carousel->unk6E
 	ldrh r0, [r1]
 	lsrs r0, r0, #2
 	ldr r2, _08085F84 @ =0xFFFFF830
@@ -536,7 +528,7 @@ _08085F8C:
 	movs r0, #0
 	ldrsb r0, [r2, r0]
 	cmp r4, r0
-	blt _08085F12
+	blt _08085F12_loop
 	b _08085FAC
 	.align 2, 0
 _08085F98: .4byte gNumSingleplayerCharacters
@@ -546,11 +538,11 @@ _08085F9C:
 	ldrh r0, [r1]
 	adds r0, #0x40
 	strh r0, [r1]
-	mov r8, r1
-	ldr r7, [sp]
-	adds r7, #0x22
+	mov r8, r1          @ r8 = carousel->unk6E
+	ldr r7, [sp]        @ r7 = sp00 = s1
+	adds r7, #0x22      @ r7 = &s1->animSpeed
 _08085FAC:
-	mov r3, r8
+	mov r3, r8          @ r3 = r8 = carousel->unk6E
 	ldrh r0, [r3]
 	movs r1, #0x80
 	lsls r1, r1, #8
@@ -558,7 +550,7 @@ _08085FAC:
 	bls _08085FBA
 	strh r1, [r3]
 _08085FBA:
-	mov r4, r8
+	mov r4, r8          @ r4 = r8 = carousel->unk6E
 	ldrh r1, [r4]
 	lsls r0, r1, #3
 	adds r0, r0, r1
@@ -575,13 +567,13 @@ _08085FBA:
 	movs r0, #0x10
 	strb r0, [r7]
 _08085FDC:
-	mov r1, r8
+	mov r1, r8          @ r1 = r8 = carousel->unk6E
 	ldrh r0, [r1]
 	mov r2, sb
 	ldr r1, [r2, #0x70]
 	adds r1, r1, r0
 	str r1, [r2, #0x70]
-	ldr r3, [sp, #0x18]
+	ldr r3, [sp, #0x18] @ r3 = sp18 = worldX << 16
 	asrs r2, r3, #0x10
 	ldr r4, _0808605C @ =gCamera
 	movs r0, #0
@@ -595,7 +587,7 @@ _08085FDC:
 	subs r0, #0x80
 	cmp r2, r0
 	blt _08086020
-	ldr r1, [sp, #0xc]
+	ldr r1, [sp, #0xc]  @ r1 = sp0C = worldY
 	lsls r0, r1, #0x10
 	asrs r3, r0, #0x10
 	movs r2, #2
@@ -610,7 +602,7 @@ _08085FDC:
 	cmp r3, r0
 	bge _08086064
 _08086020:
-	ldr r1, [sp]
+	ldr r1, [sp]        @ r1 = sp00 = s1
 	ldrh r0, [r1, #0x16]
 	adds r0, #0x80
 	lsls r0, r0, #0x10
@@ -618,7 +610,7 @@ _08086020:
 	lsls r1, r1, #0x11
 	cmp r0, r1
 	bhi _08086048
-	ldr r2, [sp]
+	ldr r2, [sp]        @ r2 = sp00 = s1
 	movs r3, #0x18
 	ldrsh r0, [r2, r3]
 	adds r0, #0x80
@@ -633,7 +625,7 @@ _08086020:
 _08086048:
 	mov r1, sb
 	ldrb r0, [r1, #8]
-	ldr r2, [sp, #0x10]
+	ldr r2, [sp, #0x10] @ r2 = sp10 = me
 	strb r0, [r2]
 	ldr r0, _08086060 @ =gCurTask
 	ldr r0, [r0]
@@ -646,12 +638,12 @@ _08086064:
 	movs r5, #0
 	movs r3, #0x74
 	add r3, sb
-	mov sl, r3
+	mov sl, r3      @ sl = &carousel->unk74
 	ldr r4, _0808607C @ =gPartner
 	ldr r6, _08086080 @ =gPlayer
 	adds r7, r4, #0
 	adds r7, #0x26
-_08086074:
+_08086074_loop:
 	cmp r5, #0
 	beq _08086084
 	ldr r0, [r4, #0x10]
@@ -668,7 +660,7 @@ _08086086:
 	beq _08086090
 	b _08086314
 _08086090:
-	ldr r1, [sp, #0x1c]
+	ldr r1, [sp, #0x1c] @ r1 = sp1C = &carousel->unk79
 	ldrb r0, [r1]
 	asrs r0, r5
 	movs r1, #1
@@ -682,7 +674,7 @@ _080860A0:
 	ldr r0, _080860D4 @ =0x003C2A57
 	cmp r1, r0
 	bhi _080860AC
-	b _0808637A
+	b _0808637A_continue
 _080860AC:
 	adds r0, #1
 	str r0, [r2, #0x70]
@@ -704,7 +696,7 @@ _080860BC:
 	ands r0, r1
 	cmp r0, #0
 	bne _080860E8
-	b _0808637A
+	b _0808637A_continue
 	.align 2, 0
 _080860D4: .4byte 0x003C2A57
 _080860D8: .4byte 0x0000012B
@@ -714,7 +706,7 @@ _080860DC:
 	ands r0, r1
 	cmp r0, #0
 	bne _080860E8
-	b _0808637A
+	b _0808637A_continue
 _080860E8:
 	movs r0, #0x96
 	lsls r0, r0, #1
@@ -852,7 +844,7 @@ _080861C6:
 _080861C8:
 	movs r1, #1
 	lsls r1, r5
-	ldr r2, [sp, #0x1c]
+	ldr r2, [sp, #0x1c] @ r2 = sp1C = &carousel->unk79
 	ldrb r0, [r2]
 	bics r0, r1
 	strb r0, [r2]
@@ -984,7 +976,7 @@ _080862BC: .4byte gPartner
 _080862C0:
 	strh r5, [r2, #0xa]
 _080862C2:
-	ldr r1, [sp, #0x18]
+	ldr r1, [sp, #0x18] @ r1 = sp18 = worldX << 16
 	asrs r0, r1, #8
 	cmp r5, #0
 	beq _080862CE
@@ -995,7 +987,7 @@ _080862CE:
 _080862D0:
 	ldr r0, _080862E8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080862EC @ =Task_Carousel3
+	ldr r0, _080862EC @ =Task_ExitCarousel
 	str r0, [r1, #8]
 	cmp r5, #0
 	beq _080862F0
@@ -1006,7 +998,7 @@ _080862D0:
 	b _080862FA
 	.align 2, 0
 _080862E8: .4byte gCurTask
-_080862EC: .4byte Task_Carousel3
+_080862EC: .4byte Task_ExitCarousel
 _080862F0:
 	adds r2, #0x26
 	ldrb r1, [r2]
@@ -1023,7 +1015,7 @@ _08086302:
 	movs r0, #0x80
 	lsls r0, r0, #3
 	strh r0, [r1, #0x26]
-	b _0808637A
+	b _0808637A_continue
 	.align 2, 0
 _0808630C: .4byte gPlayer + 0x64
 _08086310: .4byte gPartner + 0x64
@@ -1035,13 +1027,13 @@ _08086314:
 	ands r0, r1
 	cmp r0, #0
 	bne _0808632E
-	b _0808637A
+	b _0808637A_continue
 _08086324:
 	ldr r0, [r6, #0x10]
 	movs r1, #0x80
 	ands r0, r1
 	cmp r0, #0
-	beq _0808637A
+	beq _0808637A_continue
 _0808632E:
 	mov r2, sb
 	ldr r0, [r2, #0x70]
@@ -1079,12 +1071,12 @@ _08086366:
 	lsls r3, r3, #0x11
 	lsrs r0, r3, #0x10
 	cmp r1, r0
-	bls _0808637A
+	bls _0808637A_continue
 	ldr r0, _080863B8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080863BC @ =Task_Carousel3
+	ldr r0, _080863BC @ =Task_ExitCarousel
 	str r0, [r1, #8]
-_0808637A:
+_0808637A_continue:
 	adds r5, #1
 	ldr r0, _080863C0 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -1092,13 +1084,13 @@ _0808637A:
 	asrs r0, r0, #0x18
 	cmp r5, r0
 	bge _0808638A
-	b _08086074
+	b _08086074_loop
 _0808638A:
-	mov r2, sl
+	mov r2, sl      @ r2 = sl = &carousel->unk74
 	ldrh r0, [r2]
 	adds r0, #1
 	strh r0, [r2]
-	mov r4, r8
+	mov r4, r8      @ r4 = r8 = carousel->unk6E
 	ldrh r1, [r4]
 	ldr r0, _080863C4 @ =0x000031FF
 	cmp r1, r0
@@ -1116,7 +1108,7 @@ _0808638A:
 	.align 2, 0
 _080863B4: .4byte 0xFFBFFFFF
 _080863B8: .4byte gCurTask
-_080863BC: .4byte Task_Carousel3
+_080863BC: .4byte Task_ExitCarousel
 _080863C0: .4byte gNumSingleplayerCharacters
 _080863C4: .4byte 0x000031FF
 _080863C8:
@@ -1134,7 +1126,7 @@ _080863C8:
 	.align 2, 0
 _080863E4: .4byte 0x00004AFF
 _080863E8:
-	mov r1, sl
+	mov r1, sl      @ r1 = sl = &carousel->unk74
 	ldrh r0, [r1]
 	movs r1, #8
 	bl Mod
@@ -1143,11 +1135,11 @@ _080863E8:
 	movs r0, #0xd3
 	bl m4aSongNumStart
 _080863FC:
-	ldr r0, [sp]
+	ldr r0, [sp]        @ r0 = sp00 = s1
 	bl UpdateSpriteAnimation
-	ldr r0, [sp]
+	ldr r0, [sp]        @ r0 = sp00 = s1
 	bl DisplaySprite
-	ldr r0, [sp, #4]
+	ldr r0, [sp, #4]    @ r0 = sp04 = s2
 	bl DisplaySprite
 _0808640E:
 	add sp, #0x20
@@ -1160,211 +1152,4 @@ _0808640E:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start Task_Carousel3
-Task_Carousel3: @ 0x08086420
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #0xc
-	ldr r0, _080864B0 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r1, r0
-	mov r8, r1
-	ldr r1, _080864B4 @ =0x0300000C
-	adds r7, r0, r1
-	ldr r2, _080864B8 @ =0x0300003C
-	adds r2, r0, r2
-	str r2, [sp]
-	mov r3, r8
-	ldr r3, [r3]
-	str r3, [sp, #8]
-	mov r4, r8
-	ldrb r2, [r4, #8]
-	lsls r2, r2, #3
-	ldrh r0, [r4, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	lsls r2, r2, #0x10
-	ldrb r1, [r3, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r4, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	lsls r1, r1, #0x10
-	ldr r3, _080864BC @ =gCamera
-	ldrh r0, [r3]
-	lsrs r4, r2, #0x10
-	mov sb, r4
-	asrs r2, r2, #0x10
-	subs r2, r2, r0
-	strh r2, [r7, #0x16]
-	ldrh r0, [r3, #2]
-	lsrs r3, r1, #0x10
-	str r3, [sp, #4]
-	asrs r1, r1, #0x10
-	subs r1, r1, r0
-	mov r4, r8
-	ldr r0, [r4, #0x70]
-	lsrs r0, r0, #0xd
-	adds r1, r1, r0
-	strh r1, [r7, #0x18]
-	ldr r0, [sp]
-	strh r2, [r0, #0x16]
-	ldrh r0, [r7, #0x18]
-	ldr r1, [sp]
-	strh r0, [r1, #0x18]
-	movs r6, #0
-	movs r2, #0x80
-	mov sl, r2
-_08086496:
-	cmp r6, #0
-	beq _080864C8
-	ldr r0, _080864C0 @ =gPartner
-	ldr r0, [r0, #0x10]
-	mov r3, sl
-	ands r0, r3
-	mov r4, sb
-	lsls r5, r4, #0x10
-	cmp r0, #0
-	bne _080864FE
-	ldr r3, _080864C4 @ =gPlayer
-	b _080864DA
-	.align 2, 0
-_080864B0: .4byte gCurTask
-_080864B4: .4byte 0x0300000C
-_080864B8: .4byte 0x0300003C
-_080864BC: .4byte gCamera
-_080864C0: .4byte gPartner
-_080864C4: .4byte gPlayer
-_080864C8:
-	ldr r1, _08086578 @ =gPlayer
-	ldr r0, [r1, #0x10]
-	mov r2, sl
-	ands r0, r2
-	mov r3, sb
-	lsls r5, r3, #0x10
-	adds r3, r1, #0
-	cmp r0, #0
-	bne _080864FE
-_080864DA:
-	mov r4, sb
-	lsls r1, r4, #0x10
-	asrs r4, r1, #0x10
-	mov r2, r8
-	ldr r0, [r2, #0x70]
-	lsrs r0, r0, #0xd
-	ldr r2, [sp, #4]
-	adds r0, r2, r0
-	lsls r0, r0, #0x10
-	asrs r2, r0, #0x10
-	adds r5, r1, #0
-	cmp r6, #0
-	beq _080864F6
-	ldr r3, _0808657C @ =gPartner
-_080864F6:
-	adds r0, r7, #0
-	adds r1, r4, #0
-	bl Coll_Player_PlatformCrumbling
-_080864FE:
-	adds r6, #1
-	ldr r0, _08086580 @ =gNumSingleplayerCharacters
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r6, r0
-	blt _08086496
-	asrs r1, r5, #0x10
-	ldr r3, _08086584 @ =gCamera
-	movs r4, #0
-	ldrsh r2, [r3, r4]
-	movs r4, #0xb8
-	lsls r4, r4, #1
-	adds r0, r2, r4
-	cmp r1, r0
-	bgt _08086542
-	adds r0, r2, #0
-	subs r0, #0x80
-	cmp r1, r0
-	blt _08086542
-	ldr r1, [sp, #4]
-	lsls r0, r1, #0x10
-	asrs r1, r0, #0x10
-	movs r4, #2
-	ldrsh r2, [r3, r4]
-	movs r3, #0x90
-	lsls r3, r3, #1
-	adds r0, r2, r3
-	cmp r1, r0
-	bgt _08086542
-	adds r0, r2, #0
-	subs r0, #0x80
-	cmp r1, r0
-	bge _0808658C
-_08086542:
-	ldrh r0, [r7, #0x16]
-	adds r0, #0x80
-	lsls r0, r0, #0x10
-	movs r1, #0xf8
-	lsls r1, r1, #0x11
-	cmp r0, r1
-	bhi _08086566
-	movs r4, #0x18
-	ldrsh r0, [r7, r4]
-	adds r0, #0x80
-	cmp r0, #0
-	blt _08086566
-	movs r0, #0x18
-	ldrsh r1, [r7, r0]
-	movs r0, #0x90
-	lsls r0, r0, #1
-	cmp r1, r0
-	ble _0808658C
-_08086566:
-	mov r1, r8
-	ldrb r0, [r1, #8]
-	ldr r2, [sp, #8]
-	strb r0, [r2]
-	ldr r0, _08086588 @ =gCurTask
-	ldr r0, [r0]
-	bl TaskDestroy
-	b _08086598
-	.align 2, 0
-_08086578: .4byte gPlayer
-_0808657C: .4byte gPartner
-_08086580: .4byte gNumSingleplayerCharacters
-_08086584: .4byte gCamera
-_08086588: .4byte gCurTask
-_0808658C:
-	adds r0, r7, #0
-	bl DisplaySprite
-	ldr r0, [sp]
-	bl DisplaySprite
-_08086598:
-	add sp, #0xc
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-
-	thumb_func_start TaskDestructor_Carousel
-TaskDestructor_Carousel: @ 0x080865A8
-	push {r4, lr}
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r4, r4, r0
-	ldr r0, [r4, #0x10]
-	bl VramFree
-	ldr r0, [r4, #0x40]
-	bl VramFree
-	pop {r4}
-	pop {r0}
-	bx r0
+.syntax divided

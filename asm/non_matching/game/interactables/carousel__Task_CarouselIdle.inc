@@ -589,7 +589,7 @@ _08085B42:
 	bl m4aSongNumStart
 	ldr r0, _08085B60 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08085B64 @ =Task_Carousel2
+	ldr r0, _08085B64 @ =Task_RidingCarousel
 	str r0, [r1, #8]
 	cmp r5, #0
 	beq _08085B6C
@@ -601,7 +601,7 @@ _08085B42:
 	b _08085B78_continue
 	.align 2, 0
 _08085B60: .4byte gCurTask
-_08085B64: .4byte Task_Carousel2
+_08085B64: .4byte Task_RidingCarousel
 _08085B68: .4byte gPartner + 0x26
 _08085B6C:
 	ldr r1, _08085BA4 @ =gPlayer + 0x26
