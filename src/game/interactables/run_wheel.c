@@ -9,6 +9,7 @@
 
 #include "constants/animations.h"
 #include "constants/vram_hardcoded.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct {
@@ -171,16 +172,16 @@ bool32 sub_808EA80(RunWheel *wheel, Sprite *s, s32 worldX, s32 worldY, Player *p
         if ((u32)wheel->qUnk44 + Q(5) - 1 < Q(10) - 1) {
             if (wheel->qUnk44 != Q(0)) {
                 if (Mod(wheel->unk4C, 25) == 0) {
-                    m4aSongNumStart(0xD4);
+                    m4aSongNumStart(SE_RUN_WHEEL_A);
                 }
             }
         } else if ((u32)wheel->qUnk44 + 0x81F < 0x103F) {
             if (Mod(wheel->unk4C, 16) == 0) {
-                m4aSongNumStart(0xD5);
+                m4aSongNumStart(SE_RUN_WHEEL_B);
             }
         } else {
             if (Mod(wheel->unk4C, 8) == 0) {
-                m4aSongNumStart(0xD6);
+                m4aSongNumStart(SE_RUN_WHEEL_C);
             }
         }
     }
@@ -319,16 +320,16 @@ NONMATCH("asm/non_matching/game/interactables/run_wheel__sub_808EC84.inc",
                 if ((u32)wheel->qUnk44 + Q(5) - 1 < Q(10) - 1) {
                     if (wheel->qUnk44 != Q(0)) {
                         if (Mod(wheel->unk4C, 25) == 0) {
-                            m4aSongNumStart(0xD4);
+                            m4aSongNumStart(SE_RUN_WHEEL_A);
                         }
                     }
                 } else if ((u32)wheel->qUnk44 + 0x81F < 0x103F) {
                     if (Mod(wheel->unk4C, 16) == 0) {
-                        m4aSongNumStart(0xD5);
+                        m4aSongNumStart(SE_RUN_WHEEL_B);
                     }
                 } else {
                     if (Mod(wheel->unk4C, 8) == 0) {
-                        m4aSongNumStart(0xD6);
+                        m4aSongNumStart(SE_RUN_WHEEL_C);
                     }
                 }
 
