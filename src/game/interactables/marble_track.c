@@ -6,6 +6,7 @@
 #include "game/stage/terrain_collision.h"
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h" // gPlayerControls
+#include "game/stage/ui.h" // sub_80549FC
 #include "game/water_effects.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
@@ -19,6 +20,17 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
+    /* 0x3C */ u8 unk3C[NUM_SINGLEPLAYER_CHARS_MAX];
+    /* 0x3E */ u8 unk3E;
+    /* 0x3F */ u8 unk3F;
+    /* 0x44 */ s32 unk40[NUM_SINGLEPLAYER_CHARS_MAX];
+    /* 0x48 */ s16 unk48;
+    /* 0x48 */ s16 unk4A;
+} MarbleTrackEntrance; /* 0x4C */
+
+typedef struct {
+    /* 0x00 */ SpriteBase base;
+    /* 0x0C */ Sprite s;
     /* 0x3C */ s32 unk3C;
     /* 0x40 */ u8 unk40;
     /* 0x41 */ u8 unk41;
@@ -26,11 +38,208 @@ typedef struct {
     /* 0x4C */ s32 unk4C[NUM_SINGLEPLAYER_CHARS_MAX];
 } MarbleTrackExit; /* 0x54 */
 
+void Task_MarbleTrack_Entrance(void);
 void Task_MarbleTrack_Exit(void);
+void TaskDestructor_MarbleTrack_Entrance(struct Task *t);
 void TaskDestructor_MarbleTrack_Exit(struct Task *t);
 
 #if 01
 #endif
+
+void CreateEntity_MarbleTrack_Entrance(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_MarbleTrack_Entrance, sizeof(MarbleTrackEntrance), 0x1900 + me->d.uData[3], 0,
+                                TaskDestructor_MarbleTrack_Entrance);
+    MarbleTrackEntrance *entrance = TASK_DATA(t);
+    Sprite *s = &entrance->s;
+
+    entrance->base.regionX = regionX;
+    entrance->base.regionY = regionY;
+    entrance->base.me = me;
+    entrance->base.meX = me->x;
+    entrance->base.id = id;
+
+    entrance->unk3F = me->d.sData[0];
+    entrance->unk3C[PLAYER_1] = 0;
+    entrance->unk40[PLAYER_1] = 0;
+    entrance->unk3C[PLAYER_2] = 0;
+    entrance->unk40[PLAYER_2] = 0;
+    entrance->unk48 = me->d.uData[2];
+    entrance->unk3E = 0;
+    entrance->unk4A = me->d.sData[1];
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    s->x = TO_WORLD_POS_INV(0xFE, regionX); // TODO: What the..?
+    s->y = TO_WORLD_POS(me->y, regionY);
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_MARBLE_TRACK_EXIT);
+    s->oamFlags = SPRITE_OAM_ORDER(18);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_MARBLE_TRACK_EXIT;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+    UpdateSpriteAnimation(s);
+}
+
+void Task_MarbleTrack_Entrance(void)
+{
+    CamCoord worldX, worldY;
+    s16 screenY, screenX;
+    s16 sp0C;
+    MarbleTrackEntrance *entrance = TASK_DATA(gCurTask);
+    Sprite *s = &entrance->s;
+    MapEntity *me = entrance->base.me;
+    s32 i;
+
+    worldX = TO_WORLD_POS(entrance->base.meX, entrance->base.regionX);
+    worldY = TO_WORLD_POS(me->y, entrance->base.regionY);
+
+    screenX = worldX - gCamera.x;
+    screenY = worldY - gCamera.y;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+#if 0
+    if (entrance->unk41 != 0) {
+        sp0C = -24;
+    } else {
+        sp0C = 0;
+    }
+#endif
+    // _08083868
+
+    i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            // _080838A0
+            s32 sp1C;
+            if (GetBit(entrance->unk3E, i)) {
+                // _080838B4
+                PLAYER(i).qSpeedAirY += Q(42. / 256.);
+                // _080838C6
+
+                sp1C = Q(worldX + Div(entrance->unk4A * entrance->unk3C[i], entrance->unk3F));
+
+                PLAYER(i).qWorldY += PLAYER(i).qSpeedAirY;
+                // TODO/BUG: This should use qSpeedAirX, right?
+                entrance->unk40[i] = entrance->unk40[i] + PLAYER(i).qSpeedAirY;
+                PLAYER(i).qWorldX = sp1C;
+                // _08083906
+                PLAYER(i).SA2_LABEL(unk80) += 4;
+                // _08083920
+
+                if (PLAYER(i).SA2_LABEL(unk80) > 0x100) {
+                    PLAYER(i).SA2_LABEL(unk80) = 0x100;
+                }
+                // _0808395E
+
+                PLAYER(i).SA2_LABEL(unk82) = PLAYER(i).SA2_LABEL(unk80);
+
+                if (entrance->unk3C[i] == 25) {
+                    Player_Tails_InitGfxMarbleTrack(&PLAYER(i));
+                }
+
+                if ((++entrance->unk3C[i] >= entrance->unk3F) || (I(entrance->unk40[i]) > entrance->unk48)
+                    || ((PLAYER(i).SA2_LABEL(unk99)[0] != 0x7F) && PLAYER(i).SA2_LABEL(unk99)[0] > me->d.uData[3])) {
+                    ClearBit(entrance->unk3E, i);
+                } else {
+                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                    PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+                    PLAYER(i).qSpeedAirX = +Q(0);
+                    PLAYER(i).qSpeedGround = +Q(0);
+                    PLAYER(i).charState = CHARSTATE_32;
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                    SetBit(entrance->unk3E, i);
+                }
+            } else {
+                // !GetBit(entrance->unk3E, i)
+                sp1C = PLAYER(i).qWorldX;
+
+                if (sub_80549FC() && (PLAYER(i).charState != CHARSTATE_73)) {
+                    if (PLAYER(i).qWorldY > Q(worldY) + Q(12)) {
+                        if (sub_80096B0(s, worldX, worldY, &PLAYER(i)) & 0x10000) {
+                            PLAYER(i).qWorldY = Q(worldY + 23);
+                        }
+                    }
+                } else if ((PLAYER(i).SA2_LABEL(unk99)[0] == 0x7F) && sub_80096B0(s, worldX, worldY, &PLAYER(i)) & 0x8) {
+                    entrance->unk3C[i] = 0;
+                    entrance->unk40[i] = 0;
+                    Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
+                    PLAYER(i).moveState |= MOVESTATE_4;
+                    PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+                    PLAYER(i).SA2_LABEL(unk99)[0] = me->d.uData[3];
+
+                    PLAYER(i).qSpeedAirY = -Q(0);
+                    PLAYER(i).qSpeedAirX = +Q(0);
+                    PLAYER(i).qSpeedGround = +Q(0);
+                    PLAYER(i).frameInput = 0;
+                    PLAYER(i).heldInput = 0;
+                    PLAYER(i).charState = CHARSTATE_32;
+                    PLAYER(i).SA2_LABEL(unk80) = 0xB0;
+                    PLAYER(i).SA2_LABEL(unk82) = 0xB0;
+
+                    PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+
+                    m4aSongNumStart(SE_SPRING);
+
+                    SetBit(entrance->unk3E, i);
+
+                    PLAYER(i).qWorldX = sp1C;
+#if 01
+                    {
+                        PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+                    }
+#else
+                    // NOTE: For matching..?
+                    if (i != 0) {
+                        gPartner.itemEffect |= gPartner.itemEffect | PLAYER_ITEM_EFFECT__TELEPORT;
+                    } else {
+                        gPlayer.itemEffect |= gPlayer.itemEffect | PLAYER_ITEM_EFFECT__TELEPORT;
+                    }
+#endif
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+    // _08083D7E
+
+    if (!(entrance->unk3E & 0x3)) {
+        if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+            // _08083DA4
+
+            s32 i = 0;
+            do {
+                if (GetBit(entrance->unk3E, i)) {
+                    if (me->d.uData[3] == PLAYER(i).SA2_LABEL(unk99)[0]) {
+                        PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
+                        PLAYER(i).itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                    }
+                }
+            } while (++i < gNumSingleplayerCharacters);
+
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, entrance->base.meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_MarbleTrack_Entrance(struct Task *t)
+{
+    MarbleTrackEntrance *entrance = TASK_DATA(t);
+    VramFree(entrance->s.graphics.dest);
+}
 
 void CreateEntity_MarbleTrack_Exit(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
