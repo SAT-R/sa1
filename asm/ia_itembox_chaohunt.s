@@ -5,6 +5,8 @@
 .syntax unified
 .arm
 
+@ Basically the old version of we called "Mystery Item Box" in SA2.
+
 	thumb_func_start CreateEntity_ItemBox_ChaoHunt
 CreateEntity_ItemBox_ChaoHunt: @ 0x0801BACC
 	push {r4, r5, r6, r7, lr}

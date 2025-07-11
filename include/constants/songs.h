@@ -134,6 +134,9 @@
 #define SE_CAROUSEL_A            209
 #define SE_CAROUSEL_B            210
 #define SE_CAROUSEL_C            211
+#define SE_RUN_WHEEL_A           212
+#define SE_RUN_WHEEL_B           213
+#define SE_RUN_WHEEL_C           214
 
 #define SE_VS_MULTIPAK_CONN_CLOSE 303
 #define SE_VS_MULTIPAK_ROUND_OVER 304

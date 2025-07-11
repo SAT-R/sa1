@@ -126,7 +126,7 @@
 #define SA1_ANIM_BUMPER_ROUND         485
 #define SA1_ANIM_BOWL_3               486
 #define SA1_ANIM_CAROUSEL             487
-#define SA1_ANIM_CHAR_RESIZER         488
+#define SA1_ANIM_MARBLE_TRACK_EXIT    488
 #define SA1_ANIM_SHIP_SWING_SEGMENT   489
 #define SA1_ANIM_SHIP_SWING_HOOK      490
 #define SA1_ANIM_SHIP_SWING           491

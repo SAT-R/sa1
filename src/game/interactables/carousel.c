@@ -432,11 +432,9 @@ void Task_ExitCarousel(void)
     DisplaySprite(s2);
 }
 
-#if 01
 void TaskDestructor_Carousel(struct Task *t)
 {
     Carousel *carousel = TASK_DATA(t);
     VramFree(carousel->s1.graphics.dest);
     VramFree(carousel->s2.graphics.dest);
 }
-#endif
