@@ -40,7 +40,7 @@ typedef struct {
     /* 0x4A */ s16 unk4A;
     /* 0x4C */ u8 unk4C;
     /* 0x4D */ u8 unk4D;
-} MarbleTrackUnk; /* 0x50 */
+} SecretBasePipe; /* 0x50 */
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -207,23 +207,23 @@ END_NONMATCH
 
 void CreateEntity_MarbleTrack_Unk(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    struct Task *t = TaskCreate(Task_MarbleTrack_Unk, sizeof(MarbleTrackUnk), 0x2000 + me->d.sData[1], 0, NULL);
-    MarbleTrackUnk *munk = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_MarbleTrack_Unk, sizeof(SecretBasePipe), 0x2000 + me->d.sData[1], 0, NULL);
+    SecretBasePipe *basePipe = TASK_DATA(t);
 
-    munk->base.regionX = regionX;
-    munk->base.regionY = regionY;
-    munk->base.me = me;
-    munk->base.meX = me->x;
-    munk->base.id = id;
+    basePipe->base.regionX = regionX;
+    basePipe->base.regionY = regionY;
+    basePipe->base.me = me;
+    basePipe->base.meX = me->x;
+    basePipe->base.id = id;
 
-    munk->unk48 = me->d.uData[2] * 3;
-    munk->unk4C = 0;
-    munk->unk44[PLAYER_1] = 0;
-    munk->unk3C[PLAYER_1] = 0;
-    munk->unk44[PLAYER_2] = 0;
-    munk->unk3C[PLAYER_2] = 0;
-    munk->unk4A = me->d.sData[0] * 8;
-    munk->unk4D = me->d.sData[1];
+    basePipe->unk48 = me->d.uData[2] * 3;
+    basePipe->unk4C = 0;
+    basePipe->unk44[PLAYER_1] = 0;
+    basePipe->unk3C[PLAYER_1] = 0;
+    basePipe->unk44[PLAYER_2] = 0;
+    basePipe->unk3C[PLAYER_2] = 0;
+    basePipe->unk4A = me->d.sData[0] * 8;
+    basePipe->unk4D = me->d.sData[1];
 
     SET_MAP_ENTITY_INITIALIZED(me);
 }
@@ -235,12 +235,12 @@ NONMATCH("asm/non_matching/game/interactables/marble_track_exit__Task_MarbleTrac
     CamCoord worldX, worldY;
     s16 screenY, screenX;
     s16 sp0C;
-    MarbleTrackUnk *munk = TASK_DATA(gCurTask);
-    MapEntity *me = munk->base.me;
+    SecretBasePipe *basePipe = TASK_DATA(gCurTask);
+    MapEntity *me = basePipe->base.me;
     s32 i;
 
-    worldX = TO_WORLD_POS(munk->base.meX, munk->base.regionX);
-    worldY = TO_WORLD_POS(me->y, munk->base.regionY);
+    worldX = TO_WORLD_POS(basePipe->base.meX, basePipe->base.regionX);
+    worldY = TO_WORLD_POS(me->y, basePipe->base.regionY);
 
     screenX = worldX - gCamera.x;
     screenY = worldY - gCamera.y;
@@ -248,12 +248,12 @@ NONMATCH("asm/non_matching/game/interactables/marble_track_exit__Task_MarbleTrac
     i = 0;
     do {
         if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-            if (GetBit(munk->unk4C, i)) {
+            if (GetBit(basePipe->unk4C, i)) {
                 s8 zone;
                 PLAYER(i).qSpeedAirY += Q(42. / 256.);
 
                 PLAYER(i).qWorldY += PLAYER(i).qSpeedAirY;
-                munk->unk3C[i] += PLAYER(i).qSpeedAirY;
+                basePipe->unk3C[i] += PLAYER(i).qSpeedAirY;
 
                 if ((LEVEL_TO_ZONE(gCurrentLevel) == ZONE_2) || (gCurrentLevel == 15)) {
                     if (PLAYER(i).qWorldX < Q(worldX)) {
@@ -270,30 +270,31 @@ NONMATCH("asm/non_matching/game/interactables/marble_track_exit__Task_MarbleTrac
                     }
                 }
 
-                if (((PLAYER(i).SA2_LABEL(unk99)[0] > munk->unk4D))
-                    || ((++munk->unk44[i] >= munk->unk48) || (I(munk->unk3C[i]) > munk->unk4A))) {
-                    if ((PLAYER(i).SA2_LABEL(unk99)[0] == munk->unk4D)) {
+                if (((PLAYER(i).SA2_LABEL(unk99)[0] > basePipe->unk4D))
+                    || ((++basePipe->unk44[i] >= basePipe->unk48) || (I(basePipe->unk3C[i]) > basePipe->unk4A))) {
+                    if ((PLAYER(i).SA2_LABEL(unk99)[0] == basePipe->unk4D)) {
                         PLAYER(i).SA2_LABEL(unk99)[0] = 0x7F;
                         PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
                         PLAYER(i).itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
                     }
-                    ClearBit(munk->unk4C, i);
+                    ClearBit(basePipe->unk4C, i);
                 } else {
                     PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
 
                     PLAYER(i).qSpeedAirX = +Q(0);
                     PLAYER(i).qSpeedGround = +Q(0);
                     PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
-                    SetBit(munk->unk4C, i);
+                    SetBit(basePipe->unk4C, i);
                 }
 
             } else {
-                // !GetBit(munk->unk4C, i)
-                if ((((PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE) && (PLAYER(i).SA2_LABEL(unk99)[0] < munk->unk4D)) || !munk->unk4D)) {
+                // !GetBit(basePipe->unk4C, i)
+                if ((((PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE) && (PLAYER(i).SA2_LABEL(unk99)[0] < basePipe->unk4D))
+                     || !basePipe->unk4D)) {
                     if ((worldX - 12 <= I(PLAYER(i).qWorldX)) && (worldX + 12 >= I(PLAYER(i).qWorldX))
                         && (worldY - 12 <= I(PLAYER(i).qWorldY)) && (worldY + 12 >= I(PLAYER(i).qWorldY))) {
-                        munk->unk44[i] = 0;
-                        munk->unk3C[i] = 0;
+                        basePipe->unk44[i] = 0;
+                        basePipe->unk3C[i] = 0;
                         PLAYER(i).moveState |= MOVESTATE_4;
                         PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
 
@@ -306,33 +307,33 @@ NONMATCH("asm/non_matching/game/interactables/marble_track_exit__Task_MarbleTrac
 
                         // NOTE (for Matching): Same problem as Task_MarbleTrack_Exit.
                         // An unnecessary 'mov r2, #0 ' was inserted in the original...
-                        SetBit(munk->unk4C, i);
+                        SetBit(basePipe->unk4C, i);
 
-                        PLAYER(i).SA2_LABEL(unk99)[0] = munk->unk4D;
+                        PLAYER(i).SA2_LABEL(unk99)[0] = basePipe->unk4D;
                         PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
                     }
                 }
             }
         } else {
-            if (GetBit(munk->unk4C, i)) {
-                ClearBit(munk->unk4C, i);
+            if (GetBit(basePipe->unk4C, i)) {
+                ClearBit(basePipe->unk4C, i);
                 PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
             }
         }
     } while (++i < gNumSingleplayerCharacters);
 
-    if (!(munk->unk4C & 0x3)) {
+    if (!(basePipe->unk4C & 0x3)) {
         if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
             s32 i = 0;
             do {
-                if (PLAYER(i).SA2_LABEL(unk99)[0] == munk->unk4D) {
-                    if (GetBit(munk->unk4C, i)) {
+                if (PLAYER(i).SA2_LABEL(unk99)[0] == basePipe->unk4D) {
+                    if (GetBit(basePipe->unk4C, i)) {
                         PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
                     }
                 }
             } while (++i < gNumSingleplayerCharacters);
 
-            SET_MAP_ENTITY_NOT_INITIALIZED(me, munk->base.meX);
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, basePipe->base.meX);
             TaskDestroy(gCurTask);
             return;
         }
@@ -364,8 +365,14 @@ void CreateEntity_MarbleTrack_Entrance(MapEntity *me, u16 regionX, u16 regionY, 
 
     SET_MAP_ENTITY_INITIALIZED(me);
 
-    s->x = TO_WORLD_POS_INV(0xFE, regionX); // TODO: What the..?
+#ifdef BUG_FIX
+    // NOTE: Technically this is wrong, too, but at least it's consistent with most other interactables/gimmicks.
+    s->x = TO_WORLD_POS(me->x, regionX); // What the..?
     s->y = TO_WORLD_POS(me->y, regionY);
+#else
+    s->x = TO_WORLD_POS_INV(0xFE, regionX); // What the..?
+    s->y = TO_WORLD_POS(me->y, regionY);
+#endif
 
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_MARBLE_TRACK_EXIT);
     s->oamFlags = SPRITE_OAM_ORDER(18);
@@ -400,39 +407,23 @@ void Task_MarbleTrack_Entrance(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-#if 0
-    if (entrance->unk41 != 0) {
-        sp0C = -24;
-    } else {
-        sp0C = 0;
-    }
-#endif
-    // _08083868
-
     i = 0;
     do {
         if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
-            // _080838A0
             s32 sp1C;
             if (GetBit(entrance->unk3E, i)) {
-                // _080838B4
                 PLAYER(i).qSpeedAirY += Q(42. / 256.);
-                // _080838C6
 
                 sp1C = Q(worldX + Div(entrance->unk4A * entrance->unk3C[i], entrance->unk3F));
 
                 PLAYER(i).qWorldY += PLAYER(i).qSpeedAirY;
-                // TODO/BUG: This should use qSpeedAirX, right?
                 entrance->unk40[i] = entrance->unk40[i] + PLAYER(i).qSpeedAirY;
                 PLAYER(i).qWorldX = sp1C;
-                // _08083906
                 PLAYER(i).SA2_LABEL(unk80) += 4;
-                // _08083920
 
                 if (PLAYER(i).SA2_LABEL(unk80) > 0x100) {
                     PLAYER(i).SA2_LABEL(unk80) = 0x100;
                 }
-                // _0808395E
 
                 PLAYER(i).SA2_LABEL(unk82) = PLAYER(i).SA2_LABEL(unk80);
 
@@ -503,12 +494,9 @@ void Task_MarbleTrack_Entrance(void)
             }
         }
     } while (++i < gNumSingleplayerCharacters);
-    // _08083D7E
 
     if (!(entrance->unk3E & 0x3)) {
         if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
-            // _08083DA4
-
             s32 i = 0;
             do {
                 if (GetBit(entrance->unk3E, i)) {
