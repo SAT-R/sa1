@@ -20,6 +20,20 @@
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
+    /* 0x3C */ u8 unk3C;
+    /* 0x3C */ u8 unk3D;
+    /* 0x3D */ u8 unk3E[2];
+    /* 0x44 */ s32 unk40[2];
+    /* 0x44 */ s32 unk48[2];
+    /* 0x44 */ s32 unk50[2];
+    /* 0x44 */ s32 unk58[2];
+    /* 0x44 */ s32 unk60[2];
+    /* 0x68 */ u8 unk68;
+} MarbleTrackDir; /* 0x6C */
+
+typedef struct {
+    /* 0x00 */ SpriteBase base;
+    /* 0x0C */ Sprite s;
     /* 0x3C */ s32 unk3C[NUM_SINGLEPLAYER_CHARS_MAX];
     /* 0x44 */ u16 unk44[NUM_SINGLEPLAYER_CHARS_MAX];
     /* 0x48 */ u16 unk48;
@@ -49,14 +63,147 @@ typedef struct {
     /* 0x4C */ s32 unk4C[NUM_SINGLEPLAYER_CHARS_MAX];
 } MarbleTrackExit; /* 0x54 */
 
+void Task_MarbleTrack_Dir(void);
 void Task_MarbleTrack_Unk(void);
 void Task_MarbleTrack_Entrance(void);
 void TaskDestructor_MarbleTrack_Entrance(struct Task *t);
 void Task_MarbleTrack_Exit(void);
 void TaskDestructor_MarbleTrack_Exit(struct Task *t);
 
-#if 01
-#endif
+void CreateEntity_MarbleTrack_Dir(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t = TaskCreate(Task_MarbleTrack_Dir, sizeof(MarbleTrackDir), 0x2000 | me->d.uData[3], 0, NULL);
+    MarbleTrackDir *dir = TASK_DATA(t);
+    s32 i;
+
+    dir->base.regionX = regionX;
+    dir->base.regionY = regionY;
+    dir->base.me = me;
+    dir->base.meX = me->x;
+    dir->base.id = id;
+
+    dir->unk3D = me->d.uData[2];
+    for (i = 0; i < 2; i++) {
+        dir->unk3E[i] = 0;
+        dir->unk40[i] = 0;
+        dir->unk48[i] = 0;
+        dir->unk58[i] = 0;
+        dir->unk60[i] = 0;
+    }
+
+    dir->unk50[0] = me->d.sData[0] * 8;
+    dir->unk50[1] = me->d.sData[1] * 8;
+
+    dir->unk68 = 0;
+    dir->unk3C = me->d.uData[3];
+
+    SET_MAP_ENTITY_INITIALIZED(me);
+}
+
+NONMATCH("asm/non_matching/game/interactables/marble_track_exit__Task_MarbleTrack_Dir.inc", void Task_MarbleTrack_Dir(void))
+{
+    CamCoord worldX, worldY;
+    s16 screenX, screenY;
+    MapEntity *me;
+    MarbleTrackDir *dir = TASK_DATA(gCurTask);
+    s32 i;
+    me = dir->base.me;
+
+    worldX = TO_WORLD_POS(dir->base.meX, dir->base.regionX);
+    worldY = TO_WORLD_POS(me->y, dir->base.regionY);
+
+    screenX = worldX - gCamera.x;
+    screenY = worldY - gCamera.y;
+
+    i = 0;
+    do {
+        if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
+            if (GetBit(dir->unk68, i)) {
+                if (((PLAYER(i).SA2_LABEL(unk99)[0] == dir->unk3C))) {
+                    s32 x, y;
+
+                    x = Div(dir->unk50[0] * dir->unk3E[i], dir->unk3D);
+                    y = Div(dir->unk50[1] * dir->unk3E[i], dir->unk3D);
+
+                    PLAYER(i).qWorldX = Q(dir->unk40[i] + x);
+                    PLAYER(i).qWorldY = Q(dir->unk48[i] + y);
+
+                    PLAYER(i).qSpeedAirX = PLAYER(i).qWorldX - dir->unk58[i];
+                    PLAYER(i).qSpeedAirY = PLAYER(i).qWorldY - dir->unk60[i];
+
+                    if ((++dir->unk3E[i] >= dir->unk3D) || (PLAYER(i).SA2_LABEL(unk99)[0] > dir->unk3C)) {
+                        if ((PLAYER(i).SA2_LABEL(unk99)[0] == dir->unk3C)) {
+                            PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
+                            PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+                            PLAYER(i).moveState &= ~MOVESTATE_IA_OVERRIDE;
+                            PLAYER(i).itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
+                            PLAYER(i).qSpeedAirY = 0;
+                            PLAYER(i).qSpeedAirX = 0;
+                            PLAYER(i).qSpeedGround = +Q(0);
+                        }
+                        ClearBit(dir->unk68, i);
+                    } else {
+                        PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
+                        PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+                        PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+
+                        PLAYER(i).qSpeedGround = +Q(0);
+                        PLAYER(i).heldInput = 0;
+                        PLAYER(i).frameInput = 0;
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+                        SetBit(dir->unk68, i);
+                    }
+
+                    dir->unk58[i] = PLAYER(i).qWorldX;
+                    dir->unk60[i] = PLAYER(i).qWorldY;
+                } else {
+                    ClearBit(dir->unk68, i);
+                }
+            } else {
+                // !GetBit(dir->unk68, i)
+                if (((PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE) && (PLAYER(i).SA2_LABEL(unk99)[0] < dir->unk3C)) || !dir->unk3C) {
+                    if ((worldX - 8 <= I(PLAYER(i).qWorldX)) && (worldX + 8 >= I(PLAYER(i).qWorldX))
+                        && (worldY - 10 <= I(PLAYER(i).qWorldY)) && (worldY + 10 >= I(PLAYER(i).qWorldY))) {
+                        dir->unk3E[i] = 0;
+
+                        PLAYER(i).moveState |= MOVESTATE_4;
+                        PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
+                        PLAYER(i).moveState |= MOVESTATE_IA_OVERRIDE;
+
+                        dir->unk40[i] = I(PLAYER(i).qWorldX);
+                        dir->unk48[i] = I(PLAYER(i).qWorldY);
+
+                        PLAYER(i).qSpeedAirY = -Q(0);
+                        PLAYER(i).qSpeedAirX = +Q(0);
+                        PLAYER(i).qSpeedGround = +Q(0);
+                        PLAYER(i).heldInput = +Q(0);
+                        PLAYER(i).frameInput = +Q(0);
+
+                        PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
+
+                        m4aSongNumStart(SE_SPRING);
+
+                        // NOTE (for Matching): Same problem as Task_MarbleTrack_Exit.
+                        // An unnecessary 'mov r2, #0 ' was inserted in the original...
+                        SetBit(dir->unk68, i);
+
+                        PLAYER(i).SA2_LABEL(unk99)[0] = dir->unk3C;
+                        PLAYER(i).itemEffect |= PLAYER_ITEM_EFFECT__TELEPORT;
+                    }
+                }
+            }
+        }
+    } while (++i < gNumSingleplayerCharacters);
+
+    if (!(dir->unk68 & 0x3)) {
+        if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+            SET_MAP_ENTITY_NOT_INITIALIZED(me, dir->base.meX);
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+}
+END_NONMATCH
 
 void CreateEntity_MarbleTrack_Unk(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {

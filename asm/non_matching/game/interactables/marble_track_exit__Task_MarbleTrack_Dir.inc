@@ -1,99 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-	thumb_func_start CreateEntity_MarbleTrack_Dir
-CreateEntity_MarbleTrack_Dir: @ 0x080821AC
-	push {r4, r5, r6, r7, lr}
-	sub sp, #4
-	adds r7, r0, #0
-	adds r4, r1, #0
-	adds r5, r2, #0
-	adds r6, r3, #0
-	lsls r4, r4, #0x10
-	lsrs r4, r4, #0x10
-	lsls r5, r5, #0x10
-	lsrs r5, r5, #0x10
-	lsls r6, r6, #0x18
-	lsrs r6, r6, #0x18
-	ldr r0, _0808224C @ =Task_MarbleTrack_Dir
-	ldrb r2, [r7, #6]
-	movs r3, #0x80
-	lsls r3, r3, #6
-	adds r1, r3, #0
-	orrs r2, r1
-	movs r1, #0
-	str r1, [sp]
-	movs r1, #0x6c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r2, r0
-	strh r4, [r3, #4]
-	strh r5, [r3, #6]
-	str r7, [r3]
-	ldrb r0, [r7]
-	strb r0, [r3, #8]
-	strb r6, [r3, #9]
-	ldrb r1, [r7, #5]
-	ldr r4, _08082250 @ =0x0300003D
-	adds r0, r2, r4
-	strb r1, [r0]
-	movs r4, #0
-	ldr r0, _08082254 @ =0x0300003E
-	adds r6, r2, r0
-	movs r1, #0
-	adds r0, #2
-	adds r5, r2, r0
-	adds r0, #8
-	adds r2, r2, r0
-_08082208:
-	adds r0, r6, r4
-	strb r1, [r0]
-	stm r5!, {r1}
-	str r1, [r2]
-	str r1, [r2, #0x10]
-	str r1, [r2, #0x18]
-	adds r2, #4
-	adds r4, #1
-	cmp r4, #1
-	ble _08082208
-	movs r0, #3
-	ldrsb r0, [r7, r0]
-	lsls r0, r0, #3
-	str r0, [r3, #0x50]
-	movs r0, #4
-	ldrsb r0, [r7, r0]
-	lsls r0, r0, #3
-	str r0, [r3, #0x54]
-	adds r1, r3, #0
-	adds r1, #0x68
-	movs r0, #0
-	strb r0, [r1]
-	ldrb r1, [r7, #6]
-	adds r0, r3, #0
-	adds r0, #0x3c
-	strb r1, [r0]
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r7]
-	add sp, #4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0808224C: .4byte Task_MarbleTrack_Dir
-_08082250: .4byte 0x0300003D
-_08082254: .4byte 0x0300003E
-
-	thumb_func_start Task_MarbleTrack_Dir
-Task_MarbleTrack_Dir: @ 0x08082258
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -958,5 +866,4 @@ _08082874: .4byte gPlayer + 0x26
 _08082878: .4byte gNumSingleplayerCharacters
 _0808287C: .4byte gCurTask
 
-.if 0
-.endif
+.syntax divided
