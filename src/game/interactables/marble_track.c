@@ -31,6 +31,7 @@ typedef struct {
     /* 0x68 */ u8 unk68;
 } MarbleTrackDir; /* 0x6C */
 
+/* The chopped-up pipes in Secret Base, which automatically "warp" you downwards */
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -205,7 +206,7 @@ NONMATCH("asm/non_matching/game/interactables/marble_track_exit__Task_MarbleTrac
 }
 END_NONMATCH
 
-void CreateEntity_MarbleTrack_Unk(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+void CreateEntity_MarbleTrack_Pipe(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     struct Task *t = TaskCreate(Task_MarbleTrack_Unk, sizeof(SecretBasePipe), 0x2000 + me->d.sData[1], 0, NULL);
     SecretBasePipe *basePipe = TASK_DATA(t);

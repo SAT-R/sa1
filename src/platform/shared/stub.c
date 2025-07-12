@@ -129,6 +129,8 @@ void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
 void CreateSpecialStageIntro() { }
 
+void TimeAttack_CreateStartMenu() { }
+void TimeAttack_CreateRecordsMenu() { }
 void sub_800E934() { }
 void sub_800F318() { }
 void sub_804EEA8() { }

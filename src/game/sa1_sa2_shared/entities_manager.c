@@ -210,7 +210,7 @@ extern void CreateEntity_Bowl(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_PanelGate_Vertical(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_PanelGate_Horizontal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_MarbleTrack_Dir(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_MarbleTrack_Unk(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MarbleTrack_Pipe(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_MarbleTrack_Entrance(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_MarbleTrack_Exit(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_ConveyorBelt(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -328,7 +328,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 063 */ CreateEntity_PanelGate_Vertical,
     /* 064 */ CreateEntity_PanelGate_Horizontal,
     /* 065 */ CreateEntity_MarbleTrack_Dir,
-    /* 066 */ CreateEntity_MarbleTrack_Unk,
+    /* 066 */ CreateEntity_MarbleTrack_Pipe,
     /* 067 */ CreateEntity_MarbleTrack_Entrance,
     /* 068 */ CreateEntity_MarbleTrack_Exit,
     /* 069 */ CreateEntity_ConveyorBelt, // 069 Also used for snow in Ice Paradise

@@ -3,40 +3,6 @@
 
 .section .rodata
 
-    @ TODO: Word-align this (4) when converting to C!
-    .align 2 , 0
-    .global gUnknown_080BB310
-gUnknown_080BB310:
-    .byte 10, 3, 11, 3
-
-    .global gUnknown_080BB314
-gUnknown_080BB314:
-    .incbin "baserom.gba", 0x000BB314, 0xA
-
-    .global gUnknown_080BB31E
-gUnknown_080BB31E:
-    .incbin "baserom.gba", 0x000BB31E, 0x5
-
-    .global gUnknown_080BB323
-gUnknown_080BB323:
-    .incbin "baserom.gba", 0x000BB323, 0x4
-
-    .global gUnknown_080BB327
-gUnknown_080BB327:
-    .incbin "baserom.gba", 0x000BB327, 0x5
-
-    .global gUnknown_080BB32C
-gUnknown_080BB32C:
-    .int CreateMultiplayerModeSelectScreen
-    .int CreateTimeAttackMenu
-    .int CreateOptionsMenu
-    .int LoadTinyChaoGarden
-
-    .global gUnknown_080BB33C
-gUnknown_080BB33C:
-    .incbin "baserom.gba", 0x000BB33C, 0x4
-    .align 2 , 0
-
 .text
 .syntax unified
 .arm
@@ -83,7 +49,7 @@ CreateSegaLogo: @ 0x0800CFB8
 	movs r1, #0xff
 	strb r1, [r0, #0xa]
 	strb r2, [r0, #0xb]
-	ldr r0, _0800D088 @ =sub_800D3C4
+	ldr r0, _0800D088 @ =Task_SetSegaLogoTask
 	movs r2, #0x80
 	lsls r2, r2, #6
 	str r4, [sp]
@@ -135,13 +101,13 @@ _0800D078: .4byte 0x040000D4
 _0800D07C: .4byte 0x85000010
 _0800D080: .4byte sa2__gUnknown_03004D80
 _0800D084: .4byte sa2__gUnknown_03002280
-_0800D088: .4byte sub_800D3C4
+_0800D088: .4byte Task_SetSegaLogoTask
 _0800D08C: .4byte 0x03000004
 _0800D090: .4byte 0x0600F000
 _0800D094: .4byte 0x0300002E
 
-	thumb_func_start Task_800D098
-Task_800D098: @ 0x0800D098
+	thumb_func_start Task_SegaLogoInit
+Task_SegaLogoInit: @ 0x0800D098
 	push {r4, r5, r6, r7, lr}
 	sub sp, #4
 	ldr r7, _0800D10C @ =gCurTask
@@ -525,19 +491,19 @@ _0800D3BA:
 	.align 2, 0
 _0800D3C0: .4byte gBldRegs
 
-	thumb_func_start sub_800D3C4
-sub_800D3C4: @ 0x0800D3C4
+	thumb_func_start Task_SetSegaLogoTask
+Task_SetSegaLogoTask: @ 0x0800D3C4
 	push {lr}
 	ldr r0, _0800D3D8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0800D3DC @ =Task_800D098
+	ldr r0, _0800D3DC @ =Task_SegaLogoInit
 	str r0, [r1, #8]
 	bl _call_via_r0
 	pop {r0}
 	bx r0
 	.align 2, 0
 _0800D3D8: .4byte gCurTask
-_0800D3DC: .4byte Task_800D098
+_0800D3DC: .4byte Task_SegaLogoInit
 
 	thumb_func_start sub_800D3E0
 sub_800D3E0: @ 0x0800D3E0
@@ -552,7 +518,7 @@ sub_800D3E0: @ 0x0800D3E0
 	strh r0, [r1]
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
-	cmp r0, #0x78
+	cmp r0, #120
 	bne _0800D402
 	ldr r0, _0800D408 @ =sub_800D11C
 	str r0, [r2, #8]
@@ -1522,7 +1488,7 @@ _0800DBFC:
 	lsls r0, r0, #1
 	adds r0, #0x5d
 	strh r0, [r5, #0x18]
-	ldr r0, _0800DCDC @ =gUnknown_080BB31E
+	ldr r0, _0800DCDC @ =sTitlescreenFrameTileSizes
 	adds r0, r6, r0
 	ldrb r0, [r0]
 	bl VramMalloc
@@ -1611,7 +1577,7 @@ _0800DCCC: .4byte 0x03000021
 _0800DCD0: .4byte 0x03000025
 _0800DCD4: .4byte Task_SwitchTo_Task_800DCFC
 _0800DCD8: .4byte gLoadedSaveGame
-_0800DCDC: .4byte gUnknown_080BB31E
+_0800DCDC: .4byte sTitlescreenFrameTileSizes
 _0800DCE0: .4byte gUnknown_080BB310
 _0800DCE4: .4byte gUnknown_080BB314
 _0800DCE8: .4byte gDispCnt

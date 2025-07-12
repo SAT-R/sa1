@@ -2,14 +2,13 @@
 #define GUARD_OPTION_SCREEN_H
 
 #include "global.h"
+#include "config.h"
 #include "game/game_over.h"
 #include "game/save.h"
 #include "sprite.h"
 #include "constants/text.h"
 
 #if (GAME == GAME_SA1)
-
-void CreateEditLanguageScreen(bool8 param0);
 
 typedef struct OptionsScreen {
 } OptionsScreen;
@@ -31,6 +30,8 @@ typedef struct {
     /* 0x28D */ s8 unk28D;
 } EditLanguageScreen; /* 0x290 */
 
+void CreateEditLanguageScreen(bool8 param0);
+void CreateOptionsMenu(void);
 #elif (GAME == GAME_SA2)
 //#include "game/stage/player_controls.h"
 //#include "game/stage/screen_fade.h"
@@ -114,6 +115,7 @@ extern const u16 gUnknown_080D95D6[4][2];
 
 #define ResetProfileScreensSubMenuVram() ({ gProfileScreenSubMenuNextVramAddress = NULL; })
 
+// TODO: Rename to CreateOptionsMenu in SA2.
 void CreateOptionsScreen(u16);
 void CreateTimeAttackLevelSelectScreen(bool16 isBossView, s16 selectedCharacter, s8 currentLevel);
 void CreateNewProfileScreen(void);

@@ -22,15 +22,16 @@ gUnknown_080BB354:
 
     .global gUnknown_080BB35C
 gUnknown_080BB35C:
-    .incbin "baserom.gba", 0x000BB35C, 0x4
+    .short 0x0372, 0x0371
 
     .global gUnknown_080BB360
 gUnknown_080BB360:
-    .incbin "baserom.gba", 0x000BB360, 0x4
+    .byte 1, 1, 0, 0
 
     .global gUnknown_080BB364
 gUnknown_080BB364:
-    .incbin "baserom.gba", 0x000BB364, 0x8
+    mPtr TimeAttack_CreateStartMenu
+    mPtr TimeAttack_CreateRecordsMenu
 
     .global gUnknown_080BB36C
 gUnknown_080BB36C:
