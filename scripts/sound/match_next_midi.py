@@ -33,9 +33,12 @@ for next_song in to_match:
         ldscript.write(ldscript_data)
 
     print('Cleaning build')
-    os.remove("sa1.elf")
-    os.remove("sa1.gba")
-    os.removedirs("build/sa1/sound")
+    try: os.remove("sa1.elf")
+    except: pass
+    try: os.remove("sa1.gba")
+    except: pass
+    try: os.removedirs("build/sa1/sound")
+    except: pass
 
     print('Verifying build')
     error = os.system("make -j8 >/dev/null 2>&1")
