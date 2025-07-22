@@ -195,14 +195,14 @@ song_volumes = {
 }
 
 tone_to_vg = {
-    '6DB8AC': "voicegroup000",
-    '6DBCFC': "voicegroup001",
-    '6DBEAC': "voicegroup002",
-    '6DC128': "voicegroup003",
-    '6DC29C': "voicegroup004",
-    '6DC488': "voicegroup005",
-    '6DCA88': "voicegroup006",
-    '6DD088': "voicegroup007",
+    '86DB8AC': "voicegroup000",
+    '86DBCFC': "voicegroup001",
+    '86DBEAC': "voicegroup002",
+    '86DC128': "voicegroup003",
+    '86DC29C': "voicegroup004",
+    '86DC488': "voicegroup005",
+    '86DCA88': "voicegroup006",
+    '86DD088': "voicegroup007",
 }
 
 play_table_addr = 0x086dd760
