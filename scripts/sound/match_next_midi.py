@@ -27,16 +27,18 @@ for next_song in to_match:
     with open(LDSCRIPT) as ldscript:
         ldscript_data = "".join(ldscript.readlines())
 
-    ldscript_data = ldscript_data.replace("build/sa2/sound/songs/" + next_song + ".o", "build/sa2/sound/songs/midi/" + next_song + ".o")
+    ldscript_data = ldscript_data.replace("build/sa1/sound/songs/" + next_song + ".o", "build/sa1/sound/songs/midi/" + next_song + ".o")
 
     with open(LDSCRIPT, "w") as ldscript:
         ldscript.write(ldscript_data)
 
     print('Cleaning build')
-    os.system('make tidy >/dev/null 2>&1')
+    os.remove("sa1.elf")
+    os.remove("sa1.gba")
+    os.removedirs("build/sa1/sound")
 
     print('Verifying build')
-    error = os.system("make >/dev/null 2>&1")
+    error = os.system("make -j8 >/dev/null 2>&1")
     if not error:
         print('success!')
         os.system('git add -A')
