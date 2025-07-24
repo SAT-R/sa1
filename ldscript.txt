@@ -509,7 +509,7 @@ SECTIONS {
         sound/songs/midi/song304.o(.rodata);
         sound/songs/midi/song305.o(.rodata);
         sound/songs/midi/song306.o(.rodata);
-        sound/songs/song307.o(.rodata);
+        sound/songs/midi/song307.o(.rodata);
         
         src/lib/agb_flash/agb_flash.o(.rodata);
         src/lib/agb_flash/agb_flash_le_512k.o(.rodata);
