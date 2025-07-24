@@ -238,7 +238,13 @@ int main(int argc, char *argv[])
                         t = strrchr(s, '\\'); if (t) begin = t+1;
                         t = strrchr(s, '/'); if (t) begin = t+1;
                         t = strrchr(s, '.'); if (t) *t = 0;
+#if 0
                         strncpy(title, begin, sizeof(header.title));
+#else
+                        // Fix for -Werror=stringop-truncation
+                        begin[sizeof(header.title)] = '\0';
+                        strcpy(title, begin);
+#endif
                         if (!silent) printf("%s\n",begin);
                     }
                     memcpy(header.title, title, sizeof(header.title));    // copy
