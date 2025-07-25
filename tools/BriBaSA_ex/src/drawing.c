@@ -97,6 +97,49 @@ void DrawEntInteractable(AppState *state, int x, int y, int kind, char data[5])
 static void
 DrawEntInteractableSA1(AppState *state, int x, int y, int kind, char data[4])
 {
+    InteractableMeta *ia = &state->paths.interactables.elements[kind];
+    
+    unsigned int flags = 0;
+    Color boundingTint;
+    
+    int offsetX = -(ia->texture.width / 2);
+    int offsetY = -ia->texture.height;
+    int boundingWidth = TILE_DIM;
+    
+    switch(kind) {
+    case IA__TOGGLE_PLAYER_LAYER__FRONT: {
+        boundingTint = RED;
+        flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+    } break;
+
+    case IA__TOGGLE_PLAYER_LAYER__BACK: {
+        boundingTint = GREEN;
+        flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+    } break;
+    
+    case IA__GRIND_RAIL__START:
+    case IA__GRIND_RAIL__END: {
+        boundingTint = DARKBLUE;
+        flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+        flags |= DRAWIA_FLAG_DRAW_MIDDLE_CIRCLE;
+    } break;
+
+    } //
+
+
+    if(flags & DRAWIA_FLAG_DRAW_TEXTURE) {
+        DrawTexture(ia->texture, x + offsetX, y + offsetY, WHITE);
+    }
+    
+    if(flags & DRAWIA_FLAG_DRAW_BOUNDING_BOX) {
+        DRAW_ENTITY_RECT(x, y, data, boundingWidth, boundingTint);
+    }
+
+    if(flags & DRAWIA_FLAG_DRAW_MIDDLE_CIRCLE) {
+        DrawCircle(x, y, 5, PINK);
+        DrawCircleLines(x, y, 5.5, boundingTint);
+    }
+
 }
 
 #if 0

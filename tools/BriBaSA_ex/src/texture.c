@@ -54,7 +54,8 @@ LoadCharacterTextures(char *gameRoot, CharacterList *chars)
     for(int c = 0; c < chars->count; c++) {
         Character *character = &chars->elements[c];
         int frame = 0;
-        const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",
+    /*const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",*/
+        const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/a%04d_f%03d.png",
                                           gameRoot, character->animIdle, frame);
         character->texture = LoadTexture(animPath);
     }
@@ -66,7 +67,8 @@ LoadEntityTextures(char *gameRoot, EntityMetaList *ents)
     for(int c = 0; c < ents->count; c++) {
         EntityMeta *ent = &ents->elements[c];
         int frame = 0;
-        const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",
+    /*const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",*/
+        const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/a%04d_f%03d.png",
                                           gameRoot, ent->anim, frame);
         ent->texture = LoadTexture(animPath);
     }
@@ -78,7 +80,8 @@ LoadInteractableTextures(char *gameRoot, InteractableMetaList *ias)
     for(int c = 0; c < ias->count; c++) {
         InteractableMeta *ia = &ias->elements[c];
         int frame = 0;
-        const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",
+    /*const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",*/
+        const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/a%04d_f%03d.png",
                                           gameRoot, ia->anim, frame);
         ia->texture = LoadTexture(animPath);
     }
@@ -88,8 +91,9 @@ static inline void
 LoadRingTexture(char *gameRoot, EntityMeta *ring)
 {
     int frame = 0;
-    const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",
-                                        gameRoot, ring->anim, frame);
+    /*const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png",*/
+        const char *animPath = TextFormat("%s/graphics/obj_tiles/4bpp/a%04d_f%03d.png",
+                                          gameRoot, ring->anim, frame);
     ring->texture = LoadTexture(animPath);
     
 }
@@ -97,7 +101,7 @@ LoadRingTexture(char *gameRoot, EntityMeta *ring)
 static inline void
 LoadItemTextures(char *gameRoot, ItemMetaList *items, short numCharacters)
 {
-    const char *pathFormat = "%s/graphics/obj_tiles/4bpp/anim_%04d/f%03d.png";
+    const char *pathFormat = "%s/graphics/obj_tiles/4bpp/a%04d_f%03d.png";
 
     // Itembox
     unsigned short animId = items->animItembox;
