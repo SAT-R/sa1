@@ -1,5 +1,6 @@
 #define NOB_IMPLEMENTATION
 #define NOB_STRIP_PREFIX
+#include <stdbool.h>
 #include "nob.h"
 #include "dirs.h"
 
@@ -11,26 +12,34 @@
 #define EXE ""
 #endif
 
-#define BUILD_C_TOOL(_name, ...)                                \
-    {                                                           \
-        nob_cc(&cmd);                                           \
-        nob_cc_tools_flags_c(&cmd, _name);                      \
-        nob_cc_inputs(&cmd,                                     \
-            __VA_ARGS__                                         \
-        );                                                      \
-        nob_cc_output(&cmd, TOOLS_DIR #_name"/"#_name EXE);     \
-        da_append(&procs, cmd_run_async_and_reset(&cmd));       \
+#define BUILD_C_TOOL(_name, ...)                                    \
+    {                                                               \
+        const char *toolExePath = TOOLS_DIR #_name"/"#_name EXE;     \
+                                                                    \
+        if (tool_rebuild_needed(toolExePath, __VA_ARGS__, NULL)) {          \
+            nob_cc(&cmd);                                           \
+            nob_cc_tools_flags_c(&cmd, _name);                      \
+            nob_cc_inputs(&cmd,                                     \
+                __VA_ARGS__                                         \
+            );                                                      \
+            nob_cc_output(&cmd, toolExePath);                       \
+            da_append(&procs, cmd_run_async_and_reset(&cmd));       \
+        }                                                           \
     }
 
-#define BUILD_CPP_TOOL(_name, ...)                              \
-    {                                                           \
-        nob_cxx(&cmd);                                          \
-        nob_cc_tools_flags_cplusplus(&cmd, _name);              \
-        nob_cc_inputs(&cmd,                                     \
-            __VA_ARGS__                                         \
-        );                                                      \
-        nob_cc_output(&cmd, TOOLS_DIR #_name"/"#_name EXE);     \
-        da_append(&procs, cmd_run_async_and_reset(&cmd));       \
+#define BUILD_CPP_TOOL(_name, ...)                                  \
+    {                                                               \
+        const char *toolExePath = TOOLS_DIR #_name"/"#_name EXE;    \
+                                                                    \
+        if (tool_rebuild_needed(toolExePath, __VA_ARGS__, NULL)) {        \
+            nob_cxx(&cmd);                                          \
+            nob_cc_tools_flags_cplusplus(&cmd, _name);              \
+            nob_cc_inputs(&cmd,                                     \
+                __VA_ARGS__                                         \
+            );                                                      \
+            nob_cc_output(&cmd, toolExePath);                       \
+            da_append(&procs, cmd_run_async_and_reset(&cmd));       \
+        }                                                           \
     }
 
 /* Our nob.c implementation using the nob.h library 
@@ -46,6 +55,7 @@
 */
 
 void build_tools_if_outdated(void);
+bool tool_rebuild_needed(const char *toolExePath, ...);
 void set_obj_dir(Cmd *cmd, char *path);
 void log_nob_temp_size(void);
 
@@ -80,9 +90,6 @@ void build_tools_if_outdated(void)
     BUILD_C_TOOL(bin2c, 
         TOOLS_DIR "bin2c/bin2c.c");
 
-#if 0
-    // TODO: Doesn't compile currently, overall.
-    //       Reenable it once it does.
     { /* BriBaSA_ex */
         const char *baseDir = get_current_dir_temp();
         if(nob_set_current_dir("./tools/BriBaSA_ex"))
@@ -96,7 +103,6 @@ void build_tools_if_outdated(void)
         da_append(&procs, cmd_run_async_and_reset(&cmd));
         nob_set_current_dir(baseDir);
     }
-#endif
     
 #if 01
     // TODO
@@ -146,6 +152,28 @@ void build_tools_if_outdated(void)
         nob_log(ERROR, "Error building tools");
         return;
     }
+}
+
+bool tool_rebuild_needed(const char *toolExePath, ...)
+{
+    Nob_File_Paths source_paths = {0};
+    va_list args;
+    va_start(args, toolExePath);
+    for (;;) {
+        const char *path = va_arg(args, const char*);
+        if (path == NULL) break;
+        nob_da_append(&source_paths, path);
+    }
+    va_end(args);
+
+    int rebuild_is_needed = nob_needs_rebuild(toolExePath, source_paths.items, source_paths.count);
+    if (rebuild_is_needed < 0) exit(-3); // error
+    if (!rebuild_is_needed) {           // no rebuild is needed
+        NOB_FREE(source_paths.items);
+        return false;
+    }
+
+    return true;
 }
 
 void log_nob_temp_size(void)

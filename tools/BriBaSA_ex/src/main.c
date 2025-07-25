@@ -559,7 +559,7 @@ SetNewMetatiles(AppState *state, int x, int y)
         if(state->game == GAME_SA1)
         {
             if(map->flags & MAP_FLAG_SHOW_BACK_LAYER) {
-                unsigned unsigned char *layoutBack  = state->paths.map.layers[LAYER_BACK].data;
+                unsigned char *layoutBack  = state->paths.map.layers[LAYER_BACK].data;
 
                 if(layoutBack[targetIndex] != map->selectedMetatileIndexBack) {
                     layoutBack[targetIndex]  = map->selectedMetatileIndexBack;
@@ -568,7 +568,7 @@ SetNewMetatiles(AppState *state, int x, int y)
             }
 
             if(map->flags & MAP_FLAG_SHOW_FRONT_LAYER) {
-                unsigned unsigned char *layoutFront = state->paths.map.layers[LAYER_FRONT].data;
+                unsigned char *layoutFront = state->paths.map.layers[LAYER_FRONT].data;
 
                 if(layoutFront[targetIndex] != map->selectedMetatileIndexFront) {
                     layoutFront[targetIndex] = map->selectedMetatileIndexFront;
