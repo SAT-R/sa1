@@ -63,6 +63,8 @@ Temporary Items
 
 *.hex
 *.o
+*.obj
+*.rdi 
 *.dump
 build
 tools/agbcc

@@ -99,7 +99,7 @@ int main(void)
     }
 #endif
 
-    state.game = GAME_SA2; // TODO: Load from settings.txt if it exists
+    state.game = GAME_SA1; // TODO: Load from settings.txt if it exists
 
 
     // NOTE: We could just use "../../" for the check,
@@ -360,9 +360,19 @@ LoadEntityDataFromCSVs(AppState *state)
         EditorEntity *ent = &entities.elements[i];
 
         if(ent->etype == ET_INTERACTABLE) {
-            if(ent->kind == IA__GOAL_LEVER) {
-                state->map.endX = ent->worldX;
-                state->map.endY = ent->worldY;
+            if(state->game == GAME_SA1)
+            {
+                if(ent->kind == IA__STAGE_GOAL) {
+                    state->map.endX = ent->worldX;
+                    state->map.endY = ent->worldY;
+                }
+            } else if(state->game == GAME_SA2) {
+#if 0
+                if(ent->kind == IA__GOAL_LEVER) {
+                    state->map.endX = ent->worldX;
+                    state->map.endY = ent->worldY;
+                }
+#endif
             }
         } else {
             // We just created the list in order, so we can be sure that
@@ -577,14 +587,20 @@ GetMousePositionInRec(Rectangle rec) {
 }
 
 inline int
-GetMetatileIndex(StageMap *map, Tilemap* tilemap, MetatileLayer layer, int x, int y)
+GetMetatileIndex(GameId game, StageMap *map, Tilemap* tilemap, MetatileLayer layer, int x, int y)
 {
     ///assert(layer < LAYER_COUNT);
 
     if(x >= 0 && y >= 0
-    && x < map->width && y < map->height) {        
-        uint16_t *mtIndices = tilemap->layers[layer].data;
-        return mtIndices[y * map->width + x];
+    && x < map->width && y < map->height) {
+        if(game == GAME_SA1)
+        {
+            uint8_t *mtIndices = tilemap->layers[layer].data;
+            return mtIndices[y * map->width + x];
+        } else {
+            uint16_t *mtIndices = tilemap->layers[layer].data;
+            return mtIndices[y * map->width + x];
+        }
     } else {
         return 0;
     }
@@ -638,8 +654,8 @@ HandleMouseInput(AppState *state, Rectangle recMap)
                     map->selectedMetatile.x = mtMouse.x;
                     map->selectedMetatile.y = mtMouse.y;
 
-                    int mtIndexFront = GetMetatileIndex(&state->map, &state->paths.map, LAYER_FRONT, state->map.selectedMetatile.x, state->map.selectedMetatile.y);
-                    int mtIndexBack  = GetMetatileIndex(&state->map, &state->paths.map, LAYER_BACK , state->map.selectedMetatile.x, state->map.selectedMetatile.y);
+                    int mtIndexFront = GetMetatileIndex(state->game, &state->map, &state->paths.map, LAYER_FRONT, state->map.selectedMetatile.x, state->map.selectedMetatile.y);
+                    int mtIndexBack  = GetMetatileIndex(state->game, &state->map, &state->paths.map, LAYER_BACK , state->map.selectedMetatile.x, state->map.selectedMetatile.y);
     
                     state->map.selectedMetatileIndexFront = mtIndexFront;
                     state->map.selectedMetatileIndexBack  = mtIndexBack;
