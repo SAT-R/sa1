@@ -72,8 +72,6 @@ int main(int argc, char **argv)
     log_nob_temp_size();
 }
 
-// TODO: Actually check for outdatedness...
-//       ...or is it better to always build everything?
 void build_tools_if_outdated(void)
 {
     Cmd cmd = {0};
