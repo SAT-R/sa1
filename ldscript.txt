@@ -345,7 +345,7 @@ SECTIONS {
         sound/songs/midi/song013.o(.rodata);
         sound/songs/midi/song014.o(.rodata);
         sound/songs/midi/song015.o(.rodata);
-        sound/songs/song016.o(.rodata);
+        sound/songs/midi/song016.o(.rodata);
         sound/songs/song017.o(.rodata);
         sound/songs/midi/song018.o(.rodata);
         sound/songs/midi/song019.o(.rodata);
