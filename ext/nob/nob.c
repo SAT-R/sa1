@@ -18,6 +18,7 @@
 #include <x86intrin.h>
 #define GET_HIGH_RES_TIMER() __rdtsc()
 #else
+#warning "WARNING: This CPU-arch needs to have an equivalent to __rdtsc() implemented to measure time correctly.
 #define GET_HIGH_RES_TIMER() 0
 #endif
 #endif
@@ -80,52 +81,190 @@
 
 */
 
-void build_tools(void);
-void link_shared_libs(void);
-void build_shared_libs(void);
+typedef enum {
+    PLATFORM_NONE         = 0,
+    PLATFORM_GBA          = 1,
+    PLATFORM_SDL          = 2,
+    PLATFORM_SDL_WIN32    = 3, // might be redundant?
+    PLATFORM_WIN32        = 4,
+    PLATFORM_LINUX        = 5,
+    PLATFORM_MAC_OS       = 6,
+
+    PLATFORM_COUNT
+} EPlatform;
+
+const char *platform_idents[PLATFORM_COUNT] = {
+    [PLATFORM_NONE] = "none",
+    [PLATFORM_GBA] = "gba",
+    [PLATFORM_SDL] = "sdl",
+    [PLATFORM_SDL_WIN32] = "sdl_win32",
+    [PLATFORM_WIN32] = "win32",
+    [PLATFORM_LINUX] = "linux",
+    [PLATFORM_MAC_OS] = "mac_os",
+};
+
+typedef struct Parameters {
+    unsigned int target_platform  : 4;
+    unsigned int is_debug_build   : 1;
+    unsigned int only_build_tools : 1;
+    unsigned int reserved_2_3     : 2;
+} Parameters;
+
+void build_tools(const Parameters build_params);
+void link_shared_libs(const Parameters build_params);
+void build_shared_libs(const Parameters build_params);
 void build_bribasa(Cmd *cmd, Procs *procs);
 void build_epos_tool(Cmd *cmd, Procs *procs);
 void build_gbagfx(Cmd *cmd, Procs *procs);
 void build_c_tool(Cmd *cmd, Procs *procs, const char *tool_name);
 void build_cpp_tool(Cmd *cmd, Procs *procs, const char *tool_name);
+void build_game_assets(const Parameters build_params);
+void build_game_code(const Parameters build_params);
 bool tool_rebuild_needed(const char *toolExePath, ...);
 bool tool_rebuild_needed_2(const char *toolExePath, Nob_File_Paths *source_paths, Nob_File_Paths *header_paths);
 void set_obj_dir(Cmd *cmd, char *path);
 void log_nob_temp_size(void);
 
+Parameters parse_program_parameters(int *argc, char ***argv);
+
 int main(int argc, char **argv)
 {
+    long long buildStart,          buildEnd;
+    long long paramParseStart,     paramParseEnd;
+    long long timeSharedLibsStart, timeSharedLibsEnd;
+    long long timeToolsStart,      timeToolsEnd;
+    long long timeGameAssetsStart, timeGameAssetsEnd;
+    long long timeGameCodeStart,   timeGameCodeEnd;
+
     NOB_GO_REBUILD_URSELF(argc, argv);
     
+    const char *binary_path = nob_shift(argv, argc);
+
     if (!mkdir_if_not_exists(BUILD_DIR)) return -1;
 
-    long long timeSharedLibsStart, timeSharedLibsEnd, timeToolsEnd;
-    // if (platform == gba) acquire_and_install_agbcc();
+
+    buildStart = paramParseStart = GET_HIGH_RES_TIMER();
+
+    const Parameters build_params = parse_program_parameters(&argc, &argv); 
+    paramParseEnd = GET_HIGH_RES_TIMER();
+    
+     if(!build_params.only_build_tools && build_params.target_platform == PLATFORM_NONE) {
+        nob_log(ERROR,  "No target platform was set.\n"
+                        "        Please set it by calling 'nob"EXE" -target <arg>'\n"
+                        "        and replacing '<arg>' (without <>) with one of the following:");
+
+        for(int platform_id = PLATFORM_NONE+1; platform_id < PLATFORM_COUNT; platform_id++)
+        {
+            printf("        - %s \n", platform_idents[platform_id]);
+        }
+
+        return -1;
+    }
 
     timeSharedLibsStart = GET_HIGH_RES_TIMER();
-    build_shared_libs();
-    timeSharedLibsEnd = GET_HIGH_RES_TIMER();
-    build_tools();
+    build_shared_libs(build_params);
+    timeToolsStart = timeSharedLibsEnd = GET_HIGH_RES_TIMER();
+    build_tools(build_params);
     timeToolsEnd = GET_HIGH_RES_TIMER();
 
+    if(!build_params.only_build_tools)
+    {
+        timeGameAssetsStart = GET_HIGH_RES_TIMER();
+        build_game_assets(build_params);
+        timeGameCodeStart = timeGameAssetsEnd = GET_HIGH_RES_TIMER();
+        build_game_code(build_params);
+        timeGameCodeEnd = GET_HIGH_RES_TIMER();
+    }
+
+    // NOTE: Technically slightly inaccurate, but avoids early-assignment bugs.
+    buildEnd = GET_HIGH_RES_TIMER();
     printf(
         "TIME:\n"
-        "- Shared Libs: %lld ticks\n"
-        "- Tools:       %lld ticks\n",
+        "- Arg parsing: %14lld ticks\n"
+        "- Shared Libs: %14lld ticks\n"
+        "- Tools:       %14lld ticks\n"
+        "- Game Assets: %14lld ticks\n"
+        "- Game Code:   %14lld ticks\n"
+        "\n"
+        "___________________________________\n"
+        "- TOTAL:       %14lld ticks\n",
+        (paramParseEnd - paramParseStart),
         (timeSharedLibsEnd - timeSharedLibsStart),
-        (timeToolsEnd - timeSharedLibsEnd)
+        (timeToolsEnd - timeToolsStart),
+        (timeGameAssetsEnd - timeGameAssetsStart),
+        (timeGameCodeEnd - timeGameCodeStart),
+        (buildEnd - buildStart)
     );
 
     log_nob_temp_size();
 }
 
+// Turn parameters given to nob.exe into a 'Parameters' data structure.
+// 
+// Parameters without a dash have no arguments:
+// * nob release / nob debug   # turns debug compilation off / on
+// 
+// Parameters with a dash do have arguments:
+// * nob -target gba           # Builds the original target
+// * nob -target gba debug     # Builds a debug version of the original target
+//
+// If the same parameter is given multiple times, the last one in the list counts.
+Parameters parse_program_parameters(int *argc, char ***argv)
+{
+    Parameters params = {0};
+
+    while(*argc > 0)
+    {
+        const char *arg = strlwr(nob_shift(*argv, *argc));
+
+        if(arg == NULL) break;
+
+        if(!strcmp(arg, "release")) {
+            params.is_debug_build = false;
+        } else if(!strcmp(arg, "debug")) {
+            params.is_debug_build = true;
+        } else if(!strcmp(arg, "only_build_tools")) {
+            params.only_build_tools = true;
+        } else if(!strcmp(arg, "-target")) {
+            if(*argc > 0) {
+                const char *arg_param = strlwr(nob_shift(*argv, *argc));
+                if(arg_param == NULL) break;
+
+                EPlatform platform_id;
+                for(platform_id = PLATFORM_NONE; platform_id < PLATFORM_COUNT; platform_id++)
+                {
+                    if(!strcmp(arg_param, platform_idents[platform_id]))
+                    {
+                        params.target_platform = platform_id;
+                        nob_log(INFO, "Target: '%s'", arg_param);
+                        break;
+                    }
+                }
+
+                if(platform_id == PLATFORM_COUNT) {
+                    nob_log(ERROR, "Unknown build target: '%s'", arg_param);
+                    exit(-5);
+                }
+            } else {
+                nob_log(ERROR, "No argument given for param '%s'", arg);
+                exit(-6);
+            }
+        } else {
+            nob_log(ERROR, "Unknown program argument: '%s'", arg);
+            exit(-7);
+        }
+    }
+
+    return params;
+}
+
 void log_nob_temp_size(void)
 {
-    nob_log(INFO, "nob_temp_size: 0x%X/0x%X (~%.2f%%)\n",
+    nob_log(INFO, "nob_temp_size: 0x%X/0x%X (~%.4f%%)\n",
         (int)nob_temp_size, NOB_TEMP_CAPACITY, ((float)nob_temp_size / (float)NOB_TEMP_CAPACITY));
 }
 
-void build_shared_libs(void)
+void build_shared_libs(const Parameters build_params)
 {
     Cmd cmd = {0};
     Procs procs = {0};
@@ -228,7 +367,7 @@ void build_shared_libs(void)
             return;
         }
     
-        link_shared_libs();
+        link_shared_libs(build_params);
     } else {
         nob_log(INFO, "Shared tool libraries are up-to-date.\n");
     }
@@ -271,11 +410,14 @@ void link_shared_libs(void)
     
 }
 
-void build_tools(void)
+void build_tools(const Parameters build_params)
 {
     Cmd cmd = {0};
     Procs procs = {0};
     
+    // TODO: 
+    // if (build_params.target_platform == PLATFORM_GBA) acquire_compile_and_install_agbcc(&cmd, &procs);
+
     Nob_File_Paths toolDirs = {0};
 
     build_c_tool(&cmd, &procs, "aif2pcm");
@@ -600,4 +742,12 @@ void build_gbagfx(Cmd *cmd, Procs *procs)
 
         da_append(procs, cmd_run_async_and_reset(cmd));     
     }    
+}
+
+void build_game_assets(const Parameters build_params)
+{
+}
+
+void build_game_code(const Parameters build_params)
+{
 }
