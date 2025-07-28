@@ -126,7 +126,7 @@ $(MID_SUBDIR)/song039.s: %.s: %.mid
 	$(MID2AGB) $< $@ -C $(MIDI_COMMENTS) -E -R$(STD_REVERB) -G0  -V127
     
 $(MID_SUBDIR)/song040.s: %.s: %.mid
-	$(MID) $< $@ -E -R178 -G0  -V127
+	$(MID2AGB) $< $@ -C $(MIDI_COMMENTS) -E -R178 -G0  -V127
     
 $(MID_SUBDIR)/song041.s: %.s: %.mid
 	$(MID2AGB) $< $@ -C $(MIDI_COMMENTS) -E -R$(STD_REVERB) -G0  -V115
