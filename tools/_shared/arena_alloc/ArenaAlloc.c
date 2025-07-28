@@ -24,7 +24,7 @@ void *mremap(void *old_address, size_t old_size, size_t new_size, int flags, voi
 #include "types.h"
 #include "ArenaAlloc.h"
 
-#define ARENA_SIZE (1*1024*1024*1024)
+#define ARENA_SIZE (64*1024*1024)
 
 static void memArenaExpand(MemArena *arena, s32 numNewArenas);
 
@@ -50,8 +50,7 @@ static void *memArenaVirtualAlloc(void* baseAddress, size_t size) {
         return NULL;
     }
 #elif (defined _MSC_VER)
-    // TODO/TEMP: Just reserve 2GB for each arena
-    u64 memoryAmount = GetGigabytes(1);
+    u64 memoryAmount = ARENA_SIZE;
     memory = VirtualAlloc(baseAddress, memoryAmount, (MEM_COMMIT | MEM_RESERVE), PAGE_READWRITE);
 #else
     // TODO/TEMP: Just reserve 2GB for each arena

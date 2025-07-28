@@ -560,6 +560,24 @@ bool nob_set_current_dir(const char *path);
 #  endif
 #endif // nob_cc_output
 
+// Added by JaceCear (20:06, 24.07.2025)
+// TODO: Right now tool compilation seems to throw a ton of warnings in MSVC, so we just don't use -Wall for now...
+// TODO: Replace nob_cc_tools_flags_c and nob_cc_tools_flags_cplusplus with these
+#ifndef nob_cc_tools_flags_c_2
+#  if defined(_MSC_VER) && !defined(__clang__)
+#    define nob_cc_tools_flags_c_2(cmd, _toolName) nob_cmd_append(cmd, "/O2", "/EHsc")
+#  else
+#    define nob_cc_tools_flags_c_2(cmd, _toolName) nob_cmd_append(cmd, "-O3", "-Wall", "-std=c11", "-Wno-unused-result", "-Wno-switch", "-Werror", "-s")
+#  endif
+#endif // nob_cc_output
+#ifndef nob_cc_tools_flags_cplusplus_2
+#  if defined(_MSC_VER) && !defined(__clang__)
+#    define nob_cc_tools_flags_cplusplus_2(cmd, _toolName) nob_cmd_append(cmd, "/O2", "/EHsc")
+#  else
+#    define nob_cc_tools_flags_cplusplus_2(cmd, _toolName) nob_cmd_append(cmd, "-O3", "-Wall", "-std=c++11", "-Wno-unused-result", "-Wno-switch", "-Werror", "-s")
+#  endif
+#endif // nob_cc_output
+
 #ifndef nob_cc_output
 #  if defined(_MSC_VER) && !defined(__clang__)
 #    define nob_cc_output(cmd, output_path) nob_cmd_append(cmd, nob_temp_sprintf("/Fe:%s", (output_path)))
