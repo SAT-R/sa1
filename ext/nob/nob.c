@@ -6,6 +6,22 @@
 
 /* WIP Build program for the Sonic Advance games, using nob.h */
 
+#if defined(_MSC_VER)
+#if defined(__x86_64__) || defined(__i386) || defined(_M_IX86) || defined(_M_X64)
+#include <intrin.h>
+#define GET_HIGH_RES_TIMER() __rdtsc()
+#else
+#define GET_HIGH_RES_TIMER() 0
+#endif
+#else // Not Windows
+#if defined(__x86_64__) || defined(__i386)
+#include <x86intrin.h>
+#define GET_HIGH_RES_TIMER() __rdtsc()
+#else
+#define GET_HIGH_RES_TIMER() 0
+#endif
+#endif
+
 #if defined(_WIN32) || defined(_MSC_VER)
 #define EXE ".exe"
 #else
@@ -64,7 +80,7 @@
 
 */
 
-void build_tools_if_outdated(void);
+void build_tools(void);
 void link_shared_libs(void);
 void build_shared_libs(void);
 void build_bribasa(Cmd *cmd, Procs *procs);
@@ -83,10 +99,22 @@ int main(int argc, char **argv)
     
     if (!mkdir_if_not_exists(BUILD_DIR)) return -1;
 
+    long long timeSharedLibsStart, timeSharedLibsEnd, timeToolsEnd;
     // if (platform == gba) acquire_and_install_agbcc();
 
+    timeSharedLibsStart = GET_HIGH_RES_TIMER();
     build_shared_libs();
-    build_tools_if_outdated();
+    timeSharedLibsEnd = GET_HIGH_RES_TIMER();
+    build_tools();
+    timeToolsEnd = GET_HIGH_RES_TIMER();
+
+    printf(
+        "TIME:\n"
+        "- Shared Libs: %lld ticks\n"
+        "- Tools:       %lld ticks\n",
+        (timeSharedLibsEnd - timeSharedLibsStart),
+        (timeToolsEnd - timeSharedLibsEnd)
+    );
 
     log_nob_temp_size();
 }
@@ -110,20 +138,20 @@ void build_shared_libs(void)
         const char *libPath = LOCAL_LIB_DIR LIB_FILENAME(arena_alloc);
 
         if (tool_rebuild_needed(libPath,
-            LOCAL_LIB_DIR"ArenaAlloc.c", 
-            LOCAL_LIB_DIR"ArenaAlloc.h", 
+            LOCAL_LIB_DIR"arena_alloc.c", 
+            LOCAL_LIB_DIR"arena_alloc.h", 
             NULL))
         {          
             nob_cc(&cmd);                                               
             nob_cc_inputs(&cmd,
-                LOCAL_LIB_DIR"ArenaAlloc.c"
+                LOCAL_LIB_DIR"arena_alloc.c"
             );
 #if defined(_WIN32) || defined(_MSC_VER)
             nob_cmd_append(&cmd, "/O2", "/c", "/EHsc");
             nob_cmd_append(&cmd, "/Fo" LOCAL_LIB_DIR);
 #else
             nob_cmd_append(&cmd, "-O2", "-static", "-c");
-            nob_cmd_append(&cmd, "-o", LOCAL_LIB_DIR OBJ_FILENAME(ArenaAlloc));
+            nob_cmd_append(&cmd, "-o", LOCAL_LIB_DIR OBJ_FILENAME(arena_alloc));
 #endif
             da_append(&procs, cmd_run_async_and_reset(&cmd));
 
@@ -215,7 +243,7 @@ void link_shared_libs(void)
         #undef  LOCAL_LIB_DIR
         #define LOCAL_LIB_DIR TOOLS_DIR"_shared/arena_alloc/"
         LINK_LIBRARY(&cmd, arena_alloc, LOCAL_LIB_DIR,
-            LOCAL_LIB_DIR OBJ_FILENAME(ArenaAlloc));
+            LOCAL_LIB_DIR OBJ_FILENAME(arena_alloc));
         da_append(&procs, cmd_run_async_and_reset(&cmd));
     }
 
@@ -243,7 +271,7 @@ void link_shared_libs(void)
     
 }
 
-void build_tools_if_outdated(void)
+void build_tools(void)
 {
     Cmd cmd = {0};
     Procs procs = {0};
