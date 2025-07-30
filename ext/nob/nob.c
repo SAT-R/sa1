@@ -191,7 +191,7 @@ int main(int argc, char **argv)
     long long ts_game_assets_start, ts_game_assets_end;
     long long ts_game_code_start,   ts_game_code_end;
 
- //   NOB_GO_REBUILD_URSELF(argc, argv);
+    NOB_GO_REBUILD_URSELF(argc, argv);
     
     const char *binary_path = nob_shift(argv, argc);
 
