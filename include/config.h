@@ -1,7 +1,7 @@
 #ifndef GUARD_SA1_CONFIG_H
 #define GUARD_SA1_CONFIG_H
 
-/* TODO: Move config.h into a different location? */
+/* TODO: Generate config.h in nob */
 
 #define GAME_SA1   1
 #define GAME_SA2   2
