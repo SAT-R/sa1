@@ -372,7 +372,7 @@ SECTIONS {
         sound/songs/song040.o(.rodata);
         sound/songs/song041.o(.rodata);
         sound/songs/song042.o(.rodata);
-        sound/songs/se_sp_stage_trick.o(.rodata);
+        sound/songs/mus_sp_stage_trick.o(.rodata);
         sound/songs/song044.o(.rodata);
         sound/songs/song045.o(.rodata);
         sound/songs/song046.o(.rodata);
