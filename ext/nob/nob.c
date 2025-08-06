@@ -6,6 +6,13 @@
 
 /* WIP Build program for the Sonic Advance games, using nob.h by Tsoding, with some modifications. */
 
+#ifndef ARRAY_COUNT
+#define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
+#endif
+
+// inline nob_sv_from_cstr implementation for compile-time data initializations
+#define SV_FROM_CSTR(cstr) {ARRAY_COUNT(cstr) - 1, (cstr)}
+
 #if defined(_MSC_VER)
 #if defined(__x86_64__) || defined(__i386) || defined(_M_IX86) || defined(_M_X64)
 #include <intrin.h>
@@ -38,36 +45,6 @@
 #define OBJ_FILENAME(_name) #_name".o"
 #define LINK_LIBRARY(cmd, _name, _path, ...) nob_cmd_append(cmd,  "ar", "-rcs", _path LIB_FILENAME(_name), __VA_ARGS__)
 #endif
-
-#define BUILD_C_TOOL(_name, ...)                                    \
-    {                                                               \
-        const char *toolExePath = TOOLS_DIR #_name"/"#_name EXE;    \
-                                                                    \
-        if (tool_rebuild_needed(toolExePath, __VA_ARGS__, NULL)) {  \
-            nob_cc(&cmd);                                           \
-            nob_cc_tools_flags_c(&cmd, _name);                      \
-            nob_cc_inputs(&cmd,                                     \
-                __VA_ARGS__                                         \
-            );                                                      \
-            nob_cc_output(&cmd, toolExePath);                       \
-            da_append(&procs, cmd_run_async_and_reset(&cmd));       \
-        }                                                           \
-    }
-
-#define BUILD_CPP_TOOL(_name, ...)                                  \
-    {                                                               \
-        const char *toolExePath = TOOLS_DIR #_name"/"#_name EXE;    \
-                                                                    \
-        if (tool_rebuild_needed(toolExePath, __VA_ARGS__, NULL)) {  \
-            nob_cxx(&cmd);                                          \
-            nob_cc_tools_flags_cplusplus(&cmd, _name);              \
-            nob_cc_inputs(&cmd,                                     \
-                __VA_ARGS__                                         \
-            );                                                      \
-            nob_cc_output(&cmd, toolExePath);                       \
-            da_append(&procs, cmd_run_async_and_reset(&cmd));       \
-        }                                                           \
-    }
 
 /* Our nob.c implementation using the nob.h library 
 
@@ -148,8 +125,6 @@ const char *game_idents[GAME_COUNT][VERSION_COUNT] = {
     [GAME_KATAM] = {"katam", "katam_debug"}, 
 };
 
-#define TOOL_MID2AGB "tools/mid2agb/mid2agb"EXE
-
 typedef struct Parameters {
     unsigned int target_platform  : 4;
     unsigned int target_cpu_arch  : 4;
@@ -159,7 +134,10 @@ typedef struct Parameters {
     unsigned int debug_target     : 1;
     unsigned int debug_tools      : 1;
     unsigned int only_build_tools : 1;
+
     const char *build_dir;
+    const char *compiler_prefix;
+    const char *compiler_toolchain;
 } Parameters;
 
 void build_tools(const Parameters build_params);
@@ -174,13 +152,17 @@ void build_game_assets(const Parameters build_params);
 void build_sound_data(const Parameters build_params);
 void build_songs(const Parameters build_params);
 void build_game_code(const Parameters build_params);
+Nob_String_View chop_file_extension(const char *file_path);
 bool tool_rebuild_needed(const char *toolExePath, ...);
 bool tool_rebuild_needed_2(const char *toolExePath, Nob_File_Paths *source_paths, Nob_File_Paths *header_paths);
 void set_obj_dir(Cmd *cmd, char *path);
 void log_nob_temp_size(void);
 char *replace_extension_temp(const char *file_path, const char *ext);
 
-Parameters parse_program_parameters(int *argc, char ***argv);
+Parameters parse_program_parameters(int *argc, char **argv[]);
+void parse_program_parameter_game(Parameters *build_params, const char *arg, int *argc, char **argv[]);
+void parse_program_parameter_target(Parameters *build_params, const char *arg, int *argc, char **argv[]);
+
 
 int main(int argc, char **argv)
 {
@@ -202,7 +184,7 @@ int main(int argc, char **argv)
     const Parameters build_params = parse_program_parameters(&argc, &argv); 
     ts_param_parse_end = GET_HIGH_RES_TIMER();
     
-    if(!build_params.only_build_tools && build_params.target_platform == PLATFORM_NONE) {
+    if(!build_params.only_build_tools && (PLATFORM_NONE == build_params.target_platform)) {
         nob_log(ERROR,  "No target platform was set.\n"
                         "        Please set it by calling 'nob"EXE" -target <arg>'\n"
                         "        and replacing '<arg>' (without <>) with one of the following:");
@@ -247,10 +229,10 @@ int main(int argc, char **argv)
         "- TOTAL:       %14lld ticks\n",
         (ts_param_parse_end - ts_param_parse_start),
         (ts_shared_libs_end - ts_shared_libs_start),
-        (ts_tools_end - ts_tools_start),
+        (ts_tools_end       - ts_tools_start),
         (ts_game_assets_end - ts_game_assets_start),
-        (ts_game_code_end - ts_game_code_start),
-        (ts_build_end - ts_build_start)
+        (ts_game_code_end   - ts_game_code_start),
+        (ts_build_end       - ts_build_start)
     );
 
     log_nob_temp_size();
@@ -286,13 +268,14 @@ Parameters parse_program_parameters(int *argc, char ***argv)
 
     build_params.target_game = GAME_SA1;
 
-    while(*argc > 0)
-    {
+    while(*argc > 0) {
         const char *arg = strlower(nob_shift(*argv, *argc));
+        if(!arg) break;
 
-        if(arg == NULL) break;
-
-        if(!strcmp(arg, "release")) {
+        // If you add parameters, please make sure to
+        // add argument-less params before ones with arguments (and a '-' prefix) start
+        if(0) {
+        } else if(!strcmp(arg, "release")) {
             build_params.debug_target = false;
         } else if(!strcmp(arg, "debug")) {
             build_params.debug_target = true;
@@ -301,99 +284,138 @@ Parameters parse_program_parameters(int *argc, char ***argv)
         } else if(!strcmp(arg, "only_build_tools")) {
             build_params.only_build_tools = true;
         } else if(!strcmp(arg, "match_target")) {
-            if(build_params.target_platform == PLATFORM_GBA
-            || build_params.target_platform == PLATFORM_NONE) {
+            if(PLATFORM_GBA == build_params.target_platform) {
                 build_params.match_target = true;
-            } else if(build_params.target_platform != PLATFORM_NONE) {
+            } else {
                 nob_log(WARNING, "Target platform is '%s'. Option '%s' ignored.", platform_idents[build_params.target_platform], arg);
             }
         } else if(!strcmp(arg, "-game")) {
-            if(*argc > 0) {
-                const char *arg_param = strlower(nob_shift(*argv, *argc));
-                if(arg_param == NULL) break;
-
-                EGame game_id;
-                for(game_id = GAME_NONE+1; game_id < GAME_COUNT; game_id++)
-                {
-                    if(!strcmp(arg_param, game_idents[game_id][VERSION_RELEASE]))
-                    {
-                        build_params.target_game = game_id;
-                        nob_log(INFO, "Game:   %s", arg_param);
-
-                        break;
-                    }
-                }
-                
-                if(game_id >= GAME_KATAM) {
-                    nob_log(WARNING, "'%s' is not a supported game!", arg_param);
-                    exit(-5);
-                }
-            } else {
-                nob_log(ERROR, "No argument given for param '%s'", arg);
-                exit(-6);
-            }
+            parse_program_parameter_game(&build_params, arg, argc, argv);
         } else if(!strcmp(arg, "-target")) {
-            if(*argc > 0) {
-                const char *arg_param = strlower(nob_shift(*argv, *argc));
-                if(arg_param == NULL) break;
-
-                EPlatform platform_id;
-                for(platform_id = PLATFORM_NONE; platform_id < PLATFORM_COUNT; platform_id++)
-                {
-                    if(!strcmp(arg_param, platform_idents[platform_id]))
-                    {
-                        build_params.target_platform = platform_id;
-                        nob_log(INFO, "Target: %s", arg_param);
-                        break;
-                    }
-                }
-
-                if(platform_id == PLATFORM_COUNT) {
-                    nob_log(ERROR, "Unknown build target: '%s'", arg_param);
-                    exit(-5);
-                }
-
-                switch(platform_id)
-                {
-                case PLATFORM_GBA: {
-                    build_params.target_cpu_arch = ARCH_ARM;
-                    build_params.target_is_64bit = false;
-                } break;
-
-                case PLATFORM_WIN32: {
-                    // TODO: Add Windows ARM build support?
-                    build_params.target_cpu_arch = ARCH_X86;
-                    build_params.target_is_64bit = true;
-
-                    // Don't enable matching by default, but disable it when !PLATFORM_GBA
-                    build_params.match_target = false;
-                } break;
-
-                default: {
-                    build_params.target_is_64bit = true;
-
-                    // Don't enable matching by default, but disable it when !PLATFORM_GBA
-                    build_params.match_target = false;
-                } break;
-                }
-
-                nob_log(INFO, "Arch:   %s", arch_idents[build_params.target_cpu_arch]);
-            } else {
-                nob_log(ERROR, "No argument given for param '%s'", arg);
-                exit(-6);
-            }
+            parse_program_parameter_target(&build_params, arg, argc, argv);
         } else {
             nob_log(ERROR, "Unknown program argument: '%s'", arg);
             exit(-7);
         }
     }
-    
+
     const char *platform_ident = platform_idents[build_params.target_platform];
     const char *game_ident     = game_idents[build_params.target_game][build_params.debug_target];
     const char *build_dir  = nob_temp_sprintf(BUILD_DIR"%s/%s/", platform_ident, game_ident);
     build_params.build_dir = build_dir;
 
+    if(build_params.target_platform == PLATFORM_NONE)
+    {
+        build_params.compiler_prefix = "";
+        build_params.compiler_toolchain = "";
+    }
+    
+    // Make sure no string is NULL.
+    assert(build_params.build_dir);
+    assert(build_params.compiler_prefix);
+    assert(build_params.compiler_toolchain);
+
     return build_params;
+}
+
+// Parse the program build parameter "-game <game>"
+// <game> can be any of the elements inside game_idents[][].
+void parse_program_parameter_game(Parameters *build_params, const char *arg, int *argc, char **argv[])
+{
+    if(*argc > 0) {
+        const char *arg_param = strlower(nob_shift(*argv, *argc));
+        if(!arg_param) return;
+
+        EGame game_id;
+        for(game_id = GAME_NONE+1; game_id < GAME_COUNT; game_id++)
+        {
+            if(!strcmp(arg_param, game_idents[game_id][VERSION_RELEASE]))
+            {
+                build_params->target_game = game_id;
+                nob_log(INFO, "Game:   %s", arg_param);
+
+                break;
+            }
+        }
+                
+        if(game_id >= GAME_KATAM) {
+            nob_log(WARNING, "'%s' is not a supported game!", arg_param);
+            exit(-5);
+        }
+    } else {
+        nob_log(ERROR, "No argument given for param '%s'", arg);
+        exit(-6);
+    }
+}
+
+// Parse the program build parameter "-target <platform>"
+// <platform> can be any of the elements inside platform_idents[].
+void parse_program_parameter_target(Parameters *build_params, const char *arg, int *argc, char **argv[])
+{
+    if(*argc > 0) {
+        const char *arg_param = strlower(nob_shift(*argv, *argc));
+        if(!arg_param) return;
+
+        EPlatform platform_id;
+        for(platform_id = PLATFORM_NONE; platform_id < PLATFORM_COUNT; platform_id++)
+        {
+            if(!strcmp(arg_param, platform_idents[platform_id]))
+            {
+                build_params->target_platform = platform_id;
+                nob_log(INFO, "Target: %s", arg_param);
+                break;
+            }
+        }
+
+        if(PLATFORM_COUNT == platform_id) {
+            nob_log(ERROR, "Unknown build target: '%s'", arg_param);
+            exit(-5);
+        }
+
+        switch(platform_id)
+        {
+        case PLATFORM_GBA: {
+            build_params->target_cpu_arch = ARCH_ARM;
+            build_params->target_is_64bit = false;
+            build_params->compiler_prefix = "arm-none-eabi";
+
+            // TODO: Is $(DEVKITPRO) needed for GBA?
+            build_params->compiler_toolchain = nob_temp_sprintf("/usr/%s/", build_params->compiler_prefix);
+        } break;
+
+        case PLATFORM_SDL_WIN32:
+        case PLATFORM_WIN32: {
+            // TODO: Add Windows ARM build support?
+            build_params->target_cpu_arch = ARCH_X86;
+            build_params->target_is_64bit = true;
+
+            if(!build_params->target_is_64bit) {
+                build_params->compiler_prefix = "i686-w64-mingw32";
+            } else {
+                build_params->compiler_prefix = "x86_64-w64-mingw32";
+            }
+
+            build_params->compiler_toolchain = nob_temp_sprintf("/usr/%s/", build_params->compiler_prefix);
+
+            // Don't enable matching by default, but disable it when !PLATFORM_GBA
+            build_params->match_target = false;
+        } break;
+
+        default: {
+            build_params->target_is_64bit = true;
+
+            build_params->compiler_prefix = "";
+
+            // Don't enable matching by default, but disable it when !PLATFORM_GBA
+            build_params->match_target = false;            
+        } break;
+        }
+
+        nob_log(INFO, "Arch:   %s", arch_idents[build_params->target_cpu_arch]);
+    } else {
+        nob_log(ERROR, "No argument given for param '%s'", arg);
+        exit(-6);
+    }
 }
 
 void log_nob_temp_size(void)
@@ -535,7 +557,8 @@ void link_shared_libs(const Parameters build_params)
     {
         #undef  LOCAL_LIB_DIR
         #define LOCAL_LIB_DIR TOOLS_DIR"_shared/csv_conv/"
-        LINK_LIBRARY(&cmd, csv_conv, LOCAL_LIB_DIR, LOCAL_LIB_DIR OBJ_FILENAME(csv_conv));
+        LINK_LIBRARY(&cmd, csv_conv, LOCAL_LIB_DIR,
+            LOCAL_LIB_DIR OBJ_FILENAME(csv_conv));
         da_append(&procs, cmd_run_async_and_reset(&cmd));
     }
     
@@ -558,20 +581,15 @@ void build_tools(const Parameters build_params)
 
     Nob_File_Paths toolDirs = {0};
 
-    build_c_tool(&cmd, &procs, "aif2pcm");
-    build_c_tool(&cmd, &procs, "bin2c");
-
-    build_bribasa(&cmd, &procs);
-
+    build_c_tool(&cmd,    &procs, "aif2pcm");
+    build_c_tool(&cmd,    &procs, "bin2c");
+    build_bribasa(&cmd,   &procs);
     build_epos_tool(&cmd, &procs);
-    
-    build_c_tool(&cmd, &procs, "gbafix");
-    
-    build_gbagfx(&cmd, &procs, build_params);
-
-    build_cpp_tool(&cmd, &procs, "mid2agb");
-    build_cpp_tool(&cmd, &procs, "preproc");
-    build_cpp_tool(&cmd, &procs, "scaninc");
+    build_c_tool(&cmd,    &procs, "gbafix");
+    build_gbagfx(&cmd,    &procs, build_params);
+    build_cpp_tool(&cmd,  &procs, "mid2agb");
+    build_cpp_tool(&cmd,  &procs, "preproc");
+    build_cpp_tool(&cmd,  &procs, "scaninc");
     
     if(procs.count > 0) {
         // Wait on all the async processes to finish
@@ -593,7 +611,7 @@ bool tool_rebuild_needed(const char *toolExePath, ...)
     va_start(args, toolExePath);
     for (;;) {
         const char *path = va_arg(args, const char*);
-        if (path == NULL) break;
+        if (!path) break;
         nob_da_append(&source_paths, path);
     }
     va_end(args);
@@ -626,18 +644,20 @@ bool tool_rebuild_needed_2(const char *toolExePath, Nob_File_Paths *source_paths
     return (rebuild_is_needed | rebuild_is_needed_2);
 }
 
-void build_tool(Cmd *cmd, Procs *procs, const char *tool_name, const char *code_file_ext);
+void build_tool(Cmd *cmd, Procs *procs, const char *tool_name, bool is_c_plus_plus);
 void build_c_tool(Cmd *cmd, Procs *procs, const char *tool_name)
 {
-    build_tool(cmd, procs, tool_name, ".c");
+    bool is_c_plus_plus = false;
+    build_tool(cmd, procs, tool_name, is_c_plus_plus);
 }
 
 void build_cpp_tool(Cmd *cmd, Procs *procs, const char *tool_name)
 {
-    build_tool(cmd, procs, tool_name, ".cpp");
+    bool is_c_plus_plus = true;
+    build_tool(cmd, procs, tool_name, is_c_plus_plus);
 }
 
-void build_tool(Cmd *cmd, Procs *procs, const char *tool_name, const char *code_file_ext)
+void build_tool(Cmd *cmd, Procs *procs, const char *tool_name, bool is_c_plus_plus)
 {
     Nob_File_Paths all_files    = {0};
     Nob_File_Paths source_paths = {0};
@@ -652,6 +672,8 @@ void build_tool(Cmd *cmd, Procs *procs, const char *tool_name, const char *code_
         for(int i = 0; i < all_files.count; i++)
         {
             const char *currFile = all_files.items[i];
+            const char *code_file_ext = (is_c_plus_plus) ? ".cpp" : ".c";
+
             if(nob_sv_end_with(nob_sv_from_cstr(currFile), code_file_ext)) {
                 nob_da_append(&source_paths, currFile);
             } else if(nob_sv_end_with(nob_sv_from_cstr(currFile), ".h")){
@@ -660,7 +682,7 @@ void build_tool(Cmd *cmd, Procs *procs, const char *tool_name, const char *code_
         }
 
         if(tool_rebuild_needed_2(toolExePath, &source_paths, &header_paths)) {
-            if(!strcmp(".cpp", code_file_ext)) {
+            if(is_c_plus_plus) {
                 nob_cxx(cmd);
                 nob_cc_tools_flags_cplusplus_2(cmd, tool_name);
             } else {
@@ -871,7 +893,7 @@ void build_game_assets(const Parameters build_params)
 {
     build_sound_data(build_params);
     
-    nob_log(INFO, build_params.build_dir);
+    nob_log(INFO, "%s", build_params.build_dir);
 }
 
 // OBJ_DIR      = build/gba/sa1[_debug]/
@@ -882,6 +904,72 @@ void build_sound_data(const Parameters build_params)
     build_songs(build_params);
 }
 
+#define DEFAULT_REVERB        0
+#define DEFAULT_VOICEGROUP    0
+#define DEFAULT_MASTER_VOLUME 127
+#define DEFAULT_PRIORITY      0
+typedef struct MidiConvParams {
+    unsigned char reverb;
+    unsigned char voicegroup;
+    unsigned char priority;
+    unsigned char master_volume;
+    bool double_clocks_per_beat : 1; // off = default (24)
+    bool exact_gate_time        : 1;
+    bool disable_compression    : 1;
+} MidiConvParams;
+
+typedef struct MidiConvParamsSongMap {
+    // TODO: Can we use a hash, the ID, or something else instead of the song name string?
+    Nob_String_View song; 
+    MidiConvParams params;
+} MidiConvParamsSongMap;
+
+// TODO: Load these from a file?
+MidiConvParams song_params_default = {
+    .reverb                 = DEFAULT_REVERB,
+    .voicegroup             = DEFAULT_VOICEGROUP,
+    .priority               = DEFAULT_PRIORITY,
+    .master_volume          = DEFAULT_MASTER_VOLUME,
+    .double_clocks_per_beat = false,
+    .exact_gate_time        = false,
+    .disable_compression    = false,
+};
+
+MidiConvParamsSongMap song_params_map[] = {
+    {
+        .song = SV_FROM_CSTR("se_ring"),
+        .params = {
+            .reverb          = 0,
+            .voicegroup      = 4,
+            .priority        = 20,
+            .master_volume   = 100,
+            .exact_gate_time = true,
+        },
+    },
+    {
+        .song = SV_FROM_CSTR("se_ring_copy"),
+        .params = {
+            .reverb        = 0,
+            .voicegroup    = 4,
+            .priority      = 20,
+            .master_volume = 100,
+            .exact_gate_time = true,
+        },
+    },
+};
+
+void cmd_add_mid2agb_params(Cmd *cmd, const MidiConvParams params)
+{
+    if(params.exact_gate_time)     nob_cmd_append(cmd, "-E");
+    if(params.disable_compression) nob_cmd_append(cmd, "-N");
+    nob_cmd_append(cmd, temp_sprintf("-R%d", params.reverb));
+    nob_cmd_append(cmd, temp_sprintf("-G%d", params.voicegroup));
+    nob_cmd_append(cmd, temp_sprintf("-P%d", params.priority));
+    nob_cmd_append(cmd, temp_sprintf("-V%d", params.master_volume));
+}
+
+void convert_asm_to_obj_files_with_preproc(Cmd *cmd, const Parameters build_params, Nob_File_Paths asm_files, Nob_File_Paths obj_files);
+
 // OBJ_DIR      = build/gba/sa1[_debug]/
 // MID_SUBDIR   = sound/songs/midi
 // MID_BUILDDIR = $(OBJ_DIR)/$(MID_SUBDIR)
@@ -890,83 +978,210 @@ void build_songs(const Parameters build_params)
     Cmd cmd = {0};
     Procs procs = {0};
 
-    const char *songs_sub_dir  = "sound/songs/";
-    const char *midis_sub_dir  = "sound/songs/midi/";
-    const char *build_dir_asm  = nob_temp_sprintf("%s%s",      build_params.build_dir, songs_sub_dir);
-    const char *build_dir_midi = nob_temp_sprintf("%s%smidi/", build_params.build_dir, songs_sub_dir);    
+    // NOTE:
+    // Make sure to call nob_temp_rewind(temp_size); before returning, to reduce memory usage!
+    size_t temp_size = nob_temp_save();
+
+    const char *songs_sub_dir  = SONGS_SUB_DIR;
+    const char *midis_sub_dir  = MIDIS_SUB_DIR;
+    const char *build_dir_asm  = nob_temp_sprintf("%s%s", build_params.build_dir, songs_sub_dir);
+    const char *build_dir_midi = nob_temp_sprintf("%s%s", build_params.build_dir, midis_sub_dir);
     
-    Nob_File_Paths song_asm_files  = {0};
-    Nob_File_Paths song_midi_all   = {0};
-    Nob_File_Paths song_midi_mid_files = {0};
+    Nob_File_Paths song_midi_all  = {0};
+    Nob_File_Paths song_mid_files = {0};
+    Nob_File_Paths song_asm_files = {0};
+    Nob_File_Paths song_obj_files = {0}; // NOTE: Always append *.o to this, when appending to song_asm_files!
 
     const char *base_dir = nob_get_current_dir_temp();
     
-    nob_set_current_dir(midis_sub_dir);
-    if(nob_read_entire_dir(".", &song_midi_all)) {
-        da_foreach(const char *, it, &song_midi_all)
-        {
+    if(nob_read_entire_dir(midis_sub_dir, &song_midi_all)) {
+        // Find all .mid files (and their .s output files) in MIDIS_SUB_DIR
+        da_foreach(const char *, it, &song_midi_all) {
             const char *file_path = *it;
             Nob_String_View svMidi = nob_sv_from_cstr(file_path);
 
             if(nob_sv_end_with(svMidi, ".mid")) {
-                nob_da_append(&song_midi_mid_files, file_path);
-            } else if(nob_sv_end_with(svMidi, ".s")) {
-                nob_da_append(&song_asm_files, file_path);
+                const char *midi_dot_s      = replace_extension_temp(file_path, ".s");
+                const char *midi_build_path = nob_temp_sprintf("%s%s", build_dir_midi, midi_dot_s);
+                const char *midi_dot_mid    = nob_temp_sprintf("%s%s", midis_sub_dir, file_path);
+                nob_da_append(&song_mid_files, midi_dot_mid);
+                nob_da_append(&song_asm_files, midi_build_path);
+                nob_da_append(&song_obj_files, replace_extension_temp(midi_build_path, ".o")); // TODO: .obj in win32?
             }
         }
 
-        int std_reverb = 0;
+        // Both lists should contain their respective in- (song.mid) and out- (song.s) files, at the same index!
+        assert(song_asm_files.count == song_mid_files.count);
 
-        da_foreach(const char *, midi_path, &song_midi_mid_files)
-        {
-            const char *midi_asm_path = replace_extension_temp(*midi_path, ".s");
 
-            if(nob_needs_rebuild1(midi_asm_path, *midi_path))
-            {
-                // tools/mid2agb/mid2agb \
-                //      sound/songs/midi/se_ring.mid \
-                //      sound/songs/midi/se_ring.s   \
-                //      -C "x86"
-                // -E -R0 -G4 -P20 -V100
+        /* Find mid2agb parameters for all found MIDIs in 'song_params_map' */
+        bool all_midis_known = true;
+        for(int midi_index = 0; midi_index < song_mid_files.count; midi_index++) {
+            const char *midi_path     = song_mid_files.items[midi_index];
+            const char *midi_asm_path = song_asm_files.items[midi_index];
+
+            if(nob_needs_rebuild1(midi_asm_path, midi_path)) {
                 nob_cmd_append(&cmd, TOOL_MID2AGB);
-                nob_cmd_append(&cmd, *midi_path);
+                nob_cmd_append(&cmd, midi_path);
                 nob_cmd_append(&cmd, midi_asm_path);
 
                 // Set the comment-style needed for specific CPU archs
-                // 
-                // TODO: Might need adjustment in the future!
-                if(build_params.target_cpu_arch == ARCH_ARM) {
+                if(ARCH_ARM == build_params.target_cpu_arch) {
                     nob_cmd_append(&cmd, "-C", "arm");
                 } else {
                     nob_cmd_append(&cmd, "-C", "x86");
                 }
 
-                nob_cmd_append(&cmd, "-E"); // "exact gate-time"
+                // TODO: speed
+                Nob_String_View extless_midi_name = chop_file_extension(nob_path_name(midi_path));
+                int i = 0;
+                for(; i < ARRAY_COUNT(song_params_map); i++) {
+                    MidiConvParamsSongMap *map = &song_params_map[i];
 
-                nob_cmd_append(&cmd, temp_sprintf("-R%d", std_reverb)); // Reverb
-                nob_cmd_append(&cmd, temp_sprintf("-G%d", 4)); // Voicegroup member
-                nob_cmd_append(&cmd, temp_sprintf("-P%d", 20)); // Priority
-                nob_cmd_append(&cmd, temp_sprintf("-V%d", 100)); // master Volume
-                
-                da_append(&procs, cmd_run_async_and_reset(&cmd));
+                    if(nob_sv_eq(map->song, extless_midi_name)) {
+                        cmd_add_mid2agb_params(&cmd, map->params);
+                        da_append(&procs, cmd_run_async_and_reset(&cmd));
+
+                        break;
+                    }
+                }
+
+                if(i == ARRAY_COUNT(song_params_map)) {
+                    nob_log(WARNING, "Could not find %s in MIDI params!\n"
+                                     "Using default parameters", nob_temp_sv_to_cstr(extless_midi_name));
+                    all_midis_known = false;
+                    
+                    cmd_add_mid2agb_params(&cmd, song_params_default);                
+                    da_append(&procs, cmd_run_async_and_reset(&cmd));
+                }
             }
         }
 
         /* Wait for MIDIs to be converted before assembling .s files */
         
-        nob_log(INFO, "Waiting on MIDIs to be built...\n", (int)procs.count);
-
+        nob_log(INFO, "Waiting on MIDIs to be built...\n");
         if (!procs_wait_and_reset(&procs)) {
             nob_log(ERROR, "Error building tools");
+            nob_set_current_dir(base_dir);
+            
+            nob_temp_rewind(temp_size);
             return;
         }
-    }
-    nob_set_current_dir(base_dir);
 
-    nob_log(INFO, "as <flags> -I sound -o %s, %s", build_dir_asm, songs_sub_dir);
-    nob_log(INFO, build_dir_asm  );
-    nob_log(INFO, build_dir_midi );
+        if(!all_midis_known) {
+            nob_log(WARNING, "AT LEAST ONE MIDI WAS BUILT USING DEFAULT PARAMETERS NOT TAILORED TO IT!\n"
+                   "          PLEASE MAKE SURE ALL SONGS' .mid FILE NAMES ARE CORRECT!");
+        }
+    }
     
+    
+    // Reset the "all files" list, to reduce iteration time below 
+    // (we really don't want to read through the ./midi directory files again)
+    song_midi_all.count = 0;
+
+    // Get all *.s files from sound/songs and add them to 'song_asm_files'
+    if(nob_read_entire_dir(songs_sub_dir, &song_midi_all)) {
+        da_foreach(const char *, it, &song_midi_all) {
+            const char *file_path = *it;
+            Nob_String_View svMidi = nob_sv_from_cstr(file_path);
+
+            if(nob_sv_end_with(svMidi, ".s")) {
+                const char *asm_song_in_path  = nob_temp_sprintf("%s%s", songs_sub_dir, file_path);
+                const char *asm_song_out_path = nob_temp_sprintf("%s%s", build_dir_asm, file_path);
+                da_append(&song_asm_files, asm_song_in_path);
+                da_append(&song_obj_files, replace_extension_temp(asm_song_out_path, ".o")); // TODO: .obj in win32?
+            }
+        }
+    }
+
+    // song_asm_files / song_obj_files should now contain all songs' *.s / *.o files, including those converted from MIDI.
+    assert(song_asm_files.count == song_obj_files.count);
+    
+    convert_asm_to_obj_files_with_preproc(&cmd, build_params, song_asm_files, song_obj_files);
+    
+    nob_log(INFO, "Waiting on songs to be compiled...\n");
+    if (!procs_wait_and_reset(&procs)) {
+        nob_log(ERROR, "Error building songs");
+        nob_set_current_dir(base_dir);
+            
+        nob_temp_rewind(temp_size);
+        return;
+    }
+
+    nob_temp_rewind(temp_size);
+}
+
+void convert_asm_to_obj_files_with_preproc(Cmd *cmd, const Parameters build_params, Nob_File_Paths asm_files, Nob_File_Paths obj_files)
+{
+    // song_asm_files / song_obj_files should now contain all songs' *.s / *.o files, including those converted from MIDI.
+    assert(asm_files.count == obj_files.count);
+
+    for(int song_i = 0; song_i < obj_files.count; song_i++)
+    {
+        size_t temp_size = nob_temp_save();
+
+        // @$(PREPROC) $< "" | $(CPP) $(CPPFLAGS) - | $(AS) $(ASFLAGS) -o $@ -
+
+        const char *asm_file = asm_files.items[song_i];
+        const char *obj_file = obj_files.items[song_i];
+
+        if(nob_needs_rebuild1(obj_file, asm_file))
+        {
+            const char *asm_flags_cpu       = (PLATFORM_GBA == build_params.target_platform) ? "-mcpu=arm7tdmi"    : NULL;
+            const char *asm_flags_interwork = (PLATFORM_GBA == build_params.target_platform) ? "-mthumb-interwork" : NULL;
+    
+            // TODO: Remove this once nob supports piping
+            Nob_Cmd_Redirect redirect = {0};
+            const char *preproc_out_0 = temp_sprintf("%s.pp0", asm_file);
+            const char *preproc_out_1 = temp_sprintf("%s.pp1", asm_file);
+
+            Nob_Fd temp_write_fd = nob_fd_open_for_write(preproc_out_0);
+            redirect.fdout = &temp_write_fd;
+            if (temp_write_fd == NOB_INVALID_FD) {
+                nob_log(ERROR, "Could not fd_open '%s'", preproc_out_0);
+                exit(-8);
+            }
+            
+/* TODO/TEMP: Remove this once nob supports piping */
+#define USE_SINGLE_LINE !true
+#if USE_SINGLE_LINE
+            nob_cmd_append(cmd,
+                TOOL_PREPROC, asm_file, "|",
+                nob_temp_sprintf("%s-cpp"EXE, build_params.compiler_prefix), /* CPPFLAGS */ "", "-", "|",
+                nob_temp_sprintf("%s-as"EXE,  build_params.compiler_prefix), asm_flags_cpu, asm_flags_interwork, "-o", obj_file, "-"
+            );
+#else
+            /* TODO/TEMP: Remove this once nob supports piping */
+
+            // Call preproc, output to 'preproc_out_0'
+            nob_cmd_append(cmd, TOOL_PREPROC, asm_file);
+            nob_cmd_run_sync_redirect_and_reset(cmd, redirect);
+
+            // Call GNU preproc with 'preproc_out_0', output direct to 'preproc_out_1' via -o
+            nob_cmd_append(cmd, nob_temp_sprintf("%s-cpp"EXE, build_params.compiler_prefix), /* CPPFLAGS "",*/ "-o", preproc_out_1, preproc_out_0);
+            nob_cmd_run_sync_and_reset(cmd);
+    
+            nob_cmd_append(cmd, nob_temp_sprintf("%s-as"EXE, build_params.compiler_prefix));
+
+            if(asm_flags_cpu)       nob_cmd_append(cmd, asm_flags_cpu);
+            if(asm_flags_interwork) nob_cmd_append(cmd, asm_flags_interwork);
+
+            nob_cmd_append(cmd, "-o", obj_file, preproc_out_1);
+            nob_cmd_run_sync_and_reset(cmd);
+
+            nob_delete_file(preproc_out_1);
+            nob_delete_file(preproc_out_0);
+#endif
+
+            nob_temp_rewind(temp_size);
+        }
+
+        
+#if USE_SINGLE_LINE
+        da_append(&procs, cmd_run_async_and_reset(&cmd));
+#endif
+
+    }    
 }
 
 // file_path: Any path with an extension like "foo.txt"
@@ -982,14 +1197,31 @@ char *replace_extension_temp(const char *file_path, const char *ext)
     return result_path;
 }
 
+// file_path: Any path with an extension like "foo.txt"
+//
+// Output gets allocated on nob's temporary memory stack
+Nob_String_View chop_file_extension(const char *file_path)
+{
+    Nob_String_View string_view = {
+        .data  = file_path,
+        .count = (intptr_t)(strrchr(file_path, '.') - file_path)
+    };    
+
+    return string_view;
+}
+
 void build_game_code(const Parameters build_params)
 {
     Cmd cmd = {0};
     Procs procs = {0};
 
     
-    if(build_params.match_target && build_params.target_platform == PLATFORM_GBA)
+    if((PLATFORM_GBA == build_params.target_platform) && build_params.match_target)
     {
-        // TODO: Run checksum command.
+        if(build_params.debug_target) {
+            nob_log(ERROR, "Checksum comparison was enabled, but doesn't make sense for a debug build.");
+        } else {
+            // TODO: Run checksum command.
+        }
     }
 }
