@@ -464,13 +464,13 @@ void build_shared_libs(const Parameters build_params)
         const char *libPath = LOCAL_LIB_DIR LIB_FILENAME(c_header_parser);
 
         if (tool_rebuild_needed(libPath,
-            LOCAL_LIB_DIR "parser.c",
-            LOCAL_LIB_DIR "parser.h",
+            LOCAL_LIB_DIR "c_header_parser.c",
+            LOCAL_LIB_DIR "c_header_parser.h",
             NULL))
         {          
             nob_cc(&cmd);                                               
             nob_cc_inputs(&cmd,
-                LOCAL_LIB_DIR "parser.c"
+                LOCAL_LIB_DIR "c_header_parser.c"
             );
             
             /* c_header_parser depends on: */
@@ -482,7 +482,7 @@ void build_shared_libs(const Parameters build_params)
             nob_cmd_append(&cmd, "/Fo" LOCAL_LIB_DIR);
 #else
             nob_cmd_append(&cmd, "-O2", "-static", "-c", "-std=gnu11");            
-            nob_cmd_append(&cmd, "-o", LOCAL_LIB_DIR OBJ_FILENAME(parser));
+            nob_cmd_append(&cmd, "-o", LOCAL_LIB_DIR OBJ_FILENAME(c_header_parser));
 #endif
             da_append(&procs, cmd_run_async_and_reset(&cmd));
             
@@ -968,7 +968,7 @@ void cmd_add_mid2agb_params(Cmd *cmd, const MidiConvParams params)
     nob_cmd_append(cmd, temp_sprintf("-V%d", params.master_volume));
 }
 
-void convert_asm_to_obj_files_with_preproc(Cmd *cmd, const Parameters build_params, Nob_File_Paths asm_files, Nob_File_Paths obj_files);
+void assemble_with_preproc(Cmd *cmd, const Parameters build_params, Nob_File_Paths asm_files, Nob_File_Paths obj_files);
 
 // OBJ_DIR      = build/gba/sa1[_debug]/
 // MID_SUBDIR   = sound/songs/midi
@@ -995,6 +995,9 @@ void build_songs(const Parameters build_params)
     const char *base_dir = nob_get_current_dir_temp();
     
     if(nob_read_entire_dir(midis_sub_dir, &song_midi_all)) {
+        mkdir_if_not_exists(build_dir_asm);
+        mkdir_if_not_exists(build_dir_midi);
+
         // Find all .mid files (and their .s output files) in MIDIS_SUB_DIR
         da_foreach(const char *, it, &song_midi_all) {
             const char *file_path = *it;
@@ -1097,7 +1100,7 @@ void build_songs(const Parameters build_params)
     // song_asm_files / song_obj_files should now contain all songs' *.s / *.o files, including those converted from MIDI.
     assert(song_asm_files.count == song_obj_files.count);
     
-    convert_asm_to_obj_files_with_preproc(&cmd, build_params, song_asm_files, song_obj_files);
+    assemble_with_preproc(&cmd, build_params, song_asm_files, song_obj_files);
     
     nob_log(INFO, "Waiting on songs to be compiled...\n");
     if (!procs_wait_and_reset(&procs)) {
@@ -1111,10 +1114,13 @@ void build_songs(const Parameters build_params)
     nob_temp_rewind(temp_size);
 }
 
-void convert_asm_to_obj_files_with_preproc(Cmd *cmd, const Parameters build_params, Nob_File_Paths asm_files, Nob_File_Paths obj_files)
+void assemble_with_preproc(Cmd *cmd, const Parameters build_params, Nob_File_Paths asm_files, Nob_File_Paths obj_files)
 {
     // song_asm_files / song_obj_files should now contain all songs' *.s / *.o files, including those converted from MIDI.
     assert(asm_files.count == obj_files.count);
+
+    const char *asm_flags_cpu       = (PLATFORM_GBA == build_params.target_platform) ? "-mcpu=arm7tdmi"    : NULL;
+    const char *asm_flags_interwork = (PLATFORM_GBA == build_params.target_platform) ? "-mthumb-interwork" : NULL;
 
     for(int song_i = 0; song_i < obj_files.count; song_i++)
     {
@@ -1126,10 +1132,7 @@ void convert_asm_to_obj_files_with_preproc(Cmd *cmd, const Parameters build_para
         const char *obj_file = obj_files.items[song_i];
 
         if(nob_needs_rebuild1(obj_file, asm_file))
-        {
-            const char *asm_flags_cpu       = (PLATFORM_GBA == build_params.target_platform) ? "-mcpu=arm7tdmi"    : NULL;
-            const char *asm_flags_interwork = (PLATFORM_GBA == build_params.target_platform) ? "-mthumb-interwork" : NULL;
-    
+        {    
             // TODO: Remove this once nob supports piping
             Nob_Cmd_Redirect redirect = {0};
             const char *preproc_out_0 = temp_sprintf("%s.pp0", asm_file);
@@ -1150,6 +1153,8 @@ void convert_asm_to_obj_files_with_preproc(Cmd *cmd, const Parameters build_para
                 nob_temp_sprintf("%s-cpp"EXE, build_params.compiler_prefix), /* CPPFLAGS */ "", "-", "|",
                 nob_temp_sprintf("%s-as"EXE,  build_params.compiler_prefix), asm_flags_cpu, asm_flags_interwork, "-o", obj_file, "-"
             );
+            
+            da_append(&procs, cmd_run_async_and_reset(&cmd));
 #else
             /* TODO/TEMP: Remove this once nob supports piping */
 
@@ -1175,12 +1180,6 @@ void convert_asm_to_obj_files_with_preproc(Cmd *cmd, const Parameters build_para
 
             nob_temp_rewind(temp_size);
         }
-
-        
-#if USE_SINGLE_LINE
-        da_append(&procs, cmd_run_async_and_reset(&cmd));
-#endif
-
     }    
 }
 
