@@ -4,7 +4,7 @@
 
 #include "arena_alloc.h"
 
-#include "parser.h"
+#include "c_header_parser.h"
 #include "types.h"
 
 /* (c) 2023 JaceCear
