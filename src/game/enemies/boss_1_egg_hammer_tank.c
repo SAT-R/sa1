@@ -1,4 +1,5 @@
 #include "global.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/player.h"
@@ -11,11 +12,42 @@
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
+typedef struct EggHammerTank {
+    /* 0x00 */ SpriteBase base;
+    /* 0x0C */ Sprite s;
+    /* 0x3C */ Hitbox reserved;
+    /* 0x44 */ Sprite s2;
+    /* 0x74 */ struct Task *task74;
+    /* 0x78 */ struct Task *tasks[5];
+    /* 0x8C */ s32 qUnk8C;
+    /* 0x90 */ s32 qUnk90;
+    /* 0x94 */ s16 unk94;
+    /* 0x96 */ s16 unk96;
+    /* 0x98 */ s16 unk98;
+    /* 0x9A */ s8 unk9A;
+    /* 0x9B */ s8 unk9B;
+    /* 0x9C */ u8 unk9C;
+    /* 0x9C */ u8 unk9D;
+    /* 0x9C */ s16 unk9E;
+} EggHammerTank; /* 0xA0 */
+
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x48 */ s16 unk40;
+    /* 0x48 */ s16 unk42;
+    /* 0x44 */ s16 qUnk44;
+    /* 0x46 */ s16 qUnk46;
+    /* 0x48 */ s16 unk48;
+} Strc_sub_80168F0; /* 0x4C */
+
 void CreateBossCapsule(s16, s16);
 // returns 0, 1 or 2
 s32 sub_800BA5C(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 void sub_8015C5C(s16, s32);
-void *sub_80168F0(s32, s32, s32, s32, s32);
+struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4);
 struct Task *sub_80174DC(s16, s16);
 struct Task *sub_8017540(s32, s32);
 void Task_802611C();
@@ -28,30 +60,12 @@ void Task_8025CC4();
 void Task_8025D80();
 void Task_8025E6C();
 void Task_80264C8();
-void sub_8026C44();
+void Task_8026C44();
 void sub_8026ED0();
-void sub_80271E4();
+void Task_80271E4();
 void sub_80272D0();
-void sub_8027600();
+void Task_8027600();
 void sub_8027714();
-
-typedef struct EggHammerTank {
-    /* 0x00 */ SpriteBase base;
-    /* 0x0C */ Sprite s;
-    /* 0x3C */ Hitbox reserved;
-    /* 0x44 */ Sprite s2;
-    /* 0x0C */ Hitbox reserved2;
-    /* 0x74 */ u8 padding7C[0x10];
-    /* 0x8C */ s32 qUnk8C;
-    /* 0x74 */ u8 padding90[0x4];
-    /* 0x94 */ s16 unk94;
-    /* 0x96 */ s16 unk96;
-    /* 0x98 */ s16 unk98;
-    /* 0x9A */ s8 unk9A;
-    /* 0x9B */ s8 unk9B;
-    /* 0x9C */ u8 unk9C;
-    /* 0x9C */ u8 unk9D;
-} EggHammerTank; /* 0xA0 */
 
 void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -405,7 +419,7 @@ void Task_802611C(void)
     s->frameFlags &= ~0x180;
     if (!(gPlayer.moveState & 0x80)) {
         gDispCnt &= 0x7FFF;
-        gWinRegs[5] = 0;
+        gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
     }
@@ -458,7 +472,7 @@ void Task_802611C(void)
             if (!(tank->unk9B & 2) && !(gPlayer.moveState & 0x80)) {
                 s->frameFlags = (s32)(s->frameFlags | 0x100);
                 gDispCnt |= 0x8000;
-                gWinRegs[5] = 0x3F1F;
+                gWinRegs[WINREG_WINOUT] = 0x3F1F;
                 gBldRegs.bldCnt = 0xBF;
                 gBldRegs.bldY = 0x10;
             }
@@ -493,284 +507,264 @@ void Task_802611C(void)
     }
 }
 
-#if 0
-void Task_80264C8(void) {
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s16 temp_r1_2;
-    s16 temp_r1_6;
-    s16 temp_r2;
-    s16 temp_r3_2;
-    s16 temp_r4_3;
-    s16 temp_r5_3;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r1_8;
-    s32 temp_r2_2;
-    s32 temp_r3_3;
-    s32 temp_r4;
-    s32 temp_r5_4;
-    s32 temp_r6_2;
-    s32 temp_r6_3;
-    s32 temp_r7;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r1;
-    s32 var_sb;
-    s8 temp_r1_7;
-    u16 temp_r2_3;
-    u16 temp_r2_4;
-    u16 temp_r2_5;
-    u16 temp_r2_6;
-    u16 temp_r3;
-    u16 temp_r3_4;
-    u16 temp_r4_2;
-    u16 temp_r5_2;
-    u16 temp_r6;
-    u16 var_r0_3;
-    u8 var_r1_2;
-    void *temp_r5;
+// (97.42%) https://decomp.me/scratch/lLJ09
+void Task_80264C8(void)
+{
+    MapEntity *me;
+    EggHammerTank *tank;
+    Sprite *s;
+    Sprite *s2; // sp04
+    s32 sp08, sp0C; // sp08, sp0C
+    s16 *unk94 = &tank->unk94; // sp10
+    CamCoord worldX, worldY; // sp14, sp18
+    s16 theta;
+    s32 resA, resB;
+    struct Task *t;
+    Strc_sub_80168F0 *strc;
+    u8 i;
 
-    sp8 = 0;
-    spC = 0;
-    temp_r3 = TASK_DATA(gCurTask);
-    temp_r0 = temp_r3->unk0;
-    temp_r7 = temp_r3->unkC;
-    sp4 = temp_r3->unk44;
-    temp_r5 = temp_r0->unk0;
-    if (temp_r7->unk10 & 0x400) {
-        *(temp_r3->unk96) = (s16) (((s8) *(temp_r3->unk9A) * 2) - 2);
+    sp08 = 0;
+    sp0C = 0;
+
+    tank = TASK_DATA(gCurTask);
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = tank->base.me;
+
+    if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+        tank->unk96 = (tank->unk9A * 2 - 2);
     } else {
-        *(temp_r3->unk96) = (s16) (-4 - (((s8) *(temp_r3->unk9A) - 3) * 2));
+        tank->unk96 = -4 - ((tank->unk9A - 3) * 2);
     }
-    temp_r1 = temp_r3->unk94;
-    temp_r2 = *(temp_r3->unk96) + *temp_r1;
-    *temp_r1 = (u16) temp_r2;
-    temp_r3_2 = temp_r2;
-    sp10 = temp_r1;
-    if ((s32) temp_r3_2 < 0xFFFFFD00) {
-        *temp_r1 = (u16) (temp_r2 + 0x400);
-        temp_r2_2 = temp_r3->qUnk8C;
-        *temp_r2_2 = (s32) (*temp_r2_2 - (gSineTable[0x138] * 3));
-        var_sb = temp_r2_2;
+
+    tank->unk94 += tank->unk96;
+    if (tank->unk94 < -0x300) {
+        tank->unk94 += 0x400;
+        tank->qUnk8C -= COS(56) * 3;
+    } else if (tank->unk94 > +0x100) {
+        tank->unk94 -= 0x400;
+        tank->qUnk8C += COS(56) * 3;
+    }
+
+    if ((tank->unk94 <= -568)) {
+        if (tank->unk9C == 0) {
+            tank->unk9C = 1;
+
+            m4aSongNumStart(SE_IMPACT);
+            CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, 0x80);
+        }
+
+        theta = (0x200 - tank->unk94) & 0x3FF;
+        sp08 = -((s32)((COS(56) - COS(theta)) * 3) >> 9);
+        sp0C = -((s32)((SIN(theta) - SIN(56)) * 3) >> 9);
+    } else if (tank->unk94 > 55) {
+        if (tank->unk9C == 0) {
+            tank->unk9C = 1;
+
+            m4aSongNumStart(SE_IMPACT);
+            CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, 0x80);
+        }
+
+        theta = tank->unk94 & 0x3FF;
+        sp08 = +((s32)((COS(56) - COS(theta)) * 3) >> 9);
+        sp0C = -((s32)((SIN(theta) - SIN(56)) * 3) >> 9);
     } else {
-        temp_r4 = temp_r0 + 0x8C;
-        var_sb = temp_r4;
-        if ((s32) temp_r3_2 > 0x100) {
-            *sp10 = (s16) (temp_r2 + 0xFFFFFC00);
-            *temp_r4 = (s32) (*temp_r4 + (gSineTable[0x138] * 3));
+        if (tank->unk9C == 1) {
+            tank->unk9C = 0;
         }
-    }
-    temp_r1_2 = *sp10;
-    if ((s32) temp_r1_2 <= 0xFFFFFDC8) {
-        temp_r1_3 = temp_r3->unk9C;
-        if (*temp_r1_3 == 0) {
-            *temp_r1_3 = 1U;
-            m4aSongNumStart(0x91U);
-            CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, M2C_ERROR(/* Unable to find stack arg 0x10 in block */), /* extra? */ 0x80);
-        }
-        var_r1 = (0x200 - (u16) *sp10) & 0x3FF;
-        var_r0 = 0 - ((s32) ((gSineTable[0x138] - gSineTable[var_r1 + 0x100]) * 3) >> 9);
-        goto block_15;
-    }
-    if ((s32) temp_r1_2 > 0x37) {
-        temp_r1_4 = temp_r3->unk9C;
-        if (*temp_r1_4 == 0) {
-            *temp_r1_4 = 1U;
-            m4aSongNumStart(0x91U);
-            CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, M2C_ERROR(/* Unable to find stack arg 0x10 in block */), /* extra? */ 0x80);
-        }
-        var_r1 = 0x3FF & (u16) *sp10;
-        var_r0 = (s32) ((gSineTable[0x138] - gSineTable[var_r1 + 0x100]) * 3) >> 9;
-block_15:
-        sp8 = var_r0;
-        spC = 0 - ((s32) ((gSineTable[var_r1] - gSineTable[0x38]) * 3) >> 9);
-    } else {
-        temp_r1_5 = temp_r3->unk9C;
-        if (*temp_r1_5 == 1) {
-            *temp_r1_5 = 0U;
-        }
-        if (temp_r7->unk10 & 0x400) {
-            *var_sb = (s32) (*var_sb + 0x100);
+
+        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+            tank->qUnk8C += Q(1);
         } else {
-            *var_sb = (s32) (*var_sb + 0xFFFFFF00);
+            tank->qUnk8C -= Q(1);
         }
     }
-    temp_r6 = (u16) ((temp_r0->unk8 * 8) + (temp_r0->unk4 << 8) + ((s32) *var_sb >> 8) + sp8);
-    temp_r5_2 = (u16) ((temp_r5->unk1 * 8) + (temp_r0->unk6 << 8) + spC);
-    temp_r7->unk10 = (s32) (temp_r7->unk10 & 0xFFFFFE7F);
-    temp_r4_2 = gPlayer.moveState & 0x80;
-    if (temp_r4_2 == 0) {
+
+    worldX = TO_WORLD_POS(tank->base.meX, tank->base.regionX) + I(tank->qUnk8C) + sp08;
+    worldY = TO_WORLD_POS(me->y, tank->base.regionY) + sp0C;
+
+    s->frameFlags &= ~0x180;
+    if (!(gPlayer.moveState & 0x80)) {
         gDispCnt &= 0x7FFF;
-        gWinRegs[5] = temp_r4_2;
-        gBldRegs.bldCnt = temp_r4_2;
-        gBldRegs.bldY = temp_r4_2;
+        gWinRegs[WINREG_WINOUT] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
     }
-    temp_r0_2 = temp_r3->unk9B;
-    sp14 = temp_r6 << 0x10;
-    sp18 = temp_r5_2 << 0x10;
-    if (*temp_r0_2 != 0) {
-        goto block_49;
-    }
-    temp_r4_3 = (s16) temp_r6;
-    temp_r5_3 = (s16) temp_r5_2;
-    temp_r6_2 = sub_800BA5C(temp_r7, temp_r4_3, (s32) temp_r5_3);
-    if ((s8) (u8) gNumSingleplayerCharacters == 2) {
-        var_r0_2 = sub_800BA5C(temp_r7, temp_r4_3, (s32) temp_r5_3, &gPartner);
-    } else {
-        var_r0_2 = 0;
-    }
-    if ((temp_r6_2 != 1) && (var_r0_2 != 1)) {
-block_49:
-        temp_r3_3 = sp14 >> 0x10;
-        temp_r1_6 = temp_r3_3 - (u16) gCamera.x;
-        temp_r7->unk16 = temp_r1_6;
-        temp_r7->unk18 = (s16) ((sp18 >> 0x10) - (u16) gCamera.y);
-        sp4->unk16 = temp_r1_6;
-        sp4->unk18 = (u16) temp_r7->unk18;
-        if (spC == 0) {
-            if (temp_r3_3 < (s32) (gCamera.minX - 0x40)) {
-                temp_r7->unk10 = (s32) (temp_r7->unk10 | 0x400);
-                sp4->unk10 = (s32) (sp4->unk10 | 0x400);
-            } else if (temp_r3_3 > (s32) (gCamera.maxX + 0x40)) {
-                temp_r7->unk10 = (s32) (temp_r7->unk10 & 0xFFFFFBFF);
-                sp4->unk10 = (s32) (sp4->unk10 & 0xFFFFFBFF);
-            }
-        }
-        UpdateSpriteAnimation((Sprite *) temp_r7);
-        UpdateSpriteAnimation((Sprite *) sp4);
-        if (*(temp_r7 + 0x20) == 2) {
-            sp4->unk18 = (u16) (sp4->unk18 - 1);
-        }
-        if (*temp_r0_2 != 0) {
-            temp_r1_7 = (u8) *temp_r0_2 - 1;
-            *temp_r0_2 = temp_r1_7;
-            if ((s32) temp_r1_7 > 0x10) {
-                if (!(temp_r1_7 & 2) && !(gPlayer.moveState & 0x80)) {
-                    temp_r7->unk10 = (s32) (temp_r7->unk10 | 0x100);
-                    gDispCnt |= 0x8000;
-                    gWinRegs[5] = 0x3F1F;
-                    gBldRegs.bldCnt = 0xBF;
-                    gBldRegs.bldY = 0x10;
-                }
-                
-                DisplaySprite((Sprite *) temp_r7);
-                DisplaySprite((Sprite *) sp4);
-            } else if (temp_r1_7 & 2) {
-                DisplaySprite((Sprite *) temp_r7);
-                DisplaySprite((Sprite *) sp4);
-            }
-        } else {
-            DisplaySprite((Sprite *) temp_r7);
-            DisplaySprite((Sprite *) sp4);
-        }
-        temp_r3_4 = temp_r7->unk10 & 0x400;
-        if (temp_r3_4 != 0) {
-            sa2__gUnknown_03001944 = 0x3FF & (u16) *sp10;
-            sa2__gUnknown_030017F0 = 0x100;
-            sa2__gUnknown_03005394 = 0x100;
-            sa2__gUnknown_03002A8C = 0;
-            sa2__gUnknown_03004D58 = 0;
-            sa2__gUnknown_0300194C = (s16) temp_r0->unk22;
-            var_r0_3 = temp_r0->unk24;
-        } else {
-            sa2__gUnknown_03001944 = 0x3FF & (u16) *sp10;
-            sa2__gUnknown_030017F0 = 0x100;
-            sa2__gUnknown_03005394 = 0x100;
-            sa2__gUnknown_03002A8C = temp_r3_4;
-            sa2__gUnknown_03004D58 = temp_r3_4;
-            sa2__gUnknown_0300194C = (s16) temp_r0->unk22;
-            var_r0_3 = temp_r0->unk24;
-        }
-        sa2__gUnknown_03002820 = var_r0_3 - 0x24;
-        return;
-    }
-    temp_r1_8 = temp_r3->unk9A;
-    *temp_r1_8 = (u8) (*temp_r1_8 + 1);
-    *temp_r0_2 = 0x20;
-    *(sp4 + 0x20) = 2;
-    *(temp_r3->unk9E) = 0xFE00;
 
-    // INCREMENT_SCORE_BASE()
-    temp_r6_3 = gLevelScore;
-    temp_r0_3 = temp_r6_3 + 0x3E8;
-    gLevelScore = temp_r0_3;
-    temp_r5_4 = Div(temp_r0_3, 0xC350);
-    if ((temp_r5_4 != Div(temp_r6_3, 0xC350)) && (gGameMode == 0)) {
-        gNumLives = (u8) (gNumLives + 1);
+    if (tank->unk9B == 0) {
+        resA = sub_800BA5C(s, worldX, worldY, &gPlayer);
+        if (gNumSingleplayerCharacters == 2) {
+            resB = sub_800BA5C(s, worldX, worldY, &gPartner);
+        } else {
+            resB = 0;
+        }
+        if ((resA == 1) || (resB == 1)) {
+            tank->unk9A++;
+            tank->unk9B = 0x20;
+            s2->variant = 2;
+            tank->unk9E = -Q(2);
+
+            INCREMENT_SCORE_A(1000);
+
+            m4aSongNumStart(SE_EXPLOSION);
+
+            for (i = 0; i < 5; i++) {
+                tank->tasks[i]->main = Task_80271E4;
+            }
+
+            tank->task74->main = Task_8027600;
+            tank->qUnk8C += Q(sp08);
+            tank->qUnk90 = Q(sp0C);
+
+            tank->unk98 = 0;
+            s->graphics.anim = SA1_ANIM_BOSS_1_BODY_NO_BELT;
+            s->variant = 0;
+
+            {
+                t = sub_80168F0(worldX, worldY, 16, 0x265, 0);
+                strc = TASK_DATA(t);
+                strc->qUnk46 = -Q(2);
+                strc->unk48 = 0;
+                strc->unk42 = 0;
+
+                if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                    strc->transform.qScaleX = -Q(1);
+                    strc->qUnk44 = +Q(4);
+                } else {
+                    strc->qUnk44 = -Q(4);
+                }
+
+                strc->unk40 = 60;
+            }
+
+            {
+                t = sub_80168F0(worldX, worldY, 16, 614, 0);
+                strc = TASK_DATA(t);
+                strc->qUnk46 = -Q(2);
+                strc->unk48 = 0;
+                strc->unk42 = 0;
+
+                if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                    strc->transform.qScaleX = -Q(1);
+                    strc->qUnk44 = +Q(4);
+                } else {
+                    strc->qUnk44 = -Q(4);
+                }
+
+                strc->unk40 = 60;
+            }
+
+            {
+                t = sub_80168F0(worldX, worldY, 16, 615, 0);
+                strc = TASK_DATA(t);
+                strc->qUnk46 = -Q(2);
+                strc->unk48 = 0;
+                strc->unk42 = 0;
+
+                if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                    strc->transform.qScaleX = -Q(1);
+                    strc->qUnk44 = -Q(4);
+                } else {
+                    strc->qUnk44 = +Q(4);
+                }
+
+                strc->unk40 = 60;
+            }
+
+            {
+                t = sub_80168F0(worldX, worldY, 16, 616, 0);
+                strc = TASK_DATA(t);
+                strc->qUnk46 = -Q(2);
+                strc->unk48 = 0;
+                strc->unk42 = 0;
+
+                if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                    strc->transform.qScaleX = -Q(1);
+                    strc->qUnk44 = -Q(4);
+                } else {
+                    strc->qUnk44 = +Q(4);
+                }
+
+                strc->unk40 = 60;
+            }
+
+            gCamera.minX = gCamera.x;
+            gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
+            gCurTask->main = Task_8026C44;
+            gCurTask->main();
+            return;
+        }
     }
-    m4aSongNumStart(0x90U);
-    var_r1_2 = 0;
-    do {
-        (*(temp_r3->unk78 + (var_r1_2 * 4)))->unk8 = sub_80271E4;
-        var_r1_2 = (u8) (var_r1_2 + 1);
-    } while ((u32) var_r1_2 <= 4U);
-    temp_r0->unk74->unk8 = sub_8027600;
-    *var_sb = (s32) (*var_sb + (sp8 << 8));
-    *(temp_r3->unk90) = (s32) (spC << 8);
-    *(temp_r0 + 0x98) = 0;
-    temp_r7->unkA = 0x264;
-    *(temp_r7 + 0x20) = 0;
-    temp_r2_3 = sub_80168F0(sp14 >> 0x10, sp18 >> 0x10, 0x10, 0x265, 0)->unk6;
-    *(temp_r2_3->unk46) = 0xFE00;
-    *(temp_r2_3->unk48) = 0;
-    *(temp_r2_3->unk42) = 0;
-    if (temp_r7->unk10 & 0x400) {
-        (temp_r2_3->unk0)->unk32 = 0xFF00;
-        *(temp_r2_3->unk44) = 0x400;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+
+    if (sp0C == 0) {
+        if (worldX < gCamera.minX - 64) {
+            s->frameFlags |= SPRITE_FLAG(X_FLIP, 1);
+            s2->frameFlags |= SPRITE_FLAG(X_FLIP, 1);
+        } else if (worldX > gCamera.maxX + 64) {
+            s->frameFlags &= ~SPRITE_FLAG(X_FLIP, 1);
+            s2->frameFlags &= ~SPRITE_FLAG(X_FLIP, 1);
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    if (s->variant == 2) {
+#if !TRUE
+        // s is incorrect here, but using it increases overall percentage by 2%
+        s->y--; // s2
+#else
+        s2->y--; // s2
+#endif
+    }
+
+    if (tank->unk9B != 0) {
+        if (--tank->unk9B > 16) {
+            if (!(tank->unk9B & 2) && !(gPlayer.moveState & 0x80)) {
+                s->frameFlags |= SPRITE_FLAG(OBJ_MODE, 2);
+                gDispCnt |= 0x8000;
+                gWinRegs[WINREG_WINOUT] = 0x3F1F;
+                gBldRegs.bldCnt = 0xBF;
+                gBldRegs.bldY = 0x10;
+            }
+
+            DisplaySprite(s);
+            DisplaySprite(s2);
+        } else if (tank->unk9B & 2) {
+            DisplaySprite(s);
+            DisplaySprite(s2);
+        }
     } else {
-        *(temp_r2_3->unk44) = 0xFC00;
+        DisplaySprite(s);
+        DisplaySprite(s2);
     }
-    *(temp_r2_3->unk40) = 0x3C;
-    temp_r2_4 = sub_80168F0(sp14 >> 0x10, sp18 >> 0x10, 0x10, 0x266, 0)->unk6;
-    *(temp_r2_4->unk46) = 0xFE00;
-    *(temp_r2_4->unk48) = 0;
-    *(temp_r2_4->unk42) = 0;
-    if (temp_r7->unk10 & 0x400) {
-        (temp_r2_4->unk0)->unk32 = 0xFF00;
-        *(temp_r2_4->unk44) = 0x400;
+
+    if (s->frameFlags & 0x400) {
+        SA2_LABEL(gUnknown_03001944) = tank->unk94 & 0x3FF;
+        SA2_LABEL(gUnknown_030017F0) = 0x100;
+        SA2_LABEL(gUnknown_03005394) = 0x100;
+        SA2_LABEL(gUnknown_03002A8C) = 0;
+        SA2_LABEL(gUnknown_03004D58) = 0;
+        SA2_LABEL(gUnknown_0300194C) = tank->s.x;
+        SA2_LABEL(gUnknown_03002820) = tank->s.y - 0x24;
     } else {
-        *(temp_r2_4->unk44) = 0xFC00;
+        SA2_LABEL(gUnknown_03001944) = tank->unk94 & 0x3FF;
+        SA2_LABEL(gUnknown_030017F0) = 0x100;
+        SA2_LABEL(gUnknown_03005394) = 0x100;
+        SA2_LABEL(gUnknown_03002A8C) = 0;
+        SA2_LABEL(gUnknown_03004D58) = 0;
+        SA2_LABEL(gUnknown_0300194C) = tank->s.x;
+        SA2_LABEL(gUnknown_03002820) = tank->s.y - 0x24;
     }
-    *(temp_r2_4->unk40) = 0x3C;
-    temp_r2_5 = sub_80168F0(sp14 >> 0x10, sp18 >> 0x10, 0x10, 0x267, 0)->unk6;
-    *(temp_r2_5->unk46) = 0xFE00;
-    *(temp_r2_5->unk48) = 0;
-    *(temp_r2_5->unk42) = 0;
-    if (temp_r7->unk10 & 0x400) {
-        (temp_r2_5->unk0)->unk32 = 0xFF00;
-        *(temp_r2_5->unk44) = 0xFC00;
-    } else {
-        *(temp_r2_5->unk44) = 0x400;
-    }
-    *(temp_r2_5->unk40) = 0x3C;
-    temp_r2_6 = sub_80168F0(sp14 >> 0x10, sp18 >> 0x10, 0x10, 0x268, 0)->unk6;
-    *(temp_r2_6->unk46) = 0xFE00;
-    *(temp_r2_6->unk48) = 0;
-    *(temp_r2_6->unk42) = 0;
-    if (temp_r7->unk10 & 0x400) {
-        (temp_r2_6->unk0)->unk32 = 0xFF00;
-        *(temp_r2_6->unk44) = 0xFC00;
-    } else {
-        *(temp_r2_6->unk44) = 0x400;
-    }
-    *(temp_r2_6->unk40) = 0x3C;
-    gCamera.minX = (s16) (u16) gCamera.x;
-    gCamera.maxX = (u16) gCamera.x + DISPLAY_WIDTH;
-    gCurTask->main = sub_8026C44;
-    sub_8026C44();
 }
 
-void sub_8026C44(void) {
+#if 0
+void Task_8026C44(void) {
     s32 sp4;
     s32 sp8;
     s32 spC;
@@ -827,7 +821,7 @@ void sub_8026C44(void) {
     temp_r3_4 = gPlayer.moveState & 0x80;
     if (temp_r3_4 == 0) {
         gDispCnt &= 0x7FFF;
-        gWinRegs[5] = temp_r3_4;
+        gWinRegs[WINREG_WINOUT] = temp_r3_4;
         gBldRegs.bldCnt = temp_r3_4;
         gBldRegs.bldY = temp_r3_4;
     }
@@ -998,7 +992,7 @@ struct Task *CreateEHTArm(u8 arg0) {
     return t;
 }
 
-void sub_80271E4(void) {
+void Task_80271E4(void) {
     s16 var_r0;
     s32 temp_r3;
     s32 temp_r6;
@@ -1168,7 +1162,7 @@ void Task_EHTHammer(void) {
     DisplaySprite((Sprite *) temp_r7);
 }
 
-void sub_8027600(void) {
+void Task_8027600(void) {
     s16 temp_r0_3;
     s16 var_r0;
     s32 temp_r0_2;
@@ -1292,26 +1286,22 @@ void Task_EggHammerTankMain(void) {
         } while ((u32) var_r4 <= 4U);
         (temp_r3->unk0)->unk74 = CreateEHTHammer();
         gCurTask->main = Task_802611C;
-        Task_802611C();
+        gCurTask->main();
     }
 }
 
 void TaskDestructor_EggHammerTank(struct Task *t) {
-    EggHammerTank *tank;
-    s32 temp_r4;
-    u16 temp_r3;
+    EggHammerTank *tank = TASK_DATA(t);
 
-    tank = TASK_DATA(t);
-
-    temp_r3 = gPlayer.moveState & 0x80;
-    if (temp_r3 == 0) {
+    if (PLAYER_IS_ALIVE) {
         gDispCnt &= 0x7FFF;
-        gWinRegs[5] = temp_r3;
-        gBldRegs.bldCnt = temp_r3;
-        gBldRegs.bldY = temp_r3;
+        gWinRegs[WINREG_WINOUT] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
     }
-    VramFree(tank->s->graphics.dest);
-    VramFree(tank->s2->graphics.dest);
+
+    VramFree(tank->s.graphics.dest);
+    VramFree(tank->s2.graphics.dest);
 }
 
 void Task_EHTArm(void) {

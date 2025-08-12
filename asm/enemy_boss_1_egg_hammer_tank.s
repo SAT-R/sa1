@@ -448,7 +448,7 @@ _0802683A:
 	bls _0802683A
 	mov r0, r8
 	ldr r1, [r0, #0x74]
-	ldr r0, _080268D0 @ =sub_8027600
+	ldr r0, _080268D0 @ =Task_8027600
 	str r0, [r1, #8]
 	mov r1, sb
 	ldr r0, [r1]
@@ -506,7 +506,7 @@ _080268C0: .4byte 0x0000C350
 _080268C4: .4byte gGameMode
 _080268C8: .4byte gNumLives
 _080268CC: .4byte sub_80271E4
-_080268D0: .4byte sub_8027600
+_080268D0: .4byte Task_8027600
 _080268D4: .4byte 0x00000265
 _080268D8: .4byte 0x03000048
 _080268DC: .4byte 0x03000042
@@ -691,7 +691,7 @@ _08026A46:
 	strh r0, [r1, #0x1a]
 	ldr r0, _08026A70 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08026A74 @ =sub_8026C44
+	ldr r0, _08026A74 @ =Task_8026C44
 	str r0, [r1, #8]
 	bl _call_via_r0
 	b _08026C12
@@ -699,7 +699,7 @@ _08026A46:
 _08026A68: .4byte 0x03000044
 _08026A6C: .4byte gCamera
 _08026A70: .4byte gCurTask
-_08026A74: .4byte sub_8026C44
+_08026A74: .4byte Task_8026C44
 _08026A78:
 	ldr r4, _08026AB8 @ =gCamera
 	ldrh r1, [r4]
@@ -917,8 +917,8 @@ _08026C3C: .4byte sa2__gUnknown_0300194C
 _08026C40: .4byte sa2__gUnknown_03002820
 .endif
 
-	thumb_func_start sub_8026C44
-sub_8026C44: @ 0x08026C44
+	thumb_func_start Task_8026C44
+Task_8026C44: @ 0x08026C44
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2085,8 +2085,8 @@ _080275E6:
 _080275F8: .4byte gPlayer
 _080275FC: .4byte gPartner
 
-	thumb_func_start sub_8027600
-sub_8027600: @ 0x08027600
+	thumb_func_start Task_8027600
+Task_8027600: @ 0x08027600
 	push {r4, r5, lr}
 	ldr r3, _08027640 @ =gCurTask
 	ldr r2, [r3]

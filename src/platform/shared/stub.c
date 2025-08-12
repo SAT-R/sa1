@@ -22,6 +22,28 @@ u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 u32 sub_800B1D4(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 // returns 0, 1 or 2
 s32 sub_800BA5C(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p) { return 0; }
+
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x48 */ s16 unk40;
+    /* 0x48 */ s16 unk42;
+    /* 0x44 */ s16 qUnk44;
+    /* 0x46 */ s16 qUnk46;
+    /* 0x48 */ s16 unk48;
+} Strc_sub_80168F0; /* 0x4C */
+void dummy() { }
+void Task_8026C44() { }
+void Task_80271E4() { }
+void Task_8027600() { }
+void Task_EggHammerTankMain() { }
+struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4)
+{
+    return TaskCreate(dummy, sizeof(Strc_sub_80168F0), 0, 0, 0);
+}
+
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
