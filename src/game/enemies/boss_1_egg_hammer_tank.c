@@ -2,6 +2,7 @@
 #include "malloc_vram.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/entity.h"
+#include "game/save.h"
 #include "game/stage/player_controls.h"
 
 #include "constants/animations.h"
@@ -34,7 +35,7 @@ void sub_8027714();
 typedef struct EggHammerTank {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x0C */ Hitbox reserved;
+    /* 0x3C */ Hitbox reserved;
     /* 0x44 */ Sprite s2;
     /* 0x0C */ Hitbox reserved2;
     /* 0x74 */ u8 padding7C[0x10];
@@ -289,88 +290,85 @@ void Task_8025E6C(void)
     DisplaySprite(s2);
 }
 
-#if 0
-void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-    s32 sp4;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r6_2;
-    s32 temp_r6_3;
-    s32 temp_r7;
-    s32 temp_r7_2;
-    u16 temp_r3;
-    u16 temp_r6;
+void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    struct Task *t;
+    EggHammerTank *tank;
+    Sprite *s;
+    s16 tempY;
+    SpriteBase *base;
 
-    temp_r6 = regionX;
-    sp4 = (s32) regionY;
-    if ((u32) gGameMode > 1U) {
-        me->x = -2U;
+    if (IS_MULTI_PLAYER) {
+        SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
-    temp_r3 = TaskCreate(Task_EggHammerTankMain, 0xA0U, 0x2000U, 0U, M2C_ERROR(/* Unable to find stack arg 0x10 in block */), /* extra? */ TaskDestructor_EggHammerTank)->data;
-    temp_r0 = temp_r3->unk0;
-    temp_r0->unk4 = temp_r6;
-    temp_r0->unk6 = (u16) subroutine_arg0.unk4;
-    temp_r0->unk0 = me;
-    temp_r0->unk8 = (u8) me->x;
-    temp_r0->unk9 = id;
-    *(temp_r3->unk94) = 0;
-    *(temp_r3->unk98) = 0;
-    *(temp_r3->unk96) = 0xFFFC;
-    *(temp_r3->unk9B) = 0;
-    *(temp_r3->qUnk8C) = 0;
-    *(temp_r3->unk9C) = 0;
-    if (gLoadedSaveGame.difficultyLevel != 0) {
-        *(temp_r3->unk9A) = 2;
+
+    t = TaskCreate(Task_EggHammerTankMain, sizeof(EggHammerTank), 0x2000U, 0U, TaskDestructor_EggHammerTank);
+    tank = TASK_DATA(t);
+    base = &tank->base;
+    base->regionX = regionX;
+    base->regionY = regionY;
+
+    base->me = me;
+    base->meX = (u8)me->x;
+    base->id = id;
+    tank->unk94 = 0;
+    tank->unk98 = 0;
+    tank->unk96 = -4;
+    tank->unk9B = 0;
+    tank->qUnk8C = 0;
+    tank->unk9C = 0;
+
+    if (LOADED_SAVE->difficultyLevel != DIFFICULTY_NORMAL) {
+        tank->unk9A = 2;
     } else {
-        *(temp_r3->unk9A) = 0;
+        tank->unk9A = 0;
     }
-    temp_r7 = temp_r3->unkC;
-    temp_r6_2 = temp_r6 << 8;
-    temp_r7->unk16 = (s16) ((me->x * 8) + temp_r6_2);
-    temp_r6_3 = sp4 << 8;
-    temp_r7->unk18 = (s16) ((me->y * 8) + temp_r6_3);
-    temp_r7->unk4 = VramMalloc(0x46U);
-    temp_r7->unk1A = 0x4C0;
-    temp_r7->unk8 = 0;
-    temp_r7->unkA = 0x25F;
-    temp_r1 = temp_r3->unk2C;
-    *temp_r1 = 1;
-    temp_r7->unk14 = 0;
-    temp_r7->unk1C = 0;
-    *(temp_r1 + 1) = 0xFF;
-    temp_r0_2 = temp_r3->unk2E;
-    *temp_r0_2 = 0x10;
-    *(temp_r0_2 + 3) = 0;
-    temp_r7->unk28 = -1;
-    temp_r7->unk30 = -1;
-    temp_r7->unk18 = (s16) ((me->y * 8) + temp_r6_3);
-    temp_r7->unk10 = 0x2000;
-    temp_r7_2 = temp_r7 + 0x38;
-    temp_r7_2->unk16 = (u16) ((me->x * 8) + temp_r6_2);
-    temp_r7_2->unk18 = (s16) ((me->y * 8) + temp_r6_3);
-    me->x = -2U;
-    temp_r7_2->unk4 = VramMalloc(8U);
-    temp_r7_2->unk1A = 0x480;
-    temp_r7_2->unk8 = 0;
-    temp_r7_2->unkA = 0x262;
-    *(temp_r3->unk64) = 0;
-    temp_r7_2->unk14 = 0;
-    temp_r7_2->unk1C = 0;
-    *(temp_r3->unk65) = -1;
-    temp_r0_3 = temp_r3->unk66;
-    *temp_r0_3 = 0x10;
-    *(temp_r0_3 + 3) = 0;
-    temp_r7_2->unk28 = -1;
-    temp_r7_2->unk10 = 0x2000;
-    gCamera.shiftY = -0x38;
-    gCamera.maxX = temp_r7_2->unk16 - 0x40;
-    gCamera.minX = (s32)((float gCamera.maxX) - 360.f);
+
+    s = &tank->s;
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_1_BODY);
+    s->oamFlags = 0x4C0;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_1_BODY;
+    s->variant = 1;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->hitboxes[1].index = HITBOX_STATE_INACTIVE;
+    s->y = TO_WORLD_POS(me->y, regionY);
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    s = &tank->s2;
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+    SET_MAP_ENTITY_INITIALIZED(me);
+
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_1_EGGMAN);
+    s->oamFlags = 0x480;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_1_EGGMAN;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+
+    gCamera.shiftY = -56;
+    gCamera.maxX = s->x - 64;
+
+    gCamera.minX = (((float)gCamera.maxX) - 360.f);
     gMusicManagerState.unk1 = 0x10;
 }
 
+#if 0
 void Task_802611C(void) {
     s32 sp4;
     s32 sp8;

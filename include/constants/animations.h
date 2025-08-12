@@ -243,9 +243,10 @@
 #define SA1_ANIM_CONVEYOR_BELT_6_WIDE 604
 #define SA1_ANIM_PLATFORM_HORZ_7_1    605
 
-#define SA1_ANIM_BOSS_1                607
+#define SA1_ANIM_BOSS_1_BODY           607
 #define SA1_ANIM_BOSS_1_HAMMER_SEGMENT 608
 #define SA1_ANIM_BOSS_1_HAMMER         609
+#define SA1_ANIM_BOSS_1_EGGMAN         610
 
 #define SA1_ANIM_BOSS_2 620
 #define SA1_ANIM_653    653
