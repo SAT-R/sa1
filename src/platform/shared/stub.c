@@ -106,6 +106,9 @@ void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
 void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 
+struct Task *sub_80174DC(s16 yMin, s16 yMax) { return NULL; }
+struct Task *sub_8017540(s32 param0, s32 param1) { return NULL; }
+
 void LoadTinyChaoGarden() { }
 void CreateSegaLogo() { }
 void CreateTitleScreen() { }

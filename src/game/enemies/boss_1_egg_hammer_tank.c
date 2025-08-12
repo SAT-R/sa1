@@ -2,6 +2,7 @@
 #include "malloc_vram.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/entity.h"
+#include "game/stage/player_controls.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -19,9 +20,9 @@ void Task_EHTHammer();
 void Task_EggHammerTankMain();
 void Task_EggHammerTank_Intro();
 void TaskDestructor_EggHammerTank(struct Task *);
-void sub_8025CC4();
-void sub_8025D80();
-void sub_8025E6C();
+void Task_8025CC4();
+void Task_8025D80();
+void Task_8025E6C();
 void sub_80264C8();
 void sub_8026C44();
 void sub_8026ED0();
@@ -37,7 +38,7 @@ typedef struct EggHammerTank {
     /* 0x44 */ Sprite s2;
     /* 0x0C */ Hitbox reserved2;
     /* 0x74 */ u8 padding7C[0x10];
-    /* 0x8C */ s32 unk8C;
+    /* 0x8C */ s32 qUnk8C;
     /* 0x74 */ u8 padding90[0x4];
     /* 0x94 */ u16 unk94;
     /* 0x96 */ u16 unk96;
@@ -78,7 +79,7 @@ void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u
     tank->unk9A = 0;
     tank->unk96 = -4;
     tank->unk9B = 0;
-    tank->unk8C = 0;
+    tank->qUnk8C = 0;
     tank->unk9C = 0;
     s->x = TO_WORLD_POS(me->x, regionX);
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_1_INTRO);
@@ -128,148 +129,167 @@ void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u
     }
 }
 
-#if 0
-void Task_EggHammerTank_Intro(void) {
-    s16 temp_r2;
-    s16 temp_r2_2;
-    s32 temp_r3;
-    s32 temp_r4;
-    s32 temp_r6;
-    u16 temp_r0;
-    u16 var_r0;
+void Task_EggHammerTank_Intro(void)
+{
+    EggHammerTank *tank;
+    SpriteBase *base;
+    MapEntity *me;
+    Sprite *s, *s2;
+    CamCoord worldX, worldY;
 
-    temp_r0 = TASK_DATA(gCurTask);
-    temp_r3 = temp_r0->unk0;
-    temp_r4 = temp_r0->unkC;
-    temp_r6 = temp_r0->unk44;
-    temp_r2 = (temp_r3->unk8 * 8) + (temp_r3->unk4 << 8);
-    temp_r2_2 = temp_r2 - (u16) gCamera.x;
-    temp_r4->unk16 = temp_r2_2;
-    temp_r4->unk18 = (s16) ((s16) ((temp_r3->unk0->unk1 * 8) + (temp_r3->unk6 << 8)) - (u16) gCamera.y);
-    temp_r6->unk16 = temp_r2_2;
-    temp_r6->unk18 = (u16) temp_r4->unk18;
-    UpdateSpriteAnimation((Sprite *) temp_r4);
-    UpdateSpriteAnimation((Sprite *) temp_r6);
-    DisplaySprite((Sprite *) temp_r4);
-    DisplaySprite((Sprite *) temp_r6);
+    tank = TASK_DATA(gCurTask);
+    base = &tank->base;
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = tank->base.me;
 
-    if ((s32) gCamera.x < (s32) (gCamera.maxX - DISPLAY_WIDTH)) {
-        var_r0 = (u16) gCamera.x;
+    worldX = TO_WORLD_POS(base->meX, base->regionX);
+    worldY = TO_WORLD_POS(me->y, base->regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
+
+    if (gCamera.x < (gCamera.maxX - DISPLAY_WIDTH)) {
+        gCamera.minX = (u16)gCamera.x;
     } else {
-        var_r0 = (u16) gCamera.maxX - DISPLAY_WIDTH;
+        gCamera.minX = (u16)gCamera.maxX - DISPLAY_WIDTH;
     }
 
-    gCamera.minX = (s16) var_r0;
-    if ((s32) ((s16) (u16) temp_r2 - gCamera.x) <= 0xB0) {
+    if (worldX - gCamera.x <= 176) {
         gPlayer.qSpeedGround = 0;
         gPlayer.moveState |= 0x200000;
         gPlayer.heldInput = 0;
-        temp_r6->unkA = 0x2B6;
-        *(temp_r6 + 0x20) = 2;
-        gCurTask->main = sub_8025CC4;
+        s2->graphics.anim = SA1_ANIM_EGGMAN;
+        s2->variant = 2;
+        gCurTask->main = Task_8025CC4;
         gMusicManagerState.unk1 = 0x11;
     }
 }
 
-void sub_8025CC4(void) {
-    s16 temp_r2;
-    s32 temp_r3;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 temp_r6;
-    u16 temp_r7;
+void Task_8025CC4(void)
+{
+    EggHammerTank *tank;
+    SpriteBase *base;
+    MapEntity *me;
+    Sprite *s, *s2;
+    CamCoord worldX, worldY;
+    AnimCmdResult acmdRes;
 
-    temp_r7 = TASK_DATA(gCurTask);
-    temp_r3 = temp_r7->unk0;
-    temp_r5 = temp_r7->unkC;
-    temp_r6 = temp_r7->unk44;
-    temp_r2 = (s16) ((temp_r3->unk8 * 8) + (temp_r3->unk4 << 8)) - (u16) gCamera.x;
-    temp_r5->unk16 = temp_r2;
-    temp_r5->unk18 = (s16) ((s16) ((temp_r3->unk0->unk1 * 8) + (temp_r3->unk6 << 8)) - (u16) gCamera.y);
-    temp_r6->unk16 = temp_r2;
-    temp_r6->unk18 = (u16) temp_r5->unk18;
-    UpdateSpriteAnimation((Sprite *) temp_r5);
-    temp_r4 = UpdateSpriteAnimation((Sprite *) temp_r6);
-    DisplaySprite((Sprite *) temp_r5);
-    DisplaySprite((Sprite *) temp_r6);
-    if (temp_r4 == ACMD_RESULT__ENDED) {
-        temp_r5->unkA = 0x2B5;
-        *(temp_r7->unk2C) = 1;
-        temp_r6->unkA = 0x2B6;
-        *(temp_r7->unk64) = 9;
-        gCurTask->main = sub_8025D80;
+    tank = TASK_DATA(gCurTask);
+    base = &tank->base;
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = tank->base.me;
+
+    worldX = TO_WORLD_POS(base->meX, base->regionX);
+    worldY = TO_WORLD_POS(me->y, base->regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+
+    UpdateSpriteAnimation(s);
+    acmdRes = UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        s->graphics.anim = SA1_ANIM_BOSS_1_INTRO;
+        s->variant = 1;
+        s2->graphics.anim = SA1_ANIM_EGGMAN;
+        s2->variant = 9;
+        gCurTask->main = Task_8025D80;
     }
 }
 
-void sub_8025D80(void) {
-    Sprite *temp_r5;
-    Sprite *temp_r6;
-    s16 temp_r1;
-    s16 temp_r7;
-    s32 temp_r4;
-    u16 temp_r0;
-    void *temp_r3;
+void Task_8025D80(void)
+{
+    EggHammerTank *tank;
+    SpriteBase *base;
+    MapEntity *me;
+    Sprite *s, *s2;
+    CamCoord worldX, worldY;
+    AnimCmdResult acmdRes;
 
-    temp_r0 = TASK_DATA(gCurTask);
-    temp_r3 = temp_r0->unk0;
-    temp_r5 = temp_r0->unkC;
-    temp_r6 = temp_r0->unk44;
-    temp_r1 = (s16) ((temp_r3->unk8 * 8) + (temp_r3->unk4 << 8)) - (u16) gCamera.x;
-    temp_r5->x = temp_r1;
-    temp_r7 = (temp_r3->unk0->unk1 * 8) + (temp_r3->unk6 << 8);
-    temp_r5->y = temp_r7 - (u16) gCamera.y;
-    temp_r6->x = temp_r1;
-    temp_r6->y = (u16) temp_r5->y;
-    temp_r4 = UpdateSpriteAnimation(temp_r5);
-    UpdateSpriteAnimation(temp_r6);
-    DisplaySprite(temp_r5);
-    DisplaySprite(temp_r6);
-    if (temp_r4 == ACMD_RESULT__ENDED) {
-        gCurTask->main = sub_8025E6C;
-        temp_r5->graphics.anim = 0x2B5;
-        *(temp_r0->unk2C) = 0;
-        temp_r5->frameFlags |= 0x400;
-        temp_r6->graphics.anim = 0x2B6;
-        *(temp_r0->unk64) = 0;
-        temp_r6->frameFlags |= 0x400;
-        sub_80174DC((s16) (temp_r7 - 0x30), (s16) (temp_r7 + 0x70));
+    tank = TASK_DATA(gCurTask);
+    base = &tank->base;
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = tank->base.me;
+
+    worldX = TO_WORLD_POS(base->meX, base->regionX);
+    worldY = TO_WORLD_POS(me->y, base->regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+
+    acmdRes = UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        gCurTask->main = Task_8025E6C;
+        s->graphics.anim = SA1_ANIM_BOSS_1_INTRO;
+        s->variant = 0;
+        s->frameFlags |= 0x400;
+        s2->graphics.anim = SA1_ANIM_EGGMAN;
+        s2->variant = 0;
+        s2->frameFlags |= 0x400;
+        sub_80174DC((worldY - 0x30), (worldY + 0x70));
     }
 }
 
-void sub_8025E6C(void) {
-    s16 temp_r2;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r3;
-    s32 temp_r5;
-    s32 temp_r6;
-    u16 temp_r0;
+void Task_8025E6C(void)
+{
+    EggHammerTank *tank;
+    SpriteBase *base;
+    MapEntity *me;
+    Sprite *s, *s2;
+    CamCoord worldX, worldY;
+    AnimCmdResult acmdRes;
 
-    temp_r0 = TASK_DATA(gCurTask);
-    temp_r3 = temp_r0->unk0;
-    temp_r5 = temp_r0->unkC;
-    temp_r6 = temp_r0->unk44;
-    temp_r0_2 = temp_r0->unk8C;
-    temp_r1 = *temp_r0_2 + 0x200;
-    *temp_r0_2 = temp_r1;
-    temp_r2 = (s16) ((temp_r3->unk8 * 8) + (temp_r3->unk4 << 8) + (temp_r1 >> 8)) - (u16) gCamera.x;
-    temp_r5->unk16 = temp_r2;
-    temp_r5->unk18 = (s16) ((s16) ((temp_r3->unk0->unk1 * 8) + (temp_r3->unk6 << 8)) - (u16) gCamera.y);
-    temp_r6->unk16 = temp_r2;
-    temp_r6->unk18 = (u16) temp_r5->unk18;
-    if ((s32) *(temp_r5 + 0x16) > 0x130) {
-        gPlayer.moveState &= 0xFFDFFFFF;
+    tank = TASK_DATA(gCurTask);
+    base = &tank->base;
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = tank->base.me;
+
+    tank->qUnk8C += Q(2);
+
+    worldX = TO_WORLD_POS(base->meX, base->regionX) + I(tank->qUnk8C);
+    worldY = TO_WORLD_POS(me->y, base->regionY);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+
+    if (s->x > DISPLAY_WIDTH + 64) {
+        gPlayer.moveState &= ~0x200000;
         gPlayer.heldInput |= gPlayerControls.jump | gPlayerControls.attack;
         TaskDestroy(gCurTask);
-        gCamera.maxX = (s16) gRefCollision->pxWidth;
+        gCamera.maxX = (s16)gRefCollision->pxWidth;
         return;
     }
-    UpdateSpriteAnimation((Sprite *) temp_r5);
-    UpdateSpriteAnimation((Sprite *) temp_r6);
-    DisplaySprite((Sprite *) temp_r5);
-    DisplaySprite((Sprite *) temp_r6);
+
+    acmdRes = UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
 }
 
+#if 0
 void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
     s32 sp4;
     s32 temp_r0;
@@ -300,7 +320,7 @@ void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id) 
     *(temp_r3->unk98) = 0;
     *(temp_r3->unk96) = 0xFFFC;
     *(temp_r3->unk9B) = 0;
-    *(temp_r3->unk8C) = 0;
+    *(temp_r3->qUnk8C) = 0;
     *(temp_r3->unk9C) = 0;
     if (gLoadedSaveGame.difficultyLevel != 0) {
         *(temp_r3->unk9A) = 2;
@@ -397,14 +417,14 @@ void Task_802611C(void) {
         CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, 0x80);
     }
     if (temp_r6->unk10 & 0x400) {
-        var_r1 = tank->unk8C;
+        var_r1 = tank->qUnk8C;
         var_r0 = *var_r1 + 0x100;
     } else {
-        var_r1 = tank->unk8C;
+        var_r1 = tank->qUnk8C;
         var_r0 = *var_r1 + 0xFFFFFF00;
     }
     *var_r1 = var_r0;
-    temp_r5_2 = (u16) ((temp_r0->unk8 * 8) + (temp_r0->unk4 << 8) + ((s32) *(tank->unk8C) >> 8));
+    temp_r5_2 = (u16) ((temp_r0->unk8 * 8) + (temp_r0->unk4 << 8) + ((s32) *(tank->qUnk8C) >> 8));
     temp_r6->unk10 = (s32) (temp_r6->unk10 & 0xFFFFFE7F);
     temp_r3 = gPlayer.moveState & 0x80;
     if (temp_r3 == 0) {
@@ -575,7 +595,7 @@ void sub_80264C8(void) {
     sp10 = temp_r1;
     if ((s32) temp_r3_2 < 0xFFFFFD00) {
         *temp_r1 = (u16) (temp_r2 + 0x400);
-        temp_r2_2 = temp_r3->unk8C;
+        temp_r2_2 = temp_r3->qUnk8C;
         *temp_r2_2 = (s32) (*temp_r2_2 - (gSineTable[0x138] * 3));
         var_sb = temp_r2_2;
     } else {
@@ -825,7 +845,7 @@ void sub_8026C44(void) {
     temp_r5 = temp_r2->unk90;
     temp_r3_2 = *temp_r5 + (s16) *temp_r6;
     *temp_r5 = temp_r3_2;
-    temp_r1 = (temp_r7->unk8 * 8) + (temp_r7->unk4 << 8) + ((s32) *(temp_r2->unk8C) >> 8);
+    temp_r1 = (temp_r7->unk8 * 8) + (temp_r7->unk4 << 8) + ((s32) *(temp_r2->qUnk8C) >> 8);
     temp_r0 = (temp_r7->unk0->unk1 * 8) + (temp_r7->unk6 << 8) + (temp_r3_2 >> 8);
     temp_r3_3 = (u16) temp_r1;
     temp_r0_2 = sa2__sub_801F100(temp_r0 - 8, (s32) temp_r1, 1, 8, sa2__sub_801EC3C);
@@ -917,7 +937,7 @@ void sub_8026ED0(void) {
     temp_r2 = temp_r7->unk0;
     sp4 = temp_r7->unkC;
     temp_r1 = temp_r7->unk44;
-    temp_r1_2 = (u16) ((temp_r2->unk8 * 8) + (temp_r2->unk4 << 8) + ((s32) *(temp_r7->unk8C) >> 8));
+    temp_r1_2 = (u16) ((temp_r2->unk8 * 8) + (temp_r2->unk4 << 8) + ((s32) *(temp_r7->qUnk8C) >> 8));
     sp8 = (s32) temp_r1_2;
     temp_r1_3 = (u16) ((temp_r2->unk0->unk1 * 8) + (temp_r2->unk6 << 8) + ((s32) *(temp_r7->unk90) >> 8));
     spC = (s32) temp_r1_3;
