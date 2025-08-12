@@ -1,16 +1,19 @@
 #include "global.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/entity.h"
 #include "game/save.h"
 #include "game/stage/player_controls.h"
+#include "game/stage/screen_shake.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
 void CreateBossCapsule(s16, s16);
-s32 sub_800BA5C(s32, s16, s32, Player *);
+// returns 0, 1 or 2
+s32 sub_800BA5C(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 void sub_8015C5C(s16, s32);
 void *sub_80168F0(s32, s32, s32, s32, s32);
 struct Task *sub_80174DC(s16, s16);
@@ -24,7 +27,7 @@ void TaskDestructor_EggHammerTank(struct Task *);
 void Task_8025CC4();
 void Task_8025D80();
 void Task_8025E6C();
-void sub_80264C8();
+void Task_80264C8();
 void sub_8026C44();
 void sub_8026ED0();
 void sub_80271E4();
@@ -41,11 +44,11 @@ typedef struct EggHammerTank {
     /* 0x74 */ u8 padding7C[0x10];
     /* 0x8C */ s32 qUnk8C;
     /* 0x74 */ u8 padding90[0x4];
-    /* 0x94 */ u16 unk94;
-    /* 0x96 */ u16 unk96;
-    /* 0x98 */ u16 unk98;
-    /* 0x9A */ u8 unk9A;
-    /* 0x9B */ u8 unk9B;
+    /* 0x94 */ s16 unk94;
+    /* 0x96 */ s16 unk96;
+    /* 0x98 */ s16 unk98;
+    /* 0x9A */ s8 unk9A;
+    /* 0x9B */ s8 unk9B;
     /* 0x9C */ u8 unk9C;
     /* 0x9C */ u8 unk9D;
 } EggHammerTank; /* 0xA0 */
@@ -368,167 +371,130 @@ void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     gMusicManagerState.unk1 = 0x10;
 }
 
-#if 0
-void Task_802611C(void) {
-    s32 sp4;
-    s32 sp8;
-    s16 temp_r1_3;
-    s16 temp_r4_2;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r3_2;
-    s32 temp_r5;
-    s32 temp_r5_3;
-    s32 temp_r6;
-    s32 temp_r7;
-    s32 temp_r8_2;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_4;
-    s32 var_r1;
-    s8 temp_r0_4;
-    s8 temp_r1_4;
-    s8 var_r0_3;
-    u16 temp_r3;
-    u16 temp_r3_3;
+void Task_802611C(void)
+{
+    s32 resA;
+    s32 resB;
+
     EggHammerTank *tank;
-    u16 temp_r5_2;
-    u16 var_r0_5;
-    void *temp_r8;
+    MapEntity *me;
+    Sprite *s, *s2;
+    CamCoord worldX, worldY;
+    AnimCmdResult acmdRes;
 
     tank = TASK_DATA(gCurTask);
-    temp_r0 = tank->unk0;
-    temp_r6 = tank->unkC;
-    temp_r7 = tank->unk44;
-    temp_r8 = temp_r0->unk0;
-    temp_r1 = tank->unk94;
-    temp_r5 = tank->unk96;
-    temp_r0_2 = *temp_r5 + *temp_r1;
-    *temp_r1 = (u16) temp_r0_2;
-    if ((u32) ((temp_r0_2 + 0x237) << 0x10) > 0x026E0000U) {
-        m4aSongNumStart(0x91U);
-        *temp_r5 = (u16) (0 - *temp_r5);
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = tank->base.me;
+
+    tank->unk94 += tank->unk96;
+    if (!(tank->unk94 > -568 && tank->unk94 < 56)) {
+        m4aSongNumStart(SE_IMPACT);
+        tank->unk96 = -tank->unk96;
         CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, 0x80);
     }
-    if (temp_r6->unk10 & 0x400) {
-        var_r1 = tank->qUnk8C;
-        var_r0 = *var_r1 + 0x100;
+
+    if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+        tank->qUnk8C += Q(1);
     } else {
-        var_r1 = tank->qUnk8C;
-        var_r0 = *var_r1 + 0xFFFFFF00;
+        tank->qUnk8C -= Q(1);
     }
-    *var_r1 = var_r0;
-    temp_r5_2 = (u16) ((temp_r0->unk8 * 8) + (temp_r0->unk4 << 8) + ((s32) *(tank->qUnk8C) >> 8));
-    temp_r6->unk10 = (s32) (temp_r6->unk10 & 0xFFFFFE7F);
-    temp_r3 = gPlayer.moveState & 0x80;
-    if (temp_r3 == 0) {
+
+    worldX = TO_WORLD_POS(tank->base.meX, tank->base.regionX) + I(tank->qUnk8C);
+    worldY = TO_WORLD_POS(me->y, tank->base.regionY);
+    s->frameFlags &= ~0x180;
+    if (!(gPlayer.moveState & 0x80)) {
         gDispCnt &= 0x7FFF;
-        gWinRegs[5] = temp_r3;
-        gBldRegs.bldCnt = temp_r3;
-        gBldRegs.bldY = temp_r3;
+        gWinRegs[5] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
     }
-    temp_r0_3 = tank->unk9B;
-    sp4 = temp_r5_2 << 0x10;
-    sp8 = (u16) ((temp_r8->unk1 * 8) + (temp_r0->unk6 << 8)) << 0x10;
-    if (*temp_r0_3 == 0) {
-        tank_2 = (s16) temp_r5_2;
-        temp_r5_3 = sp8 >> 0x10;
-        temp_r8_2 = sub_800BA5C(temp_r6, tank_2, temp_r5_3, &gPlayer);
-        if ((s8) (u8) gNumSingleplayerCharacters == 2) {
-            var_r0_2 = sub_800BA5C(temp_r6, tank_2, temp_r5_3, &gPartner);
+
+    if (tank->unk9B == 0) {
+        resA = sub_800BA5C(s, worldX, worldY, &gPlayer);
+        if (gNumSingleplayerCharacters == 2) {
+            resB = sub_800BA5C(s, worldX, worldY, &gPartner);
         } else {
-            var_r0_2 = 0;
+            resB = 0;
         }
-        if ((temp_r8_2 == 1) || (var_r0_2 == 1)) {
-            temp_r2 = tank->unk9A;
-            *temp_r2 = (u8) (*temp_r2 + 1);
-            *temp_r0_3 = 0x20;
-            temp_r0_4 = (s8) *temp_r2;
-            if (temp_r0_4 == 7) {
-                *temp_r0_3 = 0x40;
-                gCurTask->main = sub_80264C8;
-            } else if ((s32) temp_r0_4 > 4) {
-                temp_r1_2 = tank->unk96;
-                if ((s32) *temp_r1_2 > 0) {
-                    var_r0_3 = (s8) *temp_r2 + 1;
+        if ((resA == 1) || (resB == 1)) {
+            tank->unk9A++;
+            tank->unk9B = 0x20;
+            if (tank->unk9A == 7) {
+                tank->unk9B = 0x40;
+                gCurTask->main = Task_80264C8;
+            } else if (tank->unk9A > 4) {
+                if (tank->unk96 > 0) {
+                    tank->unk96 = (s8)tank->unk9A + 1;
                 } else {
-                    var_r0_3 = ~(s8) *temp_r2;
+                    tank->unk96 = ~(s8)tank->unk9A;
                 }
-                *temp_r1_2 = (s16) var_r0_3;
             }
-            *(temp_r7 + 0x20) = 2;
-            m4aSongNumStart(0x8FU);
-        } else if ((temp_r8_2 == 2) || (var_r0_2 == 2)) {
-            *(temp_r7 + 0x20) = 1;
+            s2->variant = 2;
+            m4aSongNumStart(SE_143);
+        } else if ((resA == 2) || (resB == 2)) {
+            s2->variant = 1;
         }
     }
-    temp_r3_2 = sp4 >> 0x10;
-    temp_r1_3 = temp_r3_2 - (u16) gCamera.x;
-    temp_r6->unk16 = temp_r1_3;
-    temp_r6->unk18 = (s16) ((sp8 >> 0x10) - (u16) gCamera.y);
-    temp_r7->unk16 = temp_r1_3;
-    temp_r7->unk18 = (u16) temp_r6->unk18;
-    if (temp_r3_2 < (s32) (gCamera.minX - 0x40)) {
-        temp_r6->unk10 = (s32) (temp_r6->unk10 | 0x400);
-        temp_r7->unk10 = temp_r7->unk10 | 0x400;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = (u16)s->y;
+    if (worldX < (s32)(gCamera.minX - 0x40)) {
+        s->frameFlags = (s32)(s->frameFlags | 0x400);
+        s2->frameFlags = s2->frameFlags | 0x400;
+    } else if (worldX > (s32)(gCamera.maxX + 0x40)) {
+        s->frameFlags &= ~0x400;
+        s2->frameFlags &= ~0x400;
     }
-    if (temp_r3_2 > (s32) (gCamera.maxX + 0x40)) {
-        temp_r6->unk10 &= ~0x400;
-        temp_r7->unk10 &= ~0x400;
+    UpdateSpriteAnimation((Sprite *)s);
+    UpdateSpriteAnimation((Sprite *)s2);
+    if (s->variant == 2) {
+        s2->y = (u16)(s2->y - 1);
     }
-    UpdateSpriteAnimation((Sprite *) temp_r6);
-    UpdateSpriteAnimation((Sprite *) temp_r7);
-    if (*(temp_r6 + 0x20) == 2) {
-        temp_r7->unk18 = (u16) (temp_r7->unk18 - 1);
-    }
-    if (*temp_r0_3 != 0) {
-        temp_r1_4 = (u8) *temp_r0_3 - 1;
-        *temp_r0_3 = temp_r1_4;
-        if ((s32) temp_r1_4 > 0x10) {
-            if (!(temp_r1_4 & 2) && !(gPlayer.moveState & 0x80)) {
-                temp_r6->unk10 = (s32) (temp_r6->unk10 | 0x100);
+    if (tank->unk9B != 0) {
+        if (--tank->unk9B > 0x10) {
+            if (!(tank->unk9B & 2) && !(gPlayer.moveState & 0x80)) {
+                s->frameFlags = (s32)(s->frameFlags | 0x100);
                 gDispCnt |= 0x8000;
                 gWinRegs[5] = 0x3F1F;
                 gBldRegs.bldCnt = 0xBF;
                 gBldRegs.bldY = 0x10;
             }
-            
-            DisplaySprite((Sprite *) temp_r6);
-            DisplaySprite((Sprite *) temp_r7);
-        } else if (temp_r1_4 & 2) {
-            DisplaySprite((Sprite *) temp_r6);
-            DisplaySprite((Sprite *) temp_r7);
+
+            DisplaySprite(s);
+            DisplaySprite(s2);
+        } else if (tank->unk9B & 2) {
+            DisplaySprite(s);
+            DisplaySprite(s2);
         }
     } else {
-        DisplaySprite((Sprite *) temp_r6);
-        DisplaySprite((Sprite *) temp_r7);
+        DisplaySprite(s);
+        DisplaySprite(s2);
     }
-    temp_r3_3 = temp_r6->unk10 & 0x400;
-    if (temp_r3_3 != 0) {
-        sa2__gUnknown_03001944 = 0x3FF & *(tank->unk94);
-        sa2__gUnknown_030017F0 = 0x100;
-        sa2__gUnknown_03005394 = 0x100;
-        sa2__gUnknown_03002A8C = 0;
-        sa2__gUnknown_03004D58 = 0;
-        sa2__gUnknown_0300194C = (s16) temp_r0->unk22;
-        var_r0_5 = temp_r0->unk24;
+
+    if (s->frameFlags & 0x400) {
+        SA2_LABEL(gUnknown_03001944) = 0x3FF & tank->unk94;
+        SA2_LABEL(gUnknown_030017F0) = 0x100;
+        SA2_LABEL(gUnknown_03005394) = 0x100;
+        SA2_LABEL(gUnknown_03002A8C) = 0;
+        SA2_LABEL(gUnknown_03004D58) = 0;
+        SA2_LABEL(gUnknown_0300194C) = tank->s.x;
+        SA2_LABEL(gUnknown_03002820) = tank->s.y - 0x24;
     } else {
-        sa2__gUnknown_03001944 = 0x3FF & *(tank->unk94);
-        sa2__gUnknown_030017F0 = 0x100;
-        sa2__gUnknown_03005394 = 0x100;
-        sa2__gUnknown_03002A8C = temp_r3_3;
-        sa2__gUnknown_03004D58 = temp_r3_3;
-        sa2__gUnknown_0300194C = (s16) temp_r0->unk22;
-        var_r0_5 = temp_r0->unk24;
+        SA2_LABEL(gUnknown_03001944) = 0x3FF & tank->unk94;
+        SA2_LABEL(gUnknown_030017F0) = 0x100;
+        SA2_LABEL(gUnknown_03005394) = 0x100;
+        SA2_LABEL(gUnknown_03002A8C) = 0;
+        SA2_LABEL(gUnknown_03004D58) = 0;
+        SA2_LABEL(gUnknown_0300194C) = tank->s.x;
+        SA2_LABEL(gUnknown_03002820) = tank->s.y - 0x24;
     }
-    sa2__gUnknown_03002820 = var_r0_5 - 0x24;
 }
 
-void sub_80264C8(void) {
+#if 0
+void Task_80264C8(void) {
     s32 sp4;
     s32 sp8;
     s32 spC;
