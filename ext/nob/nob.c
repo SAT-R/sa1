@@ -177,8 +177,10 @@ int main(int argc, char **argv)
     
     const char *binary_path = nob_shift(argv, argc);
 
-    if (!mkdir_if_not_exists(BUILD_DIR)) return -1;
-
+    if (!mkdir_if_not_exists(BUILD_DIR)) {
+        nob_log(ERROR, "Could not create directory '"BUILD_DIR"'");
+        return -1;
+    }
 
     ts_build_start = ts_param_parse_start = GET_HIGH_RES_TIMER();
     const Parameters build_params = parse_program_parameters(&argc, &argv); 
@@ -299,15 +301,35 @@ Parameters parse_program_parameters(int *argc, char ***argv)
         }
     }
 
-    const char *platform_ident = platform_idents[build_params.target_platform];
-    const char *game_ident     = game_idents[build_params.target_game][build_params.debug_target];
-    const char *build_dir  = nob_temp_sprintf(BUILD_DIR"%s/%s/", platform_ident, game_ident);
-    build_params.build_dir = build_dir;
-
+    void *tmp = &nob_temp[0];
     if(build_params.target_platform == PLATFORM_NONE)
     {
         build_params.compiler_prefix = "";
         build_params.compiler_toolchain = "";
+        build_params.build_dir = "";
+    } else {
+        const char *platform_ident = platform_idents[build_params.target_platform];
+        const char *game_ident     = game_idents[build_params.target_game][build_params.debug_target];
+        const char *build_dir  = nob_temp_sprintf(BUILD_DIR"%s/%s/", platform_ident, game_ident);
+        build_params.build_dir = build_dir;
+
+        // IMPORTANT: Make sure nob_temp_save() is BELOW build_params.build_dir!
+        size_t checkpoint = nob_temp_save();
+
+        const char *platform_dir = nob_temp_sprintf(BUILD_DIR"%s", platform_ident);
+
+        // TODO: Create a recursive function for path building?
+        if (!mkdir_if_not_exists(platform_dir)) {
+            nob_log(ERROR, "Could not create directory '%s'", platform_dir);
+            exit(-9);
+        }
+
+        if (!mkdir_if_not_exists(build_dir)) {
+            nob_log(ERROR, "Could not create directory '%s'", platform_dir);
+            exit(-9);
+        }
+
+        nob_temp_rewind(checkpoint);
     }
     
     // Make sure no string is NULL.
@@ -442,9 +464,7 @@ void build_shared_libs(const Parameters build_params)
             NULL))
         {          
             nob_cc(&cmd);                                               
-            nob_cc_inputs(&cmd,
-                LOCAL_LIB_DIR"arena_alloc.c"
-            );
+            nob_cc_inputs(&cmd, LOCAL_LIB_DIR"arena_alloc.c");
 #if defined(_WIN32) || defined(_MSC_VER)
             nob_cmd_append(&cmd, "/O2", "/c", "/EHsc");
             nob_cmd_append(&cmd, "/Fo" LOCAL_LIB_DIR);
@@ -469,9 +489,7 @@ void build_shared_libs(const Parameters build_params)
             NULL))
         {          
             nob_cc(&cmd);                                               
-            nob_cc_inputs(&cmd,
-                LOCAL_LIB_DIR "c_header_parser.c"
-            );
+            nob_cc_inputs(&cmd, LOCAL_LIB_DIR "c_header_parser.c");
             
             /* c_header_parser depends on: */
             // arena_alloc
@@ -501,9 +519,7 @@ void build_shared_libs(const Parameters build_params)
             NULL))
         {          
             nob_cc(&cmd);                                               
-            nob_cc_inputs(&cmd,
-                LOCAL_LIB_DIR "csv_conv.c"
-            );
+            nob_cc_inputs(&cmd, LOCAL_LIB_DIR "csv_conv.c");
 #if defined(_WIN32) || defined(_MSC_VER)
             nob_cmd_append(&cmd, "/O2", "/c", "/EHsc");
             nob_cmd_append(&cmd, "/Fo" LOCAL_LIB_DIR);
@@ -992,8 +1008,6 @@ void build_songs(const Parameters build_params)
     Nob_File_Paths song_asm_files = {0};
     Nob_File_Paths song_obj_files = {0}; // NOTE: Always append *.o to this, when appending to song_asm_files!
 
-    const char *base_dir = nob_get_current_dir_temp();
-    
     if(nob_read_entire_dir(midis_sub_dir, &song_midi_all)) {
         mkdir_if_not_exists(build_dir_asm);
         mkdir_if_not_exists(build_dir_midi);
@@ -1065,7 +1079,6 @@ void build_songs(const Parameters build_params)
         nob_log(INFO, "Waiting on MIDIs to be built...\n");
         if (!procs_wait_and_reset(&procs)) {
             nob_log(ERROR, "Error building tools");
-            nob_set_current_dir(base_dir);
             
             nob_temp_rewind(temp_size);
             return;
@@ -1105,7 +1118,6 @@ void build_songs(const Parameters build_params)
     nob_log(INFO, "Waiting on songs to be compiled...\n");
     if (!procs_wait_and_reset(&procs)) {
         nob_log(ERROR, "Error building songs");
-        nob_set_current_dir(base_dir);
             
         nob_temp_rewind(temp_size);
         return;
@@ -1132,7 +1144,7 @@ void assemble_with_preproc(Cmd *cmd, const Parameters build_params, Nob_File_Pat
         const char *obj_file = obj_files.items[song_i];
 
         if(nob_needs_rebuild1(obj_file, asm_file))
-        {    
+        {
             // TODO: Remove this once nob supports piping
             Nob_Cmd_Redirect redirect = {0};
             const char *preproc_out_0 = temp_sprintf("%s.pp0", asm_file);

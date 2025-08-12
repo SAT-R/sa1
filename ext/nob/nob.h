@@ -569,14 +569,14 @@ bool nob_set_current_dir(const char *path);
 #  else
 #    define nob_cc_tools_flags_c_2(cmd, _toolName) nob_cmd_append(cmd, "-O3", "-Wall", "-std=c11", "-Wno-unused-result", "-Wno-switch", "-Werror", "-s")
 #  endif
-#endif // nob_cc_output
+#endif // nob_cc_tools_flags_c_2
 #ifndef nob_cc_tools_flags_cplusplus_2
 #  if defined(_MSC_VER) && !defined(__clang__)
 #    define nob_cc_tools_flags_cplusplus_2(cmd, _toolName) nob_cmd_append(cmd, "/O2", "/EHsc")
 #  else
 #    define nob_cc_tools_flags_cplusplus_2(cmd, _toolName) nob_cmd_append(cmd, "-O3", "-Wall", "-std=c++11", "-Wno-unused-result", "-Wno-switch", "-Werror", "-s")
 #  endif
-#endif // nob_cc_output
+#endif // nob_cc_tools_flags_cplusplus_2
 
 #ifndef nob_cc_output
 #  if defined(_MSC_VER) && !defined(__clang__)
