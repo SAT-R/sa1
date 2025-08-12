@@ -243,6 +243,8 @@ void CopyOamBufferToOam(void);
 OamData *OamMalloc(u8 order);
 
 void TransformSprite(Sprite *, SpriteTransform *);
+// NOTE: Not actually unused in SA1. TODO: Align name with SA2!
+void UnusedTransform(Sprite *sprite, SpriteTransform *transform);
 void sub_8004ABC(Sprite *, SpriteTransform *);
 void SA2_LABEL(sub_8004E14)(Sprite *, SpriteTransform *);
 

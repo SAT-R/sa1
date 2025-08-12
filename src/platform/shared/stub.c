@@ -95,7 +95,6 @@ void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 i
 
 // Bosses
 extern void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_EggPress(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }

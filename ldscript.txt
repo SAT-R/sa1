@@ -75,6 +75,7 @@ SECTIONS {
         src/game/interactables/platform_crumbling.o(.text);
         src/game/interactables/fadein_to_be_continued.o(.text);
         src/game/special_stage/temporary_sound_play_task.o(.text);
+        src/game/enemies/boss_1_egg_hammer_tank.o(.text);
         asm/enemy_boss_1_egg_hammer_tank.o(.text);
         src/game/interactables/breakable_wall.o(.text);
         asm/game__mp_chao.o(.text);
