@@ -99,7 +99,7 @@ int main(void)
     }
 #endif
 
-    state.game = GAME_SA2; // TODO: Load from settings.txt if it exists
+    state.game = GAME_SA1; // TODO: Load from settings.txt if it exists
 
 
     // NOTE: We could just use "../../" for the check,
@@ -360,9 +360,19 @@ LoadEntityDataFromCSVs(AppState *state)
         EditorEntity *ent = &entities.elements[i];
 
         if(ent->etype == ET_INTERACTABLE) {
-            if(ent->kind == IA__GOAL_LEVER) {
-                state->map.endX = ent->worldX;
-                state->map.endY = ent->worldY;
+            if(state->game == GAME_SA1)
+            {
+                if(ent->kind == IA__STAGE_GOAL) {
+                    state->map.endX = ent->worldX;
+                    state->map.endY = ent->worldY;
+                }
+            } else if(state->game == GAME_SA2) {
+#if 0
+                if(ent->kind == IA__GOAL_LEVER) {
+                    state->map.endX = ent->worldX;
+                    state->map.endY = ent->worldY;
+                }
+#endif
             }
         } else {
             // We just created the list in order, so we can be sure that
@@ -546,21 +556,43 @@ SetNewMetatiles(AppState *state, int x, int y)
     short targetIndex = y * map->width + x;
 
     if(targetIndex < (state->paths.map.tilemap.dataSize / sizeof(short))) {
-        if(map->flags & MAP_FLAG_SHOW_BACK_LAYER) {
-            unsigned short *layoutBack  = state->paths.map.layers[LAYER_BACK].data;
+        if(state->game == GAME_SA1)
+        {
+            if(map->flags & MAP_FLAG_SHOW_BACK_LAYER) {
+                unsigned char *layoutBack  = state->paths.map.layers[LAYER_BACK].data;
 
-            if(layoutBack[targetIndex] != map->selectedMetatileIndexBack) {
-                layoutBack[targetIndex]  = map->selectedMetatileIndexBack;
-                state->unsavedChangesExist = true;
+                if(layoutBack[targetIndex] != map->selectedMetatileIndexBack) {
+                    layoutBack[targetIndex]  = map->selectedMetatileIndexBack;
+                    state->unsavedChangesExist = true;
+                }
             }
-        }
 
-        if(map->flags & MAP_FLAG_SHOW_FRONT_LAYER) {
-            unsigned short *layoutFront = state->paths.map.layers[LAYER_FRONT].data;
+            if(map->flags & MAP_FLAG_SHOW_FRONT_LAYER) {
+                unsigned char *layoutFront = state->paths.map.layers[LAYER_FRONT].data;
 
-            if(layoutFront[targetIndex] != map->selectedMetatileIndexFront) {
-                layoutFront[targetIndex] = map->selectedMetatileIndexFront;
-                state->unsavedChangesExist = true;
+                if(layoutFront[targetIndex] != map->selectedMetatileIndexFront) {
+                    layoutFront[targetIndex] = map->selectedMetatileIndexFront;
+                    state->unsavedChangesExist = true;
+                }
+            }
+        } else {
+            /* SA2 / SA3 */
+            if(map->flags & MAP_FLAG_SHOW_BACK_LAYER) {
+                unsigned short *layoutBack  = state->paths.map.layers[LAYER_BACK].data;
+
+                if(layoutBack[targetIndex] != map->selectedMetatileIndexBack) {
+                    layoutBack[targetIndex]  = map->selectedMetatileIndexBack;
+                    state->unsavedChangesExist = true;
+                }
+            }
+
+            if(map->flags & MAP_FLAG_SHOW_FRONT_LAYER) {
+                unsigned short *layoutFront = state->paths.map.layers[LAYER_FRONT].data;
+
+                if(layoutFront[targetIndex] != map->selectedMetatileIndexFront) {
+                    layoutFront[targetIndex] = map->selectedMetatileIndexFront;
+                    state->unsavedChangesExist = true;
+                }
             }
         }
     }
@@ -577,14 +609,20 @@ GetMousePositionInRec(Rectangle rec) {
 }
 
 inline int
-GetMetatileIndex(StageMap *map, Tilemap* tilemap, MetatileLayer layer, int x, int y)
+GetMetatileIndex(GameId game, StageMap *map, Tilemap* tilemap, MetatileLayer layer, int x, int y)
 {
     ///assert(layer < LAYER_COUNT);
 
     if(x >= 0 && y >= 0
-    && x < map->width && y < map->height) {        
-        uint16_t *mtIndices = tilemap->layers[layer].data;
-        return mtIndices[y * map->width + x];
+    && x < map->width && y < map->height) {
+        if(game == GAME_SA1)
+        {
+            uint8_t *mtIndices = tilemap->layers[layer].data;
+            return mtIndices[y * map->width + x];
+        } else {
+            uint16_t *mtIndices = tilemap->layers[layer].data;
+            return mtIndices[y * map->width + x];
+        }
     } else {
         return 0;
     }
@@ -638,8 +676,8 @@ HandleMouseInput(AppState *state, Rectangle recMap)
                     map->selectedMetatile.x = mtMouse.x;
                     map->selectedMetatile.y = mtMouse.y;
 
-                    int mtIndexFront = GetMetatileIndex(&state->map, &state->paths.map, LAYER_FRONT, state->map.selectedMetatile.x, state->map.selectedMetatile.y);
-                    int mtIndexBack  = GetMetatileIndex(&state->map, &state->paths.map, LAYER_BACK , state->map.selectedMetatile.x, state->map.selectedMetatile.y);
+                    int mtIndexFront = GetMetatileIndex(state->game, &state->map, &state->paths.map, LAYER_FRONT, state->map.selectedMetatile.x, state->map.selectedMetatile.y);
+                    int mtIndexBack  = GetMetatileIndex(state->game, &state->map, &state->paths.map, LAYER_BACK , state->map.selectedMetatile.x, state->map.selectedMetatile.y);
     
                     state->map.selectedMetatileIndexFront = mtIndexFront;
                     state->map.selectedMetatileIndexBack  = mtIndexBack;

@@ -6,8 +6,8 @@
 	@********************** Track  1 **********************@
 
 	mAlignWord
-	.global se_sp_stage_trick_1
-se_sp_stage_trick_1:	@ 0x087B8E44
+	.global mus_sp_stage_trick_1
+mus_sp_stage_trick_1:	@ 0x087B8E44
 	.byte	KEYSH	, 0
 	.byte	TEMPO	, 65
 	.byte	VOICE	, 127
@@ -41,8 +41,8 @@ se_sp_stage_trick_1:	@ 0x087B8E44
 
 	@********************** Track  2 **********************@
 
-	.global se_sp_stage_trick_2
-se_sp_stage_trick_2:	@ 0x087B8E7B
+	.global mus_sp_stage_trick_2
+mus_sp_stage_trick_2:	@ 0x087B8E7B
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 45
 	.byte	VOL	, v115
@@ -77,8 +77,8 @@ se_sp_stage_trick_2:	@ 0x087B8E7B
 
 	@********************** Track  3 **********************@
 
-	.global se_sp_stage_trick_3
-se_sp_stage_trick_3:	@ 0x087B8EA6
+	.global mus_sp_stage_trick_3
+mus_sp_stage_trick_3:	@ 0x087B8EA6
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 87
 	.byte	VOL	, v082
@@ -108,8 +108,8 @@ se_sp_stage_trick_3:	@ 0x087B8EA6
 
 	@********************** Track  4 **********************@
 
-	.global se_sp_stage_trick_4
-se_sp_stage_trick_4:	@ 0x087B8ED9
+	.global mus_sp_stage_trick_4
+mus_sp_stage_trick_4:	@ 0x087B8ED9
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 74
 	.byte	VOL	, v115
@@ -139,8 +139,8 @@ se_sp_stage_trick_4:	@ 0x087B8ED9
 
 	@********************** Track  5 **********************@
 
-	.global se_sp_stage_trick_5
-se_sp_stage_trick_5:	@ 0x087B8F07
+	.global mus_sp_stage_trick_5
+mus_sp_stage_trick_5:	@ 0x087B8F07
 	.byte	KEYSH	, 0
 	.byte	VOICE	, 80
 	.byte	VOL	, v115
@@ -157,8 +157,8 @@ se_sp_stage_trick_5:	@ 0x087B8F07
 	.byte	FINE
 
 	mAlignWord
-	.global se_sp_stage_trick
-se_sp_stage_trick:	@ 0x087B8F20
+	.global mus_sp_stage_trick
+mus_sp_stage_trick:	@ 0x087B8F20
 	.byte	5		@ trackCount
 	.byte	0		@ blockCount
 	.byte	0		@ priority
@@ -167,8 +167,8 @@ se_sp_stage_trick:	@ 0x087B8F20
 mAlignWord
 	mPtr	voicegroup000		@ voicegroup/tone
 
-	mPtr	se_sp_stage_trick_1		@ track
-	mPtr	se_sp_stage_trick_2		@ track
-	mPtr	se_sp_stage_trick_3		@ track
-	mPtr	se_sp_stage_trick_4		@ track
-	mPtr	se_sp_stage_trick_5		@ track
+	mPtr	mus_sp_stage_trick_1		@ track
+	mPtr	mus_sp_stage_trick_2		@ track
+	mPtr	mus_sp_stage_trick_3		@ track
+	mPtr	mus_sp_stage_trick_4		@ track
+	mPtr	mus_sp_stage_trick_5		@ track
