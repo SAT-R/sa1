@@ -349,7 +349,7 @@ _08015F34: .4byte 0x03000030
 _08015F38: .4byte 0x03000060
 _08015F3C: .4byte gCamera
 _08015F40: .4byte 0x03000062
-_08015F44: .4byte Task_8015E6C
+_08015F44: .4byte Task_8015F60
 _08015F48: .4byte 0x000002B5
 _08015F4C: .4byte 0x03000020
 _08015F50: .4byte 0x000002B6
@@ -357,8 +357,8 @@ _08015F54: .4byte 0x03000050
 _08015F58: .4byte gCurrentLevel
 _08015F5C: .4byte 0x000007FF
 
-	thumb_func_start Task_8015E6C
-Task_8015E6C: @ 0x08015F60
+	thumb_func_start Task_8015F60
+Task_8015F60: @ 0x08015F60
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08015FC4 @ =gCurTask
 	ldr r7, [r0]

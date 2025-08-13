@@ -35,14 +35,15 @@ typedef struct {
     /* 0x48 */ s16 unk48;
 } Strc_sub_80168F0; /* 0x4C */
 void dummy() { }
-void Task_8026C44() { }
-void Task_80271E4() { }
 void Task_8027600() { }
 void Task_EggHammerTankMain() { }
+void sub_8015C5C(CamCoord worldX, CamCoord worldY) { }
 struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4)
 {
     return TaskCreate(dummy, sizeof(Strc_sub_80168F0), 0, 0, 0);
 }
+
+void CreateBossCapsule(s16 x, s16 y) { }
 
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }

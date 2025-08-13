@@ -4,9 +4,11 @@
 #include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/entity.h"
+#include "game/nuts_and_bolts_task.h"
 #include "game/save.h"
 #include "game/stage/player_controls.h"
 #include "game/stage/screen_shake.h"
+#include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -23,12 +25,12 @@ typedef struct EggHammerTank {
     /* 0x90 */ s32 qUnk90;
     /* 0x94 */ s16 unk94;
     /* 0x96 */ s16 unk96;
-    /* 0x98 */ s16 unk98;
+    /* 0x98 */ u16 unk98;
     /* 0x9A */ s8 unk9A;
     /* 0x9B */ s8 unk9B;
     /* 0x9C */ u8 unk9C;
     /* 0x9C */ u8 unk9D;
-    /* 0x9C */ s16 unk9E;
+    /* 0x9C */ s16 qUnk9E;
 } EggHammerTank; /* 0xA0 */
 
 typedef struct {
@@ -46,7 +48,7 @@ typedef struct {
 void CreateBossCapsule(s16, s16);
 // returns 0, 1 or 2
 s32 sub_800BA5C(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
-void sub_8015C5C(s16, s32);
+void sub_8015C5C(CamCoord worldX, CamCoord worldY);
 struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4);
 struct Task *sub_80174DC(s16, s16);
 struct Task *sub_8017540(s32, s32);
@@ -61,9 +63,9 @@ void Task_8025D80();
 void Task_8025E6C();
 void Task_80264C8();
 void Task_8026C44();
-void sub_8026ED0();
+void Task_8026ED0(void);
 void Task_80271E4();
-void sub_80272D0();
+void Task_80272D0();
 void Task_8027600();
 void sub_8027714();
 
@@ -508,7 +510,7 @@ void Task_802611C(void)
 }
 
 // (97.42%) https://decomp.me/scratch/lLJ09
-void Task_80264C8(void)
+NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_80264C8(void))
 {
     MapEntity *me;
     EggHammerTank *tank;
@@ -602,7 +604,7 @@ void Task_80264C8(void)
             tank->unk9A++;
             tank->unk9B = 0x20;
             s2->variant = 2;
-            tank->unk9E = -Q(2);
+            tank->qUnk9E = -Q(2);
 
             INCREMENT_SCORE_A(1000);
 
@@ -762,208 +764,199 @@ void Task_80264C8(void)
         SA2_LABEL(gUnknown_03002820) = tank->s.y - 0x24;
     }
 }
+END_NONMATCH
 
-#if 0
-void Task_8026C44(void) {
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s16 temp_r0;
-    s16 temp_r0_3;
-    s16 temp_r0_6;
-    s16 temp_r1;
-    s16 temp_r1_5;
-    s32 temp_r0_2;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_6;
-    s32 temp_r3_7;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r6;
-    s32 temp_r6_2;
-    s32 temp_r7;
-    u16 temp_r1_2;
-    u16 temp_r2;
-    u16 temp_r3_3;
-    u16 temp_r3_4;
-    u16 temp_r3_5;
+// (97.27%) https://decomp.me/scratch/sLWM7
+NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026C44.inc", void Task_8026C44(void))
+{
+    EggHammerTank *tank;
+    s32 res;
+    Sprite *s;
+    Sprite *s2;
+    SpriteBase *base;
+    MapEntity *me;
+    s16 rndTheta;
+    CamCoord worldX;
+    CamCoord worldY;
 
-    temp_r2 = TASK_DATA(gCurTask);
-    temp_r7 = temp_r2->unk0;
-    temp_r3 = temp_r2->unkC;
-    sp4 = temp_r2->unk44;
-    temp_r6 = temp_r2->unk9E;
-    *temp_r6 = (u16) (*temp_r6 + 0x28);
-    temp_r5 = temp_r2->unk90;
-    temp_r3_2 = *temp_r5 + (s16) *temp_r6;
-    *temp_r5 = temp_r3_2;
-    temp_r1 = (temp_r7->unk8 * 8) + (temp_r7->unk4 << 8) + ((s32) *(temp_r2->qUnk8C) >> 8);
-    temp_r0 = (temp_r7->unk0->unk1 * 8) + (temp_r7->unk6 << 8) + (temp_r3_2 >> 8);
-    temp_r3_3 = (u16) temp_r1;
-    temp_r0_2 = sa2__sub_801F100(temp_r0 - 8, (s32) temp_r1, 1, 8, sa2__sub_801EC3C);
-    if (temp_r0_2 < 0) {
-        *temp_r5 = (s32) (*temp_r5 + (temp_r0_2 << 8));
-        temp_r1_2 = *temp_r6;
-        temp_r0_3 = ((s32) (temp_r1_2 << 0x10) >> 0x12) - temp_r1_2;
-        *temp_r6 = (u16) temp_r0_3;
-        if ((s32) temp_r0_3 > -Q(1)) {
-            *temp_r6 = 0U;
-            gCurTask->main = sub_8026ED0;
+    tank = TASK_DATA(gCurTask);
+    base = &tank->base;
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = base->me;
+    tank->qUnk9E += 0x28;
+    tank->qUnk90 += tank->qUnk9E;
+    worldX = TO_WORLD_POS(base->meX, base->regionX) + I(tank->qUnk8C);
+    worldY = TO_WORLD_POS(me->y, base->regionY) + I(tank->qUnk90);
+
+    res = SA2_LABEL(sub_801F100)(worldY - 8, worldX, 1, 8, SA2_LABEL(sub_801EC3C));
+    if (res < 0) {
+        tank->qUnk90 += Q(res);
+
+        tank->qUnk9E = (tank->qUnk9E >> 2) - tank->qUnk9E;
+        if (tank->qUnk9E > -Q(1)) {
+            tank->qUnk9E = 0U;
+            gCurTask->main = Task_8026ED0;
         }
     }
-    temp_r3->unk10 = (s32) (temp_r3->unk10 & 0xFFFFFE7F);
-    temp_r3_4 = gPlayer.moveState & 0x80;
-    if (temp_r3_4 == 0) {
+    s->frameFlags &= ~0x180;
+    if (PLAYER_IS_ALIVE) {
         gDispCnt &= 0x7FFF;
-        gWinRegs[WINREG_WINOUT] = temp_r3_4;
-        gBldRegs.bldCnt = temp_r3_4;
-        gBldRegs.bldY = temp_r3_4;
+        gWinRegs[WINREG_WINOUT] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
     }
-    temp_r1_3 = temp_r2->unk98;
-    temp_r0_4 = *temp_r1_3 + 1;
-    *temp_r1_3 = (u16) temp_r0_4;
-    spC = (u16) temp_r0 << 0x10;
-    sp8 = temp_r3_3 << 0x10;
-    if (!(temp_r0_4 & 7)) {
-        temp_r0_5 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-        gPseudoRandom = temp_r0_5;
-        temp_r4 = 7 & temp_r0_5;
-        temp_r3_5 = CreateNutsAndBoltsTask(0x2000U, (void *) (s32) VramMalloc((u32) gUnknown_080BB434[temp_r4]), gUnknown_080BB41C[temp_r4], gUnknown_080BB42C[temp_r4], M2C_ERROR(/* Unable to find stack arg 0x10 in block */), /* extra? */ TaskDestructor_NutsAndBolts)->data;
-        temp_r5_2 = temp_r3_5->unk0;
-        temp_r0_6 = (s16) temp_r3_3;
-        temp_r5_2->unk30 = (s32) (temp_r0_6 << 8);
-        temp_r1_4 = spC >> 0x10;
-        temp_r5_2->unk34 = (s32) ((temp_r1_4 - 0x20) << 8);
-        temp_r5_2->unk10 = 0x2000;
-        temp_r5_2->unk1A = 0x440;
-        temp_r5_2->unk3E = 0x28;
-        *(temp_r3_5->unk40) = 0x20;
-        temp_r6_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-        gPseudoRandom = temp_r6_2;
-        temp_r3_6 = 0x1FF & temp_r6_2;
-        temp_r5_2->unk3A = (s16) ((s32) (0 - (gSineTable[temp_r3_6] * 0x600)) >> 0xE);
-        temp_r5_2->unk38 = (s16) ((s32) (0 - (gSineTable[temp_r3_6 + 0x100] * 0x600)) >> 0xE);
-        temp_r3_7 = (0x196225 * temp_r6_2) + 0x3C6EF35F;
-        gPseudoRandom = temp_r3_7;
-        sub_8017540(((temp_r0_6 + (0x3F & temp_r3_7)) - 0x20) << 8, (temp_r1_4 - (((s32) (temp_r3_7 & 0x3F0000) >> 0x10) + 0x20)) << 8);
+    tank->unk98++;
+
+    if (!(tank->unk98 & 7)) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+        Sprite *sprBolts;
+        s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+        s32 rndTheta;
+        s32 a0, a1;
+        s16 rnd;
+        t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
+                                   gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
+        bolts = TASK_DATA(t);
+        sprBolts = &bolts->s;
+        bolts->qUnk30 = Q(worldX);
+        bolts->qUnk34 = Q(worldY - 0x20);
+        sprBolts->frameFlags = 0x2000;
+        sprBolts->oamFlags = 0x440;
+        bolts->qUnk3E = Q(40. / 256.);
+        bolts->qUnk40 = Q(32. / 256.);
+        rndTheta = PseudoRandom32();
+        bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+        bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+        // NOTE: This is nonmatching
+        rnd = PseudoRandom32();
+        sub_8017540(Q(worldX + ((rnd & 0x3F) - 0x20)), Q(worldY - ((rnd & 0x3F) + 0x20)));
     }
-    temp_r1_5 = (sp8 >> 0x10) - (u16) gCamera.x;
-    temp_r3->unk16 = temp_r1_5;
-    temp_r3->unk18 = (s16) ((spC >> 0x10) - (u16) gCamera.y);
-    sp4->unk16 = temp_r1_5;
-    sp4->unk18 = (u16) temp_r3->unk18;
-    UpdateSpriteAnimation((Sprite *) temp_r3);
-    UpdateSpriteAnimation((Sprite *) sp4);
-    if (*(temp_r3 + 0x20) == 2) {
-        sp4->unk18 = (u16) (sp4->unk18 - 1);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+
+    UpdateSpriteAnimation((Sprite *)s);
+    UpdateSpriteAnimation((Sprite *)s2);
+
+    if (s->variant == 2) {
+        s2->y--;
     }
-    DisplaySprite((Sprite *) temp_r3);
-    DisplaySprite((Sprite *) sp4);
+
+    DisplaySprite(s);
+    DisplaySprite(s2);
 }
+END_NONMATCH
 
-void sub_8026ED0(void) {
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s16 temp_r0_3;
-    s16 temp_r1_5;
-    s16 temp_r1_6;
-    s16 temp_r4;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r1_4;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    s32 temp_r4_2;
-    s32 temp_r5;
-    s32 temp_r6;
-    u16 temp_r0;
-    u16 temp_r1_2;
-    u16 temp_r1_3;
-    u16 temp_r3;
-    u16 temp_r7;
+// (97.01%) https://decomp.me/scratch/Vkctb
+NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026ED0.inc", void Task_8026ED0(void))
+{
+    EggHammerTank *tank;
+    s32 res;
+    Sprite *s;
+    Sprite *s2;
+    SpriteBase *base;
+    MapEntity *me;
+    s16 rndTheta;
+    CamCoord worldX;
+    CamCoord worldY;
 
-    temp_r7 = TASK_DATA(gCurTask);
-    temp_r2 = temp_r7->unk0;
-    sp4 = temp_r7->unkC;
-    temp_r1 = temp_r7->unk44;
-    temp_r1_2 = (u16) ((temp_r2->unk8 * 8) + (temp_r2->unk4 << 8) + ((s32) *(temp_r7->qUnk8C) >> 8));
-    sp8 = (s32) temp_r1_2;
-    temp_r1_3 = (u16) ((temp_r2->unk0->unk1 * 8) + (temp_r2->unk6 << 8) + ((s32) *(temp_r7->unk90) >> 8));
-    spC = (s32) temp_r1_3;
-    temp_r1_4 = temp_r7->unk98;
-    temp_r0 = *temp_r1_4;
-    temp_r2_2 = temp_r0 + 1;
-    *temp_r1_4 = (u16) temp_r2_2;
-    if ((u32) temp_r0 > 0xF0U) {
-        temp_r4 = (s16) temp_r1_2;
-        sub_8015C5C(temp_r4, (s32) ((temp_r1_3 << 0x10) + 0xFFE00000) >> 0x10);
-        CreateBossCapsule(temp_r4, (s16) temp_r1_3);
+    tank = TASK_DATA(gCurTask);
+    base = &tank->base;
+    s = &tank->s;
+    s2 = &tank->s2;
+    me = base->me;
+
+    worldX = TO_WORLD_POS(base->meX, base->regionX) + I(tank->qUnk8C);
+    worldY = TO_WORLD_POS(me->y, base->regionY) + I(tank->qUnk90);
+
+    if (tank->unk98++ > DISPLAY_WIDTH) {
+        sub_8015C5C(worldX, worldY - 32);
+        CreateBossCapsule(worldX, worldY);
         gMusicManagerState.unk1 = 0x30;
         TaskDestroy(gCurTask);
         return;
     }
-    if ((temp_r2_2 & 7) == 0) {
-        temp_r4_2 = PseudoRandom32() & 0x7;
-        temp_r3 = CreateNutsAndBoltsTask(0x2000U, (void *) (s32) VramMalloc((u32) gUnknown_080BB434[temp_r4_2]), gUnknown_080BB41C[temp_r4_2], gUnknown_080BB42C[temp_r4_2], M2C_ERROR(/* Unable to find stack arg 0x10 in block */), /* extra? */ TaskDestructor_NutsAndBolts)->data;
-        temp_r5 = temp_r3->unk0;
-        temp_r0_3 = (s16) temp_r1_2;
-        temp_r5->unk30 = (s32) (temp_r0_3 << 8);
-        temp_r1_5 = (s16) temp_r1_3;
-        temp_r5->unk34 = (s32) ((temp_r1_5 - 0x20) << 8);
-        temp_r5->unk10 = 0x2000;
-        temp_r5->unk1A = 0x440;
-        temp_r5->unk3E = 0x28;
-        *(temp_r3->unk40) = 0x20;
-        temp_r6 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-        gPseudoRandom = temp_r6;
-        temp_r3_2 = 0x1FF & temp_r6;
-        temp_r5->unk3A = (s16) ((s32) (0 - (gSineTable[temp_r3_2] * 0x600)) >> 0xE);
-        temp_r5->unk38 = (s16) ((s32) (0 - (gSineTable[temp_r3_2 + 0x100] * 0x600)) >> 0xE);
-        temp_r3_3 = (0x196225 * temp_r6) + 0x3C6EF35F;
-        gPseudoRandom = temp_r3_3;
-        sub_8017540(((temp_r0_3 + (0x3F & temp_r3_3)) - 0x20) << 8, (temp_r1_5 - (((s32) (temp_r3_3 & 0x3F0000) >> 0x10) + 0x20)) << 8);
+
+    if (!(tank->unk98 & 7)) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+        Sprite *sprBolts;
+        s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+        s32 rndTheta;
+        s16 a0, a1;
+        s16 rnd;
+        t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
+                                   gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
+        bolts = TASK_DATA(t);
+        sprBolts = &bolts->s;
+        bolts->qUnk30 = Q(worldX);
+        bolts->qUnk34 = Q(worldY - 0x20);
+        sprBolts->frameFlags = 0x2000;
+        sprBolts->oamFlags = 0x440;
+        bolts->qUnk3E = Q(40. / 256.);
+        bolts->qUnk40 = Q(32. / 256.);
+        rndTheta = PseudoRandom32();
+        bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+        bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+        // NOTE: This is nonmatching
+        rnd = PseudoRandom32();
+        sub_8017540(Q(worldX + ((rnd & 0x3F) - 0x20)), Q(worldY - ((rnd & 0x3F) + 0x20)));
     }
-    temp_r1_6 = (s16) sp8 - (u16) gCamera.x;
-    sp4->unk16 = temp_r1_6;
-    sp4->unk18 = (s16) ((s16) spC - (u16) gCamera.y);
-    temp_r1->unk16 = temp_r1_6;
-    temp_r1->unk18 = (u16) sp4->unk18;
-    UpdateSpriteAnimation((Sprite *) sp4);
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    if (*(temp_r7->unk2C) == 2) {
-        temp_r1->unk18 = (u16) (temp_r1->unk18 - 1);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+
+    UpdateSpriteAnimation((Sprite *)s);
+    UpdateSpriteAnimation((Sprite *)s2);
+
+    if (s->variant == 2) {
+        s2->y--;
     }
-    DisplaySprite((Sprite *) sp4);
-    DisplaySprite((Sprite *) temp_r1);
+
+    DisplaySprite(s);
+    DisplaySprite(s2);
 }
+END_NONMATCH
 
 typedef struct EHTArm {
     /* 0x00 */ Sprite s;
     /* 0x30 */ SpriteTransform transform;
-    /* 0x3C */ u8 padding3C[0x14];
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x40 */ u16 unk40;
+    /* 0x44 */ s32 qUnk44;
+    /* 0x48 */ s32 qUnk48;
+    /* 0x4C */ s16 qUnk4C;
+    /* 0x4E */ s16 qUnk4E;
     /* 0x50 */ u8 unk50;
 } EHTArm; /* 0x54 */
 
-struct Task *CreateEHTArm(u8 arg0) {
+void Task_EHTArm(void);
+void Task_80272D0(void);
+void TaskDestructor_EHTArm(struct Task *t);
+
+struct Task *sub_8017540(s32, s32);
+
+struct Task *CreateEHTArm(u8 arg0)
+{
     s32 sp4;
     SpriteTransform *tf;
     Sprite *s;
     struct Task *t;
     EHTArm *ehtArm;
-    
+
     t = TaskCreate(Task_EHTArm, sizeof(EHTArm), 0x2000 | arg0, 0U, TaskDestructor_EHTArm);
     ehtArm = TASK_DATA(t);
-    s = ehtArm->s;
-    tf = ehtArm->transform;
+    s = &ehtArm->s;
+    tf = &ehtArm->transform;
     ehtArm->unk50 = arg0;
 
     s->x = 0;
@@ -976,12 +969,12 @@ struct Task *CreateEHTArm(u8 arg0) {
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = 0xFF;
-    s->animspeed  = SPRITE_ANIM_SPEED(1.0);
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2030;
 
-    tf->unk0 = 0;
+    tf->rotation = 0;
     tf->qScaleX = Q(1);
     tf->qScaleY = Q(1);
     tf->x = arg0 * 16;
@@ -992,39 +985,83 @@ struct Task *CreateEHTArm(u8 arg0) {
     return t;
 }
 
-void Task_80271E4(void) {
-    s16 var_r0;
-    s32 temp_r3;
-    s32 temp_r6;
-    s32 var_r1;
-    u16 temp_r7;
-    u8 temp_r4;
+// (62.78%) https://decomp.me/scratch/0oTRq
+NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80271E4.inc", void Task_80271E4(void))
+{
+    EHTArm *arm;
+    Sprite *s;
+    SpriteTransform *tf;
 
-    temp_r7 = TASK_DATA(gCurTask);
-    temp_r6 = temp_r7->unk0;
-    *(temp_r7->unk30) = 0;
-    temp_r3 = temp_r7->unk50;
-    temp_r4 = *temp_r3;
-    temp_r6->unk3C = (s16) (((s32) (gSineTable[sa2__gUnknown_03001944 + 0x100] * 0x10 * temp_r4) >> 0xE) + ((u16) gCamera.x + (u16) sa2__gUnknown_0300194C));
-    temp_r6->unk3E = (s16) (((s32) (gSineTable[sa2__gUnknown_03001944] * 0x10 * temp_r4) >> 0xE) + ((u16) gCamera.y + (u16) sa2__gUnknown_03002820));
-    if (1 & *temp_r3) {
-        var_r1 = temp_r7->unk4C;
-        var_r0 = +Q(2);
+    arm = TASK_DATA(gCurTask);
+    s = &arm->s;
+    tf = &arm->transform;
+    tf->rotation = 0;
+
+    arm->unk3C = ((COS(sa2__gUnknown_03001944) * 0x10 * arm->unk50) >> 0xE) + (gCamera.x + sa2__gUnknown_0300194C);
+    arm->unk3E = ((SIN(sa2__gUnknown_03001944) * 0x10 * arm->unk50) >> 0xE) + (gCamera.y + sa2__gUnknown_03002820);
+
+    if (arm->unk50) {
+        arm->qUnk4C = +Q(2);
     } else {
-        var_r1 = temp_r7->unk4C;
-        var_r0 = -Q(2);
+        arm->qUnk4C = -Q(2);
     }
-    *var_r1 = var_r0;
-    *(temp_r7->unk4E) = 0xFA00;
-    temp_r6->unk44 = 0;
-    temp_r6->unk48 = 0;
-    *(temp_r7->unk40) = 0;
-    temp_r6->unk10 = (s32) (temp_r6->unk10 & ~0x20);
-    gCurTask->main = sub_80272D0;
-    sub_80272D0();
+
+    arm->qUnk4E = -Q(6);
+    arm->qUnk44 = 0;
+    arm->qUnk48 = 0;
+    arm->unk40 = 0;
+    s->frameFlags &= ~0x20;
+    gCurTask->main = Task_80272D0;
+    gCurTask->main();
+}
+END_NONMATCH
+
+void Task_80272D0(void)
+{
+    s32 temp_r1;
+    s32 temp_r1_3;
+    s32 temp_r1_4;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r6;
+    EHTArm *arm;
+    Sprite *s;
+
+    arm = TASK_DATA(gCurTask);
+    s = &arm->s;
+
+    if (arm->unk40++ > 0xB4U) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    arm->qUnk4E += 0x28;
+    arm->qUnk44 += arm->qUnk4C;
+    arm->qUnk48 += arm->qUnk4E;
+
+    if (arm->qUnk4E > 0) {
+        s32 res = sa2__sub_801F100(arm->unk3E + I(arm->qUnk48), arm->unk3C + I(arm->qUnk44), 1, 8, sa2__sub_801EC3C);
+        if (res < 0) {
+            arm->qUnk48 = arm->qUnk48 + Q(res);
+            arm->qUnk4E = (arm->qUnk4E >> 2) - arm->qUnk4E;
+        }
+    }
+
+    temp_r1_3 = arm->unk3C + I(arm->qUnk44);
+    if ((temp_r1_3 > (s32)(gCamera.x + 0xF0)) || (temp_r1_3 < (s32)gCamera.x)) {
+        arm->qUnk4C = -arm->qUnk4C;
+    }
+
+    if (!(arm->unk40 & 0x7)) {
+        sub_8017540(Q(arm->unk3C) + arm->qUnk44, Q(arm->unk3E) + arm->qUnk48);
+    }
+
+    s->x = (s16)((((s32)arm->qUnk44 >> 8) + arm->unk3C) - (u16)gCamera.x);
+    s->y = (s16)((((s32)arm->qUnk48 >> 8) + arm->unk3E) - (u16)gCamera.y);
+    DisplaySprite(s);
 }
 
-void sub_80272D0(void) {
+#if 0
+void Task_80272D0(void) {
     s32 temp_r0_2;
     s32 temp_r1;
     s32 temp_r1_3;
@@ -1321,8 +1358,8 @@ void Task_EHTArm(void) {
 
 void TaskDestructor_EHTArm(struct Task *t) {
     
-    EHTArm *ehtArm = TASK_DATA(t);
-    VramFree(ehtArm->graphics.dest);
+    EHTArm *arm = TASK_DATA(t);
+    VramFree(arm->s.graphics.dest);
 }
 
 void TaskDestructor_EHTHammer(struct Task *t) {
