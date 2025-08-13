@@ -132,7 +132,6 @@ struct Task *sub_80174DC(s16 yMin, s16 yMax) { return NULL; }
 struct Task *sub_8017540(s32 param0, s32 param1) { return NULL; }
 
 void LoadTinyChaoGarden() { }
-void CreateSegaLogo() { }
 void CreateTitleScreen() { }
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
@@ -207,6 +206,9 @@ void sub_804FC78() { }
 void sub_804FCA4() { }
 void sub_804FCEC() { }
 void sub_804FD54() { }
+
+void sub_8063918(void) { }
+
 void OptionsSelectPlayerData() { }
 void OptionsSelectDifficulty() { }
 void OptionsSelectTimeUp() { }
