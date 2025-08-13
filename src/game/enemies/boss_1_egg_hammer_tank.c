@@ -173,7 +173,7 @@ void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u
     }
 
     gCamera.maxX = s2->x + 64;
-    tempY = s2->y + 112;
+    tempY = s2->y + (DISPLAY_HEIGHT - 48);
     sub_80174DC((s16)(s2->y - 48), tempY);
 
     if (tempY > (gCamera.y + DISPLAY_HEIGHT)) {
@@ -214,7 +214,7 @@ void Task_EggHammerTank_Intro(void)
         gCamera.minX = (u16)gCamera.maxX - DISPLAY_WIDTH;
     }
 
-    if (worldX - gCamera.x <= 176) {
+    if (worldX - gCamera.x <= DISPLAY_WIDTH - 64) {
         gPlayer.qSpeedGround = 0;
         gPlayer.moveState |= 0x200000;
         gPlayer.heldInput = 0;
@@ -298,7 +298,7 @@ void Task_8025D80(void)
         s2->graphics.anim = SA1_ANIM_EGGMAN;
         s2->variant = 0;
         s2->frameFlags |= 0x400;
-        sub_80174DC((worldY - 0x30), (worldY + 0x70));
+        sub_80174DC((worldY - 48), (worldY + 112));
     }
 }
 
@@ -489,10 +489,10 @@ void Task_802611C(void)
     s->y = worldY - gCamera.y;
     s2->x = s->x;
     s2->y = (u16)s->y;
-    if (worldX < (s32)(gCamera.minX - 0x40)) {
+    if (worldX < (s32)(gCamera.minX - 64)) {
         s->frameFlags = (s32)(s->frameFlags | 0x400);
         s2->frameFlags = s2->frameFlags | 0x400;
-    } else if (worldX > (s32)(gCamera.maxX + 0x40)) {
+    } else if (worldX > (s32)(gCamera.maxX + 64)) {
         s->frameFlags &= ~0x400;
         s2->frameFlags &= ~0x400;
     }
@@ -853,7 +853,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026C44.inc", void Task_802
         bolts = TASK_DATA(t);
         sprBolts = &bolts->s;
         bolts->qUnk30 = Q(worldX);
-        bolts->qUnk34 = Q(worldY - 0x20);
+        bolts->qUnk34 = Q(worldY - 32);
         sprBolts->frameFlags = 0x2000;
         sprBolts->oamFlags = 0x440;
         bolts->qUnk3E = Q(40. / 256.);

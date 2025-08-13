@@ -533,7 +533,8 @@ END_NONMATCH
 // Not actually unused (SA1 Boss 1 calls it)
 NONMATCH("asm/non_matching/engine/UnusedTransform.inc", void UnusedTransform(Sprite *sprite, SpriteTransform *transform))
 {
-    // TODO
+    // TEMP
+    TransformSprite(sprite, transform);
 }
 END_NONMATCH
 
