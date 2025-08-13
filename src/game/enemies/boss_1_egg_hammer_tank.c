@@ -2,6 +2,7 @@
 #include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
+#include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/entity.h"
 #include "game/nuts_and_bolts_task.h"
@@ -14,13 +15,52 @@
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x48 */ s16 unk40;
+    /* 0x48 */ s16 unk42;
+    /* 0x44 */ s16 qUnk44;
+    /* 0x46 */ s16 qUnk46;
+    /* 0x48 */ s16 unk48;
+} Strc_sub_80168F0; /* 0x4C */
+
+typedef struct EHTArm {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x40 */ u16 unk40;
+    /* 0x44 */ s32 qUnk44;
+    /* 0x48 */ s32 qUnk48;
+    /* 0x4C */ s16 qUnk4C;
+    /* 0x4E */ s16 qUnk4E;
+    /* 0x50 */ u8 unk50;
+} EHTArm; /* 0x54 */
+
+typedef struct EHTHammer {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x40 */ s16 unk40;
+    /* 0x40 */ s16 unk42;
+    /* 0x44 */ s32 qUnk44;
+    /* 0x48 */ s32 qUnk48;
+    /* 0x4C */ s16 qUnk4C;
+    /* 0x4E */ s16 qUnk4E;
+    /* 0x50 */ u8 unk50;
+} EHTHammer; /* 0x54 */
+
 typedef struct EggHammerTank {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x3C */ Hitbox reserved;
     /* 0x44 */ Sprite s2;
-    /* 0x74 */ struct Task *task74;
-    /* 0x78 */ struct Task *tasks[5];
+    /* 0x74 */ struct Task *taskHammer;
+    /* 0x78 */ struct Task *tasksArm[5];
     /* 0x8C */ s32 qUnk8C;
     /* 0x90 */ s32 qUnk90;
     /* 0x94 */ s16 unk94;
@@ -33,17 +73,9 @@ typedef struct EggHammerTank {
     /* 0x9C */ s16 qUnk9E;
 } EggHammerTank; /* 0xA0 */
 
-typedef struct {
-    /* 0x00 */ Sprite s;
-    /* 0x30 */ SpriteTransform transform;
-    /* 0x3C */ s16 unk3C;
-    /* 0x3E */ s16 unk3E;
-    /* 0x48 */ s16 unk40;
-    /* 0x48 */ s16 unk42;
-    /* 0x44 */ s16 qUnk44;
-    /* 0x46 */ s16 qUnk46;
-    /* 0x48 */ s16 unk48;
-} Strc_sub_80168F0; /* 0x4C */
+void Task_EHTArm(void);
+void Task_80272D0(void);
+void TaskDestructor_EHTArm(struct Task *t);
 
 void CreateBossCapsule(s16, s16);
 // returns 0, 1 or 2
@@ -58,6 +90,7 @@ void Task_EHTHammer();
 void Task_EggHammerTankMain();
 void Task_EggHammerTank_Intro();
 void TaskDestructor_EggHammerTank(struct Task *);
+void TaskDestructor_EHTHammer(struct Task *);
 void Task_8025CC4();
 void Task_8025D80();
 void Task_8025E6C();
@@ -65,9 +98,8 @@ void Task_80264C8();
 void Task_8026C44();
 void Task_8026ED0(void);
 void Task_80271E4();
-void Task_80272D0();
 void Task_8027600();
-void sub_8027714();
+void Task_8027714();
 
 void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -611,10 +643,10 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_802
             m4aSongNumStart(SE_EXPLOSION);
 
             for (i = 0; i < 5; i++) {
-                tank->tasks[i]->main = Task_80271E4;
+                tank->tasksArm[i]->main = Task_80271E4;
             }
 
-            tank->task74->main = Task_8027600;
+            tank->taskHammer->main = Task_8027600;
             tank->qUnk8C += Q(sp08);
             tank->qUnk90 = Q(sp0C);
 
@@ -926,25 +958,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026ED0.inc", void Task_802
 }
 END_NONMATCH
 
-typedef struct EHTArm {
-    /* 0x00 */ Sprite s;
-    /* 0x30 */ SpriteTransform transform;
-    /* 0x3C */ s16 unk3C;
-    /* 0x3E */ s16 unk3E;
-    /* 0x40 */ u16 unk40;
-    /* 0x44 */ s32 qUnk44;
-    /* 0x48 */ s32 qUnk48;
-    /* 0x4C */ s16 qUnk4C;
-    /* 0x4E */ s16 qUnk4E;
-    /* 0x50 */ u8 unk50;
-} EHTArm; /* 0x54 */
-
-void Task_EHTArm(void);
-void Task_80272D0(void);
-void TaskDestructor_EHTArm(struct Task *t);
-
-struct Task *sub_8017540(s32, s32);
-
 struct Task *CreateEHTArm(u8 arg0)
 {
     s32 sp4;
@@ -1060,274 +1073,251 @@ void Task_80272D0(void)
     DisplaySprite(s);
 }
 
-#if 0
-void Task_80272D0(void) {
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r5;
-    s32 temp_r6;
-    u16 temp_r0;
-    u16 temp_r1_2;
-    u16 temp_r3;
-
-    temp_r3 = TASK_DATA(gCurTask);
-    temp_r5 = temp_r3->unk0;
-    temp_r2 = temp_r3->unk40;
-    temp_r0 = *temp_r2;
-    *temp_r2 = (u16) (temp_r0 + 1);
-    if ((u32) temp_r0 > 0xB4U) {
-        TaskDestroy(gCurTask);
-        return;
-    }
-    temp_r6 = temp_r3->unk4E;
-    *temp_r6 = (u16) (*temp_r6 + 0x28);
-    temp_r2_2 = temp_r5->unk44 + *(temp_r3->unk4C);
-    temp_r5->unk44 = temp_r2_2;
-    temp_r1 = temp_r5->unk48 + (s16) *temp_r6;
-    temp_r5->unk48 = temp_r1;
-    if ((s32) (s16) *temp_r6 > 0) {
-        temp_r0_2 = sa2__sub_801F100(*(temp_r5 + 0x3E) + (temp_r1 >> 8), *(temp_r5 + 0x3C) + (temp_r2_2 >> 8), 1, 8, sa2__sub_801EC3C);
-        if (temp_r0_2 < 0) {
-            temp_r5->unk48 = (s32) (temp_r5->unk48 + (temp_r0_2 << 8));
-            temp_r1_2 = *temp_r6;
-            *temp_r6 = (u16) (((s32) (temp_r1_2 << 0x10) >> 0x12) - temp_r1_2);
-        }
-    }
-    temp_r1_3 = *(temp_r5 + 0x3C) + ((s32) temp_r5->unk44 >> 8);
-    if ((temp_r1_3 > (s32) (gCamera.x + 0xF0)) || (temp_r1_3 < (s32) gCamera.x)) {
-        temp_r1_4 = temp_r3->unk4C;
-        *temp_r1_4 = (u16) (0 - *temp_r1_4);
-    }
-    if (!(7 & *(temp_r3->unk40))) {
-        sub_8017540((*(temp_r5 + 0x3C) << 8) + temp_r5->unk44, (*(temp_r5 + 0x3E) << 8) + temp_r5->unk48);
-    }
-    temp_r5->unk16 = (s16) ((((s32) temp_r5->unk44 >> 8) + temp_r5->unk3C) - (u16) gCamera.x);
-    temp_r5->unk18 = (s16) ((((s32) temp_r5->unk48 >> 8) + temp_r5->unk3E) - (u16) gCamera.y);
-    DisplaySprite((Sprite *) temp_r5);
-}
-
-struct Task *CreateEHTHammer(void) {
+struct Task *CreateEHTHammer(void)
+{
     s32 sp4;
-    s32 temp_r2;
-    Sprite *temp_r4;
-    struct Task *temp_r0;
-    u16 temp_r5;
+    SpriteTransform *tf;
+    Sprite *s;
+    struct Task *t;
+    EHTHammer *hammer;
 
-    temp_r0 = TaskCreate(Task_EHTHammer, 0x54U, 0x2005U, 0U, TaskDestructor_EHTHammer);
-    temp_r5 = temp_r0->data;
-    temp_r4 = temp_r5->unk0;
-    temp_r2 = temp_r5->unk30;
-    temp_r4->unk16 = 0;
-    temp_r4->unk18 = 0;
-    sp4 = temp_r2;
-    temp_r4->unk4 = VramMalloc(0x40U);
-    temp_r4->unk1A = 0x440;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 0x261;
-    *(temp_r5->unk20) = 0;
-    temp_r4->unk14 = 0;
-    temp_r4->unk1C = 0;
-    *(temp_r5->unk21) = 0xFF;
-    *(temp_r5->unk22) = 0x10;
-    *(temp_r5->unk25) = 0;
-    temp_r4->unk28 = -1;
-    temp_r4->unk10 = 0x2030;
-    temp_r2->unk0 = 0;
-    temp_r2->unk2 = 0x100;
-    temp_r2->unk4 = 0x100;
-    temp_r2->unk6 = 0x60;
-    temp_r2->unk8 = 0;
-    UpdateSpriteAnimation((Sprite *) temp_r4);
-    return temp_r0;
+    t = TaskCreate(Task_EHTHammer, sizeof(EHTHammer), 0x2005, 0U, TaskDestructor_EHTHammer);
+    hammer = TASK_DATA(t);
+    s = &hammer->s;
+    tf = &hammer->transform;
+
+    s->x = 0;
+    s->y = 0;
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_1_HAMMER);
+    s->oamFlags = 0x440;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_1_HAMMER;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2030;
+
+    tf->rotation = 0;
+    tf->qScaleX = Q(1);
+    tf->qScaleY = Q(1);
+    tf->x = 0x60;
+    tf->y = 0;
+
+    UpdateSpriteAnimation(s);
+
+    return t;
 }
 
-void Task_EHTHammer(void) {
+// (99.53%) https://decomp.me/scratch/AmBa2
+NONMATCH("asm/non_matching/game/enemies/boss_1__Task_EHTHammer.inc", void Task_EHTHammer(void))
+{
     s16 temp_r0_4;
     s16 temp_r4;
     s16 temp_r5;
     s32 temp_r0_3;
     s32 temp_r0_5;
-    s32 temp_r1;
-    s32 temp_r3;
     s32 temp_r6;
-    s32 temp_r7;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r1_2;
+    EggHammerTank *tank;
+    EHTHammer *hammer;
+    Sprite *s;
+    Sprite *sprTank;
+    SpriteTransform *tf;
     u32 var_r4;
+    s16 x, y;
+    s32 res;
+    s16 theta;
 
-    temp_r0 = TASK_DATA(gCurTask);
-    temp_r7 = temp_r0->unk0;
-    temp_r3 = temp_r0->unk30;
-    temp_r0_2 = (gCurTask->parent->unk0)->unk6;
-    temp_r1 = temp_r0_2->unk44;
-    *temp_r3 = 0U;
-    temp_r0_3 = temp_r0_2->unk94;
-    temp_r1_2 = *temp_r0_3;
-    temp_r0_4 = (s16) *temp_r0_3;
-    if ((s32) temp_r0_4 < 0) {
-        temp_r0_5 = 0xFFFFFE00 - temp_r1_2;
-        if ((s32) (temp_r0_5 << 0x10) > 0) {
-            *temp_r3 = (u16) temp_r0_5;
+    hammer = TASK_DATA(gCurTask);
+    s = &hammer->s;
+    tf = &hammer->transform;
+    tank = TASK_DATA(TASK_PARENT(gCurTask));
+    sprTank = &tank->s2;
+    tf->rotation = 0U;
+
+    if (tank->unk94 < 0) {
+        s16 temp_r1_2 = -tank->unk94 - Q(2);
+        if (temp_r1_2 > 0) {
+            tf->rotation = temp_r1_2;
         }
-    } else if ((s32) temp_r0_4 > 0) {
-        *temp_r3 = (u16) (0 - temp_r1_2);
+    } else if (tank->unk94 > 0) {
+        tf->rotation = -tank->unk94;
     }
-    UnusedTransform((Sprite *) temp_r7, (SpriteTransform *) temp_r3);
-    if ((s8) *(temp_r0_2->unk9B) == 0) {
-        temp_r5 = (s16) (u16) (((s32) (gSineTable[sa2__gUnknown_03001944 + 0x100] * 3) >> 9) + ((u16) gCamera.x + (u16) sa2__gUnknown_0300194C));
-        temp_r4 = (s16) (u16) (((s32) (gSineTable[sa2__gUnknown_03001944] * 3) >> 9) + ((u16) gCamera.y + (u16) sa2__gUnknown_03002820));
-        temp_r6 = (s32) Coll_Player_Entity_Intersection((Sprite *) temp_r7, temp_r5, temp_r4, &gPlayer);
-        if ((s8) (u8) gNumSingleplayerCharacters == 2) {
-            var_r4 = Coll_Player_Entity_Intersection((Sprite *) temp_r7, temp_r5, temp_r4, &gPartner);
+    UnusedTransform((Sprite *)s, (SpriteTransform *)tf);
+
+    {
+#ifndef NON_MATCHING
+        register s32 x32 asm("r1");
+        register s32 y32 asm("r2");
+#else
+        s32 x32;
+        s32 y32;
+#endif
+        x32 = COS(sa2__gUnknown_03001944) * 3;
+        y32 = SIN(sa2__gUnknown_03001944) * 3;
+        x = sa2__gUnknown_0300194C + gCamera.x + (x32 >> 9);
+        y = sa2__gUnknown_03002820 + gCamera.y + (y32 >> 9);
+    }
+    if (tank->unk9B == 0) {
+        res = Coll_Player_Entity_Intersection((Sprite *)s, x, y, &gPlayer);
+        if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+            var_r4 = Coll_Player_Entity_Intersection((Sprite *)s, x, y, &gPartner);
         } else {
             var_r4 = 0;
         }
-        if (temp_r6 == 0x80000) {
+        if (res == 0x80000) {
             Coll_DamagePlayer(&gPlayer);
-            *(temp_r1 + 0x20) = 1;
+            sprTank->variant = 1;
         }
         if (var_r4 == 0x80000) {
             Coll_DamagePlayer(&gPartner);
-            *(temp_r1 + 0x20) = 1;
+            sprTank->variant = 1;
         }
     }
-    DisplaySprite((Sprite *) temp_r7);
+    DisplaySprite((Sprite *)s);
 }
+END_NONMATCH
 
-void Task_8027600(void) {
-    s16 temp_r0_3;
-    s16 var_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_4;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 var_r1;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r1_2;
-
-    temp_r0 = TASK_DATA(gCurTask);
-    temp_r4 = temp_r0->unk0;
-    temp_r4_2 = temp_r0->unk30;
-    *temp_r4_2 = 0U;
-    temp_r0_2 = (gCurTask->parent->unk0)->unk6->unk94;
-    temp_r1 = *temp_r0_2;
-    temp_r0_3 = (s16) *temp_r0_2;
-    if ((s32) temp_r0_3 < 0) {
-        temp_r0_4 = 0xFFFFFE00 - temp_r1;
-        if ((s32) (temp_r0_4 << 0x10) > 0) {
-            *temp_r4_2 = (u16) temp_r0_4;
-        }
-    } else if ((s32) temp_r0_3 > 0) {
-        *temp_r4_2 = (u16) (0 - temp_r1);
-    }
-    *temp_r4_2 = (u16) (sa2__gUnknown_03001944 + *temp_r4_2);
-    temp_r1_2 = (u16) (((s32) (gSineTable[sa2__gUnknown_03001944 + 0x100] * 3) >> 9) + ((u16) gCamera.x + (u16) sa2__gUnknown_0300194C));
-    temp_r4->unk3C = temp_r1_2;
-    temp_r4->unk3E = (s16) (((s32) (gSineTable[sa2__gUnknown_03001944] * 3) >> 9) + ((u16) gCamera.y + (u16) sa2__gUnknown_03002820));
-    if ((s32) (s16) temp_r1_2 < (s32) (gCamera.x + 0x78)) {
-        var_r1 = temp_r0->unk4C;
-        var_r0 = 0x200;
-    } else {
-        var_r1 = temp_r0->unk4C;
-        var_r0 = 0xFE00;
-    }
-    *var_r1 = var_r0;
-    *(temp_r0->unk4E) = 0xFA00;
-    temp_r4->unk44 = 0;
-    temp_r4->unk48 = 0;
-    *(temp_r0->unk40) = 0;
-    *(temp_r0->unk42) = 0x2A;
-    gCurTask->main = sub_8027714;
-    sub_8027714();
-}
-
-void sub_8027714(void) {
-    s32 temp_r0;
+// (92.28%) https://decomp.me/scratch/hvbRq
+NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8027600.inc", void Task_8027600(void))
+{
+    s16 temp_r0_4;
+    s16 temp_r4;
+    s16 temp_r5;
     s32 temp_r0_3;
+    s32 temp_r0_5;
+    s32 temp_r6;
+    EggHammerTank *tank;
+    EHTHammer *hammer;
+    Sprite *s;
+    SpriteTransform *tf;
+    u32 var_r4;
+    s16 x, y;
+    s32 res;
+    s16 theta;
+
+    hammer = TASK_DATA(gCurTask);
+    s = &hammer->s;
+    tf = &hammer->transform;
+    tank = TASK_DATA(TASK_PARENT(gCurTask));
+    tf->rotation = 0U;
+
+    if (tank->unk94 < 0) {
+        s16 temp_r1_2 = -tank->unk94 - Q(2);
+        if (temp_r1_2 > 0) {
+            tf->rotation = temp_r1_2;
+        }
+    } else if (tank->unk94 > 0) {
+        tf->rotation = -tank->unk94;
+        tf->rotation += SA2_LABEL(gUnknown_03001944);
+    }
+
+    {
+        s32 x32;
+        s32 y32;
+        x32 = COS(SA2_LABEL(gUnknown_03001944)) * 3;
+        y32 = SIN(SA2_LABEL(gUnknown_03001944)) * 3;
+        x = sa2__gUnknown_0300194C + gCamera.x + (x32 >> 9);
+        y = sa2__gUnknown_03002820 + gCamera.y + (y32 >> 9);
+        hammer->unk3C = x;
+        hammer->unk3E = y;
+    }
+
+    if (x < gCamera.x + (DISPLAY_WIDTH / 2)) {
+        hammer->qUnk4C = +Q(2);
+    } else {
+        hammer->qUnk4C = -Q(2);
+    }
+    hammer->qUnk4E = -Q(6);
+
+    hammer->qUnk44 = Q(0);
+    hammer->qUnk48 = Q(0);
+    hammer->unk40 = 0;
+    hammer->unk42 = 42;
+
+    gCurTask->main = Task_8027714;
+    gCurTask->main();
+}
+END_NONMATCH
+
+void Task_8027714(void)
+{
     s32 temp_r1;
     s32 temp_r1_3;
+    s32 temp_r1_4;
     s32 temp_r2;
     s32 temp_r2_2;
-    s32 temp_r4;
     s32 temp_r6;
-    u16 temp_r0_2;
-    u16 temp_r1_2;
-    u16 temp_r7;
+    Sprite *s;
+    SpriteTransform *tf;
 
-    temp_r7 = TASK_DATA(gCurTask);
-    temp_r4 = temp_r7->unk0;
-    temp_r0 = temp_r7->unk30;
-    temp_r2 = temp_r7->unk40;
-    temp_r0_2 = *temp_r2;
-    *temp_r2 = (u16) (temp_r0_2 + 1);
-    if ((u32) temp_r0_2 > 0xB4U) {
+    EHTHammer *hammer = TASK_DATA(gCurTask);
+    s = &hammer->s;
+    tf = &hammer->transform;
+
+    if (hammer->unk40++ > 0xB4U) {
         TaskDestroy(gCurTask);
         return;
     }
-    temp_r6 = temp_r7->unk4E;
-    *temp_r6 = (u16) (*temp_r6 + 0x28);
-    temp_r2_2 = temp_r4->unk44 + *(temp_r7->unk4C);
-    temp_r4->unk44 = temp_r2_2;
-    temp_r1 = temp_r4->unk48 + (s16) *temp_r6;
-    temp_r4->unk48 = temp_r1;
-    if ((s32) (s16) *temp_r6 > 0) {
-        temp_r0_3 = sa2__sub_801F100(*(temp_r4 + 0x3E) + (temp_r1 >> 8), *(temp_r4 + 0x3C) + (temp_r2_2 >> 8), 1, 8, sa2__sub_801EC3C);
-        if (temp_r0_3 < 0) {
-            temp_r4->unk48 = (s32) (temp_r4->unk48 + (temp_r0_3 << 8));
-            temp_r1_2 = *temp_r6;
-            *temp_r6 = (u16) (((s32) (temp_r1_2 << 0x10) >> 0x12) - temp_r1_2);
-            temp_r1_3 = temp_r7->unk42;
-            *temp_r1_3 = (u16) (0 - *temp_r1_3);
+    hammer->qUnk4E += 0x28;
+    hammer->qUnk44 += hammer->qUnk4C;
+    hammer->qUnk48 += hammer->qUnk4E;
+
+    if (hammer->qUnk4E > 0) {
+        s32 res = sa2__sub_801F100(hammer->unk3E + I(hammer->qUnk48), hammer->unk3C + I(hammer->qUnk44), 1, 8, sa2__sub_801EC3C);
+        if (res < 0) {
+            hammer->qUnk48 = hammer->qUnk48 + Q(res);
+            hammer->qUnk4E = (hammer->qUnk4E >> 2) - hammer->qUnk4E;
+            hammer->unk42 = -hammer->unk42;
         }
     }
-    if (!(7 & *(temp_r7->unk40))) {
-        sub_8017540((*(temp_r4 + 0x3C) << 8) + temp_r4->unk44, (*(temp_r4 + 0x3E) << 8) + temp_r4->unk48);
+
+    if (!(hammer->unk40 & 0x7)) {
+        sub_8017540(Q(hammer->unk3C) + hammer->qUnk44, Q(hammer->unk3E) + hammer->qUnk48);
     }
-    temp_r4->unk16 = (s16) ((((s32) temp_r4->unk44 >> 8) + temp_r4->unk3C) - (u16) gCamera.x);
-    temp_r4->unk18 = (s16) ((((s32) temp_r4->unk48 >> 8) + temp_r4->unk3E) - (u16) gCamera.y);
-    temp_r0->unk0 = (u16) ((*(temp_r7->unk42) + temp_r0->unk0) & 0x3FF);
-    temp_r0->unk6 = (u16) temp_r4->unk16;
-    temp_r0->unk8 = (u16) temp_r4->unk18;
-    TransformSprite((Sprite *) temp_r4, (SpriteTransform *) temp_r0);
-    DisplaySprite((Sprite *) temp_r4);
+
+    s->x = (s16)((((s32)hammer->qUnk44 >> 8) + hammer->unk3C) - (u16)gCamera.x);
+    s->y = (s16)((((s32)hammer->qUnk48 >> 8) + hammer->unk3E) - (u16)gCamera.y);
+
+    tf->rotation = (tf->rotation + hammer->unk42) & 0x3FF;
+    tf->x = s->x;
+    tf->y = s->y;
+    TransformSprite(s, tf);
+    DisplaySprite(s);
 }
 
-void sub_802784C(struct Task *t) {
+void sub_802784C(struct Task *t)
+{
     EggHammerTank *tank = TASK_DATA(t);
 
     VramFree(tank->s.graphics.dest);
     VramFree(tank->s2.graphics.dest);
 }
 
-void Task_EggHammerTankMain(void) {
+void Task_EggHammerTankMain(void)
+{
     s32 temp_r2;
-    s32 var_r4;
     u16 temp_r0;
-    u16 temp_r3;
+    EggHammerTank *tank;
+    u8 i;
 
-    temp_r3 = TASK_DATA(gCurTask);
-    temp_r2 = temp_r3->unk98;
-    temp_r0 = *temp_r2;
-    *temp_r2 = (u16) (temp_r0 + 1);
-    if ((u32) temp_r0 > 0x78U) {
-        var_r4 = 0;
-        do {
-            *(temp_r3->unk78 + (var_r4 * 4)) = CreateEHTArm((u8) var_r4);
-            var_r4 = (s32) (u8) (var_r4 + 1);
-        } while ((u32) var_r4 <= 4U);
-        (temp_r3->unk0)->unk74 = CreateEHTHammer();
+    tank = TASK_DATA(gCurTask);
+    if (tank->unk98++ > 120) {
+        for (i = 0; i < ARRAY_COUNT(tank->tasksArm); i++) {
+            tank->tasksArm[i] = CreateEHTArm(i);
+        };
+        tank->taskHammer = CreateEHTHammer();
+
         gCurTask->main = Task_802611C;
         gCurTask->main();
     }
 }
 
-void TaskDestructor_EggHammerTank(struct Task *t) {
+void TaskDestructor_EggHammerTank(struct Task *t)
+{
     EggHammerTank *tank = TASK_DATA(t);
 
     if (PLAYER_IS_ALIVE) {
@@ -1341,29 +1331,30 @@ void TaskDestructor_EggHammerTank(struct Task *t) {
     VramFree(tank->s2.graphics.dest);
 }
 
-void Task_EHTArm(void) {
-    EHTArm *ehtArm;
+void Task_EHTArm(void)
+{
+    EHTArm *arm;
     Sprite *s;
     SpriteTransform *tf;
 
-    ehtArm = TASK_DATA(gCurTask);
-    s = ehtArm->s;
+    arm = TASK_DATA(gCurTask);
+    s = &arm->s;
 
-    tf = ehtArm->transform;
+    tf = &arm->transform;
     tf->rotation = 0;
 
     UnusedTransform(s, tf);
     DisplaySprite(s);
 }
 
-void TaskDestructor_EHTArm(struct Task *t) {
-    
+void TaskDestructor_EHTArm(struct Task *t)
+{
     EHTArm *arm = TASK_DATA(t);
     VramFree(arm->s.graphics.dest);
 }
 
-void TaskDestructor_EHTHammer(struct Task *t) {
+void TaskDestructor_EHTHammer(struct Task *t)
+{
     EHTHammer *ehtHammer = TASK_DATA(t);
-    VramFree(ehtHammer->graphics.dest);
+    VramFree(ehtHammer->s.graphics.dest);
 }
-#endif

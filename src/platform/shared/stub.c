@@ -35,8 +35,6 @@ typedef struct {
     /* 0x48 */ s16 unk48;
 } Strc_sub_80168F0; /* 0x4C */
 void dummy() { }
-void Task_8027600() { }
-void Task_EggHammerTankMain() { }
 void sub_8015C5C(CamCoord worldX, CamCoord worldY) { }
 struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4)
 {
