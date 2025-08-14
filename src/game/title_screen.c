@@ -38,11 +38,11 @@ void sub_800D3E0();
 void SwitchToSonicTeamLogo();
 void sub_800D498();
 void Task_800D4B0();
-void sub_800D7EC();
+void Task_800D7EC();
 void sub_800D878();
 void sub_800DEE4();
-void sub_800DF88();
-void sub_800E008();
+void Task_SwitchToDemoInit();
+void Task_SwitchToMainMenu();
 
 extern void sub_8063918(void);
 
@@ -52,7 +52,7 @@ const u8 sTitlescreenFrameTileSizes[] = { 28, 16, 28, 20, 40 };
 const u8 gUnknown_080BB323[] = { 0, 2, 4, 6 };
 const u8 gUnknown_080BB327[] = { 0, 1, 3, 2, 0 };
 const VoidFn gUnknown_080BB32C[] = { CreateMultiplayerModeSelectScreen, CreateTimeAttackMenu, CreateOptionsMenu, LoadTinyChaoGarden };
-const ALIGNED(4) AnimId gUnknown_080BB33C[] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
+// const ALIGNED(4) AnimId gUnknown_080BB33C[] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
 
 typedef struct SegaLogo {
     u16 unk0;
@@ -293,193 +293,187 @@ void Task_800D4B0(void)
     CreateTitleScreen(1);
 }
 
-#if 0
-void CreateTitleScreen(u32 playMusic) {
-    ? sp4;
-    s32 sp8;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    u16 temp_r5;
+typedef struct TitleScreen {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ Sprite s2;
+    /* 0x60 */ Background bg;
+    /* 0xA0 */ Background bg2;
+    /* 0xE0 */ s16 qBlend;
+    /* 0xE2 */ u16 unkE2;
+    /* 0xE4 */ s16 unkE4;
+    /* 0xE6 */ u16 unkE6;
+    /* 0xE8 */ bool8 playMusic;
+} TitleScreen;
 
-    memcpy(&sp4, gUnknown_080BB33C, 4);
+void CreateTitleScreen(u32 playMusic)
+{
+    struct Task *t;
+    TitleScreen *title;
+    Sprite *s;
+    Background *bg;
+    AnimId animsPressStart[2] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
+
     gDispCnt = 0x41;
-    gBgCntRegs[2] = 0x568D;
-    gBgCntRegs->unk0 = 0x1482;
+    gBgCntRegs[2] = 0x568C | BGCNT_PRIORITY(1);
+    gBgCntRegs[0] = 0x1480 | BGCNT_PRIORITY(2);
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    sa2__gUnknown_03004D80->unk0 = 0;
-    sa2__gUnknown_03002280[0][0] = 0;
-    sa2__gUnknown_03002280[0][1] = 0;
-    sa2__gUnknown_03002280[0][2] = 0xFF;
-    sa2__gUnknown_03002280[0][3] = 0x20;
-    sa2__gUnknown_03004D80[2] = -1U;
-    sa2__gUnknown_03002280[2][0] = 0;
-    sa2__gUnknown_03002280[2][1] = 0;
-    sa2__gUnknown_03002280[2][2] = -1U;
-    sa2__gUnknown_03002280[2][3] = 0x20;
-    sp8 = 0;
-    (void *)0x040000D4->unk0 = &sp8;
-    (void *)0x040000D4->unk4 = 0x06000000;
-    (void *)0x040000D4->unk8 = 0x85000010;
-    sp8 = 0;
-    (void *)0x040000D4->unk0 = &sp8;
-    (void *)0x040000D4->unk4 = 0x0600FFC0;
-    (void *)0x040000D4->unk8 = 0x85000020;
-    temp_r5 = TaskCreate(Task_LoadGameLogo, 0xECU, 0x2000U, 0U, M2C_ERROR(/* Unable to find stack arg 0x10 in block */), /* extra? */ TaskDestructor_TitleScreen)->data;
-    temp_r4 = temp_r5 + 0x03000000;
-    *(temp_r5 + 0x030000E2) = 0;
-    temp_r2 = temp_r5 + 0x030000E0;
-    *temp_r2 = 0x1000U;
-    temp_r0 = temp_r5 + 0x030000E8;
-    *temp_r0 = (u8) playMusic;
+    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
+    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    SA2_LABEL(gUnknown_03004D80)[2] = 0xFF;
+    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][2] = -1;
+    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+
+    DmaFill32(3, 0, BG_VRAM, 64);
+    DmaFill32(3, 0, BG_VRAM + 0xFFC0, 0x80); // TODO: This spills into OBJ VRAM!
+
+    t = TaskCreate(Task_LoadGameLogo, sizeof(TitleScreen), 0x2000U, 0U, TaskDestructor_TitleScreen);
+    title = TASK_DATA(t);
+    s = &title->s;
+    title->unkE2 = 0;
+    title->qBlend = Q(16);
+    title->playMusic = playMusic;
     gBldRegs.bldCnt = 0x20A5;
-    gBldRegs.bldY = (u16) ((s32) (*temp_r2 << 0x10) >> 0x18);
-    temp_r4->unk16 = 0x78;
-    temp_r4->unk18 = 0x71;
-    temp_r4->unk4 = VramMalloc(0x2EU);
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = (u16) *((gLoadedSaveGame.uiLanguage * 2) + sp + 4);
-    *(temp_r5 + 0x03000020) = 0;
-    temp_r4->unk14 = 0;
-    *(temp_r5 + 0x03000021) = -1;
-    temp_r4->unk1C = 0;
-    *(temp_r5 + 0x03000022) = 0x10;
-    *(temp_r5 + 0x03000025) = 0;
-    temp_r4->unk1A = 0x400;
-    temp_r4->unk10 = 0x1000;
-    UpdateSpriteAnimation((Sprite *) temp_r4);
-    temp_r4_2 = temp_r5 + 0x03000030;
-    temp_r4_2->unk16 = 0;
-    temp_r4_2->unk18 = 0x86;
-    temp_r4_2->unk4 = VramMalloc(0x5AU);
-    temp_r4_2->unk8 = 0;
-    temp_r4_2->unkA = 0x30C;
-    *(temp_r5 + 0x03000050) = 1;
-    temp_r4_2->unk14 = 0;
-    *(temp_r5 + 0x03000051) = -1;
-    temp_r4_2->unk1C = 0;
-    *(temp_r5 + 0x03000052) = 0x10;
-    *(temp_r5 + 0x03000055) = 0;
-    temp_r4_2->unk1A = 0x400;
-    temp_r4_2->unk10 = 0x1000;
-    UpdateSpriteAnimation((Sprite *) temp_r4_2);
-    temp_r0_2 = temp_r5 + 0x03000060;
-    temp_r0_2->unk4 = 0x06000000;
-    temp_r0_2->unkA = 0;
-    temp_r0_2->unkC = 0x0600A000;
-    temp_r0_2->unk18 = 0;
-    temp_r0_2->unk1A = 0;
-    temp_r0_2->unk1C = 0x4B;
-    temp_r0_2->unk1E = 0;
-    temp_r0_2->unk20 = 0;
-    temp_r0_2->unk22 = 0;
-    temp_r0_2->unk24 = 0;
-    temp_r0_2->unk26 = 0x1E;
-    temp_r0_2->unk28 = 0x14;
-    *(temp_r5 + 0x0300008A) = 0;
-    temp_r0_2->unk2E = 4;
-    DrawBackground((Background *) temp_r0_2);
-    if (*temp_r0 != 0) {
-        m4aSongNumStart(2U);
+    gBldRegs.bldY = I(title->qBlend);
+    s->x = 120;
+    s->y = 113;
+    s->graphics.dest = VramMalloc(0x2EU);
+    s->graphics.size = 0;
+    s->graphics.anim = animsPressStart[LOADED_SAVE->uiLanguage];
+    s->variant = 0;
+    s->animCursor = 0;
+    s->prevVariant = -1;
+    s->qAnimDelay = Q(0);
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->oamFlags = 0x400;
+    s->frameFlags = 0x1000;
+    UpdateSpriteAnimation(s);
+    s = &title->s2;
+    s->x = 0;
+    s->y = 134;
+    s->graphics.dest = VramMalloc(90);
+    s->graphics.size = 0;
+    s->graphics.anim = 780;
+    s->variant = 1;
+    s->animCursor = 0;
+    s->prevVariant = -1;
+    s->qAnimDelay = Q(0);
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->oamFlags = 0x400;
+    s->frameFlags = 0x1000;
+    UpdateSpriteAnimation(s);
+    bg = &title->bg;
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg->graphics.anim = 0;
+    bg->layoutVram = (void *)BG_SCREEN_ADDR(20);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = 75;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 30;
+    bg->targetTilesY = 20;
+    bg->paletteOffset = 0;
+    bg->flags = BACKGROUND_FLAGS_BG_ID(0) | BACKGROUND_FLAG_4;
+    DrawBackground(bg);
+
+    if (title->playMusic) {
+        m4aSongNumStart(MUS_TITLE_FANFARE);
     }
 }
 
-void Task_LoadGameLogo(void) {
+void Task_LoadGameLogo(void)
+{
+    TitleScreen *title;
+    Background *bg;
+    s16 *temp_r5;
     s16 temp_r0_2;
-    s32 temp_r0;
-    s32 temp_r5;
-    u16 temp_r4;
 
-    gDispCnt |= 0x1100;
-    temp_r4 = gCurTask->data;
-    temp_r5 = temp_r4 + 0x030000E0;
-    if (*temp_r5 == 0x1000) {
-        temp_r0 = temp_r4 + 0x030000A0;
-        temp_r0->unk4 = 0x0600C000;
-        temp_r0->unkA = 0;
-        temp_r0->unkC = 0x0600B000;
-        temp_r0->unk18 = 0;
-        temp_r0->unk1A = 0;
-        temp_r0->unk1C = (s16) (gLoadedSaveGame.uiLanguage + 0x49);
-        temp_r0->unk1E = 0;
-        temp_r0->unk20 = 0;
-        temp_r0->unk22 = 0;
-        temp_r0->unk24 = 0;
-        temp_r0->unk26 = 0x18;
-        temp_r0->unk28 = 0xA;
-        *(temp_r4 + 0x030000CA) = 0;
-        temp_r0->unk2E = 6;
-        DrawBackground((Background *) temp_r0);
+    gDispCnt |= DISPCNT_BG0_ON | DISPCNT_OBJ_ON;
+    title = TASK_DATA(gCurTask);
+
+    if (title->qBlend == Q(16)) {
+        bg = &title->bg2;
+        bg->graphics.dest = (void *)BG_CHAR_ADDR(3);
+        bg->graphics.anim = 0;
+        bg->layoutVram = (void *)BG_SCREEN_ADDR(22);
+        bg->unk18 = 0;
+        bg->unk1A = 0;
+        bg->tilemapId = (u16)(gLoadedSaveGame.uiLanguage + 0x49);
+        bg->unk1E = 0;
+        bg->unk20 = 0;
+        bg->unk22 = 0;
+        bg->unk24 = 0;
+        bg->targetTilesX = 24;
+        bg->targetTilesY = 10;
+        title->bg2.paletteOffset = 0;
+        bg->flags = BACKGROUND_FLAGS_BG_ID(2) | BACKGROUND_FLAG_4;
+        DrawBackground(bg);
     }
-    temp_r0_2 = (u16) *temp_r5 - 0x55;
-    *temp_r5 = temp_r0_2;
-    gBldRegs.bldY = (u16) ((s32) (temp_r0_2 << 0x10) >> 0x18);
-    if ((s32) *temp_r5 <= 0) {
-        *(temp_r4 + 0x030000E4) = 0x400;
-        *(temp_r4 + 0x030000E6) = 0xFFF0;
+    title->qBlend -= 0x55;
+
+    gBldRegs.bldY = I(title->qBlend);
+
+    if (title->qBlend <= 0) {
+        title->unkE4 = 0x400;
+        title->unkE6 = 0xFFF0;
         gBldRegs.bldY = 0;
-        gCurTask->main = sub_800D7EC;
+        gCurTask->main = Task_800D7EC;
     }
 }
 
-void sub_800D7EC(void) {
-    s16 temp_r2_2;
-    s32 temp_r1;
-    s32 temp_r2;
-    u16 temp_r3;
+void Task_800D7EC(void)
+{
+    TitleScreen *title = TASK_DATA(gCurTask);
 
-    temp_r3 = gCurTask->data;
-    gDispCnt |= 0x400;
-    temp_r2 = temp_r3 + 0x030000E4;
-    temp_r1 = temp_r3 + 0x030000E6;
-    *temp_r2 = (u16) (*temp_r1 + *temp_r2);
-    *temp_r1 = (u16) (*temp_r1 - 8);
-    if ((s32) (s16) *temp_r2 <= 0xFF) {
-        *temp_r2 = 0x100U;
-        *(temp_r3 + 0x030000E2) = 0;
+    gDispCnt |= DISPCNT_BG2_ON;
+
+    title->unkE4 += title->unkE6;
+    title->unkE6 -= 8;
+    if (title->unkE4 < 0x100) {
+        title->unkE4 = 0x100;
+        title->unkE2 = 0;
         gCurTask->main = sub_800D878;
     }
-    temp_r2_2 = (s16) *temp_r2;
-    sa2__sub_8003EE4(0U, temp_r2_2, temp_r2_2, 0x8D, M2C_ERROR(/* Unable to find stack arg 0x10 in block */), M2C_ERROR(/* Unable to find stack arg 0x14 in block */), M2C_ERROR(/* Unable to find stack arg 0x18 in block */), M2C_ERROR(/* Unable to find stack arg 0x1c in block */), /* extra? */ 0x1A, /* extra? */ 0xC0, /* extra? */ 0x1E, /* extra? */ gBgAffineRegs);
+
+    SA2_LABEL(sub_8003EE4)(0, title->unkE4, title->unkE4, 0x8D, 0x1A, 0xC0, 30, gBgAffineRegs);
 }
 
-void sub_800D878(void) {
-    s32 temp_r0;
-    s32 temp_r2;
-    u16 temp_r1;
-    void (*var_r0)();
+void sub_800D878(void)
+{
+    TitleScreen *title = TASK_DATA(gCurTask);
 
-    temp_r1 = gCurTask->data;
-    temp_r2 = temp_r1 + 0x030000E2;
-    temp_r0 = *temp_r2 + 1;
-    *temp_r2 = (u16) temp_r0;
-    if ((u32) (u16) temp_r0 > 0x3CU) {
-        if (8 & gPressedKeys) {
-            m4aSongNumStart(0x6AU);
-            var_r0 = sub_800E008;
-            goto block_7;
+    if (++title->unkE2 > 60) {
+        if (gPressedKeys & START_BUTTON) {
+            m4aSongNumStart(SE_SELECT);
+            gCurTask->main = Task_SwitchToMainMenu;
+            return;
         }
-        if (!((*temp_r2 - 0x3C) & 0x20)) {
-            DisplaySprite((Sprite *) (temp_r1 + 0x03000000));
+        if (!((title->unkE2 - 60) & 0x20)) {
+            DisplaySprite(&title->s);
         }
-        goto block_5;
     }
-block_5:
-    DisplaySprite((Sprite *) (temp_r1 + 0x03000030));
-    if ((u32) *(temp_r1 + 0x030000E2) > 0x384U) {
-        var_r0 = sub_800DF88;
-block_7:
-        gCurTask->main = var_r0;
+
+    DisplaySprite(&title->s2);
+    if (title->unkE2 > 900) {
+        gCurTask->main = Task_SwitchToDemoInit;
     }
 }
 
+#if 0
 void CreateMainMenu(s8 arg0) {
     s32 sp10;
     s32 temp_r0;
@@ -806,7 +800,7 @@ void sub_800DEE4(void) {
     gUnknown_080BB32C[temp_r6 - 1]();
 }
 
-void sub_800DF88(void) {
+void Task_SwitchToDemoInit(void) {
     TaskDestroy(gCurTask);
     gInputRecorder.mode = 2;
     gInputPlaybackData = *((gDemoPlayCounter * 4) + &gUnknown_087BF8CC);
@@ -818,7 +812,7 @@ void sub_800DF88(void) {
     ApplyGameStageSettings();
 }
 
-void sub_800E008(void) {
+void Task_SwitchToMainMenu(void) {
     TaskDestroy(gCurTask);
     CreateMainMenu(0);
 }
