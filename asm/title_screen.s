@@ -8,8 +8,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_MainMenuInit
 Task_MainMenuInit: @ 0x0800DB6C
 	push {r4, r5, r6, r7, lr}
@@ -196,6 +194,7 @@ _0800DCEC: .4byte gBldRegs
 _0800DCF0: .4byte gKeysFirstRepeatIntervals
 _0800DCF4: .4byte gKeysContinuedRepeatIntervals
 _0800DCF8: .4byte 0x00009FFF
+.endif
 
 	thumb_func_start Task_800DCFC
 Task_800DCFC: @ 0x0800DCFC

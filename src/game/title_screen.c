@@ -24,7 +24,10 @@
 #include "constants/tilemaps.h"
 #include "constants/zones.h"
 
-void TaskDestructor_TitleScreen();
+#define MENU_ITEMS_TOP_Y 93
+#define MENU_ITEMS_SPACE 14
+
+void TaskDestructor_TitleScreen(struct Task *t);
 void Task_800D268();
 void Task_800D450();
 void Task_800DCFC();
@@ -54,7 +57,6 @@ const u8 sTitlescreenFrameTileSizes[] = { 28, 16, 28, 20, 40 };
 const u8 gUnknown_080BB323[] = { 0, 2, 4, 6 };
 const u8 gUnknown_080BB327[] = { 0, 1, 3, 2, 0 };
 const VoidFn sMainMenuItems[] = { CreateMultiplayerModeSelectScreen, CreateTimeAttackMenu, CreateOptionsMenu, LoadTinyChaoGarden };
-// const ALIGNED(4) AnimId gUnknown_080BB33C[] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
 
 typedef struct SegaLogo {
     u16 unk0;
@@ -481,7 +483,7 @@ void sub_800D878(void)
 
 typedef struct MainMenu {
     /* 0x000 */ Sprite s;
-    /* 0x100 */ u8 filler0[0xF0];
+    /* 0x030 */ Sprite items[5];
     /* 0x120 */ Background bg120;
     /* 0x160 */ Background bg160;
     /* 0x1A0 */ StrcUi_805423C unk1A0;
@@ -603,76 +605,72 @@ void CreateMainMenu(u32 param0)
     }
 }
 
-#if 0
-
-void Task_MainMenuInit(void) {
-    s32 temp_r1_2;
-    s32 temp_r5;
-    s32 temp_r5_2;
+void Task_MainMenuInit(void)
+{
+    s8 *temp_r1_2;
     u16 temp_r1;
-    u16 temp_r4;
-    u32 var_r1;
-    u8 temp_r0;
-    u8 var_r6;
-    u8 var_r6_2;
+    bool32 someBool;
+    u8 i;
 
-    temp_r4 = gCurTask->data;
-    temp_r5 = temp_r4 + 0x03000000;
-    var_r1 = 1;
-    if (*(temp_r4 + 0x030001AF) != 0) {
-        temp_r0 = sub_805423C((StrcUi_805423C *) (temp_r4 + 0x030001A0));
-        var_r1 = (u32) ((0 - temp_r0) | temp_r0) >> 0x1F;
+    MainMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s = &menu->s;
+    StrcUi_805423C *strc = &menu->unk1A0;
+
+    someBool = TRUE;
+    if (menu->unk1AF != 0) {
+        someBool = sub_805423C(strc) ? TRUE : FALSE;
     }
-    if (var_r1 != 0) {
-        temp_r1 = temp_r5->unk8;
-        if (temp_r1 == 0) {
-            temp_r5->unk16 = temp_r1;
-            temp_r5->unk18 = temp_r1;
-            temp_r5->unk4 = 0x06010000;
-            temp_r5->unk1A = 0x3C0;
-            temp_r5->unk8 = temp_r1;
-            temp_r5->unkA = 0x2BB;
-            *(temp_r4 + 0x03000020) = 0;
-            temp_r5->unk14 = temp_r1;
-            temp_r5->unk1C = temp_r1;
-            *(temp_r4 + 0x03000021) = 0xFF;
-            *(temp_r4 + 0x03000022) = 0x10;
-            *(temp_r4 + 0x03000025) = 0;
-            temp_r5->unk10 = 0x400;
+
+    if (someBool) {
+        if (s->graphics.size == 0) {
+            s->x = 0;
+            s->y = 0;
+            s->graphics.dest = (void *)0x06010000;
+            s->oamFlags = 0x3C0;
+            s->graphics.size = 0;
+            s->graphics.anim = SA1_ANIM_CHAO_HOVER_SIDE;
+            s->variant = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = Q(0);
+            s->prevVariant = 0xFF;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->frameFlags = 0x400;
+
             gCurTask->main = Task_SwitchTo_Task_800DCFC;
         }
-        var_r6 = 0;
-        do {
-            temp_r5_2 = temp_r5 + ((var_r6 * 0x30) + 0x30);
-            temp_r5_2->unk16 = 0x78;
-            temp_r5_2->unk18 = (s16) ((var_r6 * 0xE) + 0x5D);
-            temp_r5_2->unk4 = VramMalloc((u32) sTitlescreenFrameTileSizes[var_r6]);
-            temp_r5_2->unk8 = 0;
-            temp_r5_2->unkA = (u16) gUnknown_080BB310[gLoadedSaveGame.uiLanguage];
-            *(temp_r5_2 + 0x20) = (u8) gUnknown_080BB314[gLoadedSaveGame.uiLanguage + (var_r6 * 2)];
-            temp_r5_2->unk1A = 0x3C0;
-            temp_r5_2->unk8 = 0;
-            temp_r5_2->unk14 = 0;
-            temp_r5_2->unk1C = 0;
-            temp_r1_2 = temp_r5_2 + 0x21;
-            *temp_r1_2 = 0xFF;
-            *(temp_r1_2 + 1) = 0x10;
-            *(temp_r5_2 + 0x25) = 0;
-            temp_r5_2->unk10 = 0;
-            UpdateSpriteAnimation((Sprite *) temp_r5_2);
-            var_r6 = (u8) (var_r6 + 1);
-        } while ((u32) var_r6 <= 4U);
-        var_r6_2 = 0;
-        do {
-            gKeysFirstRepeatIntervals[var_r6_2] = 0x14;
-            gKeysContinuedRepeatIntervals[var_r6_2] = 8;
-            var_r6_2 = (u8) (var_r6_2 + 1);
-        } while ((u32) var_r6_2 <= 9U);
+
+        for (i = 0; i < ARRAY_COUNT(menu->items); i++) {
+            s = &menu->items[i];
+            s->x = (DISPLAY_WIDTH / 2);
+            s->y = (i * MENU_ITEMS_SPACE) + MENU_ITEMS_TOP_Y;
+            s->graphics.dest = VramMalloc((u32)sTitlescreenFrameTileSizes[i]);
+            s->graphics.size = 0;
+            s->graphics.anim = gUnknown_080BB310[gLoadedSaveGame.uiLanguage];
+            s->variant = gUnknown_080BB314[gLoadedSaveGame.uiLanguage + (i * 2)];
+            s->oamFlags = 0x3C0;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->frameFlags = 0;
+            UpdateSpriteAnimation(s);
+        }
+
+        for (i = 0; (i < ARRAY_COUNT(gKeysFirstRepeatIntervals)); i++) {
+            gKeysFirstRepeatIntervals[i] = 20;
+            gKeysContinuedRepeatIntervals[i] = 8;
+        }
+
         gDispCnt &= 0x9FFF;
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
     }
 }
+
+#if 0
 
 void Task_800DCFC(void) {
     s32 temp_r0;
