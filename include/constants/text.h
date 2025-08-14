@@ -2,6 +2,7 @@
 
 #define UILANG_JAPANESE 0
 #define UILANG_ENGLISH  1
+#define UILANG_COUNT    2
 #define UILANG_DEFAULT  UILANG_ENGLISH
 
 #define LANG_DEFAULT  0

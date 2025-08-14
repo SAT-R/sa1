@@ -12,6 +12,7 @@
 #include "game/save.h"
 #include "game/stage/terrain_collision.h"
 #include "game/stage/player.h"
+#include "game/stage/ui.h"
 #include "game/time_attack/menu.h"
 #include "game/title_screen.h"
 #include "game/water_effects.h"
@@ -20,6 +21,7 @@
 #include "constants/char_states.h"
 #include "constants/move_states.h"
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 #include "constants/zones.h"
 
 void TaskDestructor_TitleScreen();
@@ -46,12 +48,12 @@ void Task_SwitchToMainMenu();
 
 extern void sub_8063918(void);
 
-const ALIGNED(4) AnimId gUnknown_080BB310[] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
+const ALIGNED(4) AnimId gUnknown_080BB310[UILANG_COUNT] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
 const u8 gUnknown_080BB314[] = { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
 const u8 sTitlescreenFrameTileSizes[] = { 28, 16, 28, 20, 40 };
 const u8 gUnknown_080BB323[] = { 0, 2, 4, 6 };
 const u8 gUnknown_080BB327[] = { 0, 1, 3, 2, 0 };
-const VoidFn gUnknown_080BB32C[] = { CreateMultiplayerModeSelectScreen, CreateTimeAttackMenu, CreateOptionsMenu, LoadTinyChaoGarden };
+const VoidFn sMainMenuItems[] = { CreateMultiplayerModeSelectScreen, CreateTimeAttackMenu, CreateOptionsMenu, LoadTinyChaoGarden };
 // const ALIGNED(4) AnimId gUnknown_080BB33C[] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
 
 typedef struct SegaLogo {
@@ -98,7 +100,7 @@ void CreateSegaLogo(void)
     bg->layoutVram = (void *)BG_SCREEN_ADDR(30);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 86;
+    bg->tilemapId = TM_INTRO_PRESENTED_BY_SEGA;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 5;
@@ -175,7 +177,7 @@ void CreateSonicTeamLogo(void)
     bg->layoutVram = (void *)BG_SCREEN_ADDR(30);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 87;
+    bg->tilemapId = TM_INTRO_CREATED_BY_SONIC_TEAM;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 5;
@@ -311,7 +313,7 @@ void CreateTitleScreen(u32 playMusic)
     TitleScreen *title;
     Sprite *s;
     Background *bg;
-    AnimId animsPressStart[2] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
+    AnimId animsPressStart[UILANG_COUNT] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
 
     gDispCnt = 0x41;
     gBgCntRegs[2] = 0x568C | BGCNT_PRIORITY(1);
@@ -346,7 +348,8 @@ void CreateTitleScreen(u32 playMusic)
     gBldRegs.bldY = I(title->qBlend);
     s->x = 120;
     s->y = 113;
-    s->graphics.dest = VramMalloc(0x2EU);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_PRESS_START_MSG_JP); // NOTE: Technically MAX(SA1_ANIM_PRESS_START_MSG_JP,
+                                                                 // SA1_ANIM_PRESS_START_MSG_EN), but JP is the bigger one.
     s->graphics.size = 0;
     s->graphics.anim = animsPressStart[LOADED_SAVE->uiLanguage];
     s->variant = 0;
@@ -361,10 +364,10 @@ void CreateTitleScreen(u32 playMusic)
     s = &title->s2;
     s->x = 0;
     s->y = 134;
-    s->graphics.dest = VramMalloc(90);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_TITLE_COPYRIGHT);
     s->graphics.size = 0;
     s->graphics.anim = 780;
-    s->variant = 1;
+    s->variant = UILANG_DEFAULT; // 0: Japan 2001, 1: International (2002)
     s->animCursor = 0;
     s->prevVariant = -1;
     s->qAnimDelay = Q(0);
@@ -379,7 +382,7 @@ void CreateTitleScreen(u32 playMusic)
     bg->layoutVram = (void *)BG_SCREEN_ADDR(20);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = 75;
+    bg->tilemapId = TM_SA1_TITLE_BG;
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -412,7 +415,7 @@ void Task_LoadGameLogo(void)
         bg->layoutVram = (void *)BG_SCREEN_ADDR(22);
         bg->unk18 = 0;
         bg->unk1A = 0;
-        bg->tilemapId = (u16)(gLoadedSaveGame.uiLanguage + 0x49);
+        bg->tilemapId = (TM_SA1_TITLE_LOGO_JP + gLoadedSaveGame.uiLanguage);
         bg->unk1E = 0;
         bg->unk20 = 0;
         bg->unk22 = 0;
@@ -462,124 +465,145 @@ void sub_800D878(void)
             gCurTask->main = Task_SwitchToMainMenu;
             return;
         }
+
         if (!((title->unkE2 - 60) & 0x20)) {
             DisplaySprite(&title->s);
         }
     }
 
     DisplaySprite(&title->s2);
+
     if (title->unkE2 > 900) {
         gCurTask->main = Task_SwitchToDemoInit;
+        return;
     }
 }
 
-#if 0
-void CreateMainMenu(s8 arg0) {
-    s32 sp10;
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    u16 temp_r6;
+typedef struct MainMenu {
+    /* 0x000 */ Sprite s;
+    /* 0x100 */ u8 filler0[0xF0];
+    /* 0x120 */ Background bg120;
+    /* 0x160 */ Background bg160;
+    /* 0x1A0 */ StrcUi_805423C unk1A0;
+    /* 0x1AC */ u16 unk1AC;
+    /* 0x1AE */ u8 unk1AE;
+    /* 0x1AF */ u8 unk1AF;
+    /* 0x1B0 */ u16 unk1B0;
+} MainMenu;
+
+void CreateMainMenu(u32 param0)
+{
+    StrcUi_805423C *temp_r1_3;
+    s8 *temp_r0;
+
+    struct Task *t;
+    struct MainMenu *menu;
+    Sprite *s;
+    Background *bg;
 
     gGameMode = 0;
-    sa2__gUnknown_0300543C = 0;
+    SA2_LABEL(gUnknown_0300543C) = 0;
     gDispCnt = 0x1541;
     gBgCntRegs[2] = 0x568D;
-    gBgCntRegs->unk0 = 0x1482;
+    gBgCntRegs[0] = 0x1482;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    temp_r6 = TaskCreate(Task_MainMenuInit, 0x1B4U, 0x2000U, 0U, M2C_ERROR(/* Unable to find stack arg 0x10 in block */), /* extra? */ 0)->data;
-    temp_r1 = temp_r6 + 0x03000000;
-    *(temp_r6 + 0x030001AC) = 0;
-    temp_r0 = temp_r6 + 0x030001AF;
-    *temp_r0 = arg0;
-    temp_r1->unk16 = 0x78;
-    temp_r1->unk18 = 0x50;
-    temp_r1->unk4 = 0x06000040;
-    temp_r1->unk8 = 0;
-    temp_r1->unkA = 1;
-    *(temp_r6 + 0x03000020) = 0;
-    temp_r1->unk14 = 0;
-    *(temp_r6 + 0x03000021) = 0xFF;
-    temp_r1->unk1C = 0;
-    *(temp_r6 + 0x03000022) = 0x10;
-    *(temp_r6 + 0x03000025) = 0;
-    temp_r1->unk10 = 0x10000;
-    if ((u8) *temp_r0 != 0) {
-        sa2__gUnknown_03004D80->unk0 = 0;
-        sa2__gUnknown_03002280[0][0] = 0;
-        sa2__gUnknown_03002280[0][1] = 0;
-        sa2__gUnknown_03002280[0][2] |= ~0;
-        sa2__gUnknown_03002280[0][3] = 0x20;
-        sa2__gUnknown_03004D80[2] |= ~0;
-        sa2__gUnknown_03002280[2][0] = 0;
-        sa2__gUnknown_03002280[2][1] = 0;
-        sa2__gUnknown_03002280[2][2] |= ~0;
-        sa2__gUnknown_03002280[2][3] = 0x20;
-        sp10 = 0;
-        (void *)0x040000D4->unk0 = &sp10;
-        (void *)0x040000D4->unk4 = (s32) (((0xC & gBgCntRegs->unk0) << 0xC) + 0x06000000);
-        (void *)0x040000D4->unk8 = 0x85000010;
-        sp10 = 0;
-        (void *)0x040000D4->unk0 = &sp10;
-        (void *)0x040000D4->unk4 = (s32) (((0xC & gBgCntRegs[2]) << 0xC) + 0x06003FC0);
-        (void *)0x040000D4->unk8 = 0x85000020;
+
+    t = TaskCreate(Task_MainMenuInit, sizeof(MainMenu), 0x2000, 0, NULL);
+    menu = TASK_DATA(t);
+    s = &menu->s;
+    menu->unk1AC = 0;
+    menu->unk1AF = param0;
+
+    s->x = (DISPLAY_WIDTH / 2);
+    s->y = (DISPLAY_HEIGHT / 2);
+    s->graphics.dest = (void *)BG_VRAM + 0x40;
+    s->graphics.size = 0;
+    s->graphics.anim = 1; // TODO: Why?
+    s->variant = 0;
+    s->animCursor = 0;
+    s->prevVariant = 0xFF;
+    s->qAnimDelay = Q(0);
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x10000;
+
+    if (menu->unk1AF != 0) {
+        SA2_LABEL(gUnknown_03004D80)[0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][2] |= ~0;
+        SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+        SA2_LABEL(gUnknown_03004D80)[2] |= ~0;
+        SA2_LABEL(gUnknown_03002280)[2][0] = 0;
+        SA2_LABEL(gUnknown_03002280)[2][1] = 0;
+        SA2_LABEL(gUnknown_03002280)[2][2] |= ~0;
+        SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+
+        DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(0), 0x40);
+        DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2) + 0x3FC0, 0x80); // NOTE: Overflow to 0x4040!
     }
-    *(temp_r6 + 0x030001AE) = 0;
-    temp_r1_2 = temp_r6 + 0x03000120;
-    temp_r1_2->unk4 = 0x06000000;
-    temp_r1_2->unkA = 0;
-    temp_r1_2->unkC = 0x0600A000;
-    temp_r1_2->unk18 = 0;
-    temp_r1_2->unk1A = 0;
-    temp_r1_2->unk1C = 0x4B;
-    temp_r1_2->unk1E = 0;
-    temp_r1_2->unk20 = 0;
-    temp_r1_2->unk22 = 0;
-    temp_r1_2->unk24 = 0;
-    temp_r1_2->unk26 = 0x1E;
-    temp_r1_2->unk28 = 0x14;
-    *(temp_r6 + 0x0300014A) = 0;
-    temp_r1_2->unk2E = 4;
-    if ((u8) *temp_r0 != 0) {
-        DrawBackground((Background *) temp_r1_2);
+
+    menu->unk1AE = 0;
+    bg = &menu->bg120;
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
+    bg->graphics.anim = 0;
+    bg->layoutVram = (void *)BG_SCREEN_ADDR(20);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = TM_SA1_TITLE_BG;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 30;
+    bg->targetTilesY = 20;
+    bg->paletteOffset = 0;
+    bg->flags = 4;
+
+    if (menu->unk1AF != 0) {
+        DrawBackground(bg);
     }
-    temp_r1_3 = temp_r6 + 0x03000160;
-    temp_r1_3->unk4 = 0x0600C000;
-    temp_r1_3->unkA = 0;
-    temp_r1_3->unkC = 0x0600B000;
-    temp_r1_3->unk18 = 0;
-    temp_r1_3->unk1A = 0;
-    temp_r1_3->unk1C = (s16) (gLoadedSaveGame.uiLanguage + 0x49);
-    temp_r1_3->unk1E = 0;
-    temp_r1_3->unk20 = 0;
-    temp_r1_3->unk22 = 0;
-    temp_r1_3->unk24 = 0;
-    temp_r1_3->unk26 = 0x18;
-    temp_r1_3->unk28 = 0xA;
-    *(temp_r6 + 0x0300018A) = 0;
-    temp_r1_3->unk2E = 6;
-    if ((u8) *temp_r0 != 0) {
-        DrawBackground((Background *) temp_r1_3);
+
+    bg = &menu->bg160;
+    bg->graphics.dest = (void *)BG_VRAM + 0xC000;
+    bg->graphics.anim = 0;
+    bg->layoutVram = (void *)BG_SCREEN_ADDR(22);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = (TM_SA1_TITLE_LOGO_JP + gLoadedSaveGame.uiLanguage);
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 24;
+    bg->targetTilesY = 10;
+    bg->paletteOffset = 0;
+    bg->flags = 6;
+
+    if (menu->unk1AF != 0) {
+        DrawBackground(bg);
     }
-    sa2__sub_8003EE4(0U, 0x100, 0x100, 0x8D, M2C_ERROR(/* Unable to find stack arg 0x10 in block */), M2C_ERROR(/* Unable to find stack arg 0x14 in block */), M2C_ERROR(/* Unable to find stack arg 0x18 in block */), M2C_ERROR(/* Unable to find stack arg 0x1c in block */), /* extra? */ 0x1A, /* extra? */ 0xC0, /* extra? */ 0x1E, /* extra? */ gBgAffineRegs);
-    temp_r1_4 = temp_r6 + 0x030001A0;
-    temp_r1_4->unk0 = 0;
-    temp_r1_4->unk2 = 1;
-    temp_r1_4->unk4 = 2;
-    temp_r1_4->unk6 = 0;
-    temp_r1_4->unk8 = 0x200;
-    temp_r1_4->unkA = 1;
-    if ((u8) *temp_r0 != 0) {
-        sub_805423C((StrcUi_805423C *) temp_r1_4);
+
+    sa2__sub_8003EE4(0U, 0x100, 0x100, 0x8D, 0x1A, 0xC0, 0x1E, gBgAffineRegs);
+    temp_r1_3 = &menu->unk1A0;
+    temp_r1_3->unk0 = 0;
+    temp_r1_3->unk2 = 1;
+    temp_r1_3->unk4 = 2;
+    temp_r1_3->unk6 = 0;
+    temp_r1_3->unk8 = 0x200;
+    temp_r1_3->unkA = 1;
+
+    if (menu->unk1AF != 0) {
+        sub_805423C(temp_r1_3);
     }
 }
+
+#if 0
 
 void Task_MainMenuInit(void) {
     s32 temp_r1_2;
@@ -797,7 +821,7 @@ void sub_800DEE4(void) {
     gDispCnt &= 0x9FFF;
     gBldRegs.bldCnt = 0;
     gBldRegs.bldY = 0;
-    gUnknown_080BB32C[temp_r6 - 1]();
+    sMainMenuItems[temp_r6 - 1]();
 }
 
 void Task_SwitchToDemoInit(void) {
