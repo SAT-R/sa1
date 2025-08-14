@@ -35,7 +35,6 @@ SECTIONS {
         src/game/sa1_sa2_shared/collision.o(.text);
         src/game/sa1_sa2_shared/palette_loader.o(.text);
         src/game/title_screen.o(.text);
-        asm/title_screen.o(.text);
         src/game/sa1_sa2_shared/unused_level_select.o(.text);
         asm/game__multiplayer__mode_select.o(.text);
         asm/game__time_attack__menu.o(.text);

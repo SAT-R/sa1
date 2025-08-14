@@ -5,17 +5,24 @@
 #include "malloc_vram.h"
 #include "bg_triangles.h"
 #include "lib/m4a/m4a.h"
+#include "game/character_select.h"
 #include "game/entity.h"
 #include "game/multiplayer/mode_select.h"
 #include "game/options_screen.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/sa1_sa2_shared/demo_manager.h"
 #include "game/save.h"
 #include "game/stage/terrain_collision.h"
 #include "game/stage/player.h"
+#include "game/stage/stage.h"
 #include "game/stage/ui.h"
 #include "game/time_attack/menu.h"
 #include "game/title_screen.h"
 #include "game/water_effects.h"
+
+// LoadTinyChaoGarden
+#include "../chao_garden/include/program_params.h"
+#include "game/assets/compressed/roms.h"
 
 #include "constants/animations.h"
 #include "constants/char_states.h"
@@ -24,19 +31,20 @@
 #include "constants/tilemaps.h"
 #include "constants/zones.h"
 
-#define MENU_ITEMS_TOP_Y 93
-#define MENU_ITEMS_SPACE 14
+#define MENU_ITEMS_TOP_Y    93
+#define MENU_ITEMS_SPACE    14
+#define NUM_MAIN_MENU_ITEMS 5
 
 void TaskDestructor_TitleScreen(struct Task *t);
 void Task_800D268();
 void Task_800D450();
-void Task_800DCFC();
+void Task_MainMenu_Select(void);
 void Task_LoadGameLogo();
 void Task_MainMenuInit();
 void Task_SegaLogoInit();
 void Task_SetSegaLogoTask();
 void Task_SonicTeamLogoInit();
-void Task_SwitchTo_Task_800DCFC();
+void Task_SwitchTo_Task_MainMenu_Select();
 void Task_800D11C();
 void sub_800D364();
 void sub_800D3E0();
@@ -45,7 +53,8 @@ void sub_800D498();
 void Task_800D4B0();
 void Task_800D7EC();
 void sub_800D878();
-void sub_800DEE4();
+void Task_800DE44();
+void Task_800DEE4();
 void Task_SwitchToDemoInit();
 void Task_SwitchToMainMenu();
 
@@ -56,7 +65,8 @@ const u8 gUnknown_080BB314[] = { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
 const u8 sTitlescreenFrameTileSizes[] = { 28, 16, 28, 20, 40 };
 const u8 gUnknown_080BB323[] = { 0, 2, 4, 6 };
 const u8 gUnknown_080BB327[] = { 0, 1, 3, 2, 0 };
-const VoidFn sMainMenuItems[] = { CreateMultiplayerModeSelectScreen, CreateTimeAttackMenu, CreateOptionsMenu, LoadTinyChaoGarden };
+const VoidFn sMainMenuSecondaryItems[NUM_MAIN_MENU_ITEMS - 1]
+    = { CreateMultiplayerModeSelectScreen, CreateTimeAttackMenu, CreateOptionsMenu, LoadTinyChaoGarden };
 
 typedef struct SegaLogo {
     u16 unk0;
@@ -68,6 +78,18 @@ typedef struct SonicTeamLogo {
     Background bg;
     s16 qFade;
 } SonicTeamLogo; /* 0x48 */
+
+typedef struct MainMenu {
+    /* 0x000 */ Sprite s;
+    /* 0x030 */ Sprite items[NUM_MAIN_MENU_ITEMS];
+    /* 0x120 */ Background bg120;
+    /* 0x160 */ Background bg160;
+    /* 0x1A0 */ StrcUi_805423C unk1A0;
+    /* 0x1AC */ u16 unk1AC;
+    /* 0x1AE */ u8 selectedItem;
+    /* 0x1AF */ u8 unk1AF;
+    /* 0x1B0 */ s16 unk1B0;
+} MainMenu;
 
 void CreateSegaLogo(void)
 {
@@ -200,27 +222,30 @@ void Task_800D268(void)
     SonicTeamLogo *logo;
 
     logo = TASK_DATA(gCurTask);
-    gDispCnt |= 0x400;
+    gDispCnt |= DISPCNT_BG2_ON;
 
     logo->unk0 += 2;
     if (logo->unk0 < 280) {
         SA2_LABEL(sub_80078D4)(2, 0, 40, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
         SA2_LABEL(sub_80078D4)(2, 120, 160, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
 
+#if !PORTABLE
+        // BUG: For some reason this currently overwrites memory it shouldn't be able to access.
+        //      Task memory gets fuzzed and the game crashes.
+        //      (In the 2nd call to SA2_LABEL(sub_8007958) )
         if (logo->unk0 < 200) {
             SA2_LABEL(sub_8007958)(2U, 40, 120, (s16)(280 - logo->unk0), -1, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
-            return;
+        } else {
+            SA2_LABEL(sub_8007958)(2U, 40, (64 - logo->unk0), (280 - logo->unk0), -1, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
+            SA2_LABEL(sub_80078D4)(2U, (64 - logo->unk0), 120, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
         }
-
-        SA2_LABEL(sub_8007958)(2U, 40, (64 - logo->unk0), (280 - logo->unk0), -1, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
-        SA2_LABEL(sub_80078D4)(2U, (64 - logo->unk0), 120, gBgScrollRegs[2][0], gBgScrollRegs[2][1]);
-        return;
+#endif
+    } else {
+        m4aSongNumStart(SE_RING);
+        gFlags &= ~FLAGS_4;
+        gCurTask->main = Task_800D450;
+        logo->unk0 = 0U;
     }
-
-    m4aSongNumStart(SE_RING);
-    gFlags &= ~FLAGS_4;
-    gCurTask->main = Task_800D450;
-    logo->unk0 = 0U;
 }
 
 void sub_800D364(void)
@@ -481,18 +506,6 @@ void sub_800D878(void)
     }
 }
 
-typedef struct MainMenu {
-    /* 0x000 */ Sprite s;
-    /* 0x030 */ Sprite items[5];
-    /* 0x120 */ Background bg120;
-    /* 0x160 */ Background bg160;
-    /* 0x1A0 */ StrcUi_805423C unk1A0;
-    /* 0x1AC */ u16 unk1AC;
-    /* 0x1AE */ u8 unk1AE;
-    /* 0x1AF */ u8 unk1AF;
-    /* 0x1B0 */ u16 unk1B0;
-} MainMenu;
-
 void CreateMainMenu(u32 param0)
 {
     StrcUi_805423C *temp_r1_3;
@@ -550,7 +563,7 @@ void CreateMainMenu(u32 param0)
         DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2) + 0x3FC0, 0x80); // NOTE: Overflow to 0x4040!
     }
 
-    menu->unk1AE = 0;
+    menu->selectedItem = 0;
     bg = &menu->bg120;
     bg->graphics.dest = (void *)BG_CHAR_ADDR(0);
     bg->graphics.anim = 0;
@@ -637,7 +650,7 @@ void Task_MainMenuInit(void)
             s->palId = 0;
             s->frameFlags = 0x400;
 
-            gCurTask->main = Task_SwitchTo_Task_800DCFC;
+            gCurTask->main = Task_SwitchTo_Task_MainMenu_Select;
         }
 
         for (i = 0; i < ARRAY_COUNT(menu->items); i++) {
@@ -670,107 +683,87 @@ void Task_MainMenuInit(void)
     }
 }
 
-#if 0
+void Task_MainMenu_Select(void)
+{
+    AnimCmdResult acmdRes;
+    u8 i;
 
-void Task_800DCFC(void) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r5;
-    s32 temp_r6;
-    s32 var_r1;
-    s8 var_r0;
-    u16 temp_r4;
-    u16 temp_r7;
-    u16 var_r0_2;
-    u8 var_r4;
+    MainMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s = &menu->s;
 
-    temp_r4 = gCurTask->data;
-    temp_r6 = temp_r4 + 0x03000000;
-    temp_r7 = 0x40 & gRepeatedKeys;
-    if (temp_r7 != 0) {
-        m4aSongNumStart(0x6CU);
-        temp_r1 = temp_r4 + 0x030001AE;
-        temp_r0 = *temp_r1 - 1;
-        *temp_r1 = (u8) temp_r0;
-        if ((u32) (u8) temp_r0 > 4U) {
-            *temp_r1 = 4U;
+    if (gRepeatedKeys & DPAD_UP) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+        if (--menu->selectedItem > NUM_MAIN_MENU_ITEMS - 1) {
+            menu->selectedItem = NUM_MAIN_MENU_ITEMS - 1;
         }
-    } else if (0x80 & gRepeatedKeys) {
-        m4aSongNumStart(0x6CU);
-        temp_r1_2 = temp_r4 + 0x030001AE;
-        temp_r0_2 = *temp_r1_2 + 1;
-        *temp_r1_2 = (u8) temp_r0_2;
-        if ((u32) (u8) temp_r0_2 > 4U) {
-            *temp_r1_2 = (u8) temp_r7;
+    } else if (gRepeatedKeys & DPAD_DOWN) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+        if (++menu->selectedItem > NUM_MAIN_MENU_ITEMS - 1) {
+            menu->selectedItem = 0;
         }
     }
-    temp_r6->unk16 = 0x48;
-    temp_r6->unk18 = (s16) ((*(temp_r6 + 0x1AE) * 0xE) + 0x6B);
-loop_7:
-    temp_r0_3 = UpdateSpriteAnimation((Sprite *) temp_r6);
-    if (temp_r0_3 != ACMD_RESULT__RUNNING) {
-        if (temp_r0_3 != ACMD_RESULT__ENDED) {
-            goto loop_7;
+
+    s->x = 72;
+    s->y = (menu->selectedItem * MENU_ITEMS_SPACE) + 0x6B;
+
+    while ((acmdRes = UpdateSpriteAnimation(s)) != ACMD_RESULT__RUNNING) {
+        if (acmdRes == ACMD_RESULT__ENDED) {
+            break;
         }
     }
-    var_r4 = 0;
-    do {
-        temp_r5 = temp_r6 + ((var_r4 * 0x30) + 0x30);
-        if (var_r4 == *(temp_r6 + 0x1AE)) {
-            if (var_r4 != 0) {
-                var_r1 = temp_r5 + 0x25;
-                var_r0 = 1;
-                goto block_17;
-            }
-            *(temp_r5 + 0x25) = var_r4;
-        } else {
-            if (var_r4 != 0) {
-                var_r1 = temp_r5 + 0x25;
-                var_r0 = 0;
+
+    for (i = 0; i < ARRAY_COUNT(menu->items); i++) {
+        s = &menu->items[i];
+
+        if (i == menu->selectedItem) {
+            if (i != 0) {
+                s->palId = 1;
             } else {
-                var_r1 = temp_r5 + 0x25;
-                var_r0 = 0xFF;
+                s->palId = i;
             }
-block_17:
-            *var_r1 = var_r0;
-        }
-        UpdateSpriteAnimation((Sprite *) temp_r5);
-        DisplaySprite((Sprite *) temp_r5);
-        var_r4 = (u8) (var_r4 + 1);
-    } while ((u32) var_r4 <= 4U);
-    if (1 & gPressedKeys) {
-        m4aSongNumStart(0x6AU);
-        gCurTask->main = (void (*)()) sub_800DE44;
-        *(temp_r6 + 0x1B0) = 0;
-        if (*(temp_r6 + 0x1AE) == 4) {
-            var_r0_2 = 0xBF;
         } else {
-            var_r0_2 = 0xFF;
+            if (i != 0) {
+                s->palId = 0;
+            } else {
+                s->palId = 255;
+            }
         }
-        gBldRegs.bldCnt = var_r0_2;
+
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    if (1 & gPressedKeys) {
+        m4aSongNumStart(SE_SELECT);
+        gCurTask->main = Task_800DE44;
+        menu->unk1B0 = 0;
+
+        if (menu->selectedItem == 4) {
+            gBldRegs.bldCnt = 0xBF;
+        } else {
+            gBldRegs.bldCnt = 0xFF;
+        }
+
         gBldRegs.bldY = 0;
     }
 }
 
-u32 sub_800DE44(Player *p) {
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r5;
-    u16 temp_r1;
-    u32 temp_r0;
-    u8 var_r4;
+void Task_800DE44(void)
+{
+    u8 i;
 
-    temp_r1 = gCurTask->data;
-    temp_r5 = temp_r1 + 0x030001B0;
-    temp_r0_2 = *temp_r5 + 0x55;
-    *temp_r5 = (u16) temp_r0_2;
-    if ((s32) (temp_r0_2 << 0x10) > 0x0FFF0000) {
-        *temp_r5 = 0x1000U;
-        gCurTask->main = sub_800DEE4;
-        sa2__gUnknown_03004D80->unk0 = 0;
+    MainMenu *menu = TASK_DATA(gCurTask);
+
+    menu->unk1B0 += 0x55;
+
+    if (menu->unk1B0 >= Q(16)) {
+        menu->unk1B0 = Q(16);
+
+        gCurTask->main = Task_800DEE4;
+
+        sa2__gUnknown_03004D80[0] = 0;
         sa2__gUnknown_03002280[0][0] = 0;
         sa2__gUnknown_03002280[0][1] = 0;
         sa2__gUnknown_03002280[0][2] = 0xFF;
@@ -778,93 +771,112 @@ u32 sub_800DE44(Player *p) {
         sa2__gUnknown_03004D80[2] = 0;
         sa2__gUnknown_03002280[2][0] = 0;
         sa2__gUnknown_03002280[2][1] = 0;
-        sa2__gUnknown_03002280[2][2] = -1U;
+        sa2__gUnknown_03002280[2][2] = 0xFF;
         sa2__gUnknown_03002280[2][3] = 0x20;
+
         gFlags &= ~4;
     }
-    gBldRegs.bldY = (u16) ((s32) (*temp_r5 << 0x10) >> 0x18);
-    var_r4 = 0;
-    do {
-        DisplaySprite((Sprite *) (temp_r1 + 0x03000000 + ((var_r4 * 0x30) + 0x30)));
-        temp_r0_3 = var_r4 + 1;
-        temp_r0 = temp_r0_3 << 0x18;
-        var_r4 = (u8) temp_r0_3;
-    } while ((u32) var_r4 <= 4U);
-    return temp_r0;
+
+    gBldRegs.bldY = I(menu->unk1B0);
+
+    for (i = 0; i < ARRAY_COUNT(menu->items); i++) {
+        DisplaySprite(&menu->items[i]);
+    };
 }
 
-void sub_800DEE4(void) {
-    s32 temp_r5;
-    u16 temp_r1;
-    u8 temp_r6;
-    u8 var_r4;
+void Task_800DEE4(void)
+{
+    u8 selectedItem;
+    u8 i;
 
-    temp_r1 = gCurTask->data;
-    temp_r6 = *(temp_r1 + 0x030001AE);
-    var_r4 = 0;
-    temp_r5 = temp_r1 + 0x03000034;
-    do {
-        VramFree(*(temp_r5 + (var_r4 * 0x30)));
-        var_r4 = (u8) (var_r4 + 1);
-    } while ((u32) var_r4 <= 4U);
+    MainMenu *menu = TASK_DATA(gCurTask);
+
+    selectedItem = menu->selectedItem;
+
+    for (i = 0; i < ARRAY_COUNT(menu->items); i++) {
+        VramFree(menu->items[i].graphics.dest);
+    }
+
     TaskDestroy(gCurTask);
-    m4aSongNumStart(0x1DU);
+    m4aSongNumStart(MUS_BOSS_FIGHT);
     m4aMPlayImmInit(&gMPlayInfo_BGM);
-    m4aSongNumStop(0x1DU);
-    if (temp_r6 == 0) {
-        gGameMode = temp_r6;
-        CreateCharacterSelectionScreen(0U);
+    m4aSongNumStop(MUS_BOSS_FIGHT);
+
+    if (selectedItem == 0) {
+        gGameMode = GAME_MODE_SINGLE_PLAYER;
+        CreateCharacterSelectionScreen(0);
         return;
     }
-    gDispCnt &= 0x9FFF;
+
+    gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON);
     gBldRegs.bldCnt = 0;
     gBldRegs.bldY = 0;
-    sMainMenuItems[temp_r6 - 1]();
+    sMainMenuSecondaryItems[selectedItem - 1]();
 }
 
-void Task_SwitchToDemoInit(void) {
+void Task_SwitchToDemoInit(void)
+{
     TaskDestroy(gCurTask);
-    gInputRecorder.mode = 2;
-    gInputPlaybackData = *((gDemoPlayCounter * 4) + &gUnknown_087BF8CC);
-    gSelectedCharacter = (s8) gUnknown_080BB327[gDemoPlayCounter];
-    gCurrentLevel = (s8) gUnknown_080BB323[gDemoPlayCounter];
-    gDemoPlayCounter = (gDemoPlayCounter + 1) & 3;
-    gGameMode = 0;
+
+    gInputRecorder.mode = RECORDER_PLAYBACK;
+    gInputPlaybackData = gDemoRecordings[gDemoPlayCounter];
+    gSelectedCharacter = gUnknown_080BB327[gDemoPlayCounter];
+    gCurrentLevel = gUnknown_080BB323[gDemoPlayCounter];
+    gDemoPlayCounter = (gDemoPlayCounter + 1) % 4u;
+    gGameMode = GAME_MODE_SINGLE_PLAYER;
+
     CreateDemoManager();
     ApplyGameStageSettings();
 }
 
-void Task_SwitchToMainMenu(void) {
+void Task_SwitchToMainMenu(void)
+{
     TaskDestroy(gCurTask);
     CreateMainMenu(0);
 }
 
-void TaskDestructor_TitleScreen(void) {
-    s32 temp_r4;
+void TaskDestructor_TitleScreen(struct Task *t)
+{
+#ifdef BUG_FIX
+    // NOTE: This is *technically* not a bug, but it's more coherent like this.
+    TitleScreen *title = TASK_DATA(t);
+#else
+    TitleScreen *title = TASK_DATA(gCurTask);
+#endif
 
-    temp_r4 = gCurTask->data + 0x03000000;
-    VramFree(temp_r4->unk4);
-    VramFree(temp_r4->unk34);
+    VramFree(title->s.graphics.dest);
+    VramFree(title->s2.graphics.dest);
 }
 
-void Task_SwitchTo_Task_800DCFC(void) {
-    gCurTask->main = Task_800DCFC;
-    Task_800DCFC();
+void Task_SwitchTo_Task_MainMenu_Select(void)
+{
+    gCurTask->main = Task_MainMenu_Select;
+    Task_MainMenu_Select();
 }
 
-void LoadTinyChaoGarden(void) {
-    s32 *temp_r2_2;
-    u32 *temp_r2;
+void LoadTinyChaoGarden(void)
+{
+    gFlags |= FLAGS_8000;
 
-    gFlags |= 0x8000;
-    m4aSongNumStop(3U);
+#ifdef BUG_FIX
+    // NOTE: It also works with the other song for some reason, but this is more correct.
+    m4aSongNumStop(MUS_TITLE_FANFARE);
+#else
+    // MUS_CHARACTER_SELECTION never plays in the main menu.
+    m4aSongNumStop(MUS_CHARACTER_SELECTION);
+#endif
+
     m4aSoundVSyncOff();
-    LZ77UnCompWram(gMultiBootProgram_TinyChaoGarden, (void *)0x02000000);
-    temp_r2 = &EWRAM_START + 8;
-    *temp_r2 = gLoadedSaveGame.score;
-    temp_r2_2 = temp_r2 + 4;
-    *temp_r2_2 = (s32) gLoadedSaveGame.language;
-    *(temp_r2_2 + 4) = gFrameCount + gLoadedSaveGame.checksum;
+
+    LZ77UnCompWram(gMultiBootProgram_TinyChaoGarden, (void *)EWRAM_START);
+    TinyChaoGardenConfig[0] = LOADED_SAVE->score;
+    TinyChaoGardenConfig[1] = LOADED_SAVE->language;
+
+#if (GAME == GAME_SA1)
+    TinyChaoGardenConfig[2] = gFrameCount + LOADED_SAVE->checksum;
+#else
+    TinyChaoGardenConfig[2] = ((Random() + gFrameCount) << 8) + Random();
+#endif
+
     SoftResetExram(0U);
 }
-#endif
