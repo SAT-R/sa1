@@ -63,7 +63,7 @@ _08031DD2:
 	adds r1, r7, #0
 	adds r2, r4, #0
 	mov r3, ip
-	bl sub_800BCBC
+	bl Coll_Player_Bosses_2_6
 	mov r8, r0
 	ldr r0, _08031E34 @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -75,7 +75,7 @@ _08031DD2:
 	adds r0, r6, #0
 	adds r1, r7, #0
 	adds r2, r4, #0
-	bl sub_800BCBC
+	bl Coll_Player_Bosses_2_6
 	b _08031E3E
 	.align 2, 0
 _08031E14: .4byte gCurTask
