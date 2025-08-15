@@ -52,7 +52,7 @@ u32 sub_80096B0(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800A850(Sprite *, CamCoord x, CamCoord y, Player *);
 u32 sub_800ABEC(Sprite *, s32 x, s32 y, Player *);
-u32 sub_800B1D4(Sprite *, s32 x, s32 y, Player *);
+u32 Coll_Player_SkatingStone(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);
 bool32 sub_800CBBC(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);
 u32 sub_800CCB8(Sprite *, s32 x, s32 y, Player *);

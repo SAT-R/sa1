@@ -702,6 +702,41 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
+u32 Coll_Player_SkatingStone(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
+{
+    s32 moveState;
+    s32 var_sb;
+
+    s8 rectPlayer[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
+
+    u32 result;
+
+    result = 0;
+    var_sb = 0;
+
+    if ((s->hitboxes[0].index == -1) || (((0x80 & p->moveState) != 0))) {
+        return 0U;
+    }
+
+    moveState = p->moveState & MOVESTATE_IN_AIR;
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+        p->moveState = p->moveState & ~MOVESTATE_STOOD_ON_OBJ;
+        moveState |= MOVESTATE_IN_AIR;
+        var_sb = 1;
+    }
+
+    if (((moveState == 0) || !sub_800C934(s, worldX, worldY, (Rect8 *)rectPlayer, var_sb, p, &result))
+        && !sub_800C934(s, worldX, worldY, (Rect8 *)rectPlayer, var_sb, p, &result)) {
+        if (var_sb) {
+            if (!(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
+                p->moveState = (p->moveState & ~MOVESTATE_20) | MOVESTATE_IN_AIR;
+            }
+        }
+    }
+
+    return result;
+}
+
 // sa2__sub_800C060
 // 'Coll_Player_PlatformCrumbling' name from SA2, called by many Entities in SA1!
 // (86.62%) https://decomp.me/scratch/icjnK
