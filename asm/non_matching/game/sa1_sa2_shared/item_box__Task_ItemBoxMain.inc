@@ -289,7 +289,7 @@ _0801E9FC:
 	asrs r2, r2, #0x10
 	adds r0, r4, #0
 	adds r3, r5, #0
-	bl sub_800ABEC
+	bl Coll_Player_Itembox
 	adds r1, r0, #0
 	movs r0, #0x80
 	lsls r0, r0, #9

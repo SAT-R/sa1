@@ -702,6 +702,116 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__Coll_Player_Itembox.inc",
+         u32 Coll_Player_Itembox(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p))
+{
+    s8 rectDataPlayerA[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), (p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
+    s8 rectDataPlayerB[4] = { -(p->spriteOffsetX + 0), (0 - p->spriteOffsetY), (p->spriteOffsetX + 0), (p->spriteOffsetY + 0) };
+    Rect8 *rectPlayerB = (Rect8 *)&rectDataPlayerB[0];
+
+    u32 result;
+    s32 middleX;
+    s32 middleY;
+
+    result = 0;
+    if (s->hitboxes[0].index == -1) {
+        return result;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return result;
+    }
+
+    if (p->spriteInfoBody->s.hitboxes[1].index != -1) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)) {
+            result |= 0x20;
+            if (p->moveState & MOVESTATE_IN_AIR) {
+                if (p->qSpeedAirY > 0) {
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                }
+            }
+        }
+    }
+
+    if (p->moveState & MOVESTATE_IN_AIR) {
+        middleX = worldX + ((s->hitboxes[0].b.left + s->hitboxes[0].b.right) >> 1);
+        middleY = worldY + ((s->hitboxes[0].b.top + s->hitboxes[0].b.bottom) >> 1);
+
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rectPlayerB))) {
+            if ((!GRAVITY_IS_INVERTED && (I(p->qWorldY) <= middleY)) || (GRAVITY_IS_INVERTED && (I(p->qWorldY) >= middleY))) {
+                if ((p->character == 1) && (p->SA2_LABEL(unk61) != 0)) {
+                    sub_80096B0(s, worldX, worldY, p);
+                    return 0;
+                } else if (p->qSpeedAirY >= 0) {
+                    result |= 8;
+
+                    if (p->qSpeedAirY > 0) {
+                        p->qSpeedAirY = -p->qSpeedAirY;
+                    }
+                }
+            } else if (p->qSpeedAirY < 0) {
+                p->qSpeedAirY = 0;
+
+                if (!GRAVITY_IS_INVERTED) {
+                    p->qWorldY = p->qWorldY + (Q((worldY + s->hitboxes[0].b.bottom) - rectDataPlayerB[1]) - (0xFFFFFF00 & p->qWorldY));
+                } else {
+                    p->qWorldY = p->qWorldY - (Q((worldY + s->hitboxes[0].b.bottom) - rectDataPlayerB[1]) - (0xFFFFFF00 & p->qWorldY));
+                }
+
+                result |= 0x10000;
+            }
+        } else if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectDataPlayerA[0]))) {
+            if (I(p->qWorldX) <= middleX) {
+                if (p->qSpeedAirX > 0) {
+                    p->qSpeedAirX = 0;
+                    p->qWorldX = Q(worldX + s->hitboxes[0].b.left - rectDataPlayerA[2]);
+                }
+            } else {
+                if (p->qSpeedAirX < 0) {
+                    p->qSpeedAirX = 0;
+                    p->qWorldX = Q((worldX + s->hitboxes[0].b.right - rectDataPlayerA[0]) + 1);
+                }
+            }
+        }
+    }
+
+    return result;
+}
+END_NONMATCH
+
+// Used by Security Gate and Breakable Wall.
+u32 Coll_Player_Gate(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p, u32 arg4)
+{
+    u32 result = 0;
+    s8 rectPlayer[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), (p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
+
+    if (s->hitboxes[0].index == -1) {
+        return result;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return result;
+    }
+
+    if (arg4 != 0) {
+        if (p->spriteInfoBody->s.hitboxes[1].index != -1) {
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)
+                || HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectPlayer[0]))) {
+
+                result |= 8;
+                if ((p->moveState & MOVESTATE_IN_AIR) && (p->qSpeedAirY > 0)) {
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                }
+
+                return result;
+            }
+        }
+    }
+
+    sub_800CBBC(s, worldX, worldY, (Rect8 *)&rectPlayer, 0, p, &result);
+    return result;
+}
+
 u32 Coll_Player_SkatingStone(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
 {
     s32 moveState;

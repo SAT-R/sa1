@@ -660,7 +660,7 @@ _0801BFFC:
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
 	adds r0, r7, #0
-	bl sub_800ABEC
+	bl Coll_Player_Itembox
 	adds r2, r0, #0
 	movs r0, #0x80
 	lsls r0, r0, #9

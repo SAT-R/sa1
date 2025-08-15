@@ -28,7 +28,7 @@ u32 CheckRectCollision_SpritePlayer(Sprite *s, s32 sx, s32 sy, Player *p, struct
 #endif
 
 // param4 might be hitbox index?
-u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4);
+u32 Coll_Player_Gate(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p, u32 param4);
 
 u32 Coll_Player_PlatformCrumbling(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 bool32 Coll_Player_Projectile(Sprite *s, CamCoord screenX, CamCoord screenY); // might be in SA2?
@@ -51,7 +51,7 @@ void Collision_AdjustPlayerSpeed(Player *);
 u32 sub_80096B0(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800A850(Sprite *, CamCoord x, CamCoord y, Player *);
-u32 sub_800ABEC(Sprite *, s32 x, s32 y, Player *);
+u32 Coll_Player_Itembox(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 Coll_Player_SkatingStone(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);
 bool32 sub_800CBBC(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);

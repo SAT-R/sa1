@@ -18,7 +18,6 @@ int gMaxLines = 0;
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
 u32 sub_800A850(Sprite *s, CamCoord x, CamCoord y, Player *p) { return 0; }
-u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 
 typedef struct {
     /* 0x00 */ Sprite s;
@@ -45,7 +44,6 @@ void sa2__sub_8019F08() { }
 void sub_801C704() { }
 
 bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p) { return FALSE; }
-u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
 
 void sub_805B9E8() { }
 
