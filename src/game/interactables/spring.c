@@ -720,7 +720,7 @@ bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
 
     // _080226F2
 
-    collRes = sub_800A850(s, worldX, worldY, p);
+    collRes = Coll_Player_Spring_Sideways(s, worldX, worldY, p);
     if (collRes & COLL_FLAG_20000) {
         iaIndex = 10;
         if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {

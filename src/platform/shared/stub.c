@@ -17,8 +17,6 @@ int gMaxLines = 0;
 #include "game/enemies/boss_super_egg_robo.h"
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
-u32 sub_800A850(Sprite *s, CamCoord x, CamCoord y, Player *p) { return 0; }
-
 typedef struct {
     /* 0x00 */ Sprite s;
     /* 0x30 */ SpriteTransform transform;

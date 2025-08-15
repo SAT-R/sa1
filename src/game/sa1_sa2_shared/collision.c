@@ -702,6 +702,82 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
+// (99.68%) https://decomp.me/scratch/jajQw
+// TODO: Does this actually return a moveState?
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__Coll_Player_Spring_Sideways.inc",
+         u32 Coll_Player_Spring_Sideways(Sprite *s, s16 worldX, s16 worldY, Player *p))
+{
+    s8 rectDataPlayerA[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), (p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
+    s8 rectDataPlayerB[4] = { -(p->spriteOffsetX + 0), (0 - p->spriteOffsetY), (p->spriteOffsetX + 0), (p->spriteOffsetY + 0) };
+    Rect8 *rectPlayerB = (Rect8 *)&rectDataPlayerB[0];
+
+    u32 moveState = 0;
+    bool32 stoodOnCurrent = 0;
+
+    if (s->hitboxes[0].index == -1) {
+        return moveState;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return moveState;
+    }
+
+    moveState = p->moveState & MOVESTATE_IN_AIR;
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        moveState |= MOVESTATE_IN_AIR;
+        stoodOnCurrent = 1;
+    }
+
+    if (moveState & MOVESTATE_IN_AIR) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rectPlayerB))) {
+            if (sub_800C934(s, worldX, worldY, (Rect8 *)&rectDataPlayerB, stoodOnCurrent, p, &moveState)) {
+                return moveState;
+            }
+        } else if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectDataPlayerA))) {
+            if (I(p->qWorldX) <= worldX) {
+                if (p->qSpeedAirX >= 0) {
+                    p->qSpeedAirX = 0;
+                    p->qWorldX = ((worldX + s->hitboxes[0].b.left) - rectDataPlayerA[2]) << 8;
+                    moveState |= MOVESTATE_20000;
+                }
+            } else if (p->qSpeedAirX <= 0) {
+                p->qSpeedAirX = 0;
+                p->qWorldX = (((worldX + s->hitboxes[0].b.right) - rectDataPlayerA[0]) + 1) << 8;
+                moveState |= MOVESTATE_40000;
+            }
+        }
+    }
+
+    if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectDataPlayerA))) {
+        if (I(p->qWorldX) <= worldX) {
+            if (p->qSpeedAirX >= 0) {
+                moveState |= MOVESTATE_20000;
+
+                if (p->qSpeedAirX > 0) {
+                    moveState |= MOVESTATE_20;
+                    moveState &= ~MOVESTATE_FACING_LEFT;
+                    p->qWorldX = Q((worldX + s->hitboxes[0].b.left) - rectDataPlayerA[2]);
+                }
+            }
+        } else {
+            if (p->qSpeedAirX <= 0) {
+                moveState |= MOVESTATE_40000;
+
+                if (p->qSpeedAirX < 0) {
+                    moveState |= MOVESTATE_20;
+                    moveState |= MOVESTATE_FACING_LEFT;
+                    p->qWorldX = Q(((worldX + s->hitboxes[0].b.right) - rectDataPlayerA[0]) + 1);
+                }
+            }
+        }
+    }
+
+    return moveState;
+}
+END_NONMATCH
+
+// (99.92%) https://decomp.me/scratch/GFpFd
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__Coll_Player_Itembox.inc",
          u32 Coll_Player_Itembox(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p))
 {
