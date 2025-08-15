@@ -21,7 +21,6 @@ u32 sub_800A850(Sprite *s, CamCoord x, CamCoord y, Player *p) { return 0; }
 u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 u32 sub_800B1D4(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
 // returns 0, 1 or 2
-s32 sub_800BA5C(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p) { return 0; }
 
 typedef struct {
     /* 0x00 */ Sprite s;

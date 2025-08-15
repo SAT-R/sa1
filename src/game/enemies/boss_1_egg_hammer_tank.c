@@ -79,7 +79,7 @@ void TaskDestructor_EHTArm(struct Task *t);
 
 void CreateBossCapsule(s16, s16);
 // returns 0, 1 or 2
-s32 sub_800BA5C(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+s32 Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 void sub_8015C5C(CamCoord worldX, CamCoord worldY);
 struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4);
 struct Task *sub_80174DC(s16, s16);
@@ -459,9 +459,9 @@ void Task_802611C(void)
     }
 
     if (tank->unk9B == 0) {
-        resA = sub_800BA5C(s, worldX, worldY, &gPlayer);
+        resA = Coll_Player_Boss_1(s, worldX, worldY, &gPlayer);
         if (gNumSingleplayerCharacters == 2) {
-            resB = sub_800BA5C(s, worldX, worldY, &gPartner);
+            resB = Coll_Player_Boss_1(s, worldX, worldY, &gPartner);
         } else {
             resB = 0;
         }
@@ -626,9 +626,9 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_802
     }
 
     if (tank->unk9B == 0) {
-        resA = sub_800BA5C(s, worldX, worldY, &gPlayer);
+        resA = Coll_Player_Boss_1(s, worldX, worldY, &gPlayer);
         if (gNumSingleplayerCharacters == 2) {
-            resB = sub_800BA5C(s, worldX, worldY, &gPartner);
+            resB = Coll_Player_Boss_1(s, worldX, worldY, &gPartner);
         } else {
             resB = 0;
         }

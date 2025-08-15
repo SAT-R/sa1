@@ -316,3 +316,53 @@ u32 Coll_Player_Boss(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
 
     return FALSE;
 }
+
+// Exclusively used by Boss 1
+s32 Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
+{
+    PlayerSpriteInfo *temp_r0;
+    Sprite *sprPlayer;
+
+    temp_r0 = p->spriteInfoBody;
+    sprPlayer = &temp_r0->s;
+
+    if (s->hitboxes[0].index == -1) {
+        return 0;
+    }
+
+    if (s->hitboxes[1].index == -1) {
+        return 0;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return 0;
+    }
+
+    if (sprPlayer->hitboxes[1].index != -1) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+            Coll_DamagePlayer(p);
+            return 2;
+        }
+
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[1].b)) {
+            if (p->character != CHARACTER_AMY) {
+                p->qSpeedAirX = -p->qSpeedAirX;
+                p->qSpeedAirY = -p->qSpeedAirY;
+            } else {
+                p->qSpeedAirX = p->qSpeedAirX >> 1;
+                p->qSpeedAirY = -p->qSpeedAirY;
+            }
+
+            return 1;
+        }
+    }
+
+    if (sprPlayer->hitboxes[0].index != -1) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+            Coll_DamagePlayer(p);
+            return 2;
+        }
+    }
+
+    return 0;
+}

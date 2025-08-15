@@ -338,7 +338,7 @@ _08026764:
 	adds r0, r7, #0
 	adds r1, r4, #0
 	adds r2, r5, #0
-	bl sub_800BA5C
+	bl Coll_Player_Boss_1
 	adds r6, r0, #0
 	ldr r0, _080267AC @ =gNumSingleplayerCharacters
 	ldrb r0, [r0]
@@ -350,7 +350,7 @@ _08026764:
 	adds r0, r7, #0
 	adds r1, r4, #0
 	adds r2, r5, #0
-	bl sub_800BA5C
+	bl Coll_Player_Boss_1
 	b _080267B6
 	.align 2, 0
 _08026790: .4byte 0xFFFFFF00

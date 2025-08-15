@@ -585,7 +585,7 @@ void CreateMainMenu(u32 param0)
     }
 
     bg = &menu->bg160;
-    bg->graphics.dest = (void *)BG_VRAM + 0xC000;
+    bg->graphics.dest = (void *)BG_CHAR_ADDR(3);
     bg->graphics.anim = 0;
     bg->layoutVram = (void *)BG_SCREEN_ADDR(22);
     bg->unk18 = 0;
@@ -604,7 +604,7 @@ void CreateMainMenu(u32 param0)
         DrawBackground(bg);
     }
 
-    sa2__sub_8003EE4(0U, 0x100, 0x100, 0x8D, 0x1A, 0xC0, 0x1E, gBgAffineRegs);
+    SA2_LABEL(sub_8003EE4)(0U, 0x100, 0x100, 0x8D, 0x1A, 0xC0, 0x1E, gBgAffineRegs);
     temp_r1_3 = &menu->unk1A0;
     temp_r1_3->unk0 = 0;
     temp_r1_3->unk2 = 1;
@@ -638,7 +638,7 @@ void Task_MainMenuInit(void)
         if (s->graphics.size == 0) {
             s->x = 0;
             s->y = 0;
-            s->graphics.dest = (void *)0x06010000;
+            s->graphics.dest = (void *)BG_CHAR_ADDR(4);
             s->oamFlags = 0x3C0;
             s->graphics.size = 0;
             s->graphics.anim = SA1_ANIM_CHAO_HOVER_SIDE;
