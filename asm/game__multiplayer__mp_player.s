@@ -3838,7 +3838,7 @@ _08014E52:
 	ands r0, r4
 	str r0, [sp, #4]
 	ldr r0, [sp, #0xc]
-	bl sub_800A3A8
+	bl sa2__sub_800DA4C
 	adds r3, r0, #0
 	movs r1, #2
 	ands r0, r1
@@ -4288,7 +4288,7 @@ sub_80151AC: @ 0x080151AC
 	ands r0, r4
 	str r0, [sp, #4]
 	adds r0, r6, #0
-	bl sub_800A3A8
+	bl sa2__sub_800DA4C
 	adds r2, r0, #0
 	ands r0, r4
 	cmp r0, #0
@@ -4456,7 +4456,7 @@ _0801530C:
 	str r0, [sp, #4]
 	adds r0, r5, #0
 	mov r3, ip
-	bl sub_800A3A8
+	bl sa2__sub_800DA4C
 	adds r4, r0, #0
 	mov r7, r8
 	ands r0, r7

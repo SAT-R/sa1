@@ -2,6 +2,7 @@
 #include "rect.h"
 #include "sprite.h"
 #include "lib/m4a/m4a.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/dust_cloud.h"
@@ -581,9 +582,15 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800D0A0.inc",
     return 0;
 }
 END_NONMATCH
+#endif // MATCH
 
-// TODO: Maybe wrap sub_800DD54 and sub_800DE44 in a macro(?)
-u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer)
+// (99.96%) https://decomp.me/scratch/BOoFv
+#if (GAME == GAME_SA1)
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sa2__sub_800DA4C.inc",
+         u32 SA2_LABEL(sub_800DA4C)(Sprite *opponent, s16 qOppX, s16 qOppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer))
+#else
+u32 SA2_LABEL(sub_800DA4C)(Sprite *opponent, s16 qOppX, s16 qOppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer)
+#endif
 {
     MultiplayerPlayer *mpp;
     Sprite *mpPlayerSprite;
@@ -595,9 +602,11 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
         return COLL_NONE;
     }
 
+#if (GAME == GAME_SA2)
     if (p->moveState & MOVESTATE_GOAL_REACHED) {
         return COLL_NONE;
     }
+#endif
 
     mpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
     mpPlayerSprite = &mpp->s;
@@ -607,24 +616,24 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
     }
     // _0800DABC
 
-    if ((p->speedAirX == 0 && p->speedAirY == 0) && HITBOX_IS_ACTIVE(opponent->hitboxes[1])) {
-        if (HB_COLLISION(oppX, oppY, opponent->hitboxes[1], mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0])) {
+    if ((p->qSpeedAirX == 0 && p->qSpeedAirY == 0) && HITBOX_IS_ACTIVE(opponent->hitboxes[1])) {
+        if (HB_COLLISION(qOppX, qOppY, opponent->hitboxes[1].b, mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0].b)) {
             // _0800DB68
             result |= COLL_FLAG_2;
         }
     }
     // _0800DB70
     if (HITBOX_IS_ACTIVE(mpPlayerSprite->hitboxes[1]) && HITBOX_IS_ACTIVE(opponent->hitboxes[0])
-        && HB_COLLISION(oppX, oppY, opponent->hitboxes[0], mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[1])) {
+        && HB_COLLISION(qOppX, qOppY, opponent->hitboxes[0].b, mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[1].b)) {
         // _0800DC34
-        if (mpp->pos.x > oppX) {
+        if (mpp->pos.x > qOppX) {
             result |= COLL_FLAG_40000;
         } else {
             result |= COLL_FLAG_20000;
         }
         // _0800DC66
 
-        if (mpp->pos.y > oppY) {
+        if (mpp->pos.y > qOppY) {
             result |= COLL_FLAG_10000;
         } else {
             result |= COLL_FLAG_100000;
@@ -632,76 +641,13 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
 
         result |= COLL_FLAG_1;
     } else if (HITBOX_IS_ACTIVE(mpPlayerSprite->hitboxes[0]) && HITBOX_IS_ACTIVE(opponent->hitboxes[1])
-               && HB_COLLISION(oppX, oppY, opponent->hitboxes[1], mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0])) {
+               && HB_COLLISION(qOppX, qOppY, opponent->hitboxes[1].b, mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0].b)) {
         result |= COLL_FLAG_2;
     }
 
     return result;
 }
-
-bool32 sub_800DD54(Player *p)
-{
-    if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
-        return FALSE;
-    }
-
-    p->timerInvulnerability = PLAYER_INVULNERABLE_DURATION;
-
-    if (p->moveState & MOVESTATE_FACING_LEFT) {
-        p->speedAirX = +Q(1.5);
-    } else {
-        p->speedAirX = -Q(1.5);
-    }
-
-    p->speedAirY = -Q(3.0);
-
-    if (p->moveState & MOVESTATE_IN_WATER) {
-        HALVE(p->speedAirY);
-        HALVE(p->speedAirX);
-    }
-
-    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-    p->moveState &= ~MOVESTATE_20;
-    p->moveState &= ~MOVESTATE_4;
-    p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-    p->moveState |= MOVESTATE_IN_AIR;
-    p->moveState &= ~MOVESTATE_SPINDASH;
-    p->moveState &= ~MOVESTATE_100;
-
-    p->charState = SA2_CHAR_ANIM_20;
-    PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
-
-    p->unk61 = 0;
-    p->unk62 = 0;
-
-    p->transition = 9;
-
-    if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        RoomEvent *unk;
-#ifndef NON_MATCHING
-        register u32 rings asm("r4") = gRingCount;
-#else
-        u32 rings = gRingCount;
-#endif
-
-        if (rings > 10) {
-            rings = 10;
-        }
-
-        InitScatteringRings(I(p->qWorldX), I(p->qWorldY), rings);
-        gRingCount -= rings;
-
-        unk = CreateRoomEvent();
-        unk->unk0 = 4;
-        unk->unk1 = rings;
-    }
-
-    m4aSongNumStart(SE_LIFE_LOST);
-
-    return TRUE;
-}
-
-#endif // MATCH
+END_NONMATCH
 
 u32 CheckRectCollision_SpritePlayer(Sprite *s, CamCoord sx, CamCoord sy, Player *p, struct Rect8 *rectPlayer)
 {
