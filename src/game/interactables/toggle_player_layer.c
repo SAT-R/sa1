@@ -41,8 +41,8 @@ void Task_Toggle_PlayerLayer(void)
     u16 regionY = TASK_GET_MEMBER(TogglePlayerLayer, gCurTask, u16, regionY);
     s32 i;
 
-    s16 screenX = TO_WORLD_POS(meX, regionX);
-    s16 screenY = TO_WORLD_POS(me->y, regionY);
+    CamCoord screenX = TO_WORLD_POS(meX, regionX);
+    CamCoord screenY = TO_WORLD_POS(me->y, regionY);
 
     i = 0;
     do {
