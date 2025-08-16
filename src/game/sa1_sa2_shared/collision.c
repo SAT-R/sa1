@@ -19,6 +19,7 @@
 #include "game/stage/trapped_animals.h"
 
 #include "constants/animations.h"
+#include "constants/char_states.h"
 #include "constants/player_transitions.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
@@ -702,10 +703,30 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
+u32 Coll_AmyHammer_Spring(Sprite *s, s16 worldX, s16 worldY, Player *p)
+{
+    bool32 isColliding = FALSE;
+
+    if ((p->character == CHARACTER_AMY)
+        && ((p->charState == CHARSTATE_87) || (p->charState == CHARSTATE_88) || (p->charState == CHARSTATE_89)
+            || (p->charState == CHARSTATE_90))) {
+        if (p->spriteInfoBody->s.hitboxes[1].index != -1) {
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)) {
+                isColliding = TRUE;
+            }
+        }
+    }
+
+    if (isColliding)
+        __debugbreak();
+
+    return isColliding;
+}
+
 // (99.68%) https://decomp.me/scratch/jajQw
 // TODO: Does this actually return a moveState?
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__Coll_Player_Spring_Sideways.inc",
-         u32 Coll_Player_Spring_Sideways(Sprite *s, s16 worldX, s16 worldY, Player *p))
+         u32 Coll_Player_Spring_Sideways(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p))
 {
     s8 rectDataPlayerA[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), (p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
     s8 rectDataPlayerB[4] = { -(p->spriteOffsetX + 0), (0 - p->spriteOffsetY), (p->spriteOffsetX + 0), (p->spriteOffsetY + 0) };
@@ -738,12 +759,12 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__Coll_Player_Spring_Sid
             if (I(p->qWorldX) <= worldX) {
                 if (p->qSpeedAirX >= 0) {
                     p->qSpeedAirX = 0;
-                    p->qWorldX = ((worldX + s->hitboxes[0].b.left) - rectDataPlayerA[2]) << 8;
+                    p->qWorldX = Q((worldX + s->hitboxes[0].b.left) - rectDataPlayerA[2]);
                     moveState |= MOVESTATE_20000;
                 }
             } else if (p->qSpeedAirX <= 0) {
                 p->qSpeedAirX = 0;
-                p->qWorldX = (((worldX + s->hitboxes[0].b.right) - rectDataPlayerA[0]) + 1) << 8;
+                p->qWorldX = Q(((worldX + s->hitboxes[0].b.right) - rectDataPlayerA[0]) + 1);
                 moveState |= MOVESTATE_40000;
             }
         }
@@ -1656,6 +1677,7 @@ bool32 sub_800C760(Player *p)
     return TRUE;
 }
 
+// TODO: This is close to SA2_LABEL(sub_800DD54).
 bool32 SA2_LABEL(sub_800DE44)(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {

@@ -49,8 +49,8 @@ bool32 Coll_DamagePlayer(Player *);
 void Collision_AdjustPlayerSpeed(Player *);
 
 u32 sub_80096B0(Sprite *s, CamCoord x, CamCoord y, Player *p);
-bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
-u32 Coll_Player_Spring_Sideways(Sprite *s, CamCoord x, CamCoord y, Player *p);
+bool32 Coll_AmyHammer_Spring(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+u32 Coll_Player_Spring_Sideways(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 Coll_Player_Itembox(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 Coll_Player_SkatingStone(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *moveState);

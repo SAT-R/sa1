@@ -115,7 +115,7 @@ _080226F2:
 	adds r1, r6, #0
 	adds r2, r5, #0
 	adds r3, r4, #0
-	bl sub_800A768
+	bl Coll_AmyHammer_Spring
 	mov sb, r0
 	cmp r0, #0
 	beq _080227F2

@@ -495,7 +495,7 @@ void InitializePlayer(Player *p)
 {
 #if (GAME == GAME_SA1)
 #if DEBUG
-    gSelectedCharacter = CHARACTER_TAILS;
+    gSelectedCharacter = CHARACTER_AMY;
     p->character = gSelectedCharacter;
 #endif
 

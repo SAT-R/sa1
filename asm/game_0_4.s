@@ -1114,7 +1114,7 @@ _0801657C:
 	ldrsh r2, [r4, r0]
 	mov r0, sb
 	adds r3, r6, #0
-	bl sub_800A768
+	bl Coll_AmyHammer_Spring
 	cmp r0, #0
 	beq _080165AC
 _080165A8:

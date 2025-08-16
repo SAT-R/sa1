@@ -29,7 +29,6 @@ SECTIONS {
         src/game/sa1_sa2_shared/collision_0.o(.text);
         asm/game__sa1_sa2_shared__collision_0.o(.text);
         src/game/sa1_sa2_shared/collision_1.o(.text);
-        asm/game__sa1_sa2_shared__collision_1.o(.text);
         src/game/sa1_sa2_shared/collision.o(.text);
         src/game/sa1_sa2_shared/palette_loader.o(.text);
         src/game/title_screen.o(.text);

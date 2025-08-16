@@ -569,10 +569,10 @@ NONMATCH("asm/non_matching/game/interactables/Spring__sub_8022640.inc",
          bool32 sub_8022640(Sprite *s, MapEntity *me, SpringA *spring, Player *p))
 {
 #ifndef NON_MATCHING
-    register s32 sb asm("sb") = 0;
+    register bool32 hitWithHammer asm("sb") = 0;
     register bool32 r6 asm("r6") = FALSE;
 #else
-    s32 sb = 0;
+    bool32 hitWithHammer = 0;
     bool32 r6 = FALSE;
 #endif
     CamCoord worldX, worldY;
@@ -602,9 +602,9 @@ NONMATCH("asm/non_matching/game/interactables/Spring__sub_8022640.inc",
         // _080226F2
 
         if (!(sub_80096B0(s, worldX, worldY, p) & COLL_FLAG_8)) {
-            sb = sub_800A768(s, worldX, worldY, p);
+            hitWithHammer = Coll_AmyHammer_Spring(s, worldX, worldY, p);
 
-            if (!sb) {
+            if (!hitWithHammer) {
                 return FALSE;
             }
         }
@@ -627,7 +627,7 @@ NONMATCH("asm/non_matching/game/interactables/Spring__sub_8022640.inc",
             p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
         }
 
-        if (sb) {
+        if (hitWithHammer) {
             // p->qSpeedAirY * 1.5
             s16 qNewSpeed = (p->qSpeedAirY >> 1);
             qNewSpeed += p->qSpeedAirY;
@@ -831,7 +831,7 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
     bool32 r6 = FALSE;
     CamCoord worldX, worldY;
     u8 i;
-    u32 collRes;
+    bool32 hitWithHammer;
     s32 iaIndex;
 
     worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
@@ -844,9 +844,9 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
         return FALSE;
     }
 
-    collRes = sub_800A768(s, worldX, worldY, p);
+    hitWithHammer = Coll_AmyHammer_Spring(s, worldX, worldY, p);
 
-    if (collRes || HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), (*((Rect8 *)&arr)))) {
+    if (hitWithHammer || HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), (*((Rect8 *)&arr)))) {
         iaIndex = IA__SPRING__BIG_UPLEFT;
 
         p->moveState &= ~MOVESTATE_4;
@@ -857,7 +857,7 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
             iaIndex = 10;
         }
 
-        if ((iaIndex == me->index) && (collRes || (worldX - ({ I(p->qWorldX) + 20; })) > 0)) {
+        if ((iaIndex == me->index) && (hitWithHammer || (worldX - ({ I(p->qWorldX) + 20; })) > 0)) {
             if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
                 p->timerInvulnerability = 2;
             }
@@ -875,7 +875,7 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
                 p->qSpeedAirX = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
             }
 
-            if (collRes) {
+            if (hitWithHammer) {
                 // qSpeedAirX|Y *= 1.5
                 p->qSpeedAirX = p->qSpeedAirX + (p->qSpeedAirX >> 1);
                 p->qSpeedAirY = p->qSpeedAirY + (p->qSpeedAirY >> 1);
@@ -899,7 +899,7 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
             m4aSongNumStart(SE_SPRING);
 
             return TRUE;
-        } else if (collRes || worldX - I(p->qWorldX) + 20 < 0) {
+        } else if (hitWithHammer || worldX - I(p->qWorldX) + 20 < 0) {
             if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
                 p->timerInvulnerability = 2;
             }
@@ -917,7 +917,7 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
                 p->qSpeedAirX = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
             }
 
-            if (collRes) {
+            if (hitWithHammer) {
                 // qSpeedAirX|Y *= 1.5
                 p->qSpeedAirX = p->qSpeedAirX + (p->qSpeedAirX >> 1);
                 p->qSpeedAirY = p->qSpeedAirY + (p->qSpeedAirY >> 1);
@@ -958,7 +958,7 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
     bool32 r6 = FALSE;
     CamCoord worldX, worldY;
     u8 i;
-    u32 collRes;
+    bool32 hitWithHammer;
     s32 iaIndex;
 
     worldX = TO_WORLD_POS(spring->base.meX, spring->base.regionX);
@@ -971,15 +971,15 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
         return FALSE;
     }
 
-    collRes = sub_800A768(s, worldX, worldY, p);
+    hitWithHammer = Coll_AmyHammer_Spring(s, worldX, worldY, p);
 
-    if (collRes || HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), (*((Rect8 *)&arr)))) {
+    if (hitWithHammer || HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), (*((Rect8 *)&arr)))) {
         p->moveState &= ~MOVESTATE_4;
         p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
 
         iaIndex = IA__SPRING__SMALL_UPLEFT;
 
-        if ((iaIndex == me->index) && (collRes || (worldX - ({ I(p->qWorldX) + 20; })) > 0)) {
+        if ((iaIndex == me->index) && (hitWithHammer || (worldX - ({ I(p->qWorldX) + 20; })) > 0)) {
             if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
                 p->timerInvulnerability = 2;
             }
@@ -997,7 +997,7 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
                 p->qSpeedAirX = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
             }
 
-            if (collRes) {
+            if (hitWithHammer) {
                 // qSpeedAirX|Y *= 1.5
                 p->qSpeedAirX = p->qSpeedAirX + (p->qSpeedAirX >> 1);
                 p->qSpeedAirY = p->qSpeedAirY + (p->qSpeedAirY >> 1);
@@ -1021,7 +1021,7 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
             m4aSongNumStart(SE_SPRING);
 
             return TRUE;
-        } else if (collRes || worldX - I(p->qWorldX) + 20 < 0) {
+        } else if (hitWithHammer || worldX - I(p->qWorldX) + 20 < 0) {
             if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
                 p->timerInvulnerability = 2;
             }
@@ -1039,7 +1039,7 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
                 p->qSpeedAirX = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
             }
 
-            if (collRes) {
+            if (hitWithHammer) {
                 // qSpeedAirX|Y *= 1.5
                 p->qSpeedAirX = p->qSpeedAirX + (p->qSpeedAirX >> 1);
                 p->qSpeedAirY = p->qSpeedAirY + (p->qSpeedAirY >> 1);

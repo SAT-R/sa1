@@ -119,7 +119,7 @@ NONMATCH("asm/non_matching/game/interactables/spring_hiding__sub_8095224.inc",
         if (!(PLAYER(i).moveState & MOVESTATE_DEAD)) {
             if (!(PLAYER(i).moveState & MOVESTATE_IA_OVERRIDE)) {
                 if (!Coll_Player_Entity_Intersection(s, worldX, worldY, &PLAYER(i))) {
-                    sp0C = sub_800A768(s, worldX, worldY, &PLAYER(i));
+                    sp0C = Coll_AmyHammer_Spring(s, worldX, worldY, &PLAYER(i));
                     if (!sp0C) {
                         continue;
                     }

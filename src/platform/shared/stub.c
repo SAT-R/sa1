@@ -41,8 +41,6 @@ void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
 
-bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p) { return FALSE; }
-
 void sub_805B9E8() { }
 
 // Player

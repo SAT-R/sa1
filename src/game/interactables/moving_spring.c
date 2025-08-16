@@ -201,7 +201,7 @@ bool32 sub_808B7A0(MovingSpring *spring, Sprite *s, s32 worldX, s32 worldY)
             s8 arr[4] = { -(PLAYER(i).spriteOffsetX + 5), (1 - PLAYER(i).spriteOffsetY), +(PLAYER(i).spriteOffsetX + 5),
                           (PLAYER(i).spriteOffsetY - 1) };
 
-            s32 r5 = sub_800A768(s, worldX + I(spring->qUnk40), worldY + I(spring->qUnk44), &PLAYER(i));
+            s32 r5 = Coll_AmyHammer_Spring(s, worldX + I(spring->qUnk40), worldY + I(spring->qUnk44), &PLAYER(i));
             s32 qPrevPlayerX;
 
             if (((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)) || r5) {

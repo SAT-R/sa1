@@ -68,7 +68,7 @@ void CreateEntity_SpecialSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void Task_SpecialSpringMain(void)
 {
-    u32 res = 0; // result of sub_800A768()
+    u32 res = 0; // result of Coll_AmyHammer_Spring()
     SpecialSpring *spring = TASK_DATA(gCurTask);
     Sprite *s = &spring->s;
     MapEntity *me = spring->base.me;
@@ -102,7 +102,7 @@ void Task_SpecialSpringMain(void)
 
     if (PLAYER_IS_ALIVE) {
         // NOTE: The 'res =' assignment inside the if is correct!!!
-        if ((sub_80096B0(s, worldX, worldY, &gPlayer) & COLL_FLAG_8) || (res = sub_800A768(s, worldX, worldY, &gPlayer))) {
+        if ((sub_80096B0(s, worldX, worldY, &gPlayer) & COLL_FLAG_8) || (res = Coll_AmyHammer_Spring(s, worldX, worldY, &gPlayer))) {
             SA2_LABEL(sub_8021BE0)(&gPlayer);
             gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
             gPlayer.moveState |= MOVESTATE_IN_AIR;

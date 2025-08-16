@@ -109,7 +109,8 @@ void Task_DecorationMain(void)
         TaskDestroy(gCurTask);
         return;
     } else {
-        if (sub_800C394(s, worldX, worldY, &gPlayer) || (gPlayer.character == CHARACTER_AMY && sub_800A768(s, worldX, worldY, &gPlayer))
+        if (sub_800C394(s, worldX, worldY, &gPlayer)
+            || (gPlayer.character == CHARACTER_AMY && Coll_AmyHammer_Spring(s, worldX, worldY, &gPlayer))
             || ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) && sub_800C394(s, worldX, worldY, &gPartner))) {
             CreateDustCloud(worldX, worldY);
 
