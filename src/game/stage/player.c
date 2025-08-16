@@ -3408,7 +3408,7 @@ void sub_80449D8(Player *p)
 
 void SA2_LABEL(sub_8023878)(Player *p)
 {
-#if (GAME == GAME_SA1) && !defined(BUG_FIX)
+#if (GAME == GAME_SA1)
 #define WATER_ACTIVE_CHECK 1
 #else
 #define WATER_ACTIVE_CHECK gWater.isActive == TRUE
