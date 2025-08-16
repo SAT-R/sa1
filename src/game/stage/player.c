@@ -2797,16 +2797,16 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_8043EC0.inc", void SA2_LABE
     if ((p->moveState & (MOVESTATE_80000000 | MOVESTATE_DEAD)) != MOVESTATE_DEAD) {
         // _08043F9C + 0xC
         s32 qNoclipWorldX, qNoclipWorldY;
-        bool32 r1;
+        bool32 outOfBounds;
 
         if (!(p->moveState & MOVESTATE_80000000)) {
             if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
-                r1 = (p->qWorldY < Q(gCamera.maxY) - 1) ? FALSE : TRUE;
+                outOfBounds = (p->qWorldY < Q(gCamera.maxY) - 1) ? FALSE : TRUE;
             } else {
-                r1 = (p->qWorldY > Q(gCamera.minY)) ? TRUE : FALSE;
+                outOfBounds = (p->qWorldY > Q(gCamera.minY)) ? FALSE : TRUE;
             }
 
-            if (r1) {
+            if (outOfBounds) {
                 // _08044004
                 s32 qSpeedY;
                 p->moveState |= MOVESTATE_DEAD;
