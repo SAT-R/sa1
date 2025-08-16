@@ -653,7 +653,7 @@ _08013598:
 	str r0, [r4, #0x10]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -2476,7 +2476,7 @@ _080143D6:
 	str r0, [r7, #0x5c]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -3225,7 +3225,7 @@ _080149C2:
 	str r0, [r4, #0x10]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe
@@ -4902,7 +4902,7 @@ Task_HandleLaunchPlayer: @ 0x08015674
 	strb r0, [r1]
 	adds r0, r6, #0
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	movs r0, #6
 	strb r0, [r6, #0xe]
 	movs r0, #0xe

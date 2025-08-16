@@ -441,7 +441,7 @@ _0808256E:
 _08082576:
 	movs r1, #0xe
 	str r3, [sp, #0x20]
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _080825B0 @ =gPlayer
 	ldr r3, [sp, #0x20]
 	cmp r7, #0
@@ -748,7 +748,7 @@ _08082788:
 _08082790:
 	movs r1, #0xe
 	str r3, [sp, #0x20]
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _080827EC @ =gPlayer
 	ldr r3, [sp, #0x20]
 	cmp r7, #0

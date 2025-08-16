@@ -844,7 +844,7 @@ void SA2_LABEL(sub_8021BE0)(Player *p)
 
         if (p->moveState & MOVESTATE_4) {
             p->moveState &= ~MOVESTATE_4;
-            SA2_LABEL(sub_8023B5C)(p, 14);
+            Player_HandleSpriteYOffsetChange(p, 14);
         }
         PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
     }
@@ -3737,7 +3737,7 @@ void Player_8044F7C(Player *p)
     SA2_LABEL(sub_8023128)(p);
 }
 
-void SA2_LABEL(sub_8023B5C)(Player *p, s32 spriteOffsetY)
+void Player_HandleSpriteYOffsetChange(Player *p, s32 spriteOffsetY)
 {
     u8 rot;
     if (p->spriteOffsetY == spriteOffsetY) {

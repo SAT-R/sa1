@@ -567,7 +567,7 @@ _08088C1A:
 	ldr r0, _08088C5C @ =gPartner
 _08088C24:
 	movs r1, #9
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _08088C58 @ =gPlayer
 	cmp r7, #0
 	beq _08088C32
@@ -938,7 +938,7 @@ _08088EC0:
 	ldr r0, _08088F04 @ =gPartner
 _08088EC8:
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _08088F00 @ =gPlayer
 	cmp r7, #0
 	beq _08088ED6

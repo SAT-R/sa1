@@ -949,7 +949,7 @@ _08086284:
 	ldr r0, _080862BC @ =gPartner
 _0808628C:
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _080862B8 @ =gPlayer
 	cmp r5, #0
 	beq _0808629A

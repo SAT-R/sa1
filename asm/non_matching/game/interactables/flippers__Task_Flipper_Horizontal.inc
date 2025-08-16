@@ -730,7 +730,7 @@ _0807C326:
 	ldr r0, _0807C370 @ =gPartner
 _0807C33C:
 	movs r1, #9
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _0807C36C @ =gPlayer
 	cmp r6, #0
 	beq _0807C34A
@@ -953,7 +953,7 @@ _0807C4D4:
 	ldr r0, _0807C50C @ =gPartner
 _0807C4DC:
 	movs r1, #9
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _0807C508 @ =gPlayer
 	cmp r6, #0
 	beq _0807C4EA
@@ -1080,7 +1080,7 @@ _0807C5C2:
 	ldr r0, _0807C60C @ =gPartner
 _0807C5CA:
 	movs r1, #9
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _0807C608 @ =gPlayer
 	cmp r6, #0
 	beq _0807C5D8
@@ -1347,7 +1347,7 @@ _0807C796:
 	ldr r0, _0807C7C8 @ =gPartner
 _0807C79E:
 	movs r1, #9
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _0807C7C4 @ =gPlayer
 	cmp r6, #0
 	beq _0807C7AC
@@ -1461,7 +1461,7 @@ _0807C86E:
 	ldr r0, _0807C8B8 @ =gPartner
 _0807C876:
 	movs r1, #9
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _0807C8B4 @ =gPlayer
 	cmp r6, #0
 	beq _0807C884

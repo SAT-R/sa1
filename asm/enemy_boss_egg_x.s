@@ -5913,7 +5913,7 @@ _0803A18C:
 	strb r0, [r1]
 	adds r0, r5, #0
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	movs r0, #6
 	strb r0, [r5, #0xe]
 	movs r0, #0xe
