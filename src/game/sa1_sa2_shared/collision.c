@@ -703,22 +703,35 @@ bool32 sub_800DD54(Player *p)
 
 #endif // MATCH
 
+u32 CheckRectCollision_SpritePlayer(Sprite *s, CamCoord sx, CamCoord sy, Player *p, struct Rect8 *rectPlayer)
+{
+    u32 result = 0;
+
+    if (!HITBOX_IS_ACTIVE(s->hitboxes[0]) || !IS_ALIVE(p)) {
+        return result;
+    }
+
+    if (RECT_COLLISION(sx, sy, &s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), rectPlayer)) {
+        result |= COLL_FLAG_80000;
+    }
+
+    return result;
+}
+
 u32 Coll_AmyHammer_Spring(Sprite *s, s16 worldX, s16 worldY, Player *p)
 {
     bool32 isColliding = FALSE;
 
-    if ((p->character == CHARACTER_AMY)
-        && ((p->charState == CHARSTATE_87) || (p->charState == CHARSTATE_88) || (p->charState == CHARSTATE_89)
-            || (p->charState == CHARSTATE_90))) {
-        if (p->spriteInfoBody->s.hitboxes[1].index != -1) {
-            if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)) {
-                isColliding = TRUE;
+    if (p->character == CHARACTER_AMY) {
+        if ((p->charState == CHARSTATE_87) || (p->charState == CHARSTATE_88) || (p->charState == CHARSTATE_89)
+            || (p->charState == CHARSTATE_90)) {
+            if (p->spriteInfoBody->s.hitboxes[1].index != HITBOX_STATE_INACTIVE) {
+                if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)) {
+                    isColliding = TRUE;
+                }
             }
         }
     }
-
-    if (isColliding)
-        __debugbreak();
 
     return isColliding;
 }
