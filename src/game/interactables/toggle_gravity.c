@@ -24,17 +24,15 @@ NONMATCH("asm/non_matching/game/interactables/toggle_gravity__Task_ToggleGravity
     worldX = TO_WORLD_POS(ia->base.meX, ia->base.regionX);
     worldY = TO_WORLD_POS(me->y, ia->base.regionY);
 
-    if(PLAYER_IS_ALIVE) {
+    if (PLAYER_IS_ALIVE) {
         u8 kind = ia->kind;
-        if(kind > 2) {
+        if (kind > 2) {
             left = worldX + me->d.sData[0] * TILE_WIDTH;
 
-            if( (left <= I(gPlayer.qWorldX))
-            && ((left + me->d.uData[2] * TILE_WIDTH) >= I(gPlayer.qWorldX)) )
-            {
-                if(ia->qWorld > Q(worldY)) {
-                    if(gPlayer.qWorldY < Q(worldY)) {
-                        if(kind == 3) {
+            if ((left <= I(gPlayer.qWorldX)) && ((left + me->d.uData[2] * TILE_WIDTH) >= I(gPlayer.qWorldX))) {
+                if (ia->qWorld > Q(worldY)) {
+                    if (gPlayer.qWorldY < Q(worldY)) {
+                        if (kind == 3) {
                             goto k_3;
                         } else if (kind == 4) {
                             goto k_4;
@@ -42,17 +40,17 @@ NONMATCH("asm/non_matching/game/interactables/toggle_gravity__Task_ToggleGravity
                             gStageFlags |= STAGE_FLAG__GRAVITY_INVERTED;
                         }
                     }
-                } else if(ia->qWorld < Q(worldY)) {
-                    if(gPlayer.qWorldY > Q(worldY)) {
-                        if(kind == 3) {
-                            k_3:
-                            if(!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
+                } else if (ia->qWorld < Q(worldY)) {
+                    if (gPlayer.qWorldY > Q(worldY)) {
+                        if (kind == 3) {
+                        k_3:
+                            if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
                                 gStageFlags |= STAGE_FLAG__GRAVITY_INVERTED;
                             } else {
                                 gStageFlags &= ~STAGE_FLAG__GRAVITY_INVERTED;
                             }
                         } else if (kind == 4) {
-                            k_4:
+                        k_4:
                             gStageFlags &= ~STAGE_FLAG__GRAVITY_INVERTED;
                         } else {
                             gStageFlags |= STAGE_FLAG__GRAVITY_INVERTED;
@@ -66,31 +64,27 @@ NONMATCH("asm/non_matching/game/interactables/toggle_gravity__Task_ToggleGravity
             // _0809558C
             s32 top = worldY + me->d.sData[1] * TILE_WIDTH;
 
-            if( (top <= I(gPlayer.qWorldY))
-            && ((top + me->d.uData[3] * TILE_WIDTH) >= I(gPlayer.qWorldY)) ) 
-            {
-                if(ia->qWorld > Q(worldX)) {
-                    if(gPlayer.qWorldX < Q(worldX)) {
-                        if(kind == 0)
-                        {
+            if ((top <= I(gPlayer.qWorldY)) && ((top + me->d.uData[3] * TILE_WIDTH) >= I(gPlayer.qWorldY))) {
+                if (ia->qWorld > Q(worldX)) {
+                    if (gPlayer.qWorldX < Q(worldX)) {
+                        if (kind == 0) {
                             goto test;
-                        } else if(kind == 1) {
+                        } else if (kind == 1) {
                             gStageFlags &= ~STAGE_FLAG__GRAVITY_INVERTED;
                         } else {
                             gStageFlags |= STAGE_FLAG__GRAVITY_INVERTED;
                         }
                     }
-                } else if (ia->qWorld < Q(worldX))
-                {
-                    if(gPlayer.qWorldX > Q(worldX)) {
-                        if(kind == 0) {
-                            test:
-                            if(!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
+                } else if (ia->qWorld < Q(worldX)) {
+                    if (gPlayer.qWorldX > Q(worldX)) {
+                        if (kind == 0) {
+                        test:
+                            if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
                                 gStageFlags |= STAGE_FLAG__GRAVITY_INVERTED;
                             } else {
                                 gStageFlags &= ~STAGE_FLAG__GRAVITY_INVERTED;
                             }
-                        } else if(kind == 1) {
+                        } else if (kind == 1) {
                             gStageFlags &= ~STAGE_FLAG__GRAVITY_INVERTED;
                         } else {
                             gStageFlags |= STAGE_FLAG__GRAVITY_INVERTED;
@@ -98,7 +92,7 @@ NONMATCH("asm/non_matching/game/interactables/toggle_gravity__Task_ToggleGravity
                     }
                 }
             }
-            
+
             ia->qWorld = gPlayer.qWorldX;
         }
     }
@@ -107,7 +101,7 @@ NONMATCH("asm/non_matching/game/interactables/toggle_gravity__Task_ToggleGravity
     screenX = worldX - gCamera.x;
     screenY = worldY - gCamera.y;
 
-    if(IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
+    if (IS_OUT_OF_CAM_RANGE(screenX, screenY)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, ia->base.meX);
         TaskDestroy(gCurTask);
         return;
