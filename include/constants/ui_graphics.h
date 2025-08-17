@@ -28,6 +28,7 @@
 #define UIGFX_STGNAME_7                25
 #define UIGFX_TIMER_DIGITS             32
 #define UIGFX_OK                       33
+#define UIGFX_34                       34
 #define UIGFX_CHAR_SELECT_OK           44
 #define UIGFX_CHAR_SELECT_BLACK_BOX_2  45
 #define UIGFX_CHAR_SP_STAGE_RINGS_BG   46
