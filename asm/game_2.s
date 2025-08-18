@@ -34549,6 +34549,8 @@ _08069C88: .4byte gUiGraphics + 0x14
 _08069C8C: .4byte gSelectedCharacter
 _08069C90: .4byte 0x06011200
 
+@ Input:
+@ R0; TimeRecord record
 	thumb_func_start sub_8069C94
 sub_8069C94: @ 0x08069C94
 	push {r4, r5, r6, r7, lr}

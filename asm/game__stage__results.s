@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start CreateStageResults
 CreateStageResults: @ 0x080573D4
 	push {r4, r5, r6, r7, lr}
@@ -593,6 +591,7 @@ _08057878: .4byte gUnknown_0868840F
 _0805787C: .4byte 0x03000036
 _08057880: .4byte 0x0300001C
 _08057884: .4byte 0x0000011D
+.endif
 
 	thumb_func_start Task_8057888
 Task_8057888: @ 0x08057888
