@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/gTask_03006240.h"
 #include "game/save.h"
@@ -178,7 +179,7 @@ void sub_8056FE4(VramPtrs *arg0)
 }
 
 // (93.06%) https://decomp.me/scratch/mM5tB
-u32 CreateStageResults(u32 ringCount, u32 courseTime)
+NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 CreateStageResults(u32 ringCount, u32 courseTime))
 {
     s16 temp_r2_5;
     s16 var_r5_6;
@@ -199,7 +200,6 @@ u32 CreateStageResults(u32 ringCount, u32 courseTime)
     u32 sp18;
     s32 sp1C;
     u16 temp_r1_2;
-    u16 temp_r1_4;
     u16 temp_r2;
     u32 score;
     u32 ringScore;
@@ -346,7 +346,6 @@ u32 CreateStageResults(u32 ringCount, u32 courseTime)
     }
 
     taskLast = TaskCreate(Task_805803C, sizeof(StrcStgResults_34), 0x2120U, 0, 0);
-    temp_r1_4 = taskLast->data;
     temp_r7 = TASK_DATA(taskLast);
     temp_r7->unk18 = score;
     temp_r7->unk1C = 0;
@@ -397,282 +396,17 @@ u32 CreateStageResults(u32 ringCount, u32 courseTime)
     temp_r4->unk8 = 0x100;
     temp_r4->unkA = 1;
     temp_r4->unk36 = sp1C;
+
+    // TODO: ALLOC_TILES() instead of VramMalloc!
     temp_r4->unk1C.vram0 = VramMalloc(0x80U);
     temp_r4->unk1C.vram4 = VramMalloc(0x1EU);
     sub_8056FE4(&temp_r4->unk1C);
+
     return (sp10 + 285);
 }
+END_NONMATCH
 
 #if 0
-void CreateStageResults(u32 ringCount, u32 courseTime) {
-    struct Task *sp4;
-    struct Task *sp8;
-    struct Task *spC;
-    s32 sp10;
-    u32 sp14;
-    u32 sp18;
-    s32 sp1C;
-    s16 temp_r0_12;
-    s16 temp_r0_13;
-    s16 temp_r0_14;
-    s16 temp_r0_6;
-    s16 temp_r0_7;
-    s16 temp_r0_8;
-    s16 temp_r2_4;
-    s16 temp_r2_5;
-    s16 temp_r2_7;
-    s16 temp_r2_8;
-    s16 var_r5;
-    s16 var_r5_2;
-    s16 var_r5_3;
-    s16 var_r5_4;
-    s16 var_r5_5;
-    s16 var_r5_6;
-    s32 temp_r0;
-    s32 temp_r0_10;
-    s32 temp_r0_11;
-    s32 temp_r0_5;
-    s32 temp_r1_3;
-    s32 temp_r1_5;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_6;
-    s32 temp_r4;
-    s32 temp_r7;
-    s32 temp_r7_2;
-    s32 temp_r7_3;
-    s32 temp_r7_4;
-    s32 var_r0;
-    s32 var_r2;
-    struct Task *temp_r0_2;
-    struct Task *temp_r0_3;
-    struct Task *temp_r0_4;
-    struct Task *temp_r0_9;
-    u16 *temp_r1;
-    u16 temp_r1_2;
-    u16 temp_r1_4;
-    u16 temp_r2;
-    u16 temp_r5;
-    u32 var_r0_2;
-    u32 var_r4;
-    u32 score;
-    u32 var_sl;
-
-    var_r4 = courseTime;
-    var_sl = 0x64 * ringCount;
-    gLoadedSaveGame.score = (u32) (gLoadedSaveGame.score + (s16) ringCount);
-    gStageFlags |= 0x20;
-    if (gCurrentLevel == 0xA) {
-        gCamera.sa2__unk50 |= 0x2000;
-    }
-    if (gGameMode == 1) {
-        sub_8069C94(var_r4);
-        return 0U;
-    }
-    var_r2 = 0;
-    if ((gSelectedCharacter == 0) && ((s32) gCurrentLevel > 0xB) && (gLoadedSaveGame.unk1D == 0x7F) && ((u32) gLoadedSaveGame.unk8[0] > 0xCU) && ((u32) gLoadedSaveGame.unk8[1] > 0xCU) && ((u32) gLoadedSaveGame.unk8[2] > 0xCU) && ((u32) gLoadedSaveGame.unk8[3] > 0xCU) && ((gLoadedSaveGame.unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
-        var_r2 = 1;
-    }
-    sp1C = var_r2;
-    if (var_r2 == 0) {
-        temp_r1 = &gLoadedSaveGame.unk8[gPlayer.character];
-        temp_r2 = *temp_r1;
-        var_r0 = gCurrentLevel + 1;
-        if (var_r0 < (s32) temp_r2) {
-            var_r0 = (s32) temp_r2;
-        }
-        *temp_r1 = (u16) var_r0;
-    }
-    if (gCurrentLevel == 0xA) {
-        var_r4 = gCheckpointTime + 0xFFFFD5D0;
-        if ((u32) gCheckpointTime <= 0x2A30U) {
-            var_r4 = 1;
-        }
-    }
-    if (gCurrentLevel == 0xD) {
-        m4aSongNumStart(0x24U);
-    } else if (gCurrentLevel == 0xC) {
-        m4aSongNumStart(0x23U);
-    } else if (1 & gCurrentLevel) {
-        m4aSongNumStart(0x22U);
-    } else {
-        m4aSongNumStart(0x21U);
-    }
-
-    gMusicManagerState.unk0 = 0xFF;
-
-    if (var_r4 >= 21600) {
-        score = 0;
-    } else if (var_r4 > 18000) {
-        score = 500;
-    } else if (var_r4 > 14400) {
-        score = 1000;
-    } else if (var_r4 > 10800) {
-        score = 2000;
-    } else if (var_r4 > 7200) {
-        score = 3000;
-    } else if (var_r4 > 5400) {
-        score = 4000;
-    } else if (var_r4 > 3600) {
-        score = 5000;
-    } else if (var_r4 > 3000) {
-        score = 10000;
-    } else {
-        score = 80000;
-
-        if (var_r4 > 1800) {
-            score = 50000;
-        }
-    }
-    if (var_sl > score) {
-        var_r0_2 = var_sl;
-    } else {
-        var_r0_2 = score;
-    }
-    temp_r0 = Div((s32) var_r0_2, 0x64) + 0x4B;
-    sp10 = temp_r0;
-    sp18 = var_sl;
-    sp14 = score;
-    UiGfxStackInit();
-    temp_r0_2 = TaskCreate(Task_8057B74, 0x34U, 0x2120U, 0U, 0);
-    spC = temp_r0_2;
-    temp_r7 = temp_r0_2->data + 0x03000000;
-    temp_r7->unk1C = 0;
-    temp_r7->unk30 = temp_r0;
-    temp_r7->unk1E = 0;
-    temp_r7->unkA = 0xF0;
-    temp_r7->unkC = 0x7E;
-    temp_r7->unkE = 8;
-    temp_r7->unk10 = 8;
-    temp_r7->unk12 = 6;
-    temp_r7->unk16 = 1;
-    temp_r7->unk8 = 0xA;
-    temp_r0_3 = TaskCreate(Task_8057C3C, 0x34U, 0x2120U, 0U, 0);
-    sp4 = temp_r0_3;
-    temp_r7_2 = temp_r0_3->data + 0x03000000;
-    temp_r7_2->unk1C = 0;
-    temp_r7_2->unk30 = temp_r0;
-    temp_r7_2->unk1E = 0;
-    temp_r7_2->unkA = 0x100;
-    temp_r7_2->unkC = 0x80;
-    temp_r7_2->unkE = 9;
-    temp_r7_2->unk10 = 2;
-    temp_r7_2->unk12 = 0xC;
-    temp_r7_2->unk16 = 1;
-    temp_r7_2->unk8 = 0;
-    temp_r0_4 = TaskCreate(Task_8057D30, 0x34U, 0x2120U, 0U, 0);
-    sp8 = temp_r0_4;
-    temp_r1_2 = temp_r0_4->data;
-    temp_r7_3 = temp_r1_2 + 0x03000000;
-    temp_r7_3->unk18 = sp18;
-    temp_r7_3->unk1C = 0;
-    temp_r7_3->unk30 = temp_r0;
-    temp_r7_3->unk1E = 0;
-    temp_r7_3->unkA = 0x100;
-    temp_r7_3->unkC = 0x66;
-    temp_r7_3->unkE = 0x10;
-    temp_r7_3->unk10 = 4;
-    temp_r7_3->unk12 = 6;
-    temp_r7_3->unk16 = 1;
-    temp_r7_3->unk8 = 0;
-    var_r5 = 0xF;
-    temp_r2_2 = temp_r1_2 + 0x03000020;
-    do {
-        temp_r0_5 = Div((s32) var_sl, 0xA);
-        temp_r2_4 = var_r5;
-        *(temp_r1_2 + 0x03000020 + temp_r2_4) = ((var_sl - (temp_r0_5 * 0xA)) + 0x20);
-        var_sl = (u32) temp_r0_5;
-        temp_r2_3 = temp_r2_4 - 1;
-        var_r5 = (s16) (u16) temp_r2_3;
-    } while ((s32) (temp_r2_3 << 0x10) >= 0);
-    var_r5_2 = 0xB;
-loop_52:
-    temp_r2_5 = var_r5_2;
-    temp_r1_3 = temp_r2_2 + temp_r2_5;
-    if (*temp_r1_3 == 0x20) {
-        *temp_r1_3 = 0x2BU;
-        temp_r0_6 = temp_r2_5 + 1;
-        var_r5_2 = (s16) (u16) temp_r0_6;
-        if ((s32) temp_r0_6 <= 0xE) {
-            goto loop_52;
-        }
-    }
-    var_r5_3 = 0;
-    do {
-        temp_r0_8 = var_r5_3;
-        *(temp_r2_2 + temp_r0_8) = *(temp_r0_8 + &gUnknown_08688404);
-        temp_r0_7 = temp_r0_8 + 1;
-        var_r5_3 = (s16) (u16) temp_r0_7;
-    } while ((s32) temp_r0_7 <= 0xA);
-    temp_r0_9 = TaskCreate(Task_805803C, 0x34U, 0x2120U, 0U, 0);
-    temp_r1_4 = temp_r0_9->data;
-    temp_r7_4 = temp_r1_4 + 0x03000000;
-    temp_r7_4->unk18 = var_r6;
-    temp_r7_4->unk1C = 0;
-    temp_r7_4->unk30 = sp10;
-    temp_r7_4->unk1E = 0;
-    temp_r7_4->unkA = 0x100;
-    temp_r7_4->unkC = 0x50;
-    temp_r7_4->unkE = 0x10;
-    temp_r7_4->unk10 = 4;
-    temp_r7_4->unk12 = 6;
-    temp_r7_4->unk16 = 1;
-    temp_r7_4->unk8 = 0;
-    var_r5_4 = 0xF;
-    temp_r0_10 = temp_r1_4 + 0x03000020;
-    do {
-        temp_r0_11 = Div((s32) var_r6, 0xA);
-        temp_r2_7 = var_r5_4;
-        *(temp_r1_4 + 0x03000020 + temp_r2_7) = ((var_r6 - (temp_r0_11 * 0xA)) + 0x20);
-        var_r6 = (u32) temp_r0_11;
-        temp_r2_6 = temp_r2_7 - 1;
-        var_r5_4 = (s16) (u16) temp_r2_6;
-    } while ((s32) (temp_r2_6 << 0x10) >= 0);
-    var_r5_5 = 0xB;
-loop_59:
-    temp_r2_8 = var_r5_5;
-    temp_r1_5 = temp_r0_10 + temp_r2_8;
-    if (*temp_r1_5 == 0x20) {
-        *temp_r1_5 = 0x2BU;
-        temp_r0_12 = temp_r2_8 + 1;
-        var_r5_5 = (s16) (u16) temp_r0_12;
-        if ((s32) temp_r0_12 <= 0xE) {
-            goto loop_59;
-        }
-    }
-    var_r5_6 = 0;
-    do {
-        temp_r0_14 = var_r5_6;
-        *(temp_r0_10 + temp_r0_14) = *(temp_r0_14 + &gUnknown_0868840F);
-        temp_r0_13 = temp_r0_14 + 1;
-        var_r5_6 = (s16) (u16) temp_r0_13;
-    } while ((s32) temp_r0_13 <= 0xA);
-
-    // StrcStgResults_38
-    temp_r5 = TaskCreate(Task_8057888, 0x38U, 0x2100U, 0U, TaskDestructor_8058344)->data;
-    temp_r4 = temp_r5 + 0x03000000;
-    temp_r4->unk24 = 0;
-    temp_r4->unk2C = sp18;
-    temp_r4->unk30 = sp14;
-    temp_r4->unk34 = 0x2D;
-    temp_r4->unk28 = sp10;
-    temp_r4->unk14 = spC;
-    temp_r4->unk18 = temp_r0_9;
-    temp_r4->unk10 = sp4;
-    temp_r4->unkC = sp8;
-    temp_r4->unk0 = 0;
-    temp_r4->unk2 = 0;
-    temp_r4->unk4 = 1;
-    temp_r4->unk6 = 0;
-    temp_r4->unk8 = 0x100;
-    temp_r4->unkA = 1;
-    *(temp_r5 + 0x03000036) = subarg_0.unk1C;
-    temp_r4->unk1C = VramMalloc(0x80U);
-    temp_r4->unk20 = VramMalloc(0x1EU);
-    sub_8056FE4(temp_r5 + 0x0300001C);
-    return (u16) (sp10 + 0x11D);
-}
-
 void Task_8057888(void) {
     s32 sp0;
     s32 temp_r0_2;

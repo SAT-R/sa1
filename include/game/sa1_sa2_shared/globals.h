@@ -111,6 +111,7 @@ extern s8 gNumSingleplayerCharacters;
 #endif
 
 extern u8 gMultiplayerLanguage;
+extern s8 gMultiplayerCurrentLevel;
 
 // Sometimes loaded as s16, but as u16 most of the time.
 // If you encounter it being loaded as s16, please cast it.
