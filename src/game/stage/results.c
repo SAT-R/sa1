@@ -21,15 +21,7 @@ typedef struct VramPtrs {
 } VramPtrs;
 
 typedef struct StrcStgResults_34 {
-    /* 0x00 */ u8 filler0[0x8];
-    /* 0x08 */ u16 unk8;
-    /* 0x0A */ u16 unkA;
-    /* 0x0C */ u16 unkC;
-    /* 0x0E */ u16 unkE;
-    /* 0x10 */ u16 unk10;
-    /* 0x12 */ u16 unk12;
-    /* 0x14 */ u16 unk14;
-    /* 0x16 */ u8 unk16;
+    /* 0x00 */ GameOverB unk0;
     /* 0x18 */ s32 unk18;
     /* 0x1C */ u16 unk1C;
     /* 0x1E */ u16 unk1E;
@@ -60,8 +52,10 @@ typedef struct StrcStgResults_38 {
 } StrcStgResults_38; /* 0x38 */
 
 extern void sub_8069C94(TimeRecord record);
-extern u8 gUnknown_08688404[11];
-extern u8 gUnknown_0868840F[11];
+
+extern ALIGNED(4) u8 gUnknown_08688404[11];
+extern ALIGNED(4) u8 gUnknown_0868840F[11];
+extern ALIGNED(4) u8 gUnknown_0868841C[12];
 
 void sub_8056FE4(VramPtrs *ptrs);
 
@@ -221,9 +215,9 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     }
 
     isInFinalStage = 0;
-    if ((gSelectedCharacter == CHARACTER_SONIC) && (gCurrentLevel >= LEVEL_INDEX(ZONE_7, ACT_1)) && (LOADED_SAVE->unk1D == 0x7F)
+    if ((gSelectedCharacter == CHARACTER_SONIC) && (gCurrentLevel >= LEVEL_INDEX(ZONE_7, ACT_X_ZONE)) && (LOADED_SAVE->unk1D == 0x7F)
         && (LOADED_SAVE->unk8[0] > 12) && (LOADED_SAVE->unk8[1] > 12) && (LOADED_SAVE->unk8[2] > 12) && (LOADED_SAVE->unk8[3] > 12)
-        && ((LOADED_SAVE->unk8[0] != 0xF) || (gMultiplayerCurrentLevel != LEVEL_INDEX(ZONE_7, ACT_1)))) {
+        && ((LOADED_SAVE->unk8[0] != 0xF) || (gMultiplayerCurrentLevel != LEVEL_INDEX(ZONE_7, ACT_X_ZONE)))) {
         isInFinalStage = 1;
     }
 
@@ -295,26 +289,26 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     temp_r7->unk1C = 0;
     temp_r7->unk30 = sp10;
     temp_r7->unk1E = 0;
-    temp_r7->unkA = 0xF0;
-    temp_r7->unkC = 0x7E;
-    temp_r7->unkE = 8;
-    temp_r7->unk10 = 8;
-    temp_r7->unk12 = 6;
-    temp_r7->unk16 = 1;
-    temp_r7->unk8 = 0xA;
+    temp_r7->unk0.qUnkA = 0xF0;
+    temp_r7->unk0.unkC = 0x7E;
+    temp_r7->unk0.unkE = 8;
+    temp_r7->unk0.unk10 = 8;
+    temp_r7->unk0.unk12 = 6;
+    temp_r7->unk0.unk16 = 1;
+    temp_r7->unk0.unk8 = 0xA;
 
     t1 = TaskCreate(Task_8057C3C, sizeof(StrcStgResults_34), 0x2120U, 0U, 0);
     temp_r7 = TASK_DATA(t1);
     temp_r7->unk1C = 0;
     temp_r7->unk30 = sp10;
     temp_r7->unk1E = 0;
-    temp_r7->unkA = 0x100;
-    temp_r7->unkC = 0x80;
-    temp_r7->unkE = 9;
-    temp_r7->unk10 = 2;
-    temp_r7->unk12 = 0xC;
-    temp_r7->unk16 = 1;
-    temp_r7->unk8 = 0;
+    temp_r7->unk0.qUnkA = 0x100;
+    temp_r7->unk0.unkC = 0x80;
+    temp_r7->unk0.unkE = 9;
+    temp_r7->unk0.unk10 = 2;
+    temp_r7->unk0.unk12 = 0xC;
+    temp_r7->unk0.unk16 = 1;
+    temp_r7->unk0.unk8 = 0;
 
     t2 = TaskCreate(Task_8057D30, sizeof(StrcStgResults_34), 0x2120U, 0U, 0);
     temp_r7 = TASK_DATA(t2);
@@ -322,13 +316,13 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     temp_r7->unk1C = 0;
     temp_r7->unk30 = sp10;
     temp_r7->unk1E = 0;
-    temp_r7->unkA = 0x100;
-    temp_r7->unkC = 0x66;
-    temp_r7->unkE = 0x10;
-    temp_r7->unk10 = 4;
-    temp_r7->unk12 = 6;
-    temp_r7->unk16 = 1;
-    temp_r7->unk8 = 0;
+    temp_r7->unk0.qUnkA = 0x100;
+    temp_r7->unk0.unkC = 0x66;
+    temp_r7->unk0.unkE = 0x10;
+    temp_r7->unk0.unk10 = 4;
+    temp_r7->unk0.unk12 = 6;
+    temp_r7->unk0.unk16 = 1;
+    temp_r7->unk0.unk8 = 0;
 
     for (temp_r2_3 = 15; temp_r2_3 >= 0; temp_r2_3--) {
         temp_r0_11 = Div(ringScore, 10);
@@ -354,13 +348,13 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     temp_r7->unk1C = 0;
     temp_r7->unk30 = sp10;
     temp_r7->unk1E = 0;
-    temp_r7->unkA = 0x100;
-    temp_r7->unkC = 0x50;
-    temp_r7->unkE = 0x10;
-    temp_r7->unk10 = 4;
-    temp_r7->unk12 = 6;
-    temp_r7->unk16 = 1;
-    temp_r7->unk8 = 0;
+    temp_r7->unk0.qUnkA = 0x100;
+    temp_r7->unk0.unkC = 0x50;
+    temp_r7->unk0.unkE = 0x10;
+    temp_r7->unk0.unk10 = 4;
+    temp_r7->unk0.unk12 = 6;
+    temp_r7->unk0.unk16 = 1;
+    temp_r7->unk0.unk8 = 0;
 
     for (var_r5_6 = 15; var_r5_6 >= 0; var_r5_6--) {
         temp_r0_11 = Div(score, 10);
@@ -413,23 +407,11 @@ END_NONMATCH
 // (100.00%) https://decomp.me/scratch/Srat8
 void Task_8057888(void)
 {
-    s16 temp_r0_4;
-    s16 var_r0;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r6;
-    s32 temp_r6_2;
     u8 i;
     StrcStgResults_34 *taskC;
     StrcStgResults_34 *task10;
     StrcStgResults_34 *task14;
     StrcStgResults_34 *task18;
-    u16 temp_r0_3;
     u8 temp_r4;
 
     Player *p = &gPlayer;
@@ -475,19 +457,19 @@ void Task_8057888(void)
         }
 
         if (arg0->unk2C == 0 && arg0->unk30 == 0) {
-            if (!(1 & (u8)gCurrentLevel)) {
+            if (!(gCurrentLevel & 0x1)) {
                 p->moveState &= ~MOVESTATE_800000;
             }
             cam->SA2_LABEL(unk8) = 0;
             cam->SA2_LABEL(unkC) = 0;
             if (gSelectedCharacter == 0) {
-                if ((arg0->unk36 == 0) && (gCurrentLevel > 11)) {
+                if ((arg0->unk36 == 0) && (gCurrentLevel >= LEVEL_INDEX(ZONE_7, ACT_X_ZONE))) {
                     arg0->unk34 = 0x87;
                 } else {
                     arg0->unk34 = 0x2D;
                 }
 
-            } else if (gCurrentLevel == 12) {
+            } else if (IS_FINAL_STAGE(gCurrentLevel)) {
                 arg0->unk34 = 0x87;
             } else {
                 arg0->unk34 = 0x2D;
@@ -521,7 +503,7 @@ blk_else : {
     }
 
     if (arg0->unk28 + DISPLAY_WIDTH < (u32)arg0->unk24) {
-        if ((gCurrentLevel != 0xC) && (gCurrentLevel != 0xD)) {
+        if (!IS_FINAL_OR_EXTRA_STAGE(gCurrentLevel)) {
             sub_805423C((StrcUi_805423C *)arg0);
         }
 
@@ -537,17 +519,17 @@ blk_else : {
 
             if (gSelectedCharacter == 0) {
                 if (temp_r4 == 0) {
-                    if (gCurrentLevel < LEVEL_INDEX(ZONE_7, ACT_1)) {
+                    if (gCurrentLevel < LEVEL_INDEX(ZONE_7, ACT_X_ZONE)) {
                         GoToNextLevel();
                         return;
                     }
-                    if (gCurrentLevel != 0xD) {
+                    if (!IS_EXTRA_STAGE(gCurrentLevel)) {
                         CreateCongratulationsAnimation();
                     }
                 }
                 return;
             } else {
-                if (gCurrentLevel == 12) {
+                if (IS_FINAL_STAGE(gCurrentLevel)) {
                     CreateCongratulationsAnimation();
                     return;
                 } else {
@@ -563,198 +545,45 @@ block_inc_return:
     arg0->unk24++;
 }
 
-#if 0
-void Task_8057888(void) {
-    s32 sp0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r6;
-    s32 temp_r6_2;
-    s32 temp_r7;
-    s32 var_r4;
-    u16 temp_r0;
-    u16 temp_r0_4;
-    u16 var_r0;
-    u8 temp_r4;
-
-    temp_r0 = gCurTask->data;
-    temp_r7 = temp_r0 + 0x03000000;
-    sp0 = temp_r7->unk18->data + 0x03000000;
-    temp_r0_2 = temp_r7->unkC->data + 0x03000000;
-    (temp_r7->unk14->data + 0x03000000)->unk1C = (u16) temp_r7->unk24;
-    sp0->unk1C = (u16) temp_r7->unk24;
-    (temp_r7->unk10->data + 0x03000000)->unk1C = (u16) temp_r7->unk24;
-    temp_r0_2->unk1C = (u16) temp_r7->unk24;
-    if ((s32) *(temp_r7 + 0x24) <= 0x86) {
-        var_r4 = 0;
-        do {
-            if (var_r4 != 0) {
-                sa2__sub_80047A0(0U, 0x100, (s16) Div(var_r4 << 8, 0xC), (u16) (var_r4 + 0x14));
-            } else {
-                sa2__sub_80047A0(0U, 0x100, 1, 0x14U);
-            }
-            var_r4 = (s32) (var_r4 + 1);
-        } while ((u32) var_r4 <= 0xBU);
-    }
-    if ((s32) *(temp_r7 + 0x24) <= 0xB4) {
-        goto block_53;
-    }
-    temp_r0_3 = temp_r7->unk2C;
-    if (temp_r0_3 == 0) {
-        temp_r2 = temp_r7->unk30;
-        if (temp_r2 == 0) {
-            gCamera.sa2__unk8 = (s16) temp_r2;
-            gCamera.sa2__unkC = (s16) temp_r2;
-            if ((u32) ((((s32) gPlayer.qWorldX >> 8) - gCamera.x) + 0x40) > 0x170U) {
-                gPlayer.qSpeedAirX = (s16) temp_r2;
-                gPlayer.qSpeedGround = (s16) temp_r2;
-                if ((gNumSingleplayerCharacters == 2) && ((s32) (((s32) gPartner.qWorldX >> 8) - gCamera.x) > 0x130)) {
-                    gPartner.moveState |= 0x600000;
-                    gPartner.heldInput = (u16) temp_r2;
-                    gPartner.frameInput = (u16) temp_r2;
-                    gPartner.qSpeedAirX = (s16) temp_r2;
-                    gPartner.qSpeedGround = (s16) temp_r2;
-                }
-            }
-            if ((u32) (temp_r7->unk28 + 0xF0) < (u32) *(temp_r7 + 0x24)) {
-                if ((u32) (gCurrentLevel - 0xC) > 1U) {
-                    sub_805423C((StrcUi_805423C *) temp_r7);
-                }
-                temp_r0_4 = temp_r7->unk34;
-                if ((temp_r0_4 == 0) || (temp_r0_5 = temp_r0_4 - 1, temp_r7->unk34 = (u16) temp_r0_5, ((temp_r0_5 << 0x10) == 0))) {
-                    temp_r7->unk34 = 0U;
-                    temp_r4 = *(temp_r0 + 0x03000036);
-                    TaskDestroy(temp_r7->unkC);
-                    TaskDestroy(temp_r7->unk10);
-                    TaskDestroy(temp_r7->unk14);
-                    TaskDestroy(temp_r7->unk18);
-                    TaskDestroy(gCurTask);
-                    if (gSelectedCharacter == 0) {
-                        if (temp_r4 == 0) {
-                            if ((s32) gCurrentLevel <= 0xB) {
-                                goto block_48;
-                            }
-                            if (gCurrentLevel != 0xD) {
-                                goto block_50;
-                            }
-                        }
-                    } else {
-                        if (gCurrentLevel != 0xC) {
-block_48:
-                            GoToNextLevel();
-                            return;
-                        }
-block_50:
-                        CreateCongratulationsAnimation();
-                    }
-                } else {
-                    goto block_53;
-                }
-            } else {
-                goto block_53;
-            }
-        } else {
-            goto block_16;
-        }
-    } else {
-        temp_r7->unk2C = (s32) (temp_r0_3 - 0x64);
-        temp_r6 = gLevelScore;
-        temp_r0_6 = temp_r6 + 0x64;
-        gLevelScore = temp_r0_6;
-        temp_r5 = Div(temp_r0_6, 0xC350);
-        if ((temp_r5 != Div(temp_r6, 0xC350)) && (gGameMode == 0)) {
-            gNumLives = (gNumLives + 1);
-        }
-        temp_r0_2->unk18 = (s32) temp_r7->unk2C;
-block_16:
-        temp_r0_7 = temp_r7->unk30;
-        if (temp_r0_7 != 0) {
-            temp_r7->unk30 = (s32) (temp_r0_7 - 0x64);
-            temp_r6_2 = gLevelScore;
-            temp_r0_8 = temp_r6_2 + 0x64;
-            gLevelScore = temp_r0_8;
-            temp_r5_2 = Div(temp_r0_8, 0xC350);
-            if ((temp_r5_2 != Div(temp_r6_2, 0xC350)) && (gGameMode == 0)) {
-                gNumLives = (gNumLives + 1);
-            }
-            sp0->unk18 = (s32) temp_r7->unk30;
-        }
-        if ((temp_r7->unk2C == 0) && (temp_r2_2 = temp_r7->unk30, (temp_r2_2 == 0))) {
-            if (!(1 & gCurrentLevel)) {
-                gPlayer.moveState &= 0xFF7FFFFF;
-            }
-            gCamera.sa2__unk8 = (s16) temp_r2_2;
-            gCamera.sa2__unkC = (s16) temp_r2_2;
-            if (gSelectedCharacter == 0) {
-                if ((*(temp_r0 + 0x03000036) == 0) && ((s32) gCurrentLevel > 0xB)) {
-                    var_r0 = 0x87;
-                } else {
-                    goto block_31;
-                }
-            } else if (gCurrentLevel == 0xC) {
-                var_r0 = 0x87;
-            } else {
-block_31:
-                var_r0 = 0x2D;
-            }
-            temp_r7->unk34 = var_r0;
-            m4aSongNumStart(0x8DU);
-        } else if (Mod((s32) gStageTime, 4) != 0) {
-
-        } else {
-            m4aSongNumStart(0x8CU);
-        }
-block_53:
-        temp_r7->unk24 = (u16) (temp_r7->unk24 + 1);
-    }
-}
-
-void Task_8057B74(void) {
+void Task_8057B74(void)
+{
     s16 temp_r0;
     s16 temp_r1;
-    s32 temp_r2;
+    StrcStgResults_34 *arg0 = TASK_DATA(gCurTask);
 
-    temp_r2 = gCurTask->data + 0x03000000;
-    temp_r1 = *(temp_r2 + 0x1C);
-    if ((u32) temp_r1 > (u32) (temp_r2->unk30 + 0xE6)) {
-        if ((1 & gCurrentLevel) || ((s32) gCurrentLevel > 0xB)) {
-            if ((s32) *(temp_r2 + 0xA) < -0x20) {
-                temp_r2->unkA = (u16) (temp_r2->unkA + 0x20);
-                if (*(temp_r2 + 0xE) != 0) {
-                    temp_r2->unkE = (u16) (temp_r2->unkE - 1);
+    temp_r1 = arg0->unk1C;
+    if (temp_r1 > (u32)(arg0->unk30 + 0xE6)) {
+        if ((gCurrentLevel & 0x1) || ((s32)(s8)(u8)gCurrentLevel > 0xB)) {
+            if (arg0->unk0.qUnkA < -0x20) {
+                arg0->unk0.qUnkA = arg0->unk0.qUnkA + 0x20;
+                if (arg0->unk0.unkE != 0) {
+                    arg0->unk0.unkE = arg0->unk0.unkE - 1;
                 }
             }
-            temp_r2->unkA = (u16) (temp_r2->unkA - 0x1A);
+            arg0->unk0.qUnkA = arg0->unk0.qUnkA - 0x1A;
         }
-    } else if ((s32) temp_r1 > 0x31) {
-        temp_r2->unkE = 9U;
-        temp_r2->unkC = 0x2AU;
-    } else if ((s32) temp_r1 > 0x23) {
-        temp_r2->unkC = (u16) (temp_r2->unkC - 6);
-    } else if ((s32) temp_r1 > 0x19) {
-        temp_r2->unkA = 0xFFF0U;
-    } else if ((s32) temp_r1 > 0xF) {
-        temp_r0 = temp_r2->unkA - 0x1A;
-        temp_r2->unkA = (u16) temp_r0;
-        if ((s32) temp_r0 < -0x10) {
-            temp_r2->unkA = -0x10U;
+    } else if (temp_r1 >= 50) {
+        arg0->unk0.unkE = 9;
+        arg0->unk0.unkC = 26;
+    } else if (temp_r1 >= 36) {
+        arg0->unk0.unkC -= 6;
+    } else if (temp_r1 >= 26) {
+        arg0->unk0.qUnkA = -16;
+    } else if (temp_r1 >= 16) {
+        arg0->unk0.qUnkA -= 26;
+
+        if (arg0->unk0.qUnkA < -16) {
+            arg0->unk0.qUnkA = -16;
         }
     }
-    if ((u32) (temp_r2->unk30 + 0xF0) < (u32) temp_r2->unk1C) {
-        sub_8052F78(&gUnknown_0868841C, (GameOverB *) temp_r2);
-        return;
+    if ((u32)(arg0->unk30 + DISPLAY_WIDTH) < arg0->unk1C) {
+        sub_8052F78(&gUnknown_0868841C[0], &arg0->unk0);
+    } else {
+        sub_80530CC(&gUnknown_0868841C[0], &arg0->unk0);
     }
-    sub_80530CC(&gUnknown_0868841C, (GameOverB *) temp_r2);
 }
 
+#if 0
 void Task_8057C3C(void) {
     s16 temp_r0;
     s16 temp_r0_2;
