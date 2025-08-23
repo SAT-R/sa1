@@ -13,6 +13,7 @@
 #include "data/ui_graphics.h"
 
 #include "constants/ui_graphics.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct VramPtrs {
@@ -240,13 +241,13 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
         }
     }
     if (gCurrentLevel == LEVEL_INDEX(ZONE_7, ACT_THE_MOON)) {
-        m4aSongNumStart(0x24U);
+        m4aSongNumStart(MUS_EXTRA_CLEAR);
     } else if (gCurrentLevel == LEVEL_INDEX(ZONE_7, ACT_X_ZONE)) {
-        m4aSongNumStart(0x23U);
+        m4aSongNumStart(MUS_FINAL_CLEAR);
     } else if (gCurrentLevel & 0x1) {
-        m4aSongNumStart(0x22U);
+        m4aSongNumStart(MUS_BOSS_CLEAR);
     } else {
-        m4aSongNumStart(0x21U);
+        m4aSongNumStart(MUS_ACT_CLEAR);
     }
 
     gMusicManagerState.unk0 = 0xFF;
@@ -474,9 +475,9 @@ void Task_8057888(void)
                 arg0->unk34 = 0x2D;
             }
 
-            m4aSongNumStart(0x8D);
+            m4aSongNumStart(SE_STAGE_RESULT_COUNTER_DONE);
         } else if (Mod(gStageTime, 4) == 0) {
-            m4aSongNumStart(0x8C);
+            m4aSongNumStart(SE_STAGE_RESULT_COUNTER);
         }
     }
     goto block_inc_return;
