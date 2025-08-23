@@ -129,7 +129,10 @@ void CreateTimeAttackLobbyScreen() { }
 void CreateOptionsMenu() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
-void CreateStageResults() { }
+
+#include "game/save.h" // TimeRecord 
+void sub_8069C94(TimeRecord record) { }
+
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }
 void CreateMultiplayerPlayer() { }

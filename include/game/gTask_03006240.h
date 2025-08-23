@@ -51,7 +51,7 @@ typedef struct {
     /* 0x12 */ u16 unk12;
     /* 0x14 */ u8 filler14[2];
     /* 0x16 */ u8 unk16;
-} Strc_8052C84; /* size: 0x18 */
+} Strc_8052C84; /* size: 0x18 */ // <- GameOverB struct?
 
 extern struct Task *gTask_03006240;
 
