@@ -8,6 +8,7 @@
 void ApplyGameStageSettings(void);
 void GameStageStart(void);
 void CreateGameStage(void);
+void GoToNextLevel(void);
 
 void HandleLifeLost(void);
 void HandleDeath(void);

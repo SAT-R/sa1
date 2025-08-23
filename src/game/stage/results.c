@@ -3,10 +3,13 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/gTask_03006240.h"
+#include "game/credits.h"
 #include "game/save.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/camera.h"
 #include "game/stage/player.h"
+#include "game/stage/stage.h"
+#include "game/stage/ui.h"
 #include "data/ui_graphics.h"
 
 #include "constants/ui_graphics.h"
@@ -43,16 +46,16 @@ typedef struct StrcStgResults_38 {
     /* 0x06 */ u16 unk6;
     /* 0x08 */ u16 unk8;
     /* 0x0A */ u8 unkA;
-    /* 0x0C */ struct Task *taskC;
-    /* 0x10 */ struct Task *task10;
-    /* 0x14 */ struct Task *task14;
-    /* 0x18 */ struct Task *task18;
+    /* 0x0C */ struct Task *taskC; // -> StrcStgResults_34 *
+    /* 0x10 */ struct Task *task10; // -> StrcStgResults_34 *
+    /* 0x14 */ struct Task *task14; // -> StrcStgResults_34 *
+    /* 0x18 */ struct Task *task18; // -> StrcStgResults_34 *
     /* 0x1C */ VramPtrs unk1C;
     /* 0x24 */ s16 unk24;
     /* 0x28 */ s32 unk28;
     /* 0x2C */ s32 unk2C;
     /* 0x30 */ s32 unk30;
-    /* 0x34 */ s16 unk34;
+    /* 0x34 */ u16 unk34;
     /* 0x36 */ u8 unk36;
 } StrcStgResults_38; /* 0x38 */
 
@@ -405,6 +408,160 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     return (sp10 + 285);
 }
 END_NONMATCH
+
+// TODO: Fix gotos.
+// (100.00%) https://decomp.me/scratch/Srat8
+void Task_8057888(void)
+{
+    s16 temp_r0_4;
+    s16 var_r0;
+    s32 temp_r0_5;
+    s32 temp_r0_6;
+    s32 temp_r0_7;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r5;
+    s32 temp_r5_2;
+    s32 temp_r6;
+    s32 temp_r6_2;
+    u8 i;
+    StrcStgResults_34 *taskC;
+    StrcStgResults_34 *task10;
+    StrcStgResults_34 *task14;
+    StrcStgResults_34 *task18;
+    u16 temp_r0_3;
+    u8 temp_r4;
+
+    Player *p = &gPlayer;
+    Camera *cam = &gCamera;
+    StrcStgResults_38 *arg0;
+
+    arg0 = TASK_DATA(gCurTask);
+
+    task14 = TASK_DATA(arg0->task14);
+    task18 = TASK_DATA(arg0->task18);
+    task10 = TASK_DATA(arg0->task10);
+    taskC = TASK_DATA(arg0->taskC);
+    task14->unk1C = arg0->unk24;
+    task18->unk1C = arg0->unk24;
+    task10->unk1C = arg0->unk24;
+    taskC->unk1C = arg0->unk24;
+
+    if (arg0->unk24 < 135) {
+        for (i = 0; i < 12; i++) {
+            if (i != 0) {
+                SA2_LABEL(sub_80047A0)(0U, 0x100, Div(i << 8, 12), i + 20);
+            } else {
+                SA2_LABEL(sub_80047A0)(0U, 0x100, 1, 20);
+            }
+        }
+    }
+
+    if (arg0->unk24 >= 0xB5) {
+        if (arg0->unk2C == 0) {
+            if (arg0->unk30 == 0) {
+                goto blk_else;
+            }
+        } else {
+            arg0->unk2C -= 100;
+            INCREMENT_SCORE_A(100);
+            taskC->unk18 = arg0->unk2C;
+        }
+
+        if (arg0->unk30 != 0) {
+            arg0->unk30 -= 100;
+            INCREMENT_SCORE_A(100);
+            task18->unk18 = arg0->unk30;
+        }
+
+        if (arg0->unk2C == 0 && arg0->unk30 == 0) {
+            if (!(1 & (u8)gCurrentLevel)) {
+                p->moveState &= ~MOVESTATE_800000;
+            }
+            cam->SA2_LABEL(unk8) = 0;
+            cam->SA2_LABEL(unkC) = 0;
+            if (gSelectedCharacter == 0) {
+                if ((arg0->unk36 == 0) && (gCurrentLevel > 11)) {
+                    arg0->unk34 = 0x87;
+                } else {
+                    arg0->unk34 = 0x2D;
+                }
+
+            } else if (gCurrentLevel == 12) {
+                arg0->unk34 = 0x87;
+            } else {
+                arg0->unk34 = 0x2D;
+            }
+
+            m4aSongNumStart(0x8D);
+        } else if (Mod(gStageTime, 4) == 0) {
+            m4aSongNumStart(0x8C);
+        }
+    }
+    goto block_inc_return;
+
+blk_else : {
+    cam->sa2__unk8 = 0;
+    cam->sa2__unkC = 0;
+
+    if (((u32)I(p->qWorldX) - cam->x) + 0x40 > (DISPLAY_WIDTH + 128)) {
+        gPlayer.qSpeedAirX = 0;
+        gPlayer.qSpeedGround = 0;
+
+        if (gNumSingleplayerCharacters == 2) {
+            if ((I(gPartner.qWorldX) - cam->x) > (DISPLAY_WIDTH + 64)) {
+                gPartner.moveState |= MOVESTATE_IA_OVERRIDE;
+                gPartner.moveState |= MOVESTATE_IGNORE_INPUT;
+                gPartner.heldInput = 0;
+                gPartner.frameInput = 0;
+                gPartner.qSpeedAirX = 0;
+                gPartner.qSpeedGround = 0;
+            }
+        }
+    }
+
+    if (arg0->unk28 + DISPLAY_WIDTH < (u32)arg0->unk24) {
+        if ((gCurrentLevel != 0xC) && (gCurrentLevel != 0xD)) {
+            sub_805423C((StrcUi_805423C *)arg0);
+        }
+
+        if ((arg0->unk34 == 0) || (--arg0->unk34 == 0)) {
+            arg0->unk34 = 0;
+            temp_r4 = arg0->unk36;
+
+            TaskDestroy(arg0->taskC);
+            TaskDestroy(arg0->task10);
+            TaskDestroy(arg0->task14);
+            TaskDestroy(arg0->task18);
+            TaskDestroy(gCurTask);
+
+            if (gSelectedCharacter == 0) {
+                if (temp_r4 == 0) {
+                    if (gCurrentLevel < LEVEL_INDEX(ZONE_7, ACT_1)) {
+                        GoToNextLevel();
+                        return;
+                    }
+                    if (gCurrentLevel != 0xD) {
+                        CreateCongratulationsAnimation();
+                    }
+                }
+                return;
+            } else {
+                if (gCurrentLevel == 12) {
+                    CreateCongratulationsAnimation();
+                    return;
+                } else {
+                    GoToNextLevel();
+                    return;
+                }
+            }
+        }
+    }
+}
+
+block_inc_return:
+    arg0->unk24++;
+}
 
 #if 0
 void Task_8057888(void) {
