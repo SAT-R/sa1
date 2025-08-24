@@ -5,155 +5,9 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_802DDCC
-sub_802DDCC: @ 0x0802DDCC
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	ldr r0, _0802DE50 @ =gCurTask
-	mov ip, r0
-	ldr r0, [r0]
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r2, r0
-	ldr r1, _0802DE54 @ =0x0300000C
-	adds r6, r2, r1
-	adds r0, #0x4c
-	adds r7, r2, r0
-	ldr r1, [r5]
-	mov r8, r1
-	adds r0, #0x20
-	adds r4, r2, r0
-	ldrb r0, [r4]
-	cmp r0, #0
-	bne _0802DE74
-	ldr r1, _0802DE58 @ =0x030000AC
-	adds r3, r2, r1
-	ldrh r0, [r3]
-	subs r0, #1
-	strh r0, [r3]
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0x3c
-	bne _0802DE14
-	movs r0, #1
-	strb r0, [r4]
-	ldr r0, _0802DE5C @ =0x0300006D
-	adds r1, r2, r0
-	movs r0, #0xff
-	strb r0, [r1]
-_0802DE14:
-	ldrh r3, [r3]
-	cmp r3, #0
-	bne _0802DE8C
-	mov r0, ip
-	ldr r1, [r0]
-	ldr r0, _0802DE60 @ =sub_802DEFC
-	str r0, [r1, #8]
-	ldr r1, _0802DE64 @ =0x030000A0
-	adds r0, r2, r1
-	str r3, [r0]
-	movs r0, #0x9b
-	lsls r0, r0, #2
-	strh r0, [r6, #0xa]
-	ldr r0, _0802DE68 @ =0x0300002C
-	adds r1, r2, r0
-	movs r0, #1
-	strb r0, [r1]
-	ldr r0, _0802DE6C @ =0x0300002D
-	adds r1, r2, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0802DE70 @ =0x0000026A
-	strh r0, [r7, #0xa]
-	movs r0, #0
-	strb r0, [r4]
-	ldr r0, _0802DE5C @ =0x0300006D
-	adds r1, r2, r0
-	movs r0, #1
-	rsbs r0, r0, #0
-	b _0802DE8A
-	.align 2, 0
-_0802DE50: .4byte gCurTask
-_0802DE54: .4byte 0x0300000C
-_0802DE58: .4byte 0x030000AC
-_0802DE5C: .4byte 0x0300006D
-_0802DE60: .4byte sub_802DEFC
-_0802DE64: .4byte 0x030000A0
-_0802DE68: .4byte 0x0300002C
-_0802DE6C: .4byte 0x0300002D
-_0802DE70: .4byte 0x0000026A
-_0802DE74:
-	ldr r0, [r7, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #7
-	ands r0, r1
-	cmp r0, #0
-	beq _0802DE8C
-	movs r0, #0
-	strb r0, [r4]
-	ldr r0, _0802DEF4 @ =0x0300006D
-	adds r1, r2, r0
-	movs r0, #0xff
-_0802DE8A:
-	strb r0, [r1]
-_0802DE8C:
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	adds r0, r7, #0
-	bl UpdateSpriteAnimation
-	ldrb r2, [r5, #8]
-	lsls r2, r2, #3
-	ldrh r0, [r5, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	adds r0, r5, #0
-	adds r0, #0x94
-	ldr r0, [r0]
-	asrs r0, r0, #8
-	adds r2, r2, r0
-	mov r0, r8
-	ldrb r1, [r0, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r5, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	adds r0, r5, #0
-	adds r0, #0x98
-	ldr r0, [r0]
-	asrs r0, r0, #8
-	adds r1, r1, r0
-	ldr r3, _0802DEF8 @ =gCamera
-	ldrh r0, [r3]
-	lsls r2, r2, #0x10
-	asrs r2, r2, #0x10
-	subs r2, r2, r0
-	strh r2, [r6, #0x16]
-	ldrh r0, [r3, #2]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	subs r1, r1, r0
-	strh r1, [r6, #0x18]
-	bl sub_802D908
-	adds r0, r6, #0
-	bl DisplaySprite
-	adds r0, r7, #0
-	bl DisplaySprite
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802DEF4: .4byte 0x0300006D
-_0802DEF8: .4byte gCamera
-
-	thumb_func_start sub_802DEFC
-sub_802DEFC: @ 0x0802DEFC
+.if 01
+	thumb_func_start Task_802DEFC
+Task_802DEFC: @ 0x0802DEFC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -391,7 +245,7 @@ _0802E0F8:
 	str r0, [r3, #0x10]
 	ldr r0, _0802E128 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802E12C @ =sub_802E130
+	ldr r0, _0802E12C @ =Task_802E130
 _0802E100:
 	str r0, [r1, #8]
 	ldr r0, [sp, #8]
@@ -415,10 +269,11 @@ _0802E116:
 	bx r0
 	.align 2, 0
 _0802E128: .4byte gCurTask
-_0802E12C: .4byte sub_802E130
+_0802E12C: .4byte Task_802E130
+.endif
 
-	thumb_func_start sub_802E130
-sub_802E130: @ 0x0802E130
+	thumb_func_start Task_802E130
+Task_802E130: @ 0x0802E130
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -854,7 +709,7 @@ _0802E4A0:
 	strb r0, [r1]
 	ldr r0, _0802E4F8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802E4FC @ =sub_802DEFC
+	ldr r0, _0802E4FC @ =Task_802DEFC
 	str r0, [r1, #8]
 _0802E4DA:
 	pop {r3, r4, r5}
@@ -870,7 +725,7 @@ _0802E4EC: .4byte gCamera
 _0802E4F0: .4byte 0x0300004C
 _0802E4F4: .4byte 0x0300006D
 _0802E4F8: .4byte gCurTask
-_0802E4FC: .4byte sub_802DEFC
+_0802E4FC: .4byte Task_802DEFC
 
 	thumb_func_start sub_802E500
 sub_802E500: @ 0x0802E500
@@ -1268,7 +1123,7 @@ _0802E824:
 	strb r0, [r1]
 	ldr r0, _0802E860 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802E864 @ =sub_802DEFC
+	ldr r0, _0802E864 @ =Task_802DEFC
 	str r0, [r1, #8]
 _0802E850:
 	pop {r3, r4, r5}
@@ -1280,7 +1135,7 @@ _0802E850:
 	bx r0
 	.align 2, 0
 _0802E860: .4byte gCurTask
-_0802E864: .4byte sub_802DEFC
+_0802E864: .4byte Task_802DEFC
 
 	thumb_func_start sub_802E868
 sub_802E868: @ 0x0802E868

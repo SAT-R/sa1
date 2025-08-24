@@ -40,7 +40,8 @@ extern s16 gUnknown_084ACDA0[];
 
 void Task_EggPressMain(void);
 void sub_802DC3C(void);
-void sub_802DDCC(void);
+void Task_802DDCC(void);
+void Task_802DEFC(void);
 void TaskDestructor_EggPress(struct Task *t);
 
 void sub_802D748(s16 arg0, s16 arg1)
@@ -130,14 +131,6 @@ void sub_802D908(void)
 
 void CreateEntity_EggPress(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
-    s16 temp_r4_3;
-    s16 temp_r5;
-    s16 temp_r7_2;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
     Sprite *s;
     Sprite *s2;
     u16 temp_r4_2;
@@ -293,11 +286,58 @@ void sub_802DC3C(void)
         DisplaySprite(s2);
 
         if (s->frameFlags & 0x4000) {
-            gCurTask->main = sub_802DDCC;
-            s->graphics.anim = 0x26C;
+            gCurTask->main = Task_802DDCC;
+            s->graphics.anim = SA1_ANIM_BOSS_2;
             boss->s.variant = 0;
             boss->s.prevVariant = 0xFF;
             boss->unkAC = 0x78;
         }
     }
+}
+
+void Task_802DDCC(void)
+{
+    MapEntity *me;
+    Sprite *s;
+    Sprite *s2;
+    CamCoord worldX, worldY;
+
+    EggPress *boss = TASK_DATA(gCurTask);
+
+    s = &boss->s;
+    s2 = &boss->s2;
+    me = boss->base.me;
+
+    if (boss->s2.variant == 0) {
+        if (--boss->unkAC == 60) {
+            boss->s2.variant = 1;
+            boss->s2.prevVariant = 0xFF;
+        }
+
+        if (boss->unkAC == 0) {
+            gCurTask->main = Task_802DEFC;
+            boss->unkA0 = 0;
+            s->graphics.anim = SA1_ANIM_BOSS_2;
+            boss->s.variant = 1;
+            boss->s.prevVariant = 0xFF;
+            s2->graphics.anim = SA1_ANIM_BOSS_2_EGGMAN;
+            boss->s2.variant = 0;
+            boss->s2.prevVariant = -1;
+        }
+    } else if (s2->frameFlags & 0x4000) {
+        boss->s2.variant = 0;
+        boss->s2.prevVariant = -1;
+    }
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    sub_802D908();
+    DisplaySprite(s);
+    DisplaySprite(s2);
 }
