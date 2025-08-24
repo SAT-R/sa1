@@ -1,4 +1,5 @@
 #ifndef GUARD_CONST_ANIM_COMMANDS_H
+#define GUARD_CONST_ANIM_COMMANDS_H
 
 #define ANIM_CMD__TILES        -1
 #define ANIM_CMD__PALETTE      -2
@@ -31,6 +32,10 @@
 #define CMD_12(a)                     ANIM_CMD__12, a,
 #define SHOW_FRAME(duration, frameId) duration, frameId,
 
+#ifdef M2C
+// M2C: #undef directives get removed (manully, beforehand), thus the macros would be re-defined
+//      Also apparently it just ignores the __BYTE_ORDER__ check?
+#else
 #if (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
 #undef PALETTE
 #undef HITBOX
@@ -42,6 +47,6 @@
 #define TRANSLATE(x, y)            ANIM_CMD__TRANSLATE, (((u16)x << 16) | ((u16)y << 0)),
 #define CHANGE_ANIM(anim, variant) ANIM_CMD__CHANGE_ANIM, (((u16)anim << 16) | ((u16)variant << 0)),
 #endif
+#endif
 
-#define GUARD_CONST_ANIM_COMMANDS_H
 #endif
