@@ -10,6 +10,7 @@
 #endif
 
 #ifdef M2C
+// M2C: Empty structs are not supported.
 #else
 typedef struct {
 #if (GAME == GAME_SA2)
