@@ -10,9 +10,6 @@
 
 #if (GAME == GAME_SA1)
 
-typedef struct OptionsScreen {
-} OptionsScreen;
-
 #define NUM_LANGSCRN_SPRITES_TYPE_1 6
 #define NUM_LANGSCRN_SPRITES_TYPE_2 3
 #define NUM_LANGSCRN_SPRITES        (NUM_LANGSCRN_SPRITES_TYPE_1 + NUM_LANGSCRN_SPRITES_TYPE_2)
@@ -60,12 +57,12 @@ struct OptionsScreenProfileData {
     u8 multiplayerDraws;
 
     struct ButtonConfig buttonConfig;
-};
+} OptionsScreenProfileData;
 
 // OptionsScreen
 struct OptionsScreen {
     // profileData
-    struct OptionsScreenProfileData profileData;
+    OptionsScreenProfileData profileData;
 
     u8 unusedUnk358;
     u8 difficultyLevel;

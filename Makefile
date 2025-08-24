@@ -592,8 +592,8 @@ check_format:
 
 ### DECOMP TOOLS ###
 
-CONTEXT_FLAGS := -DPLATFORM_GBA=1 -DGEN_CTX=1 -Dsize_t=int -D "offsetof(TYPE, MEMBER)"="((size_t)&((TYPE *)0)->MEMBER)"
+CONTEXT_FLAGS := -DM2C -DPLATFORM_GBA=1 -DGEN_CTX=1 -Dsize_t=int -D "offsetof(TYPE, MEMBER)"="((size_t)&((TYPE *)0)->MEMBER)"
 
 ctx.c: $(C_HEADERS)
 	@for header in $(C_HEADERS); do echo "#include \"$$header\""; done > ctx.h
-	gcc -P -E -dD -undef -nostdinc -I include $(CONTEXT_FLAGS) ctx.h | sed '/^#define __STDC/d' | sed '1s|^|#include <stdint.h>\n|' > ctx.c
+	gcc -P -E -dD -undef -I ./tools/agbcc/include -I include $(CONTEXT_FLAGS) ctx.h | sed '/^\/\/ TODO: Remove M2C occurences EVERYWHERE once ctx is not needed anymore!/d' | sed '/#undef/d' | sed '/typedef unsigned long int int;/d' | sed 's/__attribute__((.*))//' | sed '/^#define __STDC/d' > ctx.c
