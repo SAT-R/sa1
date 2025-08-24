@@ -479,7 +479,7 @@ void Task_802611C(void)
                 }
             }
             s2->variant = 2;
-            m4aSongNumStart(SE_143);
+            m4aSongNumStart(SE_BOSS_HIT);
         } else if ((resA == 2) || (resB == 2)) {
             s2->variant = 1;
         }

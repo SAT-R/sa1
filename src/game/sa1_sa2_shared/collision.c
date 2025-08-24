@@ -1259,12 +1259,12 @@ s32 Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
 }
 
 // Exclusively used by Bosses 2 and 6
-s32 Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p)
+EHit Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p)
 {
     Sprite *sprPlayer = &p->spriteInfoBody->s;
 
     if (!IS_ALIVE(p)) {
-        return 0;
+        return HIT_NONE;
     }
 
     if ((sprPlayer->hitboxes[1].index != -1) && (s->hitboxes[0].index != -1) && (p->moveState & MOVESTATE_IN_AIR)) {
@@ -1277,7 +1277,7 @@ s32 Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p)
                 p->qSpeedAirY = -p->qSpeedAirY;
             }
 
-            return 1;
+            return HIT_ENEMY;
         }
     }
 
@@ -1285,19 +1285,19 @@ s32 Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p)
         if (s->hitboxes[0].index != -1) {
             if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
                 Coll_DamagePlayer(p);
-                return 2;
+                return HIT_PLAYER;
             }
         }
 
         if (s->hitboxes[1].index != -1) {
             if (HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
                 Coll_DamagePlayer(p);
-                return 2;
+                return HIT_PLAYER;
             }
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // Exclusively used by SA1 Bosses 3, 5, Egg X and throwback bosses

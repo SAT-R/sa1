@@ -130,7 +130,7 @@ void CreateOptionsMenu() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
 
-#include "game/save.h" // TimeRecord 
+#include "game/save.h" // TimeRecord
 void sub_8069C94(TimeRecord record) { }
 
 void CreateExtraStageResults() { }

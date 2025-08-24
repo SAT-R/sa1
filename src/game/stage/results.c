@@ -198,7 +198,7 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     s32 sp1C;
     u16 temp_r1_2;
     u16 temp_r2;
-    u32 score;
+    u32 timeScore;
     u32 ringScore;
     s16 ringCount2 = ringCount;
     bool32 isInFinalStage;
@@ -252,36 +252,36 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
 
     gMusicManagerState.unk0 = 0xFF;
 
-    if (courseTime >= 21600) {
-        score = 0;
+    if (courseTime >= ZONE_TIME_TO_INT(6, 0)) {
+        timeScore = 0;
     } else if (courseTime >= ZONE_TIME_TO_INT(5, 0)) {
-        score = 500;
+        timeScore = 500;
     } else if (courseTime >= ZONE_TIME_TO_INT(4, 0)) {
-        score = 1000;
+        timeScore = 1000;
     } else if (courseTime >= ZONE_TIME_TO_INT(3, 0)) {
-        score = 2000;
+        timeScore = 2000;
     } else if (courseTime >= ZONE_TIME_TO_INT(2, 0)) {
-        score = 3000;
+        timeScore = 3000;
     } else if (courseTime >= ZONE_TIME_TO_INT(1, 30)) {
-        score = 4000;
+        timeScore = 4000;
     } else if (courseTime >= ZONE_TIME_TO_INT(1, 0)) {
-        score = 5000;
+        timeScore = 5000;
     } else if (courseTime >= ZONE_TIME_TO_INT(0, 50)) {
-        score = 10000;
+        timeScore = 10000;
     } else if (courseTime >= ZONE_TIME_TO_INT(0, 30)) {
-        score = 50000;
+        timeScore = 50000;
     } else {
-        score = 80000;
+        timeScore = 80000;
     }
 
-    if (ringScore > score) {
+    if (ringScore > timeScore) {
         sp10 = Div(ringScore, 100) + 75;
     } else {
-        sp10 = Div(score, 100) + 75;
+        sp10 = Div(timeScore, 100) + 75;
     }
 
     sp18 = ringScore;
-    sp14 = score;
+    sp14 = timeScore;
     UiGfxStackInit();
 
     t0 = TaskCreate(Task_8057B74, sizeof(StrcStgResults_34), 0x2120U, 0U, 0);
@@ -344,7 +344,7 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
 
     taskLast = TaskCreate(Task_805803C, sizeof(StrcStgResults_34), 0x2120U, 0, 0);
     temp_r7 = TASK_DATA(taskLast);
-    temp_r7->unk18 = score;
+    temp_r7->unk18 = timeScore;
     temp_r7->unk1C = 0;
     temp_r7->unk30 = sp10;
     temp_r7->unk1E = 0;
@@ -357,9 +357,9 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     temp_r7->unk0.unk8 = 0;
 
     for (var_r5_6 = 15; var_r5_6 >= 0; var_r5_6--) {
-        temp_r0_11 = Div(score, 10);
-        temp_r7->unk20[var_r5_6] = ((score - ((temp_r0_11 * 10))) + 0x20);
-        score = temp_r0_11;
+        temp_r0_11 = Div(timeScore, 10);
+        temp_r7->unk20[var_r5_6] = ((timeScore - ((temp_r0_11 * 10))) + 0x20);
+        timeScore = temp_r0_11;
     };
 
     for (var_r5_6 = 11; var_r5_6 < 15; var_r5_6++) {
@@ -477,7 +477,10 @@ void Task_8057888(void)
 
             m4aSongNumStart(SE_STAGE_RESULT_COUNTER_DONE);
         } else if (Mod(gStageTime, 4) == 0) {
+#ifndef NON_MATCHING
+            // TODO: This sound hurts a lot with the current GB channel implementation
             m4aSongNumStart(SE_STAGE_RESULT_COUNTER);
+#endif
         }
     }
     goto block_inc_return;
@@ -583,7 +586,8 @@ void Task_8057B74(void)
     }
 }
 
-void Task_8057C3C(void) {
+void Task_8057C3C(void)
+{
     u8 arr[0x19];
     s16 temp_r1;
     s16 temp_r2;
@@ -591,11 +595,11 @@ void Task_8057C3C(void) {
     StrcStgResults_34 *arg0;
 
 #ifndef NON_MATCHING
-    asm("" :: "{r}"(gUnknown_08688428) : "r0");
+    asm("" ::"{r}"(gUnknown_08688428) : "r0");
     asm("mov r0, %0\n"
         "mov r2, %2\n"
-        "bl memcpy" :: "r"(arr), "{r}"(gUnknown_08688428), "i"(sizeof(arr))
-       );
+        "bl memcpy" ::"r"(arr),
+        "{r}"(gUnknown_08688428), "i"(sizeof(arr)));
 #else
     memcpy(&arr, &gUnknown_08688428, sizeof(arr));
 #endif
@@ -604,7 +608,7 @@ void Task_8057C3C(void) {
     temp_r1 = arg0->unk1C;
     if ((u32)temp_r1 > (arg0->unk30 + 0xE6)) {
         arg0->unk0.qUnkA -= Q(28. / 256.);
-        
+
         if (arg0->unk0.qUnkA < -0x1F) {
             if (arg0->unk0.unkE != 0) {
                 arg0->unk0.unkE = arg0->unk0.unkE - 1;
@@ -617,36 +621,36 @@ void Task_8057C3C(void) {
     } else if (temp_r1 >= 50) {
         arg0->unk0.unkC = 0x2C;
         arg0->unk0.qUnkA -= Q(2. / 256.);
-        
+
         if (arg0->unk0.qUnkA < -0x1F) {
             arg0->unk0.qUnkA += 0x20;
             arg0->unk1E = Mod(arg0->unk1E + 1, 8);
         }
-        
+
         sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
     } else if (temp_r1 >= 36) {
         arg0->unk0.unkC -= 6;
         arg0->unk0.qUnkA -= Q(2. / 256.);
-        
+
         if (arg0->unk0.qUnkA < -0x1F) {
             arg0->unk0.qUnkA += 0x20;
             arg0->unk1E = Mod(arg0->unk1E + 1, 8);
         }
-        
+
         sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
     } else if (temp_r1 >= 26) {
         arg0->unk0.qUnkA -= Q(2. / 256.);
         arg0->unk0.unkE = 9;
-        
+
         if (arg0->unk0.qUnkA < -0x1F) {
             arg0->unk0.qUnkA += 0x20;
             arg0->unk1E = Mod(arg0->unk1E + 1, 8);
         }
-        
+
         sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
     } else if (temp_r1 >= 16) {
         arg0->unk0.qUnkA -= Q(28. / 256.);
-        
+
         if (arg0->unk0.qUnkA < DISPLAY_WIDTH) {
             arg0->unk0.unkE = 9 - (arg0->unk0.qUnkA >> 5);
             if (arg0->unk0.qUnkA < -0x1F) {
@@ -658,7 +662,8 @@ void Task_8057C3C(void) {
     }
 }
 
-void Task_8057D30(void) {
+void Task_8057D30(void)
+{
     s16 sp0;
     s16 temp_r4;
     s32 temp_r0_3;
@@ -678,16 +683,15 @@ void Task_8057D30(void) {
     } else {
         sp0 = 0;
     }
-    
+
     if (arg0->unk1C > 0x85U) {
-        for(var_r6 = 15; var_r6 >= 0; var_r6--) {
+        for (var_r6 = 15; var_r6 >= 0; var_r6--) {
             temp_r0_3 = Div(var_r7, 10);
-            arg0->unk20[var_r6] = (u8) ((var_r7 - ((temp_r0_3 * 8) + (temp_r0_3 << 1))) + 0x20);
+            arg0->unk20[var_r6] = (u8)((var_r7 - ((temp_r0_3 * 8) + (temp_r0_3 << 1))) + 0x20);
             var_r7 = temp_r0_3;
         }
 
-        for(var_r6 = 11; var_r6 < 15; var_r6++)
-        {
+        for (var_r6 = 11; var_r6 < 15; var_r6++) {
             if (arg0->unk20[var_r6] == 0x20) {
                 arg0->unk20[var_r6] = 0x2B;
                 continue;
@@ -695,36 +699,35 @@ void Task_8057D30(void) {
 
             break;
         }
-        
-        for(var_r6 = 0; var_r6 < 11; var_r6++) {
+
+        for (var_r6 = 0; var_r6 < 11; var_r6++) {
             arg0->unk20[var_r6] = gUnknown_08688404[var_r6];
         }
     }
-    
-    if (arg0->unk1C > (u32) (arg0->unk30 + 0xE6)) {
+
+    if (arg0->unk1C > (u32)(arg0->unk30 + 0xE6)) {
         s32 v = (arg0->unk1C - 0xE6);
         var_r7_2 = (v - arg0->unk30) * 0x1C;
     } else {
         var_r7_2 = 0;
     }
-    
+
     if (sp0 > 0x96) {
         arg0->unk0.unk10 = 4;
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 0xA;
         arg0->unk0.qUnkA = 50 - var_r7_2;
         arg0->unk0.unkC = 0x66;
-        
+
         if (arg0->unk0.qUnkA >= -80) {
             sub_80530CC(arg0->unk20, &arg0->unk0);
         }
-        
+
         arg0->unk0.unk10 = 0;
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 1;
 
-        for(var_r6 = 11; var_r6 < 16; var_r6++)
-        {
+        for (var_r6 = 11; var_r6 < 16; var_r6++) {
             if (arg0->unk20[var_r6] != 0x2B) {
                 s32 v = var_r7_2 - 50;
                 arg0->unk0.qUnkA = (var_r6 * 8) - v;
@@ -742,10 +745,10 @@ void Task_8057D30(void) {
         sub_80530CC(arg0->unk20, &arg0->unk0);
 
         for (var_r6 = 11; (var_r6 < 15); var_r6++) {
-            if(arg0->unk20[var_r6] != 0x2B)
+            if (arg0->unk20[var_r6] != 0x2B)
                 break;
         }
-        
+
         arg0->unk0.unk10 = 0;
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 16 - var_r6;
@@ -756,16 +759,15 @@ void Task_8057D30(void) {
         if ((u32)var_sb > 16) {
             var_sb = 16;
         }
-        
+
         if (var_sb != 0) {
             s8 var_sl = 0;
             var_r6 = 0;
-            
-            if (var_sl < var_sb)
-            {
+
+            if (var_sl < var_sb) {
                 do {
                     var_r7_2 = (sp0 - (var_r6 * 2));
-                    
+
                     if (var_r6 < 11) {
                         arg0->unk0.unk10 = 4;
                         arg0->unk0.unk12 = 6;
@@ -773,7 +775,7 @@ void Task_8057D30(void) {
                         arg0->unk0.unk10 = 0;
                         arg0->unk0.unk12 = 6;
                     }
-                    
+
                     if (var_r7_2 > 0xC) {
                         s8 v = ((var_sl << 24) + 0x01000000) >> 24;
                         var_sl = v;
@@ -782,25 +784,24 @@ void Task_8057D30(void) {
                             arg0->unk0.unkE = 1;
                             arg0->unk0.unkC = Div(0x100 - (var_r7_2 * 0x15), 0x23) + 0x5E;
                             if (var_r7_2 == 0xC) {
-                                *((u16*)&arg0->unk0.unk6) = 0x1F;
+                                *((u16 *)&arg0->unk0.unk6) = 0x1F;
                             } else {
-                                *((u16*)&arg0->unk0.unk6) = var_r7_2 + 0x14;
+                                *((u16 *)&arg0->unk0.unk6) = var_r7_2 + 0x14;
                             }
-                            
+
                             arg0->unk0.qUnkA = (var_r6 * 8) + 0x2E;
-                            sub_8052E40(&arg0->unk20[var_r6], (void*)&arg0->unk0);
+                            sub_8052E40(&arg0->unk20[var_r6], (void *)&arg0->unk0);
                         }
                     }
-                } while(++var_r6 < (s32)var_sb);
+                } while (++var_r6 < (s32)var_sb);
             }
-            
-            if (var_sl > 11) {        
+
+            if (var_sl > 11) {
                 for (var_r6 = 11; (var_r6 < 15); var_r6++) {
-                    if(arg0->unk20[var_r6] != 0x2B)
+                    if (arg0->unk20[var_r6] != 0x2B)
                         break;
                 }
-                
-                
+
                 arg0->unk0.unk10 = 0;
                 arg0->unk0.unk12 = 6;
                 arg0->unk0.unkE = var_sl - var_r6;
@@ -809,7 +810,7 @@ void Task_8057D30(void) {
                 sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
                 var_sl = 11;
             }
-            
+
             arg0->unk0.unk10 = 4;
             arg0->unk0.unk12 = 6;
             arg0->unk0.unkE = var_sl;
@@ -820,16 +821,14 @@ void Task_8057D30(void) {
     }
 }
 
-void Task_805803C(void) {
+void Task_805803C(void)
+{
     s16 sp0;
-    s16 temp_r4;
     s32 temp_r0_3;
-    s32 temp_r3;
     s32 var_r7;
     s16 var_r7_2;
     s8 var_r6;
     u16 temp_r0;
-    u8 *temp_r1;
 
     StrcStgResults_34 *arg0 = TASK_DATA(gCurTask);
 
@@ -840,16 +839,15 @@ void Task_805803C(void) {
     } else {
         sp0 = 0;
     }
-    
+
     if (arg0->unk1C > 0x85U) {
-        for(var_r6 = 15; var_r6 >= 0; var_r6--) {
+        for (var_r6 = 15; var_r6 >= 0; var_r6--) {
             temp_r0_3 = Div(var_r7, 10);
-            arg0->unk20[var_r6] = (u8) ((var_r7 - ((temp_r0_3 * 8) + (temp_r0_3 << 1))) + 0x20);
+            arg0->unk20[var_r6] = (u8)((var_r7 - ((temp_r0_3 * 8) + (temp_r0_3 << 1))) + 0x20);
             var_r7 = temp_r0_3;
         }
 
-        for(var_r6 = 11; var_r6 < 15; var_r6++)
-        {
+        for (var_r6 = 11; var_r6 < 15; var_r6++) {
             if (arg0->unk20[var_r6] == 0x20) {
                 arg0->unk20[var_r6] = 0x2B;
                 continue;
@@ -857,36 +855,35 @@ void Task_805803C(void) {
 
             break;
         }
-        
-        for(var_r6 = 0; var_r6 < 11; var_r6++) {
+
+        for (var_r6 = 0; var_r6 < 11; var_r6++) {
             arg0->unk20[var_r6] = gUnknown_0868840F[var_r6];
         }
     }
-    
-    if (arg0->unk1C > (u32) (arg0->unk30 + 0xE6)) {
+
+    if (arg0->unk1C > (u32)(arg0->unk30 + 0xE6)) {
         s32 v = (arg0->unk1C - 0xE6);
         var_r7_2 = (v - arg0->unk30) * 0x1C;
     } else {
         var_r7_2 = 0;
     }
-    
+
     if (sp0 > 0xB4) {
         arg0->unk0.unk10 = 4;
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 0xA;
         arg0->unk0.qUnkA = 50 - var_r7_2;
         arg0->unk0.unkC = 80;
-        
+
         if (arg0->unk0.qUnkA >= -80) {
             sub_80530CC(arg0->unk20, &arg0->unk0);
         }
-        
+
         arg0->unk0.unk10 = 0;
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 1;
 
-        for(var_r6 = 11; var_r6 < 16; var_r6++)
-        {
+        for (var_r6 = 11; var_r6 < 16; var_r6++) {
             if (arg0->unk20[var_r6] != 0x2B) {
                 s32 v = var_r7_2 - 50;
                 arg0->unk0.qUnkA = (var_r6 * 8) - v;
@@ -904,10 +901,10 @@ void Task_805803C(void) {
         sub_80530CC(arg0->unk20, &arg0->unk0);
 
         for (var_r6 = 11; (var_r6 < 15); var_r6++) {
-            if(arg0->unk20[var_r6] != 0x2B)
+            if (arg0->unk20[var_r6] != 0x2B)
                 break;
         }
-        
+
         arg0->unk0.unk10 = 0;
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 16 - var_r6;
@@ -918,16 +915,15 @@ void Task_805803C(void) {
         if ((u32)var_sb > 16) {
             var_sb = 16;
         }
-        
+
         if (var_sb != 0) {
             s8 var_sl = 0;
             var_r6 = 0;
-            
-            if (var_sl < var_sb)
-            {
+
+            if (var_sl < var_sb) {
                 do {
                     var_r7_2 = (sp0 - (var_r6 * 2));
-                    
+
                     if (var_r6 < 11) {
                         arg0->unk0.unk10 = 4;
                         arg0->unk0.unk12 = 6;
@@ -935,7 +931,7 @@ void Task_805803C(void) {
                         arg0->unk0.unk10 = 0;
                         arg0->unk0.unk12 = 6;
                     }
-                    
+
                     if (var_r7_2 > 0xB) {
                         s8 v = ((var_sl << 24) + 0x01000000) >> 24;
                         var_sl = v;
@@ -943,23 +939,22 @@ void Task_805803C(void) {
                         if ((var_r6 < 11) || (arg0->unk20[var_r6] != 0x2B)) {
                             arg0->unk0.unkE = 1;
                             arg0->unk0.unkC = Div(0x100 - (var_r7_2 * 0x15), 0x23) + 0x48;
-                            
-                            *((u16*)&arg0->unk0.unk6) = var_r7_2 + 0x14;
-                            
+
+                            *((u16 *)&arg0->unk0.unk6) = var_r7_2 + 0x14;
+
                             arg0->unk0.qUnkA = (var_r6 * 8) + 0x2E;
-                            sub_8052E40(&arg0->unk20[var_r6], (void*)&arg0->unk0);
+                            sub_8052E40(&arg0->unk20[var_r6], (void *)&arg0->unk0);
                         }
                     }
-                } while(++var_r6 < (s32)var_sb);
+                } while (++var_r6 < (s32)var_sb);
             }
-            
-            if (var_sl > 11) {        
+
+            if (var_sl > 11) {
                 for (var_r6 = 11; (var_r6 < 15); var_r6++) {
-                    if(arg0->unk20[var_r6] != 0x2B)
+                    if (arg0->unk20[var_r6] != 0x2B)
                         break;
                 }
-                
-                
+
                 arg0->unk0.unk10 = 0;
                 arg0->unk0.unk12 = 6;
                 arg0->unk0.unkE = var_sl - var_r6;
@@ -968,7 +963,7 @@ void Task_805803C(void) {
                 sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
                 var_sl = 11;
             }
-            
+
             arg0->unk0.unk10 = 4;
             arg0->unk0.unk12 = 6;
             arg0->unk0.unkE = var_sl;
@@ -979,7 +974,8 @@ void Task_805803C(void) {
     }
 }
 
-void TaskDestructor_8058344(struct Task *t) {
+void TaskDestructor_8058344(struct Task *t)
+{
     StrcStgResults_38 *results = TASK_DATA(t);
 
     VramFree(results->vram1C.vram0);

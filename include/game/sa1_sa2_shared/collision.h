@@ -21,6 +21,13 @@
 #define COLL_FLAG_80000  0x00080000
 #define COLL_FLAG_100000 0x00100000
 
+// TODO: Ensure these are correct!
+typedef enum EHit {
+    HIT_NONE = 0,
+    HIT_ENEMY = 1,
+    HIT_PLAYER = 2,
+} EHit;
+
 #if (GAME == GAME_SA1)
 u32 CheckRectCollision_SpritePlayer(Sprite *s, s16 sx, s16 sy, Player *p, struct Rect8 *rectPlayer);
 #elif (GAME == GAME_SA2)
@@ -56,6 +63,7 @@ u32 Coll_Player_SkatingStone(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *moveState);
 bool32 sub_800CBBC(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);
 u32 sub_800CCB8(Sprite *, s32 x, s32 y, Player *);
+EHit Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p);
 
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);
 bool32 sub_800DD54(Player *p);

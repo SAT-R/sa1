@@ -580,7 +580,7 @@ void CreateSkatingStoneDebris(CamCoord worldX, CamCoord worldY)
 
     tf->y = worldY - 16;
 
-    m4aSongNumStart(SE_143);
+    m4aSongNumStart(SE_BOSS_HIT);
 }
 
 void Task_SkatingStoneDebris(void)
