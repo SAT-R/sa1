@@ -14,6 +14,7 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
 #include "constants/songs.h"
 
 typedef struct EggPress {
@@ -33,7 +34,8 @@ typedef struct EggPress {
     /* 0xAE */ s8 unkAE;
     /* 0xAF */ s8 unkAF;
     /* 0xB0 */ s8 unkB0;
-    /* 0xB0 */ u8 unkB1;
+    /* 0xB1 */ u8 unkB1;
+    /* 0xB2 */ s16 unkB2;
 } EggPress;
 
 extern s16 gUnknown_084ACDA0[];
@@ -48,9 +50,12 @@ void Task_802DDCC(void);
 void Task_802DEFC(void);
 void Task_802E130(void);
 void Task_802E290(void);
-void sub_802E3DC(void);
+void Task_802E3DC(void);
 void Task_802E500(void);
+void Task_802E714(void);
+void Task_802EA8C(void);
 void sub_802E868(void);
+void sub_802ECFC(void);
 void TaskDestructor_EggPress(struct Task *t);
 
 static inline void sub_802EF24_inline(void)
@@ -433,14 +438,6 @@ void Task_802DEFC(void)
 
 void Task_802E130(void)
 {
-    s16 temp_r2_2;
-    s16 temp_r5_2;
-    s16 temp_r6_2;
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r2_3;
-    u16 temp_r3_2;
-
     EggPress *boss = TASK_DATA(gCurTask);
     Sprite *s = &boss->s;
     Sprite *s2 = &boss->s2;
@@ -478,16 +475,6 @@ void Task_802E130(void)
 
 void Task_802E290(void)
 {
-    s16 temp_r5;
-    s16 temp_r7;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r2;
-    s32 temp_r4_2;
-    s32 temp_r6;
-    u16 temp_r3;
-    u16 temp_r4;
     CamCoord worldX, worldY;
 
     EggPress *boss = TASK_DATA(gCurTask);
@@ -501,28 +488,296 @@ void Task_802E290(void)
     sub_802D748(worldX, worldY);
     if (boss->unkAE > 7) {
         sub_802E868();
-        return;
+    } else {
+        sub_802EF60_inline(worldX, worldY);
+        sub_802EF24_inline();
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+        sub_802D908();
+        sub_802D870();
+
+        if (s->frameFlags & 0x4000) {
+            s32 val;
+            s8 index;
+            s->variant = 0;
+            s->prevVariant = -1;
+#ifndef NON_MATCHING
+            boss->unkAC = 30;
+#endif
+            val = 300;
+            boss->unkAC = (val / gUnknown_084ACDAC[boss->unkAE]);
+            gCurTask->main = &Task_802E3DC;
+        }
+    }
+}
+
+void Task_802E3DC(void)
+{
+    CamCoord worldX, worldY;
+
+    EggPress *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+
+    sub_802D748(worldX, worldY);
+    if (boss->unkAE > 7) {
+        sub_802E868();
+    } else {
+        sub_802EF60_inline(worldX, worldY);
+        sub_802EF24_inline();
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+        sub_802D908();
+        sub_802D870();
+
+        if (--boss->unkAC == 0) {
+            s32 val;
+            s8 index;
+            s->variant = 1;
+            s->prevVariant = -1;
+            gCurTask->main = Task_802DEFC;
+        }
+    }
+}
+
+void Task_802E500(void)
+{
+    MapEntity *me;
+    Sprite *s2;
+    CamCoord worldX, worldY;
+
+    EggPress *boss = TASK_DATA(gCurTask);
+    s2 = &boss->s2;
+    me = boss->base.me;
+    boss->unkA0 += 0x20;
+    boss->unk98 += boss->unkA0;
+
+    if (boss->unk98 < -Q(200)) {
+        boss->unk94 = gPlayer.qWorldX - Q(TO_WORLD_POS(boss->base.meX, boss->base.regionX));
     }
 
-    sub_802EF60_inline(worldX, worldY);
-    sub_802EF24_inline();
+    if (boss->unk98 >= 0) {
+        boss->unk98 = 0;
+        boss->unkA0 = 0;
+        boss->unkAC = 60;
+        boss->s.variant = 2;
+        boss->s.prevVariant = 0xFF;
+        gCurTask->main = Task_802E714;
+        m4aSongNumStart(SE_IMPACT);
+        CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, 0x80);
+
+        if (!(gPlayer.moveState & MOVESTATE_IN_AIR) || (gPlayer.charState == CHARSTATE_65)
+            || ((gPlayer.moveState & 0x04000000) && ((gPlayer.anim != SA1_CHAR_ANIM_AMY_LEAP) || (gPlayer.variant != 0)))) {
+            Coll_DamagePlayer(&gPlayer);
+            s2->variant = 1;
+            s2->frameFlags = s2->frameFlags & ~0x4000;
+        }
+        if ((gNumSingleplayerCharacters == 2) && !(gPartner.moveState & MOVESTATE_IN_AIR)) {
+            Coll_DamagePlayer(&gPlayer);
+            s2->variant = 1;
+            s2->frameFlags = s2->frameFlags & ~0x4000;
+        }
+    }
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+
+    sub_802D748(worldX, worldY);
+    if (boss->unkAE > 7) {
+        sub_802E868();
+    } else {
+        sub_802EF60_inline(worldX, worldY);
+        sub_802EF24_inline();
+        sub_802D908();
+        sub_802D870();
+    }
+}
+
+void Task_802E714(void)
+{
+    CamCoord worldX, worldY;
+
+    EggPress *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+
+    sub_802D748(worldX, worldY);
+    if (boss->unkAE > 7) {
+        sub_802E868();
+    } else {
+        sub_802EF60_inline(worldX, worldY);
+        sub_802EF24_inline();
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+        sub_802D908();
+        sub_802D870();
+
+        if (s->variant == 2) {
+            if (s->frameFlags & 0x4000) {
+                s->variant = 0;
+                s->prevVariant = -1;
+            }
+        } else if (--boss->unkAC == 0) {
+            s32 val;
+            s8 index;
+            s->graphics.anim = SA1_ANIM_BOSS_2;
+            s->variant = 1;
+            s->prevVariant = -1;
+            gCurTask->main = Task_802DEFC;
+        }
+    }
+}
+
+void sub_802E868(void)
+{
+    Strc_sub_80168F0 *tSub0;
+
+    EggPress *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    s = &boss->s;
+    boss->unk98 -= Q(48);
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+
+    s2->variant = 2;
+    boss->unkB2 = -Q(2);
+    m4aSongNumStart(SE_EXPLOSION);
+    boss->unkAC = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_2_NO_SPRING;
+    s->variant = 0;
+    s->prevVariant = 0xFF;
+
+    {
+        tSub0 = TASK_DATA(sub_80168F0(worldX, worldY, 8, SA1_ANIM_BOSS_2_SPRING, 0));
+        tSub0->qUnk46 = -Q(2);
+        tSub0->unk48 = 0;
+        tSub0->unk42 = 0x80;
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            tSub0->transform.qScaleX = -Q(1);
+            tSub0->qUnk44 = +Q(4);
+        } else {
+            tSub0->qUnk44 = -Q(4);
+        }
+        tSub0->unk40 = 60;
+    }
+
+    {
+        tSub0 = TASK_DATA(sub_80168F0(worldX, worldY + 32, 8, SA1_ANIM_BOSS_2_BASE, 0));
+        tSub0->qUnk46 = -Q(2);
+        tSub0->unk48 = 0;
+        tSub0->unk42 = 0x180;
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            tSub0->transform.qScaleX = -Q(1);
+            tSub0->qUnk44 = +Q(4);
+        } else {
+            tSub0->qUnk44 = -Q(4);
+        }
+        tSub0->unk40 = 60;
+    }
+
+    gCamera.minX = (s16)(u16)gCamera.x;
+    gCamera.maxX = (u16)gCamera.x + DISPLAY_WIDTH;
+
+    INCREMENT_SCORE_A(1000);
+
+    Task_802EA8C();
+    gCurTask->main = Task_802EA8C;
+}
+
+void Task_802EA8C(void)
+{
+    s16 temp_r0_3;
+    s16 temp_r0_6;
+    s16 temp_r3_4;
+    s32 res;
+    s32 temp_r0_4;
+    s32 temp_r0_5;
+    s32 temp_r1_3;
+    s32 temp_r1_4;
+    u16 temp_r1_2;
+    u16 temp_r3_5;
+
+    EggPress *boss = TASK_DATA(gCurTask);
+    SpriteBase *base = &boss->base;
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    boss->unkB2 += 0x28;
+    boss->unk98 += boss->unkB2;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+
+    res = sa2__sub_801F100(worldY + 0x10, worldX, 1, 8, &sa2__sub_801EC3C);
+    if (res < 0) {
+        boss->unk98 += Q(res);
+        boss->unkB2 = (boss->unkB2 >> 2) - boss->unkB2;
+        if (boss->unkB2 > -Q(1)) {
+            boss->unkB2 = 0U;
+            gCurTask->main = sub_802ECFC;
+        }
+    }
+
+    s->frameFlags &= ~0x180;
+
+    if (PLAYER_IS_ALIVE) {
+        gDispCnt &= 0x7FFF;
+        gWinRegs[WINREG_WINOUT] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+    }
+
+    ++boss->unkAC;
+    if ((boss->unkAC & 7) == 0) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+        Sprite *sprBolts;
+        s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+        s32 rndTheta;
+        s32 a0, a1;
+        s32 rnd;
+        t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
+                                   gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
+        bolts = TASK_DATA(t);
+        sprBolts = &bolts->s;
+        bolts->qUnk30 = Q(worldX);
+        bolts->qUnk34 = Q(worldY);
+        sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+        sprBolts->oamFlags = 0x440;
+        bolts->qUnk3E = Q(40. / 256.);
+        bolts->qUnk40 = Q(32. / 256.);
+        rndTheta = PseudoRandom32();
+        bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+        bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+        rnd = PseudoRandom32();
+        sub_8017540(Q((worldX + (0x3F & rnd)) - 0x20), Q(worldY - ((rnd & 0x3F0000) >> 0x10)));
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    sub_802D908();
     UpdateSpriteAnimation(s);
     UpdateSpriteAnimation(s2);
-    sub_802D908();
-    sub_802D870();
-
-    if (s->frameFlags & 0x4000) {
-        s32 val;
-        s8 index;
-        s->variant = 0;
-        s->prevVariant = -1;
-#ifndef NON_MATCHING
-        boss->unkAC = 30;
-#endif
-        val = 300;
-        boss->unkAC = (val / gUnknown_084ACDAC[boss->unkAE]);
-        gCurTask->main = &sub_802E3DC;
-    }
+    DisplaySprite(s);
+    DisplaySprite(s2);
 }
 
 #if 0

@@ -1,6 +1,22 @@
 #ifndef GUARD_SA1_BOSSES_SHARED_H
 #define GUARD_SA1_BOSSES_SHARED_H
 
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x48 */ s16 unk40;
+    /* 0x48 */ s16 unk42;
+    /* 0x44 */ s16 qUnk44;
+    /* 0x46 */ s16 qUnk46;
+    /* 0x48 */ s16 unk48;
+} Strc_sub_80168F0; /* 0x4C */
+
+struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4); // -> Strc_sub_80168F0
+
 struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX);
+
+struct Task *sub_8017540(s32 param0, s32 param1);
 
 #endif // GUARD_SA1_BOSSES_SHARED_H
