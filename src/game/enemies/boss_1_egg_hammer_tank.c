@@ -5,6 +5,7 @@
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/entity.h"
+#include "game/enemies/bosses_shared.h"
 #include "game/nuts_and_bolts_task.h"
 #include "game/save.h"
 #include "game/stage/player_controls.h"
@@ -14,18 +15,6 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
-
-typedef struct {
-    /* 0x00 */ Sprite s;
-    /* 0x30 */ SpriteTransform transform;
-    /* 0x3C */ s16 unk3C;
-    /* 0x3E */ s16 unk3E;
-    /* 0x48 */ s16 unk40;
-    /* 0x48 */ s16 unk42;
-    /* 0x44 */ s16 qUnk44;
-    /* 0x46 */ s16 qUnk46;
-    /* 0x48 */ s16 unk48;
-} Strc_sub_80168F0; /* 0x4C */
 
 typedef struct EHTArm {
     /* 0x00 */ Sprite s;
@@ -81,7 +70,6 @@ void CreateBossCapsule(s16, s16);
 // returns 0, 1 or 2
 s32 Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 void sub_8015C5C(CamCoord worldX, CamCoord worldY);
-struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4);
 struct Task *sub_80174DC(s16, s16);
 struct Task *sub_8017540(s32, s32);
 void Task_802611C();
@@ -798,8 +786,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_802
 }
 END_NONMATCH
 
-// (97.27%) https://decomp.me/scratch/sLWM7
-NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026C44.inc", void Task_8026C44(void))
+void Task_8026C44(void)
 {
     EggHammerTank *tank;
     s32 res;
@@ -831,7 +818,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026C44.inc", void Task_802
             gCurTask->main = Task_8026ED0;
         }
     }
-    s->frameFlags &= ~0x180;
+    s->frameFlags &= 0xFFFFFE7F;
     if (PLAYER_IS_ALIVE) {
         gDispCnt &= 0x7FFF;
         gWinRegs[WINREG_WINOUT] = 0;
@@ -847,13 +834,13 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026C44.inc", void Task_802
         s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
         s32 rndTheta;
         s32 a0, a1;
-        s16 rnd;
+        s32 rnd;
         t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
                                    gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
         bolts = TASK_DATA(t);
         sprBolts = &bolts->s;
         bolts->qUnk30 = Q(worldX);
-        bolts->qUnk34 = Q(worldY - 32);
+        bolts->qUnk34 = Q(worldY - 0x20);
         sprBolts->frameFlags = 0x2000;
         sprBolts->oamFlags = 0x440;
         bolts->qUnk3E = Q(40. / 256.);
@@ -862,9 +849,11 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026C44.inc", void Task_802
         bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
         bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
 
-        // NOTE: This is nonmatching
         rnd = PseudoRandom32();
-        sub_8017540(Q(worldX + ((rnd & 0x3F) - 0x20)), Q(worldY - ((rnd & 0x3F) + 0x20)));
+        a0 = Q((worldX + (0x3F & rnd)) - 0x20);
+        a1 = (((rnd & 0x3F0000) >> 0x10));
+        a1 += 32;
+        sub_8017540(a0, Q(worldY) - Q(a1));
     }
 
     s->x = worldX - gCamera.x;
@@ -882,7 +871,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026C44.inc", void Task_802
     DisplaySprite(s);
     DisplaySprite(s2);
 }
-END_NONMATCH
 
 // (97.01%) https://decomp.me/scratch/Vkctb
 NONMATCH("asm/non_matching/game/enemies/boss_1__Task_8026ED0.inc", void Task_8026ED0(void))
