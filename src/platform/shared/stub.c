@@ -127,7 +127,6 @@ void sub_802E290(void) { }
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
 void CreateTimeAttackMenu() { }
-void CreateTimeAttackLobbyScreen() { }
 void CreateOptionsMenu() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
@@ -201,6 +200,7 @@ void sub_804FCA4() { }
 void sub_804FCEC() { }
 void sub_804FD54() { }
 
+void sub_8061948(u8 param0) { }
 void sub_8063918(void) { }
 
 void OptionsSelectPlayerData() { }

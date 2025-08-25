@@ -136,7 +136,7 @@ SECTIONS {
         src/game/game_over.o(.text);
         src/game/stage/results.o(.text);
         asm/game_2.o(.text);
-        asm/game__time_attack__lobby.o(.text);
+        src/game/time_attack/lobby.o(.text);
         src/game/edit_language_screen.o(.text);
         asm/game__mp__continue_screen.o(.text);
         asm/game__mp__3.o(.text);
