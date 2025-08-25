@@ -123,8 +123,6 @@ struct Task *sub_8017540(s32 param0, s32 param1) { return NULL; }
 struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX) { return NULL; }
 
 void sub_802E290(void) { }
-void Task_802E500(void) { }
-void sub_802E868(void) { }
 
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
