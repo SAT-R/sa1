@@ -66,10 +66,8 @@ void Task_EHTArm(void);
 void Task_80272D0(void);
 void TaskDestructor_EHTArm(struct Task *t);
 
-void CreateBossCapsule(s16, s16);
 // returns 0, 1 or 2
 s32 Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
-void sub_8015C5C(CamCoord worldX, CamCoord worldY);
 struct Task *sub_80174DC(s16, s16);
 struct Task *sub_8017540(s32, s32);
 void Task_802611C();

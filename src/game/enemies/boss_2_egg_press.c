@@ -780,7 +780,60 @@ void Task_802EA8C(void)
     DisplaySprite(s2);
 }
 
-#if 0
+void sub_802ECFC(void)
+{
+    EggPress *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+
+    if (boss->unkAC++ > 240) {
+        sub_8015C5C(worldX, worldY - 4);
+        CreateBossCapsule(worldX, worldY);
+        gMusicManagerState.unk1 = 0x30;
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((boss->unkAC & 7) == 0) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+        Sprite *sprBolts;
+        s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+        s32 rndTheta;
+        s32 a0, a1;
+        s32 rnd;
+        t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
+                                   gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
+        bolts = TASK_DATA(t);
+        sprBolts = &bolts->s;
+        bolts->qUnk30 = Q(worldX);
+        bolts->qUnk34 = Q(worldY);
+        sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+        sprBolts->oamFlags = 0x440;
+        bolts->qUnk3E = Q(40. / 256.);
+        bolts->qUnk40 = Q(32. / 256.);
+        rndTheta = PseudoRandom32();
+        bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+        bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+        rnd = PseudoRandom32();
+        sub_8017540(Q((worldX + (0x3F & rnd)) - 0x20), Q(worldY - ((rnd & 0x3F0000) >> 0x10)));
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    sub_802D908();
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
+}
+
 void TaskDestructor_EggPress(struct Task *t)
 {
     EggPress *boss = TASK_DATA(t);
@@ -788,11 +841,6 @@ void TaskDestructor_EggPress(struct Task *t)
     VramFree(boss->s2.graphics.dest);
 }
 
-void sub_802EF24(void) {
-    sub_802EF24_inline();
-}
+void sub_802EF24(void) { sub_802EF24_inline(); }
 
-void sub_802EF60(CamCoord worldX, CamCoord worldY) {
-    sub_802EF60_inline(worldX, worldY);
-}
-#endif
+void sub_802EF60(CamCoord worldX, CamCoord worldY) { sub_802EF60_inline(worldX, worldY); }
