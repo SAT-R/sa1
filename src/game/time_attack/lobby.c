@@ -92,7 +92,7 @@ void CreateTimeAttackLobbyScreen(void)
     lobby->qUnk130 = 0;
     lobby->qUnk12C = 0;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(lobby->sprites); i++) {
         s = &lobby->sprites[i];
         s->graphics.dest = VramMalloc(gUnknown_0868B69C[i]);
         s->graphics.anim = gUnknown_0868B684[i][gLoadedSaveGame.uiLanguage];
@@ -179,7 +179,7 @@ static void Task_HandleInput(void)
 
         if (gPressedKeys & A_BUTTON) {
             m4aSongNumStart(SE_SELECT);
-            if (lobby->unk134 != 3) {
+            if (lobby->unk134 != (ARRAY_COUNT(gUnknown_0868B6C4) - 1)) {
                 Sprite *s3 = &lobby->s3;
                 s3->graphics.anim = gUnknown_0868B6A0[gSelectedCharacter][1];
                 s3->variant = gUnknown_0868B6B8[gSelectedCharacter][1];
@@ -201,7 +201,7 @@ void Task_806A508(void)
 
     StrcUi_805423C *temp_r4 = &lobby->unk120;
 
-    if ((lobby->qUnk12C < 0xA000) && (lobby->unk134 != 3)) {
+    if ((lobby->qUnk12C < Q(DISPLAY_HEIGHT)) && (lobby->unk134 != 3)) {
         lobby->qUnk130 += Q(32. / 256.);
         lobby->qUnk12C += lobby->qUnk130;
     } else if (sub_805423C(temp_r4)) {
@@ -230,7 +230,7 @@ void sub_806A5BC(void)
 
     TimeAttackLobby *lobby = TASK_DATA(gCurTask);
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(lobby->sprites); i++) {
         s = &lobby->sprites[i];
         DisplaySprite(s);
     }
@@ -260,7 +260,7 @@ void TaskDestructor_806A698(struct Task *t)
     TimeAttackLobby *lobby = TASK_DATA(t);
     u8 i;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(lobby->sprites); i++) {
         VramFree(lobby->sprites[i].graphics.dest);
     }
 
