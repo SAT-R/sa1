@@ -57,7 +57,7 @@ void sub_80528AC(Strc_80528AC *param0)
         }
 
         if (param0->unk2A & 0x4) {
-            DmaCopy16(3, param0->palette, &gObjPalette[param0->unk28 * 16], param0->unk24);
+            DmaCopy16(3, param0->palette, &gObjPalette[param0->unk28 * 16], param0->paletteSize);
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
         }
 
@@ -93,7 +93,7 @@ void sub_80528AC(Strc_80528AC *param0)
         }
 
         if (param0->unk2A & 0x4) {
-            DmaCopy16(3, param0->palette, &gBgPalette[param0->unk28 * 16], param0->unk24);
+            DmaCopy16(3, param0->palette, &gBgPalette[param0->unk28 * 16], param0->paletteSize);
             gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
         }
     }

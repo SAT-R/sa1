@@ -63,7 +63,7 @@ void sub_8055C50(Strc_8055C50 *param0)
     sp00.tiles = gUiGraphics[UIGFX_TIMER_DIGITS].tiles;
     sp00.palette = gUiGraphics[UIGFX_TIMER_DIGITS].palette;
     sp00.tilesSize = 40 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.vramC = param0->vram4;
     sp00.unk2A = 13;
@@ -79,7 +79,7 @@ void sub_8055C50(Strc_8055C50 *param0)
     sp00.tiles = gUiGraphics[UIGFX_OK].tiles;
     sp00.palette = gUiGraphics[UIGFX_OK].palette;
     sp00.tilesSize = 16 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.vramC = param0->vram0;
     sp00.unk2A = 13;
@@ -95,7 +95,7 @@ void sub_8055C50(Strc_8055C50 *param0)
     sp00.tiles = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].tiles;
     sp00.palette = gUiGraphics[UIGFX_CHAR_SELECT_BLACK_BOX_2].palette;
     sp00.tilesSize = 16 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.vramC = param0->vram8;
     sp00.unk2A = 13;

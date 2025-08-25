@@ -78,7 +78,7 @@ void sub_8056FE4(VramPtrs *arg0)
     sp00.tiles = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].tiles;
     sp00.palette = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].palette;
     sp00.tilesSize = (8 * 2) * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.vramC = (void *)BG_VRAM + 0x11000; // TODO: Create VRAM_RESERVED_ #define!
     sp00.unk2A = 13;
@@ -103,7 +103,7 @@ void sub_8056FE4(VramPtrs *arg0)
     }
 
     sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 12;
     sp00.tilesSize = 0xA00;
     sp00.vramC = (void *)arg0->vram0 + 0x600; // TODO: Create VRAM_RESERVED_ #define!
@@ -120,7 +120,7 @@ void sub_8056FE4(VramPtrs *arg0)
     sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
     sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
     sp00.tilesSize = (8 * 6) * TILE_SIZE_4BPP;
-    sp00.unk24 = 12;
+    sp00.paletteSize = 12;
     sp00.unk28 = 12;
     sp00.vramC = (void *)arg0->vram0; // TODO: Create VRAM_RESERVED_ #define!
     sp00.unk2A = 0xD;
@@ -136,7 +136,7 @@ void sub_8056FE4(VramPtrs *arg0)
     sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles + 0x9C0;
     sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
     sp00.tilesSize = 2 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 0x6;
     sp00.vramC = (void *)arg0->vram4 + 0x240; // TODO: Create VRAM_RESERVED_ #define!
     sp00.unk2A = 0xD;

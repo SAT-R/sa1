@@ -87,7 +87,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
     sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
     sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
     sp00.tilesSize = 0x400;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 15;
     sp00.vramC = param0->vram4;
     sp00.unk2A = 13;
@@ -103,7 +103,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
     sp00.tiles = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].tiles + (gSelectedCharacter * 0x800);
     sp00.palette = gUiGraphics[UIGFX_STGINTRO_CHAR_NAMES].palette;
     sp00.tilesSize = 0x800;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 15;
     sp00.vramC = VRAM_RESERVED_STGINTRO_CHAR_NAME;
     sp00.unk2A = 13;
@@ -119,7 +119,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
     sp00.tiles = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].tiles;
     sp00.palette = gUiGraphics[UIGFX_STGRESULT_HEADLINE_BACK].palette;
     sp00.tilesSize = 0x200;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.vramC = param0->vram0;
     sp00.unk2A = 13;
@@ -136,7 +136,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
         sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + (49 * TILE_SIZE_4BPP);
         sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
         sp00.tilesSize = (12 - gUnknown_08688378[gCurrentLevel]) * TILE_SIZE_4BPP;
-        sp00.unk24 = 32;
+        sp00.paletteSize = 32;
         sp00.unk28 = 6;
         sp00.vramC = param0->vram8;
         sp00.unk2A = 13;
@@ -152,7 +152,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
         sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + 8 * TILE_SIZE_4BPP;
         sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
         sp00.tilesSize = 0x80;
-        sp00.unk24 = 32;
+        sp00.paletteSize = 32;
         sp00.unk28 = 6;
         sp00.vramC = param0->vram8 + 0x180;
         sp00.unk2A = 13;
@@ -168,7 +168,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
         sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + gUnknown_08688386[gCurrentLevel] * TILE_SIZE_4BPP;
         sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
         sp00.tilesSize = gUnknown_08688378[gCurrentLevel] * TILE_SIZE_4BPP;
-        sp00.unk24 = 32;
+        sp00.paletteSize = 32;
         sp00.unk28 = 6;
         sp00.vramC = param0->vram8 + (12 - gUnknown_08688378[gCurrentLevel]) * TILE_SIZE_4BPP;
         sp00.unk2A = 13;
@@ -184,7 +184,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
         sp00.tiles = gUiGraphics[UIGFX_STGNAMES_JP_0].tiles + 0x100;
         sp00.palette = gUiGraphics[UIGFX_STGNAMES_JP_0].palette;
         sp00.tilesSize = 32;
-        sp00.unk24 = 32;
+        sp00.paletteSize = 32;
         sp00.unk28 = 6;
         sp00.vramC = param0->vram8;
         sp00.unk2A = 13;
@@ -208,7 +208,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
         sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles + (gCurrentLevel - 14) * (16 * TILE_SIZE_4BPP);
         sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
         sp00.tilesSize = 0x200;
-        sp00.unk24 = 32;
+        sp00.paletteSize = 32;
         sp00.unk28 = 6;
         sp00.vramC = param0->vram8;
         sp00.unk2A = 13;
@@ -246,7 +246,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
     sp00.palette = gUiGraphics[UIGFX_STGRESULT_ACT12].palette;
     sp00.tilesSize = 0x100;
     sp00.vramC = param0->vram10;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 13;
     sp00.unk0.unk4 = gUiGraphics[UIGFX_STGRESULT_ACT12].unk8;
@@ -261,7 +261,7 @@ NONMATCH("asm/non_matching/game/stage/intro__LoadStageIntroGraphics.inc", void L
     sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
     sp00.palette = gUiGraphics[UIGFX_STGNAME_1].palette;
     sp00.tilesSize = 0x700;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.vramC = param0->vramC;
     sp00.unk2A = 13;
