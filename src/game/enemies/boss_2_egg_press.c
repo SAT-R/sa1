@@ -47,7 +47,8 @@ void sub_802DC3C(void);
 void Task_802DDCC(void);
 void Task_802DEFC(void);
 void Task_802E130(void);
-void sub_802E290(void);
+void Task_802E290(void);
+void sub_802E3DC(void);
 void Task_802E500(void);
 void sub_802E868(void);
 void TaskDestructor_EggPress(struct Task *t);
@@ -457,7 +458,7 @@ void Task_802E130(void)
         boss->s.prevVariant = 0xFF;
         UpdateSpriteAnimation(s);
         UpdateSpriteAnimation(s2);
-        gCurTask->main = sub_802E290;
+        gCurTask->main = Task_802E290;
         m4aSongNumStart(0x91U);
     }
 
@@ -472,6 +473,55 @@ void Task_802E130(void)
         sub_802EF24_inline();
         sub_802D908();
         sub_802D870();
+    }
+}
+
+void Task_802E290(void)
+{
+    s16 temp_r5;
+    s16 temp_r7;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 temp_r2;
+    s32 temp_r4_2;
+    s32 temp_r6;
+    u16 temp_r3;
+    u16 temp_r4;
+    CamCoord worldX, worldY;
+
+    EggPress *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk94);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk98);
+
+    sub_802D748(worldX, worldY);
+    if (boss->unkAE > 7) {
+        sub_802E868();
+        return;
+    }
+
+    sub_802EF60_inline(worldX, worldY);
+    sub_802EF24_inline();
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    sub_802D908();
+    sub_802D870();
+
+    if (s->frameFlags & 0x4000) {
+        s32 val;
+        s8 index;
+        s->variant = 0;
+        s->prevVariant = -1;
+#ifndef NON_MATCHING
+        boss->unkAC = 30;
+#endif
+        val = 300;
+        boss->unkAC = (val / gUnknown_084ACDAC[boss->unkAE]);
+        gCurTask->main = &sub_802E3DC;
     }
 }
 
