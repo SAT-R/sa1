@@ -134,7 +134,7 @@ $(MID_SUBDIR)/song041.s: %.s: %.mid
 $(MID_SUBDIR)/song042.s: %.s: %.mid
 	$(MID2AGB) $< $@ -C $(MIDI_COMMENTS) -E -R$(STD_REVERB) -G0  -V115
     
-$(MID_SUBDIR)/se_sp_stage_trick.s: %.s: %.mid
+$(MID_SUBDIR)/mus_sp_stage_trick.s: %.s: %.mid
 	$(MID2AGB) $< $@ -C $(MIDI_COMMENTS) -E -R$(STD_REVERB) -G0  -V115
     
 $(MID_SUBDIR)/song044.s: %.s: %.mid
