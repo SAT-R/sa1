@@ -556,6 +556,7 @@ sub_8030CA4: @ 0x08030CA4
 	bl UpdateSpriteAnimation
 	mov r0, r8
 	bl UpdateSpriteAnimation
+@ inline sub_8031D0C
 	mov r1, sl
 	ldr r0, [r1]
 	ldrh r0, [r0, #6]
@@ -878,6 +879,7 @@ _08030FAC:
 	bl UpdateSpriteAnimation
 	mov r0, sl
 	bl UpdateSpriteAnimation
+@ inline sub_8031D0C
 	ldr r0, _0803102C @ =gCurTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
@@ -1693,6 +1695,7 @@ _08031636:
 	asrs r0, r4, #0x10
 	subs r0, r0, r1
 	strh r0, [r7, #0x18]
+@ inline sub_8031D0C
 	ldr r0, _080316A8 @ =gCurTask
 	ldr r0, [r0]
 	ldrh r0, [r0, #6]
@@ -1999,6 +2002,7 @@ _080318CE:
 	asrs r0, r0, #0x10
 	subs r0, r0, r1
 	strh r0, [r7, #0x18]
+@ inline sub_8031D0C
 	ldr r3, _08031988 @ =gCurTask
 	ldr r0, [r3]
 	ldrh r0, [r0, #6]
@@ -2468,6 +2472,7 @@ sub_8031CB4: @ 0x08031CB4
 	pop {r0}
 	bx r0
 
+@ inline same as sub_802EF24 in Boss 2 and sub_8030814 in Boss 3
 	thumb_func_start sub_8031CD0
 sub_8031CD0: @ 0x08031CD0
 	ldr r0, _08031D00 @ =gCurTask
@@ -2537,7 +2542,7 @@ _08031D48: .4byte gCurTask
 _08031D4C: .4byte 0x0300000C
 _08031D50: .4byte gUnknown_084ACED8
 
-    @ inline?
+@ inline - same as sub_802EF60 in Boss 2 and sub_8030870 in Boss 3
 	thumb_func_start sub_8031D54
 sub_8031D54: @ 0x08031D54
 	push {r4, lr}

@@ -2981,6 +2981,7 @@ _08030808: .4byte 0x0300003C
 _0803080C: .4byte 0xFFFFBFFF
 _08030810: .4byte 0x0300005D
 
+@ inline same as sub_802EF24 in Boss 2
 	thumb_func_start sub_8030814
 sub_8030814: @ 0x08030814
 	ldr r0, _08030844 @ =gCurTask
@@ -3031,7 +3032,7 @@ sub_8030850: @ 0x08030850
 _08030868: .4byte gCurTask
 _0803086C: .4byte 0x0300000C
 
-@ inline?
+@ inline - same as sub_802EF60 in Boss 2
 	thumb_func_start sub_8030870
 sub_8030870: @ 0x08030870
 	push {r4, lr}
