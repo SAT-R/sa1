@@ -34549,6 +34549,8 @@ _08069C88: .4byte gUiGraphics + 0x14
 _08069C8C: .4byte gSelectedCharacter
 _08069C90: .4byte 0x06011200
 
+@ Input:
+@ R0; TimeRecord record
 	thumb_func_start sub_8069C94
 sub_8069C94: @ 0x08069C94
 	push {r4, r5, r6, r7, lr}
@@ -35120,45 +35122,3 @@ sub_806A124: @ 0x0806A124
 	bx r0
 	.align 2, 0
 _0806A14C: .4byte 0x030000C8
-
-	thumb_func_start sub_806A150
-sub_806A150: @ 0x0806A150
-	push {lr}
-	sub sp, #0x30
-	add r1, sp, #0x2c
-	movs r2, #0
-	movs r0, #0x80
-	strb r0, [r1]
-	mov r0, sp
-	adds r0, #0x2b
-	strb r2, [r0]
-	ldr r0, _0806A198 @ =gUnknown_086CE4F4
-	str r0, [sp, #0x14]
-	movs r1, #0xa0
-	lsls r1, r1, #3
-	str r1, [sp, #0x18]
-	ldr r0, _0806A19C @ =gUnknown_086CE7F4
-	str r0, [sp, #0x10]
-	str r1, [sp, #0x1c]
-	ldr r0, _0806A1A0 @ =gUnknown_086CE2F4
-	str r0, [sp, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #2
-	str r0, [sp, #0x24]
-	add r0, sp, #0x28
-	strb r2, [r0]
-	adds r0, #1
-	strb r2, [r0]
-	mov r1, sp
-	adds r1, #0x2a
-	movs r0, #0x15
-	strb r0, [r1]
-	mov r0, sp
-	bl sub_80528AC
-	add sp, #0x30
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0806A198: .4byte gUnknown_086CE4F4
-_0806A19C: .4byte gUnknown_086CE7F4
-_0806A1A0: .4byte gUnknown_086CE2F4

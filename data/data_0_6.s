@@ -224,7 +224,10 @@ gUnknown_0868B6B8:
 
     .global gUnknown_0868B6C4
 gUnknown_0868B6C4:
-    .incbin "baserom.gba", 0x0068B6C4, 0x10
+    mPtr ApplyGameStageSettings
+    mPtr sub_806A66C
+    mPtr sub_806A680
+    mPtr sub_806A68C
 
 @ Edit Language Screen - Data Start
     .global gUnknown_0868B6D4

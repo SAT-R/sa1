@@ -129,14 +129,14 @@ void Task_PanelGate_Vertical2(void)
                 u32 res = Coll_Player_Entity_Intersection(s, worldX - 6, worldY, &PLAYER(i));
                 if (res) {
                     if (PLAYER(i).qSpeedAirX > Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        Coll_Player_Gate(s, worldX, worldY, &PLAYER(i), 0);
                     }
                 }
             } else {
                 u32 res = Coll_Player_Entity_Intersection(s, worldX + 6, worldY, &PLAYER(i));
                 if (res) {
                     if (PLAYER(i).qSpeedAirX < Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        Coll_Player_Gate(s, worldX, worldY, &PLAYER(i), 0);
                     }
                 }
             }
@@ -301,11 +301,11 @@ bool32 sub_8081C04(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY)
 
                         result = TRUE;
                     } else {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        Coll_Player_Gate(s, worldX, worldY, &PLAYER(i), 0);
                     }
                 } else {
                     if (PLAYER(i).qSpeedAirX < Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        Coll_Player_Gate(s, worldX, worldY, &PLAYER(i), 0);
                         PLAYER(i).qSpeedGround = 0;
                         PLAYER(i).qSpeedAirX = 0;
                     }
@@ -325,11 +325,11 @@ bool32 sub_8081C04(PanelGate *gate, Sprite *s, s32 worldX, s32 worldY)
 
                         result = TRUE;
                     } else {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        Coll_Player_Gate(s, worldX, worldY, &PLAYER(i), 0);
                     }
                 } else {
                     if (PLAYER(i).qSpeedAirX < Q(0)) {
-                        sub_800AFDC(s, worldX, worldY, &PLAYER(i), 0);
+                        Coll_Player_Gate(s, worldX, worldY, &PLAYER(i), 0);
                         PLAYER(i).qSpeedGround = 0;
                         PLAYER(i).qSpeedAirX = 0;
                     }

@@ -139,7 +139,7 @@ void Task_SecurityGate2(void)
         Player *p = &PLAYER(i);
 
         if (IS_ALIVE(p)) {
-            sub_800AFDC(s, worldX, worldY + gate->unk3C, p, 0);
+            Coll_Player_Gate(s, worldX, worldY + gate->unk3C, p, 0);
         }
     } while (++i < gNumSingleplayerCharacters);
 

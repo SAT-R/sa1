@@ -844,7 +844,7 @@ void SA2_LABEL(sub_8021BE0)(Player *p)
 
         if (p->moveState & MOVESTATE_4) {
             p->moveState &= ~MOVESTATE_4;
-            SA2_LABEL(sub_8023B5C)(p, 14);
+            Player_HandleSpriteYOffsetChange(p, 14);
         }
         PLAYERFN_SET_SHIFT_OFFSETS(p, 6, 14);
     }
@@ -2797,16 +2797,16 @@ NONMATCH("asm/non_matching/game/stage/Player__Player_8043EC0.inc", void SA2_LABE
     if ((p->moveState & (MOVESTATE_80000000 | MOVESTATE_DEAD)) != MOVESTATE_DEAD) {
         // _08043F9C + 0xC
         s32 qNoclipWorldX, qNoclipWorldY;
-        bool32 r1;
+        bool32 outOfBounds;
 
         if (!(p->moveState & MOVESTATE_80000000)) {
             if (!(gStageFlags & STAGE_FLAG__GRAVITY_INVERTED)) {
-                r1 = (p->qWorldY < Q(gCamera.maxY) - 1) ? FALSE : TRUE;
+                outOfBounds = (p->qWorldY < Q(gCamera.maxY) - 1) ? FALSE : TRUE;
             } else {
-                r1 = (p->qWorldY > Q(gCamera.minY)) ? TRUE : FALSE;
+                outOfBounds = (p->qWorldY > Q(gCamera.minY)) ? FALSE : TRUE;
             }
 
-            if (r1) {
+            if (outOfBounds) {
                 // _08044004
                 s32 qSpeedY;
                 p->moveState |= MOVESTATE_DEAD;
@@ -3408,7 +3408,7 @@ void sub_80449D8(Player *p)
 
 void SA2_LABEL(sub_8023878)(Player *p)
 {
-#if (GAME == GAME_SA1) && !defined(BUG_FIX)
+#if (GAME == GAME_SA1)
 #define WATER_ACTIVE_CHECK 1
 #else
 #define WATER_ACTIVE_CHECK gWater.isActive == TRUE
@@ -3737,7 +3737,7 @@ void Player_8044F7C(Player *p)
     SA2_LABEL(sub_8023128)(p);
 }
 
-void SA2_LABEL(sub_8023B5C)(Player *p, s32 spriteOffsetY)
+void Player_HandleSpriteYOffsetChange(Player *p, s32 spriteOffsetY)
 {
     u8 rot;
     if (p->spriteOffsetY == spriteOffsetY) {

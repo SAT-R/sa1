@@ -4,8 +4,8 @@
 
     .space 0x100
 
-    .global gUnknown_087BF8CC
-gUnknown_087BF8CC:
+    .global gDemoRecordings
+gDemoRecordings:
     mPtr demo1
     mPtr demo2
     mPtr demo3

@@ -8,10 +8,15 @@
 
 // TODO: This should be the type of Collision::metatiles, if that matches anywhere...
 typedef struct {
+#ifdef M2C
+    // M2C: Empty structs are not supported.
+    u16 tile;
+#else
     u16 index : 10;
     u16 xFlip : 1;
     u16 yFlip : 1;
     u16 pal : 4;
+#endif
 } Tile;
 
 typedef struct {

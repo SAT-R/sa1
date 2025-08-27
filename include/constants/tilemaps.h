@@ -25,8 +25,8 @@
 #define TM_SPECIAL_STAGE_BG_FRAME_15          70
 #define TM_ICE_PARADISE_SNOW                  71
 #define TM_EGG_ROCKET_CLOUDS                  72
-#define TM_TILEMAP_73                         73
-#define TM_SA1_TITLE_LOGO                     74
+#define TM_SA1_TITLE_LOGO_JP                  73
+#define TM_SA1_TITLE_LOGO_EN                  74
 #define TM_SA1_TITLE_BG                       75
 #define TM_MP_CHOOSE_PAK_TYPE_JP              76
 #define TM_MP_CHOOSE_PAK_TYPE_EN              77

@@ -79,8 +79,8 @@ _080952AC:
 	mov r0, sb
 	adds r1, r6, #0
 	adds r2, r4, #0
-	bl sub_800A768
-	str r0, [sp, #0xc]  @ sp0C = sub_800A768()
+	bl Coll_AmyHammer_Spring
+	str r0, [sp, #0xc]  @ sp0C = Coll_AmyHammer_Spring()
 	cmp r0, #0
 	bne _080952BE
 	b _08095456_continue
@@ -282,7 +282,7 @@ _08095416:
 	ldr r0, _08095480 @ =gPartner
 _0809542E:
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	ldr r1, _0809547C @ =gPlayer
 	cmp r5, #0
 	beq _0809543C

@@ -2,6 +2,7 @@
 #include "rect.h"
 #include "sprite.h"
 #include "lib/m4a/m4a.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/sa1_sa2_shared/dust_cloud.h"
@@ -19,11 +20,12 @@
 #include "game/stage/trapped_animals.h"
 
 #include "constants/animations.h"
+#include "constants/char_states.h"
 #include "constants/player_transitions.h"
 #include "constants/songs.h"
 #include "constants/zones.h"
 
-bool32 sub_800C714(Player *p);
+bool32 Coll_DamageSuperSonic(Player *p);
 
 #if 0 // MATCH
 // (Link included because of register-match)
@@ -580,9 +582,15 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800D0A0.inc",
     return 0;
 }
 END_NONMATCH
+#endif // MATCH
 
-// TODO: Maybe wrap sub_800DD54 and sub_800DE44 in a macro(?)
-u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer)
+// (99.96%) https://decomp.me/scratch/BOoFv
+#if (GAME == GAME_SA1)
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sa2__sub_800DA4C.inc",
+         u32 SA2_LABEL(sub_800DA4C)(Sprite *opponent, s16 qOppX, s16 qOppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer))
+#else
+u32 SA2_LABEL(sub_800DA4C)(Sprite *opponent, s16 qOppX, s16 qOppY, UNUSED s32 param3, UNUSED s32 param4, u8 layer)
+#endif
 {
     MultiplayerPlayer *mpp;
     Sprite *mpPlayerSprite;
@@ -594,9 +602,11 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
         return COLL_NONE;
     }
 
+#if (GAME == GAME_SA2)
     if (p->moveState & MOVESTATE_GOAL_REACHED) {
         return COLL_NONE;
     }
+#endif
 
     mpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
     mpPlayerSprite = &mpp->s;
@@ -606,24 +616,24 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
     }
     // _0800DABC
 
-    if ((p->speedAirX == 0 && p->speedAirY == 0) && HITBOX_IS_ACTIVE(opponent->hitboxes[1])) {
-        if (HB_COLLISION(oppX, oppY, opponent->hitboxes[1], mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0])) {
+    if ((p->qSpeedAirX == 0 && p->qSpeedAirY == 0) && HITBOX_IS_ACTIVE(opponent->hitboxes[1])) {
+        if (HB_COLLISION(qOppX, qOppY, opponent->hitboxes[1].b, mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0].b)) {
             // _0800DB68
             result |= COLL_FLAG_2;
         }
     }
     // _0800DB70
     if (HITBOX_IS_ACTIVE(mpPlayerSprite->hitboxes[1]) && HITBOX_IS_ACTIVE(opponent->hitboxes[0])
-        && HB_COLLISION(oppX, oppY, opponent->hitboxes[0], mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[1])) {
+        && HB_COLLISION(qOppX, qOppY, opponent->hitboxes[0].b, mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[1].b)) {
         // _0800DC34
-        if (mpp->pos.x > oppX) {
+        if (mpp->pos.x > qOppX) {
             result |= COLL_FLAG_40000;
         } else {
             result |= COLL_FLAG_20000;
         }
         // _0800DC66
 
-        if (mpp->pos.y > oppY) {
+        if (mpp->pos.y > qOppY) {
             result |= COLL_FLAG_10000;
         } else {
             result |= COLL_FLAG_100000;
@@ -631,79 +641,667 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
 
         result |= COLL_FLAG_1;
     } else if (HITBOX_IS_ACTIVE(mpPlayerSprite->hitboxes[0]) && HITBOX_IS_ACTIVE(opponent->hitboxes[1])
-               && HB_COLLISION(oppX, oppY, opponent->hitboxes[1], mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0])) {
+               && HB_COLLISION(qOppX, qOppY, opponent->hitboxes[1].b, mpp->pos.x, mpp->pos.y, mpPlayerSprite->hitboxes[0].b)) {
         result |= COLL_FLAG_2;
     }
 
     return result;
 }
+END_NONMATCH
 
-bool32 sub_800DD54(Player *p)
+u32 CheckRectCollision_SpritePlayer(Sprite *s, CamCoord sx, CamCoord sy, Player *p, struct Rect8 *rectPlayer)
 {
-    if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
+    u32 result = 0;
+
+    if (!HITBOX_IS_ACTIVE(s->hitboxes[0]) || !IS_ALIVE(p)) {
+        return result;
+    }
+
+    if (RECT_COLLISION(sx, sy, &s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), rectPlayer)) {
+        result |= COLL_FLAG_80000;
+    }
+
+    return result;
+}
+
+u32 Coll_AmyHammer_Spring(Sprite *s, s16 worldX, s16 worldY, Player *p)
+{
+    bool32 isColliding = FALSE;
+
+    if (p->character == CHARACTER_AMY) {
+        if ((p->charState == CHARSTATE_87) || (p->charState == CHARSTATE_88) || (p->charState == CHARSTATE_89)
+            || (p->charState == CHARSTATE_90)) {
+            if (p->spriteInfoBody->s.hitboxes[1].index != HITBOX_STATE_INACTIVE) {
+                if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)) {
+                    isColliding = TRUE;
+                }
+            }
+        }
+    }
+
+    return isColliding;
+}
+
+// (99.68%) https://decomp.me/scratch/jajQw
+// TODO: Does this actually return a moveState?
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__Coll_Player_Spring_Sideways.inc",
+         u32 Coll_Player_Spring_Sideways(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p))
+{
+    s8 rectDataPlayerA[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), (p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
+    s8 rectDataPlayerB[4] = { -(p->spriteOffsetX + 0), (0 - p->spriteOffsetY), (p->spriteOffsetX + 0), (p->spriteOffsetY + 0) };
+    Rect8 *rectPlayerB = (Rect8 *)&rectDataPlayerB[0];
+
+    u32 moveState = 0;
+    bool32 stoodOnCurrent = 0;
+
+    if (s->hitboxes[0].index == -1) {
+        return moveState;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return moveState;
+    }
+
+    moveState = p->moveState & MOVESTATE_IN_AIR;
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        moveState |= MOVESTATE_IN_AIR;
+        stoodOnCurrent = 1;
+    }
+
+    if (moveState & MOVESTATE_IN_AIR) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rectPlayerB))) {
+            if (sub_800C934(s, worldX, worldY, (Rect8 *)&rectDataPlayerB, stoodOnCurrent, p, &moveState)) {
+                return moveState;
+            }
+        } else if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectDataPlayerA))) {
+            if (I(p->qWorldX) <= worldX) {
+                if (p->qSpeedAirX >= 0) {
+                    p->qSpeedAirX = 0;
+                    p->qWorldX = Q((worldX + s->hitboxes[0].b.left) - rectDataPlayerA[2]);
+                    moveState |= MOVESTATE_20000;
+                }
+            } else if (p->qSpeedAirX <= 0) {
+                p->qSpeedAirX = 0;
+                p->qWorldX = Q(((worldX + s->hitboxes[0].b.right) - rectDataPlayerA[0]) + 1);
+                moveState |= MOVESTATE_40000;
+            }
+        }
+    }
+
+    if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectDataPlayerA))) {
+        if (I(p->qWorldX) <= worldX) {
+            if (p->qSpeedAirX >= 0) {
+                moveState |= MOVESTATE_20000;
+
+                if (p->qSpeedAirX > 0) {
+                    moveState |= MOVESTATE_20;
+                    moveState &= ~MOVESTATE_FACING_LEFT;
+                    p->qWorldX = Q((worldX + s->hitboxes[0].b.left) - rectDataPlayerA[2]);
+                }
+            }
+        } else {
+            if (p->qSpeedAirX <= 0) {
+                moveState |= MOVESTATE_40000;
+
+                if (p->qSpeedAirX < 0) {
+                    moveState |= MOVESTATE_20;
+                    moveState |= MOVESTATE_FACING_LEFT;
+                    p->qWorldX = Q(((worldX + s->hitboxes[0].b.right) - rectDataPlayerA[0]) + 1);
+                }
+            }
+        }
+    }
+
+    return moveState;
+}
+END_NONMATCH
+
+// (99.92%) https://decomp.me/scratch/GFpFd
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__Coll_Player_Itembox.inc",
+         u32 Coll_Player_Itembox(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p))
+{
+    s8 rectDataPlayerA[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), (p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
+    s8 rectDataPlayerB[4] = { -(p->spriteOffsetX + 0), (0 - p->spriteOffsetY), (p->spriteOffsetX + 0), (p->spriteOffsetY + 0) };
+    Rect8 *rectPlayerB = (Rect8 *)&rectDataPlayerB[0];
+
+    u32 result;
+    s32 middleX;
+    s32 middleY;
+
+    result = 0;
+    if (s->hitboxes[0].index == -1) {
+        return result;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return result;
+    }
+
+    if (p->spriteInfoBody->s.hitboxes[1].index != -1) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)) {
+            result |= 0x20;
+            if (p->moveState & MOVESTATE_IN_AIR) {
+                if (p->qSpeedAirY > 0) {
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                }
+            }
+        }
+    }
+
+    if (p->moveState & MOVESTATE_IN_AIR) {
+        middleX = worldX + ((s->hitboxes[0].b.left + s->hitboxes[0].b.right) >> 1);
+        middleY = worldY + ((s->hitboxes[0].b.top + s->hitboxes[0].b.bottom) >> 1);
+
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*rectPlayerB))) {
+            if ((!GRAVITY_IS_INVERTED && (I(p->qWorldY) <= middleY)) || (GRAVITY_IS_INVERTED && (I(p->qWorldY) >= middleY))) {
+                if ((p->character == 1) && (p->SA2_LABEL(unk61) != 0)) {
+                    sub_80096B0(s, worldX, worldY, p);
+                    return 0;
+                } else if (p->qSpeedAirY >= 0) {
+                    result |= 8;
+
+                    if (p->qSpeedAirY > 0) {
+                        p->qSpeedAirY = -p->qSpeedAirY;
+                    }
+                }
+            } else if (p->qSpeedAirY < 0) {
+                p->qSpeedAirY = 0;
+
+                if (!GRAVITY_IS_INVERTED) {
+                    p->qWorldY = p->qWorldY + (Q((worldY + s->hitboxes[0].b.bottom) - rectDataPlayerB[1]) - (0xFFFFFF00 & p->qWorldY));
+                } else {
+                    p->qWorldY = p->qWorldY - (Q((worldY + s->hitboxes[0].b.bottom) - rectDataPlayerB[1]) - (0xFFFFFF00 & p->qWorldY));
+                }
+
+                result |= 0x10000;
+            }
+        } else if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectDataPlayerA[0]))) {
+            if (I(p->qWorldX) <= middleX) {
+                if (p->qSpeedAirX > 0) {
+                    p->qSpeedAirX = 0;
+                    p->qWorldX = Q(worldX + s->hitboxes[0].b.left - rectDataPlayerA[2]);
+                }
+            } else {
+                if (p->qSpeedAirX < 0) {
+                    p->qSpeedAirX = 0;
+                    p->qWorldX = Q((worldX + s->hitboxes[0].b.right - rectDataPlayerA[0]) + 1);
+                }
+            }
+        }
+    }
+
+    return result;
+}
+END_NONMATCH
+
+// Used by Security Gate and Breakable Wall.
+u32 Coll_Player_Gate(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p, u32 arg4)
+{
+    u32 result = 0;
+    s8 rectPlayer[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), (p->spriteOffsetX + 5), (p->spriteOffsetY - 1) };
+
+    if (s->hitboxes[0].index == -1) {
+        return result;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return result;
+    }
+
+    if (arg4 != 0) {
+        if (p->spriteInfoBody->s.hitboxes[1].index != -1) {
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), p->spriteInfoBody->s.hitboxes[1].b)
+                || HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), (*(Rect8 *)&rectPlayer[0]))) {
+
+                result |= 8;
+                if ((p->moveState & MOVESTATE_IN_AIR) && (p->qSpeedAirY > 0)) {
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                }
+
+                return result;
+            }
+        }
+    }
+
+    sub_800CBBC(s, worldX, worldY, (Rect8 *)&rectPlayer, 0, p, &result);
+    return result;
+}
+
+u32 Coll_Player_SkatingStone(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
+{
+    s32 moveState;
+    s32 var_sb;
+
+    s8 rectPlayer[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
+
+    u32 result;
+
+    result = 0;
+    var_sb = 0;
+
+    if ((s->hitboxes[0].index == -1) || (((0x80 & p->moveState) != 0))) {
+        return 0U;
+    }
+
+    moveState = p->moveState & MOVESTATE_IN_AIR;
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+        p->moveState = p->moveState & ~MOVESTATE_STOOD_ON_OBJ;
+        moveState |= MOVESTATE_IN_AIR;
+        var_sb = 1;
+    }
+
+    if (((moveState == 0) || !sub_800C934(s, worldX, worldY, (Rect8 *)rectPlayer, var_sb, p, &result))
+        && !sub_800C934(s, worldX, worldY, (Rect8 *)rectPlayer, var_sb, p, &result)) {
+        if (var_sb) {
+            if (!(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
+                p->moveState = (p->moveState & ~MOVESTATE_20) | MOVESTATE_IN_AIR;
+            }
+        }
+    }
+
+    return result;
+}
+
+// sa2__sub_800C060
+// 'Coll_Player_PlatformCrumbling' name from SA2, called by many Entities in SA1!
+// (86.62%) https://decomp.me/scratch/icjnK
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sa2__800C060.inc",
+         u32 Coll_Player_PlatformCrumbling(Sprite *s, CamCoord sx, CamCoord sy, Player *p))
+{
+    s8 rectPlayer[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
+
+    u32 result = COLL_NONE;
+    bool32 ip = FALSE;
+
+    if (!HITBOX_IS_ACTIVE(s->hitboxes[0]) || !IS_ALIVE(p)) {
+        return result;
+    }
+
+    if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s)) {
+        p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+        ip = TRUE;
+    }
+
+    if (RECT_COLLISION_2(sx, sy, &s->hitboxes[0].b, p->qWorldX, p->qWorldY, (struct Rect8 *)rectPlayer) && (p->qSpeedAirY >= 0)) {
+
+#ifndef NON_MATCHING
+        register s32 y asm("r1");
+#else
+        s32 y;
+#endif
+
+        rectPlayer[1] = -p->spriteOffsetY;
+        rectPlayer[3] = +p->spriteOffsetY;
+        p->moveState |= MOVESTATE_STOOD_ON_OBJ;
+        result |= COLL_FLAG_8;
+
+#if (GAME == GAME_SA1)
+        if (((p->character != CHARACTER_KNUCKLES) || (p->SA2_LABEL(unk61) != 1 && p->SA2_LABEL(unk61) != 3))
+            && ((p->character != CHARACTER_AMY) || !(p->moveState & MOVESTATE_4000000) || (p->SA2_LABEL(unk62) == 0))) {
+            p->moveState &= ~MOVESTATE_IN_AIR;
+        }
+
+        if (!ip) {
+            if ((p->character != CHARACTER_KNUCKLES) || ((p->SA2_LABEL(unk61) != 1) && (p->SA2_LABEL(unk61) != 3))) {
+                SA2_LABEL(sub_8021BE0)(p);
+                p->qSpeedGround = p->qSpeedAirX;
+            }
+            p->rotation = 0;
+        }
+#endif
+
+#if (GAME == GAME_SA2)
+        if (!ip) {
+            p->rotation = 0;
+        }
+#endif
+
+        p->stoodObj = s;
+        p->qSpeedAirY = 0;
+
+        if (!GRAVITY_IS_INVERTED) {
+            y = s->hitboxes[0].b.top;
+            y += sy;
+            y -= rectPlayer[3];
+        } else {
+            y = s->hitboxes[0].b.bottom;
+            y += sy;
+            y += rectPlayer[3];
+        }
+        y = Q(y);
+#ifdef NON_MATCHING
+        asm("" : "=r"(p->qWorldY) : "r"(~0xFF), "r"(p->qWorldY), "r"(y));
+#else
+        p->qWorldY = Q_24_8_FRAC(p->qWorldY) + (y);
+#endif
+    } else if (ip && !(p->moveState & MOVESTATE_STOOD_ON_OBJ)) {
+        p->moveState &= ~MOVESTATE_20;
+        p->moveState |= MOVESTATE_IN_AIR;
+    }
+
+    return result;
+}
+END_NONMATCH
+
+// TODO: Simplify and merge SA1 and SA2 versions!
+#if (GAME == GAME_SA1)
+bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord sx, CamCoord sy)
+#else
+bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord sx, CamCoord sy, u8 hbIndex)
+#endif
+{
+#if (GAME == GAME_SA1)
+    Player *player;
+    Sprite *sprPlayer;
+
+    bool32 dead;
+    u32 movestate;
+    EnemyBase *eb;
+    s32 i;
+    const int hbIndex = 0;
+#elif (GAME == GAME_SA2)
+    Player *player = &gPlayer;
+    Sprite *sprPlayer = &player->spriteInfoBody->s;
+
+    bool32 dead;
+    u32 movestate;
+    EnemyBase *eb;
+
+    if (!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex])) {
         return FALSE;
     }
 
-    p->timerInvulnerability = PLAYER_INVULNERABLE_DURATION;
-
-    if (p->moveState & MOVESTATE_FACING_LEFT) {
-        p->speedAirX = +Q(1.5);
-    } else {
-        p->speedAirX = -Q(1.5);
-    }
-
-    p->speedAirY = -Q(3.0);
-
-    if (p->moveState & MOVESTATE_IN_WATER) {
-        HALVE(p->speedAirY);
-        HALVE(p->speedAirX);
-    }
-
-    p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-    p->moveState &= ~MOVESTATE_20;
-    p->moveState &= ~MOVESTATE_4;
-    p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-    p->moveState |= MOVESTATE_IN_AIR;
-    p->moveState &= ~MOVESTATE_SPINDASH;
-    p->moveState &= ~MOVESTATE_100;
-
-    p->charState = SA2_CHAR_ANIM_20;
-    PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
-
-    p->unk61 = 0;
-    p->unk62 = 0;
-
-    p->transition = 9;
-
-    if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        RoomEvent *unk;
-#ifndef NON_MATCHING
-        register u32 rings asm("r4") = gRingCount;
-#else
-        u32 rings = gRingCount;
+    eb = TASK_DATA(gCurTask);
+    dead = player->moveState & MOVESTATE_DEAD;
+    movestate = player->moveState;
 #endif
 
-        if (rings > 10) {
-            rings = 10;
-        }
-
-        InitScatteringRings(I(p->qWorldX), I(p->qWorldY), rings);
-        gRingCount -= rings;
-
-        unk = CreateRoomEvent();
-        unk->unk0 = 4;
-        unk->unk1 = rings;
+#if (GAME == GAME_SA1)
+    i = 0;
+    if (!HITBOX_IS_ACTIVE(s->hitboxes[hbIndex])) {
+        return FALSE;
     }
 
-    m4aSongNumStart(SE_LIFE_LOST);
+    i = 0;
+    eb = TASK_DATA(gCurTask);
+    do {
+        player = &PLAYER(i);
+        sprPlayer = &player->spriteInfoBody->s;
+#endif
 
-    return TRUE;
+        if (!(player->moveState & MOVESTATE_DEAD)) {
+            if (IS_MULTI_PLAYER && ((s8)eb->base.me->x == MAP_ENTITY_STATE_MINUS_THREE)) {
+                CreateDustCloud(sx, sy);
+                CreateTrappedAnimal(sx, sy);
+                return TRUE;
+            }
+
+#if (GAME == GAME_SA2)
+            if (!(player->moveState & MOVESTATE_IN_SCRIPTED))
+#endif
+            {
+                if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[1])) {
+                    if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex].b, I(player->qWorldX), I(player->qWorldY), sprPlayer->hitboxes[1].b)) {
+                        if (IS_MULTI_PLAYER) {
+                            RoomEvent_EnemyDestroy *roomEvent = CreateRoomEvent();
+                            roomEvent->type = ROOMEVENT_TYPE_ENEMY_DESTROYED;
+                            roomEvent->x = eb->base.regionX;
+                            roomEvent->y = eb->base.regionY;
+                            roomEvent->id = eb->base.id;
+                        }
+
+#if (GAME == GAME_SA1)
+                        if (player->qSpeedAirY > 0) {
+                            player->qSpeedAirY = -player->qSpeedAirY;
+                        }
+#else
+                    Coll_Player_Enemy_AdjustSpeed(player);
+#endif
+
+                        CreateDustCloud(sx, sy);
+                        CreateTrappedAnimal(sx, sy);
+                        CreateEnemyDefeatScoreAndManageLives(sx, sy);
+
+                        return TRUE;
+                    }
+                }
+
+                if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[0])
+                    && (HB_COLLISION(sx, sy, s->hitboxes[hbIndex].b, I(player->qWorldX), I(player->qWorldY), sprPlayer->hitboxes[0].b))) {
+#if (GAME == GAME_SA1)
+                    if (player->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY) {
+                        if (IS_MULTI_PLAYER) {
+                            RoomEvent_EnemyDestroy *roomEvent = CreateRoomEvent();
+                            roomEvent->type = ROOMEVENT_TYPE_ENEMY_DESTROYED;
+                            roomEvent->x = eb->base.regionX;
+                            roomEvent->y = eb->base.regionY;
+                            roomEvent->id = eb->base.id;
+                        }
+
+                        CreateDustCloud(sx, sy);
+                        CreateTrappedAnimal(sx, sy);
+                        CreateEnemyDefeatScoreAndManageLives(sx, sy);
+
+                        return TRUE;
+                    } else {
+                        Coll_DamagePlayer(player);
+                    }
+#elif (GAME == GAME_SA2)
+                if (!(player->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
+                    Coll_DamagePlayer(player);
+                } else {
+                    if (IS_MULTI_PLAYER) {
+                        RoomEvent_EnemyDestroy *roomEvent = CreateRoomEvent();
+                        roomEvent->type = ROOMEVENT_TYPE_ENEMY_DESTROYED;
+                        roomEvent->x = eb->base.regionX;
+                        roomEvent->y = eb->base.regionY;
+                        roomEvent->id = eb->base.id;
+                    }
+
+                    CreateDustCloud(sx, sy);
+                    CreateTrappedAnimal(sx, sy);
+                    CreateEnemyDefeatScoreAndManageLives(sx, sy);
+
+                    return TRUE;
+                }
+#endif
+                }
+            }
+
+#if (GAME == GAME_SA2)
+            if (gCheese != NULL) {
+                Cheese *cheese = gCheese;
+                if (cheese->s.hitboxes[1].index != -1
+                    && ((HB_COLLISION(sx, sy, s->hitboxes[hbIndex], I(cheese->posX), I(cheese->posY), cheese->s.hitboxes[1])))) {
+                    if (IS_MULTI_PLAYER) {
+                        RoomEvent_EnemyDestroy *roomEvent = CreateRoomEvent();
+                        roomEvent->type = ROOMEVENT_TYPE_ENEMY_DESTROYED;
+                        roomEvent->x = eb->base.regionX;
+                        roomEvent->y = eb->base.regionY;
+                        roomEvent->id = eb->base.id;
+                    }
+
+                    CreateDustCloud(sx, sy);
+                    CreateTrappedAnimal(sx, sy);
+                    CreateEnemyDefeatScoreAndManageLives(sx, sy);
+
+                    return TRUE;
+                }
+            }
+#endif
+        }
+#if (GAME == GAME_SA1)
+    } while (++i < gNumSingleplayerCharacters);
+#endif
+    return FALSE;
 }
 
-#endif // MATCH
+// TODO: Simplify and merge SA1 and SA2 versions!
+bool32 Coll_Player_Projectile(Sprite *s, CamCoord sx, CamCoord sy)
+{
+    Player *p;
+    Sprite *sprPlayer;
+    bool32 result = FALSE;
+    s32 i;
+    const s32 hbIndex = 0;
+
+#if (GAME == GAME_SA1)
+    if (HITBOX_IS_ACTIVE(s->hitboxes[hbIndex]))
+#elif (GAME == GAME_SA2)
+    if (!(gPlayer.moveState & MOVESTATE_IN_SCRIPTED))
+#endif
+    {
+        i = 0;
+        do {
+            p = &PLAYER(i);
+            {
+                sprPlayer = &p->spriteInfoBody->s;
+
+                if (!IS_ALIVE(p) || !HITBOX_IS_ACTIVE(sprPlayer->hitboxes[hbIndex])) {
+                    continue;
+                }
+
+                if ((HB_COLLISION(sx, sy, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b))) {
+                    Coll_DamagePlayer(p);
+                    result = TRUE;
+                }
+            }
+        } while (++i < gNumSingleplayerCharacters);
+    }
+
+    return result;
+}
+
+// Based on SA2's:
+// u32 Coll_Player_Enemy(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
+EHit Coll_Player_Boss(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
+{
+    PlayerSpriteInfo *psi = p->spriteInfoBody;
+    Sprite *sprPlayer = &psi->s;
+#if (GAME == GAME_SA1)
+    const int hbIndex = 0;
+#endif
+
+    if (HITBOX_IS_ACTIVE(s->hitboxes[0])) {
+        if (IS_ALIVE(p)) {
+            if (HITBOX_IS_ACTIVE(sprPlayer->hitboxes[1])
+                && HB_COLLISION(sx, sy, s->hitboxes[hbIndex].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[1].b)) {
+                if (p->character != CHARACTER_AMY) {
+                    p->qSpeedAirX = -p->qSpeedAirX;
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                } else {
+                    p->qSpeedAirX >>= 1;
+                    p->qSpeedAirY = -p->qSpeedAirY;
+                }
+
+                return HIT_ENEMY;
+            }
+
+            if ((HITBOX_IS_ACTIVE(sprPlayer->hitboxes[0]))) {
+                if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+                    Coll_DamagePlayer(p);
+                    return HIT_PLAYER;
+                }
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+// Exclusively used by Boss 1
+EHit Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
+{
+    Sprite *sprPlayer;
+
+    sprPlayer = &p->spriteInfoBody->s;
+
+    if (s->hitboxes[0].index == -1) {
+        return HIT_NONE;
+    }
+
+    if (s->hitboxes[1].index == -1) {
+        return HIT_NONE;
+    }
+
+    if (!IS_ALIVE(p)) {
+        return HIT_NONE;
+    }
+
+    if (sprPlayer->hitboxes[1].index != -1) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+            Coll_DamagePlayer(p);
+            return 2;
+        }
+
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[1].b)) {
+            if (p->character != CHARACTER_AMY) {
+                p->qSpeedAirX = -p->qSpeedAirX;
+                p->qSpeedAirY = -p->qSpeedAirY;
+            } else {
+                p->qSpeedAirX = p->qSpeedAirX >> 1;
+                p->qSpeedAirY = -p->qSpeedAirY;
+            }
+
+            return HIT_ENEMY;
+        }
+    }
+
+    if (sprPlayer->hitboxes[0].index != -1) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+            Coll_DamagePlayer(p);
+            return HIT_PLAYER;
+        }
+    }
+
+    return HIT_NONE;
+}
+
+// Exclusively used by Bosses 2 and 6
+EHit Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p)
+{
+    Sprite *sprPlayer = &p->spriteInfoBody->s;
+
+    if (!IS_ALIVE(p)) {
+        return HIT_NONE;
+    }
+
+    if ((sprPlayer->hitboxes[1].index != -1) && (s->hitboxes[0].index != -1) && (p->moveState & MOVESTATE_IN_AIR)) {
+        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[1].b)) {
+            if (p->character != CHARACTER_AMY) {
+                p->qSpeedAirX = -p->qSpeedAirX;
+                p->qSpeedAirY = -p->qSpeedAirY;
+            } else {
+                p->qSpeedAirX = p->qSpeedAirX >> 1;
+                p->qSpeedAirY = -p->qSpeedAirY;
+            }
+
+            return HIT_ENEMY;
+        }
+    }
+
+    if (sprPlayer->hitboxes[0].index != -1) {
+        if (s->hitboxes[0].index != -1) {
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+                Coll_DamagePlayer(p);
+                return HIT_PLAYER;
+            }
+        }
+
+        if (s->hitboxes[1].index != -1) {
+            if (HB_COLLISION(worldX, worldY, s->hitboxes[1].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
+                Coll_DamagePlayer(p);
+                return HIT_PLAYER;
+            }
+        }
+    }
+
+    return HIT_NONE;
+}
 
 // Exclusively used by SA1 Bosses 3, 5, Egg X and throwback bosses
-u32 sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+EHit sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;
     Sprite *sprBody = &psiBody->s;
@@ -712,15 +1310,15 @@ u32 sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
         if (HB_COLLISION(screenX, screenY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
             Coll_DamagePlayer(p);
 
-            return 2;
+            return HIT_PLAYER;
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // Exclusively used by SA1 Bosses 4, 5, Egg Drillster, Extra Boss and called in player.c
-u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+EHit sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;
     Sprite *sprBody = &psiBody->s;
@@ -730,17 +1328,17 @@ u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
             if (!IS_EXTRA_STAGE(gCurrentLevel)) {
                 Coll_DamagePlayer(p);
             } else {
-                sub_800C714(p);
+                Coll_DamageSuperSonic(p);
             }
-            return 2;
+            return HIT_PLAYER;
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // Exclusively used by SA1 Boss 5, Extra Boss and called in player.c
-u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+EHit sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;
     Sprite *sprBody = &psiBody->s;
@@ -756,11 +1354,12 @@ u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
                     p->qSpeedAirY = -p->qSpeedAirY;
                 }
             }
-            return 1;
+
+            return HIT_ENEMY;
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // (97.67%) https://decomp.me/scratch/e4jLp
@@ -778,17 +1377,17 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc",
     if (IS_ALIVE(p) && (HITBOX_IS_ACTIVE(sprBody->hitboxes[0]))) {
         if (HB_COLLISION(sx, sy, rectB, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
             Coll_DamagePlayer(p);
-            return 2;
+            return HIT_PLAYER;
         }
     }
 
     asm("" ::"r"(s));
 
-    return 0;
+    return HIT_NONE;
 }
 END_NONMATCH
 
-u32 sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
+EHit sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
 {
     PlayerSpriteInfo *psi = p->spriteInfoBody;
     Sprite *sprBody = &psi->s;
@@ -800,7 +1399,7 @@ u32 sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 #if (GAME == GAME_SA1)
@@ -942,10 +1541,12 @@ bool32 Coll_DamagePlayer(Player *p)
 }
 
 #if (GAME == GAME_SA1)
-bool32 sub_800C714(Player *p)
+// Equivalent to Coll_DamagePlayer.
+// Super Sonic isn't "damaged" per se, just thrown back a bit.
+bool32 Coll_DamageSuperSonic(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
-        return FALSE;
+        return HIT_NONE;
     }
 
     p->timerInvulnerability = 30;
@@ -1038,6 +1639,7 @@ bool32 sub_800C760(Player *p)
     return TRUE;
 }
 
+// TODO: This is close to SA2_LABEL(sub_800DD54).
 bool32 SA2_LABEL(sub_800DE44)(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {

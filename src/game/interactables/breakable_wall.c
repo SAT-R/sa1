@@ -108,7 +108,7 @@ void Task_BreakableWall(void)
             gCurTask->main = Task_BreakableWall2;
 
             m4aSongNumStart(SE_173);
-        } else if (sub_800AFDC(s, worldX, worldY, &PLAYER(i), 1) & COLL_FLAG_8) {
+        } else if (Coll_Player_Gate(s, worldX, worldY, &PLAYER(i), 1) & COLL_FLAG_8) {
             m4aSongNumStart(SE_173);
             gCurTask->main = Task_BreakableWall2;
 

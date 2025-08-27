@@ -9,11 +9,15 @@
 #define HAS_RUN_ON_WATER TRUE
 #endif
 
+#ifdef M2C
+// M2C: Empty structs are not supported.
+#else
 typedef struct {
 #if (GAME == GAME_SA2)
     u16 pal[32][16];
 #endif
 } WaterData;
+#endif
 
 typedef struct {
 #if (GAME == GAME_SA1)

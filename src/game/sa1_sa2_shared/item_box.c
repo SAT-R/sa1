@@ -205,7 +205,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/item_box__Task_ItemBoxMain.inc", 
                 res = sub_80096B0(s, worldX, worldY + itembox->iconOffset, &gPlayer);
             } else {
                 // _0801E9FC
-                res = sub_800ABEC(s, worldX, worldY + itembox->iconOffset, &gPlayer);
+                res = Coll_Player_Itembox(s, worldX, worldY + itembox->iconOffset, &gPlayer);
             }
 
             // _0801EA20

@@ -26,6 +26,7 @@
 #include "../../../include/constants/interactables.h"
 #include "../../../include/constants/zones.h"
 
+static void DrawEntInteractableSA1(AppState *state, int x, int y, int kind, char data[4]);
 static void DrawEntInteractableSA2(AppState *state, int x, int y, int kind, char data[4]);
 static inline bool DrawOnOffButton(UiContext *ui, UiIdent *id, Rectangle rec, char *text, bool cond);
 static inline void DrawMetatile(Texture2D txAtlas, int x, int y, int metatileIndex, Color tint);
@@ -79,11 +80,11 @@ void DrawEntInteractable(AppState *state, int x, int y, int kind, char data[5])
     switch(state->game) {
     case SA1: {
         // TODO
-        //DrawEntInteractableSA1(state, x, y, kind, data);
+        DrawEntInteractableSA1(state, x, y, kind, data);
     } break;
 
     case SA2: {
-        DrawEntInteractableSA2(state, x, y, kind, data);
+        //DrawEntInteractableSA2(state, x, y, kind, data);
     } break;
 
     case SA3: {
@@ -93,6 +94,55 @@ void DrawEntInteractable(AppState *state, int x, int y, int kind, char data[5])
     }
 }
 
+static void
+DrawEntInteractableSA1(AppState *state, int x, int y, int kind, char data[4])
+{
+    InteractableMeta *ia = &state->paths.interactables.elements[kind];
+    
+    unsigned int flags = 0;
+    Color boundingTint;
+    
+    int offsetX = -(ia->texture.width / 2);
+    int offsetY = -ia->texture.height;
+    int boundingWidth = TILE_DIM;
+    
+    switch(kind) {
+    case IA__TOGGLE_PLAYER_LAYER__FRONT: {
+        boundingTint = RED;
+        flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+    } break;
+
+    case IA__TOGGLE_PLAYER_LAYER__BACK: {
+        boundingTint = GREEN;
+        flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+    } break;
+    
+    case IA__GRIND_RAIL__START:
+    case IA__GRIND_RAIL__END: {
+        boundingTint = DARKBLUE;
+        flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+        flags |= DRAWIA_FLAG_DRAW_MIDDLE_CIRCLE;
+    } break;
+
+    } //
+
+
+    if(flags & DRAWIA_FLAG_DRAW_TEXTURE) {
+        DrawTexture(ia->texture, x + offsetX, y + offsetY, WHITE);
+    }
+    
+    if(flags & DRAWIA_FLAG_DRAW_BOUNDING_BOX) {
+        DRAW_ENTITY_RECT(x, y, data, boundingWidth, boundingTint);
+    }
+
+    if(flags & DRAWIA_FLAG_DRAW_MIDDLE_CIRCLE) {
+        DrawCircle(x, y, 5, PINK);
+        DrawCircleLines(x, y, 5.5, boundingTint);
+    }
+
+}
+
+#if 0
 static void
 DrawEntInteractableSA2(AppState *state, int x, int y, int kind, char data[4])
 {
@@ -203,6 +253,7 @@ DrawEntInteractableSA2(AppState *state, int x, int y, int kind, char data[4])
         DrawCircleLines(x, y, 5.5, boundingTint);
     }
 }
+#endif
 
 void
 DrawEntItem(AppState *state, int x, int y, int index)
@@ -259,79 +310,84 @@ GetEntityOffsetRect(AppState *state, EntityType etype, int x, int y, int kind, c
 
     switch(etype) {
     case ET_INTERACTABLE: {
-        InteractableMeta *ia = &state->paths.interactables.elements[kind];
+        if(state->game == GAME_SA2)
+        {
+#if 0
+            InteractableMeta *ia = &state->paths.interactables.elements[kind];
 
-        unsigned int flags = 0;
+            unsigned int flags = 0;
 
-        int offsetX = -(ia->texture.width / 2);
-        int offsetY = -ia->texture.height;
-        int boundingWidth = TILE_DIM;
+            int offsetX = -(ia->texture.width / 2);
+            int offsetY = -ia->texture.height;
+            int boundingWidth = TILE_DIM;
 
-        switch(kind) {
-        case IA__TOGGLE_PLAYER_LAYER__FOREGROUND: {
-            flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
-        } break;
+            switch(kind) {
+            case IA__TOGGLE_PLAYER_LAYER__FOREGROUND: {
+                flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+            } break;
 
-        case IA__TOGGLE_PLAYER_LAYER__BACKGROUND: {
-            flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
-        } break;
+            case IA__TOGGLE_PLAYER_LAYER__BACKGROUND: {
+                flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+            } break;
 
-        case IA__GRIND_RAIL__START_GROUND:
-        case IA__GRIND_RAIL__START_AIR:
-        case IA__GRIND_RAIL__END_GROUND:
-        case IA__GRIND_RAIL__END_FORCED_JUMP:
-        case IA__GRIND_RAIL__END_ALTERNATE:
-        case IA__GRIND_RAIL__END_AIR:
-        case IA__GRIND_RAIL__END_GROUND_LEFT:
-        case IA__GRIND_RAIL__END_AIR_LEFT: {
-            flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
-        } break;
+            case IA__GRIND_RAIL__START_GROUND:
+            case IA__GRIND_RAIL__START_AIR:
+            case IA__GRIND_RAIL__END_GROUND:
+            case IA__GRIND_RAIL__END_FORCED_JUMP:
+            case IA__GRIND_RAIL__END_ALTERNATE:
+            case IA__GRIND_RAIL__END_AIR:
+            case IA__GRIND_RAIL__END_GROUND_LEFT:
+            case IA__GRIND_RAIL__END_AIR_LEFT: {
+                flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+            } break;
         
-        case IA__HOOK_RAIL__UNUSED:
-        case IA__HOOK_RAIL__START:
-        case IA__HOOK_RAIL__END: {
-            flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
-        }
-        case IA__BOUNCY_BAR: {
-            offsetX = -ia->texture.width;
-            offsetY = -(ia->texture.height / 2);
-        } break;
+            case IA__HOOK_RAIL__UNUSED:
+            case IA__HOOK_RAIL__START:
+            case IA__HOOK_RAIL__END: {
+                flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+            }
+            case IA__BOUNCY_BAR: {
+                offsetX = -ia->texture.width;
+                offsetY = -(ia->texture.height / 2);
+            } break;
 
-        case IA__CHECKPOINT: {
-            offsetX = -(ia->texture.width / 4);
-            offsetY = -(ia->texture.height / 4);
-        } break;
+            case IA__CHECKPOINT: {
+                offsetX = -(ia->texture.width / 4);
+                offsetY = -(ia->texture.height / 4);
+            } break;
         
-        case IA__CEILING_SLOPE__A: {
-            flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
-        } break;
+            case IA__CEILING_SLOPE__A: {
+                flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+            } break;
         
-        case IA__WINDUP_STICK: {
-            flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
-        } break;
+            case IA__WINDUP_STICK: {
+                flags |= DRAWIA_FLAG_DRAW_BOUNDING_BOX;
+            } break;
 
-        case IA__LIGHT_BRIDGE: {
-            if(data[0] == BRIDGE_TYPE_STRAIGHT) {
-                offsetX = -(BRIDGE_WIDTH / 2);
-                offsetY = -8;
-                boundingWidth = BRIDGE_WIDTH;
+            case IA__LIGHT_BRIDGE: {
+                if(data[0] == BRIDGE_TYPE_STRAIGHT) {
+                    offsetX = -(BRIDGE_WIDTH / 2);
+                    offsetY = -8;
+                    boundingWidth = BRIDGE_WIDTH;
+                }
+
+            } break;
+
             }
 
-        } break;
-
-        }
-
     
-        if(flags & DRAWIA_FLAG_DRAW_BOUNDING_BOX) {
-            rec.width  = data[2] * boundingWidth;
-            rec.height = data[3] * TILE_DIM;
-            rec.x = x +  (data[0] * TILE_DIM);
-            rec.y = y +  (data[1] * TILE_DIM);
-        } else {
-            rec.width  = ia->texture.width;
-            rec.height = ia->texture.height;
-            rec.x = x + offsetX;
-            rec.y = y + offsetY;
+            if(flags & DRAWIA_FLAG_DRAW_BOUNDING_BOX) {
+                rec.width  = data[2] * boundingWidth;
+                rec.height = data[3] * TILE_DIM;
+                rec.x = x +  (data[0] * TILE_DIM);
+                rec.y = y +  (data[1] * TILE_DIM);
+            } else {
+                rec.width  = ia->texture.width;
+                rec.height = ia->texture.height;
+                rec.x = x + offsetX;
+                rec.y = y + offsetY;
+            }
+#endif
         }
     } break;
 
@@ -1019,8 +1075,8 @@ DrawMap(AppState *state, Rectangle recMap, Texture2D txMtAtlas, Texture2D txMap)
                         );
                     }
                     
-                    int mtIndexBack  = GetMetatileIndex(&state->map, &state->paths.map, LAYER_BACK,  mtX, mtY);
-                    int mtIndexFront = GetMetatileIndex(&state->map, &state->paths.map, LAYER_FRONT, mtX, mtY);
+                    int mtIndexBack  = GetMetatileIndex(state->game, &state->map, &state->paths.map, LAYER_BACK,  mtX, mtY);
+                    int mtIndexFront = GetMetatileIndex(state->game, &state->map, &state->paths.map, LAYER_FRONT, mtX, mtY);
 
                     bool iterateAgain = false;
                     do {

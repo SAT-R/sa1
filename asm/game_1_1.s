@@ -2564,7 +2564,7 @@ _0803BCE0:
 	ldr r1, _0803BDD0 @ =0xFFFF7FFF
 	ands r0, r1
 	str r0, [r2]
-	bl sub_806AFA4
+	bl CreateMultiplayerContinueScreen
 	b _0803BDE8
 	.align 2, 0
 _0803BDB0: .4byte gFlags

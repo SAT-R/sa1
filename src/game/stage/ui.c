@@ -184,7 +184,7 @@ void sub_80538BC(void)
     sp00.palette = gfx->palette;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_D;
     sp00.tilesSize = 22 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 13;
     sp00.unk0.unk4 = gfx->unk8;
@@ -200,7 +200,7 @@ void sub_80538BC(void)
     sp00.palette = gfx->palette;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_C;
     sp00.tilesSize = 22 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 9;
     sp00.unk0.unk4 = gfx->unk8;
@@ -215,7 +215,7 @@ void sub_80538BC(void)
     sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
     sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
     sp00.tilesSize = (2 * 2) * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = gSelectedCharacter;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_A;
     sp00.unk2A = 9;
@@ -231,7 +231,7 @@ void sub_80538BC(void)
     sp00.tiles = gUiGraphics[UIGFX_UI_ICON_RING].tiles;
     sp00.palette = gUiGraphics[UIGFX_UI_ICON_RING].palette;
     sp00.tilesSize = (4 * 4) * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_B;
     sp00.unk2A = 9;
@@ -572,7 +572,7 @@ void sub_8054068(void)
     sp00.palette = gfx->palette;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_F;
     sp00.tilesSize = 6 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 9;
     sp00.unk0.unk4 = gfx->unk8;
@@ -588,7 +588,7 @@ void sub_8054068(void)
     sp00.palette = gfx->palette;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_E;
     sp00.tilesSize = 22 * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 6;
     sp00.unk2A = 13;
     sp00.unk0.unk4 = gfx->unk8;
@@ -603,7 +603,7 @@ void sub_8054068(void)
     sp00.tiles = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].tiles;
     sp00.palette = gUiGraphics[UIGFX_CHAR_SP_STAGE_RINGS_BG].palette;
     sp00.tilesSize = (8 * 4) * TILE_SIZE_4BPP;
-    sp00.unk24 = 32;
+    sp00.paletteSize = 32;
     sp00.unk28 = 10;
     sp00.vramC = VRAM_RESERVED_UI_DIGITS_G;
     sp00.unk2A = 13;

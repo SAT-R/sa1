@@ -21,6 +21,13 @@
 #define COLL_FLAG_80000  0x00080000
 #define COLL_FLAG_100000 0x00100000
 
+// TODO: Ensure these are correct!
+typedef enum EHit {
+    HIT_NONE = 0,
+    HIT_ENEMY = 1,
+    HIT_PLAYER = 2,
+} EHit;
+
 #if (GAME == GAME_SA1)
 u32 CheckRectCollision_SpritePlayer(Sprite *s, s16 sx, s16 sy, Player *p, struct Rect8 *rectPlayer);
 #elif (GAME == GAME_SA2)
@@ -28,11 +35,10 @@ u32 CheckRectCollision_SpritePlayer(Sprite *s, s32 sx, s32 sy, Player *p, struct
 #endif
 
 // param4 might be hitbox index?
-u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4);
+u32 Coll_Player_Gate(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p, u32 param4);
 
 u32 Coll_Player_PlatformCrumbling(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 bool32 Coll_Player_Projectile(Sprite *s, CamCoord screenX, CamCoord screenY); // might be in SA2?
-u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 u32 sub_800C394(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 
@@ -48,18 +54,22 @@ u32 sub_800DA4C(Sprite *opponent, s16 oppX, s16 oppY, UNUSED s32 param3, UNUSED 
 bool32 Coll_DamagePlayer(Player *);
 void Collision_AdjustPlayerSpeed(Player *);
 
-u32 sub_80096B0(Sprite *, CamCoord x, CamCoord y, Player *);
-bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
-u32 sub_800A850(Sprite *, CamCoord x, CamCoord y, Player *);
-u32 sub_800ABEC(Sprite *, s32 x, s32 y, Player *);
-u32 sub_800B1D4(Sprite *, s32 x, s32 y, Player *);
-bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);
+u32 sub_80096B0(Sprite *s, CamCoord x, CamCoord y, Player *p);
+bool32 Coll_AmyHammer_Spring(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+u32 Coll_Player_Spring_Sideways(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+u32 Coll_Player_Itembox(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+u32 Coll_Player_SkatingStone(Sprite *, CamCoord x, CamCoord y, Player *);
+bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *moveState);
 bool32 sub_800CBBC(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);
 u32 sub_800CCB8(Sprite *, s32 x, s32 y, Player *);
-
+EHit Coll_Player_Boss(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit Coll_Player_Bosses_2_6(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit sub_800BF10(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit sub_800BFEC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);
 bool32 sub_800DD54(Player *p);
-bool32 sub_800DE44(Player *p);
+// bool32 sub_800DE44(Player *p);
 u32 sub_800D0A0(Sprite *, s16, s16, s16, s16, u8, u32);
 
 // HandlePlayerDestroy?

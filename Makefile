@@ -86,16 +86,13 @@ FORMAT    := clang-format-13
 
 ### TOOLS ###
 GFX 	  := tools/gbagfx/gbagfx$(EXE)
-EPOS 	  := tools/entity_positions/epos$(EXE)
-AIF		  := tools/aif2pcm/aif2pcm$(EXE)
+ENT_POS   := tools/entity_positions/entity_positions$(EXE)
+AIF	      := tools/aif2pcm/aif2pcm$(EXE)
 MID2AGB   := tools/mid2agb/mid2agb$(EXE)
 SCANINC   := tools/scaninc/scaninc$(EXE)
 PREPROC	  := tools/preproc/preproc$(EXE)
 RAMSCRGEN := tools/ramscrgen/ramscrgen$(EXE)
 FIX 	  := tools/gbafix/gbafix$(EXE)
-ifeq ($(CREATE_PDB),1)
-CV2PDB    := ./cv2pdb.exe
-endif
 
 TOOLDIRS := $(filter-out tools/agbcc/ tools/BriBaSA_ex/, $(dir $(wildcard tools/*/Makefile)))
 TOOLBASE = $(TOOLDIRS:tools/%=%)
@@ -432,16 +429,16 @@ data/mb_chao_garden_japan.gba.lz: data/mb_chao_garden_japan.gba
 	$(GFX) $< $@ -search 1
 
 %interactables.bin: %interactables.csv
-	$(EPOS) $< $@ -entities INTERACTABLES -header "./include/constants/interactables.h"
+	$(ENT_POS) $< $@ -entities INTERACTABLES -header "./include/constants/interactables.h"
 
 %itemboxes.bin: %itemboxes.csv
-	$(EPOS) $< $@ -entities ITEMS -header "./include/constants/items.h"
+	$(ENT_POS) $< $@ -entities ITEMS -header "./include/constants/items.h"
 
 %enemies.bin: %enemies.csv
-	$(EPOS) $< $@ -entities ENEMIES -header "./include/constants/enemies.h"
+	$(ENT_POS) $< $@ -entities ENEMIES -header "./include/constants/enemies.h"
 
 %rings.bin: %rings.csv
-	$(EPOS) $< $@ -entities RINGS
+	$(ENT_POS) $< $@ -entities RINGS
 
 %.gba.lz: %.gba 
 	$(GFX) $< $@
@@ -472,9 +469,6 @@ else ifeq ($(PLATFORM),sdl)
 	cp $< $@
 else
 	$(OBJCOPY) -O pei-x86-64 $< $@
-ifeq ($(CREATE_PDB),1)
-	$(CV2PDB) $@
-endif
 endif
 
 # Build c sources, and ensure alignment
@@ -598,8 +592,8 @@ check_format:
 
 ### DECOMP TOOLS ###
 
-CONTEXT_FLAGS := -DPLATFORM_GBA=1 -DGEN_CTX=1 -Dsize_t=int -D "offsetof(TYPE, MEMBER)"="((size_t)&((TYPE *)0)->MEMBER)"
+CONTEXT_FLAGS := -DM2C -DPLATFORM_GBA=1 -DGEN_CTX=1 -Dsize_t=int -D "offsetof(TYPE, MEMBER)"="((size_t)&((TYPE *)0)->MEMBER)"
 
 ctx.c: $(C_HEADERS)
 	@for header in $(C_HEADERS); do echo "#include \"$$header\""; done > ctx.h
-	gcc -P -E -dD -undef -nostdinc -I include $(CONTEXT_FLAGS) ctx.h | sed '/^#define __STDC/d' | sed '1s|^|#include <stdint.h>\n|' > ctx.c
+	gcc -P -E -dD -undef -I ./tools/agbcc/include -I include $(CONTEXT_FLAGS) ctx.h | sed '/^\/\/ TODO: Remove M2C occurences EVERYWHERE once ctx is not needed anymore!/d' | sed '/#undef/d' | sed '/typedef unsigned long int int;/d' | sed 's/__attribute__((.*))//' | sed '/^#define __STDC/d' > ctx.c

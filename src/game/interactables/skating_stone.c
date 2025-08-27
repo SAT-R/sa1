@@ -116,17 +116,17 @@ void Task_SkatingStoneInit(void)
             if (sub_80549FC()) {
                 if (PLAYER(i).qWorldY > Q(worldY)) {
                     if (PLAYER(i).charState != CHARSTATE_73) {
-                        if (sub_800B1D4(s, worldX, worldY, &PLAYER(i)) & COLL_FLAG_10000) {
+                        if (Coll_Player_SkatingStone(s, worldX, worldY, &PLAYER(i)) & COLL_FLAG_10000) {
                             PLAYER(i).qWorldY = Q(worldY + 6);
                         }
                     }
                 } else {
                     if (PLAYER(i).charState != CHARSTATE_72) {
-                        sub_800B1D4(s, worldX, worldY, &PLAYER(i));
+                        Coll_Player_SkatingStone(s, worldX, worldY, &PLAYER(i));
                     }
                 }
             } else {
-                if (sub_800B1D4(s, worldX, worldY, &PLAYER(i)) & COLL_FLAG_8) {
+                if (Coll_Player_SkatingStone(s, worldX, worldY, &PLAYER(i)) & COLL_FLAG_8) {
                     PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
                     PLAYER(i).moveState |= MOVESTATE_IN_AIR;
                     PLAYER(i).moveState &= ~MOVESTATE_100;
@@ -580,7 +580,7 @@ void CreateSkatingStoneDebris(CamCoord worldX, CamCoord worldY)
 
     tf->y = worldY - 16;
 
-    m4aSongNumStart(SE_143);
+    m4aSongNumStart(SE_BOSS_HIT);
 }
 
 void Task_SkatingStoneDebris(void)

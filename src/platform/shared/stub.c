@@ -17,15 +17,29 @@ int gMaxLines = 0;
 #include "game/enemies/boss_super_egg_robo.h"
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
-u32 sub_800A850(Sprite *s, CamCoord x, CamCoord y, Player *p) { return 0; }
-u32 sub_800ABEC(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
-u32 sub_800B1D4(Sprite *s, s32 x, s32 y, Player *p) { return 0; }
+typedef struct {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x48 */ s16 unk40;
+    /* 0x48 */ s16 unk42;
+    /* 0x44 */ s16 qUnk44;
+    /* 0x46 */ s16 qUnk46;
+    /* 0x48 */ s16 unk48;
+} Strc_sub_80168F0; /* 0x4C */
+void dummy() { }
+void sub_8015C5C(CamCoord worldX, CamCoord worldY) { }
+struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4)
+{
+    return TaskCreate(dummy, sizeof(Strc_sub_80168F0), 0, 0, 0);
+}
+
+void CreateBossCapsule(s16 x, s16 y) { }
+
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
-
-bool32 sub_800A768(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p) { return FALSE; }
-u32 sub_800AFDC(Sprite *s, s16 worldX, s16 worldY, Player *p, u32 param4) { }
 
 void sub_805B9E8() { }
 
@@ -95,9 +109,6 @@ void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 i
 
 // Bosses
 extern void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
-void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
-void CreateEntity_EggPress(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_MechaKnuckles(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
@@ -107,17 +118,22 @@ void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
 void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 
-void LoadTinyChaoGarden() { }
-void CreateSegaLogo() { }
-void CreateTitleScreen() { }
+struct Task *sub_80174DC(s16 yMin, s16 yMax) { return NULL; }
+struct Task *sub_8017540(s32 param0, s32 param1) { return NULL; }
+struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX) { return NULL; }
+
+void sub_802E290(void) { }
+
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
 void CreateTimeAttackMenu() { }
-void CreateTimeAttackLobbyScreen() { }
 void CreateOptionsMenu() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
-void CreateStageResults() { }
+
+#include "game/save.h" // TimeRecord
+void sub_8069C94(TimeRecord record) { }
+
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }
 void CreateMultiplayerPlayer() { }
@@ -183,6 +199,10 @@ void sub_804FC78() { }
 void sub_804FCA4() { }
 void sub_804FCEC() { }
 void sub_804FD54() { }
+
+void sub_8061948(u8 param0) { }
+void sub_8063918(void) { }
+
 void OptionsSelectPlayerData() { }
 void OptionsSelectDifficulty() { }
 void OptionsSelectTimeUp() { }

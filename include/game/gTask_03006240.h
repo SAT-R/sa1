@@ -16,7 +16,7 @@ typedef struct Strc0 {
     /* 0x00B */ u8 unkB;
 } Strc0;
 
-typedef struct {
+typedef struct Strc_80528AC {
     /* 0x00 */ struct Strc0 unk0;
     /* 0x0C */ u8 *vramC;
     /* 0x10 */ const u8 *layout;
@@ -24,7 +24,7 @@ typedef struct {
     /* 0x18 */ s32 tilesSize; // in bytes
     /* 0x1C */ s32 layoutSize;
     /* 0x20 */ const u16 *palette;
-    /* 0x24 */ u32 unk24;
+    /* 0x24 */ u32 paletteSize;
     /* 0x28 */ u8 unk28; // destination palID ?
     /* 0x29 */ u8 unk29; // backgroundID?
     /* 0x2A */ u8 unk2A; // flags - 0x1: freed?, 0x4: copy palette, 0x8: active?
@@ -32,13 +32,13 @@ typedef struct {
     /* 0x2C */ u8 uiGfxID;
 } Strc_80528AC; /* size: 0x30 */
 
-typedef struct {
+typedef struct Strc_8055C50 {
     /* 0x00 */ void *vram0;
     /* 0x04 */ void *vram4;
     /* 0x08 */ void *vram8;
 } Strc_8055C50;
 
-typedef struct {
+typedef struct Strc_8052C84 {
     /* 0x00 */ u16 unk0; // TODO: qX?
     /* 0x02 */ s16 unk2; // TODO: qY?
     /* 0x04 */ s16 unk4; // TODO: angle
@@ -51,7 +51,7 @@ typedef struct {
     /* 0x12 */ u16 unk12;
     /* 0x14 */ u8 filler14[2];
     /* 0x16 */ u8 unk16;
-} Strc_8052C84; /* size: 0x18 */
+} Strc_8052C84; /* size: 0x18 */ // <- GameOverB struct?
 
 extern struct Task *gTask_03006240;
 

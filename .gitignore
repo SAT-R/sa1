@@ -63,6 +63,8 @@ Temporary Items
 
 *.hex
 *.o
+*.obj
+*.rdi 
 *.dump
 build
 tools/agbcc
@@ -82,7 +84,11 @@ libagbsyscall/*.s
 !data/maps/*/*/tilemaps/*/*.bin
 *.exe
 *.dll
+*.lib
 *.sdl
 
-# third party deps
+# Third Party deps
 /ext
+
+# Generated nob files
+/nob*

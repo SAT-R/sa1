@@ -85,6 +85,10 @@ struct PlttData
 //       That's what this variation of 'OamData' is for,
 //       as well using this to determine the size for some DMAs to gOamBuffer.
 PACKED(OamDataShort, {
+#ifdef M2C
+    // M2C: Empty structs are not supported.
+    u16 raw[3];
+#else
     /*0x00*/
     u32 y : 8;
 
@@ -104,6 +108,7 @@ PACKED(OamDataShort, {
     u16 tileNum : 10; // 0x3FF
     u16 priority : 2; // 0x400, 0x800 -> 0xC00
     u16 paletteNum : 4;
+#endif
 }); /* size: 0x6 (important to not be 0x8, see comment above struct!) */
 
 typedef union {

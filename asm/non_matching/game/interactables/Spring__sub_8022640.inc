@@ -115,7 +115,7 @@ _080226F2:
 	adds r1, r6, #0
 	adds r2, r5, #0
 	adds r3, r4, #0
-	bl sub_800A768
+	bl Coll_AmyHammer_Spring
 	mov sb, r0
 	cmp r0, #0
 	beq _080227F2
@@ -212,7 +212,7 @@ _080227C0:
 	strb r0, [r1]
 	adds r0, r4, #0
 	movs r1, #0xe
-	bl sa2__sub_8023B5C
+	bl Player_HandleSpriteYOffsetChange
 	movs r0, #6
 	strb r0, [r4, #0xe]
 	movs r0, #0xe

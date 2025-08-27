@@ -87,7 +87,7 @@ mAlignWord
 mAlignWord
 	song C_DECL(song042), 0, 0
 mAlignWord
-	song C_DECL(se_sp_stage_trick), 0, 0
+	song C_DECL(mus_sp_stage_trick), 0, 0
 mAlignWord
 	song C_DECL(song044), 0, 0
 mAlignWord
