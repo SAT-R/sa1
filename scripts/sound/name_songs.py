@@ -35,7 +35,8 @@ with open("include/constants/songs.h") as songs_header:
         if old_midi_name in os.listdir('sound/songs/midi/'):
             matched = True
             os.rename(f"sound/songs/midi/{old_midi_name}", f"sound/songs/midi/{new_midi_name}")
-        elif old_midi_name.replace('.mid', ".s") in os.listdir('sound/songs/'):
+        
+        if old_midi_name.replace('.mid', ".s") in os.listdir('sound/songs/'):
             matched = True
             os.rename(f"sound/songs/{old_midi_name.replace('.mid', '.s')}", f"sound/songs/{new_midi_name.replace('.mid', '.s')}")
         
