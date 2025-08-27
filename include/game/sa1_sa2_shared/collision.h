@@ -39,7 +39,6 @@ u32 Coll_Player_Gate(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p, u32
 
 u32 Coll_Player_PlatformCrumbling(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 bool32 Coll_Player_Projectile(Sprite *s, CamCoord screenX, CamCoord screenY); // might be in SA2?
-u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 u32 sub_800C394(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p);
 
@@ -63,8 +62,11 @@ u32 Coll_Player_SkatingStone(Sprite *, CamCoord x, CamCoord y, Player *);
 bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *moveState);
 bool32 sub_800CBBC(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 UNUSED param4, Player *p, u32 *param6);
 u32 sub_800CCB8(Sprite *, s32 x, s32 y, Player *);
-EHit Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p);
-
+EHit Coll_Player_Boss(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit Coll_Player_Bosses_2_6(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit sub_800BF10(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
+EHit sub_800BFEC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);
 bool32 sub_800DD54(Player *p);
 // bool32 sub_800DE44(Player *p);

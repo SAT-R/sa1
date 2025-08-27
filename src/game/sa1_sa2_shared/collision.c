@@ -25,7 +25,7 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
-bool32 sub_800C714(Player *p);
+bool32 Coll_DamageSuperSonic(Player *p);
 
 #if 0 // MATCH
 // (Link included because of register-match)
@@ -1175,7 +1175,7 @@ bool32 Coll_Player_Projectile(Sprite *s, CamCoord sx, CamCoord sy)
 
 // Based on SA2's:
 // u32 Coll_Player_Enemy(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
-u32 Coll_Player_Boss(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
+EHit Coll_Player_Boss(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
 {
     PlayerSpriteInfo *psi = p->spriteInfoBody;
     Sprite *sprPlayer = &psi->s;
@@ -1195,13 +1195,13 @@ u32 Coll_Player_Boss(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
                     p->qSpeedAirY = -p->qSpeedAirY;
                 }
 
-                return 1;
+                return HIT_ENEMY;
             }
 
             if ((HITBOX_IS_ACTIVE(sprPlayer->hitboxes[0]))) {
                 if (HB_COLLISION(sx, sy, s->hitboxes[hbIndex].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
                     Coll_DamagePlayer(p);
-                    return 2;
+                    return HIT_PLAYER;
                 }
             }
         }
@@ -1211,22 +1211,22 @@ u32 Coll_Player_Boss(Sprite *s, CamCoord sx, CamCoord sy, Player *p)
 }
 
 // Exclusively used by Boss 1
-s32 Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
+EHit Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
 {
     Sprite *sprPlayer;
 
     sprPlayer = &p->spriteInfoBody->s;
 
     if (s->hitboxes[0].index == -1) {
-        return 0;
+        return HIT_NONE;
     }
 
     if (s->hitboxes[1].index == -1) {
-        return 0;
+        return HIT_NONE;
     }
 
     if (!IS_ALIVE(p)) {
-        return 0;
+        return HIT_NONE;
     }
 
     if (sprPlayer->hitboxes[1].index != -1) {
@@ -1244,18 +1244,18 @@ s32 Coll_Player_Boss_1(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p)
                 p->qSpeedAirY = -p->qSpeedAirY;
             }
 
-            return 1;
+            return HIT_ENEMY;
         }
     }
 
     if (sprPlayer->hitboxes[0].index != -1) {
         if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprPlayer->hitboxes[0].b)) {
             Coll_DamagePlayer(p);
-            return 2;
+            return HIT_PLAYER;
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // Exclusively used by Bosses 2 and 6
@@ -1301,7 +1301,7 @@ EHit Coll_Player_Bosses_2_6(Sprite *s, s16 worldX, s16 worldY, Player *p)
 }
 
 // Exclusively used by SA1 Bosses 3, 5, Egg X and throwback bosses
-u32 sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+EHit sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;
     Sprite *sprBody = &psiBody->s;
@@ -1310,15 +1310,15 @@ u32 sub_800BF10(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
         if (HB_COLLISION(screenX, screenY, s->hitboxes[0].b, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
             Coll_DamagePlayer(p);
 
-            return 2;
+            return HIT_PLAYER;
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // Exclusively used by SA1 Bosses 4, 5, Egg Drillster, Extra Boss and called in player.c
-u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+EHit sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;
     Sprite *sprBody = &psiBody->s;
@@ -1328,17 +1328,17 @@ u32 sub_800BFEC(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
             if (!IS_EXTRA_STAGE(gCurrentLevel)) {
                 Coll_DamagePlayer(p);
             } else {
-                sub_800C714(p);
+                Coll_DamageSuperSonic(p);
             }
-            return 2;
+            return HIT_PLAYER;
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // Exclusively used by SA1 Boss 5, Extra Boss and called in player.c
-u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
+EHit sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
 {
     PlayerSpriteInfo *psiBody = p->spriteInfoBody;
     Sprite *sprBody = &psiBody->s;
@@ -1354,11 +1354,12 @@ u32 sub_800C0E0(Sprite *s, CamCoord screenX, CamCoord screenY, Player *p)
                     p->qSpeedAirY = -p->qSpeedAirY;
                 }
             }
-            return 1;
+
+            return HIT_ENEMY;
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 // (97.67%) https://decomp.me/scratch/e4jLp
@@ -1376,17 +1377,17 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C1E8.inc",
     if (IS_ALIVE(p) && (HITBOX_IS_ACTIVE(sprBody->hitboxes[0]))) {
         if (HB_COLLISION(sx, sy, rectB, I(p->qWorldX), I(p->qWorldY), sprBody->hitboxes[0].b)) {
             Coll_DamagePlayer(p);
-            return 2;
+            return HIT_PLAYER;
         }
     }
 
     asm("" ::"r"(s));
 
-    return 0;
+    return HIT_NONE;
 }
 END_NONMATCH
 
-u32 sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
+EHit sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
 {
     PlayerSpriteInfo *psi = p->spriteInfoBody;
     Sprite *sprBody = &psi->s;
@@ -1398,7 +1399,7 @@ u32 sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p)
         }
     }
 
-    return 0;
+    return HIT_NONE;
 }
 
 #if (GAME == GAME_SA1)
@@ -1540,10 +1541,12 @@ bool32 Coll_DamagePlayer(Player *p)
 }
 
 #if (GAME == GAME_SA1)
-bool32 sub_800C714(Player *p)
+// Equivalent to Coll_DamagePlayer.
+// Super Sonic isn't "damaged" per se, just thrown back a bit.
+bool32 Coll_DamageSuperSonic(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
-        return FALSE;
+        return HIT_NONE;
     }
 
     p->timerInvulnerability = 30;

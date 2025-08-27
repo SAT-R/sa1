@@ -1541,17 +1541,17 @@ _0804F08C:
 _0804F094: .4byte gCamera
 _0804F098: .4byte gMusicManagerState
 
-	thumb_func_start sub_804F09C
-sub_804F09C: @ 0x0804F09C
+	thumb_func_start CreateMechaKnucklesRocket
+CreateMechaKnucklesRocket: @ 0x0804F09C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
 	push {r6, r7}
 	sub sp, #4
 	adds r4, r0, #0
-	ldr r0, _0804F1A0 @ =sub_804F1D4
+	ldr r0, _0804F1A0 @ =Task_MechaKnucklesRocketInit
 	ldr r2, _0804F1A4 @ =0x00002001
-	ldr r1, _0804F1A8 @ =sub_804FE20
+	ldr r1, _0804F1A8 @ =TaskDestructor_MechaKnuckles_Rocket
 	str r1, [sp]
 	movs r1, #0x50
 	movs r3, #0
@@ -1675,9 +1675,9 @@ _0804F18A:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0804F1A0: .4byte sub_804F1D4
+_0804F1A0: .4byte Task_MechaKnucklesRocketInit
 _0804F1A4: .4byte 0x00002001
-_0804F1A8: .4byte sub_804FE20
+_0804F1A8: .4byte TaskDestructor_MechaKnuckles_Rocket
 _0804F1AC: .4byte 0x03000044
 _0804F1B0: .4byte 0xFFFFFA00
 _0804F1B4: .4byte 0x0000FFC0
@@ -1689,8 +1689,8 @@ _0804F1C8: .4byte 0x03000035
 _0804F1CC: .4byte 0x03000036
 _0804F1D0: .4byte 0x03000039
 
-	thumb_func_start sub_804F1D4
-sub_804F1D4: @ 0x0804F1D4
+	thumb_func_start Task_MechaKnucklesRocketInit
+Task_MechaKnucklesRocketInit: @ 0x0804F1D4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2053,8 +2053,8 @@ _0804F4A6:
 	.align 2, 0
 _0804F4B8: .4byte sa2__gUnknown_030054B8
 
-	thumb_func_start sub_804F4BC
-sub_804F4BC: @ 0x0804F4BC
+	thumb_func_start CreateMechaKnucklesParts
+CreateMechaKnucklesParts: @ 0x0804F4BC
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2065,7 +2065,7 @@ sub_804F4BC: @ 0x0804F4BC
 	adds r4, r1, #0
 	ldr r0, _0804F5F0 @ =sub_804F630
 	ldr r2, _0804F5F4 @ =0x00004001
-	ldr r1, _0804F5F8 @ =sub_804FE3C
+	ldr r1, _0804F5F8 @ =TaskDestructor_MechaKnuckles_Parts
 	str r1, [sp]
 	movs r1, #0x54
 	movs r3, #0
@@ -2209,7 +2209,7 @@ sub_804F4BC: @ 0x0804F4BC
 	.align 2, 0
 _0804F5F0: .4byte sub_804F630
 _0804F5F4: .4byte 0x00004001
-_0804F5F8: .4byte sub_804FE3C
+_0804F5F8: .4byte TaskDestructor_MechaKnuckles_Parts
 _0804F5FC: .4byte 0x03000018
 _0804F600: .4byte 0x03000048
 _0804F604: .4byte gUnknown_084AE548
@@ -2499,7 +2499,7 @@ sub_804F7F0: @ 0x0804F7F0
 sub_804F7F4: @ 0x0804F7F4
 	push {r4, lr}
 	sub sp, #4
-	bl sub_804F09C
+	bl CreateMechaKnucklesRocket
 	movs r0, #0xc8
 	bl m4aSongNumStart
 	movs r0, #0x80
@@ -3188,19 +3188,19 @@ sub_804FCA4: @ 0x0804FCA4
 	movs r5, #0
 	adds r0, r4, #0
 	movs r1, #0
-	bl sub_804F4BC
+	bl CreateMechaKnucklesParts
 	adds r0, r4, #0
 	movs r1, #1
-	bl sub_804F4BC
+	bl CreateMechaKnucklesParts
 	adds r0, r4, #0
 	movs r1, #2
-	bl sub_804F4BC
+	bl CreateMechaKnucklesParts
 	adds r0, r4, #0
 	movs r1, #3
-	bl sub_804F4BC
+	bl CreateMechaKnucklesParts
 	adds r0, r4, #0
 	movs r1, #4
-	bl sub_804F4BC
+	bl CreateMechaKnucklesParts
 _0804FCE4:
 	adds r0, r5, #0
 	pop {r4, r5}
@@ -3377,8 +3377,8 @@ _0804FE14:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_804FE20
-sub_804FE20: @ 0x0804FE20
+	thumb_func_start TaskDestructor_MechaKnuckles_Rocket
+TaskDestructor_MechaKnuckles_Rocket: @ 0x0804FE20
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _0804FE38 @ =0x03000014
@@ -3392,8 +3392,8 @@ sub_804FE20: @ 0x0804FE20
 	.align 2, 0
 _0804FE38: .4byte 0x03000014
 
-	thumb_func_start sub_804FE3C
-sub_804FE3C: @ 0x0804FE3C
+	thumb_func_start TaskDestructor_MechaKnuckles_Parts
+TaskDestructor_MechaKnuckles_Parts: @ 0x0804FE3C
 	push {lr}
 	ldrh r0, [r0, #6]
 	ldr r1, _0804FE50 @ =0x03000018
