@@ -44,9 +44,9 @@ typedef struct EggBall_44 {
     /* 0x00 */ Sprite s;
     /* 0x30 */ s32 qUnk30;
     /* 0x34 */ s32 qUnk34;
-    /* 0x38 */ s32 unk38;
-    /* 0x3C */ s32 unk3C;
-    /* 0x40 */ u8 filler40[0x2];
+    /* 0x38 */ s32 qUnk38;
+    /* 0x3C */ s32 qUnk3C;
+    /* 0x42 */ u16 unk40;
     /* 0x42 */ u8 unk42;
 } EggBall_44;
 
@@ -55,7 +55,8 @@ typedef struct EggBall_4C {
     /* 0x0C */ Sprite s;
     s16 unk3C;
     s16 unk3E;
-    /* 0x40 */ u8 filler40[4];
+    s16 unk40;
+    s16 unk42;
     u8 unk44;
     u8 unk45;
     EggBall *boss;
@@ -75,14 +76,40 @@ void Task_802FC14(void);
 void Task_8030120(void);
 void Task_803020C(void);
 void Task_8030364(void);
+void Task_8030414(void);
+void Task_80305A0(void);
 void TaskDestructor_EggBall(struct Task *t);
-void TaskDestructor_8030740(struct Task *t);
+void TaskDestructor_EggBall_44(struct Task *t);
 void TaskDestructor_8030754(struct Task *t);
 
+extern s16 gUnknown_084ACDC0[9];
 extern u16 gUnknown_084ACDD2[8][2][2];
 extern s32 gUnknown_084ACE24[8][4];
 extern u8 gUnknown_084ACEA4[2][2];
-extern s16 gUnknown_084ACDC0[9];
+extern s8 gUnknown_084ACE12[8][2];
+
+static inline void sub_8030778_inline(CamCoord worldX, CamCoord worldY)
+{
+    EggBall_44 *boss_44 = TASK_DATA(gCurTask);
+    Sprite *s = &boss_44->s;
+    EHit collPlayer, collPartner;
+
+    collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
+    } else {
+        collPartner = 0;
+    }
+
+    if ((collPlayer == 2) || (collPartner == 2)) {
+        EggBall *boss = TASK_DATA(TASK_PARENT(gCurTask));
+        Sprite *s2 = &boss->s2;
+
+        s2->variant = 1;
+        s2->frameFlags &= ~0x4000;
+        s2->prevVariant = -1;
+    }
+}
 
 static inline void sub_8030814_inline()
 {
@@ -295,9 +322,9 @@ void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         }
 
         if (2 & i) {
-            s->oamFlags = 0x480;
+            s->oamFlags = SPRITE_OAM_ORDER(18);
         } else {
-            s->oamFlags = 0x380;
+            s->oamFlags = SPRITE_OAM_ORDER(14);
         }
 
         s->graphics.size = 0;
@@ -408,14 +435,14 @@ void Task_802F644()
                 boss->unk88 = 60;
                 gCurTask->main = Task_802F804;
 
-                t = TaskCreate(Task_8030120, sizeof(EggBall_44), 0x2800U, 0U, TaskDestructor_8030740);
+                t = TaskCreate(Task_8030120, sizeof(EggBall_44), 0x2800U, 0U, TaskDestructor_EggBall_44);
                 strc44 = TASK_DATA(t);
                 spr44 = &strc44->s;
 
                 strc44->qUnk30 = boss->qUnk70;
                 strc44->qUnk34 = boss->qUnk74;
-                strc44->unk38 = 0;
-                strc44->unk3C = 0;
+                strc44->qUnk38 = 0;
+                strc44->qUnk3C = 0;
                 strc44->unk42 = 0;
                 boss->strc6C = t;
 
@@ -726,7 +753,6 @@ void Task_802FE88(void)
 
 void Task_8030120(void)
 {
-    MapEntity *me;
     Sprite *s;
     CamCoord worldX, worldY;
 
@@ -739,8 +765,8 @@ void Task_8030120(void)
         a = gUnknown_084ACEA4[boss->unk8E & 0x7][1];
         boss_44->qUnk30 = gUnknown_084ACE24[a][0];
         boss_44->qUnk34 = gUnknown_084ACE24[a][1];
-        boss_44->unk38 = (gUnknown_084ACE24[a][2] * gUnknown_084ACDC0[boss->unk8A]) / 10;
-        boss_44->unk3C = (gUnknown_084ACE24[a][3] * gUnknown_084ACDC0[boss->unk8A]) / 10;
+        boss_44->qUnk38 = (gUnknown_084ACE24[a][2] * gUnknown_084ACDC0[boss->unk8A]) / 10;
+        boss_44->qUnk3C = (gUnknown_084ACE24[a][3] * gUnknown_084ACDC0[boss->unk8A]) / 10;
 
         if (boss_44->qUnk30 >= -Q(140)) {
             s->frameFlags &= ~0x400;
@@ -752,3 +778,238 @@ void Task_8030120(void)
         gCurTask->main = Task_803020C;
     }
 }
+
+void Task_803020C(void)
+{
+    s16 temp_r5;
+    s16 temp_r6;
+    s32 temp_r1;
+    s32 temp_r3;
+    s32 temp_r7;
+    s32 collPlayer;
+    s32 collPartner;
+    u16 temp_r2_2;
+    void *temp_r2;
+
+    Sprite *s;
+    CamCoord worldX, worldY;
+    EggBall_44 *boss_44 = TASK_DATA(gCurTask);
+    EggBall *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    EggBall_44 *boss_44_r4 = boss_44;
+
+    MapEntity *me = boss->base.me;
+    boss_44_r4->qUnk30 += boss_44_r4->qUnk38;
+    boss_44_r4->qUnk34 += boss_44_r4->qUnk3C;
+
+    if ((((u32)boss_44->qUnk30 + Q(312) > Q(344)) || (boss_44->qUnk34 < -Q(208))) || (boss_44->qUnk34 > Q(40))) {
+        gCurTask->main = Task_8030120;
+    }
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss_44->qUnk30);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss_44->qUnk34);
+    UpdateSpriteAnimation(&boss_44_r4->s);
+
+    sub_8030778_inline(worldX, worldY);
+
+    boss_44_r4->s.x = worldX - gCamera.x;
+    boss_44_r4->s.y = worldY - gCamera.y;
+    DisplaySprite(&boss_44_r4->s);
+}
+
+void Task_8030364(void)
+{
+    EggBall_44 *boss_44 = TASK_DATA(gCurTask);
+    Sprite *s = &boss_44->s;
+    EggBall *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss_44->qUnk30);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss_44->qUnk34);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (worldX < gCamera.x + (DISPLAY_WIDTH / 2)) {
+        boss_44->qUnk38 = +Q(2);
+    } else {
+        boss_44->qUnk38 = -Q(2);
+    }
+
+    if (boss_44->qUnk3C == 0) {
+        boss_44->qUnk3C = -Q(6);
+    } else if (boss_44->qUnk3C < 0) {
+        boss_44->qUnk3C += -Q(3);
+    } else {
+        boss_44->qUnk3C += +Q(3);
+    }
+
+    boss_44->unk40 = 0;
+
+    gCurTask->main = Task_8030414;
+    gCurTask->main();
+}
+
+void Task_8030414(void)
+{
+    EggBall_44 *boss_44 = TASK_DATA(gCurTask);
+    Sprite *s = &boss_44->s;
+    EggBall *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    if (boss_44->unk40++ > 0xB4) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    boss_44->qUnk3C += Q(40. / 256.);
+    boss_44->qUnk30 += boss_44->qUnk38;
+    boss_44->qUnk34 += boss_44->qUnk3C;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss_44->qUnk30);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss_44->qUnk34);
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if (boss_44->qUnk3C > 0) {
+        s32 res = sa2__sub_801F100(worldY + 0x18, worldX, 1, 8, &sa2__sub_801EC3C);
+
+        if (res < 0) {
+            boss_44->qUnk34 += Q(res);
+            boss_44->qUnk3C = (boss_44->qUnk3C >> 2) - boss_44->qUnk3C;
+        }
+    }
+
+    if ((boss_44->unk40 & 0x7) == 0) {
+        s32 rnd = PseudoRandom32();
+        sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_803053C(void)
+{
+    EggBall_4C *boss_4C = TASK_DATA(gCurTask);
+
+    if (--boss_4C->unk45 == 0) {
+        boss_4C->unk40 = gUnknown_084ACE12[boss_4C->unk44][0];
+        boss_4C->unk42 = gUnknown_084ACE12[boss_4C->unk44][1];
+        gCurTask->main = Task_80305A0;
+    }
+}
+
+void Task_80305A0()
+{
+    Sprite *s;
+    s16 *temp_r0_2;
+    s16 *temp_r1_4;
+    s16 *temp_r2;
+    s16 *temp_r2_2;
+    s16 temp_r1_3;
+    CamCoord worldX, worldY;
+    s16 temp_r0;
+    s16 temp_r1_2;
+    u8 temp_r1;
+    MapEntity *me;
+
+    EggBall_4C *boss_4c = TASK_DATA(gCurTask);
+    EggBall *boss = boss_4c->boss;
+    s = &boss_4c->s;
+    me = boss_4c->base.me;
+
+    if (boss->unk8A > 7) {
+        temp_r0 = gUnknown_084ACE12[boss_4c->unk44][0];
+        temp_r1_2 = gUnknown_084ACE12[boss_4c->unk44][1];
+        boss_4c->unk40 += temp_r0 >> 4;
+        boss_4c->unk42 += (temp_r1_2 >> 4);
+        if ((boss_4c->unk40 == temp_r0) && (boss_4c->unk42 == (s16)temp_r1_2)) {
+            TaskDestroy(gCurTask);
+            return;
+        }
+    } else {
+        if (boss_4c->unk40 < 0) {
+            boss_4c->unk40++;
+        }
+        if (boss_4c->unk40 > 0) {
+            boss_4c->unk40--;
+        }
+        temp_r2_2 = &boss_4c->unk42;
+        if (boss_4c->unk42 < 0) {
+            boss_4c->unk42++;
+        }
+        if (boss_4c->unk42 > 0) {
+            boss_4c->unk42--;
+        }
+    }
+
+    worldX = TO_WORLD_POS(boss_4c->base.meX, boss_4c->base.regionX) + boss_4c->unk3C + boss_4c->unk40;
+    worldY = TO_WORLD_POS(me->y, boss_4c->base.regionY) + boss_4c->unk3E + boss_4c->unk42;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    if (!(6 & boss_4c->unk44)) {
+        sub_80096B0(s, worldX, worldY, &gPlayer);
+        if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+            sub_80096B0(s, worldX, worldY, &gPartner);
+        }
+    }
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_EggBall(struct Task *t)
+{
+    EggBall *boss = TASK_DATA(t);
+
+    VramFree(boss->s.graphics.dest);
+    VramFree(boss->s2.graphics.dest);
+}
+
+void TaskDestructor_EggBall_44(struct Task *t)
+{
+    EggBall_44 *boss_44 = TASK_DATA(t);
+
+    VramFree(boss_44->s.graphics.dest);
+}
+
+void TaskDestructor_8030754(struct Task *t)
+{
+    EggBall_4C *boss_4c = TASK_DATA(t);
+
+    if ((boss_4c->unk44 & -3) == 0) {
+        VramFree(boss_4c->s.graphics.dest);
+    }
+}
+
+// TODO: Match using sub_8030778_inline
+void sub_8030778(CamCoord worldX, CamCoord worldY)
+{
+    EggBall_44 *boss_44 = TASK_DATA(gCurTask);
+    Sprite *s = &boss_44->s;
+    EHit collPlayer, collPartner;
+
+    collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
+    } else {
+        collPartner = 0;
+    }
+
+    if ((collPlayer == 2) || (collPartner == 2)) {
+        EggBall *boss = TASK_DATA(TASK_PARENT(gCurTask));
+        Sprite *s2 = &boss->s2;
+
+        s2->variant = 1;
+        s2->frameFlags &= ~0x4000;
+        s2->prevVariant = -1;
+    }
+}
+
+// Same as sub_802EF24 in Boss 2
+void sub_8030814() { sub_8030814_inline(); }
+
+void sub_8030850() { sub_8030850_inline(); }
+
+void sub_8030870(CamCoord worldX, CamCoord worldY) { sub_8030870_inline(worldX, worldY); }
