@@ -50,7 +50,7 @@ typedef struct EggBall_44 {
     /* 0x42 */ u8 unk42;
 } EggBall_44;
 
-typedef struct EggBall_4C {
+typedef struct EggBall_Pipe {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     s16 unk3C;
@@ -58,11 +58,11 @@ typedef struct EggBall_4C {
     s16 unk40;
     s16 unk42;
     u8 unk44;
-    u8 unk45;
+    u8 delay;
     EggBall *boss;
-} EggBall_4C;
+} EggBall_Pipe;
 
-void Task_803053C(void);
+void Task_PipeInitialDelay(void);
 void Task_EggBallMain(void);
 void sub_802EF94(CamCoord worldX, CamCoord worldY);
 void Task_802F0D0(void);
@@ -77,7 +77,7 @@ void Task_8030120(void);
 void Task_803020C(void);
 void Task_8030364(void);
 void Task_8030414(void);
-void Task_80305A0(void);
+void Task_PipeExtend(void);
 void TaskDestructor_EggBall(struct Task *t);
 void TaskDestructor_EggBall_44(struct Task *t);
 void TaskDestructor_8030754(struct Task *t);
@@ -146,12 +146,8 @@ void sub_802EF94(CamCoord worldX, CamCoord worldY)
     Sprite *s;
     Sprite *s2;
     s16 regionX;
-    s16 temp_r7;
     EHit collPlayer;
     EHit collPartner;
-    u16 temp_r3;
-    u8 *temp_r1;
-    u8 *temp_r3_2;
 
     EggBall *boss = TASK_DATA(gCurTask);
 
@@ -286,12 +282,12 @@ void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->frameFlags = 0x2000;
 
     for (i = 0; i < 8; i++) {
-        EggBall_4C *strc;
+        EggBall_Pipe *strc;
         Sprite *s;
-        t = TaskCreate(Task_803053C, sizeof(EggBall_4C), 0x2200U, 0U, TaskDestructor_8030754);
+        t = TaskCreate(Task_PipeInitialDelay, sizeof(EggBall_Pipe), 0x2200U, 0U, TaskDestructor_8030754);
         strc = TASK_DATA(t);
         strc->unk44 = i;
-        strc->unk45 = 90;
+        strc->delay = ZONE_TIME_TO_INT(0, 1.5);
         strc->unk3C = unk3C = gUnknown_084ACDD2[i][0][0];
         strc->unk3E = unk3E = gUnknown_084ACDD2[i][0][1];
         strc->base.regionX = boss->base.regionX;
@@ -781,15 +777,8 @@ void Task_8030120(void)
 
 void Task_803020C(void)
 {
-    s16 temp_r5;
-    s16 temp_r6;
-    s32 temp_r1;
-    s32 temp_r3;
-    s32 temp_r7;
     s32 collPlayer;
     s32 collPartner;
-    u16 temp_r2_2;
-    void *temp_r2;
 
     Sprite *s;
     CamCoord worldX, worldY;
@@ -890,66 +879,60 @@ void Task_8030414(void)
     DisplaySprite(s);
 }
 
-void Task_803053C(void)
+void Task_PipeInitialDelay(void)
 {
-    EggBall_4C *boss_4C = TASK_DATA(gCurTask);
+    EggBall_Pipe *pipe = TASK_DATA(gCurTask);
 
-    if (--boss_4C->unk45 == 0) {
-        boss_4C->unk40 = gUnknown_084ACE12[boss_4C->unk44][0];
-        boss_4C->unk42 = gUnknown_084ACE12[boss_4C->unk44][1];
-        gCurTask->main = Task_80305A0;
+    if (--pipe->delay == 0) {
+        pipe->unk40 = gUnknown_084ACE12[pipe->unk44][0];
+        pipe->unk42 = gUnknown_084ACE12[pipe->unk44][1];
+        gCurTask->main = Task_PipeExtend;
     }
 }
 
-void Task_80305A0()
+void Task_PipeExtend()
 {
     Sprite *s;
-    s16 *temp_r0_2;
-    s16 *temp_r1_4;
-    s16 *temp_r2;
-    s16 *temp_r2_2;
-    s16 temp_r1_3;
     CamCoord worldX, worldY;
     s16 temp_r0;
     s16 temp_r1_2;
-    u8 temp_r1;
     MapEntity *me;
 
-    EggBall_4C *boss_4c = TASK_DATA(gCurTask);
-    EggBall *boss = boss_4c->boss;
-    s = &boss_4c->s;
-    me = boss_4c->base.me;
+    EggBall_Pipe *pipe = TASK_DATA(gCurTask);
+    EggBall *boss = pipe->boss;
+    s = &pipe->s;
+    me = pipe->base.me;
 
     if (boss->unk8A > 7) {
-        temp_r0 = gUnknown_084ACE12[boss_4c->unk44][0];
-        temp_r1_2 = gUnknown_084ACE12[boss_4c->unk44][1];
-        boss_4c->unk40 += temp_r0 >> 4;
-        boss_4c->unk42 += (temp_r1_2 >> 4);
-        if ((boss_4c->unk40 == temp_r0) && (boss_4c->unk42 == (s16)temp_r1_2)) {
+        temp_r0 = gUnknown_084ACE12[pipe->unk44][0];
+        temp_r1_2 = gUnknown_084ACE12[pipe->unk44][1];
+        pipe->unk40 += temp_r0 >> 4;
+        pipe->unk42 += (temp_r1_2 >> 4);
+        if ((pipe->unk40 == temp_r0) && (pipe->unk42 == (s16)temp_r1_2)) {
             TaskDestroy(gCurTask);
             return;
         }
     } else {
-        if (boss_4c->unk40 < 0) {
-            boss_4c->unk40++;
+        if (pipe->unk40 < 0) {
+            pipe->unk40++;
         }
-        if (boss_4c->unk40 > 0) {
-            boss_4c->unk40--;
+        if (pipe->unk40 > 0) {
+            pipe->unk40--;
         }
-        temp_r2_2 = &boss_4c->unk42;
-        if (boss_4c->unk42 < 0) {
-            boss_4c->unk42++;
+
+        if (pipe->unk42 < 0) {
+            pipe->unk42++;
         }
-        if (boss_4c->unk42 > 0) {
-            boss_4c->unk42--;
+        if (pipe->unk42 > 0) {
+            pipe->unk42--;
         }
     }
 
-    worldX = TO_WORLD_POS(boss_4c->base.meX, boss_4c->base.regionX) + boss_4c->unk3C + boss_4c->unk40;
-    worldY = TO_WORLD_POS(me->y, boss_4c->base.regionY) + boss_4c->unk3E + boss_4c->unk42;
+    worldX = TO_WORLD_POS(pipe->base.meX, pipe->base.regionX) + pipe->unk3C + pipe->unk40;
+    worldY = TO_WORLD_POS(me->y, pipe->base.regionY) + pipe->unk3E + pipe->unk42;
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
-    if (!(6 & boss_4c->unk44)) {
+    if (!(6 & pipe->unk44)) {
         sub_80096B0(s, worldX, worldY, &gPlayer);
         if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
             sub_80096B0(s, worldX, worldY, &gPartner);
@@ -976,10 +959,10 @@ void TaskDestructor_EggBall_44(struct Task *t)
 
 void TaskDestructor_8030754(struct Task *t)
 {
-    EggBall_4C *boss_4c = TASK_DATA(t);
+    EggBall_Pipe *pipe = TASK_DATA(t);
 
-    if ((boss_4c->unk44 & -3) == 0) {
-        VramFree(boss_4c->s.graphics.dest);
+    if ((pipe->unk44 & -3) == 0) {
+        VramFree(pipe->s.graphics.dest);
     }
 }
 
