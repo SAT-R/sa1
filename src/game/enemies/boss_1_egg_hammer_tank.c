@@ -405,8 +405,8 @@ void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void Task_802611C(void)
 {
-    s32 resA;
-    s32 resB;
+    EHit collPlayer;
+    EHit collPartner;
 
     EggHammerTank *tank;
     MapEntity *me;
@@ -443,13 +443,13 @@ void Task_802611C(void)
     }
 
     if (tank->unk9B == 0) {
-        resA = Coll_Player_Boss_1(s, worldX, worldY, &gPlayer);
+        collPlayer = Coll_Player_Boss_1(s, worldX, worldY, &gPlayer);
         if (gNumSingleplayerCharacters == 2) {
-            resB = Coll_Player_Boss_1(s, worldX, worldY, &gPartner);
+            collPartner = Coll_Player_Boss_1(s, worldX, worldY, &gPartner);
         } else {
-            resB = 0;
+            collPartner = 0;
         }
-        if ((resA == 1) || (resB == 1)) {
+        if ((collPlayer == HIT_ENEMY) || (collPartner == HIT_ENEMY)) {
             tank->unk9A++;
             tank->unk9B = 0x20;
             if (tank->unk9A == 7) {
@@ -464,7 +464,7 @@ void Task_802611C(void)
             }
             s2->variant = 2;
             m4aSongNumStart(SE_BOSS_HIT);
-        } else if ((resA == 2) || (resB == 2)) {
+        } else if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
             s2->variant = 1;
         }
     }
@@ -536,7 +536,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_802
     s16 *unk94 = &tank->unk94; // sp10
     CamCoord worldX, worldY; // sp14, sp18
     s16 theta;
-    s32 resA, resB;
+    EHit collPlayer, collPartner;
     struct Task *t;
     Strc_sub_80168F0 *strc;
     u8 i;
@@ -610,13 +610,13 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_802
     }
 
     if (tank->unk9B == 0) {
-        resA = Coll_Player_Boss_1(s, worldX, worldY, &gPlayer);
+        collPlayer = Coll_Player_Boss_1(s, worldX, worldY, &gPlayer);
         if (gNumSingleplayerCharacters == 2) {
-            resB = Coll_Player_Boss_1(s, worldX, worldY, &gPartner);
+            collPartner = Coll_Player_Boss_1(s, worldX, worldY, &gPartner);
         } else {
-            resB = 0;
+            collPartner = 0;
         }
-        if ((resA == 1) || (resB == 1)) {
+        if ((collPlayer == HIT_ENEMY) || (collPartner == HIT_ENEMY)) {
             tank->unk9A++;
             tank->unk9B = 0x20;
             s2->variant = 2;

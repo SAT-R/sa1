@@ -701,23 +701,13 @@ void sub_802E868(void)
 
 void Task_802EA8C(void)
 {
-    s16 temp_r0_3;
-    s16 temp_r0_6;
-    s16 temp_r3_4;
-    s32 res;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    u16 temp_r1_2;
-    u16 temp_r3_5;
-
     EggPress *boss = TASK_DATA(gCurTask);
     SpriteBase *base = &boss->base;
     Sprite *s = &boss->s;
     Sprite *s2 = &boss->s2;
     MapEntity *me = boss->base.me;
     CamCoord worldX, worldY;
+    s32 res;
 
     boss->qUnkB2 += 0x28;
     boss->qUnk98 += boss->qUnkB2;
