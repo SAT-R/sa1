@@ -4,6 +4,8 @@
 #include "core.h"
 #include "game/sa1_sa2_shared/player.h"
 
+extern void sub_804C40C(void);
+
 struct Task *SpawnDrowningCountdownNum(Player *p, s32 countdown);
 struct Task *SpawnAirBubbles(s32 p0, s32 p1, s32 p2, s32 p3);
 struct Task *SpawnBubblesAfterDrowning(Player *p);

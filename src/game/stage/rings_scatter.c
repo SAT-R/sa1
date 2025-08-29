@@ -21,20 +21,6 @@
 //       player.c originally, due to it being directly above it in both,
 //       SA1 and SA2, but it is more organized to split them.
 
-#if (GAME == GAME_SA1)
-#define MAX_SCATTERING_RINGS_COUNT_SP 48
-#define MAX_SCATTERING_RINGS_COUNT_MP 32
-#elif (GAME == GAME_SA2)
-#define MAX_SCATTERING_RINGS_COUNT_SP 32
-#define MAX_SCATTERING_RINGS_COUNT_MP 16
-#endif
-
-#if (GAME == GAME_SA1)
-#define UNK10_CONDITION 1
-#elif (GAME == GAME_SA2)
-#define UNK10_CONDITION !(ring->unk10 & 0x7)
-#endif
-
 #define USE_HITBOX_RECT 1
 
 // TODO: Use improved version of these globaly!
@@ -44,26 +30,6 @@
 #define HB_ALT_TOP(p, hb)    (I((p)->qWorldY) + (hb)->top)
 #define HB_ALT_HEIGHT(hb)    ((hb)->bottom - (hb)->top)
 #define HB_ALT_BOTTOM(p, hb) (I((p)->qWorldY) + HB_ALT_HEIGHT(hb))
-
-typedef struct {
-    /* 0x00 */ s32 x;
-    /* 0x04 */ s32 y;
-    /* 0x08 */ s16 velX;
-    /* 0x0A */ s16 velY;
-    /* 0x0C */ u16 unkC;
-    /* 0x0E */ s16 unkE;
-#if (GAME == GAME_SA2)
-    /* 0x10 */ u16 unk10;
-#endif
-} ScatterRing; /* size: 0x14 */
-
-typedef struct {
-    /* 0x000 */ Sprite sprRing;
-    /* 0x030 */ ScatterRing rings[MAX_SCATTERING_RINGS_COUNT_SP];
-    /* 0x2B0 */ u32 unk2B0;
-    /* 0x2B4 */ u16 unk2B4;
-    /* 0x2B6 */ u16 unk2B6;
-} RingsScatter; /* size: 0x2B8 */
 
 struct Task *gRingsScatterTask = NULL;
 
@@ -144,19 +110,19 @@ void InitPlayerHitRingsScatter(void)
         | SPRITE_FLAG_MASK_18 | SPRITE_FLAG_MASK_MOSAIC
 #endif
         ;
-    rs->unk2B6 = 0;
+    rs->SA2_LABEL(unk2B6) = 0;
 
 #if (GAME == GAME_SA1)
     if (!IS_EXTRA_STAGE(gCurrentLevel)) {
-        rs->unk2B4 = 0xE0;
-        rs->unk2B0 = 0x12;
+        rs->SA2_LABEL(unk2B4) = 0xE0;
+        rs->SA2_LABEL(unk2B0) = 0x12;
     } else {
-        rs->unk2B4 = 0xE0;
-        rs->unk2B0 = 7;
+        rs->SA2_LABEL(unk2B4) = 0xE0;
+        rs->SA2_LABEL(unk2B0) = 7;
     }
 #else
-    rs->unk2B4 = 0x94;
-    rs->unk2B0 = 0x12;
+    rs->SA2_LABEL(unk2B4) = 0x94;
+    rs->SA2_LABEL(unk2B0) = 0x12;
 #endif
 
     dmaDest = rs->rings;
@@ -356,8 +322,8 @@ void RingsScatterSingleplayer_FlippedGravity(void)
     RingsScatter *rs = TASK_DATA(gCurTask);
     ScatterRing *ring = &rs->rings[0];
     Sprite *s = &rs->sprRing;
-    s32 sp08 = rs->unk2B0;
-    s32 sp0C = rs->unk2B4;
+    s32 sp08 = rs->SA2_LABEL(unk2B0);
+    s32 sp0C = rs->SA2_LABEL(unk2B4);
     bool32 sp10 = FALSE;
     s32 i;
     s32 ringIntX, ringIntY;
@@ -469,7 +435,7 @@ void RingsScatterSingleplayer_FlippedGravity(void)
             }
         }
 
-        if (rs->unk2B6 & 0x1 && ring->velY > 0 && UNK10_CONDITION) {
+        if (rs->SA2_LABEL(unk2B6) & 0x1 && ring->velY > 0 && UNK10_CONDITION) {
             s32 res = SA2_LABEL(sub_801F100)(ringIntY, ringIntX, ring->unkE, 8, SA2_LABEL(sub_801EC3C));
             if (res <= 0) {
                 ring->y += Q_24_8(res);
@@ -537,8 +503,8 @@ void RingsScatterSingleplayer_NormalGravity(void)
     RingsScatter *rs = TASK_DATA(gCurTask);
     ScatterRing *ring = &rs->rings[0];
     Sprite *s = &rs->sprRing;
-    s32 sp08 = rs->unk2B0;
-    s32 sp0C = rs->unk2B4;
+    s32 sp08 = rs->SA2_LABEL(unk2B0);
+    s32 sp0C = rs->SA2_LABEL(unk2B4);
     bool32 sp10 = FALSE;
     s32 i; // sp14
     s32 ringIntX, ringIntY;
@@ -657,7 +623,7 @@ void RingsScatterSingleplayer_NormalGravity(void)
             }
         }
 
-        if (rs->unk2B6 & 0x1 && ring->velY < 0 && UNK10_CONDITION) {
+        if (rs->SA2_LABEL(unk2B6) & 0x1 && ring->velY < 0 && UNK10_CONDITION) {
 #if (GAME == GAME_SA1)
             s32 res = SA2_LABEL(sub_801F100)((ringIntY - 16), bossWorldX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
 #elif (GAME == GAME_SA2)
@@ -727,8 +693,8 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_Flipped
     RingsScatter *rs = TASK_DATA(gCurTask);
     ScatterRing *ring = &rs->rings[0];
     Sprite *s = &rs->sprRing;
-    s32 sp08 = rs->unk2B0;
-    s32 sp0C = rs->unk2B4;
+    s32 sp08 = rs->SA2_LABEL(unk2B0);
+    s32 sp0C = rs->SA2_LABEL(unk2B4);
     bool32 sp10 = FALSE;
     s32 i = 0; // sp14
     s32 ringIntX;
@@ -793,7 +759,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_Flipped
                 }
             }
 
-            if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && UNK10_CONDITION) {
+            if ((rs->SA2_LABEL(unk2B6) & 0x1) && (ring->velY > 0) && UNK10_CONDITION) {
                 s32 res = SA2_LABEL(sub_801F100)(ringIntY, ringIntX, ring->unkE, 8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y += Q(res);
@@ -857,8 +823,8 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
     RingsScatter *rs = TASK_DATA(gCurTask);
     ScatterRing *ring = &rs->rings[0];
     Sprite *s = &rs->sprRing;
-    s32 sp08 = rs->unk2B0;
-    s32 sp0C = rs->unk2B4;
+    s32 sp08 = rs->SA2_LABEL(unk2B0);
+    s32 sp0C = rs->SA2_LABEL(unk2B4);
     bool32 sp10 = FALSE;
     s32 i = 0; // sp14
     s32 ringIntX;
@@ -928,7 +894,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterMultipak_NormalG
                 }
             }
 
-            if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && UNK10_CONDITION) {
+            if ((rs->SA2_LABEL(unk2B6) & 0x1) && (ring->velY > 0) && UNK10_CONDITION) {
                 s32 res = SA2_LABEL(sub_801F100)((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y += Q(res);
@@ -994,8 +960,8 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterSinglepakMain.in
     RingsScatter *rs = TASK_DATA(gCurTask);
     ScatterRing *ring = &rs->rings[0];
     Sprite *s = &rs->sprRing;
-    s32 sp08 = rs->unk2B0;
-    s32 sp0C = rs->unk2B4;
+    s32 sp08 = rs->SA2_LABEL(unk2B0);
+    s32 sp0C = rs->SA2_LABEL(unk2B4);
     bool32 sp10 = FALSE;
     s32 i = 0; // sp14
     s32 ringIntX;
@@ -1065,7 +1031,7 @@ NONMATCH("asm/non_matching/game/stage/rings_scatter/RingsScatterSinglepakMain.in
                 }
             }
 
-            if ((rs->unk2B6 & 0x1) && (ring->velY > 0) && ((ring->unk10 & 0x7) == 0)) {
+            if ((rs->SA2_LABEL(unk2B6) & 0x1) && (ring->velY > 0) && ((ring->unk10 & 0x7) == 0)) {
                 s32 res = SA2_LABEL(sub_801F100)((ringIntY - 16), ringIntX, ring->unkE, -8, SA2_LABEL(sub_801EC3C));
                 if (res <= 0) {
                     ring->y += Q(res);

@@ -996,3 +996,5 @@ void sub_8030814() { sub_8030814_inline(); }
 void sub_8030850() { sub_8030850_inline(); }
 
 void sub_8030870(CamCoord worldX, CamCoord worldY) { sub_8030870_inline(worldX, worldY); }
+
+void sub_80308A4(CamCoord worldX, CamCoord worldY);

@@ -7,213 +7,7 @@
 
 @ --- Start of EggSpider
 
-	thumb_func_start sub_80308A4
-sub_80308A4: @ 0x080308A4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	lsls r0, r0, #0x10
-	lsrs r7, r0, #0x10
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	ldr r0, _08030960 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r5, [r0, #6]
-	ldr r0, _08030964 @ =0x0300000C
-	adds r4, r5, r0
-	ldr r0, [r4, #0x10]
-	ldr r1, _08030968 @ =0xFFFFFE7F
-	ands r0, r1
-	str r0, [r4, #0x10]
-	ldr r1, _0803096C @ =gPlayer
-	mov r8, r1
-	ldr r3, [r1, #0x10]
-	movs r0, #0x80
-	ands r3, r0
-	cmp r3, #0
-	bne _080308E8
-	ldr r2, _08030970 @ =gDispCnt
-	ldrh r1, [r2]
-	ldr r0, _08030974 @ =0x00007FFF
-	ands r0, r1
-	strh r0, [r2]
-	ldr r0, _08030978 @ =gWinRegs
-	strh r3, [r0, #0xa]
-	ldr r0, _0803097C @ =gBldRegs
-	strh r3, [r0]
-	strh r3, [r0, #4]
-_080308E8:
-	ldr r0, _08030980 @ =0x03000087
-	adds r0, r0, r5
-	mov sb, r0
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0
-	bne _080309B6
-	lsls r0, r7, #0x10
-	asrs r7, r0, #0x10
-	lsls r0, r6, #0x10
-	asrs r6, r0, #0x10
-	adds r0, r4, #0
-	adds r1, r7, #0
-	adds r2, r6, #0
-	mov r3, r8
-	bl Coll_Player_Boss
-	mov r8, r0
-	movs r1, #0
-	ldr r0, _08030984 @ =gNumSingleplayerCharacters
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #2
-	bne _0803092A
-	ldr r3, _08030988 @ =gPartner
-	adds r0, r4, #0
-	adds r1, r7, #0
-	adds r2, r6, #0
-	bl Coll_Player_Boss
-	adds r1, r0, #0
-_0803092A:
-	ldr r0, _0803098C @ =0x0300003C
-	adds r2, r5, r0
-	mov r0, r8
-	cmp r0, #1
-	beq _08030938
-	cmp r1, #1
-	bne _0803099C
-_08030938:
-	ldr r0, _08030990 @ =0x03000086
-	adds r1, r5, r0
-	ldrb r0, [r1]
-	adds r0, #1
-	strb r0, [r1]
-	movs r0, #0x78
-	mov r1, sb
-	strb r0, [r1]
-	ldr r0, _08030994 @ =0x0300005C
-	adds r1, r5, r0
-	movs r0, #2
-	strb r0, [r1]
-	ldr r0, [r2, #0x10]
-	ldr r1, _08030998 @ =0xFFFFBFFF
-	ands r0, r1
-	str r0, [r2, #0x10]
-	movs r0, #0x8f
-	bl m4aSongNumStart
-	b _080309B6
-	.align 2, 0
-_08030960: .4byte gCurTask
-_08030964: .4byte 0x0300000C
-_08030968: .4byte 0xFFFFFE7F
-_0803096C: .4byte gPlayer
-_08030970: .4byte gDispCnt
-_08030974: .4byte 0x00007FFF
-_08030978: .4byte gWinRegs
-_0803097C: .4byte gBldRegs
-_08030980: .4byte 0x03000087
-_08030984: .4byte gNumSingleplayerCharacters
-_08030988: .4byte gPartner
-_0803098C: .4byte 0x0300003C
-_08030990: .4byte 0x03000086
-_08030994: .4byte 0x0300005C
-_08030998: .4byte 0xFFFFBFFF
-_0803099C:
-	mov r0, r8
-	cmp r0, #2
-	beq _080309A6
-	cmp r1, #2
-	bne _080309B6
-_080309A6:
-	ldr r0, _080309C4 @ =0x0300005C
-	adds r1, r5, r0
-	movs r0, #1
-	strb r0, [r1]
-	ldr r0, [r2, #0x10]
-	ldr r1, _080309C8 @ =0xFFFFBFFF
-	ands r0, r1
-	str r0, [r2, #0x10]
-_080309B6:
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080309C4: .4byte 0x0300005C
-_080309C8: .4byte 0xFFFFBFFF
-
-	thumb_func_start sub_80309CC
-sub_80309CC: @ 0x080309CC
-	push {r4, r5, lr}
-	ldr r0, _08030A40 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	ldr r1, _08030A44 @ =0x0300000C
-	adds r3, r0, r1
-	ldr r5, _08030A48 @ =0x0300003C
-	adds r4, r0, r5
-	adds r1, #0x7b
-	adds r2, r0, r1
-	ldrb r1, [r2]
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	cmp r0, #0
-	beq _08030A2E
-	subs r1, #1
-	strb r1, [r2]
-	lsls r0, r1, #0x18
-	cmp r0, #0
-	ble _08030A2E
-	movs r0, #2
-	ands r1, r0
-	cmp r1, #0
-	bne _08030A2E
-	ldr r0, _08030A4C @ =gPlayer
-	ldr r0, [r0, #0x10]
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _08030A2E
-	ldr r0, [r3, #0x10]
-	adds r1, #0x80
-	orrs r0, r1
-	str r0, [r3, #0x10]
-	ldr r2, _08030A50 @ =gDispCnt
-	ldrh r0, [r2]
-	movs r5, #0x80
-	lsls r5, r5, #8
-	adds r1, r5, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _08030A54 @ =gWinRegs
-	ldr r0, _08030A58 @ =0x00003F1F
-	strh r0, [r1, #0xa]
-	ldr r1, _08030A5C @ =gBldRegs
-	movs r0, #0xbf
-	strh r0, [r1]
-	movs r0, #0x10
-	strh r0, [r1, #4]
-_08030A2E:
-	adds r0, r3, #0
-	bl DisplaySprite
-	adds r0, r4, #0
-	bl DisplaySprite
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08030A40: .4byte gCurTask
-_08030A44: .4byte 0x0300000C
-_08030A48: .4byte 0x0300003C
-_08030A4C: .4byte gPlayer
-_08030A50: .4byte gDispCnt
-_08030A54: .4byte gWinRegs
-_08030A58: .4byte 0x00003F1F
-_08030A5C: .4byte gBldRegs
-
+.if 01
 	thumb_func_start CreateEntity_EggSpider
 CreateEntity_EggSpider: @ 0x08030A60
 	push {r4, r5, r6, r7, lr}
@@ -247,7 +41,7 @@ _08030A98:
 	ldr r0, _08030B18 @ =sub_8030CA4
 	movs r2, #0x80
 	lsls r2, r2, #6
-	ldr r1, _08030B1C @ =sub_8031CB4
+	ldr r1, _08030B1C @ =TaskDestructor_8031CB4
 	str r1, [sp]
 	movs r1, #0x90
 	movs r3, #0
@@ -308,7 +102,7 @@ _08030A98:
 	b _08030B3E
 	.align 2, 0
 _08030B18: .4byte sub_8030CA4
-_08030B1C: .4byte sub_8031CB4
+_08030B1C: .4byte TaskDestructor_8031CB4
 _08030B20: .4byte sub_804C40C
 _08030B24: .4byte 0x0000FFFD
 _08030B28: .4byte 0x03000084
@@ -494,6 +288,7 @@ _08030C88:
 _08030C98: .4byte gPlayer
 _08030C9C: .4byte gRingsScatterTask
 _08030CA0: .4byte 0x03000336
+.endif
 
 	thumb_func_start sub_8030CA4
 sub_8030CA4: @ 0x08030CA4
@@ -2457,8 +2252,8 @@ _08031CA2:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_8031CB4
-sub_8031CB4: @ 0x08031CB4
+	thumb_func_start TaskDestructor_8031CB4
+TaskDestructor_8031CB4: @ 0x08031CB4
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0

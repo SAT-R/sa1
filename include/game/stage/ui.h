@@ -19,8 +19,6 @@ void sub_80543A4(StrcUi_805423C *param0);
 #define UI_DIGIT(_digit)      ((_digit) + 32)
 #define FROM_UI_DIGIT(_digit) ((_digit)-32)
 
-extern void sub_804C40C(void); // TODO: Move to correct Header!
-
 typedef struct {
     u8 unk0[3];
     u8 unk3;

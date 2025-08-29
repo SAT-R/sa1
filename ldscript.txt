@@ -78,6 +78,7 @@ SECTIONS {
         asm/game__special_stage.o(.text);
         src/game/enemies/boss_2_egg_press.o(.text);
         src/game/enemies/boss_3_egg_ball.o(.text);
+        src/game/enemies/boss_4_egg_spider.o(.text);
         asm/enemy_boss_4_egg_spider.o(.text);
         asm/enemy_boss_6_egg_snake.o(.text);
         asm/enemy_boss_egg_wrecker.o(.text);

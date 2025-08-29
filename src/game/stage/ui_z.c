@@ -7,6 +7,7 @@
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/mp_player.h"
 #include "game/stage/ui.h"
+#include "game/stage/underwater_effects.h"
 #include "game/water_effects.h"
 
 #include "constants/ui_graphics.h"
