@@ -9,6 +9,7 @@
 #include "game/nuts_and_bolts_task.h"
 #include "game/save.h"
 #include "game/stage/player_controls.h"
+#include "game/stage/rings_scatter.h"
 #include "game/stage/screen_shake.h"
 #include "game/stage/terrain_collision.h"
 
@@ -26,17 +27,63 @@ typedef struct EggSpider {
     /* 0x70 */ s32 unk70;
     /* 0x74 */ s32 unk74;
     /* 0x78 */ s32 unk78;
-    /* 0x7C */ u8 filler7C[0x8];
+    /* 0x78 */ s32 unk7C;
+    /* 0x80 */ s32 unk80;
     /* 0x84 */ u16 unk84;
-    /* 0x86 */ u8 unk86;
+    /* 0x86 */ s8 unk86;
     /* 0x86 */ s8 unk87;
     /* 0x88 */ u8 filler88[0x2];
-    /* 0x8A */ u8 unk8A;
-    /* 0x8C */ u8 unk8B;
+    /* 0x8A */ u16 unk8A;
+    /* 0x8A */ u8 unk8C;
 } EggSpider; /* 0x90 */
 
 void Task_EggSpiderInit(void);
+void sub_80308A4(CamCoord worldX, CamCoord worldY);
+void sub_80309CC(void);
+void sub_8030EE4(void);
+void sub_80311D4(void);
+void sub_8031998(EggSpider *boss);
 void TaskDestructor_8031CB4(struct Task *t);
+
+extern s16 gUnknown_084ACEB4[];
+extern s16 gUnknown_084ACED8[];
+extern s16 gUnknown_084ACEC6[];
+
+static inline void sub_8031CD0_inline(void)
+{
+    EggSpider *boss = TASK_DATA(gCurTask);
+    Sprite *s2 = &boss->s2;
+
+    if ((s2->variant != 0) && (s2->frameFlags & SPRITE_FLAG(ANIM_OVER, 1))) {
+        s2->variant = 0U;
+        s2->prevVariant = 0xFF;
+    }
+}
+
+static inline void sub_8031D0C_inline()
+{
+    EggSpider *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    s2->x = s->x;
+    s2->y = s->y;
+
+    if (s->graphics.anim == SA1_ANIM_BOSS_4) {
+        const SpriteOffset *dimensions = s->dimensions;
+
+        s2->y -= gUnknown_084ACED8[(s8)dimensions->oamIndex];
+    }
+}
+
+static inline void sub_8031D54_inline(CamCoord worldX, CamCoord worldY)
+{
+    EggSpider *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+}
 
 void sub_80308A4(CamCoord worldX, CamCoord worldY)
 {
@@ -70,11 +117,11 @@ void sub_80308A4(CamCoord worldX, CamCoord worldY)
             boss->unk86++;
             boss->unk87 = 120;
             s2->variant = 2;
-            s2->frameFlags &= 0xFFFFBFFF;
+            s2->frameFlags &= ~0x4000;
             m4aSongNumStart(SE_BOSS_HIT);
         } else if ((collPlayer == 2) || (collPartner == 2)) {
             s2->variant = 1;
-            s2->frameFlags &= 0xFFFFBFFF;
+            s2->frameFlags &= ~0x4000;
         }
     }
 }
@@ -101,9 +148,9 @@ void sub_80309CC(void)
     DisplaySprite(s2);
 }
 
-#if 0
-void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
-    EggSpider* boss;
+void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    EggSpider *boss;
     Sprite *s2;
     Sprite *s;
     s32 temp_r0_3;
@@ -113,15 +160,17 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
     u8 *temp_r0;
     u8 *temp_r0_2;
     u8 *temp_r1_3;
+    struct Task *t;
 
     if (IS_MULTI_PLAYER) {
         SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
 
-    boss = TASK_DATA(TaskCreate(Task_EggSpiderInit, sizeof(EggSpider), 0x2000U, 0U, TaskDestructor_8031CB4));
+    t = TaskCreate(Task_EggSpiderInit, sizeof(EggSpider), 0x2000U, 0U, TaskDestructor_8031CB4);
     TaskCreate(sub_804C40C, 0U, 0xFFFDU, 0U, NULL);
 
+    boss = TASK_DATA(t);
     s = &boss->s;
     boss->base.regionX = regionX;
     boss->base.regionY = regionY;
@@ -131,7 +180,7 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
     boss->unk84 = 120;
     boss->unk87 = 0;
     boss->unk8A = 0;
-    boss->unk8B = 0;
+    boss->unk8C = 0;
     boss->unk6C = 0x3000;
     boss->unk70 = 0x1000;
     boss->unk74 = 0;
@@ -145,7 +194,7 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
 
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
-    
+
     s->graphics.dest = VramMalloc(64);
     s->oamFlags = 0x580;
     s->graphics.size = 0;
@@ -153,10 +202,9 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
     s->variant = 2;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    temp_r1_3[1] = 0xFF;
-    temp_r0 = &s->animSpeed;
-    *temp_r0 = 0x10;
-    temp_r0[3] = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2000;
 
@@ -172,26 +220,248 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
     s2->variant = 0;
     s2->animCursor = 0;
     s2->qAnimDelay = 0;
-    s2->prevVariant = -1U;
+    s2->prevVariant = -1;
     s2->animSpeed = 0x10;
     s2->palId = 0;
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
     sub_80171BC(s->y, s->y + 192, s->x - 320, s->x);
-    
+
     gPlayer.qSpeedGround = 0;
     gPlayer.moveState |= 0x200000;
 
-    if ((gPlayer.character == CHARACTER_KNUCKLES)
-        && ((gPlayer.anim == 269) || (gPlayer.anim == 207))) {
+    if ((gPlayer.character == CHARACTER_KNUCKLES) && ((gPlayer.anim == 269) || (gPlayer.anim == 207))) {
         gPlayer.heldInput = DPAD_DOWN;
     } else {
         gPlayer.heldInput = 0;
     }
 
     if (gRingsScatterTask != NULL) {
-        ScatterRing *scatter = TASK_DATA(gRingsScatterTask);
+        RingsScatter *scatter = TASK_DATA(gRingsScatterTask);
         scatter->SA2_LABEL(unk2B6) |= 1;
     }
 }
+
+void Task_EggSpiderInit(void)
+{
+    Sprite *s;
+    Sprite *s2;
+
+    EggSpider *boss = TASK_DATA(gCurTask);
+    MapEntity *me;
+    CamCoord worldX, worldY;
+
+    s = &boss->s;
+    s2 = &boss->s2;
+    me = boss->base.me;
+    boss->unk6C += boss->unk74;
+    boss->unk70 += boss->unk78;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk6C);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk70);
+
+    sub_8031D54_inline(worldX, worldY);
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    sub_8031D0C_inline();
+    sub_80309CC();
+
+    switch (boss->unk8C) {
+        case 0: {
+            if (--boss->unk84 == 0) {
+                gMusicManagerState.unk1 = 0x10;
+                s->variant = 0;
+                boss->unk74 = -0x100;
+                boss->unk8C++;
+            }
+            if ((gPlayer.anim == 0xD1) && (gPlayer.variant == 2)) {
+                gPlayer.heldInput = 0;
+                return;
+            }
+        } break;
+
+        case 1: {
+            if (boss->unk6C <= -Q(120)) {
+                s->variant = 2;
+                boss->unk6C = -0x7800;
+                boss->unk74 = 0;
+                boss->unk84 = 60;
+                boss->unk8C++;
+            }
+
+            if (gCamera.shiftY != -0x60) {
+                gCamera.shiftY--;
+                return;
+            }
+        } break;
+
+        case 2: {
+            if (--boss->unk84 == 0) {
+                s2->variant = 1;
+                boss->unk8C++;
+                return;
+            }
+        } break;
+
+        case 3: {
+            if (s2->frameFlags & 0x4000) {
+                s2->variant = 0;
+                boss->unk84 = 60;
+                boss->unk8C++;
+            }
+        } break;
+
+        case 4: {
+            if (--boss->unk84 == 0) {
+                gCamera.shiftY = 0;
+                gPlayer.moveState &= 0xFFDFFFFF;
+                gPlayer.heldInput |= gPlayerControls.jump | gPlayerControls.attack;
+                boss->unk8C = 0;
+                boss->unk84 = 30;
+                gCurTask->main = sub_8030EE4;
+            }
+        } break;
+    }
+}
+
+void sub_8030EE4()
+{
+    s32 sp4;
+    Sprite *s;
+    Sprite *s2;
+    s32 temp_r0_7;
+
+    EggSpider *boss;
+    MapEntity *me;
+    CamCoord worldX, worldY;
+
+    sp4 = 0;
+    boss = TASK_DATA(gCurTask);
+    s = &boss->s;
+    s2 = &boss->s2;
+    me = boss->base.me;
+    boss->unk6C += boss->unk74;
+    boss->unk70 += boss->unk78;
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk6C);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk70);
+
+    sub_80308A4(worldX, worldY);
+    if (boss->unk86 > 7) {
+        sub_80311D4();
+        return;
+    }
+
+    sub_8031D54_inline(worldX, worldY);
+
+    sub_8031CD0_inline();
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    sub_8031D0C_inline();
+
+    sub_80309CC();
+
+    if (boss->unk8A != 0) {
+        boss->unk8A--;
+    }
+
+    switch (boss->unk8C) {
+        case 0: {
+            if (--boss->unk84 != 0) {
+                return;
+            }
+            s->variant = 0;
+            temp_r0_7 = (u32)PseudoRandom32() % 9U;
+            boss->unk80 = Q(gUnknown_084ACEC6[temp_r0_7]);
+            if (boss->unk6C == boss->unk80) {
+                boss->unk80 = Q(gUnknown_084ACEC6[((temp_r0_7 + 5) % 9)]);
+            }
+            if (boss->unk6C <= boss->unk80) {
+                boss->unk74 = +0x100;
+                boss->unk8C = 1;
+            } else {
+                boss->unk74 = -0x100;
+                boss->unk8C = 1;
+            }
+        } break;
+
+        case 1: {
+            if (boss->unk74 > 0) {
+                if (boss->unk6C > boss->unk80) {
+                    sp4 = 1;
+                }
+            } else {
+                if (boss->unk6C < boss->unk80) {
+                    sp4 = (u8)-1;
+                }
+            }
+
+            if (sp4 != 0) {
+                boss->unk6C = boss->unk80;
+                boss->unk74 = 0;
+                boss->unk84 = 30;
+                boss->unk8C = 2;
+                s->variant = 2;
+            }
+        } break;
+
+        case 2: {
+            if (--boss->unk84 == 0) {
+                if (boss->unk8A != 0) {
+                    boss->unk84 = 30;
+                    boss->unk8C = 0;
+                } else {
+                    boss->unk84 = 120;
+                    boss->unk8C = 3;
+                    s->variant = 1;
+
+                    if (PLAYER_IS_ALIVE) {
+                        CreateScreenShake(0x400U, 0U, 0x100U, 120, 0x80U);
+                    }
+                }
+            }
+        } break;
+
+        case 3: {
+            if (--boss->unk84 == 0) {
+                boss->unk84 = 30;
+                boss->unk8C = 0;
+                boss->unk8A = 120;
+                s->variant = 2;
+            } else if (((boss->unk84 % gUnknown_084ACEB4[boss->unk86]) == 0) && PLAYER_IS_ALIVE) {
+                sub_8031998(boss);
+                m4aSongNumStart(0x91U);
+            }
+        } break;
+    }
+}
+
+#if 01
+
+#if 0
+static inline void sub_8031CD0(void)
+{
+    sub_8031CD0_inline(void);
+}
+
+// TODO: Make inline match
+void sub_8031D54(CamCoord worldX, CamCoord worldY)
+{
+    EggSpider *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+}
+
+extern u16 gUnknown_084ACED8[];
+void sub_8031D0C()
+{
+    sub_8031D0C_inline();
+}
+#endif
+
 #endif

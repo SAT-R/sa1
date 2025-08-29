@@ -99,7 +99,7 @@ typedef struct {
 
     // every animation has an associated oamData pointer, oamIndex starts at
     // 0 for every new animation and ends at variantCount-1
-    /* 0x01 */ u8 oamIndex;
+    /* 0x01 */ u8 oamIndex; // TODO: is oamIndex s8 ?
 
     // some sprite frames consist of multiple images (of the same size
     // as GBA's Object Attribute Memory, e.g. 8x8, 8x32, 32x64, ...)
