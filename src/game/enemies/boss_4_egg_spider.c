@@ -12,6 +12,7 @@
 #include "game/stage/rings_scatter.h"
 #include "game/stage/screen_shake.h"
 #include "game/stage/terrain_collision.h"
+#include "game/water_effects.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -23,8 +24,8 @@ typedef struct EggSpider {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x3C */ Sprite s2;
-    /* 0x6C */ s32 unk6C;
-    /* 0x70 */ s32 unk70;
+    /* 0x6C */ s32 qUnk6C;
+    /* 0x70 */ s32 qUnk70;
     /* 0x74 */ s32 unk74;
     /* 0x78 */ s32 unk78;
     /* 0x78 */ s32 unk7C;
@@ -32,7 +33,7 @@ typedef struct EggSpider {
     /* 0x84 */ u16 unk84;
     /* 0x86 */ s8 unk86;
     /* 0x86 */ s8 unk87;
-    /* 0x88 */ u8 filler88[0x2];
+    /* 0x88 */ s16 qUnk88;
     /* 0x8A */ u16 unk8A;
     /* 0x8A */ u8 unk8C;
 } EggSpider; /* 0x90 */
@@ -42,7 +43,9 @@ void sub_80308A4(CamCoord worldX, CamCoord worldY);
 void sub_80309CC(void);
 void sub_8030EE4(void);
 void sub_80311D4(void);
-void sub_8031998(EggSpider *boss);
+void Task_8031480(void);
+void sub_803170C(void);
+void CreateIciclePlatform(EggSpider *boss) {};
 void TaskDestructor_8031CB4(struct Task *t);
 
 extern s16 gUnknown_084ACEB4[];
@@ -181,8 +184,8 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boss->unk87 = 0;
     boss->unk8A = 0;
     boss->unk8C = 0;
-    boss->unk6C = 0x3000;
-    boss->unk70 = 0x1000;
+    boss->qUnk6C = Q(48);
+    boss->qUnk70 = Q(16);
     boss->unk74 = 0;
     boss->unk78 = 0;
 
@@ -254,11 +257,11 @@ void Task_EggSpiderInit(void)
     s = &boss->s;
     s2 = &boss->s2;
     me = boss->base.me;
-    boss->unk6C += boss->unk74;
-    boss->unk70 += boss->unk78;
+    boss->qUnk6C += boss->unk74;
+    boss->qUnk70 += boss->unk78;
 
-    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk6C);
-    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk70);
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk6C);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk70);
 
     sub_8031D54_inline(worldX, worldY);
 
@@ -283,9 +286,9 @@ void Task_EggSpiderInit(void)
         } break;
 
         case 1: {
-            if (boss->unk6C <= -Q(120)) {
+            if (boss->qUnk6C <= -Q(120)) {
                 s->variant = 2;
-                boss->unk6C = -0x7800;
+                boss->qUnk6C = -0x7800;
                 boss->unk74 = 0;
                 boss->unk84 = 60;
                 boss->unk8C++;
@@ -342,10 +345,10 @@ void sub_8030EE4()
     s = &boss->s;
     s2 = &boss->s2;
     me = boss->base.me;
-    boss->unk6C += boss->unk74;
-    boss->unk70 += boss->unk78;
-    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->unk6C);
-    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->unk70);
+    boss->qUnk6C += boss->unk74;
+    boss->qUnk70 += boss->unk78;
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk6C);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk70);
 
     sub_80308A4(worldX, worldY);
     if (boss->unk86 > 7) {
@@ -376,10 +379,10 @@ void sub_8030EE4()
             s->variant = 0;
             temp_r0_7 = (u32)PseudoRandom32() % 9U;
             boss->unk80 = Q(gUnknown_084ACEC6[temp_r0_7]);
-            if (boss->unk6C == boss->unk80) {
+            if (boss->qUnk6C == boss->unk80) {
                 boss->unk80 = Q(gUnknown_084ACEC6[((temp_r0_7 + 5) % 9)]);
             }
-            if (boss->unk6C <= boss->unk80) {
+            if (boss->qUnk6C <= boss->unk80) {
                 boss->unk74 = +0x100;
                 boss->unk8C = 1;
             } else {
@@ -390,17 +393,17 @@ void sub_8030EE4()
 
         case 1: {
             if (boss->unk74 > 0) {
-                if (boss->unk6C > boss->unk80) {
+                if (boss->qUnk6C > boss->unk80) {
                     sp4 = 1;
                 }
             } else {
-                if (boss->unk6C < boss->unk80) {
+                if (boss->qUnk6C < boss->unk80) {
                     sp4 = (u8)-1;
                 }
             }
 
             if (sp4 != 0) {
-                boss->unk6C = boss->unk80;
+                boss->qUnk6C = boss->unk80;
                 boss->unk74 = 0;
                 boss->unk84 = 30;
                 boss->unk8C = 2;
@@ -432,36 +435,266 @@ void sub_8030EE4()
                 boss->unk8A = 120;
                 s->variant = 2;
             } else if (((boss->unk84 % gUnknown_084ACEB4[boss->unk86]) == 0) && PLAYER_IS_ALIVE) {
-                sub_8031998(boss);
+                CreateIciclePlatform(boss);
                 m4aSongNumStart(0x91U);
             }
         } break;
     }
 }
 
-#if 01
+void sub_80311D4(void)
+{
+    u16 prevMinY;
+    u16 prevMaxY;
+    CamCoord worldX, worldY;
 
+    Strc_sub_80168F0 *strc;
+    EggSpider *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+    struct Task *t;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk6C);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk70);
+    s2->variant = 2;
+    boss->qUnk88 = 0;
+    m4aSongNumStart(SE_EXPLOSION);
+    boss->unk84 = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_4_BODY;
+    s->variant = 0;
+    s->prevVariant = 0xFF;
+
+    {
+        strc = TASK_DATA(sub_80168F0(worldX, worldY, 0x10, 0x273, 0U));
+        strc->qUnk46 = 0;
+        strc->unk48 = 0;
+        strc->unk42 = 0x80;
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            strc->transform.qScaleX = -Q(1);
+            strc->qUnk44 = +Q(1);
+        } else {
+            strc->qUnk44 = -Q(1);
+        }
+
+        strc->unk40 = 60;
+    }
+
+    {
+        strc = TASK_DATA(sub_80168F0(worldX + 16, worldY + 16, 0xC, 0x273, 1U));
+        strc->qUnk46 = 0;
+        strc->unk48 = 0;
+        strc->unk42 = 0x80;
+
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            strc->transform.qScaleX = -Q(1);
+            strc->qUnk44 = +Q(4);
+        } else {
+            strc->qUnk44 = -Q(4);
+        }
+
+        strc->unk40 = 60;
+    }
+
+    {
+        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 0xC, 0x273, 1U));
+
+        strc->qUnk46 = 0;
+        strc->unk48 = 0;
+        strc->unk42 = 0x380;
+
+        strc->s.frameFlags |= SPRITE_FLAG(X_FLIP, 1);
+        if (s->frameFlags & SPRITE_FLAG(X_FLIP, 1)) {
+            strc->transform.qScaleX = -Q(1);
+            strc->qUnk44 = -Q(4);
+        } else {
+            strc->qUnk44 = +Q(4);
+        }
+        strc->unk40 = 60;
+    }
+
+    gCamera.minX = gCamera.x;
+    gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
+
+    // NOTE: We have to use worldX/worldY to match this function,
+    //       even if it doesn't make sense.
+    worldX = gCamera.minY;
+    worldY = gCamera.maxY;
+    sub_80174DC(gCamera.maxY - DISPLAY_HEIGHT, (u16)gCamera.maxY);
+    gCamera.minY = worldX;
+    gCamera.maxY = worldY;
+
+    gWater.targetWaterLevel += DISPLAY_HEIGHT;
+
+    INCREMENT_SCORE_A(1000);
+
+    Task_8031480();
+    gCurTask->main = Task_8031480;
+}
+
+void Task_8031480(void)
+{
+    s32 res;
+
+    EggSpider *boss = TASK_DATA(gCurTask);
+    SpriteBase *base = &boss->base;
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    boss->qUnk88 += 0x2;
+    boss->qUnk70 += boss->qUnk88;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk6C);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk70);
+
+    res = sa2__sub_801F100(worldY + 0x38, worldX, 1, 8, &sa2__sub_801EC3C);
+
+    if (boss->unk84 > 120)
+        if (res < 0) {
+            boss->qUnk88 = 0U;
+            gCurTask->main = sub_803170C;
+        }
+
+    s->frameFlags &= ~0x180;
+
+    if (PLAYER_IS_ALIVE) {
+        gDispCnt &= 0x7FFF;
+        gWinRegs[WINREG_WINOUT] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+    }
+
+    boss->unk84++;
+    if ((boss->unk84 & 0x7) == 0) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+        Sprite *sprBolts;
+        s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+        s32 rndTheta;
+        s32 a0, a1;
+        s32 rnd;
+        t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
+                                   gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
+        bolts = TASK_DATA(t);
+        sprBolts = &bolts->s;
+        bolts->qUnk30 = Q(worldX);
+        bolts->qUnk34 = Q(worldY + 32);
+        sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+        sprBolts->oamFlags = SPRITE_OAM_ORDER(17);
+        bolts->qUnk3E = Q(5. / 256.);
+        bolts->qUnk40 = Q(32. / 256.);
+        rndTheta = PseudoRandom32();
+        bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+        bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+        rnd = PseudoRandom32();
+        sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    sub_8031D0C_inline();
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
+}
+
+void sub_803170C(void)
+{
+    EggSpider *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk6C);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk70);
+
+    if (PLAYER_IS_ALIVE) {
+        gDispCnt &= ~0x8000;
+        s->frameFlags &= ~0x180;
+    }
+
+    if (boss->unk84++ > 300) {
+        Strc_sub_80168F0 *strc;
+        sub_8015C5C(worldX, worldY + 40);
+        CreateBossCapsule(worldX, worldY);
+        gMusicManagerState.unk1 = 0x30;
+
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((boss->unk84 & 7) == 0) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+        Sprite *sprBolts;
+        s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+        s32 rndTheta;
+        s32 a0, a1;
+        s32 rnd;
+        t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
+                                   gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
+        bolts = TASK_DATA(t);
+        sprBolts = &bolts->s;
+        bolts->qUnk30 = Q(worldX);
+        bolts->qUnk34 = Q(worldY + 32);
+        sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+        sprBolts->oamFlags = SPRITE_OAM_ORDER(17);
+        bolts->qUnk3E = Q(5. / 256.);
+        bolts->qUnk40 = Q(32. / 256.);
+        rndTheta = PseudoRandom32();
+        bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+        bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+        rnd = PseudoRandom32();
+        sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
+    }
+
+    gWinRegs[5] = 0;
+    gBldRegs.bldCnt = 0;
+    gBldRegs.bldY = 0;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    sub_8031D0C_inline();
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
+}
+
+void TaskDestructor_8031CB4(struct Task *t)
+{
+    EggSpider *boss = TASK_DATA(t);
+
+    VramFree(boss->s.graphics.dest);
+    VramFree(boss->s2.graphics.dest);
+}
+
+#if 01
 #if 0
-static inline void sub_8031CD0(void)
+void sub_8031CD0(void)
 {
     sub_8031CD0_inline(void);
 }
 
-// TODO: Make inline match
+void sub_8031D0C(void)
+{
+    sub_8031D0C_inline(void);
+}
+
+// TODO: Check inline match
 void sub_8031D54(CamCoord worldX, CamCoord worldY)
 {
-    EggSpider *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->s;
-
-    s->x = worldX - gCamera.x;
-    s->y = worldY - gCamera.y;
+    sub_8031D54_inline(void);
 }
 
-extern u16 gUnknown_084ACED8[];
-void sub_8031D0C()
-{
-    sub_8031D0C_inline();
-}
 #endif
 
 #endif

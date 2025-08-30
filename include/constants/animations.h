@@ -265,8 +265,8 @@
 #define SA1_ANIM_BOSS_3_STAR_DISC      623
 #define SA1_ANIM_BOSS_3_MOBILE         624
 #define SA1_ANIM_BOSS_3_SPIKE_BALL     625
-#define SA1_ANIM_BOSS_BODY             626
-#define SA1_ANIM_BOSS_DRILL4           627
+#define SA1_ANIM_BOSS_4_BODY           626
+#define SA1_ANIM_BOSS_4_DRILL4         627
 #define SA1_ANIM_BOSS_4                628
 #define SA1_ANIM_BOSS_4_EGGMAN         629
 #define SA1_ANIM_BOSS_4_ICICLE         630
