@@ -45,7 +45,7 @@ void sub_8030EE4(void);
 void sub_80311D4(void);
 void Task_8031480(void);
 void sub_803170C(void);
-void CreateIciclePlatform(EggSpider *boss) {};
+void CreateIciclePlatform(EggSpider *boss);
 void TaskDestructor_8031CB4(struct Task *t);
 
 extern s16 gUnknown_084ACEB4[];
@@ -669,6 +669,74 @@ void sub_803170C(void)
     DisplaySprite(s2);
 }
 
+typedef struct IciclePlatform {
+    /* 0x0C */ Sprite s;
+    /* 0x30 */ u8 filler30[0x14];
+    /* 0x44 */ CamCoord worldX;
+    /* 0x46 */ CamCoord worldY;
+    /* 0x48 */ u8 filler48[4];
+    /* 0x4C */ s32 unk4C;
+    /* 0x50 */ s32 unk50;
+    /* 0x54 */ s32 unk54;
+    /* 0x58 */ s32 unk58;
+    /* 0x30 */ u8 filler5C[0xC];
+} IciclePlatform; /* 0x68 */
+
+void sub_8031AB4(void);
+
+// (96.94%) https://decomp.me/scratch/TvEoX
+NONMATCH("asm/non_matching/game/enemies/boss_4__CreateIciclePlatform.inc", void CreateIciclePlatform(EggSpider *boss))
+{
+    s32 rnd1;
+    s32 rnd;
+    IciclePlatform *icicle;
+    struct Task *t;
+    MapEntity *me;
+    Sprite *s;
+    s32 v0;
+#if 0
+    register u32 r7 asm("r7");
+#else
+    u32 r7;
+#endif
+    u8 *ptr;
+
+    me = boss->base.me;
+    t = TaskCreate(sub_8031AB4, sizeof(IciclePlatform), 0x2200U, 0U, NULL);
+    icicle = TASK_DATA(t);
+    s = &icicle->s;
+    icicle->worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
+    icicle->worldY = TO_WORLD_POS(me->y, boss->base.regionY);
+
+    r7 = ((u32)PseudoRandom32() >> 1);
+    r7 &= 0xF;
+    icicle->unk4C = Q(-(((r7 << 2) + r7) << 2) - 10);
+    icicle->unk50 = -Q(32);
+    icicle->unk54 = 0;
+    icicle->unk58 = 0xA;
+    PseudoRandom32();
+    icicle->unk58 = ((PseudoRandom32()) & 0xF) + 10;
+
+    s->x = 0;
+    s->y = 0;
+    s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2720);
+    s->oamFlags = SPRITE_OAM_ORDER(20);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_4_ICICLE;
+
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+}
+END_NONMATCH
+
+#if 01
+#if 0
 void TaskDestructor_8031CB4(struct Task *t)
 {
     EggSpider *boss = TASK_DATA(t);
@@ -677,8 +745,7 @@ void TaskDestructor_8031CB4(struct Task *t)
     VramFree(boss->s2.graphics.dest);
 }
 
-#if 01
-#if 0
+
 void sub_8031CD0(void)
 {
     sub_8031CD0_inline(void);
