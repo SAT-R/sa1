@@ -735,8 +735,103 @@ NONMATCH("asm/non_matching/game/enemies/boss_4__CreateIciclePlatform.inc", void 
 }
 END_NONMATCH
 
-#if 01
-#if 0
+void sub_8031AB4(void)
+{
+    s16 temp_r6;
+    s32 temp_r0;
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 temp_r2_3;
+#ifndef NON_MATCHING
+    register s32 var_r0 asm("r0");
+    register s32 var_r1 asm("r1");
+    register s32 temp_r2_2 asm("r2");
+#else
+    s32 var_r0;
+    s32 var_r1;
+    s32 temp_r2_2;
+#endif
+    s32 var_r1_2;
+    s32 var_sl;
+    EggSpider *boss;
+    Sprite *s;
+    CamCoord worldX, worldY;
+    IciclePlatform *icicle;
+    s32 sp4;
+
+    sp4 = 0;
+    icicle = TASK_DATA(gCurTask);
+    boss = TASK_DATA(TASK_PARENT(gCurTask));
+    s = &icicle->s;
+    temp_r2 = icicle->unk50;
+    if (((icicle->worldY + I(icicle->unk50)) - 17) < gWater.currentWaterLevel) {
+        icicle->unk54 += icicle->unk58;
+        icicle->unk50 += icicle->unk54;
+        var_sl = icicle->unk54;
+    } else {
+        sp4 = 1;
+        if (boss->unk86 > 7) {
+            icicle->unk54 += icicle->unk58;
+        } else {
+            var_r1_2 = icicle->unk58;
+            if (var_r1_2 < 0) {
+                var_r1_2 += 7;
+            }
+            icicle->unk54 += var_r1_2 >> 3;
+        }
+
+        var_r1 = icicle->unk54;
+        var_r0 = var_r1;
+        if (var_r1 < 0) {
+            var_r0 = var_r1 + 7;
+        }
+        temp_r2_2 = var_r0 >> 3;
+        icicle->unk50 += temp_r2_2;
+        var_sl = temp_r2_2;
+    }
+
+    if (icicle->unk50 > Q(208)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    worldX = icicle->worldX + I(icicle->unk4C);
+    worldY = icicle->worldY + I(icicle->unk50);
+    UpdateSpriteAnimation(s);
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if ((boss != TASK_PTR(NULL)) && (boss->unk86 <= 7)) {
+        sub_800BFEC(s, worldX, worldY, &gPlayer);
+        if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+            sub_800BFEC(s, worldX, worldY, &gPartner);
+        }
+    }
+    if (sp4 != 0) {
+        Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPlayer);
+    }
+
+    if ((8 & gPlayer.moveState) && (gPlayer.stoodObj == s)) {
+        if (icicle->unk50 > Q(196)) {
+            gPlayer.moveState &= ~8;
+        } else {
+            gPlayer.qWorldY += Q(1) + var_sl;
+        }
+    }
+    if ((s8)(u8)gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        Coll_Player_PlatformCrumbling(s, worldX, worldY, &gPartner);
+
+        if ((8 & gPartner.moveState) && (gPartner.stoodObj == s)) {
+            if (icicle->unk50 > Q(196)) {
+                gPartner.moveState &= ~8;
+            } else {
+                gPartner.qWorldY += Q(1) + var_sl;
+            }
+        }
+    }
+    DisplaySprite(s);
+}
+
 void TaskDestructor_8031CB4(struct Task *t)
 {
     EggSpider *boss = TASK_DATA(t);
@@ -745,23 +840,9 @@ void TaskDestructor_8031CB4(struct Task *t)
     VramFree(boss->s2.graphics.dest);
 }
 
+void sub_8031CD0(void) { sub_8031CD0_inline(); }
 
-void sub_8031CD0(void)
-{
-    sub_8031CD0_inline(void);
-}
-
-void sub_8031D0C(void)
-{
-    sub_8031D0C_inline(void);
-}
+void sub_8031D0C(void) { sub_8031D0C_inline(); }
 
 // TODO: Check inline match
-void sub_8031D54(CamCoord worldX, CamCoord worldY)
-{
-    sub_8031D54_inline(void);
-}
-
-#endif
-
-#endif
+void sub_8031D54(CamCoord worldX, CamCoord worldY) { sub_8031D54_inline(worldX, worldY); }
