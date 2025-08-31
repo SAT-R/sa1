@@ -81,20 +81,20 @@ sOptionsSelectFuncs:
     mPtr OptionsSelectDeleteGameData
     mPtr OptionsSelectEnd
 
-    .global gUnknown_080BB3C0
-gUnknown_080BB3C0:
+    .global sPlayerDataMenuAnims
+sPlayerDataMenuAnims:
     .short 869, 868
 
-    .global gUnknown_080BB3C4
-gUnknown_080BB3C4:
+    .global sPlayerDataMenuVariants
+sPlayerDataMenuVariants:
     .byte 1, 0, 2
 
-    .global gUnknown_080BB3C7
-gUnknown_080BB3C7:
+    .global sPlayerDataMenuYOffsets
+sPlayerDataMenuYOffsets:
     .byte 0x41, 0x59, 0x81
 
-    .global gUnknown_080BB3CA
-gUnknown_080BB3CA:
+    .global sPlayerDataMenuTileCounts
+sPlayerDataMenuTileCounts:
     .byte 8, 18, 14, 0, 0, 0
 
     .global gUnknown_080BB3D0

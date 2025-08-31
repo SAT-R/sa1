@@ -678,20 +678,20 @@ gUnknown_086CC794:
 gUnknown_086CC834:
     .incbin "baserom.gba", 0x006CC834, 0x500
 
-    .global gUnknown_086CCD34
-gUnknown_086CCD34:
+    .global gPalette_086CCD34
+gPalette_086CCD34:
     .incbin "baserom.gba", 0x006CCD34, 0x20
 
-    .global gUnknown_086CCD54
-gUnknown_086CCD54:
+    .global gTiles_086CCD54
+gTiles_086CCD54:
     .incbin "baserom.gba", 0x006CCD54, 0xBA0
 
-    .global gUnknown_086CD8F4
-gUnknown_086CD8F4:
+    .global gLayout_086CD8F4
+gLayout_086CD8F4:
     .incbin "baserom.gba", 0x006CD8F4, 0x500
 
-    .global gUnknown_086CDDF4
-gUnknown_086CDDF4:
+    .global gLayout_086CDDF4
+gLayout_086CDDF4:
     .incbin "baserom.gba", 0x006CDDF4, 0x500
 
     .global gUnknown_086CE2F4

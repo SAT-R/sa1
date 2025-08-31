@@ -35,6 +35,7 @@ SECTIONS {
         asm/game__multiplayer__mode_select.o(.text);
         asm/game__time_attack__menu.o(.text);
         asm/game__options_menu.o(.text);
+        src/game/player_data_menu.o(.text);
         asm/game__player_data_menu.o(.text);
         src/game/sa1_sa2_shared/spot_light_beam_task.o(.text);
         src/game/to_be_continued_screen.o(.text);
