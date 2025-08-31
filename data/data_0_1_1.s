@@ -80,29 +80,3 @@ sOptionsSelectFuncs:
     mPtr OptionsSelectButtonConfig
     mPtr OptionsSelectDeleteGameData
     mPtr OptionsSelectEnd
-
-    .global sPlayerDataMenuAnims
-sPlayerDataMenuAnims:
-    .short 869, 868
-
-    .global sPlayerDataMenuVariants
-sPlayerDataMenuVariants:
-    .byte 1, 0, 2
-
-    .global sPlayerDataMenuYOffsets
-sPlayerDataMenuYOffsets:
-    .byte 0x41, 0x59, 0x81
-
-    .global sPlayerDataMenuTileCounts
-sPlayerDataMenuTileCounts:
-    .byte 8, 18, 14, 0, 0, 0
-
-    .global gUnknown_080BB3D0
-gUnknown_080BB3D0:
-    mPtr PlayerDataSelectName
-    mPtr PlayerDataSelectVsRecord
-    mPtr PlayerDataSelectOK
-
-    .global gPressStartTiles
-gPressStartTiles:
-    .short 778, 779

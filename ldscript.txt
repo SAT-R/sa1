@@ -36,7 +36,6 @@ SECTIONS {
         asm/game__time_attack__menu.o(.text);
         asm/game__options_menu.o(.text);
         src/game/player_data_menu.o(.text);
-        asm/game__player_data_menu.o(.text);
         src/game/sa1_sa2_shared/spot_light_beam_task.o(.text);
         src/game/to_be_continued_screen.o(.text);
         src/game/sa1_sa2_shared/enemy_defeat_score.o(.text);
@@ -275,6 +274,7 @@ SECTIONS {
         src/game/title_screen.o(.rodata);
         src/game/sa1_sa2_shared/unused_level_select.o(.rodata);
         data/data_0_1_1.o(.rodata);
+        src/game/player_data_menu.o(.rodata);
         src/game/sa1_sa2_shared/unused_flash_task.o(.rodata);
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
