@@ -13,17 +13,23 @@
 #include "constants/songs.h"
 #include "constants/text.h" // for UILANG_COUNT
 
+typedef enum EPDM_Options {
+    PDM_OPTION_SELECT_NAME,
+    PDM_OPTION_SELECT_VS_RECORD,
+    PDM_OPTION_SELECT_OK,
+
+    PDM_OPTION_COUNT
+} EPDM_Options;
+
 typedef struct PlayerDataMenu {
     /* 0x00 */ Sprite s;
-    /* 0x30 */ Sprite s2[4];
+    /* 0x30 */ Sprite s2[PDM_OPTION_COUNT + 1];
     /* 0xF0 */ StrcUi_805423C strcF0;
     /* 0xFC */ GameOverB unkFC;
     /* 0x114 */ u16 pressedKeys;
     /* 0x116 */ u16 unk116;
     /* 0x118 */ u8 unk118;
     /* 0x119 */ u8 unk119;
-
-    //    sp34 = &subroutine_arg0 + 0x2C;
 } PlayerDataMenu; /* 0x11C */
 
 void CreatePlayerDataMenu();
@@ -40,20 +46,20 @@ void PlayerDataSelectVsRecord(void);
 void PlayerDataSelectOK(void);
 
 const AnimId sPlayerDataMenuAnims[UILANG_COUNT] = { SA1_ANIM_VS_RECORD_TEXTS_JP, SA1_ANIM_VS_RECORD_TEXTS_EN };
-const u8 sPlayerDataMenuVariants[3] = { 1, 0, 2 };
-const u8 sPlayerDataMenuYOffsets[3] = { 0x41, 0x59, 0x81 };
-const u8 sPlayerDataMenuTileCounts[3] = { 8, 18, 14 };
-const VoidFn gUnknown_080BB3D0[3] = {
+const u8 sPlayerDataMenuVariants[PDM_OPTION_COUNT] = { 1, 0, 2 };
+const u8 sPlayerDataMenuYOffsets[PDM_OPTION_COUNT] = { 0x41, 0x59, 0x81 };
+const u8 sPlayerDataMenuTileCounts[PDM_OPTION_COUNT] = { 8, 18, 14 };
+const VoidFn gUnknown_080BB3D0[PDM_OPTION_COUNT] = {
     PlayerDataSelectName,
     PlayerDataSelectVsRecord,
     PlayerDataSelectOK,
 };
 const AnimId gPressStartTiles[UILANG_COUNT] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
 
-extern const u8 gPalette_086CCD34[];
-extern const u8 gTiles_086CCD54[];
-extern const u8 gLayout_086CD8F4[];
-extern const u8 gLayout_086CDDF4[];
+extern const u8 gPalette_086CCD34[0x20];
+extern const u8 gTiles_086CCD54[0xBA0];
+extern const u8 gLayout_086CD8F4[0x500];
+extern const u8 gLayout_086CDDF4[0x500];
 
 void CreatePlayerDataMenu()
 {
@@ -92,7 +98,7 @@ void CreatePlayerDataMenu()
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < PDM_OPTION_COUNT; i++) {
         s = &menu->s2[i];
         s->x = 25;
         s->y = sPlayerDataMenuYOffsets[i];
@@ -122,22 +128,22 @@ void CreatePlayerDataMenu()
     sp4.uiGfxID = 128;
     sp4.unk2B = 0;
     sp4.tiles = (void *)&gTiles_086CCD54;
-    sp4.tilesSize = 0xBA0;
+    sp4.tilesSize = sizeof(gTiles_086CCD54);
     sp4.palette = (void *)&gPalette_086CCD34;
-    sp4.paletteSize = 0x20;
+    sp4.paletteSize = sizeof(gPalette_086CCD34);
     if (gLoadedSaveGame.uiLanguage == 0) {
-        sp4.layout = &gLayout_086CDDF4[0];
-        sp4.layoutSize = 0x500;
+        sp4.layout = gLayout_086CDDF4;
+        sp4.layoutSize = sizeof(gLayout_086CDDF4);
     } else {
-        sp4.layout = &gLayout_086CD8F4[0];
-        sp4.layoutSize = 0x500;
+        sp4.layout = gLayout_086CD8F4;
+        sp4.layoutSize = sizeof(gLayout_086CD8F4);
     }
     sp4.unk28 = 0;
     sp4.unk29 = 0;
     sp4.unk2A = 0x15;
     sub_80528AC(&sp4);
 
-    sp4.uiGfxID = 0;
+    sp4.uiGfxID = UIGFX_ASCII_CHARS;
     sp4.unk2B = 1;
     sp4.tiles = gUiGraphics[sp4.uiGfxID].tiles;
     sp4.palette = gUiGraphics[sp4.uiGfxID].palette;
@@ -267,7 +273,7 @@ void sub_8011C94()
     s->y = sPlayerDataMenuYOffsets[menu->unk118] + (s16)-2;
     DisplaySprite(s);
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < PDM_OPTION_COUNT; i++) {
         s = &menu->s2[i];
         if (menu->unk118 == i) {
             s->x = 30;
