@@ -17,19 +17,7 @@ typedef struct PlayerDataMenu {
     /* 0x00 */ Sprite s;
     /* 0x30 */ Sprite s2[4];
     /* 0xF0 */ StrcUi_805423C strcF0;
-#if 0
-    GameOverB unkFC;
-#else
-    /* 0xFC */ u8 fillerFC[0x8];
-    /* 0x104 */ u16 unk104;
-    /* 0x106 */ u16 unk106;
-    /* 0x108 */ u16 unk108;
-    /* 0x10A */ u16 unk10A;
-    /* 0x10C */ u16 unk10C;
-    /* 0x10E */ u16 unk10E;
-    /* 0x110 */ u8 filler110[0x2];
-    /* 0x112 */ u8 unk112;
-#endif
+    /* 0xFC */ GameOverB unkFC;
     /* 0x114 */ u16 pressedKeys;
     /* 0x116 */ u16 unk116;
     /* 0x118 */ u8 unk118;
@@ -183,13 +171,13 @@ void CreatePlayerDataMenu()
     sp4.unk0.unkB = gUiGraphics[sp4.uiGfxID].unk18;
     sub_80528AC(&sp4);
 
-    menu->unk106 = 0x8C;
-    menu->unk108 = 0x3D;
-    menu->unk10A = 1;
-    menu->unk10C = 1;
-    menu->unk10E = 1;
-    menu->unk112 = 1;
-    menu->unk104 = 0;
+    menu->unkFC.qUnkA = 0x8C;
+    menu->unkFC.unkC = 0x3D;
+    menu->unkFC.unkE = 1;
+    menu->unkFC.unk10 = 1;
+    menu->unkFC.unk12 = 1;
+    menu->unkFC.unk16 = 1;
+    menu->unkFC.unk8 = 0;
 
     i = 0;
     temp_r4 = &menu->strcF0;
@@ -298,14 +286,14 @@ void sub_8011C94()
     }
 
     for (i = 0; i < 6; i++) {
-        menu->unk106 = (u16)((i * 8) + 0x9F);
-        menu->unk108 = 60;
+        menu->unkFC.qUnkA = (u16)((i * 8) + 0x9F);
+        menu->unkFC.unkC = 60;
 
         if ((u8)(gLoadedSaveGame.playerName[i] - 0x70) <= 25) {
-            menu->unk108 = 0x44;
+            menu->unkFC.unkC = 0x44;
         }
 
-        sub_8052F78(&gLoadedSaveGame.playerName[i], (GameOverB *)menu->fillerFC);
+        sub_8052F78(&gLoadedSaveGame.playerName[i], &menu->unkFC);
     }
 }
 
