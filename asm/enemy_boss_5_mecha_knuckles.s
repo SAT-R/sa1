@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start CreateEntity_MechaKnuckles
 CreateEntity_MechaKnuckles: @ 0x0804E4FC
 	push {r4, r5, r6, r7, lr}
@@ -79,6 +80,7 @@ _0804E584: .4byte Task_MechaKnucklesInit
 _0804E588: .4byte TaskDestructor_MechaKnuckles
 _0804E58C: .4byte gRingsScatterTask
 _0804E590: .4byte 0x03000336
+.endif
 
 	thumb_func_start Task_MechaKnucklesInit
 Task_MechaKnucklesInit: @ 0x0804E594

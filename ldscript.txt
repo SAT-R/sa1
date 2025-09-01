@@ -127,6 +127,7 @@ SECTIONS {
         src/game/interactables/water_bridge_splash.o(.text);
         src/game/interactables/mini_loop.o(.text);
         src/game/interactables/039.o(.text);
+        src/game/enemies/boss_5_mecha_knuckles.o(.text);
         asm/enemy_boss_5_mecha_knuckles.o(.text);
         asm/enemy_boss_super_egg_robo.o(.text);
         src/game/stage/ui_rendering.o(.text);
