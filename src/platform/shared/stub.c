@@ -200,6 +200,8 @@ void sub_804FD54() { }
 void sub_8061948(u8 param0) { }
 void sub_8063918(void) { }
 
+void CreatePlayerNameInputMenu() { }
+void CreateVsRecord() { }
 void OptionsSelectPlayerData() { }
 void OptionsSelectDifficulty() { }
 void OptionsSelectTimeUp() { }
@@ -208,6 +210,3 @@ void OptionsSelectLanguage() { }
 void OptionsSelectButtonConfig() { }
 void OptionsSelectDeleteGameData() { }
 void OptionsSelectEnd() { }
-void PlayerDataSelectName() { }
-void PlayerDataSelectVsRecord() { }
-void PlayerDataSelectOK() { }

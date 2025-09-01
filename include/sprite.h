@@ -212,7 +212,7 @@ typedef struct {
 } TileInfoBitfield;
 
 // Used in the background code of Casino Paradise
-// TODO: Maybe just TileInfoFirework?
+// TODO: Rename TileInfoFirework!
 typedef struct {
     /* 0x00 */ AnimId anim;
     /* 0x04 */ u8 variant;

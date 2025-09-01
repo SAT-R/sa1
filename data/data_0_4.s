@@ -42,8 +42,8 @@ gUnknown_084AE1B0:
     .incbin "baserom.gba", 0x004AE1B0, 0x14
 
     @ TODO: The values look like they are Q_8_24(?), maybe just Q_8_8.
-    .global gUnknown_084AE1C4
-gUnknown_084AE1C4:
+    .global sBoss5ProcData
+sBoss5ProcData:
     mPtr sub_804EEA8
     mPtr sub_804F73C
     .int 0,          0,  0,      0, 0xE06, 0x00000277, 0x00FFFFFF
@@ -120,8 +120,8 @@ gUnknown_084AE1C4:
     mPtr sub_804F95C
     .int 0x00000400, 0x00000000, 0x00000000, 0x06000000, 0x00000000, 0x000002B5, 0x000002B5
 
-    .global gUnknown_084AE548
-gUnknown_084AE548:
+    .global sMechaKnucklesParts
+sMechaKnucklesParts:
     .short 0x292
     .byte 0, 16
 

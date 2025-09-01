@@ -6,80 +6,6 @@
 .arm
 
 .if 0
-	thumb_func_start CreateEntity_MechaKnuckles
-CreateEntity_MechaKnuckles: @ 0x0804E4FC
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #4
-	adds r4, r0, #0
-	lsls r1, r1, #0x10
-	lsrs r6, r1, #0x10
-	lsls r2, r2, #0x10
-	lsrs r5, r2, #0x10
-	lsls r3, r3, #0x18
-	lsrs r7, r3, #0x18
-	ldr r0, _0804E524 @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bls _0804E528
-	movs r1, #2
-	rsbs r1, r1, #0
-	adds r0, r1, #0
-	strb r0, [r4]
-	b _0804E576
-	.align 2, 0
-_0804E524: .4byte gGameMode
-_0804E528:
-	ldr r0, _0804E584 @ =Task_MechaKnucklesInit
-	movs r2, #0x80
-	lsls r2, r2, #6
-	ldr r1, _0804E588 @ =TaskDestructor_MechaKnuckles
-	str r1, [sp]
-	movs r1, #0x9c
-	movs r3, #0
-	bl TaskCreate
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	movs r2, #0
-	mov r8, r2
-	strh r6, [r0, #4]
-	strh r5, [r0, #6]
-	str r4, [r0]
-	ldrb r1, [r4]
-	strb r1, [r0, #8]
-	strb r7, [r0, #9]
-	movs r2, #2
-	rsbs r2, r2, #0
-	adds r1, r2, #0
-	strb r1, [r4]
-	adds r1, r4, #0
-	bl sub_804EC60
-	ldr r0, _0804E58C @ =gRingsScatterTask
-	ldr r0, [r0]
-	cmp r0, #0
-	beq _0804E576
-	ldrh r0, [r0, #6]
-	ldr r1, _0804E590 @ =0x03000336
-	adds r0, r0, r1
-	ldrh r1, [r0]
-	movs r2, #1
-	orrs r1, r2
-	strh r1, [r0]
-_0804E576:
-	add sp, #4
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804E584: .4byte Task_MechaKnucklesInit
-_0804E588: .4byte TaskDestructor_MechaKnuckles
-_0804E58C: .4byte gRingsScatterTask
-_0804E590: .4byte 0x03000336
 .endif
 
 	thumb_func_start Task_MechaKnucklesInit
@@ -122,7 +48,7 @@ Task_MechaKnucklesInit: @ 0x0804E594
 	mov r2, sb
 	str r0, [r2, #0x10]
 _0804E5DE:
-	ldr r2, _0804E708 @ =gUnknown_084AE1C4
+	ldr r2, _0804E708 @ =sBoss5ProcData
 	ldr r3, _0804E70C @ =0x0300009A
 	adds r0, r6, r3
 	movs r1, #0
@@ -262,7 +188,7 @@ _0804E6F8: .4byte 0x03000044
 _0804E6FC: .4byte gDispCnt
 _0804E700: .4byte 0x00007FFF
 _0804E704: .4byte 0xFFFFFE7F
-_0804E708: .4byte gUnknown_084AE1C4
+_0804E708: .4byte sBoss5ProcData
 _0804E70C: .4byte 0x0300009A
 _0804E710: .4byte 0x03000088
 _0804E714: .4byte 0x0300008C
@@ -503,7 +429,7 @@ sub_804E8D4: @ 0x0804E8D4
 	lsls r0, r1, #3
 	adds r0, r0, r1
 	lsls r0, r0, #2
-	ldr r1, _0804E9DC @ =gUnknown_084AE1C4
+	ldr r1, _0804E9DC @ =sBoss5ProcData
 	adds r6, r0, r1
 	ldr r0, _0804E9E0 @ =gPlayer
 	mov sl, r0
@@ -631,7 +557,7 @@ _0804E9C4:
 	beq _0804EA0C
 	b _0804EA2C
 	.align 2, 0
-_0804E9DC: .4byte gUnknown_084AE1C4
+_0804E9DC: .4byte sBoss5ProcData
 _0804E9E0: .4byte gPlayer
 _0804E9E4: .4byte 0xFFFFF8FF
 _0804E9E8: .4byte 0xFFFFC7FF
@@ -2084,7 +2010,7 @@ CreateMechaKnucklesParts: @ 0x0804F4BC
 	ldr r7, _0804F600 @ =0x03000048
 	add r7, r8
 	lsls r4, r4, #2
-	ldr r0, _0804F604 @ =gUnknown_084AE548
+	ldr r0, _0804F604 @ =sMechaKnucklesParts
 	adds r4, r4, r0
 	ldrb r0, [r4, #3]
 	bl VramMalloc
@@ -2214,7 +2140,7 @@ _0804F5F4: .4byte 0x00004001
 _0804F5F8: .4byte TaskDestructor_MechaKnuckles_Parts
 _0804F5FC: .4byte 0x03000018
 _0804F600: .4byte 0x03000048
-_0804F604: .4byte gUnknown_084AE548
+_0804F604: .4byte sMechaKnucklesParts
 _0804F608: .4byte 0x03000038
 _0804F60C: .4byte gPseudoRandom
 _0804F610: .4byte 0x00196225
