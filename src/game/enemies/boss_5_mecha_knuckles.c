@@ -39,12 +39,12 @@ typedef struct MechaKnuckles {
     /* 0x8C */ s32 unk8C;
     /* 0x90 */ s32 unk90;
     /* 0x94 */ s8 unk94;
-    /* 0x95 */ u8 unk95;
+    /* 0x95 */ s8 unk95;
     /* 0x96 */ u8 unk96;
-    /* 0x97 */ u8 unk97;
+    /* 0x97 */ s8 unk97;
     /* 0x98 */ s8 unk98;
     /* 0x99 */ s8 unk99;
-    /* 0x9A */ u8 unk9A;
+    /* 0x9A */ s8 unk9A;
     /* 0x9B */ u8 unk9B;
 } MechaKnuckles; /* 0x9C */
 
