@@ -450,3 +450,100 @@ void sub_804EB04(MechaKnuckles *boss)
 
     boss->unk7E = var_r4;
 }
+
+void sub_804EB90(MechaKnuckles *boss)
+{
+    s32 *temp_r5;
+    s32 *temp_r5_2;
+    s32 temp_r0;
+    s32 res;
+    s32 temp_r6;
+    s32 temp_r7;
+
+    temp_r7 = boss->unk8C + I(boss->unk74);
+    temp_r6 = boss->unk90 + I(boss->unk78);
+
+    boss->unk88 &= ~1;
+
+    res = sa2__sub_801E4E4(temp_r6 + boss->unk99, temp_r7, 1, 8, NULL, sa2__sub_801EE64);
+    if (boss->unk88 & 0x10) {
+        if (res < 0) {
+            boss->unk78 += res << 8;
+            boss->unk88 |= 1;
+        }
+    } else if (res <= 0xA) {
+        boss->unk78 += res << 8;
+        boss->unk88 |= 1;
+    }
+
+    boss->unk88 &= ~2;
+
+    if (boss->unk7E < 0) {
+        res = sa2__sub_801E4E4(temp_r6 - boss->unk99, temp_r7, 1, -8, NULL, sa2__sub_801EE64);
+
+        if (res < 0) {
+            boss->unk78 -= Q(res);
+            boss->unk88 |= 2;
+        }
+    }
+}
+
+void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
+{
+    Sprite *s;
+    s8 *ptr_r1;
+    s8 *ptr_r3;
+    s32 off_r1;
+    Sprite *s2;
+    u32 difficulty;
+
+    boss->unk8C = (boss->base.meX * 8) + (boss->base.regionX << 8);
+    boss->unk90 = (me->y * 8) + (boss->base.regionY << 8);
+    boss->unk74 = 0xD000;
+    boss->unk78 = -0x2000;
+    boss->unk7C = 0;
+    boss->unk7E = 0;
+    boss->unk80 = 0;
+    boss->unk82 = 0;
+    boss->unk88 = 0;
+    boss->unk84 = 0;
+    boss->unk94 = 0;
+
+    ptr_r3 = &boss->unk95;
+    off_r1 = 8;
+    difficulty = LOADED_SAVE->difficultyLevel;
+    *ptr_r3 = off_r1 -= (difficulty * 2);
+    ptr_r1 = &boss->unk96;
+    *ptr_r1 = 4 - difficulty;
+
+    boss->unk97 = 0;
+    boss->unk98 = 0;
+    boss->unk99 = 0;
+    boss->unk9A = 0;
+    boss->unk9B = 0;
+
+    s = &boss->s;
+    s->graphics.dest = VramMalloc(0x40U);
+    s->oamFlags = 0x500;
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->hitboxes[1].index = -1;
+    s->frameFlags = 0x2000;
+
+    s2 = &boss->s2;
+    s2->graphics.dest = VramMalloc(30);
+    s2->oamFlags = 0x500;
+    s2->graphics.size = 0;
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = 0x10;
+    s2->palId = 0;
+    s2->frameFlags = 0x2000;
+    sub_804E8D4(boss, boss->unk9A);
+}
