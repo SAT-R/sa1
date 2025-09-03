@@ -553,61 +553,43 @@ u32 sub_804ED80(MechaKnuckles *boss, Player *p)
 {
     s32 temp_r1;
     s32 temp_r2;
-    s32 temp_r3;
+    s32 rnd;
     u32 result;
-    s32 var_r4;
+    s32 diffX;
 
     temp_r2 = I(p->qWorldX);
     temp_r1 = boss->unk8C + I(boss->unk74);
-    var_r4 = temp_r2 - temp_r1;
-    if (var_r4 < 0) {
-        var_r4 = temp_r1 - temp_r2;
+    diffX = temp_r2 - temp_r1;
+    if (diffX < 0) {
+        diffX = temp_r1 - temp_r2;
     }
 
-    temp_r3 = PseudoRandom32();
+    rnd = PseudoRandom32();
 
     if (boss->unk94 == 0) {
-        if (var_r4 < 80) {
-            if (var_r4 < 32) {
-                if (p->moveState & 2) {
-                    result = 6;
-                } else {
-                    result = 13;
-                }
-            } else if (0x1000 & temp_r3) {
-                result = 5;
+        if (diffX < 80) {
+            if (diffX < 32) {
+                result = (p->moveState & 2) ? 6 : 13;
             } else {
-                if (temp_r3 & 0x100) {
-                    result = 0xB;
+                if (0x1000 & rnd) {
+                    result = 5;
                 } else {
-                    result = 6;
+                    result = (rnd & 0x100) ? 11 : 6;
                 }
             }
         } else {
-            if (temp_r3 & 0x100) {
-                result = 0xB;
-            } else {
-                result = 6;
-            }
+            result = (rnd & 0x100) ? 11 : 6;
         }
-    } else if (var_r4 > 0x4F) {
-        if (0x3000 & temp_r3) {
+    } else if (diffX > 0x4F) {
+        if (0x3000 & rnd) {
             result = 0xF;
         } else {
-            if (temp_r3 & 0x100) {
-                result = 0xB;
-            } else {
-                result = 6;
-            }
+            result = (rnd & 0x100) ? 11 : 6;
         }
-    } else if (!(p->moveState & 2)) {
-        if (temp_r3 & 0x100) {
-            result = 0xB;
-        } else {
-            result = 6;
-        }
-    } else {
+    } else if (p->moveState & 2) {
         result = 6;
+    } else {
+        result = (rnd & 0x100) ? 11 : 6;
     }
     return result;
 }
