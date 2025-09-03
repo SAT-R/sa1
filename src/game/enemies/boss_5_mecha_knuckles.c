@@ -8,6 +8,7 @@
 #include "game/enemies/bosses_shared.h"
 #include "game/nuts_and_bolts_task.h"
 #include "game/save.h"
+#include "game/stage/dust_effect_braking.h"
 #include "game/stage/player_controls.h"
 #include "game/stage/rings_scatter.h"
 #include "game/stage/screen_shake.h"
@@ -770,7 +771,7 @@ void CreateMechaKnucklesRocket(MechaKnuckles *boss)
         rocket->unk12 = 0x80;
     }
 
-    s->graphics.dest = VramMalloc(8*8);
+    s->graphics.dest = VramMalloc(8 * 8);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_BOSS_5_ROCKET;
     s->variant = 0;
@@ -791,3 +792,113 @@ void CreateMechaKnucklesRocket(MechaKnuckles *boss)
     tf->x = 0;
     tf->y = 0;
 }
+
+// (98.53%) https://decomp.me/scratch/8Vjk3
+NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesRocketInit.inc", void Task_MechaKnucklesRocketInit(void))
+{
+    Sprite *s;
+    SpriteTransform *tf;
+    s32 qWorldX;
+    s32 qWorldY;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r4;
+    s32 screenX;
+    s32 screenY;
+    s32 temp_r0;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 temp_r6;
+    s32 collPlayer;
+    s32 collPartner;
+    s32 var_r0;
+    s32 var_r1;
+    u32 var_r8;
+    s32 var_r9;
+
+    s32 unk8, unkA;
+
+    MechaKnucklesRocket *rocket = TASK_DATA(gCurTask);
+
+    s = &rocket->s;
+    tf = &rocket->transform;
+    qWorldX = rocket->unk0;
+    qWorldY = rocket->unk4;
+    var_r8 = rocket->unk12 & 0xFF;
+    if (rocket->unk10 > 0x18) {
+        s32 qPlayerX = gPlayer.qWorldX;
+        s32 qPlayerY = gPlayer.qWorldY;
+        temp_r6 = (qPlayerY - qWorldY);
+
+        unk8 = rocket->unk8;
+        unkA = rocket->unkA;
+        var_r1 = unkA + (SIN_24_8((var_r9 = (var_r8 & 0xFF) * 4)) * 8);
+        var_r0 = qPlayerX - qWorldX;
+        var_r0 = ABS(var_r0);
+        temp_r0 = var_r1 * var_r0 / ABS((unk8 + ((COS_24_8((var_r8 & 0xFF) * 4)) * 8)));
+
+        if (temp_r0 < (temp_r6 - Q(8))) {
+            if (unk8 > 0) {
+                var_r8 += 3;
+            } else {
+                var_r8 -= 3;
+            }
+        } else if (temp_r0 > temp_r6) {
+            if (unk8 > 0) {
+                var_r8 -= 3;
+            } else {
+                var_r8 += 3;
+            }
+        }
+
+        var_r8 &= 0xFF;
+        rocket->unk12 = var_r8;
+    }
+    qWorldX += rocket->unk8;
+    qWorldY += rocket->unkA;
+    if (rocket->unk10 > 16) {
+        rocket->unk8 += I(rocket->unkC * COS_24_8((var_r8 & 0xFF) * 4));
+        rocket->unkA += I(rocket->unkC * SIN_24_8((var_r8 & 0xFF) * 4));
+    }
+
+    rocket->unk0 = qWorldX;
+    rocket->unk4 = qWorldY;
+
+    collPlayer = sub_800BF10(s, I(qWorldX), I(qWorldY), &gPlayer);
+    if (gNumSingleplayerCharacters == 2) {
+        collPartner = sub_800BF10(s, I(qWorldX), I(qWorldY), &gPartner);
+    } else {
+        collPartner = 0;
+    }
+    if ((collPlayer | collPartner) != 0) {
+        s32 q21 = Q(21);
+        sub_8017540(qWorldX + Q_MUL(q21, COS_24_8((0xFF & var_r8) * 4)), qWorldY + Q_MUL(q21, SIN_24_8((0xFF & var_r8) * 4)));
+        TaskDestroy(gCurTask);
+        return;
+    }
+    screenX = I(qWorldX) - gCamera.x;
+    screenY = I(qWorldY) - gCamera.y;
+    temp_r2_2 = (PseudoRandom32() & 0x3FF) - Q(26);
+
+    CreateBrakingDustEffect(I(qWorldX + Q_MUL(temp_r2_2, COS_24_8((var_r8 & 0xFF) * 4))),
+                            I(qWorldY + Q_MUL(temp_r2_2, SIN_24_8((var_r8 & 0xFF) * 4))));
+
+    if (((screenX + 0x20) > 0x12FU) || ((screenY + 0x40) > 0x11FU)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    rocket->unk10++;
+    tf->x = screenX;
+    tf->y = screenY;
+    var_r1 = var_r8;
+    if (tf->qScaleX < 0) {
+        var_r1 += 0x80;
+    }
+    tf->rotation = ((var_r1 + 0x80) * 4) & 0x3FF;
+    s->frameFlags = 0x2000;
+    s->frameFlags |= (sa2__gUnknown_030054B8++ | 0x20);
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+}
+END_NONMATCH
