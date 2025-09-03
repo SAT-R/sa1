@@ -49,9 +49,15 @@ typedef struct MechaKnuckles {
 } MechaKnuckles; /* 0x9C */
 
 typedef struct MechaKnucklesRocket {
-    /* 0x00 */ SpriteBase base;
-    /* 0x0C */ Sprite s;
-    /* 0x3C */ Hitbox reserved;
+    /* 0x00 */ s32 unk0;
+    /* 0x00 */ s32 unk4;
+    /* 0x00 */ s16 unk8;
+    /* 0x00 */ s16 unkA;
+    /* 0x00 */ s16 unkC;
+    /* 0x00 */ s16 unkE;
+    /* 0x00 */ s16 unk10;
+    /* 0x00 */ s16 unk12;
+    /* 0x14 */ Sprite s;
     /* 0x44 */ SpriteTransform transform;
 } MechaKnucklesRocket; /* 0x50 */
 
@@ -94,6 +100,8 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1);
 void sub_804EC60(MechaKnuckles *boss, MapEntity *me);
 
 struct Task *CreateMechaKnucklesParts(MechaKnuckles *boss, s32 variant);
+void Task_MechaKnucklesRocketInit(void);
+void TaskDestructor_MechaKnuckles_Rocket(struct Task *t);
 
 void sub_804EB04(MechaKnuckles *boss);
 void sub_804EB90(MechaKnuckles *boss);
@@ -726,4 +734,60 @@ bool32 sub_804F020(MechaKnuckles *boss, Player *p)
         gMusicManagerState.unk1 = 0x32;
     }
     return result;
+}
+
+void CreateMechaKnucklesRocket(MechaKnuckles *boss)
+{
+    s32 isFlippedX;
+    Sprite *s;
+    SpriteTransform *tf;
+    struct Task *t;
+    MechaKnucklesRocket *rocket;
+    t = TaskCreate(Task_MechaKnucklesRocketInit, sizeof(MechaKnucklesRocket), 0x2001U, 0U, TaskDestructor_MechaKnuckles_Rocket);
+    rocket = TASK_DATA(t);
+
+    s = &rocket->s;
+    tf = &rocket->transform;
+    isFlippedX = boss->s.frameFlags & SPRITE_FLAG_MASK_X_FLIP;
+
+    rocket->unk0 = (Q(boss->unk8C) + boss->unk74);
+    rocket->unk4 = (Q(boss->unk90) + boss->unk78 - Q(6));
+    rocket->unk8 = -Q(0.25);
+
+    if (isFlippedX) {
+        rocket->unk8 = 0x40;
+    }
+    rocket->unkA = 0;
+    rocket->unkC = 0x40;
+
+    if (PseudoRandom32() & 0x1000) {
+        rocket->unkC = 0x20;
+    }
+
+    rocket->unk10 = 0;
+    rocket->unk12 = 0;
+    if (!isFlippedX) {
+        rocket->unk12 = 0x80;
+    }
+
+    s->graphics.dest = VramMalloc(8*8);
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_5_ROCKET;
+    s->variant = 0;
+    s->prevVariant = -1;
+    s->oamFlags = SPRITE_OAM_ORDER(21);
+    s->qAnimDelay = Q(0);
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+
+    tf->rotation = 0;
+    tf->qScaleX = Q(1);
+    if (isFlippedX) {
+        tf->qScaleX = -tf->qScaleX;
+    }
+
+    tf->qScaleY = Q(1);
+    tf->x = 0;
+    tf->y = 0;
 }

@@ -8,154 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start CreateMechaKnucklesRocket
-CreateMechaKnucklesRocket: @ 0x0804F09C
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	adds r4, r0, #0
-	ldr r0, _0804F1A0 @ =Task_MechaKnucklesRocketInit
-	ldr r2, _0804F1A4 @ =0x00002001
-	ldr r1, _0804F1A8 @ =TaskDestructor_MechaKnuckles_Rocket
-	str r1, [sp]
-	movs r1, #0x50
-	movs r3, #0
-	bl TaskCreate
-	ldrh r5, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r5, r0
-	adds r0, #0x14
-	adds r6, r5, r0
-	ldr r1, _0804F1AC @ =0x03000044
-	adds r7, r5, r1
-	ldr r0, [r4, #0x1c]
-	mov r8, r0
-	movs r0, #0x80
-	lsls r0, r0, #3
-	mov r1, r8
-	ands r1, r0
-	mov r8, r1
-	adds r0, r4, #0
-	adds r0, #0x8c
-	ldr r0, [r0]
-	lsls r0, r0, #8
-	ldr r1, [r4, #0x74]
-	adds r0, r0, r1
-	str r0, [r3]
-	adds r0, r4, #0
-	adds r0, #0x90
-	ldr r0, [r0]
-	lsls r0, r0, #8
-	ldr r1, [r4, #0x78]
-	adds r0, r0, r1
-	ldr r1, _0804F1B0 @ =0xFFFFFA00
-	adds r0, r0, r1
-	str r0, [r3, #4]
-	movs r0, #0
-	mov sb, r0
-	movs r4, #0
-	ldr r0, _0804F1B4 @ =0x0000FFC0
-	strh r0, [r3, #8]
-	mov r1, r8
-	cmp r1, #0
-	beq _0804F10A
-	movs r0, #0x40
-	strh r0, [r3, #8]
-_0804F10A:
-	strh r4, [r3, #0xa]
-	movs r0, #0x40
-	strh r0, [r3, #0xc]
-	ldr r2, _0804F1B8 @ =gPseudoRandom
-	ldr r1, [r2]
-	ldr r0, _0804F1BC @ =0x00196225
-	muls r0, r1, r0
-	ldr r1, _0804F1C0 @ =0x3C6EF35F
-	adds r0, r0, r1
-	str r0, [r2]
-	movs r1, #0x80
-	lsls r1, r1, #5
-	ands r0, r1
-	cmp r0, #0
-	beq _0804F12C
-	movs r0, #0x20
-	strh r0, [r3, #0xc]
-_0804F12C:
-	strh r4, [r3, #0x10]
-	strh r4, [r3, #0x12]
-	mov r0, r8
-	cmp r0, #0
-	bne _0804F13A
-	movs r0, #0x80
-	strh r0, [r3, #0x12]
-_0804F13A:
-	movs r0, #0x40
-	bl VramMalloc
-	str r0, [r6, #4]
-	strh r4, [r6, #8]
-	movs r0, #0xa4
-	lsls r0, r0, #2
-	strh r0, [r6, #0xa]
-	ldr r1, _0804F1C4 @ =0x03000034
-	adds r0, r5, r1
-	mov r1, sb
-	strb r1, [r0]
-	ldr r0, _0804F1C8 @ =0x03000035
-	adds r1, r5, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	movs r0, #0xa8
-	lsls r0, r0, #3
-	strh r0, [r6, #0x1a]
-	strh r4, [r6, #0x1c]
-	ldr r0, _0804F1CC @ =0x03000036
-	adds r1, r5, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _0804F1D0 @ =0x03000039
-	adds r0, r5, r1
-	mov r1, sb
-	strb r1, [r0]
-	movs r0, #0x80
-	lsls r0, r0, #6
-	str r0, [r6, #0x10]
-	strh r4, [r7]
-	movs r1, #0x80
-	lsls r1, r1, #1
-	strh r1, [r7, #2]
-	mov r0, r8
-	cmp r0, #0
-	beq _0804F18A
-	rsbs r0, r1, #0
-	strh r0, [r7, #2]
-_0804F18A:
-	strh r1, [r7, #4]
-	strh r4, [r7, #6]
-	strh r4, [r7, #8]
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0804F1A0: .4byte Task_MechaKnucklesRocketInit
-_0804F1A4: .4byte 0x00002001
-_0804F1A8: .4byte TaskDestructor_MechaKnuckles_Rocket
-_0804F1AC: .4byte 0x03000044
-_0804F1B0: .4byte 0xFFFFFA00
-_0804F1B4: .4byte 0x0000FFC0
-_0804F1B8: .4byte gPseudoRandom
-_0804F1BC: .4byte 0x00196225
-_0804F1C0: .4byte 0x3C6EF35F
-_0804F1C4: .4byte 0x03000034
-_0804F1C8: .4byte 0x03000035
-_0804F1CC: .4byte 0x03000036
-_0804F1D0: .4byte 0x03000039
-
 	thumb_func_start Task_MechaKnucklesRocketInit
 Task_MechaKnucklesRocketInit: @ 0x0804F1D4
 	push {r4, r5, r6, r7, lr}
@@ -530,7 +382,7 @@ CreateMechaKnucklesParts: @ 0x0804F4BC
 	sub sp, #8
 	adds r6, r0, #0
 	adds r4, r1, #0
-	ldr r0, _0804F5F0 @ =sub_804F630
+	ldr r0, _0804F5F0 @ =Task_MechaKnucklesPartsInit
 	ldr r2, _0804F5F4 @ =0x00004001
 	ldr r1, _0804F5F8 @ =TaskDestructor_MechaKnuckles_Parts
 	str r1, [sp]
@@ -674,7 +526,7 @@ CreateMechaKnucklesParts: @ 0x0804F4BC
 	pop {r1}
 	bx r1
 	.align 2, 0
-_0804F5F0: .4byte sub_804F630
+_0804F5F0: .4byte Task_MechaKnucklesPartsInit
 _0804F5F4: .4byte 0x00004001
 _0804F5F8: .4byte TaskDestructor_MechaKnuckles_Parts
 _0804F5FC: .4byte 0x03000018
@@ -691,8 +543,8 @@ _0804F624: .4byte 0x03000039
 _0804F628: .4byte 0x0300003A
 _0804F62C: .4byte 0x0300003D
 
-	thumb_func_start sub_804F630
-sub_804F630: @ 0x0804F630
+	thumb_func_start Task_MechaKnucklesPartsInit
+Task_MechaKnucklesPartsInit: @ 0x0804F630
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
