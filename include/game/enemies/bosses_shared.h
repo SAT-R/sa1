@@ -20,6 +20,6 @@ void sub_8015C5C(CamCoord worldX, CamCoord worldY);
 struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, AnimId anim, u8 param4); // -> Strc_sub_80168F0
 struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX);
 struct Task *sub_80174DC(s16 yMin, s16 yMax);
-struct Task *sub_8017540(s32 param0, s32 param1);
+struct Task *sub_8017540(s32 param0, s32 param1); // -> NutsAndBolts
 
 #endif // GUARD_SA1_BOSSES_SHARED_H

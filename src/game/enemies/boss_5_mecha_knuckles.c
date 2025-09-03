@@ -591,5 +591,139 @@ u32 sub_804ED80(MechaKnuckles *boss, Player *p)
     } else {
         result = (rnd & 0x100) ? 11 : 6;
     }
+
+    return result;
+}
+
+bool32 sub_804EE20(MechaKnuckles *boss)
+{
+    u32 temp_r0;
+    u32 temp_r3;
+    s32 result = FALSE;
+
+    if (!(gStageTime & 7)) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+
+        temp_r0 = (((u32)PseudoRandom32() & 0x1FFF00) >> 8) - 4096;
+        temp_r3 = (((u32)PseudoRandom32() & 0x1FFF00) >> 8) - 4096;
+        t = sub_8017540(boss->unk74 + Q(boss->unk8C) + temp_r0, boss->unk78 + Q(boss->unk90) + temp_r3);
+
+        bolts = TASK_DATA(t);
+        bolts->s.oamFlags = 0x4C0;
+        result = TRUE;
+    }
+    return result;
+}
+
+bool32 sub_804EEA8(MechaKnuckles *boss, Player *p)
+{
+    bool32 result = TRUE;
+    Camera *cam = &gCamera;
+
+#ifndef NON_MATCHING
+    register s32 r2 asm("r2");
+    asm("" ::"r"(r2));
+#endif
+
+    cam->minX = cam->x;
+
+    if (cam->maxY > boss->unk90) {
+        cam->maxY--;
+    } else if (cam->maxY < boss->unk90) {
+        cam->maxY++;
+    }
+
+    if (cam->minY > boss->unk90 - DISPLAY_HEIGHT) {
+        cam->minY--;
+    } else if (cam->minY < boss->unk90 - DISPLAY_HEIGHT) {
+        cam->minY++;
+    }
+
+    if (I(p->qWorldX) >= (boss->unk8C + 0x20)) {
+        boss->unk9B = 1;
+        result = 0;
+    }
+
+    return result;
+}
+
+u32 sub_804EF18(MechaKnuckles *boss, Player *p)
+{
+    bool32 result = TRUE;
+    Camera *cam = &gCamera;
+
+#ifndef NON_MATCHING
+    register s32 r2 asm("r2");
+    asm("" ::"r"(r2));
+#endif
+
+    if (cam->minX < boss->unk8C) {
+        cam->minX++;
+    }
+
+    if (cam->maxY > boss->unk90) {
+        cam->maxY--;
+    } else if (cam->maxY < boss->unk90) {
+        cam->maxY++;
+    }
+
+    if (cam->minY > boss->unk90 - DISPLAY_HEIGHT) {
+        cam->minY--;
+    } else if (cam->minY < boss->unk90 - DISPLAY_HEIGHT) {
+        cam->minY++;
+    }
+
+    if (boss->unk8C <= cam->minX) {
+        if (boss->unk90 >= cam->maxY) {
+            boss->unk9B = 2;
+            result = 0;
+        }
+    }
+
+    return result;
+}
+
+bool32 sub_804EFA0(MechaKnuckles *boss, Player *p)
+{
+    s16 *temp_r0;
+    s16 *temp_r1;
+    s16 temp_r4;
+    s16 var_r0;
+    bool32 result;
+    u16 temp_r2;
+
+    result = TRUE;
+    if (boss->unk7E < 0x80) {
+        boss->unk7E += 0x18;
+    } else {
+        boss->unk7E -= 0x18;
+    }
+
+    if ((boss->unk88 & 0xC) || ((boss->unk7C < 0) && ((I(p->qWorldX) - (boss->unk8C + I(boss->unk74))) > 0x20))
+        || ((boss->unk7C > 0) && (I(p->qWorldX) - (boss->unk8C + I(boss->unk74)) < -0x20))) {
+        boss->unk9B = 8;
+        result = FALSE;
+    }
+    return result;
+}
+
+bool32 sub_804F020(MechaKnuckles *boss, Player *p)
+{
+    bool32 result;
+
+    result = TRUE;
+    if (gCamera.minX < gCamera.maxX - DISPLAY_WIDTH) {
+        gCamera.minX++;
+    }
+    if (gCamera.minX < gCamera.x) {
+        gCamera.minX = gCamera.x;
+    }
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = 0x18;
+        result = FALSE;
+        CreateBossCapsule(boss->unk8C + I(boss->unk74), boss->unk90 + I(boss->unk78));
+        gMusicManagerState.unk1 = 0x32;
+    }
     return result;
 }

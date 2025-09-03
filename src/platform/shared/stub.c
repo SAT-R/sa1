@@ -146,10 +146,6 @@ void TimeAttack_CreateStartMenu() { }
 void TimeAttack_CreateRecordsMenu() { }
 void sub_800E934() { }
 void sub_800F318() { }
-void sub_804EEA8() { }
-void sub_804EF18() { }
-void sub_804EFA0() { }
-void sub_804F020() { }
 void sub_804F73C() { }
 void sub_804F760() { }
 void sub_804F788() { }
