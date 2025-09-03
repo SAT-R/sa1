@@ -533,7 +533,8 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     boss->unk9B = 0;
 
     s = &boss->s;
-    s->graphics.dest = VramMalloc(0x40U);
+    // TODO: ALLOC_TILES!
+    s->graphics.dest = VramMalloc(64);
     s->oamFlags = 0x500;
     s->graphics.size = 0;
     s->animCursor = 0;
@@ -546,6 +547,7 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     s->frameFlags = 0x2000;
 
     s2 = &boss->s2;
+    // TODO: ALLOC_TILES!
     s2->graphics.dest = VramMalloc(30);
     s2->oamFlags = 0x500;
     s2->graphics.size = 0;
@@ -770,8 +772,8 @@ void CreateMechaKnucklesRocket(MechaKnuckles *boss)
     if (!isFlippedX) {
         rocket->unk12 = 0x80;
     }
-
-    s->graphics.dest = VramMalloc(8 * 8);
+    
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_5_ROCKET);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_BOSS_5_ROCKET;
     s->variant = 0;
