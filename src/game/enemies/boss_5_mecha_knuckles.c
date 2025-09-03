@@ -152,6 +152,7 @@ bool32 sub_804FC78(MechaKnuckles *boss, Player *p);
 bool32 sub_804FCA4(MechaKnuckles *boss, Player *p);
 bool32 sub_804FCEC(MechaKnuckles *boss, Player *p);
 bool32 sub_804FD54(MechaKnuckles *boss, Player *p);
+bool32 sub_804ED80(MechaKnuckles *boss, Player *p);
 
 extern const ProcDataBoss5 sBoss5ProcData[25];
 extern const TileInfoFirework sMechaKnucklesParts[MECHA_KNUX_PARTS_VARIANTS];
@@ -546,4 +547,67 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     s2->palId = 0;
     s2->frameFlags = 0x2000;
     sub_804E8D4(boss, boss->unk9A);
+}
+
+u32 sub_804ED80(MechaKnuckles *boss, Player *p)
+{
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 temp_r3;
+    u32 result;
+    s32 var_r4;
+
+    temp_r2 = I(p->qWorldX);
+    temp_r1 = boss->unk8C + I(boss->unk74);
+    var_r4 = temp_r2 - temp_r1;
+    if (var_r4 < 0) {
+        var_r4 = temp_r1 - temp_r2;
+    }
+
+    temp_r3 = PseudoRandom32();
+
+    if (boss->unk94 == 0) {
+        if (var_r4 < 80) {
+            if (var_r4 < 32) {
+                if (p->moveState & 2) {
+                    result = 6;
+                } else {
+                    result = 13;
+                }
+            } else if (0x1000 & temp_r3) {
+                result = 5;
+            } else {
+                if (temp_r3 & 0x100) {
+                    result = 0xB;
+                } else {
+                    result = 6;
+                }
+            }
+        } else {
+            if (temp_r3 & 0x100) {
+                result = 0xB;
+            } else {
+                result = 6;
+            }
+        }
+    } else if (var_r4 > 0x4F) {
+        if (0x3000 & temp_r3) {
+            result = 0xF;
+        } else {
+            if (temp_r3 & 0x100) {
+                result = 0xB;
+            } else {
+                result = 6;
+            }
+        }
+    } else if (!(p->moveState & 2)) {
+        if (temp_r3 & 0x100) {
+            result = 0xB;
+        } else {
+            result = 6;
+        }
+    } else {
+        result = 6;
+    }
+    return result;
 }
