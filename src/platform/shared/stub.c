@@ -146,28 +146,6 @@ void TimeAttack_CreateStartMenu() { }
 void TimeAttack_CreateRecordsMenu() { }
 void sub_800E934() { }
 void sub_800F318() { }
-void sub_804F73C() { }
-void sub_804F760() { }
-void sub_804F788() { }
-void sub_804F78C() { }
-void sub_804F790() { }
-void sub_804F7B0() { }
-void sub_804F7B4() { }
-void sub_804F7C0() { }
-void sub_804F7C4() { }
-void sub_804F7C8() { }
-void sub_804F7CC() { }
-void sub_804F7D0() { }
-void sub_804F7DC() { }
-void sub_804F7E8() { }
-void sub_804F7EC() { }
-void sub_804F7F0() { }
-void sub_804F7F4() { }
-void sub_804F834() { }
-void sub_804F860() { }
-void sub_804F888() { }
-void sub_804F8D4() { }
-void sub_804F8D8() { }
 void sub_804F8DC() { }
 void sub_804F934() { }
 void sub_804F95C() { }
@@ -192,6 +170,7 @@ void sub_804FC78() { }
 void sub_804FCA4() { }
 void sub_804FCEC() { }
 void sub_804FD54() { }
+void sub_804FDD4() { }
 
 void sub_8061948(u8 param0) { }
 void sub_8063918(void) { }
