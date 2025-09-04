@@ -170,26 +170,25 @@ void Task_80103C4()
 {
     Sprite *s;
     Sprite *s2;
-    s16 temp_r1_3;
     s16 temp_r4;
     s32 var_r5;
-    u8 var_r4;
+    u8 i;
 
     TimeAttackMenu *menu = TASK_DATA(gCurTask);
     StrcUi_805423C *strc = &menu->unk0;
 
     temp_r4 = strc->unk4;
     if (temp_r4 != 1) {
-        if (0x40 & gRepeatedKeys) {
+        if (DPAD_UP & gRepeatedKeys) {
             menu->unk70 = 0;
-            m4aSongNumStart(0x6CU);
+            m4aSongNumStart(SE_MENU_CURSOR_MOVE);
             menu->unk74--;
             if (menu->unk74 > 1U) {
                 menu->unk74 = 1;
             }
-        } else if (0x80 & gRepeatedKeys) {
+        } else if (DPAD_DOWN & gRepeatedKeys) {
             menu->unk70 = 0;
-            m4aSongNumStart(0x6CU);
+            m4aSongNumStart(SE_MENU_CURSOR_MOVE);
 
             menu->unk74++;
             if (menu->unk74 > 1U) {
@@ -208,8 +207,8 @@ void Task_80103C4()
             menu->unk76 = 2;
             m4aSongNumStart(SE_RETURN);
         }
-    } else if ((sub_805423C(&menu->unk0) << 0x18) != 0) {
-        temp_r4 &= menu->unk76;
+    } else if (sub_805423C(&menu->unk0)) {
+        temp_r4 &= menu->unk76; // doesn't match without this line...
         if (temp_r4 & menu->unk76) {
             gUnknown_080BB364[menu->unk74]();
             return;
@@ -239,8 +238,8 @@ void Task_80103C4()
     s = &menu->s2;
     s->y = (menu->unk74 * 24) + 54;
 
-    for (var_r4 = 0; var_r4 < 8; var_r4++) {
-        s->x = var_r4 * 32;
+    for (i = 0; i < 8; i++) {
+        s->x = i * 32;
         DisplaySprite(s);
     }
 }
