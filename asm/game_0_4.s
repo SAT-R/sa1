@@ -3088,6 +3088,7 @@ _0801752C:
 _08017538: .4byte Task_80172CC
 _0801753C: .4byte gCamera
 
+@ NOTE: Implementation in stub.c!!!
 	thumb_func_start sub_8017540
 sub_8017540: @ 0x08017540
 	push {r4, r5, r6, r7, lr}

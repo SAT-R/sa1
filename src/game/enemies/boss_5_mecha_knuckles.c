@@ -77,29 +77,13 @@ typedef struct MechaKnucklesParts {
 } MechaKnucklesParts; /* 0x54 */
 
 typedef bool32 (*MechaKnuxPlayerFn)(MechaKnuckles *boss, Player *p);
-typedef void (*MechaKnuxFn)(MechaKnuckles *boss);
+typedef void (*MechaKnuxFn)(MechaKnuckles *boss, Player *p);
 
 typedef struct Unk {
     s16 anim;
     u8 variant;
     u8 unk3;
 } Unk;
-
-typedef struct ProcDataBoss5 {
-    MechaKnuxPlayerFn knuxPlayerFn;
-    MechaKnuxPlayerFn knuxFn;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 unkE;
-    u16 unk10;
-    u16 unk12;
-    s32 unk14;
-    s8 unk18;
-    s8 unk19;
-    u8 filler1A[2];
-    Unk unk1C[2];
-} ProcDataBoss5; /* 0x24 */
 
 void Task_MechaKnucklesInit(void);
 void TaskDestructor_MechaKnuckles(struct Task *t);
@@ -116,6 +100,7 @@ void TaskDestructor_MechaKnuckles_Parts(struct Task *t);
 
 void sub_804EB04(MechaKnuckles *boss);
 void sub_804EB90(MechaKnuckles *boss);
+bool32 sub_804EE20(MechaKnuckles *boss);
 void sub_804FDD4(MechaKnuckles *boss);
 
 void sub_804F73C(MechaKnuckles *boss, Player *p);
@@ -173,8 +158,58 @@ bool32 sub_804FCEC(MechaKnuckles *boss, Player *p);
 bool32 sub_804FD54(MechaKnuckles *boss, Player *p);
 bool32 sub_804ED80(MechaKnuckles *boss, Player *p);
 
-extern const ProcDataBoss5 sBoss5ProcData[25];
-extern const TileInfoFirework sMechaKnucklesParts[MECHA_KNUX_PARTS_VARIANTS];
+typedef struct ProcDataBoss5 {
+    MechaKnuxPlayerFn knuxPlayerFn;
+    MechaKnuxFn knuxFn;
+    s16 unk8;
+    s16 unkA;
+    s16 unkC;
+    s16 unkE;
+    u16 unk10;
+    u16 unk12;
+    s32 unk14;
+
+    s8 unk18;
+    s8 unk19;
+    Unk unk1C[2];
+} ProcDataBoss5; /* 0x24 */
+
+const ProcDataBoss5 sBoss5ProcData[25] = {
+    { sub_804EEA8, sub_804F73C, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0277, 0x00, 0 }, { 0xFFFF, 0xFF, 0 } } },
+    { sub_804EF18, sub_804F760, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0xFFFF, 0xFF, 0 }, { 0xFFFF, 0xFF, 0 } } },
+    { sub_804F984, sub_804F788, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0xFFFF, 0xFF, 0 }, { 0xFFFF, 0xFF, 0 } } },
+    { sub_804F990, sub_804F78C, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0277, 0x01, 0 }, { 0xFFFF, 0xFF, 0 } } },
+    { sub_804F9B0, sub_804F790, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0278, 0x00, 0 }, { 0xFFFF, 0xFF, 0 } } },
+    { sub_804FA08, sub_804F7B0, 0x0000, 0x0000, 00, 00, 0x5A, 0, 0x0200, 6, 14, { { 0x0278, 0x00, 0 }, { 0x0284, 0x00, 0 } } },
+    { sub_804FA38, sub_804F7B4, 0x0000, 0xFB20, 00, 42, 0x00, 0, 0x0210, 6, 9, { { 0x027C, 0x00, 0 }, { 0x0288, 0x00, 0 } } },
+    { sub_804EFA0, sub_804F7C0, 0x0300, 0x0180, 03, 00, 0x00, 0, 0x1210, 6, 6, { { 0x027E, 0x00, 0 }, { 0x028A, 0x00, 0 } } },
+    { sub_804FA54, sub_804F7C4, 0x0000, 0x0000, 00, 42, 0x00, 0, 0x0010, 6, 14, { { 0x0280, 0x00, 0 }, { 0x028C, 0x00, 0 } } },
+    { sub_804FA70, sub_804F7C8, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0280, 0x01, 0 }, { 0x028C, 0x01, 0 } } },
+    { sub_804FA9C, sub_804F7CC, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x1200, 6, 14, { { 0x0282, 0x00, 0 }, { 0x028E, 0x00, 0 } } },
+    { sub_804FAC8, sub_804F7D0, 0x0000, 0x0000, 00, 00, 0x3C, 0, 0x0900, 6, 9, { { 0x027D, 0x00, 0 }, { 0x0289, 0x00, 0 } } },
+    { sub_804FAF0, sub_804F7DC, 0x0480, 0x0000, 00, 00, 0x00, 0, 0x2400, 6, 9, { { 0x027C, 0x00, 0 }, { 0x0288, 0x00, 0 } } },
+    { sub_804FB10, sub_804F7E8, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0200, 6, 14, { { 0x0283, 0x00, 0 }, { 0x0283, 0x00, 0 } } },
+    { sub_804FB30, sub_804F7EC, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0200, 6, 14, { { 0x0283, 0x01, 0 }, { 0x0283, 0x01, 0 } } },
+    { sub_804FB5C, sub_804F7F0, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x1200, 6, 14, { { 0x028F, 0x00, 0 }, { 0x028F, 0x00, 0 } } },
+    { sub_804FB7C, sub_804F7F4, 0xFB80, 0x0000, 96, 00, 0x00, 0, 0x6400, 6, 14, { { 0x028F, 0x01, 0 }, { 0x028F, 0x01, 0 } } },
+    { sub_804FBA8, sub_804F834, 0xFE80, 0xFD00, 00, 42, 0x00, 0, 0x1210, 6, 9, { { 0x027A, 0x00, 0 }, { 0x0286, 0x00, 0 } } },
+    { sub_804FBE4, sub_804F860, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 9, { { 0x027B, 0x00, 0 }, { 0x0286, 0x00, 0 } } },
+    { sub_804FC28, sub_804F888, 0xFE80, 0xFD00, 00, 21, 0x00, 0, 0x1210, 6, 9, { { 0x0291, 0x00, 0 }, { 0x0291, 0x00, 0 } } },
+    { sub_804FC78, sub_804F8D4, 0x0000, 0x0000, 00, 00, 0x78, 0, 0x0000, 6, 9, { { 0x0291, 0x01, 0 }, { 0x0291, 0x01, 0 } } },
+    { sub_804FCA4, sub_804F8D8, 0x0000, 0x0000, 00, 00, 0x78, 0, 0x0000, 6, 14, { { 0x0291, 0x01, 0 }, { 0x0291, 0x01, 0 } } },
+    { sub_804FCEC, sub_804F8DC, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x6000000, 0, 0, { { 0x02B5, 0x00, 0 }, { 0x02B5, 0x00, 0 } } },
+    { sub_804F020, sub_804F934, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x6000000, 0, 0, { { 0x02B5, 0x01, 0 }, { 0x02B5, 0x01, 0 } } },
+    { sub_804FD54, sub_804F95C, 0x0400, 0x0000, 00, 00, 0x00, 0, 0x6000000, 0, 0, { { 0x02B5, 0x00, 0 }, { 0x02B5, 0x00, 0 } } },
+};
+
+const TileInfoFirework sMechaKnucklesParts[MECHA_KNUX_PARTS_VARIANTS] = {
+    { SA1_ANIM_BOSS_5_PARTS, 0, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 0) },
+    { SA1_ANIM_BOSS_5_PARTS, 1, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 1) },
+    { SA1_ANIM_BOSS_5_PARTS, 2, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 2) },
+    { SA1_ANIM_BOSS_5_PARTS, 3, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 3) },
+    { SA1_ANIM_BOSS_5_PARTS, 4, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 4) },
+    { SA1_ANIM_BOSS_5_PARTS, 5, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 5) },
+};
 
 // TODO: Fake-match
 void CreateEntity_MechaKnuckles(MapEntity *me, u16 regionX, u16 regionY, u8 id)
@@ -805,7 +840,7 @@ void CreateMechaKnucklesRocket(MechaKnuckles *boss)
     tf->y = 0;
 }
 
-// (98.53%) https://decomp.me/scratch/8Vjk3
+// (98.53%) https://decomp.me/scratch/6KEfY
 NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesRocketInit.inc", void Task_MechaKnucklesRocketInit(void))
 {
     Sprite *s;
@@ -895,10 +930,11 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesRocketInit.inc
     CreateBrakingDustEffect(I(qWorldX + Q_MUL(temp_r2_2, COS_24_8((var_r8 & 0xFF) * 4))),
                             I(qWorldY + Q_MUL(temp_r2_2, SIN_24_8((var_r8 & 0xFF) * 4))));
 
-    if (((screenX + 0x20) > 0x12FU) || ((screenY + 0x40) > 0x11FU)) {
+    if (((u32)(screenX + 32) >= DISPLAY_WIDTH + 64) || ((u32)(screenY + 64) >= DISPLAY_HEIGHT + 128)) {
         TaskDestroy(gCurTask);
         return;
     }
+
     rocket->unk10++;
     tf->x = screenX;
     tf->y = screenY;
@@ -1114,3 +1150,383 @@ void sub_804F888(MechaKnuckles *boss, Player *p) { INCREMENT_SCORE_A(1000); }
 void sub_804F8D4(MechaKnuckles *boss, Player *p) { }
 
 void sub_804F8D8(MechaKnuckles *boss, Player *p) { }
+
+void sub_804F8DC(MechaKnuckles *boss, Player *p)
+{
+    Camera *cam = &gCamera;
+    boss->unk74 = +Q(272); // TODO: Is this (DISPLAY_WIDTH + 32)?
+    boss->unk78 = -Q(100);
+    cam->maxX = gRefCollision->pxWidth;
+    boss->s.frameFlags &= ~0x400;
+    boss->s2.frameFlags &= ~0x400;
+    boss->s2.graphics.anim = SA1_ANIM_EGGMAN;
+    boss->s2.variant = 3;
+    boss->s2.prevVariant = -1;
+    boss->unk88 |= 0x40;
+}
+
+void sub_804F934(MechaKnuckles *boss, Player *p)
+{
+    boss->s.frameFlags &= ~0x400;
+    boss->s2.graphics.anim = SA1_ANIM_EGGMAN;
+    boss->s2.variant = 9;
+    boss->s2.prevVariant = -1;
+}
+
+void sub_804F95C(MechaKnuckles *boss, Player *p)
+{
+    boss->s.frameFlags |= 0x400;
+    boss->s2.graphics.anim = SA1_ANIM_EGGMAN;
+    boss->s2.variant = 6;
+    boss->s2.prevVariant = -1;
+}
+
+u32 sub_804F984(MechaKnuckles *boss, Player *p)
+{
+    boss->unk9B = 3;
+    return 0;
+}
+
+bool32 sub_804F990(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = 4;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804F9B0(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (p->spriteInfoBody->s.frameFlags & 0x4000) {
+        boss->unk9B = 5;
+        result = FALSE;
+        p->moveState &= ~MOVESTATE_IGNORE_INPUT;
+        p->heldInput |= gPlayerControls.jump | gPlayerControls.attack;
+        p->moveState &= ~MOVESTATE_800000;
+        p->charState = 0;
+    }
+
+    return result;
+}
+
+u32 sub_804FA08(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+    u16 *temp_r0;
+    s16 temp_r1 = boss->unk84;
+    boss->unk84--;
+
+    if (temp_r1 <= 0) {
+        boss->unk9B = sub_804ED80(boss, p);
+        result = FALSE;
+    }
+    return result;
+}
+
+u32 sub_804FA38(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+    if (boss->unk7E >= 0) {
+        boss->unk9B = 7;
+        result = FALSE;
+    }
+    return result;
+}
+
+u32 sub_804FA54(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->unk88 & 1) {
+        boss->unk9B = 9;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FA70(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = sub_804ED80(boss, p);
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FA9C(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = sub_804ED80(boss, p);
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FAC8(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+    u16 *temp_r0;
+    s16 temp_r1 = boss->unk84;
+    boss->unk84--;
+
+    if (temp_r1 <= 0) {
+        boss->unk9B = 12;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FAF0(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->unk88 & 0xC) {
+        boss->unk9B = 5;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FB10(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = 14;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FB30(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = sub_804ED80(boss, p);
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FB5C(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = 16;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FB7C(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = sub_804ED80(boss, p);
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FBA8(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->unk95 == boss->unk96) {
+        sub_804EE20(boss);
+    }
+
+    if (boss->unk88 & 1) {
+        boss->unk9B = 18;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FBE4(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (boss->unk95 == boss->unk96) {
+        sub_804EE20(boss);
+    }
+
+    if (boss->s.frameFlags & 0x4000) {
+        boss->unk9B = sub_804ED80(boss, p);
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FC28(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    sub_804EE20(boss);
+
+    if (boss->unk88 & 4) {
+        boss->unk7C = -boss->unk7C;
+    }
+    if (boss->unk88 & 8) {
+        boss->unk7C = -boss->unk7C;
+    }
+    if (boss->unk88 & 1) {
+        boss->unk9B = 20;
+        result = FALSE;
+    }
+    return result;
+}
+
+u32 sub_804FC78(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+    u16 *temp_r0;
+    s16 temp_r1;
+
+    sub_804EE20(boss);
+
+    temp_r1 = boss->unk84;
+    boss->unk84--;
+
+    if (temp_r1 <= 0) {
+        boss->unk9B = 21;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FCA4(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+    if (sub_804EE20(boss)) {
+        boss->unk9B = 22;
+        result = FALSE;
+
+        CreateMechaKnucklesParts(boss, 0);
+        CreateMechaKnucklesParts(boss, 1);
+        CreateMechaKnucklesParts(boss, 2);
+        CreateMechaKnucklesParts(boss, 3);
+        CreateMechaKnucklesParts(boss, 4);
+#ifdef BUG_FIX
+        // One additional leg can get spawned but isn't in the original.
+        // It might have introduced a graphical bug or was simply forgotten.
+        CreateMechaKnucklesParts(boss, 5);
+#endif
+    }
+    return result;
+}
+
+u32 sub_804FCEC(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (gCamera.minX < (gCamera.maxX - DISPLAY_WIDTH)) {
+        gCamera.minX++;
+    }
+
+    if (gCamera.minX < gCamera.x) {
+        gCamera.minX = gCamera.x;
+    }
+
+    if (((boss->unk8C + I(boss->unk74) + 0x20) <= (gCamera.x + DISPLAY_WIDTH))
+        && ((s32)gCamera.minX >= (s32)(gCamera.maxX - DISPLAY_WIDTH))) {
+        boss->unk9B = 23;
+        result = FALSE;
+    }
+
+    return result;
+}
+
+u32 sub_804FD54(MechaKnuckles *boss, Player *p)
+{
+    s32 result = TRUE;
+
+    if (gCamera.minX < (gCamera.maxX - DISPLAY_WIDTH)) {
+        gCamera.minX++;
+    }
+
+    if (gCamera.minX < gCamera.x) {
+        gCamera.minX = gCamera.x;
+    }
+
+    if (boss->unk8C + I(boss->unk74) >= (gCamera.maxX + 32)) {
+        boss->unk88 &= ~0x60;
+        TaskDestroy(gCurTask);
+    }
+
+    return result;
+}
+
+void TaskDestructor_MechaKnuckles(struct Task *t)
+{
+    MechaKnuckles *boss = TASK_DATA(t);
+    VramFree(boss->s.graphics.dest);
+    VramFree(boss->s2.graphics.dest);
+}
+
+void sub_804FDD4(MechaKnuckles *boss)
+{
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 var_r2;
+    s32 var_r3;
+
+    var_r2 = boss->unk74;
+    var_r3 = boss->unk88;
+    var_r3 &= ~0xC;
+    temp_r0 = (I(boss->unk74) - boss->unk98) - 6;
+
+    if (temp_r0 < 0) {
+        var_r2 -= Q(temp_r0);
+        var_r3 |= 4;
+    }
+
+    temp_r0 = (I(var_r2) + boss->unk98) - 234;
+    if (temp_r0 > 0) {
+        var_r2 -= Q(temp_r0);
+        var_r3 |= 8;
+    }
+
+    boss->unk74 = var_r2;
+    boss->unk88 = var_r3;
+}
+
+void TaskDestructor_MechaKnuckles_Rocket(struct Task *t)
+{
+    MechaKnucklesRocket *rocket = TASK_DATA(t);
+    Sprite *s = &rocket->s;
+    VramFree(s->graphics.dest);
+    m4aSongNumStop(SE_200);
+}
+
+void TaskDestructor_MechaKnuckles_Parts(struct Task *t)
+{
+    MechaKnucklesParts *parts = TASK_DATA(t);
+    Sprite *s = &parts->s;
+    VramFree(s->graphics.dest);
+}

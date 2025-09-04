@@ -116,7 +116,26 @@ void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateE
 void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 
 struct Task *sub_80174DC(s16 yMin, s16 yMax) { return NULL; }
-struct Task *sub_8017540(s32 param0, s32 param1) { return NULL; }
+
+#include "game/nuts_and_bolts_task.h"
+struct Task *sub_8017540(s32 qParam0, s32 qParam1)
+{
+    struct Task *t = NULL;
+    s32 temp_r0_2;
+    NutsAndBolts *bolts;
+    Sprite *s;
+
+    t = CreateNutsAndBoltsTask(0x2000U, (void *)0x06011000, 0x263U, 0U, NULL);
+    bolts = TASK_DATA(t);
+    s = &bolts->s;
+    bolts->qUnk30 = qParam0;
+    bolts->qUnk34 = qParam1;
+    s->frameFlags = 0x2000;
+    s->oamFlags = 0x500;
+    s->frameFlags |= ((PseudoRandom32() & 0xC00) | 0x2000);
+    return t;
+}
+
 struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX) { return NULL; }
 
 void sub_802E290(void) { }
@@ -146,31 +165,6 @@ void TimeAttack_CreateStartMenu() { }
 void TimeAttack_CreateRecordsMenu() { }
 void sub_800E934() { }
 void sub_800F318() { }
-void sub_804F8DC() { }
-void sub_804F934() { }
-void sub_804F95C() { }
-void sub_804F984() { }
-void sub_804F990() { }
-void sub_804F9B0() { }
-void sub_804FA08() { }
-void sub_804FA38() { }
-void sub_804FA54() { }
-void sub_804FA70() { }
-void sub_804FA9C() { }
-void sub_804FAC8() { }
-void sub_804FAF0() { }
-void sub_804FB10() { }
-void sub_804FB30() { }
-void sub_804FB5C() { }
-void sub_804FB7C() { }
-void sub_804FBA8() { }
-void sub_804FBE4() { }
-void sub_804FC28() { }
-void sub_804FC78() { }
-void sub_804FCA4() { }
-void sub_804FCEC() { }
-void sub_804FD54() { }
-void sub_804FDD4() { }
 
 void sub_8061948(u8 param0) { }
 void sub_8063918(void) { }

@@ -1,6 +1,11 @@
 .include "asm/macros.inc"
 .include "constants/constants.inc"
 
+.section .rodata
+    .global gUnknown_084AE560
+gUnknown_084AE560:
+    .byte 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0
+
 .text
 .syntax unified
 .arm
