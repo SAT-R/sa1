@@ -125,7 +125,7 @@ struct Task *sub_8017540(s32 qParam0, s32 qParam1)
     NutsAndBolts *bolts;
     Sprite *s;
 
-    t = CreateNutsAndBoltsTask(0x2000U, (void *)0x06011000, 0x263U, 0U, NULL);
+    t = CreateNutsAndBoltsTask(0x2000U, (void *)(OBJ_VRAM0 + 1000), 0x263U, 0U, NULL);
     bolts = TASK_DATA(t);
     s = &bolts->s;
     bolts->qUnk30 = qParam0;
@@ -142,7 +142,6 @@ void sub_802E290(void) { }
 
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
-void CreateTimeAttackMenu() { }
 void CreateOptionsMenu() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
@@ -161,8 +160,6 @@ void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }
 void CreateSpecialStageIntro() { }
 
-void TimeAttack_CreateStartMenu() { }
-void TimeAttack_CreateRecordsMenu() { }
 void sub_800E934() { }
 void sub_800F318() { }
 

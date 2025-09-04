@@ -15,6 +15,7 @@ extern const TileInfo gPressStartTiles[];
 #if (GAME == GAME_SA1)
 void CreateTitleScreen(bool32 playMusic);
 void CreateSegaLogo(void);
+void CreateMainMenu(u32 param0);
 void LoadTinyChaoGarden(void);
 
 #define TITLESCREEN_PARAM__BOOT_SILENT 0

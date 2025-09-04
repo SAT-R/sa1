@@ -253,8 +253,8 @@ CreateEntity_EggWrecker: @ 0x08034478
 	.align 2, 0
 _080344A8: .4byte gGameMode
 _080344AC:
-	ldr r0, _08034604 @ =sub_8034644
-	ldr r1, _08034608 @ =sub_80357FC
+	ldr r0, _08034604 @ =Task_EggWreckerInit
+	ldr r1, _08034608 @ =TaskDestructor_EggWrecker
 	str r1, [sp]
 	movs r1, #0x90
 	movs r2, #0x80
@@ -424,8 +424,8 @@ _080345F4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08034604: .4byte sub_8034644
-_08034608: .4byte sub_80357FC
+_08034604: .4byte Task_EggWreckerInit
+_08034608: .4byte TaskDestructor_EggWrecker
 _0803460C: .4byte 0x03000084
 _08034610: .4byte 0x03000086
 _08034614: .4byte 0xFFFFA000
@@ -441,8 +441,8 @@ _08034638: .4byte 0x0300005D
 _0803463C: .4byte 0x0300005E
 _08034640: .4byte 0x03000061
 
-	thumb_func_start sub_8034644
-sub_8034644: @ 0x08034644
+	thumb_func_start Task_EggWreckerInit
+Task_EggWreckerInit: @ 0x08034644
 	push {r4, r5, r6, lr}
 	ldr r0, _08034664 @ =gCurTask
 	ldr r0, [r0]
@@ -532,7 +532,7 @@ _080346BC:
 	str r0, [r5, #0x78]
 	ldr r0, _0803470C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08034710 @ =sub_8034718
+	ldr r0, _08034710 @ =Task_8034718
 	str r0, [r1, #8]
 	ldr r1, _08034714 @ =gMusicManagerState
 	movs r0, #0x14
@@ -545,11 +545,11 @@ _080346FE:
 _08034704: .4byte 0x0300007E
 _08034708: .4byte gCamera
 _0803470C: .4byte gCurTask
-_08034710: .4byte sub_8034718
+_08034710: .4byte Task_8034718
 _08034714: .4byte gMusicManagerState
 
-	thumb_func_start sub_8034718
-sub_8034718: @ 0x08034718
+	thumb_func_start Task_8034718
+Task_8034718: @ 0x08034718
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -773,7 +773,7 @@ _080348C4:
 	strb r1, [r4]
 	mov r2, sl
 	ldr r1, [r2]
-	ldr r0, _08034918 @ =sub_803491C
+	ldr r0, _08034918 @ =Task_803491C
 	str r0, [r1, #8]
 	mov r3, r8
 	ldrh r0, [r3, #0x14]
@@ -795,10 +795,10 @@ _080348FC:
 _0803490C: .4byte 0x03000084
 _08034910: .4byte 0x0300005C
 _08034914: .4byte 0x0300008C
-_08034918: .4byte sub_803491C
+_08034918: .4byte Task_803491C
 
-	thumb_func_start sub_803491C
-sub_803491C: @ 0x0803491C
+	thumb_func_start Task_803491C
+Task_803491C: @ 0x0803491C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2608,8 +2608,8 @@ _080357F0: .4byte 0x03000080
 _080357F4: .4byte 0x03000082
 _080357F8: .4byte gCamera
 
-	thumb_func_start sub_80357FC
-sub_80357FC: @ 0x080357FC
+	thumb_func_start TaskDestructor_EggWrecker
+TaskDestructor_EggWrecker: @ 0x080357FC
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
