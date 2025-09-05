@@ -48,7 +48,7 @@
 
 #define SA1_ANIM_BUZZER_PROJ       409
 #define SA1_ANIM_GAMIGAMI_PROJ     410 // TODO: shared?
-#define SA1_ANIM_SENBON            143 411
+#define SA1_ANIM_SENBON            411
 #define SA1_ANIM_TENTOU            412
 #define SA1_ANIM_FIREBALL          413
 #define SA1_ANIM_FIREBALL_PROJ     414
