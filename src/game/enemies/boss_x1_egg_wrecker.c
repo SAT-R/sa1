@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/enemies/bosses_shared.h" // sub_80174DC
 #include "game/sa1_sa2_shared/collision.h"
 
 #include "constants/animations.h"
@@ -28,10 +29,11 @@ typedef struct {
     /* 0x87 */ s16 unk88;
     /* 0x87 */ s16 unk8A;
     /* 0x87 */ s8 unk8C;
-    /* 0x87 */ s8 unk8D;
+    /* 0x87 */ u8 unk8D;
 } EggWrecker; /* 0x90 */
 
 void Task_EggWreckerInit(void);
+void Task_8034718(void);
 void TaskDestructor_EggWrecker(struct Task *t);
 
 void sub_80342A0(s16 worldX, s16 worldY)
@@ -158,7 +160,7 @@ void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2000;
@@ -176,56 +178,44 @@ void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->animCursor = 0;
     s2->qAnimDelay = 0;
     s2->prevVariant = -1;
-    s2->animSpeed = 0x10;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s2->palId = 0;
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
 }
 
-#if 0
-void Task_EggWreckerInit(void) {
-    s16 temp_r3_2;
-    s32 temp_r2;
-    s32 temp_r3;
-    s32 temp_r4;
-    u16 temp_r0_2;
-    u16 temp_r1;
-    u8 temp_r0;
-    u8 var_r0;
+void Task_EggWreckerInit(void)
+{
+    EggWrecker *boss;
 
-    temp_r1 = gCurTask->data;
-    temp_r4 = temp_r1 + 0x0300008D;
-    temp_r0 = *temp_r4;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        temp_r3 = temp_r1 + 0x7C;
-        if ((s32) (*temp_r3 - 0x78) <= (s32) gCamera.x) {
-            temp_r0_2 = (u16) *temp_r3;
-            gCamera.minX = temp_r0_2 - 0x78;
-            gCamera.maxX = temp_r0_2 + 0x78;
-            var_r0 = 1;
-block_7:
-            *temp_r4 = var_r0;
-        }
-        break;
-    case 1:
-        temp_r2 = temp_r1 + 0x7E;
-        temp_r3_2 = *temp_r2;
-        if ((s32) (temp_r3_2 - 0x40) <= (s32) gCamera.y) {
-            sub_80174DC(temp_r3_2, (s16) ((u16) *temp_r2 + 0xA0));
-            var_r0 = 2;
-            goto block_7;
-        }
-        break;
+    boss = TASK_DATA(gCurTask);
+
+    switch (boss->unk8D) {
+        case 0: {
+            if (boss->worldX - (DISPLAY_WIDTH / 2) <= gCamera.x) {
+                gCamera.minX = boss->worldX - (DISPLAY_WIDTH / 2);
+                gCamera.maxX = gCamera.minX + DISPLAY_WIDTH;
+                boss->unk8D = 1;
+            }
+        } break;
+
+        case 1: {
+            if (boss->worldY - 64 <= gCamera.y) {
+                sub_80174DC(boss->worldY, (boss->worldY + DISPLAY_HEIGHT));
+                boss->unk8D = 2;
+            }
+        } break;
     }
-    if ((gCamera.minX == (*(temp_r1 + 0x0300007C) - 0x78)) && (gCamera.maxY == (*(temp_r1 + 0x0300007E) + 0xA0))) {
-        *(temp_r1 + 0x0300008D) = 0;
-        (temp_r1 + 0x03000000)->unk78 = 0x100;
+
+    if ((gCamera.minX == (boss->worldX - (DISPLAY_WIDTH / 2))) && (gCamera.maxY == (boss->worldY + DISPLAY_HEIGHT))) {
+        boss->unk8D = 0;
+        boss->unk78 = 0x100;
         gCurTask->main = Task_8034718;
         gMusicManagerState.unk1 = 0x14;
     }
 }
 
+#if 0
 void Task_8034718(void) {
     s32 temp_r0_3;
     s32 temp_r1;
@@ -248,7 +238,7 @@ void Task_8034718(void) {
     u8 temp_r0_2;
 
     temp_r5 = gCurTask->data;
-    temp_r6 = temp_r5 + 0x03000000;
+    temp_r6 = temp_r5 + 0x00000000;
     temp_r2 = temp_r5 + 0x3C;
     temp_r1 = temp_r6->unk6C + temp_r6->unk74;
     temp_r6->unk6C = temp_r1;
@@ -358,7 +348,7 @@ void Task_803491C(void) {
     u8 temp_r0_4;
 
     temp_r5 = gCurTask->data;
-    temp_r4 = temp_r5 + 0x03000000;
+    temp_r4 = temp_r5 + 0x00000000;
     temp_r1 = temp_r5 + 0xC;
     temp_r2 = temp_r5 + 0x3C;
     temp_r4->unk6C = (s32) (temp_r4->unk6C + temp_r4->unk74);
@@ -379,7 +369,7 @@ void Task_803491C(void) {
     if ((s32) (s16) temp_r0_2 > 0xFF) {
         var_r1 = 0xFF;
     }
-    *(temp_r5 + 0x0300008A) = (s16) ((u32) ((var_r1 << 0x10) + 0x03000000) >> 0x10);
+    *(temp_r5 + 0x0000008A) = (s16) ((u32) ((var_r1 << 0x10) + 0x00000000) >> 0x10);
     temp_r6_2 = (s16) temp_r0;
     temp_r7 = (s16) temp_r2_2;
     sub_80342A0(temp_r6_2, temp_r7);
@@ -408,11 +398,11 @@ void Task_803491C(void) {
         temp_r2_4->unk18 = (u16) (temp_r3_2 - 3);
     }
     sub_80343E0();
-    temp_r2_5 = temp_r5 + 0x0300008D;
+    temp_r2_5 = temp_r5 + 0x0000008D;
     temp_r0_4 = *temp_r2_5;
     switch (temp_r0_4) {                            /* irregular */
     case 0:
-        if ((u32) ((*(temp_r5 + 0x03000088) + 0xFFFFFEFF) << 0x10) <= 0x01FF0000U) {
+        if ((u32) ((*(temp_r5 + 0x00000088) + 0xFFFFFEFF) << 0x10) <= 0x01FF0000U) {
             temp_r4->unk74 = 0;
             var_r0 = *temp_r2_5 + 1;
 block_27:
@@ -420,21 +410,21 @@ block_27:
         }
         return;
     case 1:
-        if ((s32) *(temp_r5 + 0x03000088) <= 0x200) {
+        if ((s32) *(temp_r5 + 0x00000088) <= 0x200) {
             temp_r4->unk74 = 0xC0;
             var_r0 = *temp_r2_5 + 1;
             goto block_27;
         }
         break;
     case 2:
-        if ((s32) *(temp_r5 + 0x03000088) <= 0x100) {
+        if ((s32) *(temp_r5 + 0x00000088) <= 0x100) {
             temp_r4->unk74 = 0;
             var_r0 = *temp_r2_5 + 1;
             goto block_27;
         }
         break;
     case 3:
-        temp_r1_5 = *(temp_r5 + 0x03000088);
+        temp_r1_5 = *(temp_r5 + 0x00000088);
         if ((temp_r1_5 == 0) || ((s32) temp_r1_5 > 0x100)) {
             temp_r4->unk74 = -0xC0;
             var_r0 = 0;
@@ -454,7 +444,7 @@ void sub_8034B7C(void) {
     u16 temp_r3_2;
 
     temp_r3 = gCurTask->data;
-    temp_r4 = temp_r3 + 0x03000000;
+    temp_r4 = temp_r3 + 0x00000000;
     temp_r6 = temp_r3 + 0xC;
     *(temp_r3 + 0x8D) = 0;
     *(temp_r3 + 0x84) = 0x3C;
@@ -507,7 +497,7 @@ void sub_8034CA0(void) {
     u8 temp_r0_3;
 
     temp_r6 = gCurTask->data;
-    temp_r4 = temp_r6 + 0x03000000;
+    temp_r4 = temp_r6 + 0x00000000;
     temp_r2 = temp_r6 + 0xC;
     temp_r7 = temp_r6 + 0x3C;
     temp_r0 = temp_r4->unk6C + temp_r4->unk74;
@@ -612,7 +602,7 @@ void sub_8034EE0(s16 arg0, s16 arg1) {
     gPseudoRandom = temp_r0;
     temp_r4 = 7 & temp_r0;
     temp_r1 = CreateNutsAndBoltsTask(0x2000U, (void *) (s32) VramMalloc((u32) gUnknown_080BB434[temp_r4]), gUnknown_080BB41C[temp_r4], gUnknown_080BB42C[temp_r4], TaskDestructor_NutsAndBolts)->data;
-    temp_r3 = temp_r1 + 0x03000000;
+    temp_r3 = temp_r1 + 0x00000000;
     temp_r5 = (s16) (u16) arg0;
     temp_r3->unk30 = (s32) (temp_r5 << 8);
     temp_r6 = (s16) (u16) arg1;
@@ -651,9 +641,9 @@ void sub_8035010(void) {
 
     temp_r0 = gCurTask->data;
     temp_sl = temp_r0;
-    temp_sb = temp_r0 + 0x03000000;
+    temp_sb = temp_r0 + 0x00000000;
     temp_r4 = TaskCreate(sub_80352C0, 0x44U, 0x2100U, 0U, sub_8035818)->data;
-    temp_r2 = temp_r4 + 0x03000000;
+    temp_r2 = temp_r4 + 0x00000000;
     temp_r2->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *(temp_sl + 0x7C));
     temp_r2->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *(temp_sl + 0x7E));
     temp_r2->unk30 = 0x40;
@@ -674,7 +664,7 @@ void sub_8035010(void) {
     sp8 = temp_sl + 0x7E;
     do {
         temp_r4_2 = TaskCreate(sub_8035354, 0x44U, var_r6 | 0x2100, 0U, sub_8035818)->data;
-        temp_r2_2 = temp_r4_2 + 0x03000000;
+        temp_r2_2 = temp_r4_2 + 0x00000000;
         temp_r2_2->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *(temp_sb + 0x7C));
         temp_r2_2->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *(temp_sb + 0x7E));
         temp_r2_2->unk34 = 0;
@@ -696,7 +686,7 @@ void sub_8035010(void) {
         var_r6 = (s8) (u8) (var_r6 + 1);
     } while ((u32) var_r6 <= 3U);
     temp_r4_3 = TaskCreate(sub_80354F4, 0x44U, 0x2104U, 0U, sub_8035818)->data;
-    temp_r2_3 = temp_r4_3 + 0x03000000;
+    temp_r2_3 = temp_r4_3 + 0x00000000;
     temp_r2_3->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *sp4);
     temp_r2_3->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *sp8);
     temp_r2_3->unk34 = 0;
@@ -716,7 +706,7 @@ void sub_8035010(void) {
     temp_r2_3->unk28 = -1;
     temp_r2_3->unk10 = 0x2000;
     temp_r4_4 = TaskCreate(sub_8035768, 0x44U, 0x2105U, 0U, sub_8035818)->data;
-    temp_r2_4 = temp_r4_4 + 0x03000000;
+    temp_r2_4 = temp_r4_4 + 0x00000000;
     temp_r2_4->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *sp4);
     temp_r2_4->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *sp8);
     temp_r2_4->unk30 = 0x40;
@@ -745,15 +735,15 @@ void sub_80352C0(void) {
     u32 var_r5;
 
     var_r5 = 0;
-    temp_r3 = gCurTask->data + 0x03000000;
-    temp_r0 = (gCurTask->parent + 0x03000000)->unk6;
+    temp_r3 = gCurTask->data + 0x00000000;
+    temp_r0 = (gCurTask->parent + 0x00000000)->unk6;
     temp_r0_2 = temp_r3->unk30;
     if (temp_r0_2 != 0) {
         temp_r3->unk30 = (u16) (temp_r0_2 - 1);
         var_r5 = (u32) (temp_r3->unk30 << 8) >> 0xB;
     }
-    temp_r3->unk3C = (u16) *(temp_r0 + 0x03000080);
-    temp_r0_3 = *(temp_r0 + 0x03000082);
+    temp_r3->unk3C = (u16) *(temp_r0 + 0x00000080);
+    temp_r0_3 = *(temp_r0 + 0x00000082);
     temp_r3->unk3E = temp_r0_3;
     temp_r6 = *(temp_r3 + 0x3C);
     temp_r3->unk16 = (s16) (temp_r6 - (u16) gCamera.x);
@@ -761,7 +751,7 @@ void sub_80352C0(void) {
     temp_r3->unk18 = (s16) (temp_r5 - (u16) gCamera.y);
     UpdateSpriteAnimation((Sprite *) temp_r3);
     DisplaySprite((Sprite *) temp_r3);
-    if ((s32) (s8) *(temp_r0 + 0x03000086) > 3) {
+    if ((s32) (s8) *(temp_r0 + 0x00000086) > 3) {
         sub_8017540(temp_r6 << 8, (temp_r5 + 0x14) << 8);
         TaskDestroy(gCurTask);
     }
@@ -778,12 +768,12 @@ void sub_8035354(void) {
     u8 temp_r0_3;
 
     temp_r2 = gCurTask->data;
-    temp_r5 = temp_r2 + 0x03000000;
-    temp_r0 = (gCurTask->parent + 0x03000000)->unk6;
+    temp_r5 = temp_r2 + 0x00000000;
+    temp_r0 = (gCurTask->parent + 0x00000000)->unk6;
     temp_r0_2 = temp_r5->unk30 - 1;
     temp_r5->unk30 = (u16) temp_r0_2;
     if ((temp_r0_2 << 0x10) != 0) {
-        temp_r2_2 = *(temp_r2 + 0x03000040) * 0xE;
+        temp_r2_2 = *(temp_r2 + 0x00000040) * 0xE;
         var_r2 = (u16) (temp_r2_2 - (((s32) (((temp_r2_2 + 0x15) * ((s32) (temp_r5->unk30 << 8) >> 6)) << 8) >> 0x10) - 0x23));
     } else {
         temp_r0_3 = *(temp_r2 + 0x40);
@@ -791,8 +781,8 @@ void sub_8035354(void) {
         temp_r5->unk30 = (u16) ((temp_r0_3 * 8) + 8);
         gCurTask->main = sub_803540C;
     }
-    temp_r5->unk3C = (u16) *(temp_r0 + 0x03000080);
-    temp_r0_4 = *(temp_r0 + 0x03000082);
+    temp_r5->unk3C = (u16) *(temp_r0 + 0x00000080);
+    temp_r0_4 = *(temp_r0 + 0x00000082);
     temp_r5->unk3E = temp_r0_4;
     temp_r5->unk16 = (s16) (*(temp_r5 + 0x3C) - (u16) gCamera.x);
     temp_r5->unk18 = (s16) ((s16) ((s16) var_r2 + temp_r0_4) - (u16) gCamera.y);
@@ -813,9 +803,9 @@ void sub_803540C(void) {
     u16 temp_r4;
 
     temp_r1 = gCurTask->data;
-    temp_r6 = temp_r1 + 0x03000000;
-    temp_r4 = (gCurTask->parent + 0x03000000)->unk6;
-    temp_r1_2 = (s32) ((*(temp_r1 + 0x03000040) * 0xE0000) + 0xD0000) >> 0x10;
+    temp_r6 = temp_r1 + 0x00000000;
+    temp_r4 = (gCurTask->parent + 0x00000000)->unk6;
+    temp_r1_2 = (s32) ((*(temp_r1 + 0x00000040) * 0xE0000) + 0xD0000) >> 0x10;
     temp_r3 = temp_r4 + 0x8A;
     temp_r3_2 = *(temp_r4 + 0x80);
     temp_r6->unk3C = temp_r3_2;
@@ -844,8 +834,8 @@ void sub_80354F4(void) {
     u16 temp_r0_3;
     u16 var_r1;
 
-    temp_r5 = gCurTask->data + 0x03000000;
-    temp_r0 = (gCurTask->parent + 0x03000000)->unk6;
+    temp_r5 = gCurTask->data + 0x00000000;
+    temp_r0 = (gCurTask->parent + 0x00000000)->unk6;
     temp_r0_2 = temp_r5->unk30 - 1;
     temp_r5->unk30 = (u16) temp_r0_2;
     if ((temp_r0_2 << 0x10) != 0) {
@@ -855,8 +845,8 @@ void sub_80354F4(void) {
         temp_r5->unk30 = 0x3CU;
         gCurTask->main = sub_8035588;
     }
-    temp_r5->unk3C = (u16) *(temp_r0 + 0x03000080);
-    temp_r0_3 = *(temp_r0 + 0x03000082);
+    temp_r5->unk3C = (u16) *(temp_r0 + 0x00000080);
+    temp_r0_3 = *(temp_r0 + 0x00000082);
     temp_r5->unk3E = temp_r0_3;
     temp_r5->unk16 = (s16) (*(temp_r5 + 0x3C) - (u16) gCamera.x);
     temp_r5->unk18 = (s16) ((s16) ((s16) var_r1 + temp_r0_3) - (u16) gCamera.y);
@@ -885,9 +875,9 @@ void sub_8035588(void) {
     u16 temp_r3;
     u16 temp_r4;
 
-    temp_r0 = gCurTask->data + 0x03000000;
-    temp_r3 = (gCurTask->parent + 0x03000000)->unk6;
-    sp0 = temp_r3 + 0x03000000;
+    temp_r0 = gCurTask->data + 0x00000000;
+    temp_r3 = (gCurTask->parent + 0x00000000)->unk6;
+    sp0 = temp_r3 + 0x00000000;
     temp_r2 = temp_r3 + 0x8A;
     temp_r4 = *(temp_r3 + 0x80);
     temp_r0->unk3C = temp_r4;
@@ -896,7 +886,7 @@ void sub_8035588(void) {
     sp4 = (s32) (u16) (((s32) (gSineTable[*temp_r2 + 0x100] * 0x4D) >> 0xE) + temp_r4);
     temp_r0_3 = (u16) (temp_r0_2 + (((s32) (gSineTable[0x1FF & (u16) *temp_r2] * 0x4D) >> 0xE) + 0x16));
     if ((s32) *(temp_r3 + 0x86) <= 3) {
-        temp_r6 = gCurTask->data + 0x03000000;
+        temp_r6 = gCurTask->data + 0x00000000;
         temp_r5 = (s16) sp4;
         temp_r4_2 = (s16) temp_r0_3;
         temp_r7 = sub_800BF10(temp_r6, temp_r5, temp_r4_2, &gPlayer);
@@ -906,7 +896,7 @@ void sub_8035588(void) {
             var_r0 = 0;
         }
         if ((temp_r7 == 2) || (var_r0 == 2)) {
-            temp_r1 = (gCurTask->parent + 0x03000000)->unk6;
+            temp_r1 = (gCurTask->parent + 0x00000000)->unk6;
             temp_r3_2 = temp_r1 + 0x3C;
             *(temp_r1 + 0x5C) = 1;
             *(temp_r1 + 0x5D) = 0xFF;
@@ -939,10 +929,10 @@ void sub_8035768(void) {
     s32 temp_r5;
     u16 temp_r6;
 
-    temp_r5 = gCurTask->data + 0x03000000;
-    temp_r6 = (gCurTask->parent + 0x03000000)->unk6;
-    temp_r3 = temp_r6 + 0x03000000;
-    if ((*(temp_r6 + 0x0300008C) != 0) && (temp_r3->unk74 != 0)) {
+    temp_r5 = gCurTask->data + 0x00000000;
+    temp_r6 = (gCurTask->parent + 0x00000000)->unk6;
+    temp_r3 = temp_r6 + 0x00000000;
+    if ((*(temp_r6 + 0x0000008C) != 0) && (temp_r3->unk74 != 0)) {
         if ((s32) temp_r3->unk6C > 0x12C00) {
             TaskDestroy(gCurTask);
             return;
@@ -957,16 +947,16 @@ void sub_8035768(void) {
     }
 }
 
-void TaskDestructor_EggWrecker(struct Task *arg0) {
+void TaskDestructor_EggWrecker(struct Task *t) {
     s32 temp_r4;
 
-    temp_r4 = arg0->data + 0x03000000;
+    temp_r4 = t->data + 0x00000000;
     VramFree(temp_r4->unk10);
     VramFree(temp_r4->unk40);
 }
 
 void sub_8035818(struct Task *arg0) {
-    VramFree((arg0->data + 0x03000000)->unk4);
+    VramFree((arg0->data + 0x00000000)->unk4);
 }
 
 void sub_803582C(s16 arg0, s16 arg1) {
@@ -978,7 +968,7 @@ void sub_803582C(s16 arg0, s16 arg1) {
     s32 var_r0;
     u16 temp_r1;
 
-    temp_r6 = gCurTask->data + 0x03000000;
+    temp_r6 = gCurTask->data + 0x00000000;
     temp_r5 = arg0;
     temp_r4 = arg1;
     temp_r7 = sub_800BF10(temp_r6, temp_r5, temp_r4, &gPlayer);
@@ -988,7 +978,7 @@ void sub_803582C(s16 arg0, s16 arg1) {
         var_r0 = 0;
     }
     if ((temp_r7 == 2) || (var_r0 == 2)) {
-        temp_r1 = (gCurTask->parent + 0x03000000)->unk6;
+        temp_r1 = (gCurTask->parent + 0x00000000)->unk6;
         temp_r3 = temp_r1 + 0x3C;
         *(temp_r1 + 0x5C) = 1;
         *(temp_r1 + 0x5D) = 0xFF;
