@@ -21,11 +21,14 @@ typedef struct {
     /* 0x6C */ s32 unk78;
     /* 0x7C */ CamCoord worldX;
     /* 0x7E */ CamCoord worldY;
-    /* 0x80 */ u8 filler80[0x6];
+    /* 0x80 */ u8 filler80[0x4];
     /* 0x86 */ u16 unk84;
     /* 0x86 */ s8 unk86;
     /* 0x87 */ s8 unk87;
-    /* 0x88 */ u8 filler88[0x8];
+    /* 0x87 */ s16 unk88;
+    /* 0x87 */ s16 unk8A;
+    /* 0x87 */ s8 unk8C;
+    /* 0x87 */ s8 unk8D;
 } EggWrecker; /* 0x90 */
 
 void Task_EggWreckerInit(void);
@@ -64,7 +67,7 @@ void sub_80342A0(s16 worldX, s16 worldY)
             collPartner = Coll_Player_Boss(s, worldX, worldY, &gPartner);
         }
 
-		s2 = &boss->s2;
+        s2 = &boss->s2;
         if ((collPlayer == HIT_ENEMY) || (collPartner == HIT_ENEMY)) {
             boss->unk86++;
             boss->unk87 = 0x20U;
@@ -83,12 +86,13 @@ void sub_80342A0(s16 worldX, s16 worldY)
     }
 }
 
-void sub_80343E0(void) {
-	EggWrecker *boss = TASK_DATA(gCurTask);
+void sub_80343E0(void)
+{
+    EggWrecker *boss = TASK_DATA(gCurTask);
     Sprite *s = &boss->s;
     Sprite *s2 = &boss->s2;
 
-	if (boss->unk87 != 0) {
+    if (boss->unk87 != 0) {
         if ((--boss->unk87 > 0x10) && !(boss->unk87 & 2) && PLAYER_IS_ALIVE) {
             s->frameFlags |= 0x100;
             gDispCnt |= DISPCNT_OBJWIN_ON;
@@ -114,7 +118,8 @@ void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     struct Task *t;
     EggWrecker *boss;
     Sprite *s;
-    
+    Sprite *s2;
+
     if (IS_MULTI_PLAYER) {
         SET_MAP_ENTITY_INITIALIZED(me);
         return;
@@ -130,43 +135,25 @@ void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boss->unk84 = 120;
     boss->unk86 = 0;
     boss->unk87 = 0;
-    boss->filler88[5] = 0;
-    boss->filler88[4] = 0;
+    boss->unk8D = 0;
+    boss->unk8C = 0;
     boss->unk6C = 0x4000;
     boss->unk70 = -0x6000;
     boss->unk74 = 0;
     boss->unk78 = 0;
-    boss->filler88[0] = 0;
-    boss->filler88[2] = 0;
+    boss->unk88 = 0;
+    boss->unk8A = 0;
     boss->worldX = TO_WORLD_POS(me->x, regionX);
     boss->worldY = TO_WORLD_POS(me->y, regionY);
 
-	s = &boss->s;
+    s = &boss->s;
     s->x = boss->worldX;
     s->y = boss->worldY;
     sp4 = 0;
-    s->graphics.dest = VramMalloc(0x1EU);
-    s->oamFlags = 0x580;
+    s->graphics.dest = VramMalloc(30);
+    s->oamFlags = SPRITE_OAM_ORDER(22);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_BOSS_X1_EGGMOBILE;
-    s->variant = 0;
-    s->animCursor = 0;
-    s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
-    s->animSpeed = 0x10;
-    s->palId = 0;
-    s->hitboxes[0].index = -1;
-    s->frameFlags = 0x2000;
-
-    s = &boss->s2;
-    s->x = TO_WORLD_POS(me->x, regionX);
-    s->y = TO_WORLD_POS(me->y, regionY);
-    SET_MAP_ENTITY_INITIALIZED(me);
-    sp4 = 0;
-    s->graphics.dest = VramMalloc(8U);
-    s->oamFlags = 0x540;
-    s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_BOSS_X1_EGGMAN;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -175,6 +162,24 @@ void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2000;
+
+    s2 = &boss->s2;
+    s2->x = TO_WORLD_POS(me->x, regionX);
+    s2->y = TO_WORLD_POS(me->y, regionY);
+    SET_MAP_ENTITY_INITIALIZED(me);
+    sp4 = 0;
+    s2->graphics.dest = VramMalloc(8U);
+    s2->oamFlags = SPRITE_OAM_ORDER(21);
+    s2->graphics.size = 0;
+    s2->graphics.anim = SA1_ANIM_BOSS_X1_EGGMAN;
+    s2->variant = 0;
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = 0x10;
+    s2->palId = 0;
+    s2->hitboxes[0].index = -1;
+    s2->frameFlags = 0x2000;
 }
 
 #if 0
