@@ -12,7 +12,11 @@ typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x3C */ Sprite s2;
-    /* 0x6C */ u8 filler6C[0x1A];
+    /* 0x6C */ s32 unk6C;
+    /* 0x6C */ s32 unk70;
+    /* 0x6C */ s32 unk74;
+    /* 0x6C */ s32 unk78;
+    /* 0x6C */ u8 filler7C[0xA];
     /* 0x86 */ s8 unk86;
     /* 0x87 */ s8 unk87;
     /* 0x88 */ u8 filler88[0x8];
@@ -54,7 +58,7 @@ void sub_80342A0(s16 worldX, s16 worldY)
         }
 
 		s2 = &boss->s2;
-        if ((collPlayer == 1) || (collPartner == 1)) {
+        if ((collPlayer == HIT_ENEMY) || (collPartner == HIT_ENEMY)) {
             boss->unk86++;
             boss->unk87 = 0x20U;
             s2->variant = 2;
@@ -64,7 +68,7 @@ void sub_80342A0(s16 worldX, s16 worldY)
             return;
         }
 
-        if ((collPlayer == 2) || (collPartner == 2)) {
+        if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
             s2->variant = 1;
             s2->prevVariant = -1;
             s2->frameFlags &= 0xFFFFBFFF;
