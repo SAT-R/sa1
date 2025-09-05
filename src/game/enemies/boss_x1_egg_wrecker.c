@@ -17,24 +17,52 @@ typedef struct {
     /* 0x0C */ Sprite s;
     /* 0x3C */ Sprite s2;
     /* 0x6C */ s32 unk6C;
-    /* 0x6C */ s32 unk70;
-    /* 0x6C */ s32 unk74;
-    /* 0x6C */ s32 unk78;
+    /* 0x70 */ s32 unk70;
+    /* 0x74 */ s32 unk74;
+    /* 0x78 */ s32 unk78;
     /* 0x7C */ CamCoord worldX;
     /* 0x7E */ CamCoord worldY;
-    /* 0x80 */ u8 filler80[0x4];
-    /* 0x86 */ u16 unk84;
+    /* 0x80 */ CamCoord unk80;
+    /* 0x82 */ CamCoord unk82;
+    /* 0x84 */ u16 unk84;
     /* 0x86 */ s8 unk86;
     /* 0x87 */ s8 unk87;
-    /* 0x87 */ s16 unk88;
-    /* 0x87 */ s16 unk8A;
-    /* 0x87 */ s8 unk8C;
-    /* 0x87 */ u8 unk8D;
+    /* 0x88 */ s16 unk88;
+    /* 0x8A */ s16 unk8A;
+    /* 0x8C */ s8 unk8C;
+    /* 0x8D */ u8 unk8D;
+    /* 0x8D */ u8 unk8E;
 } EggWrecker; /* 0x90 */
 
 void Task_EggWreckerInit(void);
 void Task_8034718(void);
+void Task_803491C(void);
+void sub_80343E0(void);
+void sub_8035010(void);
 void TaskDestructor_EggWrecker(struct Task *t);
+
+// TODO: This function does not have an implementation at the end of the file...
+//       maybe originally EggWrecker and EggDrillster were in the same file?
+static inline void setPlayerPos_inline(CamCoord worldX, CamCoord worldY)
+{
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+}
+static inline void sub_8035904_inline()
+{
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    s2->x = s->x;
+    s2->y = s->y;
+
+    if (s2->graphics.anim == SA1_ANIM_EGGMAN) {
+        s2->y -= 3;
+    }
+}
 
 void sub_80342A0(s16 worldX, s16 worldY)
 {
@@ -215,113 +243,84 @@ void Task_EggWreckerInit(void)
     }
 }
 
-#if 0
-void Task_8034718(void) {
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_3;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_4;
-    s32 temp_r2_5;
-    s32 temp_r2_6;
-    s32 temp_r3;
-    s32 temp_r3_3;
-    s32 temp_r4;
-    s32 temp_r6;
-    u16 temp_r0;
-    u16 temp_r0_4;
-    u16 temp_r1_2;
-    u16 temp_r2_3;
-    u16 temp_r3_2;
-    u16 temp_r5;
-    u8 temp_r0_2;
+void Task_8034718(void)
+{
+    CamCoord worldX;
+    CamCoord worldY;
 
-    temp_r5 = gCurTask->data;
-    temp_r6 = temp_r5 + 0x00000000;
-    temp_r2 = temp_r5 + 0x3C;
-    temp_r1 = temp_r6->unk6C + temp_r6->unk74;
-    temp_r6->unk6C = temp_r1;
-    temp_r2_2 = temp_r6->unk70 + temp_r6->unk78;
-    temp_r6->unk70 = temp_r2_2;
-    temp_r1_2 = (u16) ((temp_r1 >> 8) + *(temp_r5 + 0x7C));
-    temp_r2_3 = (u16) ((temp_r2_2 >> 8) + *(temp_r5 + 0x7E));
-    *(temp_r5 + 0x80) = temp_r1_2;
-    *(temp_r5 + 0x82) = temp_r2_3;
-    temp_r3 = gCurTask->data + 0xC;
-    temp_r3->unk16 = (s16) ((s16) temp_r1_2 - (u16) gCamera.x);
-    temp_r3->unk18 = (s16) ((s16) temp_r2_3 - (u16) gCamera.y);
-    UpdateSpriteAnimation((Sprite *) (temp_r5 + 0xC));
-    UpdateSpriteAnimation((Sprite *) temp_r2);
-    temp_r0 = gCurTask->data;
-    temp_r1_3 = temp_r0 + 0xC;
-    temp_r2_4 = temp_r0 + 0x3C;
-    temp_r2_4->unk16 = (u16) temp_r1_3->unk16;
-    temp_r3_2 = temp_r1_3->unk18;
-    temp_r2_4->unk18 = temp_r3_2;
-    if (temp_r2_4->unkA == 0x2B6) {
-        temp_r2_4->unk18 = (u16) (temp_r3_2 - 3);
-    }
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    boss->unk6C += boss->unk74;
+    boss->unk70 += boss->unk78;
+    worldX = boss->worldX + I(boss->unk6C);
+    worldY = boss->worldY + I(boss->unk70);
+    boss->unk80 = worldX;
+    boss->unk82 = worldY;
+
+    setPlayerPos_inline(worldX, worldY);
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    sub_8035904_inline();
+
     sub_80343E0();
-    temp_r4 = temp_r5 + 0x8D;
-    temp_r0_2 = *temp_r4;
-    switch (temp_r0_2) {                            /* irregular */
-    case 0:
-        if ((s32) temp_r6->unk70 > 0x1FFF) {
-            temp_r6->unk70 = 0x2000;
-            temp_r6->unk74 = 0xFFFFFF00;
-            temp_r6->unk78 = 0xFFFFFFF0;
-block_13:
-            *temp_r4 = (u8) (*temp_r4 + 1);
-            return;
-        }
-        return;
-    case 1:
-        if ((s32) temp_r6->unk6C <= 0) {
-            temp_r6->unk6C = 0;
-            temp_r6->unk74 = 0;
-            temp_r6->unk78 = 0;
-            *(temp_r5 + 0x84) = 4;
-            goto block_13;
-        }
-        break;
-    case 2:
-        temp_r2_5 = temp_r5 + 0x84;
-        temp_r0_3 = *temp_r2_5 - 1;
-        *temp_r2_5 = (u16) temp_r0_3;
-        if ((temp_r0_3 << 0x10) == 0) {
-            *(temp_r5 + 0x5C) = 1;
-            *(temp_r5 + 0x5D) = 0xFF;
-            *(temp_r5 + 0x88) = 0x100;
-            *(temp_r5 + 0x8A) = 0x100;
-            *temp_r2_5 = 0x40U;
-            *temp_r4 = (u8) (*temp_r4 + 1);
-            sub_8035010();
-            return;
-        }
-        break;
-    case 3:
-        temp_r2_6 = temp_r5 + 0x84;
-        temp_r0_4 = *temp_r2_6;
-        if (temp_r0_4 != 0) {
-            *temp_r2_6 = (u16) (temp_r0_4 - 1);
-        }
-        temp_r3_3 = temp_r5 + 0x5C;
-        if (temp_r2->unk10 & 0x4000) {
-            *temp_r3_3 = 0U;
-            *(temp_r5 + 0x5D) = 0xFF;
-        }
-        if ((*temp_r3_3 == 0) && (*temp_r2_6 == 0)) {
-            temp_r6->unk74 = -0x30;
-            *(temp_r5 + 0x8C) = 0xFF;
-            *temp_r4 = 0U;
-            gCurTask->main = Task_803491C;
-            sub_80174DC((s16) ((u16) gCamera.minY - 0x50), gCamera.maxY);
-        }
-        break;
+
+    switch (boss->unk8D) {
+        case 0: {
+            if (boss->unk70 >= 0x2000) {
+                boss->unk70 = Q(32);
+                boss->unk74 = -Q(1);
+                boss->unk78 = 0xFFFFFFF0;
+                boss->unk8D++;
+            }
+        } break;
+
+        case 1: {
+            if (boss->unk6C <= 0) {
+                boss->unk6C = 0;
+                boss->unk74 = 0;
+                boss->unk78 = 0;
+                boss->unk84 = 4;
+                boss->unk8D++;
+            }
+        } break;
+
+        case 2: {
+            if (--boss->unk84 == 0) {
+                s2->variant = 1;
+                s2->prevVariant = -1;
+                boss->unk88 = 0x100;
+                boss->unk8A = 0x100;
+                boss->unk84 = 0x40U;
+                boss->unk8D++;
+                sub_8035010();
+            }
+        } break;
+
+        case 3: {
+            if (boss->unk84 > 0) {
+                boss->unk84--;
+            }
+
+            if (s2->frameFlags & 0x4000) {
+                s2->variant = 0U;
+                s2->prevVariant = -1;
+            }
+            if ((s2->variant == 0) && (boss->unk84 == 0)) {
+                boss->unk74 = -48;
+                boss->unk8C = 0xFF;
+                boss->unk8D = 0;
+                gCurTask->main = Task_803491C;
+
+                sub_80174DC(gCamera.minY - (DISPLAY_HEIGHT / 2), gCamera.maxY);
+            }
+        } break;
     }
 }
 
+#if 0
 void Task_803491C(void) {
     s16 temp_r1_5;
     s16 temp_r6_2;
