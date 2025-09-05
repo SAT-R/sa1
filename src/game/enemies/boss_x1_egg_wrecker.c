@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/sa1_sa2_shared/collision.h"
@@ -7,6 +8,8 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
+
+/* Sonic 1's Green Hill Zone Boss */
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
@@ -16,13 +19,17 @@ typedef struct {
     /* 0x6C */ s32 unk70;
     /* 0x6C */ s32 unk74;
     /* 0x6C */ s32 unk78;
-    /* 0x6C */ u8 filler7C[0xA];
+    /* 0x7C */ CamCoord worldX;
+    /* 0x7E */ CamCoord worldY;
+    /* 0x80 */ u8 filler80[0x6];
+    /* 0x86 */ u16 unk84;
     /* 0x86 */ s8 unk86;
     /* 0x87 */ s8 unk87;
     /* 0x88 */ u8 filler88[0x8];
 } EggWrecker; /* 0x90 */
 
-/* Sonic 1's Green Hill Zone Boss */
+void Task_EggWreckerInit(void);
+void TaskDestructor_EggWrecker(struct Task *t);
 
 void sub_80342A0(s16 worldX, s16 worldY)
 {
@@ -95,85 +102,82 @@ void sub_80343E0(void) {
     DisplaySprite(s2);
 }
 
-#if 0
-void CreateEntity_EggWrecker(s32 arg0, u16 arg1, u16 arg2, u8 arg3) {
+void CreateEntity_EggWrecker(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
     s32 sp4;
     s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
     s32 temp_r6;
     u16 temp_r1;
     u16 temp_r2;
-    u16 temp_r5;
-
-    temp_r1 = arg1;
-    temp_r2 = arg2;
-    if ((u32) gGameMode > 1U) {
-        arg0->unk0 = -2U;
+    u8 *temp_r1_3;
+    u8 *temp_r2_2;
+    struct Task *t;
+    EggWrecker *boss;
+    Sprite *s;
+    
+    if (IS_MULTI_PLAYER) {
+        SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
-    temp_r5 = TaskCreate(Task_EggWreckerInit, sizeof(EggWrecker), 0x2000U, 0U, TaskDestructor_EggWrecker)->data;
-    temp_r1_2 = temp_r5 + 0x03000000;
-    temp_r1_2->unk4 = temp_r1;
-    temp_r1_2->unk6 = temp_r2;
-    temp_r1_2->unk0 = arg0;
-    temp_r1_2->unk8 = (u8) arg0->unk0;
-    temp_r1_2->unk9 = arg3;
-    *(temp_r5 + 0x84) = 0x78;
-    *(temp_r5 + 0x86) = 0;
-    *(temp_r5 + 0x87) = 0;
-    *(temp_r5 + 0x8D) = 0;
-    *(temp_r5 + 0x8C) = 0;
-    temp_r1_2->unk6C = 0x4000;
-    temp_r1_2->unk70 = 0xFFFFA000;
-    temp_r1_2->unk74 = 0;
-    temp_r1_2->unk78 = 0;
-    *(temp_r5 + 0x88) = 0;
-    *(temp_r5 + 0x8A) = 0;
-    temp_r6 = temp_r1 << 8;
-    temp_r2_2 = temp_r5 + 0x7C;
-    *temp_r2_2 = (s16) ((arg0->unk0 * 8) + temp_r6);
-    temp_r1_3 = temp_r2 << 8;
-    temp_r1_4 = temp_r5 + 0x7E;
-    *temp_r1_4 = (u16) ((arg0->unk1 * 8) + temp_r1_3);
-    temp_r4 = temp_r5 + 0xC;
-    temp_r4->unk16 = (u16) *temp_r2_2;
-    temp_r4->unk18 = (u16) *temp_r1_4;
+
+    t = TaskCreate(Task_EggWreckerInit, sizeof(EggWrecker), 0x2000U, 0U, TaskDestructor_EggWrecker);
+    boss = TASK_DATA(t);
+    boss->base.regionX = regionX;
+    boss->base.regionY = regionY;
+    boss->base.me = me;
+    boss->base.meX = me->x;
+    boss->base.id = id;
+    boss->unk84 = 120;
+    boss->unk86 = 0;
+    boss->unk87 = 0;
+    boss->filler88[5] = 0;
+    boss->filler88[4] = 0;
+    boss->unk6C = 0x4000;
+    boss->unk70 = -0x6000;
+    boss->unk74 = 0;
+    boss->unk78 = 0;
+    boss->filler88[0] = 0;
+    boss->filler88[2] = 0;
+    boss->worldX = TO_WORLD_POS(me->x, regionX);
+    boss->worldY = TO_WORLD_POS(me->y, regionY);
+
+	s = &boss->s;
+    s->x = boss->worldX;
+    s->y = boss->worldY;
     sp4 = 0;
-    temp_r4->unk4 = VramMalloc(0x1EU);
-    temp_r4->unk1A = 0x580;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 0x2AC;
-    *(temp_r5 + 0x2C) = 0;
-    temp_r4->unk14 = 0;
-    temp_r4->unk1C = 0;
-    *(temp_r5 + 0x2D) = 0xFF;
-    *(temp_r5 + 0x2E) = 0x10;
-    *(temp_r5 + 0x31) = 0;
-    temp_r4->unk28 = -1;
-    temp_r4->unk10 = 0x2000;
-    temp_r4_2 = temp_r5 + 0x3C;
-    temp_r4_2->unk16 = (s16) ((arg0->unk0 * 8) + temp_r6);
-    temp_r4_2->unk18 = (s16) ((arg0->unk1 * 8) + temp_r1_3);
-    arg0->unk0 = -2U;
+    s->graphics.dest = VramMalloc(0x1EU);
+    s->oamFlags = 0x580;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_X1_EGGMOBILE;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+
+    s = &boss->s2;
+    s->x = TO_WORLD_POS(me->x, regionX);
+    s->y = TO_WORLD_POS(me->y, regionY);
+    SET_MAP_ENTITY_INITIALIZED(me);
     sp4 = 0;
-    temp_r4_2->unk4 = VramMalloc(8U);
-    temp_r4_2->unk1A = 0x540;
-    temp_r4_2->unk8 = 0;
-    temp_r4_2->unkA = 0x2AE;
-    *(temp_r5 + 0x5C) = 0;
-    temp_r4_2->unk14 = 0;
-    temp_r4_2->unk1C = 0;
-    *(temp_r5 + 0x5D) = -1;
-    *(temp_r5 + 0x5E) = 0x10;
-    *(temp_r5 + 0x61) = 0;
-    temp_r4_2->unk28 = -1;
-    temp_r4_2->unk10 = 0x2000;
+    s->graphics.dest = VramMalloc(8U);
+    s->oamFlags = 0x540;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_X1_EGGMAN;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
 }
 
+#if 0
 void Task_EggWreckerInit(void) {
     s16 temp_r3_2;
     s32 temp_r2;

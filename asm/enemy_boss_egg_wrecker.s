@@ -6,77 +6,6 @@
 .arm
 
 .if 0
-	thumb_func_start sub_80343E0
-sub_80343E0: @ 0x080343E0
-	push {r4, r5, lr}
-	ldr r0, _08034458 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	ldr r1, _0803445C @ =0x0300000C
-	adds r3, r0, r1
-	ldr r5, _08034460 @ =0x0300003C
-	adds r4, r0, r5
-	adds r1, #0x7b
-	adds r2, r0, r1
-	ldrb r1, [r2]
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	cmp r0, #0
-	beq _08034444
-	subs r1, #1
-	strb r1, [r2]
-	lsls r0, r1, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0x10
-	ble _08034444
-	movs r0, #2
-	ands r1, r0
-	cmp r1, #0
-	bne _08034444
-	ldr r0, _08034464 @ =gPlayer
-	ldr r0, [r0, #0x10]
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _08034444
-	ldr r0, [r3, #0x10]
-	adds r1, #0x80
-	orrs r0, r1
-	str r0, [r3, #0x10]
-	ldr r2, _08034468 @ =gDispCnt
-	ldrh r0, [r2]
-	movs r5, #0x80
-	lsls r5, r5, #8
-	adds r1, r5, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _0803446C @ =gWinRegs
-	ldr r0, _08034470 @ =0x00003F1F
-	strh r0, [r1, #0xa]
-	ldr r1, _08034474 @ =gBldRegs
-	movs r0, #0xbf
-	strh r0, [r1]
-	movs r0, #0x10
-	strh r0, [r1, #4]
-_08034444:
-	adds r0, r3, #0
-	bl DisplaySprite
-	adds r0, r4, #0
-	bl DisplaySprite
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08034458: .4byte gCurTask
-_0803445C: .4byte 0x0300000C
-_08034460: .4byte 0x0300003C
-_08034464: .4byte gPlayer
-_08034468: .4byte gDispCnt
-_0803446C: .4byte gWinRegs
-_08034470: .4byte 0x00003F1F
-_08034474: .4byte gBldRegs
-.endif
-
 	thumb_func_start CreateEntity_EggWrecker
 CreateEntity_EggWrecker: @ 0x08034478
 	push {r4, r5, r6, r7, lr}
@@ -293,6 +222,7 @@ _08034634: .4byte 0x0300005C
 _08034638: .4byte 0x0300005D
 _0803463C: .4byte 0x0300005E
 _08034640: .4byte 0x03000061
+.endif
 
 	thumb_func_start Task_EggWreckerInit
 Task_EggWreckerInit: @ 0x08034644
