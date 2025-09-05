@@ -1,14 +1,26 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
+#include "game/entity.h"
+#include "game/sa1_sa2_shared/collision.h"
+
+#include "constants/animations.h"
+#include "constants/anim_sizes.h"
+#include "constants/songs.h"
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
-    /* 0x3C */ u8 filler3C[0x4B];
-    /* 0x87 */ u8 unk87;
+    /* 0x3C */ Sprite s2;
+    /* 0x6C */ u8 filler6C[0x1A];
+    /* 0x86 */ s8 unk86;
+    /* 0x87 */ s8 unk87;
+    /* 0x88 */ u8 filler88[0x8];
 } EggWrecker; /* 0x90 */
 
-void sub_80342A0(s16 arg0, s16 arg1)
+/* Sonic 1's Green Hill Zone Boss */
+
+void sub_80342A0(s16 worldX, s16 worldY)
 {
     s16 temp_r6;
     s16 temp_r7;
@@ -18,8 +30,9 @@ void sub_80342A0(s16 arg0, s16 arg1)
     u16 temp_r3;
     EggWrecker *boss;
     Sprite *s;
-    u32 temp_r8;
-    u32 var_r1;
+    Sprite *s2;
+    EHit collPlayer;
+    EHit collPartner;
 
     boss = TASK_DATA(gCurTask);
     s = &boss->s;
@@ -32,39 +45,34 @@ void sub_80342A0(s16 arg0, s16 arg1)
         gBldRegs.bldY = 0;
     }
 
-    temp_r0 = boss->unk87;
-    if ((s8)*temp_r0 == 0) {
-        temp_r7 = (s16)(u16)arg0;
-        temp_r6 = (s16)(u16)arg1;
-        temp_r8 = Coll_Player_Boss((Sprite *)s, temp_r7, temp_r6, &gPlayer);
+    if (boss->unk87 == 0) {
+        collPlayer = Coll_Player_Boss(s, worldX, worldY, &gPlayer);
 
-        var_r1 = 0;
-        if ((s8)(u8)gNumSingleplayerCharacters == 2) {
-            var_r1 = Coll_Player_Boss((Sprite *)s, temp_r7, temp_r6, &gPartner);
+        collPartner = 0;
+        if (gNumSingleplayerCharacters == 2) {
+            collPartner = Coll_Player_Boss(s, worldX, worldY, &gPartner);
         }
 
-        temp_r2 = boss + 0x3C;
-        if ((temp_r8 == 1) || (var_r1 == 1)) {
-            temp_r1 = boss + 0x86;
-            *temp_r1 = (u8)(*temp_r1 + 1);
-            *temp_r0 = 0x20U;
-            *(boss + 0x5C) = 2;
-            *(boss + 0x5D) = 0xFF;
-            temp_r2->unk10 = (s32)(temp_r2->unk10 & 0xFFFFBFFF);
-            m4aSongNumStart(0x8FU);
+		s2 = &boss->s2;
+        if ((collPlayer == 1) || (collPartner == 1)) {
+            boss->unk86++;
+            boss->unk87 = 0x20U;
+            s2->variant = 2;
+            s2->prevVariant = -1;
+            s2->frameFlags &= 0xFFFFBFFF;
+            m4aSongNumStart(SE_BOSS_HIT);
             return;
         }
 
-        if ((temp_r8 == 2) || (var_r1 == 2)) {
-            *(boss + 0x5C) = 1;
-            *(boss + 0x5D) = 0xFF;
-            temp_r2->unk10 = (s32)(temp_r2->unk10 & 0xFFFFBFFF);
+        if ((collPlayer == 2) || (collPartner == 2)) {
+            s2->variant = 1;
+            s2->prevVariant = -1;
+            s2->frameFlags &= 0xFFFFBFFF;
         }
     }
 }
 
 #if 0
-
 void sub_80343E0(void) {
     s32 temp_r2;
     s32 temp_r3;
