@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_80343E0
 sub_80343E0: @ 0x080343E0
 	push {r4, r5, lr}
@@ -77,6 +75,7 @@ _08034468: .4byte gDispCnt
 _0803446C: .4byte gWinRegs
 _08034470: .4byte 0x00003F1F
 _08034474: .4byte gBldRegs
+.endif
 
 	thumb_func_start CreateEntity_EggWrecker
 CreateEntity_EggWrecker: @ 0x08034478

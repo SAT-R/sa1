@@ -76,31 +76,26 @@ void sub_80342A0(s16 worldX, s16 worldY)
     }
 }
 
-#if 0
 void sub_80343E0(void) {
-    s32 temp_r2;
-    s32 temp_r3;
-    s8 temp_r1;
-    u16 temp_r0;
+	EggWrecker *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
 
-    temp_r0 = gCurTask->data;
-    temp_r3 = temp_r0 + 0xC;
-    temp_r2 = temp_r0 + 0x87;
-    if ((s8) *temp_r2 != 0) {
-        temp_r1 = *temp_r2 - 1;
-        *temp_r2 = (u8) temp_r1;
-        if (((s32) temp_r1 > 0x10) && !(temp_r1 & 2) && !(gPlayer.moveState & 0x80)) {
-            temp_r3->unk10 = (s32) (temp_r3->unk10 | 0x100);
-            gDispCnt |= 0x8000;
-            gWinRegs[5] = 0x3F1F;
+	if (boss->unk87 != 0) {
+        if ((--boss->unk87 > 0x10) && !(boss->unk87 & 2) && PLAYER_IS_ALIVE) {
+            s->frameFlags |= 0x100;
+            gDispCnt |= DISPCNT_OBJWIN_ON;
+            gWinRegs[WINREG_WINOUT] = 0x3F1F;
             gBldRegs.bldCnt = 0xBF;
             gBldRegs.bldY = 0x10;
         }
     }
-    DisplaySprite((Sprite *) temp_r3);
-    DisplaySprite((Sprite *) (temp_r0 + 0x3C));
+
+    DisplaySprite(s);
+    DisplaySprite(s2);
 }
 
+#if 0
 void CreateEntity_EggWrecker(s32 arg0, u16 arg1, u16 arg2, u8 arg3) {
     s32 sp4;
     s32 temp_r1_2;
