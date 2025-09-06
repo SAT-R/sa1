@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
@@ -38,6 +39,7 @@ void Task_EggWreckerInit(void);
 void Task_8034718(void);
 void Task_803491C(void);
 void sub_80343E0(void);
+void sub_8034B7C(void);
 void sub_8035010(void);
 void TaskDestructor_EggWrecker(struct Task *t);
 
@@ -50,6 +52,18 @@ static inline void setPlayerPos_inline(CamCoord worldX, CamCoord worldY)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 }
+
+static inline void sub_80358C8_inline(void)
+{
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    Sprite *s2 = &boss->s2;
+
+    if ((s2->variant != 0) && (s2->frameFlags & 0x4000)) {
+        s2->variant = 0U;
+        s2->prevVariant = 0xFF;
+    }
+}
+
 static inline void sub_8035904_inline()
 {
     EggWrecker *boss = TASK_DATA(gCurTask);
@@ -269,19 +283,19 @@ void Task_8034718(void)
 
     switch (boss->unk8D) {
         case 0: {
-            if (boss->unk70 >= 0x2000) {
+            if (boss->unk70 >= Q(32)) {
                 boss->unk70 = Q(32);
                 boss->unk74 = -Q(1);
-                boss->unk78 = 0xFFFFFFF0;
+                boss->unk78 = -Q(16. / 256.);
                 boss->unk8D++;
             }
         } break;
 
         case 1: {
             if (boss->unk6C <= 0) {
-                boss->unk6C = 0;
-                boss->unk74 = 0;
-                boss->unk78 = 0;
+                boss->unk6C = Q(0);
+                boss->unk74 = Q(0);
+                boss->unk78 = Q(0);
                 boss->unk84 = 4;
                 boss->unk8D++;
             }
@@ -293,7 +307,7 @@ void Task_8034718(void)
                 s2->prevVariant = -1;
                 boss->unk88 = 0x100;
                 boss->unk8A = 0x100;
-                boss->unk84 = 0x40U;
+                boss->unk84 = 64;
                 boss->unk8D++;
                 sub_8035010();
             }
@@ -320,119 +334,86 @@ void Task_8034718(void)
     }
 }
 
-#if 0
-void Task_803491C(void) {
-    s16 temp_r1_5;
-    s16 temp_r6_2;
-    s16 temp_r7;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_r2_5;
-    s32 temp_r4;
-    s32 temp_r6;
-    s32 var_r0;
-    u16 temp_r0;
-    u16 temp_r0_3;
-    u16 temp_r1_2;
-    u16 temp_r2_2;
-    u16 temp_r3;
-    u16 temp_r3_2;
-    u16 temp_r5;
-    u16 var_r1;
-    u8 temp_r0_4;
+// (97.97%) https://decomp.me/scratch/O3X8P
+NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_803491C.inc", void Task_803491C(void))
+{
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    CamCoord worldX;
+    CamCoord worldY;
+    Sprite *s;
+    Sprite *s2;
+    s16 var_r1;
 
-    temp_r5 = gCurTask->data;
-    temp_r4 = temp_r5 + 0x00000000;
-    temp_r1 = temp_r5 + 0xC;
-    temp_r2 = temp_r5 + 0x3C;
-    temp_r4->unk6C = (s32) (temp_r4->unk6C + temp_r4->unk74);
-    temp_r4->unk70 = (s32) (temp_r4->unk70 + temp_r4->unk78);
-    temp_r6 = temp_r5 + 0x88;
-    temp_r1_2 = (*temp_r6 - 4) & 0x3FF;
-    *temp_r6 = temp_r1_2;
-    if ((0x1FF & temp_r1_2) == 0x100) {
-        temp_r1->unk10 = (s32) (temp_r1->unk10 ^ 0x400);
-        temp_r2->unk10 = (s32) (temp_r2->unk10 ^ 0x400);
+    s = &boss->s;
+    s2 = &boss->s2;
+    boss->unk6C += boss->unk74;
+    boss->unk70 += boss->unk78;
+    boss->unk88 = (boss->unk88 - 4) & 0x3FF;
+    if ((0x1FF & boss->unk88) == 0x100) {
+        s->frameFlags ^= 0x400;
+        s2->frameFlags ^= 0x400;
     }
-    temp_r0 = (u16) (((s32) temp_r4->unk6C >> 8) + *(temp_r5 + 0x7C));
-    temp_r2_2 = (u16) (((s32) ((u16) gSineTable[((((s16) *temp_r6 + 0x100) * 2) & 0x3FF) + 0x100] << 0x10) >> 0x1D) + (((s32) temp_r4->unk70 >> 8) + *(temp_r5 + 0x7E)));
-    *(temp_r5 + 0x80) = temp_r0;
-    *(temp_r5 + 0x82) = temp_r2_2;
-    temp_r0_2 = (s32) ((u16) gSineTable[(s16) *temp_r6 + 0x100] << 0x10) >> 0x16;
-    var_r1 = (u16) temp_r0_2;
-    if ((s32) (s16) temp_r0_2 > 0xFF) {
+
+    var_r1 = ((COS(((boss->unk88 + 0x100) * 2) & 0x3FF) >> 13));
+    worldX = (boss->worldX + I(boss->unk6C));
+    worldY = var_r1 + (boss->worldY + I(boss->unk70));
+    boss->unk80 = worldX;
+    boss->unk82 = worldY;
+
+    var_r1 = COS_24_8(boss->unk88);
+    if (var_r1 > 0xFF) {
         var_r1 = 0xFF;
     }
-    *(temp_r5 + 0x0000008A) = (s16) ((u32) ((var_r1 << 0x10) + 0x00000000) >> 0x10);
-    temp_r6_2 = (s16) temp_r0;
-    temp_r7 = (s16) temp_r2_2;
-    sub_80342A0(temp_r6_2, temp_r7);
-    if ((s32) (s8) *(temp_r5 + 0x86) > 3) {
+    var_r1 += Q(3);
+    boss->unk8A = var_r1;
+
+    sub_80342A0(worldX, worldY);
+    if (boss->unk86 > 3) {
         sub_8034B7C();
         return;
     }
-    temp_r1_3 = gCurTask->data + 0xC;
-    temp_r1_3->unk16 = (s16) (temp_r6_2 - (u16) gCamera.x);
-    temp_r1_3->unk18 = (s16) (temp_r7 - (u16) gCamera.y);
-    temp_r3 = gCurTask->data;
-    temp_r2_3 = temp_r3 + 0x5C;
-    if ((*temp_r2_3 != 0) && ((temp_r3 + 0x3C)->unk10 & 0x4000)) {
-        *temp_r2_3 = 0U;
-        *(temp_r3 + 0x5D) = 0xFF;
-    }
-    UpdateSpriteAnimation((Sprite *) temp_r1);
-    UpdateSpriteAnimation((Sprite *) temp_r2);
-    temp_r0_3 = gCurTask->data;
-    temp_r1_4 = temp_r0_3 + 0xC;
-    temp_r2_4 = temp_r0_3 + 0x3C;
-    temp_r2_4->unk16 = (u16) temp_r1_4->unk16;
-    temp_r3_2 = temp_r1_4->unk18;
-    temp_r2_4->unk18 = temp_r3_2;
-    if (temp_r2_4->unkA == 0x2B6) {
-        temp_r2_4->unk18 = (u16) (temp_r3_2 - 3);
-    }
+
+    setPlayerPos_inline(worldX, worldY);
+
+    sub_80358C8_inline();
+
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    sub_8035904_inline();
+
     sub_80343E0();
-    temp_r2_5 = temp_r5 + 0x0000008D;
-    temp_r0_4 = *temp_r2_5;
-    switch (temp_r0_4) {                            /* irregular */
-    case 0:
-        if ((u32) ((*(temp_r5 + 0x00000088) + 0xFFFFFEFF) << 0x10) <= 0x01FF0000U) {
-            temp_r4->unk74 = 0;
-            var_r0 = *temp_r2_5 + 1;
-block_27:
-            *temp_r2_5 = (u8) var_r0;
-        }
-        return;
-    case 1:
-        if ((s32) *(temp_r5 + 0x00000088) <= 0x200) {
-            temp_r4->unk74 = 0xC0;
-            var_r0 = *temp_r2_5 + 1;
-            goto block_27;
-        }
-        break;
-    case 2:
-        if ((s32) *(temp_r5 + 0x00000088) <= 0x100) {
-            temp_r4->unk74 = 0;
-            var_r0 = *temp_r2_5 + 1;
-            goto block_27;
-        }
-        break;
-    case 3:
-        temp_r1_5 = *(temp_r5 + 0x00000088);
-        if ((temp_r1_5 == 0) || ((s32) temp_r1_5 > 0x100)) {
-            temp_r4->unk74 = -0xC0;
-            var_r0 = 0;
-            goto block_27;
-        }
-        break;
+
+    switch (boss->unk8D) {
+        case 0:
+            if ((boss->unk88 > 0x100) && boss->unk88 <= 0x300) {
+                boss->unk74 = 0;
+                boss->unk8D++;
+            }
+            return;
+        case 1:
+            if (boss->unk88 <= 0x200) {
+                boss->unk74 = 0xC0;
+                boss->unk8D++;
+            }
+            break;
+        case 2:
+            if (boss->unk88 <= 0x100) {
+                boss->unk74 = 0;
+                boss->unk8D++;
+            }
+            break;
+        case 3:
+            if ((boss->unk88 == 0) || (boss->unk88 > 0x100)) {
+                boss->unk74 = -0xC0;
+                boss->unk8D = 0;
+            }
+            break;
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_8034B7C(void) {
     s32 temp_r0;
     s32 temp_r4;
