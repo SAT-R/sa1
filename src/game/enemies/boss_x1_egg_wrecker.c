@@ -39,6 +39,7 @@ void Task_EggWreckerInit(void);
 void Task_8034718(void);
 void Task_803491C(void);
 void sub_80343E0(void);
+void Task_8034CA0(void);
 void sub_8034B7C(void);
 void sub_8035010(void);
 void TaskDestructor_EggWrecker(struct Task *t);
@@ -413,47 +414,42 @@ NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_803491C.inc", void Task_80
 }
 END_NONMATCH
 
-#if 0
-void sub_8034B7C(void) {
-    s32 temp_r0;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 temp_r6;
-    s32 temp_r6_2;
-    u16 temp_r3;
-    u16 temp_r3_2;
+void sub_8034B7C(void)
+{
+    Sprite *s;
+    Sprite *s2;
+    s16 theta;
 
-    temp_r3 = gCurTask->data;
-    temp_r4 = temp_r3 + 0x00000000;
-    temp_r6 = temp_r3 + 0xC;
-    *(temp_r3 + 0x8D) = 0;
-    *(temp_r3 + 0x84) = 0x3C;
-    temp_r4->unk74 = 0;
-    temp_r4->unk78 = 0;
-    temp_r4->unk70 = (s32) (temp_r4->unk70 + (((s32) ((u16) gSineTable[(((*(temp_r3 + 0x88) + 0x100) * 2) & 0x3FF) + 0x100] << 0x10) >> 0x1D) << 8));
-    *(temp_r3 + 0x5C) = 2;
-    *(temp_r3 + 0x5D) = 0xFF;
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    s = &boss->s;
+    s2 = &boss->s2;
+
+    boss->unk8D = 0;
+    boss->unk84 = 60;
+    boss->unk74 = 0;
+    boss->unk78 = 0;
+    theta = ((boss->unk88 + 0x100) * 2) & 0x3FF;
+    boss->unk70 += Q(COS((theta)) >> 0xD);
+    boss->s2.variant = 2;
+    boss->s2.prevVariant = -1;
     m4aSongNumStart(0x90U);
-    temp_r6->unk10 = (s32) (temp_r6->unk10 & 0xFFFFFE7F);
-    temp_r3_2 = gPlayer.moveState & 0x80;
-    if (temp_r3_2 == 0) {
-        gDispCnt &= 0x7FFF;
-        gWinRegs[5] = temp_r3_2;
-        gBldRegs.bldCnt = temp_r3_2;
-        gBldRegs.bldY = temp_r3_2;
+    s->frameFlags &= ~0x180;
+
+    if (PLAYER_IS_ALIVE) {
+        gDispCnt &= ~0x8000;
+        gWinRegs[WINREG_WINOUT] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
     }
-    temp_r6_2 = gLevelScore;
-    temp_r0 = temp_r6_2 + 0x3E8;
-    gLevelScore = temp_r0;
-    temp_r5 = Div(temp_r0, 0xC350);
-    if ((temp_r5 != Div(temp_r6_2, 0xC350)) && (gGameMode == 0)) {
-        gNumLives = (u8) (gNumLives + 1);
-    }
-    sub_8034CA0();
-    gCurTask->main = sub_8034CA0;
+
+    INCREMENT_SCORE_A(1000);
+
+    Task_8034CA0();
+    gCurTask->main = Task_8034CA0;
 }
 
-void sub_8034CA0(void) {
+#if 0
+void Task_8034CA0(void) {
     s32 sp0;
     Collision *temp_r1_6;
     s32 temp_r0;
