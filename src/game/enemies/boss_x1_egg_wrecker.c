@@ -37,6 +37,18 @@ typedef struct {
     /* 0x8D */ u8 unk8E;
 } EggWrecker; /* 0x90 */
 
+typedef struct EggWrecker_44 {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s16 unk30;
+    /* 0x30 */ s16 unk32;
+    /* 0x30 */ s16 unk34;
+    /* 0x30 */ s16 unk36;
+    /* 0x30 */ u8 filler38[4];
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ s16 unk3E;
+    /* 0x3E */ u8 unk40;
+} EggWrecker_44;
+
 void Task_EggWreckerInit(void);
 void sub_80343E0(void);
 void Task_8034718(void);
@@ -45,6 +57,11 @@ void sub_8034B7C(void);
 void Task_8034CA0(void);
 void sub_8034EE0(CamCoord worldX, CamCoord worldY);
 void sub_8035010(void);
+void Task_80352C0(void);
+void Task_8035354(void);
+void Task_80354F4(void);
+void Task_8035768(void);
+void TaskDestructor_8035818(struct Task *t);
 void TaskDestructor_EggWrecker(struct Task *t);
 
 // TODO: This function does not have an implementation at the end of the file...
@@ -563,111 +580,102 @@ void sub_8034EE0(CamCoord worldX, CamCoord worldY)
     sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY - ((rnd & 0x3F0000) >> 0x10)));
 }
 
-#if 0
-void sub_8035010(void) {
-    u16 *sp4;
-    u16 *sp8;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_sb;
-    s8 var_r6;
-    u16 temp_r0;
-    u16 temp_r4;
-    u16 temp_r4_2;
-    u16 temp_r4_3;
-    u16 temp_r4_4;
-    u16 temp_sl;
+void sub_8035010(void)
+{
+    EggWrecker_44 *strc_44;
+    struct Task *t;
+    Sprite *s;
+    u8 i;
 
-    temp_r0 = gCurTask->data;
-    temp_sl = temp_r0;
-    temp_sb = temp_r0 + 0x00000000;
-    temp_r4 = TaskCreate(sub_80352C0, 0x44U, 0x2100U, 0U, sub_8035818)->data;
-    temp_r2 = temp_r4 + 0x00000000;
-    temp_r2->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *(temp_sl + 0x7C));
-    temp_r2->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *(temp_sl + 0x7E));
-    temp_r2->unk30 = 0x40;
-    temp_r2->unk4 = VramMalloc(2U);
-    temp_r2->unk1A = 0x600;
-    temp_r2->unk8 = 0;
-    temp_r2->unkA = 0x2AB;
-    *(temp_r4 + 0x20) = 1;
-    temp_r2->unk14 = 0;
-    temp_r2->unk1C = 0;
-    *(temp_r4 + 0x21) = 0xFF;
-    *(temp_r4 + 0x22) = 0x10;
-    *(temp_r4 + 0x25) = 0;
-    temp_r2->unk28 = -1;
-    temp_r2->unk10 = 0x2000;
-    var_r6 = 0;
-    sp4 = temp_sl + 0x7C;
-    sp8 = temp_sl + 0x7E;
-    do {
-        temp_r4_2 = TaskCreate(sub_8035354, 0x44U, var_r6 | 0x2100, 0U, sub_8035818)->data;
-        temp_r2_2 = temp_r4_2 + 0x00000000;
-        temp_r2_2->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *(temp_sb + 0x7C));
-        temp_r2_2->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *(temp_sb + 0x7E));
-        temp_r2_2->unk34 = 0;
-        temp_r2_2->unk36 = 0;
-        *(temp_r4_2 + 0x40) = var_r6;
-        temp_r2_2->unk30 = 0x40;
-        temp_r2_2->unk4 = VramMalloc(4U);
-        temp_r2_2->unk1A = 0x640;
-        temp_r2_2->unk8 = 0;
-        temp_r2_2->unkA = 0x2AB;
-        *(temp_r4_2 + 0x20) = 2;
-        temp_r2_2->unk14 = 0;
-        temp_r2_2->unk1C = 0;
-        *(temp_r4_2 + 0x21) = 0xFF;
-        *(temp_r4_2 + 0x22) = 0x10;
-        *(temp_r4_2 + 0x25) = 0;
-        temp_r2_2->unk28 = -1;
-        temp_r2_2->unk10 = 0x2000;
-        var_r6 = (s8) (u8) (var_r6 + 1);
-    } while ((u32) var_r6 <= 3U);
-    temp_r4_3 = TaskCreate(sub_80354F4, 0x44U, 0x2104U, 0U, sub_8035818)->data;
-    temp_r2_3 = temp_r4_3 + 0x00000000;
-    temp_r2_3->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *sp4);
-    temp_r2_3->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *sp8);
-    temp_r2_3->unk34 = 0;
-    temp_r2_3->unk36 = 0;
-    temp_r2_3->unk30 = 0x40;
-    temp_r2_3->unk4 = VramMalloc(0x10U);
-    temp_r2_3->unk1A = 0x5C0;
-    temp_r2_3->unk8 = 0;
-    temp_r2_3->unkA = 0x2AD;
-    *(temp_r4_3 + 0x20) = 0;
-    temp_r2_3->unk14 = 0;
-    temp_r2_3->unk1C = 0;
-    temp_r1 = temp_r4_3 + 0x21;
-    *temp_r1 = (u8) (*temp_r1 | ~0);
-    *(temp_r4_3 + 0x22) = 0x10;
-    *(temp_r4_3 + 0x25) = 0;
-    temp_r2_3->unk28 = -1;
-    temp_r2_3->unk10 = 0x2000;
-    temp_r4_4 = TaskCreate(sub_8035768, 0x44U, 0x2105U, 0U, sub_8035818)->data;
-    temp_r2_4 = temp_r4_4 + 0x00000000;
-    temp_r2_4->unk3C = (s16) (((s32) temp_sb->unk6C >> 8) + *sp4);
-    temp_r2_4->unk3E = (s16) (((s32) temp_sb->unk70 >> 8) + *sp8);
-    temp_r2_4->unk30 = 0x40;
-    temp_r2_4->unk4 = VramMalloc(4U);
-    temp_r2_4->unk1A = 0x600;
-    temp_r2_4->unk8 = 0;
-    temp_r2_4->unkA = 0x2AB;
-    *(temp_r4_4 + 0x20) = 0;
-    temp_r2_4->unk14 = 0;
-    temp_r2_4->unk1C = 0;
-    temp_r1_2 = temp_r4_4 + 0x21;
-    *temp_r1_2 = (u8) (*temp_r1_2 | ~0);
-    *(temp_r4_4 + 0x22) = 0x10;
-    *(temp_r4_4 + 0x25) = 0;
-    temp_r2_4->unk28 = -1;
-    temp_r2_4->unk10 = 0x2000;
+    EggWrecker *boss = TASK_DATA(gCurTask);
+
+    t = TaskCreate(Task_80352C0, sizeof(EggWrecker_44), 0x2100U, 0U, TaskDestructor_8035818);
+    strc_44 = TASK_DATA(t);
+    strc_44->unk3C = boss->worldX + I(boss->unk6C);
+    strc_44->unk3E = boss->worldY + I(boss->unk70);
+    strc_44->unk30 = 0x40;
+    s = &strc_44->s;
+    s->graphics.dest = VramMalloc(2U);
+    s->oamFlags = 0x600;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x2AB;
+    s->variant = 1;
+    s->animCursor = 0;
+    s->qAnimDelay = Q(0);
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+
+    for (i = 0; i < 4; i++) {
+        t = TaskCreate(Task_8035354, sizeof(EggWrecker_44), 0x2100 | i, 0U, TaskDestructor_8035818);
+        strc_44 = TASK_DATA(t);
+        strc_44->unk3C = boss->worldX + I(boss->unk6C);
+        strc_44->unk3E = boss->worldY + I(boss->unk70);
+        strc_44->unk34 = 0;
+        strc_44->unk36 = 0;
+        strc_44->unk40 = i;
+        strc_44->unk30 = 0x40;
+        s = &strc_44->s;
+        s->graphics.dest = VramMalloc(4U);
+        s->oamFlags = 0x640;
+        s->graphics.size = 0;
+        s->graphics.anim = 0x2AB;
+        s->variant = 2;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x2000;
+    };
+
+    t = TaskCreate(Task_80354F4, sizeof(EggWrecker_44), 0x2104U, 0U, TaskDestructor_8035818);
+    strc_44 = TASK_DATA(t);
+    strc_44->unk3C = boss->worldX + I(boss->unk6C);
+    strc_44->unk3E = boss->worldY + I(boss->unk70);
+    strc_44->unk34 = 0;
+    strc_44->unk36 = 0;
+    strc_44->unk30 = 0x40;
+    s = &strc_44->s;
+    s->graphics.dest = VramMalloc(0x10U);
+    s->oamFlags = 0x5C0;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x2AD;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+
+    {
+        t = TaskCreate(Task_8035768, sizeof(EggWrecker_44), 0x2105U, 0U, TaskDestructor_8035818);
+        strc_44 = TASK_DATA(t);
+        strc_44->unk3C = boss->worldX + I(boss->unk6C);
+        strc_44->unk3E = boss->worldY + I(boss->unk70);
+        strc_44->unk30 = 0x40;
+        s = &strc_44->s;
+        s->graphics.dest = VramMalloc(4);
+        s->oamFlags = 0x600;
+        s->graphics.size = 0;
+        s->graphics.anim = 0x2AB;
+        s->variant = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x2000;
+    }
 }
 
+#if 0
 void sub_80352C0(void) {
     s16 temp_r5;
     s16 temp_r6;
@@ -700,7 +708,7 @@ void sub_80352C0(void) {
     }
 }
 
-void sub_8035354(void) {
+void Task_8035354(void) {
     s32 temp_r0_2;
     s32 temp_r2_2;
     s32 temp_r5;
@@ -898,7 +906,7 @@ void TaskDestructor_EggWrecker(struct Task *t) {
     VramFree(temp_r4->unk40);
 }
 
-void sub_8035818(struct Task *arg0) {
+void TaskDestructor_8035818(struct Task *arg0) {
     VramFree((arg0->data + 0x00000000)->unk4);
 }
 
