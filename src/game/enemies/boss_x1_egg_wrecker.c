@@ -6,6 +6,7 @@
 #include "game/entity.h"
 #include "game/enemies/bosses_shared.h" // sub_80174DC
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -36,11 +37,12 @@ typedef struct {
 } EggWrecker; /* 0x90 */
 
 void Task_EggWreckerInit(void);
+void sub_80343E0(void);
 void Task_8034718(void);
 void Task_803491C(void);
-void sub_80343E0(void);
-void Task_8034CA0(void);
 void sub_8034B7C(void);
+void Task_8034CA0(void);
+void sub_8034EE0(CamCoord worldX, CamCoord worldY);
 void sub_8035010(void);
 void TaskDestructor_EggWrecker(struct Task *t);
 
@@ -446,6 +448,91 @@ void sub_8034B7C(void)
 
     Task_8034CA0();
     gCurTask->main = Task_8034CA0;
+}
+
+void Task_8034CA0()
+{
+    s32 sp0;
+    Sprite *s;
+    Sprite *s2;
+    s32 temp_r0_4;
+    s32 temp_r0_5;
+    s32 temp_r0_6;
+    u16 *temp_r5;
+    CamCoord worldY;
+    CamCoord worldX;
+    u8 *temp_r1_5;
+    u8 temp_r0_3;
+
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    s = &boss->s;
+    s2 = &boss->s2;
+    boss->unk6C += boss->unk74;
+    boss->unk70 += boss->unk78;
+    worldX = (I(boss->unk6C) + boss->worldX);
+    worldY = (I(boss->unk70) + boss->worldY);
+    boss->unk80 = worldX;
+    boss->unk82 = worldY;
+
+    if (!(7 & boss->unk84)) {
+        sub_8034EE0(worldX, worldY);
+    }
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    setPlayerPos_inline(worldX, worldY);
+    sub_8035904_inline();
+
+    DisplaySprite(s);
+    DisplaySprite(s2);
+
+    switch (boss->unk8D) {
+        case 0:
+            if (--boss->unk84 == 0) {
+                boss->unk84 = 0x5A;
+                boss->unk8D++;
+                VramFree(boss->s2.graphics.dest);
+                s2->graphics.dest = ALLOC_TILES(SA1_ANIM_EGGMAN);
+                s2->graphics.anim = SA1_ANIM_EGGMAN;
+                boss->s2.variant = 4;
+                boss->s2.prevVariant = -1;
+                s2->oamFlags = SPRITE_OAM_ORDER(23);
+                return;
+            }
+            return;
+        case 1:
+            boss->unk78 += 3;
+            if (--boss->unk84 == 0) {
+                boss->unk84 = 30;
+                boss->unk8D++;
+                return;
+            }
+            break;
+        case 2:
+            boss->unk78 -= 0x18;
+            if (--boss->unk84 == 0) {
+                boss->unk74 = 0x200;
+                boss->unk78 = -0x40;
+                boss->unk84 = 1;
+                boss->unk8D++;
+                boss->s2.variant = 6;
+                boss->s2.prevVariant = -1;
+                s->frameFlags |= 0x400;
+                s2->frameFlags |= 0x400;
+                return;
+            }
+            break;
+        case 3:
+            if (boss->unk6C > 0x13000) {
+                gRefCollision = gCollisionTable[gCurrentLevel];
+                gCamera.minY = 0;
+                gCamera.maxY = gRefCollision->pxHeight;
+                gCamera.maxX = gRefCollision->pxWidth;
+                gMusicManagerState.unk1 = 0x34;
+                TaskDestroy(gCurTask);
+            }
+            break;
+    }
 }
 
 #if 0

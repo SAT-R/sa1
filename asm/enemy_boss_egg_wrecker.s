@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_8034CA0
 Task_8034CA0: @ 0x08034CA0
 	push {r4, r5, r6, r7, lr}
@@ -281,6 +279,7 @@ _08034ED0: .4byte gCollisionTable
 _08034ED4: .4byte gCurrentLevel
 _08034ED8: .4byte gMusicManagerState
 _08034EDC: .4byte gCurTask
+.endif
 
 	thumb_func_start sub_8034EE0
 sub_8034EE0: @ 0x08034EE0
