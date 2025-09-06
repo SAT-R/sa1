@@ -5,6 +5,7 @@
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/enemies/bosses_shared.h" // sub_80174DC
+#include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/stage/terrain_collision.h"
 
@@ -535,155 +536,34 @@ void Task_8034CA0()
     }
 }
 
+void sub_8034EE0(CamCoord worldX, CamCoord worldY)
+{
+    struct Task *t;
+    NutsAndBolts *bolts;
+    Sprite *sprBolts;
+    s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+    s32 rndTheta;
+    s32 a0, a1;
+    s32 rnd;
+    t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex], gUnknown_080BB42C[rndIndex],
+                               TaskDestructor_NutsAndBolts);
+    bolts = TASK_DATA(t);
+    sprBolts = &bolts->s;
+    bolts->qUnk30 = Q(worldX);
+    bolts->qUnk34 = Q(worldY);
+    sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+    sprBolts->oamFlags = SPRITE_OAM_ORDER(23);
+    bolts->qUnk3E = Q(5. / 256.);
+    bolts->qUnk40 = Q(32. / 256.);
+    rndTheta = PseudoRandom32();
+    bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+    bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+    rnd = PseudoRandom32();
+    sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY - ((rnd & 0x3F0000) >> 0x10)));
+}
+
 #if 0
-void Task_8034CA0(void) {
-    s32 sp0;
-    Collision *temp_r1_6;
-    s32 temp_r0;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_5;
-    s32 temp_r2;
-    s32 temp_r2_3;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 temp_r7;
-    u16 temp_r0_2;
-    u16 temp_r1_4;
-    u16 temp_r2_2;
-    u16 temp_r3;
-    u16 temp_r6;
-    u8 temp_r0_3;
-
-    temp_r6 = gCurTask->data;
-    temp_r4 = temp_r6 + 0x00000000;
-    temp_r2 = temp_r6 + 0xC;
-    temp_r7 = temp_r6 + 0x3C;
-    temp_r0 = temp_r4->unk6C + temp_r4->unk74;
-    temp_r4->unk6C = temp_r0;
-    temp_r1 = temp_r4->unk70 + temp_r4->unk78;
-    temp_r4->unk70 = temp_r1;
-    temp_r3 = (u16) ((temp_r0 >> 8) + *(temp_r6 + 0x7C));
-    sp0 = (s32) temp_r3;
-    temp_r2_2 = (u16) ((temp_r1 >> 8) + *(temp_r6 + 0x7E));
-    *(temp_r6 + 0x80) = temp_r3;
-    *(temp_r6 + 0x82) = temp_r2_2;
-    temp_r5 = temp_r6 + 0x84;
-    if (!(7 & *temp_r5)) {
-        sub_8034EE0((s16) temp_r3, (s16) temp_r2_2);
-    }
-    UpdateSpriteAnimation((Sprite *) temp_r2);
-    UpdateSpriteAnimation((Sprite *) temp_r7);
-    temp_r1_2 = gCurTask->data + 0xC;
-    temp_r1_2->unk16 = (s16) ((s16) sp0 - (u16) gCamera.x);
-    temp_r1_2->unk18 = (s16) ((s16) temp_r2_2 - (u16) gCamera.y);
-    temp_r0_2 = gCurTask->data;
-    temp_r1_3 = temp_r0_2 + 0xC;
-    temp_r2_3 = temp_r0_2 + 0x3C;
-    temp_r2_3->unk16 = (u16) temp_r1_3->unk16;
-    temp_r1_4 = temp_r1_3->unk18;
-    temp_r2_3->unk18 = temp_r1_4;
-    if (temp_r2_3->unkA == 0x2B6) {
-        temp_r2_3->unk18 = (u16) (temp_r1_4 - 3);
-    }
-    DisplaySprite((Sprite *) temp_r2);
-    DisplaySprite((Sprite *) temp_r7);
-    temp_r1_5 = temp_r6 + 0x8D;
-    temp_r0_3 = *temp_r1_5;
-    switch (temp_r0_3) {                            /* irregular */
-    case 0:
-        temp_r0_4 = *temp_r5 - 1;
-        *temp_r5 = (u16) temp_r0_4;
-        if ((temp_r0_4 << 0x10) == 0) {
-            *temp_r5 = 0x5AU;
-            *temp_r1_5 = (u8) (*temp_r1_5 + 1);
-            VramFree(temp_r4->unk40);
-            temp_r7->unk4 = VramMalloc(0xCU);
-            temp_r7->unkA = 0x2B6;
-            *(temp_r6 + 0x5C) = 4;
-            *(temp_r6 + 0x5D) = 0xFF;
-            temp_r7->unk1A = 0x5C0;
-            return;
-        }
-        return;
-    case 1:
-        temp_r4->unk78 = (s32) (temp_r4->unk78 + 3);
-        temp_r0_5 = *temp_r5 - 1;
-        *temp_r5 = (u16) temp_r0_5;
-        if ((temp_r0_5 << 0x10) == 0) {
-            *temp_r5 = 0x1EU;
-            *temp_r1_5 = (u8) (*temp_r1_5 + 1);
-            return;
-        }
-        break;
-    case 2:
-        temp_r4->unk78 = (s32) (temp_r4->unk78 - 0x18);
-        temp_r0_6 = *temp_r5 - 1;
-        *temp_r5 = (u16) temp_r0_6;
-        if ((temp_r0_6 << 0x10) == 0) {
-            temp_r4->unk74 = 0x200;
-            temp_r4->unk78 = -0x40;
-            *temp_r5 = 1U;
-            *temp_r1_5 = (u8) (*temp_r1_5 + 1);
-            *(temp_r6 + 0x5C) = 6;
-            *(temp_r6 + 0x5D) = 0xFF;
-            temp_r2->unk10 = (s32) (temp_r2->unk10 | 0x400);
-            temp_r7->unk10 = (s32) (temp_r7->unk10 | 0x400);
-            return;
-        }
-        break;
-    case 3:
-        if ((s32) temp_r4->unk6C > 0x13000) {
-            temp_r1_6 = gCollisionTable[(s8) (u8) gCurrentLevel];
-            gRefCollision = temp_r1_6;
-            gCamera.minY = 0;
-            gCamera.maxY = (s16) temp_r1_6->pxHeight;
-            gCamera.maxX = (s16) temp_r1_6->pxWidth;
-            gMusicManagerState.unk1 = 0x34;
-            TaskDestroy(gCurTask);
-        }
-        break;
-    }
-}
-
-void sub_8034EE0(s16 arg0, s16 arg1) {
-    s16 temp_r5;
-    s16 temp_r6;
-    s32 temp_r0;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r3;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    u16 temp_r1;
-
-    temp_r0 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0;
-    temp_r4 = 7 & temp_r0;
-    temp_r1 = CreateNutsAndBoltsTask(0x2000U, (void *) (s32) VramMalloc((u32) gUnknown_080BB434[temp_r4]), gUnknown_080BB41C[temp_r4], gUnknown_080BB42C[temp_r4], TaskDestructor_NutsAndBolts)->data;
-    temp_r3 = temp_r1 + 0x00000000;
-    temp_r5 = (s16) (u16) arg0;
-    temp_r3->unk30 = (s32) (temp_r5 << 8);
-    temp_r6 = (s16) (u16) arg1;
-    temp_r3->unk34 = (s32) (temp_r6 << 8);
-    temp_r3->unk10 = 0x2000;
-    temp_r3->unk1A = 0x5C0;
-    temp_r3->unk3E = 5;
-    *(temp_r1 + 0x40) = 0x20;
-    temp_r4_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r4_2;
-    temp_r1_2 = 0x1FF & temp_r4_2;
-    temp_r3->unk3A = (s16) ((s32) (0 - (gSineTable[temp_r1_2] * 0x600)) >> 0xE);
-    temp_r3->unk38 = (s16) ((s32) (0 - (gSineTable[temp_r1_2 + 0x100] * 0x600)) >> 0xE);
-    temp_r1_3 = (0x196225 * temp_r4_2) + 0x3C6EF35F;
-    gPseudoRandom = temp_r1_3;
-    sub_8017540(((temp_r5 + (0x3F & temp_r1_3)) - 0x20) << 8, (temp_r6 - ((s32) (temp_r1_3 & 0x3F0000) >> 0x10)) << 8);
-}
-
 void sub_8035010(void) {
     u16 *sp4;
     u16 *sp8;
