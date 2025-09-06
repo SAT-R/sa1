@@ -15,6 +15,8 @@
 
 /* Sonic 1's Green Hill Zone Boss */
 
+#define NUM_CHAIN_SEGMENTS 4
+
 typedef struct {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -598,7 +600,7 @@ void sub_8035010(void)
     s->graphics.dest = VramMalloc(2U);
     s->oamFlags = 0x600;
     s->graphics.size = 0;
-    s->graphics.anim = 0x2AB;
+    s->graphics.anim = SA1_ANIM_BOSS_X1_EGGMOBILE_DECO;
     s->variant = 1;
     s->animCursor = 0;
     s->qAnimDelay = Q(0);
@@ -608,7 +610,7 @@ void sub_8035010(void)
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2000;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < NUM_CHAIN_SEGMENTS; i++) {
         t = TaskCreate(Task_8035354, sizeof(EggWrecker_44), 0x2100 | i, 0U, TaskDestructor_8035818);
         strc_44 = TASK_DATA(t);
         strc_44->unk3C = boss->worldX + I(boss->unk6C);
@@ -621,7 +623,7 @@ void sub_8035010(void)
         s->graphics.dest = VramMalloc(4U);
         s->oamFlags = 0x640;
         s->graphics.size = 0;
-        s->graphics.anim = 0x2AB;
+        s->graphics.anim = SA1_ANIM_BOSS_X1_EGGMOBILE_DECO;
         s->variant = 2;
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -643,7 +645,7 @@ void sub_8035010(void)
     s->graphics.dest = VramMalloc(0x10U);
     s->oamFlags = 0x5C0;
     s->graphics.size = 0;
-    s->graphics.anim = 0x2AD;
+    s->graphics.anim = SA1_ANIM_BOSS_X1_BALL;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -653,26 +655,24 @@ void sub_8035010(void)
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2000;
 
-    {
-        t = TaskCreate(Task_8035768, sizeof(EggWrecker_44), 0x2105U, 0U, TaskDestructor_8035818);
-        strc_44 = TASK_DATA(t);
-        strc_44->unk3C = boss->worldX + I(boss->unk6C);
-        strc_44->unk3E = boss->worldY + I(boss->unk70);
-        strc_44->unk30 = 0x40;
-        s = &strc_44->s;
-        s->graphics.dest = VramMalloc(4);
-        s->oamFlags = 0x600;
-        s->graphics.size = 0;
-        s->graphics.anim = 0x2AB;
-        s->variant = 0;
-        s->animCursor = 0;
-        s->qAnimDelay = 0;
-        s->prevVariant = -1;
-        s->animSpeed = 0x10;
-        s->palId = 0;
-        s->hitboxes[0].index = -1;
-        s->frameFlags = 0x2000;
-    }
+    t = TaskCreate(Task_8035768, sizeof(EggWrecker_44), 0x2105U, 0U, TaskDestructor_8035818);
+    strc_44 = TASK_DATA(t);
+    strc_44->unk3C = boss->worldX + I(boss->unk6C);
+    strc_44->unk3E = boss->worldY + I(boss->unk70);
+    strc_44->unk30 = 0x40;
+    s = &strc_44->s;
+    s->graphics.dest = VramMalloc(4);
+    s->oamFlags = 0x600;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_X1_EGGMOBILE_DECO;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
 }
 
 #if 0
