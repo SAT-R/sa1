@@ -41,7 +41,7 @@ typedef struct {
 
 typedef struct EggWrecker_44 {
     /* 0x00 */ Sprite s;
-    /* 0x30 */ s16 unk30;
+    /* 0x30 */ u16 unk30;
     /* 0x30 */ s16 unk32;
     /* 0x30 */ s16 unk34;
     /* 0x30 */ s16 unk36;
@@ -675,39 +675,51 @@ void sub_8035010(void)
     s->frameFlags = 0x2000;
 }
 
-#if 0
-void sub_80352C0(void) {
-    s16 temp_r5;
-    s16 temp_r6;
-    s32 temp_r3;
+// (67.94%) https://decomp.me/scratch/mycLx
+NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_80352C0.inc", void Task_80352C0())
+{
+    s32 temp_r5;
+    s16 var_r1;
+    s32 temp_r6;
     u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_3;
-    u32 var_r5;
+    CamCoord worldX, worldY;
+    s32 var_r5 = 0;
 
-    var_r5 = 0;
-    temp_r3 = gCurTask->data + 0x00000000;
-    temp_r0 = (gCurTask->parent + 0x00000000)->unk6;
-    temp_r0_2 = temp_r3->unk30;
-    if (temp_r0_2 != 0) {
-        temp_r3->unk30 = (u16) (temp_r0_2 - 1);
-        var_r5 = (u32) (temp_r3->unk30 << 8) >> 0xB;
+    EggWrecker_44 *boss_44 = TASK_DATA(gCurTask);
+    EggWrecker *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s = &boss_44->s;
+
+    if (boss_44->unk30 != 0) {
+        u32 temp_r0;
+        boss_44->unk30--;
+        temp_r0 = boss_44->unk30;
+        temp_r0 <<= 8;
+#ifndef NON_MATCHING
+        asm("" ::"r"(temp_r0));
+#endif
+        var_r5 = temp_r0 >> 11;
     }
-    temp_r3->unk3C = (u16) *(temp_r0 + 0x00000080);
-    temp_r0_3 = *(temp_r0 + 0x00000082);
-    temp_r3->unk3E = temp_r0_3;
-    temp_r6 = *(temp_r3 + 0x3C);
-    temp_r3->unk16 = (s16) (temp_r6 - (u16) gCamera.x);
-    temp_r5 = ((s32) (0 - (var_r5 << 0x10)) >> 0x10) + temp_r0_3;
-    temp_r3->unk18 = (s16) (temp_r5 - (u16) gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r3);
-    DisplaySprite((Sprite *) temp_r3);
-    if ((s32) (s8) *(temp_r0 + 0x00000086) > 3) {
-        sub_8017540(temp_r6 << 8, (temp_r5 + 0x14) << 8);
+    var_r1 = -var_r5;
+
+    boss_44->unk3C = boss->unk80;
+    boss_44->unk3E = boss->unk82;
+    worldX = boss_44->unk3C;
+    worldY = var_r1 + boss_44->unk3E;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (boss->unk86 > 3) {
+        sub_8017540(Q(worldX), Q(worldY + 20));
         TaskDestroy(gCurTask);
+        return;
     }
 }
+END_NONMATCH
 
+#if 0
 void Task_8035354(void) {
     s32 temp_r0_2;
     s32 temp_r2_2;
