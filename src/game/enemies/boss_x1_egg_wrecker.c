@@ -752,45 +752,13 @@ NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_8035354.inc", void Task_80
 }
 END_NONMATCH
 
-#if 0
-void Task_8035354(void) {
-    s32 temp_r0_2;
-    s32 temp_r2_2;
-    s32 temp_r5;
-    u16 temp_r0;
-    u16 temp_r0_4;
-    u16 temp_r2;
-    u16 var_r2;
-    u8 temp_r0_3;
-
-    temp_r2 = gCurTask->data;
-    temp_r5 = temp_r2 + 0x00000000;
-    temp_r0 = (gCurTask->parent + 0x00000000)->unk6;
-    temp_r0_2 = temp_r5->unk30 - 1;
-    temp_r5->unk30 = (u16) temp_r0_2;
-    if ((temp_r0_2 << 0x10) != 0) {
-        temp_r2_2 = *(temp_r2 + 0x00000040) * 0xE;
-        var_r2 = (u16) (temp_r2_2 - (((s32) (((temp_r2_2 + 0x15) * ((s32) (temp_r5->unk30 << 8) >> 6)) << 8) >> 0x10) - 0x23));
-    } else {
-        temp_r0_3 = *(temp_r2 + 0x40);
-        var_r2 = (u16) ((u32) ((temp_r0_3 * 0xE0000) + 0x230000) >> 0x10);
-        temp_r5->unk30 = (u16) ((temp_r0_3 * 8) + 8);
-        gCurTask->main = Task_803540C;
-    }
-    temp_r5->unk3C = (u16) *(temp_r0 + 0x00000080);
-    temp_r0_4 = *(temp_r0 + 0x00000082);
-    temp_r5->unk3E = temp_r0_4;
-    temp_r5->unk16 = (s16) (*(temp_r5 + 0x3C) - (u16) gCamera.x);
-    temp_r5->unk18 = (s16) ((s16) ((s16) var_r2 + temp_r0_4) - (u16) gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r5);
-    DisplaySprite((Sprite *) temp_r5);
-}
-
-void Task_803540C(void) {
-    s16 temp_r5;
-    s16 temp_r7;
+// (79.67%) https://decomp.me/scratch/jki22
+NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_803540C.inc", void Task_803540C(void))
+{
+    s16 worldX;
+    s16 worldY;
     s32 temp_r0;
-    s32 temp_r1_2;
+    s16 temp_r1_2;
     s32 temp_r3;
     s32 temp_r6;
     u16 temp_r1;
@@ -798,31 +766,32 @@ void Task_803540C(void) {
     u16 temp_r3_2;
     u16 temp_r4;
 
-    temp_r1 = gCurTask->data;
-    temp_r6 = temp_r1 + 0x00000000;
-    temp_r4 = (gCurTask->parent + 0x00000000)->unk6;
-    temp_r1_2 = (s32) ((*(temp_r1 + 0x00000040) * 0xE0000) + 0xD0000) >> 0x10;
-    temp_r3 = temp_r4 + 0x8A;
-    temp_r3_2 = *(temp_r4 + 0x80);
-    temp_r6->unk3C = temp_r3_2;
-    temp_r1_3 = *(temp_r4 + 0x82);
-    temp_r6->unk3E = temp_r1_3;
-    temp_r7 = ((s32) (gSineTable[*temp_r3 + 0x100] * temp_r1_2 * 4) >> 0x10) + temp_r3_2;
-    temp_r6->unk16 = (s16) (temp_r7 - (u16) gCamera.x);
-    temp_r5 = temp_r1_3 + (((s32) (temp_r1_2 * gSineTable[0x1FF & (u16) *temp_r3] * 4) >> 0x10) + 0x16);
-    temp_r6->unk18 = (s16) (temp_r5 - (u16) gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r6);
-    DisplaySprite((Sprite *) temp_r6);
-    if ((s32) *(temp_r4 + 0x86) > 3) {
-        temp_r0 = temp_r6->unk30 - 1;
-        temp_r6->unk30 = (u16) temp_r0;
-        if ((temp_r0 << 0x10) == 0) {
-            sub_8017540(temp_r7 << 8, temp_r5 << 8);
+    EggWrecker_44 *boss_44 = TASK_DATA(gCurTask);
+    Sprite *s = &boss_44->s;
+    EggWrecker *boss = TASK_DATA(TASK_PARENT(gCurTask));
+
+    temp_r1_2 = ((boss_44->unk40 * 14) + 13);
+    asm("" ::"r"(temp_r1_2));
+    worldX = ((COS(boss->unk8A) * temp_r1_2 * 4) >> 0x10) + boss->unk80;
+    boss_44->unk3C = boss->unk80;
+    boss_44->unk3E = boss->unk82;
+    worldY = boss->unk82 + (((SIN(0x1FF & boss->unk8A) * temp_r1_2 * 4) >> 0x10));
+    worldY + 22;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (boss->unk86 > 3) {
+        if (--boss_44->unk30 == 0) {
+            sub_8017540(Q(worldX), Q(worldY));
             TaskDestroy(gCurTask);
         }
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_80354F4(void) {
     s32 temp_r0_2;
     s32 temp_r5;
