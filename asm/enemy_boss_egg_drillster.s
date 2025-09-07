@@ -6,6 +6,224 @@
 .arm
 
 @ --- Start of Sonic 2 - Emerald Hill Boss
+	thumb_func_start sub_803596C
+sub_803596C: @ 0x0803596C
+	push {r4, r5, r6, r7, lr}
+	mov r7, sb
+	mov r6, r8
+	push {r6, r7}
+	lsls r0, r0, #0x10
+	lsrs r7, r0, #0x10
+	lsls r1, r1, #0x10
+	lsrs r6, r1, #0x10
+	ldr r0, _08035A30 @ =gCurTask
+	ldr r0, [r0]
+	ldrh r4, [r0, #6]
+	ldr r0, _08035A34 @ =0x0300000C
+	adds r5, r4, r0
+	ldr r0, [r5, #0x10]
+	ldr r1, _08035A38 @ =0xFFFFFE7F
+	ands r0, r1
+	str r0, [r5, #0x10]
+	ldr r1, _08035A3C @ =gPlayer
+	mov r8, r1
+	ldr r3, [r1, #0x10]
+	movs r0, #0x80
+	ands r3, r0
+	cmp r3, #0
+	bne _080359B0
+	ldr r2, _08035A40 @ =gDispCnt
+	ldrh r1, [r2]
+	ldr r0, _08035A44 @ =0x00007FFF
+	ands r0, r1
+	strh r0, [r2]
+	ldr r0, _08035A48 @ =gWinRegs
+	strh r3, [r0, #0xa]
+	ldr r0, _08035A4C @ =gBldRegs
+	strh r3, [r0]
+	strh r3, [r0, #4]
+_080359B0:
+	ldr r0, _08035A50 @ =0x03000087
+	adds r0, r0, r4
+	mov sb, r0
+	ldrb r0, [r0]
+	lsls r0, r0, #0x18
+	asrs r0, r0, #0x18
+	cmp r0, #0
+	bne _08035A92
+	lsls r0, r7, #0x10
+	asrs r7, r0, #0x10
+	lsls r0, r6, #0x10
+	asrs r6, r0, #0x10
+	adds r0, r5, #0
+	adds r1, r7, #0
+	adds r2, r6, #0
+	mov r3, r8
+	bl Coll_Player_Boss
+	mov r8, r0
+	movs r1, #0
+	ldr r0, _08035A54 @ =gNumSingleplayerCharacters
+	ldrb r0, [r0]
+	lsls r0, r0, #0x18
+	asrs r0, r0, #0x18
+	cmp r0, #2
+	bne _080359F2
+	ldr r3, _08035A58 @ =gPartner
+	adds r0, r5, #0
+	adds r1, r7, #0
+	adds r2, r6, #0
+	bl Coll_Player_Boss
+	adds r1, r0, #0
+_080359F2:
+	ldr r0, _08035A5C @ =0x0300003C
+	adds r2, r4, r0
+	mov r0, r8
+	cmp r0, #1
+	beq _08035A00
+	cmp r1, #1
+	bne _08035A70
+_08035A00:
+	ldr r0, _08035A60 @ =0x03000086
+	adds r1, r4, r0
+	ldrb r0, [r1]
+	adds r0, #1
+	strb r0, [r1]
+	movs r0, #0x20
+	mov r1, sb
+	strb r0, [r1]
+	ldr r0, _08035A64 @ =0x0300005C
+	adds r1, r4, r0
+	movs r0, #2
+	strb r0, [r1]
+	ldr r0, _08035A68 @ =0x0300005D
+	adds r1, r4, r0
+	movs r0, #0xff
+	strb r0, [r1]
+	ldr r0, [r2, #0x10]
+	ldr r1, _08035A6C @ =0xFFFFBFFF
+	ands r0, r1
+	str r0, [r2, #0x10]
+	movs r0, #0x8f
+	bl m4aSongNumStart
+	b _08035A92
+	.align 2, 0
+_08035A30: .4byte gCurTask
+_08035A34: .4byte 0x0300000C
+_08035A38: .4byte 0xFFFFFE7F
+_08035A3C: .4byte gPlayer
+_08035A40: .4byte gDispCnt
+_08035A44: .4byte 0x00007FFF
+_08035A48: .4byte gWinRegs
+_08035A4C: .4byte gBldRegs
+_08035A50: .4byte 0x03000087
+_08035A54: .4byte gNumSingleplayerCharacters
+_08035A58: .4byte gPartner
+_08035A5C: .4byte 0x0300003C
+_08035A60: .4byte 0x03000086
+_08035A64: .4byte 0x0300005C
+_08035A68: .4byte 0x0300005D
+_08035A6C: .4byte 0xFFFFBFFF
+_08035A70:
+	mov r0, r8
+	cmp r0, #2
+	beq _08035A7A
+	cmp r1, #2
+	bne _08035A92
+_08035A7A:
+	ldr r0, _08035AA0 @ =0x0300005C
+	adds r1, r4, r0
+	movs r0, #1
+	strb r0, [r1]
+	ldr r0, _08035AA4 @ =0x0300005D
+	adds r1, r4, r0
+	movs r0, #0xff
+	strb r0, [r1]
+	ldr r0, [r2, #0x10]
+	ldr r1, _08035AA8 @ =0xFFFFBFFF
+	ands r0, r1
+	str r0, [r2, #0x10]
+_08035A92:
+	pop {r3, r4}
+	mov r8, r3
+	mov sb, r4
+	pop {r4, r5, r6, r7}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_08035AA0: .4byte 0x0300005C
+_08035AA4: .4byte 0x0300005D
+_08035AA8: .4byte 0xFFFFBFFF
+
+	thumb_func_start sub_8035AAC
+sub_8035AAC: @ 0x08035AAC
+	push {r4, r5, lr}
+	ldr r0, _08035B24 @ =gCurTask
+	ldr r0, [r0]
+	ldrh r0, [r0, #6]
+	ldr r1, _08035B28 @ =0x0300000C
+	adds r3, r0, r1
+	ldr r5, _08035B2C @ =0x0300003C
+	adds r4, r0, r5
+	adds r1, #0x7b
+	adds r2, r0, r1
+	ldrb r1, [r2]
+	movs r0, #0
+	ldrsb r0, [r2, r0]
+	cmp r0, #0
+	beq _08035B10
+	subs r1, #1
+	strb r1, [r2]
+	lsls r0, r1, #0x18
+	asrs r0, r0, #0x18
+	cmp r0, #0x10
+	ble _08035B10
+	movs r0, #2
+	ands r1, r0
+	cmp r1, #0
+	bne _08035B10
+	ldr r0, _08035B30 @ =gPlayer
+	ldr r0, [r0, #0x10]
+	movs r1, #0x80
+	ands r0, r1
+	cmp r0, #0
+	bne _08035B10
+	ldr r0, [r3, #0x10]
+	adds r1, #0x80
+	orrs r0, r1
+	str r0, [r3, #0x10]
+	ldr r2, _08035B34 @ =gDispCnt
+	ldrh r0, [r2]
+	movs r5, #0x80
+	lsls r5, r5, #8
+	adds r1, r5, #0
+	orrs r0, r1
+	strh r0, [r2]
+	ldr r1, _08035B38 @ =gWinRegs
+	ldr r0, _08035B3C @ =0x00003F1F
+	strh r0, [r1, #0xa]
+	ldr r1, _08035B40 @ =gBldRegs
+	movs r0, #0xbf
+	strh r0, [r1]
+	movs r0, #0x10
+	strh r0, [r1, #4]
+_08035B10:
+	adds r0, r3, #0
+	bl DisplaySprite
+	adds r0, r4, #0
+	bl DisplaySprite
+	pop {r4, r5}
+	pop {r0}
+	bx r0
+	.align 2, 0
+_08035B24: .4byte gCurTask
+_08035B28: .4byte 0x0300000C
+_08035B2C: .4byte 0x0300003C
+_08035B30: .4byte gPlayer
+_08035B34: .4byte gDispCnt
+_08035B38: .4byte gWinRegs
+_08035B3C: .4byte 0x00003F1F
+_08035B40: .4byte gBldRegs
+
 	thumb_func_start CreateEntity_EggDrillster
 CreateEntity_EggDrillster: @ 0x08035B44
 	push {r4, r5, r6, r7, lr}
