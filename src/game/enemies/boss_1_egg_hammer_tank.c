@@ -66,7 +66,7 @@ void Task_EHTArm(void);
 void Task_80272D0(void);
 void TaskDestructor_EHTArm(struct Task *t);
 
-struct Task *sub_80174DC(s16, s16);
+struct Task *CreatePreBossCameraPan(s16, s16);
 struct Task *sub_8017540(s32, s32);
 void Task_802611C();
 void Task_EHTArm();
@@ -158,7 +158,7 @@ void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u
 
     gCamera.maxX = s2->x + 64;
     tempY = s2->y + (DISPLAY_HEIGHT - 48);
-    sub_80174DC((s16)(s2->y - 48), tempY);
+    CreatePreBossCameraPan((s16)(s2->y - 48), tempY);
 
     if (tempY > (gCamera.y + DISPLAY_HEIGHT)) {
         gCamera.maxY = tempY;
@@ -282,7 +282,7 @@ void Task_8025D80(void)
         s2->graphics.anim = SA1_ANIM_EGGMAN;
         s2->variant = 0;
         s2->frameFlags |= 0x400;
-        sub_80174DC((worldY - 48), (worldY + 112));
+        CreatePreBossCameraPan((worldY - 48), (worldY + 112));
     }
 }
 

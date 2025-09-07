@@ -537,7 +537,7 @@ void sub_80311D4(void)
     //       even if it doesn't make sense.
     worldX = gCamera.minY;
     worldY = gCamera.maxY;
-    sub_80174DC(gCamera.maxY - DISPLAY_HEIGHT, (u16)gCamera.maxY);
+    CreatePreBossCameraPan(gCamera.maxY - DISPLAY_HEIGHT, (u16)gCamera.maxY);
     gCamera.minY = worldX;
     gCamera.maxY = worldY;
 

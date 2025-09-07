@@ -4,7 +4,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
-#include "game/enemies/bosses_shared.h" // sub_80174DC
+#include "game/enemies/bosses_shared.h" // CreatePreBossCameraPan
 #include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/stage/terrain_collision.h"
@@ -289,13 +289,19 @@ void Task_EggWreckerInit(void)
 
         case 1: {
             if (boss->worldY - 64 <= gCamera.y) {
-                sub_80174DC(boss->worldY, (boss->worldY + DISPLAY_HEIGHT));
+                CreatePreBossCameraPan(boss->worldY, (boss->worldY + DISPLAY_HEIGHT));
                 boss->unk8D = 2;
             }
         } break;
     }
 
-    if ((gCamera.minX == (boss->worldX - (DISPLAY_WIDTH / 2))) && (gCamera.maxY == (boss->worldY + DISPLAY_HEIGHT))) {
+#if TEMP_FIX
+    // TODO: Remove this once CreatePreBossCameraPan() matches!
+    if (boss->unk8D == 2)
+#else
+    if ((gCamera.minX == (boss->worldX - (DISPLAY_WIDTH / 2))) && (gCamera.maxY == (boss->worldY + DISPLAY_HEIGHT)))
+#endif
+    {
         boss->unk8D = 0;
         boss->unk78 = 0x100;
         gCurTask->main = Task_8034718;
@@ -374,7 +380,7 @@ void Task_8034718(void)
                 boss->unk8D = 0;
                 gCurTask->main = Task_803491C;
 
-                sub_80174DC(gCamera.minY - (DISPLAY_HEIGHT / 2), gCamera.maxY);
+                CreatePreBossCameraPan(gCamera.minY - (DISPLAY_HEIGHT / 2), gCamera.maxY);
             }
         } break;
     }

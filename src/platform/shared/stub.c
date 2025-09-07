@@ -114,7 +114,7 @@ void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
 void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 
-struct Task *sub_80174DC(s16 yMin, s16 yMax) { return NULL; }
+struct Task *CreatePreBossCameraPan(s16 yMin, s16 yMax) { return NULL; }
 
 #include "game/nuts_and_bolts_task.h"
 struct Task *sub_8017540(s32 qParam0, s32 qParam1)

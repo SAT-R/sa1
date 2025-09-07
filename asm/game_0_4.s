@@ -2761,8 +2761,8 @@ _080172C6:
 	pop {r0}
 	bx r0
 
-	thumb_func_start Task_80172CC
-Task_80172CC: @ 0x080172CC
+	thumb_func_start Task_PreBossCameraPan
+Task_PreBossCameraPan: @ 0x080172CC
 	push {r4, r5, r6, lr}
 	ldr r2, _080172F4 @ =gCurTask
 	ldr r0, [r2]
@@ -3037,8 +3037,9 @@ sub_801749C: @ 0x0801749C
 	.align 2, 0
 _080174D8: .4byte Task_8016B6C
 
-	thumb_func_start sub_80174DC
-sub_80174DC: @ 0x080174DC
+@ TODO: Once this matches, remove EggWrecker TEMP_FIX!
+	thumb_func_start CreatePreBossCameraPan
+CreatePreBossCameraPan: @ 0x080174DC
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	adds r4, r0, #0
@@ -3047,7 +3048,7 @@ sub_80174DC: @ 0x080174DC
 	lsrs r4, r4, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _08017538 @ =Task_80172CC
+	ldr r0, _08017538 @ =Task_PreBossCameraPan
 	movs r2, #0x80
 	lsls r2, r2, #6
 	movs r1, #0
@@ -3085,7 +3086,7 @@ _0801752C:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_08017538: .4byte Task_80172CC
+_08017538: .4byte Task_PreBossCameraPan
 _0801753C: .4byte gCamera
 
 @ NOTE: Implementation in stub.c!!!

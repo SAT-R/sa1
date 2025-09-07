@@ -594,7 +594,7 @@ void sub_802FB2C()
 
     minY = gCamera.minY;
     maxY = gCamera.maxY;
-    sub_80174DC(gCamera.minY + 40, gCamera.maxY);
+    CreatePreBossCameraPan(gCamera.minY + 40, gCamera.maxY);
     gCamera.minY = minY;
     gCamera.maxY = maxY;
 

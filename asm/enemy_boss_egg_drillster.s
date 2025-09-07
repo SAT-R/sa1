@@ -500,7 +500,7 @@ _08035D68:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	adds r1, r3, #0
-	bl sub_80174DC
+	bl CreatePreBossCameraPan
 	movs r0, #2
 _08035D8E:
 	strb r0, [r4]

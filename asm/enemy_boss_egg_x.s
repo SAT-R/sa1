@@ -803,7 +803,7 @@ _0803745C:
 	adds r1, #0xa0
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_80174DC
+	bl CreatePreBossCameraPan
 	movs r0, #2
 	strb r0, [r4]
 	b _08037518
