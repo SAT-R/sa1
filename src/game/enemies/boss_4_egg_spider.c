@@ -38,6 +38,19 @@ typedef struct EggSpider {
     /* 0x8A */ u8 unk8C;
 } EggSpider; /* 0x90 */
 
+typedef struct IciclePlatform {
+    /* 0x0C */ Sprite s;
+    /* 0x30 */ u8 filler30[0x14];
+    /* 0x44 */ CamCoord worldX;
+    /* 0x46 */ CamCoord worldY;
+    /* 0x48 */ u8 filler48[4];
+    /* 0x4C */ s32 unk4C;
+    /* 0x50 */ s32 unk50;
+    /* 0x54 */ s32 unk54;
+    /* 0x58 */ s32 unk58;
+    /* 0x30 */ u8 filler5C[0xC];
+} IciclePlatform; /* 0x68 */
+
 void Task_EggSpiderInit(void);
 void sub_80308A4(CamCoord worldX, CamCoord worldY);
 void sub_80309CC(void);
@@ -46,6 +59,7 @@ void sub_80311D4(void);
 void Task_8031480(void);
 void sub_803170C(void);
 void CreateIciclePlatform(EggSpider *boss);
+void sub_8031AB4(void);
 void TaskDestructor_8031CB4(struct Task *t);
 
 extern s16 gUnknown_084ACEB4[];
@@ -670,21 +684,6 @@ void sub_803170C(void)
     DisplaySprite(s);
     DisplaySprite(s2);
 }
-
-typedef struct IciclePlatform {
-    /* 0x0C */ Sprite s;
-    /* 0x30 */ u8 filler30[0x14];
-    /* 0x44 */ CamCoord worldX;
-    /* 0x46 */ CamCoord worldY;
-    /* 0x48 */ u8 filler48[4];
-    /* 0x4C */ s32 unk4C;
-    /* 0x50 */ s32 unk50;
-    /* 0x54 */ s32 unk54;
-    /* 0x58 */ s32 unk58;
-    /* 0x30 */ u8 filler5C[0xC];
-} IciclePlatform; /* 0x68 */
-
-void sub_8031AB4(void);
 
 // (96.94%) https://decomp.me/scratch/TvEoX
 NONMATCH("asm/non_matching/game/enemies/boss_4__CreateIciclePlatform.inc", void CreateIciclePlatform(EggSpider *boss))

@@ -926,17 +926,17 @@ void Task_8035768(void)
     }
 }
 
-#if 0
-void TaskDestructor_EggWrecker(struct Task *t) {
-    s32 temp_r4;
-
-    temp_r4 = t->data + 0x00000000;
-    VramFree(temp_r4->unk10);
-    VramFree(temp_r4->unk40);
+void TaskDestructor_EggWrecker(struct Task *t)
+{
+    EggWrecker *boss = TASK_DATA(t);
+    VramFree(boss->s.graphics.dest);
+    VramFree(boss->s2.graphics.dest);
 }
 
-void TaskDestructor_8035818(struct Task *arg0) {
-    VramFree((arg0->data + 0x00000000)->unk4);
+void TaskDestructor_8035818(struct Task *t)
+{
+    EggWrecker_44 *boss_44 = TASK_DATA(t);
+    VramFree(boss_44->s.graphics.dest);
 }
 
 void sub_803582C(CamCoord worldX, CamCoord worldY)
@@ -962,90 +962,14 @@ void sub_803582C(CamCoord worldX, CamCoord worldY)
     }
 }
 
-void sub_80358C8(void) {
-    s32 temp_r3;
-    u16 temp_r2;
+void sub_80358C8(void) { sub_80358C8_inline(); }
 
-    temp_r2 = gCurTask->data;
-    temp_r3 = temp_r2 + 0x5C;
-    if ((*temp_r3 != 0) && ((temp_r2 + 0x3C)->unk10 & 0x4000)) {
-        *temp_r3 = 0U;
-        *(temp_r2 + 0x5D) = 0xFF;
-    }
+void sub_8035904(void) { sub_8035904_inline(); }
+
+static void setPlayerPos(CamCoord worldX, CamCoord worldY)
+{
+    EggWrecker *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
 }
-
-void sub_8035904(void) {
-    s32 temp_r1;
-    s32 temp_r2;
-    u16 temp_r0;
-    u16 temp_r3;
-
-    temp_r0 = gCurTask->data;
-    temp_r1 = temp_r0 + 0xC;
-    temp_r2 = temp_r0 + 0x3C;
-    temp_r2->unk16 = (u16) temp_r1->unk16;
-    temp_r3 = temp_r1->unk18;
-    temp_r2->unk18 = temp_r3;
-    if (temp_r2->unkA == 0x2B6) {
-        temp_r2->unk18 = (u16) (temp_r3 - 3);
-    }
-}
-
-static void setPlayerPos(s16 arg0, s16 arg1) { // sub_8035938
-    s32 temp_r2;
-
-    temp_r2 = gCurTask->data + 0xC;
-    temp_r2->unk16 = (s16) (arg0 - (u16) gCamera.x);
-    temp_r2->unk18 = (s16) (arg1 - (u16) gCamera.y);
-}
-
-void sub_803596C(u16 arg0, u16 arg1) {
-    s16 temp_r6;
-    s16 temp_r7;
-    s32 temp_r0;
-    s32 temp_r1;
-    s32 temp_r2;
-    s32 temp_r5;
-    u16 temp_r3;
-    u16 temp_r4;
-    u32 temp_r8;
-    u32 var_r1;
-
-    temp_r4 = gCurTask->data;
-    temp_r5 = temp_r4 + 0xC;
-    temp_r5->unk10 = (s32) (temp_r5->unk10 & 0xFFFFFE7F);
-    temp_r3 = gPlayer.moveState & 0x80;
-    if (temp_r3 == 0) {
-        gDispCnt &= 0x7FFF;
-        gWinRegs[5] = temp_r3;
-        gBldRegs.bldCnt = temp_r3;
-        gBldRegs.bldY = temp_r3;
-    }
-    temp_r0 = temp_r4 + 0x87;
-    if ((s8) *temp_r0 == 0) {
-        temp_r7 = (s16) arg0;
-        temp_r6 = (s16) arg1;
-        temp_r8 = Coll_Player_Boss((Sprite *) temp_r5, temp_r7, temp_r6, &gPlayer);
-        var_r1 = 0;
-        if ((s8) (u8) gNumSingleplayerCharacters == 2) {
-            var_r1 = Coll_Player_Boss((Sprite *) temp_r5, temp_r7, temp_r6, &gPartner);
-        }
-        temp_r2 = temp_r4 + 0x3C;
-        if ((temp_r8 == 1) || (var_r1 == 1)) {
-            temp_r1 = temp_r4 + 0x86;
-            *temp_r1 = (u8) (*temp_r1 + 1);
-            *temp_r0 = 0x20U;
-            *(temp_r4 + 0x5C) = 2;
-            *(temp_r4 + 0x5D) = 0xFF;
-            temp_r2->unk10 = (s32) (temp_r2->unk10 & 0xFFFFBFFF);
-            m4aSongNumStart(0x8FU);
-            return;
-        }
-        if ((temp_r8 == 2) || (var_r1 == 2)) {
-            *(temp_r4 + 0x5C) = 1;
-            *(temp_r4 + 0x5D) = 0xFF;
-            temp_r2->unk10 = (s32) (temp_r2->unk10 & 0xFFFFBFFF);
-        }
-    }
-}
-#endif
