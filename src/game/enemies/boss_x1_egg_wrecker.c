@@ -63,6 +63,7 @@ void Task_80352C0(void);
 void Task_8035354(void);
 void Task_803540C(void);
 void Task_80354F4(void);
+void Task_8035588(void);
 void Task_8035768(void);
 void TaskDestructor_8035818(struct Task *t);
 void TaskDestructor_EggWrecker(struct Task *t);
@@ -767,8 +768,8 @@ NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_803540C.inc", void Task_80
     u16 temp_r4;
 
     EggWrecker_44 *boss_44 = TASK_DATA(gCurTask);
-    Sprite *s = &boss_44->s;
     EggWrecker *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s = &boss_44->s;
 
     temp_r1_2 = ((boss_44->unk40 * 14) + 13);
     asm("" ::"r"(temp_r1_2));
@@ -791,35 +792,38 @@ NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_803540C.inc", void Task_80
 }
 END_NONMATCH
 
-#if 0
-void sub_80354F4(void) {
-    s32 temp_r0_2;
-    s32 temp_r5;
-    u16 temp_r0;
-    u16 temp_r0_3;
-    u16 var_r1;
+// (88.70%) https://decomp.me/scratch/f1HTz
+NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_80354F4.inc", void Task_80354F4(void))
+{
+    EggWrecker_44 *boss_44 = TASK_DATA(gCurTask);
+    EggWrecker *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    EggWrecker_44 *boss_44_2 = boss_44;
+    Sprite *s = &boss_44->s;
+    s16 r1;
 
-    temp_r5 = gCurTask->data + 0x00000000;
-    temp_r0 = (gCurTask->parent + 0x00000000)->unk6;
-    temp_r0_2 = temp_r5->unk30 - 1;
-    temp_r5->unk30 = (u16) temp_r0_2;
-    if ((temp_r0_2 << 0x10) != 0) {
-        var_r1 = (u16) (0x63 - ((s32) (((s32) (temp_r5->unk30 << 8) >> 6) * 0x5D00) >> 0x10));
+    if (--boss_44->unk30 != 0) {
+        s16 v = (((((boss_44_2->unk30 << 8) >> 6) * 93) << 8) >> 16);
+        r1 = 99 - v;
     } else {
-        var_r1 = 0x63;
-        temp_r5->unk30 = 0x3CU;
-        gCurTask->main = sub_8035588;
+        r1 = 99;
+        boss_44_2->unk30 = 60;
+        gCurTask->main = Task_8035588;
     }
-    temp_r5->unk3C = (u16) *(temp_r0 + 0x00000080);
-    temp_r0_3 = *(temp_r0 + 0x00000082);
-    temp_r5->unk3E = temp_r0_3;
-    temp_r5->unk16 = (s16) (*(temp_r5 + 0x3C) - (u16) gCamera.x);
-    temp_r5->unk18 = (s16) ((s16) ((s16) var_r1 + temp_r0_3) - (u16) gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r5);
-    DisplaySprite((Sprite *) temp_r5);
-}
 
-void sub_8035588(void) {
+    boss_44->unk3C = boss->unk80;
+    boss_44->unk3E = boss->unk82;
+
+    r1 += boss->unk82;
+    s->x = boss_44->unk3C - gCamera.x;
+    s->y = r1 - gCamera.y;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+END_NONMATCH
+
+#if 0
+void Task_8035588(void) {
     s32 sp0;
     s32 sp4;
     s16 temp_r4_2;
