@@ -61,13 +61,12 @@ void sub_8034EE0(CamCoord worldX, CamCoord worldY);
 void sub_8035010(void);
 void Task_80352C0(void);
 void Task_8035354(void);
+void Task_803540C(void);
 void Task_80354F4(void);
 void Task_8035768(void);
 void TaskDestructor_8035818(struct Task *t);
 void TaskDestructor_EggWrecker(struct Task *t);
 
-// TODO: This function does not have an implementation at the end of the file...
-//       maybe originally EggWrecker and EggDrillster were in the same file?
 static inline void setPlayerPos_inline(CamCoord worldX, CamCoord worldY)
 {
     EggWrecker *boss = TASK_DATA(gCurTask);
@@ -719,6 +718,40 @@ NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_80352C0.inc", void Task_80
 }
 END_NONMATCH
 
+// (87.09%) https://decomp.me/scratch/gMJT8
+NONMATCH("asm/non_matching/game/enemies/boss_x1__Task_8035354.inc", void Task_8035354())
+{
+    s16 temp_r0;
+    s32 temp_r2_2;
+    u16 temp_r0_3;
+    u16 temp_r2;
+    s16 var_r1;
+    s16 var_r2;
+    u16 temp_r0_2;
+
+    EggWrecker_44 *boss_44 = TASK_DATA(gCurTask);
+    EggWrecker *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s = &boss_44->s;
+
+    if (--boss_44->unk30 != 0) {
+        var_r2 = boss_44->unk40 * 14;
+        var_r2 = (var_r2 - (((((var_r2 + 21) * ((s32)Q(boss_44->unk30) >> 6)) << 8) >> 16) - 35));
+    } else {
+        temp_r0_2 = boss_44->unk40;
+        var_r2 = ((temp_r0_2 * 14) + 35);
+        boss_44->unk30 = (temp_r0_2 * 8) + 8;
+        gCurTask->main = Task_803540C;
+    }
+    boss_44->unk3C = boss->unk80;
+    boss_44->unk3E = boss->unk82;
+    var_r1 = var_r2 + boss_44->unk3E;
+    s->x = boss_44->unk3C - gCamera.x;
+    s->y = (var_r1)-gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+END_NONMATCH
+
 #if 0
 void Task_8035354(void) {
     s32 temp_r0_2;
@@ -742,7 +775,7 @@ void Task_8035354(void) {
         temp_r0_3 = *(temp_r2 + 0x40);
         var_r2 = (u16) ((u32) ((temp_r0_3 * 0xE0000) + 0x230000) >> 0x10);
         temp_r5->unk30 = (u16) ((temp_r0_3 * 8) + 8);
-        gCurTask->main = sub_803540C;
+        gCurTask->main = Task_803540C;
     }
     temp_r5->unk3C = (u16) *(temp_r0 + 0x00000080);
     temp_r0_4 = *(temp_r0 + 0x00000082);
@@ -753,7 +786,7 @@ void Task_8035354(void) {
     DisplaySprite((Sprite *) temp_r5);
 }
 
-void sub_803540C(void) {
+void Task_803540C(void) {
     s16 temp_r5;
     s16 temp_r7;
     s32 temp_r0;
@@ -978,7 +1011,7 @@ void sub_8035904(void) {
     }
 }
 
-void sub_8035938(s16 arg0, s16 arg1) {
+static void setPlayerPos(s16 arg0, s16 arg1) {
     s32 temp_r2;
 
     temp_r2 = gCurTask->data + 0xC;
