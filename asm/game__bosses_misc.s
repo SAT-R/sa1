@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start Task_801623C
 Task_801623C: @ 0x0801623C
 	push {r4, r5, r6, r7, lr}
@@ -297,6 +295,7 @@ _08016480: .4byte 0x0000FB20
 _08016484: .4byte 0xFFFFFBFF
 _08016488: .4byte 0xFFFFFEFF
 _0801648C: .4byte gNumSingleplayerCharacters
+.endif
 
 	thumb_func_start Task_BossCapsuleUpdate
 Task_BossCapsuleUpdate: @ 0x08016490

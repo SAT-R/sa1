@@ -6,6 +6,8 @@
 #include "game/entity.h"
 #include "game/enemies/bosses_shared.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/player.h"
+#include "game/stage/screen_shake.h"
 #include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
@@ -28,6 +30,7 @@ typedef struct BossCapsule {
 
 void Task_BossCapsuleInit(void);
 void Task_801623C(void);
+void Task_BossCapsuleUpdate(void);
 void TaskDestructor_BossCapsule(struct Task *t);
 
 void CreateBossCapsule(CamCoord worldX, CamCoord worldY)
@@ -108,8 +111,104 @@ void Task_BossCapsuleInit()
     if (capsule->offsetY > 0xE0) {
         gCurTask->main = Task_801623C;
         capsule->unk76 = 0;
-        capsule->s.graphics.anim = 0x23F;
-        capsule->s.variant = 0;
-        capsule->s.frameFlags &= ~0x20;
+        s->graphics.anim = 0x23F;
+        s->variant = 0;
+        s->frameFlags &= ~0x20;
     }
+}
+
+// TODO: Register fake-match...
+void Task_801623C()
+{
+    Player *p;
+    Sprite *s;
+    Sprite *s2;
+    s32 res;
+    s32 sideX;
+    s32 i;
+
+    BossCapsule *capsule = TASK_DATA(gCurTask);
+
+    s = &capsule->s;
+    s2 = &capsule->s2;
+    s->x = (DISPLAY_WIDTH / 2);
+    s->y = (capsule->worldY - gCamera.y) - capsule->offsetY;
+    s2->x = s->x;
+    s2->y = s->y;
+    if (s->y >= 0) {
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+        DisplaySprite(s);
+        DisplaySprite(s2);
+    }
+
+    capsule->unk74 -= 0x10;
+    capsule->offsetY += I(capsule->unk74);
+    if (s->y < 96) {
+        return;
+    }
+
+    res = sa2__sub_801F100(gCamera.y + s->y + 8, gCamera.x + s->x, 1, 8, sa2__sub_801EC3C);
+    if (res > 0) {
+        return;
+    }
+    capsule->worldY = (capsule->worldY - capsule->offsetY) + res;
+    gCurTask->main = Task_BossCapsuleUpdate;
+    capsule->worldX = gCamera.x + (DISPLAY_WIDTH / 2);
+    CreateScreenShake(0x800U, 0x40U, 0x100U, -1U, 0x80U);
+    m4aSongNumStart(SE_136);
+
+    i = 0;
+    do {
+#ifndef NON_MATCHING
+        register s32 r0 asm("r0");
+#endif
+        p = &PLAYER(i);
+
+        if ((Coll_Player_Entity_Intersection(s, capsule->worldX, capsule->worldY, p) & 0x80000)
+            || (Coll_Player_Entity_Intersection(s2, capsule->worldX, capsule->worldY, p) & 0x80000)) {
+            p->timerInvulnerability = ZONE_TIME_TO_INT(0, 2);
+            if (I(p->qWorldX) < gCamera.x + (DISPLAY_WIDTH / 2)) {
+                p->qSpeedAirX = -Q(2);
+                sideX = (capsule->worldX + s->hitboxes[0].b.left) - p->spriteOffsetX;
+                if (I(p->qWorldX) > sideX) {
+                    p->qWorldX = Q(sideX);
+                }
+            } else {
+                p->qSpeedAirX = +Q(2);
+                sideX = (capsule->worldX + s->hitboxes[0].b.right) + p->spriteOffsetX;
+                if (I(p->qWorldX) < sideX) {
+                    p->qWorldX = Q(sideX);
+                }
+            }
+
+            if (MOVESTATE_IN_WATER & p->moveState) {
+                p->qSpeedAirY = -0x2A0;
+            } else {
+                p->qSpeedAirY = -0x4E0;
+            }
+
+            p->moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            p->moveState &= ~MOVESTATE_20;
+            p->moveState &= ~MOVESTATE_4;
+            p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+            p->moveState |= MOVESTATE_IN_AIR;
+            p->moveState &= ~MOVESTATE_SPINDASH;
+            p->moveState &= ~MOVESTATE_100;
+            p->charState = 0xF;
+            Player_HandleSpriteYOffsetChange(p, 0xE);
+            p->spriteOffsetX = 6;
+            p->spriteOffsetY = 0xE;
+            p->SA2_LABEL(unk61) = 0;
+            p->SA2_LABEL(unk62) = 0;
+        }
+
+#ifndef NON_MATCHING
+        r0 = 1;
+        i += r0;
+        asm("" ::"r"(r0));
+#else
+        i++;
+#endif
+    } while (i < gNumSingleplayerCharacters);
 }
