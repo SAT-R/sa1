@@ -22,10 +22,12 @@ typedef struct BossCapsule {
     /* 0x6E */ CamCoord worldY;
     /* 0x70 */ s16 offsetX;
     /* 0x72 */ s16 offsetY;
-    /* 0x74 */ u16 unk74;
+    /* 0x74 */ s16 unk74;
+    /* 0x74 */ u16 unk76;
 } BossCapsule;
 
 void Task_BossCapsuleInit(void);
+void Task_801623C(void);
 void TaskDestructor_BossCapsule(struct Task *t);
 
 void CreateBossCapsule(CamCoord worldX, CamCoord worldY)
@@ -80,4 +82,34 @@ void CreateBossCapsule(CamCoord worldX, CamCoord worldY)
     tf->rotation = 0;
     tf->qScaleX = Q(0.25);
     tf->qScaleY = Q(0.25);
+}
+
+void Task_BossCapsuleInit()
+{
+    BossCapsule *matchCapsule = TASK_DATA(gCurTask);
+    BossCapsule *capsule = matchCapsule;
+    SpriteTransform *tf = &capsule->transform;
+    Sprite *s = &capsule->s;
+
+    tf->x = capsule->worldX - gCamera.x;
+    tf->y = (capsule->worldY - gCamera.y) - capsule->offsetY;
+    if (tf->qScaleX < Q(1)) {
+        tf->qScaleY = tf->qScaleX = tf->qScaleX + 8;
+    }
+    tf->rotation += 0x10;
+
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    capsule->unk74 -= 0x10;
+    capsule->offsetY += I(capsule->unk74);
+
+    if (capsule->offsetY > 0xE0) {
+        gCurTask->main = Task_801623C;
+        capsule->unk76 = 0;
+        capsule->s.graphics.anim = 0x23F;
+        capsule->s.variant = 0;
+        capsule->s.frameFlags &= ~0x20;
+    }
 }

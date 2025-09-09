@@ -34,8 +34,6 @@ struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param
     return TaskCreate(dummy, sizeof(Strc_sub_80168F0), 0, 0, 0);
 }
 
-void CreateBossCapsule(s16 x, s16 y) { }
-
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
