@@ -118,10 +118,10 @@ void CreateEntity_EggHammerTank_Intro(MapEntity *me, u16 regionX, u16 regionY, u
     tank->qUnk8C = 0;
     tank->unk9C = 0;
     s->x = TO_WORLD_POS(me->x, regionX);
-    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_1_INTRO);
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_EGGMOBILE);
     s->oamFlags = 0x4C0;
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_BOSS_1_INTRO;
+    s->graphics.anim = SA1_ANIM_EGGMOBILE;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = Q(0);
@@ -238,7 +238,7 @@ void Task_8025CC4(void)
     DisplaySprite(s2);
 
     if (acmdRes == ACMD_RESULT__ENDED) {
-        s->graphics.anim = SA1_ANIM_BOSS_1_INTRO;
+        s->graphics.anim = SA1_ANIM_EGGMOBILE;
         s->variant = 1;
         s2->graphics.anim = SA1_ANIM_EGGMAN;
         s2->variant = 9;
@@ -276,7 +276,7 @@ void Task_8025D80(void)
 
     if (acmdRes == ACMD_RESULT__ENDED) {
         gCurTask->main = Task_8025E6C;
-        s->graphics.anim = SA1_ANIM_BOSS_1_INTRO;
+        s->graphics.anim = SA1_ANIM_EGGMOBILE;
         s->variant = 0;
         s->frameFlags |= 0x400;
         s2->graphics.anim = SA1_ANIM_EGGMAN;

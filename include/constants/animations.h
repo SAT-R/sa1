@@ -290,8 +290,8 @@
 #define SA1_ANIM_BOSS_X1_BALL           685
 #define SA1_ANIM_BOSS_X1_EGGMAN         686
 
-#define SA1_ANIM_BOSS_1_INTRO 693
-#define SA1_ANIM_EGGMAN       694
+#define SA1_ANIM_EGGMOBILE 693
+#define SA1_ANIM_EGGMAN    694
 
 #define SA1_ANIM_CHAO_SHOCKED         698
 #define SA1_ANIM_CHAO_HOVER_SIDE      699
