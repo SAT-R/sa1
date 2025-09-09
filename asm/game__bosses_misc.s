@@ -715,7 +715,7 @@ _080165AC:
 	beq _08016614
 	ldr r0, _08016624 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08016644 @ =sub_8016650
+	ldr r0, _08016644 @ =Task_8016650
 	str r0, [r1, #8]
 	ldr r2, _08016648 @ =gStageFlags
 	ldrh r0, [r2]
@@ -772,12 +772,12 @@ _08016634: .4byte 0x0300006E
 _08016638: .4byte gPlayer
 _0801663C: .4byte gPartner
 _08016640: .4byte gNumSingleplayerCharacters
-_08016644: .4byte sub_8016650
+_08016644: .4byte Task_8016650
 _08016648: .4byte gStageFlags
 _0801664C: .4byte 0x0000023F
 
-	thumb_func_start sub_8016650
-sub_8016650: @ 0x08016650
+	thumb_func_start Task_8016650
+Task_8016650: @ 0x08016650
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -914,7 +914,7 @@ _08016750:
 	blt _0801672E
 	ldr r1, _08016820 @ =gCurTask
 	ldr r0, [r1]
-	ldr r2, _0801683C @ =sub_801685C
+	ldr r2, _0801683C @ =Task_801685C
 	str r2, [r0, #8]
 	movs r5, #0
 	ldr r0, _08016840 @ =0x0000023F
@@ -1017,7 +1017,7 @@ _0801682C: .4byte 0x0300006E
 _08016830: .4byte gPlayer
 _08016834: .4byte gPartner
 _08016838: .4byte gNumSingleplayerCharacters
-_0801683C: .4byte sub_801685C
+_0801683C: .4byte Task_801685C
 _08016840: .4byte 0x0000023F
 _08016844: .4byte 0x00000241
 _08016848: .4byte 0x03000044
@@ -1026,8 +1026,8 @@ _08016850: .4byte 0x03000048
 _08016854: .4byte 0x03000042
 _08016858: .4byte 0x03000040
 
-	thumb_func_start sub_801685C
-sub_801685C: @ 0x0801685C
+	thumb_func_start Task_801685C
+Task_801685C: @ 0x0801685C
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _080168D4 @ =gCurTask
 	ldr r0, [r0]

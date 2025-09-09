@@ -44,6 +44,7 @@ SECTIONS {
         src/game/sa1_sa2_shared/unused_flash_task.o(.text);
         asm/game__multiplayer__mp_player.o(.text);
         src/game/multiplayer/indicators.o(.text);
+        src/game/enemies/bosses_egg_mobile.o(.text);
         src/game/enemies/bosses_misc.o(.text);
         asm/game__bosses_misc.o(.text);
         src/game/nuts_and_bolts_task.o(.text);
