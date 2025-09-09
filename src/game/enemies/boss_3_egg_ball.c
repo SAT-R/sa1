@@ -690,7 +690,7 @@ void Task_802FE88(void)
 
     if (boss->unk88++ > 240) {
         Strc_sub_80168F0 *strc;
-        sub_8015C5C(worldX, worldY - 8);
+        CreatePostBossEggMobile(worldX, worldY - 8);
         CreateBossCapsule(worldX, worldY);
         gMusicManagerState.unk1 = 0x30;
 

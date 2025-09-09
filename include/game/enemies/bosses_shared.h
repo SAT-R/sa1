@@ -15,7 +15,7 @@ typedef struct {
 
 void CreateBossCapsule(s16, s16);
 
-void sub_8015C5C(CamCoord worldX, CamCoord worldY);
+void CreatePostBossEggMobile(CamCoord worldX, CamCoord worldY);
 
 struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, AnimId anim, u8 param4); // -> Strc_sub_80168F0
 struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX);

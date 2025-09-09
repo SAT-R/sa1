@@ -638,7 +638,7 @@ void sub_803170C(void)
 
     if (boss->unk84++ > 300) {
         Strc_sub_80168F0 *strc;
-        sub_8015C5C(worldX, worldY + 40);
+        CreatePostBossEggMobile(worldX, worldY + 40);
         CreateBossCapsule(worldX, worldY);
         gMusicManagerState.unk1 = 0x30;
 

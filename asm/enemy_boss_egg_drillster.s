@@ -1257,7 +1257,7 @@ _080363A0:
 	asrs r6, r6, #0x10
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_8015C5C
+	bl CreatePostBossEggMobile
 	ldr r1, _08036414 @ =gMusicManagerState
 	movs r0, #0x35
 	strb r0, [r1, #1]

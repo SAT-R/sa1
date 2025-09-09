@@ -890,7 +890,7 @@ void Task_8026ED0(void)
     worldY = TO_WORLD_POS(me->y, base->regionY) + I(tank->qUnk90);
 
     if (tank->unk98++ > DISPLAY_WIDTH) {
-        sub_8015C5C(worldX, worldY - 32);
+        CreatePostBossEggMobile(worldX, worldY - 32);
         CreateBossCapsule(worldX, worldY);
         gMusicManagerState.unk1 = 0x30;
         TaskDestroy(gCurTask);

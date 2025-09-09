@@ -782,7 +782,7 @@ void sub_802ECFC(void)
     worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk98);
 
     if (boss->unkAC++ > 240) {
-        sub_8015C5C(worldX, worldY - 4);
+        CreatePostBossEggMobile(worldX, worldY - 4);
         CreateBossCapsule(worldX, worldY);
         gMusicManagerState.unk1 = 0x30;
         TaskDestroy(gCurTask);

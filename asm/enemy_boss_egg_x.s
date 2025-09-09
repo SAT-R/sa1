@@ -2645,7 +2645,7 @@ _0803838E:
 	ldr r2, _080383FC @ =0xFFF80000
 	adds r1, r4, r2
 	asrs r1, r1, #0x10
-	bl sub_8015C5C
+	bl CreatePostBossEggMobile
 	adds r6, r5, #0
 	adds r2, r4, #0
 _080383A2:
