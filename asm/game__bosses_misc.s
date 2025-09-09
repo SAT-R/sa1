@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start CreateBossCapsule
 CreateBossCapsule: @ 0x08015FFC
 	push {r4, r5, r6, r7, lr}
@@ -165,6 +163,7 @@ _0801614C: .4byte 0x03000051
 _08016150: .4byte 0x03000052
 _08016154: .4byte 0x03000055
 _08016158: .4byte 0x03000060
+.endif
 
 	thumb_func_start Task_BossCapsuleInit
 Task_BossCapsuleInit: @ 0x0801615C

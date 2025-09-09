@@ -13,6 +13,8 @@
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
+/* TODO: Maybe inline this file into bosses_misc.c ? */
+
 typedef struct PostBossEggMobile {
     /* 0x00 */ Sprite s;
     /* 0x30 */ Sprite s2;
@@ -53,7 +55,7 @@ void CreatePostBossEggMobile(CamCoord worldX, CamCoord worldY)
     s->x = worldX;
     s->y = worldY;
     s->graphics.dest = VRAM_RESERVED_BOSS_EGGMOBILE;
-    s->oamFlags = 0x540;
+    s->oamFlags = SPRITE_OAM_ORDER(21);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_EGGMOBILE;
     s->variant = 0;
@@ -69,7 +71,7 @@ void CreatePostBossEggMobile(CamCoord worldX, CamCoord worldY)
     s->x = worldX;
     s->y = worldY;
     s->graphics.dest = VRAM_RESERVED_EGGMAN;
-    s->oamFlags = 0x4C0;
+    s->oamFlags = SPRITE_OAM_ORDER(19);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_EGGMAN;
     s->variant = 4;
