@@ -33,6 +33,7 @@ void Task_BossCapsuleInit(void);
 void Task_801623C(void);
 void Task_8016650(void);
 void Task_BossCapsuleUpdate(void);
+void sub_801766C(Player *p);
 void TaskDestructor_BossCapsule(struct Task *t);
 
 void CreateBossCapsule(CamCoord worldX, CamCoord worldY)
@@ -199,7 +200,7 @@ void Task_801623C()
             p->moveState &= ~MOVESTATE_100;
             p->charState = CHARSTATE_15;
 
-			PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14)
+            PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14)
             p->SA2_LABEL(unk61) = 0;
             p->SA2_LABEL(unk62) = 0;
         }
@@ -216,63 +217,68 @@ void Task_801623C()
 
 void Task_BossCapsuleUpdate(void)
 {
-    Player *p;
-    s16 screenX;
-    s32 temp_r2_3;
     s32 var_r4;
     s32 var_sl;
-    u32 prevPlayerY;
 
-    s32 sp4 = 0;
-    BossCapsule *capsule = TASK_DATA(gCurTask);
-    Sprite *s = &capsule->s;
+    BossCapsule *capsule;
+    s32 sp4;
+    Sprite *s;
     Sprite *s2;
 
-    s2 = capsule->s2;
-    capsule->s.x = capsule->worldX - gCamera.x;
-    capsule->s.y = capsule->worldY - gCamera.y;
-    s2->x = capsule->s.x;
-    s2->y = capsule->s.y;
-    UpdateSpriteAnimation(&capsule->s);
+    sp4 = 0;
+    capsule = TASK_DATA(gCurTask);
+    s = &capsule->s;
+    s2;
+
+    s2 = &capsule->s2;
+    s->x = capsule->worldX - gCamera.x;
+    s->y = capsule->worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+    UpdateSpriteAnimation(s);
     UpdateSpriteAnimation(s2);
-    DisplaySprite(&capsule->s);
+    DisplaySprite(s);
     DisplaySprite(s2);
 
-    var_sl = 0;
-    do {
-        Player *p = PLAYER(var_sl);
+    {
+        s32 i = 0;
+        do {
+            Player *p = &PLAYER(i);
 
-        if ((s8)(u8)p->charState != CHARSTATE_15) {
-            prevPlayerY = I(gPlayer.qWorldY);
-            sub_80096B0(&capsule->s, capsule->worldX, capsule->worldY, p);
+            if (p->charState != CHARSTATE_15) {
+                CamCoord prevPlayerY = I(gPlayer.qWorldY);
+                sub_80096B0(s, capsule->worldX, capsule->worldY, p);
 
-            if (!(gPlayer.moveState & 0x80)
-                && ((prevPlayerY < I(gPlayer.qWorldY)) || (capsule->worldY < I(gPlayer.qWorldY)))) {
-                p->qWorldX = Q((capsule->worldX + capsule->s.hitboxes[0].b.left) - p->spriteOffsetX);
-                p->qWorldY = Q(capsule->worldY - p->spriteOffsetY);
+                if (!(gPlayer.moveState & 0x80) && ((prevPlayerY < I(gPlayer.qWorldY)) || (capsule->worldY < I(gPlayer.qWorldY)))) {
+                    p->qWorldX = Q((capsule->worldX + s->hitboxes[0].b.left) - p->spriteOffsetX);
+                    p->qWorldY = Q(capsule->worldY - p->spriteOffsetY);
+                }
+
+                if ((8 & sub_80096B0(s2, capsule->worldX, capsule->worldY, p))
+                    || (Coll_AmyHammer_Spring(s2, capsule->worldX, capsule->worldY, p) != 0)) {
+                    sp4 = 1;
+                }
             }
+        } while (++i < gNumSingleplayerCharacters);
+    }
 
-            if ((8 & sub_80096B0(s2, capsule->worldX, capsule->worldY, p))
-                || (Coll_AmyHammer_Spring(s2, capsule->worldX, capsule->worldY, p) != 0)) {
-                sp4 = 1;
-            }
-        }
-    } while (++var_sl < gNumSingleplayerCharacters);
-
-    if (sp4 != 0) {
+    if (sp4) {
         gCurTask->main = Task_8016650;
         gStageFlags |= 3;
-        capsule->s.graphics.anim = SA1_ANIM_BOSS_CAPSULE_LARGE;
-        capsule->s.variant = 1;
+        s->graphics.anim = SA1_ANIM_BOSS_CAPSULE_LARGE;
+        s->variant = 1;
         m4aSongNumStart(0x89U);
 
-        var_r4 = 0;
-        do {
-            Player *p = PLAYER(var_r4);
-            p->qSpeedGround = 0;
-            p->moveState |= 0x200000;
-            p->heldInput = 0;
-            sub_801766C(p);
-        } while (++var_r4 < gNumSingleplayerCharacters);
+        {
+            s32 i = 0;
+
+            do {
+                Player *p = &PLAYER(i);
+                p->qSpeedGround = 0;
+                p->moveState |= 0x200000;
+                p->heldInput = 0;
+                sub_801766C(p);
+            } while (++i < gNumSingleplayerCharacters);
+        }
     }
 }
