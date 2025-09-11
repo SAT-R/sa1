@@ -34,6 +34,8 @@ void Task_801623C(void);
 void Task_8016650(void);
 void Task_BossCapsuleUpdate(void);
 void sub_801766C(Player *p);
+void sub_801749C(CamCoord worldX, CamCoord worldY);
+void Task_801685C(void);
 void TaskDestructor_BossCapsule(struct Task *t);
 
 void CreateBossCapsule(CamCoord worldX, CamCoord worldY)
@@ -280,5 +282,74 @@ void Task_BossCapsuleUpdate(void)
                 sub_801766C(p);
             } while (++i < gNumSingleplayerCharacters);
         }
+    }
+}
+
+void Task_8016650(void)
+{
+    s32 var_r4;
+    s32 var_sl;
+
+    BossCapsule *capsule;
+    Sprite *s;
+    Sprite *s2;
+    AnimCmdResult acmdRes;
+
+    capsule = TASK_DATA(gCurTask);
+    s = &capsule->s;
+    s2 = &capsule->s2;
+    s->x = capsule->worldX - gCamera.x;
+    s->y = capsule->worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y + 4;
+    acmdRes = UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    {
+        s32 i = 0;
+        do {
+            Player *p = &PLAYER(i);
+
+            if (p->charState != CHARSTATE_15) {
+                CamCoord prevPlayerY = I(gPlayer.qWorldY);
+                sub_80096B0(s, capsule->worldX, capsule->worldY, p);
+                sub_80096B0(s2, capsule->worldX, capsule->worldY + 4, p);
+            }
+        } while (++i < gNumSingleplayerCharacters);
+    }
+
+    DisplaySprite(s);
+    DisplaySprite(s2);
+
+    if (acmdRes == ACMD_RESULT__ENDED) {
+        Strc_sub_80168F0 *strcA;
+        Strc_sub_80168F0 *strcB;
+        s32 i = 0;
+
+        do {
+            Player *p = &PLAYER(i);
+
+            if ((p->moveState & MOVESTATE_STOOD_ON_OBJ) && (p->stoodObj == s2)) {
+                p->moveState = (p->moveState & ~8) | 2;
+            }
+        } while (++i < gNumSingleplayerCharacters);
+
+        gCurTask->main = Task_801685C;
+        s->graphics.anim = 0x23F;
+        s->variant = 2;
+        strcA = TASK_DATA(sub_80168F0(capsule->worldX, capsule->worldY, 0x40, 0x241, 0U));
+        strcA->qUnk44 = -Q(1);
+        strcA->qUnk46 = -Q(2);
+        strcA->unk48 = 0;
+        strcA->unk42 = 4;
+        strcA->unk40 = 0x3C;
+        strcB = TASK_DATA(sub_80168F0(capsule->worldX, capsule->worldY, 0x40, 0x241, 0U));
+        strcB->qUnk44 = +Q(1);
+        strcB->qUnk46 = -Q(2);
+        strcB->unk48 = 0;
+        strcB->unk42 = 4;
+        strcB->transform.qScaleX = -Q(1);
+        strcB->unk40 = 0x3C;
+        sub_801749C(capsule->worldX, capsule->worldY);
     }
 }
