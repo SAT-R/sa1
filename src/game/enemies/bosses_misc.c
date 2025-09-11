@@ -12,6 +12,7 @@
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
 #include "constants/songs.h"
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
@@ -30,6 +31,7 @@ typedef struct BossCapsule {
 
 void Task_BossCapsuleInit(void);
 void Task_801623C(void);
+void Task_8016650(void);
 void Task_BossCapsuleUpdate(void);
 void TaskDestructor_BossCapsule(struct Task *t);
 
@@ -195,10 +197,9 @@ void Task_801623C()
             p->moveState |= MOVESTATE_IN_AIR;
             p->moveState &= ~MOVESTATE_SPINDASH;
             p->moveState &= ~MOVESTATE_100;
-            p->charState = 0xF;
-            Player_HandleSpriteYOffsetChange(p, 0xE);
-            p->spriteOffsetX = 6;
-            p->spriteOffsetY = 0xE;
+            p->charState = CHARSTATE_15;
+
+			PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14)
             p->SA2_LABEL(unk61) = 0;
             p->SA2_LABEL(unk62) = 0;
         }
@@ -211,4 +212,67 @@ void Task_801623C()
         i++;
 #endif
     } while (i < gNumSingleplayerCharacters);
+}
+
+void Task_BossCapsuleUpdate(void)
+{
+    Player *p;
+    s16 screenX;
+    s32 temp_r2_3;
+    s32 var_r4;
+    s32 var_sl;
+    u32 prevPlayerY;
+
+    s32 sp4 = 0;
+    BossCapsule *capsule = TASK_DATA(gCurTask);
+    Sprite *s = &capsule->s;
+    Sprite *s2;
+
+    s2 = capsule->s2;
+    capsule->s.x = capsule->worldX - gCamera.x;
+    capsule->s.y = capsule->worldY - gCamera.y;
+    s2->x = capsule->s.x;
+    s2->y = capsule->s.y;
+    UpdateSpriteAnimation(&capsule->s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(&capsule->s);
+    DisplaySprite(s2);
+
+    var_sl = 0;
+    do {
+        Player *p = PLAYER(var_sl);
+
+        if ((s8)(u8)p->charState != CHARSTATE_15) {
+            prevPlayerY = I(gPlayer.qWorldY);
+            sub_80096B0(&capsule->s, capsule->worldX, capsule->worldY, p);
+
+            if (!(gPlayer.moveState & 0x80)
+                && ((prevPlayerY < I(gPlayer.qWorldY)) || (capsule->worldY < I(gPlayer.qWorldY)))) {
+                p->qWorldX = Q((capsule->worldX + capsule->s.hitboxes[0].b.left) - p->spriteOffsetX);
+                p->qWorldY = Q(capsule->worldY - p->spriteOffsetY);
+            }
+
+            if ((8 & sub_80096B0(s2, capsule->worldX, capsule->worldY, p))
+                || (Coll_AmyHammer_Spring(s2, capsule->worldX, capsule->worldY, p) != 0)) {
+                sp4 = 1;
+            }
+        }
+    } while (++var_sl < gNumSingleplayerCharacters);
+
+    if (sp4 != 0) {
+        gCurTask->main = Task_8016650;
+        gStageFlags |= 3;
+        capsule->s.graphics.anim = SA1_ANIM_BOSS_CAPSULE_LARGE;
+        capsule->s.variant = 1;
+        m4aSongNumStart(0x89U);
+
+        var_r4 = 0;
+        do {
+            Player *p = PLAYER(var_r4);
+            p->qSpeedGround = 0;
+            p->moveState |= 0x200000;
+            p->heldInput = 0;
+            sub_801766C(p);
+        } while (++var_r4 < gNumSingleplayerCharacters);
+    }
 }
