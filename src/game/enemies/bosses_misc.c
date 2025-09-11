@@ -42,11 +42,11 @@ typedef struct Strc_sub_8016D80 {
     /* 0x00 */ Sprite s;
     /* 0x30 */ s32 unk30;
     /* 0x30 */ s32 unk34;
-    /* 0x38 */ u16 unk38;
-    /* 0x38 */ u16 unk3A;
-    /* 0x38 */ u16 unk3C;
-    /* 0x38 */ u16 unk3E;
-    /* 0x38 */ u16 unk40;
+    /* 0x38 */ s16 unk38;
+    /* 0x38 */ s16 unk3A;
+    /* 0x38 */ s16 unk3C;
+    /* 0x38 */ s16 unk3E;
+    /* 0x38 */ s16 unk40;
 } Strc_sub_8016D80;
 
 typedef struct Strc_sub_8016F44 {
@@ -77,7 +77,7 @@ struct Task *sub_8016F44(CamCoord worldX, CamCoord worldY, AnimId anim, u8 varia
 void TaskDestructor_BossCapsule(struct Task *t);
 void TaskDestructor_sub_80168F0(struct Task *t);
 
-u16 gUnknown_080BB43C[5][3];
+extern u16 gUnknown_080BB43C[5][3];
 
 void CreateBossCapsule(CamCoord worldX, CamCoord worldY)
 {
@@ -577,4 +577,67 @@ void Task_8016B6C(void)
         strc->unk6 = 0;
         TaskDestroy(gCurTask);
     }
+}
+
+void sub_8016E54(void);
+void TaskDestructor_sub_8017658(struct Task *t);
+
+struct Task *sub_8016D80(s16 worldX, s16 worldY, u16 anim, u8 variant)
+{
+    struct Task *t;
+    Strc_sub_8016D80 *strc;
+
+    t = TaskCreate(sub_8016E54, sizeof(Strc_sub_8016D80), 0x2000U, 0U, TaskDestructor_sub_8017658);
+
+    strc = TASK_DATA(t);
+    strc->unk38 = (u16)worldX;
+    strc->unk3A = (u16)worldY;
+    strc->unk3C = 0xFC00;
+    strc->unk40 = 0xFC00;
+    strc->unk3E = 0x100;
+    strc->unk34 = 0;
+    strc->unk30 = 0;
+    strc->s.graphics.dest = VramMalloc(4U);
+    strc->s.oamFlags = 0x3C0;
+    strc->s.graphics.size = 0;
+    strc->s.graphics.anim = anim;
+    strc->s.variant = variant;
+    strc->s.animCursor = 0;
+    strc->s.qAnimDelay = 0;
+    strc->s.prevVariant = 0xFF;
+    strc->s.animSpeed = 0x10;
+    strc->s.palId = 0;
+    strc->s.frameFlags = 0x2000;
+
+    return t;
+}
+
+void sub_8016E54()
+{
+    Strc_sub_8016D80 *strc = TASK_DATA(gCurTask);
+    Sprite *s = &strc->s;
+
+    strc->unk3C += 40;
+    strc->unk34 += strc->unk3C;
+    strc->unk30 += strc->unk3E;
+
+    if ((strc->unk3C > 0) && (sa2__sub_801F100(strc->unk3A + I(strc->unk34), strc->unk38 + I(strc->unk30), 1, 8, sa2__sub_801EC3C) < 0)) {
+        strc->unk3C = strc->unk40;
+
+        if ((I(strc->unk30) < -32) && (strc->unk3E < 0)) {
+            strc->unk3E = -strc->unk3E;
+        } else if ((I(strc->unk30) > 32) && (strc->unk3E > 0)) {
+            strc->unk3E = -strc->unk3E;
+        }
+    }
+
+    if (strc->unk3E < 0) {
+        s->frameFlags &= ~0x400;
+    } else {
+        s->frameFlags |= 0x400;
+    }
+    s->x = (I(strc->unk30) + strc->unk38) - gCamera.x;
+    s->y = (I(strc->unk34) + strc->unk3A) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
