@@ -17,23 +17,6 @@ int gMaxLines = 0;
 #include "game/enemies/boss_super_egg_robo.h"
 SuperEggRobo *gExtraBossTaskData = { 0 };
 
-typedef struct {
-    /* 0x00 */ Sprite s;
-    /* 0x30 */ SpriteTransform transform;
-    /* 0x3C */ s16 unk3C;
-    /* 0x3E */ s16 unk3E;
-    /* 0x48 */ s16 unk40;
-    /* 0x48 */ s16 unk42;
-    /* 0x44 */ s16 qUnk44;
-    /* 0x46 */ s16 qUnk46;
-    /* 0x48 */ s16 unk48;
-} Strc_sub_80168F0; /* 0x4C */
-void dummy() { }
-struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, s16 param3, u8 param4)
-{
-    return TaskCreate(dummy, sizeof(Strc_sub_80168F0), 0, 0, 0);
-}
-
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }

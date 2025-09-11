@@ -6,7 +6,7 @@ typedef struct {
     /* 0x30 */ SpriteTransform transform;
     /* 0x3C */ s16 unk3C;
     /* 0x3E */ s16 unk3E;
-    /* 0x48 */ s16 unk40;
+    /* 0x48 */ u16 unk40;
     /* 0x48 */ s16 unk42;
     /* 0x44 */ s16 qUnk44;
     /* 0x46 */ s16 qUnk46;
@@ -17,7 +17,7 @@ void CreateBossCapsule(s16, s16);
 
 void CreatePostBossEggMobile(CamCoord worldX, CamCoord worldY);
 
-struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, s16 param2, AnimId anim, u8 param4); // -> Strc_sub_80168F0
+struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, u16 numTiles, AnimId anim, u8 variant); // -> Strc_sub_80168F0
 struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX);
 struct Task *CreatePreBossCameraPan(s16 yMin, s16 yMax);
 struct Task *sub_8017540(s32 param0, s32 param1); // -> NutsAndBolts
