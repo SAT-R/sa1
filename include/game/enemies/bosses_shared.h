@@ -21,5 +21,5 @@ struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, u16 numTiles, AnimId 
 struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX);
 struct Task *CreatePreBossCameraPan(s16 yMin, s16 yMax);
 struct Task *sub_8017540(s32 param0, s32 param1); // -> NutsAndBolts
-
+struct Task *sub_8016D80(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant);
 #endif // GUARD_SA1_BOSSES_SHARED_H

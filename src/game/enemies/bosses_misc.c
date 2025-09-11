@@ -29,6 +29,39 @@ typedef struct BossCapsule {
     /* 0x74 */ u16 unk76;
 } BossCapsule;
 
+typedef struct Strc_sub_801749C {
+    /* 0x00 */ s16 unk0;
+    /* 0x02 */ s16 unk2;
+    /* 0x04 */ s16 unk4;
+    /* 0x06 */ u16 unk6;
+    /* 0x08 */ u16 unk8;
+    /* 0x0A */ u16 unkA;
+} Strc_sub_801749C;
+
+typedef struct Strc_sub_8016D80 {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s32 unk30;
+    /* 0x30 */ s32 unk34;
+    /* 0x38 */ u16 unk38;
+    /* 0x38 */ u16 unk3A;
+    /* 0x38 */ u16 unk3C;
+    /* 0x38 */ u16 unk3E;
+    /* 0x38 */ u16 unk40;
+} Strc_sub_8016D80;
+
+typedef struct Strc_sub_8016F44 {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x3C */ s32 unk3C;
+    /* 0x40 */ s32 unk40;
+    /* 0x40 */ u16 unk44;
+    /* 0x40 */ s16 unk46;
+    /* 0x48 */ u8 filler48[0x6];
+    /* 0x40 */ s16 unk4E;
+    /* 0x40 */ s16 unk50;
+    /* 0x40 */ s16 unk52;
+} Strc_sub_8016F44; /* 0x54 */
+
 void Task_BossCapsuleInit(void);
 void Task_801623C(void);
 void Task_8016650(void);
@@ -36,9 +69,15 @@ void Task_BossCapsuleUpdate(void);
 void sub_801766C(Player *p);
 void sub_801749C(CamCoord worldX, CamCoord worldY);
 void Task_801685C(void);
-void Task_8016A14(void); // -> Strc_sub_80168F0
+void Task_8016A14(void); // :Strc_sub_80168F0
+void Task_8016B6C(void); // :Strc_sub_801749C
+struct Task *sub_8016D80(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant); // -> Strc_sub_8016D80
+struct Task *sub_8016F44(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant); // -> Strc_sub_8016F44
+
 void TaskDestructor_BossCapsule(struct Task *t);
 void TaskDestructor_sub_80168F0(struct Task *t);
+
+u16 gUnknown_080BB43C[5][3];
 
 void CreateBossCapsule(CamCoord worldX, CamCoord worldY)
 {
@@ -399,25 +438,25 @@ struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, u16 numTiles, AnimId 
     strc->unk40 = 0x3C;
     strc->unk3C = worldX;
     strc->unk3E = worldY;
-    strc->qUnk44 = 0x100;
-    strc->qUnk46 = -0x200;
+    strc->qUnk44 = +Q(1);
+    strc->qUnk46 = -Q(2);
     strc->unk48 = 8;
     spC = temp_r2;
     sp10 = 0;
     strc->s.graphics.dest = VramMalloc(numTiles);
-    strc->s.oamFlags = 0x500;
+    strc->s.oamFlags = SPRITE_OAM_ORDER(20);
     strc->s.graphics.size = 0;
     strc->s.graphics.anim = anim;
     strc->s.variant = variant;
     strc->s.animCursor = 0;
     strc->s.qAnimDelay = 0;
-    strc->s.prevVariant = 0xFF;
-    strc->s.animSpeed = 0x10;
+    strc->s.prevVariant = -1;
+    strc->s.animSpeed = SPRITE_ANIM_SPEED(1.0);
     strc->s.palId = 0;
     strc->s.frameFlags = 0x70;
     temp_r2->rotation = 0;
-    temp_r2->qScaleX = 0x100;
-    temp_r2->qScaleY = 0x100;
+    temp_r2->qScaleX = Q(1);
+    temp_r2->qScaleY = Q(1);
     temp_r2->x = worldX;
     temp_r2->y = worldY;
     UpdateSpriteAnimation(&strc->s);
@@ -441,6 +480,7 @@ void Task_8016A14()
     strc->unk3E += I(strc->qUnk46);
     tf->x = strc->unk3C - gCamera.x;
     tf->y = strc->unk3E - gCamera.y;
+
     if (strc->qUnk44 > 0) {
         tf->rotation = (tf->rotation + strc->unk42) & 0x3FF;
         if (tf->qScaleX > -Q(2)) {
@@ -453,10 +493,12 @@ void Task_8016A14()
             tf->qScaleY = -tf->qScaleX;
         }
     } else {
-        tf->rotation = (tf->rotation - (u16)strc->unk42) & 0x3FF;
-        if (tf->qScaleX <= 0x1FF) {
-            tf->qScaleX = (u16)tf->qScaleX + (u16)strc->unk48;
+        tf->rotation = (tf->rotation - strc->unk42) & 0x3FF;
+
+        if (tf->qScaleX < +Q(2)) {
+            tf->qScaleX += strc->unk48;
         }
+
         if (tf->qScaleX >= 0) {
             tf->qScaleY = tf->qScaleX;
         } else {
@@ -473,4 +515,66 @@ void Task_8016A14()
         strc->s.y = tf->y;
     }
     DisplaySprite(&strc->s);
+}
+
+void Task_8016B6C(void)
+{
+    s32 temp_r0_2;
+    s32 temp_r0_4;
+    s32 var_r4;
+    u16 temp_r1;
+
+    Strc_sub_801749C *strc;
+    Strc_sub_8016D80 *strc44;
+    Strc_sub_8016F44 *strc54;
+
+    strc = TASK_DATA(gCurTask);
+
+    if ((strc->unk4++ & 0x3) == 0) {
+        if (strc->unk4 != 5) {
+            strc44 = TASK_DATA(sub_8016D80(strc->unk0, strc->unk2 - 32, gUnknown_080BB43C[LEVEL_TO_ZONE(gCurrentLevel)][0], 0));
+            var_r4 = PseudoRandom32();
+            strc44->unk3E += var_r4 & 0xFF;
+            if (1 & strc->unk8) {
+                strc44->unk3E = -strc44->unk3E;
+            }
+            temp_r0_2 = ((u32)(0x1F00 & var_r4) >> 4) + strc44->unk3C;
+            strc44->unk3C = temp_r0_2;
+            strc44->unk40 = temp_r0_2;
+        }
+
+        strc44 = TASK_DATA(sub_8016D80(strc->unk0, strc->unk2 - 32, gUnknown_080BB43C[LEVEL_TO_ZONE(gCurrentLevel)][1], 0));
+        var_r4 = PseudoRandom32();
+        strc44->unk3E += var_r4 & 0xFF;
+        if (!(1 & strc->unk8)) {
+            strc44->unk3E = -strc44->unk3E;
+        }
+        temp_r0_4 = ((u32)(0x1F00 & var_r4) >> 4) + strc44->unk3C;
+        strc44->unk3C = temp_r0_4;
+        strc44->unk40 = temp_r0_4;
+        if (strc->unk4 != 5) {
+            strc54 = TASK_DATA(sub_8016F44(strc->unk0, strc->unk2 - 32, 0x1C0, 0));
+            var_r4 = PseudoRandom32();
+            strc54->unk52 += (var_r4 & 7);
+            if (1 & strc->unk8) {
+                strc54->unk52 = -strc54->unk52;
+                strc54->unk50 = 0x200;
+            }
+            strc54->unk4E = ((s32)gPlayer.qWorldY >> 8) - 0x20;
+        }
+        strc54 = TASK_DATA(sub_8016F44(strc->unk0, strc->unk2 - 32, 0x1BA, 0));
+        var_r4 >>= 8;
+        strc54->unk52 += ((var_r4)&7);
+        if (1 & strc->unk8) {
+            strc54->unk52 = -strc54->unk52;
+            strc54->unk50 = 0x200;
+        }
+        strc54->unk4E = I(gPlayer.qWorldY) - 32;
+        strc->unk8++;
+    }
+    if (strc->unk4 > 12) {
+        strc->unk4 = 0;
+        strc->unk6 = 0;
+        TaskDestroy(gCurTask);
+    }
 }
