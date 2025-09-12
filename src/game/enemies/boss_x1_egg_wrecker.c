@@ -176,6 +176,7 @@ void sub_80342A0(s16 worldX, s16 worldY)
     }
 }
 
+// NOTE: Same as sub_8035AAC
 void sub_80343E0(void)
 {
     EggWrecker *boss = TASK_DATA(gCurTask);
