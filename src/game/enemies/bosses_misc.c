@@ -40,13 +40,13 @@ typedef struct Strc_sub_801749C {
 
 typedef struct Strc_sub_8016D80 {
     /* 0x00 */ Sprite s;
-    /* 0x30 */ s32 unk30;
-    /* 0x30 */ s32 unk34;
+    /* 0x30 */ s32 qUnk30;
+    /* 0x30 */ s32 qUnk34;
     /* 0x38 */ s16 unk38;
     /* 0x38 */ s16 unk3A;
-    /* 0x38 */ s16 unk3C;
-    /* 0x38 */ s16 unk3E;
-    /* 0x38 */ s16 unk40;
+    /* 0x38 */ s16 qUnk3C;
+    /* 0x38 */ s16 qUnk3E;
+    /* 0x38 */ s16 qUnk40;
 } Strc_sub_8016D80;
 
 typedef struct Strc_sub_8016F44 {
@@ -534,24 +534,22 @@ void Task_8016B6C(void)
         if (strc->unk4 != 5) {
             strc44 = TASK_DATA(sub_8016D80(strc->unk0, strc->unk2 - 32, gUnknown_080BB43C[LEVEL_TO_ZONE(gCurrentLevel)][0], 0));
             var_r4 = PseudoRandom32();
-            strc44->unk3E += var_r4 & 0xFF;
+            strc44->qUnk3E += var_r4 & 0xFF;
             if (1 & strc->unk8) {
-                strc44->unk3E = -strc44->unk3E;
+                strc44->qUnk3E = -strc44->qUnk3E;
             }
-            temp_r0_2 = ((u32)(0x1F00 & var_r4) >> 4) + strc44->unk3C;
-            strc44->unk3C = temp_r0_2;
-            strc44->unk40 = temp_r0_2;
+            strc44->qUnk3C += ((u32)(0x1F00 & var_r4) >> 4);
+            strc44->qUnk40 = strc44->qUnk3C;
         }
 
         strc44 = TASK_DATA(sub_8016D80(strc->unk0, strc->unk2 - 32, gUnknown_080BB43C[LEVEL_TO_ZONE(gCurrentLevel)][1], 0));
         var_r4 = PseudoRandom32();
-        strc44->unk3E += var_r4 & 0xFF;
+        strc44->qUnk3E += var_r4 & 0xFF;
         if (!(1 & strc->unk8)) {
-            strc44->unk3E = -strc44->unk3E;
+            strc44->qUnk3E = -strc44->qUnk3E;
         }
-        temp_r0_4 = ((u32)(0x1F00 & var_r4) >> 4) + strc44->unk3C;
-        strc44->unk3C = temp_r0_4;
-        strc44->unk40 = temp_r0_4;
+        strc44->qUnk3C += ((u32)(0x1F00 & var_r4) >> 4);
+        strc44->qUnk40 = strc44->qUnk3C;
         if (strc->unk4 != 5) {
             strc54 = TASK_DATA(sub_8016F44(strc->unk0, strc->unk2 - 32, 0x1C0, 0));
             var_r4 = PseudoRandom32();
@@ -592,11 +590,11 @@ struct Task *sub_8016D80(s16 worldX, s16 worldY, u16 anim, u8 variant)
     strc = TASK_DATA(t);
     strc->unk38 = (u16)worldX;
     strc->unk3A = (u16)worldY;
-    strc->unk3C = 0xFC00;
-    strc->unk40 = 0xFC00;
-    strc->unk3E = 0x100;
-    strc->unk34 = 0;
-    strc->unk30 = 0;
+    strc->qUnk3C = -Q(4);
+    strc->qUnk40 = -Q(4);
+    strc->qUnk3E = Q(1);
+    strc->qUnk34 = 0;
+    strc->qUnk30 = 0;
     strc->s.graphics.dest = VramMalloc(4U);
     strc->s.oamFlags = 0x3C0;
     strc->s.graphics.size = 0;
@@ -617,27 +615,29 @@ void sub_8016E54()
     Strc_sub_8016D80 *strc = TASK_DATA(gCurTask);
     Sprite *s = &strc->s;
 
-    strc->unk3C += 40;
-    strc->unk34 += strc->unk3C;
-    strc->unk30 += strc->unk3E;
+    strc->qUnk3C += Q(40. / 256.);
+    strc->qUnk34 += strc->qUnk3C;
+    strc->qUnk30 += strc->qUnk3E;
 
-    if ((strc->unk3C > 0) && (sa2__sub_801F100(strc->unk3A + I(strc->unk34), strc->unk38 + I(strc->unk30), 1, 8, sa2__sub_801EC3C) < 0)) {
-        strc->unk3C = strc->unk40;
+    if ((strc->qUnk3C > 0)
+        && (sa2__sub_801F100(strc->unk3A + I(strc->qUnk34), strc->unk38 + I(strc->qUnk30), 1, 8, sa2__sub_801EC3C) < 0)) {
+        strc->qUnk3C = strc->qUnk40;
 
-        if ((I(strc->unk30) < -32) && (strc->unk3E < 0)) {
-            strc->unk3E = -strc->unk3E;
-        } else if ((I(strc->unk30) > 32) && (strc->unk3E > 0)) {
-            strc->unk3E = -strc->unk3E;
+        if ((I(strc->qUnk30) < -32) && (strc->qUnk3E < 0)) {
+            strc->qUnk3E = -strc->qUnk3E;
+        } else if ((I(strc->qUnk30) > 32) && (strc->qUnk3E > 0)) {
+            strc->qUnk3E = -strc->qUnk3E;
         }
     }
 
-    if (strc->unk3E < 0) {
+    if (strc->qUnk3E < 0) {
         s->frameFlags &= ~0x400;
     } else {
         s->frameFlags |= 0x400;
     }
-    s->x = (I(strc->unk30) + strc->unk38) - gCamera.x;
-    s->y = (I(strc->unk34) + strc->unk3A) - gCamera.y;
+
+    s->x = (I(strc->qUnk30) + strc->unk38) - gCamera.x;
+    s->y = (I(strc->qUnk34) + strc->unk3A) - gCamera.y;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
