@@ -13,7 +13,9 @@
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
-/* Sonic 2 - Emerald Hill Boss */
+/* Sonic 2 - emerald hill boss */
+
+#define NUM_WHEELS 4
 
 typedef struct EggDrillster {
     /* 0x00 */ SpriteBase base;
@@ -25,8 +27,8 @@ typedef struct EggDrillster {
     /* 0x78 */ s32 unk78;
     /* 0x7C */ s16 worldX;
     /* 0x7E */ s16 worldY;
-    /* 0x80 */ s16 unk80;
-    /* 0x82 */ s16 unk82;
+    /* 0x80 */ CamCoord unk80;
+    /* 0x82 */ CamCoord unk82;
     /* 0x84 */ u16 unk84;
     /* 0x86 */ s8 unk86;
     /* 0x87 */ s8 unk87;
@@ -37,18 +39,40 @@ typedef struct EggDrillster {
     /* 0x8D */ char filler8E[2];
 } EggDrillster; /* size = 0x90 */
 
+typedef struct Component {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ u16 unk30;
+    /* 0x32 */ s16 unk32;
+    /* 0x34 */ s32 unk34;
+    /* 0x38 */ s32 unk38;
+    /* 0x3C */ s16 qUnk3C;
+    /* 0x3E */ s16 qUnk3E;
+    /* 0x40 */ CamCoord worldX;
+    /* 0x42 */ CamCoord worldY;
+    /* 0x44 */ u8 unk44;
+    u8 filler44[0x3];
+} Component;
+
 void Task_EggDrillsterInit(void);
 void Task_8035DD4(void);
-void sub_80365AC(void);
+static void CreateFalloffComponents(void);
 void Task_8035F70(void);
 void sub_8035AAC(void);
 void TaskDestructor_EggDrillster(struct Task *t);
+void TaskDestructor_Drill(struct Task *t);
 void Task_8035F70(void);
 
 void sub_803596C(CamCoord worldX, CamCoord worldY);
 void sub_8036478(CamCoord worldX, CamCoord worldY);
 void sub_8036150(void);
 void Task_803623C(void);
+
+void sub_803673C(void);
+void Task_Drill(void);
+void Task_8036B94(void);
+void TaskDestructor_Drill(struct Task *t);
+
+void Task_8036810(void);
 
 static inline void sub_8036DCC_inline()
 {
@@ -76,6 +100,29 @@ static inline void sub_8036D90_inline()
 
     if ((s2->variant != 0) && (s2->frameFlags & 0x4000)) {
         s2->variant = 0;
+        s2->prevVariant = -1;
+    }
+}
+
+static inline void sub_803582C_inline(CamCoord worldX, CamCoord worldY)
+{
+    Component *drill = TASK_DATA(gCurTask);
+    Sprite *s = &drill->s;
+    EHit collPlayer, collPartner;
+
+    collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
+    } else {
+        collPartner = 0;
+    }
+
+    if ((collPlayer == 2) || (collPartner == 2)) {
+        EggDrillster *boss = TASK_DATA(TASK_PARENT(gCurTask));
+        Sprite *s2 = &boss->s2;
+
+        s2->variant = 1;
+        s2->frameFlags &= ~0x4000;
         s2->prevVariant = -1;
     }
 }
@@ -248,7 +295,7 @@ void Task_EggDrillsterInit(void)
         boss->unk8D = 0;
         boss->unk74 = -0x180;
 
-        sub_80365AC();
+        CreateFalloffComponents();
 
         gCurTask->main = Task_8035DD4;
         gMusicManagerState.unk1 = 0x15;
@@ -422,26 +469,12 @@ void sub_8036150(void)
 
 void Task_803623C()
 {
-    Collision *temp_r2_3;
-    Sprite *s2;
-    Sprite *temp_r1_3;
-    Sprite *s;
-    s16 *temp_r1_4;
-    s16 *temp_r6_2;
-    s16 *temp_r7;
-    s16 temp_r0_6;
-    s16 temp_r0_7;
-    s32 temp_r0_2;
-    s32 temp_r0_4;
-    s32 res;
-    s32 temp_r4_2;
-    s32 temp_r6_4;
-
     EggDrillster *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
     CamCoord worldX, worldY;
+    s32 res;
 
-    s = &boss->s;
-    s2 = &boss->s2;
     if (boss->unk8D < 2) {
         if (boss->unk8D == 0) {
             boss->unk78 += 0x10;
@@ -502,6 +535,7 @@ void Task_803623C()
     }
 }
 
+// Almost identical to sub_8034EE0()
 void sub_8036478(CamCoord worldX, CamCoord worldY)
 {
     struct Task *t;
@@ -527,4 +561,201 @@ void sub_8036478(CamCoord worldX, CamCoord worldY)
 
     rnd = PseudoRandom32();
     sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
+}
+
+static void CreateFalloffComponents()
+{
+    EggDrillster *boss = TASK_DATA(gCurTask);
+    struct Task *t;
+    Component *component;
+    Sprite *s;
+    u8 i;
+
+    component = TASK_DATA(TaskCreate(Task_Drill, sizeof(Component), 0x2100U, 0U, TaskDestructor_Drill));
+    component->worldX = (boss->worldX + I(boss->unk6C));
+    component->worldY = (boss->worldY + I(boss->unk70));
+    component->unk30 = 0x3C;
+
+    s = &component->s;
+    s->graphics.dest = VramMalloc(16);
+    s->oamFlags = 0x500;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_X2_DRILL;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+
+    for (i = 0; i < NUM_WHEELS; i++) {
+        component = TASK_DATA(TaskCreate(sub_803673C, sizeof(Component), 0x2100 | i, 0U, TaskDestructor_Drill));
+        component->worldX = (boss->worldX + I(boss->unk6C));
+        component->worldY = (boss->worldY + I(boss->unk70));
+        component->unk34 = 0;
+        component->unk38 = 0;
+        component->unk44 = i;
+
+        s = &component->s;
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_X2_WHEEL);
+        if (1 & i) {
+            s->oamFlags = 0x5C0;
+        } else {
+            s->oamFlags = 0x4C0;
+        }
+        s->graphics.size = 0;
+        s->graphics.anim = SA1_ANIM_BOSS_X2_WHEEL;
+        s->variant = i;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = 0xFF;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x2000;
+    }
+}
+
+void sub_803673C(void)
+{
+    CamCoord worldX, worldY;
+
+    EggDrillster *boss;
+    Component *component = TASK_DATA(gCurTask);
+    Sprite *s = &component->s;
+
+    boss = TASK_DATA(TASK_PARENT(gCurTask));
+    s->frameFlags &= ~0x580;
+    s->frameFlags |= (boss->s.frameFlags & 0x580);
+    worldX = boss->unk80;
+    worldY = boss->unk82;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    if (boss->unk74 != 0) {
+        UpdateSpriteAnimation(&component->s);
+    }
+    DisplaySprite(&component->s);
+    if (boss->unk86 > 3) {
+        component->worldX = boss->unk80;
+        component->worldY = boss->unk82;
+        component->unk34 = 0;
+        component->unk38 = 0;
+        component->qUnk3C = 0;
+        component->qUnk3E = 0;
+        gCurTask->main = Task_8036810;
+    }
+}
+
+void Task_8036810()
+{
+    s32 res;
+
+    Component *component = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+    EggDrillster *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s = &component->s;
+
+    if (boss->unk8D != 0) {
+        if (component->qUnk3C == 0) {
+            component->qUnk3E = -0x100;
+
+            switch (component->unk44) {
+                case 0:
+                    component->qUnk3C = -0xC0;
+                    component->qUnk3E = -0x1B0;
+                    break;
+                case 1:
+                    component->qUnk3C = -0x100;
+                    component->qUnk3E = -0x180;
+                    break;
+                case 2:
+                    component->qUnk3C = 0x100;
+                    component->qUnk3E = -0x190;
+                    break;
+                case 3:
+                    component->qUnk3C = 0xE0;
+                    component->qUnk3E = -0x1A0;
+                    break;
+            }
+
+            if (boss->s.frameFlags & 0x400) {
+                component->qUnk3C = -component->qUnk3C;
+            }
+        }
+        component->qUnk3E += 24;
+        component->unk34 += component->qUnk3C;
+        component->unk38 += component->qUnk3E;
+        worldX = component->worldX + I(component->unk34);
+        worldY = component->worldY + I(component->unk38);
+        res = sa2__sub_801F100(worldY + 30, worldX, 1, 8, sa2__sub_801EC3C);
+
+        if (res < 0) {
+            component->unk38 += Q(res);
+            component->qUnk3E = -component->qUnk3E + 4;
+
+            if (((worldX < (gCamera.x - 32))) || (worldX > (gCamera.x + DISPLAY_WIDTH + 32))) {
+                TaskDestroy(gCurTask);
+                return;
+            }
+        }
+    } else {
+        worldX = component->worldX;
+        worldY = component->worldY;
+    }
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_Drill()
+{
+    CamCoord worldX, worldY;
+    s16 sp4 = 0;
+    Component *drill = TASK_DATA(gCurTask);
+    EggDrillster *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s = &drill->s;
+
+    s->frameFlags &= ~0x580;
+    s->frameFlags |= (boss->s.frameFlags & 0x580);
+    worldX = boss->unk80;
+    worldY = boss->unk82;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    if ((boss->unk8C != 0) && (boss->unk86 <= 3)) {
+        sub_803582C_inline(worldX, worldY);
+    }
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (boss->unk86 > 2) {
+        if (drill->unk30 != 0) {
+            drill->unk30--;
+        } else if (s->frameFlags & 0x400) {
+            if ((worldX + 0x10) < I(gPlayer.qWorldX)) {
+                sp4 = 1;
+            }
+        } else if ((worldX - 0x10) > I(gPlayer.qWorldX)) {
+            sp4 = 1;
+        }
+        if (boss->unk86 > 3) {
+            sp4 = 1;
+        }
+
+        if (sp4 != 0) {
+            drill->unk34 = boss->unk6C;
+            drill->unk38 = boss->unk70;
+            drill->worldX = boss->worldX;
+            drill->worldY = boss->worldY;
+            drill->qUnk3E = 0;
+            if (s->frameFlags & 0x400) {
+                drill->qUnk3C = +Q(3);
+            } else {
+                drill->qUnk3C = -Q(3);
+            }
+            gCurTask->main = Task_8036B94;
+        }
+    }
 }
