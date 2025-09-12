@@ -501,3 +501,30 @@ void Task_803623C()
             break;
     }
 }
+
+void sub_8036478(CamCoord worldX, CamCoord worldY)
+{
+    struct Task *t;
+    NutsAndBolts *bolts;
+    Sprite *sprBolts;
+    s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+    s32 rndTheta;
+    s32 a0, a1;
+    s32 rnd;
+    t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex], gUnknown_080BB42C[rndIndex],
+                               TaskDestructor_NutsAndBolts);
+    bolts = TASK_DATA(t);
+    sprBolts = &bolts->s;
+    bolts->qUnk30 = Q(worldX);
+    bolts->qUnk34 = Q(worldY + 16);
+    sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+    sprBolts->oamFlags = SPRITE_OAM_ORDER(23);
+    bolts->qUnk3E = Q(5. / 256.);
+    bolts->qUnk40 = Q(32. / 256.);
+    rndTheta = PseudoRandom32();
+    bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+    bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+    rnd = PseudoRandom32();
+    sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
+}
