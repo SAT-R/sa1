@@ -56,11 +56,20 @@ typedef struct Strc_sub_8016F44 {
     /* 0x40 */ s32 unk40;
     /* 0x40 */ u16 unk44;
     /* 0x40 */ s16 unk46;
-    /* 0x48 */ u8 filler48[0x6];
+    /* 0x40 */ s16 qUnk48;
+    /* 0x48 */ u8 filler4A[0x2];
+    /* 0x40 */ u16 unk4C;
     /* 0x40 */ s16 unk4E;
-    /* 0x40 */ s16 unk50;
+    /* 0x40 */ u16 unk50;
     /* 0x40 */ s16 unk52;
 } Strc_sub_8016F44; /* 0x54 */
+
+typedef struct Strc_sub_80171BC {
+    /* 0x00 */ s16 unk0;
+    /* 0x02 */ s16 unk2;
+    /* 0x04 */ s16 unk4;
+    /* 0x06 */ s16 unk6;
+} Strc_sub_80171BC;
 
 void Task_BossCapsuleInit(void);
 void Task_801623C(void);
@@ -73,6 +82,9 @@ void Task_8016A14(void); // :Strc_sub_80168F0
 void Task_8016B6C(void); // :Strc_sub_801749C
 struct Task *sub_8016D80(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant); // -> Strc_sub_8016D80
 struct Task *sub_8016F44(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant); // -> Strc_sub_8016F44
+
+void sub_8017054(void);
+void Task_8017244(void); // :Strc_sub_80171BC
 
 void TaskDestructor_BossCapsule(struct Task *t);
 void TaskDestructor_sub_80168F0(struct Task *t);
@@ -631,13 +643,168 @@ void sub_8016E54()
     }
 
     if (strc->qUnk3E < 0) {
-        s->frameFlags &= ~0x400;
+        s->frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
     } else {
-        s->frameFlags |= 0x400;
+        s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
     }
 
     s->x = (I(strc->qUnk30) + strc->unk38) - gCamera.x;
     s->y = (I(strc->qUnk34) + strc->unk3A) - gCamera.y;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+struct Task *sub_8016F44(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant)
+{
+    Strc_sub_8016F44 *strc;
+    struct Task *t;
+    SpriteTransform *tf;
+    Sprite *s;
+
+    t = TaskCreate(sub_8017054, sizeof(Strc_sub_8016F44), 0x2000U, 0U, TaskDestructor_sub_8017658);
+    strc = TASK_DATA(t);
+    s = &strc->s;
+    tf = &strc->transform;
+    strc->unk44 = worldX;
+    strc->unk46 = worldY;
+    strc->qUnk48 = -Q(4);
+    strc->unk40 = 0;
+    strc->unk3C = 0;
+    strc->unk4C = 0;
+    strc->unk4E = 0;
+    strc->unk50 = 0;
+    strc->unk52 = 1;
+    s->graphics.dest = VramMalloc(4U);
+    s->oamFlags = 0x500;
+    s->graphics.size = 0;
+    s->graphics.anim = anim;
+    s->variant = variant;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2070;
+    tf->rotation = 0;
+    tf->qScaleX = 0x100;
+    tf->qScaleY = 0x100;
+
+    return t;
+}
+
+void sub_8017054()
+{
+    Strc_sub_8016F44 *strc;
+    SpriteTransform *tf;
+    s16 *temp_r1;
+    s16 *temp_r2;
+    s16 *temp_r3;
+    s16 temp_r0;
+    s16 var_r0_2;
+    u16 temp_r2_2;
+    u16 temp_r2_3;
+    u16 var_r0;
+    u8 temp_r1_2;
+    s32 sinA, sinB;
+    s32 cosA;
+    s16 cosB;
+    Sprite *s;
+
+    strc = TASK_DATA(gCurTask);
+    s = &strc->s;
+    tf = &strc->transform;
+    strc->unk4C = (strc->unk4C + 0x10) & 0x3FF;
+    strc->unk50 = (strc->unk50 + strc->unk52) & 0x3FF;
+    sinA = SIN(strc->unk4C);
+    strc->unk40 = sinA >> 2;
+    strc->unk3C = SIN(strc->unk50);
+    cosA = COS(strc->unk50);
+    cosB = (cosA >> 8) + Q(1);
+    tf->qScaleY = cosB;
+
+    if (tf->qScaleY > Q(1)) {
+        s->oamFlags = 0x3C0;
+    } else {
+        s->oamFlags = 0x440;
+    }
+
+    if (strc->unk52 > 0) {
+        if (((strc->unk50 - Q(1)) & 0x200)) {
+            tf->qScaleX = -cosB;
+        } else {
+            tf->qScaleX = cosB;
+        }
+    } else {
+        if ((strc->unk50 - Q(1)) & 0x200) {
+            tf->qScaleX = cosB;
+        } else {
+            tf->qScaleX = -cosB;
+        }
+    }
+
+    temp_r0 = strc->unk46 - strc->unk4E;
+    if (temp_r0 > 0) {
+        strc->unk46--;
+    } else if (temp_r0 < 0) {
+        strc->unk46++;
+    }
+
+    tf->x = (strc->unk44 + I(strc->unk3C)) - gCamera.x;
+    tf->y = (strc->unk46 + I(strc->unk40)) - gCamera.y;
+    s->frameFlags &= ~0x1F;
+    s->frameFlags |= sa2__gUnknown_030054B8++;
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+}
+
+struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX)
+{
+    s16 temp_r1;
+    struct Task *t;
+    Strc_sub_80171BC *temp_r2;
+    u16 temp_r0_2;
+
+    temp_r0_2 = someX;
+    t = TaskCreate(Task_8017244, 8U, 0x2000U, 0U, NULL);
+    temp_r2 = TASK_DATA(t);
+    temp_r2->unk0 = minY;
+    temp_r2->unk2 = maxY;
+    temp_r2->unk4 = param2;
+    temp_r2->unk6 = temp_r0_2;
+    gCamera.minY = gCamera.y;
+    gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
+    gCamera.minX = gCamera.x;
+    gCamera.maxX = temp_r0_2;
+    if (temp_r2->unk2 > gCamera.maxY) {
+        gCamera.maxY = gCamera.y + 320;
+    }
+    return t;
+}
+
+void Task_8017244()
+{
+
+    Strc_sub_80171BC *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk0 > gCamera.minY) {
+        gCamera.minY++;
+    } else if (strc->unk0 < gCamera.minY) {
+        gCamera.minY--;
+    }
+
+    if (strc->unk2 > gCamera.maxY) {
+        gCamera.maxY++;
+    } else if (strc->unk2 < gCamera.maxY) {
+        gCamera.maxY--;
+    }
+
+    if (strc->unk4 > gCamera.minX) {
+        gCamera.minX++;
+    } else if (strc->unk4 < gCamera.minX) {
+        gCamera.minX--;
+    }
+    if ((strc->unk0 == gCamera.minY) && (strc->unk2 == gCamera.maxY) && (strc->unk4 == gCamera.minX) && (strc->unk6 == gCamera.maxX)) {
+        TaskDestroy(gCurTask);
+    }
 }
