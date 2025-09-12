@@ -94,29 +94,6 @@ void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id) {
 void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 
-struct Task *CreatePreBossCameraPan(s16 yMin, s16 yMax) { return NULL; }
-
-#include "game/nuts_and_bolts_task.h"
-struct Task *sub_8017540(s32 qParam0, s32 qParam1)
-{
-    struct Task *t = NULL;
-    s32 temp_r0_2;
-    NutsAndBolts *bolts;
-    Sprite *s;
-
-    t = CreateNutsAndBoltsTask(0x2000U, (void *)(OBJ_VRAM0 + 1000), 0x263U, 0U, NULL);
-    bolts = TASK_DATA(t);
-    s = &bolts->s;
-    bolts->qUnk30 = qParam0;
-    bolts->qUnk34 = qParam1;
-    s->frameFlags = 0x2000;
-    s->oamFlags = 0x500;
-    s->frameFlags |= ((PseudoRandom32() & 0xC00) | 0x2000);
-    return t;
-}
-
-struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX) { return NULL; }
-
 void sub_802E290(void) { }
 
 void CreateCharacterSelectionScreen() { }

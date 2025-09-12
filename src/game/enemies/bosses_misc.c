@@ -5,9 +5,11 @@
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/enemies/bosses_shared.h"
+#include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/stage/player.h"
 #include "game/stage/screen_shake.h"
+#include "game/stage/results.h" // CreateStageResults
 #include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
@@ -64,19 +66,25 @@ typedef struct Strc_sub_8016F44 {
     /* 0x40 */ s16 unk52;
 } Strc_sub_8016F44; /* 0x54 */
 
-typedef struct Strc_sub_80171BC {
+typedef struct CameraPanning {
     /* 0x00 */ s16 unk0;
     /* 0x02 */ s16 unk2;
     /* 0x04 */ s16 unk4;
     /* 0x06 */ s16 unk6;
-} Strc_sub_80171BC;
+} CameraPanning;
+
+typedef struct Strc_sub_801766C {
+    /* 0x00 */ s16 unk0;
+    /* 0x02 */ s16 unk2;
+    /* 0x04 */ Player *p;
+} Strc_sub_801766C;
 
 void Task_BossCapsuleInit(void);
 void Task_801623C(void);
 void Task_8016650(void);
 void Task_BossCapsuleUpdate(void);
 void sub_801766C(Player *p);
-void sub_801749C(CamCoord worldX, CamCoord worldY);
+struct Task *sub_801749C(CamCoord worldX, CamCoord worldY);
 void Task_801685C(void);
 void Task_8016A14(void); // :Strc_sub_80168F0
 void Task_8016B6C(void); // :Strc_sub_801749C
@@ -84,7 +92,8 @@ struct Task *sub_8016D80(CamCoord worldX, CamCoord worldY, AnimId anim, u8 varia
 struct Task *sub_8016F44(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant); // -> Strc_sub_8016F44
 
 void sub_8017054(void);
-void Task_8017244(void); // :Strc_sub_80171BC
+void Task_8017244(void); // :CameraPanning
+void Task_8017400(void);
 
 void TaskDestructor_BossCapsule(struct Task *t);
 void TaskDestructor_sub_80168F0(struct Task *t);
@@ -443,7 +452,7 @@ struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, u16 numTiles, AnimId 
     struct Task *t;
     Strc_sub_80168F0 *strc;
 
-    t = TaskCreate(Task_8016A14, 0x4CU, 0x2000U, 0U, TaskDestructor_sub_80168F0);
+    t = TaskCreate(Task_8016A14, sizeof(Strc_sub_80168F0), 0x2000U, 0U, TaskDestructor_sub_80168F0);
 
     strc = TASK_DATA(t);
     temp_r2 = &strc->transform;
@@ -762,7 +771,7 @@ struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX)
 {
     s16 temp_r1;
     struct Task *t;
-    Strc_sub_80171BC *temp_r2;
+    CameraPanning *temp_r2;
     u16 temp_r0_2;
 
     temp_r0_2 = someX;
@@ -784,8 +793,7 @@ struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX)
 
 void Task_8017244()
 {
-
-    Strc_sub_80171BC *strc = TASK_DATA(gCurTask);
+    CameraPanning *strc = TASK_DATA(gCurTask);
 
     if (strc->unk0 > gCamera.minY) {
         gCamera.minY++;
@@ -807,4 +815,203 @@ void Task_8017244()
     if ((strc->unk0 == gCamera.minY) && (strc->unk2 == gCamera.maxY) && (strc->unk4 == gCamera.minX) && (strc->unk6 == gCamera.maxX)) {
         TaskDestroy(gCurTask);
     }
+}
+
+void Task_PreBossCameraPan(void)
+{
+    CameraPanning *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk0 > gCamera.minY) {
+        gCamera.minY++;
+    } else if (strc->unk0 < gCamera.minY) {
+        gCamera.minY--;
+    }
+
+    if (strc->unk2 > gCamera.maxY) {
+        gCamera.maxY++;
+    } else if (strc->unk2 < gCamera.maxY) {
+        gCamera.maxY--;
+    }
+
+    if ((strc->unk0 == gCamera.minY) && (strc->unk2 == gCamera.maxY)) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+void Task_8017334()
+{
+    Player *p;
+    s16 screenX;
+    u32 temp_r1;
+    u32 temp_r3;
+
+    Strc_sub_801766C *strc = TASK_DATA(gCurTask);
+
+    p = strc->p;
+    screenX = I(p->qWorldX) - gCamera.x;
+
+    if (screenX > (DISPLAY_WIDTH / 2)) {
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+        p->heldInput = DPAD_RIGHT;
+        if ((200 - (p->playerID * 8)) < screenX) {
+            p->qSpeedGround = 0;
+            p->qSpeedAirX = 0;
+            p->moveState |= MOVESTATE_IGNORE_INPUT;
+            p->heldInput = 0;
+            p->moveState |= MOVESTATE_FACING_LEFT;
+            p->charState = CHARSTATE_ACT_CLEAR_B;
+            p->moveState |= 0x800000;
+            strc->unk0 = 0;
+            strc->unk2 = 0;
+            gCurTask->main = Task_8017400;
+        }
+    } else {
+        p->moveState |= MOVESTATE_IGNORE_INPUT;
+        p->heldInput = DPAD_LEFT;
+        if (((p->playerID * 8) + 40) > screenX) {
+            p->qSpeedGround = 0;
+            p->qSpeedAirX = 0;
+            p->moveState |= MOVESTATE_IGNORE_INPUT;
+            p->heldInput = 0;
+            p->moveState |= MOVESTATE_FACING_LEFT;
+            p->charState = CHARSTATE_ACT_CLEAR_B;
+            p->moveState |= 0x800000;
+            strc->unk0 = 0;
+            strc->unk2 = 0;
+            gCurTask->main = Task_8017400;
+        }
+    }
+}
+
+void Task_8017400(void)
+{
+    u16 temp_r0;
+    u16 temp_r0_2;
+
+    Strc_sub_801766C *strc = TASK_DATA(gCurTask);
+    Player *p = strc->p;
+
+    if (!(p->moveState & MOVESTATE_IN_AIR)) {
+        p->charState = CHARSTATE_ACT_CLEAR_B;
+    }
+
+    if (p->playerID == PLAYER_1) {
+        if (p->spriteInfoBody->s.frameFlags & 0x4000) {
+            if (strc->unk0++ > 60) {
+                CreateStageResults(gRingCount, gCourseTime);
+                TaskDestroy(gCurTask);
+            }
+        }
+        if (strc->unk0 == 0) {
+            if (strc->unk2++ > 240) {
+                CreateStageResults(gRingCount, gCourseTime);
+                TaskDestroy(gCurTask);
+            }
+        }
+    }
+}
+
+struct Task *sub_801749C(s16 worldX, s16 worldY)
+{
+    struct Task *t;
+    Strc_sub_801749C *strc;
+    t = TaskCreate(Task_8016B6C, sizeof(Strc_sub_801749C), 0x2000U, 0U, NULL);
+    strc = TASK_DATA(t);
+    strc->unk4 = 0;
+    strc->unk8 = 0;
+    strc->unk0 = worldX;
+    strc->unk2 = worldY;
+
+    return t;
+}
+
+void Task_PreBossCameraPan(void);
+
+struct Task *CreatePreBossCameraPan(s16 yMin, s16 yMax)
+{
+    struct Task *t;
+    CameraPanning *pan;
+
+    t = TaskCreate(Task_PreBossCameraPan, 8U, 0x2000U, 0U, NULL);
+    pan = TASK_DATA(t);
+
+    pan->unk0 = yMin;
+    pan->unk2 = yMax;
+    gCamera.minY = (s16)(u16)gCamera.y;
+    gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
+    if ((s32)pan->unk2 > gCamera.maxY) {
+        gCamera.maxY = gCamera.y + 320;
+    }
+    return (struct Task *)t;
+}
+
+struct Task *sub_8017540(s32 qParam0, s32 qParam1)
+{
+    struct Task *t = NULL;
+    s32 temp_r0_2;
+    NutsAndBolts *bolts;
+    Sprite *s;
+
+    t = CreateNutsAndBoltsTask(0x2000U, (void *)(OBJ_VRAM0 + 0x1000), 0x263U, 0U, NULL);
+    bolts = TASK_DATA(t);
+    s = &bolts->s;
+    bolts->qUnk30 = qParam0;
+    bolts->qUnk34 = qParam1;
+    s->frameFlags = 0x2000;
+    s->oamFlags = 0x500;
+    s->frameFlags |= ((PseudoRandom32() & 0xC00) | 0x2000);
+    return t;
+}
+
+void TaskDestructor_BossCapsule(struct Task *t)
+{
+    BossCapsule *capsule = TASK_DATA(t);
+    VramFree(capsule->s.graphics.dest);
+    VramFree(capsule->s2.graphics.dest);
+}
+
+void TaskDestructor_sub_80168F0(struct Task *t)
+{
+    Strc_sub_80168F0 *strc = TASK_DATA(t);
+    VramFree(strc->s.graphics.dest);
+}
+
+void sub_80175D8(void)
+{
+    u16 temp_r0;
+    u16 temp_r0_2;
+
+    // NOTE(Jace): Struct type is speculative.
+    //             This function seems to never get called.
+    CameraPanning *strc = TASK_DATA(gCurTask);
+    Player *p = &gPlayer;
+
+    {
+        if (p->spriteInfoBody->s.frameFlags & 0x4000) {
+            if (strc->unk4++ > 60) {
+                CreateStageResults(gRingCount, gCourseTime);
+                TaskDestroy(gCurTask);
+            }
+        }
+        if (strc->unk4 == 0) {
+            if (strc->unk6++ > 240) {
+                CreateStageResults(gRingCount, gCourseTime);
+                TaskDestroy(gCurTask);
+            }
+        }
+    }
+}
+
+void TaskDestructor_sub_8017658(struct Task *t)
+{
+    Strc_sub_8016D80 *strc = TASK_DATA(t);
+    VramFree(strc->s.graphics.dest);
+}
+
+void sub_801766C(Player *p)
+{
+    struct Task *t = TaskCreate(Task_8017334, sizeof(Strc_sub_801766C), 0x2000, 0, NULL);
+    Strc_sub_801766C *strc = TASK_DATA(t);
+    strc->unk0 = 0;
+    strc->p = p;
 }

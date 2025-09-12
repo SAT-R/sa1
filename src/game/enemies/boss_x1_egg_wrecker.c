@@ -295,13 +295,7 @@ void Task_EggWreckerInit(void)
         } break;
     }
 
-#if TEMP_FIX
-    // TODO: Remove this once CreatePreBossCameraPan() matches!
-    if (boss->unk8D == 2)
-#else
-    if ((gCamera.minX == (boss->worldX - (DISPLAY_WIDTH / 2))) && (gCamera.maxY == (boss->worldY + DISPLAY_HEIGHT)))
-#endif
-    {
+    if ((gCamera.minX == (boss->worldX - (DISPLAY_WIDTH / 2))) && (gCamera.maxY == (boss->worldY + DISPLAY_HEIGHT))) {
         boss->unk8D = 0;
         boss->unk78 = 0x100;
         gCurTask->main = Task_8034718;
