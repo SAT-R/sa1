@@ -812,10 +812,10 @@ void sub_8036CF4(CamCoord worldX, CamCoord worldY)
     if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
         collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
     } else {
-        collPartner = 0;
+        collPartner = HIT_NONE;
     }
 
-    if ((collPlayer == 2) || (collPartner == 2)) {
+    if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
         EggDrillster *boss = TASK_DATA(TASK_PARENT(gCurTask));
         Sprite *s2 = &boss->s2;
 

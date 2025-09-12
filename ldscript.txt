@@ -54,7 +54,7 @@ SECTIONS {
         src/game/sa1_sa2_shared/pause_menu.o(.text);
         asm/game__mp__results_2.o(.text);
         asm/ia_itembox_chaohunt.o(.text);
-        asm/game__some_mp_tasks.o(.text);
+        asm/game__mp__unk_tasks.o(.text);
         src/game/enemies/kiki.o(.text);
         src/game/enemies/buzzer.o(.text);
         src/game/sa1_sa2_shared/collect_ring_effect.o(.text);
@@ -85,7 +85,7 @@ SECTIONS {
         src/game/enemies/boss_x2_egg_drillster.o(.text);
         asm/enemy_boss_egg_x.o(.text);
 
-        asm/game_1_1.o(.text);
+        asm/game__mp__1_1.o(.text);
         asm/game__multiplayer__communication_outcome.o(.text);
         src/game/amy_attack_heart_effect.o(.text);
         src/game/sa1_sa2_shared/music_manager.o(.text);

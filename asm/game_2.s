@@ -12208,7 +12208,7 @@ CreateStaffCredits: @ 0x0805E400
 	strh r2, [r0, #2]
 	strh r2, [r0, #4]
 	bl sub_805E1E8
-	movs r0, #0x28
+	movs r0, #0x28      @ MUS_STAFF_CREDITS
 	bl m4aSongNumStart
 	add sp, #8
 	pop {r3, r4, r5}
@@ -15993,7 +15993,7 @@ CreateVsRecord: @ 0x080604EC
 	strh r0, [r1]
 	movs r0, #0x30      @ MUS_PLAYER_DATA
 	bl m4aSongNumStop
-	movs r0, #0xa
+	movs r0, #0xa       @ MUS_VS_RECORD
 	bl m4aSongNumStart
 	ldr r1, _080606AC @ =gBgCntRegs
 	movs r4, #0
@@ -16183,7 +16183,7 @@ _08060682:
 	bls _0806064C
 	adds r0, r7, #0
 	bl sub_805423C
-	movs r0, #0xa
+	movs r0, #0xa       @ MUS_VS_RECORD
 	bl m4aSongNumStart
 	add sp, #4
 	pop {r3, r4, r5}
@@ -17074,7 +17074,7 @@ sub_8060DAC: @ 0x08060DAC
 	lsls r2, r2, #5
 	adds r0, r2, #0
 	strh r0, [r1]
-	movs r0, #0xa
+	movs r0, #0xa       @ MUS_VS_RECORD
 	bl m4aSongNumStart
 	ldr r1, _08061098 @ =gBgCntRegs
 	movs r3, #0
@@ -17406,7 +17406,7 @@ sub_8060DAC: @ 0x08060DAC
 	bl UpdateSpriteAnimation
 	mov r0, sb
 	bl sub_805423C
-	movs r0, #0xa
+	movs r0, #0xa       @ MUS_VS_RECORD
 	bl m4aSongNumStartOrContinue
 	add sp, #8
 	pop {r3, r4, r5}
