@@ -74,37 +74,7 @@ void TaskDestructor_Drill(struct Task *t);
 
 void Task_8036810(void);
 
-static inline void sub_8036DCC_inline()
-{
-    EggDrillster *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->s;
-    Sprite *s2 = &boss->s2;
-
-    s2->x = s->x;
-    s2->y = s->y;
-}
-
-static inline void setPlayerPos_inline(CamCoord worldX, CamCoord worldY)
-{
-    EggDrillster *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->s;
-    s->x = worldX - gCamera.x;
-    s->y = worldY - gCamera.y;
-}
-
-static inline void sub_8036D90_inline()
-{
-    EggDrillster *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->s;
-    Sprite *s2 = &boss->s2;
-
-    if ((s2->variant != 0) && (s2->frameFlags & 0x4000)) {
-        s2->variant = 0;
-        s2->prevVariant = -1;
-    }
-}
-
-static inline void sub_803582C_inline(CamCoord worldX, CamCoord worldY)
+static inline void sub_8036CF4_inline(CamCoord worldX, CamCoord worldY)
 {
     Component *drill = TASK_DATA(gCurTask);
     Sprite *s = &drill->s;
@@ -125,6 +95,36 @@ static inline void sub_803582C_inline(CamCoord worldX, CamCoord worldY)
         s2->frameFlags &= ~0x4000;
         s2->prevVariant = -1;
     }
+}
+
+static inline void sub_8036D90_inline()
+{
+    EggDrillster *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    if ((s2->variant != 0) && (s2->frameFlags & 0x4000)) {
+        s2->variant = 0;
+        s2->prevVariant = -1;
+    }
+}
+
+static inline void sub_8036DCC_inline()
+{
+    EggDrillster *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    s2->x = s->x;
+    s2->y = s->y;
+}
+
+static inline void setPlayerPos_inline(CamCoord worldX, CamCoord worldY)
+{
+    EggDrillster *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
 }
 
 void sub_803596C(CamCoord worldX, CamCoord worldY)
@@ -213,7 +213,7 @@ void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         return;
     }
 
-    t = TaskCreate(Task_EggDrillsterInit, 0x90U, 0x2000U, 0U, TaskDestructor_EggDrillster);
+    t = TaskCreate(Task_EggDrillsterInit, sizeof(EggDrillster), 0x2000U, 0U, TaskDestructor_EggDrillster);
     boss = TASK_DATA(t);
     boss->base.regionX = regionX;
     boss->base.regionY = regionY;
@@ -226,7 +226,7 @@ void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boss->unk8D = 0;
     boss->unk8C = 0;
     boss->unk6C = 0xC020;
-    boss->unk70 = -0x2800;
+    boss->unk70 = -Q(40);
     boss->unk74 = 0;
     boss->unk78 = 0;
     boss->unk88 = 0;
@@ -725,7 +725,7 @@ void Task_Drill()
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
     if ((boss->unk8C != 0) && (boss->unk86 <= 3)) {
-        sub_803582C_inline(worldX, worldY);
+        sub_8036CF4_inline(worldX, worldY);
     }
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -758,4 +758,81 @@ void Task_Drill()
             gCurTask->main = Task_8036B94;
         }
     }
+}
+
+void Task_8036B94()
+{
+    CamCoord worldX, worldY;
+    s16 sp4 = 0;
+    Component *drill = TASK_DATA(gCurTask);
+    EggDrillster *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s = &drill->s;
+
+    drill->unk34 += drill->qUnk3C;
+    drill->unk38 += drill->qUnk3E;
+
+    worldX = drill->worldX + I(drill->unk34);
+    worldY = drill->worldY + I(drill->unk38);
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    if (boss->unk86 < 4) {
+        sub_8036CF4_inline(worldX, worldY);
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    // TODO: This condition seems very off...
+    if ((u32)(drill->unk34 + Q(192)) > Q(DISPLAY_WIDTH + (2 * SA1_ANIM_BOSS_X2_EGGDRILLSTER_WIDTH))) {
+        TaskDestroy(gCurTask);
+    }
+}
+
+void TaskDestructor_EggDrillster(struct Task *t)
+{
+    EggDrillster *boss = TASK_DATA(t);
+    VramFree(boss->s.graphics.dest);
+    VramFree(boss->s2.graphics.dest);
+}
+
+void TaskDestructor_Drill(struct Task *t)
+{
+    Component *drill = TASK_DATA(t);
+    VramFree(drill->s.graphics.dest);
+}
+
+// TODO: Does not match calling inline func.
+void sub_8036CF4(CamCoord worldX, CamCoord worldY)
+{
+    Component *drill = TASK_DATA(gCurTask);
+    Sprite *s = &drill->s;
+    EHit collPlayer, collPartner;
+
+    collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
+    } else {
+        collPartner = 0;
+    }
+
+    if ((collPlayer == 2) || (collPartner == 2)) {
+        EggDrillster *boss = TASK_DATA(TASK_PARENT(gCurTask));
+        Sprite *s2 = &boss->s2;
+
+        s2->variant = 1;
+        s2->frameFlags &= ~0x4000;
+        s2->prevVariant = -1;
+    }
+}
+
+void sub_8036D90(void) { sub_8036D90_inline(); }
+
+void sub_8036DCC(void) { sub_8036DCC_inline(); }
+
+static void setPlayerPos(CamCoord worldX, CamCoord worldY)
+{
+    EggDrillster *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
 }

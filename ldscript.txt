@@ -83,7 +83,6 @@ SECTIONS {
         asm/enemy_boss_6_egg_snake.o(.text);
         src/game/enemies/boss_x1_egg_wrecker.o(.text);
         src/game/enemies/boss_x2_egg_drillster.o(.text);
-        asm/enemy_boss_egg_drillster.o(.text);
         asm/enemy_boss_egg_x.o(.text);
 
         asm/game_1_1.o(.text);
