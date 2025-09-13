@@ -33,7 +33,7 @@ typedef struct {
     /* 0x9B */ u8 unk9B;
     /* 0x9C */ s8 unk9C;
     /* 0x9E */ u16 unk9E;
-    /* 0xA0 */ u16 unkA0;
+    /* 0xA0 */ s16 unkA0;
     /* 0xA2 */ u16 unkA2;
     /* 0xA4 */ u16 unkA4;
     /* 0xA6 */ u16 unkA6;
@@ -43,7 +43,32 @@ typedef struct {
 } EggSnake; /* 0xAC */
 
 void Task_EggSnakeInit(void);
+void sub_803330C(void);
+void sub_8033878(void);
 void TaskDestructor_8034208(struct Task *t);
+void Task_8032370(void);
+void sub_8031ED0(void);
+u16 gUnknown_03005870[16];
+
+static inline void sub_803424C_inline()
+{
+    EggSnake *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    s2->x = s->x;
+    s2->y = s->y;
+}
+
+static inline void sub_803426C__inline(CamCoord worldX, CamCoord worldY)
+{
+    EggSnake *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    MapEntity *me = boss->base.me;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+}
 
 void sub_8031D88(s16 worldX, s16 worldY)
 {
@@ -207,5 +232,90 @@ NONMATCH("asm/non_matching/game/enemies/boss_6__CreateEntity_EggSnake.inc",
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
     sub_80171BC(s->y - 0x80, s->y + 0x20, s->x - 0x90, s->x + 0xB0);
+}
+END_NONMATCH
+
+// (98.79%) https://decomp.me/scratch/34ZiA
+NONMATCH("asm/non_matching/game/enemies/boss_6__Task_EggSnakeInit.inc", void Task_EggSnakeInit())
+{
+    MapEntity *me;
+    Sprite *s2;
+    s32 var_r2;
+    s16 temp_r2;
+    s32 temp_r0_2;
+    s32 temp_r0_4;
+    s32 temp_r0_5;
+    s32 temp_r0_6;
+    Sprite *s;
+    s32 temp_r2_2;
+    u16 *temp_r1_2;
+    u16 *temp_r1_3;
+    u16 *temp_r2_3;
+    u16 temp_r0;
+    u8 *temp_r3;
+    u8 temp_r0_3;
+    CamCoord worldX, worldY;
+
+    EggSnake *boss = TASK_DATA(gCurTask);
+    s = &boss->s;
+    s2 = &boss->s2;
+    me = boss->base.me;
+
+    if ((boss->unk98 == 0x78) && (boss->unkA9 == 0)) {
+        sub_8033878();
+        sub_803330C();
+    }
+    var_r2 = gSineTable[boss->unkA0];
+    var_r2 = (var_r2 * 15) >> 0xB;
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78) + var_r2;
+    temp_r2 = (var_r2 + 0x90);
+    if (temp_r2 >= 0) {
+        var_r2 = temp_r2 + 0x1F;
+    } else {
+        var_r2 = (s16)temp_r2;
+    }
+
+    worldY = gUnknown_03005870[var_r2 >>= 5];
+    worldY += TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C);
+
+    sub_803426C__inline(worldX, worldY);
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    // inline
+    sub_803424C_inline();
+
+    sub_8031ED0();
+
+    switch (boss->unkA9) {
+        case 0:
+            if (--boss->unk98 == 0) {
+                gMusicManagerState.unk1 = 0x13;
+                boss->unk98 = 0x3C;
+                boss->unkA9++;
+                return;
+            }
+            return;
+        case 1:
+            if (--boss->unk98 == 0) {
+                s2->variant = 4;
+                boss->unkA9++;
+            }
+            break;
+        case 2:
+            if (s2->frameFlags & 0x4000) {
+                s2->variant = 3;
+                boss->unk98 = 0x3C;
+                boss->unkA9++;
+            }
+            break;
+        case 3:
+            if (--boss->unk98 == 0) {
+                boss->unkA8 = 0xFF;
+                boss->unkA9 = 0;
+                gCurTask->main = Task_8032370;
+            }
+            break;
+    }
 }
 END_NONMATCH
