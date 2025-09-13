@@ -4936,7 +4936,7 @@ _0805ABCC: .4byte gCurrentLevel
 _0805ABD0: .4byte gMultiplayerCurrentLevel
 _0805ABD4:
 	movs r0, #0
-	bl sub_8061948
+	bl CreateCourseSelect
 	b _0805ABF2
 _0805ABDC:
 	ldr r0, _0805ABFC @ =gSelectedCharacter
@@ -17679,7 +17679,7 @@ _0806127A:
 	ldr r0, [r0]
 	bl TaskDestroy
 	movs r0, #1
-	bl sub_8061948
+	bl CreateCourseSelect
 	b _080613A8
 	.align 2, 0
 _0806131C: .4byte 0x030000DF
@@ -18427,8 +18427,8 @@ _0806193C: .4byte gUnknown_086A2C34
 _08061940: .4byte gUnknown_086A2A34
 _08061944: .4byte gUnknown_086A3DB4
 
-	thumb_func_start sub_8061948
-sub_8061948: @ 0x08061948
+	thumb_func_start CreateCourseSelect
+CreateCourseSelect: @ 0x08061948
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -18444,7 +18444,7 @@ sub_8061948: @ 0x08061948
 	strb r0, [r1, #2]
 	strb r0, [r1, #1]
 	strb r0, [r1]
-	movs r0, #4
+	movs r0, #4         @ MUS_COURSE_SELECTION
 	bl m4aSongNumStart
 	bl sub_80535FC
 	bl UiGfxStackInit

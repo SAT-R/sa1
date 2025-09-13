@@ -37,7 +37,7 @@ extern const u8 gUnknown_086A10F4[0x500];
 void Task_80103C4(void);
 void sub_8010580(void);
 
-extern void sub_8061948(u8 param0);
+extern void CreateCourseSelect(u8 param0);
 
 void CreateTimeAttackMenu(void)
 {
@@ -269,5 +269,5 @@ void TimeAttack_CreateRecordsMenu(void)
 {
     gGameMode = 0;
     TaskDestroy(gCurTask);
-    sub_8061948(1);
+    CreateCourseSelect(1);
 }

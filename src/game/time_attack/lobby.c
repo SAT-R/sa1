@@ -35,7 +35,7 @@ extern u8 gUnknown_086CE7F4[0x500];
 static void Task_HandleInput(void);
 void Task_806A508(void);
 void sub_806A5BC(void);
-void sub_8061948(u8 param0);
+void CreateCourseSelect(u8 param0);
 void TaskDestructor_806A698(struct Task *t);
 
 void sub_806A150(void);
@@ -251,7 +251,7 @@ void sub_806A5BC(void)
 
 void sub_806A66C(void) { CreateCharacterSelectionScreen(gSelectedCharacter); }
 
-void sub_806A680(void) { sub_8061948(0); }
+void sub_806A680(void) { CreateCourseSelect(0); }
 
 void sub_806A68C(void) { CreateTitleScreen(1); }
 

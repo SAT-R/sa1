@@ -960,7 +960,7 @@ _0801CEE0: .4byte gSelectedCharacter
 _0801CEE4: .4byte gCurrentLevel
 _0801CEE8:
 	movs r0, #0
-	bl sub_8061948
+	bl CreateCourseSelect
 	b _0801CEFC
 _0801CEF0:
 	bl sub_801CF08

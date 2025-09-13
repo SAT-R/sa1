@@ -5,294 +5,8 @@
 .syntax unified
 .arm
 
-@ --- Start of EggSnake
-
-	thumb_func_start sub_8031D88
-sub_8031D88: @ 0x08031D88
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	lsls r0, r0, #0x10
-	lsrs r7, r0, #0x10
-	lsls r1, r1, #0x10
-	lsrs r1, r1, #0x10
-	mov r8, r1
-	ldr r0, _08031E14 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r4, r0
-	adds r0, #0xc
-	adds r6, r4, r0
-	ldr r0, [r6, #0x10]
-	ldr r1, _08031E18 @ =0xFFFFFE7F
-	ands r0, r1
-	str r0, [r6, #0x10]
-	ldr r1, _08031E1C @ =gPlayer
-	mov ip, r1
-	ldr r3, [r1, #0x10]
-	movs r0, #0x80
-	ands r3, r0
-	cmp r3, #0
-	bne _08031DD2
-	ldr r2, _08031E20 @ =gDispCnt
-	ldrh r1, [r2]
-	ldr r0, _08031E24 @ =0x00007FFF
-	ands r0, r1
-	strh r0, [r2]
-	ldr r0, _08031E28 @ =gWinRegs
-	strh r3, [r0, #0xa]
-	ldr r0, _08031E2C @ =gBldRegs
-	strh r3, [r0]
-	strh r3, [r0, #4]
-_08031DD2:
-	ldr r1, _08031E30 @ =0x0300009C
-	adds r0, r4, r1
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0
-	bne _08031EC2
-	lsls r0, r7, #0x10
-	asrs r7, r0, #0x10
-	mov r1, r8
-	lsls r0, r1, #0x10
-	asrs r4, r0, #0x10
-	adds r0, r6, #0
-	adds r1, r7, #0
-	adds r2, r4, #0
-	mov r3, ip
-	bl Coll_Player_Bosses_2_6
-	mov r8, r0
-	ldr r0, _08031E34 @ =gNumSingleplayerCharacters
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #2
-	bne _08031E3C
-	ldr r3, _08031E38 @ =gPartner
-	adds r0, r6, #0
-	adds r1, r7, #0
-	adds r2, r4, #0
-	bl Coll_Player_Bosses_2_6
-	b _08031E3E
-	.align 2, 0
-_08031E14: .4byte gCurTask
-_08031E18: .4byte 0xFFFFFE7F
-_08031E1C: .4byte gPlayer
-_08031E20: .4byte gDispCnt
-_08031E24: .4byte 0x00007FFF
-_08031E28: .4byte gWinRegs
-_08031E2C: .4byte gBldRegs
-_08031E30: .4byte 0x0300009C
-_08031E34: .4byte gNumSingleplayerCharacters
-_08031E38: .4byte gPartner
-_08031E3C:
-	movs r0, #0
-_08031E3E:
-	adds r3, r5, #0
-	adds r3, #0x44
-	mov r1, r8
-	cmp r1, #1
-	beq _08031E4C
-	cmp r0, #1
-	bne _08031E90
-_08031E4C:
-	adds r1, r5, #0
-	adds r1, #0x9a
-	ldrb r0, [r1]
-	adds r0, #1
-	strb r0, [r1]
-	adds r1, #2
-	movs r0, #0x20
-	strb r0, [r1]
-	adds r2, r6, #0
-	adds r2, #0x20
-	ldrb r1, [r2]
-	cmp r1, #2
-	bne _08031E6C
-	adds r0, r5, #0
-	adds r0, #0x64
-	strb r1, [r0]
-_08031E6C:
-	ldrb r0, [r2]
-	cmp r0, #3
-	bne _08031E7A
-	adds r1, r5, #0
-	adds r1, #0x64
-	movs r0, #5
-	strb r0, [r1]
-_08031E7A:
-	ldr r0, [r3, #0x10]
-	ldr r1, _08031E8C @ =0xFFFFBFFF
-	ands r0, r1
-	str r0, [r3, #0x10]
-	movs r0, #0x8f
-	bl m4aSongNumStart
-	b _08031EC2
-	.align 2, 0
-_08031E8C: .4byte 0xFFFFBFFF
-_08031E90:
-	mov r1, r8
-	cmp r1, #2
-	beq _08031E9A
-	cmp r0, #2
-	bne _08031EC2
-_08031E9A:
-	adds r2, r6, #0
-	adds r2, #0x20
-	ldrb r0, [r2]
-	cmp r0, #2
-	bne _08031EAC
-	adds r1, r5, #0
-	adds r1, #0x64
-	movs r0, #1
-	strb r0, [r1]
-_08031EAC:
-	ldrb r0, [r2]
-	cmp r0, #3
-	bne _08031EBA
-	adds r1, r5, #0
-	adds r1, #0x64
-	movs r0, #4
-	strb r0, [r1]
-_08031EBA:
-	ldr r0, [r3, #0x10]
-	ldr r1, _08031ECC @ =0xFFFFBFFF
-	ands r0, r1
-	str r0, [r3, #0x10]
-_08031EC2:
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08031ECC: .4byte 0xFFFFBFFF
-
-	thumb_func_start sub_8031ED0
-sub_8031ED0: @ 0x08031ED0
-	push {r4, r5, r6, lr}
-	ldr r0, _08031F58 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r4, r0, r1
-	adds r1, #0xc
-	adds r3, r0, r1
-	ldr r6, _08031F5C @ =0x03000044
-	adds r5, r0, r6
-	adds r1, #0x90
-	adds r2, r0, r1
-	ldrb r1, [r2]
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	cmp r0, #0
-	beq _08031F3A
-	subs r1, #1
-	strb r1, [r2]
-	lsls r0, r1, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0x10
-	ble _08031F3A
-	movs r0, #2
-	ands r1, r0
-	cmp r1, #0
-	bne _08031F3A
-	ldr r0, _08031F60 @ =gPlayer
-	ldr r0, [r0, #0x10]
-	movs r1, #0x80
-	ands r0, r1
-	cmp r0, #0
-	bne _08031F3A
-	ldr r0, [r3, #0x10]
-	adds r1, #0x80
-	orrs r0, r1
-	str r0, [r3, #0x10]
-	ldr r2, _08031F64 @ =gDispCnt
-	ldrh r0, [r2]
-	movs r6, #0x80
-	lsls r6, r6, #8
-	adds r1, r6, #0
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r1, _08031F68 @ =gWinRegs
-	ldr r0, _08031F6C @ =0x00003F1F
-	strh r0, [r1, #0xa]
-	ldr r1, _08031F70 @ =gBldRegs
-	movs r0, #0xbf
-	strh r0, [r1]
-	movs r0, #0x10
-	strh r0, [r1, #4]
-_08031F3A:
-	adds r0, r3, #0
-	bl DisplaySprite
-	adds r0, r4, #0
-	adds r0, #0xaa
-	ldrb r0, [r0]
-	cmp r0, #0xff
-	beq _08031F50
-	adds r0, r5, #0
-	bl DisplaySprite
-_08031F50:
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08031F58: .4byte gCurTask
-_08031F5C: .4byte 0x03000044
-_08031F60: .4byte gPlayer
-_08031F64: .4byte gDispCnt
-_08031F68: .4byte gWinRegs
-_08031F6C: .4byte 0x00003F1F
-_08031F70: .4byte gBldRegs
-
-	thumb_func_start sub_8031F74
-sub_8031F74: @ 0x08031F74
-	ldr r0, _08031FB8 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r2, [r0, #6]
-	ldr r0, _08031FBC @ =0x03000044
-	adds r1, r2, r0
-	adds r0, #0x20
-	adds r3, r2, r0
-	ldrb r0, [r3]
-	cmp r0, #0
-	beq _08031FB6
-	cmp r0, #3
-	beq _08031FB6
-	ldr r0, [r1, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #7
-	ands r0, r1
-	cmp r0, #0
-	beq _08031FB6
-	ldr r0, _08031FC0 @ =0x0300002C
-	adds r1, r2, r0
-	ldrb r0, [r1]
-	cmp r0, #2
-	bne _08031FA6
-	movs r0, #0
-	strb r0, [r3]
-_08031FA6:
-	ldrb r0, [r1]
-	cmp r0, #3
-	bne _08031FAE
-	strb r0, [r3]
-_08031FAE:
-	ldr r0, _08031FC4 @ =0x03000065
-	adds r1, r2, r0
-	movs r0, #0xff
-	strb r0, [r1]
-_08031FB6:
-	bx lr
-	.align 2, 0
-_08031FB8: .4byte gCurTask
-_08031FBC: .4byte 0x03000044
-_08031FC0: .4byte 0x0300002C
-_08031FC4: .4byte 0x03000065
+.if 0
+.endif
 
 	thumb_func_start CreateEntity_EggSnake
 CreateEntity_EggSnake: @ 0x08031FC8
@@ -323,10 +37,10 @@ CreateEntity_EggSnake: @ 0x08031FC8
 	.align 2, 0
 _08031FF8: .4byte gGameMode
 _08031FFC:
-	ldr r0, _08032090 @ =sub_80321C0
+	ldr r0, _08032090 @ =Task_EggSnakeInit
 	movs r2, #0x84
 	lsls r2, r2, #6
-	ldr r1, _08032094 @ =sub_8034208
+	ldr r1, _08032094 @ =TaskDestructor_8034208
 	str r1, [sp]
 	movs r1, #0xac
 	movs r3, #0
@@ -397,8 +111,8 @@ _08031FFC:
 	strb r0, [r1]
 	b _080320BE
 	.align 2, 0
-_08032090: .4byte sub_80321C0
-_08032094: .4byte sub_8034208
+_08032090: .4byte Task_EggSnakeInit
+_08032094: .4byte TaskDestructor_8034208
 _08032098: .4byte 0x0300000C
 _0803209C: .4byte 0x03000098
 _080320A0: .4byte 0x0300009C
@@ -539,8 +253,8 @@ _080321A8:
 _080321B8: .4byte 0x0300009A
 _080321BC: .4byte 0x00000296
 
-	thumb_func_start sub_80321C0
-sub_80321C0: @ 0x080321C0
+	thumb_func_start Task_EggSnakeInit
+Task_EggSnakeInit: @ 0x080321C0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -2676,10 +2390,10 @@ sub_803330C: @ 0x0803330C
 	sub sp, #8
 	movs r4, #0xc0
 	lsls r4, r4, #0x12
-	ldr r0, _080333E8 @ =sub_8033480
+	ldr r0, _080333E8 @ =Task_8033480
 	movs r2, #0x88
 	lsls r2, r2, #6
-	ldr r1, _080333EC @ =sub_8034224
+	ldr r1, _080333EC @ =TaskDestructor_8034224
 	str r1, [sp]
 	movs r1, #0x74
 	movs r3, #0
@@ -2777,8 +2491,8 @@ sub_803330C: @ 0x0803330C
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080333E8: .4byte sub_8033480
-_080333EC: .4byte sub_8034224
+_080333E8: .4byte Task_8033480
+_080333EC: .4byte TaskDestructor_8034224
 _080333F0: .4byte 0x03000060
 _080333F4: .4byte 0x03000062
 _080333F8: .4byte 0x00000297
@@ -2839,8 +2553,9 @@ sub_803341C: @ 0x0803341C
 _08033478: .4byte gCurTask
 _0803347C: .4byte 0x03000030
 
-	thumb_func_start sub_8033480
-sub_8033480: @ 0x08033480
+@ -> Task74
+	thumb_func_start Task_8033480
+Task_8033480: @ 0x08033480
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -2994,7 +2709,8 @@ _080335B4:
 	pop {r0}
 	bx r0
 	.align 2, 0
-
+    
+@ -> Task74
 	thumb_func_start sub_80335C0
 sub_80335C0: @ 0x080335C0
 	push {r4, r5, r6, r7, lr}
@@ -3010,7 +2726,7 @@ sub_80335C0: @ 0x080335C0
 	ldr r0, _08033704 @ =sub_8033730
 	movs r2, #0x8c
 	lsls r2, r2, #6
-	ldr r1, _08033708 @ =sub_8034224
+	ldr r1, _08033708 @ =TaskDestructor_8034224
 	str r1, [sp]
 	movs r1, #0x74
 	movs r3, #0
@@ -3156,7 +2872,7 @@ sub_80335C0: @ 0x080335C0
 	.align 2, 0
 _08033700: .4byte gCurTask
 _08033704: .4byte sub_8033730
-_08033708: .4byte sub_8034224
+_08033708: .4byte TaskDestructor_8034224
 _0803370C: .4byte 0x03000070
 _08033710: .4byte 0x03000072
 _08033714: .4byte 0x03000090
@@ -3341,11 +3057,11 @@ sub_8033878: @ 0x08033878
 	movs r4, #0xc0
 	lsls r4, r4, #0x12
 	adds r5, r5, r4
-	ldr r0, _08033908 @ =sub_8033924
+	ldr r0, _08033908 @ =Task_8033924
 	movs r1, #0x80
 	lsls r1, r1, #6
 	mov sb, r1
-	ldr r1, _0803390C @ =sub_8034238
+	ldr r1, _0803390C @ =TaskDestructor_8034238
 	str r1, [sp]
 	movs r1, #0x60
 	mov r2, sb
@@ -3400,16 +3116,17 @@ sub_8033878: @ 0x08033878
 	bx r0
 	.align 2, 0
 _08033904: .4byte gCurTask
-_08033908: .4byte sub_8033924
-_0803390C: .4byte sub_8034238
+_08033908: .4byte Task_8033924
+_0803390C: .4byte TaskDestructor_8034238
 _08033910: .4byte 0x00000293
 _08033914: .4byte 0x03000020
 _08033918: .4byte 0x03000021
 _0803391C: .4byte 0x03000022
 _08033920: .4byte 0x03000025
 
-	thumb_func_start sub_8033924
-sub_8033924: @ 0x08033924
+    @ -> Strc60
+	thumb_func_start Task_8033924
+Task_8033924: @ 0x08033924
 	push {r4, r5, lr}
 	sub sp, #4
 	ldr r5, _08033998 @ =gCurTask
@@ -3502,7 +3219,7 @@ _080339E2:
 	ldr r1, _08033A88 @ =0x00002001
 	adds r2, r6, r1
 	str r7, [sp]
-	ldr r0, _08033A8C @ =sub_8034098
+	ldr r0, _08033A8C @ =Task_8034098
 	movs r1, #0x54
 	movs r3, #0
 	bl TaskCreate
@@ -3582,7 +3299,7 @@ _080339E2:
 	.align 2, 0
 _08033A84: .4byte gCurTask
 _08033A88: .4byte 0x00002001
-_08033A8C: .4byte sub_8034098
+_08033A8C: .4byte Task_8034098
 _08033A90: .4byte 0xFFFF9000
 _08033A94: .4byte 0x03000048
 _08033A98: .4byte 0x0300002C
@@ -4371,8 +4088,9 @@ _0803408C: .4byte gUnknown_03005860
 _08034090: .4byte gNumSingleplayerCharacters
 _08034094: .4byte gPartner
 
-	thumb_func_start sub_8034098
-sub_8034098: @ 0x08034098
+@ -> Task54
+	thumb_func_start Task_8034098
+Task_8034098: @ 0x08034098
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -4546,8 +4264,8 @@ _080341FC: .4byte 0x040000D4
 _08034200: .4byte 0x80000003
 _08034204: .4byte 0x000001FF
 
-	thumb_func_start sub_8034208
-sub_8034208: @ 0x08034208
+	thumb_func_start TaskDestructor_8034208
+TaskDestructor_8034208: @ 0x08034208
 	push {r4, lr}
 	ldrh r4, [r0, #6]
 	movs r0, #0xc0
@@ -4561,8 +4279,8 @@ sub_8034208: @ 0x08034208
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8034224
-sub_8034224: @ 0x08034224
+	thumb_func_start TaskDestructor_8034224
+TaskDestructor_8034224: @ 0x08034224
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
@@ -4573,8 +4291,8 @@ sub_8034224: @ 0x08034224
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8034238
-sub_8034238: @ 0x08034238
+	thumb_func_start TaskDestructor_8034238
+TaskDestructor_8034238: @ 0x08034238
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0

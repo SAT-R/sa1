@@ -1335,7 +1335,7 @@ _0801906A:
 	cmp r0, #2
 	bne _0801908C
 	movs r0, #0
-	bl sub_8061948
+	bl CreateCourseSelect
 	b _0801933A
 	.align 2, 0
 _08019084: .4byte gGameMode
@@ -2385,7 +2385,7 @@ _0801991C:
 	cmp r0, #3
 	bne _0801994C
 	movs r0, #0
-	bl sub_8061948
+	bl CreateCourseSelect
 	b _08019BEA
 	.align 2, 0
 _08019940: .4byte gCurTask

@@ -596,7 +596,7 @@ _0806BAFA:
 	strb r0, [r2, #0xa]
 	mov r0, sl
 	bl sub_805423C
-	movs r0, #4
+	movs r0, #4         @ MUS_COURSE_SELECTION
 	bl m4aSongNumStartOrContinue
 	add sp, #8
 	pop {r3, r4, r5}
@@ -680,7 +680,7 @@ Task_806BBC0: @ 0x0806BBC0
 	rsbs r1, r1, #0
 	ands r0, r1
 	str r0, [r2]
-	movs r0, #4
+	movs r0, #4         @ MUS_COURSE_SELECTION
 	bl m4aSongNumStop
 	ldr r2, _0806BC44 @ =gDispCnt
 	ldrh r1, [r2]

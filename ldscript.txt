@@ -80,6 +80,7 @@ SECTIONS {
         src/game/enemies/boss_2_egg_press.o(.text);
         src/game/enemies/boss_3_egg_ball.o(.text);
         src/game/enemies/boss_4_egg_spider.o(.text);
+        src/game/enemies/boss_6_egg_snake.o(.text);
         asm/enemy_boss_6_egg_snake.o(.text);
         src/game/enemies/boss_x1_egg_wrecker.o(.text);
         src/game/enemies/boss_x2_egg_drillster.o(.text);
