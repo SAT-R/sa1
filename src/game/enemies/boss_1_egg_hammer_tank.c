@@ -1044,7 +1044,7 @@ void Task_80272D0(void)
     }
 
     temp_r1_3 = arm->unk3C + I(arm->qUnk44);
-    if ((temp_r1_3 > (s32)(gCamera.x + 0xF0)) || (temp_r1_3 < (s32)gCamera.x)) {
+    if ((temp_r1_3 > (s32)(gCamera.x + DISPLAY_WIDTH)) || (temp_r1_3 < gCamera.x)) {
         arm->qUnk4C = -arm->qUnk4C;
     }
 

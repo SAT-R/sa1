@@ -66,8 +66,6 @@ extern s16 gUnknown_084ACEB4[];
 extern s16 gUnknown_084ACED8[];
 extern s16 gUnknown_084ACEC6[];
 
-const s32 hallo = 10;
-
 static inline void sub_8031CD0_inline(void)
 {
     EggSpider *boss = TASK_DATA(gCurTask);

@@ -41,7 +41,7 @@ typedef struct EggSnake {
     /* 0x9A */ s8 unk9A;
     /* 0x9B */ s8 unk9B;
     /* 0x9C */ s8 unk9C;
-    /* 0x9E */ u16 unk9E;
+    /* 0x9E */ s16 qUnk9E;
     /* 0xA0 */ s16 unkA0;
     /* 0xA2 */ s16 unkA2;
     /* 0xA4 */ s16 unkA4;
@@ -52,12 +52,14 @@ typedef struct EggSnake {
 } EggSnake; /* 0xAC */
 
 void Task_EggSnakeInit(void);
+void sub_803170C(void);
 void sub_8031D88(s16 worldX, s16 worldY);
 void sub_8031ED0(void);
 void sub_8031F74(void);
 void Task_8032370(void);
 void sub_80327C4(void);
 void Task_8032AF8(void);
+void sub_8032D44(void);
 void sub_803330C(void);
 void sub_8033878(void);
 void TaskDestructor_8034208(struct Task *t);
@@ -526,12 +528,12 @@ void sub_80327C4()
     worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78);
     worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C);
     boss->s2.variant = 2;
-    boss->unk9E = 0xFF80;
+    boss->qUnk9E = -0x80;
     m4aSongNumStart(0x90U);
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX, worldY, 4U, 0x295U, 0U));
-        strc->qUnk46 = -0x200;
+        strc = TASK_DATA(sub_80168F0(worldX, worldY, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        strc->qUnk46 = -Q(2);
         strc->unk48 = 0;
         strc->unk42 = 0x100;
         if (s->frameFlags & 0x400) {
@@ -544,8 +546,8 @@ void sub_80327C4()
     }
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX + 16, worldY + 16, 4U, 0x295U, 0U));
-        strc->qUnk46 = -0x200;
+        strc = TASK_DATA(sub_80168F0(worldX + 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        strc->qUnk46 = -Q(2);
         strc->unk48 = 0;
         strc->unk42 = 0x200;
         if (s->frameFlags & 0x400) {
@@ -559,8 +561,8 @@ void sub_80327C4()
     }
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, 0x295U, 0U));
-        strc->qUnk46 = -0x200;
+        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        strc->qUnk46 = -Q(2);
         strc->unk48 = 0;
         strc->unk42 = 0x300;
         strc->s.frameFlags |= 0x400;
@@ -574,8 +576,8 @@ void sub_80327C4()
     }
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, 0x295U, 0U));
-        strc->qUnk46 = -0x200;
+        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        strc->qUnk46 = -Q(2);
         strc->unk48 = 0;
         strc->unk42 = 0x380;
         strc->s.frameFlags |= 0x400;
@@ -589,8 +591,8 @@ void sub_80327C4()
         strc->unk40 = 0x3C;
     }
 
-    gCamera.minX = (s16)(u16)gCamera.x;
-    gCamera.maxX = (u16)gCamera.x + 0xF0;
+    gCamera.minX = gCamera.x;
+    gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
     CreatePreBossCameraPan(gCamera.maxY - DISPLAY_HEIGHT, gCamera.maxY + DISPLAY_HEIGHT);
     gStageFlags |= 3;
 
@@ -598,4 +600,75 @@ void sub_80327C4()
 
     Task_8032AF8();
     gCurTask->main = Task_8032AF8;
+}
+
+void Task_8032AF8(void)
+{
+    s32 res;
+
+    EggSnake *boss = TASK_DATA(gCurTask);
+    SpriteBase *base = &boss->base;
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    boss->qUnk9E += 0x5;
+    boss->qUnk7C += boss->qUnk9E;
+
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C);
+
+    res = sa2__sub_801F100(worldY, worldX, 1, 8, &sa2__sub_801EC3C);
+
+    if (res < 0) {
+        boss->unk98 = 60;
+        gCurTask->main = sub_8032D44;
+        return;
+    }
+
+    s->frameFlags &= ~0x180;
+
+    if (PLAYER_IS_ALIVE) {
+        gDispCnt &= 0x7FFF;
+        gWinRegs[WINREG_WINOUT] = 0;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+    }
+
+    boss->unk98++;
+    if ((boss->unk98 & 0x7) == 0) {
+        struct Task *t;
+        NutsAndBolts *bolts;
+        Sprite *sprBolts;
+        s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+        s32 rndTheta;
+        s32 a0, a1;
+        s32 rnd;
+        t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex],
+                                   gUnknown_080BB42C[rndIndex], TaskDestructor_NutsAndBolts);
+        bolts = TASK_DATA(t);
+        sprBolts = &bolts->s;
+        bolts->qUnk30 = Q(worldX);
+        bolts->qUnk34 = Q(worldY + 32);
+        sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+        sprBolts->oamFlags = SPRITE_OAM_ORDER(17);
+        bolts->qUnk3E = Q(5. / 256.);
+        bolts->qUnk40 = Q(32. / 256.);
+        rndTheta = PseudoRandom32();
+        bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+        bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+
+        rnd = PseudoRandom32();
+        sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
+    }
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    sub_803424C_inline();
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
 }
