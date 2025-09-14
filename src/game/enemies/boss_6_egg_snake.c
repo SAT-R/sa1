@@ -19,7 +19,8 @@ typedef struct Strc60_EggSnake {
     u8 unk55;
     u8 unk56;
     u8 unk57;
-    u8 filler58[0x4];
+    u8 unk58;
+    u8 filler59[0x3];
     s16 unk5C;
 } Strc60_EggSnake;
 
@@ -28,7 +29,7 @@ typedef struct EggSnake {
     /* 0x0C */ Sprite s;
     /* 0x3C */ Hitbox reserved;
     /* 0x44 */ Sprite s2;
-    /* 0x74 */ struct Task *t;
+    /* 0x74 */ struct Task *t; // Strc60_EggSnake *
     /* 0x78 */ s32 qUnk78;
     /* 0x7C */ s32 qUnk7C;
     /* 0x80 */ s32 unk80;
@@ -36,7 +37,8 @@ typedef struct EggSnake {
     /* 0x88 */ u8 filler88[0x8];
     /* 0x90 */ s16 unk90;
     /* 0x92 */ s16 unk92;
-    /* 0x94 */ u8 filler94[0x4];
+    /* 0x92 */ s16 unk94;
+    /* 0x92 */ s16 unk96;
     /* 0x98 */ u16 unk98;
     /* 0x9A */ s8 unk9A;
     /* 0x9B */ s8 unk9B;
@@ -60,6 +62,7 @@ void Task_8032370(void);
 void sub_80327C4(void);
 void Task_8032AF8(void);
 void sub_8032D44(void);
+void sub_8032F58(void);
 void sub_803330C(void);
 void sub_8033878(void);
 void TaskDestructor_8034208(struct Task *t);
@@ -671,4 +674,78 @@ void Task_8032AF8(void)
     UpdateSpriteAnimation(s2);
     DisplaySprite(s);
     DisplaySprite(s2);
+}
+
+void sub_8032D44(void)
+{
+    MapEntity *me;
+    Sprite *s;
+    Sprite *s2;
+    s32 temp_r0;
+    s32 temp_r0_3;
+    s32 s2_2;
+    u16 *temp_r1;
+    u16 temp_r0_2;
+
+    EggSnake *boss = TASK_DATA(gCurTask);
+
+    s = &boss->s;
+    s2 = &boss->s2;
+    me = boss->base.me;
+    if (--boss->unk98 == 0) {
+        Strc60_EggSnake *strc60 = TASK_DATA(boss->t);
+        strc60->unk58 = -1;
+        gPlayer.moveState &= ~8;
+        gCamera.maxY = 0x940;
+        gMusicManagerState.unk1 = 0x33;
+        boss->unk94 = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78);
+        boss->unk96 = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C);
+        boss->qUnk78 = 0;
+        boss->qUnk7C = 0;
+        boss->unk80 = 0;
+        boss->unk84 = -0x80;
+        boss->unkA9 = 0;
+        VramFree(boss->s.graphics.dest);
+        VramFree(boss->s2.graphics.dest);
+
+        s->graphics.dest = ALLOC_TILES(SA1_ANIM_EGGMOBILE);
+        s->oamFlags = 0x4C0;
+        s->graphics.size = 0;
+        s->graphics.anim = SA1_ANIM_EGGMOBILE;
+        s->variant = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = (s16)0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x2000;
+
+        s2->graphics.dest = ALLOC_TILES(SA1_ANIM_EGGMAN);
+        s2->oamFlags = 0x480;
+        s2->graphics.size = 0;
+        s2->graphics.anim = SA1_ANIM_EGGMAN;
+        s2->variant = 4;
+        s2->animCursor = 0;
+        s2->qAnimDelay = (s16)0;
+        s2->prevVariant = -1;
+        s2->animSpeed = 0x10;
+        s2->palId = 0;
+        s2->hitboxes[0].index = -1;
+        s2->frameFlags = 0x2000;
+
+        gCurTask->main = sub_8032F58;
+    } else {
+        CamCoord worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78);
+        CamCoord worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C);
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y;
+
+        sub_803424C_inline();
+
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+        DisplaySprite(s);
+        DisplaySprite(s2);
+    }
 }
