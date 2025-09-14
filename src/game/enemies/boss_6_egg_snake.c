@@ -25,7 +25,7 @@ typedef struct Strc60_EggSnake {
     s16 unk5C;
 } Strc60_EggSnake;
 
-typedef struct Strc74_EggSnake {
+typedef struct EggSnakeProjectile {
     /* 0x00 */ Sprite s;
     /* 0x30 */ Sprite s2;
     /* 0x60 */ u16 unk60;
@@ -34,9 +34,9 @@ typedef struct Strc74_EggSnake {
     /* 0x68 */ s32 unk68;
     /* 0x6C */ s16 unk6C;
     /* 0x6E */ s16 unk6E;
-    /* 0x70 */ s16 unk70;
-    /* 0x72 */ s16 unk72;
-} Strc74_EggSnake; /* 0x74 */
+    /* 0x70 */ CamCoord originX;
+    /* 0x72 */ CamCoord originY;
+} EggSnakeProjectile; /* 0x74 */
 
 typedef struct EggSnake {
     /* 0x00 */ SpriteBase base;
@@ -78,7 +78,7 @@ void Task_8032AF8(void);
 void sub_8032D44(void);
 void sub_8032F58(void);
 void sub_803330C(void);
-void CreateProjectile(void);
+void CreateProjectile(void); // TODO: static
 void sub_8033878(void);
 void Task_8033480(void);
 void Task_8033730(void);
@@ -122,7 +122,7 @@ void sub_8031D88(s16 worldX, s16 worldY)
 
     if (PLAYER_IS_ALIVE) {
         gDispCnt &= 0x7FFF;
-        gWinRegs[5] = 0;
+        gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
     }
@@ -540,7 +540,7 @@ void sub_80327C4()
 
     EggSnake *boss = TASK_DATA(gCurTask);
     Sprite *s = &boss->s;
-    Strc_sub_80168F0 *strc;
+    Strc_sub_80168F0 *proj;
     MapEntity *me = boss->base.me;
     CamCoord worldX, worldY;
 
@@ -553,63 +553,63 @@ void sub_80327C4()
     m4aSongNumStart(0x90U);
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX, worldY, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
-        strc->qUnk46 = -Q(2);
-        strc->unk48 = 0;
-        strc->unk42 = 0x100;
+        proj = TASK_DATA(sub_80168F0(worldX, worldY, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        proj->qUnk46 = -Q(2);
+        proj->unk48 = 0;
+        proj->unk42 = 0x100;
         if (s->frameFlags & 0x400) {
-            strc->transform.qScaleX = -0x100;
-            strc->qUnk44 = 0x100;
+            proj->transform.qScaleX = -0x100;
+            proj->qUnk44 = 0x100;
         } else {
-            strc->qUnk44 = -0x100;
+            proj->qUnk44 = -0x100;
         }
-        strc->unk40 = 0x3C;
+        proj->unk40 = 0x3C;
     }
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX + 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
-        strc->qUnk46 = -Q(2);
-        strc->unk48 = 0;
-        strc->unk42 = 0x200;
+        proj = TASK_DATA(sub_80168F0(worldX + 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        proj->qUnk46 = -Q(2);
+        proj->unk48 = 0;
+        proj->unk42 = 0x200;
         if (s->frameFlags & 0x400) {
-            strc->transform.qScaleX = -0x100;
-            strc->qUnk44 = 0x400;
+            proj->transform.qScaleX = -0x100;
+            proj->qUnk44 = 0x400;
         } else {
-            strc->qUnk44 = -0x400;
+            proj->qUnk44 = -0x400;
         }
 
-        strc->unk40 = 0x3C;
+        proj->unk40 = 0x3C;
     }
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
-        strc->qUnk46 = -Q(2);
-        strc->unk48 = 0;
-        strc->unk42 = 0x300;
-        strc->s.frameFlags |= 0x400;
+        proj = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        proj->qUnk46 = -Q(2);
+        proj->unk48 = 0;
+        proj->unk42 = 0x300;
+        proj->s.frameFlags |= 0x400;
         if (s->frameFlags & 0x400) {
-            strc->transform.qScaleX = -0x100;
-            strc->qUnk44 = -0x200;
+            proj->transform.qScaleX = -0x100;
+            proj->qUnk44 = -0x200;
         } else {
-            strc->qUnk44 = 0x200;
+            proj->qUnk44 = 0x200;
         }
-        strc->unk40 = 0x3C;
+        proj->unk40 = 0x3C;
     }
 
     {
-        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
-        strc->qUnk46 = -Q(2);
-        strc->unk48 = 0;
-        strc->unk42 = 0x380;
-        strc->s.frameFlags |= 0x400;
+        proj = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, SA1_ANIM_BOSS_6_SPIKE, 0U));
+        proj->qUnk46 = -Q(2);
+        proj->unk48 = 0;
+        proj->unk42 = 0x380;
+        proj->s.frameFlags |= 0x400;
         if (s->frameFlags & 0x400) {
-            strc->transform.qScaleX = -0x100;
-            strc->qUnk44 = -0x80;
+            proj->transform.qScaleX = -0x100;
+            proj->qUnk44 = -0x80;
         } else {
-            strc->qUnk44 = +0x80;
+            proj->qUnk44 = +0x80;
         }
 
-        strc->unk40 = 0x3C;
+        proj->unk40 = 0x3C;
     }
 
     gCamera.minX = gCamera.x;
@@ -918,15 +918,15 @@ void sub_8032F58(void)
 void sub_803330C()
 {
     EggSnake *boss = TASK_DATA(gCurTask); // NOTE: Unused, but needed for matching!
-    struct Task *t = TaskCreate(Task_8033480, sizeof(Strc74_EggSnake), 0x2200U, 0U, TaskDestructor_8034224);
-    Strc74_EggSnake *strc = TASK_DATA(t);
+    struct Task *t = TaskCreate(Task_8033480, sizeof(EggSnakeProjectile), 0x2200U, 0U, TaskDestructor_8034224);
+    EggSnakeProjectile *proj = TASK_DATA(t);
     Sprite *s;
     Sprite *s2;
     void *vram;
 
-    strc->unk60 = 0x258;
-    strc->unk62 = 0;
-    s = &strc->s;
+    proj->unk60 = 0x258;
+    proj->unk62 = 0;
+    s = &proj->s;
 
     s->x = 0;
     s->y = 0;
@@ -944,7 +944,7 @@ void sub_803330C()
     s->frameFlags = 0x2000;
 
     vram = s->graphics.dest;
-    s2 = &strc->s2;
+    s2 = &proj->s2;
     s2->x = 0;
     s2->y = 0;
     s2->graphics.dest = vram;
@@ -963,8 +963,8 @@ void sub_803330C()
 
 void sub_803341C(void)
 {
-    Strc74_EggSnake *strc = TASK_DATA(gCurTask);
-    Sprite *sprStrc = &strc->s;
+    EggSnakeProjectile *proj = TASK_DATA(gCurTask);
+    Sprite *sprStrc = &proj->s;
     EggSnake *boss = TASK_DATA(TASK_PARENT(gCurTask));
     Sprite *s2 = &boss->s;
     s16 x, y;
@@ -976,7 +976,7 @@ void sub_803341C(void)
     UpdateSpriteAnimation(sprStrc);
     DisplaySprite(sprStrc);
 
-    s2 = &strc->s2;
+    s2 = &proj->s2;
     s2->x = x;
     s2->y = y;
     SPRITE_FLAG_SET(s2, X_FLIP);
@@ -997,19 +997,19 @@ void Task_8033480()
     u16 temp_r0;
     u8 temp_r0_3;
 
-    Strc74_EggSnake *strc = TASK_DATA(gCurTask);
+    EggSnakeProjectile *proj = TASK_DATA(gCurTask);
     EggSnake *boss = TASK_DATA(TASK_PARENT(gCurTask));
 
-    s = &strc->s;
-    s2 = &strc->s2;
+    s = &proj->s;
+    s2 = &proj->s2;
     temp_r1 = &boss->unk9A;
     if (boss->unk9A > 7) {
         TaskDestroy(gCurTask);
         return;
     }
     if (boss->unkA8 != 0) {
-        if (strc->unk60 != 0) {
-            if (--strc->unk60 == 0) {
+        if (proj->unk60 != 0) {
+            if (--proj->unk60 == 0) {
                 s->frameFlags &= 0xFFFFF7FF;
                 s2->frameFlags &= 0xFFFFF7FF;
                 temp_r0_3 = boss->s.variant;
@@ -1019,13 +1019,13 @@ void Task_8033480()
                         s2->frameFlags |= 0x800;
                     lbl:
                         s->prevVariant = 0xFF;
-                        strc->s2.prevVariant = -1;
+                        proj->s2.prevVariant = -1;
                         s->frameFlags &= 0xFFFFBFFF;
                         s2->frameFlags &= 0xFFFFBFFF;
-                        strc->unk62++;
+                        proj->unk62++;
                         CreateProjectile();
                     } else {
-                        strc->unk60 = 1;
+                        proj->unk60 = 1;
                     }
                 } else {
                     goto lbl;
@@ -1033,11 +1033,11 @@ void Task_8033480()
             }
         } else {
             if ((s->frameFlags & 0x4000) || (boss->s.variant != 2 && boss->s.variant != 3)) {
-                if (strc->unk62 != 3) {
-                    strc->unk60 = 0x3C;
+                if (proj->unk62 != 3) {
+                    proj->unk60 = 0x3C;
                 } else {
-                    strc->unk60 = gUnknown_084ACEF6[boss->unk9A];
-                    strc->unk62 = 0;
+                    proj->unk60 = gUnknown_084ACEF6[boss->unk9A];
+                    proj->unk62 = 0;
                 }
             } else {
                 sub_803341C();
@@ -1053,33 +1053,83 @@ void CreateProjectile()
     s16 temp_r3;
 
     EggSnake *boss;
-    Strc74_EggSnake *newStrc = TASK_DATA(gCurTask);
+    EggSnakeProjectile *newProj = TASK_DATA(gCurTask);
     MapEntity *me;
 
-    newStrc = TASK_DATA(TaskCreate(Task_8033730, sizeof(Strc74_EggSnake), 0x2300U, 0U, TaskDestructor_8034224));
+    newProj = TASK_DATA(TaskCreate(Task_8033730, sizeof(EggSnakeProjectile), 0x2300U, 0U, TaskDestructor_8034224));
     boss = TASK_DATA(TASK_PARENT(gCurTask));
     me = boss->base.me;
-    newStrc->unk70 = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
-    newStrc->unk72 = TO_WORLD_POS(me->y, boss->base.regionY);
-    newStrc->unk64 = Q(boss->unk90 + 16);
-    newStrc->unk68 = Q(boss->unk92);
-    temp_r3 = I(gPlayer.qWorldX) - (I(newStrc->unk64) + newStrc->unk70);
-    temp_r1 = I(gPlayer.qWorldY) - (I(newStrc->unk68) + newStrc->unk72);
+    newProj->originX = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
+    newProj->originY = TO_WORLD_POS(me->y, boss->base.regionY);
+    newProj->unk64 = Q(boss->unk90 + 16);
+    newProj->unk68 = Q(boss->unk92);
+    temp_r3 = I(gPlayer.qWorldX) - (newProj->originX + I(newProj->unk64));
+    temp_r1 = I(gPlayer.qWorldY) - (newProj->originY + I(newProj->unk68));
     angle = sa2__sub_8004418(temp_r1 / 2, temp_r3 / 2);
-    newStrc->unk6C = COS_24_8(angle);
-    newStrc->unk6E = SIN_24_8(angle);
-    newStrc->s.x = 0;
-    newStrc->s.y = 0;
-    newStrc->s.graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_6_PROJ);
-    newStrc->s.oamFlags = 0x3C0;
-    newStrc->s.graphics.size = 0;
-    newStrc->s.graphics.anim = SA1_ANIM_BOSS_6_PROJ;
-    newStrc->s.variant = 0;
-    newStrc->s.animCursor = 0;
-    newStrc->s.qAnimDelay = 0;
-    newStrc->s.prevVariant = 0xFF;
-    newStrc->s.animSpeed = 0x10;
-    newStrc->s.palId = 0;
-    newStrc->s.hitboxes[0].index = -1;
-    newStrc->s.frameFlags = 0x2000;
+    newProj->unk6C = COS_24_8(angle);
+    newProj->unk6E = SIN_24_8(angle);
+    newProj->s.x = 0;
+    newProj->s.y = 0;
+    newProj->s.graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_6_PROJ);
+    newProj->s.oamFlags = 0x3C0;
+    newProj->s.graphics.size = 0;
+    newProj->s.graphics.anim = SA1_ANIM_BOSS_6_PROJ;
+    newProj->s.variant = 0;
+    newProj->s.animCursor = 0;
+    newProj->s.qAnimDelay = 0;
+    newProj->s.prevVariant = 0xFF;
+    newProj->s.animSpeed = 0x10;
+    newProj->s.palId = 0;
+    newProj->s.hitboxes[0].index = -1;
+    newProj->s.frameFlags = 0x2000;
+}
+
+void Task_8033730()
+{
+    EggSnakeProjectile *proj = TASK_DATA(gCurTask);
+    EggSnakeProjectile *prevProj = TASK_DATA(TASK_PARENT(gCurTask));
+    EggSnake *boss = TASK_DATA(TASK_PARENT(TASK_PARENT(gCurTask)));
+    Sprite *s = &proj->s;
+    CamCoord worldX, worldY;
+    s32 bossAnim;
+
+    proj->unk64 += proj->unk6C;
+    proj->unk68 += proj->unk6E;
+    worldX = proj->originX + I(proj->unk64);
+    worldY = proj->originY + I(proj->unk68);
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+
+    if ((s->y < -32) || (s->y > (DISPLAY_HEIGHT + 16))) {
+        if (proj->unk6C >= 0) {
+            if (s->x > (DISPLAY_WIDTH + 16)) {
+                TaskDestroy(gCurTask);
+                return;
+            }
+        } else if (s->x < -32) {
+            TaskDestroy(gCurTask);
+            return;
+        }
+    }
+
+    if (boss->unk9A <= 7) {
+        if (Coll_Player_Projectile(s, worldX, worldY) != 0) {
+            bossAnim = boss->s.graphics.anim;
+            if (bossAnim == SA1_ANIM_BOSS_6_BODY) {
+                if (boss->s.variant == 2) {
+                    boss->s2.variant = 1;
+                }
+                if ((boss->s.graphics.anim == bossAnim) && (boss->s.variant == 3)) {
+                    boss->s2.variant = 4;
+                }
+            }
+        }
+    } else {
+        sub_8017540(Q(worldX), Q(worldY));
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }

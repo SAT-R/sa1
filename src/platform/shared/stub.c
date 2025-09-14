@@ -83,13 +83,12 @@ void CreateEntity_DummyEnt(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-// Interactables / GimmicksCreateEntity_BreakableWall
+// Interactables / Gimmicks
 
 void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 
 // Bosses
 extern void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-void CreateEntity_EggSnake(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }
 
@@ -106,6 +105,7 @@ void sub_8069C94(TimeRecord record) { }
 
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }
+void CreateCourseSelect() { }
 void CreateMultiplayerPlayer() { }
 void CreateMultipackOutcomeScreen() { }
 void MultiPakCommunicationError() { }
