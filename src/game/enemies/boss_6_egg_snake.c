@@ -25,6 +25,19 @@ typedef struct Strc60_EggSnake {
     s16 unk5C;
 } Strc60_EggSnake;
 
+typedef struct Strc74_EggSnake {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ Sprite s2;
+    /* 0x60 */ u16 unk60;
+    /* 0x62 */ u16 unk62;
+    /* 0x64 */ s32 unk64;
+    /* 0x68 */ s32 unk68;
+    /* 0x6C */ s16 unk6C;
+    /* 0x6E */ s16 unk6E;
+    /* 0x70 */ s16 unk70;
+    /* 0x72 */ s16 unk72;
+} Strc74_EggSnake; /* 0x74 */
+
 typedef struct EggSnake {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -65,8 +78,12 @@ void Task_8032AF8(void);
 void sub_8032D44(void);
 void sub_8032F58(void);
 void sub_803330C(void);
+void CreateProjectile(void);
 void sub_8033878(void);
+void Task_8033480(void);
+void Task_8033730(void);
 void TaskDestructor_8034208(struct Task *t);
+void TaskDestructor_8034224(struct Task *t);
 
 s16 gUnknown_03005870[16];
 extern const s16 gUnknown_084ACEE4[9];
@@ -896,4 +913,173 @@ void sub_8032F58(void)
             }
             break;
     }
+}
+
+void sub_803330C()
+{
+    EggSnake *boss = TASK_DATA(gCurTask); // NOTE: Unused, but needed for matching!
+    struct Task *t = TaskCreate(Task_8033480, sizeof(Strc74_EggSnake), 0x2200U, 0U, TaskDestructor_8034224);
+    Strc74_EggSnake *strc = TASK_DATA(t);
+    Sprite *s;
+    Sprite *s2;
+    void *vram;
+
+    strc->unk60 = 0x258;
+    strc->unk62 = 0;
+    s = &strc->s;
+
+    s->x = 0;
+    s->y = 0;
+    s->graphics.dest = VramMalloc(6U);
+    s->oamFlags = 0x540;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x297;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+
+    vram = s->graphics.dest;
+    s2 = &strc->s2;
+    s2->x = 0;
+    s2->y = 0;
+    s2->graphics.dest = vram;
+    s2->oamFlags = 0x540;
+    s2->graphics.size = 0;
+    s2->graphics.anim = 0x297;
+    s2->variant = 0;
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = 0x10;
+    s2->palId = 0;
+    s2->hitboxes[0].index = -1;
+    s2->frameFlags = 0xC2000;
+}
+
+void sub_803341C(void)
+{
+    Strc74_EggSnake *strc = TASK_DATA(gCurTask);
+    Sprite *sprStrc = &strc->s;
+    EggSnake *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s2 = &boss->s;
+    s16 x, y;
+
+    x = s2->x;
+    y = s2->y;
+    sprStrc->x = x;
+    sprStrc->y = y;
+    UpdateSpriteAnimation(sprStrc);
+    DisplaySprite(sprStrc);
+
+    s2 = &strc->s2;
+    s2->x = x;
+    s2->y = y;
+    SPRITE_FLAG_SET(s2, X_FLIP);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s2);
+}
+
+// TODO: Match without goto
+void Task_8033480()
+{
+    Sprite *s;
+    Sprite *s2;
+    s16 *temp_r1_2;
+    s16 *temp_r2;
+    s16 *temp_r7;
+    s16 temp_r0_2;
+    s8 *temp_r1;
+    u16 temp_r0;
+    u8 temp_r0_3;
+
+    Strc74_EggSnake *strc = TASK_DATA(gCurTask);
+    EggSnake *boss = TASK_DATA(TASK_PARENT(gCurTask));
+
+    s = &strc->s;
+    s2 = &strc->s2;
+    temp_r1 = &boss->unk9A;
+    if (boss->unk9A > 7) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+    if (boss->unkA8 != 0) {
+        if (strc->unk60 != 0) {
+            if (--strc->unk60 == 0) {
+                s->frameFlags &= 0xFFFFF7FF;
+                s2->frameFlags &= 0xFFFFF7FF;
+                temp_r0_3 = boss->s.variant;
+                if (temp_r0_3 != 2) {
+                    if (temp_r0_3 == 3) {
+                        s->frameFlags |= 0x800;
+                        s2->frameFlags |= 0x800;
+                    lbl:
+                        s->prevVariant = 0xFF;
+                        strc->s2.prevVariant = -1;
+                        s->frameFlags &= 0xFFFFBFFF;
+                        s2->frameFlags &= 0xFFFFBFFF;
+                        strc->unk62++;
+                        CreateProjectile();
+                    } else {
+                        strc->unk60 = 1;
+                    }
+                } else {
+                    goto lbl;
+                }
+            }
+        } else {
+            if ((s->frameFlags & 0x4000) || (boss->s.variant != 2 && boss->s.variant != 3)) {
+                if (strc->unk62 != 3) {
+                    strc->unk60 = 0x3C;
+                } else {
+                    strc->unk60 = gUnknown_084ACEF6[boss->unk9A];
+                    strc->unk62 = 0;
+                }
+            } else {
+                sub_803341C();
+            }
+        }
+    }
+}
+
+void CreateProjectile()
+{
+    s16 angle;
+    s16 temp_r1;
+    s16 temp_r3;
+
+    EggSnake *boss;
+    Strc74_EggSnake *newStrc = TASK_DATA(gCurTask);
+    MapEntity *me;
+
+    newStrc = TASK_DATA(TaskCreate(Task_8033730, sizeof(Strc74_EggSnake), 0x2300U, 0U, TaskDestructor_8034224));
+    boss = TASK_DATA(TASK_PARENT(gCurTask));
+    me = boss->base.me;
+    newStrc->unk70 = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
+    newStrc->unk72 = TO_WORLD_POS(me->y, boss->base.regionY);
+    newStrc->unk64 = Q(boss->unk90 + 16);
+    newStrc->unk68 = Q(boss->unk92);
+    temp_r3 = I(gPlayer.qWorldX) - (I(newStrc->unk64) + newStrc->unk70);
+    temp_r1 = I(gPlayer.qWorldY) - (I(newStrc->unk68) + newStrc->unk72);
+    angle = sa2__sub_8004418(temp_r1 / 2, temp_r3 / 2);
+    newStrc->unk6C = COS_24_8(angle);
+    newStrc->unk6E = SIN_24_8(angle);
+    newStrc->s.x = 0;
+    newStrc->s.y = 0;
+    newStrc->s.graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_6_PROJ);
+    newStrc->s.oamFlags = 0x3C0;
+    newStrc->s.graphics.size = 0;
+    newStrc->s.graphics.anim = SA1_ANIM_BOSS_6_PROJ;
+    newStrc->s.variant = 0;
+    newStrc->s.animCursor = 0;
+    newStrc->s.qAnimDelay = 0;
+    newStrc->s.prevVariant = 0xFF;
+    newStrc->s.animSpeed = 0x10;
+    newStrc->s.palId = 0;
+    newStrc->s.hitboxes[0].index = -1;
+    newStrc->s.frameFlags = 0x2000;
 }
