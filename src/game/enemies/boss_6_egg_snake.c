@@ -14,7 +14,16 @@
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
-typedef struct {
+typedef struct Strc60_EggSnake {
+    u8 filler0[0x55];
+    u8 unk55;
+    u8 unk56;
+    u8 unk57;
+    u8 filler58[0x4];
+    s16 unk5C;
+} Strc60_EggSnake;
+
+typedef struct EggSnake {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
     /* 0x3C */ Hitbox reserved;
@@ -25,30 +34,38 @@ typedef struct {
     /* 0x80 */ s32 unk80;
     /* 0x84 */ s32 unk84;
     /* 0x88 */ u8 filler88[0x8];
-    /* 0x90 */ u16 unk90;
-    /* 0x92 */ u16 unk92;
+    /* 0x90 */ s16 unk90;
+    /* 0x92 */ s16 unk92;
     /* 0x94 */ u8 filler94[0x4];
     /* 0x98 */ u16 unk98;
-    /* 0x9A */ u8 unk9A;
-    /* 0x9B */ u8 unk9B;
+    /* 0x9A */ s8 unk9A;
+    /* 0x9B */ s8 unk9B;
     /* 0x9C */ s8 unk9C;
     /* 0x9E */ u16 unk9E;
     /* 0xA0 */ s16 unkA0;
-    /* 0xA2 */ u16 unkA2;
-    /* 0xA4 */ u16 unkA4;
-    /* 0xA6 */ u16 unkA6;
+    /* 0xA2 */ s16 unkA2;
+    /* 0xA4 */ s16 unkA4;
+    /* 0xA6 */ s16 unkA6;
     /* 0xA8 */ u8 unkA8;
     /* 0xA9 */ u8 unkA9;
-    /* 0xAA */ s8 unkAA;
+    /* 0xAA */ u8 unkAA;
 } EggSnake; /* 0xAC */
 
 void Task_EggSnakeInit(void);
+void sub_8031D88(s16 worldX, s16 worldY);
+void sub_8031ED0(void);
+void sub_8031F74(void);
+void Task_8032370(void);
+void sub_80327C4(void);
+void Task_8032AF8(void);
 void sub_803330C(void);
 void sub_8033878(void);
 void TaskDestructor_8034208(struct Task *t);
-void Task_8032370(void);
-void sub_8031ED0(void);
-u16 gUnknown_03005870[16];
+
+s16 gUnknown_03005870[16];
+extern const s16 gUnknown_084ACEE4[9];
+extern const s16 gUnknown_084ACEF6[9];
+extern const u16 gUnknown_084ACF08[10];
 
 static inline void sub_803424C_inline()
 {
@@ -319,3 +336,266 @@ NONMATCH("asm/non_matching/game/enemies/boss_6__Task_EggSnakeInit.inc", void Tas
     }
 }
 END_NONMATCH
+
+// (99.05%) https://decomp.me/scratch/wPkmW
+NONMATCH("asm/non_matching/game/enemies/boss_6__Task_8032370.inc", void Task_8032370())
+{
+    Strc60_EggSnake *strc60;
+    s16 temp_r2_3;
+    s16 temp_r3_2;
+    CamCoord worldX, worldY;
+    s32 var_r0;
+#ifndef NON_MATCHING
+    register s32 var_r1 asm("r1");
+    register s32 var_r3 asm("r3");
+    register s32 var_r4 asm("r4");
+#else
+    s32 var_r1;
+    s32 var_r3;
+    s32 var_r4;
+#endif
+    s32 var_r4_3;
+    s32 temp_r7;
+    s16 *ptrA;
+
+    EggSnake *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    MapEntity *me = boss->base.me;
+
+    strc60 = TASK_DATA(boss->t);
+    boss->unkA2 += boss->unkA4;
+    boss->unkA0 = (boss->unkA0 - I(boss->unkA2));
+    boss->unkA0 &= 0x3FF;
+    temp_r7 = gSineTable[boss->unkA0];
+    temp_r7 = (s32)(temp_r7 * 15) >> 11;
+    worldX = (TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78) + temp_r7);
+    temp_r3_2 = temp_r7 + 0x80;
+    var_r1 = temp_r3_2;
+    if (temp_r3_2 < 0) {
+        var_r1 += 0x1F;
+    }
+    var_r1 = var_r1 >> 5;
+    var_r4 = (u8)var_r1;
+    var_r1 = temp_r3_2 - (var_r1 << 5);
+    ptrA = &gUnknown_03005870[var_r4];
+    var_r0 = gUnknown_03005870[var_r4 + 1];
+    var_r0 -= (var_r3 = *ptrA);
+    var_r1 = (s16)var_r1;
+    var_r0 *= var_r1;
+    if (var_r0 < 0) {
+        var_r0 += 0x1F;
+    }
+    temp_r2_3 = var_r3 + (var_r0 >> 5);
+    worldY = temp_r2_3 + (TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C));
+    boss->unk90 = temp_r7;
+    boss->unk92 = temp_r2_3;
+    sub_8031D88(worldX, worldY);
+    if (boss->unk9A > 7) {
+        sub_80327C4();
+    } else {
+
+        sub_803426C__inline(worldX, worldY);
+
+        sub_8031F74();
+        UpdateSpriteAnimation(s);
+        if (boss->unkAA == 0) {
+            UpdateSpriteAnimation(s2);
+        }
+
+        sub_803424C_inline();
+
+        sub_8031ED0();
+
+        switch (boss->unkA9) {
+            case 0:
+                if (boss->unkA2 < 0x200) {
+                    boss->unkA2 = 0x200;
+                    boss->unkA4 = 0;
+                }
+                var_r0 = temp_r7 + 0x90;
+                if (var_r0 < 0) {
+                    var_r0 += 0x1F;
+                }
+                var_r4_3 = (u8)(var_r0 >> 5);
+                if ((var_r4_3 != 0) && (var_r4_3 != 8) && (strc60->unk55 != 0) && (strc60->unk55 != 8)
+                    && ((s8)var_r4_3 >= ((s8)(strc60->unk55 - 2))) && ((s8)var_r4_3 <= (s8)(strc60->unk55 + 2)) && (strc60->unk57 != 0)) {
+                    boss->unkA2 = 0x200;
+                    boss->unkA4 = 0;
+                    boss->unkA9++;
+                }
+                break;
+            case 1:
+                if (s->variant != 1) {
+                    if (strc60->unk5C >= 0) {
+                        return;
+                    }
+                    s->variant = 1;
+                    s->prevVariant = -1;
+                    boss->unkAA = -1;
+                    return;
+                }
+                if (!(s->frameFlags & 0x4000)) {
+                    return;
+                }
+                s->variant = 2;
+                s2->variant = 0;
+                s->prevVariant = -1;
+                boss->unkAA = 0;
+                boss->unk98 = gUnknown_084ACF08[(PseudoRandom32() + gStageTime) & 3];
+                boss->unk9B = boss->unk9A;
+                boss->unkA9++;
+                break;
+            case 2:
+                if (boss->unk9C != 0) {
+                    if (boss->unk9C > 16) {
+                        return;
+                    }
+                    s->variant = 0;
+                    s->prevVariant = -1;
+                    boss->unkAA = -1;
+                    boss->unkA9++;
+                    break;
+                }
+
+                if (--boss->unk98 == 0) {
+                    s->variant = 0;
+                    s->prevVariant = -1;
+                    boss->unkAA = -1;
+                    boss->unkA9++;
+                }
+                break;
+            case 3:
+                if (s->frameFlags & 0x4000) {
+                    s->variant = 3;
+                    s2->variant = 3;
+                    s->prevVariant = -1;
+                    boss->unkAA = 0;
+                    boss->unkA4 = 0x40;
+                    boss->unkA6 = gUnknown_084ACEE4[boss->unk9A];
+                    boss->unk98 = 0x78;
+                    if (boss->unk9A == boss->unk9B) {
+                        boss->unkA9 += 2;
+                    } else {
+                        boss->unkA9++;
+                    }
+                }
+                break;
+            case 4:
+                if (boss->unkA2 >= boss->unkA6) {
+                    boss->unkA2 = boss->unkA6;
+                    boss->unkA4 = 0;
+                }
+
+                if (--boss->unk98 == 0) {
+                    boss->unkA4 = 0xFFC0;
+                    boss->unkA9 = 0;
+                }
+                break;
+            case 5:
+                if (boss->unkA2 >= 0x200) {
+                    boss->unkA2 = 0x200;
+                    boss->unkA4 = 0;
+                    boss->unkA9 = 0;
+                }
+                break;
+        }
+    }
+}
+END_NONMATCH
+
+void sub_80327C4()
+{
+    s16 var_r0;
+    s32 temp_r0;
+    s32 temp_r3;
+    s32 temp_r4;
+    s32 temp_r5;
+    s32 temp_r5_2;
+    s32 temp_r6;
+    s32 temp_r6_2;
+
+    EggSnake *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Strc_sub_80168F0 *strc;
+    MapEntity *me = boss->base.me;
+    CamCoord worldX, worldY;
+
+    boss->qUnk78 += Q(boss->unk90);
+    boss->qUnk7C += Q(boss->unk92);
+    worldX = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78);
+    worldY = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C);
+    boss->s2.variant = 2;
+    boss->unk9E = 0xFF80;
+    m4aSongNumStart(0x90U);
+
+    {
+        strc = TASK_DATA(sub_80168F0(worldX, worldY, 4U, 0x295U, 0U));
+        strc->qUnk46 = -0x200;
+        strc->unk48 = 0;
+        strc->unk42 = 0x100;
+        if (s->frameFlags & 0x400) {
+            strc->transform.qScaleX = -0x100;
+            strc->qUnk44 = 0x100;
+        } else {
+            strc->qUnk44 = -0x100;
+        }
+        strc->unk40 = 0x3C;
+    }
+
+    {
+        strc = TASK_DATA(sub_80168F0(worldX + 16, worldY + 16, 4U, 0x295U, 0U));
+        strc->qUnk46 = -0x200;
+        strc->unk48 = 0;
+        strc->unk42 = 0x200;
+        if (s->frameFlags & 0x400) {
+            strc->transform.qScaleX = -0x100;
+            strc->qUnk44 = 0x400;
+        } else {
+            strc->qUnk44 = -0x400;
+        }
+
+        strc->unk40 = 0x3C;
+    }
+
+    {
+        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, 0x295U, 0U));
+        strc->qUnk46 = -0x200;
+        strc->unk48 = 0;
+        strc->unk42 = 0x300;
+        strc->s.frameFlags |= 0x400;
+        if (s->frameFlags & 0x400) {
+            strc->transform.qScaleX = -0x100;
+            strc->qUnk44 = -0x200;
+        } else {
+            strc->qUnk44 = 0x200;
+        }
+        strc->unk40 = 0x3C;
+    }
+
+    {
+        strc = TASK_DATA(sub_80168F0(worldX - 16, worldY + 16, 4U, 0x295U, 0U));
+        strc->qUnk46 = -0x200;
+        strc->unk48 = 0;
+        strc->unk42 = 0x380;
+        strc->s.frameFlags |= 0x400;
+        if (s->frameFlags & 0x400) {
+            strc->transform.qScaleX = -0x100;
+            strc->qUnk44 = -0x80;
+        } else {
+            strc->qUnk44 = +0x80;
+        }
+
+        strc->unk40 = 0x3C;
+    }
+
+    gCamera.minX = (s16)(u16)gCamera.x;
+    gCamera.maxX = (u16)gCamera.x + 0xF0;
+    CreatePreBossCameraPan(gCamera.maxY - DISPLAY_HEIGHT, gCamera.maxY + DISPLAY_HEIGHT);
+    gStageFlags |= 3;
+
+    INCREMENT_SCORE_A(1000);
+
+    Task_8032AF8();
+    gCurTask->main = Task_8032AF8;
+}

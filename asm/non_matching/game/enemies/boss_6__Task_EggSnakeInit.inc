@@ -202,7 +202,7 @@ _0803233E:
 	movs r0, #0
 	strb r0, [r3]
 	ldr r1, [r7]
-	ldr r0, _0803236C @ =sub_8032370
+	ldr r0, _0803236C @ =Task_8032370
 	str r0, [r1, #8]
 _0803235E:
 	pop {r3, r4}
@@ -212,6 +212,6 @@ _0803235E:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_0803236C: .4byte sub_8032370
+_0803236C: .4byte Task_8032370
 
 .syntax divided
