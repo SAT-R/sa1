@@ -8,6 +8,7 @@
 #include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/collision.h"
 #include "game/stage/terrain_collision.h"
+#include "game/stage/results.h"
 #include "game/save.h"
 
 #include "constants/animations.h"
@@ -747,5 +748,152 @@ void sub_8032D44(void)
         UpdateSpriteAnimation(s2);
         DisplaySprite(s);
         DisplaySprite(s2);
+    }
+}
+
+void sub_8032F58(void)
+{
+    EggSnake *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    CamCoord worldX, worldY;
+
+    boss->qUnk78 += boss->unk80;
+    boss->qUnk7C += boss->unk84;
+    worldX = I(boss->qUnk78) + boss->unk94;
+    worldY = I(boss->qUnk7C) + boss->unk96;
+
+    if (boss->unkA9 <= 4U) {
+        sub_803426C__inline(worldX, worldY);
+
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+
+        sub_803424C_inline();
+        DisplaySprite(s);
+        DisplaySprite(s2);
+    }
+
+    switch (boss->unkA9) {
+        case 0:
+            if (!(0xA & gPlayer.moveState)) {
+                if (!(gPlayer.moveState & 0x200000)) {
+                    gPlayer.qSpeedAirX = Q(0);
+                    gPlayer.qSpeedAirY = Q(0);
+                    gPlayer.qSpeedGround = Q(0);
+                    gPlayer.moveState |= 0x200000;
+                    gPlayer.heldInput = 0;
+
+                    if (worldX > I(gPlayer.qWorldX)) {
+                        gPlayer.heldInput = DPAD_RIGHT;
+                    } else {
+                        gPlayer.heldInput = DPAD_LEFT;
+                    }
+
+                    gCamera.sa2__unk8 = 0;
+                    gCamera.maxX = gCamera.x + 480;
+                } else {
+                    gPlayer.heldInput = 0;
+                }
+            }
+
+            if (boss->qUnk7C < -Q(90)) {
+                boss->qUnk7C = -Q(90);
+                boss->unk84 = 0;
+            }
+
+            if ((boss->unk84 == 0) && (gPlayer.moveState & 0x200000)) {
+                if (worldX > I(gPlayer.qWorldX)) {
+                    boss->unkA9 += 2;
+                    s2->variant = 7;
+                    s2->prevVariant = 0xFF;
+                } else {
+                    boss->unkA9++;
+                    s->variant = 1;
+                    s2->variant = 9;
+                    s->prevVariant = -1;
+                    s2->prevVariant = -1;
+                }
+            }
+            break;
+
+        case 1:
+            if (s2->frameFlags & 0x4000) {
+                boss->unkA9++;
+                s->variant = 0;
+                s2->variant = 7;
+                s->frameFlags |= 0x400;
+                s2->frameFlags |= 0x400;
+                s->prevVariant = -1;
+                s2->prevVariant = -1;
+            }
+            break;
+
+        case 2:
+            if (0x4000 & s2->frameFlags) {
+                if (s2->frameFlags & 0x400) {
+                    boss->unkA9 += 2;
+                    s2->variant = 6;
+                    s2->prevVariant = -1;
+                    boss->unk80 = 0x280;
+                } else {
+                    boss->unkA9++;
+                    s->variant = 1;
+                    s2->variant = 9;
+                    s->prevVariant = -1;
+                    s2->prevVariant = -1;
+                }
+            }
+            break;
+
+        case 3:
+            if (s2->frameFlags & 0x4000) {
+                boss->unkA9++;
+                s->variant = 0;
+                s2->variant = 6;
+                s->frameFlags |= 0x400;
+                s2->frameFlags |= 0x400;
+                s->prevVariant = -1;
+                s2->prevVariant = -1;
+                s2->prevVariant = -1;
+                boss->unk80 = 0x280;
+            }
+            break;
+
+        case 4:
+            if (I(gPlayer.qWorldX) < (worldX - 0x60)) {
+                gPlayer.heldInput = DPAD_RIGHT;
+            }
+
+            if ((float)I(gPlayer.qWorldX) > ((float)gCamera.x + (float)(DISPLAY_WIDTH + 120))) {
+                gPlayer.qSpeedAirX = 0;
+                gPlayer.qSpeedAirY = 0;
+                gPlayer.qSpeedGround = 0;
+                gPlayer.heldInput = 0;
+            }
+
+            if ((float)(worldX - gCamera.x) > 360.0f) {
+                boss->unkA9++;
+                boss->unk98 = 0xB4;
+                CreateStageResults(gRingCount, gCourseTime);
+            }
+            break;
+
+        case 5:
+            if (I(gPlayer.qWorldX) < (worldX - 96)) {
+                gPlayer.heldInput = DPAD_RIGHT;
+            }
+
+            if ((float)I(gPlayer.qWorldX) > ((float)gCamera.x + (float)(DISPLAY_WIDTH + 120))) {
+                gPlayer.qSpeedAirX = 0;
+                gPlayer.qSpeedAirY = 0;
+                gPlayer.qSpeedGround = 0;
+                gPlayer.heldInput = 0;
+            }
+
+            if (--boss->unk98 == 0) {
+                TaskDestroy(gCurTask);
+            }
+            break;
     }
 }
