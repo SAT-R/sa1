@@ -8,6 +8,7 @@
 #include "game/gTask_03006240.h"
 #include "game/save.h"
 #include "game/stage/ui.h"
+#include "game/title_screen.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
@@ -681,3 +682,47 @@ NONMATCH("asm/non_matching/game/options_menu__sub_801123C.inc", void sub_801123C
     sub_8010CB4();
 }
 END_NONMATCH
+
+void sub_80114A0()
+{
+    u16 prevIME, prevIE, prevDispstat;
+    TaskDestroy(gCurTask);
+    m4aMPlayAllStop();
+    m4aSoundVSyncOff();
+
+    gFlags |= FLAGS_8000;
+
+    prevIE = REG_IE;
+    prevIME = REG_IME;
+    prevDispstat = REG_DISPSTAT;
+
+    REG_IE = 0;
+    REG_IE;
+    REG_IME = 0;
+    REG_IME;
+    REG_DISPSTAT = 0;
+    REG_DISPSTAT;
+
+    gFlags &= ~FLAGS_4;
+
+    SlowDmaStop(0);
+    SlowDmaStop(1);
+    SlowDmaStop(2);
+    SlowDmaStop(3);
+
+    WriteSaveGame();
+
+    REG_IE = prevIE;
+    REG_IE;
+    REG_IME = prevIME;
+    REG_IME;
+    REG_DISPSTAT = prevDispstat;
+    REG_DISPSTAT;
+
+    m4aSoundVSyncOn();
+    gFlags &= 0xFFFF7FFF;
+    gDispCnt &= 0x1FFF;
+    gBldRegs.bldCnt = 0xFF;
+    gBldRegs.bldY = 0;
+    CreateMainMenu(1);
+}
