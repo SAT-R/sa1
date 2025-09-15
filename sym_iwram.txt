@@ -44,7 +44,8 @@ src/game/special_stage/temporary_sound_play_task.o(.data);
 . = 0x000057E0; gUnknown_030057E0 = .; /* s8[] */
 . = 0x00005800; gUnknown_03005800 = .;
 . = 0x00005840; gUnknown_03005840 = .;
-. = 0x00005860; gUnknown_03005860 = .;
+. = 0x00005860;
+src/game/enemies/boss_6_egg_snake.o(COMMON);
 . = 0x00005870; gUnknown_03005870 = .;
 . = 0x00005890; gUnknown_03005890 = .;
 . = 0x000058A8; gUnknown_030058A8 = .;

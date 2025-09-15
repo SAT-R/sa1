@@ -15,15 +15,31 @@
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
-typedef struct Strc60_EggSnake {
-    u8 filler0[0x55];
-    u8 unk55;
-    u8 unk56;
-    u8 unk57;
-    u8 unk58;
+typedef struct EggSnake_54 {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s16 unk30;
+    /* 0x32 */ s16 unk32;
+    /* 0x34 */ u8 filler34[0x4];
+    /* 0x38 */ s32 unk38;
+    /* 0x3C */ s32 unk3C;
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ s16 unk48;
+    /* 0x4A */ u8 filler4A[0x8];
+    /* 0x52 */ u8 unk52;
+} EggSnake_54;
+
+typedef struct EggSnakeSegment {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ struct Task *tasks[9];
+    /* 0x54 */ u8 unk54;
+    /* 0x55 */ u8 unk55;
+    /* 0x56 */ u8 unk56;
+    /* 0x57 */ u8 unk57;
+    /* 0x58 */ u8 unk58;
     u8 filler59[0x3];
     s16 unk5C;
-} Strc60_EggSnake;
+} EggSnakeSegment; /* 0x60 */
 
 typedef struct EggSnakeProjectile {
     /* 0x00 */ Sprite s;
@@ -43,7 +59,7 @@ typedef struct EggSnake {
     /* 0x0C */ Sprite s;
     /* 0x3C */ Hitbox reserved;
     /* 0x44 */ Sprite s2;
-    /* 0x74 */ struct Task *t; // Strc60_EggSnake *
+    /* 0x74 */ struct Task *t; // EggSnakeSegment *
     /* 0x78 */ s32 qUnk78;
     /* 0x7C */ s32 qUnk7C;
     /* 0x80 */ s32 unk80;
@@ -67,6 +83,17 @@ typedef struct EggSnake {
     /* 0xAA */ u8 unkAA;
 } EggSnake; /* 0xAC */
 
+// static memory at 0x03005860
+typedef struct PlayerSpeedState {
+    /* 0x00 */ s32 qWorldX;
+    /* 0x04 */ s32 qWorldY;
+    /* 0x08 */ s16 qSpeedAirX;
+    /* 0x0A */ s16 qSpeedAirY;
+    /* 0x0C */ u32 moveState;
+} PlayerSpeedState;
+
+PlayerSpeedState sPlayerSpeedState; // TODO: static
+
 void Task_EggSnakeInit(void);
 void sub_803170C(void);
 void sub_8031D88(s16 worldX, s16 worldY);
@@ -82,10 +109,15 @@ void CreateProjectile(void); // TODO: static
 void sub_8033878(void);
 void Task_8033480(void);
 void Task_8033730(void);
+void Task_8033924(void);
+void Task_8034098(void); // : EggSnake_54
+void sub_80339BC(EggSnakeSegment *segment);
+void sub_8033AA0(void);
 void TaskDestructor_8034208(struct Task *t);
 void TaskDestructor_8034224(struct Task *t);
+void TaskDestructor_8034238(struct Task *t);
 
-s16 gUnknown_03005870[16];
+s16 gUnknown_03005870[9];
 extern const s16 gUnknown_084ACEE4[9];
 extern const s16 gUnknown_084ACEF6[9];
 extern const u16 gUnknown_084ACF08[10];
@@ -363,7 +395,7 @@ END_NONMATCH
 // (99.05%) https://decomp.me/scratch/wPkmW
 NONMATCH("asm/non_matching/game/enemies/boss_6__Task_8032370.inc", void Task_8032370())
 {
-    Strc60_EggSnake *strc60;
+    EggSnakeSegment *strc60;
     s16 temp_r2_3;
     s16 temp_r3_2;
     CamCoord worldX, worldY;
@@ -711,7 +743,7 @@ void sub_8032D44(void)
     s2 = &boss->s2;
     me = boss->base.me;
     if (--boss->unk98 == 0) {
-        Strc60_EggSnake *strc60 = TASK_DATA(boss->t);
+        EggSnakeSegment *strc60 = TASK_DATA(boss->t);
         strc60->unk58 = -1;
         gPlayer.moveState &= ~8;
         gCamera.maxY = 0x940;
@@ -1132,4 +1164,82 @@ void Task_8033730()
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
+}
+
+void sub_8033878()
+{
+    EggSnake *boss = TASK_DATA(gCurTask);
+    struct Task *t = TaskCreate(Task_8033924, sizeof(EggSnakeSegment), 0x2000U, 0U, TaskDestructor_8034238);
+    EggSnakeSegment *segment;
+    Sprite *s;
+    Sprite *s2;
+
+    boss->t = t;
+
+    segment = TASK_DATA(t);
+    s = &segment->s;
+
+    s->x = 0;
+    s->y = 0;
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_6_SEGMENT);
+    s->oamFlags = 0x5C0;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_BOSS_6_SEGMENT;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+}
+
+void Task_8033924()
+{
+    EggSnakeSegment *segment = TASK_DATA(gCurTask);
+    segment->unk54 = 0;
+    segment->unk57 = 0;
+    segment->unk55 = 0;
+    segment->unk56 = 0;
+    segment->unk58 = 0;
+
+    sPlayerSpeedState.qWorldX = gPlayer.qWorldX;
+    sPlayerSpeedState.qWorldY = gPlayer.qWorldY;
+    sPlayerSpeedState.qSpeedAirX = gPlayer.qSpeedAirX;
+    sPlayerSpeedState.qSpeedAirY = gPlayer.qSpeedAirY;
+    sPlayerSpeedState.moveState = gPlayer.moveState;
+
+    DmaFill16(3, 0, gUnknown_03005870, 0x12);
+    UpdateSpriteAnimation(&segment->s);
+    gCurTask->main = sub_8033AA0;
+    sub_80339BC(segment);
+}
+
+void sub_80339BC(EggSnakeSegment *segment)
+{
+    EggSnake_54 *strc;
+    u8 i;
+
+    EggSnake *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    MapEntity *me = boss->base.me;
+    Sprite *s = &segment->s;
+
+    for (i = 0; i < 9; i++) {
+        segment->tasks[i] = TaskCreate(Task_8034098, sizeof(EggSnake_54), (i + 0x2001), 0U, NULL);
+        strc = TASK_DATA(segment->tasks[i]);
+        strc->unk30 = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
+        strc->unk32 = TO_WORLD_POS(me->y, boss->base.regionY);
+        strc->unk38 = (i << 0xD) + 0xFFFF9000;
+        strc->unk3C = 0;
+        strc->unk40 = 0;
+        strc->unk44 = 0;
+        strc->unk48 = 0;
+        strc->unk52 = i;
+        strc->s.hitboxes[0].index = s->hitboxes[0].index;
+        strc->s.hitboxes[0].b.left = s->hitboxes[0].b.left;
+        strc->s.hitboxes[0].b.top = s->hitboxes[0].b.top;
+        strc->s.hitboxes[0].b.right = s->hitboxes[0].b.right;
+        strc->s.hitboxes[0].b.bottom = s->hitboxes[0].b.bottom;
+    }
 }

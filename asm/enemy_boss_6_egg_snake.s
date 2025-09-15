@@ -5,270 +5,8 @@
 .syntax unified
 .arm
 
-.if 0
+.if 01
 .endif
-
-    @ -> EggSnake *boss
-	thumb_func_start sub_8033878
-sub_8033878: @ 0x08033878
-	push {r4, r5, r6, lr}
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6}
-	sub sp, #4
-	ldr r0, _08033904 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r5, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r5, r5, r4
-	ldr r0, _08033908 @ =Task_8033924
-	movs r1, #0x80
-	lsls r1, r1, #6
-	mov sb, r1
-	ldr r1, _0803390C @ =TaskDestructor_8034238
-	str r1, [sp]
-	movs r1, #0x60
-	mov r2, sb
-	movs r3, #0
-	bl TaskCreate
-	str r0, [r5, #0x74]
-	ldrh r5, [r0, #6]
-	adds r4, r5, r4
-	movs r0, #0
-	mov r8, r0
-	movs r6, #0
-	strh r6, [r4, #0x16]
-	strh r6, [r4, #0x18]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [r4, #4]
-	movs r0, #0xb8
-	lsls r0, r0, #3
-	strh r0, [r4, #0x1a]
-	strh r6, [r4, #8]
-	ldr r0, _08033910 @ =0x00000293
-	strh r0, [r4, #0xa]
-	ldr r1, _08033914 @ =0x03000020
-	adds r0, r5, r1
-	mov r1, r8
-	strb r1, [r0]
-	strh r6, [r4, #0x14]
-	strh r6, [r4, #0x1c]
-	ldr r0, _08033918 @ =0x03000021
-	adds r1, r5, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	ldr r0, _0803391C @ =0x03000022
-	adds r1, r5, r0
-	movs r0, #0x10
-	strb r0, [r1]
-	ldr r1, _08033920 @ =0x03000025
-	adds r5, r5, r1
-	mov r0, r8
-	strb r0, [r5]
-	movs r0, #1
-	rsbs r0, r0, #0
-	str r0, [r4, #0x28]
-	mov r1, sb
-	str r1, [r4, #0x10]
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08033904: .4byte gCurTask
-_08033908: .4byte Task_8033924
-_0803390C: .4byte TaskDestructor_8034238
-_08033910: .4byte 0x00000293
-_08033914: .4byte 0x03000020
-_08033918: .4byte 0x03000021
-_0803391C: .4byte 0x03000022
-_08033920: .4byte 0x03000025
-
-    @ -> Strc60 (parent : boss)
-	thumb_func_start Task_8033924
-Task_8033924: @ 0x08033924
-	push {r4, r5, lr}
-	sub sp, #4
-	ldr r5, _08033998 @ =gCurTask
-	ldr r0, [r5]
-	ldrh r0, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r0, r4
-	ldr r2, _0803399C @ =0x03000054
-	adds r1, r0, r2
-	movs r3, #0
-	strb r3, [r1]
-	adds r2, #3
-	adds r1, r0, r2
-	strb r3, [r1]
-	subs r2, #2
-	adds r1, r0, r2
-	strb r3, [r1]
-	adds r2, #1
-	adds r1, r0, r2
-	strb r3, [r1]
-	ldr r1, _080339A0 @ =0x03000058
-	adds r0, r0, r1
-	strb r3, [r0]
-	ldr r2, _080339A4 @ =gUnknown_03005860
-	ldr r1, _080339A8 @ =gPlayer
-	ldr r0, [r1]
-	str r0, [r2]
-	ldr r0, [r1, #4]
-	str r0, [r2, #4]
-	ldrh r0, [r1, #8]
-	strh r0, [r2, #8]
-	ldrh r0, [r1, #0xa]
-	strh r0, [r2, #0xa]
-	ldr r0, [r1, #0x10]
-	str r0, [r2, #0xc]
-	mov r0, sp
-	strh r3, [r0]
-	ldr r1, _080339AC @ =0x040000D4
-	str r0, [r1]
-	ldr r0, _080339B0 @ =gUnknown_03005870
-	str r0, [r1, #4]
-	ldr r0, _080339B4 @ =0x81000009
-	str r0, [r1, #8]
-	ldr r0, [r1, #8]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	ldr r1, [r5]
-	ldr r0, _080339B8 @ =sub_8033AA0
-	str r0, [r1, #8]
-	adds r0, r4, #0
-	bl sub_80339BC
-	add sp, #4
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08033998: .4byte gCurTask
-_0803399C: .4byte 0x03000054
-_080339A0: .4byte 0x03000058
-_080339A4: .4byte gUnknown_03005860
-_080339A8: .4byte gPlayer
-_080339AC: .4byte 0x040000D4
-_080339B0: .4byte gUnknown_03005870
-_080339B4: .4byte 0x81000009
-_080339B8: .4byte sub_8033AA0
-
-	thumb_func_start sub_80339BC
-sub_80339BC: @ 0x080339BC
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	mov r8, r0
-	ldr r0, _08033A84 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r0, r0, r1
-	ldrh r0, [r0, #6]
-	adds r5, r0, r1
-	ldr r0, [r5]
-	mov sb, r0
-	mov r4, r8
-	movs r6, #0
-	movs r7, #0
-_080339E2:
-	ldr r1, _08033A88 @ =0x00002001
-	adds r2, r6, r1
-	str r7, [sp]
-	ldr r0, _08033A8C @ =Task_8034098
-	movs r1, #0x54
-	movs r3, #0
-	bl TaskCreate
-	lsls r2, r6, #2
-	mov r1, r8
-	adds r1, #0x30
-	adds r1, r1, r2
-	str r0, [r1]
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r2, r3, r0
-	ldrb r1, [r5, #8]
-	lsls r1, r1, #3
-	ldrh r0, [r5, #4]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	strh r1, [r2, #0x30]
-	mov r0, sb
-	ldrb r1, [r0, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r5, #6]
-	lsls r0, r0, #8
-	adds r1, r1, r0
-	strh r1, [r2, #0x32]
-	lsls r0, r6, #0xd
-	ldr r1, _08033A90 @ =0xFFFF9000
-	adds r0, r0, r1
-	str r0, [r2, #0x38]
-	str r7, [r2, #0x3c]
-	str r7, [r2, #0x40]
-	str r7, [r2, #0x44]
-	ldr r1, _08033A94 @ =0x03000048
-	adds r0, r3, r1
-	strh r7, [r0]
-	adds r1, #0xa
-	adds r0, r3, r1
-	strb r6, [r0]
-	ldr r0, [r4, #0x28]
-	str r0, [r2, #0x28]
-	adds r0, r4, #0
-	adds r0, #0x2c
-	ldrb r1, [r0]
-	ldr r2, _08033A98 @ =0x0300002C
-	adds r0, r3, r2
-	strb r1, [r0]
-	adds r0, r4, #0
-	adds r0, #0x2d
-	ldrb r1, [r0]
-	adds r2, #1
-	adds r0, r3, r2
-	strb r1, [r0]
-	adds r0, r4, #0
-	adds r0, #0x2e
-	ldrb r1, [r0]
-	adds r2, #1
-	adds r0, r3, r2
-	strb r1, [r0]
-	adds r0, r4, #0
-	adds r0, #0x2f
-	ldrb r0, [r0]
-	ldr r1, _08033A9C @ =0x0300002F
-	adds r3, r3, r1
-	strb r0, [r3]
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-	cmp r6, #8
-	bls _080339E2
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08033A84: .4byte gCurTask
-_08033A88: .4byte 0x00002001
-_08033A8C: .4byte Task_8034098
-_08033A90: .4byte 0xFFFF9000
-_08033A94: .4byte 0x03000048
-_08033A98: .4byte 0x0300002C
-_08033A9C: .4byte 0x0300002F
 
 	thumb_func_start sub_8033AA0
 sub_8033AA0: @ 0x08033AA0
@@ -409,7 +147,7 @@ _08033BB8: .4byte 0x03000054
 _08033BBC:
 	movs r6, #0x10
 _08033BBE:
-	ldr r1, _08033C38 @ =gUnknown_03005860
+	ldr r1, _08033C38 @ =sPlayerSpeedState
 	ldr r0, [r1, #0xc]
 	movs r2, #2
 	ands r0, r2
@@ -454,7 +192,7 @@ _08033BF8:
 _08033C10:
 	cmp r5, sb
 	bne _08033C44
-	ldr r2, _08033C38 @ =gUnknown_03005860
+	ldr r2, _08033C38 @ =sPlayerSpeedState
 	ldrh r1, [r2, #0xa]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x18
@@ -473,7 +211,7 @@ _08033C10:
 	strh r6, [r2]
 	b _08033C4C
 	.align 2, 0
-_08033C38: .4byte gUnknown_03005860
+_08033C38: .4byte sPlayerSpeedState
 _08033C3C: .4byte gUnknown_03005890
 _08033C40: .4byte gUnknown_03005870
 _08033C44:
@@ -979,7 +717,7 @@ _08033FF0:
 _08033FFA:
 	ldr r4, _08034088 @ =gPlayer
 	ldr r0, [r4]
-	ldr r5, _0803408C @ =gUnknown_03005860
+	ldr r5, _0803408C @ =sPlayerSpeedState
 	str r0, [r5]
 	ldr r0, [r4, #4]
 	str r0, [r5, #4]
@@ -1049,7 +787,7 @@ _08034072:
 	.align 2, 0
 _08034084: .4byte gUnknown_03005870
 _08034088: .4byte gPlayer
-_0803408C: .4byte gUnknown_03005860
+_0803408C: .4byte sPlayerSpeedState
 _08034090: .4byte gNumSingleplayerCharacters
 _08034094: .4byte gPartner
 
