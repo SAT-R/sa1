@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
@@ -36,6 +37,9 @@ void sub_8010CB4(void);
 void sub_8011104(void);
 void sub_801123C(void);
 void TaskDestructor_OptionsMenu(struct Task *t);
+
+extern void sub_8012F6C();
+extern void CreateEmptySaveGame(void);
 
 extern u16 gUnknown_086CC774[16];
 extern u8 gUnknown_086CC794[0xA0];
@@ -578,6 +582,102 @@ NONMATCH("asm/non_matching/game/options_menu__sub_8011104.inc", void sub_8011104
     }
 
     DisplaySprite(s);
+    sub_8010CB4();
+}
+END_NONMATCH
+
+// (95.79%) https://decomp.me/scratch/hyMET
+NONMATCH("asm/non_matching/game/options_menu__sub_801123C.inc", void sub_801123C())
+{
+    Sprite *sp0;
+    s32 sp4;
+    s32 sp8;
+    s32 spC;
+    u16 temp_r7;
+    u16 temp_sb;
+    u8 var_r0;
+    void (*var_r0_2)();
+    void *temp_r1;
+    void *temp_r1_2;
+
+    OptionsMenu *menu = TASK_DATA(gCurTask);
+
+    sp0 = &menu->s270;
+    if (0x20 & gRepeatedKeys) {
+        m4aSongNumStart(0x6CU);
+        menu->unk33F = 1;
+    } else if (0x10 & gRepeatedKeys) {
+        m4aSongNumStart(0x6CU);
+        menu->unk33F = 2;
+    }
+
+    gWinRegs[1] = *(winreg_t *)(((((LOADED_SAVE->uiLanguage * 2) - 1) + menu->unk33F) * 4) + ((u8 *)gUnknown_080BB38E + 0));
+    gWinRegs[3] = *(winreg_t *)(((((LOADED_SAVE->uiLanguage * 2) - 1) + menu->unk33F) * 4) + ((u8 *)gUnknown_080BB38E + 2));
+
+    if (2 & gPressedKeys) {
+        goto lbl;
+    } else {
+        if (1 & gPressedKeys) {
+            if (menu->unk33F != 1) {
+            lbl:
+                menu->unk33F = 2;
+                sp0->variant = gUnknown_080BB38A[LOADED_SAVE->uiLanguage];
+                sp0->prevVariant = -1;
+                UpdateSpriteAnimation(sp0);
+                m4aSongNumStart(0x6BU);
+                gCurTask->main = sub_8011104;
+            } else {
+                u16 prevIME, prevIE, prevDispstat;
+
+            block_10:
+                sp4 = (s32)LOADED_SAVE->uiLanguage;
+                m4aMPlayAllStop();
+                m4aSoundVSyncOff();
+
+                gFlags |= FLAGS_8000;
+
+                prevIE = REG_IE;
+                prevIME = REG_IME;
+                prevDispstat = REG_DISPSTAT;
+
+                REG_IE = 0;
+                REG_IE;
+                REG_IME = 0;
+                REG_IME;
+                REG_DISPSTAT = 0;
+                REG_DISPSTAT;
+
+                gFlags &= ~FLAGS_4;
+
+                SlowDmaStop(0);
+                SlowDmaStop(1);
+                SlowDmaStop(2);
+                SlowDmaStop(3);
+
+                sub_8012F6C();
+                REG_IE = prevIE;
+                REG_IE;
+                REG_IME = prevIME;
+                REG_IME;
+                REG_DISPSTAT = prevDispstat;
+                REG_DISPSTAT;
+
+                m4aSoundVSyncOn();
+                gFlags &= 0xFFFF7FFF;
+                m4aSongNumStart(0x6AU);
+                CreateEmptySaveGame();
+                LOADED_SAVE->uiLanguage = sp4;
+                gDispCnt &= 0x1FFF;
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldY = 0;
+                menu->unk33F = 0;
+                m4aSongNumStart(0xBU);
+                gCurTask->main = Task_OptionsMenuMain;
+            }
+        }
+    }
+
+    DisplaySprite(sp0);
     sub_8010CB4();
 }
 END_NONMATCH
