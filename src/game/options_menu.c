@@ -36,16 +36,15 @@ void sub_8010CB4(void);
 void sub_8011104(void);
 void TaskDestructor_OptionsMenu(struct Task *t);
 
-extern u16 gUnknown_080BB36C[2];
-extern u8 gUnknown_080BB370[8];
-extern AnimId gUnknown_080BB378[2];
-extern u8 gUnknown_080BB37C[2];
-extern u8 gUnknown_080BB37E[2];
-
 extern u16 gUnknown_086CC774[16];
 extern u8 gUnknown_086CC794[0xA0];
 extern u8 gUnknown_086CC834[0x500];
 
+const AnimId gUnknown_080BB36C[2] = { 866, 863 };
+const u8 gUnknown_080BB370[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+const AnimId gUnknown_080BB378[2] = { SA1_ANIM_OPTS_PLDAT_LANG_JP, SA1_ANIM_OPTS_PLDAT_LANG_EN };
+const u8 gUnknown_080BB37C[2] = { 11, 12 };
+const u8 gUnknown_080BB37E[2] = { 8, 9 };
 const u8 gUnknown_080BB380[2] = { 13, 14 };
 const u8 gUnknown_080BB382[8] = { 0x1A, 0x0C, 0x10, 0x18, 0x14, 0x1E, 0x24, 0x08 };
 const u8 gUnknown_080BB38A[4] = { 2, 0, 3, 1 };

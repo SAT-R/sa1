@@ -23,10 +23,6 @@ typedef struct TimeAttackMenu {
 
 void Task_TimeAttackMenu(void);
 
-extern const AnimId gUnknown_080BB35C[UILANG_COUNT];
-extern const u8 gUnknown_080BB360[][UILANG_COUNT];
-extern VoidFn gUnknown_080BB364[2];
-
 extern const u16 gUnknown_0869CAF4[0x100];
 extern const u8 gUnknown_0869CCF4[0x1C40];
 extern const u8 gUnknown_0869E934[0x500];
@@ -36,8 +32,14 @@ extern const u8 gUnknown_086A10F4[0x500];
 
 void Task_80103C4(void);
 void sub_8010580(void);
+void TimeAttack_CreateStartMenu(void);
+void TimeAttack_CreateRecordsMenu(void);
 
 extern void CreateCourseSelect(u8 param0);
+
+const AnimId gUnknown_080BB35C[UILANG_COUNT] = { 882, 881 };
+const u8 gUnknown_080BB360[2][UILANG_COUNT] = { { 1, 1 }, { 0, 0 } };
+const VoidFn gUnknown_080BB364[2] = { TimeAttack_CreateStartMenu, TimeAttack_CreateRecordsMenu };
 
 void CreateTimeAttackMenu(void)
 {

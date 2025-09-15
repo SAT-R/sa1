@@ -276,6 +276,7 @@ SECTIONS {
         src/game/title_screen.o(.rodata);
         src/game/sa1_sa2_shared/unused_level_select.o(.rodata);
         data/data_0_1_1.o(.rodata);
+        src/game/time_attack/menu.o(.rodata);
         src/game/options_menu.o(.rodata);
         src/game/player_data_menu.o(.rodata);
         src/game/sa1_sa2_shared/unused_flash_task.o(.rodata);
