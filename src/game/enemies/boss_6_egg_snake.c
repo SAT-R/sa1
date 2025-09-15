@@ -15,10 +15,12 @@
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 
-typedef struct EggSnake_54 {
+#define NUM_SEGMENTS 9
+
+typedef struct EggSnakeSegment {
     /* 0x00 */ Sprite s;
-    /* 0x30 */ s16 unk30;
-    /* 0x32 */ s16 unk32;
+    /* 0x30 */ u16 unk30;
+    /* 0x32 */ u16 unk32;
     /* 0x34 */ u8 filler34[0x4];
     /* 0x38 */ s32 unk38;
     /* 0x3C */ s32 unk3C;
@@ -27,19 +29,21 @@ typedef struct EggSnake_54 {
     /* 0x48 */ s16 unk48;
     /* 0x4A */ u8 filler4A[0x8];
     /* 0x52 */ u8 unk52;
-} EggSnake_54;
+} EggSnakeSegment;
 
-typedef struct EggSnakeSegment {
+typedef struct EggSnakeSegmentManager {
     /* 0x00 */ Sprite s;
-    /* 0x30 */ struct Task *tasks[9];
+    /* 0x30 */ struct Task *tasks[NUM_SEGMENTS];
     /* 0x54 */ u8 unk54;
     /* 0x55 */ u8 unk55;
     /* 0x56 */ u8 unk56;
     /* 0x57 */ u8 unk57;
     /* 0x58 */ u8 unk58;
-    u8 filler59[0x3];
+    /* 0x58 */ u8 unk59;
+    /* 0x58 */ s16 unk5A;
     s16 unk5C;
-} EggSnakeSegment; /* 0x60 */
+    s16 unk5E;
+} EggSnakeSegmentManager; /* 0x60 */
 
 typedef struct EggSnakeProjectile {
     /* 0x00 */ Sprite s;
@@ -59,7 +63,7 @@ typedef struct EggSnake {
     /* 0x0C */ Sprite s;
     /* 0x3C */ Hitbox reserved;
     /* 0x44 */ Sprite s2;
-    /* 0x74 */ struct Task *t; // EggSnakeSegment *
+    /* 0x74 */ struct Task *t; // EggSnakeSegmentManager *
     /* 0x78 */ s32 qUnk78;
     /* 0x7C */ s32 qUnk7C;
     /* 0x80 */ s32 unk80;
@@ -110,16 +114,17 @@ void sub_8033878(void);
 void Task_8033480(void);
 void Task_8033730(void);
 void Task_8033924(void);
-void Task_8034098(void); // : EggSnake_54
-void sub_80339BC(EggSnakeSegment *segment);
-void sub_8033AA0(void);
+void Task_8034098(void); // : EggSnakeSegment
+void sub_80339BC(EggSnakeSegmentManager *mgr);
+void Task_8033AA0(void);
 void TaskDestructor_8034208(struct Task *t);
 void TaskDestructor_8034224(struct Task *t);
 void TaskDestructor_8034238(struct Task *t);
 
-s16 gUnknown_03005870[9];
-extern const s16 gUnknown_084ACEE4[9];
-extern const s16 gUnknown_084ACEF6[9];
+s16 gUnknown_03005870[NUM_SEGMENTS];
+s16 gUnknown_03005890[NUM_SEGMENTS];
+extern const s16 gUnknown_084ACEE4[NUM_SEGMENTS];
+extern const s16 gUnknown_084ACEF6[NUM_SEGMENTS];
 extern const u16 gUnknown_084ACF08[10];
 
 static inline void sub_803424C_inline()
@@ -395,7 +400,7 @@ END_NONMATCH
 // (99.05%) https://decomp.me/scratch/wPkmW
 NONMATCH("asm/non_matching/game/enemies/boss_6__Task_8032370.inc", void Task_8032370())
 {
-    EggSnakeSegment *strc60;
+    EggSnakeSegmentManager *strc60;
     s16 temp_r2_3;
     s16 temp_r3_2;
     CamCoord worldX, worldY;
@@ -743,10 +748,10 @@ void sub_8032D44(void)
     s2 = &boss->s2;
     me = boss->base.me;
     if (--boss->unk98 == 0) {
-        EggSnakeSegment *strc60 = TASK_DATA(boss->t);
+        EggSnakeSegmentManager *strc60 = TASK_DATA(boss->t);
         strc60->unk58 = -1;
         gPlayer.moveState &= ~8;
-        gCamera.maxY = 0x940;
+        gCamera.maxY = 2208 + DISPLAY_HEIGHT;
         gMusicManagerState.unk1 = 0x33;
         boss->unk94 = TO_WORLD_POS(boss->base.meX, boss->base.regionX) + I(boss->qUnk78);
         boss->unk96 = TO_WORLD_POS(me->y, boss->base.regionY) + I(boss->qUnk7C);
@@ -921,7 +926,7 @@ void sub_8032F58(void)
                 gPlayer.heldInput = 0;
             }
 
-            if ((float)(worldX - gCamera.x) > 360.0f) {
+            if ((float)(worldX - gCamera.x) > (float)(DISPLAY_WIDTH + 120)) {
                 boss->unkA9++;
                 boss->unk98 = 0xB4;
                 CreateStageResults(gRingCount, gCourseTime);
@@ -1169,15 +1174,15 @@ void Task_8033730()
 void sub_8033878()
 {
     EggSnake *boss = TASK_DATA(gCurTask);
-    struct Task *t = TaskCreate(Task_8033924, sizeof(EggSnakeSegment), 0x2000U, 0U, TaskDestructor_8034238);
-    EggSnakeSegment *segment;
+    struct Task *t = TaskCreate(Task_8033924, sizeof(EggSnakeSegmentManager), 0x2000U, 0U, TaskDestructor_8034238);
+    EggSnakeSegmentManager *mgr;
     Sprite *s;
     Sprite *s2;
 
     boss->t = t;
 
-    segment = TASK_DATA(t);
-    s = &segment->s;
+    mgr = TASK_DATA(t);
+    s = &mgr->s;
 
     s->x = 0;
     s->y = 0;
@@ -1197,12 +1202,13 @@ void sub_8033878()
 
 void Task_8033924()
 {
-    EggSnakeSegment *segment = TASK_DATA(gCurTask);
-    segment->unk54 = 0;
-    segment->unk57 = 0;
-    segment->unk55 = 0;
-    segment->unk56 = 0;
-    segment->unk58 = 0;
+    EggSnakeSegmentManager *mgr = TASK_DATA(gCurTask);
+    Sprite *s = &mgr->s;
+    mgr->unk54 = 0;
+    mgr->unk57 = 0;
+    mgr->unk55 = 0;
+    mgr->unk56 = 0;
+    mgr->unk58 = 0;
 
     sPlayerSpeedState.qWorldX = gPlayer.qWorldX;
     sPlayerSpeedState.qWorldY = gPlayer.qWorldY;
@@ -1210,36 +1216,317 @@ void Task_8033924()
     sPlayerSpeedState.qSpeedAirY = gPlayer.qSpeedAirY;
     sPlayerSpeedState.moveState = gPlayer.moveState;
 
-    DmaFill16(3, 0, gUnknown_03005870, 0x12);
-    UpdateSpriteAnimation(&segment->s);
-    gCurTask->main = sub_8033AA0;
-    sub_80339BC(segment);
+    DmaFill16(3, 0, gUnknown_03005870, sizeof(gUnknown_03005870));
+    UpdateSpriteAnimation(s);
+    gCurTask->main = Task_8033AA0;
+    sub_80339BC(mgr);
 }
 
-void sub_80339BC(EggSnakeSegment *segment)
+void sub_80339BC(EggSnakeSegmentManager *mgr)
 {
-    EggSnake_54 *strc;
+    EggSnakeSegment *segment;
     u8 i;
 
     EggSnake *boss = TASK_DATA(TASK_PARENT(gCurTask));
     MapEntity *me = boss->base.me;
-    Sprite *s = &segment->s;
+    Sprite *s = &mgr->s;
 
-    for (i = 0; i < 9; i++) {
-        segment->tasks[i] = TaskCreate(Task_8034098, sizeof(EggSnake_54), (i + 0x2001), 0U, NULL);
-        strc = TASK_DATA(segment->tasks[i]);
-        strc->unk30 = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
-        strc->unk32 = TO_WORLD_POS(me->y, boss->base.regionY);
-        strc->unk38 = (i << 0xD) + 0xFFFF9000;
-        strc->unk3C = 0;
-        strc->unk40 = 0;
-        strc->unk44 = 0;
-        strc->unk48 = 0;
-        strc->unk52 = i;
-        strc->s.hitboxes[0].index = s->hitboxes[0].index;
-        strc->s.hitboxes[0].b.left = s->hitboxes[0].b.left;
-        strc->s.hitboxes[0].b.top = s->hitboxes[0].b.top;
-        strc->s.hitboxes[0].b.right = s->hitboxes[0].b.right;
-        strc->s.hitboxes[0].b.bottom = s->hitboxes[0].b.bottom;
+    for (i = 0; i < NUM_SEGMENTS; i++) {
+        mgr->tasks[i] = TaskCreate(Task_8034098, sizeof(EggSnakeSegment), (i + 0x2001), 0U, NULL);
+        segment = TASK_DATA(mgr->tasks[i]);
+        segment->unk30 = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
+        segment->unk32 = TO_WORLD_POS(me->y, boss->base.regionY);
+        segment->unk38 = (i << 0xD) + 0xFFFF9000;
+        segment->unk3C = 0;
+        segment->unk40 = 0;
+        segment->unk44 = 0;
+        segment->unk48 = 0;
+        segment->unk52 = i;
+        segment->s.hitboxes[0].index = s->hitboxes[0].index;
+        segment->s.hitboxes[0].b.left = s->hitboxes[0].b.left;
+        segment->s.hitboxes[0].b.top = s->hitboxes[0].b.top;
+        segment->s.hitboxes[0].b.right = s->hitboxes[0].b.right;
+        segment->s.hitboxes[0].b.bottom = s->hitboxes[0].b.bottom;
     }
 }
+
+// NOTE: Logic not accurate. When jumping onto segments, all speed gets lost -> softlock
+// (88.12%) https://decomp.me/scratch/qFcCe
+NONMATCH("asm/non_matching/game/enemies/boss_6__Task_8033AA0.inc", void Task_8033AA0(void))
+{
+    u8 sp0;
+    s32 sp4;
+    EggSnakeSegmentManager *mgr;
+    EggSnakeSegment *segment;
+    s16 *temp_r2_7;
+    s16 *temp_r4;
+    s16 temp_r0;
+    s16 temp_r1_13;
+    s16 temp_r1_7;
+    s16 temp_r2_2;
+    s16 var_r6;
+    Sprite *sprSegment;
+    s8 temp_r0_12;
+    s8 temp_r0_13;
+    s8 temp_r0_4;
+    s8 temp_r0_7;
+    s8 temp_r1_4;
+    s8 temp_r1_11;
+    u8 temp_r0_3;
+    u8 temp_r4_4;
+    u8 var_r1_2;
+    u8 var_r1_3;
+    s8 var_r3_2;
+    u8 i;
+    u8 standOnIndex;
+    CamCoord worldX, worldY;
+
+    standOnIndex = 0;
+    mgr = TASK_DATA(gCurTask);
+    sp0 = 0;
+
+    DmaCopy16(3, gUnknown_03005870, gUnknown_03005890, sizeof(gUnknown_03005890));
+    mgr->unk5E++;
+    if (mgr->unk58 == 0) {
+        for (i = 0; i < NUM_SEGMENTS; i++) {
+            segment = TASK_DATA(mgr->tasks[i]);
+            sprSegment = &segment->s;
+            worldX = (segment->unk30 + I(segment->unk38));
+            worldY = (segment->unk32 + I(segment->unk3C)) + gUnknown_03005870[i];
+            sprSegment->x = (worldX - gCamera.x);
+            sprSegment->y = (worldY - gCamera.y);
+            if (Coll_Player_PlatformCrumbling(sprSegment, worldX, worldY, &gPlayer)) {
+                sp0 = -1;
+                standOnIndex = i;
+                break;
+            }
+        }
+    } else if (!(gPlayer.moveState & (MOVESTATE_STOOD_ON_OBJ | MOVESTATE_IN_AIR))) {
+        TaskDestroy(gCurTask);
+#ifdef BUG_FIX
+        // TODO: Destruction may need to happen at the end of the function, depending on its behavior...
+        return;
+#endif
+    }
+
+    if (sp0 != 0) {
+        mgr->unk56 = standOnIndex;
+        if ((standOnIndex == 0) || (standOnIndex == 8)) {
+            var_r6 = 8;
+        } else {
+            var_r6 = 16;
+        }
+
+        if ((sPlayerSpeedState.moveState & 2) && (sPlayerSpeedState.qSpeedAirY > Q(4))) {
+            mgr->unk54 = 2;
+            mgr->unk55 = standOnIndex;
+            mgr->unk57 = 0xFF;
+
+            if (var_r6 != 8) {
+                var_r6 *= 2;
+            }
+
+            mgr->unk5A = var_r6;
+            for (i = 0; i < NUM_SEGMENTS; i++) {
+                if (i == standOnIndex) {
+                    mgr->unk5C = I(sPlayerSpeedState.qSpeedAirY);
+                    gUnknown_03005870[i] += mgr->unk5C;
+                    if (gUnknown_03005870[i] > var_r6) {
+                        gUnknown_03005870[i] = var_r6;
+                    }
+                } else {
+                    gUnknown_03005870[i] = 0;
+                }
+            }
+        } else if (mgr->unk54 == 2) {
+            s16 value;
+            gUnknown_03005870[standOnIndex] += mgr->unk5C;
+
+            if (gUnknown_03005870[standOnIndex] >= mgr->unk5A) {
+                gUnknown_03005870[standOnIndex] = mgr->unk5A;
+                mgr->unk5C = 1 - mgr->unk5C;
+                mgr->unk57 = 0;
+            }
+
+            if (gUnknown_03005870[standOnIndex] <= (mgr->unk5A / 2)) {
+                gUnknown_03005870[standOnIndex] = -(mgr->unk5A / 2);
+                mgr->unk54 = 1;
+            }
+
+            for (i = 0; i < NUM_SEGMENTS; i++) {
+                if (i != standOnIndex) {
+                    temp_r0_12 = standOnIndex - i;
+                    if (temp_r0_12 < 0) {
+                        temp_r0_12 = -temp_r0_12;
+                    }
+
+                    if (temp_r0_12 < 3) {
+                        s16 v = gUnknown_03005870[standOnIndex] - ((temp_r0_12 * gUnknown_03005870[standOnIndex]) / 3);
+                        gUnknown_03005870[i] = v;
+                    }
+                }
+            }
+
+            if (gUnknown_03005870[0] > 8) {
+                gUnknown_03005870[0] = 8;
+            }
+            if (gUnknown_03005870[8] > 8) {
+                gUnknown_03005870[8] = 8;
+            }
+        } else {
+            mgr->unk54 = 1;
+            if (gUnknown_03005870[standOnIndex] < 0) {
+                gUnknown_03005870[standOnIndex] += 2;
+            } else {
+                gUnknown_03005870[standOnIndex] += 1;
+            }
+            if (gUnknown_03005870[standOnIndex] > var_r6) {
+                gUnknown_03005870[standOnIndex] = var_r6;
+            }
+
+            for (i = 0; i < NUM_SEGMENTS; i++) {
+                if (i != standOnIndex) {
+                    var_r3_2 = (standOnIndex - i);
+                    if (var_r3_2 < 0) {
+                        var_r3_2 = -var_r3_2;
+                        standOnIndex = (8 - standOnIndex);
+                    }
+                    temp_r1_13 = gUnknown_03005870[standOnIndex] - ((gUnknown_03005870[standOnIndex] * var_r3_2) / (standOnIndex + 1));
+                    if (temp_r1_13 > gUnknown_03005870[i]) {
+                        gUnknown_03005870[i]++;
+                    }
+                    if (temp_r1_13 < gUnknown_03005870[i]) {
+                        gUnknown_03005870[i]--;
+                    }
+                }
+            }
+            if (gUnknown_03005870[0] > 8) {
+                gUnknown_03005870[0] = 8;
+            }
+            if (gUnknown_03005870[8] > 8) {
+                gUnknown_03005870[8] = 8;
+            }
+        }
+        gPlayer.qWorldY += Q(1) + Q(gUnknown_03005870[standOnIndex] - gUnknown_03005890[standOnIndex]);
+    } else {
+        if (mgr->unk54 == 2) {
+            gUnknown_03005870[mgr->unk55] += mgr->unk5C;
+            if (gUnknown_03005870[mgr->unk55] >= mgr->unk5A) {
+                gUnknown_03005870[mgr->unk55] = mgr->unk5A;
+                mgr->unk5C = 1 - mgr->unk5C;
+                mgr->unk57 = 0;
+            }
+
+            if (gUnknown_03005870[standOnIndex] <= (mgr->unk5A / 2)) {
+                gUnknown_03005870[standOnIndex] = -(mgr->unk5A / 2);
+                mgr->unk5C = 0;
+                mgr->unk54 = 0;
+            }
+
+            for (i = 0; i < NUM_SEGMENTS; i++) {
+                if (i != mgr->unk55) {
+                    temp_r0_4 = mgr->unk55 - i;
+                    if (temp_r0_4 < 0) {
+                        temp_r0_4 = -temp_r0_4;
+                    }
+
+                    if (temp_r0_4 < 3) {
+                        s16 v = gUnknown_03005870[mgr->unk55] - ((temp_r0_4 * gUnknown_03005870[mgr->unk55]) / 3);
+                        gUnknown_03005870[i] = v;
+                    }
+                }
+            }
+            if (gUnknown_03005870[0] > 8) {
+                gUnknown_03005870[0] = 8;
+            }
+            if (gUnknown_03005870[8] > 8) {
+                gUnknown_03005870[8] = 8;
+            }
+        } else {
+            mgr->unk54 = 0;
+
+            if (gUnknown_03005870[mgr->unk56] > 0) {
+                gUnknown_03005870[mgr->unk56]--;
+            }
+
+            if (gUnknown_03005870[mgr->unk56] < 0) {
+                gUnknown_03005870[mgr->unk56] += 2;
+                if (gUnknown_03005870[mgr->unk56] > 0) {
+                    gUnknown_03005870[mgr->unk56] = 0;
+                }
+            }
+
+            for (i = 0; i < NUM_SEGMENTS; i++) {
+                if (i != mgr->unk56) {
+                    temp_r0_7 = (mgr->unk56 - i);
+                    var_r1_2 = mgr->unk56;
+                    temp_r4_4 = var_r1_2;
+                    if (temp_r0_7 < 0) {
+                        temp_r0_7 = -temp_r0_7;
+                        var_r1_2 = (8 - var_r1_2);
+                    }
+                    temp_r1_7 = gUnknown_03005870[temp_r4_4]
+                        - ((gUnknown_03005870[temp_r4_4] * temp_r0_7) / (((var_r1_2 << 24) + (1 << 24)) >> 24));
+                    if (temp_r1_7 > gUnknown_03005870[i]) {
+                        gUnknown_03005870[i]++;
+                    }
+                    if (temp_r1_7 < gUnknown_03005870[i]) {
+                        gUnknown_03005870[i]--;
+                    }
+                    if (gUnknown_03005870[0] > 8) {
+                        gUnknown_03005870[0] = 8;
+                    }
+                    if (gUnknown_03005870[8] > 8) {
+                        gUnknown_03005870[8] = 8;
+                    }
+                }
+            }
+        }
+    }
+
+    sPlayerSpeedState.qWorldX = gPlayer.qWorldX;
+    sPlayerSpeedState.qWorldY = gPlayer.qWorldY;
+    sPlayerSpeedState.qSpeedAirX = gPlayer.qSpeedAirX;
+    sPlayerSpeedState.qSpeedAirY = gPlayer.qSpeedAirY;
+    sPlayerSpeedState.moveState = gPlayer.moveState;
+
+    if ((gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) && (mgr->unk58 == 0)) {
+        for (i = 0; i < NUM_SEGMENTS; i++) {
+            segment = TASK_DATA(mgr->tasks[i]);
+            sprSegment = &segment->s;
+            worldX = (I(segment->unk38) + segment->unk30);
+            worldY = I(segment->unk3C) + segment->unk32 + gUnknown_03005870[i];
+
+            if (Coll_Player_PlatformCrumbling(sprSegment, worldX, worldY, &gPartner)) {
+                break;
+            }
+        }
+    }
+}
+END_NONMATCH
+
+#if 0
+void Task_8034098(void)
+{
+
+}
+
+void TaskDestructor_8034208(struct Task *t)
+{
+    EggSnake *boss = TASK_DATA(t);
+    VramFree(boss->s.graphics.dest);
+    VramFree(boss->s2.graphics.dest);
+}
+
+void TaskDestructor_8034224(struct Task *t)
+{
+    EggSnakeProjectile *proj = TASK_DATA(t);
+    VramFree(proj->s.graphics.dest);
+}
+
+void TaskDestructor_8034238(struct Task *t)
+{
+    EggSnakeSegmentManager *mgr = TASK_DATA(t);
+    VramFree(mgr->s.graphics.dest);
+}
+#endif
