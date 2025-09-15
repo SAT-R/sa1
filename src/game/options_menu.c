@@ -48,6 +48,20 @@ extern u16 gUnknown_086CC774[16];
 extern u8 gUnknown_086CC794[0xA0];
 extern u8 gUnknown_086CC834[0x500];
 
+/* These functions get called when pressing A inside the options menu main screen */
+extern void OptionsSelectPlayerData(void);
+extern void OptionsSelectDifficulty(void);
+extern void OptionsSelectTimeUp(void);
+extern void OptionsSelectSoundTest(void);
+extern void OptionsSelectLanguage(void);
+extern void OptionsSelectButtonConfig(void);
+extern void OptionsSelectDeleteGameData(void);
+extern void OptionsSelectEnd(void);
+const VoidFn sOptionsSelectFuncs[] = {
+    OptionsSelectPlayerData, OptionsSelectDifficulty,   OptionsSelectTimeUp,         OptionsSelectSoundTest,
+    OptionsSelectLanguage,   OptionsSelectButtonConfig, OptionsSelectDeleteGameData, OptionsSelectEnd,
+};
+
 void CreateOptionsMenu()
 {
     Strc_80528AC sp4;

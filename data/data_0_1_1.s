@@ -68,15 +68,3 @@ gUnknown_080BB38A:
     .global gUnknown_080BB38E
 gUnknown_080BB38E:
     .incbin "baserom.gba", 0x000BB38E, 0x12
-
-@ These functions get called when pressing A inside the options menu main screen
-    .global sOptionsSelectFuncs
-sOptionsSelectFuncs:
-    mPtr OptionsSelectPlayerData
-    mPtr OptionsSelectDifficulty
-    mPtr OptionsSelectTimeUp
-    mPtr OptionsSelectSoundTest
-    mPtr OptionsSelectLanguage
-    mPtr OptionsSelectButtonConfig
-    mPtr OptionsSelectDeleteGameData
-    mPtr OptionsSelectEnd

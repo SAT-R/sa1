@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_OptionsMenuMain
 Task_OptionsMenuMain: @ 0x08010B6C
 	push {r4, r5, r6, lr}
@@ -165,6 +163,7 @@ _08010CAC:
 	pop {r0}
 	bx r0
 	.align 2, 0
+.endif
 
 	thumb_func_start sub_8010CB4
 sub_8010CB4: @ 0x08010CB4
