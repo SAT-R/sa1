@@ -34,6 +34,7 @@ typedef struct OptionsMenu {
 void Task_OptionsMenuMain(void);
 void sub_8010CB4(void);
 void sub_8011104(void);
+void sub_801123C(void);
 void TaskDestructor_OptionsMenu(struct Task *t);
 
 extern u16 gUnknown_086CC774[16];
@@ -530,3 +531,53 @@ void OptionsSelectDeleteGameData()
 
     gCurTask->main = sub_8011104;
 }
+
+// (92.33%) https://decomp.me/scratch/fr0p7
+NONMATCH("asm/non_matching/game/options_menu__sub_8011104.inc", void sub_8011104())
+{
+    Sprite *s;
+    u8 *temp_r4;
+    u8 var_r0;
+    s32 value;
+
+    OptionsMenu *menu = TASK_DATA(gCurTask);
+
+    s = &menu->s270;
+    if (DPAD_LEFT & gRepeatedKeys) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        menu->unk33F = 1;
+    } else if (0x10 & gRepeatedKeys) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        menu->unk33F = 2;
+    }
+
+    gWinRegs[WINREG_WIN1H] = gUnknown_080BB38E[(LOADED_SAVE->uiLanguage * 2 - 1) + menu->unk33F][0];
+    gWinRegs[WINREG_WIN1V] = gUnknown_080BB38E[(LOADED_SAVE->uiLanguage * 2 - 1) + menu->unk33F][1];
+
+    if (!(2 & gPressedKeys)) {
+        if (1 & gPressedKeys) {
+            if (menu->unk33F != 1) {
+            lbl:
+                gDispCnt &= 0x1FFF;
+                gBldRegs.bldCnt = 0;
+                gBldRegs.bldY = 0;
+                menu->unk33F = 0;
+                m4aSongNumStart(SE_RETURN);
+                gCurTask->main = Task_OptionsMenuMain;
+            } else {
+                s->variant = gUnknown_080BB38A[gLoadedSaveGame.uiLanguage + 2];
+                s->prevVariant = 0xFF;
+                UpdateSpriteAnimation(s);
+                menu->unk33F = 2;
+                m4aSongNumStart(SE_SELECT);
+                gCurTask->main = sub_801123C;
+            }
+        }
+    } else {
+        goto lbl;
+    }
+
+    DisplaySprite(s);
+    sub_8010CB4();
+}
+END_NONMATCH
