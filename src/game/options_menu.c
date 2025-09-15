@@ -33,6 +33,7 @@ typedef struct OptionsMenu {
 
 void Task_OptionsMenuMain(void);
 void sub_8010CB4(void);
+void sub_8011104(void);
 void TaskDestructor_OptionsMenu(struct Task *t);
 
 extern u16 gUnknown_080BB36C[2];
@@ -40,14 +41,21 @@ extern u8 gUnknown_080BB370[8];
 extern AnimId gUnknown_080BB378[2];
 extern u8 gUnknown_080BB37C[2];
 extern u8 gUnknown_080BB37E[2];
-extern u8 gUnknown_080BB380[2];
-extern u8 gUnknown_080BB382[8];
-extern u8 gUnknown_080BB38A[4];
-extern u8 gUnknown_080BB38E[0x12];
 
 extern u16 gUnknown_086CC774[16];
 extern u8 gUnknown_086CC794[0xA0];
 extern u8 gUnknown_086CC834[0x500];
+
+const u8 gUnknown_080BB380[2] = { 13, 14 };
+const u8 gUnknown_080BB382[8] = { 0x1A, 0x0C, 0x10, 0x18, 0x14, 0x1E, 0x24, 0x08 };
+const u8 gUnknown_080BB38A[4] = { 2, 0, 3, 1 };
+
+const winreg_t gUnknown_080BB38E[4][2] = {
+    { WIN_RANGE(80, 110), WIN_RANGE(86, 102) },
+    { WIN_RANGE(122, 158), WIN_RANGE(86, 102) },
+    { WIN_RANGE(83, 116), WIN_RANGE(86, 102) },
+    { WIN_RANGE(130, 156), WIN_RANGE(86, 102) },
+};
 
 /* These functions get called when pressing A inside the options menu main screen */
 extern void OptionsSelectPlayerData(void);
@@ -381,8 +389,8 @@ void sub_8010CB4()
     s->x = 220;
     s->y = 54;
     s->prevVariant = -1;
-    s->graphics.anim = gUnknown_080BB36C[gLoadedSaveGame.uiLanguage];
-    s->variant = gUnknown_080BB37C[gLoadedSaveGame.difficultyLevel];
+    s->graphics.anim = gUnknown_080BB36C[LOADED_SAVE->uiLanguage];
+    s->variant = gUnknown_080BB37C[LOADED_SAVE->difficultyLevel];
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
@@ -390,8 +398,8 @@ void sub_8010CB4()
     s->x = 220;
     s->y = 70;
     s->prevVariant = -1;
-    s->graphics.anim = gUnknown_080BB36C[gLoadedSaveGame.uiLanguage];
-    s->variant = gUnknown_080BB37E[gLoadedSaveGame.timeLimitDisabled];
+    s->graphics.anim = gUnknown_080BB36C[LOADED_SAVE->uiLanguage];
+    s->variant = gUnknown_080BB37E[LOADED_SAVE->timeLimitDisabled];
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
@@ -404,8 +412,8 @@ void sub_8010CB4()
     s->x = 220;
     s->y = 118;
     s->prevVariant = -1;
-    s->graphics.anim = gUnknown_080BB36C[gLoadedSaveGame.uiLanguage];
-    s->variant = gUnknown_080BB380[gLoadedSaveGame.btnConfig];
+    s->graphics.anim = gUnknown_080BB36C[LOADED_SAVE->uiLanguage];
+    s->variant = gUnknown_080BB380[LOADED_SAVE->btnConfig];
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 
@@ -499,4 +507,27 @@ void sub_8010FDC(void)
         m4aSongNumStart(SE_SELECT);
         gCurTask->main = Task_OptionsMenuMain;
     }
+}
+
+void OptionsSelectDeleteGameData()
+{
+    OptionsMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s = &menu->s270;
+
+    menu->unk33F = 2;
+    s->variant = gUnknown_080BB38A[LOADED_SAVE->uiLanguage];
+    s->prevVariant = -1;
+    UpdateSpriteAnimation(s);
+    sub_8010CB4();
+    gDispCnt |= 0x4000;
+
+    gBldRegs.bldCnt = 0x3FBF;
+    gBldRegs.bldAlpha = 0x10;
+    gBldRegs.bldY = 12;
+    gWinRegs[WINREG_WIN1H] = gUnknown_080BB38E[LOADED_SAVE->uiLanguage * 2 + 1][0];
+    gWinRegs[WINREG_WIN1V] = gUnknown_080BB38E[LOADED_SAVE->uiLanguage * 2 + 1][1];
+    gWinRegs[WINREG_WININ] = 0x3F00;
+    gWinRegs[WINREG_WINOUT] = 0x1F;
+
+    gCurTask->main = sub_8011104;
 }

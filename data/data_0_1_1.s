@@ -52,19 +52,6 @@ gUnknown_080BB37C:
     .global gUnknown_080BB37E
 gUnknown_080BB37E:
     .incbin "baserom.gba", 0x000BB37E, 0x2
-
-    .global gUnknown_080BB380
-gUnknown_080BB380:
-    .incbin "baserom.gba", 0x000BB380, 0x2
-
-    .global gUnknown_080BB382
-gUnknown_080BB382:
-    .incbin "baserom.gba", 0x000BB382, 0x8
-
-    .global gUnknown_080BB38A
-gUnknown_080BB38A:
-    .incbin "baserom.gba", 0x000BB38A, 0x4
-
-    .global gUnknown_080BB38E
-gUnknown_080BB38E:
-    .incbin "baserom.gba", 0x000BB38E, 0x12
+    
+.if 0
+.endif
