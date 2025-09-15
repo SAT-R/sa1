@@ -96,7 +96,6 @@ void sub_802E290(void) { }
 
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
-void CreateOptionsMenu() { }
 void CreateCongratulationsAnimation() { }
 void CreateStaffCredits() { }
 
@@ -123,11 +122,4 @@ void sub_8063918(void) { }
 
 void CreatePlayerNameInputMenu() { }
 void CreateVsRecord() { }
-void OptionsSelectPlayerData() { }
-void OptionsSelectDifficulty() { }
-void OptionsSelectTimeUp() { }
-void OptionsSelectSoundTest() { }
-void OptionsSelectLanguage() { }
-void OptionsSelectButtonConfig() { }
-void OptionsSelectDeleteGameData() { }
-void OptionsSelectEnd() { }
+void CreateSoundTest() { }

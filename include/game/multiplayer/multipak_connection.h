@@ -23,7 +23,7 @@ void MultiPakCommunicationError(void);
                         TasksDestroyAll();                                                                                                 \
                         PAUSE_BACKGROUNDS_QUEUE();                                                                                         \
                         gUnknown_03005390 = 0;                                                                                             \
-                        gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;                                                             \
+                        PAUSE_GRAPHICS_QUEUE();                                                                                            \
                         MultiPakCommunicationError();                                                                                      \
                         return;                                                                                                            \
                     }                                                                                                                      \

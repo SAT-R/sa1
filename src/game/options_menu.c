@@ -6,6 +6,7 @@
 #include "data/ui_graphics.h"
 #include "game/game_over.h"
 #include "game/gTask_03006240.h"
+#include "game/options_screen.h"
 #include "game/save.h"
 #include "game/stage/ui.h"
 #include "game/title_screen.h"
@@ -37,9 +38,12 @@ void Task_OptionsMenuMain(void);
 void sub_8010CB4(void);
 void sub_8011104(void);
 void sub_801123C(void);
+void sub_801176C(void);
 void TaskDestructor_OptionsMenu(struct Task *t);
 
 extern void sub_8012F6C();
+extern void CreatePlayerDataMenu(void);
+extern void CreateSoundTest(void);
 extern void CreateEmptySaveGame(void);
 
 extern u16 gUnknown_086CC774[16];
@@ -725,4 +729,91 @@ void sub_80114A0()
     gBldRegs.bldCnt = 0xFF;
     gBldRegs.bldY = 0;
     CreateMainMenu(1);
+}
+
+void TaskDestructor_OptionsMenu(struct Task *t)
+{
+    u8 i;
+
+    OptionsMenu *menu = TASK_DATA(t);
+
+    VramFree(menu->s0.graphics.dest);
+    for (i = 0; i < 8; i++) {
+        VramFree(menu->sprites30[i].graphics.dest);
+    }
+
+    VramFree(menu->s1B0.graphics.dest);
+    VramFree(menu->s1E0.graphics.dest);
+    VramFree(menu->s210.graphics.dest);
+    VramFree(menu->s240.graphics.dest);
+    VramFree(menu->s270.graphics.dest);
+    VramFree(menu->s2A0.graphics.dest);
+    VramFree(menu->s2D0.graphics.dest);
+    VramFree(menu->s300.graphics.dest);
+}
+
+void OptionsSelectPlayerData(void)
+{
+    TaskDestroy(gCurTask);
+    CreatePlayerDataMenu();
+}
+
+void OptionsSelectDifficulty(void)
+{
+    gCurTask->main = sub_8010E90;
+    sub_8010CB4();
+}
+
+void OptionsSelectTimeUp(void)
+{
+    gCurTask->main = sub_8010F00;
+    sub_8010CB4();
+}
+
+void OptionsSelectSoundTest(void)
+{
+    m4aSongNumStop(3U);
+    TaskDestroy(gCurTask);
+    CreateSoundTest();
+}
+
+void OptionsSelectLanguage(void)
+{
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
+    SA2_LABEL(gUnknown_03005390) = 0;
+    PAUSE_GRAPHICS_QUEUE();
+    CreateEditLanguageScreen(0U);
+}
+
+void OptionsSelectButtonConfig(void)
+{
+    gCurTask->main = sub_8010F70;
+    sub_8010CB4();
+}
+
+void OptionsSelectEnd(void)
+{
+    OptionsMenu *menu = TASK_DATA(gCurTask);
+    StrcUi_805423C *unk330 = &menu->unk330;
+
+    unk330->unk4 = 1;
+    unk330->unk6 = 0;
+    sub_805423C(unk330);
+
+    gCurTask->main = sub_801176C;
+    sub_8010CB4();
+}
+
+void sub_801176C(void)
+{
+    OptionsMenu *menu = TASK_DATA(gCurTask);
+    StrcUi_805423C *unk330 = &menu->unk330;
+
+    if (sub_805423C(unk330)) {
+        m4aMPlayAllStop();
+        m4aSoundVSyncOff();
+        gCurTask->main = sub_80114A0;
+    }
+    sub_8010CB4();
 }
