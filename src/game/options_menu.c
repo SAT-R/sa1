@@ -32,6 +32,7 @@ typedef struct OptionsMenu {
 } OptionsMenu; /* 0x344 */
 
 void Task_OptionsMenuMain(void);
+void sub_8010CB4(void);
 void TaskDestructor_OptionsMenu(struct Task *t);
 
 extern u16 gUnknown_080BB36C[2];
@@ -189,7 +190,7 @@ void CreateOptionsMenu()
     s->oamFlags = SPRITE_OAM_ORDER(15);
     s->graphics.size = 0;
     s->graphics.anim = gUnknown_080BB36C[LOADED_SAVE->uiLanguage];
-    s->variant = gUnknown_080BB380[LOADED_SAVE->unk1C];
+    s->variant = gUnknown_080BB380[LOADED_SAVE->btnConfig];
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
@@ -285,4 +286,217 @@ void CreateOptionsMenu()
     sub_805423C(temp_r0_4);
 
     m4aSongNumStart(MUS_OPTIONS);
+}
+
+void Task_OptionsMenuMain()
+{
+    StrcUi_805423C *strc;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    u8 *temp_r1;
+    u8 *temp_r1_2;
+    u8 *temp_r2;
+    u8 temp_r0_3;
+    u8 temp_r0_4;
+    u8 var_r0;
+    u8 var_r0_2;
+
+    OptionsMenu *menu = TASK_DATA(gCurTask);
+
+    strc = &menu->unk330;
+    menu->unk33F = 0;
+    gBgScrollRegs[0][0] = 0;
+    if (sub_805423C(strc) != 0) {
+        if (strc->unk4 == 2) {
+            if (DPAD_UP & gRepeatedKeys) {
+                m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+                if (--menu->unk33E > 7U) {
+                    menu->unk33E = 7;
+                }
+            } else if (DPAD_DOWN & gRepeatedKeys) {
+                m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+                if (++menu->unk33E > 7) {
+                    menu->unk33E = 0;
+                }
+            }
+
+            if (A_BUTTON & gPressedKeys) {
+                m4aSongNumStart(SE_SELECT);
+
+                if ((menu->unk33E == 0) || (menu->unk33E == 3) || (menu->unk33E == 4)) {
+                    strc->unk4 = 1;
+                    strc->unk6 = 0;
+                } else {
+                    menu->unk33F = 1;
+                    sOptionsSelectFuncs[menu->unk33E]();
+                    return;
+                }
+            } else if (B_BUTTON & gPressedKeys) {
+                m4aSongNumStart(SE_RETURN);
+                OptionsSelectEnd();
+                return;
+            }
+        } else if ((menu->unk33E == 0) || (menu->unk33E == 3) || (menu->unk33E == 4)) {
+            menu->unk33F = 1;
+            sOptionsSelectFuncs[menu->unk33E]();
+            return;
+        }
+    }
+
+    sub_8010CB4();
+}
+
+void sub_8010CB4()
+{
+    s16 var_r0;
+    u8 i;
+
+    OptionsMenu *menu = TASK_DATA(gCurTask);
+    Sprite *s = &menu->s0;
+
+    s->x = 9;
+    s->y = (menu->unk33E * 16) + 28;
+    DisplaySprite(s);
+
+    for (i = 0; i < 8; i++) {
+        s = &menu->sprites30[i];
+        if (menu->unk33E == i) {
+            if (menu->unk33F != 0) {
+                s->palId = 1;
+            } else {
+                s->palId = 0;
+            }
+            s->x = 30;
+            s->y = (i * 16) + 38;
+        } else {
+            s->x = 25;
+            s->y = (i * 16) + 38;
+        }
+        DisplaySprite(s);
+    }
+
+    s = &menu->s1B0;
+    s->x = 220;
+    s->y = 54;
+    s->prevVariant = -1;
+    s->graphics.anim = gUnknown_080BB36C[gLoadedSaveGame.uiLanguage];
+    s->variant = gUnknown_080BB37C[gLoadedSaveGame.difficultyLevel];
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &menu->s1E0;
+    s->x = 220;
+    s->y = 70;
+    s->prevVariant = -1;
+    s->graphics.anim = gUnknown_080BB36C[gLoadedSaveGame.uiLanguage];
+    s->variant = gUnknown_080BB37E[gLoadedSaveGame.timeLimitDisabled];
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &menu->s210;
+    s->x = 220;
+    s->y = 102;
+    DisplaySprite(s);
+
+    s = &menu->s240;
+    s->x = 220;
+    s->y = 118;
+    s->prevVariant = -1;
+    s->graphics.anim = gUnknown_080BB36C[gLoadedSaveGame.uiLanguage];
+    s->variant = gUnknown_080BB380[gLoadedSaveGame.btnConfig];
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &menu->s2A0;
+
+    for (i = 0; i < 8; i++) {
+        s->x = i * 32;
+        s->y = 15;
+        DisplaySprite(s);
+    }
+
+    s = &menu->s2D0;
+    if (++menu->unk33C >= 100) {
+        menu->unk33C -= 100;
+    }
+
+    for (i = 0; i < 4; i++) {
+        s->x = (100 * i) - menu->unk33C;
+        s->y = 17;
+        DisplaySprite(s);
+    }
+}
+
+void sub_8010E90(void)
+{
+    if (gRepeatedKeys & DPAD_LEFT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->difficultyLevel = DIFFICULTY_EASY;
+    } else if (gRepeatedKeys & DPAD_RIGHT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->difficultyLevel = DIFFICULTY_NORMAL;
+    }
+
+    sub_8010CB4();
+
+    if (gPressedKeys & (A_BUTTON | B_BUTTON)) {
+        m4aSongNumStart(SE_SELECT);
+        gCurTask->main = Task_OptionsMenuMain;
+    }
+}
+
+void sub_8010F00(void)
+{
+    if (gRepeatedKeys & DPAD_LEFT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->timeLimitDisabled = 1;
+    } else if (gRepeatedKeys & DPAD_RIGHT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->timeLimitDisabled = 0;
+    }
+
+    sub_8010CB4();
+
+    if (gPressedKeys & (A_BUTTON | B_BUTTON)) {
+        m4aSongNumStart(SE_SELECT);
+        gCurTask->main = Task_OptionsMenuMain;
+    }
+}
+
+void sub_8010F70(void)
+{
+    if (gRepeatedKeys & DPAD_LEFT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->btnConfig = BTNCONFIG_NORMAL;
+    } else if (gRepeatedKeys & DPAD_RIGHT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->btnConfig = BTNCONFIG_REVERSE;
+    }
+
+    sub_8010CB4();
+
+    if (gPressedKeys & (A_BUTTON | B_BUTTON)) {
+        m4aSongNumStart(SE_SELECT);
+        gCurTask->main = Task_OptionsMenuMain;
+    }
+}
+
+void sub_8010FDC(void)
+{
+    if (gRepeatedKeys & DPAD_LEFT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->uiLanguage = UILANG_ENGLISH;
+    } else if (gRepeatedKeys & DPAD_RIGHT) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        LOADED_SAVE->uiLanguage = UILANG_JAPANESE;
+    }
+
+    sub_8010CB4();
+
+    if (gPressedKeys & (A_BUTTON | B_BUTTON)) {
+        m4aSongNumStart(SE_SELECT);
+        gCurTask->main = Task_OptionsMenuMain;
+    }
 }

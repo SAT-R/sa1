@@ -187,9 +187,9 @@ void CreateEmptySaveGame(void)
 
     DmaFill32(3, MAX_COURSE_TIME, &gLoadedSaveGame.timeRecords, sizeof(gLoadedSaveGame.timeRecords));
 
-    gLoadedSaveGame.uiLanguage = UILANG_DEFAULT;
-    gLoadedSaveGame.language = LANG_JAPANESE;
-    gLoadedSaveGame.timeLimitDisabled = 0;
-    gLoadedSaveGame.unk1C = 0;
-    gLoadedSaveGame.score = 0;
+    LOADED_SAVE->uiLanguage = UILANG_DEFAULT;
+    LOADED_SAVE->language = LANG_JAPANESE;
+    LOADED_SAVE->timeLimitDisabled = 0;
+    LOADED_SAVE->btnConfig = BTNCONFIG_NORMAL;
+    LOADED_SAVE->score = 0;
 }

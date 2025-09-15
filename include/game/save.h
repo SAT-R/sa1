@@ -41,6 +41,9 @@ struct MultiplayerScore {
 
 #define NUM_TIME_RECORD_ROWS (NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE * NUM_CHARACTERS * TIME_RECORDS_PER_COURSE)
 
+#define BTNCONFIG_NORMAL  0
+#define BTNCONFIG_REVERSE 1
+
 typedef struct SaveGame {
     /* 0x000 */ u32 security; // Save Sector Magic Number
     /* 0x004 */ s32 unk4;
@@ -52,7 +55,7 @@ typedef struct SaveGame {
     /* 0x019 */ u8 uiLanguage;
     /* 0x01A */ u8 language;
     /* 0x01B */ u8 timeLimitDisabled;
-    /* 0x01C */ u8 unk1C;
+    /* 0x01C */ u8 btnConfig;
     /* 0x01D */ u8 unk1D;
     /* 0x020 */ struct TimeRecords timeRecords;
     /* 0x2AC */ struct MultiplayerScore multiplayerScores[NUM_MULTIPLAYER_SCORES];

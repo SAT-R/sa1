@@ -457,7 +457,7 @@ void Task_GameStage(void)
             gStageFlags |= STAGE_FLAG__ACT_START;
 
 #if (GAME == GAME_SA1)
-            if (gLoadedSaveGame.timeLimitDisabled) {
+            if (LOADED_SAVE->timeLimitDisabled) {
                 return;
             }
 #elif (GAME == GAME_SA2)
@@ -498,7 +498,7 @@ void Task_GameStage(void)
             gStageFlags |= STAGE_FLAG__ACT_START;
 
 #if (GAME == GAME_SA1)
-            if (gLoadedSaveGame.timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
+            if (LOADED_SAVE->timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
                 return;
             }
 #elif (GAME == GAME_SA2)
@@ -588,9 +588,9 @@ void HandleDeath(void)
             SA2_LABEL(gUnknown_0300543C)--;
             CreateGameOverScreen(OVER_CAUSE_ZERO_LIVES);
         } else {
-            s32 score = (gLevelScore < gLoadedSaveGame.unk420) ? gLoadedSaveGame.unk420 : gLevelScore;
+            s32 score = (gLevelScore < LOADED_SAVE->unk420) ? LOADED_SAVE->unk420 : gLevelScore;
 
-            gLoadedSaveGame.unk420 = score;
+            LOADED_SAVE->unk420 = score;
 
             CreateGameOverScreen(OVER_CAUSE_TIME_UP);
         }
@@ -778,11 +778,11 @@ void ApplyGameStageSettings(void)
 
     if ((gGameMode == GAME_MODE_TIME_ATTACK || (gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_MULTI_PLAYER))
         || (gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {
-        gDifficultyLevel = gLoadedSaveGame.difficultyLevel;
-        gLoadedSaveGame.difficultyLevel = DIFFICULTY_NORMAL;
+        gDifficultyLevel = LOADED_SAVE->difficultyLevel;
+        LOADED_SAVE->difficultyLevel = DIFFICULTY_NORMAL;
     }
 
-    SetFaceButtonConfig(gLoadedSaveGame.unk1C);
+    SetFaceButtonConfig(LOADED_SAVE->btnConfig);
     GameStageStart();
 }
 
@@ -807,7 +807,7 @@ void TaskDestructor_GameStage(struct Task *t)
 #if (GAME == GAME_SA1)
     if ((gGameMode == GAME_MODE_TIME_ATTACK || (gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_MULTI_PLAYER))
         || (gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {
-        gLoadedSaveGame.difficultyLevel = gDifficultyLevel;
+        LOADED_SAVE->difficultyLevel = gDifficultyLevel;
     }
 #endif
     gGameStageTask = NULL;
