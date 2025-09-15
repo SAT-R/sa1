@@ -1505,10 +1505,57 @@ NONMATCH("asm/non_matching/game/enemies/boss_6__Task_8033AA0.inc", void Task_803
 }
 END_NONMATCH
 
-#if 0
 void Task_8034098(void)
 {
+    s16 *sp0;
+    EggSnakeSegmentManager *mgr;
+    EggSnakeSegment *segment;
+    const SpriteOffset *dimensions;
+    Sprite *s;
+    OamData *oamData;
+    OamData *oamAllocated;
+    s32 temp_r2;
+    u16 temp_r2_2;
+    u16 temp_r3_2;
+    s16 worldX, worldY;
+    u8 temp_r3;
 
+    segment = TASK_DATA(gCurTask);
+    mgr = TASK_DATA(TASK_PARENT(gCurTask));
+    s = &mgr->s;
+    dimensions = s->dimensions;
+    worldX = (I(segment->unk38) + segment->unk30);
+    worldY = (I(segment->unk3C) + segment->unk32) + gUnknown_03005870[segment->unk52];
+
+    if (((float)(worldY - gCamera.y) < (float)-240)) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if ((mgr->unk58 == 0) || !(1 & mgr->unk5E)) {
+        if ((segment->unk52 == 0) || (s->oamBaseIndex == 0xFF)) {
+            s->oamBaseIndex = -1;
+            s->x = worldX - gCamera.x;
+            s->y = worldY - gCamera.y;
+            DisplaySprite(s);
+        } else {
+            oamData = &gOamBuffer2[s->oamBaseIndex];
+            oamAllocated = OamMalloc((0x7C0 & s->oamFlags) >> 6);
+
+            if (iwram_end != oamAllocated) {
+                DmaCopy16(3, oamData, oamAllocated, sizeof(OamDataShort));
+#ifndef EXTENDED_OAM
+                oamAllocated->all.attr1 &= ~0x1FF; // x = 0
+                oamAllocated->all.attr0 &= ~0xFF; // y = 0
+                oamAllocated->all.attr0 += (((worldY - gCamera.y) - dimensions->offsetY) & 0xFF);
+                oamAllocated->all.attr1 += (((worldX - gCamera.x) - dimensions->offsetX) & 0x1FF);
+#else
+                oamAllocated->split.y = (worldY - gCamera.y) - dimensions->offsetY;
+                oamAllocated->split.x = (worldX - gCamera.x) - dimensions->offsetX;
+#endif
+            }
+        }
+    }
 }
 
 void TaskDestructor_8034208(struct Task *t)
@@ -1529,4 +1576,15 @@ void TaskDestructor_8034238(struct Task *t)
     EggSnakeSegmentManager *mgr = TASK_DATA(t);
     VramFree(mgr->s.graphics.dest);
 }
-#endif
+
+void sub_803424C() { sub_803424C_inline(); }
+
+void sub_803426C(CamCoord worldX, CamCoord worldY)
+{
+    EggSnake *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    MapEntity *me = boss->base.me;
+
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+}
