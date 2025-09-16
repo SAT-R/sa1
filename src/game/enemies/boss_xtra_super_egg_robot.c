@@ -26,43 +26,10 @@ void sub_8052468(SuperEggRobo *boss);
 
 void Task_SuperEggRobotInit()
 {
-    SuperEggRobo **var_r3_3;
-    SuperEggRobo *temp_r0_11;
-    s16 *temp_r0_2;
-    s16 *temp_r0_5;
-    s16 *temp_r0_7;
-    s16 *temp_r1_4;
-    s16 *temp_r1_5;
-    s16 *temp_r1_6;
-    s16 *temp_r1_7;
-    s16 *temp_r2;
-    s16 *temp_r2_2;
-    s16 *temp_r3;
-    s16 *temp_r5;
-    s16 temp_r0_4;
-    s16 temp_r0_6;
-    s16 temp_r0_8;
-    s16 temp_r3_2;
-    s16 var_r2;
-    s32 temp_r0_9;
-    s32 var_r1_2;
-    s32 var_r3;
-    s32 var_r3_2;
-    s8 *temp_r0;
-    s8 temp_r1_2;
-    u16 temp_r0_3;
-    u16 temp_r1_3;
-    u16 temp_r1_8;
-    u32 temp_r1;
-    u8 *temp_r0_10;
-    u8 *temp_r1_9;
-    u8 *var_r1;
-
     SuperEggRobo *boss = TASK_DATA(gCurTask);
 
-    temp_r1 = boss->flags58;
-    if (!(0x400000 & temp_r1)) {
-        if (temp_r1 & 2) {
+    if (!(boss->flags58 & SER_FLAG__400000)) {
+        if (boss->flags58 & SER_FLAG__2) {
             sub_8052424(boss);
             sub_8052468(boss);
             sub_80523F8(boss);
@@ -73,34 +40,38 @@ void Task_SuperEggRobotInit()
     }
 
     switch (boss->unk6E) {
-        case 2:
-            if (!(boss->flags58 & 2)) {
+        case 2: {
+            if (!(boss->flags58 & SER_FLAG__2)) {
                 boss->unk6F++;
             }
-            break;
-        case 3:
+        } break;
+
+        case 3: {
             if (boss->qUnk54++ >= 60) {
                 boss->unk6F++;
             }
-            break;
-        case 9:
+        } break;
+
+        case 9: {
             if (boss->qUnk54++ >= 300) {
                 boss->qUnk56 = 0;
                 boss->unk6F++;
             }
-            break;
+        } break;
+
         case 4:
         case 5:
         case 6:
         case 7:
         case 8:
         case 10:
-        case 11:
+        case 11: {
             if (boss->unk5C != 0) {
                 boss->unk6F++;
             }
-            break;
-        case 12:
+        } break;
+
+        case 12: {
             if (boss->unk5C == 0) {
 
             } else {
@@ -110,18 +81,20 @@ void Task_SuperEggRobotInit()
                     boss->unk6F = 3;
                 }
             }
-            break;
-        case 0:
-            if (boss->qUnk44 < 0x1A000) {
-                boss->qUnk48 = -0x8000;
+        } break;
+
+        case 0: {
+            if (boss->qUnk44 < Q(416)) {
+                boss->qUnk48 = -Q(128);
                 boss->qUnk4E = 0;
-                boss->qUnk4C = 0x400;
+                boss->qUnk4C = Q(4);
             } else {
                 boss->qUnk50 = -0x10;
                 boss->unk6F = 1;
             }
-            break;
-        case 1:
+        } break;
+
+        case 1: {
             if (boss->qUnk44 < Q(416)) {
                 boss->qUnk50 = 0;
                 boss->qUnk4C = 0;
@@ -130,14 +103,16 @@ void Task_SuperEggRobotInit()
             } else {
                 boss->qUnk4C = MAX(-Q(2), boss->qUnk4C);
             }
-            break;
-        case 13:
+        } break;
+
+        case 13: {
             if (boss->unk5C != 0) {
                 boss->unk6F = 0xE;
             }
-            break;
-        case 14:
-            if (!(boss->flags58 & 2)) {
+        } break;
+
+        case 14: {
+            if (!(boss->flags58 & SER_FLAG__2)) {
                 boss->qUnk50 = -0x10;
                 if (boss->qUnk4C < -Q(6)) {
                     boss->qUnk4C = -Q(6);
@@ -147,36 +122,35 @@ void Task_SuperEggRobotInit()
                     boss->qUnk4C = 0;
                 }
             }
-            break;
-        default:
+        } break;
+
+        default: {
             boss->qUnk4C = 0;
             boss->qUnk50 = 0;
-            break;
+        } break;
     }
-
     if (boss->flags58 & SER_FLAG__80) {
-        var_r3 = boss->qUnk54 - (DISPLAY_WIDTH / 2);
-        if (var_r3 < 0) {
-            var_r3 = 0;
+        s32 fade = boss->qUnk54 - 120;
+        if (fade < 0) {
+            fade = 0;
         }
-
-        var_r3 >>= 2;
-        if (var_r3 > 0x10) {
-            var_r3 = 0x10;
+        fade >>= 2;
+        if (fade > 0x10) {
+            fade = 0x10;
         }
 
         if (boss->unk69 == 0) {
             gDispCnt &= 0x7FFF;
             gWinRegs[WINREG_WINOUT] = 0x3F3F;
             gBldRegs.bldCnt = 0xBF;
-            gBldRegs.bldY = var_r3;
+            gBldRegs.bldY = fade;
         }
 
-        if (var_r3 == 0x10) {
-            TasksDestroyInPriorityRange(0U, 0xFFFFU);
-            gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-            sa2__gUnknown_03005390 = 0;
-            gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+        if (fade == 0x10) {
+            TasksDestroyAll();
+            PAUSE_BACKGROUNDS_QUEUE();
+            SA2_LABEL(gUnknown_03005390) = 0;
+            PAUSE_GRAPHICS_QUEUE();
             CreateExtraStageResults();
             return;
         }
@@ -193,8 +167,9 @@ void Task_SuperEggRobotInit()
     }
 
     if (boss->unk6E != boss->unk6F) {
-        for (var_r1_2 = 0; var_r1_2 < (s32)ARRAY_COUNT(gExtraBossTaskData.parts); var_r1_2++) {
-            SomeTaskManager_7C *parts = gExtraBossTaskData.parts[var_r1_2];
+        s32 i;
+        for (i = 0; i < (s32)ARRAY_COUNT(gExtraBossTaskData.parts); i++) {
+            SomeTaskManager_7C *parts = gExtraBossTaskData.parts[i];
             parts->unk0.unk2 = 0;
             parts->unk0.unk4 = 0;
         }

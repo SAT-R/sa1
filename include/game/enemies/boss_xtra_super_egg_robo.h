@@ -6,6 +6,7 @@
 #include "game/some_task_manager.h"
 
 /* Used in SuperEggRobo.unk58 */
+#define SER_FLAG__2      0x2
 #define SER_FLAG__80     0x80
 #define SER_FLAG__400000 0x400000
 
