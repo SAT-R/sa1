@@ -8090,7 +8090,7 @@ void Player_Amy_8049854(Player *p)
 }
 
 /* Start of Super Sonic ? */
-#include "game/enemies/boss_super_egg_robo.h"
+#include "game/enemies/boss_xtra_super_egg_robo.h"
 
 #define CAPSULE_STATE__CAPTURED  +1
 #define CAPSULE_STATE__MOVING    0
@@ -8166,10 +8166,10 @@ void Player_SuperSonic_80499CC(Player *p)
 {
     if (!(gStageFlags & STAGE_FLAG__ACT_START)) {
 #ifdef BUG_FIX
-        if (gExtraBossTaskData)
+        if (gExtraBossTaskData.boss)
 #endif
         {
-            if (!(gExtraBossTaskData->flags58 & SER_FLAG__80)) {
+            if (!(gExtraBossTaskData.boss->flags58 & SER_FLAG__80)) {
                 if (++p->timerSpeedup >= GBA_FRAMES_PER_SECOND) {
                     p->timerSpeedup -= GBA_FRAMES_PER_SECOND;
 
@@ -9090,10 +9090,10 @@ void Task_804A71C(void)
 
     if ((mgr->unk4 == 0x80) && (mgr->unk0 == 0)) {
 #ifdef BUG_FIX
-        if (gExtraBossTaskData)
+        if (gExtraBossTaskData.boss)
 #endif
         {
-            gExtraBossTaskData->flags58 &= ~0x400000;
+            gExtraBossTaskData.boss->flags58 &= ~0x400000;
         }
     }
 
@@ -9245,7 +9245,7 @@ void Task_804AAC4(void)
     SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
     Sprite *s = &mgr->unk0.s;
     SpriteTransform *transform = &mgr->unk0.transform;
-    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    SuperEggRobo *extraBoss = gExtraBossTaskData.boss;
     Player *p = &gPlayer;
     Camera *cam = &gCamera;
     s32 screenX, screenY;
@@ -9330,7 +9330,7 @@ void Task_804AD0C(void)
 {
     SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
     Sprite *s = &mgr->unk0.s;
-    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    SuperEggRobo *extraBoss = gExtraBossTaskData.boss;
     Player *p = &gPlayer;
     Camera *cam = &gCamera;
     s32 screenX, screenY;
@@ -9615,7 +9615,7 @@ void Task_804B370(void)
 {
     SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
     Sprite *s = &mgr->unk0.s;
-    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    SuperEggRobo *extraBoss = gExtraBossTaskData.boss;
     Player *p = &gPlayer;
     Camera *cam = &gCamera;
     s32 screenX, screenY;
@@ -9651,7 +9651,7 @@ void Task_804B420(void)
 {
     SomeTaskManager_7C *mgr = TASK_DATA(gCurTask);
     Sprite *s = &mgr->unk0.s;
-    SuperEggRobo *extraBoss = gExtraBossTaskData;
+    SuperEggRobo *extraBoss = gExtraBossTaskData.boss;
     Player *p = &gPlayer;
     Camera *cam = &gCamera;
     s32 scrollX;

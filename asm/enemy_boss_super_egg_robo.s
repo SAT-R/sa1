@@ -10,6 +10,7 @@ gUnknown_084AE560:
 .syntax unified
 .arm
 
+.if 0
 	thumb_func_start Task_SuperEggRobotInit
 Task_SuperEggRobotInit: @ 0x0804FE54
 	push {r4, r5, r6, r7, lr}
@@ -418,6 +419,7 @@ _08050182:
 _08050188: .4byte 0xFFFFEB00
 _0805018C: .4byte 0xFFFFF600
 _08050190: .4byte gExtraBossTaskData
+.endif
 
 	thumb_func_start sub_8050194
 sub_8050194: @ 0x08050194
