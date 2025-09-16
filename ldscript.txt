@@ -308,7 +308,7 @@ SECTIONS {
         src/game/stage/terrain_collision.o(.rodata);
         data/data_0_4.o(.rodata);
         src/game/enemies/boss_5_mecha_knuckles.o(.rodata);
-        asm/enemy_boss_super_egg_robo.o(.rodata);
+        src/game/enemies/boss_xtra_super_egg_robot.o(.rodata);
         src/data/tilemap_data_3.o(.rodata);
         data/data_0_5_0.o(.rodata);
         src/data/ui_graphics_data.o(.rodata);

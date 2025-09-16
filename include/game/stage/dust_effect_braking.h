@@ -3,7 +3,7 @@
 
 #include "core.h"
 
-struct Task *CreateBrakingDustEffect(s32, s32);
+struct Task *CreateBrakingDustEffect(s32, s32); // -> BrakeDustEffect
 void CreateBrakingDustEffectRelatedTask(void);
 void DestroyBrakingDustEffectRelatedTask(void);
 
