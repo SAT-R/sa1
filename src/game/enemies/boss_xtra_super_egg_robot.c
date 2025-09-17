@@ -1190,9 +1190,66 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051C44.inc", void sub_80
             break;
         case 14:
             sub_804CFE0(&strc->unk76, 0x1800, 0x100U);
-            return;
+            break;
         default:
             sub_804CFE0(&strc->unk76, 0x2000, 0x100U);
+            break;
+    }
+}
+END_NONMATCH
+
+// (99.12%) https://decomp.me/scratch/HWqI4
+NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051E38.inc", void sub_8051E38())
+{
+    SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+    SomeTaskManager_7C *strc2 = strc->unk0.unk8;
+    SuperEggRobo *boss = gExtraBossTaskData.boss;
+    Sprite *s = &strc->unk0.s;
+    SpriteTransform *tf = &strc->unk0.transform;
+    s32 screenX, screenY;
+    strc->unk60 = ((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (SIN_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk64 = ((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (COS_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
+    strc->unk0.qUnk54 = strc->unk64 + strc2->unk0.qUnk54;
+    strc->unk70 = strc->unk76 + strc2->unk70;
+    screenX = I(strc->unk0.qUnk50) - gCamera.x;
+    screenY = I(strc->unk0.qUnk54) - gCamera.y;
+    tf->x = screenX;
+    tf->y = screenY;
+    tf->rotation = strc->unk70 >> 6;
+    s->frameFlags &= ~0x1F;
+    s->frameFlags |= (u8)(sa2__gUnknown_030054B8++ | 0x20);
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    switch (boss->unk6E) {
+        case 2:
+        case 3:
+            break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            if (strc->unk70 < 0x1000) {
+                sub_804CFE0(&strc->unk76, -strc->unk70, 0x100U);
+            } else {
+                sub_804CFE0(&strc->unk76, 0, 0x100U);
+            }
+            break;
+        case 0:
+        case 11:
+        case 12:
+            sub_804CFE0(&strc->unk76, 0xE000U, 0x100U);
+            break;
+        case 13:
+            sub_804CFE0(&strc->unk76, 0xF800, 0x400);
+            break;
+        case 14:
+            sub_804CFE0(&strc->unk76, 0, 0x100U);
+            break;
+        default:
+            sub_804CFE0(&strc->unk76, 0, 0x100U);
             break;
     }
 }
