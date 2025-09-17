@@ -14,7 +14,7 @@ char gNumMusicPlayers = 4;
 int gMaxLines = 0;
 
 // TEMP
-#include "game/enemies/boss_super_egg_robo.h"
+#include "game/enemies/boss_xtra_super_egg_robo.h"
 ExtraBossTaskData gExtraBossTaskData = { 0 };
 
 void sa2__sub_8019CCC() { }

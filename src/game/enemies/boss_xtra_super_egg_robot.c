@@ -1067,3 +1067,76 @@ void sub_80518E8()
     DisplaySprite(s);
     sub_804CFE0(&strc->unk76, 0U, 0x100U);
 }
+
+// (99.62%) https://decomp.me/scratch/OHVMq
+NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_80519E8.inc", void sub_80519E8())
+{
+    u16 *var_r0;
+    u16 var_r1;
+    u16 v_r1;
+    u32 var_r2;
+
+    SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+    SomeTaskManager_7C *strc2 = strc->unk0.unk8;
+    SuperEggRobo *boss = gExtraBossTaskData.boss;
+    Sprite *s = &strc->unk0.s;
+    SpriteTransform *tf = &strc->unk0.transform;
+    s32 screenX, screenY;
+    strc->unk60 = ((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (SIN_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk64 = ((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (COS_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
+    strc->unk0.qUnk54 = strc->unk64 + strc2->unk0.qUnk54;
+    strc->unk70 = strc->unk76 + strc2->unk70;
+    screenX = I(strc->unk0.qUnk50) - gCamera.x;
+    screenY = I(strc->unk0.qUnk54) - gCamera.y;
+    tf->x = screenX;
+    tf->y = screenY;
+    tf->rotation = strc->unk70 >> 6;
+    s->frameFlags &= ~0x1F;
+    s->frameFlags |= (u8)(sa2__gUnknown_030054B8++ | 0x20);
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    switch (boss->unk6E) {
+        case 2:
+        case 3:
+            sub_804CFE0(&strc->unk76, 0U, 0x200U);
+            break;
+        case 4:
+            sub_804CFE0(&strc->unk76, strc2->unk76, 0x100U);
+            break;
+        case 5:
+            if (!(1 & gUnknown_084AE560[strc->unk0.unk0])) {
+                sub_804CFE0(&strc->unk76, 0xE800U, 0x200);
+            }
+            break;
+        case 6:
+            break;
+        case 7:
+            if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
+                sub_804CFE0(&strc->unk76, 0xE800U, 0x200);
+            }
+            break;
+        case 0:
+            sub_804CFE0(&strc->unk76, 0x1000U, 0x80U);
+            break;
+        case 13:
+            sub_804CFE0(&strc->unk76, 0x4000U, 0x200U);
+            if ((boss->unk69 == 0) && (strc->unk76 == 0x4000)) {
+                boss->unk5C |= 1 << strc->unk0.unk0;
+            }
+            break;
+        case 14:
+            var_r0 = &strc->unk76;
+            var_r1 = 0xE800;
+            sub_804CFE0(var_r0, var_r1, 0x100U);
+            return;
+        default:
+            var_r0 = &strc->unk76;
+            var_r1 = 0;
+            sub_804CFE0(var_r0, var_r1, 0x80U);
+            break;
+    }
+}
+END_NONMATCH
