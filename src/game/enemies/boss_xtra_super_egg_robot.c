@@ -1043,3 +1043,27 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051604.inc", void sub_80
     }
 }
 END_NONMATCH
+
+void sub_80518E8()
+{
+    SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+    SomeTaskManager_7C *strc2 = strc->unk0.unk8;
+    Sprite *s = &strc->unk0.s;
+    Camera *cam = &gCamera;
+    s32 screenX, screenY;
+
+    strc->unk60
+        = (s32)((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (((s32)((u16)SIN(strc2->unk70 >> 6) << 0x10) >> 0x16) * strc->unk6C)) >> 8;
+    strc->unk64
+        = (s32)((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (((s32)((u16)COS(strc2->unk70 >> 6) << 0x10) >> 0x16) * strc->unk6C)) >> 8;
+    strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
+    strc->unk0.qUnk54 = strc->unk64 + strc2->unk0.qUnk54;
+    strc->unk70 = strc->unk76 + strc2->unk70;
+    screenX = I(strc->unk0.qUnk50) - cam->x;
+    screenY = I(strc->unk0.qUnk54) - cam->y;
+    s->x = screenX;
+    s->y = screenY;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+    sub_804CFE0(&strc->unk76, 0U, 0x100U);
+}
