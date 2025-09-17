@@ -854,3 +854,115 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8050FB4.inc", void sub_80
     }
 }
 END_NONMATCH
+
+// (99.34%) https://decomp.me/scratch/6H87B
+NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_8051344())
+{
+    u16 *var_r0_2;
+    u16 *var_r0_3;
+    s32 var_r0_4;
+    s32 var_r1_2;
+    u16 var_r1_3;
+    u16 *var_r0;
+    u16 var_r1;
+    u16 v_r1;
+    u32 var_r2;
+    s32 screenX, screenY;
+
+    SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+    SuperEggRobo *boss = gExtraBossTaskData.boss;
+    Sprite *s = &strc->unk0.s;
+    SpriteTransform *tf = &strc->unk0.transform;
+    SomeTaskManager_7C *strc2;
+    strc2 = strc->unk0.unk8;
+    strc->unk60 = ((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (SIN_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk64 = ((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (COS_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
+    strc->unk0.qUnk54 = strc->unk64 + strc2->unk0.qUnk54;
+    strc->unk70 = strc->unk76 + strc2->unk70;
+    screenX = I(strc->unk0.qUnk50) - gCamera.x;
+    screenY = I(strc->unk0.qUnk54) - gCamera.y;
+    tf->x = screenX;
+    tf->y = screenY;
+    s->frameFlags &= ~0x1F;
+    s->frameFlags |= (u8)(sa2__gUnknown_030054B8++ | 0x20);
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    switch (boss->unk6E) {
+        case 2:
+            sub_804CFE0((&strc->unk76), 0U, 0x100U);
+            break;
+
+        case 3:
+            if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
+                sub_804CFE0(&strc->unk76, 0x6000, 0x200U);
+            } else {
+                sub_804CFE0(&strc->unk76, 0x6800, 0x200U);
+            }
+
+            break;
+
+        case 4:
+            if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
+                var_r0_2 = &strc->unk76;
+                var_r1_2 = 0x6000;
+                sub_804CFE0(var_r0_2, var_r1_2, 0x100U);
+            }
+            break;
+
+        case 5:
+            if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
+                var_r0_3 = &strc->unk76;
+                var_r1_3 = 0x1000;
+                sub_804CFE0(var_r0_3, var_r1_3, 0x400U);
+            }
+            break;
+
+        case 6:
+            if (!(1 & gUnknown_084AE560[strc->unk0.unk0])) {
+                var_r0_2 = &strc->unk76;
+                var_r1_2 = 0x6000;
+                sub_804CFE0(var_r0_2, var_r1_2, 0x100U);
+            }
+            break;
+
+        case 7:
+            if (!(1 & gUnknown_084AE560[strc->unk0.unk0])) {
+                var_r0_3 = &strc->unk76;
+                var_r1_3 = 0x1000;
+                sub_804CFE0(var_r0_3, var_r1_3, 0x400U);
+            }
+            break;
+
+        case 8:
+            var_r0 = &strc->unk76;
+            var_r1 = 0x4000;
+            sub_804CFE0(var_r0, var_r1, 0x200U);
+            break;
+
+        case 9:
+            v_r1 = 0x4000;
+            v_r1 -= ((u32)(PseudoRandom32() << 0xC) >> 0x14);
+            sub_804CFE0((&strc->unk76), v_r1, 0x1000U);
+            break;
+
+        case 13:
+            var_r0_3 = &strc->unk76;
+            var_r1_3 = 0x2000;
+            sub_804CFE0(var_r0_3, var_r1_3, 0x400U);
+            break;
+
+        case 14:
+            var_r0_2 = &strc->unk76;
+            var_r1_2 = 0x1000;
+            sub_804CFE0(var_r0_2, var_r1_2, 0x100U);
+            break;
+
+        default:
+            sub_804CFE0((&strc->unk76), 0U, 0x100U);
+            break;
+    }
+}
+END_NONMATCH
