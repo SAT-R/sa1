@@ -501,3 +501,87 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_80504DC.inc", void sub_80
     }
 }
 END_NONMATCH
+
+void sub_8050888()
+{
+    Sprite *s;
+    SuperEggRobo *boss;
+    Player *p;
+    Camera *cam;
+    s32 screenY;
+    s32 screenX;
+    s32 temp_r2;
+    s32 temp_r4;
+    s8 *temp_r0;
+    s8 temp_r1;
+    u16 *var_r0;
+    u16 var_r1;
+    s16 var_r1_2;
+
+    SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+
+    boss = gExtraBossTaskData.boss;
+    s = &strc->unk0.s;
+    p = &gPlayer;
+    cam = &gCamera;
+    strc->unk0.qUnk50 = strc->unk60 + ((boss->unk60 << 8) + boss->qUnk44);
+    strc->unk0.qUnk54 = strc->unk64 + ((boss->qUnk64 << 8) + boss->qUnk48);
+    strc->unk70 = strc->unk76;
+    screenX = I(strc->unk0.qUnk50) - cam->x;
+    screenY = I(strc->unk0.qUnk54) - cam->y;
+    if ((p->timerInvulnerability == 0) && !(boss->flags58 & 0x80)) {
+        sub_800BFEC(s, I(strc->unk0.qUnk50), I(strc->unk0.qUnk54), p);
+    }
+    s->x = 0x80;
+    s->y = 0x80;
+    s->frameFlags = (s->frameFlags & 0xFFFE7FFF) | 0x10000;
+    sa2__sub_80036E0(s);
+    sa2__sub_8003914(s);
+    sa2__sub_8003EE4((strc->unk70 >> 6), 0x100, 0x100, 0x7C, 0x80, screenX, screenY, gBgAffineRegs);
+
+    switch (boss->unk6E) {
+        case 4:
+        case 5:
+            var_r1_2 = (gExtraBossTaskData.parts[2]->unk76 - Q(64));
+            var_r1_2 >>= 2;
+            if (boss->unk6E == 4) {
+                sub_804CFE0(&strc->unk76, var_r1_2, 0x40);
+            } else {
+                strc->unk76 = var_r1_2;
+            }
+
+            break;
+        case 6:
+        case 7:
+            var_r1_2 = (gExtraBossTaskData.parts[7]->unk76 - Q(64));
+            var_r1_2 >>= 2;
+            if (boss->unk6E == 6) {
+                sub_804CFE0(&strc->unk76, var_r1_2, 0x40);
+            } else {
+                strc->unk76 = var_r1_2;
+            }
+
+            break;
+        case 0:
+            var_r0 = &strc->unk76;
+            var_r1 = 0x800;
+            sub_804CFE0(var_r0, var_r1, 0x80);
+            break;
+        case 1:
+            var_r0 = &strc->unk76;
+            var_r1 = 0xF800;
+            sub_804CFE0(var_r0, var_r1, 0x80);
+            break;
+        case 13:
+            var_r0 = &strc->unk76;
+            var_r1 = 0;
+            sub_804CFE0(var_r0, var_r1, 0x80);
+            break;
+        case 14:
+            sub_804CFE0(&strc->unk76, 0x4000U, 0x200);
+            break;
+        default:
+            sub_804CFE0(&strc->unk76, 0U, 0x80);
+            break;
+    }
+}
