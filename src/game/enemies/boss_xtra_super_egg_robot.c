@@ -585,27 +585,23 @@ void sub_8050888()
     }
 }
 
-// (97.04%) https://decomp.me/scratch/4qGD5
+// (98.30%) https://decomp.me/scratch/4qGD5
 NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8050A88.inc", void sub_8050A88())
 {
-    SpriteTransform *tf;
-    s32 sp4, sp8;
-    Sprite *s;
-    SuperEggRobo *boss;
-    s32 temp_r2_4;
-    u16 *unk70;
-
     SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
     SomeTaskManager_7C *strc2 = strc->unk0.unk8;
-    boss = gExtraBossTaskData.boss;
-    s = &strc->unk0.s;
-    tf = &strc->unk0.transform;
-    unk70 = &strc2->unk70;
-    strc->unk60 = ((COS_24_8(strc2->unk70 >> 6) * strc->unk68) - (SIN_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
-    strc->unk64 = ((SIN_24_8(strc2->unk70 >> 6) * strc->unk68) + (COS_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    SuperEggRobo *boss = gExtraBossTaskData.boss;
+    Sprite *s = &strc->unk0.s;
+    SpriteTransform *tf = &strc->unk0.transform;
+    s32 sp4, sp8;
+    s32 temp_r2_4;
+
+    u16 *unk70 = &strc2->unk70;
+    strc->unk60 = ((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (strc->unk6C * SIN_24_8(strc2->unk70 >> 6))) >> 8;
+    strc->unk64 = ((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (strc->unk6C * COS_24_8(strc2->unk70 >> 6))) >> 8;
     strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
     strc->unk0.qUnk54 = strc->unk64 + strc2->unk0.qUnk54;
-    strc2->unk70 += strc->unk76;
+    strc->unk70 = strc->unk76 + strc2->unk70;
     sp4 = I(strc->unk0.qUnk50) - gCamera.x;
     sp8 = I(strc->unk0.qUnk54) - gCamera.y;
 
@@ -708,7 +704,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8050A88.inc", void sub_80
             break;
         case 12:
             if (!(7 & strc->unk0.unk4)) {
-                temp_r2_4 = (strc->unk0.qUnk50 - (strc->unk0.unk4 << 0xA)) - Q(100);
+                temp_r2_4 = ((strc->unk0.qUnk50 - (strc->unk0.unk4 << 0xA)) - Q(100));
                 if (temp_r2_4 < -Q(32)) {
                     boss->unk5C |= 1 << strc->unk0.unk0;
                 } else {
@@ -726,6 +722,134 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8050A88.inc", void sub_80
             break;
         default:
             sub_804CFE0(&strc->unk76, 0, 0x100);
+            break;
+    }
+}
+END_NONMATCH
+
+// (97.48%) https://decomp.me/scratch/4UTeN
+NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8050FB4.inc", void sub_8050FB4())
+{
+    SpriteTransform *sp0;
+    Sprite *s;
+    SpriteTransform *tf;
+    SuperEggRobo *boss;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r1_2;
+    u16 *var_r0;
+    u16 var_r1;
+    SomeTaskManager_7C *strc2;
+    u32 var_r2;
+    s32 screenX, screenY;
+
+    SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+    boss = gExtraBossTaskData.boss;
+    s = &strc->unk0.s;
+    tf = &strc->unk0.transform;
+    sp0 = tf;
+    strc2 = strc->unk0.unk8;
+    strc->unk60 = ((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (SIN_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk64 = ((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (COS_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
+    strc->unk0.qUnk54 = strc->unk64 + strc2->unk0.qUnk54;
+    strc->unk70 = strc->unk76 + strc2->unk70;
+    screenX = I(strc->unk0.qUnk50) - gCamera.x;
+    screenY = I(strc->unk0.qUnk54) - gCamera.y;
+    tf->x = screenX;
+    tf->y = screenY;
+    s->frameFlags &= ~0x1F;
+    s->frameFlags |= (u8)(sa2__gUnknown_030054B8++ | 0x20);
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    switch (boss->unk6E) {
+        case 2:
+            sub_804CFE0(&strc->unk76, 0U, 0x100);
+            break;
+        case 3:
+            if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
+                var_r0 = &strc->unk76;
+                var_r1 = 0x1000;
+            } else {
+                var_r0 = &strc->unk76;
+                var_r1 = 0x2000;
+            }
+            sub_804CFE0(var_r0, var_r1, 0x200);
+            break;
+        case 4:
+            if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
+                u16 v = 0x6000;
+                sub_804CFE0(&strc->unk76, v, 0x100);
+                if (strc->unk76 == v) {
+                    if (strc->unk0.unk4++ >= 0x1E) {
+                        boss->unk5C |= 1 << strc->unk0.unk0;
+                    }
+                }
+            }
+
+            break;
+        case 5:
+            if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
+                var_r0_2 = strc->unk0.unk4;
+                if (var_r0_2 > 0x10) {
+                    var_r0_2 = 0x10;
+                }
+                var_r2 = (u32)((Q(1) - COS_24_8(((u32)(var_r0_2 << 0x1A) >> 0x16))) << 0x10) >> 0xA;
+                var_r0_3 = 0x5800;
+
+                sub_804CFE0(&strc->unk76, (var_r0_3 - var_r2), 0x800);
+                if (strc->unk0.unk4++ >= 76) {
+                    boss->unk5C |= 1 << strc->unk0.unk0;
+                }
+            }
+            break;
+        case 6:
+            if (!(gUnknown_084AE560[strc->unk0.unk0] & 0x1)) {
+                u16 v = 0x6000;
+                sub_804CFE0(&strc->unk76, v, 0x100);
+                if (strc->unk76 == v) {
+                    if (strc->unk0.unk4++ >= 0x1E) {
+                        boss->unk5C |= 1 << strc->unk0.unk0;
+                    }
+                }
+            }
+            break;
+        case 7:
+            if (!(1 & gUnknown_084AE560[strc->unk0.unk0])) {
+                u16 val;
+                var_r0_4 = strc->unk0.unk4;
+                if (var_r0_4 > 0x10) {
+                    var_r0_4 = 0x10;
+                }
+                var_r2 = ((u32)((0x100 - COS_24_8(((u32)(var_r0_4 << 0x1A) >> 0x16))) << 0x10) >> 0xA);
+                var_r0_3 = 0x6000;
+
+                sub_804CFE0(&strc->unk76, (var_r0_3 - var_r2), 0x800);
+                if (strc->unk0.unk4++ >= 0x4C) {
+                    boss->unk5C |= (1 << strc->unk0.unk0);
+                }
+            }
+            break;
+        case 8:
+        case 9:
+            if (sub_804CFE0(&strc->unk76, 0xF000U, 0x100) != 0) {
+                if (boss->qUnk54++ >= 0x3C) {
+                    boss->unk5C |= (1 << strc->unk0.unk0);
+                    asm("");
+                }
+            }
+            break;
+        case 13:
+            sub_804CFE0(&strc->unk76, 0xD000U, 0x400);
+            return;
+        case 14:
+            sub_804CFE0(&strc->unk76, 0xF000U, 0x100);
+            return;
+        default:
+            sub_804CFE0(&strc->unk76, 0U, 0x100);
             break;
     }
 }
