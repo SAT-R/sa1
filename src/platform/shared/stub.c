@@ -15,7 +15,7 @@ int gMaxLines = 0;
 
 // TEMP
 #include "game/enemies/boss_super_egg_robo.h"
-SuperEggRobo *gExtraBossTaskData = { 0 };
+ExtraBossTaskData gExtraBossTaskData = { 0 };
 
 void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }

@@ -39,8 +39,8 @@ typedef struct {
 void sub_804CFA0(SomeTaskManager_60 *taskData);
 s32 sub_804D060(s32 n);
 void sub_804D13C(u16 param0);
-struct Task *CreateSomeTaskManager_60_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor);
-struct Task *CreateSomeTaskManager_7C_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor);
+struct Task *CreateSomeTaskManager_60_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor); // -> SomeTaskManager_60
+struct Task *CreateSomeTaskManager_7C_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor); // -> SomeTaskManager_7C
 void TaskDestructor_SomeTaskManager_60_Common(struct Task *t);
 
 extern ALIGNED(16) u16 gUnknown_030060F0[64];
