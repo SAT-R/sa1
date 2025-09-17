@@ -33,6 +33,7 @@ void sub_80282EC(Player *p);
 void sub_80283C4(Player *p);
 void sub_8029C84(Player *p);
 void sub_8029FA4(Player *p);
+void sub_804A8A8(s32 qX, s32 qY, s32 param2);
 
 void Player_DisableInputAndBossTimer(void);
 void Player_DisableInputAndBossTimer_FinalBoss(void);

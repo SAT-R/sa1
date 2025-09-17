@@ -10,6 +10,7 @@
 #include "game/save.h"
 #include "game/stage/dust_effect_braking.h"
 #include "game/stage/extra_stage.h"
+#include "game/stage/player.h" // sub_804A8A8
 #include "game/stage/terrain_collision.h"
 #include "game/enemies/boss_xtra_super_egg_robo.h"
 
@@ -855,7 +856,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8050FB4.inc", void sub_80
 }
 END_NONMATCH
 
-// (99.34%) https://decomp.me/scratch/6H87B
+// (99.44%) https://decomp.me/scratch/6H87B
 NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_8051344())
 {
     u16 *var_r0_2;
@@ -867,14 +868,13 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_80
     u16 var_r1;
     u16 v_r1;
     u32 var_r2;
-    s32 screenX, screenY;
 
     SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+    SomeTaskManager_7C *strc2 = strc->unk0.unk8;
     SuperEggRobo *boss = gExtraBossTaskData.boss;
     Sprite *s = &strc->unk0.s;
     SpriteTransform *tf = &strc->unk0.transform;
-    SomeTaskManager_7C *strc2;
-    strc2 = strc->unk0.unk8;
+    s32 screenX, screenY;
     strc->unk60 = ((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (SIN_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
     strc->unk64 = ((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (COS_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
     strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
@@ -894,7 +894,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_80
         case 2:
             sub_804CFE0((&strc->unk76), 0U, 0x100U);
             break;
-
         case 3:
             if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
                 sub_804CFE0(&strc->unk76, 0x6000, 0x200U);
@@ -903,7 +902,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_80
             }
 
             break;
-
         case 4:
             if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
                 var_r0_2 = &strc->unk76;
@@ -911,7 +909,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_80
                 sub_804CFE0(var_r0_2, var_r1_2, 0x100U);
             }
             break;
-
         case 5:
             if (1 & gUnknown_084AE560[strc->unk0.unk0]) {
                 var_r0_3 = &strc->unk76;
@@ -919,7 +916,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_80
                 sub_804CFE0(var_r0_3, var_r1_3, 0x400U);
             }
             break;
-
         case 6:
             if (!(1 & gUnknown_084AE560[strc->unk0.unk0])) {
                 var_r0_2 = &strc->unk76;
@@ -927,7 +923,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_80
                 sub_804CFE0(var_r0_2, var_r1_2, 0x100U);
             }
             break;
-
         case 7:
             if (!(1 & gUnknown_084AE560[strc->unk0.unk0])) {
                 var_r0_3 = &strc->unk76;
@@ -935,33 +930,115 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051344.inc", void sub_80
                 sub_804CFE0(var_r0_3, var_r1_3, 0x400U);
             }
             break;
-
         case 8:
             var_r0 = &strc->unk76;
             var_r1 = 0x4000;
             sub_804CFE0(var_r0, var_r1, 0x200U);
             break;
-
         case 9:
             v_r1 = 0x4000;
             v_r1 -= ((u32)(PseudoRandom32() << 0xC) >> 0x14);
             sub_804CFE0((&strc->unk76), v_r1, 0x1000U);
             break;
-
         case 13:
             var_r0_3 = &strc->unk76;
             var_r1_3 = 0x2000;
             sub_804CFE0(var_r0_3, var_r1_3, 0x400U);
             break;
-
         case 14:
             var_r0_2 = &strc->unk76;
             var_r1_2 = 0x1000;
             sub_804CFE0(var_r0_2, var_r1_2, 0x100U);
             break;
-
         default:
             sub_804CFE0((&strc->unk76), 0U, 0x100U);
+            break;
+    }
+}
+END_NONMATCH
+
+// (86.20%) https://decomp.me/scratch/UI7fC
+NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8051604.inc", void sub_8051604())
+{
+    SpriteTransform *sp0;
+    u16 mask;
+    Sprite *s;
+    SpriteTransform *tf;
+    SuperEggRobo *boss;
+    u16 *var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r1_2;
+    u16 *var_r0;
+    u16 var_r1;
+    SomeTaskManager_7C *strc2;
+    u32 var_r2;
+    s32 screenX, screenY;
+
+    SomeTaskManager_7C *strc = TASK_DATA(gCurTask);
+    strc2 = strc->unk0.unk8;
+    boss = gExtraBossTaskData.boss;
+    s = &strc->unk0.s;
+    tf = &strc->unk0.transform;
+    sp0 = tf;
+    strc->unk60 = ((strc->unk68 * COS_24_8(strc2->unk70 >> 6)) - (SIN_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    mask = 0x3FF;
+    strc->unk64 = ((strc->unk68 * SIN_24_8(strc2->unk70 >> 6)) + (COS_24_8(strc2->unk70 >> 6) * strc->unk6C)) >> 8;
+    strc->unk0.qUnk50 = strc->unk60 + strc2->unk0.qUnk50;
+    strc->unk0.qUnk54 = strc->unk64 + strc2->unk0.qUnk54;
+    strc->unk70 = strc->unk76 + strc2->unk70;
+    screenX = I(strc->unk0.qUnk50) - gCamera.x;
+    screenY = I(strc->unk0.qUnk54) - gCamera.y;
+
+    if ((gPlayer.timerInvulnerability == 0) && !(boss->flags58 & 0x80)) {
+        s32 temp_r2_5 = ((((u32)strc->unk70 - Q(64)) << 0x10) >> 0x16) & mask;
+        sub_800BFEC(s, (strc->unk0.qUnk50 + (-(COS_24_8(temp_r2_5) * Q(23)) >> 0x10)),
+                    (strc->unk0.qUnk54 + ((0 - SIN_24_8(temp_r2_5) * 0x1700) >> 0x10)), &gPlayer);
+    }
+
+    tf->x = screenX;
+    tf->y = screenY;
+    tf->y = ((((u32)strc->unk70 - Q(64)) << 16) >> 22);
+    s->frameFlags &= ~0x1F;
+    s->frameFlags |= (u8)(sa2__gUnknown_030054B8++ | 0x20);
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    switch (boss->unk6E) {
+        case 2:
+            var_r0 = &strc->unk76;
+            var_r1 = 0x4000;
+            sub_804CFE0((u16 *)var_r0, var_r1, 0x200U);
+            break;
+        case 3:
+            sub_804CFE0(&strc->unk76, 0U, 0x200);
+            break;
+        case 8:
+            sub_804CFE0(&strc->unk76, -strc->unk70, 0x200U);
+            break;
+        case 9:
+            sub_804CFE0(&strc->unk76, -strc->unk70, 0x200U);
+            if (!(gStageTime & 0x1F)) {
+                s32 qX = strc->unk0.qUnk50;
+                s32 qY = strc->unk0.qUnk54 + 0x1700;
+                bool32 var_r2_2 = 0;
+                if (!(PseudoRandom32() & 0x30000)) {
+                    var_r2_2 = 1;
+                }
+                sub_804A8A8(qX, qY, var_r2_2);
+            }
+            break;
+        case 13:
+            sub_804CFE0((u16 *)(&strc->unk76), 0xB000U, 0x400U);
+            break;
+        case 14:
+            var_r0_2 = &strc->unk76;
+            var_r2 = 0x100;
+            sub_804CFE0((u16 *)var_r0_2, 0U, var_r2);
+            break;
+        default:
+            sub_804CFE0((u16 *)(&strc->unk76), 0U, 0x100U);
             break;
     }
 }
