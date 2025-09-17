@@ -21,7 +21,7 @@
 /* Extra Zone Boss - Super Egg Robot */
 
 void sub_804B2BC(s32 a, s32 b);
-void sub_80520B8(SuperEggRobo *boss);
+bool32 sub_80520B8(SuperEggRobo *boss);
 void sub_80523D4(SuperEggRobo *boss);
 void sub_80523F8(SuperEggRobo *boss);
 void sub_8052424(SuperEggRobo *boss);
@@ -1274,4 +1274,27 @@ void sub_805202C()
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
     sub_804CFE0(&strc->unk76, 0U, 0x100U);
+}
+
+bool32 sub_80520B8(SuperEggRobo *boss)
+{
+    bool32 result = FALSE;
+    s32 temp_r0;
+    NutsAndBolts *bolts;
+    s32 temp_r3;
+
+    if (!(0xF & gStageTime) || ((boss->unk6E == 0xE) && !(gStageTime & 7))) {
+        s32 a, b;
+        temp_r0 = (((u32)PseudoRandom32() << 10) >> 18) - Q(32);
+        temp_r3 = (((u32)PseudoRandom32() << 9) >> 17) - Q(64);
+        a = boss->qUnk44 + Q(boss->unk60) + temp_r0;
+        b = boss->qUnk48 + Q(boss->qUnk64) + temp_r3;
+        bolts = TASK_DATA(sub_8017540(a, b));
+        bolts->s.frameFlags = 0x1000;
+        bolts->s.oamFlags = 0x380;
+
+        result = TRUE;
+    }
+
+    return result;
 }
