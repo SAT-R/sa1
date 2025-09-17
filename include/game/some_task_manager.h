@@ -6,29 +6,30 @@ typedef struct {
     void *vram4;
 } SomeTaskManager_Graphic;
 
+struct SomeTaskManager_7C;
 typedef struct {
     /* 0x00 */ s16 unk0;
     /* 0x02 */ u8 unk2;
     /* 0x03 */ u8 unk3;
     /* 0x04 */ s32 unk4;
-    /* 0x08 */ u32 unk8;
+    /* 0x08 */ struct SomeTaskManager_7C *unk8;
     /* 0x0C */ SpriteTransform transform;
     /* 0x18 */ Sprite s;
     /* 0x48 */ Hitbox reserved;
-    /* 0x50 */ s32 qUnk50; // TODO: qWorldX;
-    /* 0x54 */ s32 qUnk54; // TODO: qWorldY;
+    /* 0x50 */ s32 qUnk50;
+    /* 0x54 */ s32 qUnk54;
     /* 0x58 */ s16 qUnk58;
     /* 0x5A */ s16 qUnk5A;
     /* 0x5C */ u16 qUnk5C;
     /* 0x5E */ u16 qUnk5E;
 } SomeTaskManager_60; /* 0x60 */
 
-typedef struct {
+typedef struct SomeTaskManager_7C {
     /* 0x00 */ SomeTaskManager_60 unk0;
     /* 0x60 */ u32 unk60;
-    /* 0x64 */ u32 unk64;
+    /* 0x64 */ s32 unk64;
     /* 0x68 */ s32 unk68;
-    /* 0x6C */ u32 unk6C;
+    /* 0x6C */ s32 unk6C;
     /* 0x70 */ u16 unk70;
     /* 0x72 */ s16 unk72;
     /* 0x74 */ u16 unk74;
