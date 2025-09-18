@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start sub_8052150
 sub_8052150: @ 0x08052150
 	push {r4, r5, r6, r7, lr}
@@ -266,6 +264,7 @@ _08052330: .4byte gWinRegs
 _08052334: .4byte 0x00001F1F
 _08052338: .4byte 0x00003F3F
 _0805233C: .4byte gBldRegs
+.endif
 
 @ Moon Zone Boss / Extra Boss
 	thumb_func_start CreateEntity_SuperEggRobot

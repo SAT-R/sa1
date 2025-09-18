@@ -2415,7 +2415,7 @@ _08019952:
 	ldr r2, _08019AC0 @ =0x040000D4
 	ldr r0, _08019AC4 @ =gBgOffsetsHBlank
 	ldr r4, [r0]
-	ldr r0, _08019AC8 @ =sa2__gUnknown_03002A80
+	ldr r0, _08019AC8 @ =gHBlankCopySize
 	ldrb r3, [r0]
 	lsls r0, r3, #4
 	adds r1, r0, r4
@@ -2582,7 +2582,7 @@ _08019AAA:
 	.align 2, 0
 _08019AC0: .4byte 0x040000D4
 _08019AC4: .4byte gBgOffsetsHBlank
-_08019AC8: .4byte sa2__gUnknown_03002A80
+_08019AC8: .4byte gHBlankCopySize
 _08019ACC: .4byte 0x000003FF
 _08019AD0: .4byte 0x00000236
 _08019AD4: .4byte gSineTable

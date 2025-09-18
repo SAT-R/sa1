@@ -228,7 +228,7 @@ _0804C7CC:
 	ldr r2, _0804C884 @ =0x040000D4
 	ldr r0, _0804C888 @ =gBgOffsetsHBlank
 	ldr r4, [r0]
-	ldr r0, _0804C88C @ =sa2__gUnknown_03002A80
+	ldr r0, _0804C88C @ =gHBlankCopySize
 	ldrb r3, [r0]
 	lsls r0, r3, #5
 	adds r1, r0, r4
@@ -271,7 +271,7 @@ _0804C87C: .4byte gBgScrollRegs
 _0804C880: .4byte 0x000003FF
 _0804C884: .4byte 0x040000D4
 _0804C888: .4byte gBgOffsetsHBlank
-_0804C88C: .4byte sa2__gUnknown_03002A80
+_0804C88C: .4byte gHBlankCopySize
 _0804C890: .4byte gFlags
 
 .syntax divided

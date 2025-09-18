@@ -218,9 +218,9 @@ _08004D2C:
 	ldr r4, [sp, #0x1c]
 	ldr r5, _08004D7C @ =0x04000010
 	adds r0, r4, r5
-	ldr r7, _08004D80 @ =sa2__gUnknown_03002878
+	ldr r7, _08004D80 @ =gHBlankCopyTarget
 	str r0, [r7]
-	ldr r0, _08004D84 @ =sa2__gUnknown_03002A80
+	ldr r0, _08004D84 @ =gHBlankCopySize
 	strb r1, [r0]
 	ldr r1, _08004D70 @ =gBgOffsetsHBlank
 	ldr r0, [r1]
@@ -247,8 +247,8 @@ _08004D70: .4byte gBgOffsetsHBlank
 _08004D74: .4byte 0x000001FF
 _08004D78: .4byte gFlags
 _08004D7C: .4byte 0x04000010
-_08004D80: .4byte sa2__gUnknown_03002878
-_08004D84: .4byte sa2__gUnknown_03002A80
+_08004D80: .4byte gHBlankCopyTarget
+_08004D84: .4byte gHBlankCopySize
 _08004D88:
 	ldr r1, [sp, #0xc]
 	adds r0, r1, r2

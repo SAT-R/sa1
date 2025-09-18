@@ -21,8 +21,8 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
 
     gFlags |= FLAGS_4;
 
-    SA2_LABEL(gUnknown_03002878) = (void *)&REG_BG3HOFS;
-    SA2_LABEL(gUnknown_03002A80) = 4;
+    gHBlankCopyTarget = (void *)&REG_BG3HOFS;
+    gHBlankCopySize = 4;
 
     offsets = gBgOffsetsHBlank;
 

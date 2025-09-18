@@ -86,8 +86,8 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     r4 = ((ySub << 16) | xSub);
 
     gFlags |= FLAGS_4;
-    sa2__gUnknown_03002878 = (void *)&REG_BG3HOFS;
-    sa2__gUnknown_03002A80 = 4;
+    gHBlankCopyTarget = (void *)&REG_BG3HOFS;
+    gHBlankCopySize = 4;
 
     {
         ptr = gBgOffsetsHBlank;

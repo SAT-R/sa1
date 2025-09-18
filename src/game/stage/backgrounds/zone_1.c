@@ -24,8 +24,8 @@ void StageBgUpdate_Zone1Acts12(s32 x, s32 UNUSED y)
     DrawBackground(bg);
 
     gFlags |= FLAGS_4;
-    SA2_LABEL(gUnknown_03002878) = (void *)&REG_BG3HOFS;
-    SA2_LABEL(gUnknown_03002A80) = 4;
+    gHBlankCopyTarget = (void *)&REG_BG3HOFS;
+    gHBlankCopySize = 4;
 
     offsets = gBgOffsetsHBlank;
 
@@ -42,7 +42,7 @@ void StageBgUpdate_Zone1Acts12(s32 x, s32 UNUSED y)
     }
 
     for (i = 24; i < 40; i++) {
-        // lowest moving cloud (slowest)
+        // Lowest moving cloud (slowest)
         *offsets++ = (gStageTime >> 6) & 0xFF;
         *offsets++ = 0;
 

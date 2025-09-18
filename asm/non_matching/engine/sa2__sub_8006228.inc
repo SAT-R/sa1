@@ -29,7 +29,7 @@
 	str r0, [r1]
 	cmp r7, #1
 	bls _080051D8
-	ldr r1, _080051C4 @ =sa2__gUnknown_03002A80
+	ldr r1, _080051C4 @ =gHBlankCopySize
 	strb r2, [r1]
 	movs r0, #1
 	ands r0, r7
@@ -41,7 +41,7 @@
 	b _08005200
 	.align 2, 0
 _080051C0: .4byte gFlags
-_080051C4: .4byte sa2__gUnknown_03002A80
+_080051C4: .4byte gHBlankCopySize
 _080051C8: .4byte gBgOffsetsHBlank
 _080051CC:
 	ldr r0, _080051D4 @ =gBgOffsetsHBlank
@@ -50,7 +50,7 @@ _080051CC:
 	.align 2, 0
 _080051D4: .4byte gBgOffsetsHBlank
 _080051D8:
-	ldr r1, _080051F0 @ =sa2__gUnknown_03002A80
+	ldr r1, _080051F0 @ =gHBlankCopySize
 	movs r0, #2
 	strb r0, [r1]
 	ldr r0, _080051F4 @ =gBgOffsetsHBlank
@@ -59,16 +59,16 @@ _080051D8:
 	ands r0, r7
 	cmp r0, #0
 	beq _08005200
-	ldr r1, _080051F8 @ =sa2__gUnknown_03002878
+	ldr r1, _080051F8 @ =gHBlankCopyTarget
 	ldr r0, _080051FC @ =0x04000042
 	b _08005204
 	.align 2, 0
-_080051F0: .4byte sa2__gUnknown_03002A80
+_080051F0: .4byte gHBlankCopySize
 _080051F4: .4byte gBgOffsetsHBlank
-_080051F8: .4byte sa2__gUnknown_03002878
+_080051F8: .4byte gHBlankCopyTarget
 _080051FC: .4byte 0x04000042
 _08005200:
-	ldr r1, _08005268 @ =sa2__gUnknown_03002878
+	ldr r1, _08005268 @ =gHBlankCopyTarget
 	ldr r0, _0800526C @ =0x04000040
 _08005204:
 	str r0, [r1]
@@ -98,7 +98,7 @@ _0800521E:
 _08005232:
 	lsls r0, r4, #0x11
 	lsrs r7, r0, #0x10
-	ldr r4, _08005270 @ =sa2__gUnknown_03002A80
+	ldr r4, _08005270 @ =gHBlankCopySize
 	ldrb r0, [r4]
 	mov r4, sl
 	muls r4, r0, r4
@@ -126,9 +126,9 @@ _08005252:
 	movs r2, #0
 	b _080052AC
 	.align 2, 0
-_08005268: .4byte sa2__gUnknown_03002878
+_08005268: .4byte gHBlankCopyTarget
 _0800526C: .4byte 0x04000040
-_08005270: .4byte sa2__gUnknown_03002A80
+_08005270: .4byte gHBlankCopySize
 _08005274:
 	adds r0, r6, #1
 	lsls r0, r0, #0x18
@@ -150,7 +150,7 @@ _08005274:
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x10
 	strb r6, [r3]
-	ldr r1, _080052C0 @ =sa2__gUnknown_03002A80
+	ldr r1, _080052C0 @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r3, r3, r0
 	mov r0, ip
@@ -172,7 +172,7 @@ _080052B8:
 	strb r6, [r3]
 	b _080053DE
 	.align 2, 0
-_080052C0: .4byte sa2__gUnknown_03002A80
+_080052C0: .4byte gHBlankCopySize
 _080052C4:
 	strb r6, [r3]
 	adds r3, #1
@@ -200,7 +200,7 @@ _080052CC:
 	lsrs r4, r0, #0x10
 	mov r0, ip
 	strb r0, [r3]
-	ldr r1, _08005320 @ =sa2__gUnknown_03002A80
+	ldr r1, _08005320 @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r0, r0, r3
 	subs r3, r0, #1
@@ -224,7 +224,7 @@ _08005314:
 	strb r2, [r3]
 	b _080053DE
 	.align 2, 0
-_08005320: .4byte sa2__gUnknown_03002A80
+_08005320: .4byte gHBlankCopySize
 _08005324:
 	rsbs r0, r1, #0
 	lsls r0, r0, #0x10
@@ -245,7 +245,7 @@ _0800533E:
 	adds r3, #1
 	mov r0, ip
 	strb r0, [r3]
-	ldr r1, _08005384 @ =sa2__gUnknown_03002A80
+	ldr r1, _08005384 @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r0, r0, r3
 	subs r3, r0, #1
@@ -279,7 +279,7 @@ _0800537E:
 	blt _0800533E
 	b _080053DE
 	.align 2, 0
-_08005384: .4byte sa2__gUnknown_03002A80
+_08005384: .4byte gHBlankCopySize
 _08005388:
 	movs r2, #0
 	mov r1, r8
@@ -295,7 +295,7 @@ _08005398:
 	adds r3, #1
 	mov r0, ip
 	strb r0, [r3]
-	ldr r1, _080053EC @ =sa2__gUnknown_03002A80
+	ldr r1, _080053EC @ =gHBlankCopySize
 	ldrb r0, [r1]
 	adds r0, r0, r3
 	subs r3, r0, #1
@@ -337,6 +337,6 @@ _080053DE:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_080053EC: .4byte sa2__gUnknown_03002A80
+_080053EC: .4byte gHBlankCopySize
 
 .syntax divided

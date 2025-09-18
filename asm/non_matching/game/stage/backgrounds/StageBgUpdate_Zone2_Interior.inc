@@ -27,10 +27,10 @@
 	movs r2, #4
 	orrs r0, r2
 	str r0, [r1]
-	ldr r1, _0803EA14 @ =sa2__gUnknown_03002878
+	ldr r1, _0803EA14 @ =gHBlankCopyTarget
 	ldr r0, _0803EA18 @ =0x0400001C
 	str r0, [r1]
-	ldr r0, _0803EA1C @ =sa2__gUnknown_03002A80
+	ldr r0, _0803EA1C @ =gHBlankCopySize
 	strb r2, [r0]
 	ldr r0, _0803EA20 @ =gBgOffsetsHBlank
 	ldr r5, [r0]
@@ -221,9 +221,9 @@ _0803E9F6:
 _0803EA08: .4byte gCamera
 _0803EA0C: .4byte gBgScrollRegs
 _0803EA10: .4byte gFlags
-_0803EA14: .4byte sa2__gUnknown_03002878
+_0803EA14: .4byte gHBlankCopyTarget
 _0803EA18: .4byte 0x0400001C
-_0803EA1C: .4byte sa2__gUnknown_03002A80
+_0803EA1C: .4byte gHBlankCopySize
 _0803EA20: .4byte gBgOffsetsHBlank
 
 .syntax divided

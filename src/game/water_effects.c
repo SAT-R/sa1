@@ -304,8 +304,8 @@ NONMATCH("asm/non_matching/game/water_effects__Task_StageWaterTask.inc", void Ta
         (3, 0, 32, r3, 2, 64, (((gStageTime * 2 + (((gBgScrollRegs[3][1] + water->SA2_LABEL(unk2)) % 32u) << 5))) + 0x100) & ONE_CYCLE, 10,
          32, gBgScrollRegs[3][0], gBgScrollRegs[3][1]);
 
-        for (r5 = 32, ptr = gBgOffsetsHBlank + (adder = (SA2_LABEL(gUnknown_03002A80) << 5)); r5 < DISPLAY_HEIGHT;) {
-            DmaCopy32(3, gBgOffsetsHBlank, ptr, (SA2_LABEL(gUnknown_03002A80) << 5));
+        for (r5 = 32, ptr = gBgOffsetsHBlank + (adder = (gHBlankCopySize << 5)); r5 < DISPLAY_HEIGHT;) {
+            DmaCopy32(3, gBgOffsetsHBlank, ptr, (gHBlankCopySize << 5));
             ptr += adder;
             r5 += 0x20;
         }
@@ -478,7 +478,7 @@ void SA2_LABEL(VCountIntr_8011ACC)(void)
 #if (GAME == GAME_SA1)
         {
             DmaSet(0, SA2_LABEL(gUnknown_030022AC), (void *)&REG_BG3HOFS, //
-                   ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | (SA2_LABEL(gUnknown_03002A80) >> 1));
+                   ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | (gHBlankCopySize >> 1));
         }
 #endif
         REG_IF = INTR_FLAG_VCOUNT;

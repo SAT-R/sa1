@@ -96,13 +96,13 @@ union MultiSioData gMultiSioSend ALIGNED(8) = {};
 u8 sa2__gUnknown_03002874 = 0;
 
 // gComputedBgTarget
-void *sa2__gUnknown_03002878 ALIGNED(4) = NULL;
+void *gHBlankCopyTarget ALIGNED(4) = NULL;
 
 u8 gBackgroundsCopyQueueIndex = 0;
 u16 gBgPalette[] ALIGNED(16) = {};
 
 // gComputedBgSectorSize
-u8 sa2__gUnknown_03002A80 ALIGNED(4) = 0;
+u8 gHBlankCopySize ALIGNED(4) = 0;
 
 u8 gVramGraphicsCopyQueueIndex ALIGNED(4) = 0;
 u16 gPrevInput ALIGNED(4) = 0;
@@ -316,8 +316,8 @@ void EngineInit(void)
 
     gBgOffsetsHBlank = gBgOffsetsBuffer[0];
     sa2__gUnknown_030022AC = gBgOffsetsBuffer[1];
-    sa2__gUnknown_03002878 = NULL;
-    sa2__gUnknown_03002A80 = 0;
+    gHBlankCopyTarget = NULL;
+    gHBlankCopySize = 0;
     gNumHBlankCallbacks = 0;
     gNumHBlankIntrs = 0;
 
@@ -472,7 +472,7 @@ void UpdateScreenDma(void)
 
     if (gFlags & FLAGS_4) {
 
-        DmaCopy16(3, gBgOffsetsHBlank, sa2__gUnknown_03002878, sa2__gUnknown_03002A80);
+        DmaCopy16(3, gBgOffsetsHBlank, gHBlankCopyTarget, gHBlankCopySize);
     }
 
     if (sLastCalledVblankFuncId == VBLANK_FUNC_ID_NONE) {
@@ -650,13 +650,13 @@ void VBlankIntr(void)
         REG_IE |= INTR_FLAG_HBLANK;
         DmaWait(0);
 
-        DmaCopy16(0, gBgOffsetsHBlank, sa2__gUnknown_03002878, sa2__gUnknown_03002A80);
-        DmaSet(0, gBgOffsetsHBlank + sa2__gUnknown_03002A80, sa2__gUnknown_03002878,
-               ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | (sa2__gUnknown_03002A80 >> 1));
+        DmaCopy16(0, gBgOffsetsHBlank, gHBlankCopyTarget, gHBlankCopySize);
+        DmaSet(0, gBgOffsetsHBlank + gHBlankCopySize, gHBlankCopyTarget,
+               ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | (gHBlankCopySize >> 1));
 
-    } else if (sa2__gUnknown_03002878) {
+    } else if (gHBlankCopyTarget) {
         REG_IE &= ~INTR_FLAG_HBLANK;
-        sa2__gUnknown_03002878 = NULL;
+        gHBlankCopyTarget = NULL;
     }
 
     if (gFlagsPreVBlank & FLAGS_40) {

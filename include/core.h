@@ -352,9 +352,9 @@ extern u8 gUnknown_030026F4;
 #endif
 extern s16 sa2__gUnknown_03002820;
 extern u8 sa2__gUnknown_03002874;
-extern void *sa2__gUnknown_03002878;
+extern void *gHBlankCopyTarget;
 extern u8 gBackgroundsCopyQueueIndex;
-extern u8 sa2__gUnknown_03002A80;
+extern u8 gHBlankCopySize;
 extern u16 sa2__gUnknown_03002A8C;
 //// When paused, the previously-active OAM elements get moved to the end
 //// of the OAM. This is the index of the first currently-inactive element
