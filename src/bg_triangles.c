@@ -102,7 +102,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
     int_vcount *cursor;
     s16 r1, r2, r4, r5, r7, r8;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = 4;
@@ -227,7 +227,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
     int_vcount *cursor;
     s16 r1, r2, r4, r5, r7, r8;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = 4;
@@ -358,7 +358,7 @@ void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
     gFlags |= 4;
 
     if (bg >= 2) {
-        gHBlankCopySize = sizeof(winreg_t) * 2;
+        gHBlankCopySize = sizeof(REG_WIN0H) * 2;
 
         if (bg & 1) {
             cursor = &((int_vcount *)gBgOffsetsHBlank)[2];
@@ -368,7 +368,7 @@ void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         }
     } else {
-        gHBlankCopySize = sizeof(winreg_t);
+        gHBlankCopySize = sizeof(REG_WIN0H);
         cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
 
         if (bg & 1) {
@@ -567,33 +567,35 @@ void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
 
 // When this function is called, the background layer that is
 // "lightened" by spot lights is fully lit.
-void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
+void SA2_LABEL(sub_800724C)(u8 bg, TriParam1 *arg1)
 {
     s16 sp0[2];
     s16 sp4[2] = { 1, 1 };
     s16 sp8[2];
     s16 spC[2] = { 0 };
     s16 sp10[2] = { 0 };
-    u8 sp14[2];
-    u8 *var_r4;
-    u8 minVal;
-    u8 maxVal;
+    int_vcount sp14[2];
+    int_vcount *cursor;
+    int_vcount minVal;
+    int_vcount maxVal;
 
     gFlags |= 4;
 
-    if (arg0 > 1U) {
-        gHBlankCopySize = 4;
-        if (1 & arg0) {
-            var_r4 = gBgOffsetsHBlank + sizeof(winreg_t);
-        } else {
-            var_r4 = gBgOffsetsHBlank;
-        }
+    if (bg >= 2) {
+        gHBlankCopySize = sizeof(REG_WIN0H) * 2;
 
-        gHBlankCopyTarget = (void *)&REG_WIN0H;
+        if (bg & 1) {
+            cursor = &((int_vcount *)gBgOffsetsHBlank)[2];
+            gHBlankCopyTarget = (void *)&REG_WIN0H;
+        } else {
+            cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
+            gHBlankCopyTarget = (void *)&REG_WIN0H;
+        }
     } else {
-        gHBlankCopySize = 2;
-        var_r4 = gBgOffsetsHBlank;
-        if (1 & arg0) {
+        gHBlankCopySize = sizeof(REG_WIN0H);
+        cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
+
+        if (bg & 1) {
             gHBlankCopyTarget = (void *)&REG_WIN1H;
         } else {
             gHBlankCopyTarget = (void *)&REG_WIN0H;
@@ -603,7 +605,7 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
     minVal = MIN(arg1->unk1, arg1->unk5);
     maxVal = MAX(arg1->unk1, arg1->unk5);
 
-    var_r4 += (minVal * gHBlankCopySize);
+    cursor = IncCursor(cursor, minVal * gHBlankCopySize);
     sp0[0] = (arg1->unk2 - arg1->unk0);
     sp4[0] = (arg1->unk3 - arg1->unk1);
     spC[0] = (ABS(sp0[0]) * 2);
@@ -620,8 +622,8 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
 
     if ((minVal != maxVal) && (arg1->unk1 < arg1->unk5)) {
         while (minVal < maxVal) {
-            var_r4[0] = DISPLAY_WIDTH;
-            var_r4[1] = sp14[0];
+            cursor[0] = DISPLAY_WIDTH;
+            cursor[1] = sp14[0];
             sp8[0] += spC[0];
 
             while (sp8[0] >= 0) {
@@ -633,19 +635,19 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
 
                     sp8[0] -= sp10[0];
                     if (sp8[0] >= 0) {
-                        var_r4[1] = sp14[0];
+                        cursor[1] = sp14[0];
                     }
                 }
                 MATCH_BREAK;
             }
 
-            var_r4 += gHBlankCopySize;
+            cursor = IncCursor(cursor, gHBlankCopySize);
             minVal++;
         }
     } else {
         while (minVal < maxVal) {
-            var_r4[0] = sp14[1];
-            var_r4[1] = 0;
+            cursor[0] = sp14[1];
+            cursor[1] = 0;
             sp8[1] += spC[1];
             if (sp8[1] >= 0) {
                 while (sp8[1] >= 0) {
@@ -654,7 +656,7 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
 
                         sp8[1] -= sp10[1];
                         if (sp8[1] >= 0) {
-                            var_r4[0] = (sp14[1] + 1);
+                            cursor[0] = (sp14[1] + 1);
                         }
                     } else {
                         sp14[1]--;
@@ -664,7 +666,8 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
                     MATCH_BREAK;
                 }
             }
-            var_r4 += gHBlankCopySize;
+
+            cursor = IncCursor(cursor, gHBlankCopySize);
             minVal++;
         }
     }
@@ -672,8 +675,8 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
     maxVal = MIN(arg1->unk3, arg1->unk7);
 
     while (minVal < maxVal) {
-        var_r4[0] = sp14[1];
-        var_r4[1] = sp14[0];
+        cursor[0] = sp14[1];
+        cursor[1] = sp14[0];
         sp8[0] += spC[0];
         sp8[1] += spC[1];
 
@@ -686,7 +689,7 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
 
                 sp8[0] -= sp10[0];
                 if (sp8[0] >= 0) {
-                    var_r4[1] = sp14[0];
+                    cursor[1] = sp14[0];
                 }
             }
             MATCH_BREAK;
@@ -698,7 +701,7 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
 
                 sp8[1] -= sp10[1];
                 if (sp8[1] >= 0) {
-                    var_r4[0] = (sp14[1] + 1);
+                    cursor[0] = (sp14[1] + 1);
                 }
             } else {
                 sp14[1]--;
@@ -707,22 +710,21 @@ void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
             MATCH_BREAK;
         }
 
-        var_r4 += gHBlankCopySize;
+        cursor = IncCursor(cursor, gHBlankCopySize);
         minVal++;
     }
 }
 
-// TODO: param2 might be horizontal
 void SA2_LABEL(sub_80075D0)(u8 bg, u8 param1, u8 param2, s16 param3, s16 param4, u16 param5)
 {
     int_vcount *cursor;
     s16 r1;
     u16 sb = (param5 * param5);
 
-    gFlags |= FLAGS_4;
+    gFlags |= 4;
 
     if (bg >= 2) {
-        gHBlankCopySize = 4;
+        gHBlankCopySize = sizeof(REG_WIN0H) * 2;
 
         if (bg & 1) {
             cursor = &((int_vcount *)gBgOffsetsHBlank)[2];
@@ -732,7 +734,7 @@ void SA2_LABEL(sub_80075D0)(u8 bg, u8 param1, u8 param2, s16 param3, s16 param4,
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         }
     } else {
-        gHBlankCopySize = 2;
+        gHBlankCopySize = sizeof(REG_WIN0H);
         cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
 
         if (bg & 1) {
@@ -752,7 +754,7 @@ void SA2_LABEL(sub_80075D0)(u8 bg, u8 param1, u8 param2, s16 param3, s16 param4,
         param2 = (param4 + param5);
     }
 
-    cursor += (gHBlankCopySize * param1);
+    cursor = IncCursor(cursor, param1 * gHBlankCopySize);
 
     for (; param1 < param2; param1++) {
         s16 num = param1 - param4;
@@ -785,7 +787,7 @@ void SA2_LABEL(sub_80075D0)(u8 bg, u8 param1, u8 param2, s16 param3, s16 param4,
             cursor++;
         }
 
-        cursor += (gHBlankCopySize - 2);
+        cursor = IncCursor(cursor, gHBlankCopySize - sizeof(REG_WIN0H));
     }
 }
 
@@ -794,10 +796,10 @@ void SA2_LABEL(sub_8007738)(u8 bg, int_vcount minY, int_vcount maxY, u16 param3,
 {
     u16 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[bg * 4];
-    gHBlankCopySize = 4;
+    gHBlankCopySize = 2 * sizeof(REG_BG0HOFS);
 
     cursor = &((u16 *)gBgOffsetsHBlank)[minY * 2];
 
@@ -814,14 +816,14 @@ void SA2_LABEL(sub_8007738)(u8 bg, int_vcount minY, int_vcount maxY, u16 param3,
     }
 }
 
-void sa2__sub_8007858(u8 param0, int_vcount minY, int_vcount maxY, u16 param3, u16 param4)
+void SA2_LABEL(sub_8007858)(u8 param0, int_vcount minY, int_vcount maxY, u16 param3, u16 param4)
 {
     u16 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[param0 * 4];
-    gHBlankCopySize = 4;
+    gHBlankCopySize = 2 * sizeof(REG_BG0HOFS);
 
     cursor = &((u16 *)gBgOffsetsHBlank)[minY * 2];
 
@@ -838,14 +840,14 @@ void sa2__sub_8007858(u8 param0, int_vcount minY, int_vcount maxY, u16 param3, u
     }
 }
 
-void sa2__sub_80078D4(u8 bg, int_vcount minY, int_vcount maxY, u16 offsetEven, u16 offsetOdd)
+void SA2_LABEL(sub_80078D4)(u8 bg, int_vcount minY, int_vcount maxY, u16 offsetEven, u16 offsetOdd)
 {
     s32 fillVal;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[bg * 4];
-    gHBlankCopySize = 4;
+    gHBlankCopySize = 2 * sizeof(REG_BG0HOFS);
 
     if (minY < maxY) {
         fillVal = (offsetEven %= 512u) | ((offsetOdd % 512u) << 16);
@@ -854,14 +856,14 @@ void sa2__sub_80078D4(u8 bg, int_vcount minY, int_vcount maxY, u16 offsetEven, u
     }
 }
 
-void sa2__sub_8007958(u8 bg, int_vcount minY, int_vcount maxY, s16 param3, s8 param4, u16 param5, u16 param6)
+void SA2_LABEL(sub_8007958)(u8 bg, int_vcount minY, int_vcount maxY, s16 param3, s8 param4, u16 param5, u16 param6)
 {
     u16 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&((u8 *)&REG_BG0HOFS)[bg * 4];
-    gHBlankCopySize = 4;
+    gHBlankCopySize = 2 * sizeof(REG_BG0HOFS);
 
     cursor = &((u16 *)gBgOffsetsHBlank)[minY * 2];
 
@@ -878,14 +880,14 @@ void sa2__sub_8007958(u8 bg, int_vcount minY, int_vcount maxY, s16 param3, s8 pa
     }
 }
 
-void sa2__sub_8007A08(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4)
+void SA2_LABEL(sub_8007A08)(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4)
 {
     u8 *cursor;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
-        gHBlankCopySize = 4;
+        gHBlankCopySize = sizeof(REG_WIN0H) * 2;
 
         if (bg & 1) {
             cursor = &((u8 *)gBgOffsetsHBlank)[2];
@@ -895,7 +897,7 @@ void sa2__sub_8007A08(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4)
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         }
     } else {
-        gHBlankCopySize = 2;
+        gHBlankCopySize = sizeof(REG_WIN0H);
         cursor = &((u8 *)gBgOffsetsHBlank)[0];
 
         if (bg & 1) {
@@ -931,27 +933,26 @@ void sa2__sub_8007A08(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4)
 }
 
 #if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
-void sa2__sub_8007AC0(u8 affineBg, int_vcount minY, int_vcount maxY)
+void SA2_LABEL(sub_8007AC0)(u8 affineBg, int_vcount minY, int_vcount maxY)
 {
     u16 *cursor;
     u16 affine;
     void **ptr;
     u32 bg = affineBg;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     ptr = &gHBlankCopyTarget;
 
     bg *= 16;
 #ifndef NON_MATCHING
     asm("sub %0, #0x20" ::"r"(bg));
-    *ptr = (void *)(REG_ADDR_BG2PA + bg);
 #else
     bg -= 0x20;
-    *ptr = (void *)(((uintptr_t)&REG_BG2PA) + bg);
 #endif
+    *ptr = (void *)(REG_ADDR_BG2PA + bg);
 
-    gHBlankCopySize = 2;
+    gHBlankCopySize = sizeof(REG_BG2PA);
 
     cursor = &((u16 *)gBgOffsetsHBlank)[minY];
 

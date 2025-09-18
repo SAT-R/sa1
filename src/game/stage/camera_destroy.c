@@ -29,7 +29,7 @@ void TaskDestructor_Camera(struct Task *unused)
         gFlags &= ~FLAGS_40;
     }
 
-    gFlags &= ~FLAGS_4;
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 }
 
 void Task_CallUpdateCamera(void)

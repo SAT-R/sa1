@@ -470,7 +470,7 @@ void UpdateScreenDma(void)
         gNumHBlankIntrs = 0;
     }
 
-    if (gFlags & FLAGS_4) {
+    if (gFlags & FLAGS_EXECUTE_HBLANK_COPY) {
 
         DmaCopy16(3, gBgOffsetsHBlank, gHBlankCopyTarget, gHBlankCopySize);
     }
@@ -553,7 +553,7 @@ void ClearOamBufferDma(void)
         }
 #endif
     }
-    gFlags &= ~FLAGS_4;
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     DmaFill16(3, 0x200, gOamBuffer + 0x00, 0x100);
     DmaFill16(3, 0x200, gOamBuffer + 0x20, 0x100);
     DmaFill16(3, 0x200, gOamBuffer + 0x40, 0x100);
@@ -646,7 +646,7 @@ void VBlankIntr(void)
     INTR_CHECK |= 1;
     gExecSoundMain = TRUE;
 
-    if (gFlagsPreVBlank & FLAGS_4) {
+    if (gFlagsPreVBlank & FLAGS_EXECUTE_HBLANK_COPY) {
         REG_IE |= INTR_FLAG_HBLANK;
         DmaWait(0);
 
@@ -681,7 +681,7 @@ void VBlankIntr(void)
             REG_DISPSTAT = DISPCNT_MODE_0;
             m4aMPlayAllStop();
             m4aSoundVSyncOff();
-            gFlags &= ~FLAGS_4;
+            gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
             DmaStop(0);
             DmaStop(1);
             DmaStop(2);

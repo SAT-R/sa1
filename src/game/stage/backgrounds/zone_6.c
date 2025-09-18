@@ -246,7 +246,7 @@ void StageBgUpdate_Zone6Act2(s32 x, s32 y)
     // TODO: There should be a macro for this already!
     r4 = ((ySub << 16) | xSub);
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 4;
 

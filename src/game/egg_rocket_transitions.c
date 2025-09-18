@@ -150,7 +150,7 @@ void Task_8028F20(void)
         }
         SA2_LABEL(sub_80078D4)(2, r7, DISPLAY_HEIGHT, gBgScrollRegs[2][0], gBgScrollRegs[2][1] - I(shake->qUnk8));
     } else {
-        gFlags &= ~FLAGS_4;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     }
 }
 
@@ -184,7 +184,7 @@ void Task_8029070(void)
         }
         SA2_LABEL(sub_80078D4)(2, r7, DISPLAY_HEIGHT, gBgScrollRegs[2][0], gBgScrollRegs[2][1] - I(shake->qUnk8));
     } else {
-        gFlags &= ~FLAGS_4;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     }
 }
 
@@ -274,7 +274,7 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_8029194.inc", void Task_8
             }
             SA2_LABEL(sub_80078D4)(2, r7, DISPLAY_HEIGHT, gBgScrollRegs[2][0], gBgScrollRegs[2][1] - I(shake->qUnk8));
         } else {
-            gFlags &= ~FLAGS_4;
+            gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
         }
     }
 }
@@ -356,7 +356,7 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_80294A8.inc", void Task_8
             gStageFlags &= ~FLAGS_UPDATE_BACKGROUND_PALETTES;
 
             if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
-                gStageFlags |= FLAGS_4;
+                gStageFlags |= FLAGS_EXECUTE_HBLANK_COPY;
                 gCourseTime = ZONE_TIME_TO_INT(5, 0);
             }
         }
@@ -367,7 +367,7 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_80294A8.inc", void Task_8
             gStageFlags &= ~1;
 
             if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
-                gStageFlags |= FLAGS_4;
+                gStageFlags |= FLAGS_EXECUTE_HBLANK_COPY;
                 gCourseTime = ZONE_TIME_TO_INT(5, 0);
             }
         }
@@ -376,7 +376,7 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_80294A8.inc", void Task_8
         gPlayer.heldInput = 0;
 
         TaskDestroy(gCurTask);
-        gFlags &= ~FLAGS_4;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 
         gCamera.SA2_LABEL(unk50) &= ~0x8000;
     } else if ((shake->worldY - gCamera.y) > 0) {

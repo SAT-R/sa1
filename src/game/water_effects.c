@@ -291,7 +291,7 @@ NONMATCH("asm/non_matching/game/water_effects__Task_StageWaterTask.inc", void Ta
 
 #if (GAME == GAME_SA1)
     if (unk2_0 >= DISPLAY_HEIGHT) {
-        gFlags &= ~FLAGS_4;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     } else {
         s32 r3 = gStageTime * 4;
         u32 r5;
@@ -311,7 +311,7 @@ NONMATCH("asm/non_matching/game/water_effects__Task_StageWaterTask.inc", void Ta
         }
 
         if (water->SA2_LABEL(unk2)) {
-            gFlags &= ~FLAGS_4;
+            gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
         }
     }
 #endif

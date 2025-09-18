@@ -652,7 +652,7 @@ NONMATCH("asm/non_matching/game/options_menu__sub_801123C.inc", void sub_801123C
                 REG_DISPSTAT = 0;
                 REG_DISPSTAT;
 
-                gFlags &= ~FLAGS_4;
+                gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 
                 SlowDmaStop(0);
                 SlowDmaStop(1);
@@ -707,7 +707,7 @@ void sub_80114A0()
     REG_DISPSTAT = 0;
     REG_DISPSTAT;
 
-    gFlags &= ~FLAGS_4;
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 
     SlowDmaStop(0);
     SlowDmaStop(1);

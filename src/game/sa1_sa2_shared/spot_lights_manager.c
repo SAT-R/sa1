@@ -120,5 +120,5 @@ void TaskDestructor_SpotlightsManager(struct Task *t)
     gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, 0);
     gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, 0);
 
-    gFlags &= ~FLAGS_4;
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
 }

@@ -23,7 +23,7 @@ void StageBgUpdate_Zone1Acts12(s32 x, s32 UNUSED y)
     bg->scrollY = 0;
     DrawBackground(bg);
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
     gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 4;
 

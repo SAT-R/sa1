@@ -19,7 +19,7 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
     gBgScrollRegs[3][0] = cam->sa2__unk52 = xSub = (x >> 2) % 256u;
     gBgScrollRegs[3][1] = cam->sa2__unk54 = ySub = (y >> 2) % 256u;
 
-    gFlags |= FLAGS_4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 4;

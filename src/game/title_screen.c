@@ -242,7 +242,7 @@ void Task_800D268(void)
 #endif
     } else {
         m4aSongNumStart(SE_RING);
-        gFlags &= ~FLAGS_4;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
         gCurTask->main = Task_800D450;
         logo->unk0 = 0U;
     }
@@ -285,7 +285,7 @@ void sub_800D3E0(void)
 
 void SwitchToSonicTeamLogo(void)
 {
-    gFlags &= ~FLAGS_4;
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     TaskDestroy(gCurTask);
     CreateSonicTeamLogo();
 }
@@ -317,7 +317,7 @@ void sub_800D498(void)
 void Task_800D4B0(void)
 {
     gFlags &= ~FLAGS_8000;
-    gFlags &= ~FLAGS_4;
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     TaskDestroy(gCurTask);
     CreateTitleScreen(1);
 }
