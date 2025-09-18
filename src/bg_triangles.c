@@ -6,14 +6,17 @@
 #include "trig.h"
 #include "flags.h"
 
+#ifndef NON_MATCHING
+#define MATCH_BREAK asm("")
+#else
+/* No asm block needed, better for optimization */
+#define MATCH_BREAK
+#endif
+
 /* TODO: Rename this module to something background-related */
 #include "bg_triangles.h"
 
 #if (GAME == GAME_SA1) // SA1
-const u16 gUnknown_0809C138[] = {
-    0x0001,
-    0x0001,
-};
 #elif 0 // SA2
 const u16 gUnknown_080984F4[] = {
     // Zone 1
@@ -332,264 +335,381 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
 }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/engine/sa2__unused_sub_800672C.inc", void sa2__sub_800672C()) { }
+NONMATCH("asm/non_matching/engine/sa2__unused_sub_800672C.inc", void SA2_LABEL(sub_800672C)()) { }
 END_NONMATCH
 
-NONMATCH("asm/non_matching/engine/sa2__unused_sub_8006DB4.inc", void sa2__sub_8006DB4()) { }
-END_NONMATCH
-
-// When this function is called, the background layer that is
-// "lightened" by spot lights is fully lit.
-// This function filters out all non-lit parts to display them normally.
-// TODO: validate type of param1!
-// (80.10%) https://decomp.me/scratch/8wQzE
-NONMATCH("asm/non_matching/engine/sa2__sub_800724C.inc", void sa2__sub_800724C(u8 bg, TriParam1 *param1))
+void SA2_LABEL(sub_8006DB4)(u8 arg0, u8 *arg1, s32 unused, s32 arg3)
 {
-    Unknown *u;
-    Unknown sp00[5];
-    Unknown *pSp0;
-    int_vcount *cursor, *cursor2;
-#ifndef NON_MATCHING
-    register u32 r0 asm("r0");
-    register u32 r1 asm("r1");
-    register u32 r2 asm("r2");
-    register u16 sb asm("sb");
-    register u16 r4 asm("r4");
-    register u32 r7 asm("r7");
-#else
-    u32 r0;
-    u32 r1;
-    u32 r2;
-    u16 sb;
-    u16 r4;
-    u32 r7;
-#endif
-    int_vcount sp14[2]; // TODO: type might be inaccurate? Find out whether this is
-                        // display resolutions
-    u32 sp18;
-    u8 a, b;
-    s32 temp;
-    s16 *sp;
+    s16 sp0[2];
+    s16 sp4[2] = { 1, 1 };
+    s16 sp8[2];
+    s16 spC[2] = { 0 };
+    s16 sp10[2] = { 0 };
+    u8 sp14[2];
+    s16 maxVal2;
+    s32 var_r0_5;
+    u8 var_r0_6;
+    u8 maxVal;
+    u8 minVal;
+    u8 *var_r4;
 
-#ifndef NON_MATCHING
-    register Unknown *ip asm("ip");
-#else
-    Unknown *ip;
-#endif
+    gFlags |= 4;
 
-    pSp0 = &sp00[1];
-    memcpy(pSp0, &gUnknown_0809C138, sizeof(sp00[1]));
-    cursor = (int_vcount *)&sp00[3];
-    memset(cursor, 0, sizeof(sp00[3]));
-    cursor2 = (int_vcount *)&sp00[4];
-    memset(cursor2, 0, sizeof(sp00[4]));
-
-    gFlags |= FLAGS_4;
-
-    if (bg >= 2) {
+    if (arg0 > 1U) {
         sa2__gUnknown_03002A80 = 4;
-
-        if (bg & 1) {
-            cursor = &((int_vcount *)gBgOffsetsHBlank)[2];
-            sa2__gUnknown_03002878 = (void *)&REG_WIN0H;
+        if (1 & arg0) {
+            var_r4 = gBgOffsetsHBlank + sizeof(winreg_t);
         } else {
-            cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
-            sa2__gUnknown_03002878 = (void *)&REG_WIN0H;
+            var_r4 = gBgOffsetsHBlank;
         }
+
+        sa2__gUnknown_03002878 = (void *)&REG_WIN0H;
     } else {
         sa2__gUnknown_03002A80 = 2;
-        cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
+        var_r4 = gBgOffsetsHBlank;
 
-        if (bg & 1) {
+        if (1 & arg0) {
             sa2__gUnknown_03002878 = (void *)&REG_WIN1H;
         } else {
             sa2__gUnknown_03002878 = (void *)&REG_WIN0H;
         }
     }
 
-    r0 = param1->unk5;
-    r7 = r2 = param1->unk1;
-    r1 = r0;
-    if (r0 > r7) {
-        r0 = param1->unk1;
-    }
-    r4 = r0;
+    minVal = MIN(arg1[1], arg1[5]);
+    maxVal = MAX(arg1[1], arg1[5]);
 
-    sb = (u8)r1;
-    if (sb < r7) {
-        r1 = param1->unk1;
-    }
-    sp18 = r1;
+    var_r4 += (minVal * sa2__gUnknown_03002A80);
+    sp0[0] = (arg1[2] - arg1[0]);
+    sp4[0] = (arg1[3] - arg1[1]);
+    spC[0] = (ABS(sp0[0]) * 2);
+    sp10[0] = (ABS(sp4[0]) * 2);
+    sp0[1] = (arg1[6] - arg1[4]);
+    sp4[1] = (arg1[7] - arg1[5]);
 
-    cursor += (r4 * sa2__gUnknown_03002A80);
+    spC[1] = (ABS(sp0[1]) * 2);
+    var_r0_5 = ABS(sp4[1]);
+    sp10[1] = (var_r0_5 * 2);
+    sp14[0] = arg1[0];
+    sp14[1] = arg1[4];
+    sp8[0] = -sp4[0];
+    sp8[1] = -sp4[1];
 
-    sp00[0].x = param1->unk2 - param1->unk0;
-    pSp0->x = param1->unk3 - param1->unk1;
+    if ((minVal != maxVal) && (arg1[1] < arg1[5])) {
+        while (minVal < maxVal) {
+            var_r4[0] = arg3;
+            var_r4[1] = sp14[0];
+            sp8[0] += spC[0];
 
-    u = &sp00[3];
-    u->x = abs(sp00[0].x) * 2;
-    sp00[4].x = abs(pSp0->x) * 2;
-
-    // _08007352 + 6
-    sp00[0].y = param1->unk6 - param1->unk4;
-    sp00[1].y = param1->unk7 - param1->unk5;
-
-    sp00[3].y = abs(sp00[0].y) * 2;
-    sp00[4].y = abs(sp00[1].y) * 2;
-
-    // _08007388+6
-    sp14[0] = param1->unk0;
-    sp14[1] = param1->unk4;
-
-    sp00[2].x = -sp00[1].x;
-    sp00[2].y = -sp00[1].y;
-
-    ip = &sp00[2];
-    if (r4 != sp18) {
-        // _080073B6
-        if (bg < sb) {
-            while (r4 < sp18) {
-                // _080073C0
-                cursor[0] = DISPLAY_WIDTH;
-                cursor[1] = sp14[0];
-
-                sp00[2].x += sp00[3].x;
-
-                r4++;
-
-                while (sp00[2].x >= 0) {
-                    if (sp00[0].x > 0) {
+            while (sp8[0] >= 0) {
+                if (sp0[0] > 0) {
+                    if (arg3 > sp14[0]) {
                         sp14[0]++;
-                        sp00[2].x -= sp00[4].x;
-                        asm("");
-                    } else {
-                        // _0800740C
+                    }
+                    sp8[0] -= sp10[0];
+                } else {
+                    if (sp14[0] != 0) {
                         sp14[0]--;
-                        sp00[2].x -= sp00[4].x;
                     }
 
-                    if (sp00[2].x >= 0) {
-                        cursor[1] = sp14[0];
+                    sp8[0] -= sp10[0];
+                    if (sp8[0] >= 0) {
+                        var_r4[1] = sp14[0];
                     }
                 }
-                // _08007430
-
-                cursor += sa2__gUnknown_03002A80;
+                MATCH_BREAK;
             }
-        } else {
-            Unknown *sp2, *sp4;
-            // _08007448
 
-            while (r4 < sp18) {
-                // _08007450
-                cursor[0] = sp14[1];
-                cursor[1] = 0;
-
-                sp2 = &sp00[2];
-                sp2->y += sp00[3].y;
-
-                sb = ++r4;
-
-                for (sp4 = &sp00[4]; sp2->y >= 0;) {
-                    if (sp00[0].y > 0) {
-                        sp14[1]++;
-                        sp2->y -= sp4->y;
-
-                        if (sp2->y >= 0) {
-                            *cursor = sp14[1] + 1;
+            var_r4 += sa2__gUnknown_03002A80;
+            minVal++;
+        }
+    } else {
+        while (minVal < maxVal) {
+            var_r4[0] = sp14[1];
+            var_r4[1] = 0;
+            sp8[1] += spC[1];
+            if (sp8[1] >= 0) {
+                while (sp8[1] >= 0) {
+                    if (sp0[1] > 0) {
+                        if (arg3 > sp14[1]) {
+                            sp14[1]++;
                         }
-                        asm("");
+
+                        sp8[1] -= sp10[1];
+                        if (sp8[1] >= 0) {
+                            var_r4[0] = (sp14[1] + 1);
+                        }
                     } else {
-                        // _0800749E
-                        sp14[1]--;
-                        sp2->y -= sp4->y;
+                        if (sp14[1] != 0) {
+                            sp14[1]--;
+                        }
+                        sp8[1] -= sp10[1];
                     }
-                    // _080074AC
+
+                    MATCH_BREAK;
                 }
-                // _080074B6
-                cursor += sa2__gUnknown_03002A80;
             }
+            var_r4 += sa2__gUnknown_03002A80;
+            minVal++;
         }
     }
-    // _080074C8
 
-    r0 = param1->unk7;
-    r1 = param1->unk3;
+    maxVal = MIN(arg1[3], arg1[7]);
 
-    if (r0 > r1) {
-        r0 = r1;
-    }
+    while (minVal < maxVal) {
+        var_r4[0] = sp14[1];
+        var_r4[1] = sp14[0];
+        sp8[0] += spC[0];
+        sp8[1] += spC[1];
 
-    sp18 = r0;
-
-    for (; sb < sp18; sb++) {
-        Unknown *sp0;
-        Unknown *sp2;
-        Unknown *sp3;
-        Unknown *sp4;
-#ifndef NON_MATCHING
-        register Unknown *r6 asm("r6");
-#else
-        Unknown *r6;
-#endif
-        // _080074E0
-        cursor[0] = sp14[1];
-        cursor[1] = sp14[0];
-
-        sp3 = &sp00[3];
-        sp2 = &sp00[2];
-        sp2->x += sp3->x;
-        sp2->y += sp3->y;
-        sp4 = &sp00[4];
-
-        ++r4;
-        sb = r4;
-
-        while (sp2->x >= 0) {
-            if (sp00[0].x > 0) {
-                sp14[0]++;
-                sp2->x -= sp4->x;
+        while (sp8[0] >= 0) {
+            if (sp0[0] > 0) {
+                if (arg3 > sp14[0]) {
+                    sp14[0]++;
+                }
+                sp8[0] -= sp10[0];
             } else {
-                // _08007530
-                sp14[0]--;
-                sp2->x -= sp4->x;
-
-                if (sp2->x >= 0) {
-                    cursor[1] = sp14[0];
+                if (sp14[0] != 0) {
+                    sp14[0]--;
                 }
-                asm("");
+
+                sp8[0] -= sp10[0];
+                if (sp8[0] >= 0) {
+                    var_r4[1] = sp14[0];
+                }
             }
+            MATCH_BREAK;
         }
-        // _08007558
-
-        sp4 = &sp00[4];
-        sp2 = &sp00[2];
-        while (sp2->y >= 0) {
-            r6 = &sp00[2];
-            sp0 = &sp00[0];
-            if (sp0->y > 0) {
-                sp14[1]++;
-                sp2->y -= sp4->y;
-
-                if (sp2->y >= 0) {
-                    cursor[0] = sp14[1] + 1;
+        while (sp8[1] >= 0) {
+            if (sp0[1] > 0) {
+                if (arg3 > sp14[1]) {
+                    sp14[1]++;
                 }
-                asm("");
+
+                sp8[1] -= sp10[1];
+                if (sp8[1] >= 0) {
+                    var_r4[0] = (sp14[1] + 1);
+                }
             } else {
-                // _08007590
-                sp14[1]--;
-                sp2->y -= sp4->y;
+                if (sp14[1] != 0) {
+                    sp14[1]--;
+                }
+                sp8[1] -= sp10[1];
             }
+            MATCH_BREAK;
         }
-        // _080075A8
-        cursor += sa2__gUnknown_03002A80;
+
+        var_r4 += sa2__gUnknown_03002A80;
+        minVal++;
     }
-    // _080075BA
+
+    maxVal = MAX(arg1[3], arg1[7]);
+
+    if (arg1[3] <= arg1[7]) {
+        while (minVal < maxVal) {
+            var_r4[0] = sp14[1];
+            var_r4[1] = 0;
+            sp8[1] += spC[1];
+
+            while (sp8[1] >= 0) {
+                if (sp0[1] > 0) {
+                    if (arg3 > sp14[1]) {
+                        sp14[1]++;
+                    }
+                    sp8[1] -= sp10[1];
+                    if (sp8[1] >= 0) {
+                        var_r4[0] = (sp14[1] + 1);
+                    }
+                } else {
+                    if (sp14[1] != 0) {
+                        sp14[1]--;
+                    }
+                    sp8[1] -= sp10[1];
+                }
+                MATCH_BREAK;
+            }
+
+            var_r4 += sa2__gUnknown_03002A80;
+            minVal++;
+        }
+    } else {
+        while (minVal < maxVal) {
+            var_r4[0] = arg3;
+            var_r4[1] = sp14[0];
+            sp8[0] += spC[0];
+
+            while (sp8[0] >= 0) {
+                if (sp0[0] > 0) {
+                    if (arg3 > sp14[0]) {
+                        sp14[0]++;
+                    }
+                    sp8[0] = (sp8[0] - sp10[0]);
+                } else {
+                    if (sp14[0] != 0) {
+                        sp14[0]--;
+                    }
+                    sp8[0] -= sp10[0];
+                    if (sp8[0] >= 0) {
+                        var_r4[1] = sp14[0];
+                    }
+                }
+                MATCH_BREAK;
+            }
+
+            var_r4 += sa2__gUnknown_03002A80;
+            minVal++;
+        }
+    }
 }
-END_NONMATCH
+
+// When this function is called, the background layer that is
+// "lightened" by spot lights is fully lit.
+void SA2_LABEL(sub_800724C)(u8 arg0, TriParam1 *arg1)
+{
+    s16 sp0[2];
+    s16 sp4[2] = { 1, 1 };
+    s16 sp8[2];
+    s16 spC[2] = { 0 };
+    s16 sp10[2] = { 0 };
+    u8 sp14[2];
+    u8 *var_r4;
+    u8 minVal;
+    u8 maxVal;
+
+    gFlags |= 4;
+
+    if (arg0 > 1U) {
+        sa2__gUnknown_03002A80 = 4;
+        if (1 & arg0) {
+            var_r4 = gBgOffsetsHBlank + sizeof(winreg_t);
+        } else {
+            var_r4 = gBgOffsetsHBlank;
+        }
+
+        sa2__gUnknown_03002878 = (void *)&REG_WIN0H;
+    } else {
+        sa2__gUnknown_03002A80 = 2;
+        var_r4 = gBgOffsetsHBlank;
+        if (1 & arg0) {
+            sa2__gUnknown_03002878 = (void *)&REG_WIN1H;
+        } else {
+            sa2__gUnknown_03002878 = (void *)&REG_WIN0H;
+        }
+    }
+
+    minVal = MIN(arg1->unk1, arg1->unk5);
+    maxVal = MAX(arg1->unk1, arg1->unk5);
+
+    var_r4 += (minVal * sa2__gUnknown_03002A80);
+    sp0[0] = (arg1->unk2 - arg1->unk0);
+    sp4[0] = (arg1->unk3 - arg1->unk1);
+    spC[0] = (ABS(sp0[0]) * 2);
+    sp10[0] = (ABS(sp4[0]) * 2);
+    sp0[1] = (arg1->unk6 - arg1->unk4);
+    sp4[1] = (arg1->unk7 - arg1->unk5);
+
+    spC[1] = (ABS(sp0[1]) * 2);
+    sp10[1] = (ABS(sp4[1]) * 2);
+    sp14[0] = arg1->unk0;
+    sp14[1] = arg1->unk4;
+    sp8[0] = -sp4[0];
+    sp8[1] = -sp4[1];
+
+    if ((minVal != maxVal) && (arg1->unk1 < arg1->unk5)) {
+        while (minVal < maxVal) {
+            var_r4[0] = DISPLAY_WIDTH;
+            var_r4[1] = sp14[0];
+            sp8[0] += spC[0];
+
+            while (sp8[0] >= 0) {
+                if (sp0[0] > 0) {
+                    sp14[0]++;
+                    sp8[0] -= sp10[0];
+                } else {
+                    sp14[0]--;
+
+                    sp8[0] -= sp10[0];
+                    if (sp8[0] >= 0) {
+                        var_r4[1] = sp14[0];
+                    }
+                }
+                MATCH_BREAK;
+            }
+
+            var_r4 += sa2__gUnknown_03002A80;
+            minVal++;
+        }
+    } else {
+        while (minVal < maxVal) {
+            var_r4[0] = sp14[1];
+            var_r4[1] = 0;
+            sp8[1] += spC[1];
+            if (sp8[1] >= 0) {
+                while (sp8[1] >= 0) {
+                    if (sp0[1] > 0) {
+                        sp14[1]++;
+
+                        sp8[1] -= sp10[1];
+                        if (sp8[1] >= 0) {
+                            var_r4[0] = (sp14[1] + 1);
+                        }
+                    } else {
+                        sp14[1]--;
+                        sp8[1] -= sp10[1];
+                    }
+
+                    MATCH_BREAK;
+                }
+            }
+            var_r4 += sa2__gUnknown_03002A80;
+            minVal++;
+        }
+    }
+
+    maxVal = MIN(arg1->unk3, arg1->unk7);
+
+    while (minVal < maxVal) {
+        var_r4[0] = sp14[1];
+        var_r4[1] = sp14[0];
+        sp8[0] += spC[0];
+        sp8[1] += spC[1];
+
+        while (sp8[0] >= 0) {
+            if (sp0[0] > 0) {
+                sp14[0]++;
+                sp8[0] -= sp10[0];
+            } else {
+                sp14[0]--;
+
+                sp8[0] -= sp10[0];
+                if (sp8[0] >= 0) {
+                    var_r4[1] = sp14[0];
+                }
+            }
+            MATCH_BREAK;
+        }
+
+        while (sp8[1] >= 0) {
+            if (sp0[1] > 0) {
+                sp14[1]++;
+
+                sp8[1] -= sp10[1];
+                if (sp8[1] >= 0) {
+                    var_r4[0] = (sp14[1] + 1);
+                }
+            } else {
+                sp14[1]--;
+                sp8[1] -= sp10[1];
+            }
+            MATCH_BREAK;
+        }
+
+        var_r4 += sa2__gUnknown_03002A80;
+        minVal++;
+    }
+}
 
 // TODO: param2 might be horizontal
-void sa2__sub_80075D0(u8 bg, u8 param1, u8 param2, s16 param3, u16 param4, u16 param5)
+void SA2_LABEL(sub_80075D0)(u8 bg, u8 param1, u8 param2, s16 param3, u16 param4, u16 param5)
 {
     int_vcount *cursor;
     s16 r1;
