@@ -36,7 +36,7 @@ bool32 CreateSpotlightsManager(void)
         beamA->unk2 = 0x40;
         beamA->unk4 = 0x40;
         beamA->unk4 = 0x800;
-        beamA->unkA = 2;
+        beamA->bg = 2;
         beamA->unkB = 0x20;
 
         manager->spotlightTaskB = CreateSpotlightBeamTask();
@@ -46,7 +46,7 @@ bool32 CreateSpotlightsManager(void)
         beamA->unk0 = 0;
         beamA->unk2 = 8;
         beamA->unk4 = 0x400;
-        beamA->unkA = 3;
+        beamA->bg = 3;
         beamA->unkB = 0x10;
 
         gBldRegs.bldCnt = (BLDCNT_EFFECT_DARKEN | BLDCNT_TGT2_ALL | (BLDCNT_TGT1_ALL & ~BLDCNT_TGT1_BD));

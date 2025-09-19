@@ -23,6 +23,7 @@ typedef struct {
 #endif
 } TriParam1;
 
+extern void SA2_LABEL(sub_8006DB4)(u8 bg, TriParam1 *arg1, s32 unused, s32 arg3);
 extern void SA2_LABEL(sub_800724C)(u8 bg, TriParam1 *param1);
 extern void SA2_LABEL(sub_80075D0)(u8 bg, u8 param1, u8 param2, s16 param3, s16 param4, u16 param5);
 extern void SA2_LABEL(sub_8007738)(u8 bg, int_vcount minY, int_vcount maxY, u16 param3, u8 param4, u8 param5, u16 param6, u8 param7,

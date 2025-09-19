@@ -87,6 +87,23 @@ void CreateEntity_DummyEnt(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 
+// Extra Boss
+void sub_8052474() { }
+void sub_80524F0() { }
+void sub_8052150() { }
+void sub_80523D4() { }
+void sub_80523F8() { }
+void sub_8052424() { }
+void sub_8052468() { }
+void sub_8052578() { }
+void sub_80525E0() { }
+void sub_805265C() { }
+void sub_80526C4() { }
+void sub_8052724() { }
+void sub_8052780() { }
+void sub_80527DC() { }
+void sub_8052838() { }
+
 // Bosses
 extern void CreateEntity_StageGoal(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_StageGoal(me, regionX, regionY, id); }

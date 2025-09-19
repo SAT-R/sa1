@@ -8,7 +8,7 @@ typedef struct {
     s16 unk4;
     s16 unk6;
     s16 unk8;
-    u8 unkA;
+    u8 bg;
     u8 unkB;
 } SpotlightBeam; /* size: 0xC */
 

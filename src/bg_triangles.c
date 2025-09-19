@@ -353,7 +353,7 @@ void SA2_LABEL(sub_80064A8)(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4, u
 NONMATCH("asm/non_matching/engine/sa2__unused_sub_800672C.inc", void SA2_LABEL(sub_800672C)()) { }
 END_NONMATCH
 
-void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
+void SA2_LABEL(sub_8006DB4)(u8 bg, TriParam1 *arg1, s32 unused, s32 arg3)
 {
     s16 sp0[2];
     s16 sp4[2] = { 1, 1 };
@@ -391,26 +391,26 @@ void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
         }
     }
 
-    minVal = MIN(arg1[1], arg1[5]);
-    maxVal = MAX(arg1[1], arg1[5]);
+    minVal = MIN(arg1->unk1, arg1->unk5);
+    maxVal = MAX(arg1->unk1, arg1->unk5);
 
     cursor = IncCursor(cursor, minVal * gHBlankCopySize);
-    sp0[0] = (arg1[2] - arg1[0]);
-    sp4[0] = (arg1[3] - arg1[1]);
+    sp0[0] = (arg1->unk2 - arg1->unk0);
+    sp4[0] = (arg1->unk3 - arg1->unk1);
     spC[0] = (ABS(sp0[0]) * 2);
     sp10[0] = (ABS(sp4[0]) * 2);
-    sp0[1] = (arg1[6] - arg1[4]);
-    sp4[1] = (arg1[7] - arg1[5]);
+    sp0[1] = (arg1->unk6 - arg1->unk4);
+    sp4[1] = (arg1->unk7 - arg1->unk5);
 
     spC[1] = (ABS(sp0[1]) * 2);
     var_r0_5 = ABS(sp4[1]);
     sp10[1] = (var_r0_5 * 2);
-    sp14[0] = arg1[0];
-    sp14[1] = arg1[4];
+    sp14[0] = arg1->unk0;
+    sp14[1] = arg1->unk4;
     sp8[0] = -sp4[0];
     sp8[1] = -sp4[1];
 
-    if ((minVal != maxVal) && (arg1[1] < arg1[5])) {
+    if ((minVal != maxVal) && (arg1->unk1 < arg1->unk5)) {
         while (minVal < maxVal) {
             cursor[0] = arg3;
             cursor[1] = sp14[0];
@@ -470,7 +470,7 @@ void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
         }
     }
 
-    maxVal = MIN(arg1[3], arg1[7]);
+    maxVal = MIN(arg1->unk3, arg1->unk7);
 
     while (minVal < maxVal) {
         cursor[0] = sp14[1];
@@ -519,9 +519,9 @@ void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
         minVal++;
     }
 
-    maxVal = MAX(arg1[3], arg1[7]);
+    maxVal = MAX(arg1->unk3, arg1->unk7);
 
-    if (arg1[3] <= arg1[7]) {
+    if (arg1->unk3 <= arg1->unk7) {
         while (minVal < maxVal) {
             cursor[0] = sp14[1];
             cursor[1] = 0;

@@ -2,6 +2,7 @@
 #include "core.h"
 #include "trig.h"
 #include "malloc_vram.h"
+#include "bg_triangles.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
 #include "game/enemies/bosses_shared.h" // CreatePreBossCameraPan
@@ -47,7 +48,7 @@ SomeTaskManager_7C *sub_8052780(SomeTaskManager_7C *strc, s32 param1, s32 param2
 SomeTaskManager_7C *sub_80527DC(SomeTaskManager_7C *strc, s32 param1, s32 param2, GfxInfo *gfx, s32 param4);
 
 void sub_804B570(s32, s32);
-s32 sub_8052150(s32 arg0, s32 arg1, u32 arg2, SomeTaskManager_7C *arg3);
+bool32 sub_8052150(s32 arg0, s32 arg1, u16 arg2, SomeTaskManager_7C *arg3);
 
 void Task_SuperEggRobotInit()
 {
@@ -1297,4 +1298,115 @@ bool32 sub_80520B8(SuperEggRobo *boss)
     }
 
     return result;
+}
+
+bool32 sub_8052150(s32 arg0, s32 arg1, u16 arg2, SomeTaskManager_7C *arg3)
+{
+    int_vcount sp0[8];
+    s32 sp8;
+    s32 temp_r4_2;
+    s32 temp_r2_2;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 var_r0;
+    s32 var_r1;
+    s32 var_r2;
+    s32 var_r3;
+    s32 var_r4;
+    s32 var_r4_2;
+    s32 var_r5;
+    s32 var_r6;
+    s32 var_r7;
+    s32 var_r8;
+    s32 var_sb;
+    s32 var_sl;
+
+    s32 v;
+
+    temp_r5 = COS_24_8(arg3->unk70 >> 6);
+    temp_r6 = SIN_24_8(arg3->unk70 >> 6);
+    v = (temp_r5 * 0xF00);
+    var_r7 = arg0 + (((temp_r6 << 0xC) - v) >> 0x10);
+    v = (temp_r6 * 0xF00);
+    var_r5 = arg1 + (((0 - (temp_r5 << 0xC)) - v) >> 0x10);
+    var_r6 = var_r5 + 3;
+    var_sl = 0;
+    sp8 = 0;
+    temp_r4_2 = (s16)Div(SIN_24_8(arg2 >> 6) << 8, COS_24_8(arg2 >> 6));
+    temp_r2_2 = Div(0x10000, temp_r4_2);
+    var_r1 = var_r5 - ((var_r7 * temp_r4_2) >> 8);
+    var_r8 = var_r1 + 3;
+    if (var_r7 > (DISPLAY_WIDTH - 1)) {
+        var_r0 = I(temp_r4_2 * (DISPLAY_WIDTH - var_r7));
+        var_r5 += var_r0;
+        var_r6 += var_r0;
+        var_r7 = (DISPLAY_WIDTH - 1);
+    }
+
+    if (var_r5 >= (DISPLAY_HEIGHT - 1)) {
+        return FALSE;
+    }
+
+    {
+        var_sb = var_r7;
+        var_r4 = var_r7;
+        if (var_r5 < 0) {
+            var_r4 = var_r7 - ((var_r5 * temp_r2_2) >> 8);
+            var_r5 = 0;
+            if (var_r6 < 0) {
+                var_sb = var_r7 - ((var_r6 * temp_r2_2) >> 8);
+                var_r6 = 0;
+            }
+        }
+
+        var_r5 = CLAMP_32(var_r5, 0, (DISPLAY_HEIGHT - 1));
+        var_r6 = CLAMP_32(var_r6, 0, (DISPLAY_HEIGHT - 1));
+
+        if (var_r8 > (DISPLAY_HEIGHT - 1)) {
+            s32 r8 = (DISPLAY_HEIGHT - var_r8);
+            sp8 += (r8 * temp_r2_2) >> 8;
+            var_r8 = (DISPLAY_HEIGHT - 1);
+            if (var_r1 > (DISPLAY_HEIGHT - 1)) {
+                var_sl += (temp_r2_2 * (DISPLAY_HEIGHT - var_r1)) >> 8;
+                var_r1 = (DISPLAY_HEIGHT - 1);
+            }
+        }
+        if ((var_sl >= (DISPLAY_WIDTH - 1)) || (var_r5 >= (DISPLAY_HEIGHT - 1)) || (var_r7 == var_sl) || (var_r5 == var_r1)
+            || (var_r6 == var_r8)) {
+            return FALSE;
+        }
+
+        var_sl = CLAMP_32(var_sl, 0, DISPLAY_WIDTH - 1);
+        var_r2 = CLAMP_32(sp8, 0, (DISPLAY_WIDTH - 1));
+
+        sp0[0] = var_r4;
+        sp0[1] = var_r5;
+        sp0[2] = var_sl;
+        sp0[3] = var_r1;
+        sp0[4] = var_sb;
+        sp0[5] = var_r6;
+        sp0[6] = var_r2;
+        sp0[7] = var_r8;
+        sa2__sub_8006DB4(0U, (TriParam1 *)&sp0, 0, var_r7 + 1);
+
+        if (var_r5 >= 0) {
+            var_r4_2 = var_r5;
+            if (var_r4_2 > (DISPLAY_HEIGHT - 1)) {
+                var_r4_2 = (DISPLAY_HEIGHT - 1);
+            }
+        } else {
+            var_r4_2 = 0;
+        }
+
+        var_r3 = CLAMP_32(var_r8, 0, (DISPLAY_HEIGHT - 1));
+
+        gDispCnt |= 0x2000;
+        gWinRegs[2] = (var_r4_2 << 8) | var_r3;
+        gWinRegs[5] = 0x1F1F;
+        gWinRegs[4] = 0x3F3F;
+        gBldRegs.bldCnt = 0x3FBF;
+        gBldRegs.bldY = 0xE;
+    }
+
+    return TRUE;
 }
