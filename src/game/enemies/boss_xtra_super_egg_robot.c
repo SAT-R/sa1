@@ -18,6 +18,7 @@
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
+#include "constants/vram_hardcoded.h"
 
 /* Extra Zone Boss - Super Egg Robot */
 
@@ -36,11 +37,6 @@ SomeTaskManager_7C *sub_8052578(SomeTaskManager_7C *strc, s32 param1, s32 param2
 SomeTaskManager_7C *sub_80525E0(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3);
 SomeTaskManager_7C *sub_805265C(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3);
 SomeTaskManager_7C *sub_8052838(SuperEggRobo *boss, s32 param1, s32 param2, s32 param3);
-
-typedef struct GfxInfo {
-    TileInfoBitfield tileInfo;
-    u8 *vram;
-} GfxInfo;
 
 SomeTaskManager_7C *sub_80526C4(SomeTaskManager_7C *strc, s32 param1, s32 param2, GfxInfo *gfx, s32 param4);
 SomeTaskManager_7C *sub_8052724(SomeTaskManager_7C *strc, s32 param1, s32 param2, GfxInfo *gfx, s32 param4);
@@ -336,6 +332,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_8050194.inc", s32 sub_805
 }
 END_NONMATCH
 
+// (92.84%) https://decomp.me/scratch/fY0bw
 NONMATCH("asm/non_matching/game/enemies/boss_xtra__sub_80504DC.inc", void sub_80504DC(SuperEggRobo *boss, MapEntity *me))
 {
     GfxInfo gfx;
@@ -1409,4 +1406,269 @@ bool32 sub_8052150(s32 arg0, s32 arg1, u16 arg2, SomeTaskManager_7C *arg3)
     }
 
     return TRUE;
+}
+
+void CreateEntity_SuperEggRobot(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    if (IS_MULTI_PLAYER) {
+        SET_MAP_ENTITY_INITIALIZED(me);
+        return;
+    } else {
+        struct Task *t = TaskCreate(Task_SuperEggRobotInit, sizeof(SuperEggRobo), 0x2000, 0, NULL);
+        SuperEggRobo *boss = TASK_DATA(t);
+
+        boss->base.regionX = regionX;
+        boss->base.regionY = regionY;
+        boss->base.me = me;
+        boss->base.meX = me->x;
+        boss->base.id = id;
+        SET_MAP_ENTITY_INITIALIZED(me);
+
+        sub_80504DC(boss, me);
+
+        gExtraBossTaskData.boss = boss;
+    }
+}
+
+static void TaskDestructor_unused(struct Task *t)
+{
+    SuperEggRobo *boss = TASK_DATA(t);
+    VramFree(boss->unusedSprite.graphics.dest);
+}
+
+void sub_80523D4(SuperEggRobo *boss)
+{
+    s32 temp_r0;
+
+    temp_r0 = sub_8050194(boss);
+    if (temp_r0 <= 3) {
+        boss->qUnk4E = Q(temp_r0);
+    } else {
+        boss->flags58 |= 2;
+    }
+}
+
+void sub_80523F8(SuperEggRobo *boss)
+{
+    s32 temp_r0;
+
+    temp_r0 = sub_8050194(boss);
+    if (temp_r0 < 0) {
+        boss->qUnk48 += Q(temp_r0);
+        boss->flags58 &= ~2;
+        boss->qUnk4E = 0;
+    }
+}
+
+void sub_8052424(SuperEggRobo *boss)
+{
+    boss->qUnk44 += boss->qUnk4C;
+    boss->qUnk48 += boss->qUnk4E;
+    boss->qUnk4C += boss->qUnk50;
+    boss->qUnk4E += boss->qUnk52;
+}
+
+void sub_8052468(SuperEggRobo *boss) { boss->qUnk4E += Q(16. / 256.); }
+
+SomeTaskManager_7C *sub_8052474(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3)
+{
+    SomeTaskManager_7C *strc2;
+    GfxInfo gfx;
+    struct Task *t;
+    Sprite *s;
+
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_HEAD;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = ALLOC_TILES(SA1_ANIM_BOSS_XTRA_HEAD);
+    t = CreateSomeTaskManager_7C_Task(&gfx, sub_8050A88, TaskDestructor_SomeTaskManager_60_Common);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk72 = 0xFFC0;
+    strc2->unk0.s.oamFlags = (param3 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_80524F0(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3)
+{
+    SomeTaskManager_7C *strc2;
+    GfxInfo gfx;
+    struct Task *t;
+    Sprite *s;
+
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_ARM_BEARING;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = VRAM_RESERVED_BOSS_XTRA_BEARING;
+    t = CreateSomeTaskManager_7C_Task(&gfx, sub_8050FB4, NULL);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk76 = 0;
+    strc2->unk72 = 0x80;
+    strc2->unk0.s.oamFlags = (param3 << 6);
+    strc2->unk0.s.frameFlags = 0x2040;
+    strc2->unk0.transform.qScaleX = Q(1.5);
+    strc2->unk0.transform.qScaleY = Q(1.5);
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_8052578(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3)
+{
+    SomeTaskManager_7C *strc2;
+    GfxInfo gfx;
+    struct Task *t;
+    Sprite *s;
+
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_ARM_BEARING;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = VRAM_RESERVED_BOSS_XTRA_BEARING;
+    t = CreateSomeTaskManager_7C_Task(&gfx, sub_80518E8, NULL);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk0.s.oamFlags = (param3 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_80525E0(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3)
+{
+    SomeTaskManager_7C *strc2;
+    GfxInfo gfx;
+    struct Task *t;
+    Sprite *s;
+
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_ARM_BEARING;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = VRAM_RESERVED_BOSS_XTRA_BEARING;
+    t = CreateSomeTaskManager_7C_Task(&gfx, sub_8051344, NULL);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk72 = 0x80;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk0.s.oamFlags = (param3 << 6);
+    strc2->unk0.s.frameFlags = 0x2040;
+    strc2->unk0.transform.qScaleX = Q(1.25);
+    strc2->unk0.transform.qScaleY = Q(1.25);
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_805265C(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3)
+{
+    SomeTaskManager_7C *strc2;
+    GfxInfo gfx;
+    struct Task *t;
+    Sprite *s;
+
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_ARM;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = VRAM_RESERVED_BOSS_XTRA_ARM;
+    t = CreateSomeTaskManager_7C_Task(&gfx, sub_8051604, NULL);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk0.s.oamFlags = (param3 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_80526C4(SomeTaskManager_7C *strc, s32 param1, s32 param2, GfxInfo *gfx, s32 param4)
+{
+    SomeTaskManager_7C *strc2;
+    struct Task *t;
+    Sprite *s;
+
+    t = CreateSomeTaskManager_7C_Task(gfx, sub_80519E8, TaskDestructor_SomeTaskManager_60_Common);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk76 = 0;
+    strc2->unk72 = 0x100;
+    strc2->unk0.s.oamFlags = (param4 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_8052724(SomeTaskManager_7C *strc, s32 param1, s32 param2, GfxInfo *gfx, s32 param4)
+{
+    SomeTaskManager_7C *strc2;
+    struct Task *t;
+    Sprite *s;
+
+    t = CreateSomeTaskManager_7C_Task(gfx, sub_805202C, TaskDestructor_SomeTaskManager_60_Common);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk76 = 0;
+    strc2->unk72 = 0;
+    strc2->unk0.s.oamFlags = (param4 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_8052780(SomeTaskManager_7C *strc, s32 param1, s32 param2, GfxInfo *gfx, s32 param4)
+{
+    SomeTaskManager_7C *strc2;
+    struct Task *t;
+    Sprite *s;
+
+    t = CreateSomeTaskManager_7C_Task(gfx, sub_8051C44, TaskDestructor_SomeTaskManager_60_Common);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk76 = 0;
+    strc2->unk72 = 0x80;
+    strc2->unk0.s.oamFlags = (param4 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
+}
+
+SomeTaskManager_7C *sub_80527DC(SomeTaskManager_7C *strc, s32 param1, s32 param2, GfxInfo *gfx, s32 param4)
+{
+    SomeTaskManager_7C *strc2;
+    struct Task *t;
+    Sprite *s;
+
+    t = CreateSomeTaskManager_7C_Task(gfx, sub_8051E38, TaskDestructor_SomeTaskManager_60_Common);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = strc;
+    strc2->unk68 = param1;
+    strc2->unk6C = param2;
+    strc2->unk76 = 0;
+    strc2->unk72 = 0x80;
+    strc2->unk0.s.oamFlags = (param4 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
+}
+
+// TODO: This taking a (SuperEggRobo *) as first param is odd...
+//       Just like it is set strc2->unk0.unk8 to it.
+SomeTaskManager_7C *sub_8052838(SuperEggRobo *boss, s32 param1, s32 param2, s32 param3)
+{
+    SomeTaskManager_7C *strc2;
+    GfxInfo gfx;
+    struct Task *t;
+    Sprite *s;
+
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_PALETTE;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = ((void *)BG_VRAM + 0x4040);
+    t = CreateSomeTaskManager_7C_Task(&gfx, sub_8050888, NULL);
+    strc2 = TASK_DATA(t);
+    strc2->unk0.unk8 = (void *)boss;
+    strc2->unk60 = param1;
+    strc2->unk64 = param2;
+    strc2->unk72 = 0;
+    strc2->unk0.s.oamFlags = (param3 << 6);
+    strc2->unk0.s.frameFlags = 0x2000;
+    return strc2;
 }

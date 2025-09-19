@@ -1,10 +1,10 @@
 #ifndef GUARD_SOME_TASK_MANAGER_H
 #define GUARD_SOME_TASK_MANAGER_H
 
-typedef struct {
+typedef struct GfxInfo {
     TileInfoBitfield tileInfo;
-    void *vram4;
-} SomeTaskManager_Graphic;
+    u8 *vram;
+} GfxInfo;
 
 struct SomeTaskManager_7C;
 typedef struct {
@@ -41,8 +41,8 @@ void sub_804CFA0(SomeTaskManager_60 *taskData);
 bool32 sub_804CFE0(u16 *param0, u16 param1, u16 param2);
 s32 sub_804D060(s32 n);
 void sub_804D13C(u16 param0);
-struct Task *CreateSomeTaskManager_60_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor); // -> SomeTaskManager_60
-struct Task *CreateSomeTaskManager_7C_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor); // -> SomeTaskManager_7C
+struct Task *CreateSomeTaskManager_60_Task(GfxInfo *gfx, TaskMain proc, TaskDestructor dtor); // -> SomeTaskManager_60
+struct Task *CreateSomeTaskManager_7C_Task(GfxInfo *gfx, TaskMain proc, TaskDestructor dtor); // -> SomeTaskManager_7C
 void TaskDestructor_SomeTaskManager_60_Common(struct Task *t);
 extern ALIGNED(16) u16 gUnknown_030060F0[64];
 

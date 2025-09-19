@@ -130,7 +130,6 @@ SECTIONS {
         src/game/interactables/039.o(.text);
         src/game/enemies/boss_5_mecha_knuckles.o(.text);
         src/game/enemies/boss_xtra_super_egg_robot.o(.text);
-        asm/enemy_boss_super_egg_robo.o(.text);
         src/game/stage/ui_rendering.o(.text);
         src/game/stage/ui.o(.text);
         src/game/stage/trapped_animals.o(.text);

@@ -8950,24 +8950,24 @@ void Task_804A3C0(void)
 void sub_804A498(s32 qWorldX, s32 qWorldY, bool32 param2)
 {
     struct Task *t;
-    SomeTaskManager_Graphic sp00;
+    GfxInfo gfx;
     SomeTaskManager_60 *mgr;
 
     if (gUnknown_03005C74 > 0) {
         gUnknown_03005C74--;
 
         if (param2) {
-            sp00.tileInfo.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
-            sp00.tileInfo.variant = 1;
+            gfx.tileInfo.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
+            gfx.tileInfo.variant = 1;
 
         } else {
-            sp00.tileInfo.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
-            sp00.tileInfo.variant = 0;
+            gfx.tileInfo.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
+            gfx.tileInfo.variant = 0;
         }
 
-        sp00.vram4 = ALLOC_TILES(SA1_ANIM_SUPER_SONIC_SPARKLE);
+        gfx.vram = ALLOC_TILES(SA1_ANIM_SUPER_SONIC_SPARKLE);
 
-        t = CreateSomeTaskManager_60_Task(&sp00, Task_804A54C, TaskDestructor_804A830);
+        t = CreateSomeTaskManager_60_Task(&gfx, Task_804A54C, TaskDestructor_804A830);
         mgr = TASK_DATA(t);
         mgr->qUnk50 = qWorldX;
         mgr->qUnk54 = qWorldY;
@@ -9006,12 +9006,12 @@ void sub_804A5D8(s32 screenX, s32 screenY)
 {
     struct Task *t;
     SomeTaskManager_60 *mgr;
-    SomeTaskManager_Graphic sp00, sp08, sp0C, sp10;
+    GfxInfo gfx, sp08, sp0C, sp10;
 
-    sp00.tileInfo.anim = SA1_ANIM_WARNING;
-    sp00.tileInfo.variant = 0;
-    sp00.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 0);
-    t = CreateSomeTaskManager_60_Task(&sp00, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
+    gfx.tileInfo.anim = SA1_ANIM_WARNING;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 0);
+    t = CreateSomeTaskManager_60_Task(&gfx, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
     mgr = TASK_DATA(t);
     mgr->unk0 = 0;
     mgr->qUnk50 = screenX; // NOTE: Q-value set to integer
@@ -9023,7 +9023,7 @@ void sub_804A5D8(s32 screenX, s32 screenY)
 
     sp08.tileInfo.anim = SA1_ANIM_WARNING;
     sp08.tileInfo.variant = 1;
-    sp08.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
+    sp08.vram = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
     t = CreateSomeTaskManager_60_Task(&sp08, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
     mgr = TASK_DATA(t);
     mgr->unk0 = 1;
@@ -9036,7 +9036,7 @@ void sub_804A5D8(s32 screenX, s32 screenY)
 
     sp0C.tileInfo.anim = SA1_ANIM_WARNING;
     sp0C.tileInfo.variant = 2;
-    sp0C.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
+    sp0C.vram = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
     t = CreateSomeTaskManager_60_Task(&sp0C, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
     mgr = TASK_DATA(t);
     mgr->unk0 = 2;
@@ -9056,7 +9056,7 @@ void sub_804A5D8(s32 screenX, s32 screenY)
 
     sp10.tileInfo.anim = SA1_ANIM_WARNING;
     sp10.tileInfo.variant = 3;
-    sp10.vram4 = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
+    sp10.vram = ALLOC_TILES_VARIANT(SA1_ANIM_WARNING, 1);
     t = CreateSomeTaskManager_60_Task(&sp10, Task_804A71C, TaskDestructor_SomeTaskManager_60_Common);
     mgr = TASK_DATA(t);
     mgr->unk0 = 3;
@@ -9157,14 +9157,14 @@ void Set_3005C74_to_4() { gUnknown_03005C74 = 4; }
 
 void sub_804A854(Player *p)
 {
-    SomeTaskManager_Graphic sp00;
+    GfxInfo gfx;
     SomeTaskManager_60 *mgr;
     struct Task *t;
 
-    sp00.tileInfo.anim = SA1_ANIM_SUPER_SONIC_DASH;
-    sp00.tileInfo.variant = 0;
-    sp00.vram4 = ALLOC_TILES(SA1_ANIM_SUPER_SONIC_DASH);
-    t = CreateSomeTaskManager_60_Task(&sp00, Task_804A3C0, TaskDestructor_SomeTaskManager_60_Common);
+    gfx.tileInfo.anim = SA1_ANIM_SUPER_SONIC_DASH;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = ALLOC_TILES(SA1_ANIM_SUPER_SONIC_DASH);
+    t = CreateSomeTaskManager_60_Task(&gfx, Task_804A3C0, TaskDestructor_SomeTaskManager_60_Common);
     mgr = TASK_DATA(t);
     mgr->s.oamFlags = SPRITE_OAM_ORDER(8);
     mgr->s.frameFlags = SPRITE_FLAG(X_FLIP, 1) | SPRITE_FLAG(PRIORITY, 1);
@@ -9172,31 +9172,31 @@ void sub_804A854(Player *p)
 
 void sub_804A8A8(s32 qX, s32 qY, s32 param2)
 {
-    SomeTaskManager_Graphic sp00;
+    GfxInfo gfx;
     struct Task *t;
     SomeTaskManager_7C *mgr;
 
     switch (param2) {
         case 0: {
-            sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_ROCK0;
-            sp00.tileInfo.variant = 0;
-            sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_ROCK0;
+            gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_ROCK0;
+            gfx.tileInfo.variant = 0;
+            gfx.vram = VRAM_RESERVED_BOSS_XTRA_ROCK0;
         } break;
 
         case 1: {
-            sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_ROCK1;
-            sp00.tileInfo.variant = 0;
-            sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_ROCK1;
+            gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_ROCK1;
+            gfx.tileInfo.variant = 0;
+            gfx.vram = VRAM_RESERVED_BOSS_XTRA_ROCK1;
         } break;
 
         case 2: {
-            sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_ROCK2;
-            sp00.tileInfo.variant = 0;
-            sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_ROCK2;
+            gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_ROCK2;
+            gfx.tileInfo.variant = 0;
+            gfx.vram = VRAM_RESERVED_BOSS_XTRA_ROCK2;
         } break;
     }
 
-    t = CreateSomeTaskManager_7C_Task(&sp00, Task_804AAC4, NULL);
+    t = CreateSomeTaskManager_7C_Task(&gfx, Task_804AAC4, NULL);
     mgr = TASK_DATA(t);
     mgr->unk0.unk0 = param2;
     mgr->unk0.qUnk50 = qX;
@@ -9315,7 +9315,7 @@ void Task_804AC4C(void)
     sub_804CFA0(&mgr->unk0);
 
     if (--mgr->unk0.unk4 <= 0) {
-        s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
+        s->graphics.anim = SA1_ANIM_BOSS_XTRA_CAPSULE;
         s->variant = 2;
         s->prevVariant = -1;
 
@@ -9413,7 +9413,7 @@ void Task_804AE14(void)
         p->moveState |= MOVESTATE_IA_OVERRIDE;
         p->moveState |= MOVESTATE_100000;
 
-        s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
+        s->graphics.anim = SA1_ANIM_BOSS_XTRA_CAPSULE;
         s->variant = 1;
         s->prevVariant = -1;
 
@@ -9461,17 +9461,17 @@ void Task_804AF00(void)
 
 void sub_804AFCC(s32 qX, s32 qY)
 {
-    SomeTaskManager_Graphic sp00;
+    GfxInfo gfx;
     SomeTaskManager_7C *mgr;
     struct Task *t;
     s32 i;
 
-    sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE_PART;
-    sp00.tileInfo.variant = 0;
-    sp00.vram4 = VRAM_RESERVED_EXTRA_BOSS_CAPSULE;
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_CAPSULE_PART;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = VRAM_RESERVED_BOSS_XTRA_CAPSULE;
 
     for (i = 0; i < 2; i++) {
-        t = CreateSomeTaskManager_7C_Task(&sp00, Task_804B0D8, NULL);
+        t = CreateSomeTaskManager_7C_Task(&gfx, Task_804B0D8, NULL);
         mgr = TASK_DATA(t);
 
         mgr->unk0.qUnk50 = qX;
@@ -9558,7 +9558,7 @@ s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperE
             TaskDestroy(gCurTask);
             return CAPSULE_STATE__DESTROYED;
         } else if ((p->timerInvulnerability == 0) && !(extraBoss->flags58 & SER_FLAG__80)) {
-            s->graphics.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
+            s->graphics.anim = SA1_ANIM_BOSS_XTRA_CAPSULE;
             s->variant = 3;
             s->prevVariant = -1;
             p->moveState |= MOVESTATE_GOAL_REACHED;
@@ -9574,15 +9574,15 @@ s32 ExtraBoss__CapsuleGetCaptureState(SomeTaskManager_7C *mgr, Sprite *s, SuperE
 
 void sub_804B2BC(s32 qWorldX, s32 qWorldY)
 {
-    SomeTaskManager_Graphic sp00;
+    GfxInfo gfx;
     struct Task *t;
     SomeTaskManager_7C *mgr;
 
-    sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_CAPSULE;
-    sp00.tileInfo.variant = 0;
-    sp00.vram4 = ALLOC_TILES(SA1_ANIM_EXTRA_BOSS_CAPSULE);
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_CAPSULE;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = ALLOC_TILES(SA1_ANIM_BOSS_XTRA_CAPSULE);
 
-    t = CreateSomeTaskManager_7C_Task(&sp00, Task_804AC4C, TaskDestructor_SomeTaskManager_60_Common);
+    t = CreateSomeTaskManager_7C_Task(&gfx, Task_804AC4C, TaskDestructor_SomeTaskManager_60_Common);
     mgr = TASK_DATA(t);
 
     mgr->unk0.qUnk50 = qWorldX;
@@ -9709,15 +9709,15 @@ void Task_804B420(void)
 // Create Laser
 void sub_804B570(s32 qWorldX, s32 qWorldY)
 {
-    SomeTaskManager_Graphic sp00;
+    GfxInfo gfx;
     struct Task *t;
     SomeTaskManager_7C *mgr;
 
-    sp00.tileInfo.anim = SA1_ANIM_EXTRA_BOSS_LASER;
-    sp00.tileInfo.variant = 0;
-    sp00.vram4 = ALLOC_TILES(SA1_ANIM_EXTRA_BOSS_LASER);
+    gfx.tileInfo.anim = SA1_ANIM_BOSS_XTRA_LASER;
+    gfx.tileInfo.variant = 0;
+    gfx.vram = ALLOC_TILES(SA1_ANIM_BOSS_XTRA_LASER);
 
-    t = CreateSomeTaskManager_7C_Task(&sp00, Task_804B420, TaskDestructor_SomeTaskManager_60_Common);
+    t = CreateSomeTaskManager_7C_Task(&gfx, Task_804B420, TaskDestructor_SomeTaskManager_60_Common);
     mgr = TASK_DATA(t);
 
     mgr->unk0.qUnk50 = qWorldX;

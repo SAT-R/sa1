@@ -9,13 +9,13 @@
 
 #include "constants/move_states.h"
 
-void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx);
-void sub_804CF5C(SomeTaskManager_7C *taskData, SomeTaskManager_Graphic *gfx);
+void sub_804CD80(SomeTaskManager_60 *taskData, GfxInfo *gfx);
+void sub_804CF5C(SomeTaskManager_7C *taskData, GfxInfo *gfx);
 
 ALIGNED(16) u16 gUnknown_030060F0[64] = { 0 };
 ALIGNED(16) u16 gUnknown_03006170[64] = { 0 };
 
-void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx)
+void sub_804CD80(SomeTaskManager_60 *taskData, GfxInfo *gfx)
 {
     Sprite *s;
     SpriteTransform *transform;
@@ -36,7 +36,7 @@ void sub_804CD80(SomeTaskManager_60 *taskData, SomeTaskManager_Graphic *gfx)
     s = &taskData->s;
     transform = &taskData->transform;
 
-    s->graphics.dest = gfx->vram4;
+    s->graphics.dest = gfx->vram;
     s->graphics.anim = gfx->tileInfo.anim;
     s->variant = gfx->tileInfo.variant;
     s->oamFlags = 0;
@@ -93,7 +93,7 @@ void sub_804CDF8(void)
     }
 }
 
-struct Task *CreateSomeTaskManager_60_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor)
+struct Task *CreateSomeTaskManager_60_Task(GfxInfo *gfx, TaskMain proc, TaskDestructor dtor)
 {
     struct Task *t = TaskCreate(proc, sizeof(SomeTaskManager_60), gCurTask->priority + 1, 0, dtor);
 
@@ -102,7 +102,7 @@ struct Task *CreateSomeTaskManager_60_Task(SomeTaskManager_Graphic *gfx, TaskMai
     return t;
 }
 
-struct Task *CreateSomeTaskManager_7C_Task(SomeTaskManager_Graphic *gfx, TaskMain proc, TaskDestructor dtor)
+struct Task *CreateSomeTaskManager_7C_Task(GfxInfo *gfx, TaskMain proc, TaskDestructor dtor)
 {
     struct Task *t = TaskCreate(proc, sizeof(SomeTaskManager_7C), gCurTask->priority + 1, 0, dtor);
 
@@ -111,7 +111,7 @@ struct Task *CreateSomeTaskManager_7C_Task(SomeTaskManager_Graphic *gfx, TaskMai
     return t;
 }
 
-void sub_804CF5C(SomeTaskManager_7C *taskData, SomeTaskManager_Graphic *gfx)
+void sub_804CF5C(SomeTaskManager_7C *taskData, GfxInfo *gfx)
 {
     sub_804CD80(&taskData->unk0, gfx);
 

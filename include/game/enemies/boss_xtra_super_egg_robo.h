@@ -14,7 +14,8 @@
 
 typedef struct {
     /* 0x00 */ SpriteBase base;
-    /* 0x0C */ u8 fillerC[0x38];
+    /* 0x0C */ Sprite unusedSprite;
+    /* 0x3C */ Hitbox reserved;
     /* 0x44 */ s32 qUnk44;
     /* 0x48 */ s32 qUnk48;
     /* 0x4C */ s16 qUnk4C;
