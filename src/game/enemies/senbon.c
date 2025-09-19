@@ -103,7 +103,7 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_SenbonInit.inc", void Task_
     if (I(senbon->qUnk40) <= ((me->d.sData[0] + 1) * TILE_WIDTH)) {
         senbon->qUnk48 = +Q(0.625); // TODO: DISPLAY_HEIGHT?
         s->frameFlags |= SPRITE_FLAG(X_FLIP, 1);
-    } else if (I(senbon->qUnk40) >= ((me->d.sData[0] + me->d.uData[1] - 1) * TILE_WIDTH)) {
+    } else if (I(senbon->qUnk40) >= ((me->d.sData[0] + me->d.uData[2] - 1) * TILE_WIDTH)) {
         senbon->qUnk48 = -Q(0.625); // TODO: DISPLAY_HEIGHT?
         s->frameFlags &= ~SPRITE_FLAG(X_FLIP, 1);
     } else if (senbon->unk46 != 0) {
@@ -164,7 +164,7 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_807
 
     if (s->hitboxes[0].index != -1) {
         if (HB_COLLISION(screenX, screenY, s->hitboxes[0].b, I(gPlayer.qWorldX), I(gPlayer.qWorldY), gPlayerBodyPSI.s.hitboxes[0].b)) {
-            SA2_LABEL(sub_800CBA4)(&gPlayer);
+            Coll_DamagePlayer(&gPlayer);
         }
     }
 
