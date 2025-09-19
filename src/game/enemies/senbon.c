@@ -149,8 +149,8 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_807
     me = senbon->shared.base.me;
     worldX32 = TO_WORLD_POS(senbon->shared.base.meX, senbon->shared.base.regionX);
     worldY32 = TO_WORLD_POS(me->y, senbon->shared.base.regionY);
-    worldX = (s16)worldX32;
-    worldY = (s16)worldY32;
+    worldX = (CamCoord)worldX32;
+    worldY = (CamCoord)worldY32;
     screenX = worldX + I(senbon->qUnk40);
     screenY = worldY + senbon->unk3C;
     s->x = screenX - gCamera.x;

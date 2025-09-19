@@ -615,12 +615,17 @@ void sub_8054068(void)
     sub_80528AC(&sp00);
 }
 
-// (91.56%) https://decomp.me/scratch/VmDeu
-NONMATCH("asm/non_matching/game/stage/ui__CreateStageUI.inc", void CreateStageUI(void))
+void CreateStageUI(void)
 {
+#ifndef NON_MATCHING
+    register void *dtor asm("r1") = 0;
+    StageUI_20 *unk20 = NULL;
+    register struct Task *t asm("r1") = TaskCreate(Task_StageUIMain, sizeof(StageUI), 0x2180, 0, dtor);
+#else
     void *dtor = 0;
     StageUI_20 *unk20 = NULL;
     struct Task *t = TaskCreate(Task_StageUIMain, sizeof(StageUI), 0x2180, 0, dtor);
+#endif
     StageUI *ui = TASK_DATA(t);
     ;
 
@@ -635,7 +640,6 @@ NONMATCH("asm/non_matching/game/stage/ui__CreateStageUI.inc", void CreateStageUI
     UiGfxStackInit();
     sub_80538BC();
 }
-END_NONMATCH
 
 // https://decomp.me/scratch/3QSHy
 void CreateSpecialStageUI(void)
