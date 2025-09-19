@@ -94,10 +94,7 @@ END_NONMATCH
 NONMATCH("asm/non_matching/engine/sa2__unused_sub_8005FB4.inc", void sa2__sub_8005FB4()) { }
 END_NONMATCH
 
-// Almost identical to sub_80064A8
-// (99%) https://decomp.me/scratch/78CWY
-NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
-         void sa2__sub_8006228(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4, u8 param5))
+void SA2_LABEL(sub_8006228)(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4, u8 param5)
 {
     int_vcount *cursor;
     s16 r1, r2, r4, r5, r7, r8;
@@ -105,21 +102,24 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
-        gHBlankCopySize = 4;
+        gHBlankCopySize = sizeof(REG_WIN0H) * 2;
 
         if (bg & 1) {
-            cursor = &((int_vcount *)gBgOffsetsHBlank)[2];
+            cursor = (int_vcount *)gBgOffsetsHBlank + sizeof(REG_WIN0H);
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         } else {
-            cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
+            cursor = (int_vcount *)gBgOffsetsHBlank;
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         }
     } else {
-        gHBlankCopySize = 2;
-        cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
+        volatile winreg_t *reg;
+        gHBlankCopySize = sizeof(REG_WIN0H);
+        cursor = (int_vcount *)gBgOffsetsHBlank;
 
+        // Required for match
+        reg = &REG_WIN1H;
         if (bg & 1) {
-            gHBlankCopyTarget = (void *)&REG_WIN1H;
+            gHBlankCopyTarget = (void *)reg;
         } else {
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         }
@@ -131,16 +131,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
 
     r2 = r1;
     r8 = ABS(r2) * 2;
+    r7 = ABS(r4) * 2;
 
-    // _080062EA
-    r4 = ABS(r4);
-    r7 = (r4 * 2);
-    cursor += (gHBlankCopySize * param2);
+    cursor = IncCursor(cursor, param2 * gHBlankCopySize);
 
-    // _08006302
-
-    if (ABS(r2) > ABS(r1)) {
-        // _0800630A+8
+    if (ABS(r2) > ABS(r4)) {
         r4 = -r2;
 
         if (r2 > 0) {
@@ -153,7 +148,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
                 if (r4 >= 0) {
                     r4 = ((r4 << 16) >> 16) - r8;
                     cursor[0] = param1;
-                    cursor += gHBlankCopySize;
+                    cursor = IncCursor(cursor, gHBlankCopySize);
                     cursor[1] = param5;
                 }
             }
@@ -169,7 +164,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
                 if (r4 >= 0) {
                     r4 -= r8;
                     *cursor = param5;
-                    cursor = (cursor + gHBlankCopySize) - 1;
+                    cursor = ({
+                        uintptr_t r0 = (gHBlankCopySize);
+                        r0 += (uintptr_t)cursor;
+                        (void *)(r0 - 1);
+                    });
                     *cursor = param1;
 #ifndef NON_MATCHING
                     asm("" : "=r"(cursor));
@@ -181,15 +180,17 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
         }
 
     } else {
-        r4 = -r1;
-        // _080063DC
+        r4 = -r4;
         if (r2 > 0) {
             for (r2 = 0; r2 < ABS(r5); r2++) {
-                // _080063F6
                 *cursor = param1 + 1;
                 cursor++;
                 *cursor = param5;
-                cursor = (cursor + gHBlankCopySize) - 1;
+                cursor = ({
+                    uintptr_t r0 = (gHBlankCopySize);
+                    r0 += (uintptr_t)cursor;
+                    (void *)(r0 - 1);
+                });
 
                 r4 += r8;
 
@@ -199,13 +200,16 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
                 }
             }
         } else {
-            // _08006450
             for (r2 = 0; r2 < ABS(r5); r2++) {
                 *cursor = param1 + 1;
                 cursor++;
                 *cursor = param5;
 
-                cursor = (cursor + gHBlankCopySize) - 1;
+                cursor = ({
+                    uintptr_t r0 = (gHBlankCopySize);
+                    r0 += (uintptr_t)cursor;
+                    (void *)(r0 - 1);
+                });
 
                 r4 += r8;
 
@@ -217,12 +221,8 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8006228.inc",
         }
     }
 }
-END_NONMATCH
 
-// Almost identical to sub_8006228
-// (99.04%) https://decomp.me/scratch/oriiw
-NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
-         void sa2__sub_80064A8(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4, u8 param5))
+void SA2_LABEL(sub_80064A8)(u8 bg, u8 param1, u8 param2, u8 param3, u8 param4, u8 param5)
 {
     int_vcount *cursor;
     s16 r1, r2, r4, r5, r7, r8;
@@ -230,21 +230,24 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
     gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
-        gHBlankCopySize = 4;
+        gHBlankCopySize = sizeof(REG_WIN0H) * 2;
 
         if (bg & 1) {
-            cursor = &((int_vcount *)gBgOffsetsHBlank)[2];
+            cursor = (int_vcount *)gBgOffsetsHBlank + sizeof(winreg_t);
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         } else {
-            cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
+            cursor = (int_vcount *)gBgOffsetsHBlank;
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         }
     } else {
-        gHBlankCopySize = 2;
-        cursor = &((int_vcount *)gBgOffsetsHBlank)[0];
+        volatile winreg_t *reg;
+        gHBlankCopySize = sizeof(REG_WIN0H);
+        cursor = (int_vcount *)gBgOffsetsHBlank;
 
+        // Required for match
+        reg = &REG_WIN1H;
         if (bg & 1) {
-            gHBlankCopyTarget = (void *)&REG_WIN1H;
+            gHBlankCopyTarget = (void *)reg;
         } else {
             gHBlankCopyTarget = (void *)&REG_WIN0H;
         }
@@ -256,12 +259,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
 
     r2 = r1;
     r8 = ABS(r2) * 2;
+    r7 = ABS(r4) * 2;
 
-    r4 = ABS(r4);
-    r7 = (r4 * 2);
-    cursor += (gHBlankCopySize * param2);
+    cursor = IncCursor(cursor, param2 * gHBlankCopySize);
 
-    if (ABS(r2) > ABS(r1)) {
+    if (ABS(r2) > ABS(r4)) {
         r4 = -r2;
 
         if (r2 > 0) {
@@ -272,9 +274,9 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
                 r4 += r7;
 
                 if (r4 >= 0) {
-                    r4 = ((r4 << 16) >> 16) - r8;
+                    r4 -= r8;
                     cursor[0] = param5;
-                    cursor += gHBlankCopySize;
+                    cursor = IncCursor(cursor, gHBlankCopySize);
                     cursor[1] = param1;
                 }
             }
@@ -290,7 +292,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
                 if (r4 >= 0) {
                     r4 -= r8;
                     *cursor = param1;
-                    cursor = (cursor + gHBlankCopySize) - 1;
+                    cursor = ({
+                        uintptr_t r0 = (gHBlankCopySize);
+                        r0 += (uintptr_t)cursor;
+                        (void *)(r0 - 1);
+                    });
                     *cursor = param5;
 #ifndef NON_MATCHING
                     asm("" : "=r"(cursor));
@@ -302,13 +308,17 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
         }
 
     } else {
-        r4 = -r1;
+        r4 = -r4;
         if (r2 > 0) {
             for (r2 = 0; r2 < ABS(r5); r2++) {
                 *cursor = param5;
                 cursor++;
                 *cursor = param1;
-                cursor = (cursor + gHBlankCopySize) - 1;
+                cursor = ({
+                    uintptr_t r0 = (gHBlankCopySize);
+                    r0 += (uintptr_t)cursor;
+                    (void *)(r0 - 1);
+                });
 
                 r4 += r8;
 
@@ -323,7 +333,11 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
                 cursor++;
                 *cursor = param1;
 
-                cursor = (cursor + gHBlankCopySize) - 1;
+                cursor = ({
+                    uintptr_t r0 = (gHBlankCopySize);
+                    r0 += (uintptr_t)cursor;
+                    (void *)(r0 - 1);
+                });
 
                 r4 += r8;
 
@@ -335,7 +349,6 @@ NONMATCH("asm/non_matching/engine/sa2__sub_80064A8.inc",
         }
     }
 }
-END_NONMATCH
 
 NONMATCH("asm/non_matching/engine/sa2__unused_sub_800672C.inc", void SA2_LABEL(sub_800672C)()) { }
 END_NONMATCH
@@ -355,7 +368,7 @@ void SA2_LABEL(sub_8006DB4)(u8 bg, u8 *arg1, s32 unused, s32 arg3)
     u8 minVal;
     int_vcount *cursor;
 
-    gFlags |= 4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = sizeof(REG_WIN0H) * 2;
@@ -579,7 +592,7 @@ void SA2_LABEL(sub_800724C)(u8 bg, TriParam1 *arg1)
     int_vcount minVal;
     int_vcount maxVal;
 
-    gFlags |= 4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = sizeof(REG_WIN0H) * 2;
@@ -721,7 +734,7 @@ void SA2_LABEL(sub_80075D0)(u8 bg, u8 param1, u8 param2, s16 param3, s16 param4,
     s16 r1;
     u16 sb = (param5 * param5);
 
-    gFlags |= 4;
+    gFlags |= FLAGS_EXECUTE_HBLANK_COPY;
 
     if (bg >= 2) {
         gHBlankCopySize = sizeof(REG_WIN0H) * 2;
