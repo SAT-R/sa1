@@ -103,7 +103,7 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_SenbonInit.inc", void Task_
     if (I(senbon->qUnk40) <= ((me->d.sData[0] + 1) * TILE_WIDTH)) {
         senbon->qUnk48 = +Q(0.625); // TODO: DISPLAY_HEIGHT?
         s->frameFlags |= SPRITE_FLAG(X_FLIP, 1);
-    } else if (I(senbon->qUnk40) >= ((me->d.sData[0] + me->d.uData[2] - 1) * TILE_WIDTH)) {
+    } else if (I(senbon->qUnk40) >= ((me->d.sData[0] + me->d.uData[1] - 1) * TILE_WIDTH)) {
         senbon->qUnk48 = -Q(0.625); // TODO: DISPLAY_HEIGHT?
         s->frameFlags &= ~SPRITE_FLAG(X_FLIP, 1);
     } else if (senbon->unk46 != 0) {
@@ -134,34 +134,27 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_SenbonInit.inc", void Task_
 }
 END_NONMATCH
 
-// (88.65&) https://decomp.me/scratch/PwfK4
+// (99.96%) https://decomp.me/scratch/ZGLNj
 NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_8070CB4(void))
 {
+    MapEntity *me;
+    Sprite *s;
+    s16 screenX, screenY;
+    s32 worldX, worldY;
+    s32 worldX32, worldY32;
+
     Senbon *senbon = TASK_DATA(gCurTask);
-    Sprite *s = &senbon->shared.s;
-    MapEntity *me = senbon->shared.base.me;
-    s16 worldX32, worldY32;
-    s16 worldX, worldY;
 
-#ifndef NON_MATCHING
-    register s32 r9 asm("r9");
-    register s32 sl asm("sl");
-#else
-    s32 r9;
-    s32 sl;
-#endif
-    s16 offsetWorldX;
-
-    worldX = TO_WORLD_POS(senbon->shared.base.meX, senbon->shared.base.regionX);
-    worldY = TO_WORLD_POS(me->y, senbon->shared.base.regionY);
-
-    r9 = worldY;
-    sl = worldY;
-
-    offsetWorldX = worldX + I(senbon->qUnk40);
-
-    s->x = offsetWorldX - gCamera.x;
-    s->y = worldY - gCamera.y;
+    s = &senbon->shared.s;
+    me = senbon->shared.base.me;
+    worldX32 = TO_WORLD_POS(senbon->shared.base.meX, senbon->shared.base.regionX);
+    worldY32 = TO_WORLD_POS(me->y, senbon->shared.base.regionY);
+    worldX = (s16)worldX32;
+    worldY = (s16)worldY32;
+    screenX = worldX + I(senbon->qUnk40);
+    screenY = worldY + senbon->unk3C;
+    s->x = screenX - gCamera.x;
+    s->y = screenY - gCamera.y;
 
     if (IS_OUT_OF_DISPLAY_RANGE(worldX, worldY) && IS_OUT_OF_CAM_RANGE(s->x, s->y)) {
         SET_MAP_ENTITY_NOT_INITIALIZED(me, senbon->shared.base.meX);
@@ -169,16 +162,15 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_807
         return;
     }
 
-    if (s->hitboxes[0].index != HITBOX_STATE_INACTIVE) {
-        if (HB_COLLISION(worldX, worldY, s->hitboxes[0].b, I(gPlayer.qWorldX), I(gPlayer.qWorldY), gPlayerBodyPSI.s.hitboxes[0].b)) {
-            Coll_DamagePlayer(&gPlayer);
+    if (s->hitboxes[0].index != -1) {
+        if (HB_COLLISION(screenX, screenY, s->hitboxes[0].b, I(gPlayer.qWorldX), I(gPlayer.qWorldY), gPlayerBodyPSI.s.hitboxes[0].b)) {
+            SA2_LABEL(sub_800CBA4)(&gPlayer);
         }
     }
 
     if (++senbon->unk44 >= 60) {
         senbon->unk46 = 120;
         s->variant = 0;
-
         gCurTask->main = Task_SenbonInit;
     }
 
