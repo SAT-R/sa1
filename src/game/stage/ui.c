@@ -627,7 +627,6 @@ void CreateStageUI(void)
     struct Task *t = TaskCreate(Task_StageUIMain, sizeof(StageUI), 0x2180, 0, dtor);
 #endif
     StageUI *ui = TASK_DATA(t);
-    ;
 
     ui->unk40 = 0;
 
