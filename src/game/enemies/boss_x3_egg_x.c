@@ -8,14 +8,27 @@
 #include "game/enemies/bosses_shared.h" // CreatePreBossCameraPan
 #include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/results.h"
 #include "game/stage/screen_shake.h"
+#include "game/stage/stage.h"
 #include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
+#include "constants/char_states.h"
 #include "constants/songs.h"
 
 /* X-Zone Final Boss */
+
+typedef struct EggX_10 {
+    u8 filler0[0x6];
+    u16 unk6;
+    u8 unk8;
+    u8 unk9;
+    s16 unkA;
+    s16 qUnkC;
+    u16 unkE;
+} EggX_10;
 
 typedef struct EggX_64 {
     Sprite s;
@@ -58,21 +71,24 @@ typedef struct EggX {
 } EggX; /* 0xA0 */
 
 void Task_EggXMain(void);
+void sub_8036E20(CamCoord worldX, CamCoord worldY);
 void sub_80370B4(void);
 void Task_803753C(void);
 void Task_803775C(void);
-void Task_8038154(void);
-void sub_8038F04(void);
-void TaskDestructor_EggX(struct Task *t);
-
-void sub_8036E20(CamCoord worldX, CamCoord worldY);
 void sub_803803C(void);
 void sub_803A54C(void);
 void sub_803A594(void);
+void Task_8038154(void);
+void sub_8038B38(void);
+void sub_8038C20(void);
+void sub_8038D2C(void);
 void sub_8038420(CamCoord worldX, CamCoord worldY);
+void sub_8038F04(void);
 void sub_803967C(void);
 void sub_8039940(void);
 u8 sub_803711C(s16 arg0);
+void sub_80472AC(Player *p);
+void TaskDestructor_EggX(struct Task *t);
 
 extern const s16 gUnknown_084ACF1C[4];
 extern const s16 gUnknown_084ACF24[];
@@ -1038,6 +1054,180 @@ void sub_8038420(CamCoord worldX, CamCoord worldY)
 
     rnd = PseudoRandom32();
     sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
+}
+
+void sub_8038554()
+{
+    EggX_10 *strc10 = TASK_DATA(gCurTask);
+
+    switch (strc10->unk8) {
+        case 0: {
+            if (strc10->unk6 != 0) {
+                strc10->unk6--;
+            } else if (!(gPlayer.moveState & 2)) {
+                gPlayer.heldInput = 0x10;
+                gRefCollision = gCollisionTable[gCurrentLevel];
+                gCamera.maxX = gRefCollision->pxWidth;
+                strc10->unk8++;
+            }
+        } break;
+
+        case 1: {
+            if (gPlayer.qWorldX >= Q(3680)) {
+                gPlayer.heldInput = 0x20;
+                strc10->unk6 = 0xCU;
+                sub_8038C20();
+                strc10->unk8++;
+                sub_80171BC(gCamera.minY, gCamera.maxY, ((gPlayer.qWorldX >> 8) - 0x60), gCamera.maxX);
+            }
+        } break;
+
+        case 2: {
+            if (--strc10->unk6 == 0) {
+                gPlayer.heldInput = 0;
+                gPlayer.charState = 0x34;
+                gPlayer.moveState |= 0x400000;
+                strc10->unk6 = 0x3CU;
+                strc10->unk8++;
+            }
+        } break;
+
+        case 3: {
+            if (--strc10->unk6 == 0) {
+                strc10->unk6 = CreateStageResults(gRingCount, gCourseTime);
+                strc10->unk8++;
+            }
+        } break;
+
+        case 4: {
+            gPlayer.sa2__unk72 = 0x3C;
+
+            if (--strc10->unk6 == 0) {
+                gPlayer.charState = CHARSTATE_50;
+                gPlayer.moveState |= 0x400000;
+                gPlayer.qWorldY -= Q(16);
+                strc10->unkE = 0;
+                strc10->qUnkC = 0;
+                strc10->unk6 = 0;
+                strc10->unk8++;
+                break;
+            }
+        } break;
+
+        case 5: {
+            if (++strc10->unk6 == 0x22) {
+                sub_8038B38();
+            }
+
+            if (strc10->unk6 > 0x99U) {
+                gPlayer.charState = 0x33;
+                strc10->qUnkC = Q(1);
+                strc10->unk6 = 120;
+                strc10->unk8++;
+                break;
+            }
+
+            if (strc10->unk6 > 33) {
+                s16 theta;
+                s16 v;
+                strc10->unkE = ((strc10->unkE + 0x10));
+                strc10->unkE &= ONE_CYCLE;
+                theta = strc10->unkE;
+                v = SIN(theta);
+                v >>= 11;
+                gPlayer.qWorldY = Q(strc10->unkA + (v));
+            } else if (strc10->unk6 > 0x1FU) {
+                strc10->qUnkC += Q(4);
+                gPlayer.qWorldY += strc10->qUnkC;
+                strc10->unkA = I(gPlayer.qWorldY);
+            } else if (strc10->unk6 > 0x19U) {
+                strc10->qUnkC -= Q(1.5);
+                gPlayer.qWorldY += strc10->qUnkC;
+            }
+        } break;
+
+        case 6: {
+            if (gPlayer.qWorldX <= Q(3872)) {
+                strc10->qUnkC += Q(0.5);
+                gPlayer.qWorldX += strc10->qUnkC;
+            } else {
+                gPlayer.moveState |= 0x100000;
+            }
+
+            if (--strc10->unk6 == 0) {
+                sub_8038D2C();
+                strc10->unk6 = 0xB4U;
+                strc10->unk8++;
+                break;
+            }
+        } break;
+
+        case 7: {
+            if (--strc10->unk6 == 0) {
+                gWinRegs[4] = 0x3F3F;
+                gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+                gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+                gBldRegs.bldCnt = 0xBF;
+                gBldRegs.bldY = 0;
+                gDispCnt |= 0x2000;
+                gDispCnt &= 0xBFFF;
+                strc10->unk6 = 0;
+                strc10->unk8++;
+                break;
+            }
+        } break;
+
+        case 8: {
+            if (++strc10->unk6 > 0x80U) {
+                TasksDestroyInPriorityRange(0x2000U, 0x2FFFU);
+                TaskDestroy(gCurTask);
+                GoToNextLevel();
+            } else {
+                gBldRegs.bldY = strc10->unk6 >> 3;
+            }
+        } break;
+    }
+
+    if (gNumSingleplayerCharacters == 2) {
+        s32 v = (u8)strc10->unk8;
+        if (v >= 0) {
+            if (v <= 4) {
+                switch (strc10->unk9) {
+                    case 0:
+                        if (gPartner.qWorldX >= Q(3632)) {
+                            gPartner.moveState |= 0x200000;
+                            gPartner.frameInput = 0;
+                            gPartner.heldInput = DPAD_LEFT;
+                            strc10->unk9++;
+                        }
+                        break;
+
+                    case 1:
+                        if (gPartner.qSpeedGround <= Q(0.5)) {
+                            gPartner.heldInput = 0;
+                            strc10->unk9++;
+                        }
+                        break;
+
+                    case 2:
+                        if (gPartner.charState == 0) {
+                            gPartner.moveState |= 0x400000;
+                            strc10->unk9++;
+                        }
+                        /* fallthrough */
+                    case 3:
+                        sub_80472AC(&gPartner);
+                        break;
+                }
+            } else if (gPartner.charState != 0x3D) {
+                gPartner.charState = 0x3D;
+            }
+        } else {
+            if (gPartner.charState != 0x3D) {
+                gPartner.charState = 0x3D;
+            }
+        }
+    }
 }
 
 #if 0

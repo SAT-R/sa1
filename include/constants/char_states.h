@@ -61,6 +61,7 @@
 #define CHARSTATE_47       47
 #define CHARSTATE_48       48
 #define CHARSTATE_49       49
+#define CHARSTATE_50       50
 
 #define CHARSTATE_FLYING        53
 #define CHARSTATE_54            54

@@ -18,7 +18,7 @@ typedef struct {
 } StageResultsBase; /* size: 0x174 */
 
 #if (GAME == GAME_SA1)
-void CreateStageResults(u32, u32);
+u32 CreateStageResults(u32, u32);
 #elif (GAME == GAME_SA2)
 u16 CreateStageResults(u32, u16, u8);
 #endif
