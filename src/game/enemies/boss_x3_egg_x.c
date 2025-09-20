@@ -67,6 +67,9 @@ void TaskDestructor_EggX(struct Task *t);
 
 void sub_8036E20(CamCoord worldX, CamCoord worldY);
 void sub_803803C(void);
+void sub_803A54C(void);
+void sub_803A594(void);
+void sub_8038420(CamCoord worldX, CamCoord worldY);
 void sub_803967C(void);
 void sub_8039940(void);
 u8 sub_803711C(s16 arg0);
@@ -883,9 +886,6 @@ END_NONMATCH
 
 void sub_803803C(void)
 {
-    s32 temp_r0;
-    s32 temp_r5;
-    s32 temp_r6;
     EggX *boss = TASK_DATA(gCurTask);
     Sprite *s = &boss->s;
     boss->unk99 = 0;
@@ -895,7 +895,8 @@ void sub_803803C(void)
     boss->s2.prevVariant = 0xFF;
     gCamera.minX = gCamera.x;
     gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
-    m4aSongNumStart(0x90U);
+    m4aSongNumStart(SE_EXPLOSION);
+
     s->frameFlags &= ~0x180;
     if (PLAYER_IS_ALIVE) {
         gDispCnt &= ~DISPCNT_OBJWIN_ON;
@@ -904,6 +905,7 @@ void sub_803803C(void)
         gBldRegs.bldY = 0;
         gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
     }
+
     gPlayer.qSpeedGround = 0;
     gPlayer.moveState |= 0x200000;
     gPlayer.heldInput = 0;
@@ -916,164 +918,129 @@ void sub_803803C(void)
     gCurTask->main = Task_8038154;
 }
 
-#if 0
-void Task_8038154(void) {
-    s32 temp_r0;
-    s32 temp_r0_3;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r6;
-    s32 var_r2;
-    s32 var_r6;
-    u16 temp_r0_4;
-    u16 temp_r3;
-    u16 var_r5;
-    u16 var_r7;
-    u8 temp_r0_2;
-    u8 temp_r4;
+void Task_8038154()
+{
+    Sprite *s;
+    Sprite *s2;
+    s32 res;
 
-    var_r5 = 0;
-    var_r7 = 0;
-    temp_r3 = gCurTask->data;
-    temp_r0 = temp_r3 + 0xC;
-    temp_r1 = temp_r3 + 0x44;
-    temp_r0_2 = *(temp_r3 + 0x99);
-    if ((u32) temp_r0_2 <= 1U) {
-        temp_r2 = temp_r3 + 0x80;
-        if (temp_r0_2 == 0) {
-            *temp_r2 = (s32) (*temp_r2 + 0x10);
+    CamCoord worldX = 0;
+    CamCoord worldY = 0;
+
+    EggX *boss = TASK_DATA(gCurTask);
+    s = &boss->s;
+    s2 = &boss->s2;
+
+    if (boss->unk99 <= 1U) {
+        if (boss->unk99 == 0) {
+            boss->qUnk80 += 0x10;
         }
-        temp_r0_3 = temp_r3->unk74 + temp_r3->unk7C;
-        temp_r3->unk74 = temp_r0_3;
-        temp_r1_2 = temp_r3->unk78 + *temp_r2;
-        temp_r3->unk78 = temp_r1_2;
-        var_r5 = (u16) ((temp_r0_3 >> 8) + *(temp_r3 + 0x88));
-        var_r7 = (u16) ((temp_r1_2 >> 8) + *(temp_r3 + 0x8A));
-        *(temp_r3 + 0x8C) = var_r5;
-        *(temp_r3 + 0x8E) = var_r7;
-        if (!(7 & *(temp_r3 + 0x92))) {
-            sub_8038420((s16) var_r5, (s16) var_r7);
+
+        boss->qUnk74 += boss->qUnk7C;
+        boss->qUnk78 += boss->qUnk80;
+        worldX = boss->unk88 + I(boss->qUnk74);
+        worldY = boss->unk8A + I(boss->qUnk78);
+        boss->unk8C = (s16)worldX;
+        boss->unk8E = (s16)worldY;
+        if (!(7 & boss->unk92)) {
+            sub_8038420(worldX, worldY);
         }
-        UpdateSpriteAnimation((Sprite *) temp_r0);
-        UpdateSpriteAnimation((Sprite *) temp_r1);
-        temp_r1_3 = gCurTask->data + 0xC;
-        temp_r1_3->unk16 = (s16) ((s16) var_r5 - (u16) gCamera.x);
-        temp_r1_3->unk18 = (s16) ((s16) var_r7 - (u16) gCamera.y);
-        temp_r0_4 = gCurTask->data;
-        temp_r2_2 = temp_r0_4 + 0xC;
-        temp_r0_5 = temp_r0_4 + 0x44;
-        temp_r0_5->unk16 = (u16) temp_r2_2->unk16;
-        temp_r0_5->unk18 = (u16) temp_r2_2->unk18;
-        DisplaySprite((Sprite *) temp_r0);
-        DisplaySprite((Sprite *) temp_r1);
+        UpdateSpriteAnimation(s);
+        UpdateSpriteAnimation(s2);
+
+        SetSpritePos__inline(worldX, worldY);
+        CopySpritePos__inline();
+        DisplaySprite(s);
+        DisplaySprite(s2);
     }
-    temp_r0_6 = temp_r3 + 0x99;
-    temp_r4 = *temp_r0_6;
-    switch (temp_r4) {                              /* irregular */
-    case 2:
-        TaskDestroy(gCurTask);
-        return;
-    case 0:
-        temp_r2_3 = temp_r3 + 0x92;
-        *temp_r2_3 = (u16) (*temp_r2_3 - 1);
-        temp_r0_7 = sa2__sub_801F100((s16) var_r7 + 0x14, (s32) (s16) var_r5, 1, 8, sa2__sub_801EC3C);
-        if (temp_r0_7 >= 0) {
-            return;
-        }
-        temp_r3->unk78 = (s32) (temp_r3->unk78 + (temp_r0_7 << 8));
-        temp_r2_4 = temp_r3 + 0x80;
-        temp_r1_4 = *temp_r2_4;
-        temp_r0_8 = (temp_r1_4 >> 2) - temp_r1_4;
-        *temp_r2_4 = temp_r0_8;
-        if (temp_r0_8 <= 0xFFFFFF00) {
-            return;
-        }
-        *temp_r2_4 = (s32) temp_r4;
-        *temp_r2_3 = 0xF0U;
-        *temp_r0_6 = (u8) (*temp_r0_6 + 1);
-        if (((s8) (u8) gSelectedCharacter == 0) && ((s32) (s8) (u8) gCurrentLevel > 0xB) && (LOADED_SAVE->unk1D == 0x7F) && ((u32) LOADED_SAVE->unk8[0] > 0xCU) && ((u32) LOADED_SAVE->unk8[1] > 0xCU) && ((u32) LOADED_SAVE->unk8[2] > 0xCU) && ((u32) LOADED_SAVE->unk8[3] > 0xCU) && ((LOADED_SAVE->unk8[0] != 0xF) || ((s8) (u8) gMultiplayerCurrentLevel != 0xC))) {
-            sub_803A54C();
-            return;
-        }
-        sub_803A594();
-        return;
-    case 1:
-        temp_r1_5 = temp_r3 + 0x92;
-        temp_r0_9 = *temp_r1_5 - 1;
-        *temp_r1_5 = (u16) temp_r0_9;
-        if ((temp_r0_9 << 0x10) == 0) {
-            var_r6 = var_r5 << 0x10;
-            var_r2 = var_r7 << 0x10;
-            if (((s8) (u8) gSelectedCharacter == 0) && ((s32) (s8) (u8) gCurrentLevel > 0xB) && (LOADED_SAVE->unk1D == 0x7F) && ((u32) LOADED_SAVE->unk8[0] > 0xCU) && ((u32) LOADED_SAVE->unk8[1] > 0xCU) && ((u32) LOADED_SAVE->unk8[2] > 0xCU) && ((u32) LOADED_SAVE->unk8[3] > 0xCU) && ((LOADED_SAVE->unk8[0] != 0xF) || ((s8) (u8) gMultiplayerCurrentLevel != 0xC))) {
-                temp_r4_2 = var_r7 << 0x10;
-                CreatePostBossEggMobile((s16) var_r5, (s16) ((s32) (temp_r4_2 + 0xFFF80000) >> 0x10));
-                var_r6 = var_r5 << 0x10;
-                var_r2 = temp_r4_2;
+
+    switch (boss->unk99) {
+        case 0:
+            boss->unk92--;
+            res = sa2__sub_801F100(worldY + 20, worldX, 1, 8, sa2__sub_801EC3C);
+            if (res < 0) {
+                boss->qUnk78 += Q(res);
+                boss->qUnk80 = (boss->qUnk80 >> 2) - boss->qUnk80;
+                if (boss->qUnk80 > -Q(1)) {
+                    boss->qUnk80 = 0;
+                    boss->unk92 = 240;
+                    boss->unk99++;
+                    if ((gSelectedCharacter == CHARACTER_SONIC) //
+                        && (gCurrentLevel > 0xB) //
+                        && (gLoadedSaveGame.unk1D == 0x7F) //
+                        && (gLoadedSaveGame.unk8[0] > 0xCU) //
+                        && (gLoadedSaveGame.unk8[1] > 0xCU) //
+                        && (gLoadedSaveGame.unk8[2] > 0xCU) //
+                        && (gLoadedSaveGame.unk8[3] > 0xCU) //
+                        && ((gLoadedSaveGame.unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
+                        sub_803A54C();
+                    } else {
+                        sub_803A594();
+                    }
+                }
             }
-            gMusicManagerState.unk1 = 0x36;
-            temp_r4_3 = var_r6 >> 0x10;
-            temp_r5 = temp_r4_3 << 8;
-            temp_r5_2 = var_r2 >> 0x10;
-            sub_8017540(temp_r5, (temp_r5_2 - 0x18) << 8);
-            temp_r6 = temp_r5_2 << 8;
-            sub_8017540((temp_r4_3 - 0x10) << 8, temp_r6);
-            sub_8017540((temp_r4_3 + 0x10) << 8, temp_r6);
-            sub_8017540(temp_r5, (temp_r5_2 + 0x18) << 8);
-            *temp_r0_6 = (u8) (*temp_r0_6 + 1);
+            break;
+
+        case 1:
+            if (--boss->unk92 == 0) {
+                if ((gSelectedCharacter == CHARACTER_SONIC) //
+                    && (gCurrentLevel > 0xB) //
+                    && (gLoadedSaveGame.unk1D == 0x7F) //
+                    && (gLoadedSaveGame.unk8[0] > 0xCU) //
+                    && (gLoadedSaveGame.unk8[1] > 0xCU) //
+                    && (gLoadedSaveGame.unk8[2] > 0xCU) //
+                    && (gLoadedSaveGame.unk8[3] > 0xCU) //
+                    && ((gLoadedSaveGame.unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
+                    CreatePostBossEggMobile(worldX, worldY - 8);
+                }
+
+                gMusicManagerState.unk1 = 0x36;
+                sub_8017540(Q(worldX), (worldY - 24) << 8);
+                sub_8017540(Q(worldX - 16), Q(worldY));
+                sub_8017540(Q(worldX + 16), Q(worldY));
+                sub_8017540(Q(worldX), Q(worldY + 24));
+                boss->unk99++;
+            }
+            break;
+
+        case 2:
+            TaskDestroy(gCurTask);
             return;
-        }
-        break;
+
+            break;
     }
 }
 
-void sub_8038420(s16 arg0, s16 arg1) {
-    s16 temp_r5;
-    s16 temp_r6;
-    s32 temp_r0;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    u16 temp_r1;
+// NOTE: The contents of this function might originally have been from a macro or inline proc?
+//       Many bosses calling CreateNutsAndBoltsTask have this same structure, almost identically.
+void sub_8038420(CamCoord worldX, CamCoord worldY)
+{
+    struct Task *t;
+    NutsAndBolts *bolts;
+    Sprite *sprBolts;
+    s32 rndIndex = PseudoRandom32() % ARRAY_COUNT(gUnknown_080BB41C);
+    s32 rndTheta;
+    s32 a0, a1;
+    s32 rnd;
+    t = CreateNutsAndBoltsTask(0x2000U, VramMalloc(gUnknown_080BB434[rndIndex]), gUnknown_080BB41C[rndIndex], gUnknown_080BB42C[rndIndex],
+                               TaskDestructor_NutsAndBolts);
+    bolts = TASK_DATA(t);
+    sprBolts = &bolts->s;
+    bolts->qUnk30 = Q(worldX);
+    bolts->qUnk34 = Q(worldY + 16);
+    sprBolts->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+    sprBolts->oamFlags = SPRITE_OAM_ORDER(23);
+    bolts->qUnk3E = Q(5. / 256.);
+    bolts->qUnk40 = Q(32. / 256.);
+    rndTheta = PseudoRandom32();
+    bolts->qUnk3A = (-(SIN(rndTheta & 0x1FF) * 0x600)) >> 0xE;
+    bolts->qUnk38 = (-(COS(rndTheta & 0x1FF) * 0x600)) >> 0xE;
 
-    temp_r0 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r0;
-    temp_r4 = 7 & temp_r0;
-    temp_r1 = CreateNutsAndBoltsTask(0x2000U, (void *) (s32) VramMalloc((u32) gUnknown_080BB434[temp_r4]), gUnknown_080BB41C[temp_r4], gUnknown_080BB42C[temp_r4], TaskDestructor_NutsAndBolts)->data;
-    temp_r5 = (s16) (u16) arg0;
-    temp_r1->unk30 = (s32) (temp_r5 << 8);
-    temp_r6 = (s16) (u16) arg1;
-    temp_r1->unk34 = (s32) ((temp_r6 + 0x10) << 8);
-    temp_r1->unk10 = 0x2000;
-    temp_r1->unk1A = 0x5C0;
-    temp_r1->unk3E = 5;
-    *(temp_r1 + 0x40) = 0x20;
-    temp_r4_2 = (0x196225 * gPseudoRandom) + 0x3C6EF35F;
-    gPseudoRandom = temp_r4_2;
-    temp_r1_2 = 0x1FF & temp_r4_2;
-    temp_r1->unk3A = (s16) ((s32) (0 - (gSineTable[temp_r1_2] * 0x600)) >> 0xE);
-    temp_r1->unk38 = (s16) ((s32) (0 - (gSineTable[temp_r1_2 + 0x100] * 0x600)) >> 0xE);
-    temp_r1_3 = (0x196225 * temp_r4_2) + 0x3C6EF35F;
-    gPseudoRandom = temp_r1_3;
-    sub_8017540(((temp_r5 + (0x3F & temp_r1_3)) - 0x20) << 8, (temp_r6 - (((s32) (temp_r1_3 & 0x3F0000) >> 0x10) - 0x20)) << 8);
+    rnd = PseudoRandom32();
+    sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
 }
 
+#if 0
 void sub_8038554(void) {
     Collision *temp_r0_3;
     s32 temp_r0_10;
