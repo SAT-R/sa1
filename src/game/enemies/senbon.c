@@ -151,11 +151,7 @@ void Task_8070CB4(void)
     worldX = (CamCoord)worldX32;
     worldY = (CamCoord)worldY32;
     screenX = worldX + I(senbon->qUnk40);
-#ifndef NON_MATCHING
     screenY = worldY + (senbon->unk3C & 0xFFFF);
-#else
-    screenY = worldY + senbon->unk3C;
-#endif
     s->x = screenX - gCamera.x;
     s->y = screenY - gCamera.y;
 
