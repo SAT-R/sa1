@@ -134,8 +134,7 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_SenbonInit.inc", void Task_
 }
 END_NONMATCH
 
-// (99.96%) https://decomp.me/scratch/ZGLNj
-NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_8070CB4(void))
+void Task_8070CB4(void)
 {
     MapEntity *me;
     Sprite *s;
@@ -152,7 +151,11 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_807
     worldX = (CamCoord)worldX32;
     worldY = (CamCoord)worldY32;
     screenX = worldX + I(senbon->qUnk40);
+#ifndef NON_MATCHING
+    screenY = worldY + (senbon->unk3C & 0xFFFF);
+#else
     screenY = worldY + senbon->unk3C;
+#endif
     s->x = screenX - gCamera.x;
     s->y = screenY - gCamera.y;
 
@@ -177,4 +180,3 @@ NONMATCH("asm/non_matching/game/enemies/Senbon__Task_8070CB4.inc", void Task_807
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
-END_NONMATCH
