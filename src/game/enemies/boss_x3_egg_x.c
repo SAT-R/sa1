@@ -4,9 +4,11 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/entity.h"
+#include "game/save.h"
 #include "game/enemies/bosses_shared.h" // CreatePreBossCameraPan
 #include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/screen_shake.h"
 #include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
@@ -23,7 +25,9 @@ typedef struct EggX_64 {
 } EggX_64;
 
 typedef struct EggX_7C {
-    u8 filler0[0x7A];
+    u8 filler0[0x78];
+    u8 unk78;
+    u8 unk79;
     u8 unk7A;
     u8 unk7B;
 } EggX_7C;
@@ -33,16 +37,18 @@ typedef struct EggX {
     /* 0x0C */ Sprite s;
     /* 0x3C */ Hitbox reserved;
     /* 0x44 */ Sprite s2;
-    /* 0x74 */ u8 filler74[0xC];
-    /* 0x80 */ s32 unk80;
+    /* 0x80 */ s32 qUnk74;
+    /* 0x80 */ s32 qUnk78;
+    /* 0x80 */ s32 qUnk7C;
+    /* 0x80 */ s32 qUnk80;
     /* 0x84 */ s32 unk84;
     /* 0x88 */ s16 unk88;
     /* 0x8A */ s16 unk8A;
     /* 0x8C */ s16 unk8C;
     /* 0x8E */ s16 unk8E;
-    /* 0x90 */ s16 unk90;
-    /* 0x92 */ s16 unk92;
-    /* 0x94 */ u8 unk94;
+    /* 0x90 */ u16 unk90;
+    /* 0x92 */ u16 unk92;
+    /* 0x94 */ s8 unk94;
     /* 0x95 */ s8 unk95;
     /* 0x96 */ u16 unk96;
     /* 0x98 */ u8 unk98;
@@ -51,12 +57,60 @@ typedef struct EggX {
     /* 0x9C */ struct Task *task9C; // -> EggX_7C
 } EggX; /* 0xA0 */
 
-EHit sub_800C2B8(Sprite *s, s16 sx, s16 sy, Player *p);
+void Task_EggXMain(void);
+void sub_80370B4(void);
+void Task_803753C(void);
+void Task_803775C(void);
+void sub_8038F04(void);
+void TaskDestructor_EggX(struct Task *t);
+
+void sub_8036E20(CamCoord worldX, CamCoord worldY);
+void sub_803803C(void);
+void sub_803967C(void);
+void sub_8039940(void);
+u8 sub_803711C(s16 arg0);
 
 extern const s16 gUnknown_084ACF1C[4];
 extern const s16 gUnknown_084ACF24[];
 extern const s16 gUnknown_084ACF2C[];
 extern const s16 gUnknown_084ACF34[];
+
+static inline void CopySpritePos__inline()
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    s2->x = s->x;
+    s2->y = s->y;
+}
+
+static inline void SetSpritePos__inline(CamCoord worldX, CamCoord worldY)
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+}
+
+static inline void ChangeVariant__inline()
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s2 = &boss->s2;
+    if ((s2->variant != 0) && (s2->frameFlags & 0x4000)) {
+        s2->variant = 0;
+        s2->prevVariant = -1;
+    }
+}
+
+static inline void ChangeVariant2__inline()
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s2 = &boss->s2;
+    s2->variant = 3;
+    s2->frameFlags &= ~0x4000;
+    s2->prevVariant = -1;
+}
 
 void sub_8036E20(s16 worldX, s16 worldY)
 {
@@ -217,264 +271,617 @@ u8 sub_803711C(s16 arg0)
     return ++i;
 }
 
-#if 0
-void CreateEntity_EggX(s32 arg0, u16 arg1, u16 arg2, u8 arg3) {
-    s16 sp4;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r1_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r6;
-    u16 temp_r1;
-    u16 temp_r2;
-    u16 temp_r3;
+// (84.16%) https://decomp.me/scratch/wRxPL
 
-    temp_r1 = arg1;
-    temp_r2 = arg2;
-    if ((u32) gGameMode > 1U) {
-        arg0->unk0 = -2U;
+void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id)
+{
+    s16 sp4;
+    s16 *temp_r1_2;
+    s16 *temp_r6;
+    u8 *temp_r0;
+    u8 *temp_r0_2;
+    EggX *boss;
+    Sprite *s;
+    Sprite *s2;
+
+    if (IS_MULTI_PLAYER) {
+        SET_MAP_ENTITY_INITIALIZED(me);
         return;
     }
-    temp_r3 = TaskCreate(Task_EggXMain, 0xA0U, 0x2000U, 0U, TaskDestructor_EggX)->data;
-    temp_r3->unk4 = temp_r1;
-    temp_r3->unk6 = temp_r2;
-    temp_r3->unk0 = arg0;
-    temp_r3->unk8 = (u8) arg0->unk0;
-    temp_r3->unk9 = arg3;
-    *(temp_r3 + 0x92) = 0x78;
-    *(temp_r3 + 0x95) = 0;
-    *(temp_r3 + 0x99) = 0;
-    *(temp_r3 + 0x98) = 0;
-    temp_r3->unk74 = 0x7400;
-    temp_r3->unk78 = 0xE800;
-    temp_r3->unk7C = 0;
-    *(temp_r3 + 0x80) = 0;
-    *(temp_r3 + 0x84) = 0;
-    *(temp_r3 + 0x96) = 0;
-    if (gLoadedSaveGame.difficultyLevel != 0) {
-        *(temp_r3 + 0x94) = 2;
+    boss = TASK_DATA(TaskCreate(Task_EggXMain, sizeof(EggX), 0x2000U, 0U, TaskDestructor_EggX));
+    boss->base.regionX = regionX;
+    boss->base.regionY = regionY;
+    boss->base.me = me;
+    boss->base.meX = me->x;
+    boss->base.id = id;
+    boss->unk92 = 120;
+    boss->unk95 = 0;
+    boss->unk99 = 0;
+    boss->unk98 = 0;
+    boss->qUnk74 = Q(116);
+    boss->qUnk78 = Q(232);
+    boss->qUnk7C = 0;
+    boss->qUnk80 = 0;
+    boss->unk84 = 0;
+    boss->unk96 = 0;
+    if (LOADED_SAVE->difficultyLevel != 0) {
+        boss->unk94 = 2;
     } else {
-        *(temp_r3 + 0x94) = 0;
+        boss->unk94 = 0;
     }
-    temp_r6 = temp_r3 + 0x88;
-    *temp_r6 = (s16) ((arg0->unk0 * 8) + (temp_r1 << 8));
-    temp_r1_2 = temp_r3 + 0x8A;
-    *temp_r1_2 = (s16) ((arg0->unk1 * 8) + (temp_r2 << 8));
-    arg0->unk0 = -2U;
-    temp_r4 = temp_r3 + 0xC;
-    temp_r4->unk16 = (u16) *temp_r6;
-    temp_r4->unk18 = (u16) *temp_r1_2;
-    temp_r4->unk4 = VramMalloc(0x2AU);
-    temp_r4->unk1A = 0x580;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 0x2AF;
-    *(temp_r3 + 0x2C) = 0;
-    temp_r4->unk14 = 0;
-    temp_r4->unk1C = 0;
-    *(temp_r3 + 0x2D) = 0xFF;
-    temp_r0 = temp_r3 + 0x2E;
-    *temp_r0 = 0x10;
-    *(temp_r0 + 3) = 0;
-    temp_r4->unk28 = -1;
-    temp_r4->unk10 = 0x2000;
-    temp_r4_2 = temp_r4 + 0x38;
-    temp_r4_2->unk16 = (u16) *temp_r6;
-    temp_r4_2->unk18 = (u16) *temp_r1_2;
-    temp_r4_2->unk4 = VramMalloc(0xCU);
-    temp_r4_2->unk1A = 0x540;
-    temp_r4_2->unk8 = 0;
-    temp_r4_2->unkA = 0x2B3;
-    *(temp_r3 + 0x64) = 0;
-    temp_r4_2->unk14 = 0;
-    temp_r4_2->unk1C = 0;
-    *(temp_r3 + 0x65) = -1;
-    temp_r0_2 = temp_r3 + 0x66;
-    *temp_r0_2 = 0x10;
-    *(temp_r0_2 + 3) = 0;
-    temp_r4_2->unk28 = -1;
-    temp_r4_2->unk10 = 0x2000;
+
+    boss->unk88 = (me->x * 8) + (regionX << 8);
+    temp_r1_2 = &boss->unk8A;
+    boss->unk8A = (me->y * 8) + (regionY << 8);
+    SET_MAP_ENTITY_INITIALIZED(me);
+    s = &boss->s;
+    s->x = boss->unk88;
+    s->y = boss->unk8A;
+    s->graphics.dest = VramMalloc(42);
+    s->oamFlags = 0x580;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x2AF;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+    s->frameFlags = 0x2000;
+
+    s2 = &boss->s2;
+    s2->x = boss->unk88;
+    s2->y = boss->unk8A;
+    s2->graphics.dest = VramMalloc(0xCU);
+    s2->oamFlags = 0x540;
+    s2->graphics.size = 0;
+    s2->graphics.anim = 0x2B3;
+    s2->variant = 0;
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = 0x10;
+    s2->palId = 0;
+    s2->hitboxes[0].index = -1;
+    s2->frameFlags = 0x2000;
+
     if (!(gPlayer.moveState & 0x80)) {
-        gWinRegs->unk0 = 0xF0;
-        gWinRegs[2] = 0xA0;
-        gWinRegs[4] = 0x1F1F;
-        gWinRegs[5] = 0x1F1F;
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+        gWinRegs[WINREG_WININ] = 0x1F1F;
+        gWinRegs[WINREG_WINOUT] = 0x1F1F;
         gBldRegs.bldCnt = 0xBF;
         gBldRegs.bldY = 0xC;
         gDispCnt |= 0x2000;
     }
-    sp4 = 0x7FFF;
-    (void *)0x040000D4->unk0 = &sp4;
-    (void *)0x040000D4->unk4 = &gObjPalette[0xC0];
-    (void *)0x040000D4->unk8 = 0x81000010;
+
+    DmaFill16(3, 0x7FFF, &gObjPalette[0xC0], 0x20);
+
     gFlags |= 2;
 }
 
-void Task_EggXMain(void) {
-    s16 temp_r2_4;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r4;
-    u16 temp_r1;
-    u16 temp_r2;
-    u8 temp_r0;
+void Task_EggXMain()
+{
+    EggX *boss = TASK_DATA(gCurTask);
 
-    temp_r2 = gCurTask->data;
-    temp_r4 = temp_r2 + 0x99;
-    temp_r0 = *temp_r4;
-    switch (temp_r0) {                              /* irregular */
-    case 0:
-        temp_r2_2 = temp_r2 + 0x88;
-        if ((s32) (*temp_r2_2 - 0x78) <= (s32) gCamera.x) {
-            gCamera.minX = (u16) *temp_r2_2 - 0x90;
-            gCamera.maxX = (u16) *temp_r2_2 + 0x90;
-            *temp_r4 = 1U;
+    switch (boss->unk99) {
+        case 0:
+            if ((boss->unk88 - 120) <= gCamera.x) {
+                gCamera.minX = (u16)boss->unk88 - 0x90;
+                gCamera.maxX = (u16)boss->unk88 + 0x90;
+                boss->unk99 = 1;
+                return;
+            }
             return;
-        }
-        return;
-    case 1:
-        temp_r2_3 = temp_r2 + 0x8A;
-        if ((s32) (*temp_r2_3 - 0x28) <= (s32) gCamera.y) {
-            temp_r1 = (u16) *temp_r2_3;
-            CreatePreBossCameraPan((s16) (temp_r1 - 0x28), (s16) (temp_r1 + 0xA0));
-            *temp_r4 = 2U;
-            return;
-        }
-        break;
-    case 2:
-        temp_r2_4 = *(temp_r2 + 0x8A);
-        if ((gCamera.minY == (temp_r2_4 - 0x28)) && (gCamera.maxY == (temp_r2_4 + 0xA0))) {
-            *temp_r4 = 3U;
-            return;
-        }
-        break;
-    case 3:
-        *temp_r4 = 0U;
-        *(temp_r2 + 0x80) = 0xFFFFFF00;
-        *(temp_r2 + 0x8C) = (s16) (((s32) temp_r2->unk74 >> 8) + *(temp_r2 + 0x88));
-        *(temp_r2 + 0x8E) = (s16) (((s32) temp_r2->unk78 >> 8) + *(temp_r2 + 0x8A));
-        sub_8038F04();
-        gCurTask->main = sub_803753C;
-        CreateScreenShake(0x400U, 4U, 0x100U, 0x7AU, 0x80U);
-        gMusicManagerState.unk1 = 0x16;
-        break;
+        case 1:
+            if ((boss->unk8A - 40) <= gCamera.y) {
+                CreatePreBossCameraPan((s16)(boss->unk8A - 40), (s16)(boss->unk8A + 160));
+                boss->unk99 = 2;
+                return;
+            }
+            break;
+        case 2:
+            if ((gCamera.minY == (boss->unk8A - 40)) && (gCamera.maxY == (boss->unk8A + 160))) {
+                boss->unk99 = 3;
+                return;
+            }
+            break;
+        case 3:
+            boss->unk99 = 0;
+            boss->qUnk80 = -Q(1);
+            boss->unk8C = boss->unk88 + I(boss->qUnk74);
+            boss->unk8E = boss->unk8A + I(boss->qUnk78);
+            sub_8038F04();
+            gCurTask->main = Task_803753C;
+            CreateScreenShake(0x400U, 4U, 0x100U, 0x7AU, 0x80U);
+            gMusicManagerState.unk1 = 0x16;
+            break;
     }
 }
 
-void sub_803753C(void) {
-    s32 temp_r0;
-    s32 temp_r0_3;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r1_6;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r3;
-    s32 temp_r4;
-    u16 temp_r0_2;
-    u16 temp_r0_4;
-    u16 temp_r5;
-    u16 temp_r8;
-    u16 var_r7;
-    u8 temp_r1_3;
+void Task_803753C()
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    EggX_7C *strc7C = TASK_DATA(boss->task9C);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+    CamCoord worldX, worldY;
 
-    temp_r5 = gCurTask->data;
-    temp_r8 = (*(temp_r5 + 0x9C))->unk6;
-    temp_r4 = temp_r5 + 0x44;
-    temp_r0 = temp_r5->unk74 + temp_r5->unk7C;
-    temp_r5->unk74 = temp_r0;
-    temp_r3 = temp_r5 + 0x80;
-    temp_r1 = temp_r5->unk78 + *temp_r3;
-    temp_r5->unk78 = temp_r1;
-    temp_r0_2 = (u16) ((temp_r0 >> 8) + *(temp_r5 + 0x88));
-    var_r7 = (u16) ((temp_r1 >> 8) + *(temp_r5 + 0x8A));
-    if (*temp_r3 == 0) {
-        temp_r2 = temp_r5 + 0x90;
-        *temp_r2 = (u16) ((*temp_r2 + 8) & 0x3FF);
-        var_r7 = (u16) ((s16) var_r7 + ((s32) ((u16) gSineTable[*temp_r2 + 0x100] << 0x10) >> 0x1C));
+    boss->qUnk74 += boss->qUnk7C;
+    boss->qUnk78 += boss->qUnk80;
+    worldX = I(boss->qUnk74) + boss->unk88;
+    worldY = I(boss->qUnk78) + boss->unk8A;
+
+    if (boss->qUnk80 == 0) {
+        boss->unk90 += 8;
+        boss->unk90 &= 0x3FF;
+        worldY += COS_24_8(boss->unk90) >> 6;
     } else {
-        *(temp_r5 + 0x90) = 0;
+        boss->unk90 = 0;
     }
-    temp_r0_3 = temp_r5 + 0x8C;
-    *temp_r0_3 = temp_r0_2;
-    *(temp_r0_3 + 2) = var_r7;
-    temp_r1_2 = gCurTask->data + 0xC;
-    temp_r1_2->unk16 = (s16) ((s16) temp_r0_2 - (u16) gCamera.x);
-    temp_r1_2->unk18 = (s16) ((s16) var_r7 - (u16) gCamera.y);
-    UpdateSpriteAnimation((Sprite *) (temp_r5 + 0xC));
-    UpdateSpriteAnimation((Sprite *) temp_r4);
-    temp_r0_4 = gCurTask->data;
-    temp_r2_2 = temp_r0_4 + 0xC;
-    temp_r0_5 = temp_r0_4 + 0x44;
-    temp_r0_5->unk16 = (u16) temp_r2_2->unk16;
-    temp_r0_5->unk18 = (u16) temp_r2_2->unk18;
+
+    boss->unk8C = worldX;
+    boss->unk8E = worldY;
+
+    SetSpritePos__inline(worldX, worldY);
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+
+    CopySpritePos__inline();
+
     sub_80370B4();
-    temp_r0_6 = temp_r5 + 0x99;
-    temp_r1_3 = *temp_r0_6;
-    switch (temp_r1_3) {
-    case 0:
-        if ((s32) temp_r5->unk78 <= 0x6E00) {
-            temp_r5->unk78 = 0x6E00;
-            temp_r5->unk7C = 0;
-            *(temp_r5 + 0x80) = 0;
-block_14:
-            *(temp_r5 + 0x92) = 0xF;
-block_15:
-            *temp_r0_6 = (u8) (*temp_r0_6 + 1);
-            return;
-        }
-    default:
-        return;
-    case 1:
-        temp_r1_4 = temp_r5 + 0x92;
-        temp_r0_7 = *temp_r1_4 - 1;
-        *temp_r1_4 = (u16) temp_r0_7;
-        if ((temp_r0_7 << 0x10) == 0) {
-            *(temp_r8 + 0x79) = 1;
-            goto block_15;
-        }
-        break;
-    case 2:
-        if (*(temp_r8 + 0x79) == 4) {
-            temp_r1_5 = temp_r4 + 0x20;
-            *temp_r1_5 = 1;
-            *(temp_r1_5 + 1) = 0xFF;
-            goto block_15;
-        }
-        break;
-    case 3:
-        if (temp_r4->unk10 & 0x4000) {
-            *(temp_r8 + 0x79) = 5;
-            *(temp_r4 + 0x20) = 0;
-            *(temp_r4 + 0x21) = 0xFF;
-            goto block_15;
-        }
-        break;
-    case 4:
-        if (*(temp_r8 + 0x79) == 7) {
-            goto block_14;
-        }
-        break;
-    case 5:
-        temp_r1_6 = temp_r5 + 0x92;
-        temp_r0_8 = *temp_r1_6 - 1;
-        *temp_r1_6 = (u16) temp_r0_8;
-        if ((temp_r0_8 << 0x10) == 0) {
-            *(temp_r1_6 + 6) = 0xFF;
-            *temp_r0_6 = 0U;
-            gCurTask->main = sub_803775C;
-        }
-        break;
+    switch (boss->unk99) {
+        case 0:
+            if (boss->qUnk78 <= Q(110)) {
+                boss->qUnk78 = Q(110);
+                boss->qUnk7C = 0;
+                boss->qUnk80 = 0;
+                boss->unk92 = 15;
+                boss->unk99++;
+            }
+
+            break;
+        case 1:
+            if (--boss->unk92 == 0) {
+                strc7C->unk79 = 1;
+                boss->unk99++;
+            }
+            break;
+        case 2:
+            if (strc7C->unk79 == 4) {
+                s2->variant = 1;
+                s2->prevVariant = -1;
+                boss->unk99++;
+            }
+            break;
+        case 3:
+            if (s2->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
+                strc7C->unk79 = 5;
+                s2->variant = 0;
+                s2->prevVariant = -1;
+                boss->unk99++;
+            }
+            break;
+        case 4:
+            if (strc7C->unk79 == 7) {
+                boss->unk92 = 0xF;
+                boss->unk99++;
+            }
+            break;
+        case 5:
+            if (--boss->unk92 == 0) {
+                boss->unk98 = 0xFF;
+                boss->unk99 = 0;
+                gCurTask->main = Task_803775C;
+            }
+            break;
     }
 }
 
-void sub_803775C(void) {
+// (84.16%) https://decomp.me/scratch/wRxPL
+NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_803775C.inc", void Task_803775C())
+{
+    Sprite *s2;
+    s32 sp8 = 0;
+    Sprite *spC;
+    Rect8 sp10;
+    Sprite *sp14;
+    Rect8 sp18;
+    Sprite *s;
+    s16 temp_r1_10;
+    s16 temp_r1_11;
+    s16 var_r0_2;
+    s16 var_r5;
+    s32 *temp_r0_14;
+    s32 *temp_r3_5;
+    s32 temp_r1;
+    s32 temp_r1_3;
+    s32 temp_r1_8;
+    s32 temp_r4_2;
+    s32 var_r0_4;
+    s32 var_r0_6;
+    s32 var_r2;
+    s32 var_r4_3;
+    s32 var_r6;
+    u16 *temp_r2;
+    s16 temp_r5_2;
+    s16 var_r1_2;
+    u16 var_r1_3;
+    s16 var_r3;
+    CamCoord worldX, worldY;
+    u16 var_r4_2;
+
+    EggX *boss = TASK_DATA(gCurTask);
+    EggX_7C *strc7C;
+    strc7C = TASK_DATA(boss->task9C);
+    s = &boss->s;
+    s2 = &boss->s2;
+
+    if (s->frameFlags & 0x400) {
+        boss->qUnk7C += boss->unk84;
+        boss->qUnk74 -= boss->qUnk7C;
+    } else {
+        boss->qUnk7C += boss->unk84;
+        boss->qUnk74 += boss->qUnk7C;
+    }
+
+    temp_r1 = boss->qUnk78 + boss->qUnk80;
+    boss->qUnk78 = temp_r1;
+    worldX = boss->unk88 + I(boss->qUnk74);
+    worldY = boss->unk8A + I(temp_r1);
+    if (boss->qUnk80 == 0) {
+        boss->unk90 = (boss->unk90 + 8);
+        boss->unk90 &= 0x3FF;
+        worldY += (COS_24_8(boss->unk90) >> 6);
+    } else {
+        boss->unk90 = 0;
+    }
+
+    boss->unk8C = worldX;
+    boss->unk8E = worldY;
+    sub_8036E20(worldX, worldY);
+
+    if (boss->unk94 > 7) {
+        sub_803803C();
+        return;
+    }
+
+    SetSpritePos__inline(worldX, worldY);
+
+    ChangeVariant__inline();
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    CopySpritePos__inline();
+    sub_80370B4();
+
+    switch (boss->unk99) {
+        s32 rnd;
+        case 0x0:
+            boss->unk9A = 0;
+            strc7C->unk79 = 8;
+            boss->unk99++;
+            rnd = ((u32)PseudoRandom32() & 0x30) >> 4;
+            switch (rnd) {
+                case 3:
+                case 0:
+                    boss->unk92 = 0x5A;
+                    break;
+                case 1:
+                    boss->unk92 = 0xB4;
+                    break;
+                case 2:
+                    boss->unk92 = 0xF0;
+                    break;
+            }
+
+            // fallthrough
+        case 0x1:
+            if (--boss->unk92 != 0) {
+                return;
+            }
+
+            boss->unk9A = sub_803711C(worldX);
+            if (boss->unk9A != 4) {
+                boss->unk92 = 10;
+                boss->unk99++;
+            } else {
+                strc7C->unk79 = 10;
+                boss->unk92 = 0x14;
+                boss->unk99 = 64;
+            }
+
+            break;
+        case 0x2:
+            strc7C->unk7A = strc7C->unk7A & 0x1;
+            if (strc7C->unk7A == 0) {
+                return;
+            }
+
+            if (--boss->unk92 == 0) {
+                boss->unk92 = 0xA;
+                boss->unk99++;
+                strc7C->unk79 = 0xA;
+            }
+
+            break;
+        case 0x3:
+            if (!(2 & strc7C->unk7A)) {
+                return;
+            }
+
+            if (--boss->unk92 != 0) {
+                return;
+            }
+            strc7C->unk79 = 0xD;
+            boss->unk99 = boss->unk9A * 0x10;
+
+            if (boss->unk9A == 2) {
+                boss->unk92 = 0x1E;
+                m4aSongNumStart(0xACU);
+            } else if (boss->unk9A == 1) {
+                boss->unk92 = 0;
+            }
+
+            break;
+        case 0x4:
+            strc7C->unk79 = 0xF;
+            boss->unk9A = 0;
+            boss->unk99++;
+            break;
+        case 0x10:
+            sub_803967C();
+            boss->unk92++;
+            boss->qUnk7C = 0x200;
+            boss->unk84 = -0x40;
+            boss->unk99++;
+            break;
+        case 0x11:
+            var_r2 = 0;
+            if (boss->qUnk7C <= 0) {
+                temp_r1_8 = boss->unk84;
+                if (temp_r1_8 < 0) {
+                    var_r0_4 = temp_r1_8 + 3;
+                } else {
+                    var_r0_4 = temp_r1_8;
+                }
+                boss->unk84 -= (var_r0_4 >> 2);
+            }
+            if (s->frameFlags & 0x400) {
+                if (boss->qUnk74 >= -0x7400) {
+                    boss->qUnk74 = -0x7400;
+                    var_r2 = 1;
+                }
+            } else {
+                if (boss->qUnk74 <= 0x7400) {
+                    boss->qUnk74 = 0x7400;
+                    var_r2 = 0xFF;
+                }
+            }
+
+            if (var_r2 != 0) {
+                boss->qUnk7C = 0;
+                temp_r0_14 = &boss->unk84;
+                boss->unk84 = 0;
+                if (boss->unk92 != 0) {
+                    boss->unk99 = 4;
+                } else {
+                    boss->unk99 = 0x10;
+                }
+            }
+
+            break;
+
+        case 0x20:
+            if (--boss->unk92 == 0) {
+                boss->unk99 = 4;
+                if (PLAYER_IS_ALIVE || (gNumLives != 0)) {
+                    gWinRegs[WINREG_WININ] = 0x1F1F;
+                    gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+                    gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
+                }
+                break;
+            }
+
+            if (PLAYER_IS_ALIVE || (gNumLives != 0)) {
+                gWinRegs[4] = 0x3F3F;
+            }
+
+            var_r1_2 = boss->unk92 - 15;
+            if (var_r1_2 < 0) {
+                var_r1_2 = -var_r1_2;
+            }
+            var_r1_3 = (15 - (s16)var_r1_2);
+            var_r4_2 = var_r1_3;
+            if ((s16)var_r1_3 > 0xB) {
+                var_r1_3 = 0xC;
+                var_r4_2 = 0xB;
+            }
+
+            temp_r1_10 = var_r1_3;
+            var_r5 = s->y - var_r1_3;
+            temp_r1_11 = s->y + var_r1_3;
+            var_r3 = (u16)temp_r1_11;
+            if (temp_r1_11 > 160) {
+                var_r3 = 160;
+            }
+
+            if (s->frameFlags & 0x400) {
+                u16 some_r0, some_v;
+                if (!(gPlayer.moveState & 0x80) || (gNumLives != 0)) {
+                    gWinRegs[WINREG_WIN0H] = WIN_RANGE(s->x + 32, DISPLAY_WIDTH);
+                    gWinRegs[WINREG_WIN0V] = WIN_RANGE(var_r5, var_r3);
+                }
+
+                {
+                    u16 v0;
+                    var_r5 = gCamera.x + 120;
+                    v0 = ((u16)s->x - 88);
+                    spC = NULL;
+                    sp10.left = -v0;
+                    sp10.right = 120;
+                    sp10.top = -temp_r4_2;
+                    sp10.bottom = +temp_r4_2;
+
+                    var_r6 = sub_800C1E8(spC, sp10, worldX, worldY, &gPlayer);
+                    if (gNumSingleplayerCharacters == 2) {
+                        var_r0_6 = sub_800C1E8(spC, sp10, worldX, worldY, &gPlayer);
+                    } else {
+                        var_r0_6 = 0;
+                    }
+                }
+            }
+            if (!(gPlayer.moveState & 0x80) || (gNumLives != 0)) {
+                gWinRegs[0] = (u16)((u16)s->x - 0x20);
+                gWinRegs[2] = (s16)var_r3 | ((temp_r5_2 << 0x10) >> 8);
+            }
+
+            var_r5 = (u16)gCamera.x + 120;
+            sp14 = 0;
+            sp18.left = 88;
+            sp18.right = s->x - 0x98;
+            sp18.top = -var_r4_2;
+            sp18.bottom = +var_r4_2;
+
+            var_r6 = sub_800C1E8(sp14, sp18, worldX, worldY, &gPlayer);
+            if (gNumSingleplayerCharacters == 2) {
+                var_r0_6 = sub_800C1E8(sp14, sp18, worldX, worldY, &gPlayer);
+            } else {
+                var_r0_6 = 0;
+            }
+            if ((var_r6 | var_r0_6) == 2) {
+                ChangeVariant2__inline();
+            }
+
+            break;
+        case 0x30:
+            sub_8039940();
+            boss->unk99++;
+            break;
+        case 0x32:
+            boss->unk99 = 4;
+            break;
+        case 0x33:
+            boss->qUnk7C = -Q(2);
+            boss->unk92 = 0;
+            boss->unk99++;
+            break;
+        case 0x34:
+            if (boss->unk92 != 0) {
+                strc7C->unk79 = 0xF;
+                boss->unk92 = 0;
+            }
+            var_r2 = 0;
+            if (s->frameFlags & 0x400) {
+                if (boss->qUnk74 >= +0xD000) {
+                    sp8 = 0xD000;
+                    var_r2 = 1;
+                }
+            } else {
+                if (boss->qUnk74 <= -0xD000) {
+                    sp8 = -0xD000;
+                    var_r2 = 0xFF;
+                }
+            }
+
+            if (var_r2 != 0) {
+                boss->qUnk74 = sp8;
+                s->frameFlags ^= 0x400;
+                s2->frameFlags ^= 0x400;
+                boss->unk99++;
+            }
+            break;
+        case 0x35:
+            var_r2 = 0;
+            if (s->frameFlags & 0x400) {
+                if (boss->qUnk74 >= -0x7400) {
+                    sp8 = -0x7400;
+                    var_r2 = 1;
+                }
+            } else {
+                if (boss->qUnk74 <= 0x7400) {
+                    sp8 = 0x7400;
+                    var_r2 = 0xFF;
+                }
+            }
+
+            if (var_r2 != 0) {
+                boss->qUnk74 = sp8;
+                boss->qUnk7C = 0;
+                boss->unk99 = 0;
+            }
+            break;
+
+        case 0x40:
+            if (2 & strc7C->unk7A) {
+                if (--boss->unk92 == 0) {
+                    boss->qUnk7C = -0x300;
+                    boss->unk99++;
+                    break;
+                }
+            }
+            break;
+
+        case 0x41:
+            var_r2 = 0;
+            if (s->frameFlags & 0x400) {
+                if (boss->qUnk74 > 0xCFFF) {
+                    sp8 = 0xD000;
+                    var_r2 = 1;
+                }
+            } else if (boss->qUnk74 <= -Q(208)) {
+                sp8 = -Q(208);
+                var_r2 = 0xFF;
+            }
+
+            if (var_r2 != 0) {
+                boss->qUnk7C = -0x200;
+                strc7C->unk79 = 0x13;
+                boss->qUnk74 = sp8;
+                s->frameFlags ^= 0x400;
+                s2->frameFlags ^= 0x400;
+                boss->unk99++;
+                break;
+            }
+            break;
+
+        case 0x42:
+            var_r2 = 0;
+            if (s->frameFlags & 0x400) {
+                if (boss->qUnk74 >= -Q(116)) {
+                    boss->qUnk74 = -Q(116);
+                    boss->qUnk7C = 0;
+                    var_r2 = 1;
+                }
+            } else {
+                if (boss->qUnk74 <= +Q(116)) {
+                    boss->qUnk74 = +Q(116);
+                    boss->qUnk7C = 0;
+                    var_r2 = 0xFF;
+                }
+            }
+
+            if (var_r2 != 0) {
+                if (4 & strc7C->unk7A) {
+                    boss->unk99 = 0;
+                    break;
+                }
+            }
+
+            break;
+
+        case 0x5:
+            if (4 & strc7C->unk7A) {
+                boss->unk99 = 0;
+                break;
+            }
+            break;
+    }
+}
+END_NONMATCH
+
+#if 0
+void Task_803775C(void) {
     s32 sp4;
     s32 sp8;
     s32 spC;
@@ -1111,7 +1518,7 @@ void sub_8038154(void) {
         *temp_r2_4 = (s32) temp_r4;
         *temp_r2_3 = 0xF0U;
         *temp_r0_6 = (u8) (*temp_r0_6 + 1);
-        if (((s8) (u8) gSelectedCharacter == 0) && ((s32) (s8) (u8) gCurrentLevel > 0xB) && (gLoadedSaveGame.unk1D == 0x7F) && ((u32) gLoadedSaveGame.unk8[0] > 0xCU) && ((u32) gLoadedSaveGame.unk8[1] > 0xCU) && ((u32) gLoadedSaveGame.unk8[2] > 0xCU) && ((u32) gLoadedSaveGame.unk8[3] > 0xCU) && ((gLoadedSaveGame.unk8[0] != 0xF) || ((s8) (u8) gMultiplayerCurrentLevel != 0xC))) {
+        if (((s8) (u8) gSelectedCharacter == 0) && ((s32) (s8) (u8) gCurrentLevel > 0xB) && (LOADED_SAVE->unk1D == 0x7F) && ((u32) LOADED_SAVE->unk8[0] > 0xCU) && ((u32) LOADED_SAVE->unk8[1] > 0xCU) && ((u32) LOADED_SAVE->unk8[2] > 0xCU) && ((u32) LOADED_SAVE->unk8[3] > 0xCU) && ((LOADED_SAVE->unk8[0] != 0xF) || ((s8) (u8) gMultiplayerCurrentLevel != 0xC))) {
             sub_803A54C();
             return;
         }
@@ -1124,7 +1531,7 @@ void sub_8038154(void) {
         if ((temp_r0_9 << 0x10) == 0) {
             var_r6 = var_r5 << 0x10;
             var_r2 = var_r7 << 0x10;
-            if (((s8) (u8) gSelectedCharacter == 0) && ((s32) (s8) (u8) gCurrentLevel > 0xB) && (gLoadedSaveGame.unk1D == 0x7F) && ((u32) gLoadedSaveGame.unk8[0] > 0xCU) && ((u32) gLoadedSaveGame.unk8[1] > 0xCU) && ((u32) gLoadedSaveGame.unk8[2] > 0xCU) && ((u32) gLoadedSaveGame.unk8[3] > 0xCU) && ((gLoadedSaveGame.unk8[0] != 0xF) || ((s8) (u8) gMultiplayerCurrentLevel != 0xC))) {
+            if (((s8) (u8) gSelectedCharacter == 0) && ((s32) (s8) (u8) gCurrentLevel > 0xB) && (LOADED_SAVE->unk1D == 0x7F) && ((u32) LOADED_SAVE->unk8[0] > 0xCU) && ((u32) LOADED_SAVE->unk8[1] > 0xCU) && ((u32) LOADED_SAVE->unk8[2] > 0xCU) && ((u32) LOADED_SAVE->unk8[3] > 0xCU) && ((LOADED_SAVE->unk8[0] != 0xF) || ((s8) (u8) gMultiplayerCurrentLevel != 0xC))) {
                 temp_r4_2 = var_r7 << 0x10;
                 CreatePostBossEggMobile((s16) var_r5, (s16) ((s32) (temp_r4_2 + 0xFFF80000) >> 0x10));
                 var_r6 = var_r5 << 0x10;
@@ -2699,11 +3106,11 @@ void sub_803A54C(void) {
     u16 temp_r0;
     u16 var_r0;
 
-    var_r0 = gLoadedSaveGame.unk8[0];
+    var_r0 = LOADED_SAVE->unk8[0];
     if ((u32) var_r0 <= 0xDU) {
         var_r0 = 0xE;
     }
-    gLoadedSaveGame.unk8[0] = var_r0;
+    LOADED_SAVE->unk8[0] = var_r0;
     temp_r0 = TaskCreate(sub_8038554, 0x10U, 0x1FFFU, 0U, NULL)->data;
     temp_r0->unk6 = 0x1A4;
     temp_r0->unk9 = 0;
