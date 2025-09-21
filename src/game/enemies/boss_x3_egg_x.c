@@ -38,15 +38,33 @@ typedef struct EggX_48 {
     u8 filler30[0x16];
 } EggX_48;
 
-typedef struct EggX_64 {
-    Sprite s;
-    u8 filler30[0x4A];
-    u8 unk7A;
-    u8 unk7B;
-} EggX_64;
+typedef struct EggX_Sparkle {
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ SpriteTransform transform;
+    /* 0x4C */ s16 unk3C;
+    /* 0x6C */ u8 filler3E[0xC];
+    /* 0x4C */ s16 unk4A;
+    /* 0x4C */ s16 unk4C;
+    /* 0x4E */ u8 filler4E[0x2];
+    /* 0x50 */ s16 unk50;
+    /* 0x52 */ s16 unk52;
+    /* 0x52 */ s32 unk54;
+    /* 0x52 */ s32 unk58;
+    /* 0x5C */ s16 unk5C;
+    /* 0x5E */ s16 unk5E;
+    /* 0x60 */ u8 filler60[4];
+} EggX_Sparkle;
 
 typedef struct EggX_7C {
-    u8 filler0[0x78];
+    Sprite s;
+    Sprite s2;
+    u8 filler60[0x4];
+    s32 unk64;
+    s32 unk68;
+    s32 unk6C;
+    s32 unk70;
+    s16 unk74;
+    s16 unk76;
     u8 unk78;
     u8 unk79;
     u8 unk7A;
@@ -85,6 +103,7 @@ u8 sub_803711C(s16 arg0);
 void Task_803753C(void);
 void Task_803775C(void);
 void sub_803803C(void);
+void sub_8038E34(void);
 void sub_803A54C(void);
 void sub_803A594(void);
 void Task_8038154(void);
@@ -94,8 +113,11 @@ void sub_8038C20(void);
 void sub_8038D2C(void);
 void sub_8038420(CamCoord worldX, CamCoord worldY);
 void sub_8038F04(void);
+void Task_8039264(void);
 void sub_803967C(void);
 void sub_8039940(void);
+void TaskDestructor_803A5D0(struct Task *t);
+void TaskDestructor_803A600(struct Task *t);
 void sub_80472AC(Player *p);
 void TaskDestructor_EggX(struct Task *t);
 void TaskDestructor_EggX48(struct Task *t);
@@ -205,8 +227,8 @@ enum EHit sub_8036F9C(CamCoord worldX, CamCoord worldY, u8 arg2)
 {
     enum EHit collPlayer;
     enum EHit collPartner;
-    EggX_64 *strc64 = TASK_DATA(gCurTask);
-    Sprite *s = &strc64->s;
+    EggX_Sparkle *sparkle = TASK_DATA(gCurTask);
+    Sprite *s = &sparkle->s;
 
     if (arg2 == 0) {
         collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
@@ -1354,156 +1376,162 @@ void sub_8038BC8(void)
     }
 }
 
-#if 0
-void sub_8038C20(void) {
-    s32 temp_r4_2;
-    u16 temp_r4;
+void sub_8038C20(void)
+{
+    EggX_Sparkle *sparkle;
+    Sprite *s;
+    SpriteTransform *tf;
 
-    temp_r4 = TaskCreate(sub_8038E34, 0x64U, 0x2100U, 0U, TaskDestructor_803A600)->data;
-    *(temp_r4 + 0x50) = 0xEF4;
-    *(temp_r4 + 0x52) = 0x120;
-    temp_r4->unk54 = 0;
-    temp_r4->unk58 = 0;
-    *(temp_r4 + 0x5C) = 0xFFF8;
-    *(temp_r4 + 0x5E) = 4;
-    *(temp_r4 + 0x4A) = 0x1000;
-    *(temp_r4 + 0x4C) = 0xFFFF;
-    temp_r4->unk3C = 0x258;
-    temp_r4->unk4 = VramMalloc(4U);
-    temp_r4->unk1A = 0x5C0;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 0x2DB;
-    *(temp_r4 + 0x20) = 0;
-    temp_r4->unk14 = 0;
-    temp_r4->unk1C = 0;
-    *(temp_r4 + 0x21) = 0xFF;
-    *(temp_r4 + 0x22) = 0x10;
-    *(temp_r4 + 0x25) = 0;
-    temp_r4->unk28 = -1;
-    temp_r4->unk10 = 0x2030;
-    temp_r4_2 = temp_r4 + 0x30;
-    temp_r4_2->unk0 = 0;
-    temp_r4_2->unk2 = 0x100;
-    temp_r4_2->unk4 = 0x100;
+    sparkle = TASK_DATA(TaskCreate(sub_8038E34, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_803A600));
+    sparkle->unk50 = 0xEF4;
+    sparkle->unk52 = 0x120;
+    sparkle->unk54 = 0;
+    sparkle->unk58 = 0;
+    sparkle->unk5C = -8;
+    sparkle->unk5E = 4;
+    sparkle->unk4A = 0x1000;
+    sparkle->unk4C = -1;
+    sparkle->unk3C = 0x258;
+
+    s = &sparkle->s;
+    s->graphics.dest = VramMalloc(4U);
+    s->oamFlags = 0x5C0;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_FINAL_CUTSCENE_SPARKLE_A;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2030;
+
+    tf = &sparkle->transform;
+    tf->rotation = 0;
+    tf->qScaleX = 0x100;
+    tf->qScaleY = 0x100;
 }
 
-void sub_8038D2C(void) {
-    s32 temp_r4_2;
-    u16 temp_r4;
+void sub_8038D2C(void)
+{
+    EggX_Sparkle *sparkle;
+    Sprite *s;
+    SpriteTransform *tf;
 
-    temp_r4 = TaskCreate(sub_8038E34, 0x64U, 0x2100U, 0U, TaskDestructor_803A600)->data;
-    *(temp_r4 + 0x50) = 0xEF4;
-    *(temp_r4 + 0x52) = 0x120;
-    temp_r4->unk54 = 0;
-    temp_r4->unk58 = 0;
-    *(temp_r4 + 0x5C) = 0xFFF4;
-    *(temp_r4 + 0x5E) = 6;
-    *(temp_r4 + 0x4A) = 0x1000;
-    *(temp_r4 + 0x4C) = 0xFFFF;
-    temp_r4->unk3C = 0x258;
-    temp_r4->unk4 = VramMalloc(0x10U);
-    temp_r4->unk1A = 0x5C0;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 0x2DC;
-    *(temp_r4 + 0x20) = 0;
-    temp_r4->unk14 = 0;
-    temp_r4->unk1C = 0;
-    *(temp_r4 + 0x21) = 0xFF;
-    *(temp_r4 + 0x22) = 0x10;
-    *(temp_r4 + 0x25) = 0;
-    temp_r4->unk28 = -1;
-    temp_r4->unk10 = 0x2030;
-    temp_r4_2 = temp_r4 + 0x30;
-    temp_r4_2->unk0 = 0;
-    temp_r4_2->unk2 = 0x100;
-    temp_r4_2->unk4 = 0x100;
+    sparkle = TASK_DATA(TaskCreate(sub_8038E34, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_803A600));
+    sparkle->unk50 = 0xEF4;
+    sparkle->unk52 = 0x120;
+    sparkle->unk54 = 0;
+    sparkle->unk58 = 0;
+    sparkle->unk5C = -12;
+    sparkle->unk5E = 6;
+    sparkle->unk4A = 0x1000;
+    sparkle->unk4C = -1;
+    sparkle->unk3C = 0x258;
+
+    s = &sparkle->s;
+    s->graphics.dest = VramMalloc(16);
+    s->oamFlags = 0x5C0;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_FINAL_CUTSCENE_SPARKLE_B;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2030;
+
+    tf = &sparkle->transform;
+    tf->rotation = 0;
+    tf->qScaleX = 0x100;
+    tf->qScaleY = 0x100;
 }
 
-void sub_8038E34(void) {
-    s16 temp_r0_2;
-    s32 temp_r0;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r6;
-    u16 temp_r2;
+void sub_8038E34()
+{
+    SpriteTransform *tf;
 
-    temp_r2 = gCurTask->data;
-    temp_r6 = temp_r2 + 0x30;
-    temp_r0 = temp_r2->unk54 + *(temp_r2 + 0x5C);
-    temp_r2->unk54 = temp_r0;
-    temp_r1 = temp_r2->unk58 + *(temp_r2 + 0x5E);
-    temp_r2->unk58 = temp_r1;
-    temp_r6->unk6 = (s16) ((s16) ((temp_r0 >> 8) + *(temp_r2 + 0x50)) - (u16) gCamera.x);
-    temp_r6->unk8 = (s16) ((s16) ((temp_r1 >> 8) + *(temp_r2 + 0x52)) - (u16) gCamera.y);
-    temp_r1_2 = temp_r2 + 0x4A;
-    temp_r0_2 = *(temp_r2 + 0x4C) + *temp_r1_2;
-    *temp_r1_2 = (u16) temp_r0_2;
-    if ((s32) temp_r0_2 <= 0x800) {
-        *temp_r1_2 = 0x800U;
+    EggX_Sparkle *sparkle = TASK_DATA(gCurTask);
+    CamCoord worldX, worldY;
+
+    tf = &sparkle->transform;
+    sparkle->unk54 += sparkle->unk5C;
+    sparkle->unk58 += sparkle->unk5E;
+    worldX = sparkle->unk50 + I(sparkle->unk54);
+    worldY = sparkle->unk52 + I(sparkle->unk58);
+    tf->x = worldX - gCamera.x;
+    tf->y = worldY - gCamera.y;
+    sparkle->unk4A += sparkle->unk4C;
+
+    if (sparkle->unk4A <= Q(8)) {
+        sparkle->unk4A = Q(8);
     }
-    temp_r6->unk2 = (s16) ((s32) (*temp_r1_2 << 0x10) >> 0x14);
-    temp_r6->unk4 = (s16) ((s32) (*temp_r1_2 << 0x10) >> 0x14);
-    UpdateSpriteAnimation((Sprite *) temp_r2);
-    TransformSprite((Sprite *) temp_r2, (SpriteTransform *) temp_r6);
-    DisplaySprite((Sprite *) temp_r2);
-    temp_r0_3 = temp_r2->unk3C - 1;
-    temp_r2->unk3C = (u16) temp_r0_3;
-    if ((temp_r0_3 << 0x10) == 0) {
+
+    tf->qScaleX = sparkle->unk4A >> 4;
+    tf->qScaleY = sparkle->unk4A >> 4;
+    UpdateSpriteAnimation(&sparkle->s);
+    TransformSprite(&sparkle->s, tf);
+    DisplaySprite(&sparkle->s);
+
+    if (--sparkle->unk3C == 0) {
         TaskDestroy(gCurTask);
     }
 }
 
-void sub_8038F04(void) {
-    s32 temp_r4;
-    struct Task *temp_r0_2;
-    u16 temp_r0;
-    u16 temp_r5;
-    u16 temp_r8;
-    u16 temp_sl;
+void sub_8038F04(void)
+{
+    Sprite *s;
+    Sprite *s2;
+    EggX_7C *strc7C;
+    EggX *boss = TASK_DATA(gCurTask);
+    struct Task *t;
+    CamCoord worldX, worldY;
 
-    temp_r0 = gCurTask->data;
-    temp_r8 = temp_r0;
-    temp_sl = temp_r0;
-    temp_r0_2 = TaskCreate(sub_8039264, 0x7CU, 0x2001U, 0U, sub_803A5D0);
-    *(temp_r8 + 0x9C) = temp_r0_2;
-    temp_r5 = temp_r0_2->data;
-    *(temp_r5 + 0x74) = (s16) (((s32) temp_sl->unk74 >> 8) + *(temp_r8 + 0x88));
-    *(temp_r5 + 0x76) = (s16) (((s32) temp_sl->unk78 >> 8) + *(temp_r8 + 0x8A));
-    temp_r5->unk64 = 0;
-    temp_r5->unk68 = 0xFFFFE900;
-    temp_r5->unk6C = 0;
-    temp_r5->unk70 = 0;
-    *(temp_r5 + 0x78) = 0;
-    *(temp_r5 + 0x79) = 0;
-    *(temp_r5 + 0x7A) = 0;
-    temp_r5->unk4 = VramMalloc(0xCU);
-    temp_r5->unk1A = 0x500;
-    temp_r5->unk8 = 0;
-    temp_r5->unkA = 0x2B0;
-    *(temp_r5 + 0x20) = 8;
-    temp_r5->unk14 = 0;
-    temp_r5->unk1C = 0;
-    *(temp_r5 + 0x21) = 0xFF;
-    *(temp_r5 + 0x22) = 0x10;
-    *(temp_r5 + 0x25) = 0;
-    temp_r5->unk28 = -1;
-    temp_r5->unk10 = 0x2000;
-    temp_r4 = temp_r5 + 0x30;
-    temp_r4->unk4 = VramMalloc(0xCU);
-    temp_r4->unk1A = 0x500;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 0x2B0;
-    *(temp_r5 + 0x50) = 0xB;
-    temp_r4->unk14 = 0;
-    temp_r4->unk1C = 0;
-    *(temp_r5 + 0x51) = -1;
-    *(temp_r5 + 0x52) = 0x10;
-    *(temp_r5 + 0x55) = 0;
-    temp_r4->unk28 = -1;
-    temp_r4->unk10 = 0x2000;
+    t = TaskCreate(Task_8039264, sizeof(EggX_7C), 0x2001U, 0U, TaskDestructor_803A5D0);
+    boss->task9C = t;
+    strc7C = TASK_DATA(t);
+    strc7C->unk74 = boss->unk88 + I(boss->qUnk74);
+    strc7C->unk76 = boss->unk8A + I(boss->qUnk78);
+    strc7C->unk64 = 0;
+    strc7C->unk68 = 0xFFFFE900;
+    strc7C->unk6C = 0;
+    strc7C->unk70 = 0;
+    strc7C->unk78 = 0;
+    strc7C->unk79 = 0;
+    strc7C->unk7A = 0;
+    s = &strc7C->s;
+    s->graphics.dest = VramMalloc(0xCU);
+    s->oamFlags = 0x500;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x2B0;
+    s->variant = 8;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0x2000;
+
+    s2 = &strc7C->s2;
+    s2->graphics.dest = VramMalloc(0xCU);
+    s2->oamFlags = 0x500;
+    s2->graphics.size = 0;
+    s2->graphics.anim = 0x2B0;
+    s2->variant = 0xB;
+    s2->animCursor = 0;
+    s2->qAnimDelay = 0;
+    s2->prevVariant = -1;
+    s2->animSpeed = 0x10;
+    s2->palId = 0;
+    s2->hitboxes[0].index = -1;
+    s2->frameFlags = 0x2000;
 }
 
+#if 0
 void sub_8039074(u8 arg0) {
     s32 var_r1;
     s8 var_r0;
@@ -1629,7 +1657,7 @@ block_10:
     *var_r2 = var_r0;
 }
 
-void sub_8039264(void) {
+void Task_8039264(void) {
     s32 sp0;
     s32 sp4;
     enum EHit temp_r7_2;
@@ -2582,7 +2610,7 @@ void sub_803A594(void) {
     temp_r0->unk8 = 0;
 }
 
-void sub_803A5D0(struct Task *arg0) {
+void TaskDestructor_803A5D0(struct Task *arg0) {
     u16 temp_r4;
 
     temp_r4 = arg0->data;
