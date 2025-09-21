@@ -1531,79 +1531,67 @@ void sub_8038F04(void)
     s2->frameFlags = 0x2000;
 }
 
+void sub_8039074(u8 param0)
+{
+    u8 var_r0;
+
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+
+    switch (param0) {
+        case 1:
+            strc7C->s.variant = 4;
+            strc7C->s2.variant = 5;
+            strc7C->s.prevVariant = -1;
+            strc7C->s2.prevVariant = -1;
+            strc7C->unk78 = 4;
+            break;
+        case 2:
+            strc7C->s.variant = 2;
+            strc7C->s2.variant = 3;
+            strc7C->s.prevVariant = -1;
+            strc7C->s2.prevVariant = -1;
+            strc7C->unk78 = 2;
+            break;
+        case 3:
+            strc7C->s.variant = 6;
+            strc7C->s2.variant = 7;
+            strc7C->s.prevVariant = -1;
+            strc7C->s2.prevVariant = -1;
+            strc7C->unk78 = 6;
+            break;
+    }
+}
+
+void sub_8039108()
+{
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+
+    switch (strc7C->s.variant) {
+        case 4:
+            strc7C->s.variant = 0xE;
+            strc7C->s2.variant = 17;
+            strc7C->s.prevVariant = -1;
+            strc7C->s2.prevVariant = -1;
+            strc7C->unk78 = 14;
+            break;
+        case 2:
+            strc7C->s.variant = 15;
+            strc7C->s2.variant = 18;
+            strc7C->s.prevVariant = -1;
+            strc7C->s2.prevVariant = -1;
+            strc7C->unk78 = 15;
+            break;
+        case 6:
+            strc7C->s.variant = 16;
+            strc7C->s2.variant = 19;
+            strc7C->s.prevVariant = -1;
+            strc7C->s2.prevVariant = -1;
+            strc7C->unk78 = 16;
+            break;
+    }
+}
+
 #if 0
-void sub_8039074(u8 arg0) {
-    s32 var_r1;
-    s8 var_r0;
-    u16 temp_r3;
-    u8 var_r2;
-
-    var_r2 = arg0;
-    temp_r3 = gCurTask->data;
-    switch (var_r2) {                               /* irregular */
-    case 1:
-        var_r2 = 4;
-        *(temp_r3 + 0x20) = 4;
-        var_r1 = temp_r3 + 0x50;
-        var_r0 = 5;
-block_9:
-        *var_r1 = var_r0;
-        *(temp_r3 + 0x21) = 0xFF;
-        *(temp_r3 + 0x51) = -1;
-        *(temp_r3 + 0x78) = var_r2;
-        return;
-    case 2:
-        *(temp_r3 + 0x20) = var_r2;
-        var_r1 = temp_r3 + 0x50;
-        var_r0 = 3;
-        goto block_9;
-    case 3:
-        var_r2 = 6;
-        *(temp_r3 + 0x20) = 6;
-        var_r1 = temp_r3 + 0x50;
-        var_r0 = 7;
-        goto block_9;
-    }
-}
-
-void sub_8039108(void) {
-    s32 temp_r1;
-    s32 var_r1;
-    s8 var_r0;
-    s8 var_r2;
-    u16 temp_r3;
-    u8 temp_r0;
-
-    temp_r3 = gCurTask->data;
-    temp_r1 = temp_r3 + 0x20;
-    temp_r0 = *temp_r1;
-    switch (temp_r0) {                              /* irregular */
-    case 4:
-        var_r2 = 0xE;
-        *temp_r1 = 0xEU;
-        var_r1 = temp_r3 + 0x50;
-        var_r0 = 0x11;
-block_9:
-        *var_r1 = var_r0;
-        *(temp_r3 + 0x21) = 0xFF;
-        *(temp_r3 + 0x51) = -1;
-        *(temp_r3 + 0x78) = var_r2;
-        return;
-    case 2:
-        var_r2 = 0xF;
-        *temp_r1 = 0xFU;
-        var_r1 = temp_r3 + 0x50;
-        var_r0 = 0x12;
-        goto block_9;
-    case 6:
-        var_r2 = 0x10;
-        *temp_r1 = 0x10U;
-        var_r1 = temp_r3 + 0x50;
-        var_r0 = 0x13;
-        goto block_9;
-    }
-}
-
 void sub_803918C(u8 arg0) {
     s32 temp_r0;
     s32 temp_r0_2;
