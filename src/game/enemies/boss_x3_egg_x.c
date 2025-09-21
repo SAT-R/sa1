@@ -1591,60 +1591,43 @@ void sub_8039108()
     }
 }
 
-#if 0
-void sub_803918C(u8 arg0) {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 var_r1;
-    s32 var_r2;
-    s8 var_r0;
-    s8 var_r0_2;
-    u16 temp_r2;
+void sub_803918C(u8 param0)
+{
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+    Sprite *s = &strc7C->s;
+    Sprite *s2 = &strc7C->s2;
 
-    temp_r2 = gCurTask->data;
-    temp_r0 = temp_r2 + 0x30;
-    if (temp_r2->unk10 & 0x4000) {
-        temp_r1 = temp_r2 + 0x20;
-        if (*temp_r1 == arg0) {
-            var_r2 = temp_r2 + 0x7A;
-            var_r0 = 1 | *var_r2;
+    if (s->frameFlags & 0x4000) {
+        if (s->variant == param0) {
+            strc7C->unk7A |= 1;
+            return;
         } else {
-            temp_r0_2 = *temp_r1 - 8;
-            switch (temp_r0_2) {
-            case 0:
-            case 6:
-                *(temp_r2 + 0x20) = 0xA;
-                var_r1 = temp_r0 + 0x20;
-                var_r0_2 = 0xD;
-block_8:
-                *var_r1 = var_r0_2;
-                break;
-            case 1:
-            case 7:
-                *(temp_r2 + 0x20) = 8;
-                var_r1 = temp_r0 + 0x20;
-                var_r0_2 = 0xB;
-                goto block_8;
-            case 2:
-            case 8:
-                *(temp_r2 + 0x20) = 9;
-                var_r1 = temp_r0 + 0x20;
-                var_r0_2 = 0xC;
-                goto block_8;
+            switch (s->variant - 8) {
+                case 0:
+                case 6:
+                    s->variant = 10;
+                    s2->variant = 13;
+                    break;
+                case 1:
+                case 7:
+                    s->variant = 8;
+                    s2->variant = 11;
+                    break;
+                case 2:
+                case 8:
+                    s->variant = 9;
+                    s2->variant = 12;
+                    break;
             }
-            *(temp_r2 + 0x21) = 0xFF;
-            *(temp_r0 + 0x21) = -1;
-            goto block_10;
+            s->prevVariant = 0xFF;
+            s2->prevVariant = -1;
         }
-    } else {
-block_10:
-        var_r2 = temp_r2 + 0x7A;
-        var_r0 = 0xFE & *var_r2;
     }
-    *var_r2 = var_r0;
+
+    strc7C->unk7A &= ~1;
 }
 
+#if 0
 void Task_8039264(void) {
     s32 sp0;
     s32 sp4;
