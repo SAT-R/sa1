@@ -58,13 +58,14 @@ typedef struct EggX_Sparkle {
 typedef struct EggX_7C {
     Sprite s;
     Sprite s2;
-    u8 filler60[0x4];
+    s16 unk60;
+    u8 filler62[0x2];
     s32 unk64;
     s32 unk68;
     s32 unk6C;
     s32 unk70;
-    s16 unk74;
-    s16 unk76;
+    u16 unk74;
+    u16 unk76;
     u8 unk78;
     u8 unk79;
     u8 unk7A;
@@ -113,6 +114,9 @@ void sub_8038C20(void);
 void sub_8038D2C(void);
 void sub_8038420(CamCoord worldX, CamCoord worldY);
 void sub_8038F04(void);
+void sub_8039074(u8 param0);
+void sub_8039108(void);
+void sub_803918C(u8 param0);
 void Task_8039264(void);
 void sub_803967C(void);
 void sub_8039940(void);
@@ -157,11 +161,27 @@ static inline void ChangeVariant__inline()
 
 static inline void ChangeVariant2__inline()
 {
-    EggX *boss = TASK_DATA(gCurTask);
+    EggX *boss = TASK_DATA(TASK_PARENT(gCurTask));
     Sprite *s2 = &boss->s2;
     s2->variant = 3;
     s2->frameFlags &= ~0x4000;
     s2->prevVariant = -1;
+}
+
+static inline void idk2__inline(u8 arg)
+{
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+    switch (arg) {
+        case 1:
+            strc7C->unk78 = 8;
+            break;
+        case 2:
+            strc7C->unk78 = 9;
+            break;
+        case 3:
+            strc7C->unk78 = 10;
+            break;
+    }
 }
 
 void sub_8036E20(s16 worldX, s16 worldY)
@@ -1562,7 +1582,7 @@ void sub_8039074(u8 param0)
     }
 }
 
-void sub_8039108()
+void sub_8039108(void)
 {
     EggX_7C *strc7C = TASK_DATA(gCurTask);
 
@@ -1626,6 +1646,208 @@ void sub_803918C(u8 param0)
 
     strc7C->unk7A &= ~1;
 }
+
+// (97.69%) https://decomp.me/scratch/M3UcA
+NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_8039264.inc", void Task_8039264())
+{
+    enum EHit collPlayer;
+    enum EHit collPartner;
+    s16 temp_r2;
+    s32 worldX32, worldY32;
+    CamCoord worldX, worldY;
+    s32 temp_r0_4;
+    s32 temp_r0_7;
+    s32 temp_r0_8;
+    s32 temp_r1;
+    s32 temp_r3_2;
+    s32 var_r0;
+    s32 var_r0_2;
+    u16 temp_r0_6;
+    u16 temp_r0_9;
+    u16 temp_r2_2;
+    u8 *temp_r1_2;
+    u8 *temp_r1_4;
+    u8 *temp_r1_5;
+    u8 *temp_r3;
+    u8 *temp_r4_2;
+    u8 *var_r0_3;
+    u8 temp_r0_5;
+    u8 var_r0_4;
+    u8 var_r1;
+    u8 var_r1_2;
+
+    u32 mask;
+
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+    EggX *boss = TASK_DATA(TASK_PARENT(gCurTask));
+    Sprite *s = &strc7C->s;
+    Sprite *s2 = &strc7C->s2;
+    s->frameFlags &= 0xFFFFFBFF;
+    s2->frameFlags &= 0xFFFFFBFF;
+    mask = boss->s.frameFlags & 0x400;
+    s->frameFlags |= mask;
+    s2->frameFlags |= mask;
+
+    if (boss->s.palId != 0) {
+        s2->palId = s->palId = 254;
+    } else {
+        s2->palId = s->palId = 0;
+    }
+
+    strc7C->unk74 = boss->unk8C;
+    strc7C->unk76 = boss->unk8E;
+    if (boss->unk94 > 7) {
+        if (strc7C->unk79 != 0) {
+            if (s->variant != 6) {
+                sub_8039108();
+            }
+            strc7C->unk79 = 0;
+        }
+        strc7C->unk6C = 0;
+        strc7C->unk70 = 0;
+        if (boss->unk99 > 1U) {
+            TaskDestroy(gCurTask);
+            return;
+        }
+    } else {
+        switch (strc7C->unk79) {
+            case 0:
+                break;
+            case 1: {
+                EggX_7C *strc7C_ = TASK_DATA(gCurTask);
+                strc7C_->unk78 = 8;
+                if (1 & strc7C->unk7A) {
+                    strc7C->unk60 = 30;
+                    goto lbl;
+                }
+            } break;
+            case 2:
+                if (--strc7C->unk60 == 0) {
+                    strc7C->unk70 = 0x100;
+                    strc7C->unk79++;
+                    break;
+                }
+                break;
+            case 3:
+                if ((strc7C->unk68 + strc7C->unk70) >= 0) {
+                    strc7C->unk68 = 0;
+                    strc7C->unk70 = 0;
+                    strc7C->unk79++;
+                }
+                break;
+            case 4:
+                break;
+            case 5:
+                strc7C->unk70 = -0x100;
+                strc7C->unk79++;
+                break;
+            case 7:
+                break;
+            case 8:
+                strc7C->unk68 = -0x1700;
+                strc7C->unk78 = 0;
+                strc7C->unk79++;
+                /* fallthrough */
+            case 9:
+                if (boss->unk9A != 0) {
+                    idk2__inline(boss->unk9A);
+                }
+                break;
+            case 10:
+                strc7C->unk70 = 0x200;
+                strc7C->unk79++;
+                /* fallthrough */
+            case 11:
+                if ((strc7C->unk68 + strc7C->unk70) >= 0) {
+                    strc7C->unk68 = 0;
+                    strc7C->unk70 = 0;
+                    strc7C->unk79++;
+                    break;
+                }
+                break;
+            case 12:
+                break;
+            case 13:
+                sub_8039074(boss->unk9A);
+                strc7C->unk79++;
+                break;
+            case 14:
+                break;
+            case 15:
+                sub_8039108();
+                strc7C->unk60 = 0xA;
+                strc7C->unk79++;
+                /* fallthrough */
+            case 16:
+                if (--strc7C->unk60 == 0) {
+                    strc7C->unk70 = -Q(2);
+                    strc7C->unk79++;
+                    break;
+                }
+                break;
+            case 18:
+                break;
+            case 19:
+                strc7C->unk79++;
+                strc7C->unk70 = -Q(2);
+                strc7C->unk79++;
+                break;
+            case 6:
+            case 17:
+            case 21:
+                if ((strc7C->unk68 + strc7C->unk70) <= -0x1700) {
+                    strc7C->unk68 = -0x1700;
+                    strc7C->unk70 = 0;
+                lbl:
+                    strc7C->unk79++;
+                    break;
+                }
+                break;
+            case 22:
+                break;
+        }
+    }
+    strc7C->unk64 += strc7C->unk6C;
+    strc7C->unk68 += strc7C->unk70;
+
+    if (strc7C->unk68 <= -Q(23)) {
+        strc7C->unk7A |= 0x4;
+    } else {
+        strc7C->unk7A &= ~0x4;
+    }
+    if ((s32)strc7C->unk68 >= 0) {
+        strc7C->unk7A |= 0x2;
+    } else {
+        strc7C->unk7A &= ~0x2;
+    }
+
+    worldX = worldX32 = I(strc7C->unk64) + strc7C->unk74;
+    worldY = worldY32 = I(strc7C->unk68) + strc7C->unk76;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    s2->x = s->x;
+    s2->y = s->y;
+    sub_803918C(strc7C->unk78);
+
+    if ((boss->unk98 != 0) && (boss->unk95 == 0) && (boss->unk94 < 8)) {
+        EggX_7C *strc7C = TASK_DATA(gCurTask);
+        Sprite *s = &strc7C->s;
+        collPlayer = sub_800BF10(s, worldX32, worldY32, &gPlayer);
+        if (gNumSingleplayerCharacters == 2) {
+            collPartner = sub_800BF10(s, worldX32, worldY32, &gPartner);
+        } else {
+            collPartner = HIT_NONE;
+        }
+        if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
+            ChangeVariant2__inline();
+        }
+    }
+    UpdateSpriteAnimation(s);
+    UpdateSpriteAnimation(s2);
+    DisplaySprite(s);
+    DisplaySprite(s2);
+}
+END_NONMATCH
 
 #if 0
 void Task_8039264(void) {
