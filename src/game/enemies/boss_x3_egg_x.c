@@ -2338,17 +2338,18 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_8039A64.inc", void Task_80
 }
 END_NONMATCH
 
-#if 0
-void sub_803A170(s32 arg0) {
+// (99.10%) https://decomp.me/scratch/xmkJN
+NONMATCH("asm/non_matching/game/enemies/boss_x3__sub_803A170.inc", void sub_803A170(u32 arg0))
+{
     s16 var_r0;
 
     gPlayer.timerInvulnerability = 0x78;
     if (arg0 != 0) {
-        var_r0 = -0x200;
+        gPlayer.qSpeedAirX = -Q(2);
     } else {
-        var_r0 = 0x200;
+        gPlayer.qSpeedAirX = +Q(2);
     }
-    gPlayer.qSpeedAirX = var_r0;
+
     gPlayer.qSpeedAirY = -0x5E0;
     gPlayer.rotation = 0;
     gPlayer.moveState = (gPlayer.moveState & 0xFF1FFAC3) | 2;
@@ -2359,7 +2360,9 @@ void sub_803A170(s32 arg0) {
     gPlayer.sa2__unk61 = 0;
     gPlayer.sa2__unk62 = 0;
 }
+END_NONMATCH
 
+#if 0
 void sub_803A1D8(void) {
     s32 sp4;
     s16 var_r0;
