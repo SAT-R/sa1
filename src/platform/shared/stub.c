@@ -118,10 +118,3 @@ void sub_8063918(void) { }
 void CreatePlayerNameInputMenu() { }
 void CreateVsRecord() { }
 void CreateSoundTest() { }
-
-void sub_803A54C() { }
-void sub_803A594() { }
-void TaskDestructor_803A5D0() { }
-void TaskDestructor_803A600() { }
-void TaskDestructor_EggX48() { }
-void TaskDestructor_EggX() { }

@@ -144,8 +144,8 @@ void sub_803A54C(void);
 void sub_803A594(void);
 void sub_803A170(u32 param0);
 
-void TaskDestructor_803A5D0(struct Task *t);
-void TaskDestructor_803A600(struct Task *t);
+void TaskDestructor_EggX7C(struct Task *t);
+void TaskDestructor_EggX_Sparkle(struct Task *t);
 void sub_80472AC(Player *p);
 void TaskDestructor_EggX(struct Task *t);
 void TaskDestructor_EggX48(struct Task *t);
@@ -495,8 +495,8 @@ void Task_EggXMain()
     switch (boss->unk99) {
         case 0:
             if ((boss->unk88 - 120) <= gCamera.x) {
-                gCamera.minX = (u16)boss->unk88 - 0x90;
-                gCamera.maxX = (u16)boss->unk88 + 0x90;
+                gCamera.minX = (u16)boss->unk88 - 144;
+                gCamera.maxX = (u16)boss->unk88 + 144;
                 boss->unk99 = 1;
                 return;
             }
@@ -841,7 +841,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_803775C.inc", void Task_80
                 }
 
                 {
-                    // sub_803A6EC__inline();
+                    // Likely easily matchable once sub_803A6EC__inline() matches
                     u16 v0;
                     var_r5 = gCamera.x + 120;
                     v0 = ((u16)s->x - 88);
@@ -864,7 +864,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_803775C.inc", void Task_80
                 gWinRegs[2] = (s16)var_r3 | ((temp_r5_2 << 0x10) >> 8);
             }
 
-            // sub_803A6EC__inline();
+            // Likely easily matchable once sub_803A6EC__inline() matches
             var_r5 = (u16)gCamera.x + 120;
             sp14 = 0;
             sp18.left = 88;
@@ -1165,7 +1165,7 @@ void sub_8038420(CamCoord worldX, CamCoord worldY)
     sub_8017540(Q((worldX + (0x3F & rnd)) - 32), Q(worldY + 32 - ((rnd & 0x3F0000) >> 0x10)));
 }
 
-void sub_8038554()
+void Task_8038554()
 {
     EggX_10 *strc10 = TASK_DATA(gCurTask);
 
@@ -1459,7 +1459,7 @@ void sub_8038C20(void)
     Sprite *s;
     SpriteTransform *tf;
 
-    sparkle = TASK_DATA(TaskCreate(sub_8038E34, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_803A600));
+    sparkle = TASK_DATA(TaskCreate(sub_8038E34, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_EggX_Sparkle));
     sparkle->unk50 = 0xEF4;
     sparkle->unk52 = 0x120;
     sparkle->unk54 = 0;
@@ -1496,7 +1496,7 @@ void sub_8038D2C(void)
     Sprite *s;
     SpriteTransform *tf;
 
-    sparkle = TASK_DATA(TaskCreate(sub_8038E34, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_803A600));
+    sparkle = TASK_DATA(TaskCreate(sub_8038E34, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_EggX_Sparkle));
     sparkle->unk50 = 0xEF4;
     sparkle->unk52 = 0x120;
     sparkle->unk54 = 0;
@@ -1567,7 +1567,7 @@ void sub_8038F04(void)
     struct Task *t;
     CamCoord worldX, worldY;
 
-    t = TaskCreate(Task_8039264, sizeof(EggX_7C), 0x2001U, 0U, TaskDestructor_803A5D0);
+    t = TaskCreate(Task_8039264, sizeof(EggX_7C), 0x2001U, 0U, TaskDestructor_EggX7C);
     boss->task9C = t;
     strc7C = TASK_DATA(t);
     strc7C->unk74 = boss->unk88 + I(boss->qUnk74);
@@ -2009,7 +2009,7 @@ void sub_8039940()
     EggX_Sparkle *sparkle;
     Sprite *s;
 
-    t = TaskCreate(Task_8039A64, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_803A600);
+    t = TaskCreate(Task_8039A64, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_EggX_Sparkle);
     sparkle = TASK_DATA(t);
     sparkle->unk50 = boss->unk88 + I(boss->qUnk74);
     sparkle->unk52 = boss->unk8A + I(boss->qUnk78);
@@ -2375,7 +2375,7 @@ void sub_803A1D8()
 
     sparkleParent = TASK_DATA(gCurTask);
 
-    t = TaskCreate(Task_803A2F8, sizeof(EggX_Sparkle), 0x2101U, 0U, TaskDestructor_803A600);
+    t = TaskCreate(Task_803A2F8, sizeof(EggX_Sparkle), 0x2101U, 0U, TaskDestructor_EggX_Sparkle);
     sparkle = TASK_DATA(t);
     sparkle->unk50 = sparkleParent->unk50;
     sparkle->unk52 = sparkleParent->unk52;
@@ -2507,54 +2507,57 @@ void TaskDestructor_EggX(struct Task *t)
     VramFree(boss->s2.graphics.dest);
 }
 
-#if 0
-void sub_803A54C(void) {
+void sub_803A54C(void)
+{
+    EggX_10 *strc10;
     u16 temp_r0;
-    u16 var_r0;
 
-    var_r0 = LOADED_SAVE->unk8[0];
-    if ((u32) var_r0 <= 0xDU) {
-        var_r0 = 0xE;
+    temp_r0 = LOADED_SAVE->unk8[0];
+    if (temp_r0 < 0xE) {
+        temp_r0 = 0xE;
     }
-    LOADED_SAVE->unk8[0] = var_r0;
-    temp_r0 = TaskCreate(sub_8038554, sizeof(EggX_10), 0x1FFFU, 0U, NULL)->data;
-    temp_r0->unk6 = 0x1A4;
-    temp_r0->unk9 = 0;
-    temp_r0->unk8 = 0;
+    LOADED_SAVE->unk8[0] = temp_r0;
+
+    strc10 = TASK_DATA(TaskCreate(Task_8038554, sizeof(EggX_10), 0x1FFFU, 0U, NULL));
+    strc10->unk6 = 0x1A4;
+    strc10->unk9 = 0;
+    strc10->unk8 = 0;
 }
 
-void sub_803A594(void) {
-    u16 temp_r0;
+void sub_803A594(void)
+{
+    EggX_10 *strc10;
 
-    temp_r0 = TaskCreate(Task_Strc10_803891C, sizeof(EggX_10), 0x1FFFU, 0U, NULL)->data;
-    temp_r0->unk0 = 0x20;
-    temp_r0->unk2 = 0;
-    temp_r0->unk4 = 0;
-    temp_r0->unk6 = 0x78;
-    temp_r0->unk8 = 0;
+    strc10 = TASK_DATA(TaskCreate(Task_Strc10_803891C, sizeof(EggX_10), 0x1FFFU, 0U, NULL));
+    strc10->unk0 = 32;
+    strc10->unk2 = 0;
+    strc10->unk4 = 0;
+    strc10->unk6 = 120;
+    strc10->unk8 = 0;
 }
 
-void TaskDestructor_803A5D0(struct Task *arg0) {
-    u16 temp_r4;
-
-    temp_r4 = arg0->data;
-    VramFree(temp_r4->unk4);
-    VramFree(temp_r4->unk34);
+void TaskDestructor_EggX7C(struct Task *t)
+{
+    EggX_7C *strc7C = TASK_DATA(t);
+    VramFree(strc7C->s.graphics.dest);
+    VramFree(strc7C->s2.graphics.dest);
 }
 
-void TaskDestructor_EggX48(struct Task *arg0) {
-    VramFree(arg0->data->unk4);
+void TaskDestructor_EggX48(struct Task *t)
+{
+    EggX_48 *strc48 = TASK_DATA(t);
+    VramFree(strc48->s.graphics.dest);
 }
 
-void TaskDestructor_803A600(struct Task *arg0) {
-    VramFree(arg0->data->unk4);
+void TaskDestructor_EggX_Sparkle(struct Task *t)
+{
+    EggX_Sparkle *strc48 = TASK_DATA(t);
+    VramFree(strc48->s.graphics.dest);
 }
 
-void sub_803A614(void) {
-    sub_803A614__inline();
-}
+void sub_803A614(void) { sub_803A614__inline(); }
 
-static inline void sub_803A650(CamCoord worldX, CamCoord worldY)
+void sub_803A650(CamCoord worldX, CamCoord worldY)
 {
     enum EHit collPlayer;
     enum EHit collPartner;
@@ -2578,27 +2581,31 @@ static inline void sub_803A650(CamCoord worldX, CamCoord worldY)
     }
 }
 
+// Belongs to sub_803A6EC, might be able to be removed once matched...
+typedef struct Test {
+    Sprite *s;
+} Test;
+
 // (70.86%) https://decomp.me/scratch/rf3AU
-void sub_803A6EC(CamCoord worldX, CamCoord worldY,
-                 u8 param2, u8 param3, u8 param4, u8 param5) {
+NONMATCH("asm/non_matching/game/enemies/boss_x3__sub_803A6EC.inc",
+         void sub_803A6EC(CamCoord worldX, CamCoord worldY, u8 param2, u8 param3, u8 param4, u8 param5))
+{
     EHit collPlayer, collPartner;
-    const Test test = {
-        .s = NULL
-    };
+    const Test test = { .s = NULL };
     Rect8 rect;
     rect.left = param2;
     rect.right = param3;
     rect.top = param4;
-    rect.bottom = param5;    
+    rect.bottom = param5;
 
     collPlayer = sub_800C1E8(test.s, rect, worldX, worldY, &gPlayer);
-    if(gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
-        collPartner = sub_800C1E8(test.s, rect, worldX, worldY, &gPartner);        
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        collPartner = sub_800C1E8(test.s, rect, worldX, worldY, &gPartner);
     } else {
         collPartner = 0;
     }
 
-    if((collPlayer | collPartner) == HIT_PLAYER) {
+    if ((collPlayer | collPartner) == HIT_PLAYER) {
         EggX *strc7C = TASK_DATA(gCurTask);
         Sprite *s2 = &strc7C->s2;
         s2->variant = 3;
@@ -2606,89 +2613,41 @@ void sub_803A6EC(CamCoord worldX, CamCoord worldY,
         s2->prevVariant = -1;
     }
 }
+END_NONMATCH
 
-void sub_803A7D4(s16 arg0, s16 arg1) {
-    enum EHit temp_r7;
-    enum EHit var_r0;
-    s16 temp_r4;
-    s16 temp_r5;
-    s32 temp_r3_2;
-    u16 temp_r2;
-    u16 temp_r3;
+void sub_803A7D4(CamCoord worldX, CamCoord worldY)
+{
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+    Sprite *s = &strc7C->s;
+    EHit collPlayer, collPartner;
 
-    temp_r3 = gCurTask->data;
-    temp_r5 = arg0;
-    temp_r4 = arg1;
-    temp_r7 = sub_800BF10((Sprite *) temp_r3, temp_r5, temp_r4, &gPlayer);
-    if ((s8) (u8) gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
-        var_r0 = sub_800BF10((Sprite *) temp_r3, temp_r5, temp_r4, &gPartner);
+    collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
     } else {
-        var_r0 = HIT_NONE;
+        collPartner = HIT_NONE;
     }
-    if ((temp_r7 == HIT_PLAYER) || (var_r0 == HIT_PLAYER)) {
-        temp_r2 = gCurTask->parent->unk6;
-        temp_r3_2 = temp_r2 + 0x44;
-        *(temp_r2 + 0x64) = 3;
-        temp_r3_2->unk10 = (s32) (temp_r3_2->unk10 & 0xFFFFBFFF);
-        *(temp_r2 + 0x65) = 0xFF;
-    }
-}
 
-void sub_803A870(void) {
-    s32 temp_r3;
-    u16 temp_r2;
+    if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
+        EggX *boss = TASK_DATA(TASK_PARENT(gCurTask));
+        Sprite *s2 = &boss->s2;
 
-    temp_r2 = gCurTask->data;
-    temp_r3 = temp_r2 + 0x64;
-    if ((*temp_r3 != 0) && ((temp_r2 + 0x44)->unk10 & 0x4000)) {
-        *temp_r3 = 0U;
-        *(temp_r2 + 0x65) = 0xFF;
+        s2->variant = 3;
+        s2->frameFlags &= ~0x4000;
+        s2->prevVariant = -1;
     }
 }
 
-void sub_803A8AC(void) {
-    s32 temp_r0_2;
-    s32 temp_r2;
-    u16 temp_r0;
+static void ChangeVariant(void) { ChangeVariant__inline(); }
 
-    temp_r0 = gCurTask->data;
-    temp_r2 = temp_r0 + 0xC;
-    temp_r0_2 = temp_r0 + 0x44;
-    temp_r0_2->unk16 = (u16) temp_r2->unk16;
-    temp_r0_2->unk18 = (u16) temp_r2->unk18;
+void sub_803A8AC(void) { CopySpritePos__inline(); }
+
+void sub_803A8CC(CamCoord worldX, CamCoord worldY)
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
 }
 
-void sub_803A8CC(s16 arg0, s16 arg1) {
-    s32 temp_r2;
-
-    temp_r2 = gCurTask->data + 0xC;
-    temp_r2->unk16 = (s16) (arg0 - (u16) gCamera.x);
-    temp_r2->unk18 = (s16) (arg1 - (u16) gCamera.y);
-}
-
-void sub_803A900(u8 arg0) {
-    s32 var_r1;
-    s8 var_r0;
-    u16 temp_r1;
-    u8 temp_r2;
-
-    temp_r2 = arg0;
-    temp_r1 = gCurTask->data;
-    switch (temp_r2) {                              /* irregular */
-    case 1:
-        var_r1 = temp_r1 + 0x78;
-        var_r0 = 8;
-block_9:
-        *var_r1 = var_r0;
-        return;
-    case 2:
-        var_r1 = temp_r1 + 0x78;
-        var_r0 = 9;
-        goto block_9;
-    case 3:
-        var_r1 = temp_r1 + 0x78;
-        var_r0 = 0xA;
-        goto block_9;
-    }
-}
-#endif
+void sub_803A900(u8 arg0) { sub_803A900__inline(arg0); }
