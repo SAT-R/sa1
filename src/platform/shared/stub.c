@@ -121,7 +121,6 @@ void CreateSoundTest() { }
 
 void sub_803967C() { }
 void sub_8039940() { }
-void Task_8039264() { }
 void sub_803A54C() { }
 void sub_803A594() { }
 void TaskDestructor_803A5D0() { }

@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
@@ -131,32 +132,10 @@ extern const s16 gUnknown_084ACF24[];
 extern const s16 gUnknown_084ACF2C[];
 extern const s16 gUnknown_084ACF34[];
 
-static inline void CopySpritePos__inline()
+static inline void sub_803A614__inline()
 {
-    EggX *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->s;
-    Sprite *s2 = &boss->s2;
-
-    s2->x = s->x;
-    s2->y = s->y;
-}
-
-static inline void SetSpritePos__inline(CamCoord worldX, CamCoord worldY)
-{
-    EggX *boss = TASK_DATA(gCurTask);
-    Sprite *s = &boss->s;
-    s->x = worldX - gCamera.x;
-    s->y = worldY - gCamera.y;
-}
-
-static inline void ChangeVariant__inline()
-{
-    EggX *boss = TASK_DATA(gCurTask);
-    Sprite *s2 = &boss->s2;
-    if ((s2->variant != 0) && (s2->frameFlags & 0x4000)) {
-        s2->variant = 0;
-        s2->prevVariant = -1;
-    }
+    DmaFill16(3, 0x7FFF, &gObjPalette[12 * 16], 0x20);
+    gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
 }
 
 static inline void ChangeVariant2__inline()
@@ -168,7 +147,60 @@ static inline void ChangeVariant2__inline()
     s2->prevVariant = -1;
 }
 
-static inline void idk2__inline(u8 arg)
+static inline void sub_803A650__inline(CamCoord worldX, CamCoord worldY)
+{
+    enum EHit collPlayer;
+    enum EHit collPartner;
+
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+    Sprite *s = &strc7C->s;
+    collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
+    if (gNumSingleplayerCharacters == 2) {
+        collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
+    } else {
+        collPartner = HIT_NONE;
+    }
+    if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
+        EggX *boss = TASK_DATA(TASK_PARENT(gCurTask));
+        Sprite *s2 = &boss->s2;
+        s2->variant = 3;
+        s2->frameFlags &= ~0x4000;
+        s2->prevVariant = -1;
+    }
+}
+
+// sub_803A870
+static inline void ChangeVariant__inline()
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s2 = &boss->s2;
+    if ((s2->variant != 0) && (s2->frameFlags & 0x4000)) {
+        s2->variant = 0;
+        s2->prevVariant = -1;
+    }
+}
+
+// sub_803A8AC
+static inline void CopySpritePos__inline()
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    Sprite *s2 = &boss->s2;
+
+    s2->x = s->x;
+    s2->y = s->y;
+}
+
+// sub_803A8CC
+static inline void SetSpritePos__inline(CamCoord worldX, CamCoord worldY)
+{
+    EggX *boss = TASK_DATA(gCurTask);
+    Sprite *s = &boss->s;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+}
+
+static inline void sub_803A900__inline(u8 arg)
 {
     EggX_7C *strc7C = TASK_DATA(gCurTask);
     switch (arg) {
@@ -428,9 +460,7 @@ void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         gDispCnt |= 0x2000;
     }
 
-    DmaFill16(3, 0x7FFF, &gObjPalette[0xC0], 0x20);
-
-    gFlags |= 2;
+    sub_803A614__inline();
 }
 
 void Task_EggXMain()
@@ -1647,8 +1677,7 @@ void sub_803918C(u8 param0)
     strc7C->unk7A &= ~1;
 }
 
-// (97.69%) https://decomp.me/scratch/M3UcA
-NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_8039264.inc", void Task_8039264())
+void Task_8039264()
 {
     enum EHit collPlayer;
     enum EHit collPartner;
@@ -1750,7 +1779,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_8039264.inc", void Task_80
                 /* fallthrough */
             case 9:
                 if (boss->unk9A != 0) {
-                    idk2__inline(boss->unk9A);
+                    sub_803A900__inline(boss->unk9A);
                 }
                 break;
             case 10:
@@ -1830,251 +1859,15 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_8039264.inc", void Task_80
     sub_803918C(strc7C->unk78);
 
     if ((boss->unk98 != 0) && (boss->unk95 == 0) && (boss->unk94 < 8)) {
-        EggX_7C *strc7C = TASK_DATA(gCurTask);
-        Sprite *s = &strc7C->s;
-        collPlayer = sub_800BF10(s, worldX32, worldY32, &gPlayer);
-        if (gNumSingleplayerCharacters == 2) {
-            collPartner = sub_800BF10(s, worldX32, worldY32, &gPartner);
-        } else {
-            collPartner = HIT_NONE;
-        }
-        if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
-            ChangeVariant2__inline();
-        }
+        sub_803A650__inline(worldX, worldY);
     }
     UpdateSpriteAnimation(s);
     UpdateSpriteAnimation(s2);
     DisplaySprite(s);
     DisplaySprite(s2);
 }
-END_NONMATCH
 
 #if 0
-void Task_8039264(void) {
-    s32 sp0;
-    s32 sp4;
-    enum EHit temp_r7_2;
-    enum EHit var_r0_5;
-    s16 temp_r2_2;
-    s16 temp_r4_3;
-    s16 temp_r7;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r1_4;
-    s32 temp_r1_5;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r4_2;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    u16 temp_r0_6;
-    u16 temp_r0_9;
-    u16 temp_r2;
-    u16 temp_r2_3;
-    u16 temp_r4;
-    u8 temp_r0_5;
-    u8 temp_r1_3;
-    u8 var_r0_4;
-    u8 var_r1;
-    u8 var_r1_2;
-
-    temp_r4 = gCurTask->data;
-    temp_r2 = gCurTask->parent->unk6;
-    temp_r0 = temp_r4 + 0x30;
-    temp_r4->unk10 = (s32) (temp_r4->unk10 & 0xFFFFFBFF);
-    temp_r0->unk10 = (s32) (temp_r0->unk10 & 0xFFFFFBFF);
-    temp_r1 = temp_r2->unk1C & 0x400;
-    temp_r4->unk10 = (s32) (temp_r4->unk10 | temp_r1);
-    temp_r0->unk10 = (s32) (temp_r0->unk10 | temp_r1);
-    var_r1 = *(temp_r2 + 0x31);
-    if (var_r1 != 0) {
-        var_r0 = temp_r4 + 0x25;
-        var_r1 = 0xFE;
-    } else {
-        var_r0 = temp_r4 + 0x25;
-    }
-    *var_r0 = var_r1;
-    *(temp_r4 + 0x55) = var_r1;
-    temp_r3 = temp_r4 + 0x74;
-    *temp_r3 = (u16) *(temp_r2 + 0x8C);
-    temp_r1_2 = temp_r4 + 0x76;
-    *temp_r1_2 = (u16) *(temp_r2 + 0x8E);
-    temp_r0_2 = temp_r2 + 0x94;
-    sp0 = temp_r1_2;
-    sp4 = temp_r0_2;
-    if ((s32) *temp_r0_2 > 7) {
-        temp_r4_2 = temp_r4 + 0x79;
-        if (*temp_r4_2 != 0) {
-            if (*(temp_r4 + 0x20) != 6) {
-                sub_8039108();
-            }
-            *temp_r4_2 = 0U;
-        }
-        temp_r4->unk6C = 0;
-        temp_r4->unk70 = 0;
-        if ((u32) *(temp_r2 + 0x99) <= 1U) {
-            goto block_47;
-        }
-        TaskDestroy(gCurTask);
-        return;
-    }
-    temp_r0_3 = temp_r4 + 0x79;
-    temp_r1_3 = *temp_r0_3;
-    switch ((u32) temp_r1_3) {                      /* irregular */
-    case 1:
-        *(gCurTask->data + 0x78) = 8;
-        if (!(1 & *(temp_r4 + 0x7A))) {
-
-        } else {
-            *(temp_r4 + 0x60) = 0x1E;
-block_46:
-            *temp_r0_3 = (u8) (*temp_r0_3 + 1);
-        }
-        break;
-    case 2:
-        temp_r1_4 = temp_r4 + 0x60;
-        temp_r0_4 = *temp_r1_4 - 1;
-        *temp_r1_4 = (u16) temp_r0_4;
-        if ((temp_r0_4 << 0x10) != 0) {
-
-        } else {
-            var_r0_2 = 0x100;
-block_45:
-            temp_r4->unk70 = var_r0_2;
-            goto block_46;
-        }
-        break;
-    case 3:
-        if ((s32) (temp_r4->unk68 + temp_r4->unk70) < 0) {
-
-        } else {
-            var_r0_2 = 0;
-            temp_r4->unk68 = 0;
-            goto block_45;
-        }
-        break;
-    case 5:
-        var_r0_2 = 0xFFFFFF00;
-        goto block_45;
-    case 8:
-        temp_r4->unk68 = -0x1700;
-        *(temp_r4 + 0x78) = 0;
-        *temp_r0_3 = (u8) (*temp_r0_3 + 1);
-        /* fallthrough */
-    case 9:
-        temp_r0_5 = *(temp_r2 + 0x9A);
-        if (temp_r0_5 != 0) {
-            temp_r0_6 = gCurTask->data;
-            switch (temp_r0_5) {                    /* switch 1; irregular */
-            case 1:                                 /* switch 1 */
-                *(temp_r0_6 + 0x78) = 8;
-                break;
-            case 2:                                 /* switch 1 */
-                *(temp_r0_6 + 0x78) = 9;
-                break;
-            case 3:                                 /* switch 1 */
-                *(temp_r0_6 + 0x78) = 0xA;
-                break;
-            }
-        }
-        break;
-    case 10:
-        temp_r4->unk70 = 0x200;
-        *temp_r0_3 = (u8) (*temp_r0_3 + 1);
-        /* fallthrough */
-    case 11:
-        if ((s32) (temp_r4->unk68 + temp_r4->unk70) >= 0) {
-            var_r0_2 = 0;
-            temp_r4->unk68 = 0;
-            goto block_45;
-        }
-        break;
-    case 13:
-        sub_8039074(*(temp_r2 + 0x9A));
-        goto block_46;
-    case 15:
-        sub_8039108();
-        *(temp_r4 + 0x60) = 0xA;
-        *temp_r0_3 = (u8) (*temp_r0_3 + 1);
-        /* fallthrough */
-    case 16:
-        temp_r1_5 = temp_r4 + 0x60;
-        temp_r0_7 = *temp_r1_5 - 1;
-        *temp_r1_5 = (u16) temp_r0_7;
-        if ((temp_r0_7 << 0x10) == 0) {
-            var_r0_2 = 0xFFFFFE00;
-            goto block_45;
-        }
-        break;
-    case 19:
-        *temp_r0_3 = (u8) (*temp_r0_3 + 1);
-        var_r0_2 = 0xFFFFFE00;
-        goto block_45;
-    case 6:
-    case 17:
-    case 21:
-        if ((s32) (temp_r4->unk68 + temp_r4->unk70) <= 0xFFFFE900) {
-            temp_r4->unk68 = -0x1700;
-            var_r0_2 = 0;
-            goto block_45;
-        }
-        break;
-    }
-block_47:
-    temp_r4->unk64 = (s32) (temp_r4->unk64 + temp_r4->unk6C);
-    temp_r0_8 = temp_r4->unk68 + temp_r4->unk70;
-    temp_r4->unk68 = temp_r0_8;
-    if (temp_r0_8 <= 0xFFFFE900) {
-        var_r0_3 = temp_r4 + 0x7A;
-        var_r1_2 = 4 | *var_r0_3;
-    } else {
-        var_r0_3 = temp_r4 + 0x7A;
-        var_r1_2 = 0xFB & *var_r0_3;
-    }
-    *var_r0_3 = var_r1_2;
-    if ((s32) temp_r4->unk68 >= 0) {
-        var_r0_4 = 2 | *var_r0_3;
-    } else {
-        var_r0_4 = 0xFD & *var_r0_3;
-    }
-    *var_r0_3 = var_r0_4;
-    temp_r7 = ((s32) temp_r4->unk64 >> 8) + *temp_r3;
-    temp_r2_2 = temp_r7 - (u16) gCamera.x;
-    temp_r4->unk16 = temp_r2_2;
-    temp_r4_3 = ((s32) temp_r4->unk68 >> 8) + *sp0;
-    temp_r4->unk18 = (s16) (temp_r4_3 - (u16) gCamera.y);
-    temp_r0->unk16 = temp_r2_2;
-    temp_r0->unk18 = (u16) temp_r4->unk18;
-    sub_803918C(*(temp_r4 + 0x78));
-    if ((*(temp_r2 + 0x98) != 0) && ((s8) *(temp_r2 + 0x95) == 0) && ((s32) *sp4 <= 7)) {
-        temp_r0_9 = gCurTask->data;
-        temp_r7_2 = sub_800BF10((Sprite *) temp_r0_9, temp_r7, temp_r4_3, &gPlayer);
-        if ((s8) (u8) gNumSingleplayerCharacters == 2) {
-            var_r0_5 = sub_800BF10((Sprite *) temp_r0_9, temp_r7, temp_r4_3, &gPartner);
-        } else {
-            var_r0_5 = HIT_NONE;
-        }
-        if ((temp_r7_2 == HIT_PLAYER) || (var_r0_5 == HIT_PLAYER)) {
-            temp_r2_3 = gCurTask->parent->unk6;
-            temp_r3_2 = temp_r2_3 + 0x44;
-            *(temp_r2_3 + 0x64) = 3;
-            temp_r3_2->unk10 = (s32) (temp_r3_2->unk10 & 0xFFFFBFFF);
-            *(temp_r2_3 + 0x65) = 0xFF;
-        }
-    }
-    UpdateSpriteAnimation((Sprite *) temp_r4);
-    UpdateSpriteAnimation((Sprite *) temp_r0);
-    DisplaySprite((Sprite *) temp_r4);
-    DisplaySprite((Sprite *) temp_r0);
-}
-
 void sub_803967C(void) {
     s16 var_r2;
     s32 temp_r0;
@@ -2820,13 +2613,7 @@ void TaskDestructor_803A600(struct Task *arg0) {
 }
 
 void sub_803A614(void) {
-    s16 sp0;
-
-    sp0 = 0x7FFF;
-    (void *)0x040000D4->unk0 = &sp0;
-    (void *)0x040000D4->unk4 = &gObjPalette[0xC0];
-    (void *)0x040000D4->unk8 = 0x81000010;
-    gFlags |= 2;
+    sub_803A614__inline();
 }
 
 void sub_803A650(s16 arg0, s16 arg1) {
