@@ -133,6 +133,7 @@ void sub_8039074(u8 param0);
 void sub_8039108(void);
 void sub_803918C(u8 param0);
 void Task_8039264(void);
+void Task_803A2F8(void);
 void sub_803967C(void);
 void Task_80397A8(void);
 void sub_8039940(void);
@@ -453,7 +454,7 @@ void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s->frameFlags = 0x2000;
@@ -469,7 +470,7 @@ void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->animCursor = 0;
     s2->qAnimDelay = 0;
     s2->prevVariant = -1;
-    s2->animSpeed = 0x10;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s2->palId = 0;
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
@@ -1432,7 +1433,7 @@ void sub_8038B38(void)
     strc48->s.animCursor = 0;
     strc48->s.qAnimDelay = 0;
     strc48->s.prevVariant = 0xFF;
-    strc48->s.animSpeed = 0x10;
+    strc48->s.animSpeed = SPRITE_ANIM_SPEED(1.0);
     strc48->s.palId = 0;
     strc48->s.frameFlags = 0x2000;
 }
@@ -1478,7 +1479,7 @@ void sub_8038C20(void)
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = 0xFF;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2030;
@@ -1515,7 +1516,7 @@ void sub_8038D2C(void)
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = 0xFF;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2030;
@@ -1587,7 +1588,7 @@ void sub_8038F04(void)
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = 0xFF;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x2000;
@@ -1601,7 +1602,7 @@ void sub_8038F04(void)
     s2->animCursor = 0;
     s2->qAnimDelay = 0;
     s2->prevVariant = -1;
-    s2->animSpeed = 0x10;
+    s2->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s2->palId = 0;
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
@@ -2033,7 +2034,7 @@ void sub_8039940()
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = (boss->s.frameFlags & 0x400) | 0x2030;
@@ -2362,147 +2363,151 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__sub_803A170.inc", void sub_803A
 }
 END_NONMATCH
 
-#if 0
-void sub_803A1D8(void) {
+void sub_803A1D8()
+{
     s32 sp4;
+    SpriteTransform *tf;
     s16 var_r0;
-    s32 temp_r5_2;
-    u16 temp_r4;
-    u16 temp_r5;
-    u16 temp_sb;
+    struct Task *t;
+    EggX_Sparkle *sparkle;
+    EggX_Sparkle *sparkleParent;
+    Sprite *s;
 
-    temp_r4 = gCurTask->data;
-    temp_sb = temp_r4;
-    temp_r5 = TaskCreate(sub_803A2F8, sizeof(EggX_Sparkle), 0x2101U, 0U, TaskDestructor_803A600)->data;
-    *(temp_r5 + 0x50) = (u16) *(temp_r4 + 0x50);
-    *(temp_r5 + 0x52) = (u16) *(temp_r4 + 0x52);
-    *(temp_r5 + 0x4A) = (u16) *(temp_r4 + 0x4E);
-    *(temp_r5 + 0x60) = (u8) *(temp_r4 + 0x60);
-    sp4 = 0;
-    temp_r5->unk4 = VramMalloc(4U);
-    temp_r5->unk1A = 0x600;
-    temp_r5->unk8 = 0;
-    temp_r5->unkA = 0x2B2;
-    *(temp_r5 + 0x20) = 0;
-    temp_r5->unk14 = 0;
-    temp_r5->unk1C = 0;
-    *(temp_r5 + 0x21) = 0xFF;
-    *(temp_r5 + 0x22) = 0x10;
-    *(temp_r5 + 0x25) = 0;
-    temp_r5->unk28 = -1;
-    temp_r5->unk10 = (s32) ((temp_sb->unk10 & 0x400) | 0x2030);
-    temp_r5_2 = temp_r5 + 0x30;
-    temp_r5_2->unk0 = 0;
-    if (temp_r5->unk10 & 0x400) {
-        var_r0 = 0xFF00;
+    sparkleParent = TASK_DATA(gCurTask);
+
+    t = TaskCreate(Task_803A2F8, sizeof(EggX_Sparkle), 0x2101U, 0U, TaskDestructor_803A600);
+    sparkle = TASK_DATA(t);
+    sparkle->unk50 = sparkleParent->unk50;
+    sparkle->unk52 = sparkleParent->unk52;
+    sparkle->unk4A = sparkleParent->unk4E;
+    sparkle->unk60 = sparkleParent->unk60;
+    s = &sparkle->s;
+    sparkle->s.graphics.dest = ALLOC_TILES(SA1_ANIM_EGGX_BALL);
+    sparkle->s.oamFlags = SPRITE_OAM_ORDER(24);
+    sparkle->s.graphics.size = 0;
+    sparkle->s.graphics.anim = SA1_ANIM_EGGX_BALL;
+    sparkle->s.variant = 0;
+    sparkle->s.animCursor = 0;
+    sparkle->s.qAnimDelay = 0;
+    sparkle->s.prevVariant = -1;
+    sparkle->s.animSpeed = SPRITE_ANIM_SPEED(1.0);
+    sparkle->s.palId = 0;
+    sparkle->s.hitboxes[0].index = -1;
+    sparkle->s.frameFlags = (sparkleParent->s.frameFlags & 0x400) | 0x2030;
+
+    tf = &sparkle->transform;
+    tf->rotation = 0;
+    if (sparkle->s.frameFlags & 0x400) {
+        tf->qScaleX = -Q(1);
     } else {
-        var_r0 = 0x100;
+        tf->qScaleX = +Q(1);
     }
-    temp_r5_2->unk2 = var_r0;
-    temp_r5_2->unk4 = 0x100;
+    tf->qScaleY = 0x100;
 }
 
-void sub_803A2F8(void) {
-    s32 sp0;
-    s16 temp_r1_2;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r5;
-    u16 temp_r0;
-    u16 temp_r2;
-    u16 temp_r3;
-    u16 var_r4;
+void Task_803A2F8()
+{
+    s32 worldX, worldY;
+    s16 temp_r0;
+    s16 var_r4;
     u16 var_r6;
 
-    temp_r2 = gCurTask->data;
-    temp_r0 = gCurTask->parent;
-    temp_r3 = temp_r0->unk6;
-    sp0 = (s32) temp_r0->unk0->unk6;
-    temp_r4 = temp_r2 + 0x30;
-    temp_r1 = temp_r2 + 0x50;
-    *temp_r1 = (u16) *(temp_r3 + 0x50);
-    temp_r4_2 = temp_r2 + 0x52;
-    *temp_r4_2 = (u16) *(temp_r3 + 0x52);
-    var_r6 = *(temp_r3 + 0x4E);
-    var_r4 = var_r6;
-    if (temp_r2->unk10 & 0x400) {
-        temp_r0_2 = 0 - (s16) var_r6;
-        var_r4 = (temp_r0_2 + 0xFFFFFE00) & 0x3FF;
-        var_r6 = 0x3FF & temp_r0_2;
+    EggX_Sparkle *sparkle;
+    EggX_Sparkle *sparkleParent;
+    SpriteTransform *tf;
+    EggX *boss;
+    Sprite *s;
+
+    sparkle = TASK_DATA(gCurTask);
+    s = &sparkle->s;
+    sparkleParent = TASK_DATA(TASK_PARENT(gCurTask));
+    boss = TASK_DATA(TASK_PARENT(TASK_PARENT(gCurTask)));
+
+    tf = &sparkle->transform;
+    sparkle->unk50 = sparkleParent->unk50;
+    sparkle->unk52 = sparkleParent->unk52;
+    var_r4 = var_r6 = sparkleParent->unk4E;
+    if (s->frameFlags & 0x400) {
+        temp_r0 = (s16)var_r6;
+        var_r4 = ((-temp_r0 - Q(2))) % 1024u;
+        var_r6 = (-temp_r0) % 1024u;
     }
-    temp_r2_2 = temp_r3->unk40 + (((*(temp_r2 + 0x60) * 0x10) + 8) << 8);
-    temp_r2->unk40 = temp_r2_2;
-    temp_r1_2 = (s16) var_r4;
-    temp_r5 = ((s32) (temp_r2_2 * ((s16) gSineTable[temp_r1_2 + 0x100] >> 6)) >> 0x10) + (s16) *temp_r1;
-    temp_r4_3 = ((s32) (temp_r2_2 * ((s16) gSineTable[temp_r1_2] >> 6)) >> 0x10) + (s16) *temp_r4_2;
-    temp_r4->unk6 = (s16) (temp_r5 - (u16) gCamera.x);
-    temp_r4->unk8 = (s16) (temp_r4_3 - (u16) gCamera.y);
-    temp_r4->unk0 = var_r6;
-    UpdateSpriteAnimation((Sprite *) temp_r2);
-    TransformSprite((Sprite *) temp_r2, (SpriteTransform *) temp_r4);
-    DisplaySprite((Sprite *) temp_r2);
-    if (((s32) temp_r2->unk40 > 0x800) || (*(temp_r3 + 0x61) == 6)) {
+
+    sparkle->unk40 = sparkleParent->unk40 + (Q((sparkle->unk60 * 0x10) + 8));
+    worldX = COS(var_r4);
+    worldX >>= 6;
+    worldX = I((worldX *= sparkle->unk40) >> 8);
+    worldY = SIN(var_r4);
+    worldY >>= 6;
+    worldY = I((worldY *= sparkle->unk40) >> 8);
+    worldX += sparkle->unk50;
+    worldY += sparkle->unk52;
+
+    tf->x = worldX - gCamera.x;
+    tf->y = worldY - gCamera.y;
+    tf->rotation = var_r6;
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+    if ((sparkle->unk40 > 0x800) || (sparkleParent->unk61 == 6)) {
         TaskDestroy(gCurTask);
     }
-    if ((s32) (s8) *(sp0 + 0x94) > 7) {
-        *(temp_r2 + 0x48) = 0;
-        temp_r2->unk54 = (s32) (temp_r5 << 8);
-        temp_r2->unk58 = (s32) (temp_r4_3 << 8);
+    if (boss->unk94 > 7) {
+        sparkle->unk48 = 0;
+        sparkle->unk54 = worldX << 8;
+        sparkle->unk58 = worldY << 8;
         gCurTask->main = Task_803A46C;
-        temp_r2->unk3C = (s16) (0x50 - (*(temp_r2 + 0x60) * 4));
+        sparkle->unk3C = (0x50 - (sparkle->unk60 * 4));
     }
 }
 
-void Task_803A46C(void) {
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r1;
-    s32 temp_r5;
-    s32 temp_r6;
-    s32 temp_r7;
-    u16 temp_r0;
-    u16 temp_r1_2;
+void Task_803A46C()
+{
+    EggX_Sparkle *sparkle;
+    EggX_Sparkle *sparkleParent;
+    SpriteTransform *tf;
+    EggX *boss;
+    Sprite *s;
+    Sprite *s2;
+    CamCoord worldX, worldY;
+    s32 res;
 
-    temp_r0 = gCurTask->data;
-    temp_r1 = temp_r0 + 0x30;
-    temp_r5 = temp_r0 + 0x48;
-    *temp_r5 = (u16) (*temp_r5 + 0x20);
-    temp_r0_2 = temp_r0->unk58 + (s16) *temp_r5;
-    temp_r0->unk58 = temp_r0_2;
-    temp_r7 = (s32) (temp_r0_2 << 8) >> 0x10;
-    temp_r6 = (s32) (temp_r0->unk54 << 8) >> 0x10;
-    temp_r0_3 = sa2__sub_801F100(temp_r7 + 8, temp_r6, 1, 8, sa2__sub_801EC3C);
-    if (temp_r0_3 < 0) {
-        temp_r0->unk58 = (s32) (temp_r0->unk58 + (temp_r0_3 << 8));
-        temp_r1_2 = *temp_r5;
-        *temp_r5 = (u16) (((s32) (temp_r1_2 << 0x10) >> 0x12) - temp_r1_2);
+    sparkle = TASK_DATA(gCurTask);
+    s = &sparkle->s;
+    tf = &sparkle->transform;
+
+    sparkle->unk48 += 0x20;
+    sparkle->unk58 += sparkle->unk48;
+
+    worldX = I(sparkle->unk54);
+    worldY = I(sparkle->unk58);
+
+    res = SA2_LABEL(sub_801F100)(worldY + 8, worldX, 1, 8, sa2__sub_801EC3C);
+
+    if (res < 0) {
+        sparkle->unk58 += Q(res);
+        sparkle->unk48 = (sparkle->unk48 >> 2) - sparkle->unk48;
     }
-    temp_r1->unk6 = (s16) (temp_r6 - (u16) gCamera.x);
-    temp_r1->unk8 = (s16) (temp_r7 - (u16) gCamera.y);
-    UpdateSpriteAnimation((Sprite *) temp_r0);
-    TransformSprite((Sprite *) temp_r0, (SpriteTransform *) temp_r1);
-    DisplaySprite((Sprite *) temp_r0);
-    temp_r0_4 = temp_r0->unk3C - 1;
-    temp_r0->unk3C = (u16) temp_r0_4;
-    if ((temp_r0_4 << 0x10) == 0) {
-        sub_8017540(temp_r6 << 8, temp_r7 << 8);
+
+    tf->x = worldX - gCamera.x;
+    tf->y = worldY - gCamera.y;
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+    if ((--sparkle->unk3C == 0)) {
+        sub_8017540(Q(worldX), Q(worldY));
         TaskDestroy(gCurTask);
     }
 }
 
-void TaskDestructor_EggX(struct Task *arg0) {
-    u16 temp_r4;
-
-    temp_r4 = arg0->data;
-    VramFree(temp_r4->unk10);
-    VramFree(temp_r4->unk48);
+void TaskDestructor_EggX(struct Task *t)
+{
+    EggX *boss = TASK_DATA(t);
+    VramFree(boss->s.graphics.dest);
+    VramFree(boss->s2.graphics.dest);
 }
 
+#if 0
 void sub_803A54C(void) {
     u16 temp_r0;
     u16 var_r0;
@@ -2549,30 +2554,27 @@ void sub_803A614(void) {
     sub_803A614__inline();
 }
 
-void sub_803A650(s16 arg0, s16 arg1) {
-    enum EHit temp_r7;
-    enum EHit var_r0;
-    s16 temp_r4;
-    s16 temp_r5;
-    s32 temp_r3_2;
-    u16 temp_r2;
-    u16 temp_r3;
+static inline void sub_803A650(CamCoord worldX, CamCoord worldY)
+{
+    enum EHit collPlayer;
+    enum EHit collPartner;
 
-    temp_r3 = gCurTask->data;
-    temp_r5 = arg0;
-    temp_r4 = arg1;
-    temp_r7 = sub_800BF10((Sprite *) temp_r3, temp_r5, temp_r4, &gPlayer);
-    if ((s8) (u8) gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
-        var_r0 = sub_800BF10((Sprite *) temp_r3, temp_r5, temp_r4, &gPartner);
+    EggX_7C *strc7C = TASK_DATA(gCurTask);
+    Sprite *s = &strc7C->s;
+    collPlayer = sub_800BF10(s, worldX, worldY, &gPlayer);
+
+    if (gNumSingleplayerCharacters == NUM_SINGLEPLAYER_CHARS_MAX) {
+        collPartner = sub_800BF10(s, worldX, worldY, &gPartner);
     } else {
-        var_r0 = HIT_NONE;
+        collPartner = HIT_NONE;
     }
-    if ((temp_r7 == HIT_PLAYER) || (var_r0 == HIT_PLAYER)) {
-        temp_r2 = gCurTask->parent->unk6;
-        temp_r3_2 = temp_r2 + 0x44;
-        *(temp_r2 + 0x64) = 3;
-        temp_r3_2->unk10 = (s32) (temp_r3_2->unk10 & 0xFFFFBFFF);
-        *(temp_r2 + 0x65) = 0xFF;
+
+    if ((collPlayer == HIT_PLAYER) || (collPartner == HIT_PLAYER)) {
+        EggX *boss = TASK_DATA(TASK_PARENT(gCurTask));
+        Sprite *s2 = &boss->s2;
+        s2->variant = 3;
+        s2->frameFlags &= ~0x4000;
+        s2->prevVariant = -1;
     }
 }
 
