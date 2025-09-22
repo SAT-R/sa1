@@ -9,7 +9,9 @@
 #include "game/enemies/bosses_shared.h" // CreatePreBossCameraPan
 #include "game/nuts_and_bolts_task.h"
 #include "game/sa1_sa2_shared/collision.h"
+#include "game/stage/player.h"
 #include "game/stage/results.h"
+#include "game/stage/rings_scatter.h"
 #include "game/stage/screen_shake.h"
 #include "game/stage/stage.h"
 #include "game/stage/terrain_collision.h"
@@ -50,14 +52,14 @@ typedef struct EggX_48 {
 typedef struct EggX_Sparkle {
     /* 0x00 */ Sprite s;
     /* 0x30 */ SpriteTransform transform;
-    /* 0x4C */ s16 unk3C;
-    /* 0x6C */ u8 filler3E[0x2];
-    /* 0x4C */ s32 unk40;
-    /* 0x6C */ u8 filler44[0x4];
-    /* 0x4C */ s16 unk48;
-    /* 0x4C */ s16 unk4A;
+    /* 0x3C */ u16 unk3C;
+    /* 0x3E */ u8 filler3E[0x2];
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ s16 unk48;
+    /* 0x4A */ s16 unk4A;
     /* 0x4C */ s16 unk4C;
-    /* 0x4E */ u8 filler4E[0x2];
+    /* 0x4E */ s16 unk4E;
     /* 0x50 */ s16 unk50;
     /* 0x52 */ s16 unk52;
     /* 0x52 */ s32 unk54;
@@ -65,8 +67,8 @@ typedef struct EggX_Sparkle {
     /* 0x5C */ s16 unk5C;
     /* 0x5E */ s16 unk5E;
     /* 0x60 */ u8 unk60;
-    /* 0x60 */ u8 unk61;
-    /* 0x60 */ u8 unk62;
+    /* 0x61 */ u8 unk61;
+    /* 0x62 */ u8 unk62;
 } EggX_Sparkle;
 
 typedef struct EggX_7C {
@@ -113,15 +115,14 @@ typedef struct EggX {
 
 void Task_EggXMain(void);
 void sub_8036E20(CamCoord worldX, CamCoord worldY);
+enum EHit sub_8036F9C(CamCoord worldX, CamCoord worldY, u8 arg2);
 void sub_80370B4(void);
 u8 sub_803711C(s16 arg0);
 void Task_803753C(void);
 void Task_803775C(void);
 void sub_803803C(void);
-void sub_8038E34(void);
-void sub_803A54C(void);
-void sub_803A594(void);
 void Task_8038154(void);
+void sub_8038E34(void);
 void sub_8038B38(void);
 void sub_8038BC8(void);
 void sub_8038C20(void);
@@ -136,6 +137,11 @@ void sub_803967C(void);
 void Task_80397A8(void);
 void sub_8039940(void);
 void Task_8039A64(void);
+void sub_803A1D8(void);
+void Task_803A46C(void);
+void sub_803A54C(void);
+void sub_803A594(void);
+void sub_803A170(u32 param0);
 
 void TaskDestructor_803A5D0(struct Task *t);
 void TaskDestructor_803A600(struct Task *t);
@@ -2002,7 +2008,7 @@ void sub_8039940()
     EggX_Sparkle *sparkle;
     Sprite *s;
 
-    t = TaskCreate(Task_8039A64, 0x64U, 0x2100U, 0U, TaskDestructor_803A600);
+    t = TaskCreate(Task_8039A64, sizeof(EggX_Sparkle), 0x2100U, 0U, TaskDestructor_803A600);
     sparkle = TASK_DATA(t);
     sparkle->unk50 = boss->unk88 + I(boss->qUnk74);
     sparkle->unk52 = boss->unk8A + I(boss->qUnk78);
@@ -2041,6 +2047,295 @@ void sub_8039940()
     }
     tf->qScaleY = 0x100;
 }
+
+NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_8039A64.inc", void Task_8039A64())
+{
+    s32 worldX, worldY;
+    s32 temp_r0;
+    s16 temp_r1_3;
+    s32 temp_r2_4;
+    s16 var_r6;
+    s16 var_ip;
+    u8 temp_r2_5;
+    s32 qX, qY;
+
+    EggX *boss;
+    SpriteTransform *tf;
+    s32 sp8 = 0;
+    EggX_Sparkle *sparkle = TASK_DATA(gCurTask);
+    Sprite *s;
+    boss = TASK_DATA(TASK_PARENT(gCurTask));
+    s = &sparkle->s;
+    tf = &sparkle->transform;
+    if (boss->unk94 <= 7) {
+        sparkle->unk50 = boss->unk8C;
+        sparkle->unk52 = boss->unk8E;
+        if (s->frameFlags & 0x400) {
+            sparkle->unk50 += 0x1A;
+        } else {
+            sparkle->unk50 -= 0x1A;
+        }
+    }
+    sparkle->unk40 += sparkle->unk48;
+    sparkle->unk4E = sparkle->unk4A;
+    var_r6 = sparkle->unk4A;
+    var_ip = sparkle->unk4A;
+
+    if (s->frameFlags & 0x400) {
+        var_r6 = (-var_r6 - Q(2));
+        var_r6 &= 0x3FF;
+        var_ip = (-(var_ip << 16) >> 16) & 0x3FF;
+    }
+    worldX = COS(var_r6);
+    worldX >>= 6;
+    worldX = I((worldX *= sparkle->unk40) >> 8); // NOTE: Technically I(Q_MUL())!
+    worldY = SIN(var_r6);
+    worldY >>= 6;
+    worldY = I((worldY *= sparkle->unk40) >> 8);
+    worldX += sparkle->unk50;
+    worldY += sparkle->unk52;
+    tf->x = worldX - gCamera.x;
+    tf->y = worldY - gCamera.y;
+    tf->rotation = var_ip;
+    UpdateSpriteAnimation(s);
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    if (boss->unk94 > 7) {
+        sparkle->unk48 = 0;
+        sparkle->unk54 = Q(worldX);
+        sparkle->unk58 = Q(worldY);
+        s->oamFlags = 0x5C0;
+        sparkle->unk3C = 0x50;
+        gCurTask->main = Task_803A46C;
+        return;
+    }
+
+    {
+        switch (sparkle->unk61) {
+            case 0:
+            case 1: {
+                sp8 = sub_8036F9C(worldX, worldY, 0);
+            } break;
+
+            case 2: {
+                sp8 = sub_8036F9C(worldX, worldY, 1);
+            } break;
+        }
+    }
+
+    switch (sparkle->unk61) {
+        case 0:
+            if (--sparkle->unk3C == 0) {
+                temp_r0 = PseudoRandom32();
+                sparkle->unk48 = 0;
+                sparkle->unk61++;
+                if (((temp_r0 % 100) - 35) <= 0) {
+                    sparkle->unk3C = 0xB4;
+                } else if (((temp_r0 % 100) - 70) <= 0) {
+                    sparkle->unk3C = 0x3C;
+                } else if (((temp_r0 % 100) - 90) <= 0) {
+                    sparkle->unk3C = 0x12;
+                } else {
+                    sparkle->unk3C = 0x12C;
+                }
+            }
+            break;
+        case 1:
+            worldX = sparkle->unk50 - I(gPlayer.qWorldX);
+            worldY = sparkle->unk52 - I(gPlayer.qWorldY);
+
+            worldX = ABS(worldX);
+
+            worldX = (u16)sa2__sub_8004418(worldY, worldX);
+            if ((u32)((u32)((worldX - 225) + 0xFF1F0000) >> 0x10) < 0x11F) {
+                worldX = 224;
+            }
+            if ((u32)((u32)((worldX << 0x10) + 0xFDFF0000) >> 0x10) < 0x11F) {
+                worldX = 800;
+            }
+
+            temp_r1_3 = (sparkle->unk4A << 6);
+            if (temp_r1_3 > (temp_r0 = ((worldX << 22) >> 16))) {
+                if (temp_r1_3 >= (temp_r0 + Q(1.5))) {
+                    sparkle->unk4A -= 6;
+                } else {
+                    goto lbl2;
+                }
+            } else if (temp_r1_3 < temp_r0) {
+                if (temp_r1_3 > (temp_r0 - Q(1.5))) {
+                lbl2:
+                    sparkle->unk4A = (s16)worldX;
+                } else {
+                    sparkle->unk4A += 6;
+                }
+            }
+            sparkle->unk4A &= 0x3FF;
+
+            if (--sparkle->unk3C == 0) {
+                temp_r0 = sparkle->unk50 - I(gPlayer.qWorldX);
+                temp_r2_4 = sparkle->unk52 - I(gPlayer.qWorldY);
+                sparkle->unk44 = -(Sqrt(Q(SQUARE(temp_r0)) + Q(SQUARE(temp_r2_4))) * 16) - Q(16);
+                sparkle->unk48 = -Q(6);
+                sparkle->unk60 = 0;
+                sparkle->unk61++;
+                s->oamFlags = 0x3C0;
+                s->variant = 1;
+                s->prevVariant = -1;
+                m4aSongNumStart(0xB3U);
+            }
+            break;
+        case 2:
+            temp_r2_5 = (((I(-sparkle->unk40) - 20) >> 4) + 1);
+            if (sparkle->unk60 < temp_r2_5) {
+                sparkle->unk60 = temp_r2_5;
+                sub_803A1D8();
+            }
+
+            if (sp8 == 2) {
+                sparkle->unk62 = 0xFF;
+                sparkle->unk48 = 0;
+                sparkle->unk61 = 7;
+                s->variant = 2;
+                s->prevVariant = -1;
+                Player_TransitionCancelFlyingAndBoost(&gPlayer);
+
+                gPlayer.qWorldX = Q(worldX);
+                gPlayer.qWorldY = Q(worldY);
+                gPlayer.qSpeedAirX = 0;
+                gPlayer.qSpeedAirY = 0;
+                gPlayer.qSpeedGround = 0;
+                gPlayer.moveState |= 0xE00100;
+
+                if (s->frameFlags & 0x400) {
+                    gPlayer.rotation = (-sparkle->unk4A) >> 2;
+                } else {
+                    gPlayer.rotation = (+sparkle->unk4A) >> 2;
+                }
+                gPlayer.charState = CHARSTATE_40;
+                gPlayer.heldInput = 0;
+                gPlayer.frameInput = 0;
+            } else if (sparkle->unk40 <= sparkle->unk44) {
+                sparkle->unk48 = 0;
+                sparkle->unk61++;
+                s->variant = 2;
+                s->prevVariant = -1;
+            }
+            break;
+        case 3:
+            if (s->frameFlags & 0x4000) {
+                sparkle->unk48 = 0x200;
+                sparkle->unk61++;
+            }
+            break;
+        case 4:
+            if (sparkle->unk40 >= -Q(20)) {
+                sparkle->unk40 = -0x1400;
+                sparkle->unk48 = 0;
+                s->oamFlags = 0x5C0;
+                s->variant = 0;
+                s->prevVariant = -1;
+                sparkle->unk61++;
+            }
+            break;
+        case 5:
+            if (sparkle->unk4A == 0) {
+                s->oamFlags = 0x5C0;
+                sparkle->unk48 = 0x100;
+                sparkle->unk61++;
+                break;
+            } else if (sparkle->unk4A > 0x200) {
+                sparkle->unk4A = (sparkle->unk4A + 6) & 0x3FF;
+                if (sparkle->unk4A >= 7) {
+                    break;
+                }
+                sparkle->unk4A = 0;
+            } else {
+                sparkle->unk4A = (sparkle->unk4A - 6) & 0x3FF;
+                if (sparkle->unk4A <= 0x200) {
+                    break;
+                }
+                sparkle->unk4A = 0;
+            }
+            break;
+        case 6:
+            if (sparkle->unk40 >= 0xE00) {
+                if (sparkle->unk62 == 0) {
+                    boss->unk99++;
+                } else {
+                    boss->unk92 = 1;
+                }
+                TaskDestroy(gCurTask);
+                return;
+            }
+            break;
+        case 7:
+            gPlayer.qWorldX = Q(worldX);
+            gPlayer.qWorldY = Q(worldY);
+            if (s->frameFlags & 0x400) {
+                gPlayer.rotation = (-sparkle->unk4A) >> 2;
+            } else {
+                gPlayer.rotation = (+sparkle->unk4A) >> 2;
+            }
+            if (s->frameFlags & 0x4000) {
+                sparkle->unk48 = 0x600;
+                sparkle->unk61++;
+            }
+            break;
+        case 8:
+            gPlayer.qWorldX = Q(worldX);
+            gPlayer.qWorldY = Q(worldY);
+            if (s->frameFlags & 0x400) {
+                gPlayer.rotation = (-sparkle->unk4A) >> 2;
+            } else {
+                gPlayer.rotation = (+sparkle->unk4A) >> 2;
+            }
+
+            if (sparkle->unk40 >= -0x2400) {
+                sparkle->unk40 = -0x2400;
+                sparkle->unk48 = 0;
+                sparkle->unk4C = 0x10;
+                sparkle->unk3C = 0;
+                sparkle->unk61++;
+            }
+            break;
+        case 9:
+            gPlayer.qWorldX = Q(worldX);
+            gPlayer.qWorldY = Q(worldY);
+
+            if (s->frameFlags & 0x400) {
+                gPlayer.rotation = (-sparkle->unk4A) >> 2;
+            } else {
+                gPlayer.rotation = (+sparkle->unk4A) >> 2;
+            }
+
+            sparkle->unk4A = (sparkle->unk4A + sparkle->unk4C) & 0x3FF;
+            if (sparkle->unk4A > 0x1FF) {
+                u16 lostRingsCount = gRingCount;
+                if ((lostRingsCount > 0) && (sparkle->unk4C < 0)) {
+                    if ((u32)lostRingsCount > 5U) {
+                        lostRingsCount = 5;
+                    }
+                    InitScatteringRings(I(gPlayer.qWorldX), I(gPlayer.qWorldY), lostRingsCount);
+                    gRingCount -= lostRingsCount;
+                }
+                sparkle->unk4C = 0x10;
+            }
+            if ((u16)(sparkle->unk4A + -Q(1)) < Q(1)) {
+                sparkle->unk4C = -0x10;
+                if (++sparkle->unk3C == 4) {
+                    boss->unk99 = 0x33;
+                }
+
+                if (sparkle->unk3C == 5) {
+                    sub_803A170(s->frameFlags & 0x400);
+                    sparkle->unk61 = 5;
+                }
+            }
+            break;
+    }
+}
+END_NONMATCH
 
 #if 0
 void Task_8039A64(void) {
@@ -2145,7 +2440,7 @@ void Task_8039A64(void) {
         temp_r4->unk58 = (s32) (temp_r7 << 8);
         temp_r4->unk1A = 0x5C0;
         temp_r4->unk3C = 0x50U;
-        gCurTask->main = sub_803A46C;
+        gCurTask->main = Task_803A46C;
         return;
     }
     temp_r0_2 = temp_r4 + 0x61;
@@ -2442,7 +2737,7 @@ void sub_803A1D8(void) {
 
     temp_r4 = gCurTask->data;
     temp_sb = temp_r4;
-    temp_r5 = TaskCreate(sub_803A2F8, 0x64U, 0x2101U, 0U, TaskDestructor_803A600)->data;
+    temp_r5 = TaskCreate(sub_803A2F8, sizeof(EggX_Sparkle), 0x2101U, 0U, TaskDestructor_803A600)->data;
     *(temp_r5 + 0x50) = (u16) *(temp_r4 + 0x50);
     *(temp_r5 + 0x52) = (u16) *(temp_r4 + 0x52);
     *(temp_r5 + 0x4A) = (u16) *(temp_r4 + 0x4E);
@@ -2521,12 +2816,12 @@ void sub_803A2F8(void) {
         *(temp_r2 + 0x48) = 0;
         temp_r2->unk54 = (s32) (temp_r5 << 8);
         temp_r2->unk58 = (s32) (temp_r4_3 << 8);
-        gCurTask->main = sub_803A46C;
+        gCurTask->main = Task_803A46C;
         temp_r2->unk3C = (s16) (0x50 - (*(temp_r2 + 0x60) * 4));
     }
 }
 
-void sub_803A46C(void) {
+void Task_803A46C(void) {
     s32 temp_r0_2;
     s32 temp_r0_3;
     s32 temp_r0_4;
@@ -2581,7 +2876,7 @@ void sub_803A54C(void) {
         var_r0 = 0xE;
     }
     LOADED_SAVE->unk8[0] = var_r0;
-    temp_r0 = TaskCreate(sub_8038554, 0x10U, 0x1FFFU, 0U, NULL)->data;
+    temp_r0 = TaskCreate(sub_8038554, sizeof(EggX_10), 0x1FFFU, 0U, NULL)->data;
     temp_r0->unk6 = 0x1A4;
     temp_r0->unk9 = 0;
     temp_r0->unk8 = 0;
@@ -2590,7 +2885,7 @@ void sub_803A54C(void) {
 void sub_803A594(void) {
     u16 temp_r0;
 
-    temp_r0 = TaskCreate(Task_Strc10_803891C, 0x10U, 0x1FFFU, 0U, NULL)->data;
+    temp_r0 = TaskCreate(Task_Strc10_803891C, sizeof(EggX_10), 0x1FFFU, 0U, NULL)->data;
     temp_r0->unk0 = 0x20;
     temp_r0->unk2 = 0;
     temp_r0->unk4 = 0;
