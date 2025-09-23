@@ -402,14 +402,16 @@ void EngineMainLoop(void)
 #if (ENGINE >= ENGINE_3)
         gNextFreeAffineIndex = 0;
 #endif
-
+#ifndef COLLECT_RINGS_ROM
         if (gFlags & FLAGS_4000) {
             UpdateScreenCpuSet();
 
             if (!(gFlags & FLAGS_PAUSE_GAME)) {
                 ClearOamBufferCpuSet();
             }
-        } else {
+        } else
+#endif
+        {
             UpdateScreenDma();
 
             if (!(gFlags & FLAGS_PAUSE_GAME)) {
@@ -474,13 +476,17 @@ void UpdateScreenDma(void)
 
         DmaCopy16(3, gBgOffsetsHBlank, gHBlankCopyTarget, gHBlankCopySize);
     }
-
+    
     if (sLastCalledVblankFuncId == VBLANK_FUNC_ID_NONE) {
         CopyOamBufferToOam();
-        DmaCopy16(3, gOamBuffer + 0x00, (void *)OAM + 0x000, 0x100);
-        DmaCopy16(3, gOamBuffer + 0x20, (void *)OAM + 0x100, 0x100);
-        DmaCopy16(3, gOamBuffer + 0x40, (void *)OAM + 0x200, 0x100);
-        DmaCopy16(3, gOamBuffer + 0x60, (void *)OAM + 0x300, 0x100);
+        DmaCopy16(3, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 0, (void *)OAM + (OAM_ENTRY_COUNT * (OAM_DATA_SIZE_AFFINE / 4) * 0),
+                  OAM_SIZE / 4);
+        DmaCopy16(3, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 1, (void *)OAM + (OAM_ENTRY_COUNT * (OAM_DATA_SIZE_AFFINE / 4) * 1),
+                  OAM_SIZE / 4);
+        DmaCopy16(3, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 2, (void *)OAM + (OAM_ENTRY_COUNT * (OAM_DATA_SIZE_AFFINE / 4) * 2),
+                  OAM_SIZE / 4);
+        DmaCopy16(3, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 3, (void *)OAM + (OAM_ENTRY_COUNT * (OAM_DATA_SIZE_AFFINE / 4) * 3),
+                  OAM_SIZE / 4);
     }
 
     for (i = 0; i < gNumVBlankIntrs; i++) {
@@ -554,10 +560,10 @@ void ClearOamBufferDma(void)
 #endif
     }
     gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
-    DmaFill16(3, 0x200, gOamBuffer + 0x00, 0x100);
-    DmaFill16(3, 0x200, gOamBuffer + 0x20, 0x100);
-    DmaFill16(3, 0x200, gOamBuffer + 0x40, 0x100);
-    DmaFill16(3, 0x200, gOamBuffer + 0x60, 0x100);
+    DmaFill16(3, 0x200, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 0, OAM_SIZE / 4);
+    DmaFill16(3, 0x200, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 1, OAM_SIZE / 4);
+    DmaFill16(3, 0x200, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 2, OAM_SIZE / 4);
+    DmaFill16(3, 0x200, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 3, OAM_SIZE / 4);
 
     gNumVBlankCallbacks = 0;
     gFlags &= ~FLAGS_EXECUTE_VBLANK_CALLBACKS;
