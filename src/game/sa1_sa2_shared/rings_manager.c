@@ -328,11 +328,16 @@ NONMATCH("asm/non_matching/game/stage/Task_RingsMgrMain.inc", void Task_RingsMgr
 
                                         DmaCopy16(3, oamDat, oamAllocated, sizeof(OamDataShort));
 
+#if !EXTENDED_OAM
                                         // TODO: Can these be done more explicitly?
                                         oamAllocated->all.attr1 &= 0xFE00;
                                         oamAllocated->all.attr0 &= 0xFF00;
                                         oamAllocated->all.attr0 += ((ry - gCamera.y) - dimensions->offsetY) & 0xFF;
                                         oamAllocated->all.attr1 += ((rx - gCamera.x) - dimensions->offsetX) & 0x1FF;
+#else
+                                        oamAllocated->split.x = ((rx - gCamera.x) - dimensions->offsetX);
+                                        oamAllocated->split.y = ((ry - gCamera.y) - dimensions->offsetY);
+#endif
                                     }
                                     sp1C++;
                                 }
@@ -395,11 +400,16 @@ NONMATCH("asm/non_matching/game/stage/Task_RingsMgrMain.inc", void Task_RingsMgr
 
                                         DmaCopy16(3, oamDat, oamAllocated, 6 /*sizeof(OamDataShort)*/);
 
+#if !EXTENDED_OAM
                                         // TODO: Can these be done more explicitly?
                                         oamAllocated->all.attr1 &= 0xFE00;
                                         oamAllocated->all.attr0 &= 0xFF00;
                                         oamAllocated->all.attr0 += ((ry - gCamera.y) - dimensions->offsetY) & 0xFF;
                                         oamAllocated->all.attr1 += ((rx - gCamera.x) - dimensions->offsetX) & 0x1FF;
+#else
+                                        oamAllocated->split.x = ((rx - gCamera.x) - dimensions->offsetX);
+                                        oamAllocated->split.y = ((ry - gCamera.y) - dimensions->offsetY);
+#endif
                                     }
                                     sp1C++;
                                 }
