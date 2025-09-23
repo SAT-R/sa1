@@ -476,7 +476,7 @@ void UpdateScreenDma(void)
 
         DmaCopy16(3, gBgOffsetsHBlank, gHBlankCopyTarget, gHBlankCopySize);
     }
-    
+
     if (sLastCalledVblankFuncId == VBLANK_FUNC_ID_NONE) {
         CopyOamBufferToOam();
         DmaCopy16(3, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 0, (void *)OAM + (OAM_ENTRY_COUNT * (OAM_DATA_SIZE_AFFINE / 4) * 0),
