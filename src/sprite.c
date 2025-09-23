@@ -513,7 +513,7 @@ END_NONMATCH
 
 // VERY similar to TransformSprite and UnusedTransform
 // (41.14%) https://decomp.me/scratch/n3NXz
-NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(Sprite *sprite, SpriteTransform *transform))
+NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void SA2_LABEL(sub_8004E14)(Sprite *sprite, SpriteTransform *transform))
 {
     UnkSpriteStruct us;
     if (sprite->dimensions != (void *)-1) {
@@ -539,7 +539,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
         // _08004F48
 
         if (transform->qScaleY < 0) {
-            us.unkC[1] = I(-transform->qScaleY * sa2__gUnknown_03005394);
+            us.unkC[1] = I(-transform->qScaleY * SA2_LABEL(gUnknown_03005394));
         }
         // _08004F6A
 
@@ -959,14 +959,14 @@ OamData *OamMalloc(u8 order)
     if (gOamFreeIndex > OAM_ENTRY_COUNT - 1) {
         result = (OamData *)iwram_end;
     } else {
-        if (sa2__gUnknown_03001850[order] == 0xFF) {
+        if (SA2_LABEL(gUnknown_03001850)[order] == 0xFF) {
             gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
-            sa2__gUnknown_03001850[order] = gOamFreeIndex;
-            sa2__gUnknown_03004D60[order] = gOamFreeIndex;
+            SA2_LABEL(gUnknown_03001850)[order] = gOamFreeIndex;
+            SA2_LABEL(gUnknown_03004D60)[order] = gOamFreeIndex;
         } else {
             gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
-            gOamBuffer2[sa2__gUnknown_03004D60[order]].split.fractional = gOamFreeIndex;
-            sa2__gUnknown_03004D60[order] = gOamFreeIndex;
+            gOamBuffer2[SA2_LABEL(gUnknown_03004D60)[order]].split.fractional = gOamFreeIndex;
+            SA2_LABEL(gUnknown_03004D60)[order] = gOamFreeIndex;
         }
 
         gOamFreeIndex++;
@@ -982,12 +982,12 @@ void CopyOamBufferToOam(void)
     u8 i = 0;
     s32 r3;
 
-    for (r3 = 0; r3 < 32; r3++) {
-        s8 index = sa2__gUnknown_03001850[r3];
+    for (r3 = 0; r3 < (s32)ARRAY_COUNT(SA2_LABEL(gUnknown_03001850)); r3++) {
+        s8 index = SA2_LABEL(gUnknown_03001850)[r3];
 
         while (index != -1) {
             u8 newI;
-            u8 *byteArray = sa2__gUnknown_03002710;
+            u8 *byteArray = SA2_LABEL(gUnknown_03002710);
             DmaCopy16(3, &gOamBuffer2[index], dstOam, sizeof(OamDataShort));
             dstOam++;
 
@@ -1040,18 +1040,18 @@ void CopyOamBufferToOam(void)
 
     gOamFreeIndex = 0;
     if (gFlags & FLAGS_4000) {
-        CpuFill32(-1, sa2__gUnknown_03001850, sizeof(sa2__gUnknown_03001850));
-        CpuFill32(-1, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
+        CpuFill32(-1, SA2_LABEL(gUnknown_03001850), sizeof(SA2_LABEL(gUnknown_03001850)));
+        CpuFill32(-1, SA2_LABEL(gUnknown_03004D60), sizeof(SA2_LABEL(gUnknown_03004D60)));
     } else {
-        DmaFill32(3, -1, sa2__gUnknown_03001850, sizeof(sa2__gUnknown_03001850));
-        DmaFill32(3, -1, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
+        DmaFill32(3, -1, SA2_LABEL(gUnknown_03001850), sizeof(SA2_LABEL(gUnknown_03001850)));
+        DmaFill32(3, -1, SA2_LABEL(gUnknown_03004D60), sizeof(SA2_LABEL(gUnknown_03004D60)));
     }
 }
 
 // Reordered in SA3
 #if (ENGINE <= ENGINE_2)
 // (-2)
-AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
 {
     ACmd_GetPalette *cmd = (ACmd_GetPalette *)cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
@@ -1069,7 +1069,7 @@ AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
 #endif
 
 // (-3)
-AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s)
 {
     ACmd_JumpBack *cmd = cursor;
     s->animCursor -= cmd->offset;
@@ -1078,7 +1078,7 @@ AnimCmdResult animCmd_JumpBack(void *cursor, Sprite *s)
 }
 
 // (-4)
-AnimCmdResult animCmd_End(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_End(void *cursor, Sprite *s)
 {
     SPRITE_FLAG_SET(s, ANIM_OVER);
 
@@ -1086,7 +1086,7 @@ AnimCmdResult animCmd_End(void *cursor, Sprite *s)
 }
 
 // (-5)
-AnimCmdResult animCmd_PlaySoundEffect(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_PlaySoundEffect(void *cursor, Sprite *s)
 {
     ACmd_PlaySoundEffect *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
@@ -1097,7 +1097,7 @@ AnimCmdResult animCmd_PlaySoundEffect(void *cursor, Sprite *s)
 }
 
 // (-7)
-AnimCmdResult animCmd_TranslateSprite(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_TranslateSprite(void *cursor, Sprite *s)
 {
     ACmd_TranslateSprite *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
@@ -1109,7 +1109,7 @@ AnimCmdResult animCmd_TranslateSprite(void *cursor, Sprite *s)
 }
 
 // (-8)
-AnimCmdResult animCmd_8(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_8(void *cursor, Sprite *s)
 {
     ACmd_8 *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
@@ -1118,7 +1118,7 @@ AnimCmdResult animCmd_8(void *cursor, Sprite *s)
 }
 
 // (-9)
-AnimCmdResult animCmd_SetIdAndVariant(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_SetIdAndVariant(void *cursor, Sprite *s)
 {
     ACmd_SetIdAndVariant *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
@@ -1131,7 +1131,7 @@ AnimCmdResult animCmd_SetIdAndVariant(void *cursor, Sprite *s)
 }
 
 // (-10)
-AnimCmdResult animCmd_10(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_10(void *cursor, Sprite *s)
 {
     ACmd_10 *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
@@ -1145,7 +1145,7 @@ AnimCmdResult animCmd_10(void *cursor, Sprite *s)
 
 // (-11)
 // Sets the priority the sprite has in OAM (0 - 3)
-AnimCmdResult animCmd_SetSpritePriority(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_SetSpritePriority(void *cursor, Sprite *s)
 {
     ACmd_SetSpritePriority *cmd = cursor;
     s->animCursor += AnimCommandSizeInWords(*cmd);
@@ -1159,7 +1159,7 @@ AnimCmdResult animCmd_SetSpritePriority(void *cursor, Sprite *s)
 // (-12)
 // Sets the index 's' is expected to be put at in OAM
 // compared to sprites with a lower/higher value (0 - 31)
-AnimCmdResult animCmd_SetOamOrder(void *cursor, Sprite *s)
+static AnimCmdResult animCmd_SetOamOrder(void *cursor, Sprite *s)
 {
     ACmd_SetOamOrder *cmd = cursor;
 
