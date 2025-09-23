@@ -567,7 +567,7 @@ void sub_8011104()
         if (A_BUTTON & gPressedKeys) {
             if (menu->unk33F != 1) {
             lbl:
-                gDispCnt &= 0x1FFF;
+                gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
                 gBldRegs.bldCnt = 0;
                 gBldRegs.bldY = 0;
                 menu->unk33F = 0;

@@ -99,14 +99,13 @@ static inline void MaskPaletteWithUnderwaterColor_inline(u32 *dst, u32 *src, u32
     }
 }
 
-// (98.80%) https://decomp.me/scratch/S80eH
-NONMATCH("asm/non_matching/game/water_effects__sub_804C40C.inc", void sub_804C40C(void))
+void sub_804C40C(void)
 {
-    MaskPaletteWithUnderwaterColor_inline((u32 *)&sPaletteBuffer[0], (u32 *)&gObjPalette[0], gWater.mask, 256);
+    Water *water = &gWater;
 
-    MaskPaletteWithUnderwaterColor_inline((u32 *)&sPaletteBuffer[16 * 16], (u32 *)&gBgPalette[0], gWater.mask, 256);
+    MaskPaletteWithUnderwaterColor_inline((u32 *)&sPaletteBuffer[0], (u32 *)&gObjPalette[0], water->mask, 16 * 16);
+    MaskPaletteWithUnderwaterColor_inline((u32 *)&sPaletteBuffer[16 * 16], (u32 *)&gBgPalette[0], water->mask, 16 * 16);
 }
-END_NONMATCH
 
 #if (GAME == GAME_SA2)
 void InitWaterPalettes(void)
