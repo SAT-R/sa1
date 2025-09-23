@@ -28,55 +28,25 @@ static AnimCmdResult animCmd_10(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_SetSpritePriority(void *cursor, Sprite *s);
 static AnimCmdResult animCmd_SetOamOrder(void *cursor, Sprite *s);
 
-const u8 unkFractions[8] = {
-    /* 0x00 */ I(Q(0.5 * 2)),
-    /* 0x01 */ I(Q(0.0 * 2)),
-    /* 0x02 */ I(Q(1.0 * 2)),
-    /* 0x03 */ I(Q(1.5 * 2)),
-    /* 0x04 */ I(Q(3.0 * 2)),
-    /* 0x05 */ I(Q(3.5 * 2)),
-    /* 0x06 */ I(Q(2.5 * 2)),
-    /* 0x07 */ I(Q(2.0 * 2)),
-};
-
-// TODO: Make static
-const AnimationCommandFunc animCmdTable[] = {
-    // SA3: 0x082B52BC
-    animCmd_GetTiles,        animCmd_GetPalette, animCmd_JumpBack,        animCmd_End, animCmd_PlaySoundEffect,   animCmd_AddHitbox,
-    animCmd_TranslateSprite, animCmd_8,          animCmd_SetIdAndVariant, animCmd_10,  animCmd_SetSpritePriority, animCmd_SetOamOrder,
-};
-
-const u8 gOamShapesSizes[12][2] = {
-    // Square
-    { 8, 8 },
-    { 16, 16 },
-    { 32, 32 },
-    { 64, 64 },
-
-    // Horizontal
-    { 16, 8 },
-    { 32, 8 },
-    { 32, 16 },
-    { 64, 32 },
-
-    // Vertical
-    { 8, 16 },
-    { 8, 32 },
-    { 16, 32 },
-    { 32, 64 },
-};
-
 // This function gets called as long as an enemy is on-screen.
 // Potentially something to do with collision/distance?
 //
 // Vector-to-rotation(0-1023) ?
-s16 sa2__sub_8004418(s16 x, s16 y)
+s16 SA2_LABEL(sub_8004418)(s16 x, s16 y)
 {
     s16 fraction;
     s32 result;
     u8 index = 0;
-    u8 array[8];
-    memcpy(array, unkFractions, sizeof(array));
+    u8 array[] = {
+        /* 0x00 */ I(Q(0.5 * 2)),
+        /* 0x01 */ I(Q(0.0 * 2)),
+        /* 0x02 */ I(Q(1.0 * 2)),
+        /* 0x03 */ I(Q(1.5 * 2)),
+        /* 0x04 */ I(Q(3.0 * 2)),
+        /* 0x05 */ I(Q(3.5 * 2)),
+        /* 0x06 */ I(Q(2.5 * 2)),
+        /* 0x07 */ I(Q(2.0 * 2)),
+    };
 
     if ((x | y) == 0) {
         result = -1;
@@ -124,6 +94,7 @@ s16 sa2__sub_8004418(s16 x, s16 y)
     return result;
 }
 
+#ifndef COLLECT_RINGS_ROM
 void numToASCII(u8 digits[5], u16 number)
 {
     u8 i;
@@ -139,6 +110,7 @@ void numToASCII(u8 digits[5], u16 number)
 
     digits[i] = 0;
 }
+#endif
 
 // This function takes a 16bit decimal number
 // and returns a 32bit number which, viewed as hex,
@@ -165,6 +137,11 @@ u32 Base10DigitsToHexNibbles(u16 num)
 
 AnimCmdResult UpdateSpriteAnimation(Sprite *s)
 {
+    static const AnimationCommandFunc animCmdTable[] = {
+        // 0x080984AC
+        animCmd_GetTiles,        animCmd_GetPalette, animCmd_JumpBack,        animCmd_End, animCmd_PlaySoundEffect,   animCmd_AddHitbox,
+        animCmd_TranslateSprite, animCmd_8,          animCmd_SetIdAndVariant, animCmd_10,  animCmd_SetSpritePriority, animCmd_SetOamOrder,
+    };
     SPRITE_INIT_ANIM_IF_CHANGED(s);
 
     if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER)
@@ -216,20 +193,16 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
             s32 frame = ((ACmd_ShowFrame *)cmd)->index;
 
 #if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
-            {
-                if (frame != -1) {
-                    const struct SpriteTables *sprTables = gRefSpriteTables;
+            if (frame != -1) {
+                const struct SpriteTables *sprTables = gRefSpriteTables;
 
-                    s->dimensions = &sprTables->dimensions[GET_SPRITE_ANIM(s)][frame];
-                } else {
-                    s->dimensions = (void *)-1;
-                }
+                s->dimensions = &sprTables->dimensions[GET_SPRITE_ANIM(s)][frame];
+            } else {
+                s->dimensions = (void *)-1;
             }
 #else
-            {
-                s->frameNum = cmd->show.index;
-                s->frameFlags |= SPRITE_FLAG_MASK_26;
-            }
+            s->frameNum = cmd->show.index;
+            s->frameFlags |= SPRITE_FLAG_MASK_26;
 #endif
         }
 
@@ -238,7 +211,7 @@ AnimCmdResult UpdateSpriteAnimation(Sprite *s)
     return 1;
 }
 
-#if (GAME == GAME_SA3)
+#if (ENGINE >= ENGINE_3)
 AnimCmdResult sub_80BF540(Sprite *s, u16 param1)
 {
     s32 r6 = param1;
@@ -412,8 +385,9 @@ void SA2_LABEL(sub_80047A0)(u16 angle, s16 p1, s16 p2, u16 affineIndex)
     affine[12] = I(COS_24_8(angle) * res);
 }
 
-// Similar to UnusedTransform and sa2__sub_8004E14
-// (39.57%) https://decomp.me/scratch/bKkIE
+// Similar to sa2__sub_8004ABC and sa2__sub_8004E14
+// (53.42%) https://decomp.me/scratch/llwGy
+// (56.74%) https://decomp.me/scratch/rXgtp
 NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Sprite *s, SpriteTransform *transform))
 {
     // sp24 = s
@@ -425,11 +399,10 @@ NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Spr
         s16 x16, y16;
         s16 *affine;
         big.affineIndex = s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
-        affine = (void *)&gOamBuffer[big.affineIndex * 4].all.affineParam;
 
+        affine = (void *)&gOamBuffer[big.affineIndex * 4].all.affineParam;
 #if 0
-        sub_80047A0(transform->rotation & ONE_CYCLE, transform->qScaleX, transform->qScaleY,
-                    big.affineIndex);
+        sub_80047A0(transform->rotation & ONE_CYCLE, transform->qScaleX, transform->qScaleY, big.affineIndex);
 #else
         big.qDirX = COS_24_8(transform->rotation & ONE_CYCLE);
         big.qDirY = SIN_24_8(transform->rotation & ONE_CYCLE);
@@ -440,19 +413,19 @@ NONMATCH("asm/non_matching/engine/TransformSprite.inc", void TransformSprite(Spr
 
         res = Div(0x10000, big.unkC[0]);
         x16 = big.qDirX;
-        affine[0] = (x16 * res) >> 8;
+        affine[0 * OAM_DATA_COUNT_AFFINE] = (x16 * res) >> 8;
 
         res = Div(0x10000, big.unkC[0]);
         y16 = big.qDirY;
-        affine[4] = (y16 * res) >> 8;
+        affine[1 * OAM_DATA_COUNT_AFFINE] = (y16 * res) >> 8;
 
         res = Div(0x10000, big.unkC[1]);
         y16 = big.qDirY;
-        affine[8] = (-y16 * res) >> 8;
+        affine[2 * OAM_DATA_COUNT_AFFINE] = (-y16 * res) >> 8;
 
         res = Div(0x10000, big.unkC[1]);
         x16 = big.qDirX;
-        affine[12] = (x16 * res) >> 8;
+        affine[3 * OAM_DATA_COUNT_AFFINE] = (x16 * res) >> 8;
 #endif
         // __post_Divs
 
@@ -539,29 +512,29 @@ NONMATCH("asm/non_matching/engine/UnusedTransform.inc", void UnusedTransform(Spr
 END_NONMATCH
 
 // VERY similar to TransformSprite and UnusedTransform
+// (41.14%) https://decomp.me/scratch/n3NXz
 NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(Sprite *sprite, SpriteTransform *transform))
 {
     UnkSpriteStruct us;
     if (sprite->dimensions != (void *)-1) {
         const SpriteOffset *sprDims = sprite->dimensions;
-
         u16 *affine;
 
         us.affineIndex = sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE;
-        affine = (u16 *)&gOamBuffer[us.affineIndex * 4 + 3];
+        affine = (u16 *)&gOamBuffer[us.affineIndex * 4].all.affineParam;
 
-        us.qDirX = COS_24_8((transform->rotation + sa2__gUnknown_03001944) & ONE_CYCLE);
-        us.qDirY = SIN_24_8((transform->rotation + sa2__gUnknown_03001944) & ONE_CYCLE);
-        us.unkC[0] = I(transform->qScaleX * sa2__gUnknown_030017F0);
-        us.unkC[1] = I(transform->qScaleY * sa2__gUnknown_03005394);
+        us.qDirX = COS_24_8((transform->rotation + SA2_LABEL(gUnknown_03001944)) & ONE_CYCLE);
+        us.qDirY = SIN_24_8((transform->rotation + SA2_LABEL(gUnknown_03001944)) & ONE_CYCLE);
+        us.unkC[0] = I(transform->qScaleX * SA2_LABEL(gUnknown_030017F0));
+        us.unkC[1] = I(transform->qScaleY * SA2_LABEL(gUnknown_03005394));
 
-        affine[0] = I(Div(Q(256), us.unkC[0]) * us.qDirX);
-        affine[4] = I(Div(Q(256), us.unkC[0]) * us.qDirY);
-        affine[8] = I(Div(Q(256), us.unkC[1]) * -us.qDirY);
-        affine[12] = I(Div(Q(256), us.unkC[1]) * us.qDirX);
+        affine[0 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[0]) * us.qDirX);
+        affine[1 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[0]) * us.qDirY);
+        affine[2 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[1]) * -us.qDirY);
+        affine[3 * OAM_DATA_COUNT_AFFINE] = I(Div(Q(256), us.unkC[1]) * us.qDirX);
 
         if (transform->qScaleX < 0) {
-            us.unkC[0] = I(-transform->qScaleX * sa2__gUnknown_030017F0);
+            us.unkC[0] = I(-transform->qScaleX * SA2_LABEL(gUnknown_030017F0));
         }
         // _08004F48
 
@@ -578,17 +551,17 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
         // 2D Rotation matrix:
         // { +cos(a), -sin(a) }
         // { +sin(a), +cos(a) }
-        us.unk18[0][0]
-            = I((Q(+COS_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * sa2__gUnknown_03005398) >> 16));
-        us.unk18[0][1]
-            = I((Q(-SIN_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_030017F0) >> 16) * (Q(us.unkC[0] * sa2__gUnknown_03005398) >> 16));
-        us.unk18[1][0]
-            = I((Q(+SIN_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_03005394) >> 16) * (Q(us.unkC[1] * sa2__gUnknown_03005398) >> 16));
-        us.unk18[1][1]
-            = I((Q(+COS_24_8(sa2__gUnknown_03001944) * sa2__gUnknown_03005394) >> 16) * (Q(us.unkC[1] * sa2__gUnknown_03005398) >> 16));
+        us.unk18[0][0] = I((Q(+COS_24_8(SA2_LABEL(gUnknown_03001944)) * SA2_LABEL(gUnknown_030017F0)) >> 16)
+                           * (Q(us.unkC[0] * SA2_LABEL(gUnknown_03005398)) >> 16));
+        us.unk18[0][1] = I((Q(-SIN_24_8(SA2_LABEL(gUnknown_03001944)) * SA2_LABEL(gUnknown_030017F0)) >> 16)
+                           * (Q(us.unkC[0] * SA2_LABEL(gUnknown_03005398)) >> 16));
+        us.unk18[1][0] = I((Q(+SIN_24_8(SA2_LABEL(gUnknown_03001944)) * SA2_LABEL(gUnknown_03005394)) >> 16)
+                           * (Q(us.unkC[1] * SA2_LABEL(gUnknown_03005398)) >> 16));
+        us.unk18[1][1] = I((Q(+COS_24_8(SA2_LABEL(gUnknown_03001944)) * SA2_LABEL(gUnknown_03005394)) >> 16)
+                           * (Q(us.unkC[1] * SA2_LABEL(gUnknown_03005398)) >> 16));
 
-        us.posX = I(transform->x * us.unk18[0][0] + transform->y * us.unk18[0][1] + Q(sa2__gUnknown_0300194C));
-        us.posY = I(transform->x * us.unk18[1][0] + transform->y * us.unk18[1][1] + Q(sa2__gUnknown_03002820));
+        us.posX = I(transform->x * us.unk18[0][0] + transform->y * us.unk18[0][1] + Q(SA2_LABEL(gUnknown_0300194C)));
+        us.posY = I(transform->x * us.unk18[1][0] + transform->y * us.unk18[1][1] + Q(SA2_LABEL(gUnknown_03002820)));
 
         {
             u16 width, height;
@@ -597,7 +570,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004E14.inc", void sa2__sub_8004E14(S
             s32 x, y;
 
 #ifdef BUG_FIX
-            // TODO: TEMP? Func doesn't match anyway...
+            // TODO: TEMP..?
             //       Better way might be to have an assert(sprDims != NULL) at the top.
             //       sprite->dimensions gets set by UpdateSpriteAnimation().
             //       And if it wasn't set, that's a bug.
@@ -650,15 +623,37 @@ NONMATCH("asm/non_matching/engine/sub_80C07E0.inc", void sub_80C07E0(Sprite *spr
 END_NONMATCH
 #endif // (GAME == GAME_SA3)
 
+// used in background.c
+const u8 gOamShapesSizes[12][2] = {
+    // Square
+    { 8, 8 },
+    { 16, 16 },
+    { 32, 32 },
+    { 64, 64 },
+
+    // Horizontal
+    { 16, 8 },
+    { 32, 8 },
+    { 32, 16 },
+    { 64, 32 },
+
+    // Vertical
+    { 8, 16 },
+    { 8, 32 },
+    { 16, 32 },
+    { 32, 64 },
+};
+
 void DisplaySprite(Sprite *sprite)
 {
     OamData *oam;
     s32 x, y, sprWidth, sprHeight;
     u8 i;
-    u32 r5, r7;
+    u32 sprX, sprY;
     const u16 *oamData;
 
     if (sprite->dimensions != (void *)-1) {
+
         const SpriteOffset *sprDims = sprite->dimensions;
 
         sprite->numSubFrames = sprDims->numSubframes;
@@ -666,8 +661,8 @@ void DisplaySprite(Sprite *sprite)
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= sa2__gUnknown_030017F4[0];
-            y -= sa2__gUnknown_030017F4[1];
+            x -= SA2_LABEL(gUnknown_030017F4)[0];
+            y -= SA2_LABEL(gUnknown_030017F4)[1];
         }
 
         sprWidth = sprDims->width;
@@ -713,13 +708,19 @@ void DisplaySprite(Sprite *sprite)
                 }
 
                 // oamIndex is a byte, why are they ANDing with 0x3FFF?
-                DmaCopy16(3, &oamData[3 * ((sprDims->oamIndex & 0x3FFF) + i)], oam, sizeof(OamDataShort));
-                r7 = oam->all.attr1 & 0x1FF;
-                r5 = oam->all.attr0 & 0xFF;
+                DmaCopy16(3, &oamData[((sprDims->oamIndex & 0x3FFF) + i) * OAM_DATA_COUNT_NO_AFFINE], oam, sizeof(OamDataShort));
+#if !EXTENDED_OAM
+                sprX = oam->all.attr1 & 0x1FF;
+                sprY = oam->all.attr0 & 0xFF;
                 oam->all.attr1 &= 0xFE00;
                 oam->all.attr0 &= 0xFE00;
-
                 oam->all.attr2 += sprite->palId << 12;
+#else
+                sprX = oam->split.x;
+                sprY = oam->split.y;
+                oam->split.affineMode &= ~ST_OAM_AFFINE_ON_MASK;
+                oam->split.paletteNum += sprite->palId;
+#endif
 
 #if !PLATFORM_GBA && !PLATFORM_SDL
                 // TEMP
@@ -728,57 +729,99 @@ void DisplaySprite(Sprite *sprite)
                 Platform_DisplaySprite(sprite, oam->split.paletteNum);
                 return;
 #endif
-
                 if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_ENABLE) {
+#if !EXTENDED_OAM
                     oam->all.attr0 |= 0x100;
+#else
+                    oam->split.affineMode |= ST_OAM_AFFINE_NORMAL;
+#endif
                     if (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
+#if !EXTENDED_OAM
                         oam->all.attr0 |= 0x200;
+#else
+                        oam->split.affineMode |= ST_OAM_AFFINE_DOUBLE;
+#endif
                     }
+#if !EXTENDED_OAM
                     oam->all.attr1 |= (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE) << 9;
+#else
+                    oam->split.matrixNum = (sprite->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE);
+#endif
                 } else {
-                    u32 shapeAndSize = ((oam->all.attr0 & 0xC000) >> 12);
-                    u32 flipY;
-                    u32 r6;
-
+                    u32 flipY, r6, shapeAndSize;
+#if !EXTENDED_OAM
+                    shapeAndSize = ((oam->all.attr0 & 0xC000) >> 12);
                     shapeAndSize |= ((oam->all.attr1 & 0xC000) >> 14);
                     flipY = sprite->frameFlags >> SPRITE_FLAG_SHIFT_Y_FLIP;
+#else
+                    shapeAndSize = oam->split.shape << 2;
+                    shapeAndSize |= oam->split.size;
+                    flipY = sprite->frameFlags >> SPRITE_FLAG_SHIFT_Y_FLIP;
+#endif
                     r6 = 1;
 
                     // y-flip
                     if ((((sprDims->flip >> 1) ^ flipY) & r6) != 0) {
+#if !EXTENDED_OAM
                         oam->all.attr1 ^= 0x2000;
-                        r5 = sprHeight - gOamShapesSizes[shapeAndSize][1] - r5;
+#else
+                        oam->split.matrixNum ^= (1 << 4);
+#endif
+                        sprY = sprHeight - gOamShapesSizes[shapeAndSize][1] - sprY;
                     }
 
                     // x-flip
                     if (((sprite->frameFlags >> SPRITE_FLAG_SHIFT_X_FLIP) & r6) != (sprDims->flip & 1)) {
+#if !EXTENDED_OAM
                         oam->all.attr1 ^= 0x1000;
-                        r7 = sprWidth - gOamShapesSizes[shapeAndSize][0] - r7;
+#else
+                        oam->split.matrixNum ^= (1 << 3);
+#endif
+                        sprX = sprWidth - gOamShapesSizes[shapeAndSize][0] - sprX;
                     }
                 }
 
 #if (GAME == GAME_SA2)
                 if (mosaicHVSizes != 0 && (sprite->frameFlags & SPRITE_FLAG_MASK_MOSAIC) != 0) {
+#if !EXTENDED_OAM
                     // Enable mosaic bit
                     oam->all.attr0 |= 0x1000;
+#else
+                    oam->split.mosaic = 1;
+#endif
                 }
 #endif
 
+#if !EXTENDED_OAM
                 oam->all.attr0 |= (sprite->frameFlags & SPRITE_FLAG_MASK_OBJ_MODE) * 8;
                 oam->all.attr2 |= (sprite->frameFlags & SPRITE_FLAG_MASK_PRIORITY) >> 2;
-                oam->all.attr0 += ((y + r5) & 0xFF);
-                oam->all.attr1 += ((x + r7) & 0x1FF);
+                oam->all.attr0 += ((y + sprY) & 0xFF);
+                oam->all.attr1 += ((x + sprX) & 0x1FF);
 
                 if (oam->all.attr0 & (ST_OAM_8BPP << 13)) {
                     oam->all.attr2 += oam->all.attr2 & 0x3FF;
                 }
                 oam->all.attr2 += GET_TILE_NUM(sprite->graphics.dest);
+#else
+                oam->split.objMode = (sprite->frameFlags & SPRITE_FLAG_MASK_OBJ_MODE) >> SPRITE_FLAG_SHIFT_OBJ_MODE;
+                oam->split.priority = (sprite->frameFlags & SPRITE_FLAG_MASK_PRIORITY) >> SPRITE_FLAG_SHIFT_PRIORITY;
+                oam->split.x = x + sprX;
+                oam->split.y = y + sprY;
+
+                if (oam->split.bpp) {
+                    oam->split.tileNum += oam->split.tileNum;
+                }
+                oam->split.tileNum += GET_TILE_NUM(sprite->graphics.dest);
+#endif
             }
         }
     }
 }
 
-void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions)
+// TODO: Make this compatible with EXTENDED_OAM, maybe?
+//       It's unused though, anyway.
+//       Technically this could just be a loop that calls DisplaySprite()...
+UNUSED void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions)
 {
     vs32 x, y;
     s32 sprWidth, sprHeight;
@@ -793,8 +836,8 @@ void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions)
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= sa2__gUnknown_030017F4[0];
-            y -= sa2__gUnknown_030017F4[1];
+            x -= SA2_LABEL(gUnknown_030017F4)[0];
+            y -= SA2_LABEL(gUnknown_030017F4)[1];
         }
 
         sprWidth = sprDims->width;
@@ -832,7 +875,8 @@ void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions)
                 }
 
                 // copy excluding affine params
-                DmaCopy16(3, &oamData[3 * ((sprDims->oamIndex & 0x3FFF) + subframe)], oam, sizeof(OamDataShort));
+                DmaCopy16(3, &oamData[(sizeof(OamDataShort) / sizeof(u16)) * ((sprDims->oamIndex & 0x3FFF) + subframe)], oam,
+                          sizeof(OamDataShort));
 
                 x1 = oam->all.attr1 & 0x1FF;
                 y1 = oam->all.attr0 & 0xFF;

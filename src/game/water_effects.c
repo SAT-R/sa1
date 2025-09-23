@@ -66,7 +66,7 @@ static const u16 gUnknown_080D550C[NUM_CHARACTERS] = {
 };
 #endif
 
-#if 0
+#if (GAME == GAME_SA2)
 static void inline CopyPalette(u32 *dst, u32 *src, s32 length)
 {
     u32 r2 = length >> 4;
