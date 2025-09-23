@@ -59,6 +59,7 @@ const u8 gUnknown_080BB380[2] = { 13, 14 };
 const u8 gUnknown_080BB382[8] = { 0x1A, 0x0C, 0x10, 0x18, 0x14, 0x1E, 0x24, 0x08 };
 const u8 gUnknown_080BB38A[4] = { 2, 0, 3, 1 };
 
+// TODO: Can accesses to this match when it's a winreg_t[2][2][2]?
 const winreg_t gUnknown_080BB38E[4][2] = {
     { WIN_RANGE(80, 110), WIN_RANGE(86, 102) },
     { WIN_RANGE(122, 158), WIN_RANGE(86, 102) },
@@ -541,8 +542,7 @@ void OptionsSelectDeleteGameData()
     gCurTask->main = sub_8011104;
 }
 
-// (92.33%) https://decomp.me/scratch/fr0p7
-NONMATCH("asm/non_matching/game/options_menu__sub_8011104.inc", void sub_8011104())
+void sub_8011104()
 {
     Sprite *s;
     u8 *temp_r4;
@@ -560,11 +560,11 @@ NONMATCH("asm/non_matching/game/options_menu__sub_8011104.inc", void sub_8011104
         menu->unk33F = 2;
     }
 
-    gWinRegs[WINREG_WIN1H] = gUnknown_080BB38E[(LOADED_SAVE->uiLanguage * 2 - 1) + menu->unk33F][0];
-    gWinRegs[WINREG_WIN1V] = gUnknown_080BB38E[(LOADED_SAVE->uiLanguage * 2 - 1) + menu->unk33F][1];
+    gWinRegs[WINREG_WIN1H] = gUnknown_080BB38E[(menu->unk33F - 1) + (LOADED_SAVE->uiLanguage * 2)][0];
+    gWinRegs[WINREG_WIN1V] = gUnknown_080BB38E[(menu->unk33F - 1) + (LOADED_SAVE->uiLanguage * 2)][1];
 
-    if (!(2 & gPressedKeys)) {
-        if (1 & gPressedKeys) {
+    if (!(B_BUTTON & gPressedKeys)) {
+        if (A_BUTTON & gPressedKeys) {
             if (menu->unk33F != 1) {
             lbl:
                 gDispCnt &= 0x1FFF;
@@ -575,7 +575,7 @@ NONMATCH("asm/non_matching/game/options_menu__sub_8011104.inc", void sub_8011104
                 gCurTask->main = Task_OptionsMenuMain;
             } else {
                 s->variant = gUnknown_080BB38A[gLoadedSaveGame.uiLanguage + 2];
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
                 UpdateSpriteAnimation(s);
                 menu->unk33F = 2;
                 m4aSongNumStart(SE_SELECT);
@@ -589,35 +589,24 @@ NONMATCH("asm/non_matching/game/options_menu__sub_8011104.inc", void sub_8011104
     DisplaySprite(s);
     sub_8010CB4();
 }
-END_NONMATCH
 
-// (95.79%) https://decomp.me/scratch/hyMET
-NONMATCH("asm/non_matching/game/options_menu__sub_801123C.inc", void sub_801123C())
+void sub_801123C()
 {
-    Sprite *sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    u16 temp_r7;
-    u16 temp_sb;
-    u8 var_r0;
-    void (*var_r0_2)();
-    void *temp_r1;
-    void *temp_r1_2;
+    Sprite *s;
 
     OptionsMenu *menu = TASK_DATA(gCurTask);
 
-    sp0 = &menu->s270;
-    if (0x20 & gRepeatedKeys) {
-        m4aSongNumStart(0x6CU);
+    s = &menu->s270;
+    if (DPAD_LEFT & gRepeatedKeys) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
         menu->unk33F = 1;
-    } else if (0x10 & gRepeatedKeys) {
-        m4aSongNumStart(0x6CU);
+    } else if (DPAD_RIGHT & gRepeatedKeys) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
         menu->unk33F = 2;
     }
 
-    gWinRegs[WINREG_WIN1H] = gUnknown_080BB38E[menu->unk33F + (LOADED_SAVE->uiLanguage * 2 - 1)][0];
-    gWinRegs[WINREG_WIN1V] = gUnknown_080BB38E[menu->unk33F + (LOADED_SAVE->uiLanguage * 2 - 1)][1];
+    gWinRegs[WINREG_WIN1H] = gUnknown_080BB38E[(menu->unk33F - 1) + (LOADED_SAVE->uiLanguage * 2)][0];
+    gWinRegs[WINREG_WIN1V] = gUnknown_080BB38E[(menu->unk33F - 1) + (LOADED_SAVE->uiLanguage * 2)][1];
 
     if (B_BUTTON & gPressedKeys) {
         goto lbl;
@@ -626,16 +615,15 @@ NONMATCH("asm/non_matching/game/options_menu__sub_801123C.inc", void sub_801123C
             if (menu->unk33F != 1) {
             lbl:
                 menu->unk33F = 2;
-                sp0->variant = gUnknown_080BB38A[LOADED_SAVE->uiLanguage];
-                sp0->prevVariant = -1;
-                UpdateSpriteAnimation(sp0);
-                m4aSongNumStart(0x6BU);
+                s->variant = gUnknown_080BB38A[LOADED_SAVE->uiLanguage];
+                s->prevVariant = -1;
+                UpdateSpriteAnimation(s);
+                m4aSongNumStart(SE_RETURN);
                 gCurTask->main = sub_8011104;
             } else {
                 u16 prevIME, prevIE, prevDispstat;
+                s32 uiLanguage = LOADED_SAVE->uiLanguage;
 
-            block_10:
-                sp4 = (s32)LOADED_SAVE->uiLanguage;
                 m4aMPlayAllStop();
                 m4aSoundVSyncOff();
 
@@ -669,23 +657,22 @@ NONMATCH("asm/non_matching/game/options_menu__sub_801123C.inc", void sub_801123C
 
                 m4aSoundVSyncOn();
                 gFlags &= 0xFFFF7FFF;
-                m4aSongNumStart(0x6AU);
+                m4aSongNumStart(SE_SELECT);
                 CreateEmptySaveGame();
-                LOADED_SAVE->uiLanguage = sp4;
-                gDispCnt &= 0x1FFF;
+                LOADED_SAVE->uiLanguage = uiLanguage;
+                gDispCnt &= ~(DISPCNT_WIN0_ON | DISPCNT_WIN1_ON | DISPCNT_OBJWIN_ON);
                 gBldRegs.bldCnt = 0;
                 gBldRegs.bldY = 0;
                 menu->unk33F = 0;
-                m4aSongNumStart(0xBU);
+                m4aSongNumStart(MUS_OPTIONS);
                 gCurTask->main = Task_OptionsMenuMain;
             }
         }
     }
 
-    DisplaySprite(sp0);
+    DisplaySprite(s);
     sub_8010CB4();
 }
-END_NONMATCH
 
 void sub_80114A0()
 {
