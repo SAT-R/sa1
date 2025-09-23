@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
@@ -13,6 +14,7 @@
 
 #include "global.h"
 #include "core.h"
+#include "multi_sio.h"
 #include "gba/defines.h"
 #include "gba/io_reg.h"
 #include "gba/types.h"
@@ -88,6 +90,7 @@ bool videoScaleChanged = false;
 bool isRunning = true;
 bool paused = false;
 bool stepOneFrame = false;
+bool headless = false;
 
 double lastGameTime = 0;
 double curGameTime = 0;
@@ -113,12 +116,27 @@ static void UpdateInternalClock(void);
 u16 Platform_GetKeyInput(void);
 
 #ifdef _WIN32
-void *Platform_malloc(int numBytes) { return HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS | HEAP_ZERO_MEMORY, numBytes); }
+void *Platform_malloc(size_t numBytes) { return HeapAlloc(GetProcessHeap(), HEAP_GENERATE_EXCEPTIONS | HEAP_ZERO_MEMORY, numBytes); }
 void Platform_free(void *ptr) { HeapFree(GetProcessHeap(), 0, ptr); }
 #endif
 
 int main(int argc, char **argv)
 {
+    const char *headlessEnv = getenv("HEADLESS");
+
+    if (headlessEnv && strcmp(headlessEnv, "true") == 0) {
+        headless = true;
+    }
+
+    const char *parentEnv = getenv("SIO_PARENT");
+
+    if (parentEnv && strcmp(parentEnv, "true") == 0) {
+        SIO_MULTI_CNT->id = 0;
+        SIO_MULTI_CNT->si = 1;
+        SIO_MULTI_CNT->sd = 1;
+        SIO_MULTI_CNT->enable = false;
+    }
+
     // Open an output console on Windows
 #if (defined _WIN32) && (DEBUG != 0)
     AllocConsole();
@@ -126,7 +144,14 @@ int main(int argc, char **argv)
     freopen("CON", "w", stdout);
 #endif
 
-    ReadSaveFile("sa2.sav");
+    ReadSaveFile("sa1.sav");
+
+    if (headless) {
+        // Required or it makes an infinite loop
+        cgb_audio_init(48000);
+        AgbMain();
+        return 1;
+    }
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
         fprintf(stderr, "SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -239,6 +264,22 @@ bool newFrameRequested = FALSE;
 // the loop via a return
 void VBlankIntrWait(void)
 {
+    // ((struct MultiSioPacket *)gMultiSioArea.nextSendBufp)
+#define HANDLE_VBLANK_INTRS()                                                                                                              \
+    ({                                                                                                                                     \
+        REG_DISPSTAT |= INTR_FLAG_VBLANK;                                                                                                  \
+        RunDMAs(DMA_VBLANK);                                                                                                               \
+        if (REG_DISPSTAT & DISPSTAT_VBLANK_INTR)                                                                                           \
+            gIntrTable[INTR_INDEX_VBLANK]();                                                                                               \
+        REG_DISPSTAT &= ~INTR_FLAG_VBLANK;                                                                                                 \
+    })
+
+    if (headless) {
+        REG_VCOUNT = DISPLAY_HEIGHT + 1;
+        HANDLE_VBLANK_INTRS();
+        return;
+    }
+
     bool frameAvailable = TRUE;
 
     while (isRunning) {
@@ -274,15 +315,7 @@ void VBlankIntrWait(void)
                     VDraw(sdlTexture);
                     frameAvailable = FALSE;
 
-                    REG_DISPSTAT |= INTR_FLAG_VBLANK;
-
-                    // TODO(Jace): I think this should be DMA_VBLANK.
-                    //             If not, and it is HBLANK instead, add a note here, why it is!
-                    RunDMAs(DMA_VBLANK);
-
-                    if (REG_DISPSTAT & DISPSTAT_VBLANK_INTR)
-                        gIntrTable[INTR_INDEX_VBLANK]();
-                    REG_DISPSTAT &= ~INTR_FLAG_VBLANK;
+                    HANDLE_VBLANK_INTRS();
 
                     accumulator -= dt;
                 } else {
@@ -320,6 +353,7 @@ void VBlankIntrWait(void)
     SDL_DestroyWindow(sdlWindow);
     SDL_Quit();
     exit(0);
+#undef RUN_VBLANK_INTRS
 }
 
 static void ReadSaveFile(char *path)
@@ -392,6 +426,9 @@ static SDL_DisplayMode sdlDispMode = { 0 };
 
 void Platform_QueueAudio(const void *data, uint32_t bytesCount)
 {
+    if (headless) {
+        return;
+    }
     // Reset the audio buffer if we are 10 frames out of sync
     // If this happens it suggests there was some OS level lag
     // in playing audio. The queue length should remain stable at < 10 otherwise
@@ -476,7 +513,7 @@ void ProcessSDLEvents(void)
                         case SDLK_SPACE:
                             if (!speedUp) {
                                 speedUp = true;
-                                timeScale = 5.0;
+                                timeScale = SPEEDUP_SCALE;
                                 SDL_PauseAudio(1);
                             }
                             break;
@@ -509,7 +546,18 @@ void ProcessSDLEvents(void)
 u16 Platform_GetKeyInput(void)
 {
 #ifdef _WIN32
-    u16 gamepadKeys = GetXInputKeys();
+    SharedKeys gamepadKeys = GetXInputKeys();
+
+    speedUp = (gamepadKeys & KEY_SPEEDUP) ? true : false;
+
+    if (speedUp) {
+        timeScale = SPEEDUP_SCALE;
+        SDL_PauseAudio(1);
+    } else {
+        timeScale = 1.0f;
+        SDL_PauseAudio(0);
+    }
+
     return (gamepadKeys != 0) ? gamepadKeys : keys;
 #endif
 
@@ -920,92 +968,100 @@ static const uint16_t bgMapSizes[][2] = {
 #define applySpriteHorizontalMosaicEffect(x) (x - (x % (mosaicSpriteEffectX + 1)))
 #define applySpriteVerticalMosaicEffect(y)   (y - (y % (mosaicSpriteEffectY + 1)))
 
+// NOTE: This is the corrected function.
 static void RenderBGScanline(int bgNum, uint16_t control, uint16_t hoffs, uint16_t voffs, int lineNum, uint16_t *line)
 {
     unsigned int charBaseBlock = (control >> 2) & 3;
     unsigned int screenBaseBlock = (control & BGCNT_SCREENBASE_MASK) >> 8;
-
     unsigned int bitsPerPixel = ((control >> 7) & 1) ? 8 : 4;
-    unsigned int mapWidth = bgMapSizes[control >> 14][0];
-    unsigned int mapHeight = bgMapSizes[control >> 14][1];
-    unsigned int mapWidthInPixels = mapWidth * 8;
-    unsigned int mapHeightInPixels = mapHeight * 8;
+
+    // Determine background dimensions from the control register
+    unsigned int mapWidth = bgMapSizes[control >> 14][0]; // in tiles
+    unsigned int mapHeight = bgMapSizes[control >> 14][1]; // in tiles
+    unsigned int mapPixelWidth = mapWidth * TILE_WIDTH;
+    unsigned int mapPixelHeight = mapHeight * TILE_WIDTH;
 
     uint8_t *bgtiles = (uint8_t *)BG_CHAR_ADDR(charBaseBlock);
+    uint16_t *bgmap = (uint16_t *)BG_SCREEN_ADDR(screenBaseBlock);
     uint16_t *pal = (uint16_t *)PLTT;
 
-    if (control & BGCNT_MOSAIC)
+    // Apply vertical mosaic effect to the entire scanline if enabled
+    if (control & BGCNT_MOSAIC) {
         lineNum = applyBGVerticalMosaicEffect(lineNum);
+    }
 
+    // GBA hardware masks scroll registers to 9 bits (0-511)
     hoffs &= 0x1FF;
     voffs &= 0x1FF;
 
     for (unsigned int x = 0; x < DISPLAY_WIDTH; x++) {
-        uint16_t *bgmap = (uint16_t *)BG_SCREEN_ADDR(screenBaseBlock);
-        // adjust for scroll
-        unsigned int xx;
-        if (control & BGCNT_MOSAIC)
-            xx = (applyBGHorizontalMosaicEffect(x) + hoffs) & 0x1FF;
-        else {
-            if (!(control & BGCNT_TXT512x256)) {
-                xx = (x + hoffs) & 0xFF;
-            } else {
-                xx = (x + hoffs) & 0x1FF;
-            }
-        }
+        unsigned int xx, yy;
 
-        unsigned int yy = (lineNum + voffs);
-
-        if (!(control & BGCNT_TXT256x512)) {
-            yy &= 0xFF;
+        // Calculate the source coordinate in the background map, applying scroll and mosaic
+        if (control & BGCNT_MOSAIC) {
+            xx = applyBGHorizontalMosaicEffect(x) + hoffs;
         } else {
-            yy &= 0x1FF;
+            xx = x + hoffs;
         }
+        yy = lineNum + voffs;
 
-        unsigned int mapX = xx / 8;
-        unsigned int mapY = yy / 8;
+        // Wrap the coordinates based on the background's actual pixel dimensions.
+        // This fixes issues with backgrounds that are not 256x256.
+        xx &= (mapPixelWidth - 1);
+        yy &= (mapPixelHeight - 1);
 
-        // TODO: The mult. with 64 doesn't break stage maps, but most regular tilemaps are broken.
-#if !WIDESCREEN_HACK
-        unsigned int mapIndex = mapY * 32 + mapX;
-#else
-        unsigned int mapIndex = mapY * ((control & BGCNT_TXT512x256) ? 64 : 32) + mapX;
-#endif
+        // Convert pixel coordinates to tile coordinates
+        unsigned int mapX = xx / TILE_WIDTH;
+        unsigned int mapY = yy / TILE_WIDTH;
+
+        // Calculate the 1D index into the tilemap. This was the primary source of bugs,
+        // as the original code used a hardcoded map width of 32 tiles.
+        unsigned int mapIndex = mapY * mapWidth + mapX;
+
         uint16_t entry = bgmap[mapIndex];
-
         unsigned int tileNum = entry & 0x3FF;
         unsigned int paletteNum = (entry >> 12) & 0xF;
+
 #if ENABLE_VRAM_VIEW
         vramPalIdBuffer[tileNum] = paletteNum;
 #endif
 
-        unsigned int tileX = xx % 8;
-        unsigned int tileY = yy % 8;
+        // Get the coordinate within the specific tile
+        unsigned int tileX = xx % TILE_WIDTH;
+        unsigned int tileY = yy % TILE_WIDTH;
 
-        // Flip if necessary
+        // Handle horizontal and vertical tile flipping
         if (entry & (1 << 10))
-            tileX = 7 - tileX;
+            tileX = (TILE_WIDTH - 1) - tileX; // H-flip
         if (entry & (1 << 11))
-            tileY = 7 - tileY;
+            tileY = (TILE_WIDTH - 1) - tileY; // V-flip
 
-        uint16_t tileLoc = tileNum * (bitsPerPixel * 8);
-        uint16_t tileLocY = tileY * bitsPerPixel;
-        uint16_t tileLocX = tileX;
-        if (bitsPerPixel == 4)
-            tileLocX /= 2;
-
-        uint8_t pixel = bgtiles[tileLoc + tileLocY + tileLocX];
-
+        // Calculate address of the pixel data and extract the color
         if (bitsPerPixel == 4) {
-            if (tileX & 1)
-                pixel >>= 4;
-            else
-                pixel &= 0xF;
+            uint32_t tileDataOffset = tileNum * TILE_SIZE_4BPP;
+            uint32_t pixelByteOffset = (tileY * TILE_WIDTH + tileX) / 2;
+            uint8_t pixelPair = bgtiles[tileDataOffset + pixelByteOffset];
 
-            if (pixel != 0)
+            uint8_t pixel;
+            if (tileX & 1) {
+                pixel = pixelPair >> 4;
+            } else {
+                pixel = pixelPair & 0xF;
+            }
+
+            if (pixel != 0) {
                 line[x] = pal[16 * paletteNum + pixel] | 0x8000;
-        } else {
-            line[x] = pal[pixel] | 0x8000;
+            }
+        } else { // 8 bits per pixel
+            uint32_t tileDataOffset = tileNum * TILE_SIZE_8BPP;
+            uint32_t pixelByteOffset = tileY * TILE_WIDTH + tileX;
+            uint8_t pixel = bgtiles[tileDataOffset + pixelByteOffset];
+
+            if (pixel != 0) {
+                // For 8bpp tiles, the palette number in the tile entry is ignored.
+                // The pixel value is a direct index into the 256-color palette.
+                line[x] = pal[pixel] | 0x8000;
+            }
         }
     }
 }
@@ -1314,6 +1370,8 @@ static bool winCheckHorizontalBounds(u16 left, u16 right, u16 xpos)
         return (xpos >= left && xpos < right);
 }
 
+extern const u8 gOamShapesSizes[12][2];
+
 // Parts of this code heavily borrowed from NanoboyAdvance.
 static void DrawOamSprites(struct scanlineData *scanline, uint16_t vcount, bool windowsEnabled)
 {
@@ -1346,20 +1404,9 @@ static void DrawOamSprites(struct scanlineData *scanline, uint16_t vcount, bool 
             continue;
         }
 
-        if (oam->split.shape == 0) {
-            width = (1 << oam->split.size) * 8;
-            height = (1 << oam->split.size) * 8;
-        } else if (oam->split.shape == 1) // wide
-        {
-            width = spriteSizes[oam->split.size][1];
-            height = spriteSizes[oam->split.size][0];
-        } else if (oam->split.shape == 2) // tall
-        {
-            width = spriteSizes[oam->split.size][0];
-            height = spriteSizes[oam->split.size][1];
-        } else {
-            continue; // prohibited, do not draw
-        }
+        s32 index = (oam->split.shape << 2) | oam->split.size;
+        width = gOamShapesSizes[index][0];
+        height = gOamShapesSizes[index][1];
 
         int rect_width = width;
         int rect_height = height;
@@ -1372,10 +1419,17 @@ static void DrawOamSprites(struct scanlineData *scanline, uint16_t vcount, bool 
         int32_t x = oam->split.x;
         int32_t y = oam->split.y;
 
+#if !EXTENDED_OAM
+        // The regular, unextended values are 9 and 8 unsigned bits for x and y respectively.
+        // Once they have exceeded the screen's right or bottom, they get treated as signed values on original hardware.
+        // This is done so that, for example, a sprite at 0 on either axis that moves left or up will not suddenly disappear.
+        //
+        // With EXTENDED_OAM we are using signed 16 bit values, so we don't want to change the raw value.
         if (x >= DISPLAY_WIDTH)
             x -= 512;
         if (y >= DISPLAY_HEIGHT)
             y -= 256;
+#endif
 
         if (isAffine) {
             // TODO: there is probably a better way to do this
@@ -1661,11 +1715,7 @@ static void DrawScanline(uint16_t *pixels, uint16_t vcount)
                         winEffectEnable = ((scanline.winMask[xpos] & WINMASK_CLR) >> 5);
                         // if bg is disabled inside the window then do not draw the pixel
                         if (!(scanline.winMask[xpos] & 1 << bgnum))
-#if !DEBUG
                             continue;
-#else
-                            ;
-#endif
                     }
 
                     // blending code
@@ -1700,11 +1750,7 @@ static void DrawScanline(uint16_t *pixels, uint16_t vcount)
             if (getAlphaBit(src[xpos])) {
                 // check if sprite pixel draws inside window
                 if (windowsEnabled && !(scanline.winMask[xpos] & WINMASK_OBJ))
-#if !DEBUG
                     continue;
-#else
-                    ;
-#endif
                 // draw the pixel
                 pixels[xpos] = src[xpos];
             }
@@ -1802,7 +1848,7 @@ void VDraw(SDL_Texture *texture)
     memset(gameImage, 0, sizeof(gameImage));
     DrawFrame(gameImage);
     SDL_UpdateTexture(texture, NULL, gameImage, DISPLAY_WIDTH * sizeof(Uint16));
-    REG_VCOUNT = 161; // prep for being in VBlank period
+    REG_VCOUNT = DISPLAY_HEIGHT + 1; // prep for being in VBlank period
 }
 
 u8 BinToBcd(u8 bin)
