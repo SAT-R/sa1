@@ -446,10 +446,10 @@ void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s = &boss->s;
     s->x = boss->unk88;
     s->y = boss->unk8A;
-    s->graphics.dest = VramMalloc(42);
-    s->oamFlags = 0x580;
+    s->graphics.dest = ALLOC_TILES(SA1_ANIM_EGGX_BODY);
+    s->oamFlags = SPRITE_OAM_ORDER(22);
     s->graphics.size = 0;
-    s->graphics.anim = 0x2AF;
+    s->graphics.anim = SA1_ANIM_EGGX_BODY;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -462,10 +462,10 @@ void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2 = &boss->s2;
     s2->x = boss->unk88;
     s2->y = boss->unk8A;
-    s2->graphics.dest = VramMalloc(0xCU);
-    s2->oamFlags = 0x540;
+    s2->graphics.dest = ALLOC_TILES(SA1_ANIM_EGGX_EGGMAN);
+    s2->oamFlags = SPRITE_OAM_ORDER(21);
     s2->graphics.size = 0;
-    s2->graphics.anim = 0x2B3;
+    s2->graphics.anim = SA1_ANIM_EGGX_EGGMAN;
     s2->variant = 0;
     s2->animCursor = 0;
     s2->qAnimDelay = 0;
@@ -475,7 +475,7 @@ void CreateEntity_EggX(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
 
-    if (!(gPlayer.moveState & 0x80)) {
+    if (PLAYER_IS_ALIVE) {
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, DISPLAY_HEIGHT);
         gWinRegs[WINREG_WININ] = 0x1F1F;
@@ -494,22 +494,22 @@ void Task_EggXMain()
 
     switch (boss->unk99) {
         case 0:
-            if ((boss->unk88 - 120) <= gCamera.x) {
-                gCamera.minX = (u16)boss->unk88 - 144;
-                gCamera.maxX = (u16)boss->unk88 + 144;
+            if ((boss->unk88 - (DISPLAY_WIDTH / 2)) <= gCamera.x) {
+                gCamera.minX = (u16)boss->unk88 - ((DISPLAY_WIDTH / 2) + 24);
+                gCamera.maxX = (u16)boss->unk88 + ((DISPLAY_WIDTH / 2) + 24);
                 boss->unk99 = 1;
                 return;
             }
             return;
         case 1:
             if ((boss->unk8A - 40) <= gCamera.y) {
-                CreatePreBossCameraPan((s16)(boss->unk8A - 40), (s16)(boss->unk8A + 160));
+                CreatePreBossCameraPan((s16)(boss->unk8A - 40), (s16)(boss->unk8A + DISPLAY_HEIGHT));
                 boss->unk99 = 2;
                 return;
             }
             break;
         case 2:
-            if ((gCamera.minY == (boss->unk8A - 40)) && (gCamera.maxY == (boss->unk8A + 160))) {
+            if ((gCamera.minY == (boss->unk8A - 40)) && (gCamera.maxY == (boss->unk8A + DISPLAY_HEIGHT))) {
                 boss->unk99 = 3;
                 return;
             }
@@ -829,13 +829,13 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_803775C.inc", void Task_80
             var_r5 = s->y - var_r1_3;
             temp_r1_11 = s->y + var_r1_3;
             var_r3 = (u16)temp_r1_11;
-            if (temp_r1_11 > 160) {
-                var_r3 = 160;
+            if (temp_r1_11 > DISPLAY_HEIGHT) {
+                var_r3 = DISPLAY_HEIGHT;
             }
 
             if (s->frameFlags & 0x400) {
                 u16 some_r0, some_v;
-                if (!(gPlayer.moveState & 0x80) || (gNumLives != 0)) {
+                if (PLAYER_IS_ALIVE || (gNumLives != 0)) {
                     gWinRegs[WINREG_WIN0H] = WIN_RANGE(s->x + 32, DISPLAY_WIDTH);
                     gWinRegs[WINREG_WIN0V] = WIN_RANGE(var_r5, var_r3);
                 }
@@ -843,7 +843,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_803775C.inc", void Task_80
                 {
                     // Likely easily matchable once sub_803A6EC__inline() matches
                     u16 v0;
-                    var_r5 = gCamera.x + 120;
+                    var_r5 = gCamera.x + (DISPLAY_WIDTH / 2);
                     v0 = ((u16)s->x - 88);
                     spC = NULL;
                     sp10.left = -v0;
@@ -859,13 +859,13 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_803775C.inc", void Task_80
                     }
                 }
             }
-            if (!(gPlayer.moveState & 0x80) || (gNumLives != 0)) {
-                gWinRegs[0] = (u16)((u16)s->x - 0x20);
-                gWinRegs[2] = (s16)var_r3 | ((temp_r5_2 << 0x10) >> 8);
+            if (PLAYER_IS_ALIVE || (gNumLives != 0)) {
+                gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, s->x - 0x20);
+                gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, (s16)var_r3 | ((temp_r5_2 << 0x10) >> 8));
             }
 
             // Likely easily matchable once sub_803A6EC__inline() matches
-            var_r5 = (u16)gCamera.x + 120;
+            var_r5 = (u16)gCamera.x + (DISPLAY_WIDTH / 2);
             sp14 = 0;
             sp18.left = 88;
             sp18.right = s->x - 0x98;

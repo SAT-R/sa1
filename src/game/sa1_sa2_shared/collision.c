@@ -1722,9 +1722,9 @@ bool32 SA2_LABEL(sub_800DE44)(Player *p)
 #if (GAME == GAME_SA1)
 
 // INCOMPLETE!
-// (91.10%) https://decomp.me/scratch/9kVDP
+// (92.41%) https://decomp.me/scratch/9c6nz
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C934.inc",
-         bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 param4, Player *p, u32 *param6))
+         bool32 sub_800C934(Sprite *s, s32 x, s32 y, Rect8 *rectPlayer, u32 param4, Player *p, u32 *moveState))
 {
     bool16 gravityInverted = GRAVITY_IS_INVERTED;
     // bottom = sl
@@ -1740,7 +1740,9 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C934.inc",
 
     if (!gravityInverted) {
         if (I(p->qWorldY) > middleY) {
-            p->qWorldY = Q_24_8_FRAC(p->qWorldY) + Q(s->hitboxes[0].b.bottom + y - rectPlayer->bottom);
+            s32 whole = Q(s->hitboxes[0].b.bottom + y - rectPlayer->top);
+            p->qWorldY = *(u8 *)&p->qWorldY + whole;
+            asm("");
         } else {
             goto test;
         }
@@ -1776,7 +1778,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C934.inc",
             }
 
             p->moveState |= MOVESTATE_STOOD_ON_OBJ;
-            *param6 |= MOVESTATE_STOOD_ON_OBJ;
+            *moveState |= MOVESTATE_STOOD_ON_OBJ;
 
             if (p->character == CHARACTER_KNUCKLES) {
                 if (p->SA2_LABEL(unk61) == 1 || p->SA2_LABEL(unk61) == 3) {
@@ -1814,7 +1816,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800C934.inc",
         return FALSE;
     }
 
-    *param6 |= 0x10000;
+    *moveState |= MOVESTATE_10000;
 
     if (p->qSpeedAirY <= 0) {
         p->qSpeedAirY = 0;

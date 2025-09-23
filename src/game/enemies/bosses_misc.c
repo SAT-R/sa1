@@ -313,7 +313,7 @@ void Task_BossCapsuleUpdate(void)
                 CamCoord prevPlayerY = I(gPlayer.qWorldY);
                 sub_80096B0(s, capsule->worldX, capsule->worldY, p);
 
-                if (!(gPlayer.moveState & 0x80) && ((prevPlayerY < I(gPlayer.qWorldY)) || (capsule->worldY < I(gPlayer.qWorldY)))) {
+                if (PLAYER_IS_ALIVE && ((prevPlayerY < I(gPlayer.qWorldY)) || (capsule->worldY < I(gPlayer.qWorldY)))) {
                     p->qWorldX = Q((capsule->worldX + s->hitboxes[0].b.left) - p->spriteOffsetX);
                     p->qWorldY = Q(capsule->worldY - p->spriteOffsetY);
                 }

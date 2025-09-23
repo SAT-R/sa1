@@ -209,7 +209,7 @@ void sub_8031ED0(void)
     Sprite *s2 = &boss->s2;
 
     if (boss->unk9C != 0) {
-        if ((--boss->unk9C > 0x10) && !(boss->unk9C & 2) && !(gPlayer.moveState & 0x80)) {
+        if ((--boss->unk9C > 0x10) && !(boss->unk9C & 2) && PLAYER_IS_ALIVE) {
             s->frameFlags |= 0x100;
             gDispCnt |= 0x8000;
             gWinRegs[5] = 0x3F1F;
@@ -280,7 +280,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_6__CreateEntity_EggSnake.inc",
     s->x = TO_WORLD_POS(me->x, regionX);
     s->y = TO_WORLD_POS(me->y, regionY);
     s->graphics.dest = VramMalloc(0x30U);
-    s->oamFlags = 0x580;
+    s->oamFlags = SPRITE_OAM_ORDER(22);
     s->graphics.size = 0;
     s->graphics.anim = 0x296;
     s->variant = 3;
@@ -297,7 +297,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_6__CreateEntity_EggSnake.inc",
     s2->y = TO_WORLD_POS(me->y, regionY);
     SET_MAP_ENTITY_INITIALIZED(me);
     s2->graphics.dest = VramMalloc(8);
-    s2->oamFlags = 0x540;
+    s2->oamFlags = SPRITE_OAM_ORDER(21);
     s2->graphics.size = 0;
     s2->graphics.anim = 0x294;
     s2->variant = 3;
@@ -968,7 +968,7 @@ void sub_803330C()
     s->x = 0;
     s->y = 0;
     s->graphics.dest = VramMalloc(6U);
-    s->oamFlags = 0x540;
+    s->oamFlags = SPRITE_OAM_ORDER(21);
     s->graphics.size = 0;
     s->graphics.anim = 0x297;
     s->variant = 0;
@@ -985,7 +985,7 @@ void sub_803330C()
     s2->x = 0;
     s2->y = 0;
     s2->graphics.dest = vram;
-    s2->oamFlags = 0x540;
+    s2->oamFlags = SPRITE_OAM_ORDER(21);
     s2->graphics.size = 0;
     s2->graphics.anim = 0x297;
     s2->variant = 0;

@@ -213,7 +213,7 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s->y = TO_WORLD_POS(me->y, regionY);
 
     s->graphics.dest = VramMalloc(64);
-    s->oamFlags = 0x580;
+    s->oamFlags = SPRITE_OAM_ORDER(22);
     s->graphics.size = 0;
     s->graphics.anim = SA1_ANIM_BOSS_4;
     s->variant = 2;
@@ -231,7 +231,7 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 
     s2->graphics.dest = VramMalloc(8U);
-    s2->oamFlags = 0x540;
+    s2->oamFlags = SPRITE_OAM_ORDER(21);
     s2->graphics.size = 0;
     s2->graphics.anim = 0x275;
     s2->variant = 0;

@@ -616,13 +616,13 @@ NONMATCH("asm/non_matching/game/options_menu__sub_801123C.inc", void sub_801123C
         menu->unk33F = 2;
     }
 
-    gWinRegs[1] = *(winreg_t *)(((((LOADED_SAVE->uiLanguage * 2) - 1) + menu->unk33F) * 4) + ((u8 *)gUnknown_080BB38E + 0));
-    gWinRegs[3] = *(winreg_t *)(((((LOADED_SAVE->uiLanguage * 2) - 1) + menu->unk33F) * 4) + ((u8 *)gUnknown_080BB38E + 2));
+    gWinRegs[WINREG_WIN1H] = gUnknown_080BB38E[menu->unk33F + (LOADED_SAVE->uiLanguage * 2 - 1)][0];
+    gWinRegs[WINREG_WIN1V] = gUnknown_080BB38E[menu->unk33F + (LOADED_SAVE->uiLanguage * 2 - 1)][1];
 
-    if (2 & gPressedKeys) {
+    if (B_BUTTON & gPressedKeys) {
         goto lbl;
     } else {
-        if (1 & gPressedKeys) {
+        if (A_BUTTON & gPressedKeys) {
             if (menu->unk33F != 1) {
             lbl:
                 menu->unk33F = 2;

@@ -177,7 +177,7 @@ NONMATCH("asm/non_matching/game/interactables/spiked_barrel__Task_SpikedBarrel.i
                 // RECT_COLLISION(x0,y0,hb0,x1,y1,hb1)
                 if (RECT_COLLISION(worldX + Div(barrel->unk48, 0x100), worldY + Div(barrel->unk4C, 0x100), &s->hitboxes[1].b, I(p->qWorldX),
                                    I(p->qWorldY), &p->spriteInfoBody->s.hitboxes[0].b)) {
-                    if (!(gPlayer.moveState & MOVESTATE_DEAD)) {
+                    if (PLAYER_IS_ALIVE) {
                         if (Coll_DamagePlayer(p)) {
                             m4aSongNumStart(SE_171);
                         }

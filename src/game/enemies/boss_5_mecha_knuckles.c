@@ -339,7 +339,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
     }
 
     if (boss->unk97 != 0) {
-        if (!(gStageTime & 2) && !(gPlayer.moveState & 0x80)) {
+        if (!(gStageTime & 2) && PLAYER_IS_ALIVE) {
             s->frameFlags |= 0x100;
             gDispCnt |= 0x8000;
             gWinRegs[5] = 0x3F3F;

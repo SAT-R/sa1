@@ -307,7 +307,7 @@
 #define SA1_ANIM_BOSS_X1_EGGMOBILE      684
 #define SA1_ANIM_BOSS_X1_BALL           685
 #define SA1_ANIM_BOSS_X1_EGGMAN         686
-#define SA1_ANIM_EGGX_BASE              687
+#define SA1_ANIM_EGGX_BODY              687
 #define SA1_ANIM_EGGX_ROTARY            688
 #define SA1_ANIM_EGGX_HAND              689
 #define SA1_ANIM_EGGX_BALL              690

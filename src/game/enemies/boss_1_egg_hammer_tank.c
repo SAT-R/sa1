@@ -435,7 +435,7 @@ void Task_802611C(void)
     worldX = TO_WORLD_POS(tank->base.meX, tank->base.regionX) + I(tank->qUnk8C);
     worldY = TO_WORLD_POS(me->y, tank->base.regionY);
     s->frameFlags &= ~0x180;
-    if (!(gPlayer.moveState & 0x80)) {
+    if (PLAYER_IS_ALIVE) {
         gDispCnt &= 0x7FFF;
         gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldCnt = 0;
@@ -487,7 +487,7 @@ void Task_802611C(void)
     }
     if (tank->unk9B != 0) {
         if (--tank->unk9B > 0x10) {
-            if (!(tank->unk9B & 2) && !(gPlayer.moveState & 0x80)) {
+            if (!(tank->unk9B & 2) && PLAYER_IS_ALIVE) {
                 s->frameFlags = (s32)(s->frameFlags | 0x100);
                 gDispCnt |= 0x8000;
                 gWinRegs[WINREG_WINOUT] = 0x3F1F;
@@ -602,7 +602,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_802
     worldY = TO_WORLD_POS(me->y, tank->base.regionY) + sp0C;
 
     s->frameFlags &= ~0x180;
-    if (!(gPlayer.moveState & 0x80)) {
+    if (PLAYER_IS_ALIVE) {
         gDispCnt &= 0x7FFF;
         gWinRegs[WINREG_WINOUT] = 0;
         gBldRegs.bldCnt = 0;
@@ -743,7 +743,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_1__Task_80264C8.inc", void Task_802
 
     if (tank->unk9B != 0) {
         if (--tank->unk9B > 16) {
-            if (!(tank->unk9B & 2) && !(gPlayer.moveState & 0x80)) {
+            if (!(tank->unk9B & 2) && PLAYER_IS_ALIVE) {
                 s->frameFlags |= SPRITE_FLAG(OBJ_MODE, 2);
                 gDispCnt |= 0x8000;
                 gWinRegs[WINREG_WINOUT] = 0x3F1F;

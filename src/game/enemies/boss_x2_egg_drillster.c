@@ -255,7 +255,7 @@ void CreateEntity_EggDrillster(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->y = TO_WORLD_POS(me->y, regionY);
     SET_MAP_ENTITY_INITIALIZED(me);
     s2->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_X2_EGGMAN);
-    s2->oamFlags = 0x540;
+    s2->oamFlags = SPRITE_OAM_ORDER(21);
     s2->graphics.size = 0;
     s2->graphics.anim = SA1_ANIM_BOSS_X2_EGGMAN;
     s2->variant = 0;
@@ -278,7 +278,7 @@ void Task_EggDrillsterInit(void)
         case 0: {
             if (boss->worldX - (DISPLAY_WIDTH / 2) <= gCamera.x) {
                 gCamera.minX = boss->worldX - (DISPLAY_WIDTH / 2) - 32;
-                gCamera.maxX = boss->worldX + 152;
+                gCamera.maxX = boss->worldX + (DISPLAY_WIDTH / 2) + 32;
                 boss->unk8D = 1;
             }
         } break;
@@ -445,8 +445,8 @@ void sub_8036150(void)
     boss->unk78 = 0;
     boss->s2.variant = 2;
     boss->s2.prevVariant = 0xFF;
-    gCamera.minX = (s16)(u16)gCamera.x;
-    gCamera.maxX = (u16)gCamera.x + 0xF0;
+    gCamera.minX = gCamera.x;
+    gCamera.maxX = gCamera.x + DISPLAY_WIDTH;
     m4aSongNumStart(0x90U);
     s->frameFlags &= 0xFFFFFE7F;
     if (PLAYER_IS_ALIVE) {
@@ -455,13 +455,8 @@ void sub_8036150(void)
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
     }
-    temp_r6 = gLevelScore;
-    temp_r0 = temp_r6 + 0x3E8;
-    gLevelScore = temp_r0;
-    temp_r5 = Div(temp_r0, 0xC350);
-    if ((temp_r5 != Div(temp_r6, 0xC350)) && (gGameMode == 0)) {
-        gNumLives = (u8)(gNumLives + 1);
-    }
+
+    INCREMENT_SCORE_A(1000);
 
     Task_803623C();
     gCurTask->main = Task_803623C;
