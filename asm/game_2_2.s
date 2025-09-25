@@ -1378,6 +1378,8 @@ TaskDestructor_806182C: @ 0x0806182C
 	bx lr
 	.align 2, 0
 
+@ The above task might be part of vs_record menu?
+
 	thumb_func_start Task_8061830
 Task_8061830: @ 0x08061830
 	push {r4, lr}

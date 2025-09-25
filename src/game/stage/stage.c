@@ -51,23 +51,23 @@ void SA2_LABEL(sub_801F044)(void);
 #if (GAME == GAME_SA1)
 void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *player);
 
-void StageInit_Zone3Act1(void);
-void StageInit_Zone3Act2(void);
-void StageInit_Zone6Act1(void);
-void StageInit_PinballChaoGarden(void);
 void StageInit_Zone1Act1(void);
 void StageInit_Zone1Act2(void);
 void StageInit_Zone2Act1(void);
 void StageInit_Zone2Act2(void);
+void StageInit_Zone3Act1(void);
+void StageInit_Zone3Act2(void);
 void StageInit_Zone4Act1(void);
 void StageInit_Zone4Act2(void);
 void StageInit_Zone5Act1(void);
 void StageInit_Zone5Act2(void);
+void StageInit_Zone6Act1(void);
 void StageInit_Zone6Act2(void);
 void StageInit_Zone7Act1(void);
 void StageInit_Zone7Act2(void);
 void StageInit_ForestChaoGarden(void);
 void StageInit_FactoryChaoGarden(void);
+void StageInit_PinballChaoGarden(void);
 void StageInit_SpaceChaoGarden(void);
 
 void sub_805B9E8(void);

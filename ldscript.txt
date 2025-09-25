@@ -145,6 +145,7 @@ SECTIONS {
         asm/game__sound_test.o(.text);
         asm/game__vs_record.o(.text);
         asm/game_2_2.o(.text);
+        asm/game_2_3.o(.text);
         asm/game_2.o(.text);
         src/game/time_attack/lobby.o(.text);
         src/game/edit_language_screen.o(.text);

@@ -113,7 +113,7 @@ void sub_800E934() { }
 void sub_800F318() { }
 
 void sub_8061948(u8 param0) { }
-void sub_8063918(void) { }
+void CreateIntroAnimation(void) { }
 
 void CreatePlayerNameInputMenu() { }
 void CreateVsRecord() { }

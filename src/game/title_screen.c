@@ -58,7 +58,7 @@ void Task_800DEE4();
 void Task_SwitchToDemoInit();
 void Task_SwitchToMainMenu();
 
-extern void sub_8063918(void);
+extern void CreateIntroAnimation(void);
 
 const ALIGNED(4) AnimId gUnknown_080BB310[UILANG_COUNT] = { SA1_ANIM_PRESS_START_MSG_JP, SA1_ANIM_PRESS_START_MSG_EN };
 const u8 gUnknown_080BB314[] = { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
@@ -311,7 +311,7 @@ void Task_800D450(void)
 void sub_800D498(void)
 {
     TaskDestroy(gCurTask);
-    sub_8063918();
+    CreateIntroAnimation();
 }
 
 void Task_800D4B0(void)
