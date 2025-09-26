@@ -124,7 +124,10 @@ void OpenGL_DisplaySprite(Sprite *sprite, u8 oamPaletteNum)
 #else
         float a = 2.0f / DISPLAY_WIDTH;
         float b = 2.0f / DISPLAY_HEIGHT;
-        float projMtx[] = { a, 0, 0, 0, 0, b, 0, 0, 0, 0, 1, 0, -1, -1, 0, 1 };
+        float projMtx[] = { a,  0,  0, 0, //
+                            0,  b,  0, 0, //
+                            0,  0,  1, 0, //
+                            -1, -1, 0, 1 };
         glLoadMatrixf(projMtx);
 #endif
 

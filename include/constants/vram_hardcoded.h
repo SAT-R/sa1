@@ -3,6 +3,7 @@
 
 #if (GAME == GAME_SA1)
 #define VRAM_RESERVED_TO_BE_CONTINUED      ((void *)OBJ_VRAM0 + 0x0000)
+#define VRAM_RESERVED_STAFF_CREDITS        ((void *)OBJ_VRAM0 + 0x0400)
 #define VRAM_RESERVED_UI_DIGITS_A          ((void *)OBJ_VRAM0 + 0x0800)
 #define VRAM_RESERVED_STGINTRO_CHAR_NAME   ((void *)OBJ_VRAM0 + 0x0800)
 #define VRAM_RESERVED_UI_DIGITS_B          ((void *)OBJ_VRAM0 + 0x0880)

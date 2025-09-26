@@ -141,6 +141,7 @@ SECTIONS {
         asm/game_1_3.o(.text);
         asm/game_2_0.o(.text);
         asm/game_2_1.o(.text);
+        src/game/staff_credits.o(.text);
         asm/game__staff_credits.o(.text);
         asm/game__sound_test.o(.text);
         asm/game__vs_record.o(.text);
