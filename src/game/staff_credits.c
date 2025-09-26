@@ -52,7 +52,7 @@ void sub_805E1E8(void)
     sp00.uiGfxID = 0x3B;
     sp00.unk2A = 13;
     sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
-    sp00.vramC = VRAM_RESERVED_STAFF_CREDITS;
+    sp00.vramC = VRAM_RESERVED_STAFF_CREDITS_A;
     sp00.tilesSize = 1 * TILE_SIZE_4BPP;
     sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
     sp00.paletteSize = 32;
@@ -68,7 +68,7 @@ void sub_805E1E8(void)
     sp00.uiGfxID = 0;
     sp00.unk2A = 13;
     sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
-    sp00.vramC = VRAM_RESERVED_STAFF_CREDITS;
+    sp00.vramC = VRAM_RESERVED_STAFF_CREDITS_A;
     sp00.tilesSize = 236 * TILE_SIZE_4BPP;
     sp00.palette = gUiGraphics[60].palette;
     sp00.paletteSize = 32;
@@ -130,7 +130,7 @@ void CreateStaffCredits()
     credits->unk78 = 0x30;
     credits->unk7C = 0;
 
-    s->graphics.dest = (void *)0x06014000;
+    s->graphics.dest = VRAM_RESERVED_STAFF_CREDITS_B;
     s->graphics.anim = SA1_ANIM_CREDITS_COMPANY_LOGOS;
     s->variant = 0;
     s->x = 0;
@@ -149,8 +149,8 @@ void CreateStaffCredits()
     s = &credits->s2;
     s->graphics.anim = SA1_ANIM_CREDITS_COPYRIGHT;
     s->variant = 1;
-    s->graphics.dest = (void *)0x06016000;
-    s->x = 0x78;
+    s->graphics.dest = VRAM_RESERVED_STAFF_CREDITS_C;
+    s->x = (DISPLAY_WIDTH / 2);
     s->y = 0;
     s->oamFlags = 0x480;
     s->graphics.size = 0;
