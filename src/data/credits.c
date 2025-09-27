@@ -1,7 +1,5 @@
 #include "game/credits.h"
 
-#define NUM_ENTRIES 334
-
 const CreditsString sCreditsEntries[NUM_ENTRIES] = {
     { 0, 0, 0, "                         ", { 0, 0, 0 } },
     { 0, 0, 0, "                         ", { 0, 0, 0 } },

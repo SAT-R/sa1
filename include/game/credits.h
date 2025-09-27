@@ -12,4 +12,7 @@ typedef struct CreditsString {
 extern void CreateStaffCredits();
 extern void CreateCongratulationsAnimation();
 
+#define NUM_ENTRIES 334
+extern const CreditsString sCreditsEntries[NUM_ENTRIES];
+
 #endif // GUARD_SA1_CREDITS_H

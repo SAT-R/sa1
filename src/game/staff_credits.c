@@ -2,13 +2,18 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
+#include "game/credits.h"
 #include "game/gTask_03006240.h"
+#include "game/stage/ui.h"
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 #include "constants/vram_hardcoded.h"
+#include "game/save.h"
+#include "game/title_screen.h"
 
 extern const u8 gUnknown_0868483C[0x500];
+extern const u16 gUnknown_086886A0[12];
 
 typedef struct StaffCredits {
     /* 0x00 */ Sprite s;
@@ -23,26 +28,24 @@ typedef struct StaffCredits {
     /* 0x74 */ s16 unk74;
     /* 0x74 */ u8 unk76;
     /* 0x78 */ s32 unk78;
-    /* 0x7C */ s32 unk7C;
+    /* 0x7C */ u32 unk7C;
 } StaffCredits;
 
 typedef struct Credits_18 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    u8 unkA;
-    struct Task *task1;
-    struct Task *task2;
-    s32 unk14;
+    /* 0x00 */ StrcUi_805423C strc;
+    /* 0x0C */ struct Task *task1; // -> (StaffCredits *)
+    /* 0x10 */ struct Task *task2; // -> (StaffCredits *)
+    /* 0x14 */ s32 unk14;
 } Credits_18;
 
 void sub_805E1E8(void);
-void sub_805E888(void); // -> StaffCredits
-void sub_805E758(void); // -> StaffCredits
-void sub_805E698(void); // -> Credits_18
+void Task_805E888(void); // -> StaffCredits
+void Task_805E758(void); // -> StaffCredits
+void Task_805E698(void); // -> Credits_18
 void TaskDestructor_805E9B0(struct Task *t);
+
+extern void sub_8069710(void);
+extern void sub_8053370(const char *str, void *param1);
 
 void sub_805E1E8(void)
 {
@@ -123,7 +126,7 @@ void CreateStaffCredits()
     gBgScrollRegs[1][1] = 0;
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
-    t1 = TaskCreate(sub_805E888, sizeof(StaffCredits), 0x6200U, 0U, NULL);
+    t1 = TaskCreate(Task_805E888, sizeof(StaffCredits), 0x6200U, 0U, NULL);
     credits = TASK_DATA(t1);
     s = &credits->s;
 
@@ -139,7 +142,7 @@ void CreateStaffCredits()
     s->graphics.size = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     s->animSpeed = 0x10;
     s->palId = 0;
     s->hitboxes[0].index = -1;
@@ -163,7 +166,7 @@ void CreateStaffCredits()
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 
-    t2 = TaskCreate(sub_805E758, sizeof(StaffCredits), 0x6120U, 0U, NULL);
+    t2 = TaskCreate(Task_805E758, sizeof(StaffCredits), 0x6120U, 0U, NULL);
     credits = TASK_DATA(t2);
     credits->unk78 = 0x30;
     credits->unk7C = 0;
@@ -176,17 +179,17 @@ void CreateStaffCredits()
     credits->unk72 = 0xE;
     credits->unk74 = 5;
 
-    t = TaskCreate(sub_805E698, sizeof(Credits_18), 0x6000U, 0U, TaskDestructor_805E9B0);
+    t = TaskCreate(Task_805E698, sizeof(Credits_18), 0x6000U, 0U, TaskDestructor_805E9B0);
     credits18 = TASK_DATA(t);
     credits18->unk14 = 0x30;
     credits18->task1 = t1;
     credits18->task2 = t2;
-    credits18->unk0 = 0;
-    credits18->unk2 = 0;
-    credits18->unk4 = 1;
-    credits18->unk6 = 0;
-    credits18->unk8 = 0x80;
-    credits18->unkA = 8;
+    credits18->strc.unk0 = 0;
+    credits18->strc.unk2 = 0;
+    credits18->strc.unk4 = 1;
+    credits18->strc.unk6 = 0;
+    credits18->strc.unk8 = 0x80;
+    credits18->strc.unkA = 8;
 
     DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(1), 0x40);
 
@@ -197,12 +200,12 @@ void CreateStaffCredits()
     sa2__gUnknown_03002280[1][3] = 0x14;
 
     gDispCnt |= 0x6000;
-    gWinRegs[0] = 240;
-    gWinRegs[2] = 0x24;
-    gWinRegs[1] = 240;
-    gWinRegs[3] = 0x84A0;
-    gWinRegs[4] = 0x3F3F;
-    gWinRegs[5] = 0x1F;
+    gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, 36);
+    gWinRegs[WINREG_WIN1H] = WIN_RANGE(0, DISPLAY_WIDTH);
+    gWinRegs[WINREG_WIN1V] = WIN_RANGE(DISPLAY_HEIGHT - 28, DISPLAY_HEIGHT);
+    gWinRegs[WINREG_WININ] = 0x3F3F;
+    gWinRegs[WINREG_WINOUT] = 0x1F;
     gBldRegs.bldCnt = 0x1FDF;
     gBldRegs.bldAlpha = 0x10;
     gBldRegs.bldY = 0x10;
@@ -210,3 +213,197 @@ void CreateStaffCredits()
     sub_805E1E8();
     m4aSongNumStart(MUS_STAFF_CREDITS);
 }
+
+void Task_805E698(void)
+{
+    Credits_18 *credits_18 = TASK_DATA(gCurTask);
+    StaffCredits *creditsB = TASK_DATA(credits_18->task2);
+    StaffCredits *creditsA = TASK_DATA(credits_18->task1);
+    u8 r2;
+
+    if (credits_18->unk14 < 8334) {
+        creditsB->unk78 = credits_18->unk14;
+        creditsA->unk78 = credits_18->unk14;
+    } else {
+        creditsB->unk78 = 8334;
+        creditsA->unk78 = 8334;
+    }
+
+    credits_18->unk14++;
+
+    if (credits_18->unk14 > 8520) {
+        r2 = sub_805423C(&credits_18->strc);
+    } else {
+        r2 = 0;
+    }
+
+    if ((credits_18->unk14 > 8550) && r2) {
+        gDispCnt &= ~0xE000;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+
+        TaskDestroy(credits_18->task2);
+        TaskDestroy(credits_18->task1);
+        TaskDestroy(gCurTask);
+
+        if (LOADED_SAVE->unk1D != 0x7F) {
+            sub_8069710();
+        } else {
+            CreateSegaLogo();
+        }
+    }
+}
+
+void Task_805E758()
+{
+    u8 sp0;
+    s16 *temp_r1_2;
+    s16 *temp_r1_3;
+    s16 var_r0;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r4;
+    s32 var_r7;
+    s32 var_sl;
+    u32 var_r8;
+    u8 i;
+
+    StaffCredits *credits = TASK_DATA(gCurTask);
+
+    temp_r4 = credits->unk78;
+    if (!(1 & temp_r4)) {
+        credits->unk7C = temp_r4 * (Div(0x143000, 0x201C) + 1);
+    }
+
+    temp_r0 = I(credits->unk7C) - 0xC;
+    if (temp_r0 > 0x8AU) {
+        var_r8 = (u32)(I(credits->unk7C) - 0x86) >> 4;
+        var_sl = Mod(I(credits->unk7C) - 0x96, 0x10) + 8;
+    } else {
+        var_r8 = 0;
+        var_sl = 0;
+    }
+    var_r7 = 0x24;
+    if (var_r8 < 0x139) {
+        sp0 = 7;
+    } else {
+        sp0 = 67 - var_r8;
+    }
+
+    for (i = 0; i < sp0; i++) {
+        if (sCreditsEntries[var_r8 + i].length != 0) {
+            if (temp_r0 > 0x8AU) {
+                s32 v = sCreditsEntries[var_r8 + i].unk2 + var_r7;
+                credits->unk6C = v - var_sl;
+            } else {
+                s32 v = sCreditsEntries[var_r8 + i].unk2 + 0x8A;
+                credits->unk6C = (v - temp_r0) + var_r7;
+            }
+
+            if (credits->unk6C < 0x8B) {
+                credits->unk6A = 120 - (sCreditsEntries[var_r8 + i].length * 4);
+                credits->unk6E = sCreditsEntries[var_r8 + i].length;
+                credits->unk68 = (s16)(i * 0x10);
+                credits->unk72 = sCreditsEntries[var_r8 + i].unk1 + 0xE;
+                sub_8053370(sCreditsEntries[var_r8 + i].name, &credits->unk60[0]);
+                var_r7 += 0x10;
+            } else {
+                break;
+            }
+        } else {
+            var_r7 += 0x10;
+        }
+    }
+}
+
+// (96.67%) https://decomp.me/scratch/cdKHE
+NONMATCH("asm/non_matching/game/staff_credits__Task_805E888.inc", void Task_805E888())
+{
+    Sprite *s;
+    Sprite *s2;
+    s16 temp_r0_4;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r5;
+    s32 temp_sl;
+    s32 var_r5;
+    u32 temp_r6;
+    u8 i, j;
+#ifndef BUG_FIX
+    u8 var_r8;
+#else
+    u8 var_r8 = 0;
+#endif
+
+    StaffCredits *credits = TASK_DATA(gCurTask);
+
+    s = &credits->s;
+    s2 = &credits->s2;
+    temp_r5 = credits->unk78;
+    if (!(1 & temp_r5)) {
+        credits->unk7C = temp_r5 * (Div(0x143000, 0x201C) + 1);
+    }
+
+    temp_r0_2 = I(credits->unk7C) - 0xC;
+    if (temp_r0_2 > 0x9AU) {
+        temp_r0_3 = temp_r0_2 - 0x8A;
+        temp_r6 = (u32)temp_r0_3 >> 4;
+        temp_sl = Mod(temp_r0_3 - 0x10, 0x10) + 4;
+        var_r5 = 0xFF;
+
+        for (i = 0; i < 10; i++) {
+            for (j = 0; j < 4; j++) {
+                if (gUnknown_086886A0[j] == (temp_r6 + i)) {
+                    var_r5 = j;
+                    var_r8 = i;
+                    i = 0xA;
+                    j = 5;
+                }
+            }
+        }
+
+        if (temp_r6 >= (gUnknown_086886A0[3] - 3)) {
+            var_r5 = 3;
+            var_r8 = 0;
+        }
+
+        if (var_r5 != 0xFF) {
+            s32 yPos = (24 - temp_sl);
+            s->y = yPos + (var_r8 * 0x10);
+
+            if (s->y < 0x9B) {
+                s32 xPos = (DISPLAY_WIDTH / 2);
+                s->x = xPos;
+
+                switch (var_r5) {
+                    case 0: {
+                    } break;
+
+                    case 1:
+                    case 2: {
+                        s->graphics.anim = 0x2E4;
+                        s->variant = var_r5;
+                    } break;
+
+                    default:
+                        s->graphics.anim = 0x2E4;
+                        s->variant = 3;
+                        if (s->y < (DISPLAY_HEIGHT / 2)) {
+                            s->y = (DISPLAY_HEIGHT / 2);
+                        }
+                        s2->x = xPos;
+                        s2->y = s->y + 40;
+                        UpdateSpriteAnimation(s2);
+                        DisplaySprite(s2);
+                        break;
+                }
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            }
+        }
+    }
+}
+END_NONMATCH
+
+void TaskDestructor_805E9B0(struct Task *t) { }
