@@ -92,7 +92,7 @@ void sub_802E290(void) { }
 void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
 void CreateCongratulationsAnimation() { }
-void CreateStaffCredits() { }
+void sub_8069710() { }
 
 #include "game/save.h" // TimeRecord
 void sub_8069C94(TimeRecord record) { }
