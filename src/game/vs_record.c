@@ -17,7 +17,7 @@ void SwapRecords(VsRecord_10 *a, VsRecord_10 *b);
 
 extern u16 gUnknown_0868B8D4[16];
 extern u8 gUnknown_0868B8F4[0x7C0];
-extern u8 gUnknown_0868C0B4[];
+extern u8 gUnknown_0868C0B4[0x500];
 extern u16 gUnknown_0868C5B4[16];
 extern u8 gUnknown_0868C5D4[0x940];
 extern u8 gUnknown_0868CF14[0x500];
@@ -115,14 +115,14 @@ void sub_806012C(void)
     UiGfxStackInit();
 
     if (save->uiLanguage == 0) {
-        sp00.uiGfxID = 128;
+        sp00.uiGfxID = UIGFX_OPTIONS;
         sp00.unk2B = 0;
         sp00.tiles = gUnknown_0868B8F4;
         sp00.tilesSize = sizeof(gUnknown_0868B8F4);
         sp00.palette = gUnknown_0868B8D4;
         sp00.paletteSize = sizeof(gUnknown_0868B8D4);
         sp00.layout = gUnknown_0868C0B4;
-        sp00.layoutSize = 0x500;
+        sp00.layoutSize = sizeof(gUnknown_0868C0B4);
         sp00.unk28 = 0;
         sp00.unk29 = 0;
         sp00.unk2A = 21;
@@ -133,7 +133,7 @@ void sub_806012C(void)
         sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
         sub_80528AC(&sp00);
 
-        sp00.uiGfxID = 128;
+        sp00.uiGfxID = UIGFX_OPTIONS;
         sp00.unk2B = 01;
         sp00.tiles = gUnknown_0868D434;
         sp00.tilesSize = sizeof(gUnknown_0868D434);
@@ -151,7 +151,7 @@ void sub_806012C(void)
         sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
         sub_80528AC(&sp00);
     } else {
-        sp00.uiGfxID = 128;
+        sp00.uiGfxID = UIGFX_OPTIONS;
         sp00.unk2B = 0;
         sp00.tiles = gUnknown_0868C5D4;
         sp00.tilesSize = sizeof(gUnknown_0868C5D4);
@@ -169,7 +169,7 @@ void sub_806012C(void)
         sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
         sub_80528AC(&sp00);
 
-        sp00.uiGfxID = 128;
+        sp00.uiGfxID = UIGFX_OPTIONS;
         sp00.unk2B = 1;
         sp00.tiles = gUnknown_0868DFF4;
         sp00.tilesSize = sizeof(gUnknown_0868DFF4);
@@ -188,7 +188,7 @@ void sub_806012C(void)
         sub_80528AC(&sp00);
     }
 
-    sp00.uiGfxID = 0;
+    sp00.uiGfxID = UIGFX_ASCII_CHARS;
     sp00.unk2B = 2;
     sp00.tiles = gUiGraphics[0].tiles;
     sp00.palette = gUiGraphics[0].palette;
