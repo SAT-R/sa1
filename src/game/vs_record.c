@@ -1,5 +1,8 @@
 #include "global.h"
 #include "core.h"
+#include "data/ui_graphics.h"
+#include "game/gTask_03006240.h"
+#include "game/save.h"
 
 typedef struct VsRecord_10 {
     s32 unk0;
@@ -11,6 +14,19 @@ typedef struct VsRecord_10 {
 } VsRecord_10;
 
 void SwapRecords(VsRecord_10 *a, VsRecord_10 *b);
+
+extern u16 gUnknown_0868B8D4[16];
+extern u8 gUnknown_0868B8F4[0x7C0];
+extern u8 gUnknown_0868C0B4[];
+extern u16 gUnknown_0868C5B4[16];
+extern u8 gUnknown_0868C5D4[0x940];
+extern u8 gUnknown_0868CF14[0x500];
+extern u16 gUnknown_0868D414[16];
+extern u8 gUnknown_0868D434[0x620];
+extern u8 gUnknown_0868DA54[0x580];
+extern u16 gUnknown_0868DFD4[16];
+extern u8 gUnknown_0868DFF4[0x600];
+extern u8 gUnknown_0868E5F4[0x580];
 
 void sub_805FF38(VsRecord_10 *records, u8 arg1, s16 arg2, s16 arg3)
 {
@@ -91,85 +107,121 @@ void SwapRecords(VsRecord_10 *a, VsRecord_10 *b)
     }
 }
 
-#if 0
-
-void sub_806012C(void) {
-    u8 sp28;
-    s8 sp2A;
-    u8 sp2B;
-    u8 sp2C;
-    s8 *temp_r5;
-    s8 *temp_r5_2;
-    s8 *temp_r7;
-    u8 *temp_r7_2;
+void sub_806012C(void)
+{
+    SaveGame *save = LOADED_SAVE;
+    Strc_80528AC sp00;
 
     UiGfxStackInit();
-    if (gLoadedSaveGame.uiLanguage != 0) {
-        sp2C = -0x80U;
-        sp2B = 0;
-        sp28 = 0;
-        temp_r7 = &subroutine_arg0 + 0x29;
-        *temp_r7 = 0;
-        temp_r5 = &subroutine_arg0 + 0x2A;
-        *temp_r5 = 0x15;
-        subroutine_arg0.unk8 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unkC);
-        subroutine_arg0.unk9 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk10);
-        subroutine_arg0.unkA = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk14);
-        subroutine_arg0.unkB = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk18);
-        sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ *((sp2C * 0x1C) + &gUiGraphics->unk8), /* extra? */ &gUnknown_0868CF14, /* extra? */ &gUnknown_0868C5D4, /* extra? */ 0x940, /* extra? */ 0x500, /* extra? */ &gUnknown_0868C5B4, /* extra? */ 0x20);
-        sp2C = -0x80U;
-        sp2B = 1;
-        sp28 = 1;
-        *temp_r7 = 1;
-        *temp_r5 = 0x15;
-        subroutine_arg0.unk8 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unkC);
-        subroutine_arg0.unk9 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk10);
-        subroutine_arg0.unkA = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk14);
-        subroutine_arg0.unkB = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk18);
-        sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ *((sp2C * 0x1C) + &gUiGraphics->unk8), /* extra? */ &gUnknown_0868E5F4, /* extra? */ &gUnknown_0868DFF4, /* extra? */ 0x600, /* extra? */ 0x580, /* extra? */ &gUnknown_0868DFD4, /* extra? */ 0x20);
+
+    if (save->uiLanguage == 0) {
+        sp00.uiGfxID = 128;
+        sp00.unk2B = 0;
+        sp00.tiles = gUnknown_0868B8F4;
+        sp00.tilesSize = sizeof(gUnknown_0868B8F4);
+        sp00.palette = gUnknown_0868B8D4;
+        sp00.paletteSize = sizeof(gUnknown_0868B8D4);
+        sp00.layout = gUnknown_0868C0B4;
+        sp00.layoutSize = 0x500;
+        sp00.unk28 = 0;
+        sp00.unk29 = 0;
+        sp00.unk2A = 21;
+        sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+        sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+        sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+        sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+        sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+        sub_80528AC(&sp00);
+
+        sp00.uiGfxID = 128;
+        sp00.unk2B = 01;
+        sp00.tiles = gUnknown_0868D434;
+        sp00.tilesSize = sizeof(gUnknown_0868D434);
+        sp00.palette = gUnknown_0868D414;
+        sp00.paletteSize = sizeof(gUnknown_0868D414);
+        sp00.layout = gUnknown_0868DA54;
+        sp00.layoutSize = sizeof(gUnknown_0868DA54);
+        sp00.unk28 = 1;
+        sp00.unk29 = 1;
+        sp00.unk2A = 21;
+        sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+        sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+        sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+        sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+        sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+        sub_80528AC(&sp00);
     } else {
-        sp2C = -0x80U;
-        sp2B = gLoadedSaveGame.uiLanguage;
-        sp28 = gLoadedSaveGame.uiLanguage;
-        temp_r7_2 = &subroutine_arg0 + 0x29;
-        *temp_r7_2 = gLoadedSaveGame.uiLanguage;
-        temp_r5_2 = &subroutine_arg0 + 0x2A;
-        *temp_r5_2 = 0x15;
-        subroutine_arg0.unk8 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unkC);
-        subroutine_arg0.unk9 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk10);
-        subroutine_arg0.unkA = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk14);
-        subroutine_arg0.unkB = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk18);
-        sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ *((sp2C * 0x1C) + &gUiGraphics->unk8), /* extra? */ &gUnknown_0868C0B4, /* extra? */ &gUnknown_0868B8F4, /* extra? */ 0x7C0, /* extra? */ 0x500, /* extra? */ &gUnknown_0868B8D4, /* extra? */ 0x20);
-        sp2C = -0x80U;
-        sp2B = 1;
-        sp28 = 1;
-        *temp_r7_2 = 1;
-        *temp_r5_2 = 0x15;
-        subroutine_arg0.unk8 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unkC);
-        subroutine_arg0.unk9 = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk10);
-        subroutine_arg0.unkA = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk14);
-        subroutine_arg0.unkB = (s8) *((sp2C * 0x1C) + &gUiGraphics->unk18);
-        sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ *((sp2C * 0x1C) + &gUiGraphics->unk8), /* extra? */ &gUnknown_0868DA54, /* extra? */ &gUnknown_0868D434, /* extra? */ 0x620, /* extra? */ 0x580, /* extra? */ &gUnknown_0868D414, /* extra? */ 0x20);
+        sp00.uiGfxID = 128;
+        sp00.unk2B = 0;
+        sp00.tiles = gUnknown_0868C5D4;
+        sp00.tilesSize = sizeof(gUnknown_0868C5D4);
+        sp00.palette = gUnknown_0868C5B4;
+        sp00.paletteSize = sizeof(gUnknown_0868C5B4);
+        sp00.layout = gUnknown_0868CF14;
+        sp00.layoutSize = sizeof(gUnknown_0868CF14);
+        sp00.unk28 = 0;
+        sp00.unk29 = 0;
+        sp00.unk2A = 21;
+        sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+        sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+        sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+        sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+        sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+        sub_80528AC(&sp00);
+
+        sp00.uiGfxID = 128;
+        sp00.unk2B = 1;
+        sp00.tiles = gUnknown_0868DFF4;
+        sp00.tilesSize = sizeof(gUnknown_0868DFF4);
+        sp00.palette = gUnknown_0868DFD4;
+        sp00.paletteSize = sizeof(gUnknown_0868DFD4);
+        sp00.layout = gUnknown_0868E5F4;
+        sp00.layoutSize = sizeof(gUnknown_0868E5F4);
+        sp00.unk28 = 1;
+        sp00.unk29 = 1;
+        sp00.unk2A = 21;
+        sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+        sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+        sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+        sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+        sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+        sub_80528AC(&sp00);
     }
-    *(s32) &sp2C = 0U;
-    sp2B = 2;
-    sp28 = 2;
-    sp2A = 0xD;
-    subroutine_arg0.unk8 = (s8) gUiGraphics->unkC;
-    subroutine_arg0.unk9 = (s8) gUiGraphics->unk10;
-    subroutine_arg0.unkA = (s8) gUiGraphics->unk14;
-    subroutine_arg0.unkB = (s8) gUiGraphics->unk18;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ gUiGraphics->unk8, /* extra? */ 0x06010000, /* extra? */ gUiGraphics->tiles, /* extra? */ 0x1B80, /* extra? */ gUiGraphics->palette, /* extra? */ 0x20);
-    *(s32) &sp2C = 0x3CU;
-    sp2B = 3;
-    sp28 = 2;
-    sp2A = 0xC;
-    subroutine_arg0.unk8 = (s8) *((*(s32) &sp2C * 0x1C) + &gUiGraphics->unkC);
-    subroutine_arg0.unk9 = (s8) *((*(s32) &sp2C * 0x1C) + &gUiGraphics->unk10);
-    subroutine_arg0.unkA = (s8) *((*(s32) &sp2C * 0x1C) + &gUiGraphics->unk14);
-    subroutine_arg0.unkB = (s8) *((*(s32) &sp2C * 0x1C) + &gUiGraphics->unk18);
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ *((*(s32) &sp2C * 0x1C) + &gUiGraphics->unk8), /* extra? */ 0x06010000, /* extra? */ gUiGraphics[*(s32) &sp2C].tiles, /* extra? */ 0x20, /* extra? */ *((*(s32) &sp2C * 0x1C) + &gUiGraphics->palette), /* extra? */ 0x20);
+
+    sp00.uiGfxID = 0;
+    sp00.unk2B = 2;
+    sp00.tiles = gUiGraphics[0].tiles;
+    sp00.palette = gUiGraphics[0].palette;
+    sp00.vramC = OBJ_VRAM0;
+    sp00.tilesSize = 0x1B80;
+    sp00.paletteSize = 0x20;
+    sp00.unk28 = 2;
+    sp00.unk2A = 13;
+    sp00.unk0.unk4 = gUiGraphics[0].unk8;
+    sp00.unk0.unk8 = gUiGraphics[0].unkC;
+    sp00.unk0.unk9 = gUiGraphics[0].unk10;
+    sp00.unk0.unkA = gUiGraphics[0].unk14;
+    sp00.unk0.unkB = gUiGraphics[0].unk18;
+    sub_80528AC(&sp00);
+
+    sp00.uiGfxID = 60;
+    sp00.unk2B = 3;
+    sp00.tiles = gUiGraphics[sp00.uiGfxID].tiles;
+    sp00.palette = gUiGraphics[sp00.uiGfxID].palette;
+    sp00.vramC = OBJ_VRAM0;
+    sp00.tilesSize = 0x20;
+    sp00.paletteSize = 0x20;
+    sp00.unk28 = 2;
+    sp00.unk2A = 12;
+    sp00.unk0.unk4 = gUiGraphics[sp00.uiGfxID].unk8;
+    sp00.unk0.unk8 = gUiGraphics[sp00.uiGfxID].unkC;
+    sp00.unk0.unk9 = gUiGraphics[sp00.uiGfxID].unk10;
+    sp00.unk0.unkA = gUiGraphics[sp00.uiGfxID].unk14;
+    sp00.unk0.unkB = gUiGraphics[sp00.uiGfxID].unk18;
+    sub_80528AC(&sp00);
 }
+
+#if 0
 
 void CreateVsRecord(void) {
     s32 temp_r1;
