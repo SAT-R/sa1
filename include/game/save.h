@@ -60,7 +60,10 @@ typedef struct SaveGame {
     /* 0x020 */ struct TimeRecords timeRecords;
     /* 0x2AC */ struct MultiplayerScore multiplayerScores[NUM_MULTIPLAYER_SCORES];
     /* 0x420 */ u32 unk420;
-    /* 0x424 */ u8 filler424[0x4];
+    /* 0x424 */ u8 unk424;
+    /* 0x425 */ u8 unk425;
+    /* 0x426 */ u8 unk426;
+    /* 0x427 */ u8 unk427;
     /* 0x428 */ u32 score;
     /* 0x42C */ u32 checksum;
 } SaveGame; /* 0x430 */

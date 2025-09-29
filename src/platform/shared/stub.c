@@ -116,5 +116,4 @@ void sub_8061948(u8 param0) { }
 void CreateIntroAnimation(void) { }
 
 void CreatePlayerNameInputMenu() { }
-void CreateVsRecord() { }
 void CreateSoundTest() { }

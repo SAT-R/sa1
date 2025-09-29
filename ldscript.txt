@@ -144,7 +144,6 @@ SECTIONS {
         src/game/staff_credits.o(.text);
         asm/game__sound_test.o(.text);
         src/game/vs_record.o(.text);
-        asm/game__vs_record.o(.text);
         asm/game_2_2.o(.text);
         asm/game_2_3.o(.text);
         asm/game_2.o(.text);

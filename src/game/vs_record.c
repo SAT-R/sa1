@@ -1,8 +1,10 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
 #include "game/save.h"
+#include "game/stage/ui.h"
 
 typedef struct VsRecord_10 {
     s32 unk0;
@@ -13,7 +15,31 @@ typedef struct VsRecord_10 {
     u8 unkF;
 } VsRecord_10;
 
+typedef struct VsRecord_48 {
+    /* 0x00 */ StrcUi_805423C strc;
+    /* 0x0C */ Sprite s;
+    /* 0x3C */ struct Task *task3C;
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ s32 unk44;
+} VsRecord_48;
+
+typedef struct VsRecord_F0 {
+    /* 0x00 */ VsRecord_10 records[10];
+    /* 0xA0 */ GameOverB unkA0;
+    /* 0xB8 */ Sprite s;
+    /* 0xE8 */ s32 unkE8;
+    /* 0xEC */ s32 unkEC;
+} VsRecord_F0;
+
 void SwapRecords(VsRecord_10 *a, VsRecord_10 *b);
+void Task_VsRecordInit(void);
+void Task_8060874(void);
+void sub_806012C(void);
+void CreatePlayerDataMenu(void);
+void TaskDestructor_VsRecord(struct Task *t);
+
+extern void sub_805321C(u8 *param0, GameOverB *param1);
+extern void sub_805345C(u8 *param0, GameOverB *param1);
 
 extern u16 gUnknown_0868B8D4[16];
 extern u8 gUnknown_0868B8F4[0x7C0];
@@ -221,150 +247,149 @@ void sub_806012C(void)
     sub_80528AC(&sp00);
 }
 
-#if 0
-
-void CreateVsRecord(void) {
+void CreateVsRecord()
+{
+    Sprite *s;
+    VsRecord_10 *temp_r2;
+    VsRecord_10 *temp_r5;
     s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r2_2;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r5_2;
-    s32 temp_r7;
-    struct Task *temp_r0;
-    u16 temp_r2;
-    u16 temp_r5;
-    u8 var_r2;
-    u8 var_r4;
+    struct Task *t;
+    u8 i, j;
+
+    VsRecord_48 *record48;
+    VsRecord_F0 *recordF0;
 
     sub_80535FC();
     gDispCnt = 0x1340;
     m4aSongNumStop(0x30U);
     m4aSongNumStart(0xAU);
-    gBgCntRegs->unk0 = 0x1F00;
+    gBgCntRegs[0] = 0x1F00;
     gBgCntRegs[1] = 0x1E07;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
     sub_806012C();
-    temp_r5 = TaskCreate(Task_VsRecordInit, 0x48U, 0x2000U, 0U, TaskDestructor_VsRecord)->data;
-    temp_r7 = temp_r5 + 0x03000000;
-    temp_r7->unk40 = 0;
-    temp_r7->unk44 = 0;
-    temp_r7->unk0 = 0;
-    temp_r7->unk2 = 1;
-    temp_r7->unk4 = 2;
-    temp_r7->unk6 = 0;
-    temp_r7->unk8 = 0x100;
-    temp_r7->unkA = 8;
-    temp_r0 = TaskCreate(Task_8060874, 0xF0U, 0x2030U, 0U, NULL);
-    temp_r2 = temp_r0->data;
-    temp_r1 = temp_r2 + 0x03000000;
-    *(temp_r2 + 0xEC) = 0;
-    *(temp_r2 + 0xAA) = 0;
-    *(temp_r2 + 0xAC) = 0;
-    *(temp_r2 + 0xAE) = 0;
-    *(temp_r2 + 0xB0) = 2;
-    *(temp_r2 + 0xB2) = 2;
-    *(temp_r2 + 0xB6) = 1;
-    *(temp_r2 + 0xA8) = 0;
-    *(temp_r2 + 0xE8) = 0;
-    temp_r7->unk3C = temp_r0;
-    temp_r3 = temp_r2 + 0xB8;
-    temp_r3->unk4 = 0x06017080;
-    temp_r3->unkA = 0x368;
-    *(temp_r2 + 0xD8) = 0;
-    temp_r3->unk1A = 0;
-    temp_r3->unk8 = 0;
-    temp_r3->unk14 = 0;
-    temp_r3->unk1C = 0;
-    *(temp_r2 + 0xD9) = 0xFF;
-    *(temp_r2 + 0xDA) = 0x10;
-    *(temp_r2 + 0xDD) = 0;
-    temp_r3->unk28 = -1;
-    temp_r3->unk10 = 0;
-    UpdateSpriteAnimation((Sprite *) temp_r3);
-    temp_r3_2 = temp_r5 + 0xC;
-    temp_r3_2->unk4 = 0x06016400;
-    temp_r3_2->unkA = 0x2E9;
-    *(temp_r5 + 0x2C) = 0;
-    temp_r3_2->unk1A = 0;
-    temp_r3_2->unk8 = 0;
-    temp_r3_2->unk14 = 0;
-    temp_r3_2->unk1C = 0;
-    *(temp_r5 + 0x2D) = -1;
-    *(temp_r5 + 0x2E) = 0x10;
-    *(temp_r5 + 0x31) = 0;
-    temp_r3_2->unk28 = -1;
-    temp_r3_2->unk10 = 0;
-    UpdateSpriteAnimation((Sprite *) temp_r3_2);
-    (void *)0x040000D4->unk0 = gLoadedSaveGame.multiplayerScores;
-    (void *)0x040000D4->unk4 = temp_r1;
-    (void *)0x040000D4->unk8 = 0x80000050;
-    var_r2 = 0;
-    do {
-        temp_r1_2 = var_r2 + 1;
-        var_r4 = (u8) temp_r1_2;
-        if ((u32) var_r4 <= 9U) {
-            temp_r5_2 = temp_r1 + (var_r2 * 0x10);
-            do {
-                temp_r2_2 = temp_r1 + (var_r4 * 0x10);
-                if ((s32) *(temp_r5_2 + 0xC) < (s32) *(temp_r2_2 + 0xC)) {
-                    SwapRecords(temp_r5_2, temp_r2_2);
-                }
-                var_r4 = (u8) (var_r4 + 1);
-            } while ((u32) var_r4 <= 9U);
+
+    record48 = TASK_DATA(TaskCreate(Task_VsRecordInit, sizeof(VsRecord_48), 0x2000U, 0U, TaskDestructor_VsRecord));
+    record48->unk40 = 0;
+    record48->unk44 = 0;
+    record48->strc.unk0 = 0;
+    record48->strc.unk2 = 1;
+    record48->strc.unk4 = 2;
+    record48->strc.unk6 = 0;
+    record48->strc.unk8 = 0x100;
+    record48->strc.unkA = 8;
+
+    t = TaskCreate(Task_8060874, sizeof(VsRecord_F0), 0x2030U, 0U, NULL);
+    recordF0 = TASK_DATA(t);
+    recordF0->unkEC = 0;
+    recordF0->unkA0.qUnkA = 0;
+    recordF0->unkA0.unkC = 0;
+    recordF0->unkA0.unkE = 0;
+    recordF0->unkA0.unk10 = 2;
+    recordF0->unkA0.unk12 = 2;
+    recordF0->unkA0.unk16 = 1;
+    recordF0->unkA0.unk8 = 0;
+    recordF0->unkE8 = 0;
+    record48->task3C = t;
+
+    s = &recordF0->s;
+    s->graphics.dest = (void *)0x06017080;
+    s->graphics.anim = 0x368;
+    s->variant = 0;
+    s->oamFlags = 0;
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    s = &record48->s;
+    s->graphics.dest = (void *)0x06016400;
+    s->graphics.anim = 0x2E9;
+    s->variant = 0;
+    s->oamFlags = 0;
+    s->graphics.size = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->hitboxes[0].index = -1;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    // TODO: There's some inconsistency regarding the types here...
+    DmaCopy16(3, LOADED_SAVE->multiplayerScores, recordF0, 0xA0);
+
+    for (i = 0; i < 9; i++) {
+        for (j = i + 1; j < 10; j++) {
+            temp_r5 = &recordF0->records[i];
+            temp_r2 = &recordF0->records[j];
+
+            if (temp_r5->unkC < temp_r2->unkC) {
+                SwapRecords(temp_r5, temp_r2);
+            }
         }
-        var_r2 = (u8) temp_r1_2;
-    } while ((u32) var_r2 <= 8U);
-    sub_805423C((StrcUi_805423C *) temp_r7);
+    }
+
+    sub_805423C(&record48->strc);
     m4aSongNumStart(0xAU);
 }
 
-void Task_VsRecordInit(void) {
-    s32 temp_r0_2;
+void Task_VsRecordInit()
+{
+    Sprite *s;
+    s32 temp_r0;
     s32 temp_r2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 var_r1;
-    u16 temp_r0;
-    u32 var_r5;
+    u32 var_r0;
+    u32 var_r1;
+    s32 var_r5;
+    s32 unk40;
 
-    temp_r0 = gCurTask->data;
-    temp_r4 = temp_r0 + 0x03000000;
-    var_r5 = temp_r4->unk44;
-    temp_r2 = temp_r4->unk40 + 1;
-    if ((var_r5 != 0) && (0x40 & gInput)) {
-        var_r1 = var_r5 + 0xFFFFFF00;
+    VsRecord_48 *record48 = TASK_DATA(gCurTask);
+    VsRecord_F0 *recordF0 = TASK_DATA(record48->task3C);
+
+    var_r5 = record48->unk44;
+    unk40 = record48->unk40;
+    unk40++;
+    if ((var_r5 != 0) && (DPAD_UP & gInput)) {
+        var_r1 = var_r5 - Q(1);
+        var_r0 = I(var_r1);
         var_r5 = 0;
-        if (((u32) var_r1 >> 8) != 0) {
-            goto block_7;
+        if (var_r0 != 0) {
+            var_r5 = var_r1;
         }
-    } else if ((var_r5 <= 0x41FFU) && (0x80 & gInput)) {
-        var_r1 = var_r5 + 0x100;
+    } else if (((u32)var_r5 < 0x4200) && (DPAD_DOWN & gInput)) {
+        var_r1 = var_r5 + Q(1);
+        var_r0 = I(var_r1);
         var_r5 = 0x4200;
-        if ((u32) ((u32) var_r1 >> 8) <= 0x41FFU) {
-block_7:
-            var_r5 = (u32) var_r1;
+        if (var_r0 < 0x4200) {
+            var_r5 = var_r1;
         }
     }
-    temp_r4->unk40 = temp_r2;
-    temp_r0_2 = temp_r4->unk3C->data + 0x030000E8;
-    *temp_r0_2 = temp_r2;
-    temp_r4->unk44 = var_r5;
-    *(temp_r0_2 + 4) = var_r5;
-    sub_805423C((StrcUi_805423C *) temp_r4);
-    if ((s32) *(temp_r4 + 6) > 0x1800) {
-        if ((2 & gPressedKeys) && (*(temp_r4 + 4) != 1)) {
+
+    record48->unk40 = unk40;
+    recordF0->unkE8 = unk40;
+    record48->unk44 = var_r5;
+    recordF0->unkEC = var_r5;
+    sub_805423C(&record48->strc);
+
+    if (record48->strc.unk6 > 0x1800) {
+        if ((B_BUTTON & gPressedKeys) && (record48->strc.unk4 != 1)) {
             m4aSongNumStart(0x6BU);
-            temp_r4->unk4 = 1;
-            temp_r4->unk6 = (u16) (0x2000 - temp_r4->unk6);
+            record48->strc.unk4 = 1;
+            record48->strc.unk6 = 0x2000 - (u16)record48->strc.unk6;
             m4aSongNumStart(0x6BU);
         }
-        if (((s32) *(temp_r4 + 6) > 0x1800) && (*(temp_r4 + 4) == 1)) {
-            m4aSongNumStop(0xAU);
-            TaskDestroy(temp_r4->unk3C);
+        if ((record48->strc.unk6 > 0x1800) && (record48->strc.unk4 == 1)) {
+            m4aSongNumStop(10);
+            TaskDestroy(record48->task3C);
             TaskDestroy(gCurTask);
             sa2__gUnknown_03004D80[1] = 0;
             sa2__gUnknown_03002280[1][0] = 0;
@@ -374,264 +399,193 @@ block_7:
             sa2__gUnknown_03004D80[2] = 0;
             sa2__gUnknown_03002280[2][0] = 0;
             sa2__gUnknown_03002280[2][1] = 0;
-            sa2__gUnknown_03002280[2][2] = -1U;
+            sa2__gUnknown_03002280[2][2] = -1;
             sa2__gUnknown_03002280[2][3] = 0x20;
             CreatePlayerDataMenu();
             return;
         }
-        goto block_15;
     }
-block_15:
-    temp_r4_2 = temp_r0 + 0x0300000C;
-    UpdateSpriteAnimation((Sprite *) temp_r4_2);
-    temp_r4_2->unk16 = 0xE9;
+
+    s = &record48->s;
+    UpdateSpriteAnimation(s);
+    s->x = 233;
     if (var_r5 != 0) {
-        temp_r4_2->unk18 = 0x46;
-        temp_r4_2->unk10 = (s32) (temp_r4_2->unk10 & 0xFFFFF7FF);
-        DisplaySprite((Sprite *) temp_r4_2);
+        s->y = 70;
+        s->frameFlags &= 0xFFFFF7FF;
+        DisplaySprite(s);
     }
     if (var_r5 != 0x4200) {
-        temp_r4_2->unk18 = 0x8A;
-        temp_r4_2->unk10 = (s32) (temp_r4_2->unk10 | 0x800);
-        DisplaySprite((Sprite *) temp_r4_2);
+        s->y = 138;
+        s->frameFlags |= 0x800;
+        DisplaySprite(s);
     }
 }
 
-void Task_8060874(void) {
-    s32 sp8;
-    u32 spC;
-    u32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 sp24;
-    s32 sp28;
-    s32 sp2C;
-    s32 sp30;
-    s16 temp_r5_2;
-    s32 temp_r0_4;
-    s32 temp_r1_3;
-    s32 temp_r2_2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r5;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    s32 var_r0_6;
-    s32 var_r2;
-    s32 var_r3;
-    s8 var_r0_3;
-    u16 temp_r2;
+// (80.92%) https://decomp.me/scratch/QyXdU
+NONMATCH("asm/non_matching/game/vs_record__Task_8060874.inc", void Task_8060874())
+{
+    Sprite *s;
     u32 temp_r0;
-    u32 temp_r6;
-    u8 *temp_r1;
-    u8 *var_r0;
-    u8 *var_r0_2;
-    u8 temp_r0_2;
-    u8 temp_r0_3;
     u8 temp_r0_5;
-    u8 temp_r0_6;
-    u8 temp_r0_7;
-    u8 temp_r1_2;
     u8 var_r4;
     u8 var_r5;
-    u8 var_r5_2;
-    void *temp_r4_3;
-    void *temp_r4_4;
-    void *temp_r4_5;
+    u8 subroutine_arg0[2];
+    s32 unkEC;
+    SaveGame *save = LOADED_SAVE;
 
-    temp_r2 = gCurTask->data;
-    sp8 = temp_r2 + 0x03000000;
-    temp_r0 = *(temp_r2 + 0xEC);
-    spC = temp_r0;
+    VsRecord_F0 *recordF0 = TASK_DATA(gCurTask);
+
+    unkEC = recordF0->unkEC;
+    temp_r0 = unkEC;
     gBgScrollRegs[1][1] = ((temp_r0 >> 8) - 0x30) & 0x1FF;
-    *(temp_r2 + 0xAE) = 1;
-    var_r5 = 0;
-    temp_r4 = temp_r2 + 0xAC;
-    sp18 = temp_r2 + 0xAA;
-    sp1C = temp_r2 + 0xAC;
-    sp14 = temp_r2 + 0xA0;
-    do {
-        *(sp8 + 0xAA) = (s16) ((var_r5 * 8) + 0x1B);
-        *temp_r4 = 0x20;
-        temp_r1 = &gLoadedSaveGame.playerName[var_r5];
-        if ((u32) (u8) (*temp_r1 - 0x70) <= 0x19U) {
-            *temp_r4 = 0x28;
-        }
-        sub_805321C(temp_r1, sp8 + 0xA0);
-        var_r5 = (u8) (var_r5 + 1);
-    } while ((u32) var_r5 <= 5U);
-    *sp1C = 0x20;
-    temp_r0_2 = gLoadedSaveGame.filler424[1];
-    if ((u32) temp_r0_2 > 9U) {
-        subroutine_arg0.unk0 = (s8) (Div((s32) temp_r0_2, 0xA) + 0x30);
-        subroutine_arg0.unk1 = (s8) (Mod((s32) gLoadedSaveGame.filler424[1], 0xA) + 0x30);
-        if (gLoadedSaveGame.uiLanguage != 0) {
-            *sp18 = 0x5B;
-        } else {
-            *sp18 = 0x59;
-        }
-        temp_r4_2 = sp8 + 0xAE;
-        *temp_r4_2 = 2;
-        sub_805321C(&subroutine_arg0, sp14);
-        sp20 = temp_r4_2;
-    } else {
-        temp_r2_2 = sp8 + 0xAE;
-        *temp_r2_2 = 1;
-        subroutine_arg0.unk0 = (s8) (gLoadedSaveGame.filler424[1] + 0x30);
-        sp20 = temp_r2_2;
-        if (gLoadedSaveGame.uiLanguage != 0) {
-            *sp18 = 0x63;
-        } else {
-            *sp18 = 0x61;
-        }
-        temp_r0_3 = gLoadedSaveGame.filler424[1];
-        if ((u32) temp_r0_3 <= 1U) {
-            subroutine_arg0.unk1 = 0x8A;
-            sub_805321C(&subroutine_arg0, sp14);
-            *sp18 = 0x7E;
-            sub_805321C(&subroutine_arg0 + 1, sp14);
-        } else {
-            subroutine_arg0.unk0 = (s8) (temp_r0_3 + 0x30);
-            sub_805321C(&subroutine_arg0, sp14);
-        }
-    }
-    if ((u32) gLoadedSaveGame.filler424[2] > 9U) {
-        *sp20 = 2;
-        subroutine_arg0.unk0 = (s8) (Div((s32) gLoadedSaveGame.filler424[2], 0xA) + 0x30);
-        subroutine_arg0.unk1 = (s8) (Mod((s32) gLoadedSaveGame.filler424[2], 0xA) + 0x30);
-        if (gLoadedSaveGame.uiLanguage != 0) {
-            *sp18 = 0x88;
-        } else {
-            *sp18 = 0x89;
-        }
-        var_r0 = &subroutine_arg0;
-        goto block_26;
-    }
-    *sp20 = 1;
-    if (gLoadedSaveGame.uiLanguage != 0) {
-        *sp18 = 0x90;
-    } else {
-        *sp18 = 0x91;
-    }
-    subroutine_arg0.unk0 = (s8) (gLoadedSaveGame.filler424[2] + 0x30);
-    if (((u32) gLoadedSaveGame.filler424[2] <= 1U) && (gLoadedSaveGame.uiLanguage != 0)) {
-        temp_r0_4 = sp8 + 0xB8;
-        temp_r0_4->unk16 = 0x98;
-        temp_r0_4->unk18 = 0x20;
-        temp_r0_4->unk10 = (s32) (temp_r0_4->unk10 & 0xFFFFF7FF);
-        DisplaySprite((Sprite *) temp_r0_4);
-        subroutine_arg0.unk1 = 0x8A;
-        sub_805321C(&subroutine_arg0, sp14);
-        *sp18 = 0xB1;
-        var_r0 = &subroutine_arg0 + 1;
-block_26:
-        sub_805321C(var_r0, sp14);
-    } else {
-        sub_805321C(&subroutine_arg0, sp14);
-    }
-    if ((u32) gLoadedSaveGame.filler424[3] > 9U) {
-        *sp20 = 2;
-        subroutine_arg0.unk0 = (s8) (Div((s32) gLoadedSaveGame.filler424[3], 0xA) + 0x30);
-        subroutine_arg0.unk1 = (s8) (Mod((s32) gLoadedSaveGame.filler424[3], 0xA) + 0x30);
-        *sp18 = 0xB9;
-        var_r0_2 = &subroutine_arg0;
-        goto block_32;
-    }
-    *sp20 = 1;
-    *sp18 = 0xC1;
-    subroutine_arg0.unk0 = (s8) (gLoadedSaveGame.filler424[3] + 0x30);
-    if ((u32) gLoadedSaveGame.filler424[3] <= 1U) {
-        subroutine_arg0.unk1 = 0x8A;
-        sub_805321C(&subroutine_arg0, sp14);
-        *sp18 = 0xE2;
-        var_r0_2 = &subroutine_arg0 + 1;
-block_32:
-        sub_805321C(var_r0_2, sp14);
-    } else {
-        sub_805321C(&subroutine_arg0, sp14);
-    }
-    var_r5_2 = 0;
-    sp10 = spC >> 0xC;
-loop_35:
-    temp_r1_2 = (u8) (var_r5_2 + sp10);
-    sp28 = var_r5_2 + 1;
-    if ((u32) temp_r1_2 > 9U) {
+    recordF0->unkA0.unkE = 1;
 
+    for (var_r5 = 0; var_r5 < 6; var_r5++) {
+        recordF0->unkA0.qUnkA = (var_r5 * 8) + 0x1B;
+        recordF0->unkA0.unkC = 32;
+
+        if ((save->playerName[var_r5] >= 112) && (save->playerName[var_r5] < 138)) {
+            recordF0->unkA0.unkC = 40;
+        }
+        sub_805321C(&save->playerName[var_r5], &recordF0->unkA0);
+    }
+
+    recordF0->unkA0.unkC = 0x20;
+    if (save->unk425 > 9U) {
+        subroutine_arg0[0] = (Div(save->unk425, 10) + 48);
+        subroutine_arg0[1] = (Mod(save->unk425, 10) + 48);
+        if (save->uiLanguage != 0) {
+            recordF0->unkA0.qUnkA = 0x5B;
+        } else {
+            recordF0->unkA0.qUnkA = 0x59;
+        }
+        recordF0->unkA0.unkE = 2;
+        sub_805321C(subroutine_arg0, &recordF0->unkA0);
     } else {
-        *sp20 = 1;
-        var_r4 = 0;
-        temp_r6 = spC >> 8;
-        temp_r5 = var_r5_2 * 0x10;
-        temp_r1_3 = temp_r1_2 * 0x10;
-        sp24 = sp8 + 4;
-        temp_r5_2 = temp_r5 - ((temp_r6 & 0xF) - 0x38);
-        var_r3 = temp_r1_3;
-        var_r2 = sp8 + temp_r1_3;
-        do {
-            *sp18 = (s16) ((var_r4 * 8) + 0x3C);
-            *sp1C = temp_r5_2;
-            if ((u32) (u8) (*(sp24 + (var_r4 + var_r3)) - 0x70) <= 0x19U) {
-                *sp1C = (s16) (temp_r5_2 + 8);
+        recordF0->unkA0.unkE = 1;
+        subroutine_arg0[0] = (save->unk425 + 48);
+        if (save->uiLanguage != 0) {
+            recordF0->unkA0.qUnkA = 0x63;
+        } else {
+            recordF0->unkA0.qUnkA = 0x61;
+        }
+
+        if (save->unk425 < 2) {
+            subroutine_arg0[1] = 0x8A;
+            sub_805321C(subroutine_arg0, &recordF0->unkA0);
+            recordF0->unkA0.qUnkA = 0x7E;
+            sub_805321C(subroutine_arg0 + 1, &recordF0->unkA0);
+        } else {
+            subroutine_arg0[0] = (s8)(save->unk425 + 48);
+            sub_805321C(subroutine_arg0, &recordF0->unkA0);
+        }
+    }
+    if (save->unk426 > 9U) {
+        recordF0->unkA0.unkE = 2;
+        subroutine_arg0[0] = Div(save->unk426, 0xA) + 48;
+        subroutine_arg0[1] = Mod(save->unk426, 0xA) + 48;
+        if (save->uiLanguage != 0) {
+            recordF0->unkA0.qUnkA = 0x88;
+        } else {
+            recordF0->unkA0.qUnkA = 0x89;
+        }
+
+        sub_805321C(subroutine_arg0, &recordF0->unkA0);
+    } else {
+        recordF0->unkA0.unkE = 1;
+        if (save->uiLanguage != 0) {
+            recordF0->unkA0.qUnkA = 0x90;
+        } else {
+            recordF0->unkA0.qUnkA = 0x91;
+        }
+        subroutine_arg0[0] = save->unk426 + 48;
+        if ((save->unk426 <= 1U) && (save->uiLanguage != 0)) {
+            s = &recordF0->s;
+            s->x = 152;
+            s->y = 32;
+            s->frameFlags &= ~0x800;
+            DisplaySprite(s);
+            subroutine_arg0[1] = 0x8A;
+            sub_805321C(subroutine_arg0, &recordF0->unkA0);
+            recordF0->unkA0.qUnkA = 0xB1;
+            sub_805321C(&subroutine_arg0[1], &recordF0->unkA0);
+        } else {
+            sub_805321C(subroutine_arg0, &recordF0->unkA0);
+        }
+    }
+
+    if (save->unk427 > 9U) {
+        recordF0->unkA0.unkE = 2;
+        subroutine_arg0[0] = (Div(save->unk427, 10) + 48);
+        subroutine_arg0[1] = (Mod(save->unk427, 10) + 48);
+        recordF0->unkA0.qUnkA = 0xB9;
+        sub_805321C(&subroutine_arg0[0], &recordF0->unkA0);
+    } else {
+        recordF0->unkA0.unkE = 1;
+        recordF0->unkA0.qUnkA = 0xC1;
+        subroutine_arg0[0] = (save->unk427 + 48);
+        if (save->unk427 < 2) {
+            subroutine_arg0[1] = 0x8A;
+            sub_805321C(subroutine_arg0, &recordF0->unkA0);
+            recordF0->unkA0.qUnkA = 0xE2;
+            sub_805321C(&subroutine_arg0[1], &recordF0->unkA0);
+        } else {
+            sub_805321C(&subroutine_arg0[0], &recordF0->unkA0);
+        }
+    }
+
+    for (var_r5 = 0; var_r5 < 9; var_r5++) {
+        s32 v = (var_r5 + (unkEC >> 12));
+        recordF0->unkA0.unkE = 1;
+
+        for (var_r4 = 0; var_r4 < 6; var_r4++) {
+            recordF0->unkA0.qUnkA = (var_r4 * 8) + 60;
+            recordF0->unkA0.unkC = ((var_r5 * 0x10) - (((unkEC >> 8) & 0xF) - 0x38));
+            if ((u8)(recordF0->records[v].unk4[var_r4] - 112) < 26) {
+                recordF0->unkA0.unkC = ((var_r5 * 0x10) - (((unkEC >> 8) & 0xF) - 0x38)) + 8;
             }
-            sp2C = var_r2;
-            sp30 = var_r3;
-            sub_805345C(var_r2 + (var_r4 + 4), sp14);
-            var_r4 = (u8) (var_r4 + 1);
-        } while ((u32) var_r4 <= 5U);
-        *sp1C = (s16) (temp_r5 - ((temp_r6 & 0xF) - 0x38));
-        temp_r4_3 = sp8 + temp_r1_3;
-        temp_r0_5 = temp_r4_3->unkC;
+
+            sub_805345C(&recordF0->records[v].unk4[var_r4], &recordF0->unkA0);
+        }
+        recordF0->unkA0.unkC = (var_r5 * 0x10) - (((unkEC >> 8) & 0xF) - 56);
+        temp_r0_5 = recordF0->records[v].unkC;
         if (temp_r0_5 == 0xFF) {
-            subroutine_arg0.unk0 = 0x20;
-            var_r0_3 = 0x30;
+            subroutine_arg0[0] = 32;
+            subroutine_arg0[1] = 48;
         } else {
-            if ((u32) temp_r0_5 > 9U) {
-                subroutine_arg0.unk0 = (s8) (Div((s32) temp_r4_3->unkC, 0xA) + 0x30);
-                var_r0_4 = Mod((s32) temp_r4_3->unkC, 0xA);
+            if (recordF0->records[v].unkC > 9U) {
+                subroutine_arg0[0] = Div((u8)recordF0->records[v].unkC, 10) + 48;
+                subroutine_arg0[1] = Mod((u8)recordF0->records[v].unkC, 10) + 48;
             } else {
-                subroutine_arg0.unk0 = 0x20;
-                var_r0_4 = (s32) temp_r4_3->unkC;
+                subroutine_arg0[0] = 32;
+                subroutine_arg0[1] = (u8)recordF0->records[v].unkC + 48;
             }
-            var_r0_3 = var_r0_4 + 0x30;
         }
-        subroutine_arg0.unk1 = var_r0_3;
-        *sp18 = 0x80;
-        *sp20 = 2;
-        sub_805345C((s32) &subroutine_arg0, sp14);
-        temp_r4_4 = sp8 + temp_r1_3;
-        temp_r0_6 = temp_r4_4->unkD;
-        if ((u32) temp_r0_6 > 9U) {
-            subroutine_arg0.unk0 = (s8) (Div((s32) temp_r0_6, 0xA) + 0x30);
-            var_r0_5 = Mod((s32) temp_r4_4->unkD, 0xA);
+        recordF0->unkA0.qUnkA = Q(0.5);
+        recordF0->unkA0.unkE = 2;
+        sub_805345C(subroutine_arg0, &recordF0->unkA0);
+
+        if (recordF0->records[v].unkD > 9U) {
+            subroutine_arg0[0] = Div(recordF0->records[v].unkD, 10) + 48;
+            subroutine_arg0[1] = Mod(recordF0->records[v].unkD, 10) + 48;
         } else {
-            subroutine_arg0.unk0 = 0x20;
-            var_r0_5 = (s32) temp_r4_4->unkD;
+            subroutine_arg0[0] = 0x20;
+            subroutine_arg0[1] = recordF0->records[v].unkD + 48;
         }
-        subroutine_arg0.unk1 = (s8) (var_r0_5 + 0x30);
-        *sp18 = 0xA0;
-        sub_805345C((s32) &subroutine_arg0, sp14);
-        temp_r4_5 = sp8 + temp_r1_3;
-        temp_r0_7 = temp_r4_5->unkE;
-        if ((u32) temp_r0_7 > 9U) {
-            subroutine_arg0.unk0 = (s8) (Div((s32) temp_r0_7, 0xA) + 0x30);
-            var_r0_6 = Mod((s32) temp_r4_5->unkE, 0xA);
+        recordF0->unkA0.qUnkA = Q(160. / 256.);
+        sub_805345C(subroutine_arg0, &recordF0->unkA0);
+
+        if (recordF0->records[v].unkE > 9U) {
+            subroutine_arg0[0] = Div(recordF0->records[v].unkE, 10) + 48;
+            subroutine_arg0[1] = Mod(recordF0->records[v].unkE, 10) + 48;
         } else {
-            subroutine_arg0.unk0 = 0x20;
-            var_r0_6 = (s32) temp_r4_5->unkE;
+            subroutine_arg0[0] = 0x20;
+            subroutine_arg0[1] = recordF0->records[v].unkE + 0x30;
         }
-        subroutine_arg0.unk1 = (s8) (var_r0_6 + 0x30);
-        *sp18 = 0xC0;
-        sub_805345C((s32) &subroutine_arg0, sp14);
-    }
-    var_r5_2 = (u8) sp28;
-    if ((u32) var_r5_2 <= 8U) {
-        goto loop_35;
+        recordF0->unkA0.qUnkA = 0xC0;
+        sub_805345C(subroutine_arg0, &recordF0->unkA0);
     }
 }
+END_NONMATCH
 
-void TaskDestructor_VsRecord(struct Task *t) {
-
-}
-#endif
+void TaskDestructor_VsRecord(struct Task *t) { }
