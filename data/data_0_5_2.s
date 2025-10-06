@@ -62,7 +62,7 @@ gUnknown_08688428:
 
     .global gUnknown_08688444
 gUnknown_08688444:
-    .incbin "baserom.gba", 0x00688444, 0x4E
+    .ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,j-pqrstuvwxyz{|}~\x7F€\x81‚ƒ„…†‡ˆ‰?!& 0123456789abcdef@\0"
 
     .global gUnknown_08688492
 gUnknown_08688492:
