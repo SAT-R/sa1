@@ -2,6 +2,7 @@
 #include "core.h"
 #include "malloc_vram.h"
 #include "game/game_over.h"
+#include "game/time_over.h"
 #include "game/entity.h"
 #include "game/stage/stage.h"
 #include "game/stage/ui.h"

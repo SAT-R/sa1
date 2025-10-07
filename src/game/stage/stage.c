@@ -23,6 +23,9 @@
 #include "game/stage/screen_shake.h"
 #include "game/stage/stage.h"
 #include "game/time_attack/lobby.h"
+#if (GAME == GAME_SA1)
+#include "game/time_over.h"
+#endif
 
 #include "constants/characters.h"
 #include "constants/songs.h"
@@ -69,8 +72,6 @@ void StageInit_ForestChaoGarden(void);
 void StageInit_FactoryChaoGarden(void);
 void StageInit_PinballChaoGarden(void);
 void StageInit_SpaceChaoGarden(void);
-
-void CreateTimeOver(void);
 
 const VoidFn sStageInitProcs[NUM_LEVEL_IDS] = {
     StageInit_Zone1Act1,         StageInit_Zone1Act2, //
