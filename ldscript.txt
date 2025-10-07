@@ -137,7 +137,7 @@ SECTIONS {
         src/game/game_over.o(.text);
         src/game/stage/results.o(.text);
         src/game/player_name_input_menu.o(.text);
-        asm/game_1.o(.text);
+        asm/game__character_select.o(.text);
         asm/game_1_3.o(.text);
         asm/game_2_0.o(.text);
         asm/game_2_1.o(.text);

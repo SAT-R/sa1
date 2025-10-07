@@ -50,7 +50,7 @@ CreateIntroAnimation: @ 0x08063918
 	strh r4, [r0, #6]
 	strh r4, [r0, #8]
 	strh r4, [r0, #0xa]
-	ldr r0, _08063B38 @ =Task_IntroAnimationInit
+	ldr r0, _08063B38 @ =Task_IntroChaosEmeraldUpdate
 	ldr r2, _08063B3C @ =0x00002120
 	str r4, [sp]
 	movs r1, #0x44
@@ -257,7 +257,7 @@ _08063B28: .4byte 0x00009D86
 _08063B2C: .4byte 0x00001B8B
 _08063B30: .4byte 0x00009880
 _08063B34: .4byte gBgScrollRegs
-_08063B38: .4byte Task_IntroAnimationInit
+_08063B38: .4byte Task_IntroChaosEmeraldUpdate
 _08063B3C: .4byte 0x00002120
 _08063B40: .4byte 0xFFFFDC00
 _08063B44: .4byte 0x06010020
@@ -3807,8 +3807,8 @@ TaskDestructor_8065810: @ 0x08065810
 	bx lr
 	.align 2, 0
 
-	thumb_func_start Task_IntroAnimationInit
-Task_IntroAnimationInit: @ 0x08065814
+	thumb_func_start Task_IntroChaosEmeraldUpdate
+Task_IntroChaosEmeraldUpdate: @ 0x08065814
 	push {r4, r5, lr}
 	ldr r0, _08065880 @ =gCurTask
 	ldr r0, [r0]
