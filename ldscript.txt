@@ -139,7 +139,6 @@ SECTIONS {
         src/game/player_name_input_menu.o(.text);
         asm/game__character_select.o(.text);
         src/game/time_over.o(.text);
-        asm/game_1_3.o(.text);
         asm/game_2_0.o(.text);
         asm/game_2_1.o(.text);
         src/game/staff_credits.o(.text);
