@@ -21,8 +21,6 @@ void sa2__sub_8019CCC() { }
 void sa2__sub_8019F08() { }
 void sub_801C704() { }
 
-void sub_805B9E8() { }
-
 // Player
 s32 gUnknown_03005C74 = 0;
 

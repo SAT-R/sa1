@@ -70,7 +70,7 @@ void StageInit_FactoryChaoGarden(void);
 void StageInit_PinballChaoGarden(void);
 void StageInit_SpaceChaoGarden(void);
 
-void sub_805B9E8(void);
+void CreateTimeOver(void);
 
 const VoidFn sStageInitProcs[NUM_LEVEL_IDS] = {
     StageInit_Zone1Act1,         StageInit_Zone1Act2, //
@@ -595,7 +595,7 @@ void HandleDeath(void)
             CreateGameOverScreen(OVER_CAUSE_TIME_UP);
         }
     } else {
-        sub_805B9E8();
+        CreateTimeOver();
     }
 }
 #endif
