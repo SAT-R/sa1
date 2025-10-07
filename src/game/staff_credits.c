@@ -2,15 +2,17 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
+#include "game/collect_chaos_emeralds_msg.h"
 #include "game/credits.h"
 #include "game/gTask_03006240.h"
 #include "game/stage/ui.h"
+#include "game/save.h"
+#include "game/title_screen.h"
+
 #include "constants/animations.h"
 #include "constants/anim_sizes.h"
 #include "constants/songs.h"
 #include "constants/vram_hardcoded.h"
-#include "game/save.h"
-#include "game/title_screen.h"
 
 extern const u8 gUnknown_0868483C[0x500];
 extern const u16 gUnknown_086886A0[12];
@@ -44,7 +46,6 @@ void Task_805E758(void); // -> StaffCredits
 void Task_805E698(void); // -> Credits_18
 void TaskDestructor_805E9B0(struct Task *t);
 
-extern void sub_8069710(void);
 extern void sub_8053370(const char *str, void *param1);
 
 void sub_805E1E8(void)
@@ -246,8 +247,8 @@ void Task_805E698(void)
         TaskDestroy(credits_18->task1);
         TaskDestroy(gCurTask);
 
-        if (LOADED_SAVE->unk1D != 0x7F) {
-            sub_8069710();
+        if (LOADED_SAVE->chaosEmeralds != ALL_ZONE_CHAOS_EMERALDS) {
+            CreateGetAllChaosEmeraldsMessage();
         } else {
             CreateSegaLogo();
         }

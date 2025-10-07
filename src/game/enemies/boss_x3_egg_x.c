@@ -20,6 +20,7 @@
 #include "constants/anim_sizes.h"
 #include "constants/char_states.h"
 #include "constants/songs.h"
+#include "constants/zones.h" // for ALL_ZONE_CHAOS_EMERALDS
 
 /* X-Zone Final Boss */
 
@@ -1092,12 +1093,12 @@ void Task_8038154()
                     boss->unk99++;
                     if ((gSelectedCharacter == CHARACTER_SONIC) //
                         && (gCurrentLevel > 0xB) //
-                        && (gLoadedSaveGame.unk1D == 0x7F) //
-                        && (gLoadedSaveGame.unk8[0] > 0xCU) //
-                        && (gLoadedSaveGame.unk8[1] > 0xCU) //
-                        && (gLoadedSaveGame.unk8[2] > 0xCU) //
-                        && (gLoadedSaveGame.unk8[3] > 0xCU) //
-                        && ((gLoadedSaveGame.unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
+                        && (LOADED_SAVE->chaosEmeralds == ALL_ZONE_CHAOS_EMERALDS) //
+                        && (LOADED_SAVE->unk8[0] > 0xCU) //
+                        && (LOADED_SAVE->unk8[1] > 0xCU) //
+                        && (LOADED_SAVE->unk8[2] > 0xCU) //
+                        && (LOADED_SAVE->unk8[3] > 0xCU) //
+                        && ((LOADED_SAVE->unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
                         sub_803A54C();
                     } else {
                         sub_803A594();
@@ -1110,12 +1111,12 @@ void Task_8038154()
             if (--boss->unk92 == 0) {
                 if ((gSelectedCharacter == CHARACTER_SONIC) //
                     && (gCurrentLevel > 0xB) //
-                    && (gLoadedSaveGame.unk1D == 0x7F) //
-                    && (gLoadedSaveGame.unk8[0] > 0xCU) //
-                    && (gLoadedSaveGame.unk8[1] > 0xCU) //
-                    && (gLoadedSaveGame.unk8[2] > 0xCU) //
-                    && (gLoadedSaveGame.unk8[3] > 0xCU) //
-                    && ((gLoadedSaveGame.unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
+                    && (LOADED_SAVE->chaosEmeralds == ALL_ZONE_CHAOS_EMERALDS) //
+                    && (LOADED_SAVE->unk8[0] > 0xCU) //
+                    && (LOADED_SAVE->unk8[1] > 0xCU) //
+                    && (LOADED_SAVE->unk8[2] > 0xCU) //
+                    && (LOADED_SAVE->unk8[3] > 0xCU) //
+                    && ((LOADED_SAVE->unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
                     CreatePostBossEggMobile(worldX, worldY - 8);
                 }
 

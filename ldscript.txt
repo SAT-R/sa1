@@ -150,7 +150,7 @@ SECTIONS {
         asm/game__congratulations_animation.o(.text);
         asm/game__extra_stage_results.o(.text);
         asm/game__special_stage_intro.o(.text);
-        asm/game_2_4.o(.text);
+        src/game/collect_chaos_emeralds_msg.o(.text);
         asm/game_2_5.o(.text);
         src/game/time_attack/lobby.o(.text);
         src/game/edit_language_screen.o(.text);

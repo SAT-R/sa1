@@ -3,6 +3,7 @@
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/gTask_03006240.h"
+#include "game/collect_chaos_emeralds_msg.h"
 #include "game/credits.h"
 #include "game/save.h"
 #include "game/sa1_sa2_shared/globals.h"
@@ -215,8 +216,9 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     }
 
     isInFinalStage = 0;
-    if ((gSelectedCharacter == CHARACTER_SONIC) && (gCurrentLevel >= LEVEL_INDEX(ZONE_7, ACT_X_ZONE)) && (LOADED_SAVE->unk1D == 0x7F)
-        && (LOADED_SAVE->unk8[0] > 12) && (LOADED_SAVE->unk8[1] > 12) && (LOADED_SAVE->unk8[2] > 12) && (LOADED_SAVE->unk8[3] > 12)
+    if ((gSelectedCharacter == CHARACTER_SONIC) && (gCurrentLevel >= LEVEL_INDEX(ZONE_7, ACT_X_ZONE))
+        && (LOADED_SAVE->chaosEmeralds == ALL_ZONE_CHAOS_EMERALDS) && (LOADED_SAVE->unk8[0] > 12) && (LOADED_SAVE->unk8[1] > 12)
+        && (LOADED_SAVE->unk8[2] > 12) && (LOADED_SAVE->unk8[3] > 12)
         && ((LOADED_SAVE->unk8[0] != 0xF) || (gMultiplayerCurrentLevel != LEVEL_INDEX(ZONE_7, ACT_X_ZONE)))) {
         isInFinalStage = 1;
     }

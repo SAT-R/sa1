@@ -1,0 +1,6 @@
+#ifndef GUARD_SA1_COLLECT_CHAOS_EMERALDS_H
+#define GUARD_SA1_COLLECT_CHAOS_EMERALDS_H
+
+void CreateGetAllChaosEmeraldsMessage(void);
+
+#endif // GUARD_SA1_COLLECT_CHAOS_EMERALDS_H
