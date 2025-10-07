@@ -67,25 +67,23 @@ void CreateEntity_Flipper(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     UpdateSpriteAnimation(s);
 }
 
-// INCOMPLETE
-// Code does NOT work as intended!
-// (90.10%) https://decomp.me/scratch/vRy5t
-NONMATCH("asm/non_matching/game/interactables/flippers__Task_Flipper_Horizontal.inc", void Task_Flipper_Horizontal(void))
+void Task_Flipper_Horizontal()
 {
     Sprite *s;
-    CamCoord worldX, worldY;
+    CamCoord worldX;
+    CamCoord worldY;
+    s32 pxHalf;
     MapEntity *me;
     Flipper *flipper;
-    s16 px, py;
+    s16 px;
     s32 i;
 
     flipper = TASK_DATA(gCurTask);
+
     s = &flipper->s;
     me = flipper->base.me;
-
     worldX = TO_WORLD_POS(flipper->base.meX, flipper->base.regionX);
     worldY = TO_WORLD_POS(me->y, flipper->base.regionY);
-
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
@@ -96,9 +94,7 @@ NONMATCH("asm/non_matching/game/interactables/flippers__Task_Flipper_Horizontal.
         } else {
             px = I(PLAYER(i).qWorldX) - worldX;
         }
-
-        px = (px >> 1);
-
+        pxHalf = (s32)(u16)(px >> 1);
         if (Coll_Player_Entity_Intersection(s, worldX, worldY, &PLAYER(i))) {
             if ((PLAYER(i).character == CHARACTER_KNUCKLES)
                 && ((PLAYER(i).charState == CHARSTATE_70) || (PLAYER(i).charState == CHARSTATE_71) || (PLAYER(i).charState == CHARSTATE_72)
@@ -107,175 +103,147 @@ NONMATCH("asm/non_matching/game/interactables/flippers__Task_Flipper_Horizontal.
                 if (PLAYER(i).charState != CHARSTATE_73) {
                     sub_80096B0(s, worldX, worldY, &PLAYER(i));
 
-                    if ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && PLAYER(i).stoodObj == s) {
-
+                    if ((PLAYER(i).moveState & 8) && (PLAYER(i).stoodObj == s)) {
                         Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                        PLAYER(i).charState = CHARSTATE_SPINATTACK;
-                        PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-                        PLAYER(i).moveState |= MOVESTATE_4;
-                        PLAYER(i).moveState |= MOVESTATE_IN_AIR;
 
-                        if (s->frameFlags & 0x400) {
-                            PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
+                        PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                        PLAYER(i).moveState &= ~8;
+                        PLAYER(i).moveState |= 4;
+                        PLAYER(i).moveState |= 2;
+
+                        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
+                            PLAYER(i).moveState |= 1;
                         } else {
-                            PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
+                            PLAYER(i).moveState &= ~1;
                         }
                     }
                 }
             } else {
-                // 330
-                if ((PLAYER(i).qSpeedAirY >= Q(0) || ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && PLAYER(i).stoodObj == s))
-                    && ((PLAYER(i).qWorldY < Q(worldY) + Q(19)) && (PLAYER(i).moveState & MOVESTATE_IN_AIR))) {
+
+                if (((PLAYER(i).qSpeedAirY >= 0) || ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)))
+                    && (PLAYER(i).qWorldY < Q(worldY) + Q(19)) && (PLAYER(i).moveState & 2)) {
                     if ((gPressedKeys & gPlayerControls.jump) && GetBit(flipper->unk41, i)) {
                         ClearBit(flipper->unk41, i);
-                        PLAYER(i).moveState &= ~MOVESTATE_STOOD_ON_OBJ;
-                        PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                        PLAYER(i).moveState &= ~MOVESTATE_100;
-                        PLAYER(i).moveState |= MOVESTATE_4;
-                        PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
-
-                        if (gInput & DPAD_LEFT) {
+                        PLAYER(i).moveState &= ~0x8;
+                        PLAYER(i).moveState |= 2;
+                        PLAYER(i).moveState &= ~0x100;
+                        PLAYER(i).moveState |= 4;
+                        PLAYER(i).moveState &= ~0x10;
+                        if (DPAD_LEFT & gInput) {
                             PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
-                        } else if (gInput & DPAD_RIGHT) {
+                        } else if (DPAD_RIGHT & gInput) {
                             PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;
                         }
-
-                        PLAYER(i).qSpeedAirY = -Q(7.75) - (worldY << 4);
-
+                        PLAYER(i).qSpeedAirY = 0xFFFFF840 - (px * 16);
                         if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                            PLAYER(i).qSpeedAirX = -(px >> 11);
-                            PLAYER(i).qSpeedGround = -(px >> 11);
+                            PLAYER(i).qSpeedAirX = -(px * 32);
+                            PLAYER(i).qSpeedGround = -(px * 32);
                         } else {
-                            PLAYER(i).qSpeedAirX = +(px >> 11);
-                            PLAYER(i).qSpeedGround = +(px >> 11);
+                            PLAYER(i).qSpeedAirX = +(px * 32);
+                            PLAYER(i).qSpeedGround = +(px * 32);
                         }
 
                         Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                        PLAYER(i).charState = CHARSTATE_SPINATTACK;
+                        PLAYER(i).charState = 5;
                         flipper->unk40 = 8;
                         flipper->unk3C = 0;
-
                         PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
-                        PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
+                        PLAYER(i).moveState &= 0xFFDFFFFF;
                         PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
-
                         s->graphics.anim = SA1_ANIM_FLIPPER;
                         s->variant = 1;
                         s->prevVariant = -1;
 
-                        m4aSongNumStart(SE_BUMPER_A);
-
+                        m4aSongNumStart(0xB7U);
                         gCurTask->main = Task_Flipper_Horizontal_2;
                     } else {
-                        s32 qVal;
-                        // 60c
-                        if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
-                            if (PLAYER(i).qWorldY > Q(worldY - 17)) {
-                                PLAYER(i).qWorldY = Q(worldY - 17) + 1;
 
-                                PLAYER(i).qSpeedAirY = Q(0);
+                        if ((s->frameFlags & SPRITE_FLAG_MASK_X_FLIP)) {
+                            if (PLAYER(i).qWorldY > Q(worldY + (s16)pxHalf - 17)) {
+                                PLAYER(i).qWorldY = Q(worldY + (s16)pxHalf - 17) + 1;
+                                PLAYER(i).qSpeedAirY = 0;
                                 PLAYER(i).qSpeedAirX = -Q(0.3125);
                                 SetBit(flipper->unk41, i);
                                 PLAYER(i).heldInput = 0;
                                 PLAYER(i).frameInput = 0;
                                 PLAYER(i).rotation = 0;
                                 Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                                PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
-                                PLAYER(i).moveState |= MOVESTATE_4;
-
+                                PLAYER(i).moveState |= 0x200000;
+                                PLAYER(i).moveState |= 4;
                                 PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
-
                                 PLAYER(i).charState = CHARSTATE_SPINATTACK;
-                                continue;
                             } else {
                                 if (GetBit(flipper->unk41, i)) {
                                     Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                                    PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                                    PLAYER(i).moveState &= ~MOVESTATE_100;
-                                    PLAYER(i).moveState |= MOVESTATE_4;
-                                    PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                                    PLAYER(i).moveState |= 2;
+                                    PLAYER(i).moveState &= ~0x100;
+                                    PLAYER(i).moveState |= 4;
+                                    PLAYER(i).moveState &= ~0x10;
                                     PLAYER(i).charState = CHARSTATE_SPINATTACK;
                                     PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
-
-                                    PLAYER(i).qWorldY = Q(worldY - 17) + 1;
-                                    PLAYER(i).qSpeedAirY = Q(0);
+                                    PLAYER(i).qWorldY = Q(worldY + (s16)pxHalf - 17) + 1;
+                                    PLAYER(i).qSpeedAirY = 0;
                                     PLAYER(i).qSpeedAirX = -Q(0.3125);
                                     PLAYER(i).heldInput = 0;
                                     PLAYER(i).frameInput = 0;
-                                    PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
+                                    PLAYER(i).moveState |= 0x200000;
                                 } else {
-                                    PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
-
+                                    PLAYER(i).moveState &= 0xFFDFFFFF;
                                     PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
-                                    continue;
                                 }
                             }
                         } else {
-                            // 8d4
-                            if (PLAYER(i).qWorldY > Q(worldY - 17)) {
-                                PLAYER(i).qWorldY = -(Q(worldY - 17) + 1);
-
-                                PLAYER(i).qSpeedAirY = Q(0);
-                                PLAYER(i).qSpeedAirX = Q(0.3125);
+                            if (PLAYER(i).qWorldY > Q(worldY + (s16)pxHalf - 17)) {
+                                PLAYER(i).qWorldY = Q(worldY + (s16)pxHalf - 17) + 1;
+                                PLAYER(i).qSpeedAirY = 0;
+                                PLAYER(i).qSpeedAirX = +Q(0.3125);
                                 SetBit(flipper->unk41, i);
                                 PLAYER(i).heldInput = 0;
                                 PLAYER(i).frameInput = 0;
                                 PLAYER(i).rotation = 0;
                                 Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                                PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
-                                PLAYER(i).moveState |= MOVESTATE_4;
-
+                                PLAYER(i).moveState |= 0x200000;
+                                PLAYER(i).moveState |= 4;
                                 PLAYER(i).charState = CHARSTATE_SPINATTACK;
-
                                 PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
                             } else {
                                 if (GetBit(flipper->unk41, i)) {
-                                    s32 qValue;
-                                    PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                                    PLAYER(i).moveState &= ~MOVESTATE_100;
-                                    PLAYER(i).moveState |= MOVESTATE_4;
-                                    PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
+                                    PLAYER(i).moveState |= 2;
+                                    PLAYER(i).moveState &= ~0x100;
+                                    PLAYER(i).moveState |= 4;
+                                    PLAYER(i).moveState &= ~0x10;
                                     Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
                                     PLAYER(i).charState = CHARSTATE_SPINATTACK;
                                     PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 9);
 
-                                    PLAYER(i).qWorldY = Q(worldY - 17);
-                                    PLAYER(i).qSpeedAirY = Q(0);
+                                    PLAYER(i).qWorldY = Q((worldY + (s16)pxHalf) - 17) + 1;
+                                    PLAYER(i).qSpeedAirY = 0;
                                     PLAYER(i).qSpeedAirX = +Q(0.3125);
                                     PLAYER(i).heldInput = 0;
                                     PLAYER(i).frameInput = 0;
-                                    PLAYER(i).moveState |= MOVESTATE_IGNORE_INPUT;
-                                    continue;
+                                    PLAYER(i).moveState |= 0x200000;
                                 } else {
-                                    PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
-
+                                    PLAYER(i).moveState &= 0xFFDFFFFF;
                                     PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
-                                    continue;
                                 }
                             }
                         }
                     }
                 } else {
                     if (PLAYER(i).qWorldY <= Q(worldY)) {
-                        PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                        continue;
-                    } else {
-                        if (PLAYER(i).qWorldY < Q(worldY) + Q(24)) {
-                            PLAYER(i).qWorldY = Q(worldY) + Q(24);
-
-                            PLAYER(i).qSpeedAirY = Q(10. / 256.);
-                            PLAYER(i).qSpeedAirX = Q(0);
-                            PLAYER(i).qSpeedGround = Q(0);
-                        }
+                        PLAYER(i).moveState |= 2;
+                    } else if (PLAYER(i).qWorldY < Q(worldY) + Q(24)) {
+                        PLAYER(i).qWorldY = Q(worldY) + Q(24);
+                        PLAYER(i).qSpeedAirY = 10;
+                        PLAYER(i).qSpeedAirX = 0;
+                        PLAYER(i).qSpeedGround = 0;
                     }
                 }
             }
         } else {
             if (GetBit(flipper->unk41, i)) {
-                PLAYER(i).moveState &= ~MOVESTATE_IGNORE_INPUT;
-
+                PLAYER(i).moveState &= 0xFFDFFFFF;
                 PLAYER(i).heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
-
                 if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
                     PLAYER(i).qSpeedAirX = -Q(1);
                 } else {
@@ -302,7 +270,6 @@ NONMATCH("asm/non_matching/game/interactables/flippers__Task_Flipper_Horizontal.
 
     DisplaySprite(s);
 }
-END_NONMATCH
 
 void Task_Flipper_Horizontal_2(void)
 {

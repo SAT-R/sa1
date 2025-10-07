@@ -16,7 +16,7 @@ sub_805BC94: @ 0x0805BC94
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0x30]
-	movs r1, #0x64
+	movs r1, #100
 	bl Div
 	lsls r0, r0, #0x18
 	cmp r0, #0
@@ -26,7 +26,7 @@ sub_805BC94: @ 0x0805BC94
 	b _0805BCCE
 _0805BCB8:
 	ldr r0, [sp, #0x30]
-	movs r1, #0xa
+	movs r1, #10
 	bl Div
 	lsls r0, r0, #0x18
 	movs r1, #1
@@ -298,12 +298,12 @@ _0805BED6:
 	movs r1, #1
 	str r1, [sp, #0x34]
 	ldr r0, [sp, #0x30]
-	movs r1, #0x64
+	movs r1, #100
 	bl Div
 	lsls r0, r0, #0x18
 	lsrs r5, r0, #0x18
 	ldr r0, [sp, #0x30]
-	movs r1, #0x64
+	movs r1, #100
 	bl Mod
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
@@ -403,12 +403,12 @@ _0805BED6:
 	bl sub_80528AC
 _0805BFB2:
 	ldr r0, [sp, #0x30]
-	movs r1, #0xa
+	movs r1, #10
 	bl Div
 	lsls r0, r0, #0x18
 	lsrs r5, r0, #0x18
 	ldr r0, [sp, #0x30]
-	movs r1, #0xa
+	movs r1, #10
 	bl Mod
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
@@ -638,12 +638,12 @@ _0805C19C:
 	b _0805C34C
 _0805C1A4:
 	ldr r0, [sp, #0x30]
-	movs r1, #0xa
+	movs r1, #10
 	bl Div
 	lsls r0, r0, #0x18
 	lsrs r5, r0, #0x18
 	ldr r0, [sp, #0x30]
-	movs r1, #0xa
+	movs r1, #10
 	bl Mod
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
