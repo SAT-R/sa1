@@ -119,7 +119,6 @@ void Task_Flipper_Horizontal()
                     }
                 }
             } else {
-
                 if (((PLAYER(i).qSpeedAirY >= 0) || ((PLAYER(i).moveState & MOVESTATE_STOOD_ON_OBJ) && (PLAYER(i).stoodObj == s)))
                     && (PLAYER(i).qWorldY < Q(worldY) + Q(19)) && (PLAYER(i).moveState & 2)) {
                     if ((gPressedKeys & gPlayerControls.jump) && GetBit(flipper->unk41, i)) {
