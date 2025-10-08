@@ -92,7 +92,7 @@ void CreateMultiplayerModeSelectScreen() { }
 void CreateCongratulationsAnimation() { }
 
 #include "game/save.h" // TimeRecord
-void sub_8069C94(TimeRecord record) { }
+void CreateTimeAttackResult(TimeRecord record) { }
 
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }

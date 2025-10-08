@@ -46,7 +46,7 @@ _08057420:
 	cmp r0, #1
 	bne _08057448
 	adds r0, r4, #0
-	bl sub_8069C94
+	bl CreateTimeAttackResult
 	movs r0, #0
 	b _08057844
 	.align 2, 0

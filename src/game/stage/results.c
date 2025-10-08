@@ -51,7 +51,7 @@ typedef struct StrcStgResults_38 {
     /* 0x36 */ u8 unk36;
 } StrcStgResults_38; /* 0x38 */
 
-extern void sub_8069C94(TimeRecord record);
+extern void CreateTimeAttackResult(TimeRecord record);
 
 extern ALIGNED(4) u8 gUnknown_08688404[11];
 extern ALIGNED(4) u8 gUnknown_0868840F[11];
@@ -211,7 +211,7 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
         gCamera.sa2__unk50 |= 0x2000;
     }
     if (gGameMode == 1) {
-        sub_8069C94(courseTime);
+        CreateTimeAttackResult(courseTime);
         return 0U;
     }
 

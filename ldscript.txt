@@ -151,7 +151,7 @@ SECTIONS {
         asm/game__extra_stage_results.o(.text);
         asm/game__special_stage_intro.o(.text);
         src/game/collect_chaos_emeralds_msg.o(.text);
-        asm/game_2_5.o(.text);
+        src/game/time_attack/results.o(.text);
         src/game/time_attack/lobby.o(.text);
         src/game/edit_language_screen.o(.text);
         asm/game__mp__continue_screen.o(.text);
@@ -333,6 +333,8 @@ SECTIONS {
         src/data/credits.o(.rodata);
         data/data_sound_test.o(.rodata);
         data/data_0_6.o(.rodata);
+        src/game/time_attack/results.o(.rodata);
+        data/data_0_6_1.o(.rodata);
         src/game/enemies/kerokero.o(.rodata);
         src/game/enemies/drisame.o(.rodata);
         data/data_0_6_2.o(.rodata);

@@ -138,6 +138,8 @@ void InsertMultiplayerProfile(u32 playerId, u16 *name);
 void RecordOwnMultiplayerResult(s16 result);
 void RecordMultiplayerResult(u32 id, u16 *name, s16 result);
 
+bool32 RegisterTimeRecord(TimeRecord newRecord);
+
 void SaveInit(void);
 #if (GAME == GAME_SA1)
 bool32 SaveGameExists(void);
