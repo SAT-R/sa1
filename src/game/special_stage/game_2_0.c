@@ -409,6 +409,7 @@ void sub_805C448(u8 arg0)
     strc->unk6 = 0;
     strc->unk8 = 0x60;
     strc->unkA = 1;
+
     if (arg0 != 0) {
         sub_80543A4((StrcUi_805423C *)strc);
     }
@@ -512,6 +513,7 @@ void Task_805C6B0()
 }
 
 // TODO: Remove this, when memcpy/memset are inlined.
+// NOTE: Until then, these have to be here for matching, because we inlined const data above.
 const u8 fillerTemp_08688635[3] = { 0 };
 const u8 gUnknown_08688638[]
     = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0 };
@@ -590,3 +592,50 @@ void Task_805C740(void)
         }
     }
 }
+
+void Task_805C83C()
+{
+    s16 temp_r0;
+    s16 temp_r0_2;
+    s16 temp_r0_3;
+    s16 temp_r1_2;
+    u16 temp_r1;
+
+    Game_2_0_Sub *sub = TASK_DATA(gCurTask);
+
+    if (sub->unk18 > 0xF5) {
+        sub->u.overB.unkC = 0x49;
+        sub->u.overB.qUnkA -= 0x1C;
+        if (sub->u.overB.qUnkA < -0x80) {
+            sub->u.overB.unkE = 0;
+            sub->u.overB.qUnkA = -0x80;
+        } else {
+            sub_8052F78(" !\"#$", &sub->u.overB);
+        }
+    } else if (sub->unk18 > 0x2D) {
+        sub->u.strc0.unk2 += 0x10;
+        if (sub->u.strc0.unk2 >= 0x100) {
+            sub->u.strc0.unk2 = 0x100;
+            sub->u.overB.qUnkA = 0x39;
+            sub->u.overB.unkC = 0x49;
+
+            sub_8052F78(" !\"#$", &sub->u.overB);
+        } else {
+            sub->u.overB.qUnkA = 0x29;
+            sub->u.overB.unkC = 0x54 - (sub->u.strc0.unk2 >> 3);
+            sub_8052C84(" !\"#$", (Strc_8052C84 *)sub);
+        }
+    } else if (sub->unk18 > 0x21) {
+        sub->u.overB.qUnkA = 0x29;
+        sub->u.overB.unkC = 0x54 - (sub->u.strc0.unk2 >> 3);
+        sub->u.strc0.unk2 += 0x10;
+
+        if (sub->u.strc0.unk2 >= 0x100) {
+            sub->u.strc0.unk2 = 0x100;
+        }
+
+        sub_8052C84(" !\"#$", (Strc_8052C84 *)sub);
+    }
+}
+
+void TaskDestructor_nullsub_805C8FC(struct Task *t) { }

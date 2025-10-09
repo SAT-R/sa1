@@ -40,7 +40,7 @@ typedef struct Strc_8055C50 {
 
 typedef struct Strc_8052C84 {
     /* 0x00 */ u16 unk0; // TODO: qX?
-    /* 0x02 */ s16 unk2; // TODO: qY?
+    /* 0x02 */ u16 unk2; // TODO: qY?
     /* 0x04 */ s16 unk4; // TODO: angle
     /* 0x06 */ u16 unk6; // TODO: affineIndex
     /* 0x08 */ u16 unk8;
