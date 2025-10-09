@@ -12,8 +12,41 @@
 
 #include "constants/animations.h"
 
-typedef struct Game2_0 {
-} Game2_0;
+typedef struct Game_2_0_Sub {
+    union {
+        // TODO: This union might actually be their shared global type?
+        GameOverB overB;
+        Strc_8052C84 strc0;
+    } u;
+    s16 unk18;
+    s16 unk1A;
+} Game_2_0_Sub;
+
+typedef struct Game_2_0_Sub2 {
+    s16 unk18;
+    s16 unk1A;
+} Game_2_0_Sub2;
+
+typedef struct Game_2_0 {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    u8 unkA;
+    struct Task *taskC;
+    struct Task *task10;
+    struct Task *task14;
+    s16 unk18;
+    u8 unk1A;
+} Game_2_0;
+
+void sub_805C448(u8 arg0);
+void Task_805C594(void);
+void Task_805C6B0(void);
+void Task_805C740(void);
+void Task_805C83C(void);
+void TaskDestructor_nullsub_805C8FC(struct Task *t);
 
 // (89.77%) https://decomp.me/scratch/ZhMAK
 NONMATCH("asm/non_matching/game/game2_0__sub_805BC94.inc", void sub_805BC94(u16 arg0))
@@ -312,3 +345,71 @@ NONMATCH("asm/non_matching/game/game2_0__sub_805BC94.inc", void sub_805BC94(u16 
     }
 }
 END_NONMATCH
+
+void sub_805C448(u8 arg0)
+{
+    struct Task *t2 = NULL;
+    struct Task *t1 = NULL;
+    struct Task *t3 = NULL;
+    Game_2_0_Sub *sub = NULL;
+    Game_2_0 *strc = NULL;
+
+    sub_80535FC();
+    UiGfxStackInit();
+    t1 = TaskCreate(Task_805C6B0, sizeof(Game_2_0_Sub), 0x2120U, 0U, NULL);
+    sub = TASK_DATA(t1);
+    sub->unk18 = 0;
+    sub->unk1A = 0;
+    sub->u.overB.qUnkA = 0xF0;
+    sub->u.overB.unkC = 0x7E;
+    sub->u.overB.unkE = 8;
+    sub->u.overB.unk10 = 8;
+    sub->u.overB.unk12 = 6;
+    sub->u.overB.unk16 = 1;
+    sub->u.overB.unk8 = 0xA;
+    t2 = TaskCreate(Task_805C740, sizeof(Game_2_0_Sub), 0x2120U, 0U, NULL);
+    sub = TASK_DATA(t2);
+    sub->unk18 = 0;
+    sub->unk1A = 0;
+    sub->u.overB.qUnkA = 0x100;
+    sub->u.overB.unkC = 0x80;
+    sub->u.overB.unkE = 9;
+    sub->u.overB.unk10 = 2;
+    sub->u.overB.unk12 = 6;
+    sub->u.overB.unk16 = 1;
+    sub->u.overB.unk8 = 0;
+    if (arg0 != 0) {
+        Strc_8052C84 *strc0;
+        t3 = TaskCreate(Task_805C83C, sizeof(Game_2_0_Sub), 0x2120U, 0U, NULL);
+        sub = TASK_DATA(t3);
+        strc0 = &sub->u.strc0;
+        sub->unk18 = 0;
+        sub->unk1A = 0;
+        strc0->unk0 = 0x100;
+        strc0->unk2 = 0;
+        strc0->unk4 = 0;
+        strc0->unk6 = 0;
+        strc0->unkA = 0x39;
+        strc0->unkC = 0x49;
+        strc0->byteCount = 5;
+        strc0->unk10 = 4;
+        strc0->unk12 = 6;
+        strc0->unk16 = 1;
+        strc0->unk8 = 0;
+    }
+    strc = TASK_DATA(TaskCreate(Task_805C594, sizeof(Game_2_0_Sub), 0x2100U, 0U, TaskDestructor_nullsub_805C8FC));
+    strc->unk18 = 0;
+    strc->unk1A = arg0;
+    strc->task10 = t1;
+    strc->task14 = t2;
+    strc->taskC = t3;
+    strc->unk0 = 0;
+    strc->unk2 = 1;
+    strc->unk4 = 2;
+    strc->unk6 = 0;
+    strc->unk8 = 0x60;
+    strc->unkA = 1;
+    if (arg0 != 0) {
+        sub_80543A4((StrcUi_805423C *)strc);
+    }
+}

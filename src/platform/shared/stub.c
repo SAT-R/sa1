@@ -91,9 +91,6 @@ void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
 void CreateCongratulationsAnimation() { }
 
-#include "game/save.h" // TimeRecord
-void CreateTimeAttackResult(TimeRecord record) { }
-
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }
 void CreateCourseSelect() { }
