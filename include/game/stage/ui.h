@@ -103,6 +103,7 @@ void LoadStageIntroGraphics(StrcStack *param0);
 void sub_804A5D8(s32 x, s32 y);
 
 void CreateStageUI(void);
+void CreateSpecialStageUI(void);
 void CreateMultiplayerMultiPakUI(void);
 
 // TODO: Maybe param1 is actually (GameOverB *) ?

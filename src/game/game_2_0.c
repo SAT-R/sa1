@@ -6,6 +6,8 @@
 #include "game/game_over.h"
 #include "game/title_screen.h"
 #include "game/save.h"
+#include "game/special_stage/main.h"
+#include "game/stage/player_controls.h"
 #include "game/stage/stage.h"
 #include "game/stage/ui.h"
 #include "data/ui_graphics.h"
@@ -19,13 +21,8 @@ typedef struct Game_2_0_Sub {
         Strc_8052C84 strc0;
     } u;
     s16 unk18;
-    s16 unk1A;
+    u16 unk1A;
 } Game_2_0_Sub;
-
-typedef struct Game_2_0_Sub2 {
-    s16 unk18;
-    s16 unk1A;
-} Game_2_0_Sub2;
 
 typedef struct Game_2_0 {
     s16 unk0;
@@ -34,13 +31,14 @@ typedef struct Game_2_0 {
     s16 unk6;
     s16 unk8;
     u8 unkA;
-    struct Task *taskC;
-    struct Task *task10;
-    struct Task *task14;
+    struct Task *taskC; // -> Game_2_0_Sub
+    struct Task *task10; // -> Game_2_0_Sub
+    struct Task *task14; // -> Game_2_0_Sub
     s16 unk18;
     u8 unk1A;
 } Game_2_0;
 
+void sub_805BC94(u16 arg0);
 void sub_805C448(u8 arg0);
 void Task_805C594(void);
 void Task_805C6B0(void);
@@ -378,6 +376,7 @@ void sub_805C448(u8 arg0)
     sub->u.overB.unk12 = 6;
     sub->u.overB.unk16 = 1;
     sub->u.overB.unk8 = 0;
+
     if (arg0 != 0) {
         Strc_8052C84 *strc0;
         t3 = TaskCreate(Task_805C83C, sizeof(Game_2_0_Sub), 0x2120U, 0U, NULL);
@@ -397,7 +396,8 @@ void sub_805C448(u8 arg0)
         strc0->unk16 = 1;
         strc0->unk8 = 0;
     }
-    strc = TASK_DATA(TaskCreate(Task_805C594, sizeof(Game_2_0_Sub), 0x2100U, 0U, TaskDestructor_nullsub_805C8FC));
+
+    strc = TASK_DATA(TaskCreate(Task_805C594, sizeof(Game_2_0), 0x2100U, 0U, TaskDestructor_nullsub_805C8FC));
     strc->unk18 = 0;
     strc->unk1A = arg0;
     strc->task10 = t1;
@@ -411,5 +411,182 @@ void sub_805C448(u8 arg0)
     strc->unkA = 1;
     if (arg0 != 0) {
         sub_80543A4((StrcUi_805423C *)strc);
+    }
+}
+
+void Task_805C594(void)
+{
+    s16 temp_r0;
+    s16 temp_r0_2;
+    s16 temp_r0_3;
+    s32 temp_r2;
+    s32 temp_r5;
+    u16 *r3;
+    Game_2_0 *strc;
+    Game_2_0_Sub *subA;
+    Game_2_0_Sub *subB;
+#ifdef BUG_FIX
+    // NOTE: Technically this is redundant, since it's neither getting read nor set
+    //       if strc->unk1A is not 0, but it's better to have to to prevent future bugs when editing.
+    Game_2_0_Sub *subR3 = NULL;
+#else
+    Game_2_0_Sub *subR3;
+#endif
+
+    strc = TASK_DATA(gCurTask);
+    subA = TASK_DATA(strc->task10);
+    subB = TASK_DATA(strc->task14);
+    if (strc->unk1A != 0) {
+        subR3 = TASK_DATA(strc->taskC);
+    }
+
+    subA->unk18 = strc->unk18;
+    subB->unk18 = strc->unk18;
+
+    if (strc->unk1A != 0) {
+        subR3->unk18 = strc->unk18;
+        if (strc->unk1A != 0) {
+            if (strc->unk18 < 106) {
+                if (strc->unk18 > 20) {
+                    sub_805423C((StrcUi_805423C *)strc);
+                } else {
+                    sub_80543A4((StrcUi_805423C *)strc);
+                }
+            }
+        }
+    }
+
+    if (++strc->unk18 > 0xFF) {
+        gDispCnt &= ~0xE000;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+        gStageFlags &= ~STAGE_FLAG__ACT_START;
+        gPlayer.moveState &= ~MOVESTATE_IGNORE_INPUT;
+        gPlayer.heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+        gPartner.moveState &= ~MOVESTATE_IGNORE_INPUT;
+        gPartner.heldInput |= (gPlayerControls.jump | gPlayerControls.attack);
+        CreateSpecialStageUI();
+        TaskDestroy(strc->task14);
+        TaskDestroy(strc->task10);
+        if (strc->unk1A != 0) {
+            TaskDestroy(strc->taskC);
+        }
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    if (strc->unk18 == 2) {
+        sub_805BC94(gUnknown_03005154);
+    }
+}
+
+void Task_805C6B0()
+{
+    s16 temp_r0;
+    s16 temp_r0_2;
+
+    Game_2_0_Sub *sub = TASK_DATA(gCurTask);
+
+    if (sub->unk18 > 0xF5) {
+        if (sub->u.overB.qUnkA < -0x20) {
+            sub->u.overB.qUnkA = (u16)sub->u.overB.qUnkA + 0x20;
+            if (sub->u.overB.unkE != 0) {
+                sub->u.overB.unkE = (u16)sub->u.overB.unkE - 1;
+            }
+        }
+        sub->u.overB.qUnkA -= 0x1A;
+    } else if (sub->unk18 > 0x2D) {
+        sub->u.overB.unkC = 0x11;
+    } else if (sub->unk18 > 0x21) {
+        sub->u.overB.unkC = (u16)sub->u.overB.unkC - 8;
+    } else if (sub->unk18 > 0x19) {
+        sub->u.overB.qUnkA = -0x10;
+    } else if (sub->unk18 > 0xF) {
+        sub->u.overB.qUnkA -= 0x1A;
+        if (sub->u.overB.qUnkA < -0x10) {
+            sub->u.overB.qUnkA = -0x10;
+        }
+    }
+
+    sub_8052F78("        ", &sub->u.overB);
+}
+
+// TODO: Remove this, when memcpy/memset are inlined.
+const u8 fillerTemp_08688635[3] = { 0 };
+const u8 gUnknown_08688638[]
+    = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0 };
+
+void Task_805C740(void)
+{
+    Game_2_0_Sub *sub;
+
+#ifndef NON_MATCHING
+    const u8 arrA[22 + 5];
+    memcpy((void *)arrA, &gUnknown_08688638[0], sizeof(arrA) - 5);
+    memset((void *)(arrA + 22), 0, 5);
+#else
+    // TODO: Inline the mem calls!
+    // const u8 arrA[16] = { /* data here */ };
+    u8 arrA[] = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x20, 0x21, 0x22, 0x23,
+                  0x24, 0x25, 0x26, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0 };
+    u8 arrB[5] = { 0 };
+#endif
+
+    sub = TASK_DATA(gCurTask);
+    if (sub->unk18 > 0xF5) {
+        sub->u.overB.qUnkA -= 0x1C;
+        if (sub->u.overB.qUnkA < -0x1F) {
+            if (sub->u.overB.unkE != 0) {
+                sub->u.overB.unkE--;
+            }
+
+            sub->u.overB.qUnkA += 0x20;
+            sub->unk1A = Mod(sub->unk1A + 1, 7);
+
+            sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+        } else {
+            sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+        }
+
+    } else if (sub->unk18 > 0x2D) {
+        sub->u.overB.unkC = 0x13U;
+        sub->u.overB.qUnkA -= 2;
+
+        if (sub->u.overB.qUnkA < -0x1F) {
+            sub->u.overB.qUnkA += 0x20;
+            sub->unk1A = Mod(sub->unk1A + 1, 7);
+        }
+
+        sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+    } else if (sub->unk18 > 0x21) {
+        sub->u.overB.unkC -= 8;
+        sub->u.overB.qUnkA -= 2;
+
+        if (sub->u.overB.qUnkA < -0x1F) {
+            sub->u.overB.qUnkA += 0x20;
+            sub->unk1A = Mod(sub->unk1A + 1, 7);
+        }
+
+        sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+    } else if (sub->unk18 > 0x19) {
+        sub->u.overB.qUnkA -= 2;
+        sub->u.overB.unkE = 9U;
+
+        if (sub->u.overB.qUnkA < -0x1F) {
+            sub->u.overB.qUnkA += 0x20;
+            sub->unk1A = Mod(sub->unk1A + 1, 7);
+        }
+
+        sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+    } else if (sub->unk18 > 0xF) {
+        sub->u.overB.qUnkA -= 0x1C;
+        if (sub->u.overB.qUnkA <= 0xEF) {
+            sub->u.overB.unkE = (u16)(9 - (sub->u.overB.qUnkA >> 0x5));
+            if (sub->u.overB.qUnkA < -0x1F) {
+                sub->u.overB.qUnkA += 0x20;
+                sub->unk1A = Mod(sub->unk1A + 1, 7);
+            }
+            sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+        }
     }
 }
