@@ -105,7 +105,7 @@ sub_8062F90: @ 0x08062F90
 	strb r4, [r0, #2]
 	strb r4, [r0, #1]
 	strb r4, [r0]
-	movs r0, #4
+	movs r0, #4     @ MUS_COURSE_SELECTION
 	bl m4aSongNumStart
 	movs r0, #4
 	mov sb, r0
@@ -698,7 +698,7 @@ _0806348E:
 	ldr r1, [r0]
 	ldr r0, _080634E8 @ =sub_80634EC
 	str r0, [r1, #8]
-	movs r0, #0x6a
+	movs r0, #0x6a      @ SE_SELECT
 	bl m4aSongNumStart
 	movs r0, #3
 	bl m4aSongNumStop
@@ -981,7 +981,7 @@ _080636EE:
 	bne _0806371A
 	mov r0, sb
 	ldr r1, [r0]
-	ldr r0, _080637C4 @ =sub_80638B0
+	ldr r0, _080637C4 @ =Task_80638B0
 	str r0, [r1, #8]
 	movs r3, #0
 	adds r1, r4, #3
@@ -1081,7 +1081,7 @@ _080637AE:
 	.align 2, 0
 _080637BC: .4byte gMultiSioRecv
 _080637C0: .4byte gMultiSioSend
-_080637C4: .4byte sub_80638B0
+_080637C4: .4byte Task_80638B0
 _080637C8: .4byte gChaoTasks
 _080637CC: .4byte gMultiplayerConnections
 _080637D0: .4byte gPseudoRandom
@@ -1203,8 +1203,8 @@ _0806388E:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_80638B0
-sub_80638B0: @ 0x080638B0
+	thumb_func_start Task_80638B0
+Task_80638B0: @ 0x080638B0
 	push {r4, r5, lr}
 	ldr r5, _080638F8 @ =gCurTask
 	ldr r0, [r5]
