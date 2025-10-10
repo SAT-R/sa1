@@ -115,6 +115,11 @@ SECTIONS {
         src/game/stage/grind_effect_1.o(.text);
         src/game/stage/rings_scatter.o(.text);
         src/game/stage/player.o(.text);
+        src/game/stage/player_sonic.o(.text);
+        src/game/stage/player_tails.o(.text);
+        src/game/stage/player_knuckles.o(.text);
+        src/game/stage/player_amy.o(.text);
+        src/game/stage/player_super_sonic.o(.text);
         src/game/stage/item_tasks.o(.text);
         src/game/stage/underwater_effects.o(.text);
         src/game/water_effects.o(.text);
@@ -144,7 +149,7 @@ SECTIONS {
         src/game/staff_credits.o(.text);
         asm/game__sound_test.o(.text);
         src/game/vs_record.o(.text);
-        asm/game_2_2.o(.text);
+        asm/game__course_select.o(.text);
         asm/game_2_3.o(.text);
         asm/game__intro_animation.o(.text);
         asm/game__congratulations_animation.o(.text);

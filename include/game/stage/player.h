@@ -19,24 +19,48 @@ void Player_SetMovestate_IsInScriptedSequence(void);
 void Player_ClearMovestate_IsInScriptedSequence(void);
 
 void InitializePlayer(Player *p);
+bool32 Player_Spindash(Player *p);
 void DestroyPlayerTasks(Player *player);
 void Player_TransitionCancelFlyingAndBoost(Player *p);
 void Player_HandleSpriteYOffsetChange(Player *, s32);
+void SA2_LABEL(sub_8022190)(Player *p);
+void SA2_LABEL(sub_8022318)(Player *p);
+void SA2_LABEL(sub_8022838)(Player *p);
+void SA2_LABEL(sub_8022D6C)(Player *p);
+void SA2_LABEL(sub_80231C0)(Player *p);
 void sub_8023260(Player *);
+void SA2_LABEL(sub_80232D0)(Player *p);
 void sub_80232D0(Player *);
-void sub_8023610(Player *);
+void Player_AirInputControls(Player *);
 void Player_TouchGround(Player *p);
 void Player_80261D8(Player *p);
 void sub_8027EF0(Player *p);
 void sub_8028204(Player *p);
 void sub_80282EC(Player *p);
 void sub_80283C4(Player *p);
-void sub_8029C84(Player *p);
+void SA2_LABEL(sub_8029C84)(Player *p);
+void SA2_LABEL(sub_8029CA0)(Player *p);
+void SA2_LABEL(sub_8029D14)(Player *p);
+void SA2_LABEL(sub_8029ED8)(Player *p);
 void sub_8029FA4(Player *p);
 void sub_804A8A8(s32 qX, s32 qY, s32 param2);
 
 void Player_DisableInputAndBossTimer(void);
 void Player_DisableInputAndBossTimer_FinalBoss(void);
+
+void Player_8043DDC(Player *p); // SA1 addr
+bool32 Player_8044250(Player *p); // SA1 addr
+void Player_8044670(Player *p); // SA1 addr
+void Player_8044750(Player *p);
+void Player_8044F7C(Player *p); // SA1 addr
+void Player_80470AC(Player *p); // SA1 addr
+void sub_80472B8(Player *p); // SA1 addr
+void Player_804726C(Player *p); // SA1 addr
+void Player_8047224(Player *p); // SA1 addr
+void Player_8047280(Player *p); // SA1 addr
+void sub_8047714(Player *p); // SA1 addr
+void Player_UpdatePosition(Player *p);
+void PlayerFn_Cmd_UpdateAirFallSpeed(Player *p);
 
 // NOTE: Proc type should be the same as SetStageSpawnPosInternal!
 void SetStageSpawnPos(u32 character, u32 level, u32 p2, Player *player);
@@ -52,8 +76,8 @@ s32 SA2_LABEL(sub_8029B88)(Player *player, u8 *p1, int *out);
 s32 SA2_LABEL(sub_8029AC0)(Player *player, u8 *p1, s32 *out);
 s32 SA2_LABEL(sub_8029B0C)(Player *player, u8 *p1, s32 *out);
 
-type8029A28 sub_8029A28(Player *player, u8 *p1, type8029A28 *out);
-type8029A28 sub_8029A74(Player *player, u8 *p1, type8029A28 *out);
+type8029A28 SA2_LABEL(sub_8029A28)(Player *player, u8 *p1, type8029A28 *out);
+type8029A28 SA2_LABEL(sub_8029A74)(Player *player, u8 *p1, type8029A28 *out);
 
 bool32 Player_TryJump(Player *);
 bool32 Player_TryAttack(Player *);

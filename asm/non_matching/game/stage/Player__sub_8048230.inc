@@ -340,7 +340,7 @@ _080484A4:
 	b _080484BE_return
 _080484B8:
 	adds r0, r5, #0
-	bl sub_80481B8
+	bl Player_Knuckles_GlideUpdateAnim
 _080484BE_return:
 	add sp, #0xc
 	pop {r3, r4}

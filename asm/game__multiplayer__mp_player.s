@@ -2539,7 +2539,7 @@ _0801445E:
 	adds r0, #1
 	strb r2, [r0]
 	mov r0, r8
-	bl sub_8044250
+	bl Player_8044250
 	cmp r0, #0
 	beq _080144A8
 	movs r0, #0x1e
@@ -3312,7 +3312,7 @@ _08014A6A:
 _08014A76:
 	ldr r6, _08014A98 @ =gPlayer
 	adds r0, r6, #0
-	bl sub_8044250
+	bl Player_8044250
 	cmp r0, #0
 	beq _08014AA0
 	movs r0, #0x1e
