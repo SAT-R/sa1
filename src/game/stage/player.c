@@ -22,6 +22,7 @@
 #include "game/stage/player.h"
 #include "game/stage/player_controls.h"
 #include "game/stage/player_sonic.h"
+#include "game/stage/player_tails.h"
 #include "game/stage/player_super_sonic.h"
 #include "game/stage/rings_scatter.h"
 #include "game/stage/spawn_positions.h"
@@ -63,7 +64,6 @@ void Player_Tails_8047BA0(Player *p);
 void Player_Knuckles_8049000(Player *p);
 void Player_Amy_80497AC(Player *p);
 
-void Player_Tails_InitFlying(Player *p);
 void Player_Knuckles_GlideInit(Player *p);
 
 void Task_8045AD8(void);

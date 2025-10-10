@@ -16,7 +16,120 @@
 #include "constants/zones.h"
 
 /* Tails Start */
+void Player_Tails_8047A3C(Player *p);
+s32 Player_Tails_8047B04(Player *p);
+
 struct Task *Player_Tails_InitGfx_TailSwipe(Player *p);
+
+static inline void sub_8047E94_inline(Player *p)
+{
+    if (p->SA2_LABEL(unk62) == 0) {
+        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (Player_Tails_8047B04(p) == 0)) {
+            if (!Player_Spindash(p) && !Player_8044250(p)) {
+                SA2_LABEL(sub_8029CA0)(p);
+                Player_8044F7C(p);
+                SA2_LABEL(sub_80232D0)(p);
+                Player_UpdatePosition(p);
+                SA2_LABEL(sub_8022D6C)(p);
+                SA2_LABEL(sub_8029ED8)(p);
+            }
+        }
+    } else {
+        SA2_LABEL(sub_8029CA0)(p);
+
+        if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
+            Player_Tails_8047B04(p);
+        }
+
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+
+static inline void sub_8047F2C_inline(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+
+    if (p->SA2_LABEL(unk61) == 0) {
+        Player_8044670(p);
+        Player_AirInputControls(p);
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        PlayerFn_Cmd_UpdateAirFallSpeed(p);
+        Player_8047224(p);
+        SA2_LABEL(sub_8022190)(p);
+    } else {
+        Player_Tails_8047A3C(p);
+        Player_AirInputControls(p);
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        Player_8047224(p);
+        SA2_LABEL(sub_8022190)(p);
+    }
+}
+
+static inline void sub_8047FA0_inline(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+
+    if (!Player_8044250(p)) {
+        SA2_LABEL(sub_8029D14)(p);
+        Player_8043DDC(p);
+        SA2_LABEL(sub_80232D0)(p);
+        Player_UpdatePosition(p);
+        SA2_LABEL(sub_8022D6C)(p);
+        SA2_LABEL(sub_8029ED8)(p);
+    }
+}
+
+static inline void sub_8047FE4_inline(Player *p)
+{
+    Player_804726C(p);
+    Player_8047280(p);
+    Player_8044670(p);
+    Player_AirInputControls(p);
+    SA2_LABEL(sub_80232D0)(p);
+    Player_UpdatePosition(p);
+    PlayerFn_Cmd_UpdateAirFallSpeed(p);
+    Player_8047224(p);
+    SA2_LABEL(sub_8022190)(p);
+}
+
+static inline void sub_80480C4_inline(Player *p)
+{
+    if ((!(p->moveState & MOVESTATE_SPINDASH)) && (((p->rotation + Q(0.25)) << 24) > 0) && !(p->moveState & MOVESTATE_20)
+        && (p->frameInput & gPlayerControls.attack)) {
+        p->SA2_LABEL(unk62)++;
+        p->charState = CHARSTATE_GROUND_ATTACK;
+        Player_Tails_InitGfx_TailSwipe(p);
+    }
+}
+
+static inline void sub_8048110_inline(Player *p)
+{
+    s32 qSpeed = p->qSpeedGround;
+
+    if (qSpeed > Q(0)) {
+        qSpeed -= (p->deceleration >> 1);
+        if (qSpeed < 0) {
+            qSpeed = 0;
+        }
+    } else {
+        qSpeed += (p->deceleration >> 1);
+        if (qSpeed > Q(0)) {
+            qSpeed = 0;
+        }
+    }
+
+    p->qSpeedGround = qSpeed;
+
+    Player_80470AC(p);
+    SA2_LABEL(sub_80231C0)(p);
+}
 
 void Player_Tails_8047990(Player *p)
 {
@@ -99,35 +212,12 @@ s32 Player_Tails_8047B04(Player *p)
 {
     switch (p->SA2_LABEL(unk62)) {
         case 0: {
-            if (!(p->moveState & MOVESTATE_SPINDASH) && ((p->rotation + Q(0.25)) << 24 > 0) && !(p->moveState & MOVESTATE_20)
-                && (p->frameInput & gPlayerControls.attack)) {
-                p->SA2_LABEL(unk62)++;
-                p->charState = CHARSTATE_GROUND_ATTACK;
-                Player_Tails_InitGfx_TailSwipe(p);
-            }
+            sub_80480C4_inline(p);
             return p->SA2_LABEL(unk62);
         } break;
 
         case 1: {
-            s32 qSpeed = p->qSpeedGround;
-
-            if (qSpeed > Q(0)) {
-                qSpeed -= (p->deceleration >> 1);
-                if (qSpeed < 0) {
-                    qSpeed = 0;
-                }
-            } else {
-                qSpeed += (p->deceleration >> 1);
-                if (qSpeed > Q(0)) {
-                    qSpeed = 0;
-                }
-            }
-
-            p->qSpeedGround = qSpeed;
-
-            Player_80470AC(p);
-            SA2_LABEL(sub_80231C0)(p);
-
+            sub_8048110_inline(p);
             return p->SA2_LABEL(unk62);
         } break;
     }
@@ -138,83 +228,19 @@ void Player_Tails_8047BA0(Player *p)
 {
     switch (p->moveState & MOVESTATE_JUMPING) {
         case 0: {
-            // inline of sub_8047E94 ?
-            if (p->SA2_LABEL(unk62) == 0) {
-                if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (Player_Tails_8047B04(p) == 0)) {
-                    if (!Player_Spindash(p) && !Player_8044250(p)) {
-                        SA2_LABEL(sub_8029CA0)(p);
-                        Player_8044F7C(p);
-
-                        SA2_LABEL(sub_80232D0)(p);
-                        Player_UpdatePosition(p);
-                        SA2_LABEL(sub_8022D6C)(p);
-                        SA2_LABEL(sub_8029ED8)(p);
-                    }
-                }
-            } else {
-                SA2_LABEL(sub_8029CA0)(p);
-
-                if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-                    Player_Tails_8047B04(p);
-                }
-
-                SA2_LABEL(sub_80232D0)(p);
-                Player_UpdatePosition(p);
-                SA2_LABEL(sub_8022D6C)(p);
-                SA2_LABEL(sub_8029ED8)(p);
-            }
-
+            sub_8047E94_inline(p);
         } break;
 
         case MOVESTATE_IN_AIR: {
-            // inline of sub_8047F2C?
-            Player_804726C(p);
-            Player_8047280(p);
-
-            if (p->SA2_LABEL(unk61) == 0) {
-                Player_8044670(p);
-                Player_AirInputControls(p);
-                SA2_LABEL(sub_80232D0)(p);
-                Player_UpdatePosition(p);
-                PlayerFn_Cmd_UpdateAirFallSpeed(p);
-                Player_8047224(p);
-                SA2_LABEL(sub_8022190)(p);
-            } else {
-                Player_Tails_8047A3C(p);
-                Player_AirInputControls(p);
-                SA2_LABEL(sub_80232D0)(p);
-                Player_UpdatePosition(p);
-                Player_8047224(p);
-                SA2_LABEL(sub_8022190)(p);
-            }
+            sub_8047F2C_inline(p);
         } break;
 
         case MOVESTATE_4: {
-            // inline of sub_8047F2C ?
-            Player_804726C(p);
-            Player_8047280(p);
-            if (!Player_8044250(p)) {
-                SA2_LABEL(sub_8029D14)(p);
-                Player_8043DDC(p);
-
-                // _0804749E
-                SA2_LABEL(sub_80232D0)(p);
-                Player_UpdatePosition(p);
-                SA2_LABEL(sub_8022D6C)(p);
-                SA2_LABEL(sub_8029ED8)(p);
-            }
+            sub_8047FA0_inline(p);
         } break;
 
         case MOVESTATE_JUMPING: {
-            Player_804726C(p);
-            Player_8047280(p);
-            Player_8044670(p);
-            Player_AirInputControls(p);
-            SA2_LABEL(sub_80232D0)(p);
-            Player_UpdatePosition(p);
-            PlayerFn_Cmd_UpdateAirFallSpeed(p);
-            Player_8047224(p);
-            SA2_LABEL(sub_8022190)(p);
+            sub_8047FE4_inline(p);
         } break;
     }
 }
@@ -288,90 +314,17 @@ struct Task *Player_Tails_InitGfxMarbleTrack(Player *p)
     return t;
 }
 
-// inline?
-void sub_8047E94(Player *p)
-{
-    if (p->SA2_LABEL(unk62) == 0) {
-        if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (Player_Tails_8047B04(p) == 0)) {
-            if (!Player_Spindash(p) && !Player_8044250(p)) {
-                SA2_LABEL(sub_8029CA0)(p);
-                Player_8044F7C(p);
-                SA2_LABEL(sub_80232D0)(p);
-                Player_UpdatePosition(p);
-                SA2_LABEL(sub_8022D6C)(p);
-                SA2_LABEL(sub_8029ED8)(p);
-            }
-        }
-    } else {
-        SA2_LABEL(sub_8029CA0)(p);
+void sub_8047E94(Player *p) { sub_8047E94_inline(p); }
 
-        if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-            Player_Tails_8047B04(p);
-        }
+void sub_8047F2C(Player *p) { sub_8047F2C_inline(p); }
 
-        SA2_LABEL(sub_80232D0)(p);
-        Player_UpdatePosition(p);
-        SA2_LABEL(sub_8022D6C)(p);
-        SA2_LABEL(sub_8029ED8)(p);
-    }
-}
+void sub_8047FA0(Player *p) { sub_8047FA0_inline(p); }
 
-// inline
-void sub_8047F2C(Player *p)
-{
-    Player_804726C(p);
-    Player_8047280(p);
+void sub_8047FE4(Player *p) { sub_8047FE4_inline(p); }
 
-    if (p->SA2_LABEL(unk61) == 0) {
-        Player_8044670(p);
-        Player_AirInputControls(p);
-        SA2_LABEL(sub_80232D0)(p);
-        Player_UpdatePosition(p);
-        PlayerFn_Cmd_UpdateAirFallSpeed(p);
-        Player_8047224(p);
-        SA2_LABEL(sub_8022190)(p);
-    } else {
-        Player_Tails_8047A3C(p);
-        Player_AirInputControls(p);
-        SA2_LABEL(sub_80232D0)(p);
-        Player_UpdatePosition(p);
-        Player_8047224(p);
-        SA2_LABEL(sub_8022190)(p);
-    }
-}
-
-// inline
-void sub_8047FA0(Player *p)
-{
-    Player_804726C(p);
-    Player_8047280(p);
-
-    if (!Player_8044250(p)) {
-        SA2_LABEL(sub_8029D14)(p);
-        Player_8043DDC(p);
-        SA2_LABEL(sub_80232D0)(p);
-        Player_UpdatePosition(p);
-        SA2_LABEL(sub_8022D6C)(p);
-        SA2_LABEL(sub_8029ED8)(p);
-    }
-}
-
-// inline
-void sub_8047FE4(Player *p)
-{
-    Player_804726C(p);
-    Player_8047280(p);
-    Player_8044670(p);
-    Player_AirInputControls(p);
-    SA2_LABEL(sub_80232D0)(p);
-    Player_UpdatePosition(p);
-    PlayerFn_Cmd_UpdateAirFallSpeed(p);
-    Player_8047224(p);
-    SA2_LABEL(sub_8022190)(p);
-}
-
-// =============== MODULE ?
-
+// TODO: There are inline functions *below* Player_Tails_InitFlying and Player_Tails_InitGfx_TailSwipe,
+//       but also above them. The functions below get used, not in these two, but above the other inline procs.
+//       That does not make sense.
 void Player_Tails_InitFlying(Player *p)
 {
     if (p->moveState & MOVESTATE_4) {
@@ -399,36 +352,6 @@ struct Task *Player_Tails_InitGfx_TailSwipe(Player *p)
     return t;
 }
 
-// inline
-void sub_80480C4(Player *p)
-{
-    if ((!(p->moveState & MOVESTATE_SPINDASH)) && (((p->rotation + Q(0.25)) << 24) > 0) && !(p->moveState & MOVESTATE_20)
-        && (p->frameInput & gPlayerControls.attack)) {
-        p->SA2_LABEL(unk62)++;
-        p->charState = CHARSTATE_GROUND_ATTACK;
-        Player_Tails_InitGfx_TailSwipe(p);
-    }
-}
+void sub_80480C4(Player *p) { sub_80480C4_inline(p); }
 
-// inline
-void sub_8048110(Player *p)
-{
-    s32 qSpeed = p->qSpeedGround;
-
-    if (qSpeed > Q(0)) {
-        qSpeed -= (p->deceleration >> 1);
-        if (qSpeed < 0) {
-            qSpeed = 0;
-        }
-    } else {
-        qSpeed += (p->deceleration >> 1);
-        if (qSpeed > Q(0)) {
-            qSpeed = 0;
-        }
-    }
-
-    p->qSpeedGround = qSpeed;
-
-    Player_80470AC(p);
-    SA2_LABEL(sub_80231C0)(p);
-}
+void sub_8048110(Player *p) { sub_8048110_inline(p); }
