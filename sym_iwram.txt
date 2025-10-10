@@ -64,8 +64,8 @@ src/game/stage/stage.o(.data);
 
 . = 0x00005A20; 
 src/game/stage/player.o(.data);
+src/game/stage/player_super_sonic.o(.data);
 
-. = 0x00005C74; gUnknown_03005C74 = .;
 . = 0x00005C78; gSmallAirBubbleCount = .;
 
 . = 0x00005C80;

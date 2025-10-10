@@ -24,7 +24,6 @@
 /* Start of Super Sonic ? */
 #include "game/enemies/boss_xtra_super_egg_robo.h"
 
-void Task_8049898(void);
 void Player_SuperSonic_80499CC(Player *p);
 void sub_8049D7C(Player *p);
 void Player_8049E3C(Player *p);
@@ -32,7 +31,7 @@ bool32 sub_8049BAC(Player *p);
 void sub_8049FD0(Player *p);
 void Player_804A0B8(Player *p);
 void sub_804A1B8(Player *p);
-void Set_3005C74_to_4(void);
+void InitSparkleCount(void);
 void Player_804A20C(Player *p);
 void Player_804A254(Player *p);
 void sub_804A2FC(Player *p);
@@ -47,7 +46,7 @@ void Task_804B370(void);
 void ExtraBossCapsule_UpdateSprite(Sprite *s, s32 screenX, s32 screenY);
 
 // TODO: static
-extern s32 gUnknown_03005C74;
+static s32 sSparkleCount = 0;
 
 extern TileInfoFirework gUnknown_084AE1B0[5];
 
@@ -699,7 +698,7 @@ void sub_804A1B8(Player *p)
     p->spriteInfoBody->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
     p->spriteInfoBody->s.frameFlags |= SPRITE_FLAG(PRIORITY, 1);
 
-    Set_3005C74_to_4();
+    InitSparkleCount();
 }
 
 void Player_804A20C(Player *p)
@@ -907,8 +906,8 @@ void sub_804A498(s32 qWorldX, s32 qWorldY, bool32 param2)
     GfxInfo gfx;
     SomeTaskManager_60 *mgr;
 
-    if (gUnknown_03005C74 > 0) {
-        gUnknown_03005C74--;
+    if (sSparkleCount > 0) {
+        sSparkleCount--;
 
         if (param2) {
             gfx.tileInfo.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
@@ -1103,11 +1102,11 @@ void Task_804A71C(void)
 void TaskDestructor_804A830(struct Task *t)
 {
     SomeTaskManager_60 *mgr = TASK_DATA(t);
-    gUnknown_03005C74++;
+    sSparkleCount++;
     TaskDestructor_SomeTaskManager_60_Common(t);
 }
 
-void Set_3005C74_to_4() { gUnknown_03005C74 = 4; }
+void InitSparkleCount() { sSparkleCount = 4; }
 
 void sub_804A854(Player *p)
 {
