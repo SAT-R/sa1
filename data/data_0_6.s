@@ -36,11 +36,7 @@ gUnknown_0868B220:
 
     .global gUnknown_0868B240
 gUnknown_0868B240:
-    .incbin "baserom.gba", 0x0068B240, 0x8
-
-    .global gUnknown_0868B248
-gUnknown_0868B248:
-    .incbin "baserom.gba", 0x0068B248, 0x34
+    .incbin "baserom.gba", 0x0068B240, 0x3C
 
     .global gUnknown_0868B27C
 gUnknown_0868B27C:

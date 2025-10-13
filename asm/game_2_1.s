@@ -5,85 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start sub_805C900
-sub_805C900: @ 0x0805C900
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	lsls r0, r0, #0x18
-	lsrs r7, r0, #0x18
-	ldr r0, _0805C924 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r2, r1, r0
-	cmp r7, #0
-	bne _0805C928
-	ldrh r1, [r2, #0x26]
-	movs r0, #0x64
-	adds r6, r1, #0
-	muls r6, r0, r6
-	b _0805C942
-	.align 2, 0
-_0805C924: .4byte gCurTask
-_0805C928:
-	cmp r7, #1
-	bne _0805C930
-	ldr r6, [r2, #0x18]
-	b _0805C942
-_0805C930:
-	cmp r7, #2
-	bne _0805C938
-	ldr r6, [r2, #0x1c]
-	b _0805C942
-_0805C938:
-	cmp r7, #3
-	bne _0805C942
-	ldr r3, _0805C98C @ =0x0300002A
-	adds r0, r1, r3
-	ldrb r6, [r0]
-_0805C942:
-	movs r4, #6
-	adds r2, #0x2b
-	mov r8, r2
-_0805C948:
-	adds r0, r6, #0
-	movs r1, #0xa
-	bl Div
-	adds r3, r0, #0
-	lsls r2, r4, #0x10
-	asrs r0, r2, #0x10
-	mov r1, r8
-	adds r5, r1, r0
-	lsls r1, r3, #3
-	lsls r0, r3, #1
-	adds r1, r1, r0
-	subs r4, r6, r1
-	adds r0, r4, #0
-	adds r0, #0x20
-	strb r0, [r5]
-	cmp r6, r1
-	beq _0805C974
-	cmp r7, #3
-	bne _0805C974
-	adds r0, #0xb
-	strb r0, [r5]
-_0805C974:
-	adds r6, r3, #0
-	ldr r3, _0805C990 @ =0xFFFF0000
-	adds r0, r2, r3
-	lsrs r4, r0, #0x10
-	cmp r0, #0
-	bge _0805C948
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0805C98C: .4byte 0x0300002A
-_0805C990: .4byte 0xFFFF0000
+.if 0
+.endif
 
 	thumb_func_start sub_805C994
 sub_805C994: @ 0x0805C994
