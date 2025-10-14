@@ -99,6 +99,11 @@ typedef struct {
 
 // Incomplete
 extern u8 gDemoPlayCounter;
+
+#if (GAME == GAME_SA1)
+extern u16 ALIGNED(4) gSpecialStageReturnX;
+#endif
+
 extern u8 gGameMode;
 
 extern s8 gCurrentLevel;
@@ -181,7 +186,13 @@ extern u8 gMultiplayerMissingHeartbeats[4];
 extern u8 gActiveCollectRingEffectCount;
 
 extern u8 gMultiplayerUnlockedCharacters;
-extern u8 gMultiplayerUnlockedLevels;
+
+#if (GAME == GAME_SA1)
+extern u16 ALIGNED(4) gSpecialStageReturnY;
+#elif (GAME == GAME_SA2)
+u8 gMultiplayerUnlockedLevels;
+#endif
+
 extern u32 gMultiplayerIds[MULTI_SIO_PLAYERS_MAX];
 extern u16 gMultiplayerNames[MULTI_SIO_PLAYERS_MAX][MAX_PLAYER_NAME_LENGTH];
 

@@ -88,7 +88,7 @@ HomingTarget gHomingTarget = {};
 u8 ALIGNED(4) gDemoPlayCounter = 0;
 
 #if (GAME == GAME_SA1)
-u16 ALIGNED(8) gSpecialStageReturnX = 0;
+u16 ALIGNED(4) gSpecialStageReturnX = 0;
 #endif
 
 u8 ALIGNED(4) gGameMode = 0;

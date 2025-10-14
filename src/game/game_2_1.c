@@ -3,9 +3,11 @@
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
-#include "game/save.h"
+#include "game/entity.h"
 #include "game/sa1_sa2_shared/globals.h"
+#include "game/save.h"
 #include "game/special_stage/main.h"
+#include "game/stage/stage.h"
 
 #include "constants/ui_graphics.h"
 #include "constants/vram_hardcoded.h"
@@ -21,7 +23,7 @@ typedef struct Game_2_1_2C {
     struct Task *task20;
     struct Task *task24;
     s16 unk28;
-    s16 unk2A;
+    u16 unk2A;
 } Game_2_1_2C;
 
 typedef struct Game_2_1_34 {
@@ -259,7 +261,7 @@ void sub_805C994(u8 arg0)
 }
 
 // (91.53%) https://decomp.me/scratch/GJc3f
-NONMATCH("asm/non_matching/game/game_2_1__sub_805D048.inc", void sub_805D048(u8 arg0))
+NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 arg0))
 {
     struct Task *task18;
     struct Task *task1C;
@@ -502,5 +504,75 @@ NONMATCH("asm/non_matching/game/game_2_1__sub_805D048.inc", void sub_805D048(u8 
     SA2_LABEL(gUnknown_03002280)[3][3] = 0x20;
 
     sub_805C994(arg0);
+}
+END_NONMATCH
+
+// (91.30%) https://decomp.me/scratch/ayTm4
+NONMATCH("asm/non_matching/game/game2_1__sub_805D4F0.inc", void sub_805D4F0())
+{
+    u8 unused[4];
+    s32 temp_r6;
+
+    Game_2_1_2C *strc2C = TASK_DATA(gCurTask);
+    Game_2_1_34 *subA = TASK_DATA(strc2C->task1C);
+    Game_2_1_34 *subB = TASK_DATA(strc2C->task18);
+    Game_2_1_34 *subC = TASK_DATA(strc2C->taskC);
+    Game_2_1_34 *subD = TASK_DATA(strc2C->task24);
+    Game_2_1_34 *subE = TASK_DATA(strc2C->task10);
+    Game_2_1_34 *subF = TASK_DATA(strc2C->task14);
+    Game_2_1_34 *subG = TASK_DATA(strc2C->task20);
+
+    subA->unk20 = strc2C->unk28;
+    subB->unk20 = strc2C->unk28;
+    subC->unk20 = strc2C->unk28;
+    subD->unk20 = strc2C->unk28;
+    subE->unk20 = strc2C->unk28;
+    subF->unk20 = strc2C->unk28;
+    subG->unk20 = strc2C->unk28;
+
+    if (strc2C->unk28 > 0xA9) {
+        if (subF->unk26 != 0) {
+            if (--subF->unk26 == 0) {
+                subF->unk26 = 0; // lol
+            }
+            
+            subD->unk1C += 100;
+        }
+        
+        if (subE->unk18 != 0) {
+            subE->unk18 -= 100;
+            subD->unk1C += 100;
+        }
+    }
+    
+    if ((strc2C->unk2A + 615) < ++strc2C->unk28) {
+        gPlayer.checkPointX -= 16;
+        gPlayer.checkPointY -= 16;
+        TasksDestroyAll();
+
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        temp_r6 = gCourseTime;
+        CreateGameStage();
+        gPlayer.checkPointX = gSpecialStageReturnX;
+        gPlayer.checkPointY = gSpecialStageReturnY;
+        gPlayer.SA2_LABEL(unk99)[1] = 1;
+        gCourseTime = temp_r6;
+        return;
+    }
+    
+    if (strc2C->unk28 == (strc2C->unk2A + 0xAA)) {
+        if (subC->unk2A != 0) {
+            m4aSongNumStart(0x9AU);
+        } else {
+            m4aSongNumStart(0x8DU);
+        }
+    }
+    
+    if ((strc2C->unk28 > 0xAA) && (strc2C->unk28 < (strc2C->unk2A + 0xAA)) && (Mod(strc2C->unk28, 4) == 0)) {
+        m4aSongNumStart(0x8CU);
+    }
 }
 END_NONMATCH

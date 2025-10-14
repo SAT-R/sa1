@@ -24,9 +24,6 @@ void Task_SpecialSpringMain(void);
 void Task_TransitionSpStage(void);
 void TaskDestructor_SpecialSpring(struct Task *t);
 
-extern u16 gSpecialStageReturnX;
-extern u16 gSpecialStageReturnY;
-
 void CreateEntity_SpecialSpring(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
     if (gGameMode != GAME_MODE_SINGLE_PLAYER) {
