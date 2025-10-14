@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
@@ -62,6 +63,9 @@ extern u8 gUnknown_08487134[NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE];
 extern const char gUnknown_08688688[1]; // TODO: Inline as string!
 extern const char gUnknown_0868868C[3]; // TODO: Inline as string!
 extern const char gUnknown_08688690[3]; // TODO: Inline as string!
+extern const char gUnknown_08688694[3]; // TODO: Inline as string!
+extern const char gUnknown_08688698[3]; // TODO: Inline as string!
+extern const char gUnknown_0868869C[3]; // TODO: Inline as string!
 
 void sub_805C900(u8 arg0)
 {
@@ -1096,3 +1100,144 @@ void sub_805DE0C(void)
         strc34->u.strc0.unkC = temp_r8;
     }
 }
+
+void Task_805DF2C(void)
+{
+    s16 temp_r0_2;
+    s32 temp_r0_3;
+    u16 temp_r0;
+    u16 temp_r1_2;
+
+    Game_2_1_34 *strc34 = TASK_DATA(gCurTask);
+    s16 unk20 = strc34->unk20;
+
+    strc34->u.overB.unkE = 3;
+    strc34->u.overB.unk10 = 3;
+    strc34->u.overB.unk12 = 0xE;
+    if (unk20 > (strc34->unk22 + 0x221)) {
+        strc34->u.overB.unkC = 0x49;
+        strc34->u.overB.qUnkA -= 0x1C;
+        if (strc34->u.overB.qUnkA < -0x80) {
+            strc34->u.overB.unkE = 0;
+            strc34->u.overB.qUnkA = -0x80;
+        } else {
+            sub_8052F78(&gUnknown_08688694[0], &strc34->u.overB);
+        }
+
+        sub_805DE0C();
+    } else if (unk20 > 57) {
+        strc34->u.strc0.unk2 += 0x20;
+
+        if (strc34->u.strc0.unk2 >= 0x100) {
+            strc34->u.strc0.unk2 = 0x100;
+            strc34->u.strc0.unkA = 0x29;
+            strc34->u.strc0.unkC = 0x49;
+            sub_8052F78(&gUnknown_08688694[0], &strc34->u.overB);
+        } else {
+            strc34->u.strc0.unkA = 0x19U;
+            strc34->u.strc0.unkC = (0x53 - (strc34->u.strc0.unk2 >> 4));
+            sub_8052C84((void *)&gUnknown_08688694[0], &strc34->u.strc0);
+        }
+
+        sub_805DE0C();
+    } else if (unk20 > 0x33) {
+        strc34->u.strc0.unkA = 0x19U;
+        strc34->u.strc0.unkC = (0x53 - (strc34->u.strc0.unk2 >> 4));
+        strc34->u.strc0.unk2 += 0x20;
+
+        if (strc34->u.strc0.unk2 >= 0x100) {
+            strc34->u.strc0.unk2 = 0x100;
+        }
+
+        sub_8052C84((void *)&gUnknown_08688694[0], &strc34->u.strc0);
+        sub_805DE0C();
+    }
+}
+
+void sub_805E018()
+{
+    s32 temp_r0;
+    s32 temp_r1_2;
+    s32 temp_r4;
+    u16 temp_r1;
+    u16 temp_r2;
+    u16 var_r5;
+    u8 *var_r0;
+    u8 *var_r0_2;
+    u8 *var_r0_3;
+    u8 i;
+
+    Game_2_1_34 *strc34 = TASK_DATA(gCurTask);
+
+    temp_r1 = strc34->unk20;
+    if (temp_r1 > (strc34->unk22 + 545)) {
+        s32 v = temp_r1;
+        s16 w;
+        s32 x;
+        v -= 545;
+        var_r5 = (u16)(v - strc34->unk22);
+        temp_r0 = (var_r5 * 0x1C) << 16;
+        i = 0;
+        var_r5 = temp_r0 >> 16;
+        x = ((temp_r0 >>= 16) - 5);
+        for (i = 0; i < 7; i++) {
+            s32 var;
+            strc34->u.overB.qUnkA = ((i << 5) - x);
+            var = var_r5 - 5;
+            if (((i << 5) - var) > -0x20) {
+                if (GetBit(strc34->unk29, i)) {
+                    strc34->u.overB.unk12 = (u16)(0xD - (i >> 1));
+                    if (i & 1) {
+                        sub_8052F78((void *)&gUnknown_08688698[0], &strc34->u.overB);
+                    } else {
+                        sub_8052F78((void *)&gUnknown_08688688[0], &strc34->u.overB);
+                    }
+                } else {
+                    strc34->u.overB.unk12 = 0xB;
+                    sub_8052F78((void *)&gUnknown_0868869C[0], &strc34->u.overB);
+                }
+            }
+        }
+    } else if ((u32)temp_r1 > 0x86U) {
+        for (i = 0; i < 7; i++) {
+            strc34->u.overB.qUnkA = (i << 5) + 5;
+            if ((strc34->unk29 >> i) & 1) {
+                strc34->u.overB.unk12 = (13 - (i >> 1));
+                if (i & 1) {
+                    sub_8052F78(&gUnknown_08688698[0], &strc34->u.overB);
+                } else {
+                    sub_8052F78(&gUnknown_08688688[0], &strc34->u.overB);
+                }
+            } else {
+                strc34->u.overB.unk12 = 0xB;
+                sub_8052F78(&gUnknown_0868869C[0], &strc34->u.overB);
+            }
+        }
+    } else if (temp_r1 > 0x31U) {
+        for (i = 0; i < 7; i++) {
+            var_r5 = (temp_r1 - 0x31);
+            temp_r0 = i * 5;
+            if (var_r5 >= temp_r0) {
+                var_r5 = (var_r5 - temp_r0);
+                if (var_r5 > 50) {
+                    var_r5 = 50;
+                }
+                temp_r4 = Div(COS(0), 80);
+                strc34->u.overB.qUnkA = ((i << 5) + (temp_r4 + 5)) - Div(SIN(var_r5 * 5), 80);
+                if ((strc34->unk29 >> i) & 1) {
+                    strc34->u.overB.unk12 = (u16)(0xD - (i >> 1));
+                    if (i & 1) {
+                        sub_8052F78(&gUnknown_08688698[0], &strc34->u.overB);
+                    } else {
+                        sub_8052F78(&gUnknown_08688688[0], &strc34->u.overB);
+                    }
+                } else {
+                    strc34->u.overB.unk12 = 0xB;
+                    sub_8052F78(&gUnknown_0868869C[0], &strc34->u.overB);
+                }
+            }
+        }
+    }
+}
+
+void TaskDestructor_805E1E4(struct Task *t) { }
