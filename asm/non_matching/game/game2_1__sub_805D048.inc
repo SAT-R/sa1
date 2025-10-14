@@ -242,7 +242,7 @@ _0805D186:
 	str r0, [r2, #0x18]
 	movs r1, #0
 	str r1, [r2, #0x1c]
-	ldr r0, _0805D4C8 @ =sub_805D8EC
+	ldr r0, _0805D4C8 @ =Task_805D8EC
 	str r5, [sp]
 	movs r1, #0x34
 	ldr r2, _0805D4B8 @ =0x00002120
@@ -293,7 +293,7 @@ _0805D186:
 	str r1, [r2, #0x18]
 	movs r3, #0
 	str r3, [r2, #0x1c]
-	ldr r0, _0805D4D0 @ =sub_805DB04
+	ldr r0, _0805D4D0 @ =Task_805DB04
 	str r5, [sp]
 	movs r1, #0x34
 	ldr r2, _0805D4B8 @ =0x00002120
@@ -340,7 +340,7 @@ _0805D186:
 	str r1, [r2, #0x18]
 	movs r3, #0
 	str r3, [r2, #0x1c]
-	ldr r0, _0805D4D4 @ =sub_805DD10
+	ldr r0, _0805D4D4 @ =Task_805DD10
 	str r5, [sp]
 	movs r1, #0x34
 	ldr r2, _0805D4B8 @ =0x00002120
@@ -388,7 +388,7 @@ _0805D186:
 	str r1, [r2, #0x18]
 	movs r3, #0
 	str r3, [r2, #0x1c]
-	ldr r0, _0805D4D8 @ =sub_805DF2C
+	ldr r0, _0805D4D8 @ =Task_805DF2C
 	str r5, [sp]
 	movs r1, #0x34
 	ldr r2, _0805D4B8 @ =0x00002120
@@ -549,11 +549,11 @@ _0805D4B8: .4byte 0x00002120
 _0805D4BC: .4byte 0x03000028
 _0805D4C0: .4byte Task_805D720
 _0805D4C4: .4byte 0x0300002A
-_0805D4C8: .4byte sub_805D8EC
+_0805D4C8: .4byte Task_805D8EC
 _0805D4CC: .4byte 0x03000029
-_0805D4D0: .4byte sub_805DB04
-_0805D4D4: .4byte sub_805DD10
-_0805D4D8: .4byte sub_805DF2C
+_0805D4D0: .4byte Task_805DB04
+_0805D4D4: .4byte Task_805DD10
+_0805D4D8: .4byte Task_805DF2C
 _0805D4DC: .4byte sub_805E018
 _0805D4E0: .4byte sub_805D4F0
 _0805D4E4: .4byte TaskDestructor_805E1E4

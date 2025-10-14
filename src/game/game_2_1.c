@@ -34,7 +34,7 @@ typedef struct Game_2_1_34 {
     } u;
     s32 unk18;
     s32 unk1C;
-    s16 unk20;
+    u16 unk20;
     u16 unk22;
     u16 unk24;
     u16 unk26;
@@ -44,13 +44,14 @@ typedef struct Game_2_1_34 {
     u8 unk2B[7];
 } Game_2_1_34;
 
+void sub_805C900(u8 arg0);
 void sub_805C994(u8 arg0);
 void Task_805D684(void);
 void Task_805D720(void);
-void sub_805D8EC(void);
-void sub_805DB04(void);
-void sub_805DD10(void);
-void sub_805DF2C(void);
+void Task_805D8EC(void);
+void Task_805DB04(void);
+void Task_805DD10(void);
+void Task_805DF2C(void);
 void sub_805E018(void);
 void sub_805D4F0(void);
 void TaskDestructor_805E1E4(struct Task *t);
@@ -361,7 +362,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     temp_r2->unk18 = sp20;
     temp_r2->unk1C = 0;
 
-    taskC = TaskCreate(sub_805D8EC, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    taskC = TaskCreate(Task_805D8EC, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
     temp_r2 = TASK_DATA(taskC);
     temp_r2->unk20 = 0;
     temp_r2->unk22 = var_r7;
@@ -384,7 +385,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     temp_r2->unk18 = sp20;
     temp_r2->unk1C = 0;
 
-    task24 = TaskCreate(sub_805DB04, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    task24 = TaskCreate(Task_805DB04, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
     temp_r2 = TASK_DATA(task24);
     temp_r2->unk20 = 0;
     temp_r2->unk22 = var_r7;
@@ -407,7 +408,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     temp_r2->unk18 = sp20;
     temp_r2->unk1C = 0;
 
-    task10 = TaskCreate(sub_805DD10, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    task10 = TaskCreate(Task_805DD10, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
     temp_r2 = TASK_DATA(task10);
     temp_r2->unk20 = 0;
     temp_r2->unk22 = var_r7;
@@ -430,7 +431,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     temp_r2->unk18 = sp20;
     temp_r2->unk1C = 0;
 
-    temp_r2 = TASK_DATA(TaskCreate(sub_805DF2C, sizeof(Game_2_1_34), 0x2120U, 0U, NULL));
+    temp_r2 = TASK_DATA(TaskCreate(Task_805DF2C, sizeof(Game_2_1_34), 0x2120U, 0U, NULL));
     temp_r2->unk20 = 0;
     temp_r2->unk22 = var_r7;
     temp_r2->unk24 = 0;
@@ -670,5 +671,51 @@ void Task_805D720()
             }
             sub_8052F78(&sp00[strc34->unk24], &strc34->u.overB);
         }
+    }
+}
+
+void sub_805D81C()
+{
+    s32 strc34_3;
+    u16 temp_r7;
+    u16 temp_r8;
+    s16 var_r6;
+    u8 var_r5;
+
+    Game_2_1_34 *strc34 = TASK_DATA(gCurTask);
+
+    temp_r7 = strc34->u.strc0.unkA;
+    temp_r8 = strc34->u.strc0.unkC;
+    if (strc34->unk20 <= (strc34->unk22 + 558)) {
+        if (strc34->unk20 > (strc34->unk22 + 545)) {
+            s32 v1 = (strc34->unk20 - 545);
+            var_r6 = (v1 - strc34->unk22) * 0x1C;
+        } else {
+            var_r6 = 0;
+        }
+        sub_805C900(3);
+
+        for (var_r5 = 0; var_r5 < 7; var_r5++) {
+            if (strc34->unk2B[var_r5] != 0x20) {
+                break;
+            }
+        }
+
+        if (strc34->u.strc0.unk2 == 0x100) {
+            strc34->u.strc0.unkC = 0x7EU;
+            strc34->u.strc0.byteCount = 1;
+            strc34->u.strc0.unkA = (179 - var_r6);
+            sub_8052F78((&strc34->unk2B[var_r5]), &strc34->u.overB);
+        } else {
+            s32 divResB = Div(strc34->u.strc0.unk2, 25);
+            s32 divResA = (strc34->u.strc0.unk2 / 16);
+            strc34->u.strc0.unkC = ((143 - divResA) - divResB);
+            strc34->u.strc0.byteCount = 1;
+            strc34->u.strc0.unkA = 0xA3U;
+            sub_8052C84(&strc34->unk2B[var_r5], &strc34->u.strc0);
+        }
+
+        strc34->u.strc0.unkA = temp_r7;
+        strc34->u.strc0.unkC = temp_r8;
     }
 }
