@@ -1,22 +1,59 @@
 #include "global.h"
 #include "core.h"
-#include "game/gTask_03006240.h"
-#include "game/sa1_sa2_shared/globals.h"
+#include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
+#include "game/gTask_03006240.h"
+#include "game/save.h"
+#include "game/sa1_sa2_shared/globals.h"
+#include "game/special_stage/main.h"
 
 #include "constants/ui_graphics.h"
 #include "constants/vram_hardcoded.h"
+#include "constants/zones.h"
+
+typedef struct Game_2_1_2C {
+    u8 filler0[0xC];
+    struct Task *taskC;
+    struct Task *task10;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *task20;
+    struct Task *task24;
+    s16 unk28;
+    s16 unk2A;
+} Game_2_1_2C;
 
 typedef struct Game_2_1_34 {
-    u8 filler0[0x18];
+    union {
+        // TODO: This union might actually be their shared global type?
+        GameOverB overB;
+        Strc_8052C84 strc0;
+    } u;
     s32 unk18;
     s32 unk1C;
-    u8 filler20[0x6];
+    u16 unk20;
+    s16 unk22;
+    s16 unk24;
     u16 unk26;
-    u8 filler28[0x2];
+    u8 unk28;
+    u8 unk29;
     u8 unk2A;
     u8 unk2B[7];
 } Game_2_1_34;
+
+void sub_805C994(u8 arg0);
+void Task_805D684(void);
+void Task_805D720(void);
+void sub_805D8EC(void);
+void sub_805DB04(void);
+void sub_805DD10(void);
+void sub_805DF2C(void);
+void sub_805E018(void);
+void sub_805D4F0(void);
+void TaskDestructor_805E1E4(struct Task *t);
+
+extern u8 gUnknown_08487134[NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE];
 
 void sub_805C900(u8 arg0)
 {
