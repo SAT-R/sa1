@@ -134,6 +134,10 @@ extern s32 gUnknown_030054FC;
 extern u16 gBossCameraClampYLower;
 extern u16 gBossCameraClampYUpper;
 extern u8 gRandomItemBox;
+#if (GAME == GAME_SA1)
+extern u16 gSpecialStageCollectedRings;
+extern u16 gUnknown_0300507C;
+#endif
 extern u8 sa2__gUnknown_030053E0;
 
 extern s8 sa2__gUnknown_0300543C;

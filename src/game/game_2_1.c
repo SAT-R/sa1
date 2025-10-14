@@ -220,3 +220,250 @@ void sub_805C994(u8 arg0)
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
     sub_80528AC(&gfx);
 }
+
+// (91.53%) https://decomp.me/scratch/GJc3f
+NONMATCH("asm/non_matching/game/game_2_1__sub_805D048.inc", void sub_805D048(u8 arg0))
+{
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *taskC;
+    struct Task *task24;
+    struct Task *task10;
+    struct Task *task14;
+    struct Task *t;
+    u32 sp20;
+    s32 sp24;
+    struct Task *task20;
+    Game_2_1_2C *temp_r0_10;
+    Game_2_1_34 *temp_r2;
+    s32 var_r8;
+    u16 temp_sl;
+    u16 var_r7;
+    u8 temp_r0;
+    u8 temp_sb;
+
+    sub_80535FC();
+
+    gBgScrollRegs[0][0] = 0;
+    gBgScrollRegs[0][1] = 0;
+    gBgScrollRegs[1][0] = 0;
+    gBgScrollRegs[1][1] = 0;
+    gBgScrollRegs[2][0] = 0;
+    gBgScrollRegs[2][1] = 0;
+    gBgScrollRegs[3][0] = 0;
+    gBgScrollRegs[3][1] = 0;
+
+    if (gSpecialStageCollectedRings >= gUnknown_03005154) {
+        m4aSongNumStart(0x2FU);
+        sp24 = 1;
+        sp20 = 0x2710;
+        if (GetBit(LOADED_SAVE->chaosEmeralds, gUnknown_08487134[gCurrentLevel])) {
+            var_r8 = 1;
+        } else {
+            SetBit(LOADED_SAVE->chaosEmeralds, gUnknown_08487134[gCurrentLevel]);
+            var_r8 = 0;
+        }
+    } else {
+        m4aSongNumStart(0x2EU);
+        var_r8 = 0;
+        sp24 = 0;
+        sp20 = 0;
+    }
+    temp_sb = LOADED_SAVE->chaosEmeralds;
+    temp_sl = gSpecialStageCollectedRings;
+    temp_r0 = gUnknown_0300507C + var_r8;
+    SA2_LABEL(gUnknown_0300543C) = SA2_LABEL(gUnknown_0300543C) + temp_r0;
+
+    INCREMENT_SCORE_A(sp20 + temp_sl * 100);
+
+    if (sp20 > (temp_sl * 100)) {
+        var_r7 = Div(sp20, 100);
+    } else {
+        var_r7 = temp_sl;
+    }
+
+    UiGfxStackInit();
+
+    task1C = TaskCreate(Task_805D684, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    temp_r2 = TASK_DATA(task1C);
+    temp_r2->unk20 = 0;
+    temp_r2->unk22 = var_r7;
+    temp_r2->unk24 = 0;
+    temp_r2->u.strc0.unkA = 0xF0;
+    temp_r2->u.strc0.unkC = 0x7E;
+    temp_r2->u.strc0.byteCount = 8;
+    temp_r2->u.strc0.unk10 = 8;
+    temp_r2->u.strc0.unk12 = 0xE;
+    temp_r2->u.strc0.unk16 = 1;
+    temp_r2->u.strc0.unk8 = 0xA;
+    temp_r2->unk28 = sp24;
+    temp_r2->unk29 = temp_sb;
+    temp_r2->unk2A = temp_r0;
+    temp_r2->unk26 = temp_sl;
+    temp_r2->unk18 = sp20;
+    temp_r2->unk1C = 0;
+
+    task18 = TaskCreate(Task_805D720, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    temp_r2 = TASK_DATA(task18);
+    temp_r2->unk20 = 0;
+    temp_r2->unk22 = var_r7;
+    temp_r2->unk24 = 0;
+    temp_r2->u.strc0.unkA = 0x100;
+    temp_r2->u.strc0.unkC = 0x80;
+    temp_r2->u.strc0.byteCount = 9;
+    temp_r2->u.strc0.unk10 = 2;
+    temp_r2->u.strc0.unk12 = 0xF;
+    temp_r2->u.strc0.unk16 = 1;
+    temp_r2->u.strc0.unk8 = 0;
+    temp_r2->unk28 = sp24;
+    temp_r2->unk29 = temp_sb;
+    temp_r2->unk2A = temp_r0;
+    temp_r2->unk26 = temp_sl;
+    temp_r2->unk18 = sp20;
+    temp_r2->unk1C = 0;
+
+    taskC = TaskCreate(sub_805D8EC, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    temp_r2 = TASK_DATA(taskC);
+    temp_r2->unk20 = 0;
+    temp_r2->unk22 = var_r7;
+    temp_r2->unk24 = 0;
+    temp_r2->u.strc0.unk0 = 0x100;
+    temp_r2->u.strc0.unk2 = 0;
+    temp_r2->u.strc0.unk4 = 0;
+    temp_r2->u.strc0.unk6 = 0;
+    temp_r2->u.strc0.unkA = 0x39;
+    temp_r2->u.strc0.unkC = 0x49;
+    temp_r2->u.strc0.byteCount = 3;
+    temp_r2->u.strc0.unk10 = 3;
+    temp_r2->u.strc0.unk12 = 0xE;
+    temp_r2->u.strc0.unk16 = 1;
+    temp_r2->u.strc0.unk8 = 0x18;
+    temp_r2->unk28 = sp24;
+    temp_r2->unk29 = temp_sb;
+    temp_r2->unk2A = temp_r0;
+    temp_r2->unk26 = temp_sl;
+    temp_r2->unk18 = sp20;
+    temp_r2->unk1C = 0;
+
+    task24 = TaskCreate(sub_805DB04, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    temp_r2 = TASK_DATA(task24);
+    temp_r2->unk20 = 0;
+    temp_r2->unk22 = var_r7;
+    temp_r2->unk24 = 0;
+    temp_r2->u.strc0.unk0 = 0x100;
+    temp_r2->u.strc0.unk2 = 0;
+    temp_r2->u.strc0.unk4 = 0;
+    temp_r2->u.strc0.unk6 = 1;
+    temp_r2->u.strc0.unkA = 0x39;
+    temp_r2->u.strc0.unkC = 0x39;
+    temp_r2->u.strc0.byteCount = 3;
+    temp_r2->u.strc0.unk10 = 3;
+    temp_r2->u.strc0.unk12 = 0xE;
+    temp_r2->u.strc0.unk16 = 1;
+    temp_r2->u.strc0.unk8 = 0x10;
+    temp_r2->unk28 = sp24;
+    temp_r2->unk29 = temp_sb;
+    temp_r2->unk2A = temp_r0;
+    temp_r2->unk26 = temp_sl;
+    temp_r2->unk18 = sp20;
+    temp_r2->unk1C = 0;
+
+    task10 = TaskCreate(sub_805DD10, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    temp_r2 = TASK_DATA(task10);
+    temp_r2->unk20 = 0;
+    temp_r2->unk22 = var_r7;
+    temp_r2->unk24 = 0;
+    temp_r2->u.strc0.unk0 = 0x100;
+    temp_r2->u.strc0.unk2 = 0;
+    temp_r2->u.strc0.unk4 = 0;
+    temp_r2->u.strc0.unk6 = 2;
+    temp_r2->u.strc0.unkA = 0x39;
+    temp_r2->u.strc0.unkC = 0x39;
+    temp_r2->u.strc0.byteCount = 3;
+    temp_r2->u.strc0.unk10 = 3;
+    temp_r2->u.strc0.unk12 = 0xE;
+    temp_r2->u.strc0.unk16 = 1;
+    temp_r2->u.strc0.unk8 = 8;
+    temp_r2->unk28 = sp24;
+    temp_r2->unk29 = temp_sb;
+    temp_r2->unk2A = temp_r0;
+    temp_r2->unk26 = temp_sl;
+    temp_r2->unk18 = sp20;
+    temp_r2->unk1C = 0;
+
+    temp_r2 = TASK_DATA(TaskCreate(sub_805DF2C, sizeof(Game_2_1_34), 0x2120U, 0U, NULL));
+    temp_r2->unk20 = 0;
+    temp_r2->unk22 = var_r7;
+    temp_r2->unk24 = 0;
+    temp_r2->u.strc0.unk0 = 0x100;
+    temp_r2->u.strc0.unk2 = 0;
+    temp_r2->u.strc0.unk4 = 0;
+    temp_r2->u.strc0.unk6 = 3;
+    temp_r2->u.strc0.unkA = 0x39;
+    temp_r2->u.strc0.unkC = 0x39;
+    temp_r2->u.strc0.byteCount = 3;
+    temp_r2->u.strc0.unk10 = 3;
+    temp_r2->u.strc0.unk12 = 0xE;
+    temp_r2->u.strc0.unk16 = 1;
+    temp_r2->u.strc0.unk8 = 0;
+    temp_r2->unk28 = sp24;
+    temp_r2->unk29 = temp_sb;
+    temp_r2->unk2A = temp_r0;
+    temp_r2->unk26 = temp_sl;
+    temp_r2->unk18 = sp20;
+    temp_r2->unk1C = 0;
+
+    task20 = TaskCreate(sub_805E018, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    temp_r2 = TASK_DATA(task20);
+    temp_r2->unk20 = 0;
+    temp_r2->unk22 = var_r7;
+    temp_r2->unk24 = 0;
+    temp_r2->u.strc0.unkA = 0;
+    temp_r2->u.strc0.unkC = 0x29;
+    temp_r2->u.strc0.byteCount = 1;
+    temp_r2->u.strc0.unk10 = 4;
+    temp_r2->u.strc0.unk12 = 0xD;
+    temp_r2->u.strc0.unk16 = 1;
+    temp_r2->u.strc0.unk8 = 0;
+    temp_r2->unk28 = sp24;
+    temp_r2->unk29 = temp_sb;
+    temp_r2->unk2A = temp_r0;
+    temp_r2->unk26 = temp_sl;
+    temp_r2->unk18 = sp20;
+    temp_r2->unk1C = 0;
+
+    temp_r0_10 = TASK_DATA(TaskCreate(sub_805D4F0, sizeof(Game_2_1_2C), 0x2100U, 0U, TaskDestructor_805E1E4));
+    temp_r0_10->unk28 = 0;
+    temp_r0_10->unk2A = var_r7;
+    temp_r0_10->task1C = task1C;
+    temp_r0_10->task18 = task18;
+    temp_r0_10->taskC = taskC;
+    temp_r0_10->task24 = task24;
+    temp_r0_10->task10 = task10;
+    temp_r0_10->task14 = task14;
+    temp_r0_10->task20 = task20;
+
+    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][2] = -1;
+    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    SA2_LABEL(gUnknown_03004D80)[1] = 0;
+    SA2_LABEL(gUnknown_03002280)[1][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[1][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[1][2] = -1;
+    SA2_LABEL(gUnknown_03002280)[1][3] = 0x20;
+    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][2] = -1;
+    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+    SA2_LABEL(gUnknown_03004D80)[3] = 0;
+    SA2_LABEL(gUnknown_03002280)[3][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[3][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[3][2] = -1;
+    SA2_LABEL(gUnknown_03002280)[3][3] = 0x20;
+
+    sub_805C994(arg0);
+}
+END_NONMATCH

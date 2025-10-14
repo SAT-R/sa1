@@ -72,6 +72,7 @@ typedef struct TileInfo32 {
     u32 variant;
 } TileInfo32;
 
+// TODO: Inline the data, otherwise the VRAM pointers will be wrong and crash!
 extern TileInfo32 gUnknown_0868B240[5];
 
 void sub_8062EDC(void)
