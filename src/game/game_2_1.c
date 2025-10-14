@@ -35,8 +35,8 @@ typedef struct Game_2_1_34 {
     s32 unk18;
     s32 unk1C;
     s16 unk20;
-    s16 unk22;
-    s16 unk24;
+    u16 unk22;
+    u16 unk24;
     u16 unk26;
     u8 unk28;
     u8 unk29;
@@ -535,16 +535,16 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D4F0.inc", void sub_805D4F0())
             if (--subF->unk26 == 0) {
                 subF->unk26 = 0; // lol
             }
-            
+
             subD->unk1C += 100;
         }
-        
+
         if (subE->unk18 != 0) {
             subE->unk18 -= 100;
             subD->unk1C += 100;
         }
     }
-    
+
     if ((strc2C->unk2A + 615) < ++strc2C->unk28) {
         gPlayer.checkPointX -= 16;
         gPlayer.checkPointY -= 16;
@@ -562,7 +562,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D4F0.inc", void sub_805D4F0())
         gCourseTime = temp_r6;
         return;
     }
-    
+
     if (strc2C->unk28 == (strc2C->unk2A + 0xAA)) {
         if (subC->unk2A != 0) {
             m4aSongNumStart(0x9AU);
@@ -570,14 +570,15 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D4F0.inc", void sub_805D4F0())
             m4aSongNumStart(0x8DU);
         }
     }
-    
+
     if ((strc2C->unk28 > 0xAA) && (strc2C->unk28 < (strc2C->unk2A + 0xAA)) && (Mod(strc2C->unk28, 4) == 0)) {
         m4aSongNumStart(0x8CU);
     }
 }
 END_NONMATCH
 
-void Task_805D684(void) {
+void Task_805D684(void)
+{
     s16 unk20;
     s16 temp_r1;
     Game_2_1_34 *temp_r2;
@@ -606,4 +607,68 @@ void Task_805D684(void) {
         }
     }
     sub_8052F78("        ", &temp_r2->u.overB);
+}
+
+void Task_805D720()
+{
+    s16 var_r0_2;
+    s16 unk20;
+    Game_2_1_34 *strc34;
+
+    const char sp00[] = " !\"#$%&'() !\"#$%&'() !\"#$%&'()";
+
+    strc34 = TASK_DATA(gCurTask);
+    unk20 = strc34->unk20;
+    if (unk20 > ((u16)strc34->unk22 + 0x221)) {
+        strc34->u.overB.qUnkA -= 0x1C;
+        if (strc34->u.overB.qUnkA < -0x1F) {
+            if (strc34->u.overB.unkE != 0) {
+                strc34->u.overB.unkE--;
+            }
+            strc34->u.overB.qUnkA += 0x20;
+            strc34->unk24 = Mod(strc34->unk24 + 1, 10);
+        }
+
+        sub_8052F78(&sp00[strc34->unk24], &strc34->u.overB);
+    } else if (unk20 > 49) {
+        strc34->u.overB.unkC = 0x13;
+        strc34->u.overB.qUnkA -= 2;
+
+        if (strc34->u.overB.qUnkA < -0x1F) {
+            strc34->u.overB.qUnkA += 0x20;
+            strc34->unk24 = Mod(strc34->unk24 + 1, 0xA);
+        }
+
+        sub_8052F78(&sp00[strc34->unk24], &strc34->u.overB);
+    } else if (unk20 > 33) {
+        strc34->u.overB.unkC -= 6;
+        strc34->u.overB.qUnkA -= 2;
+
+        if (strc34->u.overB.qUnkA < -0x1F) {
+            strc34->u.overB.qUnkA += 0x20;
+            strc34->unk24 = Mod(strc34->unk24 + 1, 0xA);
+        }
+
+        sub_8052F78(&sp00[strc34->unk24], &strc34->u.overB);
+    } else if (unk20 > 0x19) {
+        strc34->u.overB.qUnkA -= 2;
+        strc34->u.overB.unkE = 9;
+
+        if (strc34->u.overB.qUnkA < -0x1F) {
+            strc34->u.overB.qUnkA += 0x20;
+            strc34->unk24 = Mod(strc34->unk24 + 1, 0xA);
+        }
+
+        sub_8052F78(&sp00[strc34->unk24], &strc34->u.overB);
+    } else if (unk20 > 0xF) {
+        strc34->u.overB.qUnkA -= 0x1C;
+        if (strc34->u.overB.qUnkA < 0xF0) {
+            strc34->u.overB.unkE = 9 - (strc34->u.overB.qUnkA >> 0x5);
+            if (strc34->u.overB.qUnkA < -0x1F) {
+                strc34->u.overB.qUnkA += 0x20;
+                strc34->unk24 = Mod((u16)strc34->unk24 + 1, 0xA);
+            }
+            sub_8052F78(&sp00[strc34->unk24], &strc34->u.overB);
+        }
+    }
 }

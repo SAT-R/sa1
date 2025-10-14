@@ -2,10 +2,6 @@
 
     .align 2, 0
 
-    .global gUnknown_08688664
-gUnknown_08688664:
-    .incbin "baserom.gba", 0x00688664, 0x20
-
     .global gUnknown_08688684
 gUnknown_08688684:
     .incbin "baserom.gba", 0x00688684, 0x4
