@@ -34,7 +34,7 @@ typedef struct Game_2_1_34 {
     } u;
     s32 unk18;
     s32 unk1C;
-    u16 unk20;
+    s16 unk20;
     s16 unk22;
     s16 unk24;
     u16 unk26;
@@ -576,3 +576,34 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D4F0.inc", void sub_805D4F0())
     }
 }
 END_NONMATCH
+
+void Task_805D684(void) {
+    s16 unk20;
+    s16 temp_r1;
+    Game_2_1_34 *temp_r2;
+
+    temp_r2 = TASK_DATA(gCurTask);
+
+    unk20 = temp_r2->unk20;
+    if (unk20 > ((u16)temp_r2->unk22 + 0x221)) {
+        if (temp_r2->u.overB.qUnkA < -32) {
+            temp_r2->u.overB.qUnkA += 32;
+            if (temp_r2->u.strc0.byteCount != 0) {
+                temp_r2->u.strc0.byteCount--;
+            }
+        }
+        temp_r2->u.overB.qUnkA -= 0x1A;
+    } else if (unk20 > 0x31) {
+        temp_r2->u.strc0.unkC = 0x11U;
+    } else if (unk20 > 0x21) {
+        temp_r2->u.strc0.unkC -= 6;
+    } else if (unk20 > 0x19) {
+        temp_r2->u.overB.qUnkA = 0xFFF0U;
+    } else if (unk20 > 0xF) {
+        temp_r2->u.overB.qUnkA -= 0x1A;
+        if (temp_r2->u.overB.qUnkA < -0x10) {
+            temp_r2->u.overB.qUnkA = -0x10;
+        }
+    }
+    sub_8052F78("        ", &temp_r2->u.overB);
+}
