@@ -48,6 +48,7 @@ void sub_805C900(u8 arg0);
 void sub_805C994(u8 arg0);
 void Task_805D684(void);
 void Task_805D720(void);
+void sub_805D81C(void);
 void Task_805D8EC(void);
 void Task_805DB04(void);
 void Task_805DD10(void);
@@ -674,7 +675,7 @@ void Task_805D720()
     }
 }
 
-void sub_805D81C()
+void sub_805D81C(void)
 {
     s32 strc34_3;
     u16 temp_r7;
@@ -717,5 +718,58 @@ void sub_805D81C()
 
         strc34->u.strc0.unkA = temp_r7;
         strc34->u.strc0.unkC = temp_r8;
+    }
+}
+
+void Task_805D8EC()
+{
+    s16 temp_r0_2;
+    s32 temp_r0_3;
+    u16 temp_r0;
+    u16 temp_r1_2;
+
+    Game_2_1_34 *strc34 = TASK_DATA(gCurTask);
+    s16 unk20 = strc34->unk20;
+    u8 unk2A = strc34->unk2A;
+
+    if (unk2A != 0) {
+        if ((unk20 >= (strc34->unk22 + 0xAA))) {
+            strc34->u.overB.unkE = 3;
+            strc34->u.overB.unk10 = 3;
+            strc34->u.overB.unk12 = 0xE;
+            if (unk20 > (strc34->unk22 + 0x221)) {
+                strc34->u.overB.unkC = 0x81;
+                strc34->u.overB.qUnkA -= 0x1C;
+                if (strc34->u.overB.qUnkA < -0x80) {
+                    strc34->u.overB.unkE = 0;
+                    strc34->u.overB.qUnkA = -0x80;
+                } else {
+                    sub_8052F78(")*+", &strc34->u.overB);
+                }
+
+                sub_805D81C();
+            } else if (unk20 > 39) {
+                strc34->u.strc0.unk2 += 0x20;
+
+                if (strc34->u.strc0.unk2 >= 0x100) {
+                    strc34->u.strc0.unk2 = 0x100;
+                    strc34->u.strc0.unkA = 0x29;
+                    strc34->u.strc0.unkC = 0x81;
+                    sub_8052F78(")*+", &strc34->u.overB);
+                } else {
+                    strc34->u.strc0.unkA = 0x19U;
+                    strc34->u.strc0.unkC = (0x8B - (strc34->u.strc0.unk2 >> 4));
+                    sub_8052C84(")*+", &strc34->u.strc0);
+                }
+
+                sub_805D81C();
+            } else if (unk20 > 0x21) {
+                strc34->u.strc0.unkA = 0x19U;
+                strc34->u.strc0.unkC = (0x8B - (strc34->u.strc0.unk2 >> 4));
+                strc34->u.strc0.unk2 += 0x20;
+                sub_8052C84(")*+", &strc34->u.strc0);
+                sub_805D81C();
+            }
+        }
     }
 }
