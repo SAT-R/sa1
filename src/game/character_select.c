@@ -6,6 +6,7 @@
 #include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/ui.h"
+#include "game/save.h"
 
 #include "constants/characters.h"
 #include "constants/songs.h"
@@ -100,7 +101,9 @@ void sub_805B7E4(void);
 void sub_805B858(void);
 void Task_805A54C(void);
 void sub_805A9A4(void);
-void sub_805A798(void);
+void Task_805A798(void);
+
+extern u32 gUnknown_03005140;
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -677,7 +680,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A54C.inc", void Task_805A54
                     gMultiplayerCharacters[i] = gMultiSioRecv[i].pat0.unk2;
                 }
             }
-            gCurTask->main = sub_805A798;
+            gCurTask->main = Task_805A798;
             return;
         }
 
@@ -708,6 +711,91 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A54C.inc", void Task_805A54
             gMultiSioSend.pat0.unk0 = 0x21;
             gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & strc3C->unk28) >> 8);
         }
+    }
+}
+END_NONMATCH
+
+// (87.54%) https://decomp.me/scratch/MOYRn
+NONMATCH("asm/non_matching/game/char_select__Task_805A798.inc", void Task_805A798())
+{
+    s32 temp_r0_2;
+    u32 i;
+    s32 var_r6;
+    struct Task *temp_r2;
+    struct Task *temp_r2_2;
+    u16 temp_r2_3;
+    u8 *temp_r1_3;
+    u8 *var_r2;
+    void *temp_r3;
+    u8 temp_r0;
+    u8 temp_r4;
+    void *temp_r1;
+    void *temp_r1_2;
+    union MultiSioData *send, *recv;
+
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+
+    if (IS_MULTI_PLAYER) {
+        for (i = 0; i < 4 && GetBit(gMultiplayerConnections, i); i++) {
+            if (!CheckBit(gMultiSioStatusFlags, i)) {
+                if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[i] = 0;
+            }
+        }
+    }
+
+    if (gMultiSioRecv->pat0.unk0 == 0x23) {
+        gUnknown_03005140 = 0;
+        for (i = 0; i < 4; i++) {
+            if (GetBit(gMultiplayerConnections, i)) {
+                s32 var_r0 = gMultiSioRecv[i].pat0.unk3;
+                if ((u32)var_r0 < (u32)gUnknown_03005140) {
+                    var_r0 = gUnknown_03005140;
+                }
+                gUnknown_03005140 = var_r0;
+                if (!(gMultiSioStatusFlags & 0x80)) {
+                    gMultiplayerCharacters[i] = gMultiSioRecv[i].pat0.unk2;
+                }
+            }
+        }
+        sub_805A9A4();
+        return;
+    }
+
+    if (gMultiSioRecv->pat0.unk0 == 0x21) {
+        gMultiSioSend.pat0.unk0 = 0x20;
+        strc3C->task1C->flags &= ~1;
+        gCurTask->main = Task_805A060;
+        return;
+    }
+    if (gMultiSioStatusFlags & 0x80) {
+        gMultiSioSend.pat0.unk0 = 0x23;
+        gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & strc3C->unk28) >> 8);
+        gMultiSioSend.pat0.unk3 = (u8)LOADED_SAVE->unk8[gMultiSioSend.pat0.unk2];
+        for (i = 0; i < 4; i++) {
+            if (GetBit(gMultiplayerConnections, i) && (i != 0)
+                && (gMultiplayerCharacters[i] = gMultiSioRecv[i].pat0.unk2, (gMultiSioRecv[i].pat0.unk0 != 0x22))) {
+                gMultiSioSend.pat0.unk0 = 0x22;
+
+                if (B_BUTTON & gPressedKeys) {
+                    gMultiSioSend.pat0.unk0 = 0x21;
+                }
+
+                break;
+            }
+        }
+    } else {
+        gMultiSioSend.pat0.unk0 = 0x22;
+        gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & strc3C->unk28) >> 8);
+        gMultiSioSend.pat0.unk3 = (u8)LOADED_SAVE->unk8[gMultiSioSend.pat0.unk2];
     }
 }
 END_NONMATCH

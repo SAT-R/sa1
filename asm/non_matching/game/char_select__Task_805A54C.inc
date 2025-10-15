@@ -119,7 +119,7 @@ _0805A63C:
 	movs r3, #0
 	ldr r5, _0805A67C @ =gCurTask
 	mov ip, r5
-	ldr r7, _0805A680 @ =sub_805A798
+	ldr r7, _0805A680 @ =Task_805A798
 	ldr r6, _0805A684 @ =gMultiplayerConnections
 	movs r5, #1
 	adds r2, r1, #0
@@ -145,7 +145,7 @@ _0805A666:
 	.align 2, 0
 _0805A678: .4byte gMultiSioRecv
 _0805A67C: .4byte gCurTask
-_0805A680: .4byte sub_805A798
+_0805A680: .4byte Task_805A798
 _0805A684: .4byte gMultiplayerConnections
 _0805A688: .4byte gMultiplayerCharacters
 _0805A68C:
