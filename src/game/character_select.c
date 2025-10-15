@@ -102,6 +102,11 @@ void sub_805B858(void);
 void Task_805A54C(void);
 void sub_805A9A4(void);
 void Task_805A798(void);
+void Task_805AE84(void);
+void Task_805B880(void);
+void Task_805B8C0(void);
+void Task_805B930(void);
+void Task_805AAF8(void);
 
 extern u32 gUnknown_03005140;
 
@@ -799,3 +804,43 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A798.inc", void Task_805A79
     }
 }
 END_NONMATCH
+
+void sub_805A9A4()
+{
+    Strc_80528AC gfx;
+    s32 strc44_2;
+
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+    CharSelect_CC *strcCC = TASK_DATA(strc3C->taskC);
+    CharSelect_44 *strc44 = TASK_DATA(strc3C->task14);
+
+    gSelectedCharacter = (s8)((u32)(0x300 & (u16)strc3C->unk28) >> 8);
+    strcCC->sprites[1].variant = (s8)(((u32)(0x300 & (u16)strc3C->unk28) >> 7) + 1);
+    strc3C->task14->main = Task_805AE84;
+    strc3C->taskC->main = Task_805B8C0;
+    strc3C->task18->main = Task_805B880;
+    strc3C->task10->main = Task_805B930;
+    TaskDestroy(strc3C->task1C);
+    TaskDestroy(strc3C->task20);
+    strc3C->unk24 = 0;
+    strc44->unk40 = 0xB4;
+    gBldRegs.bldY = 0;
+    strc44->unk40 = 0xB4;
+
+    gfx.uiGfxID = 0x2C;
+    gfx.unk2B = 4;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
+    gfx.tilesSize = 0x200;
+    gfx.vramC = OBJ_VRAM0 + 0x920;
+    gfx.paletteSize = 0x20;
+    gfx.unk28 = 0;
+    gfx.unk2A = 9;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx); //, /* extra? */ *((sp2C * 0x1C) + &gUiGraphics->unk8), /* extra? */ 0x06010920, /* extra? */
+                       //gUiGraphics[sp2C].tiles, /* extra? */ 0x200, /* extra? */ 0x20);
+    gCurTask->main = Task_805AAF8;
+}
