@@ -47,4 +47,4 @@
 
 @ Temp copy-paste
 _0800032C:
-	.incbin "baserom.gba", 0x32C, 0xC0
+	.incbin "baserom_sa1.gba", 0x32C, 0xC0

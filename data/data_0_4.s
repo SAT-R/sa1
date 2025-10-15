@@ -3,19 +3,19 @@
 
     .global gSpawnPositions
 gSpawnPositions:
-    .incbin "baserom.gba", 0x004ADEF0, 0x48
+    .incbin "baserom_sa1.gba", 0x004ADEF0, 0x48
 
     .global gSpawnPositions_Modes_4_and_5
 gSpawnPositions_Modes_4_and_5:
-    .incbin "baserom.gba", 0x004ADF38, 0x40
+    .incbin "baserom_sa1.gba", 0x004ADF38, 0x40
 
     .global gUnknown_084ADF78
 gUnknown_084ADF78:
-    .incbin "baserom.gba", 0x004ADF78, 0x48
+    .incbin "baserom_sa1.gba", 0x004ADF78, 0x48
 
     .global gUnknown_084ADFC0
 gUnknown_084ADFC0:
-    .incbin "baserom.gba", 0x004ADFC0, 0x48
+    .incbin "baserom_sa1.gba", 0x004ADFC0, 0x48
 
     .global gPlayerCharacterIdleAnims
 gPlayerCharacterIdleAnims:
@@ -23,15 +23,15 @@ gPlayerCharacterIdleAnims:
 
     .global sCharStateAnimInfo
 sCharStateAnimInfo:
-    .incbin "baserom.gba", 0x004AE010, 0x178
+    .incbin "baserom_sa1.gba", 0x004AE010, 0x178
 
     .global gUnknown_084AE188
 gUnknown_084AE188:
-    .incbin "baserom.gba", 0x004AE188, 0x12
+    .incbin "baserom_sa1.gba", 0x004AE188, 0x12
 
     .global gUnknown_084AE19A
 gUnknown_084AE19A:
-    .incbin "baserom.gba", 0x004AE19A, 0x12
+    .incbin "baserom_sa1.gba", 0x004AE19A, 0x12
 
     .global gCharStatesKnucklesGlideTurn
 gCharStatesKnucklesGlideTurn:

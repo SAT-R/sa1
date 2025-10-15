@@ -1097,7 +1097,7 @@ namespace dump_sound
 
         static void Main(string[] args)
         {
-            rom = File.ReadAllBytes("baserom.gba");
+            rom = File.ReadAllBytes("baserom_sa1.gba");
 
             soundInfo.Add(MPlayTableAdr, PrintMPlayTable(MPlayTableAdr));
             PrintSongTable(SongTableAdr);

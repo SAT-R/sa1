@@ -53,7 +53,7 @@ def convert_entries(rom, lines):
 
     return lines
 
-with open("baserom.gba", "rb")       as rom,      \
+with open("baserom_sa1.gba", "rb")       as rom,      \
      open("src/data/credits.c", "w") as credits_c:
     rom.seek(credits_start - rom_start)
     

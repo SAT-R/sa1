@@ -275,7 +275,7 @@ def write_graphic_table(rom, graphic_table_c):
         i += 1
     graphic_table_c.write("};\n")
     
-with open("baserom.gba", "rb") as rom,                       \
+with open("baserom_sa1.gba", "rb") as rom,                       \
      open("include/" + header_path, "w") as ui_graphics_h,     \
      open("src/data/ui_graphics_data.c", "w") as graphic_data_c, \
      open("src/data/ui_graphics_table.c", "w") as graphic_table_c:

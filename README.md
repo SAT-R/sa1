@@ -20,5 +20,5 @@ It so far builds the following ROM:
 
 **Provide assets**
 
-You must have a copy of the Sonic Advance ROM mentioned above named `baserom.gba` in the repository's root directory.
+You must have a copy of the Sonic Advance ROM mentioned above named `baserom_sa1.gba` in the repository's root directory.
 

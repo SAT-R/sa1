@@ -297,6 +297,6 @@ def extract_from_song_table(rom: BufferedReader):
     print(song_addr_to_name)
     print("\n".join(song_files))
 
-with open('baserom.gba', 'rb') as rom:
+with open('baserom_sa1.gba', 'rb') as rom:
     rom.seek(addr_to_offset(song_table_addr))
     extract_from_song_table(rom)

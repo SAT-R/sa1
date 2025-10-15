@@ -15,4 +15,4 @@ gUnknown_080BB544:
 
     .global gUnknown_080BB568
 gUnknown_080BB568:
-    .incbin "baserom.gba", 0x000BB568, 0x80
+    .incbin "baserom_sa1.gba", 0x000BB568, 0x80

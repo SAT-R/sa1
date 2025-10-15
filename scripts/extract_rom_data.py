@@ -45,7 +45,7 @@ with open("data/new_data.s", "w") as data_file:
         var = to_var_name(addr)
         data_file.write(f"""    .global {var}
 {var}:
-    .incbin "data/baserom.gba", 0x{f"{(raw_addr - rom_start):08x}".upper()}, {size}
+    .incbin "data/baserom_sa1.gba", 0x{f"{(raw_addr - rom_start):08x}".upper()}, {size}
 
 """)
 
