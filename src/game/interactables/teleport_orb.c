@@ -48,7 +48,7 @@ void CreateEntity_TeleportOrb(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     SET_MAP_ENTITY_INITIALIZED(me);
 }
 
-// (90.06%) https://decomp.me/scratch/ORJxz
+// (98.15%) https://decomp.me/scratch/HjIjG
 NONMATCH("asm/non_matching/game/interactables/TeleportOrb__Task_TeleportOrb.inc", void Task_TeleportOrb(void))
 {
     TeleportOrb *orb = TASK_DATA(gCurTask);
