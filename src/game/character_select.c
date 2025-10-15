@@ -3,6 +3,7 @@
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
+#include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/ui.h"
 
@@ -31,16 +32,16 @@ typedef struct CharSelect_34 {
 
 typedef struct CharSelect_3C {
     StrcUi_805423C strc0;
-    struct Task *taskC;
-    struct Task *task10;
-    struct Task *task14;
-    struct Task *task18;
-    struct Task *task1C;
-    struct Task *task20;
+    struct Task *taskC; // -> CharSelect_CC
+    struct Task *task10; // -> CharSelect_20
+    struct Task *task14; // -> CharSelect_44
+    struct Task *task18; // -> CharSelect_20
+    struct Task *task1C; // -> CharSelect_20
+    struct Task *task20; // -> CharSelect_34
     s32 unk24;
-    u16 unk28;
-    u8 unk2A;
-    u8 unk2B;
+    s16 unk28;
+    s8 unk2A;
+    s8 unk2B;
     u8 unk2C;
     u8 unk2D;
     u8 unk2E;
@@ -78,7 +79,7 @@ typedef struct CharSelect_44 {
 typedef struct CharSelect_CC {
     Sprite sprites[4];
     s32 unkC0;
-    u16 unkC4;
+    s16 unkC4;
     u8 unkC6;
     u8 unkC7;
     u8 unkC8;
@@ -87,14 +88,19 @@ typedef struct CharSelect_CC {
 
 void Task_8059F9C(void);
 void Task_nullsub_805B980(void);
-void Task_805AF24(void);
+void Task_805A060(void);
 void Task_805ACD8(void);
+void Task_805AF24(void);
 void Task_805B11C(void);
 void Task_805B1E0(void);
 void Task_805B52C(void);
 void Task_805B984(void);
-void Task_805A060(void);
+void sub_805B7E4(void);
+void sub_805B858(void);
+void sub_805A54C(void);
+void sub_805A9A4(void);
 
+// (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
 {
     Strc_80528AC gfx;
@@ -398,7 +404,7 @@ END_NONMATCH
 void Task_8059F9C(void)
 {
     CharSelect_3C *strc3C = TASK_DATA(gCurTask);
-    if ((sub_805423C(&strc3C->strc0) << 0x18) != 0) {
+    if (sub_805423C(&strc3C->strc0)) {
         strc3C->strc0.unk0 = 0;
         strc3C->strc0.unk2 = 1;
         strc3C->strc0.unk4 = 1;
@@ -407,10 +413,10 @@ void Task_8059F9C(void)
         strc3C->strc0.unkA = 1;
         gDispCnt |= 0x6000;
 
-        gWinRegs[WINREG_WIN0H] = WIN_RANGE(  0,  40);
-        gWinRegs[WINREG_WIN0V] = WIN_RANGE(  0, 240);
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, 40);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, 240);
         gWinRegs[WINREG_WIN1H] = WIN_RANGE(200, 240);
-        gWinRegs[WINREG_WIN1V] = WIN_RANGE(  0, 240);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, 240);
         gWinRegs[WINREG_WININ] = 0x3F3F;
         gWinRegs[WINREG_WINOUT] = 0x1F;
         gBldRegs.bldCnt = 0x1290;
@@ -426,3 +432,194 @@ void Task_8059F9C(void)
         gCurTask->main = Task_805A060;
     }
 }
+
+// (99.88%) https://decomp.me/scratch/WGT0R
+NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A060())
+{
+    CharSelect_20 *sp0;
+    CharSelect_44 *sp4;
+    CharSelect_20 *sp8;
+    CharSelect_34 *spC;
+    s32 temp_r2_4;
+    s32 var_r4;
+    s32 var_r6_2;
+    s8 temp_r0_8;
+    s16 var_r8;
+    u32 var_r0_4;
+    u32 i;
+
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+    CharSelect_CC *temp_sl;
+
+    sp8 = TASK_DATA(strc3C->task18);
+    sp0 = TASK_DATA(strc3C->task10);
+    temp_sl = TASK_DATA(strc3C->taskC);
+    sp4 = TASK_DATA(strc3C->task14);
+    spC = TASK_DATA(strc3C->task20);
+    if (IS_MULTI_PLAYER) {
+        for (i = 0; (i < 4) && GetBit(gMultiplayerConnections, i); i++) {
+            if (!CheckBit(gMultiSioStatusFlags, i)) {
+                if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
+                    TasksDestroyInPriorityRange(0U, 0xFFFFU);
+                    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                    sa2__gUnknown_03005390 = 0;
+                    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[i] = 0;
+            }
+        }
+
+        if (IS_MULTI_PLAYER) {
+            strc3C->unk2F = 0U;
+
+            for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
+                if (i != SIO_MULTI_CNT->id) {
+                    if (GetBit(gMultiplayerConnections, i)) {
+                        struct MultiSioData_0_0 *data = &gMultiSioRecv[i].pat0;
+                        if (data->unk0 > 0x20U) {
+                            strc3C->unk2F |= BitValue(data->unk2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    var_r8 = strc3C->unk2B;
+    sub_805B7E4();
+    if ((B_BUTTON & gRepeatedKeys) && (strc3C->unk24 > 0x21U) && ((s16)var_r8 == strc3C->unk2A) && IS_SINGLE_PLAYER) {
+        m4aSongNumStart(0x6BU);
+        sub_805B858();
+        var_r6_2 = strc3C->unk2C;
+        var_r4 = strc3C->unk2D;
+    } else {
+        if ((A_BUTTON & gRepeatedKeys) && (var_r8 == strc3C->unk2A) && (strc3C->unk24 > 0x21U) && !GetBit(strc3C->unk2F, (var_r8 & 0x3))) {
+            m4aSongNumStart(0x6AU);
+            if (IS_SINGLE_PLAYER) {
+                sub_805A9A4();
+            } else {
+                strc3C->task1C->flags |= TASK_INACTIVE;
+                gCurTask->main = sub_805A54C;
+            }
+        } else if ((0x20 & gRepeatedKeys) && ((u32)strc3C->unk24 > 0x21U)) {
+            var_r8--;
+            if (strc3C->unk2C == 0) {
+                strc3C->unk2C = 2;
+                strc3C->unk2E = 0x10;
+                m4aSongNumStart(0x67U);
+            }
+        } else if ((0x10 & gRepeatedKeys) && ((u32)strc3C->unk24 > 0x21U)) {
+            var_r8++;
+            if (strc3C->unk2C == 0) {
+                strc3C->unk2C = 1;
+                strc3C->unk2E = 0x10;
+                m4aSongNumStart(0x67U);
+            }
+        } else {
+            if (var_r8 > strc3C->unk2A) {
+                if (strc3C->unk2C == 0) {
+                    strc3C->unk2C = 1;
+                    strc3C->unk2E = 0x10;
+                    m4aSongNumStart(0x67U);
+                }
+            } else if (var_r8 < strc3C->unk2A) {
+                if (strc3C->unk2C == 0) {
+                    strc3C->unk2C = 2;
+                    strc3C->unk2E = 0x10;
+                    m4aSongNumStart(0x67U);
+                }
+            } else {
+                if (GetBit(strc3C->unk2F, (var_r8 & 0x3)) && ((u32)strc3C->unk24 > 0x21U)) {
+                    if (strc3C->unk2D != 0) {
+                        if (1 & strc3C->unk2D) {
+                            var_r8++;
+                        } else {
+                            var_r8--;
+                        }
+                    } else {
+                        strc3C->unk2C = 1;
+                        strc3C->unk2E = 0x10;
+                        m4aSongNumStart(0x67U);
+                    }
+                }
+            }
+        }
+    }
+    strc3C->unk2D = strc3C->unk2C;
+    if (strc3C->unk2C != 0) {
+        if (1 & strc3C->unk2C) {
+            if (strc3C->unk2E != 0) {
+                strc3C->unk28 += 0x10;
+                if (--strc3C->unk2E == 0) {
+                    strc3C->unk2C = 0U;
+                }
+            }
+        } else {
+            if (strc3C->unk2E != 0) {
+                strc3C->unk28 -= 0x10;
+
+                if (--strc3C->unk2E == 0) {
+                    strc3C->unk2C = 0U;
+                }
+            }
+        }
+    }
+    strc3C->unk28 = (u16)(0x3FFF & strc3C->unk28);
+    temp_r0_8 = 0x3F & var_r8;
+    strc3C->unk2B = temp_r0_8;
+    if (strc3C->unk2A <= temp_r0_8) {
+        strc3C->unk2A = I(strc3C->unk28);
+    } else {
+        s32 v = (u16)strc3C->unk28;
+        v <<= 16;
+        temp_r2_4 = v >> 24;
+        strc3C->unk2A = temp_r2_4;
+        if (0xFF & strc3C->unk28) {
+            var_r0_4 = temp_r2_4 + 1;
+            strc3C->unk2A = (s8)var_r0_4;
+        }
+    }
+    strc3C->unk2A &= 0x3F;
+    if ((strc3C->unk2A > 0x24) && ((s32)strc3C->unk2B > 0x24) && ((strc3C->unk28 > Q(36)))) {
+        while (strc3C->unk2A > 0x24) {
+            strc3C->unk2A -= 4;
+        }
+
+        while (strc3C->unk2B > 0x24) {
+            strc3C->unk2B -= 4;
+        }
+
+        while (strc3C->unk28 > 0x2400) {
+            strc3C->unk28 -= 0x400;
+        }
+    } else {
+        if ((strc3C->unk2A < 0x1C) && (strc3C->unk2B < 0x1C) && (strc3C->unk28 < Q(28))) {
+            while (strc3C->unk2A < 0x1C) {
+                strc3C->unk2A += 4;
+            }
+
+            while (strc3C->unk2B < 0x1C) {
+                strc3C->unk2B += 4;
+            }
+
+            while (strc3C->unk28 < 0x1C00) {
+                strc3C->unk28 += 0x400;
+            }
+        }
+    }
+    sp8->unk1C = (0x3FF & strc3C->unk28);
+    sp0->unk1C = (0x3FF & strc3C->unk28);
+    temp_sl->unkC4 = (0x3FF & strc3C->unk28);
+    temp_sl->unkC6 = strc3C->unk2C;
+    spC->unk32 = (0x3FF & strc3C->unk28);
+    temp_sl->unkC8 = strc3C->unk2F;
+    sp4->unk38 = ++strc3C->unk24;
+    if (IS_MULTI_PLAYER) {
+        gMultiSioSend.pat0.unk0 = 0x20;
+        gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & sp8->unk1C) >> 8);
+    }
+}
+END_NONMATCH
