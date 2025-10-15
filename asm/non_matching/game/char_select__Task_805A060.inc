@@ -241,7 +241,7 @@ _0805A24C:
 	strh r0, [r2, #0x12]
 	ldr r0, _0805A268 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0805A26C @ =sub_805A54C
+	ldr r0, _0805A26C @ =Task_805A54C
 	str r0, [r1, #8]
 _0805A25E:
 	adds r6, r5, #0
@@ -251,7 +251,7 @@ _0805A25E:
 	b _0805A358
 	.align 2, 0
 _0805A268: .4byte gCurTask
-_0805A26C: .4byte sub_805A54C
+_0805A26C: .4byte Task_805A54C
 _0805A270:
 	ldrh r1, [r2]
 	movs r0, #0x20

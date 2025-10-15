@@ -7,6 +7,7 @@
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/ui.h"
 
+#include "constants/characters.h"
 #include "constants/songs.h"
 
 typedef struct CharSelect_20 {
@@ -97,8 +98,9 @@ void Task_805B52C(void);
 void Task_805B984(void);
 void sub_805B7E4(void);
 void sub_805B858(void);
-void sub_805A54C(void);
+void Task_805A54C(void);
 void sub_805A9A4(void);
+void sub_805A798(void);
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -502,7 +504,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
                 sub_805A9A4();
             } else {
                 strc3C->task1C->flags |= TASK_INACTIVE;
-                gCurTask->main = sub_805A54C;
+                gCurTask->main = Task_805A54C;
             }
         } else if ((0x20 & gRepeatedKeys) && ((u32)strc3C->unk24 > 0x21U)) {
             var_r8--;
@@ -620,6 +622,92 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
     if (IS_MULTI_PLAYER) {
         gMultiSioSend.pat0.unk0 = 0x20;
         gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & sp8->unk1C) >> 8);
+    }
+}
+END_NONMATCH
+
+// (89.07%) https://decomp.me/scratch/IYC6j
+NONMATCH("asm/non_matching/game/char_select__Task_805A54C.inc", void Task_805A54C())
+{
+    s32 temp_r0_2;
+    u32 i;
+    s32 var_r4;
+    s32 var_r6;
+    struct Task *temp_r2;
+    struct Task *temp_r2_2;
+    u16 temp_r2_3;
+    u8 *temp_r1_3;
+    u8 *var_r2;
+    u8 temp_r0;
+    u8 temp_r4;
+    union MultiSioData *var_r2_2;
+    void *temp_r1;
+    void *temp_r1_2;
+    union MultiSioData *send, *recv;
+    u8 charactersSelected[NUM_CHARACTERS] = { 0 };
+
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+
+    if (IS_MULTI_PLAYER) {
+        for (i = 0; i < 4 && GetBit(gMultiplayerConnections, i); i++) {
+            if (!CheckBit(gMultiSioStatusFlags, i)) {
+                if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[i] = 0;
+            }
+        }
+    }
+
+    if (B_BUTTON & gPressedKeys) {
+        temp_r2 = strc3C->task1C;
+        temp_r2->flags &= ~0x1;
+        gCurTask->main = Task_805A060;
+    } else {
+        struct MultiSioData_0_0 *temp_r1;
+        if (gMultiSioRecv->pat0.unk0 == 0x22) {
+            for (i = 0; i < 4; i++) {
+                if (GetBit(gMultiplayerConnections, i)) {
+                    gMultiplayerCharacters[i] = gMultiSioRecv[i].pat0.unk2;
+                }
+            }
+            gCurTask->main = sub_805A798;
+            return;
+        }
+
+        // TODO: Compare with SA2's Task_MultiplayerWaitForSelections() to maybe get a closer match!
+        for (i = 0; i < 4; i++) {
+            if ((((s32)gMultiplayerConnections >> i) & 1) && (i != SIO_MULTI_CNT->id)) {
+                temp_r1 = &gMultiSioRecv[i].pat0;
+                if ((temp_r1->unk0 == 0x21) && (temp_r1->unk2 == ((u32)(0x300 & strc3C->unk28) >> 8)) && (i < SIO_MULTI_CNT->id)) {
+                    temp_r2_2 = strc3C->task1C;
+                    temp_r2_2->flags &= 0xFFFE;
+                    gCurTask->main = Task_805A060;
+                }
+            }
+        }
+        if (gMultiSioStatusFlags & 0x80) {
+            gMultiSioSend.pat0.unk0 = 0x22;
+            gMultiSioSend.pat0.unk2 = I(0x300 & strc3C->unk28);
+            for (i = 0; i < 4; i++) {
+                if (GetBit(gMultiplayerConnections, i)) {
+                    temp_r1 = &gMultiSioRecv[i].pat0;
+                    if ((temp_r1->unk0 != 0x21) || (++charactersSelected[temp_r1->unk2] > 1)) {
+                        gMultiSioSend.pat0.unk0 = 0x21;
+                        break;
+                    }
+                }
+            }
+        } else {
+            gMultiSioSend.pat0.unk0 = 0x21;
+            gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & strc3C->unk28) >> 8);
+        }
     }
 }
 END_NONMATCH
