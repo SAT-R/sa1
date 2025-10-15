@@ -87,7 +87,13 @@ typedef struct CharSelect_CC {
 
 void Task_8059F9C(void);
 void Task_nullsub_805B980(void);
+void Task_805AF24(void);
+void Task_805ACD8(void);
+void Task_805B11C(void);
+void Task_805B1E0(void);
+void Task_805B52C(void);
 void Task_805B984(void);
+void Task_805A060(void);
 
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
 {
@@ -388,3 +394,35 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     sub_805423C(&temp_r7->strc0);
 }
 END_NONMATCH
+
+void Task_8059F9C(void)
+{
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+    if ((sub_805423C(&strc3C->strc0) << 0x18) != 0) {
+        strc3C->strc0.unk0 = 0;
+        strc3C->strc0.unk2 = 1;
+        strc3C->strc0.unk4 = 1;
+        strc3C->strc0.unk6 = 0;
+        strc3C->strc0.unk8 = 0x200;
+        strc3C->strc0.unkA = 1;
+        gDispCnt |= 0x6000;
+
+        gWinRegs[WINREG_WIN0H] = WIN_RANGE(  0,  40);
+        gWinRegs[WINREG_WIN0V] = WIN_RANGE(  0, 240);
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(200, 240);
+        gWinRegs[WINREG_WIN1V] = WIN_RANGE(  0, 240);
+        gWinRegs[WINREG_WININ] = 0x3F3F;
+        gWinRegs[WINREG_WINOUT] = 0x1F;
+        gBldRegs.bldCnt = 0x1290;
+        gBldRegs.bldAlpha = 0x10;
+        gBldRegs.bldY = 8;
+
+        strc3C->taskC->main = Task_805B1E0;
+        strc3C->task10->main = Task_805B52C;
+        strc3C->task1C->main = Task_805B11C;
+        strc3C->task18->main = Task_805AF24;
+        strc3C->task14->main = Task_805ACD8;
+
+        gCurTask->main = Task_805A060;
+    }
+}
