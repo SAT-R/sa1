@@ -1,0 +1,390 @@
+#include "global.h"
+#include "core.h"
+#include "lib/m4a/m4a.h"
+#include "data/ui_graphics.h"
+#include "game/gTask_03006240.h"
+#include "game/sa1_sa2_shared/globals.h"
+#include "game/stage/ui.h"
+
+#include "constants/songs.h"
+
+typedef struct CharSelect_20 {
+    u8 filler0[0x8];
+    u16 unk8;
+    u16 unkA;
+    u16 unkC;
+    u16 unkE;
+    u16 unk10;
+    u16 unk12;
+    u16 unk14;
+    u8 unk16;
+    u32 unk18;
+    u16 unk1C;
+    u16 unk1E;
+} CharSelect_20;
+
+typedef struct CharSelect_34 {
+    Sprite s;
+    u16 unk30;
+    u16 unk32;
+} CharSelect_34;
+
+typedef struct CharSelect_3C {
+    StrcUi_805423C strc0;
+    struct Task *taskC;
+    struct Task *task10;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *task20;
+    s32 unk24;
+    u16 unk28;
+    u8 unk2A;
+    u8 unk2B;
+    u8 unk2C;
+    u8 unk2D;
+    u8 unk2E;
+    u8 unk2F;
+    u8 filler30[0x9];
+    s8 unk39;
+} CharSelect_3C;
+
+typedef struct CharSelect_44 {
+    u8 filler0[0x8];
+    u16 unk8;
+    u16 unkA;
+    u16 unkC;
+    u16 unkE;
+    u16 unk10;
+    u16 unk12;
+    u16 unk14;
+    u8 unk16;
+    u8 filler18[9];
+    u16 unk20;
+    u16 unk22;
+    u16 unk24;
+    u16 unk26;
+    u16 unk28;
+    u16 unk2A;
+    u16 unk2C;
+    u8 unk2E;
+    u32 unk30;
+    u32 unk34;
+    u32 unk38;
+    u32 unk3C;
+    u16 unk40;
+} CharSelect_44;
+
+typedef struct CharSelect_CC {
+    Sprite sprites[4];
+    s32 unkC0;
+    u16 unkC4;
+    u8 unkC6;
+    u8 unkC7;
+    u8 unkC8;
+    u8 unkC9;
+} CharSelect_CC;
+
+void Task_8059F9C(void);
+void Task_nullsub_805B980(void);
+void Task_805B984(void);
+
+NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
+{
+    Strc_80528AC gfx;
+    s32 sp38;
+    s8 *sp3C;
+    struct Task *t;
+    struct Task *t2;
+    CharSelect_20 *temp_r0_2;
+    CharSelect_20 *temp_r0_4;
+    CharSelect_20 *temp_r0_6;
+    CharSelect_34 *temp_r4;
+    CharSelect_3C *temp_r7;
+    CharSelect_44 *temp_r0_8;
+    CharSelect_CC *temp_r2_4;
+    Sprite *s;
+    s32 temp_r1;
+    s32 temp_r1_6;
+    s8 *temp_r1_3;
+    s8 temp_r1_2;
+    u16 temp_r2;
+    u16 temp_r2_3;
+
+    gTailsEnabled = FALSE;
+    gMultiplayerMissingHeartbeats[3] = 0;
+    gMultiplayerMissingHeartbeats[2] = 0;
+    gMultiplayerMissingHeartbeats[1] = 0;
+    gMultiplayerMissingHeartbeats[0] = 0;
+    sub_80535FC();
+    UiGfxStackInit();
+    gDispCnt = 0x1240;
+    gBgCntRegs[1] = 0x1907;
+    gBgScrollRegs[1][0] = 0;
+    gBgScrollRegs[1][1] = 0;
+    gBgScrollRegs[2][0] = 0;
+    gBgScrollRegs[2][1] = 0;
+
+    temp_r7 = TASK_DATA(TaskCreate(Task_8059F9C, sizeof(CharSelect_3C), 0x2000U, 0U, NULL));
+    temp_r7->unk28 = (0x2000 + ((selectedCharacter & 3) << 8));
+    temp_r1_2 = (selectedCharacter & 3) + 0x20;
+    temp_r7->unk2A = temp_r1_2;
+    temp_r7->unk2B = temp_r1_2;
+    temp_r7->unk2C = 0;
+    temp_r7->unk2D = 0;
+    temp_r7->unk2E = 0;
+    temp_r7->unk24 = 0;
+    temp_r7->unk39 = 0xFF;
+    temp_r7->unk2F = 0;
+    temp_r7->strc0.unk0 = 0;
+    temp_r7->strc0.unk2 = 0;
+    temp_r7->strc0.unk4 = 2;
+    temp_r7->strc0.unk6 = 0;
+    temp_r7->strc0.unk8 = 0x200;
+    temp_r7->strc0.unkA = 1;
+
+    t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_20), 0x2030U, 0U, NULL);
+    temp_r0_2 = TASK_DATA(t);
+    temp_r0_2->unkA = 0x100;
+    temp_r0_2->unkC = 0x40;
+    temp_r0_2->unkE = 8;
+    temp_r0_2->unk10 = 0;
+    temp_r0_2->unk12 = 0xF;
+    temp_r0_2->unk16 = 1;
+    temp_r0_2->unk8 = 0x5A;
+    temp_r0_2->unk18 = 0;
+    temp_r0_2->unk1C = (u16)temp_r7->unk28;
+    temp_r0_2->unk1E = (u16)temp_r7->unk28;
+    temp_r7->task10 = t;
+
+    t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_20), 0x2040U, 0U, NULL);
+    temp_r0_4 = TASK_DATA(t);
+    temp_r0_4->unkA = 0x100;
+    temp_r0_4->unkC = 0x28;
+    temp_r0_4->unkE = 1;
+    temp_r0_4->unk10 = 1;
+    temp_r0_4->unk12 = 0;
+    temp_r0_4->unk16 = 1;
+    temp_r0_4->unk8 = 0;
+    temp_r0_4->unk18 = 0;
+    temp_r0_4->unk1C = 0;
+    temp_r7->task1C = t;
+
+    t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_20), 0x2030U, 0U, NULL);
+    temp_r0_6 = TASK_DATA(t);
+    temp_r0_6->unkA = 0;
+    temp_r0_6->unkC = 0x54;
+    temp_r0_6->unkE = 6;
+    temp_r0_6->unk10 = 2;
+    temp_r0_6->unk12 = 0;
+    temp_r0_6->unk16 = 1;
+    temp_r0_6->unk8 = 0x14;
+    temp_r0_6->unk18 = 0;
+    temp_r0_6->unk1C = 0;
+    temp_r0_6->unk1E = 0;
+    temp_r7->task18 = t;
+
+    t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_44), 0x2030U, 0U, NULL);
+    temp_r0_8 = TASK_DATA(t);
+    temp_r0_8->unk16 = 1;
+    temp_r0_8->unk10 = 3;
+    temp_r0_8->unkA = 0;
+    temp_r0_8->unkC = 0x38;
+    temp_r0_8->unkE = 8;
+    temp_r0_8->unk12 = 0;
+    temp_r0_8->unk8 = 0x78;
+    temp_r0_8->unk22 = 0x118;
+    temp_r0_8->unk24 = 0x3A;
+    temp_r0_8->unk26 = 9;
+    temp_r0_8->unk28 = 4;
+    temp_r0_8->unk2A = 0;
+    temp_r0_8->unk2E = 1;
+    temp_r0_8->unk20 = 0x64;
+    temp_r0_8->unk38 = 0;
+    temp_r0_8->unk30 = 0;
+    temp_r0_8->unk34 = 0x4600;
+    temp_r0_8->unk3C = 0x4600;
+    temp_r0_8->unk40 = 0;
+    temp_r7->task14 = t;
+
+    t = TaskCreate(Task_805B984, sizeof(CharSelect_34), 0x2020U, 0U, NULL);
+    temp_r4 = TASK_DATA(t);
+    s = &temp_r4->s;
+    temp_r4->unk30 = 0;
+    temp_r4->unk32 = 0;
+    s->graphics.dest = BG_CHAR_ADDR_FROM_BGCNT(1) + 0x40;
+    s->graphics.size = 0;
+    s->frameFlags = 0x8000;
+    s->x = 0;
+    s->y = 0;
+    s->oamFlags = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->graphics.anim = 723;
+    s->variant = 0;
+    temp_r7->task20 = t;
+    SA2_LABEL(sub_80036E0)(s);
+    SA2_LABEL(sub_8003914)(s);
+
+    gfx.uiGfxID = 0x27;
+    gfx.unk2B = 0;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
+    gfx.palette = gUiGraphics[gfx.uiGfxID].palette + (selectedCharacter * 3);
+    gfx.tilesSize = 0x400;
+    gfx.paletteSize = 8;
+    gfx.unk28 = 0xF;
+    gfx.vramC = (u8 *)OBJ_VRAM0 + 0x0020;
+    gfx.unk2A = 0xD;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = 0x28;
+    gfx.unk2B = 1;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
+    gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
+    gfx.tilesSize = 0x400;
+    gfx.paletteSize = 0x20;
+    gfx.unk28 = 0;
+    gfx.vramC = (u8 *)OBJ_VRAM0 + 0x0420;
+    gfx.unk2A = 0xD;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = 0x29;
+    gfx.unk2B = 2;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles + (selectedCharacter * 0xC00);
+    gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
+    gfx.tilesSize = 0xC00;
+    gfx.vramC = (u8 *)OBJ_VRAM0 + 0x1120;
+    gfx.paletteSize = 0x20;
+    gfx.unk28 = 0;
+    gfx.unk2A = 9;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = 0x2B;
+    gfx.unk2B = 3;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
+    gfx.tilesSize = 0x100;
+    gfx.vramC = (u8 *)OBJ_VRAM0 + 0x820;
+    gfx.paletteSize = 0x20;
+    gfx.unk28 = 0;
+    gfx.unk2A = 9;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = 0x2A;
+    gfx.unk2B = 4;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
+    gfx.tilesSize = 0x800;
+    gfx.vramC = (u8 *)OBJ_VRAM0 + 0x920;
+    gfx.paletteSize = 0x20;
+    gfx.unk28 = 0;
+    gfx.unk2A = 9;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx);
+
+    t2 = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_CC), 0x2010U, 0U, NULL);
+    temp_r2_4 = TASK_DATA(t2);
+    temp_r2_4->unkC0 = 0;
+    temp_r2_4->unkC4 = 0;
+    temp_r2_4->unkC6 = 0;
+    temp_r2_4->unkC8 = 0;
+    temp_r7->taskC = t2;
+
+    {
+        Sprite *s = &temp_r2_4->sprites[1];
+        s->graphics.dest = OBJ_VRAM0 + 0x2520;
+        s->graphics.size = 0;
+        s->frameFlags = 0;
+        s->x = 280;
+        s->y = 110;
+        s->oamFlags = 0x7C0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->graphics.anim = 0x2D2;
+        s->variant = 0;
+    }
+
+    {
+        Sprite *s = &temp_r2_4->sprites[0];
+        s->graphics.dest = OBJ_VRAM0 + 0x3920;
+        s->graphics.size = 0;
+        s->frameFlags = 0;
+        s->x = -50;
+        s->y = 110;
+        s->oamFlags = 0x7C0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->graphics.anim = 722;
+        s->variant = 6;
+    }
+
+    {
+        Sprite *s = &temp_r2_4->sprites[2];
+        s->graphics.dest = OBJ_VRAM0 + 0x4D20;
+        s->graphics.size = 0;
+        s->frameFlags = 0;
+        s->x = 290;
+        s->y = 110;
+        s->oamFlags = 0x7C0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->graphics.anim = 722;
+        s->variant = 2;
+    }
+
+    {
+        Sprite *s = &temp_r2_4->sprites[3];
+        s->graphics.dest = OBJ_VRAM0 + 0x6120;
+        s->graphics.size = 0;
+        s->frameFlags = 0;
+        s->x = 290;
+        s->y = 110;
+        s->oamFlags = 0x700;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->graphics.anim = 730;
+        s->variant = 0;
+        UpdateSpriteAnimation(s);
+    }
+
+    sa2__gUnknown_03004D80[1] = 0;
+    sa2__gUnknown_03002280[1][0] = 0;
+    sa2__gUnknown_03002280[1][1] = 0;
+    sa2__gUnknown_03002280[1][2] = -1;
+    sa2__gUnknown_03002280[1][3] = 0x20;
+    m4aSongNumStartOrContinue(MUS_CHARACTER_SELECTION);
+    sub_805423C(&temp_r7->strc0);
+}
+END_NONMATCH
