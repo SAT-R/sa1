@@ -5,6 +5,7 @@
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
+#include "game/stage/stage.h"
 #include "game/stage/ui.h"
 #include "game/save.h"
 
@@ -40,7 +41,7 @@ typedef struct CharSelect_3C {
     struct Task *task18; // -> CharSelect_20
     struct Task *task1C; // -> CharSelect_20
     struct Task *task20; // -> CharSelect_34
-    s32 unk24;
+    u32 unk24;
     s16 unk28;
     s8 unk2A;
     s8 unk2B;
@@ -109,6 +110,10 @@ void Task_805B930(void);
 void Task_805AAF8(void);
 
 extern u32 gUnknown_03005140;
+extern u8 gUnknown_0868857C[];
+
+extern void sub_801C9D8();
+extern void CreateCourseSelect(u8 param0);
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -840,7 +845,53 @@ void sub_805A9A4()
     gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
     gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
-    sub_80528AC(&gfx); //, /* extra? */ *((sp2C * 0x1C) + &gUiGraphics->unk8), /* extra? */ 0x06010920, /* extra? */
-                       //gUiGraphics[sp2C].tiles, /* extra? */ 0x200, /* extra? */ 0x20);
+    sub_80528AC(&gfx);
+
     gCurTask->main = Task_805AAF8;
+}
+
+void Task_805AAF8()
+{
+    s32 temp_r1;
+    u8 temp_r6;
+    CharSelect_3C *strc3C;
+    u8 arr[4];
+    struct Task *task18;
+
+    memcpy(arr, &gUnknown_0868857C, 4);
+    strc3C = TASK_DATA(gCurTask);
+    task18 = strc3C->task18;
+    if (++strc3C->unk24 > 0x38U) {
+        temp_r6 = (u8)strc3C->unk39;
+
+        TaskDestroy(task18);
+        TaskDestroy(strc3C->task10);
+        TaskDestroy(strc3C->taskC);
+        TaskDestroy(strc3C->task14);
+        TaskDestroy(gCurTask);
+
+        gDispCnt &= 0xFFF;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+        if ((u32)gGameMode > 1U) {
+            sub_801C9D8();
+        } else {
+            if (gGameMode == 0) {
+                if (temp_r6 == 8) {
+                    m4aSongNumStart(0x75U);
+                    gTailsEnabled = 1;
+                }
+                if ((gGameMode == 0) && (gLoadedSaveGame.unk8[gSelectedCharacter] == 0)) {
+                    gCurrentLevel = 0;
+                    gMultiplayerCurrentLevel = 0;
+                    ApplyGameStageSettings();
+                    return;
+                }
+            }
+
+            CreateCourseSelect(0);
+        }
+    } else if (strc3C->unk24 > arr[gSelectedCharacter]) {
+        sub_805423C(&strc3C->strc0);
+    }
 }
