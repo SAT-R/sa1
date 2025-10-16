@@ -106,6 +106,7 @@ extern u8 gUnknown_086885EE[];
 extern void sub_805321C(u8 *param0, GameOverB *param1);
 extern u8 gUnknown_086885FC[];
 extern u8 gUnknown_08688600[];
+extern u8 gUnknown_08688602[2][3];
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -1187,8 +1188,6 @@ void Task_805B11C()
 
 void Task_805B1E0()
 {
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
     s32 *temp_r1;
     s32 *temp_r1_2;
     s32 temp_r0;
@@ -1196,7 +1195,6 @@ void Task_805B1E0()
     s32 temp_r4;
     s32 temp_r5;
     u32 temp_sb;
-    u8 *temp_r1_3;
     u32 mask;
 
     CharSelect_CC *strcCC = TASK_DATA(gCurTask);
@@ -1214,15 +1212,19 @@ void Task_805B1E0()
         strcCC->sprites[0].x = Div(temp_r4, 0xB) - 0x20;
         strcCC->sprites[1].y = 0x6E;
         if (temp_r5 <= 4) {
-            gWinRegs[1] = 0xF0F0;
+            gWinRegs[WINREG_WIN1H] = WIN_RANGE(DISPLAY_WIDTH, DISPLAY_WIDTH);
         } else {
-            gWinRegs[1] = (u16)(((0xF0 - ((temp_r0 - 0x15) * 5)) << 8) + 0xF0);
+#ifndef NON_MATCHING
+            gWinRegs[WINREG_WIN1H] = (((DISPLAY_WIDTH - ((temp_r0 - 0x15) * 5)) << 8) + DISPLAY_WIDTH);
+#else
+            gWinRegs[WINREG_WIN1H] = WIN_RANGE((DISPLAY_WIDTH - ((temp_r0 - 0x15) * 5)), DISPLAY_WIDTH);
+#endif
         }
     }
     temp_r1_2 = &strcCC->unkC0;
-    if ((u32)*temp_r1_2 > 0x1CU) {
-        *temp_r1_2 = 0;
-        gWinRegs[1] = 0xC8F0;
+    if (strcCC->unkC0 > 0x1CU) {
+        strcCC->unkC0 = 0;
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(DISPLAY_WIDTH - 40, DISPLAY_WIDTH);
         gCurTask->main = sub_805B324;
     }
 
@@ -1237,3 +1239,109 @@ void Task_805B1E0()
     UpdateSpriteAnimation(&strcCC->sprites[2]);
     DisplaySprite(&strcCC->sprites[2]);
 }
+
+NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324())
+{
+    Sprite *temp_r4;
+    Sprite *temp_r4_2;
+    s16 *temp_r0;
+    s16 *temp_r0_3;
+    s16 *temp_r0_4;
+    s16 *temp_r0_5;
+    s16 *temp_r0_6;
+    s16 *temp_r0_7;
+    s16 *temp_r2_2;
+    s16 *temp_r2_3;
+    s16 *temp_r2_4;
+    s16 *temp_r2_5;
+    s32 temp_r1_3;
+    s32 temp_r1_4;
+    s32 temp_r1_5;
+    s32 temp_r2;
+    s8 var_r2;
+    s32 var_r2_2;
+    s32 var_r3;
+    s32 var_r6;
+    u32 temp_r0_2;
+    s16 var_r4;
+    u8 *temp_r1_2;
+    u8 *temp_r7_2;
+    u8 temp_r1;
+    u8 arr[2][3];
+    CharSelect_CC *strcCC;
+
+    memcpy(arr, &gUnknown_08688602, 6);
+    strcCC = TASK_DATA(gCurTask);
+    temp_r0 = &strcCC->unkC4;
+    var_r4 = ((u8)strcCC->unkC4 % 256u) >> 4;
+    temp_r0_2 = (u32)(0x300 & (u16)strcCC->unkC4) >> 8;
+
+    if (strcCC->unkC6 == 0) {
+        strcCC->sprites[0].x = -8;
+        strcCC->sprites[1].x = 120;
+        strcCC->sprites[2].x = 248;
+        var_r6 = 0;
+    } else {
+        if (1 & strcCC->unkC6) {
+            var_r3 = 1;
+            var_r2 = -1;
+        } else {
+            var_r3 = 0;
+            var_r2 = +1;
+            var_r4 = (0x10 - var_r4);
+        }
+
+        var_r6 = var_r2 << 0x18;
+        if (var_r4 == 4) {
+            strcCC->sprites[1].variant = ((arr[var_r3][0] + temp_r0_2) & 3) * 2;
+            strcCC->sprites[2].variant = ((arr[var_r3][1] + temp_r0_2) & 3) * 2;
+            strcCC->sprites[0].variant = ((arr[var_r3][2] + temp_r0_2) & 3) * 2;
+            temp_r1_3 = var_r6 >> 0x11;
+            strcCC->sprites[0].x -= temp_r1_3;
+            strcCC->sprites[1].x -= temp_r1_3;
+            strcCC->sprites[2].x -= temp_r1_3;
+        }
+        if (var_r4 <= 8) {
+            temp_r1_4 = var_r6 >> 0x14;
+            strcCC->sprites[0].x += temp_r1_4;
+            strcCC->sprites[1].x += temp_r1_4;
+            strcCC->sprites[2].x += temp_r1_4;
+        }
+    }
+
+    temp_r1_5 = var_r6 >> 0x18;
+    if (temp_r1_5 == 1) {
+        if (var_r4 <= 3) {
+            var_r2_2 = 1;
+        } else {
+            var_r2_2 = 0;
+        }
+    } else if ((temp_r1_5 != -1) || (var_r2_2 = 1, (var_r4 <= 3))) {
+        var_r2_2 = 0;
+    }
+
+    if ((strcCC->unkC8 >> (((var_r2_2 - 1) + temp_r0_2) & 3)) & 1) {
+        strcCC->sprites[3].x = strcCC->sprites[0].x;
+        strcCC->sprites[3].y = strcCC->sprites[0].y;
+        DisplaySprite(&strcCC->sprites[3]);
+    }
+    UpdateSpriteAnimation(&strcCC->sprites[0]);
+    DisplaySprite(&strcCC->sprites[0]);
+
+    if ((strcCC->unkC8 >> ((temp_r0_2 + var_r2_2) & 3)) & 1) {
+        strcCC->sprites[3].x = strcCC->sprites[1].x;
+        strcCC->sprites[3].y = strcCC->sprites[1].y;
+        DisplaySprite(&strcCC->sprites[3]);
+    }
+    UpdateSpriteAnimation(&strcCC->sprites[1]);
+    DisplaySprite(&strcCC->sprites[1]);
+
+    if ((strcCC->unkC8 >> ((var_r2_2 + 1 + temp_r0_2) & 3)) & 1) {
+        strcCC->sprites[3].x = strcCC->sprites[2].x;
+        strcCC->sprites[3].y = strcCC->sprites[2].y;
+        DisplaySprite(&strcCC->sprites[3]);
+    }
+    UpdateSpriteAnimation(&strcCC->sprites[2]);
+    DisplaySprite(&strcCC->sprites[2]);
+}
+END_NONMATCH
