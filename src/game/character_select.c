@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
@@ -15,16 +16,8 @@
 #include "constants/songs.h"
 
 typedef struct CharSelect_20 {
-    u8 filler0[0x8];
-    u16 unk8;
-    u16 unkA;
-    u16 unkC;
-    u16 unkE;
-    u16 unk10;
-    u16 unk12;
-    u16 unk14;
-    u8 unk16;
-    u32 unk18;
+    GameOverB overB;
+    s32 unk18;
     u16 unk1C;
     u16 unk1E;
 } CharSelect_20;
@@ -56,29 +49,13 @@ typedef struct CharSelect_3C {
 } CharSelect_3C;
 
 typedef struct CharSelect_44 {
-    u8 filler0[0x8];
-    u16 unk8;
-    u16 unkA;
-    u16 unkC;
-    u16 unkE;
-    u16 unk10;
-    u16 unk12;
-    u16 unk14;
-    u8 unk16;
-    u8 filler18[9];
-    u16 unk20;
-    u16 unk22;
-    u16 unk24;
-    u16 unk26;
-    u16 unk28;
-    u16 unk2A;
-    u16 unk2C;
-    u8 unk2E;
+    GameOverB overB;
+    GameOverB overB2;
     u32 unk30;
     u32 unk34;
     u32 unk38;
-    u32 unk3C;
-    u16 unk40;
+    s32 unk3C;
+    s16 unk40;
 } CharSelect_44;
 
 typedef struct CharSelect_CC {
@@ -110,12 +87,21 @@ void Task_805B880(void);
 void Task_805B8C0(void);
 void Task_805B930(void);
 void Task_805AAF8(void);
+void sub_805ADF0(void);
+void sub_805AFC4(void);
 
 extern u32 gUnknown_03005140;
+extern u16 gUnknown_08688570[];
 extern u8 gUnknown_0868857C[];
 
 extern void sub_801C9D8();
 extern void CreateCourseSelect(u8 param0); // TODO: Header
+extern u8 gUnknown_08688580[0x19];
+extern u8 gUnknown_0868859C[];
+extern u8 gUnknown_086885A8[0x19];
+extern u8 gUnknown_086885C4[];
+
+extern void sub_805321C(u8 *param0, GameOverB *param1);
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -174,13 +160,13 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
 
     t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_20), 0x2030U, 0U, NULL);
     temp_r0_2 = TASK_DATA(t);
-    temp_r0_2->unkA = 0x100;
-    temp_r0_2->unkC = 0x40;
-    temp_r0_2->unkE = 8;
-    temp_r0_2->unk10 = 0;
-    temp_r0_2->unk12 = 0xF;
-    temp_r0_2->unk16 = 1;
-    temp_r0_2->unk8 = 0x5A;
+    temp_r0_2->overB.qUnkA = 0x100;
+    temp_r0_2->overB.unkC = 0x40;
+    temp_r0_2->overB.unkE = 8;
+    temp_r0_2->overB.unk10 = 0;
+    temp_r0_2->overB.unk12 = 0xF;
+    temp_r0_2->overB.unk16 = 1;
+    temp_r0_2->overB.unk8 = 0x5A;
     temp_r0_2->unk18 = 0;
     temp_r0_2->unk1C = (u16)temp_r7->unk28;
     temp_r0_2->unk1E = (u16)temp_r7->unk28;
@@ -188,26 +174,26 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
 
     t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_20), 0x2040U, 0U, NULL);
     temp_r0_4 = TASK_DATA(t);
-    temp_r0_4->unkA = 0x100;
-    temp_r0_4->unkC = 0x28;
-    temp_r0_4->unkE = 1;
-    temp_r0_4->unk10 = 1;
-    temp_r0_4->unk12 = 0;
-    temp_r0_4->unk16 = 1;
-    temp_r0_4->unk8 = 0;
+    temp_r0_4->overB.qUnkA = 0x100;
+    temp_r0_4->overB.unkC = 0x28;
+    temp_r0_4->overB.unkE = 1;
+    temp_r0_4->overB.unk10 = 1;
+    temp_r0_4->overB.unk12 = 0;
+    temp_r0_4->overB.unk16 = 1;
+    temp_r0_4->overB.unk8 = 0;
     temp_r0_4->unk18 = 0;
     temp_r0_4->unk1C = 0;
     temp_r7->task1C = t;
 
     t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_20), 0x2030U, 0U, NULL);
     temp_r0_6 = TASK_DATA(t);
-    temp_r0_6->unkA = 0;
-    temp_r0_6->unkC = 0x54;
-    temp_r0_6->unkE = 6;
-    temp_r0_6->unk10 = 2;
-    temp_r0_6->unk12 = 0;
-    temp_r0_6->unk16 = 1;
-    temp_r0_6->unk8 = 0x14;
+    temp_r0_6->overB.qUnkA = 0;
+    temp_r0_6->overB.unkC = 0x54;
+    temp_r0_6->overB.unkE = 6;
+    temp_r0_6->overB.unk10 = 2;
+    temp_r0_6->overB.unk12 = 0;
+    temp_r0_6->overB.unk16 = 1;
+    temp_r0_6->overB.unk8 = 0x14;
     temp_r0_6->unk18 = 0;
     temp_r0_6->unk1C = 0;
     temp_r0_6->unk1E = 0;
@@ -215,20 +201,20 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
 
     t = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_44), 0x2030U, 0U, NULL);
     temp_r0_8 = TASK_DATA(t);
-    temp_r0_8->unk16 = 1;
-    temp_r0_8->unk10 = 3;
-    temp_r0_8->unkA = 0;
-    temp_r0_8->unkC = 0x38;
-    temp_r0_8->unkE = 8;
-    temp_r0_8->unk12 = 0;
-    temp_r0_8->unk8 = 0x78;
-    temp_r0_8->unk22 = 0x118;
-    temp_r0_8->unk24 = 0x3A;
-    temp_r0_8->unk26 = 9;
-    temp_r0_8->unk28 = 4;
-    temp_r0_8->unk2A = 0;
-    temp_r0_8->unk2E = 1;
-    temp_r0_8->unk20 = 0x64;
+    temp_r0_8->overB.unk16 = 1;
+    temp_r0_8->overB.unk10 = 3;
+    temp_r0_8->overB.qUnkA = 0;
+    temp_r0_8->overB.unkC = 0x38;
+    temp_r0_8->overB.unkE = 8;
+    temp_r0_8->overB.unk12 = 0;
+    temp_r0_8->overB.unk8 = 0x78;
+    temp_r0_8->overB2.qUnkA = 0x118;
+    temp_r0_8->overB2.unkC = 0x3A;
+    temp_r0_8->overB2.unkE = 9;
+    temp_r0_8->overB2.unk10 = 4;
+    temp_r0_8->overB2.unk12 = 0;
+    temp_r0_8->overB2.unk16 = 1;
+    temp_r0_8->overB2.unk8 = 0x64;
     temp_r0_8->unk38 = 0;
     temp_r0_8->unk30 = 0;
     temp_r0_8->unk34 = 0x4600;
@@ -945,4 +931,152 @@ void Task_805AC00()
         sa2__gUnknown_03002280[2][2] = -1;
         sa2__gUnknown_03002280[2][3] = 0x14;
     }
+}
+
+void Task_805ACD8()
+{
+    s16 temp_r0;
+    s16 temp_r4;
+    s32 var_r0;
+    u32 temp_r0_2;
+    u32 temp_r1;
+
+    CharSelect_44 *strc44;
+    u8 arr[0x19];
+
+    memcpy(arr, &gUnknown_08688580, sizeof(arr));
+
+    strc44 = TASK_DATA(gCurTask);
+
+    temp_r0 = strc44->unk38;
+    if ((s32)temp_r0 > 0x20) {
+        strc44->overB.unkC = 6;
+        strc44->unk38 = 0;
+        strc44->unk3C = (u32)(strc44->unk3C - 0xB4);
+        gCurTask->main = sub_805ADF0;
+    } else {
+        if ((s32)temp_r0 > 0xC) {
+            temp_r4 = temp_r0 - 0xD;
+            strc44->overB.unkC = (u16)(0x38 - ((s32)((u16)gSineTable[temp_r4 * (Div(temp_r4, 10) + 0x11)] << 0x10) >> 0x18));
+            strc44->unk3C = strc44->unk3C - 0xB4;
+        } else if ((s32)temp_r0 > 9) {
+            strc44->overB.qUnkA = 0;
+            strc44->unk3C = strc44->unk3C - 0xB4;
+        } else {
+            strc44->overB.qUnkA = (0x100 - Div(temp_r0 << 8, 10));
+            strc44->unk3C = strc44->unk3C + 0xFFFFF9C0;
+        }
+    }
+    sub_8052F78(gUnknown_0868859C, &strc44->overB);
+    temp_r0_2 = strc44->unk3C;
+    if (strc44->unk3C > 0) {
+        strc44->overB2.unkE = (u16)(9 - Div(strc44->unk3C >> 6, 32));
+    } else {
+        strc44->overB2.unkE = 9;
+    }
+    if ((s32)strc44->unk3C > 0x3C00) {
+        strc44->overB2.unkE = 0;
+    }
+
+    if (strc44->unk3C < -1984) {
+        strc44->unk3C = (u32)(strc44->unk3C + 0x800);
+        strc44->unk30 = (strc44->unk30 + 1) & 7;
+    }
+    strc44->overB2.qUnkA = (strc44->unk3C >> 6);
+    strc44->overB2.unkC = strc44->overB.unkC;
+    sub_8052F78(&arr[strc44->unk30], &strc44->overB2);
+}
+
+void sub_805ADF0()
+{
+    s16 temp_r0;
+    s16 temp_r4;
+    s32 var_r0;
+    u32 temp_r0_2;
+    u32 temp_r1;
+
+    CharSelect_44 *strc44;
+    u8 arr[0x19];
+
+    memcpy(arr, &gUnknown_08688580, sizeof(arr));
+
+    strc44 = TASK_DATA(gCurTask);
+    strc44->overB.qUnkA = 0;
+
+    temp_r0 = strc44->unk38;
+
+    sub_8052F78(gUnknown_0868859C, &strc44->overB);
+
+    strc44->unk34++;
+    strc44->overB2.unkC = 6;
+    strc44->unk3C -= 0xB4;
+
+    temp_r0_2 = strc44->unk3C;
+    if (strc44->unk3C > 0) {
+        strc44->overB2.unkE = (u16)(9 - Div(strc44->unk3C >> 6, 32));
+    } else {
+        strc44->overB2.unkE = 9;
+    }
+
+    if (strc44->unk3C < -1984) {
+        strc44->unk3C = (u32)(strc44->unk3C + 0x800);
+        strc44->unk30 = (strc44->unk30 + 1) & 7;
+    }
+    strc44->overB2.qUnkA = (strc44->unk3C >> 6);
+    sub_8052F78(&arr[strc44->unk30], &strc44->overB2);
+}
+
+void Task_805AE84()
+{
+    s32 temp_r1;
+    s32 temp_r4;
+    s32 var_r2;
+
+    CharSelect_44 *strc44;
+    u8 arr[0x19];
+
+    memcpy(arr, &gUnknown_086885A8, 25);
+
+    strc44 = TASK_DATA(gCurTask);
+
+    strc44->unk34++;
+    strc44->overB.qUnkA = 0;
+    sub_805321C(gUnknown_0868859C, &strc44->overB);
+    strc44->overB2.unkC = 6;
+    strc44->unk3C -= strc44->unk40;
+
+    for (var_r2 = 0; var_r2 < 3; var_r2++) {
+        if (strc44->unk40 != 0) {
+            strc44->unk40--;
+        }
+    }
+
+    if (strc44->unk3C < -1984) {
+        strc44->unk3C += 0x800;
+        strc44->unk30 = (s32)((strc44->unk30 + 1) & 7);
+    }
+    strc44->overB2.qUnkA = (strc44->unk3C >> 6);
+    sub_805321C(&arr[strc44->unk30], &strc44->overB2);
+}
+
+void Task_805AF24()
+{
+    s16 unk18;
+
+    CharSelect_20 *strc20 = TASK_DATA(gCurTask);
+
+    unk18 = ++strc20->unk18;
+    if (unk18 > 0x21) {
+        strc20->overB.unkC = 0x84;
+        strc20->unk18 = 0;
+        gCurTask->main = sub_805AFC4;
+    } else if (unk18 > 13) {
+        strc20->overB.unkC = ((SIN((Div(unk18 * 103, 110) - 10) * 17) >> 0x8) + 0x54);
+    } else if (unk18 > 0xA) {
+        strc20->overB.qUnkA = gUnknown_08688570[0];
+    } else {
+        strc20->overB.qUnkA = 0x100 - Div(unk18 << 8, 0xA);
+        strc20->overB.qUnkA += gUnknown_08688570[0];
+    }
+    sub_8052F78(gUnknown_086885C4, &strc20->overB);
 }
