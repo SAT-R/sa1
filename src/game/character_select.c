@@ -19,7 +19,7 @@ typedef struct CharSelect_20 {
     GameOverB overB;
     s32 unk18;
     u16 unk1C;
-    u16 unk1E;
+    s16 unk1E;
 } CharSelect_20;
 
 typedef struct CharSelect_34 {
@@ -100,6 +100,7 @@ extern u8 gUnknown_08688580[0x19];
 extern u8 gUnknown_0868859C[];
 extern u8 gUnknown_086885A8[0x19];
 extern u8 gUnknown_086885C4[];
+extern u16 gUnknown_086885CE[0x20];
 
 extern void sub_805321C(u8 *param0, GameOverB *param1);
 
@@ -1077,6 +1078,67 @@ void Task_805AF24()
     } else {
         strc20->overB.qUnkA = 0x100 - Div(unk18 << 8, 0xA);
         strc20->overB.qUnkA += gUnknown_08688570[0];
+    }
+    sub_8052F78(gUnknown_086885C4, &strc20->overB);
+}
+
+void sub_805AFC4()
+{
+    Strc_80528AC gfx;
+    u16 sp30[16];
+    s16 var_r0_2;
+    s16 var_r6;
+    s16 temp_r0;
+    u16 var_r0;
+    u32 var_r4;
+    u32 var_r4_2;
+    u8 temp_r1;
+    CharSelect_20 *strc20;
+    s16 unk1C;
+
+    memcpy(sp30, &gUnknown_086885CE, 0x20);
+
+    strc20 = TASK_DATA(gCurTask);
+
+    unk1C = (strc20->unk1C % 256u);
+    if (unk1C != 0) {
+        u32 index = 0x300;
+        index &= strc20->unk1C;
+        var_r4 = index >> 8;
+        if (unk1C - 0x7F < 0) {
+            var_r0_2 = (0x7F - unk1C) >> 1;
+        } else {
+            var_r0_2 = (unk1C - 0x7F) >> 1;
+        }
+        var_r6 = var_r0_2;
+        if ((s16)strc20->unk1E == 0) {
+            var_r4 = (u32)(0x300 & strc20->unk1C) >> 8;
+            if ((s16)(0xFF & strc20->unk1C) > 128) {
+                var_r4 += 1;
+            }
+            var_r4 = var_r4 & 3;
+            UiGfxStackInit();
+            gfx.uiGfxID = 0x29;
+            gfx.unk2B = 2;
+            gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles + (var_r4 * 0xC00);
+            gfx.tilesSize = 0xC00;
+            gfx.vramC = OBJ_VRAM0 + 0x1120;
+
+            gfx.unk2A = 9;
+            gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+            gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+            gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+            gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+            gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+            sub_80528AC(&gfx);
+        }
+        strc20->unk1E = (var_r6);
+        strc20->overB.qUnkA = gUnknown_08688570[var_r4] + sp30[(strc20->unk1C % 256u) >> 4];
+    } else {
+        u16 *ptr = gUnknown_08688570;
+        s32 index = 0x300;
+        index &= strc20->unk1C;
+        strc20->overB.qUnkA = ptr[index >> 8];
     }
     sub_8052F78(gUnknown_086885C4, &strc20->overB);
 }
