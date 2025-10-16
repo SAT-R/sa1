@@ -1352,7 +1352,6 @@ void Task_805B52C()
 {
     u8 arr[2][8];
     Strc_80528AC gfx;
-    s16 temp_r0;
     s16 temp_r4;
     CharSelect_20 *strc20;
 
@@ -1378,7 +1377,7 @@ void Task_805B52C()
             gfx.vramC = (u8 *)OBJ_VRAM0 + 0x20;
             gfx.paletteSize = 8;
             gfx.unk28 = 0xF;
-            (&gfx.unk28)[2] = 0xC;
+            gfx.unk2A = 0xC;
             gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
             gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
             gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
@@ -1390,5 +1389,85 @@ void Task_805B52C()
     sub_8052F78(&arr[0][0], &strc20->overB);
     strc20->overB.unkC += 0x20;
     sub_8052F78(&arr[1][0], &strc20->overB);
+    strc20->overB.unkC -= 0x20;
+}
+
+// TODO: Match without asm blocks
+void sub_805B694()
+{
+    Strc_80528AC gfx;
+    u8 sp30[2][8];
+    u8 sp38;
+    u16 temp_r0_2;
+    u32 temp_r0;
+    u8 temp_r1;
+    s32 var_r0;
+    s32 var_r1;
+    u32 var_r3;
+    s32 var_r4;
+    CharSelect_20 *strc20;
+
+    memcpy(&sp30, &gUnknown_08688608, 0x10);
+    strc20 = TASK_DATA(gCurTask);
+    strc20->overB.qUnkA = 0;
+    temp_r1 = strc20->unk1C;
+    if (temp_r1 != 0) {
+        s32 sub0;
+        var_r0 = temp_r1 - 0x7F;
+        if (var_r0 < 0) {
+            var_r0 = 0x7F - temp_r1;
+        }
+        var_r0 = var_r0 << 15;
+        var_r0 = (u32)var_r0 >> 16;
+#ifndef NON_MATCHING
+        asm("" ::"r"(var_r0));
+#endif
+        temp_r0 = var_r0;
+        var_r4 = temp_r0;
+        sub0 = 168;
+#ifndef NON_MATCHING
+        asm("" ::"r"(sub0));
+#endif
+        var_r1 = var_r4 << 16;
+        var_r1 >>= 16;
+        strc20->overB.unkC = (sub0 - var_r1);
+
+        if ((s16)strc20->unk1E == 0) {
+            s32 v0 = strc20->unk1C;
+            var_r1 = 0x300;
+            var_r1 &= v0;
+            var_r3 = (u32)var_r1 >> 8;
+            var_r1 = 0xFF;
+            var_r1 &= strc20->unk1C;
+            if ((var_r1) > 0x80) {
+                var_r3 += 1;
+            }
+
+            var_r3 &= 3;
+
+            gfx.uiGfxID = 0x27;
+            gfx.unk2B = 0;
+            gfx.palette = gUiGraphics[gfx.uiGfxID].palette + (var_r3 * 3);
+            gfx.vramC = OBJ_VRAM0 + 0x20;
+            gfx.paletteSize = 0x8;
+            gfx.unk28 = 0xF;
+            gfx.unk2A = 0xC;
+            gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+            gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+            gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+            gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+            gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+            sub_80528AC(&gfx);
+        }
+        strc20->unk1E = (u16)temp_r0;
+    } else {
+        strc20->overB.unkC = 0x70;
+    }
+    if ((s32)(s16)strc20->overB.unkC <= 0x6F) {
+        strc20->overB.unkC = 0x70;
+    }
+    sub_8052F78(&sp30[0][0], &strc20->overB);
+    strc20->overB.unkC += 0x20;
+    sub_8052F78(&sp30[1][0], &strc20->overB);
     strc20->overB.unkC -= 0x20;
 }
