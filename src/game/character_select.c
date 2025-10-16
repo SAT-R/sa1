@@ -89,6 +89,7 @@ void Task_805B930(void);
 void Task_805AAF8(void);
 void sub_805ADF0(void);
 void sub_805AFC4(void);
+void sub_805B324(void);
 
 extern u32 gUnknown_03005140;
 extern u16 gUnknown_08688570[];
@@ -1182,4 +1183,57 @@ void Task_805B11C()
         strc20->overB.qUnkA = (s16)(0xF0 - ((strc20->unk18 - 0x1E) * 6));
         sub_8052F78(gUnknown_08688600, &strc20->overB);
     }
+}
+
+void Task_805B1E0()
+{
+    Sprite *temp_r4_2;
+    Sprite *temp_r4_3;
+    s32 *temp_r1;
+    s32 *temp_r1_2;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    u32 temp_sb;
+    u8 *temp_r1_3;
+    u32 mask;
+
+    CharSelect_CC *strcCC = TASK_DATA(gCurTask);
+
+    temp_sb = (u32)(0x300 & (u16)strcCC->unkC4) >> 8;
+    temp_r1 = &strcCC->unkC0;
+    temp_r0 = *temp_r1;
+    temp_r0_2 = temp_r0 + 1;
+    *temp_r1 = temp_r0_2;
+    if ((u32)temp_r0_2 > 0x11U) {
+        temp_r5 = temp_r0 - 0x10;
+        strcCC->sprites[1].x = 0x100 - Div(temp_r5 << 7, 0xB);
+        temp_r4 = temp_r5 << 5;
+        strcCC->sprites[2].x = 0x11C - Div(temp_r4, 0xB);
+        strcCC->sprites[0].x = Div(temp_r4, 0xB) - 0x20;
+        strcCC->sprites[1].y = 0x6E;
+        if (temp_r5 <= 4) {
+            gWinRegs[1] = 0xF0F0;
+        } else {
+            gWinRegs[1] = (u16)(((0xF0 - ((temp_r0 - 0x15) * 5)) << 8) + 0xF0);
+        }
+    }
+    temp_r1_2 = &strcCC->unkC0;
+    if ((u32)*temp_r1_2 > 0x1CU) {
+        *temp_r1_2 = 0;
+        gWinRegs[1] = 0xC8F0;
+        gCurTask->main = sub_805B324;
+    }
+
+    mask = 3;
+    strcCC->sprites[1].variant = temp_sb * 2;
+    strcCC->sprites[2].variant = ((temp_sb + 1) & mask) * 2;
+    strcCC->sprites[0].variant = ((temp_sb + 3) & mask) * 2;
+    UpdateSpriteAnimation(&strcCC->sprites[0]);
+    DisplaySprite(&strcCC->sprites[0]);
+    UpdateSpriteAnimation(&strcCC->sprites[1]);
+    DisplaySprite(&strcCC->sprites[1]);
+    UpdateSpriteAnimation(&strcCC->sprites[2]);
+    DisplaySprite(&strcCC->sprites[2]);
 }
