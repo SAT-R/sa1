@@ -5,6 +5,9 @@
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
+#ifdef NON_MATCHING
+#include "game/sa1_sa2_shared/unused_level_select.h"
+#endif
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/stage.h"
 #include "game/stage/ui.h"
@@ -45,7 +48,7 @@ typedef struct CharSelect_3C {
     u8 unk2E;
     u8 unk2F;
     u8 filler30[0x9];
-    s8 unk39;
+    u8 unk39;
 } CharSelect_3C;
 
 typedef struct CharSelect_44 {
@@ -60,7 +63,7 @@ typedef struct CharSelect_44 {
 
 typedef struct CharSelect_CC {
     Sprite sprites[4];
-    s32 unkC0;
+    u32 unkC0;
     s16 unkC4;
     u8 unkC6;
     u8 unkC7;
@@ -77,7 +80,7 @@ void Task_805B11C(void);
 void Task_805B1E0(void);
 void Task_805B52C(void);
 void Task_805B984(void);
-void sub_805B7E4(void);
+void CheckCPUPartnerUnlock(void);
 void sub_805B858(void);
 void Task_805A54C(void);
 void sub_805A9A4(void);
@@ -91,6 +94,7 @@ void sub_805ADF0(void);
 void sub_805AFC4(void);
 void sub_805B324(void);
 void sub_805B694(void);
+void Task_805AC00(void);
 
 extern u32 gUnknown_03005140;
 extern u16 gUnknown_08688570[];
@@ -98,6 +102,8 @@ extern u8 gUnknown_0868857C[];
 
 extern void sub_801C9D8();
 extern void CreateCourseSelect(u8 param0); // TODO: Header
+extern u8 gUnknown_08688578[4];
+extern u8 gUnknown_0868857C[4];
 extern u8 gUnknown_08688580[0x19];
 extern u8 gUnknown_0868859C[];
 extern u8 gUnknown_086885A8[0x19];
@@ -109,6 +115,7 @@ extern u8 gUnknown_086885FC[];
 extern u8 gUnknown_08688600[];
 extern u8 gUnknown_08688602[2][3];
 extern u8 gUnknown_08688608[2][8];
+extern u16 sTailsUnlockKeys[];
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -471,9 +478,9 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
             if (!CheckBit(gMultiSioStatusFlags, i)) {
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyInPriorityRange(0U, 0xFFFFU);
-                    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                    sa2__gUnknown_03005390 = 0;
-                    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    PAUSE_GRAPHICS_QUEUE();
                     MultiPakCommunicationError();
                     return;
                 }
@@ -499,7 +506,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
     }
 
     var_r8 = strc3C->unk2B;
-    sub_805B7E4();
+    CheckCPUPartnerUnlock();
     if ((B_BUTTON & gRepeatedKeys) && (strc3C->unk24 > 0x21U) && ((s16)var_r8 == strc3C->unk2A) && IS_SINGLE_PLAYER) {
         m4aSongNumStart(0x6BU);
         sub_805B858();
@@ -883,14 +890,18 @@ void Task_805AAF8()
                 }
             }
 
+#ifndef NON_MATCHING
             CreateCourseSelect(0);
+#else
+            CreateUnusedLevelSelect();
+#endif
         }
     } else if (strc3C->unk24 > arr[gSelectedCharacter]) {
         sub_805423C(&strc3C->strc0);
     }
 }
 
-void Task_805AC00()
+void Task_805AC00(void)
 {
     CharSelect_3C *strc3C = TASK_DATA(gCurTask);
 
@@ -1463,11 +1474,115 @@ void sub_805B694()
     } else {
         strc20->overB.unkC = 0x70;
     }
-    if ((s32)(s16)strc20->overB.unkC <= 0x6F) {
+    if (strc20->overB.unkC < 0x70) {
         strc20->overB.unkC = 0x70;
     }
     sub_8052F78(&sp30[0][0], &strc20->overB);
     strc20->overB.unkC += 0x20;
     sub_8052F78(&sp30[1][0], &strc20->overB);
     strc20->overB.unkC -= 0x20;
+}
+
+void CheckCPUPartnerUnlock()
+{
+    s8 *temp_r3;
+    s8 var_r0;
+    s32 temp_r1;
+    u8 temp_r0;
+
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+
+    temp_r1 = (0x300 & strc3C->unk28) >> 8;
+    if (gPressedKeys != 0) {
+        // Start check, 1st key
+        if ((DPAD_UP & gPressedKeys) && (temp_r1 == 0)) {
+            strc3C->unk39 = 0;
+            return;
+        } else {
+            // Check for additional keys to unlock CPU Tails
+            if (strc3C->unk39 != 0xFF) {
+                if (gPressedKeys & sTailsUnlockKeys[strc3C->unk39]) {
+                    strc3C->unk39++;
+                } else {
+                    strc3C->unk39 = 0xFF;
+                }
+            }
+        }
+    }
+}
+
+void sub_805B858()
+{
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+    strc3C->unk24 = 0;
+    gBldRegs.bldY = 0;
+    gCurTask->main = Task_805AC00;
+}
+
+void Task_805B880(void)
+{
+    CharSelect_20 *strc20 = TASK_DATA(gCurTask);
+
+    strc20->unk18++;
+
+    sub_805321C(gUnknown_086885C4, &strc20->overB);
+
+    strc20->overB.qUnkA = gUnknown_08688570[(strc20->unk1C & 0x300) >> 8];
+}
+
+void Task_805B8C0(void)
+{
+    CharSelect_CC *strcCC = TASK_DATA(gCurTask);
+
+    if (strcCC->unkC0 < 5) {
+        strcCC->sprites[0].x -= 0x14;
+        strcCC->sprites[2].x += 0x14;
+    }
+    strcCC->unkC0++;
+
+    UpdateSpriteAnimation(&strcCC->sprites[0]);
+    DisplaySprite(&strcCC->sprites[0]);
+    UpdateSpriteAnimation(&strcCC->sprites[1]);
+    DisplaySprite(&strcCC->sprites[1]);
+    UpdateSpriteAnimation(&strcCC->sprites[2]);
+    DisplaySprite(&strcCC->sprites[2]);
+}
+
+void Task_805B930(void)
+{
+    CharSelect_20 *strc20;
+    u8 arr[2][8];
+    memcpy(arr, gUnknown_08688608, sizeof(arr));
+
+    strc20 = TASK_DATA(gCurTask);
+
+    strc20->unk18++;
+    strc20->overB.qUnkA = 0;
+
+    sub_805321C(arr[0], &strc20->overB);
+    strc20->overB.unkC += 0x20;
+    sub_805321C(arr[1], &strc20->overB);
+    strc20->overB.unkC -= 0x20;
+}
+
+void Task_nullsub_805B980(void) { }
+
+void Task_805B984(void)
+{
+    CharSelect_34 *strc34;
+    Sprite *s;
+    u32 index;
+
+    u8 arr[4];
+    memcpy(arr, gUnknown_08688578, sizeof(arr));
+
+    strc34 = TASK_DATA(gCurTask);
+    s = &strc34->s;
+
+    index = (strc34->unk32 & 0xFF) >> 6;
+    s->prevVariant = -1;
+    s->graphics.anim = 723;
+    s->variant = arr[index];
+    SA2_LABEL(sub_80036E0)(s);
+    SA2_LABEL(sub_8003914)(s);
 }

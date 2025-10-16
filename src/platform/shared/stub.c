@@ -85,9 +85,9 @@ void CreateEntity_DummyEnt(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 
+void sub_801C9D8() { }
 void sub_802E290(void) { }
 
-void CreateCharacterSelectionScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
 void CreateCongratulationsAnimation() { }
 

@@ -363,10 +363,10 @@ void Task_GameStage(void)
 
     if (IS_SINGLE_PLAYER) {
 #if DEBUG
+#include "game/character_select.h"
         if (gInput & SELECT_BUTTON) {
-            void CreateUnusedLevelSelect(void);
             TasksDestroyAll();
-            CreateUnusedLevelSelect();
+            CreateCharacterSelectionScreen(CHARACTER_TAILS);
         }
 #endif
         if (!(gStageFlags & STAGE_FLAG__DISABLE_PAUSE_MENU) && (gPressedKeys & START_BUTTON) && !(gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {

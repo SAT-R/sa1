@@ -12,9 +12,9 @@
 
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/player.h"
-#include "game/sa1_sa2_shared/unused_level_select.h"
 //#include "game/sa1_sa2_shared/entities_manager.h"
 
+#include "game/character_select.h"
 #include "game/stage/tilemap_table.h"
 #include "game/stage/stage.h"
 //#include "game/stage/player.h"
@@ -110,7 +110,7 @@ void GameInit(void)
 
     if (gFlags & FLAGS_NO_FLASH_MEMORY) {
 #if PORTABLE
-        CreateUnusedLevelSelect();
+        CreateCharacterSelectionScreen(CHARACTER_TAILS);
 #else
         CreateSegaLogo();
 #endif
@@ -141,7 +141,7 @@ void GameInit(void)
     if (gFlags & FLAGS_SKIP_INTRO) {
 #if (GAME == GAME_SA1)
 #if PORTABLE
-        CreateUnusedLevelSelect();
+        CreateCharacterSelectionScreen(CHARACTER_TAILS);
 #else
         CreateTitleScreen(1);
 #endif
@@ -154,7 +154,7 @@ void GameInit(void)
 
 #if (GAME == GAME_SA1)
 #if PORTABLE
-    CreateUnusedLevelSelect();
+    CreateCharacterSelectionScreen(CHARACTER_TAILS);
 #else
     CreateSegaLogo();
 #endif

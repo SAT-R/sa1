@@ -128,6 +128,6 @@ gUnknown_08688602:
 gUnknown_08688608:
     .incbin "baserom_sa1.gba", 0x00688608, 0x10
 
-    .global gUnknown_08688618
-gUnknown_08688618:
+    .global sTailsUnlockKeys
+sTailsUnlockKeys:
     .incbin "baserom_sa1.gba", 0x00688618, 0x14

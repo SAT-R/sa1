@@ -154,7 +154,7 @@ _0805A18E:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	mov r8, r0
-	bl sub_805B7E4
+	bl CheckCPUPartnerUnlock
 	ldr r0, _0805A1F4 @ =gRepeatedKeys
 	ldrh r1, [r0]
 	movs r0, #2
