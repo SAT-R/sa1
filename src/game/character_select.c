@@ -8,6 +8,8 @@
 #include "game/stage/stage.h"
 #include "game/stage/ui.h"
 #include "game/save.h"
+#include "game/time_attack/menu.h"
+#include "game/title_screen.h"
 
 #include "constants/characters.h"
 #include "constants/songs.h"
@@ -113,7 +115,7 @@ extern u32 gUnknown_03005140;
 extern u8 gUnknown_0868857C[];
 
 extern void sub_801C9D8();
-extern void CreateCourseSelect(u8 param0);
+extern void CreateCourseSelect(u8 param0); // TODO: Header
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -852,8 +854,6 @@ void sub_805A9A4()
 
 void Task_805AAF8()
 {
-    s32 temp_r1;
-    u8 temp_r6;
     CharSelect_3C *strc3C;
     u8 arr[4];
     struct Task *task18;
@@ -862,7 +862,7 @@ void Task_805AAF8()
     strc3C = TASK_DATA(gCurTask);
     task18 = strc3C->task18;
     if (++strc3C->unk24 > 0x38U) {
-        temp_r6 = (u8)strc3C->unk39;
+        u8 temp_r6 = strc3C->unk39;
 
         TaskDestroy(task18);
         TaskDestroy(strc3C->task10);
@@ -873,15 +873,16 @@ void Task_805AAF8()
         gDispCnt &= 0xFFF;
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
-        if ((u32)gGameMode > 1U) {
+
+        if (IS_MULTI_PLAYER) {
             sub_801C9D8();
         } else {
-            if (gGameMode == 0) {
+            if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
                 if (temp_r6 == 8) {
-                    m4aSongNumStart(0x75U);
+                    m4aSongNumStart(SE_RING_COPY);
                     gTailsEnabled = 1;
                 }
-                if ((gGameMode == 0) && (gLoadedSaveGame.unk8[gSelectedCharacter] == 0)) {
+                if ((gGameMode == GAME_MODE_SINGLE_PLAYER) && (LOADED_SAVE->unk8[gSelectedCharacter] == 0)) {
                     gCurrentLevel = 0;
                     gMultiplayerCurrentLevel = 0;
                     ApplyGameStageSettings();
@@ -893,5 +894,55 @@ void Task_805AAF8()
         }
     } else if (strc3C->unk24 > arr[gSelectedCharacter]) {
         sub_805423C(&strc3C->strc0);
+    }
+}
+
+void Task_805AC00()
+{
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+
+    strc3C->unk24 += 1;
+    strc3C->strc0.unk8 = 0x180;
+    strc3C->strc0.unkA = 0x10;
+
+    if (sub_805423C(&strc3C->strc0)) {
+        m4aSongNumStop(3U);
+        gDispCnt &= 0xFFF;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+        TaskDestroy(gCurTask);
+
+        if (gGameMode == 1) {
+            CreateTimeAttackMenu();
+        } else {
+            CreateMainMenu(1U);
+        }
+
+        return;
+    } else if (strc3C->unk24 == 0x10) {
+        TaskDestroy(strc3C->task18);
+        TaskDestroy(strc3C->task10);
+        TaskDestroy(strc3C->taskC);
+        TaskDestroy(strc3C->task14);
+        TaskDestroy(strc3C->task1C);
+        TaskDestroy(strc3C->task20);
+
+        sa2__gUnknown_03004D80[0] = 0;
+        sa2__gUnknown_03002280[0][0] = 0;
+        sa2__gUnknown_03002280[0][1] = 0;
+        sa2__gUnknown_03002280[0][2] = 0xFF;
+        sa2__gUnknown_03002280[0][3] = 0x14;
+
+        sa2__gUnknown_03004D80[1] = 0;
+        sa2__gUnknown_03002280[1][0] = 0;
+        sa2__gUnknown_03002280[1][1] = 0;
+        sa2__gUnknown_03002280[1][2] = -1;
+        sa2__gUnknown_03002280[1][3] = 0x14;
+
+        sa2__gUnknown_03004D80[2] = 0;
+        sa2__gUnknown_03002280[2][0] = 0;
+        sa2__gUnknown_03002280[2][1] = 0;
+        sa2__gUnknown_03002280[2][2] = -1;
+        sa2__gUnknown_03002280[2][3] = 0x14;
     }
 }
