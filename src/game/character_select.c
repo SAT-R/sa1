@@ -101,8 +101,10 @@ extern u8 gUnknown_0868859C[];
 extern u8 gUnknown_086885A8[0x19];
 extern u8 gUnknown_086885C4[];
 extern u16 gUnknown_086885CE[0x20];
-
+extern u8 gUnknown_086885EE[];
 extern void sub_805321C(u8 *param0, GameOverB *param1);
+extern u8 gUnknown_086885FC[];
+extern u8 gUnknown_08688600[];
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -1088,10 +1090,7 @@ void sub_805AFC4()
     u16 sp30[16];
     s16 var_r0_2;
     s16 var_r6;
-    s16 temp_r0;
-    u16 var_r0;
     u32 var_r4;
-    u32 var_r4_2;
     u8 temp_r1;
     CharSelect_20 *strc20;
     s16 unk1C;
@@ -1105,25 +1104,28 @@ void sub_805AFC4()
         u32 index = 0x300;
         index &= strc20->unk1C;
         var_r4 = index >> 8;
+
         if (unk1C - 0x7F < 0) {
             var_r0_2 = (0x7F - unk1C) >> 1;
         } else {
             var_r0_2 = (unk1C - 0x7F) >> 1;
         }
         var_r6 = var_r0_2;
-        if ((s16)strc20->unk1E == 0) {
+
+        if (strc20->unk1E == 0) {
             var_r4 = (u32)(0x300 & strc20->unk1C) >> 8;
             if ((s16)(0xFF & strc20->unk1C) > 128) {
                 var_r4 += 1;
             }
             var_r4 = var_r4 & 3;
+
             UiGfxStackInit();
+
             gfx.uiGfxID = 0x29;
             gfx.unk2B = 2;
             gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles + (var_r4 * 0xC00);
             gfx.tilesSize = 0xC00;
             gfx.vramC = OBJ_VRAM0 + 0x1120;
-
             gfx.unk2A = 9;
             gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
             gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
@@ -1141,4 +1143,43 @@ void sub_805AFC4()
         strc20->overB.qUnkA = ptr[index >> 8];
     }
     sub_8052F78(gUnknown_086885C4, &strc20->overB);
+}
+
+void Task_805B11C()
+{
+    s16 temp_r2;
+    s16 temp_r4;
+    s32 temp_r1_2;
+    s32 temp_r3;
+
+    u8 arr[0xE];
+    CharSelect_20 *strc20;
+
+    memcpy(arr, gUnknown_086885EE, 0xE);
+    strc20 = TASK_DATA(gCurTask);
+    temp_r1_2 = strc20->unk18;
+    temp_r3 = temp_r1_2 + 1;
+    strc20->unk18 = temp_r3;
+    temp_r2 = (s16)temp_r3;
+    if ((s32)temp_r2 > 0x26) {
+        s32 index;
+        u8 *ptr;
+        if ((s32)temp_r2 > 0x62) {
+            strc20->unk18 = (s32)(temp_r1_2 - 0x3B);
+        }
+        temp_r4 = (s16)Mod((s32)temp_r2, 0x3C);
+        strc20->overB.qUnkA = arr[Div((s32)temp_r4, 10)];
+        sub_8052F78(gUnknown_086885FC, &strc20->overB);
+        index = Div((s32)temp_r4, 10);
+        ptr = &arr[7];
+        strc20->overB.qUnkA = ptr[index];
+        sub_8052F78(gUnknown_08688600, &strc20->overB);
+        return;
+    }
+    if ((u32)temp_r3 > 30) {
+        strc20->overB.qUnkA = (s16)(((temp_r1_2 - 0x1D) * 6) - 0x24);
+        sub_8052F78(gUnknown_086885FC, &strc20->overB);
+        strc20->overB.qUnkA = (s16)(0xF0 - ((strc20->unk18 - 0x1E) * 6));
+        sub_8052F78(gUnknown_08688600, &strc20->overB);
+    }
 }
