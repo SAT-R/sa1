@@ -90,6 +90,7 @@ void Task_805AAF8(void);
 void sub_805ADF0(void);
 void sub_805AFC4(void);
 void sub_805B324(void);
+void sub_805B694(void);
 
 extern u32 gUnknown_03005140;
 extern u16 gUnknown_08688570[];
@@ -107,6 +108,7 @@ extern void sub_805321C(u8 *param0, GameOverB *param1);
 extern u8 gUnknown_086885FC[];
 extern u8 gUnknown_08688600[];
 extern u8 gUnknown_08688602[2][3];
+extern u8 gUnknown_08688608[2][8];
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -1345,3 +1347,48 @@ NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324(
     DisplaySprite(&strcCC->sprites[2]);
 }
 END_NONMATCH
+
+void Task_805B52C()
+{
+    u8 arr[2][8];
+    Strc_80528AC gfx;
+    s16 temp_r0;
+    s16 temp_r4;
+    CharSelect_20 *strc20;
+
+    memcpy(arr, &gUnknown_08688608, 0x10);
+    strc20 = TASK_DATA(gCurTask);
+    temp_r4 = ++strc20->unk18;
+    if (temp_r4 > 0x21) {
+        strc20->unk18 = 0;
+        strc20->overB.unkC = 0x70;
+        gCurTask->main = sub_805B694;
+    } else if ((s32)temp_r4 > 0xD) {
+        strc20->overB.unkC = ((SIN((Div(temp_r4 * 0x67, 0x6E) - 0xA) * 0x11) >> 0x8) + 0x40);
+    } else if ((s32)temp_r4 > 0xA) {
+        strc20->overB.qUnkA = 0;
+    } else {
+        strc20->overB.qUnkA = (u16)(0x100 - Div(temp_r4 << 8, 0xA));
+        if (temp_r4 == 1) {
+            u16 index = strc20->unk1C & 0x300;
+            index >>= 8;
+            gfx.uiGfxID = 0x27;
+            gfx.unk2B = 0;
+            gfx.palette = gUiGraphics[gfx.uiGfxID].palette + (index * 3);
+            gfx.vramC = (u8 *)OBJ_VRAM0 + 0x20;
+            gfx.paletteSize = 8;
+            gfx.unk28 = 0xF;
+            (&gfx.unk28)[2] = 0xC;
+            gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+            gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+            gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+            gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+            gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+            sub_80528AC(&gfx);
+        }
+    }
+    sub_8052F78(&arr[0][0], &strc20->overB);
+    strc20->overB.unkC += 0x20;
+    sub_8052F78(&arr[1][0], &strc20->overB);
+    strc20->overB.unkC -= 0x20;
+}
