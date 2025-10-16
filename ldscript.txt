@@ -335,6 +335,8 @@ SECTIONS {
         src/data/ui_graphics_table.o(.rodata);
         src/game/stage/trapped_animals.o(.rodata);
         data/data_0_5_2.o(.rodata);
+        src/game/character_select.o(.rodata);
+        data/data_char_select.o(.rodata);
         src/game/special_stage/game_2_0.o(.rodata);
         src/game/game_2_1.o(.rodata);
         data/data_0_5_3.o(.rodata);

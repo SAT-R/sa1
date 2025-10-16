@@ -18,6 +18,13 @@
 #include "constants/characters.h"
 #include "constants/songs.h"
 
+// Character Indices
+#define CIDX_LEFT   0
+#define CIDX_MIDDLE 1
+#define CIDX_RIGHT  2
+#define CIDX_BLOCK  3 // appears when a character was chosen already in MP
+#define CIDX_COUNT  4
+
 typedef struct CharSelect_20 {
     GameOverB overB;
     s32 unk18;
@@ -33,7 +40,7 @@ typedef struct CharSelect_34 {
 
 typedef struct CharSelect_3C {
     StrcUi_805423C strc0;
-    struct Task *taskC; // -> CharSelect_CC
+    struct Task *taskC; // -> CharSelect_Chars
     struct Task *task10; // -> CharSelect_20
     struct Task *task14; // -> CharSelect_44
     struct Task *task18; // -> CharSelect_20
@@ -61,15 +68,15 @@ typedef struct CharSelect_44 {
     s16 unk40;
 } CharSelect_44;
 
-typedef struct CharSelect_CC {
-    Sprite sprites[4];
+typedef struct CharSelect_Chars {
+    Sprite sprites[CIDX_COUNT];
     u32 unkC0;
     s16 unkC4;
     u8 unkC6;
     u8 unkC7;
     u8 unkC8;
     u8 unkC9;
-} CharSelect_CC;
+} CharSelect_Chars;
 
 void Task_8059F9C(void);
 void Task_nullsub_805B980(void);
@@ -97,25 +104,13 @@ void sub_805B694(void);
 void Task_805AC00(void);
 
 extern u32 gUnknown_03005140;
-extern u16 gUnknown_08688570[];
-extern u8 gUnknown_0868857C[];
 
 extern void sub_801C9D8();
 extern void CreateCourseSelect(u8 param0); // TODO: Header
-extern u8 gUnknown_08688578[4];
-extern u8 gUnknown_0868857C[4];
-extern u8 gUnknown_08688580[0x19];
-extern u8 gUnknown_0868859C[];
-extern u8 gUnknown_086885A8[0x19];
-extern u8 gUnknown_086885C4[];
-extern u16 gUnknown_086885CE[0x20];
-extern u8 gUnknown_086885EE[];
+const u16 gUnknown_08688570[] = { 25, 25, 24, 20 };
+const u8 gUnknown_08688578[4] = { 3, 0, 2, 1 };
+
 extern void sub_805321C(u8 *param0, GameOverB *param1);
-extern u8 gUnknown_086885FC[];
-extern u8 gUnknown_08688600[];
-extern u8 gUnknown_08688602[2][3];
-extern u8 gUnknown_08688608[2][8];
-extern u16 sTailsUnlockKeys[];
 
 // (99.35%) https://decomp.me/scratch/Gn2Mk
 NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc", void CreateCharacterSelectionScreen(u8 selectedCharacter))
@@ -131,7 +126,7 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     CharSelect_34 *temp_r4;
     CharSelect_3C *temp_r7;
     CharSelect_44 *temp_r0_8;
-    CharSelect_CC *temp_r2_4;
+    CharSelect_Chars *temp_r2_4;
     Sprite *s;
     s32 temp_r1;
     s32 temp_r1_6;
@@ -335,7 +330,7 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
     sub_80528AC(&gfx);
 
-    t2 = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_CC), 0x2010U, 0U, NULL);
+    t2 = TaskCreate(Task_nullsub_805B980, sizeof(CharSelect_Chars), 0x2010U, 0U, NULL);
     temp_r2_4 = TASK_DATA(t2);
     temp_r2_4->unkC0 = 0;
     temp_r2_4->unkC4 = 0;
@@ -344,7 +339,7 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     temp_r7->taskC = t2;
 
     {
-        Sprite *s = &temp_r2_4->sprites[1];
+        Sprite *s = &temp_r2_4->sprites[CIDX_MIDDLE];
         s->graphics.dest = OBJ_VRAM0 + 0x2520;
         s->graphics.size = 0;
         s->frameFlags = 0;
@@ -360,7 +355,7 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     }
 
     {
-        Sprite *s = &temp_r2_4->sprites[0];
+        Sprite *s = &temp_r2_4->sprites[CIDX_LEFT];
         s->graphics.dest = OBJ_VRAM0 + 0x3920;
         s->graphics.size = 0;
         s->frameFlags = 0;
@@ -376,7 +371,7 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     }
 
     {
-        Sprite *s = &temp_r2_4->sprites[2];
+        Sprite *s = &temp_r2_4->sprites[CIDX_RIGHT];
         s->graphics.dest = OBJ_VRAM0 + 0x4D20;
         s->graphics.size = 0;
         s->frameFlags = 0;
@@ -392,7 +387,7 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     }
 
     {
-        Sprite *s = &temp_r2_4->sprites[3];
+        Sprite *s = &temp_r2_4->sprites[CIDX_BLOCK];
         s->graphics.dest = OBJ_VRAM0 + 0x6120;
         s->graphics.size = 0;
         s->frameFlags = 0;
@@ -432,7 +427,7 @@ void Task_8059F9C(void)
 
         gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, 40);
         gWinRegs[WINREG_WIN0V] = WIN_RANGE(0, 240);
-        gWinRegs[WINREG_WIN1H] = WIN_RANGE(200, 240);
+        gWinRegs[WINREG_WIN1H] = WIN_RANGE(DISPLAY_WIDTH - 40, DISPLAY_WIDTH);
         gWinRegs[WINREG_WIN1V] = WIN_RANGE(0, 240);
         gWinRegs[WINREG_WININ] = 0x3F3F;
         gWinRegs[WINREG_WINOUT] = 0x1F;
@@ -466,7 +461,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
     u32 i;
 
     CharSelect_3C *strc3C = TASK_DATA(gCurTask);
-    CharSelect_CC *temp_sl;
+    CharSelect_Chars *temp_sl;
 
     sp8 = TASK_DATA(strc3C->task18);
     sp0 = TASK_DATA(strc3C->task10);
@@ -818,11 +813,11 @@ void sub_805A9A4()
     s32 strc44_2;
 
     CharSelect_3C *strc3C = TASK_DATA(gCurTask);
-    CharSelect_CC *strcCC = TASK_DATA(strc3C->taskC);
+    CharSelect_Chars *chars = TASK_DATA(strc3C->taskC);
     CharSelect_44 *strc44 = TASK_DATA(strc3C->task14);
 
     gSelectedCharacter = (s8)((u32)(0x300 & (u16)strc3C->unk28) >> 8);
-    strcCC->sprites[1].variant = (s8)(((u32)(0x300 & (u16)strc3C->unk28) >> 7) + 1);
+    chars->sprites[CIDX_MIDDLE].variant = (s8)(((u32)(0x300 & (u16)strc3C->unk28) >> 7) + 1);
     strc3C->task14->main = Task_805AE84;
     strc3C->taskC->main = Task_805B8C0;
     strc3C->task18->main = Task_805B880;
@@ -854,13 +849,10 @@ void sub_805A9A4()
 
 void Task_805AAF8()
 {
-    CharSelect_3C *strc3C;
-    u8 arr[4];
-    struct Task *task18;
+    u8 arr[4] = { 38, 38, 38, 38 };
+    CharSelect_3C *strc3C = TASK_DATA(gCurTask);
+    struct Task *task18 = strc3C->task18;
 
-    memcpy(arr, &gUnknown_0868857C, 4);
-    strc3C = TASK_DATA(gCurTask);
-    task18 = strc3C->task18;
     if (++strc3C->unk24 > 0x38U) {
         u8 temp_r6 = strc3C->unk39;
 
@@ -959,10 +951,8 @@ void Task_805ACD8()
     u32 temp_r0_2;
     u32 temp_r1;
 
+    const char arr[] = " !\"#$%&\' !\"#$%&\' !\"#$%&\'";
     CharSelect_44 *strc44;
-    u8 arr[0x19];
-
-    memcpy(arr, &gUnknown_08688580, sizeof(arr));
 
     strc44 = TASK_DATA(gCurTask);
 
@@ -985,7 +975,7 @@ void Task_805ACD8()
             strc44->unk3C = strc44->unk3C + 0xFFFFF9C0;
         }
     }
-    sub_8052F78(gUnknown_0868859C, &strc44->overB);
+    sub_8052F78("        ", &strc44->overB);
     temp_r0_2 = strc44->unk3C;
     if (strc44->unk3C > 0) {
         strc44->overB2.unkE = (u16)(9 - Div(strc44->unk3C >> 6, 32));
@@ -1013,17 +1003,15 @@ void sub_805ADF0()
     u32 temp_r0_2;
     u32 temp_r1;
 
+    const char arr[] = " !\"#$%&\' !\"#$%&\' !\"#$%&\'";
     CharSelect_44 *strc44;
-    u8 arr[0x19];
-
-    memcpy(arr, &gUnknown_08688580, sizeof(arr));
 
     strc44 = TASK_DATA(gCurTask);
     strc44->overB.qUnkA = 0;
 
     temp_r0 = strc44->unk38;
 
-    sub_8052F78(gUnknown_0868859C, &strc44->overB);
+    sub_8052F78("        ", &strc44->overB);
 
     strc44->unk34++;
     strc44->overB2.unkC = 6;
@@ -1051,15 +1039,13 @@ void Task_805AE84()
     s32 var_r2;
 
     CharSelect_44 *strc44;
-    u8 arr[0x19];
-
-    memcpy(arr, &gUnknown_086885A8, 25);
+    u8 arr[] = " ! ! ! ! ! ! ! ! ! ! ! !";
 
     strc44 = TASK_DATA(gCurTask);
 
     strc44->unk34++;
     strc44->overB.qUnkA = 0;
-    sub_805321C(gUnknown_0868859C, &strc44->overB);
+    sub_805321C("        ", &strc44->overB);
     strc44->overB2.unkC = 6;
     strc44->unk3C -= strc44->unk40;
 
@@ -1096,23 +1082,21 @@ void Task_805AF24()
         strc20->overB.qUnkA = 0x100 - Div(unk18 << 8, 0xA);
         strc20->overB.qUnkA += gUnknown_08688570[0];
     }
-    sub_8052F78(gUnknown_086885C4, &strc20->overB);
+    sub_8052F78(" !\"#$%&\'", &strc20->overB);
 }
 
 void sub_805AFC4()
 {
     Strc_80528AC gfx;
-    u16 sp30[16];
     s16 var_r0_2;
     s16 var_r6;
     u32 var_r4;
     u8 temp_r1;
-    CharSelect_20 *strc20;
     s16 unk1C;
 
-    memcpy(sp30, &gUnknown_086885CE, 0x20);
-
-    strc20 = TASK_DATA(gCurTask);
+    // Note: Mirrored in the middle
+    u16 sp30[16] = { -31, +27, -23, +19, -15, +11, -7, +3, -3, 7, -11, +15, -19, +23, -27, +31 };
+    CharSelect_20 *strc20 = TASK_DATA(gCurTask);
 
     unk1C = (strc20->unk1C % 256u);
     if (unk1C != 0) {
@@ -1152,12 +1136,12 @@ void sub_805AFC4()
         strc20->unk1E = (var_r6);
         strc20->overB.qUnkA = gUnknown_08688570[var_r4] + sp30[(strc20->unk1C % 256u) >> 4];
     } else {
-        u16 *ptr = gUnknown_08688570;
+        const u16 *ptr = gUnknown_08688570;
         s32 index = 0x300;
         index &= strc20->unk1C;
         strc20->overB.qUnkA = ptr[index >> 8];
     }
-    sub_8052F78(gUnknown_086885C4, &strc20->overB);
+    sub_8052F78(" !\"#$%&\'", &strc20->overB);
 }
 
 void Task_805B11C()
@@ -1167,10 +1151,9 @@ void Task_805B11C()
     s32 temp_r1_2;
     s32 temp_r3;
 
-    u8 arr[0xE];
+    u8 arr[0xE] = { 16, 12, 8, 4, 8, 12, 0, 194, 198, 202, 206, 202, 198, 0 };
     CharSelect_20 *strc20;
 
-    memcpy(arr, gUnknown_086885EE, 0xE);
     strc20 = TASK_DATA(gCurTask);
     temp_r1_2 = strc20->unk18;
     temp_r3 = temp_r1_2 + 1;
@@ -1184,18 +1167,18 @@ void Task_805B11C()
         }
         temp_r4 = (s16)Mod((s32)temp_r2, 0x3C);
         strc20->overB.qUnkA = arr[Div((s32)temp_r4, 10)];
-        sub_8052F78(gUnknown_086885FC, &strc20->overB);
+        sub_8052F78(" ", &strc20->overB);
         index = Div((s32)temp_r4, 10);
         ptr = &arr[7];
         strc20->overB.qUnkA = ptr[index];
-        sub_8052F78(gUnknown_08688600, &strc20->overB);
+        sub_8052F78("!", &strc20->overB);
         return;
     }
     if ((u32)temp_r3 > 30) {
         strc20->overB.qUnkA = (s16)(((temp_r1_2 - 0x1D) * 6) - 0x24);
-        sub_8052F78(gUnknown_086885FC, &strc20->overB);
+        sub_8052F78(" ", &strc20->overB);
         strc20->overB.qUnkA = (s16)(0xF0 - ((strc20->unk18 - 0x1E) * 6));
-        sub_8052F78(gUnknown_08688600, &strc20->overB);
+        sub_8052F78("!", &strc20->overB);
     }
 }
 
@@ -1210,20 +1193,19 @@ void Task_805B1E0()
     u32 temp_sb;
     u32 mask;
 
-    CharSelect_CC *strcCC = TASK_DATA(gCurTask);
+    CharSelect_Chars *chars = TASK_DATA(gCurTask);
 
-    temp_sb = (u32)(0x300 & (u16)strcCC->unkC4) >> 8;
-    temp_r1 = &strcCC->unkC0;
+    temp_sb = (u32)(0x300 & (u16)chars->unkC4) >> 8;
+    temp_r1 = &chars->unkC0;
     temp_r0 = *temp_r1;
     temp_r0_2 = temp_r0 + 1;
     *temp_r1 = temp_r0_2;
     if ((u32)temp_r0_2 > 0x11U) {
         temp_r5 = temp_r0 - 0x10;
-        strcCC->sprites[1].x = 0x100 - Div(temp_r5 << 7, 0xB);
-        temp_r4 = temp_r5 << 5;
-        strcCC->sprites[2].x = 0x11C - Div(temp_r4, 0xB);
-        strcCC->sprites[0].x = Div(temp_r4, 0xB) - 0x20;
-        strcCC->sprites[1].y = 0x6E;
+        chars->sprites[CIDX_MIDDLE].x = 256 - Div(temp_r5 << 7, 11);
+        chars->sprites[CIDX_RIGHT].x = 284 - Div(temp_r5 << 5, 11);
+        chars->sprites[CIDX_LEFT].x = Div(temp_r5 << 5, 11) - 32;
+        chars->sprites[CIDX_MIDDLE].y = 110;
         if (temp_r5 <= 4) {
             gWinRegs[WINREG_WIN1H] = WIN_RANGE(DISPLAY_WIDTH, DISPLAY_WIDTH);
         } else {
@@ -1234,24 +1216,31 @@ void Task_805B1E0()
 #endif
         }
     }
-    temp_r1_2 = &strcCC->unkC0;
-    if (strcCC->unkC0 > 0x1CU) {
-        strcCC->unkC0 = 0;
+
+    if (chars->unkC0 > 28) {
+        chars->unkC0 = 0;
         gWinRegs[WINREG_WIN1H] = WIN_RANGE(DISPLAY_WIDTH - 40, DISPLAY_WIDTH);
         gCurTask->main = sub_805B324;
     }
 
     mask = 3;
-    strcCC->sprites[1].variant = temp_sb * 2;
-    strcCC->sprites[2].variant = ((temp_sb + 1) & mask) * 2;
-    strcCC->sprites[0].variant = ((temp_sb + 3) & mask) * 2;
-    UpdateSpriteAnimation(&strcCC->sprites[0]);
-    DisplaySprite(&strcCC->sprites[0]);
-    UpdateSpriteAnimation(&strcCC->sprites[1]);
-    DisplaySprite(&strcCC->sprites[1]);
-    UpdateSpriteAnimation(&strcCC->sprites[2]);
-    DisplaySprite(&strcCC->sprites[2]);
+    chars->sprites[CIDX_MIDDLE].variant = temp_sb * 2;
+    chars->sprites[CIDX_RIGHT].variant = ((temp_sb + 1) & mask) * 2;
+    chars->sprites[CIDX_LEFT].variant = ((temp_sb + 3) & mask) * 2;
+    UpdateSpriteAnimation(&chars->sprites[CIDX_LEFT]);
+    DisplaySprite(&chars->sprites[CIDX_LEFT]);
+    UpdateSpriteAnimation(&chars->sprites[CIDX_MIDDLE]);
+    DisplaySprite(&chars->sprites[CIDX_MIDDLE]);
+    UpdateSpriteAnimation(&chars->sprites[CIDX_RIGHT]);
+    DisplaySprite(&chars->sprites[CIDX_RIGHT]);
 }
+
+// TEMP - Remove this once sub_805B324() matches!
+#ifndef NON_MATCHING
+asm("    .section .rodata");
+asm("    .global gUnknown_08688602");
+asm("gUnknown_08688602:");
+#endif
 
 NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324())
 {
@@ -1280,22 +1269,22 @@ NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324(
     u8 *temp_r1_2;
     u8 *temp_r7_2;
     u8 temp_r1;
-    u8 arr[2][3];
-    CharSelect_CC *strcCC;
+    u8 arr[2][3] = {
+        { 0, 1, 3 },
+        { 1, 2, 0 },
+    };
+    CharSelect_Chars *chars = TASK_DATA(gCurTask);
+    temp_r0 = &chars->unkC4;
+    var_r4 = ((u8)chars->unkC4 % 256u) >> 4;
+    temp_r0_2 = (u32)(0x300 & (u16)chars->unkC4) >> 8;
 
-    memcpy(arr, &gUnknown_08688602, 6);
-    strcCC = TASK_DATA(gCurTask);
-    temp_r0 = &strcCC->unkC4;
-    var_r4 = ((u8)strcCC->unkC4 % 256u) >> 4;
-    temp_r0_2 = (u32)(0x300 & (u16)strcCC->unkC4) >> 8;
-
-    if (strcCC->unkC6 == 0) {
-        strcCC->sprites[0].x = -8;
-        strcCC->sprites[1].x = 120;
-        strcCC->sprites[2].x = 248;
+    if (chars->unkC6 == 0) {
+        chars->sprites[CIDX_LEFT].x = -8;
+        chars->sprites[CIDX_MIDDLE].x = 120;
+        chars->sprites[CIDX_RIGHT].x = 248;
         var_r6 = 0;
     } else {
-        if (1 & strcCC->unkC6) {
+        if (1 & chars->unkC6) {
             var_r3 = 1;
             var_r2 = -1;
         } else {
@@ -1306,19 +1295,20 @@ NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324(
 
         var_r6 = var_r2 << 0x18;
         if (var_r4 == 4) {
-            strcCC->sprites[1].variant = ((arr[var_r3][0] + temp_r0_2) & 3) * 2;
-            strcCC->sprites[2].variant = ((arr[var_r3][1] + temp_r0_2) & 3) * 2;
-            strcCC->sprites[0].variant = ((arr[var_r3][2] + temp_r0_2) & 3) * 2;
+            // TODO: Since this is non-matching, check the order!
+            chars->sprites[CIDX_MIDDLE].variant = ((arr[var_r3][0] + temp_r0_2) & 3) * 2;
+            chars->sprites[CIDX_RIGHT].variant = ((arr[var_r3][1] + temp_r0_2) & 3) * 2;
+            chars->sprites[CIDX_LEFT].variant = ((arr[var_r3][2] + temp_r0_2) & 3) * 2;
             temp_r1_3 = var_r6 >> 0x11;
-            strcCC->sprites[0].x -= temp_r1_3;
-            strcCC->sprites[1].x -= temp_r1_3;
-            strcCC->sprites[2].x -= temp_r1_3;
+            chars->sprites[CIDX_LEFT].x -= temp_r1_3;
+            chars->sprites[CIDX_MIDDLE].x -= temp_r1_3;
+            chars->sprites[CIDX_RIGHT].x -= temp_r1_3;
         }
         if (var_r4 <= 8) {
             temp_r1_4 = var_r6 >> 0x14;
-            strcCC->sprites[0].x += temp_r1_4;
-            strcCC->sprites[1].x += temp_r1_4;
-            strcCC->sprites[2].x += temp_r1_4;
+            chars->sprites[CIDX_LEFT].x += temp_r1_4;
+            chars->sprites[CIDX_MIDDLE].x += temp_r1_4;
+            chars->sprites[CIDX_RIGHT].x += temp_r1_4;
         }
     }
 
@@ -1333,42 +1323,39 @@ NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324(
         var_r2_2 = 0;
     }
 
-    if ((strcCC->unkC8 >> (((var_r2_2 - 1) + temp_r0_2) & 3)) & 1) {
-        strcCC->sprites[3].x = strcCC->sprites[0].x;
-        strcCC->sprites[3].y = strcCC->sprites[0].y;
-        DisplaySprite(&strcCC->sprites[3]);
+    if ((chars->unkC8 >> (((var_r2_2 - 1) + temp_r0_2) & 3)) & 1) {
+        chars->sprites[3].x = chars->sprites[0].x;
+        chars->sprites[3].y = chars->sprites[0].y;
+        DisplaySprite(&chars->sprites[3]);
     }
-    UpdateSpriteAnimation(&strcCC->sprites[0]);
-    DisplaySprite(&strcCC->sprites[0]);
+    UpdateSpriteAnimation(&chars->sprites[0]);
+    DisplaySprite(&chars->sprites[0]);
 
-    if ((strcCC->unkC8 >> ((temp_r0_2 + var_r2_2) & 3)) & 1) {
-        strcCC->sprites[3].x = strcCC->sprites[1].x;
-        strcCC->sprites[3].y = strcCC->sprites[1].y;
-        DisplaySprite(&strcCC->sprites[3]);
+    if ((chars->unkC8 >> ((temp_r0_2 + var_r2_2) & 3)) & 1) {
+        chars->sprites[3].x = chars->sprites[1].x;
+        chars->sprites[3].y = chars->sprites[1].y;
+        DisplaySprite(&chars->sprites[3]);
     }
-    UpdateSpriteAnimation(&strcCC->sprites[1]);
-    DisplaySprite(&strcCC->sprites[1]);
+    UpdateSpriteAnimation(&chars->sprites[1]);
+    DisplaySprite(&chars->sprites[1]);
 
-    if ((strcCC->unkC8 >> ((var_r2_2 + 1 + temp_r0_2) & 3)) & 1) {
-        strcCC->sprites[3].x = strcCC->sprites[2].x;
-        strcCC->sprites[3].y = strcCC->sprites[2].y;
-        DisplaySprite(&strcCC->sprites[3]);
+    if ((chars->unkC8 >> ((var_r2_2 + 1 + temp_r0_2) & 3)) & 1) {
+        chars->sprites[3].x = chars->sprites[2].x;
+        chars->sprites[3].y = chars->sprites[2].y;
+        DisplaySprite(&chars->sprites[3]);
     }
-    UpdateSpriteAnimation(&strcCC->sprites[2]);
-    DisplaySprite(&strcCC->sprites[2]);
+    UpdateSpriteAnimation(&chars->sprites[2]);
+    DisplaySprite(&chars->sprites[2]);
 }
 END_NONMATCH
 
 void Task_805B52C()
 {
-    u8 arr[2][8];
+    u8 arr[2][8] = { { 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21 }, { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 } };
+    CharSelect_20 *strc20 = TASK_DATA(gCurTask);
     Strc_80528AC gfx;
-    s16 temp_r4;
-    CharSelect_20 *strc20;
 
-    memcpy(arr, &gUnknown_08688608, 0x10);
-    strc20 = TASK_DATA(gCurTask);
-    temp_r4 = ++strc20->unk18;
+    s16 temp_r4 = ++strc20->unk18;
     if (temp_r4 > 0x21) {
         strc20->unk18 = 0;
         strc20->overB.unkC = 0x70;
@@ -1407,8 +1394,6 @@ void Task_805B52C()
 void sub_805B694()
 {
     Strc_80528AC gfx;
-    u8 sp30[2][8];
-    u8 sp38;
     u16 temp_r0_2;
     u32 temp_r0;
     u8 temp_r1;
@@ -1416,10 +1401,9 @@ void sub_805B694()
     s32 var_r1;
     u32 var_r3;
     s32 var_r4;
-    CharSelect_20 *strc20;
+    u8 arr[2][8] = { { 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21 }, { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 } };
+    CharSelect_20 *strc20 = TASK_DATA(gCurTask);
 
-    memcpy(&sp30, &gUnknown_08688608, 0x10);
-    strc20 = TASK_DATA(gCurTask);
     strc20->overB.qUnkA = 0;
     temp_r1 = strc20->unk1C;
     if (temp_r1 != 0) {
@@ -1477,11 +1461,21 @@ void sub_805B694()
     if (strc20->overB.unkC < 0x70) {
         strc20->overB.unkC = 0x70;
     }
-    sub_8052F78(&sp30[0][0], &strc20->overB);
+    sub_8052F78(&arr[0][0], &strc20->overB);
     strc20->overB.unkC += 0x20;
-    sub_8052F78(&sp30[1][0], &strc20->overB);
+    sub_8052F78(&arr[1][0], &strc20->overB);
     strc20->overB.unkC -= 0x20;
 }
+
+// NOTE: const data needs to be here for matching.
+const u16 sTailsUnlockKeys[] = {
+    /** DPAD_UP was pressed already **/
+    DPAD_RIGHT, // -> TAILS
+    DPAD_DOWN,  DPAD_RIGHT, // -> KNUCKLES
+    L_BUTTON,   DPAD_RIGHT, // -> AMY
+    R_BUTTON,   DPAD_RIGHT, // -> SONIC
+    A_BUTTON,   0,          0 // -> CPU Partner on
+};
 
 void CheckCPUPartnerUnlock()
 {
@@ -1525,36 +1519,33 @@ void Task_805B880(void)
 
     strc20->unk18++;
 
-    sub_805321C(gUnknown_086885C4, &strc20->overB);
+    sub_805321C(" !\"#$%&\'", &strc20->overB);
 
     strc20->overB.qUnkA = gUnknown_08688570[(strc20->unk1C & 0x300) >> 8];
 }
 
 void Task_805B8C0(void)
 {
-    CharSelect_CC *strcCC = TASK_DATA(gCurTask);
+    CharSelect_Chars *chars = TASK_DATA(gCurTask);
 
-    if (strcCC->unkC0 < 5) {
-        strcCC->sprites[0].x -= 0x14;
-        strcCC->sprites[2].x += 0x14;
+    if (chars->unkC0 < 5) {
+        chars->sprites[0].x -= 0x14;
+        chars->sprites[2].x += 0x14;
     }
-    strcCC->unkC0++;
+    chars->unkC0++;
 
-    UpdateSpriteAnimation(&strcCC->sprites[0]);
-    DisplaySprite(&strcCC->sprites[0]);
-    UpdateSpriteAnimation(&strcCC->sprites[1]);
-    DisplaySprite(&strcCC->sprites[1]);
-    UpdateSpriteAnimation(&strcCC->sprites[2]);
-    DisplaySprite(&strcCC->sprites[2]);
+    UpdateSpriteAnimation(&chars->sprites[0]);
+    DisplaySprite(&chars->sprites[0]);
+    UpdateSpriteAnimation(&chars->sprites[1]);
+    DisplaySprite(&chars->sprites[1]);
+    UpdateSpriteAnimation(&chars->sprites[2]);
+    DisplaySprite(&chars->sprites[2]);
 }
 
 void Task_805B930(void)
 {
-    CharSelect_20 *strc20;
-    u8 arr[2][8];
-    memcpy(arr, gUnknown_08688608, sizeof(arr));
-
-    strc20 = TASK_DATA(gCurTask);
+    u8 arr[2][8] = { { 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21, 0x21 }, { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 } };
+    CharSelect_20 *strc20 = TASK_DATA(gCurTask);
 
     strc20->unk18++;
     strc20->overB.qUnkA = 0;
