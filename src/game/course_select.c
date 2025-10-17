@@ -2,6 +2,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
+#include "game/course_select.h"
 #include "game/gTask_03006240.h"
 #include "game/stage/ui.h"
 
@@ -34,8 +35,8 @@ typedef struct CourseSelect_E4 {
     Sprite s2;
     Sprite s3;
     Sprite s4;
-    struct Task *taskCC;
-    struct Task *taskD0;
+    struct Task *taskCC; // -> CourseSelect_58
+    struct Task *taskD0; // -> CourseSelect_58
     s32 unkD4;
     s32 unkD8;
     u8 unkDC;
@@ -49,6 +50,7 @@ void sub_8060C88(void);
 void sub_8061144(void);
 void sub_8061480(void);
 void Task_8061830(void);
+void sub_80613D0(void);
 void TaskDestructor_806182C(struct Task *t);
 
 extern u16 gUnknown_086956F4[];
@@ -131,7 +133,9 @@ void sub_8060DAC(u8 arg0)
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[1][0] = 0;
     gBgScrollRegs[1][1] = 0;
+
     sub_8060C88();
+
     strcE4 = TASK_DATA(TaskCreate(sub_8061144, sizeof(CourseSelect_E4), 0x2000U, 0U, TaskDestructor_806182C));
     strcE4->unkD4 = 0;
     strcE4->unkDE = 8;
@@ -257,3 +261,115 @@ void sub_8060DAC(u8 arg0)
     sub_805423C(&strcE4->strc0);
     m4aSongNumStartOrContinue(MUS_VS_RECORD);
 }
+
+// (87.95%) https://decomp.me/scratch/Bkzoh
+NONMATCH("asm/non_matching/game/course_select__sub_8061144.inc", void sub_8061144())
+{
+    u32 var_r7 = 0;
+    u8 sp0 = 0;
+    s16 *temp_r2_6;
+    s32 *temp_r0_3;
+    s32 *temp_r2;
+    u32 temp_r1;
+    s32 temp_r2_5;
+    s32 temp_sb;
+    s8 temp_r1_2;
+    CourseSelect_58 *temp_r0;
+    CourseSelect_58 *temp_r0_2;
+    u8 *temp_r2_2;
+    u8 *temp_r2_3;
+    u8 *temp_r2_4;
+    u8 *temp_r3;
+    u8 *var_r4;
+    u8 temp_r0_4;
+    u8 var_r1;
+    u16 var_r3;
+    u16 *var_r2;
+
+    CourseSelect_E4 *strcE4 = TASK_DATA(gCurTask);
+
+    temp_r0 = TASK_DATA(strcE4->taskCC);
+    temp_r0_2 = TASK_DATA(strcE4->taskD0);
+    temp_r2 = &strcE4->unkD8;
+    temp_r0_3 = &strcE4->unkD4;
+    temp_r1 = *temp_r2;
+
+    temp_sb = *temp_r0_3 + 1;
+    *temp_r0_3 = temp_sb;
+    temp_r0->unk48 = temp_sb;
+    temp_r0_2->unk48 = temp_sb;
+    *temp_r2 = temp_r1;
+    temp_r0->unk4C = temp_r1;
+    temp_r0_2->unk4C = temp_r1;
+
+    if (strcE4->unkDE == 0 && strcE4->unkDF == 0) {
+        if (0x10 & gRepeatedKeys) {
+            m4aSongNumStart(0x6CU);
+            strcE4->unkDE = 2;
+            temp_r2_2 = &strcE4->unkDC;
+            strcE4->unkDD = strcE4->unkDC;
+            strcE4->unkDC = (strcE4->unkDC + 1) & 3;
+            m4aSongNumStart(0x6CU);
+        } else if (0x20 & gRepeatedKeys) {
+            m4aSongNumStart(0x6CU);
+            strcE4->unkDE = 2;
+
+            strcE4->unkDD = strcE4->unkDC;
+            strcE4->unkDC = (strcE4->unkDC - 1) & 3;
+            m4aSongNumStart(0x6CU);
+        }
+
+        if (2 & gPressedKeys) {
+            m4aSongNumStart(0x6BU);
+            strcE4->unkDF = 1;
+            strcE4->strc0.unk4 = 1;
+            strcE4->strc0.unk6 = 0x2000 - (u16)strcE4->strc0.unk6;
+            m4aSongNumStart(0x6BU);
+        }
+    } else {
+        temp_r0_4 = strcE4->unkDE;
+        if (temp_r0_4 != 0) {
+            strcE4->unkDE = (u8)(temp_r0_4 - 1);
+        }
+    }
+    sub_805423C(&strcE4->strc0);
+    temp_r0->unk52 = strcE4->unkDE;
+    temp_r0_2->unk52 = strcE4->unkDE;
+    temp_r3 = &strcE4->unkDD;
+    temp_r0->unk51 = strcE4->unkDD;
+    temp_r0->unk50 = strcE4->unkDC;
+    temp_r0_2->unk51 = strcE4->unkDD;
+    temp_r0_2->unk50 = strcE4->unkDC;
+    if ((strcE4->unkDF != 0) && ((s32)strcE4->strc0.unk6 > 0x1800) && (strcE4->strc0.unk4 == 1)) {
+        gFlags &= ~4;
+        m4aSongNumStop(0xAU);
+        gDispCnt &= 0x1FFF;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+        TaskDestroy(strcE4->taskCC);
+        TaskDestroy(strcE4->taskD0);
+        TaskDestroy(gCurTask);
+        CreateCourseSelect(1U);
+        return;
+    }
+
+    var_r3 = temp_sb;
+    gFlags |= 4;
+    gHBlankCopyTarget = (void *)&REG_BG0HOFS;
+    gHBlankCopySize = 4;
+    {
+        var_r2 = gBgOffsetsHBlank;
+        for (var_r7; var_r7 < DISPLAY_HEIGHT; var_r7++) {
+            for (var_r1 = 0; var_r7 < DISPLAY_HEIGHT && var_r1 < 24; var_r1++) {
+                *var_r2++ = (s16)(var_r3 & 0x1FF);
+                *var_r2++ = 0;
+                var_r7 = (u32)(u8)(var_r7 + 1);
+            }
+            temp_r1_2 = (s8)sp0;
+            var_r3 = (0 - (var_r3 + temp_r1_2));
+            sp0 = (0 - temp_r1_2);
+        }
+    }
+    sub_80613D0();
+}
+END_NONMATCH
