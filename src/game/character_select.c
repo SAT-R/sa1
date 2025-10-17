@@ -1242,6 +1242,7 @@ asm("    .global gUnknown_08688602");
 asm("gUnknown_08688602:");
 #endif
 
+// (94.92%) https://decomp.me/scratch/I8ghH
 NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324())
 {
     Sprite *temp_r4;
@@ -1295,7 +1296,6 @@ NONMATCH("asm/non_matching/game/char_select__sub_805B324.inc", void sub_805B324(
 
         var_r6 = var_r2 << 0x18;
         if (var_r4 == 4) {
-            // TODO: Since this is non-matching, check the order!
             chars->sprites[CIDX_MIDDLE].variant = ((arr[var_r3][0] + temp_r0_2) & 3) * 2;
             chars->sprites[CIDX_RIGHT].variant = ((arr[var_r3][1] + temp_r0_2) & 3) * 2;
             chars->sprites[CIDX_LEFT].variant = ((arr[var_r3][2] + temp_r0_2) & 3) * 2;
