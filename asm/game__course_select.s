@@ -6,8 +6,6 @@
 .arm
 
 .if 0
-.endif
-
 	thumb_func_start sub_8060DAC
 sub_8060DAC: @ 0x08060DAC
 	push {r4, r5, r6, r7, lr}
@@ -413,6 +411,7 @@ _08061134: .4byte 0x03000020
 _08061138: .4byte 0x03000021
 _0806113C: .4byte 0x03000022
 _08061140: .4byte 0x03000025
+.endif
 
 	thumb_func_start sub_8061144
 sub_8061144: @ 0x08061144
