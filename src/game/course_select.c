@@ -53,13 +53,15 @@ void Task_8061830(void);
 void sub_80613D0(void);
 void TaskDestructor_806182C(struct Task *t);
 
+extern u16 gUnknown_0868B0D4[][2];
+extern u16 gUnknown_0868B0EC[][2];
+extern u8 gUnknown_0868B0F4[];
+
 extern u16 gUnknown_086956F4[];
 extern u8 gUnknown_086958F4[];
 extern u8 gUnknown_086962B4[];
 extern u8 gUnknown_086972F4[];
 extern u8 gUnknown_08698BF4[];
-extern u16 gUnknown_0868B0D4[][2];
-extern u16 gUnknown_0868B0EC[][2];
 
 void sub_8060C88(void)
 {
@@ -185,7 +187,7 @@ void sub_8060DAC(u8 arg0)
 
     s = &strcE4->s3;
     s->graphics.dest = OBJ_VRAM0 + 0x2580;
-    s->graphics.anim = 0x374;
+    s->graphics.anim = 884;
     s->variant = 2;
     s->graphics.size = 0;
     s->x = 21;
@@ -201,7 +203,7 @@ void sub_8060DAC(u8 arg0)
 
     s = &strcE4->s4;
     s->graphics.dest = OBJ_VRAM0 + 0x3200;
-    s->graphics.anim = 0x359;
+    s->graphics.anim = 857;
     s->variant = 0;
     s->graphics.size = 0;
     s->x = 20;
@@ -373,3 +375,36 @@ NONMATCH("asm/non_matching/game/course_select__sub_8061144.inc", void sub_806114
     sub_80613D0();
 }
 END_NONMATCH
+
+void sub_80613D0()
+{
+    Sprite *s;
+    u8 temp_r0;
+    u8 offsetX;
+
+    CourseSelect_E4 *strcE4 = TASK_DATA(gCurTask);
+
+    s = &strcE4->s;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strcE4->s2;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strcE4->s3;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &strcE4->s4;
+    UpdateSpriteAnimation(s);
+
+    temp_r0 = Div(strcE4->unkD4, 10);
+    s->frameFlags |= SPRITE_FLAG_MASK_X_FLIP;
+    offsetX = gUnknown_0868B0F4[temp_r0 % 8u];
+    s->x = offsetX + 15;
+    DisplaySprite(s);
+    s->frameFlags &= ~SPRITE_FLAG_MASK_X_FLIP;
+    s->x = DISPLAY_WIDTH - (offsetX + 15);
+    DisplaySprite(s);
+}
