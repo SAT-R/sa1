@@ -149,6 +149,7 @@ SECTIONS {
         src/game/staff_credits.o(.text);
         asm/game__sound_test.o(.text);
         src/game/vs_record.o(.text);
+        src/game/time_attack_record.o(.text);
         src/game/course_select.o(.text);
         asm/game__course_select.o(.text);
         src/game/game_2_3.o(.text);
