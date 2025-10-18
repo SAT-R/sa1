@@ -9,7 +9,7 @@
 
 #include "constants/ui_graphics.h"
 
-typedef struct CourseSelect_5C {
+typedef struct CourseSelectState {
     StrcUi_805423C strc0;
     u8 fillerC[4];
     struct Task *task10;
@@ -25,7 +25,7 @@ typedef struct CourseSelect_5C {
     u8 unk57;
     u8 unk58;
     u8 unk59;
-} CourseSelect_5C;
+} CourseSelectState;
 
 typedef struct CourseSelect_54 {
     Sprite s;
@@ -113,13 +113,13 @@ void sub_8061894(void)
     sub_80528AC(&gfx);
 }
 
-void CreateCourseSelect(u8 arg0)
+void CreateCourseSelect(bool8 arg0)
 {
     Strc_80528AC gfx;
     s32 sp34;
     struct Task *task0;
     struct Task *task1;
-    u8 sp3C;
+    u8 unlockedLevelCount;
     s32 sp40;
     s32 temp_r1_2;
     s32 temp_r1_3;
@@ -127,7 +127,7 @@ void CreateCourseSelect(u8 arg0)
     s32 temp_r3;
     s32 temp_r3_2;
     CourseSelect_54 *strc54;
-    CourseSelect_5C *strc5C;
+    CourseSelectState *state;
     CourseSelect_2DC *strc2DC;
     CourseSelect_2DC *strc2DC_2;
     struct Task *temp_r0_2;
@@ -146,32 +146,33 @@ void CreateCourseSelect(u8 arg0)
     UiGfxStackInit();
 
     if (arg0 == 1) {
-        sp3C = 0xD;
+        unlockedLevelCount = 13;
     } else {
         if (IS_MULTI_PLAYER) {
-            sp3C = gUnknown_03005140 + 2;
+            unlockedLevelCount = gUnknown_03005140 + 2;
         } else {
-            sp3C = LOADED_SAVE->unk8[gSelectedCharacter] + 2;
+            unlockedLevelCount = LOADED_SAVE->unk8[gSelectedCharacter] + 2;
         }
-        if (gSelectedCharacter == 0) {
-            if (sp3C == 0) {
-                sp3C = 1;
+
+        if (gSelectedCharacter == CHARACTER_SONIC) {
+            if (unlockedLevelCount == 0) {
+                unlockedLevelCount = 1;
             }
-            if (sp3C > 0xFU) {
-                sp3C = 0xF;
+            if (unlockedLevelCount > 15) {
+                unlockedLevelCount = 15;
             } else if (LOADED_SAVE->unk8[0] == 0xD) {
-                sp3C = 0xE;
+                unlockedLevelCount = 14;
             }
         } else {
-            if (sp3C == 0) {
-                sp3C = 1;
+            if (unlockedLevelCount == 0) {
+                unlockedLevelCount = 1;
             }
-            if (sp3C > 0xEU) {
-                sp3C = 0xE;
+            if (unlockedLevelCount > 14) {
+                unlockedLevelCount = 14;
             }
         }
-        if ((gGameMode != 0) && (sp3C > 0xDU)) {
-            sp3C = 0xD;
+        if ((gGameMode != 0) && (unlockedLevelCount > 0xDU)) {
+            unlockedLevelCount = 13;
         }
     }
 
@@ -184,22 +185,22 @@ void CreateCourseSelect(u8 arg0)
     gBgScrollRegs[1][1] = 0;
     sub_8061894();
 
-    task0 = TaskCreate(Task_CourseSelectInit, sizeof(CourseSelect_5C), 0x2000U, 0U, TaskDestructor_CourseSelect);
-    strc5C = TASK_DATA(task0);
-    strc5C->unk4C = 0;
-    strc5C->unk57 = 0;
-    strc5C->unk50 = 0x14;
-    strc5C->unk52 = 0x14;
-    strc5C->unk54 = 0;
-    strc5C->unk55 = 1;
-    strc5C->unk58 = sp3C;
-    strc5C->unk59 = sp34;
-    strc5C->strc0.unk0 = 0;
-    strc5C->strc0.unk2 = 1;
-    strc5C->strc0.unk4 = 2;
-    strc5C->strc0.unk6 = 0;
-    strc5C->strc0.unk8 = 0x200;
-    strc5C->strc0.unkA = 1;
+    task0 = TaskCreate(Task_CourseSelectInit, sizeof(CourseSelectState), 0x2000U, 0U, TaskDestructor_CourseSelect);
+    state = TASK_DATA(task0);
+    state->unk4C = 0;
+    state->unk57 = 0;
+    state->unk50 = 0x14;
+    state->unk52 = 0x14;
+    state->unk54 = 0;
+    state->unk55 = 1;
+    state->unk58 = unlockedLevelCount;
+    state->unk59 = sp34;
+    state->strc0.unk0 = 0;
+    state->strc0.unk2 = 1;
+    state->strc0.unk4 = 2;
+    state->strc0.unk6 = 0;
+    state->strc0.unk8 = 0x200;
+    state->strc0.unkA = 1;
 
     task1 = TaskCreate(sub_8062E18, sizeof(CourseSelect_54), 0x2030U, 0U, NULL);
     strc54 = TASK_DATA(task1);
@@ -207,7 +208,7 @@ void CreateCourseSelect(u8 arg0)
     strc54->unk4C = 0;
     strc54->unk4E = 0;
     strc54->unk4F = 0;
-    strc54->unk51 = sp3C;
+    strc54->unk51 = unlockedLevelCount;
     s = &strc54->s;
     s->graphics.dest = OBJ_VRAM0 + 0x6400;
     s->graphics.anim = 0x2E9;
@@ -223,14 +224,14 @@ void CreateCourseSelect(u8 arg0)
     s->frameFlags = 0;
     UpdateSpriteAnimation(s);
 
-    strc5C->task18 = task1;
-    s = &strc5C->s;
-    s->x = 120;
-    s->y = 80;
+    state->task18 = task1;
+    s = &state->s;
+    s->x = (DISPLAY_WIDTH / 2);
+    s->y = (DISPLAY_HEIGHT / 2);
     s->graphics.dest = strc54->s.graphics.dest + 0xC0;
     s->oamFlags = 0x80;
     s->graphics.size = 0;
-    s->graphics.anim = 905;
+    s->graphics.anim = SA1_ANIM_VS_MENU_WAIT;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -246,10 +247,11 @@ void CreateCourseSelect(u8 arg0)
     strc2DC->unk2D4 = 0;
     strc2DC->unk2D6 = 0;
     strc2DC->unk2D7 = 0;
-    strc2DC->unk2DA = (u8)sp3C;
+    strc2DC->unk2DA = (u8)unlockedLevelCount;
     strc2DC->unk2D9 = 0;
     strc2DC->unk2DB = (u8)sp34;
-    for (i = 0; i < strc5C->unk58; i++) {
+
+    for (i = 0; i < state->unk58; i++) {
         {
             s = &strc2DC->sprites[i];
             temp_r1_2 = i * 0xC;
@@ -273,7 +275,7 @@ void CreateCourseSelect(u8 arg0)
         s = &strc2DC->sprites[i];
         s->graphics.dest = NULL;
     }
-    strc5C->task10 = task2;
+    state->task10 = task2;
 
     task2 = TaskCreate(sub_8062C28, sizeof(CourseSelect_2DC), 0x2030U, 0U, NULL);
     strc2DC_2 = TASK_DATA(task2);
@@ -281,7 +283,7 @@ void CreateCourseSelect(u8 arg0)
     strc2DC_2->unk2D4 = 0;
     strc2DC_2->unk2D6 = 0;
     strc2DC_2->unk2D7 = 0;
-    strc2DC_2->unk2DA = sp3C;
+    strc2DC_2->unk2DA = unlockedLevelCount;
 
     for (i = 0; i < 8; i++) {
         s = &strc2DC_2->sprites[i];
@@ -304,17 +306,17 @@ void CreateCourseSelect(u8 arg0)
         s = &strc2DC_2->sprites[i];
         s->graphics.dest = NULL;
     }
-    strc5C->task14 = task2;
+    state->task14 = task2;
 
     if (sp34 == 1) {
         gBgScrollRegs[0][1] = 0x14;
         gBgCntRegs[0] = 0x9D83;
-        strc5C->unk4C = 0x3F;
+        state->unk4C = 0x3F;
         strc2DC->unk2D0 = 0x3F;
         strc2DC_2->unk2D0 = 0x3F;
         task0->main = sub_8062140;
-        strc5C->task10->main = sub_8062B38;
-        strc5C->task14->main = sub_8062CB4;
+        state->task10->main = sub_8062B38;
+        state->task14->main = sub_8062CB4;
 
         gfx.uiGfxID = 62;
         gfx.unk2B = 0;
@@ -332,5 +334,5 @@ void CreateCourseSelect(u8 arg0)
         gfx.unk0.unkB = gUiGraphics[62].unk18;
         sub_80528AC(&gfx);
     }
-    sub_805423C(&strc5C->strc0);
+    sub_805423C(&state->strc0);
 }
