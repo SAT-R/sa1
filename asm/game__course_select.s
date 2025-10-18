@@ -323,7 +323,7 @@ _080620B6:
 	str r0, [r2]
 	ldr r0, _08062138 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806213C @ =sub_8062140
+	ldr r0, _0806213C @ =Task_8062140
 	str r0, [r1, #8]
 _080620EC:
 	add sp, #0x40
@@ -351,10 +351,10 @@ _0806212C: .4byte gBgScrollRegs
 _08062130: .4byte gBgCntRegs
 _08062134: .4byte 0x00009D83
 _08062138: .4byte gCurTask
-_0806213C: .4byte sub_8062140
+_0806213C: .4byte Task_8062140
 
-	thumb_func_start sub_8062140
-sub_8062140: @ 0x08062140
+	thumb_func_start Task_8062140
+Task_8062140: @ 0x08062140
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -742,7 +742,7 @@ _0806244A:
 	strb r0, [r5]
 	ldr r0, _08062484 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08062488 @ =sub_8062540
+	ldr r0, _08062488 @ =Task_8062540
 	str r0, [r1, #8]
 	movs r0, #0x6a
 	bl m4aSongNumStart
@@ -759,7 +759,7 @@ _08062478: .4byte gGameMode
 _0806247C: .4byte gMultiSioSend
 _08062480: .4byte gPressedKeys
 _08062484: .4byte gCurTask
-_08062488: .4byte sub_8062540
+_08062488: .4byte Task_8062540
 _0806248C:
 	ands r1, r2
 	lsls r0, r1, #0x10
@@ -771,7 +771,7 @@ _0806248C:
 	strb r0, [r5]
 	ldr r0, _080624B8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080624BC @ =sub_8062540
+	ldr r0, _080624BC @ =Task_8062540
 	str r0, [r1, #8]
 	movs r0, #0x6b
 	bl m4aSongNumStart
@@ -783,7 +783,7 @@ _0806248C:
 	b _08062508
 	.align 2, 0
 _080624B8: .4byte gCurTask
-_080624BC: .4byte sub_8062540
+_080624BC: .4byte Task_8062540
 _080624C0:
 	ldr r0, _08062524 @ =gMultiSioStatusFlags
 	ldr r0, [r0]
@@ -809,7 +809,7 @@ _080624DE:
 	strb r4, [r5]
 	ldr r0, _08062534 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08062538 @ =sub_8062540
+	ldr r0, _08062538 @ =Task_8062540
 	str r0, [r1, #8]
 	movs r0, #0x6a
 	bl m4aSongNumStart
@@ -843,11 +843,11 @@ _08062528: .4byte gPressedKeys
 _0806252C: .4byte gMultiSioSend
 _08062530: .4byte gMultiSioRecv
 _08062534: .4byte gCurTask
-_08062538: .4byte sub_8062540
+_08062538: .4byte Task_8062540
 _0806253C: .4byte gBgScrollRegs
 
-	thumb_func_start sub_8062540
-sub_8062540: @ 0x08062540
+	thumb_func_start Task_8062540
+Task_8062540: @ 0x08062540
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1211,12 +1211,12 @@ _08062844:
 _0806284C:
 	ldr r0, _08062858 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0806285C @ =sub_80628A4
+	ldr r0, _0806285C @ =Task_80628A4
 	str r0, [r1, #8]
 	b _08062868
 	.align 2, 0
 _08062858: .4byte gCurTask
-_0806285C: .4byte sub_80628A4
+_0806285C: .4byte Task_80628A4
 _08062860:
 	ldr r1, _08062894 @ =gBgScrollRegs
 	ldrh r0, [r4]
@@ -1251,8 +1251,8 @@ _08062898: .4byte gGameMode
 _0806289C: .4byte gMultiSioStatusFlags
 _080628A0: .4byte gMultiSioSend
 
-	thumb_func_start sub_80628A4
-sub_80628A4: @ 0x080628A4
+	thumb_func_start Task_80628A4
+Task_80628A4: @ 0x080628A4
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1342,7 +1342,7 @@ _0806295A:
 	bne _0806296C
 	mov r0, sb
 	ldr r1, [r0]
-	ldr r0, _080629C4 @ =sub_80629E8
+	ldr r0, _080629C4 @ =Task_80629E8
 	str r0, [r1, #8]
 _0806296C:
 	ldr r1, [r6]
@@ -1390,7 +1390,7 @@ _080629B4:
 	b _080629D4
 	.align 2, 0
 _080629C0: .4byte gMultiSioRecv
-_080629C4: .4byte sub_80629E8
+_080629C4: .4byte Task_80629E8
 _080629C8: .4byte gMultiSioSend
 _080629CC: .4byte gMultiplayerConnections
 _080629D0:
@@ -1409,8 +1409,8 @@ _080629DA:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_80629E8
-sub_80629E8: @ 0x080629E8
+	thumb_func_start Task_80629E8
+Task_80629E8: @ 0x080629E8
 	push {r4, lr}
 	ldr r0, _08062A24 @ =gCurTask
 	ldr r0, [r0]
@@ -1475,8 +1475,8 @@ _08062A74: .4byte gCurrentLevel
 _08062A78: .4byte gMultiplayerCurrentLevel
 _08062A7C: .4byte gCurTask
 
-	thumb_func_start sub_8062A80
-sub_8062A80: @ 0x08062A80
+	thumb_func_start Task_8062A80
+Task_8062A80: @ 0x08062A80
 	push {r4, r5, r6, lr}
 	ldr r0, _08062A98 @ =gCurTask
 	ldr r0, [r0]
@@ -1557,7 +1557,7 @@ _08062B0C:
 	bne _08062B26
 	ldr r0, _08062B30 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08062B34 @ =sub_8062B38
+	ldr r0, _08062B34 @ =Task_8062B38
 	str r0, [r1, #8]
 _08062B26:
 	pop {r4, r5, r6}
@@ -1566,10 +1566,10 @@ _08062B26:
 	.align 2, 0
 _08062B2C: .4byte 0x000002DA
 _08062B30: .4byte gCurTask
-_08062B34: .4byte sub_8062B38
+_08062B34: .4byte Task_8062B38
 
-	thumb_func_start sub_8062B38
-sub_8062B38: @ 0x08062B38
+	thumb_func_start Task_8062B38
+Task_8062B38: @ 0x08062B38
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1692,8 +1692,8 @@ _08062C0E:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8062C28
-sub_8062C28: @ 0x08062C28
+	thumb_func_start Task_8062C28
+Task_8062C28: @ 0x08062C28
 	push {r4, r5, r6, lr}
 	ldr r0, _08062CA8 @ =gCurTask
 	ldr r0, [r0]
@@ -1753,7 +1753,7 @@ _08062C84:
 	bne _08062CA2
 	ldr r0, _08062CA8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08062CB0 @ =sub_8062CB4
+	ldr r0, _08062CB0 @ =Task_8062CB4
 	str r0, [r1, #8]
 _08062CA2:
 	pop {r4, r5, r6}
@@ -1762,10 +1762,10 @@ _08062CA2:
 	.align 2, 0
 _08062CA8: .4byte gCurTask
 _08062CAC: .4byte 0x000002DA
-_08062CB0: .4byte sub_8062CB4
+_08062CB0: .4byte Task_8062CB4
 
-	thumb_func_start sub_8062CB4
-sub_8062CB4: @ 0x08062CB4
+	thumb_func_start Task_8062CB4
+Task_8062CB4: @ 0x08062CB4
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08062D2C @ =gCurTask
 	ldr r0, [r0]
@@ -1940,8 +1940,8 @@ _08062E0C:
 	.align 2, 0
 _08062E14: .4byte 0x000002DA
 
-	thumb_func_start sub_8062E18
-sub_8062E18: @ 0x08062E18
+	thumb_func_start Task_8062E18
+Task_8062E18: @ 0x08062E18
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _08062E84 @ =gCurTask
 	ldr r0, [r0]

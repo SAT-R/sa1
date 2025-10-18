@@ -7,6 +7,7 @@
 #include "game/save.h"
 #include "game/stage/ui.h"
 
+#include "constants/animations.h"
 #include "constants/ui_graphics.h"
 
 typedef struct CourseSelectState {
@@ -68,12 +69,12 @@ extern StaticTileInfo gUnknown_0868B1C0[15];
 
 void sub_8061894(void);
 void Task_CourseSelectInit(void);
-void sub_8062A80(void);
-void sub_8062E18(void);
-void sub_8062C28(void);
-void sub_8062140(void);
-void sub_8062B38(void);
-void sub_8062CB4(void);
+void Task_8062A80(void);
+void Task_8062E18(void);
+void Task_8062C28(void);
+void Task_8062140(void);
+void Task_8062B38(void);
+void Task_8062CB4(void);
 void TaskDestructor_CourseSelect(struct Task *t);
 
 void sub_8061894(void)
@@ -202,7 +203,7 @@ void CreateCourseSelect(bool8 arg0)
     state->strc0.unk8 = 0x200;
     state->strc0.unkA = 1;
 
-    task1 = TaskCreate(sub_8062E18, sizeof(CourseSelect_54), 0x2030U, 0U, NULL);
+    task1 = TaskCreate(Task_8062E18, sizeof(CourseSelect_54), 0x2030U, 0U, NULL);
     strc54 = TASK_DATA(task1);
     strc54->unk48 = 0;
     strc54->unk4C = 0;
@@ -211,7 +212,7 @@ void CreateCourseSelect(bool8 arg0)
     strc54->unk51 = unlockedLevelCount;
     s = &strc54->s;
     s->graphics.dest = OBJ_VRAM0 + 0x6400;
-    s->graphics.anim = 0x2E9;
+    s->graphics.anim = SA1_ANIM_ARROW_UP;
     s->variant = 0;
     s->oamFlags = 0;
     s->graphics.size = 0;
@@ -241,7 +242,7 @@ void CreateCourseSelect(bool8 arg0)
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);
 
-    task2 = TaskCreate(sub_8062A80, sizeof(CourseSelect_2DC), 0x2030U, 0U, NULL);
+    task2 = TaskCreate(Task_8062A80, sizeof(CourseSelect_2DC), 0x2030U, 0U, NULL);
     strc2DC = TASK_DATA(task2);
     strc2DC->unk2D0 = 0;
     strc2DC->unk2D4 = 0;
@@ -277,7 +278,7 @@ void CreateCourseSelect(bool8 arg0)
     }
     state->task10 = task2;
 
-    task2 = TaskCreate(sub_8062C28, sizeof(CourseSelect_2DC), 0x2030U, 0U, NULL);
+    task2 = TaskCreate(Task_8062C28, sizeof(CourseSelect_2DC), 0x2030U, 0U, NULL);
     strc2DC_2 = TASK_DATA(task2);
     strc2DC_2->unk2D0 = 0;
     strc2DC_2->unk2D4 = 0;
@@ -314,9 +315,9 @@ void CreateCourseSelect(bool8 arg0)
         state->unk4C = 0x3F;
         strc2DC->unk2D0 = 0x3F;
         strc2DC_2->unk2D0 = 0x3F;
-        task0->main = sub_8062140;
-        state->task10->main = sub_8062B38;
-        state->task14->main = sub_8062CB4;
+        task0->main = Task_8062140;
+        state->task10->main = Task_8062B38;
+        state->task14->main = Task_8062CB4;
 
         gfx.uiGfxID = 62;
         gfx.unk2B = 0;
