@@ -50,24 +50,24 @@ void TaskDestructor_806182C(struct Task *t);
 extern u16 gUnknown_0868B0D4[][2];
 extern u16 gUnknown_0868B0EC[][2];
 extern u8 gUnknown_0868B0F4[];
+extern u16 gUnknown_0868B0FC[][2];
 
+extern u8 gUnknown_08690574[];
+extern u8 gUnknown_08691D74[];
+extern u16 gUnknown_08692274[];
+extern u8 gUnknown_08692474[];
+extern u8 gUnknown_08692934[];
+extern u8 gUnknown_08693974[];
 extern u16 gUnknown_086956F4[];
+extern u8 gUnknown_086951F4[];
 extern u8 gUnknown_086958F4[];
 extern u8 gUnknown_086962B4[];
 extern u8 gUnknown_086972F4[];
 extern u8 gUnknown_08698BF4[];
-extern u8 gUnknown_086951F4[];
-extern u8 gUnknown_08692474[];
-extern u8 gUnknown_08692934[];
-extern u16 gUnknown_08692274[];
 extern u16 gUnknown_086990F4[];
-
-extern u8 gUnknown_08693974[];
-extern u8 gUnknown_08690574[];
-extern u8 gUnknown_08691D74[];
+extern u8 gUnknown_08699974[];
 extern u8 gUnknown_0869A9B4[];
 extern u8 gUnknown_0869C5F4[];
-extern u8 gUnknown_08699974[];
 
 // TODO: Header
 extern const s16 sZoneTimeSecondsTable[];
@@ -604,3 +604,23 @@ NONMATCH("asm/non_matching/game/time_attack_record__sub_8061480.inc", void sub_8
 END_NONMATCH
 
 void TaskDestructor_806182C(struct Task *t) { }
+
+void Task_8061830()
+{
+    s32 index;
+
+    TimeAttackRecord_58 *strc58 = TASK_DATA(gCurTask);
+    Sprite *s = &strc58->s;
+
+    if (strc58->unk52 < 2) {
+        index = strc58->unk50;
+    } else {
+        index = strc58->unk51;
+    }
+
+    s->graphics.anim = gUnknown_0868B0FC[index][0];
+    s->variant = gUnknown_0868B0FC[index][1];
+    s->prevVariant = 0xFF;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
