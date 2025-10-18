@@ -620,7 +620,7 @@ void Task_8061830()
 
     s->graphics.anim = gUnknown_0868B0FC[index][0];
     s->variant = gUnknown_0868B0FC[index][1];
-    s->prevVariant = 0xFF;
+    s->prevVariant = -1;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
