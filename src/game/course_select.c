@@ -879,11 +879,8 @@ void Task_8062B38()
     temp_r8 = strc2DC->unk2DB;
     spriteIndex_32 = (Div(strc2DC->unk2D4, 24) - 1);
     spriteIndex_32 <<= 24;
-#ifndef NON_MATCHING
-    asm("" ::"r"(spriteIndex_32));
-#endif
     var_r7 = 0;
-    spriteIndex = spriteIndex_32 >> 24;
+    spriteIndex = spriteIndex_32 >>= 24;
     for (; var_r7 < 8; var_r7++, spriteIndex++) {
         if ((spriteIndex != 0) && (spriteIndex <= (s32)(strc2DC->unk2DA - 1))) {
             s = &strc2DC->sprites[spriteIndex];
@@ -917,7 +914,6 @@ void Task_8062B38()
 void Task_8062C28()
 {
     Sprite *s;
-    s32 temp_r1;
     u8 i;
 
     CourseSelect_2DC *strc2DC = TASK_DATA(gCurTask);
@@ -936,5 +932,74 @@ void Task_8062C28()
 
     if (strc2DC->unk2D0 == 0x3F) {
         gCurTask->main = Task_8062CB4;
+    }
+}
+
+void Task_8062CB4()
+{
+    Sprite *s;
+    s32 temp_r0;
+    u8 i;
+    u8 var_r7;
+
+    CourseSelect_2DC *strc2DC = TASK_DATA(gCurTask);
+
+    if (strc2DC->unk2D4 > 0x2FU) {
+        u32 v = Div(strc2DC->unk2D4, 0x30) - 1;
+        v <<= 24;
+        var_r7 = 1;
+        i = v >>= 24;
+        for (; var_r7 < 7; var_r7++, i++) {
+            if (i < 8) {
+                s = &strc2DC->sprites[i];
+                s->x = 212;
+                s->palId = 0;
+                temp_r0 = (strc2DC->unk2D4 - 0x37);
+                temp_r0 = (i * 0x30) - temp_r0;
+                s->y = temp_r0;
+                if (i == 6) {
+                    s->y = temp_r0 - 0xC;
+                }
+                if (i == 7) {
+                    s->y = (u16)s->y - 0x24;
+                }
+
+                if (strc2DC->unk2DA > ((i * 2) + 1)) {
+                    UpdateSpriteAnimation(s);
+                    DisplaySprite(s);
+                } else if ((i == 7) && ((s8)gSelectedCharacter == CHARACTER_SONIC) && (strc2DC->unk2DA == 0xF)) {
+                    UpdateSpriteAnimation(s);
+                    DisplaySprite(s);
+                }
+            }
+        }
+    } else {
+        u32 v = Div(strc2DC->unk2D4, 48);
+        v <<= 24;
+        var_r7 = 1;
+        i = v >>= 24;
+        for (; var_r7 < 6; var_r7++, i++) {
+            if (i < 8) {
+                s = &strc2DC->sprites[i];
+                s->x = 212;
+                s->palId = 0;
+                temp_r0 = (strc2DC->unk2D4 - 0x37);
+                temp_r0 = (i * 0x30) - temp_r0;
+                s->y = temp_r0;
+                if (i == 6) {
+                    s->y = temp_r0 - 0xC;
+                }
+                if (i == 7) {
+                    s->y = (u16)s->y - 36;
+                    if ((gSelectedCharacter == CHARACTER_SONIC) && (strc2DC->unk2DA < 16)) {
+                        UpdateSpriteAnimation(s);
+                        DisplaySprite(s);
+                    }
+                } else if (strc2DC->unk2DA > ((i * 2) + 1)) {
+                    UpdateSpriteAnimation(s);
+                    DisplaySprite(s);
+                }
+            }
+        }
     }
 }
