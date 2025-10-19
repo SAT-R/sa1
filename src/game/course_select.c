@@ -913,3 +913,28 @@ void Task_8062B38()
         }
     }
 }
+
+void Task_8062C28()
+{
+    Sprite *s;
+    s32 temp_r1;
+    u8 i;
+
+    CourseSelect_2DC *strc2DC = TASK_DATA(gCurTask);
+
+    for (i = 1; i < 6; i++) {
+        s = &strc2DC->sprites[i - 1];
+        s->palId = 0;
+        s->x = 212;
+        s->y = ((i - 1) * 48) + (i * ((64 - strc2DC->unk2D0) << 1)) + 0x21;
+
+        if (strc2DC->unk2DA > (((i - 1) * 2) + 1)) {
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+
+    if (strc2DC->unk2D0 == 0x3F) {
+        gCurTask->main = Task_8062CB4;
+    }
+}
