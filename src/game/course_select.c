@@ -476,7 +476,7 @@ void Task_8062140()
         if (IS_MULTI_PLAYER) {
             send_recv = gMultiSioRecv;
 
-            if (!(gMultiSioStatusFlags & 0x80)) {
+            if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_CHILD) {
                 if (send_recv->pat0.unk0 > 0x4FU) {
                     state->level = send_recv->pat0.unk2;
                 }
@@ -575,7 +575,7 @@ void Task_8062140()
                     state->strc0.unk6 = 0x2000 - state->strc0.unk6;
                 }
             } else {
-                if ((gMultiSioStatusFlags & 0x80) && (A_BUTTON & gPressedKeys)) {
+                if (((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) && (A_BUTTON & gPressedKeys)) {
                     send_recv = &gMultiSioSend;
                     send_recv->pat0.unk0 = 0x51;
                 }
@@ -628,7 +628,7 @@ void Task_8062540()
         if (IS_MULTI_PLAYER) {
             send_recv = gMultiSioRecv;
 
-            if (!(gMultiSioStatusFlags & 0x80)) {
+            if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_CHILD) {
                 if (send_recv->pat0.unk0 > 0x4FU) {
                     state->level = send_recv->pat0.unk2;
                 }
@@ -748,7 +748,7 @@ void Task_8062540()
 
     mp_check:
         if (IS_MULTI_PLAYER) {
-            if (gMultiSioStatusFlags & 0x80) {
+            if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) {
                 send_recv = &gMultiSioSend;
                 send_recv->pat0.unk0 = 0x51;
                 send_recv->pat0.unk2 = state->level;
@@ -786,8 +786,8 @@ void Task_80628A4()
     if (send_recv->pat0.unk0 == 0x52) {
         gCurTask->main = Task_80629E8;
     }
-    sioFlags = gMultiSioStatusFlags & 0x80;
-    if (sioFlags) {
+
+    if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) {
         for (j = 1; j < 4; j++) {
             if (GetBit(gMultiplayerConnections, j)) {
                 send_recv = &gMultiSioRecv[j];
