@@ -809,3 +809,57 @@ void Task_80628A4()
     send_recv->pat0.unk0 = 0x51;
     send_recv->pat0.unk2 = state->level;
 }
+
+void Task_80629E8()
+{
+    u8 level;
+    CourseSelectState *state = TASK_DATA(gCurTask);
+
+    gDispCnt &= 0x1FFF;
+    gBldRegs.bldCnt = 0;
+    gBldRegs.bldY = 0;
+    level = state->level;
+    if (level == 0) {
+        gCurrentLevel = 0;
+        gMultiplayerCurrentLevel = 0;
+        ApplyGameStageSettings();
+    } else if (level < 19) {
+        gCurrentLevel = state->level - 1;
+        gMultiplayerCurrentLevel = gCurrentLevel;
+        ApplyGameStageSettings();
+    }
+
+    TaskDestroy(state->task18);
+    TaskDestroy(state->task14);
+    TaskDestroy(state->task10);
+    TaskDestroy(gCurTask);
+}
+
+void Task_8062A80()
+{
+    Sprite *s;
+    s16 var_r0_2;
+    u8 i;
+
+    CourseSelect_2DC *strc2DC = TASK_DATA(gCurTask);
+
+    for (i = 1; i < strc2DC->unk2DA; i++) {
+        s = &strc2DC->sprites[i];
+        if (i == strc2DC->unk2D7) {
+            s->palId = 1;
+            var_r0_2 = 0x4C;
+        } else {
+            s->palId = 0;
+            var_r0_2 = 0x48;
+        }
+        s->x = var_r0_2;
+        s->y = ((i - 1) * 0x18) + (i * (0x40 - strc2DC->unk2D0)) + 0x10;
+        s->frameFlags |= 0x40000;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    if (strc2DC->unk2D0 == 0x3F) {
+        gCurTask->main = Task_8062B38;
+    }
+}
