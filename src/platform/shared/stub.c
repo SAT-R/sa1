@@ -93,7 +93,6 @@ void CreateCongratulationsAnimation() { }
 
 void CreateExtraStageResults() { }
 void CreateChaoMessageMP() { }
-void CreateCourseSelect() { }
 void CreateMultiplayerPlayer() { }
 void CreateMultipackOutcomeScreen() { }
 void MultiPakCommunicationError() { }
@@ -107,6 +106,7 @@ void sub_800E934() { }
 void sub_800F318() { }
 
 void sub_8061948(u8 param0) { }
+void sub_806B81C() { }
 void CreateIntroAnimation(void) { }
 
 void CreateSoundTest() { }

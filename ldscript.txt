@@ -343,6 +343,8 @@ SECTIONS {
         src/data/credits.o(.rodata);
         data/data_sound_test.o(.rodata);
         data/data_0_6.o(.rodata);
+        src/game/course_select.o(.rodata);
+        data/data_0_6_0.o(.rodata);
         src/game/time_attack/results.o(.rodata);
         data/data_0_6_1.o(.rodata);
         src/game/enemies/kerokero.o(.rodata);
