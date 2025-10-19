@@ -3,11 +3,13 @@
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
+#include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/save.h"
 #include "game/stage/ui.h"
 
 #include "constants/animations.h"
+#include "constants/songs.h"
 #include "constants/ui_graphics.h"
 
 typedef struct CourseSelectState {
@@ -19,7 +21,7 @@ typedef struct CourseSelectState {
     Sprite s;
     u32 unk4C;
     u16 unk50;
-    u16 unk52;
+    s16 unk52;
     u8 unk54;
     u8 unk55;
     u8 unk56;
@@ -75,6 +77,7 @@ void Task_8062C28(void);
 void Task_8062140(void);
 void Task_8062B38(void);
 void Task_8062CB4(void);
+void Task_8062540(void);
 void TaskDestructor_CourseSelect(struct Task *t);
 
 void sub_8061894(void)
@@ -430,3 +433,157 @@ NONMATCH("asm/non_matching/game/course_select__Task_CourseSelectInit.inc", void 
     }
 }
 END_NONMATCH
+
+void Task_8062140()
+{
+    Sprite *temp_r4_2;
+    s32 var_r0;
+    s32 var_r1;
+    u32 temp_r8;
+    u8 temp_r0_2;
+    union MultiSioData *send_recv;
+    u32 i;
+
+    CourseSelectState *state = TASK_DATA(gCurTask);
+    CourseSelect_2DC *unk2DC = TASK_DATA(state->task10);
+    CourseSelect_2DC *unk2DC_2 = TASK_DATA(state->task14);
+    CourseSelect_54 *strc54 = TASK_DATA(state->task18);
+
+    if (IS_MULTI_PLAYER) {
+        for (i = 0; (i < 4) && GetBit(gMultiplayerConnections, i); i++) {
+            if (!CheckBit(gMultiSioStatusFlags, i)) {
+                if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    sa2__gUnknown_03005390 = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[i] = 0;
+            }
+        }
+
+        if (IS_MULTI_PLAYER) {
+            send_recv = gMultiSioRecv;
+
+            if (!(gMultiSioStatusFlags & 0x80)) {
+                if (send_recv->pat0.unk0 > 0x4FU) {
+                    state->unk55 = send_recv->pat0.unk2;
+                }
+                UpdateSpriteAnimation(&state->s);
+                DisplaySprite(&state->s);
+            }
+        }
+    }
+
+    temp_r8 = state->unk4C;
+    temp_r0_2 = state->unk58;
+    temp_r8++;
+    if (((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) || (IS_SINGLE_PLAYER)) {
+        if (state->unk58 > 1U) {
+            if (DPAD_DOWN & gRepeatedKeys) {
+                if (state->unk55 < (temp_r0_2 - 1)) {
+                    m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+                    state->unk55++;
+                }
+            } else if (DPAD_UP & gRepeatedKeys) {
+                if (state->unk55 > 1U) {
+                    m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+                    state->unk55--;
+                }
+            }
+        }
+    }
+
+    if (state->unk55 > (Div(state->unk52, 24) + 5)) {
+        if (((gSelectedCharacter != 0) || (gCurrentLevel < 12) || (LOADED_SAVE->chaosEmeralds != ALL_ZONE_CHAOS_EMERALDS)
+             || (LOADED_SAVE->unk8[0] <= 12) || (LOADED_SAVE->unk8[1] <= 12) || (LOADED_SAVE->unk8[2] <= 12) || (LOADED_SAVE->unk8[3] <= 12)
+             || ((LOADED_SAVE->unk8[0] == 0xF) && (gMultiplayerCurrentLevel == 12)))
+            && (temp_r0_2 > 0xDU) && (state->unk55 == 0xD)) {
+
+            {
+                var_r1 = state->unk55;
+                var_r1 -= 5;
+                state->unk52 = (var_r1 * 0x18) - 8;
+            }
+        } else {
+            state->unk52 = (((((state->unk55 - 5) & 0x1E) + 1) * 24) - 8);
+        }
+    } else {
+        if (state->unk55 <= Div(state->unk52, 0x18)) {
+            var_r1 = state->unk55;
+            var_r0 = (var_r1 * 0x18) - 8;
+            if (var_r0 > 0x10) {
+                var_r1 = (u32)var_r1 >> 1;
+                var_r1 <<= 1;
+                var_r0 = state->unk52 = ((var_r1 - 1) * 0x18) - 8;
+            } else {
+                state->unk52 = (var_r1 * 0x18) - 8;
+            }
+        }
+    }
+    state->unk4C = temp_r8;
+    unk2DC->unk2D0 = temp_r8;
+    unk2DC_2->unk2D0 = temp_r8;
+    strc54->unk48 = temp_r8;
+    unk2DC->unk2D7 = state->unk55;
+    unk2DC_2->unk2D7 = state->unk55;
+    strc54->unk4F = state->unk55;
+    state->unk50 += Div((state->unk52 - state->unk50) * 2, 10);
+    unk2DC->unk2D4 = state->unk50;
+    unk2DC_2->unk2D4 = state->unk50;
+    strc54->unk4C = state->unk50;
+    unk2DC->unk2D9 = state->unk57;
+    sub_805423C(&state->strc0);
+
+    if (IS_MULTI_PLAYER) {
+        send_recv = &gMultiSioSend;
+        send_recv->pat0.unk0 = 0x50;
+        send_recv->pat0.unk2 = state->unk55;
+    }
+
+    if (state->strc0.unk6 > 0x1800) {
+        if (state->strc0.unk4 == 2) {
+            if (IS_SINGLE_PLAYER) {
+                if (A_BUTTON & gPressedKeys) {
+                    if (gGameMode != GAME_MODE_TIME_ATTACK) {
+                        m4aSongNumStop(MUS_COURSE_SELECTION);
+                    }
+                    if (temp_r8 > 64) {
+                        state->unk57 = 1;
+                        gCurTask->main = Task_8062540;
+                        m4aSongNumStart(SE_SELECT);
+                        state->strc0.unk4 = 1;
+                        state->strc0.unk6 = 0x2000 - state->strc0.unk6;
+                    }
+                } else if ((B_BUTTON & gPressedKeys) != 0) {
+                    m4aSongNumStop(MUS_COURSE_SELECTION);
+                    state->unk57 = 2;
+                    gCurTask->main = Task_8062540;
+                    m4aSongNumStart(0x6BU);
+                    state->strc0.unk4 = 1;
+                    state->strc0.unk6 = 0x2000 - state->strc0.unk6;
+                }
+            } else {
+                if ((gMultiSioStatusFlags & 0x80) && (A_BUTTON & gPressedKeys)) {
+                    send_recv = &gMultiSioSend;
+                    send_recv->pat0.unk0 = 0x51;
+                }
+
+                send_recv = gMultiSioRecv;
+                if (send_recv->pat0.unk0 == 0x51) {
+                    state->unk57 = 1;
+                    gCurTask->main = Task_8062540;
+                    m4aSongNumStart(SE_SELECT);
+                    m4aSongNumStop(MUS_COURSE_SELECTION);
+                    state->strc0.unk4 = 1;
+                    state->strc0.unk6 = 0x2000 - state->strc0.unk6;
+                }
+            }
+        }
+    }
+
+    gBgScrollRegs[0][1] = state->unk50;
+}
