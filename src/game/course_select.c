@@ -83,6 +83,7 @@ void Task_8062CB4(void);
 void Task_8062540(void);
 void Task_80628A4(void);
 void sub_806B81C(void);
+void Task_80629E8(void);
 void TaskDestructor_CourseSelect(struct Task *t);
 
 extern void CreateTimeAttackRecord(u8 arg0);
@@ -738,9 +739,9 @@ void Task_8062540()
                 }
             }
         } else {
-            // IS_MULTI_PLAYER
+            // -> IS_MULTI_PLAYER
             gCurTask->main = Task_80628A4;
-            goto mp_check;
+            goto mp_check; // TODO: remove goto
         }
     } else {
         gBgScrollRegs[0][1] = (s16)state->unk50;
@@ -754,4 +755,57 @@ void Task_8062540()
             }
         }
     }
+}
+
+void Task_80628A4()
+{
+    union MultiSioData *send_recv;
+    u32 sioFlags;
+    u32 i, j;
+
+    CourseSelectState *state = TASK_DATA(gCurTask);
+
+    if (IS_MULTI_PLAYER) {
+        for (i = 0; (i < 4) && GetBit(gMultiplayerConnections, i); i++) {
+            if (!CheckBit(gMultiSioStatusFlags, i)) {
+                if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    sa2__gUnknown_03005390 = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[i] = 0;
+            }
+        }
+    }
+
+    send_recv = gMultiSioRecv;
+    if (send_recv->pat0.unk0 == 0x52) {
+        gCurTask->main = Task_80629E8;
+    }
+    sioFlags = gMultiSioStatusFlags & 0x80;
+    if (sioFlags) {
+        for (j = 1; j < 4; j++) {
+            if (GetBit(gMultiplayerConnections, j)) {
+                send_recv = &gMultiSioRecv[j];
+                if (send_recv->pat0.unk0 != 0x51) {
+                    break;
+                }
+            }
+        }
+
+        if (j == 4) {
+            send_recv = &gMultiSioSend;
+            send_recv->pat0.unk0 = 0x52;
+            send_recv->pat0.unk2 = state->level;
+            return;
+        }
+    }
+
+    send_recv = &gMultiSioSend;
+    send_recv->pat0.unk0 = 0x51;
+    send_recv->pat0.unk2 = state->level;
 }
