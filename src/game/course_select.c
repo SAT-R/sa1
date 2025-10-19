@@ -337,3 +337,96 @@ void CreateCourseSelect(bool8 arg0)
     }
     sub_805423C(&state->strc0);
 }
+
+// (86.97%) https://decomp.me/scratch/1mKl5
+NONMATCH("asm/non_matching/game/course_select__Task_CourseSelectInit.inc", void Task_CourseSelectInit())
+{
+    Strc_80528AC gfx;
+    s32 sp38;
+    s32 sp3C;
+    u8 var_r2;
+    u8 var_r3;
+    u16 *var_r1;
+
+    u8 var_r5 = 0;
+    CourseSelectState *state = TASK_DATA(gCurTask);
+    CourseSelect_2DC *unk2DC = TASK_DATA(state->task10);
+    CourseSelect_2DC *unk2DC_2 = TASK_DATA(state->task14);
+    CourseSelect_54 *strc54 = TASK_DATA(state->task18);
+
+    u32 temp_r8 = state->unk4C + 1;
+    if ((temp_r8 == 0x3F) && (state->unk58 == 1)) {
+        state->unk52 = 0;
+    } else {
+        state->unk52 = 0x14;
+    }
+
+    state->unk50 = 0x14;
+    if (temp_r8 < 11) {
+        gfx.uiGfxID = 62;
+        gfx.unk2B = 0;
+        gfx.tiles = gUiGraphics[62].tiles;
+        gfx.palette = gUiGraphics[62].palette;
+        gfx.tilesSize = 0x20;
+        gfx.paletteSize = 0x20;
+        gfx.unk28 = 3;
+        gfx.vramC = OBJ_VRAM0 + 0x20;
+        gfx.unk2A = 0xC;
+        gfx.unk0.unk4 = gUiGraphics[62].unk8;
+        gfx.unk0.unk8 = gUiGraphics[62].unkC;
+        gfx.unk0.unk9 = gUiGraphics[62].unk10;
+        gfx.unk0.unkA = gUiGraphics[62].unk14;
+        gfx.unk0.unkB = gUiGraphics[62].unk18;
+        sub_80528AC(&gfx);
+    }
+    state->unk4C = temp_r8;
+    unk2DC->unk2D0 = temp_r8;
+    unk2DC_2->unk2D0 = temp_r8;
+    strc54->unk48 = temp_r8;
+    unk2DC->unk2D7 = state->unk55;
+    unk2DC_2->unk2D7 = state->unk55;
+    strc54->unk4F = state->unk55;
+    state->unk50 += Div(((s16)state->unk52 - state->unk50) * 2, 10);
+    unk2DC->unk2D4 = state->unk50;
+    unk2DC_2->unk2D4 = (u16)state->unk50;
+    strc54->unk4C = (u16)state->unk50;
+    unk2DC->unk2D9 = (u8)state->unk57;
+    sub_805423C(&state->strc0);
+
+    gFlags |= 4;
+    gHBlankCopyTarget = (void *)&REG_BG0HOFS;
+    gHBlankCopySize = 4;
+    var_r1 = gBgOffsetsHBlank;
+
+    for (var_r2 = 0; var_r2 < 12; var_r2++, var_r5++) {
+        *var_r1++ = 0;
+        *var_r1++ = 0x14;
+    }
+
+    for (var_r2 = 0; var_r5 < DISPLAY_HEIGHT; var_r5++, var_r2) {
+        var_r3 = 0;
+        sp3C = var_r2 * 2;
+        ++var_r2;
+        for (; var_r3 < (0x40 - temp_r8) && (var_r5 < DISPLAY_HEIGHT); var_r5++, var_r3++) {
+            *var_r1++ = 0;
+            *var_r1++ = (0 - var_r5) & 0x1FF;
+        }
+
+        var_r3 = ((((sp3C + var_r2) * 8) - var_r5) + 0x20);
+        for (var_r2 = 0; (var_r2 < 0x18) && (var_r5 < DISPLAY_HEIGHT); var_r5++, var_r2++) {
+            *var_r1++ = 0;
+            *var_r1++ = (s16)var_r3;
+        }
+    }
+
+    if ((temp_r8 == 0x3F) || (A_BUTTON & gPressedKeys)) {
+        gBgScrollRegs[0][1] = 0x14;
+        state->unk4C = 0x3F;
+        unk2DC->unk2D0 = 0x3F;
+        unk2DC_2->unk2D0 = 0x3F;
+        gBgCntRegs[0] = 0x9D83;
+        gFlags &= ~4;
+        gCurTask->main = Task_8062140;
+    }
+}
+END_NONMATCH
