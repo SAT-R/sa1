@@ -2,11 +2,14 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
+#include "game/character_select.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/save.h"
+#include "game/stage/stage.h"
 #include "game/stage/ui.h"
+#include "game/time_attack/menu.h"
 
 #include "constants/animations.h"
 #include "constants/songs.h"
@@ -23,7 +26,7 @@ typedef struct CourseSelectState {
     u16 unk50;
     s16 unk52;
     u8 unk54;
-    u8 unk55;
+    u8 level;
     u8 unk56;
     u8 unk57;
     u8 unk58;
@@ -78,7 +81,11 @@ void Task_8062140(void);
 void Task_8062B38(void);
 void Task_8062CB4(void);
 void Task_8062540(void);
+void Task_80628A4(void);
+void sub_806B81C(void);
 void TaskDestructor_CourseSelect(struct Task *t);
+
+extern void CreateTimeAttackRecord(u8 arg0);
 
 void sub_8061894(void)
 {
@@ -196,7 +203,7 @@ void CreateCourseSelect(bool8 arg0)
     state->unk50 = 0x14;
     state->unk52 = 0x14;
     state->unk54 = 0;
-    state->unk55 = 1;
+    state->level = 1;
     state->unk58 = unlockedLevelCount;
     state->unk59 = sp34;
     state->strc0.unk0 = 0;
@@ -386,9 +393,9 @@ NONMATCH("asm/non_matching/game/course_select__Task_CourseSelectInit.inc", void 
     unk2DC->unk2D0 = temp_r8;
     unk2DC_2->unk2D0 = temp_r8;
     strc54->unk48 = temp_r8;
-    unk2DC->unk2D7 = state->unk55;
-    unk2DC_2->unk2D7 = state->unk55;
-    strc54->unk4F = state->unk55;
+    unk2DC->unk2D7 = state->level;
+    unk2DC_2->unk2D7 = state->level;
+    strc54->unk4F = state->level;
     state->unk50 += Div(((s16)state->unk52 - state->unk50) * 2, 10);
     unk2DC->unk2D4 = state->unk50;
     unk2DC_2->unk2D4 = (u16)state->unk50;
@@ -470,7 +477,7 @@ void Task_8062140()
 
             if (!(gMultiSioStatusFlags & 0x80)) {
                 if (send_recv->pat0.unk0 > 0x4FU) {
-                    state->unk55 = send_recv->pat0.unk2;
+                    state->level = send_recv->pat0.unk2;
                 }
                 UpdateSpriteAnimation(&state->s);
                 DisplaySprite(&state->s);
@@ -484,36 +491,36 @@ void Task_8062140()
     if (((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) || (IS_SINGLE_PLAYER)) {
         if (state->unk58 > 1U) {
             if (DPAD_DOWN & gRepeatedKeys) {
-                if (state->unk55 < (temp_r0_2 - 1)) {
+                if (state->level < (temp_r0_2 - 1)) {
                     m4aSongNumStart(SE_MENU_CURSOR_MOVE);
-                    state->unk55++;
+                    state->level++;
                 }
             } else if (DPAD_UP & gRepeatedKeys) {
-                if (state->unk55 > 1U) {
+                if (state->level > 1U) {
                     m4aSongNumStart(SE_MENU_CURSOR_MOVE);
-                    state->unk55--;
+                    state->level--;
                 }
             }
         }
     }
 
-    if (state->unk55 > (Div(state->unk52, 24) + 5)) {
+    if (state->level > (Div(state->unk52, 24) + 5)) {
         if (((gSelectedCharacter != 0) || (gCurrentLevel < 12) || (LOADED_SAVE->chaosEmeralds != ALL_ZONE_CHAOS_EMERALDS)
              || (LOADED_SAVE->unk8[0] <= 12) || (LOADED_SAVE->unk8[1] <= 12) || (LOADED_SAVE->unk8[2] <= 12) || (LOADED_SAVE->unk8[3] <= 12)
              || ((LOADED_SAVE->unk8[0] == 0xF) && (gMultiplayerCurrentLevel == 12)))
-            && (temp_r0_2 > 0xDU) && (state->unk55 == 0xD)) {
+            && (temp_r0_2 > 0xDU) && (state->level == 0xD)) {
 
             {
-                var_r1 = state->unk55;
+                var_r1 = state->level;
                 var_r1 -= 5;
                 state->unk52 = (var_r1 * 0x18) - 8;
             }
         } else {
-            state->unk52 = (((((state->unk55 - 5) & 0x1E) + 1) * 24) - 8);
+            state->unk52 = (((((state->level - 5) & 0x1E) + 1) * 24) - 8);
         }
     } else {
-        if (state->unk55 <= Div(state->unk52, 0x18)) {
-            var_r1 = state->unk55;
+        if (state->level <= Div(state->unk52, 0x18)) {
+            var_r1 = state->level;
             var_r0 = (var_r1 * 0x18) - 8;
             if (var_r0 > 0x10) {
                 var_r1 = (u32)var_r1 >> 1;
@@ -528,9 +535,9 @@ void Task_8062140()
     unk2DC->unk2D0 = temp_r8;
     unk2DC_2->unk2D0 = temp_r8;
     strc54->unk48 = temp_r8;
-    unk2DC->unk2D7 = state->unk55;
-    unk2DC_2->unk2D7 = state->unk55;
-    strc54->unk4F = state->unk55;
+    unk2DC->unk2D7 = state->level;
+    unk2DC_2->unk2D7 = state->level;
+    strc54->unk4F = state->level;
     state->unk50 += Div((state->unk52 - state->unk50) * 2, 10);
     unk2DC->unk2D4 = state->unk50;
     unk2DC_2->unk2D4 = state->unk50;
@@ -541,7 +548,7 @@ void Task_8062140()
     if (IS_MULTI_PLAYER) {
         send_recv = &gMultiSioSend;
         send_recv->pat0.unk0 = 0x50;
-        send_recv->pat0.unk2 = state->unk55;
+        send_recv->pat0.unk2 = state->level;
     }
 
     if (state->strc0.unk6 > 0x1800) {
@@ -586,4 +593,165 @@ void Task_8062140()
     }
 
     gBgScrollRegs[0][1] = state->unk50;
+}
+
+void Task_8062540()
+{
+    u8 level;
+    s32 unk4C;
+    u8 *unk58;
+    u32 i;
+    union MultiSioData *send_recv;
+
+    CourseSelectState *state = TASK_DATA(gCurTask);
+    CourseSelect_2DC *unk2DC = TASK_DATA(state->task10);
+    CourseSelect_2DC *unk2DC_2 = TASK_DATA(state->task14);
+    CourseSelect_54 *strc54 = TASK_DATA(state->task18);
+
+    if (IS_MULTI_PLAYER) {
+        for (i = 0; (i < 4) && GetBit(gMultiplayerConnections, i); i++) {
+            if (!CheckBit(gMultiSioStatusFlags, i)) {
+                if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    sa2__gUnknown_03005390 = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[i] = 0;
+            }
+        }
+
+        if (IS_MULTI_PLAYER) {
+            send_recv = gMultiSioRecv;
+
+            if (!(gMultiSioStatusFlags & 0x80)) {
+                if (send_recv->pat0.unk0 > 0x4FU) {
+                    state->level = send_recv->pat0.unk2;
+                }
+            }
+        }
+    }
+
+    unk4C = state->unk4C;
+    unk58 = &state->unk58;
+    unk4C++;
+
+    if (*unk58 == 1) {
+        state->unk52 = 0;
+    }
+    state->unk4C = unk4C;
+    unk2DC->unk2D0 = unk4C;
+    unk2DC_2->unk2D0 = unk4C;
+    strc54->unk48 = unk4C;
+    unk2DC->unk2D7 = (u8)state->level;
+    unk2DC_2->unk2D7 = state->level;
+    strc54->unk4F = (u8)state->level;
+    state->unk50 += Div((state->unk52 - state->unk50) * 2, 10);
+    unk2DC->unk2D4 = state->unk50;
+    unk2DC_2->unk2D4 = state->unk50;
+    strc54->unk4C = state->unk50;
+    unk2DC->unk2D9 = state->unk57;
+    sub_805423C(&state->strc0);
+
+    if ((state->strc0.unk6 > 0x1800) && (state->strc0.unk4 == 1)) {
+        if (IS_SINGLE_PLAYER) {
+            gDispCnt &= 0x1FFF;
+            gBldRegs.bldCnt = 0;
+            gBldRegs.bldY = 0;
+            gBgCntRegs[0] = 0x9D03;
+            gBgCntRegs[1] = 0x1806;
+            if (state->unk57 == 1) {
+                if (gGameMode == GAME_MODE_TIME_ATTACK) {
+                    level = state->level;
+                    if (level == 0) {
+                        gCurrentLevel = 0;
+                        gMultiplayerCurrentLevel = 0;
+                    } else if (level < 0x13) {
+                        gCurrentLevel = level - 1;
+                        gMultiplayerCurrentLevel = gCurrentLevel;
+                    }
+                    sub_806B81C();
+
+                    TaskDestroy(state->task18);
+                    TaskDestroy(state->task14);
+                    TaskDestroy(state->task10);
+                    TaskDestroy(gCurTask);
+                } else if (state->unk59 == 1) {
+                    CreateTimeAttackRecord((u8)(state->level - 1));
+
+                    TaskDestroy(state->task18);
+                    TaskDestroy(state->task14);
+                    TaskDestroy(state->task10);
+                    TaskDestroy(gCurTask);
+                } else {
+                    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+                    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+                    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+                    SA2_LABEL(gUnknown_03002280)[0][2] = -1;
+                    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+                    SA2_LABEL(gUnknown_03004D80)[1] = 0;
+                    SA2_LABEL(gUnknown_03002280)[1][0] = 0;
+                    SA2_LABEL(gUnknown_03002280)[1][1] = 0;
+                    SA2_LABEL(gUnknown_03002280)[1][2] = -1;
+                    SA2_LABEL(gUnknown_03002280)[1][3] = 0x20;
+                    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+                    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
+                    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
+                    SA2_LABEL(gUnknown_03002280)[2][2] = -1;
+                    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+                    SA2_LABEL(gUnknown_03004D80)[3] = 0;
+                    SA2_LABEL(gUnknown_03002280)[3][0] = 0;
+                    SA2_LABEL(gUnknown_03002280)[3][1] = 0;
+                    SA2_LABEL(gUnknown_03002280)[3][2] = -1;
+                    SA2_LABEL(gUnknown_03002280)[3][3] = 0x20;
+
+                    level = state->level;
+                    if (level == 0) {
+                        gCurrentLevel = 0;
+                        gMultiplayerCurrentLevel = 0;
+                        ApplyGameStageSettings();
+                    } else if ((u32)level < 19) {
+                        gCurrentLevel = level - 1;
+                        gMultiplayerCurrentLevel = gCurrentLevel;
+                        ApplyGameStageSettings();
+                    }
+
+                    TaskDestroy(state->task18);
+                    TaskDestroy(state->task14);
+                    TaskDestroy(state->task10);
+                    TaskDestroy(gCurTask);
+                }
+            } else {
+                u32 unk59 = state->unk59;
+                TaskDestroy(state->task18);
+                TaskDestroy(state->task14);
+                TaskDestroy(state->task10);
+                TaskDestroy(gCurTask);
+
+                if (unk59 == 1) {
+                    CreateTimeAttackMenu();
+                } else {
+                    CreateCharacterSelectionScreen(0);
+                }
+            }
+        } else {
+            // IS_MULTI_PLAYER
+            gCurTask->main = Task_80628A4;
+            goto mp_check;
+        }
+    } else {
+        gBgScrollRegs[0][1] = (s16)state->unk50;
+
+    mp_check:
+        if (IS_MULTI_PLAYER) {
+            if (gMultiSioStatusFlags & 0x80) {
+                send_recv = &gMultiSioSend;
+                send_recv->pat0.unk0 = 0x51;
+                send_recv->pat0.unk2 = state->level;
+            }
+        }
+    }
 }
