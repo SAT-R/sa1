@@ -5,9 +5,6 @@
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
-#ifdef NON_MATCHING
-#include "game/sa1_sa2_shared/unused_level_select.h"
-#endif
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/stage.h"
 #include "game/stage/ui.h"
@@ -503,13 +500,13 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
     var_r8 = strc3C->unk2B;
     CheckCPUPartnerUnlock();
     if ((B_BUTTON & gRepeatedKeys) && (strc3C->unk24 > 0x21U) && ((s16)var_r8 == strc3C->unk2A) && IS_SINGLE_PLAYER) {
-        m4aSongNumStart(0x6BU);
+        m4aSongNumStart(SE_RETURN);
         sub_805B858();
         var_r6_2 = strc3C->unk2C;
         var_r4 = strc3C->unk2D;
     } else {
         if ((A_BUTTON & gRepeatedKeys) && (var_r8 == strc3C->unk2A) && (strc3C->unk24 > 0x21U) && !GetBit(strc3C->unk2F, (var_r8 & 0x3))) {
-            m4aSongNumStart(0x6AU);
+            m4aSongNumStart(SE_SELECT);
             if (IS_SINGLE_PLAYER) {
                 sub_805A9A4();
             } else {
@@ -521,27 +518,27 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
             if (strc3C->unk2C == 0) {
                 strc3C->unk2C = 2;
                 strc3C->unk2E = 0x10;
-                m4aSongNumStart(0x67U);
+                m4aSongNumStart(SE_SHIFT);
             }
         } else if ((0x10 & gRepeatedKeys) && ((u32)strc3C->unk24 > 0x21U)) {
             var_r8++;
             if (strc3C->unk2C == 0) {
                 strc3C->unk2C = 1;
                 strc3C->unk2E = 0x10;
-                m4aSongNumStart(0x67U);
+                m4aSongNumStart(SE_SHIFT);
             }
         } else {
             if (var_r8 > strc3C->unk2A) {
                 if (strc3C->unk2C == 0) {
                     strc3C->unk2C = 1;
                     strc3C->unk2E = 0x10;
-                    m4aSongNumStart(0x67U);
+                    m4aSongNumStart(SE_SHIFT);
                 }
             } else if (var_r8 < strc3C->unk2A) {
                 if (strc3C->unk2C == 0) {
                     strc3C->unk2C = 2;
                     strc3C->unk2E = 0x10;
-                    m4aSongNumStart(0x67U);
+                    m4aSongNumStart(SE_SHIFT);
                 }
             } else {
                 if (GetBit(strc3C->unk2F, (var_r8 & 0x3)) && ((u32)strc3C->unk24 > 0x21U)) {
@@ -554,7 +551,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
                     } else {
                         strc3C->unk2C = 1;
                         strc3C->unk2E = 0x10;
-                        m4aSongNumStart(0x67U);
+                        m4aSongNumStart(SE_SHIFT);
                     }
                 }
             }
@@ -882,11 +879,7 @@ void Task_805AAF8()
                 }
             }
 
-#ifndef NON_MATCHING
             CreateCourseSelect(0);
-#else
-            CreateUnusedLevelSelect();
-#endif
         }
     } else if (strc3C->unk24 > arr[gSelectedCharacter]) {
         sub_805423C(&strc3C->strc0);
@@ -902,7 +895,7 @@ void Task_805AC00(void)
     strc3C->strc0.unkA = 0x10;
 
     if (sub_805423C(&strc3C->strc0)) {
-        m4aSongNumStop(3U);
+        m4aSongNumStop(MUS_CHARACTER_SELECTION);
         gDispCnt &= 0xFFF;
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
@@ -926,7 +919,7 @@ void Task_805AC00(void)
         sa2__gUnknown_03004D80[0] = 0;
         sa2__gUnknown_03002280[0][0] = 0;
         sa2__gUnknown_03002280[0][1] = 0;
-        sa2__gUnknown_03002280[0][2] = 0xFF;
+        sa2__gUnknown_03002280[0][2] = -1;
         sa2__gUnknown_03002280[0][3] = 0x14;
 
         sa2__gUnknown_03004D80[1] = 0;
