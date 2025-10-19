@@ -853,7 +853,7 @@ void Task_8062A80()
             var_r0_2 = 0x48;
         }
         s->x = var_r0_2;
-        s->y = ((i - 1) * 0x18) + (i * (0x40 - strc2DC->unk2D0)) + 0x10;
+        s->y = ((i - 1) * 24) + (i * (64 - strc2DC->unk2D0)) + 16;
         s->frameFlags |= 0x40000;
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
@@ -861,5 +861,55 @@ void Task_8062A80()
 
     if (strc2DC->unk2D0 == 0x3F) {
         gCurTask->main = Task_8062B38;
+    }
+}
+
+void Task_8062B38()
+{
+    Sprite *s;
+    u8 *var_r1;
+    u8 temp_r1;
+    u8 temp_r8;
+    u8 var_r0;
+    u8 spriteIndex;
+    u32 spriteIndex_32;
+    u8 var_r7;
+
+    CourseSelect_2DC *strc2DC = TASK_DATA(gCurTask);
+    temp_r8 = strc2DC->unk2DB;
+    spriteIndex_32 = (Div(strc2DC->unk2D4, 24) - 1);
+    spriteIndex_32 <<= 24;
+#ifndef NON_MATCHING
+    asm("" ::"r"(spriteIndex_32));
+#endif
+    var_r7 = 0;
+    spriteIndex = spriteIndex_32 >> 24;
+    for (; var_r7 < 8; var_r7++, spriteIndex++) {
+        if ((spriteIndex != 0) && (spriteIndex <= (s32)(strc2DC->unk2DA - 1))) {
+            s = &strc2DC->sprites[spriteIndex];
+            if (temp_r8 == 1) {
+                SPRITE_FLAG_SET(s, 18);
+            }
+            if (spriteIndex == strc2DC->unk2D7) {
+                temp_r1 = strc2DC->unk2D9;
+                if (temp_r1 == 1) {
+                    var_r0 = strc2DC->unk2D0 & temp_r1;
+                    if (var_r0 != 0) {
+                        s->palId = 1;
+                    } else {
+                        s->palId = 0;
+                    }
+                } else {
+                    s->palId = 1;
+                }
+                s->x = 0x4C;
+            } else {
+                s->x = 0x48;
+                s->palId = 0;
+            }
+            s->y = (spriteIndex * 0x18) - (strc2DC->unk2D4 - 0xC);
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
     }
 }
