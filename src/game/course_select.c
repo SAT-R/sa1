@@ -72,6 +72,8 @@ typedef struct StaticTileInfo {
 extern StaticTileInfo gUnknown_0868B10C[15];
 extern StaticTileInfo gUnknown_0868B1C0[15];
 
+extern u16 gUnknown_0868B220[];
+
 void sub_8061894(void);
 void Task_CourseSelectInit(void);
 void Task_8062A80(void);
@@ -1003,3 +1005,33 @@ void Task_8062CB4()
         }
     }
 }
+
+void Task_8062E18()
+{
+    CourseSelect_54 *strc54 = TASK_DATA(gCurTask);
+    Sprite *s = &strc54->s;
+
+    if (strc54->unk4C != 0x14) {
+        s->frameFlags &= 0xFFFFF7FF;
+        s->x = 48;
+        s->y = 24;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+        if (((u32)strc54->unk51 > 6U) && ((u32)strc54->unk4C < gUnknown_0868B220[strc54->unk51 - 1])) {
+            s->frameFlags |= 0x800;
+            s->x = 48;
+            s->y = 136;
+            DisplaySprite(s);
+        }
+    } else {
+        if (((u32)strc54->unk51 > 7U) && (strc54->unk4C < gUnknown_0868B220[(strc54->unk51 - 1)])) {
+            s->frameFlags |= 0x800;
+            s->x = 48;
+            s->y = 136;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+}
+
+void TaskDestructor_CourseSelect(struct Task *t) { }
