@@ -52,7 +52,6 @@ SECTIONS {
         src/game/multiplayer/multiplayer_event_recv_mgr.o(.text);
         asm/game__mp__results.o(.text);
         src/game/multiplayer/finish.o(.text);
-        asm/game__mp__finish.o(.text);
         src/game/sa1_sa2_shared/pause_menu.o(.text);
         asm/game__mp__results_2.o(.text);
         asm/ia_itembox_chaohunt.o(.text);
@@ -305,6 +304,8 @@ SECTIONS {
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
         data/data_0_1_3.o(.rodata);
+        src/game/multiplayer/finish.o(.rodata);
+        data/data_0_1_3_2.o(.rodata);
         src/game/interactables/platform_thin.o(.rodata);
         src/game/interactables/platform_crumbling.o(.rodata);
         data/data_0_1_4.o(.rodata);
