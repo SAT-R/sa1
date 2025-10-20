@@ -305,6 +305,7 @@ SECTIONS {
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
         data/data_0_1_3.o(.rodata);
         src/game/multiplayer/finish.o(.rodata);
+        src/game/multiboot/collect_rings/time_display.o(.rodata);
         data/data_0_1_3_2.o(.rodata);
         src/game/interactables/platform_thin.o(.rodata);
         src/game/interactables/platform_crumbling.o(.rodata);

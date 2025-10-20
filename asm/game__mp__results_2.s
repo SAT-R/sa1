@@ -2012,7 +2012,7 @@ _0801B754:
 	lsrs r1, r1, #0x10
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
-	ldr r0, _0801B8BC @ =gUnknown_080BB494
+	ldr r0, _0801B8BC @ =sa2__gUnknown_080E0234
 	adds r0, r1, r0
 	ldrb r4, [r0]
 	movs r0, #0xf
@@ -2147,7 +2147,7 @@ _0801B8AC: .4byte 0x03000030
 _0801B8B0: .4byte 0x03000240
 _0801B8B4: .4byte gStageFlags
 _0801B8B8: .4byte 0x000004AF
-_0801B8BC: .4byte gUnknown_080BB494
+_0801B8BC: .4byte sa2__gUnknown_080E0234
 _0801B8C0: .4byte gMultiplayerConnections
 _0801B8C4: .4byte gGameMode
 _0801B8C8:
