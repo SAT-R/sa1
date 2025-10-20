@@ -30,7 +30,7 @@ const u8 SA2_LABEL(gUnknown_080E0234)[] = {
 };
 
 #if (GAME == GAME_SA2)
-//const u16 gUnknown_080E0270[] = INCBIN_U16("graphics/80E0270.gbapal");
+// const u16 gUnknown_080E0270[] = INCBIN_U16("graphics/80E0270.gbapal");
 #endif
 
 #if 0
