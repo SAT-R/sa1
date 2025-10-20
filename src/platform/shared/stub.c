@@ -17,8 +17,8 @@ int gMaxLines = 0;
 #include "game/enemies/boss_xtra_super_egg_robo.h"
 ExtraBossTaskData gExtraBossTaskData = { 0 };
 
-void sa2__sub_8019CCC() { }
-void sa2__sub_8019F08() { }
+void CreateMultiplayerFinishResult() { }
+void CreateMultiplayerFinishHandler() { }
 void sub_801C704() { }
 
 // Player

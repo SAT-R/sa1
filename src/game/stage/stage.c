@@ -362,11 +362,12 @@ void Task_GameStage(void)
     u32 timeStep;
 
     if (IS_SINGLE_PLAYER) {
-#if DEBUG
+#if (GAME == GAME_SA1) && DEBUG
 #include "game/character_select.h"
         if (gInput & SELECT_BUTTON) {
             TasksDestroyAll();
             CreateCharacterSelectionScreen(CHARACTER_TAILS);
+            return;
         }
 #endif
         if (!(gStageFlags & STAGE_FLAG__DISABLE_PAUSE_MENU) && (gPressedKeys & START_BUTTON) && !(gStageFlags & STAGE_FLAG__DEMO_RUNNING)) {
@@ -429,15 +430,9 @@ void Task_GameStage(void)
             gCamera.spectatorTarget = sioId;
         }
 
-#if (GAME == GAME_SA1)
         if (SA2_LABEL(gUnknown_030053E0) > 0) {
             SA2_LABEL(gUnknown_030053E0)--;
         }
-#elif (GAME == GAME_SA2)
-        if (gUnknown_030053E0 > 0) {
-            gUnknown_030053E0--;
-        }
-#endif
     }
 
     SA2_LABEL(gUnknown_0300544C) = gStageFlags;
@@ -457,15 +452,9 @@ void Task_GameStage(void)
         if (IS_SINGLE_PLAYER) {
             gStageFlags |= STAGE_FLAG__ACT_START;
 
-#if (GAME == GAME_SA1)
             if (LOADED_SAVE->timeLimitDisabled) {
                 return;
             }
-#elif (GAME == GAME_SA2)
-            if (LOADED_SAVE->timeLimitDisabled) {
-                return;
-            }
-#endif
 
             gPlayer.itemEffect = 0;
 
@@ -478,6 +467,8 @@ void Task_GameStage(void)
 #if (GAME == GAME_SA1)
             if (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))
 #elif (GAME == GAME_SA2)
+            // NOTE(Jace):
+            // I wonder if the level index was hardcoded in the original source?
             if (gCurrentLevel == LEVEL_INDEX(ZONE_3, ACT_BOSS))
 #endif
             {
@@ -487,7 +478,7 @@ void Task_GameStage(void)
             m4aSongNumStart(SE_TIME_UP);
         } else {
             gStageFlags |= STAGE_FLAG__ACT_START;
-            SA2_LABEL(sub_8019F08)();
+            CreateMultiplayerFinishHandler();
         }
     } else {
         gCourseTime += timeStep;
@@ -498,15 +489,9 @@ void Task_GameStage(void)
         if (IS_SINGLE_PLAYER) {
             gStageFlags |= STAGE_FLAG__ACT_START;
 
-#if (GAME == GAME_SA1)
             if (LOADED_SAVE->timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
                 return;
             }
-#elif (GAME == GAME_SA2)
-            if (LOADED_SAVE->timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
-                return;
-            }
-#endif
 
             gPlayer.itemEffect = 0;
 
@@ -519,7 +504,7 @@ void Task_GameStage(void)
             m4aSongNumStart(SE_TIME_UP);
         } else {
             gStageFlags |= STAGE_FLAG__ACT_START;
-            SA2_LABEL(sub_8019F08)();
+            CreateMultiplayerFinishHandler();
         }
     }
 }

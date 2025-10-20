@@ -115,7 +115,7 @@ _08017FD8:
 	lsls r1, r2, #0x18
 	lsrs r1, r1, #0x18
 	adds r0, r7, #0
-	bl sa2__sub_8019CCC
+	bl CreateMultiplayerFinishResult
 	b _08018004
 	.align 2, 0
 _08017FF8: .4byte gMultiplayerConnections
@@ -185,7 +185,7 @@ _08018040:
 	mov r2, sb
 	lsls r1, r2, #0x18
 	lsrs r1, r1, #0x18
-	bl sa2__sub_8019CCC
+	bl CreateMultiplayerFinishResult
 	ldr r0, _08018194 @ =0x04000128
 	ldr r0, [r0]
 	lsls r0, r0, #0x1a
@@ -316,7 +316,7 @@ _08018158:
 _08018176:
 	lsrs r0, r4, #0x18
 	movs r1, #1
-	bl sa2__sub_8019CCC
+	bl CreateMultiplayerFinishResult
 	b _080181C2
 	.align 2, 0
 _08018180: .4byte gGameMode
@@ -334,7 +334,7 @@ _080181A8:
 	ldr r2, [sp, #0xc]
 	lsls r1, r2, #0x18
 	lsrs r1, r1, #0x18
-	bl sa2__sub_8019CCC
+	bl CreateMultiplayerFinishResult
 	ldr r0, [r5, #0x10]
 	movs r1, #0x80
 	lsls r1, r1, #0xe
@@ -359,7 +359,7 @@ _080181DA:
 	ldr r1, [sp, #8]
 	cmp r1, #0
 	bne _080181E4
-	bl sa2__sub_8019F08
+	bl CreateMultiplayerFinishHandler
 _080181E4:
 	add sp, #0x14
 	pop {r3, r4, r5}

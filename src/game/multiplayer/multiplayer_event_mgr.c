@@ -264,7 +264,7 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
     }
 
     if (sa2__gUnknown_030054B4[i] == -1) {
-        sa2__sub_8019CCC(i, count2);
+        CreateMultiplayerFinishResult(i, count2);
     } else {
         somebool = 1;
     }
@@ -273,7 +273,7 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
         for (j = 0; j < 4 && gMultiplayerPlayerTasks[j] != NULL; j++) {
             if (j != i && sa2__gUnknown_030054B4[j] == -1
                 && (gMultiplayerConnections & (0x10 << (j))) >> ((j + 4)) == (gMultiplayerConnections & (0x10 << (i))) >> (i + 4)) {
-                sa2__sub_8019CCC(j, count2);
+                CreateMultiplayerFinishResult(j, count2);
                 if (j == SIO_MULTI_CNT->id) {
                     Player_TransitionCancelFlyingAndBoost(&gPlayer);
                     gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
@@ -323,11 +323,11 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
             if (j != i) {
                 if (sa2__gUnknown_030054B4[j] == -1) {
                     if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY || gGameMode == GAME_MODE_TEAM_PLAY) {
-                        sa2__sub_8019CCC(j, 1);
+                        CreateMultiplayerFinishResult(j, 1);
                     } else {
                         u32 temp;
                         RoomEvent *roomEvent;
-                        sa2__sub_8019CCC(j, count - 1);
+                        CreateMultiplayerFinishResult(j, count - 1);
 #if (GAME == GAME_SA2)
                         mpp2->unk5C |= 1;
 #endif
@@ -348,7 +348,7 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
         }
 
         if (!somebool) {
-            sa2__sub_8019F08();
+            CreateMultiplayerFinishHandler();
         }
     }
 }

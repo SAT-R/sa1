@@ -306,7 +306,7 @@ void Task_StageGoal2(void)
             }
         }
 
-        SA2_LABEL(sub_8019CCC)(SIO_MULTI_CNT->id, count);
+        CreateMultiplayerFinishResult(SIO_MULTI_CNT->id, count);
         mpp->unk5C |= 0x1;
 
         if (count == 0) {
@@ -363,9 +363,9 @@ void Task_StageGoal2(void)
                 r3 = (gMultiplayerConnections & (0x10 << SIO_MULTI_CNT->id)) >> (SIO_MULTI_CNT->id + 4);
 
                 if (r2 == r3) {
-                    SA2_LABEL(sub_8019CCC)(i, r8);
+                    CreateMultiplayerFinishResult(i, r8);
                 } else {
-                    SA2_LABEL(sub_8019CCC)(i, (r8 ^ 0x1));
+                    CreateMultiplayerFinishResult(i, (r8 ^ 0x1));
                 }
             }
         }
@@ -541,7 +541,7 @@ void Task_StageGoal4(void)
                     mpp = TASK_DATA(gMultiplayerPlayerTasks[j]);
 
                     if (!(mpp->unk5C & 0x1) && (gGameMode != GAME_MODE_MULTI_PLAYER) && (gGameMode != GAME_MODE_TEAM_PLAY)) {
-                        SA2_LABEL(sub_8019CCC)(j, i - 1);
+                        CreateMultiplayerFinishResult(j, i - 1);
                         mpp->unk5C |= 0x1;
 
                         gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
@@ -551,7 +551,7 @@ void Task_StageGoal4(void)
 
                 goal->unk3C = 0;
                 gCurTask->main = Task_StageGoal6;
-                SA2_LABEL(sub_8019F08)();
+                CreateMultiplayerFinishHandler();
             } else {
                 gCurTask->main = Task_StageGoal5;
             }
