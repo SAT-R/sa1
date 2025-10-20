@@ -54,12 +54,12 @@ SECTIONS {
         src/game/multiplayer/finish.o(.text);
         src/game/sa1_sa2_shared/pause_menu.o(.text);
         asm/game__mp__results_2.o(.text);
-        asm/ia_itembox_chaohunt.o(.text);
+        asm/ia_mystery_itembox.o(.text);
         asm/game__mp__unk_tasks.o(.text);
         src/game/enemies/kiki.o(.text);
         src/game/enemies/buzzer.o(.text);
         src/game/sa1_sa2_shared/collect_ring_effect.o(.text);
-        src/game/sa1_sa2_shared/item_box.o(.text);
+        src/game/sa1_sa2_shared/itembox.o(.text);
         src/game/interactables/stage_goal.o(.text);
         src/game/sa1_sa2_shared/dust_cloud.o(.text);
         src/game/interactables/spikes.o(.text);
@@ -293,7 +293,7 @@ SECTIONS {
         data/chao_garden.o(.rodata);
         src/data/entity_tables.o(.rodata);
         src/game/sa1_sa2_shared/entities_manager.o(.rodata);
-        src/game/sa1_sa2_shared/item_box.o(.rodata);
+        src/game/sa1_sa2_shared/itembox.o(.rodata);
         src/game/title_screen.o(.rodata);
         src/game/sa1_sa2_shared/unused_level_select.o(.rodata);
         data/data_0_1_1.o(.rodata);
@@ -307,6 +307,7 @@ SECTIONS {
         src/game/multiplayer/finish.o(.rodata);
         src/game/multiboot/collect_rings/time_display.o(.rodata);
         data/data_0_1_3_2.o(.rodata);
+        src/game/interactables/spring.o(.rodata);
         src/game/interactables/platform_thin.o(.rodata);
         src/game/interactables/platform_crumbling.o(.rodata);
         data/data_0_1_4.o(.rodata);

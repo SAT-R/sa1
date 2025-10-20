@@ -44,7 +44,7 @@ bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p);
 bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p);
 bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p);
 
-extern const s16 gUnknown_080BB4F4[4];
+const s16 sData0Accel[4] = { Q(7.5), Q(9.0), Q(10.5), Q(12.0) };
 
 void CreateEntity_Spring_Normal_Up(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 {
@@ -621,10 +621,10 @@ NONMATCH("asm/non_matching/game/interactables/Spring__sub_8022640.inc",
         p->moveState &= ~MOVESTATE_100;
         p->SA2_LABEL(unk61) = 0;
 
-        if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+        if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
             p->qSpeedAirY = -(me->d.uData[1] << 4);
         } else {
-            p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+            p->qSpeedAirY = -(sData0Accel[me->d.sData[0] & 0x3]);
         }
 
         if (hitWithHammer) {
@@ -684,10 +684,10 @@ bool32 sub_8022804(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
         p->moveState &= ~MOVESTATE_100;
         p->SA2_LABEL(unk61) = 0;
 
-        if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+        if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
             p->qSpeedAirY = +(me->d.uData[1] << 4);
         } else {
-            p->qSpeedAirY = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+            p->qSpeedAirY = +(sData0Accel[me->d.sData[0] & 0x3]);
         }
 
         s->variant = 1;
@@ -732,12 +732,12 @@ bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
                 p->timerInvulnerability = 2;
             }
 
-            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
                 p->qSpeedAirX = -(me->d.uData[1] << 4);
                 p->qSpeedGround = -(me->d.uData[1] << 4);
             } else {
-                p->qSpeedAirX = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
-                p->qSpeedGround = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = -(sData0Accel[me->d.sData[0] & 0x3]);
+                p->qSpeedGround = -(sData0Accel[me->d.sData[0] & 0x3]);
             }
 
             Player_TransitionCancelFlyingAndBoost(p);
@@ -782,12 +782,12 @@ bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
                 p->timerInvulnerability = 2;
             }
 
-            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
                 p->qSpeedAirX = +(me->d.uData[1] << 4);
                 p->qSpeedGround = +(me->d.uData[1] << 4);
             } else {
-                p->qSpeedAirX = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
-                p->qSpeedGround = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = +(sData0Accel[me->d.sData[0] & 0x3]);
+                p->qSpeedGround = +(sData0Accel[me->d.sData[0] & 0x3]);
             }
 
             Player_TransitionCancelFlyingAndBoost(p);
@@ -867,12 +867,12 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
             p->moveState &= ~MOVESTATE_100;
             p->SA2_LABEL(unk61) = 0;
 
-            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
                 p->qSpeedAirY = -(me->d.uData[1] << 4);
                 p->qSpeedAirX = -(me->d.uData[1] << 4);
             } else {
-                p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
-                p->qSpeedAirX = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirY = -(sData0Accel[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = -(sData0Accel[me->d.sData[0] & 0x3]);
             }
 
             if (hitWithHammer) {
@@ -909,12 +909,12 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
             p->moveState &= ~MOVESTATE_100;
             p->SA2_LABEL(unk61) = 0;
 
-            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
                 p->qSpeedAirY = -(me->d.uData[1] << 4);
                 p->qSpeedAirX = +(me->d.uData[1] << 4);
             } else {
-                p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
-                p->qSpeedAirX = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirY = -(sData0Accel[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = +(sData0Accel[me->d.sData[0] & 0x3]);
             }
 
             if (hitWithHammer) {
@@ -989,12 +989,12 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
             p->moveState &= ~MOVESTATE_100;
             p->SA2_LABEL(unk61) = 0;
 
-            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
                 p->qSpeedAirY = -(me->d.uData[1] << 4);
                 p->qSpeedAirX = -(me->d.uData[1] << 4);
             } else {
-                p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
-                p->qSpeedAirX = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirY = -(sData0Accel[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = -(sData0Accel[me->d.sData[0] & 0x3]);
             }
 
             if (hitWithHammer) {
@@ -1031,12 +1031,12 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
             p->moveState &= ~MOVESTATE_100;
             p->SA2_LABEL(unk61) = 0;
 
-            if (me->d.sData[0] >= (s32)ARRAY_COUNT(gUnknown_080BB4F4)) {
+            if (me->d.sData[0] >= (s32)ARRAY_COUNT(sData0Accel)) {
                 p->qSpeedAirY = -(me->d.uData[1] << 4);
                 p->qSpeedAirX = +(me->d.uData[1] << 4);
             } else {
-                p->qSpeedAirY = -(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
-                p->qSpeedAirX = +(gUnknown_080BB4F4[me->d.sData[0] & 0x3]);
+                p->qSpeedAirY = -(sData0Accel[me->d.sData[0] & 0x3]);
+                p->qSpeedAirX = +(sData0Accel[me->d.sData[0] & 0x3]);
             }
 
             if (hitWithHammer) {

@@ -160,7 +160,7 @@ _0802276C: .4byte gMultiplayerPlayerTasks
 _08022770: .4byte 0x04000128
 _08022774: .4byte 0xFFFFFEFF
 _08022778:
-	ldr r0, _080227B0 @ =gUnknown_080BB4F4
+	ldr r0, _080227B0 @ =sData0Accel
 	movs r1, #3
 	ands r1, r2
 	lsls r1, r1, #1
@@ -190,7 +190,7 @@ _08022798:
 	movs r0, #0x15
 	b _080227C0
 	.align 2, 0
-_080227B0: .4byte gUnknown_080BB4F4
+_080227B0: .4byte sData0Accel
 _080227B4:
 	adds r0, r4, #0
 	bl Player_TransitionCancelFlyingAndBoost

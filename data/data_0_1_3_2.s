@@ -20,7 +20,3 @@ gUnknown_080BB4E8:
     .global gUnknown_080BB4F0
 gUnknown_080BB4F0:
     .byte 8, 9, 10, 9
-
-    .global gUnknown_080BB4F4
-gUnknown_080BB4F4: @ Q-values!
-    .short 0x780, 0x900, 0xA80, 0xC00
