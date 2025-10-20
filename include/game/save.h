@@ -113,7 +113,7 @@ typedef struct SaveGame {
     /* 0x01D */ u8 multiplayerLoses;
     /* 0x01E */ u8 multiplayerDraws;
 
-    /* 0x020 */ u16 playerName[MAX_PLAYER_NAME_LENGTH];
+    /* 0x020 */ PlayerNameChar playerName[MAX_PLAYER_NAME_LENGTH];
 
     /* 0x02C */ struct ButtonConfig buttonConfig;
     /* 0x034 */ struct TimeRecords timeRecords;

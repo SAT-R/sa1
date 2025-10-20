@@ -462,7 +462,7 @@ void Task_GameStage(void)
                 return;
             }
 #elif (GAME == GAME_SA2)
-            if (gLoadedSaveGame->timeLimitDisabled) {
+            if (LOADED_SAVE->timeLimitDisabled) {
                 return;
             }
 #endif
@@ -503,7 +503,7 @@ void Task_GameStage(void)
                 return;
             }
 #elif (GAME == GAME_SA2)
-            if (gLoadedSaveGame->timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
+            if (LOADED_SAVE->timeLimitDisabled && (gGameMode == GAME_MODE_SINGLE_PLAYER || IS_MULTI_PLAYER)) {
                 return;
             }
 #endif
