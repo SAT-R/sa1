@@ -66,8 +66,8 @@ void CreateTimeAttackMenu(void)
     s->graphics.dest = (void *)OBJ_VRAM0;
     s->oamFlags = 0x3C0;
     s->graphics.size = 0;
-    s->graphics.anim = gUnknown_080BB35C[gLoadedSaveGame.uiLanguage];
-    s->variant = gUnknown_080BB360[0][gLoadedSaveGame.uiLanguage];
+    s->graphics.anim = gUnknown_080BB35C[LOADED_SAVE->uiLanguage];
+    s->variant = gUnknown_080BB360[0][LOADED_SAVE->uiLanguage];
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = 0xFF;
@@ -97,7 +97,7 @@ void CreateTimeAttackMenu(void)
     sp4.uiGfxID = 0x80;
     sp4.unk2B = 0;
 
-    if (gLoadedSaveGame.uiLanguage != 0) {
+    if (LOADED_SAVE->uiLanguage != 0) {
         sp4.tiles = gUnknown_0869F034;
         sp4.palette = gUnknown_0869EE34;
         sp4.layout = gUnknown_086A10F4;
@@ -229,7 +229,7 @@ void Task_80103C4()
 
     s = &menu->s;
     s->y = (menu->unk74 * 0x18) + 0x40;
-    s->variant = gUnknown_080BB360[menu->unk74][gLoadedSaveGame.uiLanguage];
+    s->variant = gUnknown_080BB360[menu->unk74][LOADED_SAVE->uiLanguage];
     UpdateSpriteAnimation(s);
 
     for (var_r5 = I(menu->unk70) - 128; (224 - var_r5) > 0; var_r5 += 128) {

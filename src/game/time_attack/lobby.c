@@ -95,8 +95,8 @@ void CreateTimeAttackLobbyScreen(void)
     for (i = 0; i < ARRAY_COUNT(lobby->sprites); i++) {
         s = &lobby->sprites[i];
         s->graphics.dest = VramMalloc(gUnknown_0868B69C[i]);
-        s->graphics.anim = gUnknown_0868B684[i][gLoadedSaveGame.uiLanguage];
-        s->variant = gUnknown_0868B694[i][gLoadedSaveGame.uiLanguage];
+        s->graphics.anim = gUnknown_0868B684[i][LOADED_SAVE->uiLanguage];
+        s->variant = gUnknown_0868B694[i][LOADED_SAVE->uiLanguage];
         s->x = 47;
         s->y = (i * 16) + 33;
         s->graphics.size = 0;

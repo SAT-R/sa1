@@ -442,7 +442,7 @@ void Task_LoadGameLogo(void)
         bg->layoutVram = (void *)BG_SCREEN_ADDR(22);
         bg->unk18 = 0;
         bg->unk1A = 0;
-        bg->tilemapId = (TM_SA1_TITLE_LOGO_JP + gLoadedSaveGame.uiLanguage);
+        bg->tilemapId = (TM_SA1_TITLE_LOGO_JP + LOADED_SAVE->uiLanguage);
         bg->unk1E = 0;
         bg->unk20 = 0;
         bg->unk22 = 0;
@@ -590,7 +590,7 @@ void CreateMainMenu(u32 param0)
     bg->layoutVram = (void *)BG_SCREEN_ADDR(22);
     bg->unk18 = 0;
     bg->unk1A = 0;
-    bg->tilemapId = (TM_SA1_TITLE_LOGO_JP + gLoadedSaveGame.uiLanguage);
+    bg->tilemapId = (TM_SA1_TITLE_LOGO_JP + LOADED_SAVE->uiLanguage);
     bg->unk1E = 0;
     bg->unk20 = 0;
     bg->unk22 = 0;
@@ -659,8 +659,8 @@ void Task_MainMenuInit(void)
             s->y = (i * MENU_ITEMS_SPACE) + MENU_ITEMS_TOP_Y;
             s->graphics.dest = VramMalloc((u32)sTitlescreenFrameTileSizes[i]);
             s->graphics.size = 0;
-            s->graphics.anim = gUnknown_080BB310[gLoadedSaveGame.uiLanguage];
-            s->variant = gUnknown_080BB314[gLoadedSaveGame.uiLanguage + (i * 2)];
+            s->graphics.anim = gUnknown_080BB310[LOADED_SAVE->uiLanguage];
+            s->variant = gUnknown_080BB314[LOADED_SAVE->uiLanguage + (i * 2)];
             s->oamFlags = 0x3C0;
             s->graphics.size = 0;
             s->animCursor = 0;

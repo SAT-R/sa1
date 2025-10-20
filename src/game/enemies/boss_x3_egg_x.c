@@ -1094,11 +1094,11 @@ void Task_8038154()
                     if ((gSelectedCharacter == CHARACTER_SONIC) //
                         && (gCurrentLevel > 0xB) //
                         && (LOADED_SAVE->chaosEmeralds == ALL_ZONE_CHAOS_EMERALDS) //
-                        && (LOADED_SAVE->unk8[0] > 0xCU) //
-                        && (LOADED_SAVE->unk8[1] > 0xCU) //
-                        && (LOADED_SAVE->unk8[2] > 0xCU) //
-                        && (LOADED_SAVE->unk8[3] > 0xCU) //
-                        && ((LOADED_SAVE->unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
+                        && (LOADED_SAVE->unlockedLevels[0] > 0xCU) //
+                        && (LOADED_SAVE->unlockedLevels[1] > 0xCU) //
+                        && (LOADED_SAVE->unlockedLevels[2] > 0xCU) //
+                        && (LOADED_SAVE->unlockedLevels[3] > 0xCU) //
+                        && ((LOADED_SAVE->unlockedLevels[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
                         sub_803A54C();
                     } else {
                         sub_803A594();
@@ -1112,11 +1112,11 @@ void Task_8038154()
                 if ((gSelectedCharacter == CHARACTER_SONIC) //
                     && (gCurrentLevel > 0xB) //
                     && (LOADED_SAVE->chaosEmeralds == ALL_ZONE_CHAOS_EMERALDS) //
-                    && (LOADED_SAVE->unk8[0] > 0xCU) //
-                    && (LOADED_SAVE->unk8[1] > 0xCU) //
-                    && (LOADED_SAVE->unk8[2] > 0xCU) //
-                    && (LOADED_SAVE->unk8[3] > 0xCU) //
-                    && ((LOADED_SAVE->unk8[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
+                    && (LOADED_SAVE->unlockedLevels[0] > 0xCU) //
+                    && (LOADED_SAVE->unlockedLevels[1] > 0xCU) //
+                    && (LOADED_SAVE->unlockedLevels[2] > 0xCU) //
+                    && (LOADED_SAVE->unlockedLevels[3] > 0xCU) //
+                    && ((LOADED_SAVE->unlockedLevels[0] != 0xF) || (gMultiplayerCurrentLevel != 0xC))) {
                     CreatePostBossEggMobile(worldX, worldY - 8);
                 }
 
@@ -2513,11 +2513,11 @@ void sub_803A54C(void)
     EggX_10 *strc10;
     u16 temp_r0;
 
-    temp_r0 = LOADED_SAVE->unk8[0];
+    temp_r0 = LOADED_SAVE->unlockedLevels[0];
     if (temp_r0 < 0xE) {
         temp_r0 = 0xE;
     }
-    LOADED_SAVE->unk8[0] = temp_r0;
+    LOADED_SAVE->unlockedLevels[0] = temp_r0;
 
     strc10 = TASK_DATA(TaskCreate(Task_8038554, sizeof(EggX_10), 0x1FFFU, 0U, NULL));
     strc10->unk6 = 0x1A4;

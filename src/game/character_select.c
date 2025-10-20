@@ -783,7 +783,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A798.inc", void Task_805A79
     if (gMultiSioStatusFlags & 0x80) {
         gMultiSioSend.pat0.unk0 = 0x23;
         gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & strc3C->unk28) >> 8);
-        gMultiSioSend.pat0.unk3 = (u8)LOADED_SAVE->unk8[gMultiSioSend.pat0.unk2];
+        gMultiSioSend.pat0.unk3 = (u8)LOADED_SAVE->unlockedLevels[gMultiSioSend.pat0.unk2];
         for (i = 0; i < 4; i++) {
             if (GetBit(gMultiplayerConnections, i) && (i != 0)
                 && (gMultiplayerCharacters[i] = gMultiSioRecv[i].pat0.unk2, (gMultiSioRecv[i].pat0.unk0 != 0x22))) {
@@ -799,7 +799,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A798.inc", void Task_805A79
     } else {
         gMultiSioSend.pat0.unk0 = 0x22;
         gMultiSioSend.pat0.unk2 = (u8)((u32)(0x300 & strc3C->unk28) >> 8);
-        gMultiSioSend.pat0.unk3 = (u8)LOADED_SAVE->unk8[gMultiSioSend.pat0.unk2];
+        gMultiSioSend.pat0.unk3 = (u8)LOADED_SAVE->unlockedLevels[gMultiSioSend.pat0.unk2];
     }
 }
 END_NONMATCH
@@ -871,7 +871,7 @@ void Task_805AAF8()
                     m4aSongNumStart(SE_RING_COPY);
                     gTailsEnabled = 1;
                 }
-                if ((gGameMode == GAME_MODE_SINGLE_PLAYER) && (LOADED_SAVE->unk8[gSelectedCharacter] == 0)) {
+                if ((gGameMode == GAME_MODE_SINGLE_PLAYER) && (LOADED_SAVE->unlockedLevels[gSelectedCharacter] == 0)) {
                     gCurrentLevel = 0;
                     gMultiplayerCurrentLevel = 0;
                     ApplyGameStageSettings();

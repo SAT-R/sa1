@@ -179,7 +179,7 @@ void CreateCourseSelect(bool8 arg0)
         if (IS_MULTI_PLAYER) {
             unlockedLevelCount = gUnknown_03005140 + 2;
         } else {
-            unlockedLevelCount = LOADED_SAVE->unk8[gSelectedCharacter] + 2;
+            unlockedLevelCount = LOADED_SAVE->unlockedLevels[gSelectedCharacter] + 2;
         }
 
         if (gSelectedCharacter == CHARACTER_SONIC) {
@@ -188,7 +188,7 @@ void CreateCourseSelect(bool8 arg0)
             }
             if (unlockedLevelCount > 15) {
                 unlockedLevelCount = 15;
-            } else if (LOADED_SAVE->unk8[0] == 0xD) {
+            } else if (LOADED_SAVE->unlockedLevels[0] == 0xD) {
                 unlockedLevelCount = 14;
             }
         } else {
@@ -523,8 +523,8 @@ void Task_8062140()
 
     if (state->level > (Div(state->unk52, 24) + 5)) {
         if (((gSelectedCharacter != 0) || (gCurrentLevel < 12) || (LOADED_SAVE->chaosEmeralds != ALL_ZONE_CHAOS_EMERALDS)
-             || (LOADED_SAVE->unk8[0] <= 12) || (LOADED_SAVE->unk8[1] <= 12) || (LOADED_SAVE->unk8[2] <= 12) || (LOADED_SAVE->unk8[3] <= 12)
-             || ((LOADED_SAVE->unk8[0] == 0xF) && (gMultiplayerCurrentLevel == 12)))
+             || (LOADED_SAVE->unlockedLevels[0] <= 12) || (LOADED_SAVE->unlockedLevels[1] <= 12) || (LOADED_SAVE->unlockedLevels[2] <= 12)
+             || (LOADED_SAVE->unlockedLevels[3] <= 12) || ((LOADED_SAVE->unlockedLevels[0] == 0xF) && (gMultiplayerCurrentLevel == 12)))
             && (temp_r0_2 > 0xDU) && (state->level == 0xD)) {
 
             {

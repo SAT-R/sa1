@@ -105,7 +105,7 @@ void CreatePlayerDataMenu()
         s->graphics.dest = VramMalloc(sPlayerDataMenuTileCounts[i]);
         s->oamFlags = SPRITE_OAM_ORDER(15);
         s->graphics.size = 0;
-        s->graphics.anim = sPlayerDataMenuAnims[gLoadedSaveGame.uiLanguage];
+        s->graphics.anim = sPlayerDataMenuAnims[LOADED_SAVE->uiLanguage];
         s->variant = sPlayerDataMenuVariants[i];
         s->animCursor = 0;
         s->qAnimDelay = 0;
@@ -131,7 +131,7 @@ void CreatePlayerDataMenu()
     sp4.tilesSize = sizeof(gTiles_086CCD54);
     sp4.palette = (void *)&gPalette_086CCD34;
     sp4.paletteSize = sizeof(gPalette_086CCD34);
-    if (gLoadedSaveGame.uiLanguage == 0) {
+    if (LOADED_SAVE->uiLanguage == 0) {
         sp4.layout = gLayout_086CDDF4;
         sp4.layoutSize = sizeof(gLayout_086CDDF4);
     } else {
@@ -188,8 +188,8 @@ void CreatePlayerDataMenu()
     i = 0;
     temp_r4 = &menu->strcF0;
     for (i = 0; i < 6; i++) {
-        if ((u8)(gLoadedSaveGame.playerName[i] - 0x20) > 105) {
-            gLoadedSaveGame.playerName[i] = 0x20;
+        if ((u8)(LOADED_SAVE->playerName[i] - 0x20) > 105) {
+            LOADED_SAVE->playerName[i] = 0x20;
         }
     }
 
@@ -295,11 +295,11 @@ void sub_8011C94()
         menu->unkFC.qUnkA = (u16)((i * 8) + 0x9F);
         menu->unkFC.unkC = 60;
 
-        if ((u8)(gLoadedSaveGame.playerName[i] - 0x70) <= 25) {
+        if ((u8)(LOADED_SAVE->playerName[i] - 0x70) <= 25) {
             menu->unkFC.unkC = 0x44;
         }
 
-        sub_8052F78(&gLoadedSaveGame.playerName[i], &menu->unkFC);
+        sub_8052F78(&LOADED_SAVE->playerName[i], &menu->unkFC);
     }
 }
 

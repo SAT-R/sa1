@@ -116,7 +116,7 @@ void GameInit(void)
 #endif
 #if (GAME == GAME_SA1)
         for (i = 0; i < 4; i++) {
-            gLoadedSaveGame.unk8[i] = 0xF;
+            LOADED_SAVE->unlockedLevels[i] = 0xF;
         }
 #elif (GAME == GAME_SA2)
         LoadCompletedSaveGame();
@@ -168,24 +168,24 @@ void CreateEmptySaveGame(void)
     u32 i;
 
     DmaFill32(3, 0, &gLoadedSaveGame, sizeof(gLoadedSaveGame));
-    gLoadedSaveGame.unk4 = 0;
-    gLoadedSaveGame.unk420 = 50000;
-    gLoadedSaveGame.difficultyLevel = DIFFICULTY_NORMAL;
+    LOADED_SAVE->unk4 = 0;
+    LOADED_SAVE->unk420 = 50000;
+    LOADED_SAVE->difficultyLevel = DIFFICULTY_NORMAL;
 
-    for (i = 0; i < ARRAY_COUNT(gLoadedSaveGame.unk8); i++) {
-        gLoadedSaveGame.unk8[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(LOADED_SAVE->unlockedLevels); i++) {
+        LOADED_SAVE->unlockedLevels[i] = 0;
     }
 
     for (i = 0; i < 10; i++) {
         u32 charIndex;
 
-        gLoadedSaveGame.multiplayerScores[i].wins |= 0xFF;
-        for (charIndex = 0; charIndex < (s32)ARRAY_COUNT(gLoadedSaveGame.multiplayerScores[i].playerName); charIndex++) {
-            gLoadedSaveGame.multiplayerScores[i].playerName[charIndex] = ' ';
+        LOADED_SAVE->multiplayerScores[i].wins |= 0xFF;
+        for (charIndex = 0; charIndex < (s32)ARRAY_COUNT(LOADED_SAVE->multiplayerScores[i].playerName); charIndex++) {
+            LOADED_SAVE->multiplayerScores[i].playerName[charIndex] = ' ';
         }
     }
 
-    DmaFill32(3, MAX_COURSE_TIME, &gLoadedSaveGame.timeRecords, sizeof(gLoadedSaveGame.timeRecords));
+    DmaFill32(3, MAX_COURSE_TIME, &LOADED_SAVE->timeRecords, sizeof(LOADED_SAVE->timeRecords));
 
     LOADED_SAVE->uiLanguage = UILANG_DEFAULT;
     LOADED_SAVE->language = LANG_JAPANESE;

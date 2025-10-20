@@ -194,7 +194,7 @@ void CreateEntity_EggPress(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boss->qUnk94 = 0;
     boss->unkB1 = 0;
 
-    if (gLoadedSaveGame.difficultyLevel != 0) {
+    if (LOADED_SAVE->difficultyLevel != 0) {
         boss->unkAE = 2;
     } else {
         boss->unkAE = 0;

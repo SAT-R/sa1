@@ -241,7 +241,7 @@ void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boss->unk8D = 0;
     boss->unk8E = 0;
 
-    if (gLoadedSaveGame.difficultyLevel != DIFFICULTY_NORMAL) {
+    if (LOADED_SAVE->difficultyLevel != DIFFICULTY_NORMAL) {
         boss->unk8A = 2;
     } else {
         boss->unk8A = 0;

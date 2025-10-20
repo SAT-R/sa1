@@ -574,7 +574,7 @@ void sub_8011104()
                 m4aSongNumStart(SE_RETURN);
                 gCurTask->main = Task_OptionsMenuMain;
             } else {
-                s->variant = gUnknown_080BB38A[gLoadedSaveGame.uiLanguage + 2];
+                s->variant = gUnknown_080BB38A[LOADED_SAVE->uiLanguage + 2];
                 s->prevVariant = -1;
                 UpdateSpriteAnimation(s);
                 menu->unk33F = 2;

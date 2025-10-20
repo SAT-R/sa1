@@ -203,7 +203,7 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     boss->unk74 = 0;
     boss->unk78 = 0;
 
-    if (gLoadedSaveGame.difficultyLevel != DIFFICULTY_NORMAL) {
+    if (LOADED_SAVE->difficultyLevel != DIFFICULTY_NORMAL) {
         boss->unk86 = 2;
     } else {
         boss->unk86 = 0;
