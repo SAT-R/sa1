@@ -443,7 +443,7 @@ _0803C524:
 	cmp r4, #0
 	bne _0803C570
 	movs r0, #0
-	bl CreateChaoMessageMP
+	bl CreateMultiplayerResultsScreen
 	b _0803C58A
 	.align 2, 0
 _0803C554: .4byte 0x00000203

@@ -10,9 +10,9 @@
 #include "game/credits.h"
 #include "game/stage/extra_stage.h"
 #include "game/stage/stage.h"
-#include "game/multiplayer/chao_message.h"
 #include "game/multiplayer/communication_outcome.h"
 #include "game/multiplayer/multipak_connection.h"
+#include "game/multiplayer/results.h"
 
 #if (GAME == GAME_SA2)
 #include "game/bosses/common.h"
@@ -208,11 +208,11 @@ void Task_CreateSelectedTask(void)
     } else if (levelId == 0xFD) {
         CreateExtraStageResults();
     } else if (levelId == 0xFC) {
-        CreateChaoMessageMP(0);
+        CreateMultiplayerResultsScreen(0);
     } else if (levelId == 0xFB) {
-        CreateChaoMessageMP(1);
+        CreateMultiplayerResultsScreen(1);
     } else if (levelId == 0xFA) {
-        CreateChaoMessageMP(2);
+        CreateMultiplayerResultsScreen(2);
     } else if (levelId == 0xF9) {
         CreateMultipackOutcomeScreen(0);
     } else if (levelId == 0xF8) {

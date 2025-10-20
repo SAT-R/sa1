@@ -92,7 +92,7 @@ void CreateMultiplayerModeSelectScreen() { }
 void CreateCongratulationsAnimation() { }
 
 void CreateExtraStageResults() { }
-void CreateChaoMessageMP() { }
+void CreateMultiplayerResultsScreen() { }
 void CreateMultiplayerPlayer() { }
 void CreateMultipackOutcomeScreen() { }
 void MultiPakCommunicationError() { }

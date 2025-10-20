@@ -5,8 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateChaoMessageMP
-CreateChaoMessageMP: @ 0x0803A950
+	thumb_func_start CreateMultiplayerResultsScreen
+CreateMultiplayerResultsScreen: @ 0x0803A950
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8

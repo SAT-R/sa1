@@ -7,9 +7,7 @@
 
 @ Start of src/game/multiplayer/finish.c
 
-.if 0
-.endif
-
+.if 01
 @ SA2 func
 	thumb_func_start CreateMultiplayerFinishHandler
 CreateMultiplayerFinishHandler: @ 0x08019DB0
@@ -457,6 +455,7 @@ _0801A0F6:
 _0801A104: .4byte gMultiplayerPlayerTasks
 _0801A108: .4byte sa2__gUnknown_030054B4
 _0801A10C: .4byte gGameMode
+.endif
 
 	thumb_func_start sa2__Task_801A04C
 sa2__Task_801A04C: @ 0x0801A110
@@ -720,7 +719,7 @@ _0801A2EA:
 	str r0, [r1, #8]
 	ldr r0, [r1, #8]
 	movs r0, #1
-	bl CreateChaoMessageMP
+	bl CreateMultiplayerResultsScreen
 	b _0801A36E
 	.align 2, 0
 _0801A32C: .4byte 0x0000FFFF

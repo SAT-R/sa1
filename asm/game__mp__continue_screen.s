@@ -716,7 +716,7 @@ _0806B588: .4byte gBldRegs
 _0806B58C: .4byte 0x0300016C
 _0806B590:
 	movs r0, #2
-	bl CreateChaoMessageMP
+	bl CreateMultiplayerResultsScreen
 	b _0806B59C
 _0806B598:
 	bl sub_806B5A4

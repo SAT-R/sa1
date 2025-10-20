@@ -61,7 +61,6 @@ const TileInfo sMPFinishTileInfo[2][7] = { {
                                                { 0, SA2_ANIM_MP_RESULT, SA2_ANIM_MP_RESULT_3RD },
                                                { 0, SA2_ANIM_MP_RESULT, SA2_ANIM_MP_RESULT_4TH },
                                            } };
-#endif
 
 #define GET_MP_FINISH_RESULT_TILE_INFO(_id)                                                                                                \
     ({                                                                                                                                     \
@@ -75,6 +74,7 @@ const TileInfo sMPFinishTileInfo[2][7] = { {
                                                                                                                                            \
         (source + (_id));                                                                                                                  \
     })
+#endif
 
 void CreateMultiplayerFinishResult(u8 sioId, u8 count)
 {
