@@ -23,8 +23,8 @@ typedef struct IntroSprite {
 } IntroSprite; /* 0x44 */
 
 typedef struct Intro_C8 {
-    Sprite sprites[2];
-    u8 filler60[0x54];
+    Sprite sprites[3];
+    u8 filler60[0x24];
     u16 unkB4;
     u8 fillerB6[0x12];
 } Intro_C8; /* 0xC8 */
@@ -34,28 +34,30 @@ typedef struct Intro_54 {
     struct Task *taskC;
     struct Task *beamTasks[2]; // -> SpotlightBeam
     struct Task *task18; // -> Intro_C8
-    s32 unk1C;
+    struct Task *task1C; // -> Intro_C8
     s32 unk20;
     s32 unk24;
     u8 filler28[0x24];
     s16 unk4C;
     u8 unk4E;
-    s16 unk50;
-    s16 unk52;
+    u16 unk50;
+    u16 unk52;
 } Intro_54; /* 0x54 */
 
 void Task_IntroChaosEmeraldUpdate(void);
-void Task_8065058(void);
+void sub_8063B8C(void);
 void Task_80640C8(void);
 void sub_8064244(void);
 void sub_80645E4(void);
+void sub_80648D4(void);
 void sub_8064FF8(void);
+void Task_8065058(void);
 void Task_806515C(void);
 void sub_8065258(void);
+void sub_8065328(void);
 void Task_806562C(void);
+void sub_80656A4(void);
 void TaskDestructor_8065810(struct Task *t);
-
-s16 gUnknown_0868B27C[2];
 
 extern u16 gUnknown_086B1AB4[16][16];
 extern u8 gUnknown_086B1CB4[0x540];
@@ -89,6 +91,8 @@ extern u8 gUnknown_086AFFB4[0x1440];
 extern u8 gUnknown_086ACB34[0x2840];
 extern u8 gUnknown_086AF4F4[0x8C0];
 
+s16 gUnknown_0868B27C[2];
+s16 gUnknown_0868B280[2];
 // TODO: This struct already appeared somewhere else. Merge them!
 typedef struct LocalTileInfo {
     u32 anim;
@@ -96,6 +100,7 @@ typedef struct LocalTileInfo {
     void *vram;
 } LocalTileInfo;
 extern LocalTileInfo gUnknown_0868B28C[6];
+extern LocalTileInfo gUnknown_0868B2D4[6];
 
 void CreateIntroAnimation(void)
 {
@@ -190,10 +195,10 @@ void CreateIntroAnimation(void)
     strc54->unk4C = 0;
     strc54->unk4E = 1;
     strc54->taskC = t;
-    strc54->beamTasks[0] = 0;
-    strc54->beamTasks[1] = 0;
-    strc54->task18 = 0;
-    strc54->unk1C = 0;
+    strc54->beamTasks[0] = NULL;
+    strc54->beamTasks[1] = NULL;
+    strc54->task18 = NULL;
+    strc54->task1C = NULL;
     strc54->unk20 = 0;
     strc54->unk24 = 0;
     strc54->unk50 = 0;
@@ -690,6 +695,161 @@ void sub_8064244()
             if (temp_r4 >= 30 && temp_r4 < 120) {
                 sub_805423C(&strc54->strc0);
             }
+        }
+    }
+}
+
+void sub_80645E4()
+{
+    Sprite *s;
+    s16 *temp_r3;
+    s16 temp_r0;
+    s16 temp_r1;
+    s16 temp_r4;
+    s32 temp_r0_4;
+    s32 temp_r0_6;
+    s32 temp_r1_3;
+    s8 *temp_r1_2;
+    u16 temp_r0_3;
+    u16 temp_r0_5;
+    u16 temp_r2;
+    u16 temp_r7;
+    u8 i;
+    void *temp_r7_2;
+    void *var_r0;
+    u32 unk4C;
+    struct Task *t;
+
+    Intro_C8 *strcC8;
+    Intro_54 *strc54 = TASK_DATA(gCurTask);
+    StrcUi_805423C *strc0;
+
+    strcC8 = TASK_DATA(strc54->task18);
+    temp_r4 = strc54->unk4C;
+    strcC8->unkB4 = temp_r4;
+    strc54->unk50 -= 0x20;
+    strc54->unk52 += 0x20;
+
+    gBgScrollRegs[0][0] = I(strc54->unk50);
+    gBgScrollRegs[0][1] = I(strc54->unk52);
+
+    if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
+        gCurTask->main = sub_8064FF8;
+        return;
+    }
+
+    unk4C = strc54->unk4C;
+    if (unk4C < 30) {
+        if (unk4C == 1) {
+            sub_8063B8C();
+        }
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 2;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 42) {
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 8;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0x100;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 102) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 242) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 0x16A) {
+        sub_805423C(&strc54->strc0);
+    }
+    if (++strc54->unk4C >= 414) {
+        TasksDestroyInPriorityRange(0x6820, 0x6821);
+        TaskDestroy(strc54->task18);
+        strc54->task18 = NULL;
+        strc54->unk50 = 0xE000;
+        strc54->unk52 = 0x6000;
+        strc54->unk4C = 0;
+
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 2;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+
+        t = TaskCreate(sub_8065328, sizeof(Intro_C8), 0x2280U, 0U, NULL);
+        strc54->task1C = t;
+        strcC8 = TASK_DATA(t);
+        strcC8->unkB4 = 0;
+
+        for (i = 0; i < 3; i++) {
+            s = &strcC8->sprites[i];
+            if (i == 2) {
+                s->graphics.dest = OBJ_VRAM0 + 0x3280;
+            } else if (i == 1) {
+                s->graphics.dest = OBJ_VRAM0 + 0x1980;
+            } else {
+                s->graphics.dest = OBJ_VRAM0 + 0x400;
+            }
+            s->graphics.anim = 0x301;
+            s->variant = 1;
+            s->x = 48;
+            s->y = 108;
+            s->oamFlags = 0x300;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x80;
+
+            if (i == 0) {
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            }
+        }
+
+        for (i = 0; i < 6; i++) {
+            IntroSprite *introSpr;
+            t = TaskCreate(sub_80656A4, sizeof(IntroSprite), 0x6820U, 0U, NULL);
+            introSpr = TASK_DATA(t);
+            s = &introSpr->s;
+            introSpr->unk30 = 0;
+            introSpr->unk32 = 0;
+            introSpr->unk34 = i;
+            introSpr->qUnk3C = gUnknown_0868B280[0] + 0x118;
+            s->graphics.dest = gUnknown_0868B2D4[i].vram;
+            s->graphics.anim = gUnknown_0868B2D4[i].anim;
+            s->variant = gUnknown_0868B2D4[i].variant;
+            s->x = 280;
+            s->y = 70;
+            s->oamFlags = 0x180;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x80;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+        gCurTask->main = sub_80648D4;
+    } else {
+        if (strc54->unk4C > 0x160) {
+            if (strc54->unk4C == 0x161) {
+                strc54->strc0.unk4 = 4;
+                strc54->strc0.unk6 = 0;
+                strc54->strc0.unk8 = 0x180;
+            }
+            sub_805423C(&strc54->strc0);
         }
     }
 }
