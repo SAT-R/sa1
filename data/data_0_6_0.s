@@ -13,6 +13,8 @@ gUnknown_0868B240:
     .global gUnknown_0868B27C
 gUnknown_0868B27C:
     .incbin "baserom_sa1.gba", 0x0068B27C, 0x4
+    @ NOTE: Ignore. This is only here to silence a gcc warning.
+    .size gUnknown_0868B27C,.-gUnknown_0868B27C
 
     .global gUnknown_0868B280
 gUnknown_0868B280:
