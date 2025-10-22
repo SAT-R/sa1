@@ -2,6 +2,7 @@
 #include "core.h"
 #include "trig.h"
 #include "lib/m4a/m4a.h"
+#include "constants/ui_graphics.h"
 #include "game/entity.h"
 #include "game/game_over.h"
 #include "game/gTask_03006240.h"
@@ -37,6 +38,25 @@ void Task_IntroChaosEmeraldUpdate(void);
 void Task_8065058(void);
 void Task_80640C8(void);
 void TaskDestructor_8065810(struct Task *t);
+
+extern u16 gUnknown_086B1AB4[16][16];
+extern u8 gUnknown_086B1CB4[0x540];
+extern u8 gUnknown_086B21F4[0x800];
+extern u16 gUnknown_086B29F4[256];
+extern u8 gUnknown_086B2BF4[0x1E00];
+extern u8 gUnknown_086B49F4[0x800];
+extern u16 gUnknown_086B51F4[16][16];
+extern u8 gUnknown_086B53F4[0x1B80];
+
+extern u8 gUnknown_086B6F74[0x800];
+extern u16 gUnknown_086B7774[256];
+extern u8 gUnknown_086B7974[0x1880];
+
+extern u8 gUnknown_086B91F4[0x800];
+extern u16 gUnknown_086B99F4[256];
+extern u8 gUnknown_086B9BF4[0x1840];
+extern u16 gUnknown_086B1B14[16];
+extern u8 gUnknown_086BB434[0x800];
 
 void CreateIntroAnimation(void)
 {
@@ -150,103 +170,147 @@ void CreateIntroAnimation(void)
     m4aSongNumStart(1U);
 }
 
+void sub_8063B8C(void)
+{
+    Strc_80528AC gfx;
+    s8 *temp_r6;
+    s8 *temp_r7;
+
+    UiGfxStackInit();
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 0;
+    gfx.tiles = &gUnknown_086B1CB4[0];
+    gfx.tilesSize = sizeof(gUnknown_086B1CB4);
+    gfx.palette = &gUnknown_086B1AB4[0][0];
+    gfx.paletteSize = sizeof(gUnknown_086B1AB4);
+    gfx.layout = &gUnknown_086B21F4[0];
+    gfx.layoutSize = sizeof(gUnknown_086B21F4);
+    gfx.unk28 = 0;
+    gfx.unk29 = 1;
+    gfx.unk2A = 0x15;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 1;
+    gfx.tiles = &gUnknown_086B2BF4[0];
+    gfx.tilesSize = sizeof(gUnknown_086B2BF4);
+    gfx.palette = &gUnknown_086B29F4[0];
+    gfx.paletteSize = sizeof(gUnknown_086B29F4);
+    gfx.layout = &gUnknown_086B49F4[0];
+    gfx.layoutSize = sizeof(gUnknown_086B49F4);
+    gfx.unk28 = 0;
+    gfx.unk29 = 0;
+    gfx.unk2A = 0x11;
+    sub_80528AC(&gfx);
+}
+
+void sub_8063C4C(void)
+{
+    Strc_80528AC gfx;
+    s8 *temp_r6;
+    s8 *temp_r7;
+
+    UiGfxStackInit();
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 0;
+    gfx.tiles = &gUnknown_086B1CB4[0];
+    gfx.tilesSize = sizeof(gUnknown_086B1CB4);
+    gfx.palette = &gUnknown_086B1AB4[1][0];
+    gfx.paletteSize = sizeof(gUnknown_086B1AB4[1]);
+    gfx.layout = &gUnknown_086B21F4[0];
+    gfx.layoutSize = sizeof(gUnknown_086B21F4);
+    gfx.unk28 = 0;
+    gfx.unk29 = 1;
+    gfx.unk2A = 0x14;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 1;
+    gfx.tiles = &gUnknown_086B53F4[0];
+    gfx.tilesSize = sizeof(gUnknown_086B53F4);
+    gfx.palette = &gUnknown_086B51F4[0][0];
+    gfx.paletteSize = sizeof(gUnknown_086B51F4);
+    gfx.layout = &gUnknown_086B6F74[0];
+    gfx.layoutSize = sizeof(gUnknown_086B6F74);
+    gfx.unk28 = 0;
+    gfx.unk29 = 0;
+    gfx.unk2A = 0x11;
+    sub_80528AC(&gfx);
+}
+
+void sub_8063D0C(void)
+{
+    Strc_80528AC gfx;
+    s8 *temp_r6;
+    s8 *temp_r7;
+
+    UiGfxStackInit();
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 0;
+    gfx.tiles = &gUnknown_086B1CB4[0];
+    gfx.tilesSize = sizeof(gUnknown_086B1CB4);
+    gfx.palette = &gUnknown_086B1AB4[2][0];
+    gfx.paletteSize = sizeof(gUnknown_086B1AB4[2]);
+    gfx.layout = &gUnknown_086B21F4[0];
+    gfx.layoutSize = sizeof(gUnknown_086B21F4);
+    gfx.unk28 = 0;
+    gfx.unk29 = 1;
+    gfx.unk2A = 0x14;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 1;
+    gfx.tiles = &gUnknown_086B7974[0];
+    gfx.tilesSize = sizeof(gUnknown_086B7974);
+    gfx.palette = &gUnknown_086B7774[0];
+    gfx.paletteSize = sizeof(gUnknown_086B7774);
+    gfx.layout = &gUnknown_086B91F4[0];
+    gfx.layoutSize = sizeof(gUnknown_086B91F4);
+    gfx.unk28 = 0;
+    gfx.unk29 = 0;
+    gfx.unk2A = 0x11;
+    sub_80528AC(&gfx);
+}
+
+void sub_8063DCC(void)
+{
+    Strc_80528AC gfx;
+    s8 *temp_r6;
+    s8 *temp_r7;
+
+    UiGfxStackInit();
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 0;
+    gfx.tiles = &gUnknown_086B1CB4[0];
+    gfx.tilesSize = sizeof(gUnknown_086B1CB4);
+    gfx.palette = &gUnknown_086B1B14[0];
+    gfx.paletteSize = sizeof(gUnknown_086B1B14);
+    gfx.layout = &gUnknown_086B21F4[0];
+    gfx.layoutSize = sizeof(gUnknown_086B21F4);
+    gfx.unk28 = 0;
+    gfx.unk29 = 1;
+    gfx.unk2A = 0x14;
+    sub_80528AC(&gfx);
+
+    gfx.uiGfxID = UIGFX_OPTIONS;
+    gfx.unk2B = 1;
+    gfx.tiles = &gUnknown_086B9BF4[0];
+    gfx.tilesSize = sizeof(gUnknown_086B9BF4);
+    gfx.palette = &gUnknown_086B99F4[0];
+    gfx.paletteSize = sizeof(gUnknown_086B99F4);
+    gfx.layout = &gUnknown_086BB434[0];
+    gfx.layoutSize = sizeof(gUnknown_086BB434);
+    gfx.unk28 = 0;
+    gfx.unk29 = 0;
+    gfx.unk2A = 0x11;
+    sub_80528AC(&gfx);
+}
+
 #if 0
-void sub_8063B8C(void) {
-    s8 sp28;
-    s8 sp29;
-    s8 sp2C;
-    s8 *temp_r6;
-    s8 *temp_r7;
-
-    UiGfxStackInit();
-    sp2C = -0x80;
-    temp_r7 = &subroutine_arg0 + 0x2B;
-    *temp_r7 = 0;
-    sp28 = 0;
-    sp29 = 1;
-    temp_r6 = &subroutine_arg0 + 0x2A;
-    *temp_r6 = 0x15;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086B21F4, /* extra? */ &gUnknown_086B1CB4, /* extra? */ 0x540, /* extra? */ 0x800, /* extra? */ &gUnknown_086B1AB4, /* extra? */ 0x200);
-    sp2C = -0x80;
-    *temp_r7 = 1;
-    sp28 = 0;
-    sp29 = 0;
-    *temp_r6 = 0x11;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086B49F4, /* extra? */ &gUnknown_086B2BF4, /* extra? */ 0x1E00, /* extra? */ 0x800, /* extra? */ &gUnknown_086B29F4, /* extra? */ 0x200);
-}
-
-void sub_8063C4C(void) {
-    s8 sp28;
-    s8 sp29;
-    s8 sp2C;
-    s8 *temp_r6;
-    s8 *temp_r7;
-
-    UiGfxStackInit();
-    sp2C = -0x80;
-    temp_r7 = &subroutine_arg0 + 0x2B;
-    *temp_r7 = 0;
-    sp28 = 0;
-    sp29 = 1;
-    temp_r6 = &subroutine_arg0 + 0x2A;
-    *temp_r6 = 0x14;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086B21F4, /* extra? */ &gUnknown_086B1CB4, /* extra? */ 0x540, /* extra? */ 0x800, /* extra? */ &gUnknown_086B1AD4, /* extra? */ 0x20);
-    sp2C = -0x80;
-    *temp_r7 = 1;
-    sp28 = 0;
-    sp29 = 0;
-    *temp_r6 = 0x11;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086B6F74, /* extra? */ &gUnknown_086B53F4, /* extra? */ 0x1B80, /* extra? */ 0x800, /* extra? */ &gUnknown_086B51F4, /* extra? */ 0x200);
-}
-
-void sub_8063D0C(void) {
-    s8 sp28;
-    s8 sp29;
-    s8 sp2C;
-    s8 *temp_r6;
-    s8 *temp_r7;
-
-    UiGfxStackInit();
-    sp2C = -0x80;
-    temp_r7 = &subroutine_arg0 + 0x2B;
-    *temp_r7 = 0;
-    sp28 = 0;
-    sp29 = 1;
-    temp_r6 = &subroutine_arg0 + 0x2A;
-    *temp_r6 = 0x14;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086B21F4, /* extra? */ &gUnknown_086B1CB4, /* extra? */ 0x540, /* extra? */ 0x800, /* extra? */ &gUnknown_086B1AF4, /* extra? */ 0x20);
-    sp2C = -0x80;
-    *temp_r7 = 1;
-    sp28 = 0;
-    sp29 = 0;
-    *temp_r6 = 0x11;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086B91F4, /* extra? */ &gUnknown_086B7974, /* extra? */ 0x1880, /* extra? */ 0x800, /* extra? */ &gUnknown_086B7774, /* extra? */ 0x200);
-}
-
-void sub_8063DCC(void) {
-    s8 sp28;
-    s8 sp29;
-    s8 sp2C;
-    s8 *temp_r6;
-    s8 *temp_r7;
-
-    UiGfxStackInit();
-    sp2C = -0x80;
-    temp_r7 = &subroutine_arg0 + 0x2B;
-    *temp_r7 = 0;
-    sp28 = 0;
-    sp29 = 1;
-    temp_r6 = &subroutine_arg0 + 0x2A;
-    *temp_r6 = 0x14;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086B21F4, /* extra? */ &gUnknown_086B1CB4, /* extra? */ 0x540, /* extra? */ 0x800, /* extra? */ &gUnknown_086B1B14, /* extra? */ 0x20);
-    sp2C = -0x80;
-    *temp_r7 = 1;
-    sp28 = 0;
-    sp29 = 0;
-    *temp_r6 = 0x11;
-    sub_80528AC((Strc_80528AC *) &subroutine_arg0, /* extra? */ &gUnknown_086BB434, /* extra? */ &gUnknown_086B9BF4, /* extra? */ 0x1840, /* extra? */ 0x800, /* extra? */ &gUnknown_086B99F4, /* extra? */ 0x200);
-}
-
 void sub_8063E8C(u16 arg0) {
     Strc_80528AC sp4;
     s32 temp_r1;
