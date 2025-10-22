@@ -8,6 +8,8 @@
 #include "game/gTask_03006240.h"
 #include "game/stage/ui.h"
 
+#include "constants/animations.h"
+
 typedef struct IntroSprite {
     Sprite s;
     u16 unk30;
@@ -37,6 +39,7 @@ typedef struct Intro_54 {
 void Task_IntroChaosEmeraldUpdate(void);
 void Task_8065058(void);
 void Task_80640C8(void);
+void Task_806515C(void);
 void TaskDestructor_8065810(struct Task *t);
 
 extern u16 gUnknown_086B1AB4[16][16];
@@ -57,6 +60,19 @@ extern u16 gUnknown_086B99F4[256];
 extern u8 gUnknown_086B9BF4[0x1840];
 extern u16 gUnknown_086B1B14[16];
 extern u8 gUnknown_086BB434[0x800];
+
+extern u16 gUnknown_086A5D34[256];
+extern u8 gUnknown_086A5F34[0x2E00];
+extern u8 gUnknown_086A8E34[1];
+
+extern u8 gUnknown_086A9834[0x2840];
+extern u8 gUnknown_086AC074[0x8C0];
+
+extern u8 gUnknown_086B13F4[0x6C0];
+extern u8 gUnknown_086AFFB4[0x1440];
+
+extern u8 gUnknown_086ACB34[0x2840];
+extern u8 gUnknown_086AF4F4[0x8C0];
 
 void CreateIntroAnimation(void)
 {
@@ -102,7 +118,7 @@ void CreateIntroAnimation(void)
     emerald->qUnk3C = qVal;
     emerald->unk40 = 0x240;
     s->graphics.dest = OBJ_VRAM0 + 0x20;
-    s->graphics.anim = 0x306;
+    s->graphics.anim = SA1_ANIM_INTRO_EMERALD;
     s->variant = 0;
     s->x = 0x78;
     s->y = 0xFFDC;
@@ -133,7 +149,7 @@ void CreateIntroAnimation(void)
         s->graphics.anim = 0x307;
         s->variant = 0;
         s->x = (Div(SIN(i << 6), 650) + 120);
-        s->y = 0xFFDC;
+        s->y = -36;
         s->oamFlags = 0;
         s->graphics.size = 0;
         s->animCursor = 0;
@@ -310,114 +326,105 @@ void sub_8063DCC(void)
     sub_80528AC(&gfx);
 }
 
-#if 0
-void sub_8063E8C(u16 arg0) {
-    Strc_80528AC sp4;
+void sub_8063E8C(u16 arg0)
+{
+    Strc_80528AC gfx;
     s32 temp_r1;
     s32 temp_r1_2;
     s32 temp_r1_3;
-    s32 temp_r2;
-    s32 temp_r4;
+    s32 chunkOffset;
     s32 var_r1;
     s8 var_r0;
-    u16 temp_r3;
     u16 temp_r6;
-    u8 var_r7;
+    s32 qVal;
+    u8 i;
+    struct Task *t;
+    IntroSprite *introSpr;
+    Sprite *s;
 
-    temp_r3 = arg0;
-    switch (temp_r3) {                              /* irregular */
-    case 0x0:
-        var_r7 = 0;
-        do {
-            temp_r6 = TaskCreate(sub_806515C, 0x44U, (var_r7 * 2) | 0x6801, 0U, NULL)->data;
-            temp_r4 = temp_r6 + 0x03000000;
-            temp_r4->unk30 = (u16) (var_r7 * 6);
-            *(temp_r6 + 0x32) = var_r7;
-            temp_r4->unk34 = (s32) temp_r4->unk30;
-            temp_r4->unk38 = 0xFFFFDC00;
-            temp_r4->unk3C = 0xFFFFDC00;
-            temp_r4->unk40 = 0x240;
-            temp_r2 = var_r7 << 7;
-            temp_r4->unk4 = (s32) (temp_r2 + 0x06010BE0);
-            temp_r4->unkA = 0x307;
-            *(temp_r6 + 0x20) = 1;
-            temp_r4->unk16 = (s16) (Div((s32) *(temp_r2 + gSineTable), 0x28A) + 0x78);
-            temp_r4->unk18 = 0xFFDC;
-            temp_r4->unk1A = 0x180;
-            temp_r4->unk8 = 0;
-            temp_r4->unk14 = 0;
-            temp_r4->unk1C = 0;
-            *(temp_r6 + 0x21) = 0xFF;
-            *(temp_r6 + 0x22) = 0x10;
-            *(temp_r6 + 0x25) = 0;
-            temp_r4->unk28 = -1;
-            temp_r4->unk10 = 0x1000;
-            UpdateSpriteAnimation((Sprite *) temp_r4);
-            var_r7 = (u8) (var_r7 + 1);
-        } while ((u32) var_r7 <= 7U);
-        return;
-    case 0x1:
+    if (arg0 == 0) {
+        for (i = 0; i < 8; i++) {
+            t = TaskCreate(Task_806515C, sizeof(IntroSprite), (i * 2) | 0x6801, 0U, NULL);
+            introSpr = TASK_DATA(t);
+            introSpr->unk30 = (u16)(i * 6);
+            introSpr->unk32 = i;
+            qVal = -Q(36);
+            introSpr->unk34 = (s32)introSpr->unk30;
+            introSpr->qUnk38 = qVal;
+            introSpr->qUnk3C = qVal;
+            introSpr->unk40 = 0x240;
+
+            s = &introSpr->s;
+            chunkOffset = (i * (4 * TILE_SIZE_4BPP));
+            s->graphics.dest = (OBJ_VRAM0 + 0xBE0 + chunkOffset);
+            s->graphics.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
+            s->variant = 1;
+            s->x = (Div(SIN(i << 6), 650) + 120);
+            s->y = -36;
+            s->oamFlags = 0x180;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            UpdateSpriteAnimation((Sprite *)s);
+        }
+    } else if (arg0 == 1) {
         gDispCnt = 0x1240;
-        sp4.uiGfxID = 0x80;
-        *(&subroutine_arg0 + 0x2F) = 0;
-        sp4.tiles = &gUnknown_086A5F34;
-        sp4.tilesSize = 0x2F00;
-        sp4.palette = &gUnknown_086A5D34;
-        sp4.paletteSize = 0x200;
-        sp4.layout = &gUnknown_086A8E34;
-        sp4.layoutSize = 0x800;
-        sp4.unk28 = 0;
-        (&sp4.unk28)[1] = (u8) temp_r3;
-        var_r1 = &sp4.uiGfxID - 2;
-        var_r0 = 0x15;
-block_11:
-        *var_r1 = var_r0;
-        sub_80528AC(&sp4);
-        return;
-    case 0x2:
+        gfx.uiGfxID = 0x80;
+        gfx.unk2B = 0;
+        gfx.tiles = &gUnknown_086A5F34[0];
+        gfx.tilesSize = 0x2F00;
+        gfx.palette = &gUnknown_086A5D34[0];
+        gfx.paletteSize = 0x200;
+        gfx.layout = &gUnknown_086A8E34[0];
+        gfx.layoutSize = 0x800;
+        gfx.unk28 = 0;
+        gfx.unk29 = 1;
+        gfx.unk2A = 0x15;
+        sub_80528AC(&gfx);
+    } else if (arg0 == 2) {
         gDispCnt = 0x1340;
-        sp4.uiGfxID = 0x80;
-        temp_r1 = &sp4.uiGfxID - 1;
-        *temp_r1 = 1;
-        sp4.tiles = &gUnknown_086A9834;
-        sp4.tilesSize = 0x2840;
-        sp4.layout = &gUnknown_086AC074;
-        sp4.layoutSize = 0x8C0;
-        sp4.unk28 = 0;
-        (&sp4.unk28)[1] = 0;
-        var_r1 = temp_r1 - 1;
-block_10:
-        var_r0 = 0x11;
-        goto block_11;
-    case 0x3:
+        gfx.uiGfxID = 0x80;
+        gfx.unk2B = 1;
+        gfx.tiles = &gUnknown_086A9834[0];
+        gfx.tilesSize = sizeof(gUnknown_086A9834);
+        gfx.layout = &gUnknown_086AC074[0];
+        gfx.layoutSize = sizeof(gUnknown_086AC074);
+        gfx.unk28 = 0;
+        gfx.unk29 = 0;
+        gfx.unk2A = 0x11;
+        sub_80528AC(&gfx);
+    } else if (arg0 == 3) {
         gDispCnt = 0x1740;
-        sp4.uiGfxID = 0x80;
-        *(&subroutine_arg0 + 0x2F) = 0;
-        sp4.tiles = &gUnknown_086AFFB4;
-        sp4.tilesSize = 0x1440;
-        sp4.layout = &gUnknown_086B13F4;
-        sp4.layoutSize = 0x6C0;
-        sp4.unk28 = 0;
-        temp_r1_2 = &sp4.uiGfxID - 3;
-        *temp_r1_2 = 2;
-        var_r1 = temp_r1_2 + 1;
-        goto block_10;
-    case 0x136:
-        sp4.uiGfxID = 0x80;
-        temp_r1_3 = &sp4.uiGfxID - 1;
-        *temp_r1_3 = 1;
-        sp4.tiles = &gUnknown_086ACB34;
-        sp4.tilesSize = 0x2840;
-        sp4.layout = &gUnknown_086AF4F4;
-        sp4.layoutSize = 0x8C0;
-        sp4.unk28 = 0;
-        (&sp4.unk28)[1] = 0;
-        *(temp_r1_3 - 1) = 0x11;
-        sub_80528AC(&sp4);
-        return;
+        gfx.uiGfxID = 0x80;
+        gfx.unk2B = 0;
+        gfx.tiles = &gUnknown_086AFFB4[0];
+        gfx.tilesSize = sizeof(gUnknown_086AFFB4);
+        gfx.layout = &gUnknown_086B13F4[0];
+        gfx.layoutSize = sizeof(gUnknown_086B13F4);
+        gfx.unk28 = 0;
+        gfx.unk29 = 2;
+        gfx.unk2A = 0x11;
+        sub_80528AC(&gfx);
+    } else if (arg0 == 310) {
+        gfx.uiGfxID = 0x80;
+        gfx.unk2B = 1;
+        gfx.tiles = &gUnknown_086ACB34[0];
+        gfx.tilesSize = sizeof(gUnknown_086ACB34);
+        gfx.layout = &gUnknown_086AF4F4[0];
+        gfx.layoutSize = sizeof(gUnknown_086AF4F4);
+        gfx.unk28 = 0;
+        gfx.unk29 = 0;
+        gfx.unk2A = 0x11;
+        sub_80528AC(&gfx);
     }
 }
 
+#if 0
 void Task_80640C8(void) {
     s32 sp0;
     s16 temp_r0_2;
