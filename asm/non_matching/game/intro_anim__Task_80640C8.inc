@@ -27,13 +27,13 @@
 	ands r0, r1
 	cmp r0, #0
 	beq _08064110
-	ldr r0, _0806410C @ =sub_8064FF8
+	ldr r0, _0806410C @ =IntroOpenTitlescreenPlayMusic
 	str r0, [r4, #8]
 	b _08064232
 	.align 2, 0
 _08064104: .4byte gCurTask
 _08064108: .4byte gPressedKeys
-_0806410C: .4byte sub_8064FF8
+_0806410C: .4byte IntroOpenTitlescreenPlayMusic
 _08064110:
 	movs r1, #0
 	ldrsh r0, [r2, r1]

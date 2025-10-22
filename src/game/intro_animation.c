@@ -9,8 +9,10 @@
 #include "game/gTask_03006240.h"
 #include "game/sa1_sa2_shared/spot_light_beam_task.h"
 #include "game/stage/ui.h"
+#include "game/title_screen.h"
 
 #include "constants/animations.h"
+#include "constants/songs.h"
 
 typedef struct IntroSprite {
     Sprite s;
@@ -33,10 +35,10 @@ typedef struct Intro_54 {
     StrcUi_805423C strc0;
     struct Task *taskC;
     struct Task *beamTasks[2]; // -> SpotlightBeam
-    struct Task *task18; // -> Intro_C8
+    struct Task *task18; // -> Intro_C8 TODO: [NUM_CHARACTERS]
     struct Task *task1C; // -> Intro_C8
-    s32 unk20;
-    s32 unk24;
+    struct Task *task20; // -> Intro_C8
+    struct Task *task24; // -> Intro_C8
     u8 filler28[0x24];
     s16 unk4C;
     u8 unk4E;
@@ -46,18 +48,28 @@ typedef struct Intro_54 {
 
 void Task_IntroChaosEmeraldUpdate(void);
 void sub_8063B8C(void);
+void sub_8063C4C(void);
+void sub_8063D0C(void);
+void sub_8063DCC(void);
 void sub_8063E8C(u16 arg0);
 void Task_80640C8(void);
 void sub_8064244(void);
 void sub_80645E4(void);
 void sub_80648D4(void);
-void sub_8064FF8(void);
+void sub_8064BB4(void);
+void sub_8064E84(void);
+void IntroOpenTitlescreenSilent(void);
+void IntroOpenTitlescreenPlayMusic(void);
 void Task_8065058(void);
 void Task_806515C(void);
 void sub_8065258(void);
 void sub_8065328(void);
+void sub_8065444(void);
+void sub_8065538(void);
 void Task_806562C(void);
 void sub_80656A4(void);
+void sub_806571C(void);
+void sub_8065794(void);
 void TaskDestructor_8065810(struct Task *t);
 
 extern u16 gUnknown_086B1AB4[16][16];
@@ -94,6 +106,8 @@ extern u8 gUnknown_086AF4F4[0x8C0];
 
 s16 gUnknown_0868B27C[2];
 s16 gUnknown_0868B280[2];
+s16 gUnknown_0868B284[2];
+s16 gUnknown_0868B288[2];
 // TODO: This struct already appeared somewhere else. Merge them!
 typedef struct LocalTileInfo {
     u32 anim;
@@ -102,6 +116,8 @@ typedef struct LocalTileInfo {
 } LocalTileInfo;
 extern LocalTileInfo gUnknown_0868B28C[6];
 extern LocalTileInfo gUnknown_0868B2D4[6];
+extern LocalTileInfo gUnknown_0868B31C[9];
+extern LocalTileInfo gUnknown_0868B388[4];
 
 void CreateIntroAnimation(void)
 {
@@ -200,8 +216,8 @@ void CreateIntroAnimation(void)
     strc54->beamTasks[1] = NULL;
     strc54->task18 = NULL;
     strc54->task1C = NULL;
-    strc54->unk20 = 0;
-    strc54->unk24 = 0;
+    strc54->task20 = NULL;
+    strc54->task24 = NULL;
     strc54->unk50 = 0;
     strc54->unk52 = 0;
 
@@ -469,7 +485,7 @@ static inline u32 maskRedColor(u32 c)
 #endif
 }
 
-// (99.14%) https://decomp.me/scratch/gBBjz
+// (99.14%)
 NONMATCH("asm/non_matching/game/intro_anim__Task_80640C8.inc", void Task_80640C8())
 {
     s16 *temp_r2;
@@ -487,7 +503,7 @@ NONMATCH("asm/non_matching/game/intro_anim__Task_80640C8.inc", void Task_80640C8
 
     introSpr->unk30 = (u16)strc54->unk4C;
     if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
-        gCurTask->main = sub_8064FF8;
+        gCurTask->main = IntroOpenTitlescreenPlayMusic;
         return;
     }
 
@@ -560,7 +576,7 @@ void sub_8064244()
     temp_r4 = strc54->unk4C;
 
     if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
-        gCurTask->main = sub_8064FF8;
+        gCurTask->main = IntroOpenTitlescreenPlayMusic;
         return;
     }
 
@@ -735,7 +751,7 @@ void sub_80645E4()
     gBgScrollRegs[0][1] = I(strc54->unk52);
 
     if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
-        gCurTask->main = sub_8064FF8;
+        gCurTask->main = IntroOpenTitlescreenPlayMusic;
         return;
     }
 
@@ -855,382 +871,383 @@ void sub_80645E4()
     }
 }
 
-#if 0
-void sub_80648D4(void) {
+void sub_80648D4()
+{
+    Sprite *s;
+    s16 *temp_r3;
     s16 temp_r0;
-    s16 temp_r1_3;
-    s16 temp_r1_4;
-    s16 temp_r2_2;
-    s32 temp_r1_2;
-    s32 temp_r1_5;
-    s32 temp_r1_6;
-    s32 temp_r1_7;
-    s32 temp_r1_8;
-    s32 temp_r2;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 var_r0;
-    struct Task *temp_r0_2;
+    s16 temp_r1;
+    s16 temp_r4;
+    s32 temp_r0_4;
+    s32 temp_r0_6;
+    s32 temp_r1_3;
+    s8 *temp_r1_2;
     u16 temp_r0_3;
-    u16 temp_r1;
-    u16 temp_r2_3;
-    u32 var_r5_2;
-    u8 var_r5;
+    u16 temp_r0_5;
+    u16 temp_r2;
+    u16 temp_r7;
+    u8 i;
+    void *temp_r7_2;
+    void *var_r0;
+    u32 unk4C;
+    struct Task *t;
 
-    temp_r1 = gCurTask->data;
-    temp_r4 = temp_r1 + 0x03000000;
-    temp_r5 = temp_r1 + 0x4C;
-    *(temp_r4->unk1C->data + 0xB4) = (u16) *temp_r5;
-    temp_r2 = temp_r1 + 0x50;
-    *temp_r2 = (u16) (*temp_r2 + 0x20);
-    temp_r1_2 = temp_r1 + 0x52;
-    *temp_r1_2 = (u16) (*temp_r1_2 - 0x20);
-    gBgScrollRegs[0][0] = (s16) ((u16) *temp_r2 >> 8);
-    gBgScrollRegs[0][1] = (s16) ((u16) *temp_r1_2 >> 8);
-    temp_r2_2 = 0xB & gPressedKeys;
-    if (temp_r2_2 != 0) {
-        gCurTask->main = sub_8064FF8;
+    Intro_C8 *strcC8;
+    Intro_54 *strc54 = TASK_DATA(gCurTask);
+    StrcUi_805423C *strc0;
+
+    strcC8 = TASK_DATA(strc54->task1C);
+    temp_r4 = strc54->unk4C;
+    strcC8->unkB4 = temp_r4;
+    strc54->unk50 += 0x20;
+    strc54->unk52 -= 0x20;
+
+    gBgScrollRegs[0][0] = I(strc54->unk50);
+    gBgScrollRegs[0][1] = I(strc54->unk52);
+
+    if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
+        gCurTask->main = IntroOpenTitlescreenPlayMusic;
         return;
     }
-    temp_r1_3 = (s16) *temp_r5;
-    if ((u32) temp_r1_3 <= 0x1DU) {
-        if (temp_r1_3 == 1) {
+
+    unk4C = strc54->unk4C;
+    if (unk4C < 30) {
+        if (unk4C == 1) {
             sub_8063C4C();
         }
-        goto block_7;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 42) {
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 8;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0x100;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 102) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 242) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 0x16A) {
+        sub_805423C(&strc54->strc0);
     }
-    if ((u32) temp_r1_3 <= 0x29U) {
-        temp_r4->unk0 = temp_r2_2;
-        temp_r4->unk2 = 1;
-        temp_r4->unk4 = 8;
-        temp_r4->unk6 = temp_r2_2;
-        temp_r4->unk8 = 0x100;
-        temp_r4->unkA = 1;
-block_7:
-        sub_80543A4((StrcUi_805423C *) temp_r4);
-    } else if (((u32) temp_r1_3 <= 0x65U) || ((u32) temp_r1_3 <= 0xF1U)) {
-        sub_805423C((StrcUi_805423C *) temp_r4);
-    } else if ((u32) temp_r1_3 <= 0x169U) {
-        sub_805423C((StrcUi_805423C *) temp_r4);
-    }
-    temp_r5_2 = temp_r1 + 0x0300004C;
-    temp_r0 = *temp_r5_2 + 1;
-    *temp_r5_2 = (u16) temp_r0;
-    temp_r1_4 = temp_r0;
-    if ((s32) temp_r1_4 <= 0x19D) {
-        if ((s32) temp_r1_4 > 0x160) {
-            if (temp_r1_4 == 0x161) {
-                temp_r4->unk4 = 4;
-                temp_r4->unk6 = 0;
-                temp_r4->unk8 = 0x180;
+    if (++strc54->unk4C >= 414) {
+        TasksDestroyInPriorityRange(0x6820, 0x6821);
+        strc54->unk50 = 0xE000;
+        strc54->unk52 = 0x1000;
+        TaskDestroy(strc54->task1C);
+        strc54->task1C = NULL;
+        strc54->unk4C = 0;
+
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 2;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+
+        t = TaskCreate(sub_8065444, sizeof(Intro_C8), 0x2230U, 0U, NULL);
+        strc54->task20 = t;
+        strcC8 = TASK_DATA(t);
+        strcC8->unkB4 = 0;
+
+        for (i = 0; i < 3; i++) {
+            s = &strcC8->sprites[i];
+            if (i == 2) {
+                s->graphics.dest = OBJ_VRAM0 + 0x3280;
+            } else if (i == 1) {
+                s->graphics.dest = OBJ_VRAM0 + 0x1980;
+            } else {
+                s->graphics.dest = OBJ_VRAM0 + 0x80;
             }
-            sub_805423C((StrcUi_805423C *) temp_r4);
+            s->graphics.anim = 0x301;
+            s->variant = 2;
+            s->x = 48;
+            s->y = 130;
+            s->oamFlags = 0x3C0;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x80;
+
+            if (i == 0) {
+                UpdateSpriteAnimation(s);
+                DisplaySprite(s);
+            }
         }
-        return;
+
+        for (i = 0; i < 9; i++) {
+            IntroSprite *introSpr;
+            t = TaskCreate(sub_806571C, sizeof(IntroSprite), 0x6820U, 0U, NULL);
+            introSpr = TASK_DATA(t);
+            s = &introSpr->s;
+            introSpr->unk30 = 0;
+            introSpr->unk32 = 0;
+            introSpr->unk34 = i;
+            introSpr->qUnk3C = gUnknown_0868B284[0] + 0x118;
+            s->graphics.dest = gUnknown_0868B31C[i].vram;
+            s->graphics.anim = gUnknown_0868B31C[i].anim;
+            s->variant = gUnknown_0868B31C[i].variant;
+            s->x = 280;
+            s->y = 70;
+            s->oamFlags = 0x180;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x40080;
+            UpdateSpriteAnimation(s);
+        }
+        gCurTask->main = sub_8064BB4;
+    } else {
+        if (strc54->unk4C > 0x160) {
+            if (strc54->unk4C == 0x161) {
+                strc54->strc0.unk4 = 4;
+                strc54->strc0.unk6 = 0;
+                strc54->strc0.unk8 = 0x180;
+            }
+            sub_805423C(&strc54->strc0);
+        }
     }
-    TasksDestroyInPriorityRange(0x6820U, 0x6821U);
-    temp_r1_5 = temp_r1 + 0x03000050;
-    *temp_r1_5 = 0xE000;
-    *(temp_r1_5 + 2) = 0x1000;
-    TaskDestroy(temp_r4->unk1C);
-    temp_r4->unk1C = NULL;
-    *temp_r5_2 = 0U;
-    temp_r4->unk0 = 0;
-    temp_r4->unk2 = 1;
-    temp_r4->unk4 = 2;
-    temp_r4->unk6 = 0;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 1;
-    sub_80543A4((StrcUi_805423C *) temp_r4);
-    temp_r0_2 = TaskCreate(sub_8065444, 0xC8U, 0x2230U, 0U, NULL);
-    temp_r4->unk20 = temp_r0_2;
-    temp_r0_3 = temp_r0_2->data;
-    *(temp_r0_3 + 0x030000B4) = 0;
-    var_r5 = 0;
-    do {
-        temp_r4_2 = temp_r0_3 + 0x03000000 + (var_r5 * 0x30);
-        if (var_r5 == 2) {
-            var_r0 = 0x06013280;
-        } else if (var_r5 == 1) {
-            var_r0 = 0x06011980;
-        } else {
-            var_r0 = 0x06010080;
-        }
-        temp_r4_2->unk4 = var_r0;
-        temp_r4_2->unkA = 0x301;
-        temp_r1_6 = temp_r4_2 + 0x20;
-        *temp_r1_6 = 2;
-        temp_r4_2->unk16 = 0x30;
-        temp_r4_2->unk18 = 0x82;
-        temp_r4_2->unk1A = 0x3C0;
-        temp_r4_2->unk8 = 0;
-        temp_r4_2->unk14 = 0;
-        temp_r4_2->unk1C = 0;
-        temp_r1_7 = temp_r1_6 + 1;
-        *temp_r1_7 = 0xFF;
-        *(temp_r1_7 + 1) = 0x10;
-        *(temp_r4_2 + 0x25) = 0;
-        temp_r4_2->unk28 = -1;
-        temp_r4_2->unk10 = 0x80;
-        if (var_r5 == 0) {
-            UpdateSpriteAnimation((Sprite *) temp_r4_2);
-            DisplaySprite((Sprite *) temp_r4_2);
-        }
-        var_r5 = (u8) (var_r5 + 1);
-    } while ((u32) var_r5 <= 2U);
-    var_r5_2 = 0;
-    do {
-        temp_r2_3 = TaskCreate(sub_806571C, 0x44U, 0x6820U, 0U, NULL)->data;
-        temp_r4_3 = temp_r2_3 + 0x03000000;
-        temp_r4_3->unk30 = 0;
-        *(temp_r2_3 + 0x32) = 0;
-        temp_r4_3->unk34 = var_r5_2;
-        temp_r4_3->unk3C = (s32) (gUnknown_0868B284 + 0x118);
-        temp_r1_8 = var_r5_2 * 0xC;
-        temp_r4_3->unk4 = (s32) *(temp_r1_8 + (&gUnknown_0868B31C + 8));
-        temp_r4_3->unkA = (s16) *(temp_r1_8 + &gUnknown_0868B31C);
-        *(temp_r2_3 + 0x20) = (s8) *(temp_r1_8 + (&gUnknown_0868B31C + 4));
-        temp_r4_3->unk16 = 0x118;
-        temp_r4_3->unk18 = 0x46;
-        temp_r4_3->unk1A = 0x180;
-        temp_r4_3->unk8 = 0;
-        temp_r4_3->unk14 = 0;
-        temp_r4_3->unk1C = 0;
-        *(temp_r2_3 + 0x21) = 0xFF;
-        *(temp_r2_3 + 0x22) = 0x10;
-        *(temp_r2_3 + 0x25) = 0;
-        temp_r4_3->unk28 = -1;
-        temp_r4_3->unk10 = 0x40080;
-        UpdateSpriteAnimation((Sprite *) temp_r4_3);
-        var_r5_2 = (u32) (u8) (var_r5_2 + 1);
-    } while (var_r5_2 <= 8U);
-    gCurTask->main = sub_8064BB4;
 }
 
-void sub_8064BB4(void) {
+void sub_8064BB4()
+{
+    Sprite *s;
+    s16 *temp_r3;
     s16 temp_r0;
-    s16 temp_r1_3;
-    s16 temp_r1_4;
-    s16 temp_r2;
-    s32 temp_r1_2;
-    s32 temp_r1_5;
-    s32 temp_r1_6;
-    s32 temp_r1_7;
-    s32 temp_r1_8;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 var_r0;
-    struct Task *temp_r0_2;
+    s16 temp_r1;
+    s16 temp_r4;
+    s32 temp_r0_4;
+    s32 temp_r0_6;
+    s32 temp_r1_3;
+    s8 *temp_r1_2;
     u16 temp_r0_3;
-    u16 temp_r1;
-    u16 temp_r2_2;
-    u32 var_r5_2;
-    u8 var_r5;
+    u16 temp_r0_5;
+    u16 temp_r2;
+    u16 temp_r7;
+    u8 i;
+    void *temp_r7_2;
+    void *var_r0;
+    u32 unk4C;
+    struct Task *t;
 
-    temp_r1 = gCurTask->data;
-    temp_r4 = temp_r1 + 0x03000000;
-    temp_r5 = temp_r1 + 0x4C;
-    *(temp_r4->unk20->data + 0xB4) = (u16) *temp_r5;
-    temp_r1_2 = temp_r1 + 0x52;
-    *temp_r1_2 = (u16) (*temp_r1_2 + 0x20);
-    gBgScrollRegs[0][0] = (s16) ((u16) *(temp_r1 + 0x50) >> 8);
-    gBgScrollRegs[0][1] = (s16) ((u16) *temp_r1_2 >> 8);
-    temp_r2 = 0xB & gPressedKeys;
-    if (temp_r2 != 0) {
-        gCurTask->main = sub_8064FF8;
+    Intro_C8 *strcC8;
+    Intro_54 *strc54 = TASK_DATA(gCurTask);
+    StrcUi_805423C *strc0;
+
+    strcC8 = TASK_DATA(strc54->task20);
+    temp_r4 = strc54->unk4C;
+    strcC8->unkB4 = temp_r4;
+    strc54->unk50 += 0x00;
+    strc54->unk52 += 0x20;
+
+    gBgScrollRegs[0][0] = I(strc54->unk50);
+    gBgScrollRegs[0][1] = I(strc54->unk52);
+
+    if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
+        gCurTask->main = IntroOpenTitlescreenPlayMusic;
         return;
     }
-    temp_r1_3 = (s16) *temp_r5;
-    if ((u32) temp_r1_3 <= 0x1DU) {
-        if (temp_r1_3 == 1) {
+
+    unk4C = strc54->unk4C;
+    if (unk4C < 30) {
+        if (unk4C == 1) {
             sub_8063D0C();
         }
-        goto block_7;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 42) {
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 8;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0x100;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 102) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 242) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 0x16A) {
+        sub_805423C(&strc54->strc0);
     }
-    if ((u32) temp_r1_3 <= 0x29U) {
-        temp_r4->unk0 = temp_r2;
-        temp_r4->unk2 = 1;
-        temp_r4->unk4 = 8;
-        temp_r4->unk6 = temp_r2;
-        temp_r4->unk8 = 0x100;
-        temp_r4->unkA = 1;
-block_7:
-        sub_80543A4((StrcUi_805423C *) temp_r4);
-    } else if (((u32) temp_r1_3 <= 0x65U) || ((u32) temp_r1_3 <= 0xF1U)) {
-        sub_805423C((StrcUi_805423C *) temp_r4);
-    } else if ((u32) temp_r1_3 <= 0x169U) {
-        sub_805423C((StrcUi_805423C *) temp_r4);
-    }
-    temp_r5_2 = temp_r1 + 0x0300004C;
-    temp_r0 = *temp_r5_2 + 1;
-    *temp_r5_2 = (u16) temp_r0;
-    temp_r1_4 = temp_r0;
-    if ((s32) temp_r1_4 <= 0x19D) {
-        if ((s32) temp_r1_4 > 0x160) {
-            if (temp_r1_4 == 0x161) {
-                temp_r4->unk4 = 4;
-                temp_r4->unk6 = 0;
-                temp_r4->unk8 = 0x180;
+    if (++strc54->unk4C >= 414) {
+        TasksDestroyInPriorityRange(0x6820, 0x6821);
+        strc54->unk50 = 0x3000;
+        strc54->unk52 = 0x5000;
+        TaskDestroy(strc54->task20);
+        strc54->task20 = NULL;
+        strc54->unk4C = 0;
+
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 2;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+
+        t = TaskCreate(sub_8065538, sizeof(Intro_C8), 0x2230U, 0U, NULL);
+        strc54->task24 = t;
+        strcC8 = TASK_DATA(t);
+        strcC8->unkB4 = 0;
+
+        for (i = 0; i < 2; i++) {
+            s = &strcC8->sprites[i];
+            if (i != 0) {
+                s->graphics.dest = OBJ_VRAM0 + 0x6400;
+            } else {
+                s->graphics.dest = OBJ_VRAM0 + 0x1440;
             }
-            sub_805423C((StrcUi_805423C *) temp_r4);
+            s->graphics.anim = 0x301;
+            s->variant = 3;
+            s->x = 180;
+            s->y = 108;
+            s->oamFlags = 0x180;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x80;
+            UpdateSpriteAnimation(s);
+
+            if (i == 0) {
+                DisplaySprite(s);
+            }
         }
-        return;
+
+        for (i = 0; i < ARRAY_COUNT(gUnknown_0868B388); i++) {
+            IntroSprite *introSpr;
+            t = TaskCreate(sub_8065794, sizeof(IntroSprite), 0x6820U, 0U, NULL);
+            introSpr = TASK_DATA(t);
+            s = &introSpr->s;
+            introSpr->unk30 = 0;
+            introSpr->unk32 = 0;
+            introSpr->unk34 = i;
+            introSpr->qUnk3C = gUnknown_0868B288[0] + 0x118;
+            s->graphics.dest = gUnknown_0868B388[i].vram;
+            s->graphics.anim = gUnknown_0868B388[i].anim;
+            s->variant = gUnknown_0868B388[i].variant;
+            s->x = 280;
+            s->y = 70;
+            s->oamFlags = 0x180;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x40080;
+            UpdateSpriteAnimation(s);
+        }
+        gCurTask->main = sub_8064E84;
+    } else {
+        if (strc54->unk4C > 0x160) {
+            if (strc54->unk4C == 0x161) {
+                strc54->strc0.unk4 = 4;
+                strc54->strc0.unk6 = 0;
+                strc54->strc0.unk8 = 0x180;
+            }
+            sub_805423C(&strc54->strc0);
+        }
     }
-    TasksDestroyInPriorityRange(0x6820U, 0x6821U);
-    temp_r1_5 = temp_r1 + 0x03000050;
-    *temp_r1_5 = 0x3000;
-    *(temp_r1_5 + 2) = 0x5000;
-    TaskDestroy(temp_r4->unk20);
-    temp_r4->unk20 = NULL;
-    *temp_r5_2 = 0U;
-    temp_r4->unk0 = 0;
-    temp_r4->unk2 = 1;
-    temp_r4->unk4 = 2;
-    temp_r4->unk6 = 0;
-    temp_r4->unk8 = 0;
-    temp_r4->unkA = 1;
-    sub_80543A4((StrcUi_805423C *) temp_r4);
-    temp_r0_2 = TaskCreate(sub_8065538, 0xC8U, 0x2230U, 0U, NULL);
-    temp_r4->unk24 = temp_r0_2;
-    temp_r0_3 = temp_r0_2->data;
-    *(temp_r0_3 + 0x030000B4) = 0;
-    var_r5 = 0;
-    do {
-        temp_r4_2 = temp_r0_3 + 0x03000000 + (var_r5 * 0x30);
-        if (var_r5 != 0) {
-            var_r0 = 0x06016400;
-        } else {
-            var_r0 = 0x06011440;
-        }
-        temp_r4_2->unk4 = var_r0;
-        temp_r4_2->unkA = 0x301;
-        temp_r1_6 = temp_r4_2 + 0x20;
-        *temp_r1_6 = 3;
-        temp_r4_2->unk16 = 0xB4;
-        temp_r4_2->unk18 = 0x6C;
-        temp_r4_2->unk1A = 0x180;
-        temp_r4_2->unk8 = 0;
-        temp_r4_2->unk14 = 0;
-        temp_r4_2->unk1C = 0;
-        temp_r1_7 = temp_r1_6 + 1;
-        *temp_r1_7 = 0xFF;
-        *(temp_r1_7 + 1) = 0x10;
-        *(temp_r4_2 + 0x25) = 0;
-        temp_r4_2->unk28 = -1;
-        temp_r4_2->unk10 = 0x80;
-        UpdateSpriteAnimation((Sprite *) temp_r4_2);
-        if (var_r5 == 0) {
-            DisplaySprite((Sprite *) temp_r4_2);
-        }
-        var_r5 = (u8) (var_r5 + 1);
-    } while ((u32) var_r5 <= 1U);
-    var_r5_2 = 0;
-    do {
-        temp_r2_2 = TaskCreate(sub_8065794, 0x44U, 0x6820U, 0U, NULL)->data;
-        temp_r4_3 = temp_r2_2 + 0x03000000;
-        temp_r4_3->unk30 = 0;
-        *(temp_r2_2 + 0x32) = 0;
-        temp_r4_3->unk34 = var_r5_2;
-        temp_r4_3->unk3C = (s32) (gUnknown_0868B288 + 0x118);
-        temp_r1_8 = var_r5_2 * 0xC;
-        temp_r4_3->unk4 = (s32) *(temp_r1_8 + (&gUnknown_0868B388 + 8));
-        temp_r4_3->unkA = (s16) *(temp_r1_8 + &gUnknown_0868B388);
-        *(temp_r2_2 + 0x20) = (s8) *(temp_r1_8 + (&gUnknown_0868B388 + 4));
-        temp_r4_3->unk16 = 0x118;
-        temp_r4_3->unk18 = 0x46;
-        temp_r4_3->unk1A = 0x180;
-        temp_r4_3->unk8 = 0;
-        temp_r4_3->unk14 = 0;
-        temp_r4_3->unk1C = 0;
-        *(temp_r2_2 + 0x21) = 0xFF;
-        *(temp_r2_2 + 0x22) = 0x10;
-        *(temp_r2_2 + 0x25) = 0;
-        temp_r4_3->unk28 = -1;
-        temp_r4_3->unk10 = 0x40080;
-        UpdateSpriteAnimation((Sprite *) temp_r4_3);
-        var_r5_2 = (u32) (u8) (var_r5_2 + 1);
-    } while (var_r5_2 <= 3U);
-    gCurTask->main = sub_8064E84;
 }
 
-void sub_8064E84(void) {
-    s16 temp_r1_3;
-    s16 temp_r1_4;
-    s16 temp_r1_5;
-    s16 temp_r2_2;
-    s32 temp_r0;
-    s32 temp_r1_2;
-    s32 temp_r2;
-    s32 temp_r4;
-    s32 temp_r5;
-    u16 temp_r1;
+void sub_8064E84()
+{
+    Sprite *s;
+    s16 *temp_r3;
+    s16 temp_r0;
+    s16 temp_r1;
+    s16 temp_r4;
+    s32 temp_r0_4;
+    s32 temp_r0_6;
+    s32 temp_r1_3;
+    s8 *temp_r1_2;
+    u16 temp_r0_3;
+    u16 temp_r0_5;
+    u16 temp_r2;
+    u16 temp_r7;
+    u8 i;
+    void *temp_r7_2;
+    void *var_r0;
+    u32 unk4C;
+    struct Task *t;
 
-    temp_r1 = gCurTask->data;
-    temp_r4 = temp_r1 + 0x03000000;
-    temp_r5 = temp_r1 + 0x4C;
-    *(temp_r4->unk24->unk6 + 0xB4) = (u16) *temp_r5;
-    temp_r2 = temp_r1 + 0x50;
-    *temp_r2 = (u16) (*temp_r2 - 0x20);
-    temp_r1_2 = temp_r1 + 0x52;
-    *temp_r1_2 = (u16) (*temp_r1_2 - 0x20);
-    gBgScrollRegs[0][0] = (s16) ((u16) *temp_r2 >> 8);
-    gBgScrollRegs[0][1] = (s16) ((u16) *temp_r1_2 >> 8);
-    temp_r2_2 = 0xB & gPressedKeys;
-    if (temp_r2_2 != 0) {
-        gCurTask->main = sub_8064FF8;
+    Intro_C8 *strcC8;
+    Intro_54 *strc54 = TASK_DATA(gCurTask);
+    StrcUi_805423C *strc0;
+
+    strcC8 = TASK_DATA(strc54->task24);
+    temp_r4 = strc54->unk4C;
+    strcC8->unkB4 = temp_r4;
+    strc54->unk50 -= 0x20;
+    strc54->unk52 -= 0x20;
+
+    gBgScrollRegs[0][0] = I(strc54->unk50);
+    gBgScrollRegs[0][1] = I(strc54->unk52);
+
+    if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
+        gCurTask->main = IntroOpenTitlescreenPlayMusic;
         return;
     }
-    temp_r1_3 = (s16) *temp_r5;
-    if ((u32) temp_r1_3 <= 0x1DU) {
-        if (temp_r1_3 == 1) {
+
+    unk4C = strc54->unk4C;
+    if (unk4C < 30) {
+        if (unk4C == 1) {
             sub_8063DCC();
         }
-        goto block_7;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 42) {
+        strc54->strc0.unk0 = 0;
+        strc54->strc0.unk2 = 1;
+        strc54->strc0.unk4 = 8;
+        strc54->strc0.unk6 = 0;
+        strc54->strc0.unk8 = 0x100;
+        strc54->strc0.unkA = 1;
+        sub_80543A4(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 102) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 242) {
+        sub_805423C(&strc54->strc0);
+    } else if (unk4C >= 0 && unk4C < 0x16A) {
+        sub_805423C(&strc54->strc0);
     }
-    if ((u32) temp_r1_3 <= 0x29U) {
-        temp_r4->unk0 = temp_r2_2;
-        temp_r4->unk2 = 1;
-        temp_r4->unk4 = 8;
-        temp_r4->unk6 = temp_r2_2;
-        temp_r4->unk8 = 0x100;
-        temp_r4->unkA = 1;
-block_7:
-        sub_80543A4((StrcUi_805423C *) temp_r4);
-    } else if (((u32) temp_r1_3 <= 0x65U) || ((u32) temp_r1_3 <= 0xF1U)) {
-        sub_805423C((StrcUi_805423C *) temp_r4);
-    } else if ((u32) temp_r1_3 <= 0x169U) {
-        sub_805423C((StrcUi_805423C *) temp_r4);
-    }
-    temp_r0 = temp_r1 + 0x0300004C;
-    temp_r1_4 = *temp_r0 + 1;
-    *temp_r0 = (u16) temp_r1_4;
-    temp_r1_5 = temp_r1_4;
-    if ((s32) temp_r1_5 > 0x19D) {
-        gCurTask->main = sub_8064FA0;
-        sub_805423C((StrcUi_805423C *) temp_r4);
-        return;
-    }
-    if ((s32) temp_r1_5 > 0x160) {
-        if (temp_r1_5 == 0x161) {
-            temp_r4->unk4 = 4;
-            temp_r4->unk6 = 0;
-            temp_r4->unk8 = 0x180;
+    if (++strc54->unk4C >= 414) {
+        gCurTask->main = IntroOpenTitlescreenSilent;
+        sub_805423C(&strc54->strc0);
+    } else {
+        if (strc54->unk4C > 0x160) {
+            if (strc54->unk4C == 0x161) {
+                strc54->strc0.unk4 = 4;
+                strc54->strc0.unk6 = 0;
+                strc54->strc0.unk8 = 0x180;
+            }
+            sub_805423C(&strc54->strc0);
         }
-        sub_805423C((StrcUi_805423C *) temp_r4);
     }
 }
 
-void sub_8064FA0(void) {
-    TasksDestroyInPriorityRange(0U, 0xFFFFU);
-    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-    sa2__gUnknown_03005390 = 0;
-    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+void IntroOpenTitlescreenSilent(void)
+{
+    TasksDestroyAll();
+
+    PAUSE_BACKGROUNDS_QUEUE();
+    SA2_LABEL(gUnknown_03005390) = 0;
+    PAUSE_GRAPHICS_QUEUE();
+
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[1][0] = 0;
@@ -1239,15 +1256,19 @@ void sub_8064FA0(void) {
     gBgScrollRegs[2][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    CreateTitleScreen(0U);
+
+    CreateTitleScreen(TITLESCREEN_PARAM__BOOT_SILENT);
 }
 
-void sub_8064FF8(void) {
-    TasksDestroyInPriorityRange(0U, 0xFFFFU);
-    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-    sa2__gUnknown_03005390 = 0;
-    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-    m4aSongNumStop(1U);
+void IntroOpenTitlescreenPlayMusic(void)
+{
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
+    SA2_LABEL(gUnknown_03005390) = 0;
+    PAUSE_GRAPHICS_QUEUE();
+
+    m4aSongNumStop(MUS_INTRO);
+
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0;
     gBgScrollRegs[1][0] = 0;
@@ -1256,9 +1277,11 @@ void sub_8064FF8(void) {
     gBgScrollRegs[2][1] = 0;
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
-    CreateTitleScreen(1U);
+
+    CreateTitleScreen(TITLESCREEN_PARAM__PLAY_MUSIC);
 }
 
+#if 0
 void Task_8065058(void) {
     s16 temp_r0;
     s16 temp_r7;
