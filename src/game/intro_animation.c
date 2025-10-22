@@ -46,6 +46,7 @@ typedef struct Intro_54 {
 
 void Task_IntroChaosEmeraldUpdate(void);
 void sub_8063B8C(void);
+void sub_8063E8C(u16 arg0);
 void Task_80640C8(void);
 void sub_8064244(void);
 void sub_80645E4(void);
@@ -468,7 +469,7 @@ static inline u32 maskRedColor(u32 c)
 #endif
 }
 
-// (99.14%) https://decomp.me/scratch/M2bsD
+// (99.14%) https://decomp.me/scratch/gBBjz
 NONMATCH("asm/non_matching/game/intro_anim__Task_80640C8.inc", void Task_80640C8())
 {
     s16 *temp_r2;
