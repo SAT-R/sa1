@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "constants/ui_graphics.h"
@@ -39,6 +40,8 @@ typedef struct Intro_54 {
 void Task_IntroChaosEmeraldUpdate(void);
 void Task_8065058(void);
 void Task_80640C8(void);
+void sub_8064244(void);
+void sub_8064FF8(void);
 void Task_806515C(void);
 void TaskDestructor_8065810(struct Task *t);
 
@@ -423,6 +426,87 @@ void sub_8063E8C(u16 arg0)
         sub_80528AC(&gfx);
     }
 }
+
+static inline u32 maskColor(u32 c) { return Div(c, 40) & 0x1F; }
+
+static inline u32 maskRedColor(u32 c)
+{
+#ifndef NON_MATCHING
+    u32 result;
+    asm("mov %0, #0x1F\n"
+        "and %0, %1\n"
+        : "=r"(result)
+        : "r"(c));
+    return result;
+#else
+    return (c % 32u);
+#endif
+}
+
+// (99.14%) https://decomp.me/scratch/M2bsD
+NONMATCH("asm/non_matching/game/intro_anim__Task_80640C8.inc", void Task_80640C8())
+{
+    s16 *temp_r2;
+    s16 temp_r0;
+    s16 temp_r0_3;
+    u32 r, g, b;
+    u16 temp_r0_2;
+    u16 temp_r6;
+    u16 colorIndex;
+    u32 unk4C;
+    u32 var_r7;
+
+    Intro_54 *strc54 = TASK_DATA(gCurTask);
+    IntroSprite *introSpr = TASK_DATA(strc54->taskC);
+
+    introSpr->unk30 = (u16)strc54->unk4C;
+    if ((A_BUTTON | B_BUTTON | START_BUTTON) & gPressedKeys) {
+        gCurTask->main = sub_8064FF8;
+        return;
+    }
+
+    if (strc54->unk4C > 0x97) {
+        var_r7 = (u32)((strc54->unk4C - 0x98) << 0xF) >> 0x10;
+        if (var_r7 > 40) {
+            var_r7 = 40;
+        }
+
+        for (colorIndex = 0; colorIndex < 32; colorIndex++) {
+            u16 color = gUnknown_086A5D34[colorIndex];
+            r = (maskRedColor(color) >> 0);
+            g = ((color & RGB_GREEN) >> 5);
+            b = ((color & RGB_BLUE) >> 10);
+
+            {
+                r = maskColor(r * var_r7);
+                g = maskColor(g * var_r7);
+                b = maskColor(b * var_r7);
+                gBgPalette[colorIndex] = RGB16(r, g, b);
+            }
+            gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+        }
+    }
+
+    if (strc54->unk4C > 0xB5) {
+        gBgScrollRegs[0][1] += 2;
+        if (gBgScrollRegs[0][1] > 100) {
+            gBgScrollRegs[0][1] = 100;
+        }
+        if (gBgScrollRegs[0][1] > 80) {
+            gBgScrollRegs[2][1] = gBgScrollRegs[0][1] - 0x50;
+        }
+    }
+    gBgScrollRegs[1][1] += 0xA;
+    sub_8063E8C(strc54->unk4C);
+    if (strc54->unk4C > 0x13F) {
+        strc54->unk4C = 0;
+        gCurTask->main = sub_8064244;
+    } else {
+        sub_805423C(&strc54->strc0);
+    }
+    strc54->unk4C++;
+}
+END_NONMATCH
 
 #if 0
 void Task_80640C8(void) {
