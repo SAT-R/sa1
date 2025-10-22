@@ -35,10 +35,7 @@ typedef struct Intro_54 {
     StrcUi_805423C strc0;
     struct Task *taskC;
     struct Task *beamTasks[2]; // -> SpotlightBeam
-    struct Task *task18; // -> Intro_C8 TODO: [NUM_CHARACTERS]
-    struct Task *task1C; // -> Intro_C8
-    struct Task *task20; // -> Intro_C8
-    struct Task *task24; // -> Intro_C8
+    struct Task *tasks18[NUM_CHARACTERS]; // -> Intro_C8
     u8 filler28[0x24];
     s16 unk4C;
     u8 unk4E;
@@ -214,10 +211,10 @@ void CreateIntroAnimation(void)
     strc54->taskC = t;
     strc54->beamTasks[0] = NULL;
     strc54->beamTasks[1] = NULL;
-    strc54->task18 = NULL;
-    strc54->task1C = NULL;
-    strc54->task20 = NULL;
-    strc54->task24 = NULL;
+    strc54->tasks18[CHARACTER_SONIC] = NULL;
+    strc54->tasks18[CHARACTER_TAILS] = NULL;
+    strc54->tasks18[CHARACTER_KNUCKLES] = NULL;
+    strc54->tasks18[CHARACTER_AMY] = NULL;
     strc54->unk50 = 0;
     strc54->unk52 = 0;
 
@@ -612,7 +609,7 @@ void sub_8064244()
         gBgCntRegs[0] = 0x1D86;
         gBgCntRegs[1] = 0x1883;
         t = TaskCreate(sub_8065258, sizeof(Intro_C8), 0x2210U, 0U, NULL);
-        strc54->task18 = t;
+        strc54->tasks18[CHARACTER_SONIC] = t;
         temp_r0_7 = TASK_DATA(t);
         temp_r0_7->unkB4 = 0;
 
@@ -741,7 +738,7 @@ void sub_80645E4()
     Intro_54 *strc54 = TASK_DATA(gCurTask);
     StrcUi_805423C *strc0;
 
-    strcC8 = TASK_DATA(strc54->task18);
+    strcC8 = TASK_DATA(strc54->tasks18[CHARACTER_SONIC]);
     temp_r4 = strc54->unk4C;
     strcC8->unkB4 = temp_r4;
     strc54->unk50 -= 0x20;
@@ -784,8 +781,8 @@ void sub_80645E4()
     }
     if (++strc54->unk4C >= 414) {
         TasksDestroyInPriorityRange(0x6820, 0x6821);
-        TaskDestroy(strc54->task18);
-        strc54->task18 = NULL;
+        TaskDestroy(strc54->tasks18[CHARACTER_SONIC]);
+        strc54->tasks18[CHARACTER_SONIC] = NULL;
         strc54->unk50 = 0xE000;
         strc54->unk52 = 0x6000;
         strc54->unk4C = 0;
@@ -799,7 +796,7 @@ void sub_80645E4()
         sub_80543A4(&strc54->strc0);
 
         t = TaskCreate(sub_8065328, sizeof(Intro_C8), 0x2280U, 0U, NULL);
-        strc54->task1C = t;
+        strc54->tasks18[CHARACTER_TAILS] = t;
         strcC8 = TASK_DATA(t);
         strcC8->unkB4 = 0;
 
@@ -896,7 +893,7 @@ void sub_80648D4()
     Intro_54 *strc54 = TASK_DATA(gCurTask);
     StrcUi_805423C *strc0;
 
-    strcC8 = TASK_DATA(strc54->task1C);
+    strcC8 = TASK_DATA(strc54->tasks18[CHARACTER_TAILS]);
     temp_r4 = strc54->unk4C;
     strcC8->unkB4 = temp_r4;
     strc54->unk50 += 0x20;
@@ -935,8 +932,8 @@ void sub_80648D4()
         TasksDestroyInPriorityRange(0x6820, 0x6821);
         strc54->unk50 = 0xE000;
         strc54->unk52 = 0x1000;
-        TaskDestroy(strc54->task1C);
-        strc54->task1C = NULL;
+        TaskDestroy(strc54->tasks18[CHARACTER_TAILS]);
+        strc54->tasks18[CHARACTER_TAILS] = NULL;
         strc54->unk4C = 0;
 
         strc54->strc0.unk0 = 0;
@@ -948,7 +945,7 @@ void sub_80648D4()
         sub_80543A4(&strc54->strc0);
 
         t = TaskCreate(sub_8065444, sizeof(Intro_C8), 0x2230U, 0U, NULL);
-        strc54->task20 = t;
+        strc54->tasks18[CHARACTER_KNUCKLES] = t;
         strcC8 = TASK_DATA(t);
         strcC8->unkB4 = 0;
 
@@ -1044,7 +1041,7 @@ void sub_8064BB4()
     Intro_54 *strc54 = TASK_DATA(gCurTask);
     StrcUi_805423C *strc0;
 
-    strcC8 = TASK_DATA(strc54->task20);
+    strcC8 = TASK_DATA(strc54->tasks18[CHARACTER_KNUCKLES]);
     temp_r4 = strc54->unk4C;
     strcC8->unkB4 = temp_r4;
     strc54->unk50 += 0x00;
@@ -1083,8 +1080,8 @@ void sub_8064BB4()
         TasksDestroyInPriorityRange(0x6820, 0x6821);
         strc54->unk50 = 0x3000;
         strc54->unk52 = 0x5000;
-        TaskDestroy(strc54->task20);
-        strc54->task20 = NULL;
+        TaskDestroy(strc54->tasks18[CHARACTER_KNUCKLES]);
+        strc54->tasks18[CHARACTER_KNUCKLES] = NULL;
         strc54->unk4C = 0;
 
         strc54->strc0.unk0 = 0;
@@ -1096,7 +1093,7 @@ void sub_8064BB4()
         sub_80543A4(&strc54->strc0);
 
         t = TaskCreate(sub_8065538, sizeof(Intro_C8), 0x2230U, 0U, NULL);
-        strc54->task24 = t;
+        strc54->tasks18[CHARACTER_AMY] = t;
         strcC8 = TASK_DATA(t);
         strcC8->unkB4 = 0;
 
@@ -1190,7 +1187,7 @@ void sub_8064E84()
     Intro_54 *strc54 = TASK_DATA(gCurTask);
     StrcUi_805423C *strc0;
 
-    strcC8 = TASK_DATA(strc54->task24);
+    strcC8 = TASK_DATA(strc54->tasks18[CHARACTER_AMY]);
     temp_r4 = strc54->unk4C;
     strcC8->unkB4 = temp_r4;
     strc54->unk50 -= 0x20;
