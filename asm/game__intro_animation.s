@@ -5,153 +5,8 @@
 .syntax unified
 .arm
 
-.if 01
+.if 0
 .endif
-
-	thumb_func_start sub_8065328
-sub_8065328: @ 0x08065328
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	ldr r0, _08065374 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r1, r0, r1
-	str r1, [sp]
-	ldr r1, _08065378 @ =0x030000B4
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	movs r6, #0
-	lsls r0, r0, #0x10
-	mov sb, r0
-	mov r2, sb
-	asrs r2, r2, #0x10
-	mov r8, r2
-	ldr r0, _0806537C @ =gUnknown_0868B3C0
-	mov sl, r0
-_08065358:
-	lsls r1, r6, #1
-	adds r0, r1, r6
-	lsls r0, r0, #4
-	ldr r2, [sp]
-	adds r5, r2, r0
-	adds r7, r1, #0
-	mov r0, r8
-	cmp r0, #0x1e
-	bne _080653B8
-	cmp r6, #2
-	bne _08065384
-	ldr r0, _08065380 @ =0x06013280
-	b _08065392
-	.align 2, 0
-_08065374: .4byte gCurTask
-_08065378: .4byte 0x030000B4
-_0806537C: .4byte gUnknown_0868B3C0
-_08065380: .4byte 0x06013280
-_08065384:
-	cmp r6, #1
-	bne _08065390
-	ldr r0, _0806538C @ =0x06011980
-	b _08065392
-	.align 2, 0
-_0806538C: .4byte 0x06011980
-_08065390:
-	ldr r0, _080653DC @ =0x06010080
-_08065392:
-	str r0, [r5, #4]
-	adds r1, r5, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	lsls r1, r6, #3
-	mov r2, sl
-	adds r0, r1, r2
-	ldrh r0, [r0]
-	strh r0, [r5, #0xa]
-	ldr r0, _080653E0 @ =gUnknown_0868B3C2
-	adds r1, r1, r0
-	ldrh r1, [r1]
-	adds r0, r5, #0
-	adds r0, #0x20
-	strb r1, [r0]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-_080653B8:
-	mov r1, sb
-	asrs r4, r1, #0x10
-	cmp r4, #0
-	blt _08065426
-	cmp r4, #0x1d
-	bgt _080653CA
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-_080653CA:
-	ldr r0, _080653E4 @ =0x00000161
-	cmp r4, r0
-	ble _080653E8
-	movs r0, #0
-	str r0, [r5, #0x10]
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	b _08065416
-	.align 2, 0
-_080653DC: .4byte 0x06010080
-_080653E0: .4byte gUnknown_0868B3C2
-_080653E4: .4byte 0x00000161
-_080653E8:
-	cmp r4, #0xbd
-	ble _08065416
-	cmp r4, #0xbe
-	bne _08065410
-	adds r1, r5, #0
-	adds r1, #0x21
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, r7, #1
-	lsls r1, r1, #2
-	mov r2, sl
-	adds r0, r1, r2
-	ldrh r0, [r0]
-	strh r0, [r5, #0xa]
-	ldr r0, _08065440 @ =gUnknown_0868B3C2
-	adds r1, r1, r0
-	ldrh r1, [r1]
-	adds r0, r5, #0
-	adds r0, #0x20
-	strb r1, [r0]
-_08065410:
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-_08065416:
-	mov r1, r8
-	cmp r1, #0x1d
-	bgt _08065420
-	cmp r6, #0
-	bne _08065426
-_08065420:
-	adds r0, r5, #0
-	bl DisplaySprite
-_08065426:
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-	cmp r6, #1
-	blo _08065358
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08065440: .4byte gUnknown_0868B3C2
 
 	thumb_func_start sub_8065444
 sub_8065444: @ 0x08065444
@@ -172,7 +27,7 @@ sub_8065444: @ 0x08065444
 	ldrh r0, [r0]
 	mov sb, r0
 	movs r5, #0
-	ldr r7, _08065488 @ =gUnknown_0868B3C8
+	ldr r7, _08065488 @ =gUnknown_0868B3B8+0x8+0x8
 	adds r2, r7, #2
 	mov r8, r2
 _0806546C:
@@ -189,7 +44,7 @@ _0806546C:
 	.align 2, 0
 _08065480: .4byte gCurTask
 _08065484: .4byte 0x030000B4
-_08065488: .4byte gUnknown_0868B3C8
+_08065488: .4byte gUnknown_0868B3B8+0x8+0x8
 _0806548C: .4byte 0x06013280
 _08065490:
 	cmp r5, #1

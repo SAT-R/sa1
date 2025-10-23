@@ -49,11 +49,7 @@ gUnknown_0868B3B8:
 
     .global gUnknown_0868B3C0
 gUnknown_0868B3C0:
-    .incbin "baserom_sa1.gba", 0x0068B3C0, 0x2
-
-    .global gUnknown_0868B3C2
-gUnknown_0868B3C2:
-    .incbin "baserom_sa1.gba", 0x0068B3C2, 0x6
+    .incbin "baserom_sa1.gba", 0x0068B3C0, 0x8
 
     .global gUnknown_0868B3C8
 gUnknown_0868B3C8:
