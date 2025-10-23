@@ -21,7 +21,7 @@ typedef struct IntroSprite {
     s32 unk34;
     s32 qUnk38;
     s32 qUnk3C;
-    s32 unk40;
+    s32 qUnk40;
 } IntroSprite; /* 0x44 */
 
 typedef struct Intro_C8 {
@@ -163,7 +163,7 @@ void CreateIntroAnimation(void)
     emerald->unk34 = 0;
     emerald->qUnk38 = qVal;
     emerald->qUnk3C = qVal;
-    emerald->unk40 = 0x240;
+    emerald->qUnk40 = Q(2.25);
     s->graphics.dest = OBJ_VRAM0 + 0x20;
     s->graphics.anim = SA1_ANIM_INTRO_EMERALD;
     s->variant = 0;
@@ -190,7 +190,7 @@ void CreateIntroAnimation(void)
         introSpr->unk34 = introSpr->unk30;
         introSpr->qUnk38 = qVal;
         introSpr->qUnk3C = qVal;
-        introSpr->unk40 = 0x240;
+        introSpr->qUnk40 = Q(2.25);
         chunkOffset = (i * (4 * TILE_SIZE_4BPP));
         s->graphics.dest = (chunkOffset + OBJ_VRAM0 + (31 * TILE_SIZE_4BPP));
         s->graphics.anim = 0x307;
@@ -399,7 +399,7 @@ void sub_8063E8C(u16 arg0)
             introSpr->unk34 = (s32)introSpr->unk30;
             introSpr->qUnk38 = qVal;
             introSpr->qUnk3C = qVal;
-            introSpr->unk40 = 0x240;
+            introSpr->qUnk40 = Q(2.25);
 
             s = &introSpr->s;
             chunkOffset = (i * (4 * TILE_SIZE_4BPP));
@@ -487,7 +487,7 @@ static inline u32 maskRedColor(u32 c)
 #endif
 }
 
-// (99.14%)
+// (99.14%) https://decomp.me/scratch/gBBjz
 NONMATCH("asm/non_matching/game/intro_anim__Task_80640C8.inc", void Task_80640C8())
 {
     s16 *temp_r2;
@@ -1292,17 +1292,17 @@ void Task_8065058(void)
 
     unk30 = ++introSpr->unk30;
     if (unk30 < 90 || unk30 >= 234) {
-        introSpr->qUnk3C += introSpr->unk40;
+        introSpr->qUnk3C += introSpr->qUnk40;
     }
     if (unk30 < 90) {
-        introSpr->unk40 -= 6;
-        if (introSpr->unk40 < 0) {
-            introSpr->unk40 = 0;
+        introSpr->qUnk40 -= 6;
+        if (introSpr->qUnk40 < 0) {
+            introSpr->qUnk40 = 0;
         }
     }
 
     if (unk30 == 0xE9) {
-        introSpr->unk40 = 0x140;
+        introSpr->qUnk40 = 0x140;
     }
 
     if (introSpr->qUnk3C > Q(180)) {
@@ -1340,17 +1340,17 @@ void Task_806515C(void)
 
     unk30 = ++introSpr->unk30;
     if (unk30 < 90 || unk30 >= 234) {
-        introSpr->qUnk3C += introSpr->unk40;
+        introSpr->qUnk3C += introSpr->qUnk40;
     }
     if (unk30 < 90) {
-        introSpr->unk40 -= 6;
-        if (introSpr->unk40 < 0) {
-            introSpr->unk40 = 0;
+        introSpr->qUnk40 -= 6;
+        if (introSpr->qUnk40 < 0) {
+            introSpr->qUnk40 = 0;
         }
     }
 
     if (unk30 == 0xE9) {
-        introSpr->unk40 = 0x140;
+        introSpr->qUnk40 = Q(1.25);
     }
 
     if (introSpr->qUnk3C > Q(212)) {
@@ -1539,15 +1539,13 @@ void Task_IntroRenderAmy(void)
     }
 }
 
-// (96.09%) https://decomp.me/scratch/mEqIM
-NONMATCH("asm/non_matching/game/intro_anim__Task_806562C.inc", void Task_806562C())
+void Task_806562C()
 {
-    s16 temp_r0;
-
     IntroSprite *introSpr = TASK_DATA(gCurTask);
     Sprite *s = &introSpr->s;
+    s16 temp_r0 = ++introSpr->unk30;
 
-    if ((temp_r0 = ++introSpr->unk30) == 0x161) {
+    if ((introSpr->unk30) == 0x161) {
         s->frameFlags = 0;
     }
 
@@ -1565,118 +1563,116 @@ NONMATCH("asm/non_matching/game/intro_anim__Task_806562C.inc", void Task_806562C
         }
     }
 }
-END_NONMATCH
 
-#if 0
-void sub_80656A4(void) {
-    s16 temp_r0_2;
-    s32 temp_r0;
-    s32 temp_r0_3;
-    s32 temp_r3;
+void sub_80656A4(void)
+{
+    IntroSprite *introSpr = TASK_DATA(gCurTask);
+    Sprite *s = &introSpr->s;
+    s16 temp_r0 = ++introSpr->unk30;
 
-    temp_r3 = gCurTask->data + 0x03000000;
-    temp_r0 = temp_r3->unk30 + 1;
-    temp_r3->unk30 = (u16) temp_r0;
-    if ((temp_r0 << 0x10) == 0x01610000) {
-        temp_r3->unk10 = 0;
+    if ((introSpr->unk30) == 0x161) {
+        s->frameFlags = 0;
     }
-    temp_r0_2 = (s16) (u16) temp_r0;
-    if (((s32) temp_r0_2 > 0x5A) && ((s32) (temp_r3->unk34 * 0xF) < (s32) (s16) (temp_r0_2 - 0x5A))) {
-        temp_r0_3 = temp_r3->unk3C - 0x10;
-        temp_r3->unk3C = temp_r0_3;
-        if (temp_r0_3 < (s32) gUnknown_0868B280.unk0) {
-            temp_r3->unk3C = (s32) gUnknown_0868B280.unk0;
-        }
-        temp_r3->unk16 = (s16) temp_r3->unk3C;
-        temp_r3->unk18 = (u16) gUnknown_0868B280.unk2;
-        UpdateSpriteAnimation((Sprite *) temp_r3);
-        DisplaySprite((Sprite *) temp_r3);
-    }
-}
 
-void sub_806571C(void) {
-    s16 temp_r0_2;
-    s32 temp_r0;
-    s32 temp_r0_3;
-    s32 temp_r3;
-
-    temp_r3 = gCurTask->data + 0x03000000;
-    temp_r0 = temp_r3->unk30 + 1;
-    temp_r3->unk30 = (u16) temp_r0;
-    if ((temp_r0 << 0x10) == 0x01610000) {
-        temp_r3->unk10 = 0;
-    }
-    temp_r0_2 = (s16) (u16) temp_r0;
-    if (((s32) temp_r0_2 > 0x5A) && ((s32) (temp_r3->unk34 * 0xF) < (s32) (s16) (temp_r0_2 - 0x5A))) {
-        temp_r0_3 = temp_r3->unk3C - 0x10;
-        temp_r3->unk3C = temp_r0_3;
-        if (temp_r0_3 < (s32) gUnknown_0868B284.unk0) {
-            temp_r3->unk3C = (s32) gUnknown_0868B284.unk0;
-        }
-        temp_r3->unk16 = (s16) temp_r3->unk3C;
-        temp_r3->unk18 = (u16) gUnknown_0868B284.unk2;
-        UpdateSpriteAnimation((Sprite *) temp_r3);
-        DisplaySprite((Sprite *) temp_r3);
-    }
-}
-
-void sub_8065794(void) {
-    s16 temp_r1;
-    s16 temp_r2;
-    s32 temp_r0;
-    s32 temp_r3;
-
-    temp_r3 = gCurTask->data + 0x03000000;
-    temp_r1 = temp_r3->unk30 + 1;
-    temp_r3->unk30 = (u16) temp_r1;
-    temp_r2 = temp_r1;
-    if ((s32) temp_r2 <= 0x19A) {
-        if ((temp_r1 << 0x10) == 0x01610000) {
-            temp_r3->unk10 = 0;
-        }
-        if (((s32) temp_r2 > 0x5A) && ((s32) (temp_r3->unk34 * 0xF) < (s32) (s16) (temp_r2 - 0x5A))) {
-            temp_r0 = temp_r3->unk3C - 0x10;
-            temp_r3->unk3C = temp_r0;
-            if (temp_r0 < (s32) gUnknown_0868B288.unk0) {
-                temp_r3->unk3C = (s32) gUnknown_0868B288.unk0;
+    if (temp_r0 > 90) {
+        temp_r0 -= 90;
+        if ((introSpr->unk34 * 0xF) < temp_r0) {
+            introSpr->qUnk3C -= 0x10;
+            if (introSpr->qUnk3C < gUnknown_0868B280[0]) {
+                introSpr->qUnk3C = gUnknown_0868B280[0];
             }
-            temp_r3->unk16 = (s16) temp_r3->unk3C;
-            temp_r3->unk18 = (u16) gUnknown_0868B288.unk2;
-            UpdateSpriteAnimation((Sprite *) temp_r3);
-            DisplaySprite((Sprite *) temp_r3);
+            s->x = introSpr->qUnk3C;
+            s->y = gUnknown_0868B280[1];
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
         }
     }
 }
 
-void TaskDestructor_8065810(struct Task *arg0) {
+void sub_806571C(void)
+{
 
-}
+    IntroSprite *introSpr = TASK_DATA(gCurTask);
+    Sprite *s = &introSpr->s;
+    s16 temp_r0 = ++introSpr->unk30;
 
-void Task_IntroChaosEmeraldUpdate(void) {
-    s16 temp_r3;
-    s32 temp_r0;
-    s32 temp_r4;
-
-    temp_r4 = gCurTask->data + 0x03000000;
-    temp_r3 = *(temp_r4 + 0x30);
-    if ((u32) (u16) (temp_r3 - 0x5A) > 0x8FU) {
-        temp_r4->unk3C = (s32) (temp_r4->unk3C + temp_r4->unk40);
+    if ((introSpr->unk30) == 0x161) {
+        s->frameFlags = 0;
     }
-    if ((s32) temp_r3 <= 0x59) {
-        temp_r0 = temp_r4->unk40 - 6;
-        temp_r4->unk40 = temp_r0;
-        if (temp_r0 < 0) {
-            temp_r4->unk40 = 0;
+
+    if (temp_r0 > 90) {
+        temp_r0 -= 90;
+        if ((introSpr->unk34 * 0xF) < temp_r0) {
+            introSpr->qUnk3C -= 0x10;
+            if (introSpr->qUnk3C < gUnknown_0868B284[0]) {
+                introSpr->qUnk3C = gUnknown_0868B284[0];
+            }
+            s->x = introSpr->qUnk3C;
+            s->y = gUnknown_0868B284[1];
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
         }
     }
-    if (temp_r4->unk30 == 0xE9) {
-        temp_r4->unk40 = 0x140;
-    }
-    if ((s32) temp_r4->unk3C > 0xB400) {
-        temp_r4->unk3C = 0xB400;
-    }
-    temp_r4->unk18 = (s16) ((s32) temp_r4->unk3C >> 8);
-    UpdateSpriteAnimation((Sprite *) temp_r4);
-    DisplaySprite((Sprite *) temp_r4);
 }
-#endif
+
+void sub_8065794(void)
+{
+
+    IntroSprite *introSpr = TASK_DATA(gCurTask);
+    Sprite *s = &introSpr->s;
+    s16 temp_r0 = ++introSpr->unk30;
+
+    if (temp_r0 > 410) {
+        return;
+    }
+
+    if ((introSpr->unk30) == 0x161) {
+        s->frameFlags = 0;
+    }
+
+    if (temp_r0 > 90) {
+        temp_r0 -= 90;
+        if ((introSpr->unk34 * 0xF) < temp_r0) {
+            introSpr->qUnk3C -= 0x10;
+            if (introSpr->qUnk3C < gUnknown_0868B288[0]) {
+                introSpr->qUnk3C = gUnknown_0868B288[0];
+            }
+            s->x = introSpr->qUnk3C;
+            s->y = gUnknown_0868B288[1];
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+    }
+}
+
+void TaskDestructor_8065810(struct Task *t) { }
+
+void Task_IntroChaosEmeraldUpdate()
+{
+    IntroSprite *introSpr = TASK_DATA(gCurTask);
+    Sprite *s = &introSpr->s;
+    s16 unk30 = introSpr->unk30;
+
+    if ((u16)(unk30 - 90) > 0x8f) {
+        introSpr->qUnk3C += introSpr->qUnk40;
+    }
+    if (unk30 < 90) {
+        introSpr->qUnk40 -= Q(6. / 256.);
+        if (introSpr->qUnk40 < Q(0)) {
+            introSpr->qUnk40 = Q(0);
+        }
+    }
+
+    if (unk30 == 0xE9) {
+        introSpr->qUnk40 = Q(1.25);
+    }
+
+    if (introSpr->qUnk3C > Q(180)) {
+        introSpr->qUnk3C = Q(180);
+    }
+
+    s->y = I(introSpr->qUnk3C);
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
