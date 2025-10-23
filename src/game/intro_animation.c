@@ -1278,7 +1278,7 @@ void IntroOpenTitlescreenPlayMusic(void)
     CreateTitleScreen(TITLESCREEN_PARAM__PLAY_MUSIC);
 }
 
-void Task_8065058()
+void Task_8065058(void)
 {
     s16 unk30;
 
@@ -1299,76 +1299,80 @@ void Task_8065058()
     if (unk30 == 0xE9) {
         introSpr->unk40 = 0x140;
     }
+
     if (introSpr->qUnk3C > Q(180)) {
         introSpr->qUnk3C = Q(180);
     }
+
     if (introSpr->unk34 == 0) {
         s->prevVariant = -1;
         introSpr->unk34 = 0x2F;
         introSpr->qUnk38 = introSpr->qUnk3C;
     }
+
     introSpr->qUnk38 -= Div(SIN((0x100 - (introSpr->unk34 * 6)) % 256u), 24);
     s->x = Div(SIN(((introSpr->unk34 * 12) + (unk30 << 5)) & 0x3FF), 650) + 120;
     s->y = I(introSpr->qUnk38);
+    introSpr->unk34 -= 1;
+
+    if (1 & introSpr->unk32) {
+        s->oamFlags = 0;
+    } else {
+        s->oamFlags = 0x180;
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_806515C(void)
+{
+    s16 unk30;
+
+    IntroSprite *introSpr = TASK_DATA(gCurTask);
+    Sprite *s = &introSpr->s;
+
+    unk30 = ++introSpr->unk30;
+    if (unk30 < 90 || unk30 >= 234) {
+        introSpr->qUnk3C += introSpr->unk40;
+    }
+    if (unk30 < 90) {
+        introSpr->unk40 -= 6;
+        if (introSpr->unk40 < 0) {
+            introSpr->unk40 = 0;
+        }
+    }
+
+    if (unk30 == 0xE9) {
+        introSpr->unk40 = 0x140;
+    }
+
+    if (introSpr->qUnk3C > Q(212)) {
+        introSpr->qUnk3C = Q(212);
+    }
+
+    if (introSpr->unk34 == 0) {
+        s->prevVariant = -1;
+        introSpr->unk34 = 0x2F;
+        introSpr->qUnk38 = introSpr->qUnk3C;
+    }
+
+    introSpr->qUnk38 -= Div(SIN((introSpr->unk34 * 6)), 24);
+    s->x = 120 - Div(SIN(((introSpr->unk34 * 12) + (unk30 << 5)) & 0x3FF), 650);
+    s->y = I(introSpr->qUnk38);
+
     introSpr->unk34 -= 1;
     if (1 & introSpr->unk32) {
         s->oamFlags = 0;
     } else {
         s->oamFlags = 0x180;
     }
+
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
 
 #if 0
-void sub_806515C(void) {
-    s16 temp_r0;
-    s16 temp_r7;
-    s16 var_r0;
-    s32 temp_r0_2;
-    s32 temp_r6;
-    u16 temp_r1;
-
-    temp_r1 = gCurTask->data;
-    temp_r6 = temp_r1 + 0x03000000;
-    temp_r0 = temp_r6->unk30 + 1;
-    temp_r6->unk30 = (u16) temp_r0;
-    if ((u32) ((u32) ((temp_r0 << 0x10) + 0xFFA60000) >> 0x10) > 0x8FU) {
-        temp_r6->unk3C = (s32) (temp_r6->unk3C + temp_r6->unk40);
-    }
-    if ((s32) temp_r0 <= 0x59) {
-        temp_r0_2 = temp_r6->unk40 - 6;
-        temp_r6->unk40 = temp_r0_2;
-        if (temp_r0_2 < 0) {
-            temp_r6->unk40 = 0;
-        }
-    }
-    temp_r7 = (s16) (u16) temp_r0;
-    if (temp_r7 == 0xE9) {
-        temp_r6->unk40 = 0x140;
-    }
-    if ((s32) temp_r6->unk3C > 0xD400) {
-        temp_r6->unk3C = 0xD400;
-    }
-    if (temp_r6->unk34 == 0) {
-        *(temp_r1 + 0x03000021) = 0xFF;
-        temp_r6->unk34 = 0x2F;
-        temp_r6->unk38 = (s32) temp_r6->unk3C;
-    }
-    temp_r6->unk38 = (s32) (temp_r6->unk38 - Div((s32) *((temp_r6->unk34 * 0xC) + gSineTable), 0x18));
-    temp_r6->unk16 = (s16) (0x78 - Div((s32) gSineTable[((temp_r6->unk34 * 0xC) + (temp_r7 << 5)) & 0x3FF], 0x28A));
-    temp_r6->unk18 = (s16) ((s32) temp_r6->unk38 >> 8);
-    temp_r6->unk34 = (s32) (temp_r6->unk34 - 1);
-    if (1 & *(temp_r1 + 0x03000032)) {
-        var_r0 = 0;
-    } else {
-        var_r0 = 0x180;
-    }
-    temp_r6->unk1A = var_r0;
-    UpdateSpriteAnimation((Sprite *) temp_r6);
-    DisplaySprite((Sprite *) temp_r6);
-}
-
 void sub_8065258(void) {
     s16 temp_r5;
     s32 temp_r1_3;
