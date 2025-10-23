@@ -1539,87 +1539,35 @@ void Task_IntroRenderAmy(void)
     }
 }
 
-#if 0
-void Task_IntroRenderAmy(void) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r2;
-    s32 temp_r4;
-    s32 temp_r5;
-    u16 temp_r1;
-    u8 var_r7;
-    void *temp_r0;
+// (96.09%) https://decomp.me/scratch/mEqIM
+NONMATCH("asm/non_matching/game/intro_anim__Task_806562C.inc", void Task_806562C())
+{
+    s16 temp_r0;
 
-    temp_r1 = gCurTask->data;
-    sp0 = temp_r1 + 0x03000000;
-    temp_r2 = *(temp_r1 + 0xB4) << 0x10;
-    if (temp_r2 <= 0x019A0000) {
-        var_r7 = 0;
-        sp4 = temp_r2;
-        sp8 = temp_r1 + 0xB4;
-        temp_r0 = &gUnknown_0868B3D0 + 2;
-        do {
-            temp_r4 = sp0 + (var_r7 * 0x30);
-            if (*sp8 == 0x161) {
-                temp_r4->unk10 = 0;
-            }
-            temp_r5 = sp4 >> 0x10;
-            if (temp_r5 == 0x1E) {
-                *(temp_r4 + 0x21) = 0xFF;
-                temp_r1_2 = var_r7 * 8;
-                temp_r4->unkA = (u16) *(temp_r1_2 + &gUnknown_0868B3D0);
-                *(temp_r4 + 0x20) = (s8) *(temp_r1_2 + temp_r0);
-                UpdateSpriteAnimation((Sprite *) temp_r4);
-            }
-            if (temp_r5 >= 0) {
-                if (temp_r5 > 0x161) {
-                    temp_r4->unk10 = 0;
-                    UpdateSpriteAnimation((Sprite *) temp_r4);
-                } else if (temp_r5 > 0xA4) {
-                    if (temp_r5 == 0xA5) {
-                        *(temp_r4 + 0x21) = 0xFF;
-                        temp_r1_3 = ((var_r7 * 2) + 1) * 4;
-                        temp_r4->unkA = (u16) *(temp_r1_3 + &gUnknown_0868B3D0);
-                        *(temp_r4 + 0x20) = (s8) *(temp_r1_3 + temp_r0);
-                    }
-                    UpdateSpriteAnimation((Sprite *) temp_r4);
-                }
-                DisplaySprite((Sprite *) temp_r4);
-            }
-            var_r7 = (u8) (var_r7 + 1);
-        } while ((u32) var_r7 < 1U);
+    IntroSprite *introSpr = TASK_DATA(gCurTask);
+    Sprite *s = &introSpr->s;
+
+    if ((temp_r0 = ++introSpr->unk30) == 0x161) {
+        s->frameFlags = 0;
     }
-}
 
-void sub_806562C(void) {
-    s16 temp_r0_2;
-    s32 temp_r0;
-    s32 temp_r0_3;
-    s32 temp_r3;
-
-    temp_r3 = gCurTask->data + 0x03000000;
-    temp_r0 = temp_r3->unk30 + 1;
-    temp_r3->unk30 = (u16) temp_r0;
-    if ((temp_r0 << 0x10) == 0x01610000) {
-        temp_r3->unk10 = 0;
-    }
-    temp_r0_2 = (s16) (u16) temp_r0;
-    if (((s32) temp_r0_2 > 0x5A) && ((s32) (temp_r3->unk34 * 0xF) < (s32) (s16) (temp_r0_2 - 0x5A))) {
-        temp_r0_3 = temp_r3->unk3C - 0x10;
-        temp_r3->unk3C = temp_r0_3;
-        if (temp_r0_3 < (s32) gUnknown_0868B27C.unk0) {
-            temp_r3->unk3C = (s32) gUnknown_0868B27C.unk0;
+    if (temp_r0 > 90) {
+        temp_r0 -= 90;
+        if ((introSpr->unk34 * 0xF) < temp_r0) {
+            introSpr->qUnk3C -= 0x10;
+            if (introSpr->qUnk3C < gUnknown_0868B27C[0]) {
+                introSpr->qUnk3C = gUnknown_0868B27C[0];
+            }
+            s->x = introSpr->qUnk3C;
+            s->y = gUnknown_0868B27C[1];
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
         }
-        temp_r3->unk16 = (s16) temp_r3->unk3C;
-        temp_r3->unk18 = (u16) gUnknown_0868B27C.unk2;
-        UpdateSpriteAnimation((Sprite *) temp_r3);
-        DisplaySprite((Sprite *) temp_r3);
     }
 }
+END_NONMATCH
 
+#if 0
 void sub_80656A4(void) {
     s16 temp_r0_2;
     s32 temp_r0;
