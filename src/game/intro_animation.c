@@ -116,6 +116,8 @@ extern LocalTileInfo gUnknown_0868B2D4[6];
 extern LocalTileInfo gUnknown_0868B31C[9];
 extern LocalTileInfo gUnknown_0868B388[4];
 
+extern u16 gUnknown_0868B3B8[4][2];
+
 void CreateIntroAnimation(void)
 {
     s32 temp_r0_2;
@@ -1313,12 +1315,13 @@ void Task_8065058(void)
     introSpr->qUnk38 -= Div(SIN((0x100 - (introSpr->unk34 * 6)) % 256u), 24);
     s->x = Div(SIN(((introSpr->unk34 * 12) + (unk30 << 5)) & 0x3FF), 650) + 120;
     s->y = I(introSpr->qUnk38);
+
     introSpr->unk34 -= 1;
 
     if (1 & introSpr->unk32) {
-        s->oamFlags = 0;
+        s->oamFlags = SPRITE_OAM_ORDER(0);
     } else {
-        s->oamFlags = 0x180;
+        s->oamFlags = SPRITE_OAM_ORDER(6);
     }
 
     UpdateSpriteAnimation(s);
@@ -1362,15 +1365,53 @@ void Task_806515C(void)
     s->y = I(introSpr->qUnk38);
 
     introSpr->unk34 -= 1;
+
     if (1 & introSpr->unk32) {
-        s->oamFlags = 0;
+        s->oamFlags = SPRITE_OAM_ORDER(0);
     } else {
-        s->oamFlags = 0x180;
+        s->oamFlags = SPRITE_OAM_ORDER(6);
     }
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
+
+// (96.20) https://decomp.me/scratch/H2G4H
+NONMATCH("asm/non_matching/game/intro_anim__sub_8065258.inc", void sub_8065258())
+{
+    Intro_C8 *strcC8 = TASK_DATA(gCurTask);
+    s16 *ptrUnkB4 = &strcC8->unkB4;
+    Sprite *s;
+    s16 unkB4;
+    u8 i;
+
+    for (i = 0, unkB4 = *ptrUnkB4; i < 2u; i++) {
+        s = &strcC8->sprites[i];
+
+        if (unkB4 == 0x1E) {
+            s->prevVariant = -1;
+            s->graphics.anim = gUnknown_0868B3B8[i * 2][0];
+            s->variant = gUnknown_0868B3B8[i * 2][1];
+            UpdateSpriteAnimation(s);
+        }
+
+        if (unkB4 > 0) {
+            if (unkB4 > 0x161) {
+                s->frameFlags = 0;
+                UpdateSpriteAnimation(s);
+            } else if (unkB4 > 0xBD) {
+                if (unkB4 == 0xBE) {
+                    s->prevVariant = 0xFF;
+                    s->graphics.anim = gUnknown_0868B3B8[i * 2 + 1][0];
+                    s->variant = gUnknown_0868B3B8[i * 2 + 1][1];
+                }
+                UpdateSpriteAnimation(s);
+            }
+            DisplaySprite(s);
+        }
+    }
+}
+END_NONMATCH
 
 #if 0
 void sub_8065258(void) {
