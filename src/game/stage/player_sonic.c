@@ -275,7 +275,7 @@ s32 sub_8047668(Player *p)
 void sub_8047714(Player *p)
 {
     if ((p->SA2_LABEL(unk61) == 0) && (p->moveState & MOVESTATE_100)) {
-        s32 res = sub_804D060(10);
+        s32 res = GetAirDashDirection(10);
 
         if (res != 0) {
             p->SA2_LABEL(unk61) = 2;

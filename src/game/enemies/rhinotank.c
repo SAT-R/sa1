@@ -107,7 +107,7 @@ void Task_RhinotankInit(void)
         TaskDestroy(gCurTask);
         return;
     } else {
-        rhinotank->unk3C += sa2__sub_801F07C(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+        rhinotank->unk3C += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
         if (I(rhinotank->qUnk40) <= (me->d.sData[0] + 1) * TILE_WIDTH) {
             if (~s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
@@ -187,7 +187,7 @@ void Task_806C9A0(void)
         return;
     } else {
         u32 divisor;
-        rhinotank->unk3C += sa2__sub_801F07C(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+        rhinotank->unk3C += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
         if (rhinotank->doTackle) {
             divisor = 32;
@@ -257,7 +257,7 @@ void Task_806CBD0(void)
         return;
     } else {
         u32 divisor;
-        rhinotank->unk3C += sa2__sub_801F07C(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
+        rhinotank->unk3C += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
         if (++rhinotank->unk44 == 25) {
             s->variant = 0;

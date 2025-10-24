@@ -187,7 +187,7 @@ void SetFaceButtonConfig(bool32 flipFaceButtons)
     }
 }
 
-s32 sub_804D060(s32 n)
+s32 GetAirDashDirection(s32 n)
 {
     u16 *data0 = gUnknown_03006170;
     u16 *data1 = gUnknown_030060F0;
