@@ -106,7 +106,7 @@ u8 ALIGNED(4) gMultiplayerUnlockedLevels = 0;
 struct Task *ALIGNED(4) gEntitiesManagerTask = NULL;
 
 #if (GAME == GAME_SA2)
-s32 ALIGNED(4) gLoadedSaveGame + 0x380 = 0;
+s32 ALIGNED(4) gUnknown_030054E0 = 0;
 #endif
 
 u8 ALIGNED(4) gDestroySpotlights = 0;
