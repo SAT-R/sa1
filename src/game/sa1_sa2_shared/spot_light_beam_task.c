@@ -13,9 +13,16 @@ void TaskDestructor_SpotlightBeam(struct Task *);
 
 /* This task is related to spot lights in Ice Paradise. */
 
+#if PORTABLE || DEBUG
+void Task_SpotlightBeamDummy(void) { }
+#endif
 struct Task *CreateSpotlightBeamTask(void)
 {
+#if PORTABLE || DEBUG
+    struct Task *t = TaskCreate(Task_SpotlightBeamDummy, sizeof(SpotlightBeam), 0x2000, 0, NULL);
+#else
     struct Task *t = TaskCreate(Task_SpotlightBeam, sizeof(SpotlightBeam), 0x2000, 0, TaskDestructor_SpotlightBeam);
+#endif
     SpotlightBeam *beam = TASK_DATA(t);
 
     beam->unk6 = 120;

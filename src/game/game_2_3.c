@@ -73,7 +73,33 @@ typedef struct TileInfo32 {
 } TileInfo32;
 
 // TODO: Inline the data, otherwise the VRAM pointers will be wrong and crash!
-extern TileInfo32 gUnknown_0868B240[5];
+const TileInfo32 gUnknown_0868B240[5] = { //
+    {
+        OBJ_VRAM0 + 0x20,
+        SA1_ANIM_ZONE_SELECT_ACTS,
+        15,
+    },
+    {
+        OBJ_VRAM0 + 0x360,
+        SA1_ANIM_ZONE_SELECT_ACTS,
+        16,
+    },
+    {
+        OBJ_VRAM0 + 0x6A0,
+        SA1_ANIM_ZONE_SELECT_ACTS,
+        17,
+    },
+    {
+        OBJ_VRAM0 + 0x9E0,
+        SA1_ANIM_ZONE_SELECT_ACTS,
+        18,
+    },
+    {
+        OBJ_VRAM0 + 0xF00,
+        SA1_ANIM_ZONE_SELECT_ACTS,
+        0,
+    }
+};
 
 void sub_8062EDC(void)
 {

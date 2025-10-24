@@ -14,6 +14,7 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 
+#define INTRO_SPOTLIGHT_COUNT 2
 typedef struct IntroSprite {
     Sprite s;
     u16 unk30;
@@ -34,7 +35,7 @@ typedef struct Intro_C8 {
 typedef struct Intro_54 {
     StrcUi_805423C strc0;
     struct Task *taskC;
-    struct Task *beamTasks[2]; // -> SpotlightBeam
+    struct Task *beamTasks[INTRO_SPOTLIGHT_COUNT]; // -> SpotlightBeam
     struct Task *tasks18[NUM_CHARACTERS]; // -> Intro_C8
     u8 filler28[0x24];
     s16 unk4C;
@@ -101,25 +102,109 @@ extern u8 gUnknown_086AFFB4[0x1440];
 extern u8 gUnknown_086ACB34[0x2840];
 extern u8 gUnknown_086AF4F4[0x8C0];
 
-s16 gUnknown_0868B27C[2];
-s16 gUnknown_0868B280[2];
-s16 gUnknown_0868B284[2];
-s16 gUnknown_0868B288[2];
+const s16 gUnknown_0868B27C[2] = { 0x14, 0x70 };
+const s16 gUnknown_0868B280[2] = { 0x5C, 0x5A };
+const s16 gUnknown_0868B284[2] = { 0x58, 0x70 };
+const s16 gUnknown_0868B288[2] = { 0x1C, 0x5A };
 // TODO: This struct already appeared somewhere else. Merge them!
 typedef struct LocalTileInfo {
     u32 anim;
     u32 variant;
     void *vram;
 } LocalTileInfo;
-extern LocalTileInfo gUnknown_0868B28C[6];
-extern LocalTileInfo gUnknown_0868B2D4[6];
-extern LocalTileInfo gUnknown_0868B31C[9];
-extern LocalTileInfo gUnknown_0868B388[4];
+const LocalTileInfo gUnknown_0868B28C[6] = {
+    { SA1_ANIM_INTRO_TEXTS_SONIC, 0, OBJ_VRAM0 + 0x2840 }, //
+    { SA1_ANIM_INTRO_TEXTS_SONIC, 1, OBJ_VRAM0 + 0x2B40 }, //
+    { SA1_ANIM_INTRO_TEXTS_SONIC, 2, OBJ_VRAM0 + 0x2F40 }, //
+    { SA1_ANIM_INTRO_TEXTS_SONIC, 3, OBJ_VRAM0 + 0x3240 }, //
+    { SA1_ANIM_INTRO_TEXTS_SONIC, 4, OBJ_VRAM0 + 0x3440 }, //
+    { SA1_ANIM_INTRO_TEXTS_SONIC, 5, OBJ_VRAM0 + 0x3740 }, //
+};
+const LocalTileInfo gUnknown_0868B2D4[6] = {
+    { SA1_ANIM_INTRO_TEXTS_TAILS, 0, OBJ_VRAM0 + 0x6440 }, //
+    { SA1_ANIM_INTRO_TEXTS_TAILS, 1, OBJ_VRAM0 + 0x6740 }, //
+    { SA1_ANIM_INTRO_TEXTS_TAILS, 2, OBJ_VRAM0 + 0x6B40 }, //
+    { SA1_ANIM_INTRO_TEXTS_TAILS, 3, OBJ_VRAM0 + 0x6D40 }, //
+    { SA1_ANIM_INTRO_TEXTS_TAILS, 4, OBJ_VRAM0 + 0x7040 }, //
+    { SA1_ANIM_INTRO_TEXTS_TAILS, 5, OBJ_VRAM0 + 0x7440 }, //
+};
+const LocalTileInfo gUnknown_0868B31C[9] = {
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        0,
+        OBJ_VRAM0 + 0x6440,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        1,
+        OBJ_VRAM0 + 0x6640,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        2,
+        OBJ_VRAM0 + 0x6840,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        3,
+        OBJ_VRAM0 + 0x6B40,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        4,
+        OBJ_VRAM0 + 0x6E40,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        5,
+        OBJ_VRAM0 + 0x7140,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        6,
+        OBJ_VRAM0 + 0x7440,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        7,
+        OBJ_VRAM0 + 0x7640,
+    },
+    {
+        SA1_ANIM_INTRO_TEXTS_KNUCKLES,
+        8,
+        OBJ_VRAM0 + 0x7840,
+    },
+};
+const LocalTileInfo gUnknown_0868B388[4] = {
+    {
+        SA1_ANIM_INTRO_TEXTS_AMY,
+        0,
+        OBJ_VRAM0 + 0x2840,
+    }, //
+    {
+        SA1_ANIM_INTRO_TEXTS_AMY,
+        1,
+        OBJ_VRAM0 + 0x2D40,
+    }, //
+    {
+        SA1_ANIM_INTRO_TEXTS_AMY,
+        2,
+        OBJ_VRAM0 + 0x3240,
+    }, //
+    {
+        SA1_ANIM_INTRO_TEXTS_AMY,
+        3,
+        OBJ_VRAM0 + 0x3740,
+    }, //
+};
 
-extern u16 gUnknown_0868B3B8[2][2];
-extern u16 gUnknown_0868B3C0[2][2];
-extern u16 gUnknown_0868B3C8[2][2];
-extern u16 gUnknown_0868B3D0[2][2];
+const u16 gUnknown_0868B3B8[2][2] = { { SA1_ANIM_INTRO_CHARACTERS, 0 }, { SA1_ANIM_INTRO_CHARACTERS, 1 } };
+
+const u16 gUnknown_0868B3C0[2][2] = { { SA1_ANIM_INTRO_CHARACTERS, 2 }, { SA1_ANIM_INTRO_CHARACTERS, 3 } };
+
+const u16 gUnknown_0868B3C8[2][2] = { { SA1_ANIM_INTRO_CHARACTERS, 4 }, { SA1_ANIM_INTRO_CHARACTERS, 5 } };
+
+const u16 gUnknown_0868B3D0[2][2] = { { SA1_ANIM_INTRO_CHARACTERS, 6 }, { SA1_ANIM_INTRO_CHARACTERS, 7 } };
 
 void CreateIntroAnimation(void)
 {
@@ -145,7 +230,7 @@ void CreateIntroAnimation(void)
     PAUSE_GRAPHICS_QUEUE();
     sub_80535FC();
     UiGfxStackInit();
-    gDispCnt = 0x1040;
+    gDispCnt = (DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
     gBgCntRegs[0] = 0x9D86;
     gBgCntRegs[1] = 0x1B8B;
     gBgCntRegs[2] = 0x9880;

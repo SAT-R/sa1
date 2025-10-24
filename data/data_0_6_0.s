@@ -2,63 +2,6 @@
 
 	.section .rodata
 
-    .align 2, 0
-    .global gUnknown_0868B220
-gUnknown_0868B220:
-    .incbin "baserom_sa1.gba", 0x0068B220, 0x20
-
-    .global gUnknown_0868B240
-gUnknown_0868B240:
-    .incbin "baserom_sa1.gba", 0x0068B240, 0x3C
-
-    .global gUnknown_0868B27C
-gUnknown_0868B27C:
-    .incbin "baserom_sa1.gba", 0x0068B27C, 0x4
-
-    .global gUnknown_0868B280
-gUnknown_0868B280:
-    .incbin "baserom_sa1.gba", 0x0068B280, 0x4
-
-    .global gUnknown_0868B284
-gUnknown_0868B284:
-    .incbin "baserom_sa1.gba", 0x0068B284, 0x4
-
-    .global gUnknown_0868B288
-gUnknown_0868B288:
-    .incbin "baserom_sa1.gba", 0x0068B288, 0x4
-
-    .global gUnknown_0868B28C
-gUnknown_0868B28C:
-    .incbin "baserom_sa1.gba", 0x0068B28C, 0x48
-
-    .global gUnknown_0868B2D4
-gUnknown_0868B2D4:
-    .incbin "baserom_sa1.gba", 0x0068B2D4, 0x48
-
-    .global gUnknown_0868B31C
-gUnknown_0868B31C:
-    .incbin "baserom_sa1.gba", 0x0068B31C, 0x6C
-
-    .global gUnknown_0868B388
-gUnknown_0868B388:
-    .incbin "baserom_sa1.gba", 0x0068B388, 0x30
-
-    .global gUnknown_0868B3B8
-gUnknown_0868B3B8:
-    .incbin "baserom_sa1.gba", 0x0068B3B8, 0x8
-
-    .global gUnknown_0868B3C0
-gUnknown_0868B3C0:
-    .incbin "baserom_sa1.gba", 0x0068B3C0, 0x8
-
-    .global gUnknown_0868B3C8
-gUnknown_0868B3C8:
-    .incbin "baserom_sa1.gba", 0x0068B3C8, 0x8
-
-    .global gUnknown_0868B3D0
-gUnknown_0868B3D0:
-    .incbin "baserom_sa1.gba", 0x0068B3D0, 0x8
-
     .global gUnknown_0868B3D8
 gUnknown_0868B3D8:
     .incbin "baserom_sa1.gba", 0x0068B3D8, 0x10

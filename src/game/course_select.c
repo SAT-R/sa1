@@ -86,7 +86,9 @@ const StaticTileInfo gUnknown_0868B1C0[8] = {
     { OBJ_VRAM0 + 0x5360, 0x000002D9, 0 }, { OBJ_VRAM0 + 0x57E0, 0x000002D8, 0 },
 };
 
-extern u16 gUnknown_0868B220[];
+const u16 gUnknown_0868B220[] = {
+    20, 20, 20, 20, 20, 20, 20, 36, 60, 84, 108, 132, 156, 180, 204, 228,
+};
 
 void sub_8061894(void);
 void Task_CourseSelectInit(void);

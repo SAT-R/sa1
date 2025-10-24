@@ -349,6 +349,8 @@ SECTIONS {
         data/data_sound_test.o(.rodata);
         data/data_0_6.o(.rodata);
         src/game/course_select.o(.rodata);
+        src/game/game_2_3.o(.rodata);
+        src/game/intro_animation.o(.rodata);
         data/data_0_6_0.o(.rodata);
         src/game/time_attack/results.o(.rodata);
         data/data_0_6_1.o(.rodata);
