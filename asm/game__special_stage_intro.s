@@ -113,7 +113,7 @@ CreateSpecialStageIntro: @ 0x08068688
 	movs r0, #0xb4
 	lsls r0, r0, #8
 	str r0, [r7, #0x38]
-	ldr r0, _080688CC @ =sub_8068BB0
+	ldr r0, _080688CC @ =Task_8068BB0
 	str r4, [sp]
 	movs r1, #0xc4
 	adds r2, r6, #0
@@ -204,7 +204,7 @@ _08068794:
 	str r0, [r7, #0x10]
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
-	ldr r0, _080688E0 @ =sub_8068948
+	ldr r0, _080688E0 @ =Task_8068948
 	movs r2, #0x84
 	lsls r2, r2, #6
 	str r4, [sp]
@@ -266,12 +266,12 @@ _080688BC: .4byte 0x03000021
 _080688C0: .4byte 0x03000025
 _080688C4: .4byte 0xFFFFFF00
 _080688C8: .4byte 0xFFFFFC30
-_080688CC: .4byte sub_8068BB0
+_080688CC: .4byte Task_8068BB0
 _080688D0: .4byte gPseudoRandom
 _080688D4: .4byte 0x00196225
 _080688D8: .4byte 0x3C6EF35F
 _080688DC: .4byte 0x06010820
-_080688E0: .4byte sub_8068948
+_080688E0: .4byte Task_8068948
 
 	thumb_func_start sub_80688E4
 sub_80688E4: @ 0x080688E4
@@ -322,8 +322,8 @@ _0806893C: .4byte gUnknown_086BBE34
 _08068940: .4byte gUnknown_086BBC34
 _08068944: .4byte gUnknown_086BE7B4
 
-	thumb_func_start sub_8068948
-sub_8068948: @ 0x08068948
+	thumb_func_start Task_8068948
+Task_8068948: @ 0x08068948
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -610,8 +610,8 @@ _08068BA4: .4byte 0x03000020
 _08068BA8: .4byte 0x03000021
 _08068BAC: .4byte 0xFFFFFB00
 
-	thumb_func_start sub_8068BB0
-sub_8068BB0: @ 0x08068BB0
+	thumb_func_start Task_8068BB0
+Task_8068BB0: @ 0x08068BB0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1021,7 +1021,7 @@ sub_8068D0C: @ 0x08068D0C
 	str r2, [sp, #0x58]
 _08068EF0:
 	str r4, [sp]
-	ldr r0, _08068F80 @ =sub_8068360
+	ldr r0, _08068F80 @ =Task_8068360
 	movs r1, #0x64
 	ldr r2, _08068F48 @ =0x00002120
 	movs r3, #0
@@ -1073,7 +1073,7 @@ _08068F70: .4byte gUnknown_0868B5B4
 _08068F74: .4byte 0xFFFFFF00
 _08068F78: .4byte 0x060112A0
 _08068F7C: .4byte 0x03000020
-_08068F80: .4byte sub_8068360
+_08068F80: .4byte Task_8068360
 _08068F84: .4byte 0x06016040
 _08068F88: .4byte 0x00000316
 _08068F8C:
@@ -1171,7 +1171,7 @@ _08069000:
 	bhi _08069044
 	b _08068EF0
 _08069044:
-	ldr r0, _080690EC @ =sub_80694E8
+	ldr r0, _080690EC @ =Task_80694E8
 	movs r2, #0x84
 	lsls r2, r2, #6
 	movs r4, #0
@@ -1249,7 +1249,7 @@ _08069044:
 _080690E0: .4byte 0x06017080
 _080690E4: .4byte 0x00000319
 _080690E8: .4byte 0x03000020
-_080690EC: .4byte sub_80694E8
+_080690EC: .4byte Task_80694E8
 _080690F0: .4byte 0x03000024
 _080690F4: .4byte gUnknown_086BBE34
 _080690F8: .4byte gUnknown_086BBC34
@@ -1730,8 +1730,8 @@ _080694DC: .4byte gSelectedCharacter
 _080694E0: .4byte 0x03000020
 _080694E4: .4byte 0x03000021
 
-	thumb_func_start sub_80694E8
-sub_80694E8: @ 0x080694E8
+	thumb_func_start Task_80694E8
+Task_80694E8: @ 0x080694E8
 	push {r4, r5, r6, r7, lr}
 	ldr r7, _08069530 @ =gCurTask
 	ldr r0, [r7]

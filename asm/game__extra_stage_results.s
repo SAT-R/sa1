@@ -1023,7 +1023,7 @@ sub_8067928: @ 0x08067928
 	bl sub_805423C
 	movs r5, #0
 	ldr r0, [r4, #0x20]
-	ldr r1, _080679CC @ =sub_8068360
+	ldr r1, _080679CC @ =Task_8068360
 	str r1, [r0, #8]
 	ldr r0, [r4, #0x24]
 	str r1, [r0, #8]
@@ -1057,7 +1057,7 @@ _080679BC: .4byte gCurTask
 _080679C0: .4byte gDispCnt
 _080679C4: .4byte gBgCntRegs
 _080679C8: .4byte 0x00009B83
-_080679CC: .4byte sub_8068360
+_080679CC: .4byte Task_8068360
 _080679D0: .4byte Task_806862C
 _080679D4: .4byte sub_8068214
 _080679D8: .4byte sub_8068148
@@ -2241,8 +2241,8 @@ _08068354: .4byte 0x000003BB
 _08068358: .4byte 0xFFFFFD44
 _0806835C: .4byte 0x000003FF
 
-	thumb_func_start sub_8068360
-sub_8068360: @ 0x08068360
+	thumb_func_start Task_8068360
+Task_8068360: @ 0x08068360
 	push {r4, lr}
 	ldr r0, _080683CC @ =gCurTask
 	ldr r0, [r0]
