@@ -195,23 +195,10 @@ s32 sub_804D060(s32 n)
     u16 *data;
 
     u16 mask;
-    u16 chkMask = *data0++ & 0x30;
+    u16 chkMask = *data0 & 0x30;
 
-#if DEBUG
-    puts("DashData ");
-    for (int block = 0; block < 2; block++) {
-        u16 *prntData = (block == 0) ? &gUnknown_030060F0[0] : &gUnknown_03006170[0];
-        printf("(%d)\n", block);
-
-        for (int line = 0; line < 4; line++) {
-            for (int i = 0; i < 16; i++) {
-                printf("%04X ", prntData[line * 16 + i]);
-            }
-            puts("");
-        }
-        puts("");
-    }
-#endif
+    // NOTE: This has to be separate for the same reason as the loop in sub_804D13C()!
+    data0++;
 
     if (chkMask == DPAD_LEFT) {
         for (i = 0; i < n; i++) {
