@@ -186,7 +186,7 @@ void Task_806C9A0(void)
         TaskDestroy(gCurTask);
         return;
     } else {
-        u32 divisor;
+        s32 divisor;
         rhinotank->unk3C += SA2_LABEL(sub_801F07C)(worldY, worldX, 1, +8, &sp08, SA2_LABEL(sub_801EE64));
 
         if (rhinotank->doTackle) {
