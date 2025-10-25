@@ -161,6 +161,7 @@ SECTIONS {
         src/game/time_attack/results.o(.text);
         src/game/time_attack/lobby.o(.text);
         src/game/edit_language_screen.o(.text);
+        src/game/multiplayer/continue_screen.o(.text);
         asm/game__mp__continue_screen.o(.text);
         asm/game__mp__3.o(.text);
 
