@@ -87,6 +87,7 @@ SECTIONS {
         src/game/enemies/boss_x3_egg_x.o(.text);
 
         asm/game__mp__1_1.o(.text);
+        src/game/multiplayer/communication_outcome.o(.text);
         asm/game__multiplayer__communication_outcome.o(.text);
         src/game/amy_attack_heart_effect.o(.text);
         src/game/sa1_sa2_shared/music_manager.o(.text);
@@ -325,6 +326,7 @@ SECTIONS {
         data/data_0_3.o(.rodata);
         src/data/tilemap_data_2.o(.rodata);
         data/data_0_3_2.o(.rodata);
+        src/game/multiplayer/communication_outcome.o(.rodata);
         src/game/amy_attack_heart_effect.o(.rodata);
         src/game/sa1_sa2_shared/music_manager.o(.rodata);
         src/game/stage/stage.o(.rodata);

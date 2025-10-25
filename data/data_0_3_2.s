@@ -17,11 +17,3 @@ gUnknown_084ADA0E:
     .global gUnknown_084ADA10
 gUnknown_084ADA10:
     .incbin "baserom_sa1.gba", 0x004ADA10, 0xA
-
-    .global gUnknown_084ADA1A
-gUnknown_084ADA1A:
-    .incbin "baserom_sa1.gba", 0x004ADA1A, 0x4
-
-    .global gUnknown_084ADA1E
-gUnknown_084ADA1E:
-    .incbin "baserom_sa1.gba", 0x004ADA1E, 0x6
