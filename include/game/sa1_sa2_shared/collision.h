@@ -28,6 +28,9 @@ typedef enum EHit {
     HIT_PLAYER = 2,
 } EHit;
 
+// SA1, MP Player
+s32 sub_80097E4(Sprite *s, CamCoord x, CamCoord y, s16 qSpeedX, s16 qSpeedY, u8 layer, u8 arg6);
+
 #if (GAME == GAME_SA1)
 u32 CheckRectCollision_SpritePlayer(Sprite *s, s16 sx, s16 sy, Player *p, struct Rect8 *rectPlayer);
 #elif (GAME == GAME_SA2)
@@ -71,7 +74,7 @@ EHit sub_800BF10(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 EHit sub_800BFEC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);
 bool32 sub_800DD54(Player *p);
-// bool32 sub_800DE44(Player *p);
+bool32 SA2_LABEL(sub_800DE44)(Player *p);
 u32 sub_800D0A0(Sprite *, s16, s16, s16, s16, u8, u32);
 
 // HandlePlayerDestroy?

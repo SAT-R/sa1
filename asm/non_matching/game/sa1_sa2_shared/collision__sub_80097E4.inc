@@ -1,12 +1,7 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
-
-	thumb_func_start sub_80097E4
-sub_80097E4: @ 0x080097E4
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -159,7 +154,7 @@ sub_80097E4: @ 0x080097E4
 	bne _08009930
 _08009918:
 	movs r0, #0
-	bl sub_800A392
+	bl _0800A392
 	.align 2, 0
 _08009920: .4byte gPlayer
 _08009924: .4byte gStageFlags
@@ -1551,7 +1546,7 @@ _0800A378:
 	str r1, [r2, #0x10]
 _0800A390:
 	ldr r0, [sp, #0x30]
-sub_800A392:
+_0800A392:
 	add sp, #0x48
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -1562,3 +1557,5 @@ sub_800A392:
 	bx r1
 	.align 2, 0
 _0800A3A4: .4byte gPlayer
+
+.syntax divided
