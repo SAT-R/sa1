@@ -5,6 +5,7 @@
 #include "game/game_over.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/multiplayer/multipak_connection.h"
+#include "game/multiplayer/results.h"
 #include "game/save.h"
 #include "game/stage/ui.h"
 
@@ -26,13 +27,15 @@ void Task_MultiplayerContinueScreen(void);
 void TaskDestructor_MultiplayerContinueScreen(struct Task *t);
 void sub_806B534(void);
 void sub_806B5A4(void);
+extern void sub_8018538(void);
 
 extern u16 gUnknown_0868B76C[3][UILANG_COUNT];
 extern u8 gUnknown_0868B778[3][UILANG_COUNT];
 extern AnimId gUnknown_0868B782[UILANG_COUNT];
 extern AnimId gUnknown_0868B786[UILANG_COUNT];
-extern u8 gUnknown_0868B78A[3][2];
 extern u8 gUnknown_0868B77E[3];
+extern u8 gUnknown_0868B78A[3][2];
+extern u8 gUnknown_0868B790[3];
 
 void CreateMultiplayerContinueScreen(void)
 {
@@ -277,74 +280,71 @@ void Task_MultiplayerContinueScreen()
     return;
 }
 
-#if 0
-void sub_806B534(void) {
-    u16 temp_r4;
+void sub_806B534(void)
+{
+    ContinueScreen *screen;
     u8 temp_r4_2;
 
-    temp_r4 = gCurTask->data;
-    if ((sub_805423C(temp_r4 + 0x03000160) << 0x18) != 0) {
-        gDispCnt &= 0x1FFF;
+    screen = TASK_DATA(gCurTask);
+    if (sub_805423C(&screen->strc160)) {
+        gDispCnt &= ~0xE000;
         gBldRegs.bldCnt = 0;
         gBldRegs.bldY = 0;
-        temp_r4_2 = *(temp_r4 + 0x0300016C);
+        temp_r4_2 = screen->unk16C;
         m4aSongNumStop(0x9BU);
         TaskDestroy(gCurTask);
+
         if (temp_r4_2 == 0) {
             sub_8018538();
-            return;
+        } else {
+            CreateMultiplayerResultsScreen(2U);
         }
-        CreateMultiplayerResultsScreen(2U);
+
+        // return after TaskDestroy()!
         return;
+    } else {
+        sub_806B5A4();
     }
-    sub_806B5A4();
 }
 
-void sub_806B5A4(void) {
-    Sprite *temp_r4;
-    Sprite *temp_r4_2;
-    Sprite *temp_r4_3;
-    s32 temp_r6;
-    u16 temp_r0;
+void sub_806B5A4(void)
+{
+    Sprite *s;
+    ContinueScreen *screen;
     u8 temp_r7;
-    u8 var_r5;
+    u8 i;
+    u8 unk16C;
 
-    temp_r0 = gCurTask->data;
-    temp_r6 = temp_r0 + 0x03000000;
-    temp_r7 = *(temp_r0 + 0x0300016C);
-    var_r5 = 0;
-    do {
-        temp_r4 = temp_r6 + ((var_r5 * 0x30) + 0x40);
-        *(temp_r4 + 0x21) = 0xFF;
-        UpdateSpriteAnimation(temp_r4);
-        DisplaySprite(temp_r4);
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 2U);
-    temp_r4_2 = temp_r6 + 0xD0;
-    temp_r4_2->x = (s16) *(temp_r7 + &gUnknown_0868B790);
-    UpdateSpriteAnimation(temp_r4_2);
-    DisplaySprite(temp_r4_2);
-    temp_r4_3 = temp_r6 + 0x100;
-    UpdateSpriteAnimation(temp_r4_3);
-    DisplaySprite(temp_r4_3);
+    screen = TASK_DATA(gCurTask);
+    unk16C = screen->unk16C;
+
+    for (i = 0; i < 3; i++) {
+        s = &screen->sprites[i];
+        s->prevVariant = -1;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    s = &screen->sprD0;
+    s->x = gUnknown_0868B790[unk16C];
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    s = &screen->spr100;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
-void TaskDestructor_MultiplayerContinueScreen(struct Task *arg0) {
-    s32 temp_r5;
-    s32 temp_r6;
-    u16 temp_r1;
-    u8 var_r4;
+void TaskDestructor_MultiplayerContinueScreen(struct Task *t)
+{
+    ContinueScreen *screen = TASK_DATA(t);
+    u8 i;
 
-    temp_r1 = arg0->data;
-    temp_r5 = temp_r1 + 0x03000000;
-    var_r4 = 0;
-    temp_r6 = temp_r1 + 0x03000044;
-    do {
-        VramFree(*(temp_r6 + (var_r4 * 0x30)));
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 2U);
-    VramFree(*(temp_r5 + 0xD4));
-    VramFree(*(temp_r5 + 0x104));
-    VramFree(*(temp_r5 + 0x134));
+    for (i = 0; i < 3; i++) {
+        VramFree(screen->sprites[i].graphics.dest);
+    }
+
+    VramFree(screen->sprD0.graphics.dest);
+    VramFree(screen->spr100.graphics.dest);
+    VramFree(screen->spr130.graphics.dest);
 }
-#endif
