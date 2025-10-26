@@ -884,3 +884,39 @@ void Task_8067F38()
         }
     }
 }
+
+void Task_8067F9C()
+{
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+
+    if (strc64->unk3C == 0) {
+        strc64->s.prevVariant = -1;
+        strc64->s.graphics.dest = OBJ_VRAM0 + 0x26E0;
+        strc64->s.graphics.anim = SA1_ANIM_FINAL_CUTSCENE_ART_B;
+        strc64->s.variant = 0;
+        strc64->s.x = (DISPLAY_WIDTH / 2);
+        strc64->s.y = (DISPLAY_HEIGHT / 2);
+        strc64->s.oamFlags = 0x3C0;
+        strc64->s.frameFlags = 0x2000;
+    }
+    UpdateSpriteAnimation(&strc64->s);
+    DisplaySprite(&strc64->s);
+}
+
+void Task_8068004()
+{
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+
+    if (strc64->unk3C == 0) {
+        strc64->s.prevVariant = -1;
+        strc64->s.graphics.dest = OBJ_VRAM0 + 0x26E0;
+        strc64->s.graphics.anim = SA1_ANIM_FINAL_CUTSCENE_ART_B;
+        strc64->s.variant = 1;
+        strc64->s.x = (DISPLAY_WIDTH / 2);
+        strc64->s.y = (DISPLAY_HEIGHT / 2);
+        strc64->s.oamFlags = 0x3C0;
+        strc64->s.frameFlags = 0x2000;
+    }
+    UpdateSpriteAnimation(&strc64->s);
+    DisplaySprite(&strc64->s);
+}
