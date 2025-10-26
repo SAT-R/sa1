@@ -108,7 +108,7 @@ void CreateMultiplayerMultiPakUI(void);
 
 // TODO: Maybe param1 is actually (GameOverB *) ?
 void sub_8052E40(u8 *param0, Strc_8052C84 *param1);
-
+void sub_80538BC(void);
 bool32 sub_80549FC(void);
 
 #endif // GUARD_SA1_GAME_STAGE_UI_H

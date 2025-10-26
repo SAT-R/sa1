@@ -5,32 +5,16 @@
 #include "game/gTask_03006240.h"
 #include "game/game_over.h"
 #include "game/save.h"
+#include "game/stage/results.h"
 #include "game/stage/ui.h"
 
 #include "constants/animations.h"
-
-typedef struct ExtraStageResultsState {
-    StrcUi_805423C strc0;
-    struct Task *taskC;
-    struct Task *task10;
-    struct Task *task14;
-    struct Task *task18;
-    struct Task *task1C;
-    struct Task *tasks20[4];
-    u8 filler30[8];
-    s32 unk38;
-    s32 unk3C;
-    u8 unk40;
-    s32 unk44;
-    s32 unk48;
-    u8 filler4C[8];
-} ExtraStageResultsState; /* 0x54 */
 
 typedef struct ExtraStageResults_64 {
     Sprite s;
     u8 filler30[0xC];
     s32 unk3C;
-    u8 filler40[0x4];
+    s32 unk40;
     s32 unk44;
     s32 unk48;
     s32 unk4C;
@@ -41,10 +25,29 @@ typedef struct ExtraStageResults_64 {
     s32 unk60;
 } ExtraStageResults_64;
 
+typedef struct ExtraStageResultsState {
+    StrcUi_805423C strc0; // ExtraStageResults_64
+    struct Task *taskC; // ExtraStageResults_64
+    struct Task *task10; // ExtraStageResults_64
+    struct Task *task14; // ExtraStageResults_64
+    struct Task *task18; // ExtraStageResults_64
+    struct Task *task1C; // ExtraStageResults_64
+    struct Task *tasks20[4]; // ExtraStageResults_64
+    u8 filler30[8];
+    s32 unk38;
+    s32 unk3C;
+    u8 unk40;
+    s32 unk44;
+    s32 unk48;
+    u8 filler4C[8];
+} ExtraStageResultsState; /* 0x54 */
+
 void Task_8067824(void);
+void sub_8067928(void);
 void Task_8067F38(void);
 void Task_806806C(void);
 void Task_nullsub_8068448(void);
+void sub_806853C(void);
 void Task_8068628(void);
 void Task_8068620(void);
 void Task_8068624(void);
@@ -399,5 +402,68 @@ void sub_80677C4(s32 i)
         gfx.unk29 = 0;
         gfx.unk2A = 0x15;
         sub_80528AC(&gfx);
+    }
+}
+
+void Task_8067824(void)
+{
+#ifndef NON_MATCHING
+    register TaskPtr offset asm("r2") = gCurTask->data;
+    ExtraStageResultsState *state = (void *)(offset + IWRAM_START);
+    register ExtraStageResultsState *state2 asm("r4");
+#else
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+    ExtraStageResultsState *state2;
+#endif
+    {
+        s32 v0;
+        s32 v1;
+
+        ExtraStageResults_64 *strc64_0 = TASK_DATA(state->taskC);
+        ExtraStageResults_64 *strc64_1 = TASK_DATA(state->task10);
+        u32 temp_r6 = (state->unk38 + 1);
+        state2 = state;
+
+        if (temp_r6 == 0x19) {
+            UiGfxStackInit();
+            sub_80538BC();
+        } else if (temp_r6 == 0x1E) {
+            state2->unk3C = CreateStageResults(gRingCount, gCourseTime);
+        }
+        if (temp_r6 == state->unk3C) {
+            m4aSongNumStart(0x27U);
+        }
+
+        v0 = Div(0x2000, 0x80);
+        v1 = state->unk3C;
+        v1 += 0x21C;
+        if ((v0 + v1) < temp_r6) {
+            temp_r6 = 0;
+            state->unk38 = temp_r6;
+            strc64_0->unk3C = temp_r6;
+            TaskDestroy(state->task10);
+            state->taskC->main = sub_806853C;
+            gCurTask->main = sub_8067928;
+        } else {
+            s32 divRes2 = Div(0x2000, 0x80);
+            s32 v0 = Div(0x2000, 0x80);
+            s32 v1 = state->unk3C;
+            v1 += 0x21C;
+            if ((divRes2 + v1 - v0) == temp_r6) {
+                state->strc0.unk0 = 0;
+                state->strc0.unk2 = 1;
+                state->strc0.unk4 = 1;
+                state->strc0.unk6 = 0;
+                state->strc0.unk8 = 0x80;
+                state->strc0.unkA = 1;
+            }
+
+            sub_805423C(&state->strc0);
+            state->unk38 = temp_r6;
+            strc64_0->unk3C = temp_r6;
+            strc64_1->unk3C = temp_r6;
+            strc64_0->unk40 = state->unk3C;
+            strc64_1->unk40 = state->unk3C;
+        }
     }
 }
