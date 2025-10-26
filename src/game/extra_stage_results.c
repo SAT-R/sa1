@@ -44,13 +44,19 @@ typedef struct ExtraStageResultsState {
 
 void Task_8067824(void);
 void sub_8067928(void);
+void Task_80679E4(void);
 void Task_8067F38(void);
 void Task_806806C(void);
+void Task_8068148(void);
+void Task_8068214(void);
+void Task_8068360(void);
 void Task_nullsub_8068448(void);
 void sub_806853C(void);
-void Task_8068628(void);
+void Task_806856C(void);
 void Task_8068620(void);
 void Task_8068624(void);
+void Task_8068628(void);
+void Task_806862C(void);
 
 extern const u16 gUnknown_086C5B74[256];
 extern const u8 gUnknown_086C5D74[0x1EC0];
@@ -405,6 +411,7 @@ void sub_80677C4(s32 i)
     }
 }
 
+// TODO: Fake-match
 void Task_8067824(void)
 {
 #ifndef NON_MATCHING
@@ -466,4 +473,38 @@ void Task_8067824(void)
             strc64_1->unk40 = state->unk3C;
         }
     }
+}
+
+void sub_8067928()
+{
+    ExtraStageResults_64 *temp_r6;
+    u32 var_r5;
+
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    temp_r6 = TASK_DATA(state->taskC);
+    var_r5 = state->unk38 + 1;
+    if ((u32)(Div(0x2000, 0x80) + 0x258) < var_r5) {
+        gDispCnt = 0x1140;
+        gBgCntRegs[0] = 0x9B83;
+        state->strc0.unk0 = 0;
+        state->strc0.unk2 = 1;
+        state->strc0.unk4 = 2;
+        state->strc0.unk6 = 0;
+        state->strc0.unk8 = 0x80;
+        state->strc0.unkA = 1;
+        sub_805423C(&state->strc0);
+        var_r5 = 0;
+        state->tasks20[0]->main = Task_8068360;
+        state->tasks20[1]->main = Task_8068360;
+        state->tasks20[2]->main = Task_8068360;
+        state->tasks20[3]->main = Task_8068360;
+        state->task14->main = Task_806862C;
+        state->task18->main = Task_8068214;
+        state->task1C->main = Task_8068148;
+        state->taskC->main = Task_806856C;
+        gCurTask->main = Task_80679E4;
+    }
+    state->unk38 = var_r5;
+    temp_r6->unk3C = var_r5;
 }
