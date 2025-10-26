@@ -61,10 +61,14 @@ extern const u16 gUnknown_086C8634[256];
 extern const u8 gUnknown_086C8834[0x3540];
 extern const u8 gUnknown_086CBD74[0xA00];
 
+extern const u16 gUnknown_086BBC34[256];
+extern const u8 gUnknown_086BBE34[0x2980];
+extern const u8 gUnknown_086BE7B4[0x1000];
+
 void CreateExtraStageResults(void)
 {
     struct Task *tasks[4];
-    Strc_80528AC sp14;
+    Strc_80528AC gfx;
     struct Task *task64_0;
     struct Task *task64_2;
     struct Task *task64_1;
@@ -337,42 +341,63 @@ void CreateExtraStageResults(void)
     state->strc0.unkA = 1;
     sub_80543A4(&state->strc0);
 
-    sp14.uiGfxID = 128;
-    sp14.unk2B = 2;
-    sp14.tiles = &gUnknown_086C5D74[0];
-    sp14.tilesSize = sizeof(gUnknown_086C5D74);
-    sp14.palette = &gUnknown_086C5B74[0];
-    sp14.paletteSize = sizeof(gUnknown_086C5B74);
-    sp14.layout = &gUnknown_086C7C34[0];
-    sp14.layoutSize = sizeof(gUnknown_086C7C34);
-    sp14.unk28 = 0;
-    sp14.unk29 = 0;
-    sp14.unk2A = 0x15;
-    sub_80528AC(&sp14);
+    gfx.uiGfxID = 128;
+    gfx.unk2B = 2;
+    gfx.tiles = &gUnknown_086C5D74[0];
+    gfx.tilesSize = sizeof(gUnknown_086C5D74);
+    gfx.palette = &gUnknown_086C5B74[0];
+    gfx.paletteSize = sizeof(gUnknown_086C5B74);
+    gfx.layout = &gUnknown_086C7C34[0];
+    gfx.layoutSize = sizeof(gUnknown_086C7C34);
+    gfx.unk28 = 0;
+    gfx.unk29 = 0;
+    gfx.unk2A = 0x15;
+    sub_80528AC(&gfx);
 
-    sp14.uiGfxID = 128;
-    sp14.unk2B = 0;
-    sp14.tiles = &gUnknown_086BF9B4[0];
-    sp14.tilesSize = sizeof(gUnknown_086BF9B4);
-    sp14.palette = &gUnknown_086BF7B4[0];
-    sp14.paletteSize = sizeof(gUnknown_086BF7B4);
-    sp14.layout = &gUnknown_086C5174[0];
-    sp14.layoutSize = sizeof(gUnknown_086C5174);
-    sp14.unk28 = 0;
-    sp14.unk29 = 2;
-    sp14.unk2A = 0x15;
-    sub_80528AC(&sp14);
+    gfx.uiGfxID = 128;
+    gfx.unk2B = 0;
+    gfx.tiles = &gUnknown_086BF9B4[0];
+    gfx.tilesSize = sizeof(gUnknown_086BF9B4);
+    gfx.palette = &gUnknown_086BF7B4[0];
+    gfx.paletteSize = sizeof(gUnknown_086BF7B4);
+    gfx.layout = &gUnknown_086C5174[0];
+    gfx.layoutSize = sizeof(gUnknown_086C5174);
+    gfx.unk28 = 0;
+    gfx.unk29 = 2;
+    gfx.unk2A = 0x15;
+    sub_80528AC(&gfx);
 
-    sp14.uiGfxID = 128;
-    sp14.unk2B = 1;
-    sp14.tiles = &gUnknown_086C8834[0];
-    sp14.tilesSize = sizeof(gUnknown_086C8834);
-    sp14.palette = &gUnknown_086C8634[0];
-    sp14.paletteSize = sizeof(gUnknown_086C8634);
-    sp14.layout = &gUnknown_086CBD74[0];
-    sp14.layoutSize = sizeof(gUnknown_086CBD74);
-    sp14.unk28 = 0;
-    sp14.unk29 = 1;
-    sp14.unk2A = 0x15;
-    sub_80528AC(&sp14);
+    gfx.uiGfxID = 128;
+    gfx.unk2B = 1;
+    gfx.tiles = &gUnknown_086C8834[0];
+    gfx.tilesSize = sizeof(gUnknown_086C8834);
+    gfx.palette = &gUnknown_086C8634[0];
+    gfx.paletteSize = sizeof(gUnknown_086C8634);
+    gfx.layout = &gUnknown_086CBD74[0];
+    gfx.layoutSize = sizeof(gUnknown_086CBD74);
+    gfx.unk28 = 0;
+    gfx.unk29 = 1;
+    gfx.unk2A = 0x15;
+    sub_80528AC(&gfx);
+}
+
+void sub_80677C4(s32 i)
+{
+    Strc_80528AC gfx;
+
+    if (i == 1) {
+        UiGfxStackInit();
+        gfx.uiGfxID = 128;
+        gfx.unk2B = 0;
+        gfx.tiles = &gUnknown_086BBE34[0];
+        gfx.tilesSize = sizeof(gUnknown_086BBE34);
+        gfx.palette = &gUnknown_086BBC34[0];
+        gfx.paletteSize = sizeof(gUnknown_086BBC34);
+        gfx.layout = &gUnknown_086BE7B4[0];
+        gfx.layoutSize = sizeof(gUnknown_086BE7B4);
+        gfx.unk28 = 0;
+        gfx.unk29 = 0;
+        gfx.unk2A = 0x15;
+        sub_80528AC(&gfx);
+    }
 }

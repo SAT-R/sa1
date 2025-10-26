@@ -8,53 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_80677C4
-sub_80677C4: @ 0x080677C4
-	push {lr}
-	sub sp, #0x30
-	cmp r0, #1
-	bne _08067810
-	bl UiGfxStackInit
-	add r1, sp, #0x2c
-	movs r2, #0
-	movs r0, #0x80
-	strb r0, [r1]
-	mov r0, sp
-	adds r0, #0x2b
-	strb r2, [r0]
-	ldr r0, _08067818 @ =gUnknown_086BBE34
-	str r0, [sp, #0x14]
-	movs r0, #0xa6
-	lsls r0, r0, #6
-	str r0, [sp, #0x18]
-	ldr r0, _0806781C @ =gUnknown_086BBC34
-	str r0, [sp, #0x20]
-	movs r0, #0x80
-	lsls r0, r0, #2
-	str r0, [sp, #0x24]
-	ldr r0, _08067820 @ =gUnknown_086BE7B4
-	str r0, [sp, #0x10]
-	movs r0, #0x80
-	lsls r0, r0, #5
-	str r0, [sp, #0x1c]
-	add r0, sp, #0x28
-	strb r2, [r0]
-	adds r0, #1
-	strb r2, [r0]
-	subs r1, #2
-	movs r0, #0x15
-	strb r0, [r1]
-	mov r0, sp
-	bl sub_80528AC
-_08067810:
-	add sp, #0x30
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08067818: .4byte gUnknown_086BBE34
-_0806781C: .4byte gUnknown_086BBC34
-_08067820: .4byte gUnknown_086BE7B4
-
 	thumb_func_start Task_8067824
 Task_8067824: @ 0x08067824
 	push {r4, r5, r6, r7, lr}
