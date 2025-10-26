@@ -154,6 +154,7 @@ SECTIONS {
         src/game/game_2_3.o(.text);
         src/game/intro_animation.o(.text);
         asm/game__congratulations_animation.o(.text);
+        src/game/extra_stage_results.o(.text);
         asm/game__extra_stage_results.o(.text);
         asm/game__special_stage_intro.o(.text);
         src/game/collect_chaos_emeralds_msg.o(.text);
