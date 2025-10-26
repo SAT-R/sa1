@@ -7,6 +7,7 @@
 #include "game/save.h"
 #include "game/stage/results.h"
 #include "game/stage/ui.h"
+#include "data/ui_graphics.h"
 
 #include "constants/animations.h"
 
@@ -25,6 +26,16 @@ typedef struct ExtraStageResults_64 {
     s32 unk60;
 } ExtraStageResults_64;
 
+typedef struct ExtraStageResults_164 {
+    Sprite s;
+    s32 unk3C;
+    s32 unk40;
+    s32 unk44;
+    s32 unk48;
+    s32 unk4C;
+    u8 filler30[0x134];
+} ExtraStageResults_164;
+
 typedef struct ExtraStageResultsState {
     StrcUi_805423C strc0; // ExtraStageResults_64
     struct Task *taskC; // ExtraStageResults_64
@@ -42,14 +53,17 @@ typedef struct ExtraStageResultsState {
     u8 filler4C[8];
 } ExtraStageResultsState; /* 0x54 */
 
+extern void Task_8066D64(void); // -> ExtraStageResults_164
 void sub_80677C4(s32 i);
 void Task_8067824(void);
 void sub_8067928(void);
 void Task_80679E4(void);
 void Task_8067B9C(void);
 void Task_8067C24(void);
+void Task_8067E68(void);
 void Task_8067F38(void);
 void Task_8067F9C(void);
+void Task_8068004(void);
 void Task_806806C(void);
 void Task_8068148(void);
 void Task_8068214(void);
@@ -660,3 +674,120 @@ void Task_8067B9C()
         temp_sb->unk3C = temp_r5;
     }
 }
+
+// (81.56%) https://decomp.me/scratch/L5YKY
+NONMATCH("asm/non_matching/game/extra_stage_results__Task_8067C24.inc", void Task_8067C24())
+{
+    struct Task *tasks[3];
+    u32 sp10;
+    ExtraStageResults_64 *sp14;
+    ExtraStageResults_164 *temp_r3_2;
+    Sprite *s;
+    s32 temp_r0;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r3;
+    u16 var_r8_2;
+    s8 *temp_r1_5;
+    struct Task *temp_r0_5;
+    u16 temp_r0_3;
+    u16 temp_r0_4;
+    u16 temp_r1;
+    u16 temp_r1_2;
+    u16 temp_r1_4;
+    u16 var_r8;
+    u32 temp_r0_2;
+    u32 temp_r1_3;
+    u32 temp_r2;
+    u32 temp_r3;
+    u32 temp_r4;
+    u32 temp_r5;
+    u32 temp_r6;
+    u32 temp_r7;
+
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    sp14 = TASK_DATA(state->taskC);
+    temp_r0 = state->unk38;
+    sp10 = temp_r0 + 1;
+    temp_r0_2 = temp_r0 - 0xB3;
+    if (temp_r0_2 <= 0x80U) {
+        temp_r7 = temp_r0_2 >> 4;
+        for (var_r8 = 2; var_r8 < 16; var_r8++) {
+            temp_r1 = gUiPaletteSoundTestBox3[var_r8];
+            temp_r3 = 0x1F;
+            temp_r3 &= temp_r1;
+            temp_r5 = (u32)(0x3E0 & temp_r1) >> 5;
+            temp_r4 = (u32)(0x7C00 & temp_r1) >> 0xA;
+            temp_r1_2 = gUiPaletteSoundTestBox4[var_r8];
+            temp_r2 = 0x1F & temp_r1_2;
+            temp_r6 = (u32)(0x3E0 & temp_r1_2) >> 5;
+            temp_r1_3 = (u32)(0x7C00 & temp_r1_2) >> 0xA;
+            if (temp_r3 > temp_r2) {
+                var_r3 = (temp_r3 - ((u32)(temp_r7 * (temp_r3 - temp_r2)) >> 3)) & 0x1F;
+            } else {
+                var_r3 = (temp_r3 + ((u32)(temp_r7 * (temp_r2 - temp_r3)) >> 3)) & 0x1F;
+            }
+            if (temp_r5 > temp_r6) {
+                var_r0 = temp_r5 - ((u32)(temp_r7 * (temp_r5 - temp_r6)) >> 3);
+            } else {
+                var_r0 = temp_r5 + ((u32)(temp_r7 * (temp_r6 - temp_r5)) >> 3);
+            }
+            if (temp_r4 > temp_r1_3) {
+                var_r0_2 = (temp_r4 - ((u32)(temp_r7 * (temp_r4 - temp_r1_3)) >> 3)) & 0x1F;
+            } else {
+                var_r0_2 = (temp_r4 + ((u32)(temp_r7 * (temp_r1_3 - temp_r4)) >> 3)) & 0x1F;
+            }
+            gObjPalette[14 * 16 + var_r8] = (var_r0_2 << 0xA) | (var_r3 | ((var_r0 & 0x1F) << 5));
+        }
+
+        gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
+    }
+
+    if (sp10 > 0x190U) {
+        sp10 = 0;
+        for (var_r8_2 = 0; var_r8_2 < 3; var_r8_2++) {
+            temp_r0_5 = TaskCreate(Task_8066D64, sizeof(ExtraStageResults_164), 0x2120U, 0U, NULL);
+            tasks[var_r8_2] = temp_r0_5;
+            temp_r3_2 = TASK_DATA(temp_r0_5);
+            s = &temp_r3_2->s;
+            temp_r3_2->unk3C = 0;
+            temp_r3_2->unk4C = 0xF;
+            temp_r3_2->unk48 = 0;
+            temp_r3_2->unk44 = var_r8_2;
+            temp_r3_2->unk40 = 0;
+            if (var_r8_2 == 0) {
+                s->graphics.dest = OBJ_VRAM0 + 0x6060;
+                s->graphics.anim = 0x311;
+                s->variant = 0;
+            } else if (var_r8_2 == 1) {
+                s->graphics.dest = OBJ_VRAM0 + 0x6920;
+                s->graphics.anim = 0x311;
+                s->variant = 1;
+            } else {
+                s->graphics.dest = OBJ_VRAM0 + 0x6E20;
+                s->graphics.anim = 0x311;
+                s->variant = 2;
+            }
+            s->x = 0xB4;
+            s->y = 0x50;
+            s->oamFlags = 0;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = 0xFF;
+            s->animSpeed = 0x10;
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            UpdateSpriteAnimation(s);
+            state->tasks20[var_r8_2] = tasks[var_r8_2];
+        }
+        state->taskC->main = Task_8068004;
+        gCurTask->main = Task_8067E68;
+    }
+    sub_805423C(&state->strc0);
+    state->unk38 = (s32)sp10;
+    sp14->unk3C = sp10;
+}
+END_NONMATCH
