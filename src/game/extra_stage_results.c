@@ -42,9 +42,11 @@ typedef struct ExtraStageResultsState {
     u8 filler4C[8];
 } ExtraStageResultsState; /* 0x54 */
 
+void sub_80677C4(s32 i);
 void Task_8067824(void);
 void sub_8067928(void);
 void Task_80679E4(void);
+void Task_8067B14(void);
 void Task_8067F38(void);
 void Task_806806C(void);
 void Task_8068148(void);
@@ -53,6 +55,7 @@ void Task_8068360(void);
 void Task_nullsub_8068448(void);
 void sub_806853C(void);
 void Task_806856C(void);
+void Task_8068570(void);
 void Task_8068620(void);
 void Task_8068624(void);
 void Task_8068628(void);
@@ -477,14 +480,14 @@ void Task_8067824(void)
 
 void sub_8067928()
 {
-    ExtraStageResults_64 *temp_r6;
+    ExtraStageResults_64 *task;
     u32 var_r5;
 
     ExtraStageResultsState *state = TASK_DATA(gCurTask);
 
-    temp_r6 = TASK_DATA(state->taskC);
+    task = TASK_DATA(state->taskC);
     var_r5 = state->unk38 + 1;
-    if ((u32)(Div(0x2000, 0x80) + 0x258) < var_r5) {
+    if ((u32)(Div(0x2000, 0x80) + 600) < var_r5) {
         gDispCnt = 0x1140;
         gBgCntRegs[0] = 0x9B83;
         state->strc0.unk0 = 0;
@@ -505,6 +508,67 @@ void sub_8067928()
         state->taskC->main = Task_806856C;
         gCurTask->main = Task_80679E4;
     }
+
     state->unk38 = var_r5;
-    temp_r6->unk3C = var_r5;
+    task->unk3C = var_r5;
+}
+
+void Task_80679E4()
+{
+    ExtraStageResults_64 *sp0;
+    ExtraStageResults_64 *sp4;
+    ExtraStageResults_64 *temp_sb;
+    ExtraStageResults_64 *temp_sl;
+    u32 temp_r5;
+
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    temp_sb = TASK_DATA(state->taskC);
+    sp0 = TASK_DATA(state->task1C);
+    sp4 = TASK_DATA(state->task14);
+    temp_sl = TASK_DATA(state->task18);
+    temp_r5 = state->unk38 + 1;
+    sub_80677C4(temp_r5);
+    gBgScrollRegs[0][1] = 0x128;
+    if (temp_r5 > 0x336U) {
+        temp_r5 = 0;
+        state->unk38 = 0;
+        temp_sb->unk3C = 0U;
+        TaskDestroy(state->tasks20[0]);
+        TaskDestroy(state->tasks20[1]);
+        TaskDestroy(state->tasks20[2]);
+        TaskDestroy(state->tasks20[3]);
+        TaskDestroy(state->task1C);
+        TaskDestroy(state->task14);
+        TaskDestroy(state->task18);
+        state->taskC->main = Task_8068570;
+        gCurTask->main = Task_8067B14;
+        SA2_LABEL(gUnknown_03004D80)[0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
+        SA2_LABEL(gUnknown_03002280)[0][3] = 0x14;
+        gBgScrollRegs[0][1] = 0;
+        state->strc0.unk0 = 0;
+        state->strc0.unk2 = 1;
+        state->strc0.unk4 = 2;
+        state->strc0.unk6 = 0;
+        state->strc0.unk8 = 0x80;
+        state->strc0.unkA = 1;
+        return;
+    }
+    if ((0x336 - Div(0x2000, 0x80)) == temp_r5) {
+        state->strc0.unk0 = 0;
+        state->strc0.unk2 = 1;
+        state->strc0.unk4 = 1;
+        state->strc0.unk6 = 0;
+        state->strc0.unk8 = 0x80;
+        state->strc0.unkA = 1;
+    }
+    sub_805423C(&state->strc0);
+    state->unk38 = (s32)temp_r5;
+    temp_sb->unk3C = temp_r5;
+    sp0->unk3C = temp_r5;
+    sp4->unk3C = temp_r5;
+    temp_sl->unk3C = temp_r5;
 }

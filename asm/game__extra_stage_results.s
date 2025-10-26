@@ -8,149 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start Task_80679E4
-Task_80679E4: @ 0x080679E4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #8
-	ldr r1, _08067AA8 @ =gCurTask
-	ldr r0, [r1]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r4, r0, r1
-	ldr r0, [r4, #0xc]
-	ldrh r0, [r0, #6]
-	adds r0, r0, r1
-	mov sb, r0
-	ldr r0, [r4, #0x1c]
-	ldrh r0, [r0, #6]
-	adds r0, r0, r1
-	str r0, [sp]
-	ldr r0, [r4, #0x14]
-	ldrh r0, [r0, #6]
-	adds r0, r0, r1
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x18]
-	ldrh r0, [r0, #6]
-	adds r0, r0, r1
-	mov sl, r0
-	ldr r0, [r4, #0x38]
-	adds r5, r0, #1
-	adds r0, r5, #0
-	bl sub_80677C4
-	movs r7, #0
-	movs r0, #0
-	mov r8, r0
-	movs r0, #0x94
-	lsls r0, r0, #1
-	ldr r1, _08067AAC @ =gBgScrollRegs
-	strh r0, [r1, #2]
-	ldr r6, _08067AB0 @ =0x00000336
-	cmp r5, r6
-	bls _08067AC4
-	movs r5, #0
-	str r5, [r4, #0x38]
-	mov r0, sb
-	str r5, [r0, #0x3c]
-	ldr r0, [r4, #0x20]
-	bl TaskDestroy
-	ldr r0, [r4, #0x24]
-	bl TaskDestroy
-	ldr r0, [r4, #0x28]
-	bl TaskDestroy
-	ldr r0, [r4, #0x2c]
-	bl TaskDestroy
-	ldr r0, [r4, #0x1c]
-	bl TaskDestroy
-	ldr r0, [r4, #0x14]
-	bl TaskDestroy
-	ldr r0, [r4, #0x18]
-	bl TaskDestroy
-	ldr r1, [r4, #0xc]
-	ldr r0, _08067AB4 @ =sub_8068570
-	str r0, [r1, #8]
-	ldr r0, _08067AA8 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08067AB8 @ =sub_8067B14
-	str r0, [r1, #8]
-	ldr r0, _08067ABC @ =sa2__gUnknown_03004D80
-	strb r7, [r0]
-	ldr r1, _08067AC0 @ =sa2__gUnknown_03002280
-	strb r7, [r1]
-	strb r7, [r1, #1]
-	movs r0, #0xff
-	strb r0, [r1, #2]
-	movs r0, #0x14
-	strb r0, [r1, #3]
-	ldr r1, _08067AAC @ =gBgScrollRegs
-	strh r5, [r1, #2]
-	strh r5, [r4]
-	movs r1, #1
-	movs r0, #1
-	strh r0, [r4, #2]
-	movs r0, #2
-	strh r0, [r4, #4]
-	strh r5, [r4, #6]
-	movs r0, #0x80
-	strh r0, [r4, #8]
-	strb r1, [r4, #0xa]
-	b _08067B02
-	.align 2, 0
-_08067AA8: .4byte gCurTask
-_08067AAC: .4byte gBgScrollRegs
-_08067AB0: .4byte 0x00000336
-_08067AB4: .4byte sub_8068570
-_08067AB8: .4byte sub_8067B14
-_08067ABC: .4byte sa2__gUnknown_03004D80
-_08067AC0: .4byte sa2__gUnknown_03002280
-_08067AC4:
-	movs r0, #0x80
-	lsls r0, r0, #6
-	movs r1, #0x80
-	bl Div
-	subs r0, r6, r0
-	cmp r0, r5
-	bne _08067AEA
-	mov r0, r8
-	strh r0, [r4]
-	movs r1, #1
-	movs r0, #1
-	strh r0, [r4, #2]
-	strh r0, [r4, #4]
-	mov r0, r8
-	strh r0, [r4, #6]
-	movs r0, #0x80
-	strh r0, [r4, #8]
-	strb r1, [r4, #0xa]
-_08067AEA:
-	adds r0, r4, #0
-	bl sub_805423C
-	str r5, [r4, #0x38]
-	mov r1, sb
-	str r5, [r1, #0x3c]
-	ldr r0, [sp]
-	str r5, [r0, #0x3c]
-	ldr r1, [sp, #4]
-	str r5, [r1, #0x3c]
-	mov r0, sl
-	str r5, [r0, #0x3c]
-_08067B02:
-	add sp, #8
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
-	thumb_func_start sub_8067B14
-sub_8067B14: @ 0x08067B14
+	thumb_func_start Task_8067B14
+Task_8067B14: @ 0x08067B14
 	push {r4, r5, r6, r7, lr}
 	ldr r3, _08067B5C @ =gCurTask
 	ldr r0, [r3]
@@ -1463,8 +1322,8 @@ Task_806856C: @ 0x0806856C
 	bx lr
 	.align 2, 0
 
-	thumb_func_start sub_8068570
-sub_8068570: @ 0x08068570
+	thumb_func_start Task_8068570
+Task_8068570: @ 0x08068570
 	push {r4, r5, lr}
 	ldr r0, _080685B8 @ =gCurTask
 	ldr r0, [r0]
