@@ -46,16 +46,20 @@ void sub_80677C4(s32 i);
 void Task_8067824(void);
 void sub_8067928(void);
 void Task_80679E4(void);
-void Task_8067B14(void);
+void Task_8067B9C(void);
+void Task_8067C24(void);
 void Task_8067F38(void);
+void Task_8067F9C(void);
 void Task_806806C(void);
 void Task_8068148(void);
 void Task_8068214(void);
 void Task_8068360(void);
 void Task_nullsub_8068448(void);
 void sub_806853C(void);
-void Task_806856C(void);
 void Task_8068570(void);
+void Task_80685C8(void);
+void Task_8067B14(void);
+void Task_806856C(void);
 void Task_8068620(void);
 void Task_8068624(void);
 void Task_8068628(void);
@@ -555,20 +559,104 @@ void Task_80679E4()
         state->strc0.unk6 = 0;
         state->strc0.unk8 = 0x80;
         state->strc0.unkA = 1;
-        return;
+    } else {
+        if ((0x336 - Div(0x2000, 0x80)) == temp_r5) {
+            state->strc0.unk0 = 0;
+            state->strc0.unk2 = 1;
+            state->strc0.unk4 = 1;
+            state->strc0.unk6 = 0;
+            state->strc0.unk8 = 0x80;
+            state->strc0.unkA = 1;
+        }
+        sub_805423C(&state->strc0);
+        state->unk38 = (s32)temp_r5;
+        temp_sb->unk3C = temp_r5;
+        sp0->unk3C = temp_r5;
+        sp4->unk3C = temp_r5;
+        temp_sl->unk3C = temp_r5;
     }
-    if ((0x336 - Div(0x2000, 0x80)) == temp_r5) {
+}
+
+void Task_8067B14()
+{
+    ExtraStageResults_64 *sp0;
+    ExtraStageResults_64 *sp4;
+    ExtraStageResults_64 *temp_sb;
+    ExtraStageResults_64 *temp_sl;
+    u32 temp_r5;
+
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    temp_sb = TASK_DATA(state->taskC);
+    sp0 = TASK_DATA(state->task1C);
+    sp4 = TASK_DATA(state->task14);
+    temp_sl = TASK_DATA(state->task18);
+    temp_r5 = state->unk38 + 1;
+    if (temp_r5 > 400) {
+        temp_r5 = 0;
+        state->unk38 = 0;
+        temp_sb->unk3C = 0U;
         state->strc0.unk0 = 0;
         state->strc0.unk2 = 1;
-        state->strc0.unk4 = 1;
+        state->strc0.unk4 = 2;
         state->strc0.unk6 = 0;
         state->strc0.unk8 = 0x80;
         state->strc0.unkA = 1;
+        state->taskC->main = Task_80685C8;
+        gCurTask->main = Task_8067B9C;
+    } else {
+        if ((400 - Div(0x2000, 0x80)) == temp_r5) {
+            state->strc0.unk0 = 0;
+            state->strc0.unk2 = 1;
+            state->strc0.unk4 = 1;
+            state->strc0.unk6 = 0;
+            state->strc0.unk8 = 0x80;
+            state->strc0.unkA = 1;
+        }
+        sub_805423C(&state->strc0);
+        state->unk38 = (s32)temp_r5;
+        temp_sb->unk3C = temp_r5;
     }
-    sub_805423C(&state->strc0);
-    state->unk38 = (s32)temp_r5;
-    temp_sb->unk3C = temp_r5;
-    sp0->unk3C = temp_r5;
-    sp4->unk3C = temp_r5;
-    temp_sl->unk3C = temp_r5;
+}
+
+void Task_8067B9C()
+{
+    ExtraStageResults_64 *sp0;
+    ExtraStageResults_64 *sp4;
+    ExtraStageResults_64 *temp_sb;
+    ExtraStageResults_64 *temp_sl;
+    u32 temp_r5;
+
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    temp_sb = TASK_DATA(state->taskC);
+    sp0 = TASK_DATA(state->task1C);
+    sp4 = TASK_DATA(state->task14);
+    temp_sl = TASK_DATA(state->task18);
+    temp_r5 = state->unk38 + 1;
+    if (temp_r5 > 400) {
+        temp_r5 = 0;
+        state->unk38 = 0;
+        temp_sb->unk3C = 0U;
+        state->strc0.unk0 = 0;
+        state->strc0.unk2 = 1;
+        state->strc0.unk4 = 2;
+        state->strc0.unk6 = 0;
+        state->strc0.unk8 = 0x80;
+        state->strc0.unkA = 1;
+        state->taskC->main = Task_8067F9C;
+        gCurTask->main = Task_8067C24;
+    } else {
+        if ((400 - Div(0x2000, 0x80)) == temp_r5) {
+            state->strc0.unk0 = 0;
+            state->strc0.unk2 = 1;
+            state->strc0.unk4 = 1;
+            state->strc0.unk6 = 0;
+            state->strc0.unk8 = 0x80;
+            state->strc0.unkA = 1;
+        }
+        sub_805423C(&state->strc0);
+        state->unk38 = (s32)temp_r5;
+        temp_sb->unk3C = temp_r5;
+    }
 }
