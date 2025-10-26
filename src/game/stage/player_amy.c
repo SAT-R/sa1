@@ -240,7 +240,7 @@ void Player_Amy_80495F0(Player *p)
 #ifndef NON_MATCHING
                 p->qSpeedGround = *(volatile s16 *)&p->qSpeedAirX;
 #else
-                p->qSpeedGround = qSpeed;
+                p->qSpeedGround = p->qSpeedAirX;
 #endif
                 p->SA2_LABEL(unk62) = 2;
 
