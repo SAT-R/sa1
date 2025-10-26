@@ -8,61 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start Task_8067F38
-Task_8067F38: @ 0x08067F38
-	ldr r0, _08067F94 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r2, r1, r0
-	ldr r1, [r2, #0x3c]
-	ldr r0, [r2, #0x40]
-	adds r0, #0x3c
-	cmp r0, r1
-	bhi _08067F92
-	ldr r0, [r2, #0x54]
-	adds r0, #0x55
-	str r0, [r2, #0x54]
-	ldr r1, _08067F98 @ =gBgScrollRegs
-	asrs r0, r0, #8
-	strh r0, [r1, #2]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0x47
-	ble _08067F66
-	movs r0, #0x47
-	strh r0, [r1, #2]
-_08067F66:
-	ldr r0, [r2, #0x58]
-	adds r0, #0x60
-	str r0, [r2, #0x58]
-	asrs r0, r0, #8
-	strh r0, [r1, #6]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0x50
-	ble _08067F7C
-	movs r0, #0x50
-	strh r0, [r1, #6]
-_08067F7C:
-	ldr r0, [r2, #0x5c]
-	adds r0, #0xc0
-	str r0, [r2, #0x5c]
-	asrs r0, r0, #8
-	strh r0, [r1, #0xa]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x10
-	cmp r0, #0xa0
-	ble _08067F92
-	movs r0, #0xa0
-	strh r0, [r1, #0xa]
-_08067F92:
-	bx lr
-	.align 2, 0
-_08067F94: .4byte gCurTask
-_08067F98: .4byte gBgScrollRegs
-
 	thumb_func_start Task_8067F9C
 Task_8067F9C: @ 0x08067F9C
 	push {r4, lr}

@@ -21,9 +21,9 @@ typedef struct ExtraStageResults_64 {
     s32 unk48;
     s32 unk4C;
     s32 unk50;
-    s32 unk54;
-    s32 unk58;
-    s32 unk5C;
+    s32 qUnk54;
+    s32 qUnk58;
+    s32 qUnk5C;
     s32 unk60;
 } ExtraStageResults_64;
 
@@ -36,9 +36,9 @@ typedef struct ExtraStageResults_64_2 {
     s32 unk48;
     s32 unk4C;
     s32 unk50;
-    s32 unk54;
-    s32 unk58;
-    s32 unk5C;
+    s32 qUnk54;
+    s32 qUnk58;
+    s32 qUnk5C;
     s32 unk60;
 } ExtraStageResults_64_2;
 
@@ -196,7 +196,7 @@ void CreateExtraStageResults(void)
     s = &strc64->s;
     strc64->unk3C = 0;
     strc64->unk44 = 0xA000;
-    strc64->unk54 = 0xFFFFE000;
+    strc64->qUnk54 = 0xFFFFE000;
     s->graphics.dest = OBJ_VRAM0 + 0x2560;
     s->graphics.anim = SA1_ANIM_FINAL_CUTSCENE_SPARKLE_B;
     s->variant = 0;
@@ -217,7 +217,7 @@ void CreateExtraStageResults(void)
     s = &strc64->s;
     strc64->unk3C = 0;
     strc64->unk44 = 0x7800;
-    strc64->unk54 = 0x5A00;
+    strc64->qUnk54 = 0x5A00;
     s->graphics.dest = OBJ_VRAM0 + 0x440;
     s->graphics.anim = 0x325;
     s->variant = 1;
@@ -238,7 +238,7 @@ void CreateExtraStageResults(void)
     s = &strc64->s;
     strc64->unk3C = 0;
     strc64->unk44 = 0x7800;
-    strc64->unk54 = 0x5A00;
+    strc64->qUnk54 = 0x5A00;
     s->graphics.dest = OBJ_VRAM0 + 0x560;
     s->graphics.anim = SA1_ANIM_FINAL_CUTSCENE_TORNADO_SIDE;
     s->variant = 0;
@@ -259,11 +259,11 @@ void CreateExtraStageResults(void)
     s = &strc64->s;
     strc64->unk3C = 0;
     strc64->unk44 = 0x69;
-    strc64->unk54 = 0x11;
+    strc64->qUnk54 = 0x11;
     strc64->unk48 = 0x2F;
-    strc64->unk58 = 0x5F;
+    strc64->qUnk58 = 0x5F;
     strc64->unk4C = 0xD5;
-    strc64->unk5C = 0x45;
+    strc64->qUnk5C = 0x45;
     strc64->unk50 = 0xA8;
     strc64->unk60 = 0x5F;
     s->graphics.dest = OBJ_VRAM0 + 0x20;
@@ -288,34 +288,34 @@ void CreateExtraStageResults(void)
         s = &strc64->s;
         strc64->unk3C = 0;
         if (i2 == 0) {
-            strc64->unk54 = 0x3200;
+            strc64->qUnk54 = 0x3200;
             strc64->unk44 = 0x5000;
             strc64->unk48 = 0x80;
-            strc64->unk58 = i2;
+            strc64->qUnk58 = 0;
             s->graphics.dest = OBJ_VRAM0 + 0x6060;
             s->graphics.anim = 0x316;
             s->variant = 0;
         } else if (i2 == 1) {
-            strc64->unk54 = 0x6400;
+            strc64->qUnk54 = 0x6400;
             strc64->unk44 = 0x2800;
             strc64->unk48 = 0x40;
-            strc64->unk58 = 0U;
+            strc64->qUnk58 = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x61A0;
             s->graphics.anim = 791;
             s->variant = 0;
         } else if (i2 == 2) {
-            strc64->unk54 = 0x7800;
+            strc64->qUnk54 = 0x7800;
             strc64->unk44 = 0x7800;
             strc64->unk48 = 0x100;
-            strc64->unk58 = 0U;
+            strc64->qUnk58 = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x6440;
             s->graphics.anim = 792;
             s->variant = 0;
         } else {
-            strc64->unk54 = 0x1400;
+            strc64->qUnk54 = 0x1400;
             strc64->unk44 = 0xA000;
             strc64->unk48 = 0xC0;
-            strc64->unk58 = 0U;
+            strc64->qUnk58 = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x70A0;
             s->graphics.anim = 793;
             s->variant = 0;
@@ -338,11 +338,11 @@ void CreateExtraStageResults(void)
     strc64 = TASK_DATA(task64_4);
     s = &strc64->s;
     strc64->unk3C = 0;
-    strc64->unk54 = 0;
+    strc64->qUnk54 = 0;
     strc64->unk44 = 0;
-    strc64->unk58 = 0;
+    strc64->qUnk58 = 0;
     strc64->unk48 = 0;
-    strc64->unk5C = 0;
+    strc64->qUnk5C = 0;
     strc64->unk4C = 0;
     s->graphics.dest = OBJ_VRAM0 + 0xA0;
     if (LOADED_SAVE->uiLanguage != 0) {
@@ -848,5 +848,39 @@ void Task_8067E68()
         tasks[0]->unk3C = temp_r7 + 0x14B;
         tasks[1]->unk3C = temp_r7 + 0x14B;
         tasks[2]->unk3C = temp_r7 + 0x14B;
+    }
+}
+
+void Task_8067F38()
+{
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
+    s32 temp_r0_5;
+    s32 temp_r0_6;
+    u32 unk3C;
+
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+
+    unk3C = strc64->unk3C;
+    if ((strc64->unk40 + 60) <= unk3C) {
+        strc64->qUnk54 += Q(85. / 256.);
+        gBgScrollRegs[0][1] = I(strc64->qUnk54);
+        if (gBgScrollRegs[0][1] > 71) {
+            gBgScrollRegs[0][1] = 71;
+        }
+
+        strc64->qUnk58 += Q(96. / 256.);
+        gBgScrollRegs[1][1] = I(strc64->qUnk58);
+        if (gBgScrollRegs[1][1] > 80) {
+            gBgScrollRegs[1][1] = 80;
+        }
+
+        strc64->qUnk5C += Q(0.75);
+        gBgScrollRegs[2][1] = I(strc64->qUnk5C);
+        if (gBgScrollRegs[2][1] > 160) {
+            gBgScrollRegs[2][1] = 160;
+        }
     }
 }
