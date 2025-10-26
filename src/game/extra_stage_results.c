@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "game/credits.h"
 #include "game/gTask_03006240.h"
@@ -14,32 +15,22 @@
 
 typedef struct ExtraStageResults_64 {
     Sprite s;
-    u8 filler30[0xC];
-    s32 unk3C;
+    SpriteTransform transform;
+    u32 unk3C;
     s32 unk40;
-    s32 unk44;
-    s32 unk48;
-    s32 unk4C;
-    s32 unk50;
-    s32 qUnk54;
-    s32 qUnk58;
-    s32 qUnk5C;
-    s32 unk60;
+    // TODO: Could these be two 2x2 matrices?
+    s32 qUnk44[4];
+    s32 qUnk54[4];
 } ExtraStageResults_64;
 
 typedef struct ExtraStageResults_64_2 {
     Sprite s;
-    u8 filler30[0xC];
-    s16 unk3C;
+    SpriteTransform transform;
+    u16 unk3C;
     s32 unk40;
-    s32 unk44;
-    s32 unk48;
-    s32 unk4C;
-    s32 unk50;
-    s32 qUnk54;
-    s32 qUnk58;
-    s32 qUnk5C;
-    s32 unk60;
+    // TODO: Could these be two 2x2 matrices?
+    s32 qUnk44[4];
+    s32 qUnk54[4];
 } ExtraStageResults_64_2;
 
 typedef struct ExtraStageResults_164 {
@@ -195,13 +186,13 @@ void CreateExtraStageResults(void)
     strc64 = TASK_DATA(task64_0);
     s = &strc64->s;
     strc64->unk3C = 0;
-    strc64->unk44 = 0xA000;
-    strc64->qUnk54 = 0xFFFFE000;
+    strc64->qUnk44[0] = Q(160);
+    strc64->qUnk54[0] = -Q(32);
     s->graphics.dest = OBJ_VRAM0 + 0x2560;
     s->graphics.anim = SA1_ANIM_FINAL_CUTSCENE_SPARKLE_B;
     s->variant = 0;
-    s->x = 0xA000;
-    s->y = -0x2000;
+    s->x = Q(160); // NOTE: These shouldn't be Q()!
+    s->y = -Q(32); // NOTE: These shouldn't be Q()!
     s->oamFlags = SPRITE_OAM_ORDER(3);
     s->graphics.size = 0;
     s->animCursor = 0;
@@ -216,11 +207,11 @@ void CreateExtraStageResults(void)
     strc64 = TASK_DATA(task64_1);
     s = &strc64->s;
     strc64->unk3C = 0;
-    strc64->unk44 = 0x7800;
-    strc64->qUnk54 = 0x5A00;
+    strc64->qUnk44[0] = Q(DISPLAY_WIDTH / 2);
+    strc64->qUnk54[0] = Q((DISPLAY_HEIGHT / 2) + 10);
     s->graphics.dest = OBJ_VRAM0 + 0x440;
-    s->graphics.anim = 0x325;
-    s->variant = 1;
+    s->graphics.anim = SA1_END_CUTSCENE_PILOT_FACE;
+    s->variant = 1; // Tails
     s->x = (DISPLAY_WIDTH / 2);
     s->y = (DISPLAY_HEIGHT / 2);
     s->oamFlags = SPRITE_OAM_ORDER(3);
@@ -237,8 +228,8 @@ void CreateExtraStageResults(void)
     strc64 = TASK_DATA(task64_2);
     s = &strc64->s;
     strc64->unk3C = 0;
-    strc64->unk44 = 0x7800;
-    strc64->qUnk54 = 0x5A00;
+    strc64->qUnk44[0] = Q(DISPLAY_WIDTH / 2);
+    strc64->qUnk54[0] = Q((DISPLAY_HEIGHT / 2) + 10);
     s->graphics.dest = OBJ_VRAM0 + 0x560;
     s->graphics.anim = SA1_ANIM_FINAL_CUTSCENE_TORNADO_SIDE;
     s->variant = 0;
@@ -258,14 +249,14 @@ void CreateExtraStageResults(void)
     strc64 = TASK_DATA(task64_3);
     s = &strc64->s;
     strc64->unk3C = 0;
-    strc64->unk44 = 0x69;
-    strc64->qUnk54 = 0x11;
-    strc64->unk48 = 0x2F;
-    strc64->qUnk58 = 0x5F;
-    strc64->unk4C = 0xD5;
-    strc64->qUnk5C = 0x45;
-    strc64->unk50 = 0xA8;
-    strc64->unk60 = 0x5F;
+    strc64->qUnk44[0] = 105;
+    strc64->qUnk54[0] = 17;
+    strc64->qUnk44[1] = 47;
+    strc64->qUnk54[1] = 95;
+    strc64->qUnk44[2] = 213;
+    strc64->qUnk54[2] = 69;
+    strc64->qUnk44[3] = 168;
+    strc64->qUnk54[3] = 95;
     s->graphics.dest = OBJ_VRAM0 + 0x20;
     s->graphics.anim = 731;
     s->variant = 0;
@@ -288,34 +279,34 @@ void CreateExtraStageResults(void)
         s = &strc64->s;
         strc64->unk3C = 0;
         if (i2 == 0) {
-            strc64->qUnk54 = 0x3200;
-            strc64->unk44 = 0x5000;
-            strc64->unk48 = 0x80;
-            strc64->qUnk58 = 0;
+            strc64->qUnk54[0] = 0x3200;
+            strc64->qUnk44[0] = 0x5000;
+            strc64->qUnk44[1] = 0x80;
+            strc64->qUnk54[1] = 0;
             s->graphics.dest = OBJ_VRAM0 + 0x6060;
             s->graphics.anim = 0x316;
             s->variant = 0;
         } else if (i2 == 1) {
-            strc64->qUnk54 = 0x6400;
-            strc64->unk44 = 0x2800;
-            strc64->unk48 = 0x40;
-            strc64->qUnk58 = 0U;
+            strc64->qUnk54[0] = 0x6400;
+            strc64->qUnk44[0] = 0x2800;
+            strc64->qUnk44[1] = 0x40;
+            strc64->qUnk54[1] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x61A0;
             s->graphics.anim = 791;
             s->variant = 0;
         } else if (i2 == 2) {
-            strc64->qUnk54 = 0x7800;
-            strc64->unk44 = 0x7800;
-            strc64->unk48 = 0x100;
-            strc64->qUnk58 = 0U;
+            strc64->qUnk54[0] = 0x7800;
+            strc64->qUnk44[0] = 0x7800;
+            strc64->qUnk44[1] = 0x100;
+            strc64->qUnk54[1] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x6440;
             s->graphics.anim = 792;
             s->variant = 0;
         } else {
-            strc64->qUnk54 = 0x1400;
-            strc64->unk44 = 0xA000;
-            strc64->unk48 = 0xC0;
-            strc64->qUnk58 = 0U;
+            strc64->qUnk54[0] = 0x1400;
+            strc64->qUnk44[0] = 0xA000;
+            strc64->qUnk44[1] = 0xC0;
+            strc64->qUnk54[1] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x70A0;
             s->graphics.anim = 793;
             s->variant = 0;
@@ -338,12 +329,12 @@ void CreateExtraStageResults(void)
     strc64 = TASK_DATA(task64_4);
     s = &strc64->s;
     strc64->unk3C = 0;
-    strc64->qUnk54 = 0;
-    strc64->unk44 = 0;
-    strc64->qUnk58 = 0;
-    strc64->unk48 = 0;
-    strc64->qUnk5C = 0;
-    strc64->unk4C = 0;
+    strc64->qUnk54[0] = 0;
+    strc64->qUnk44[0] = 0;
+    strc64->qUnk54[1] = 0;
+    strc64->qUnk44[1] = 0;
+    strc64->qUnk54[2] = 0;
+    strc64->qUnk44[2] = 0;
     s->graphics.dest = OBJ_VRAM0 + 0xA0;
     if (LOADED_SAVE->uiLanguage != 0) {
         s->graphics.anim = 0x30F;
@@ -865,20 +856,20 @@ void Task_8067F38()
 
     unk3C = strc64->unk3C;
     if ((strc64->unk40 + 60) <= unk3C) {
-        strc64->qUnk54 += Q(85. / 256.);
-        gBgScrollRegs[0][1] = I(strc64->qUnk54);
+        strc64->qUnk54[0] += Q(85. / 256.);
+        gBgScrollRegs[0][1] = I(strc64->qUnk54[0]);
         if (gBgScrollRegs[0][1] > 71) {
             gBgScrollRegs[0][1] = 71;
         }
 
-        strc64->qUnk58 += Q(96. / 256.);
-        gBgScrollRegs[1][1] = I(strc64->qUnk58);
+        strc64->qUnk54[1] += Q(96. / 256.);
+        gBgScrollRegs[1][1] = I(strc64->qUnk54[1]);
         if (gBgScrollRegs[1][1] > 80) {
             gBgScrollRegs[1][1] = 80;
         }
 
-        strc64->qUnk5C += Q(0.75);
-        gBgScrollRegs[2][1] = I(strc64->qUnk5C);
+        strc64->qUnk54[2] += Q(0.75);
+        gBgScrollRegs[2][1] = I(strc64->qUnk54[2]);
         if (gBgScrollRegs[2][1] > 160) {
             gBgScrollRegs[2][1] = 160;
         }
@@ -920,3 +911,202 @@ void Task_8068004()
     UpdateSpriteAnimation(&strc64->s);
     DisplaySprite(&strc64->s);
 }
+
+void Task_806806C()
+{
+    s32 temp_r4;
+    u8 remainder;
+    u8 whole;
+    s32 unk3C;
+    s32 *ptr;
+
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    temp_r4 = strc64->unk3C;
+    strc64->unk40 = strc64->unk40;
+    unk3C = strc64->unk3C;
+    if (unk3C > (u32)strc64->unk40) {
+        whole = Div(unk3C - strc64->unk40, 0x10);
+        remainder = Mod(unk3C - strc64->unk40, 0x10);
+
+        if (whole == 0 || whole == 2) {
+            if (whole == 2) {
+                whole = 3;
+            }
+            s = &strc64->s;
+            if (remainder == 0) {
+                s->prevVariant = -1;
+            }
+            s->x = strc64->qUnk44[whole];
+            s->y = strc64->qUnk54[whole];
+            UpdateSpriteAnimation(&strc64->s);
+            DisplaySprite(&strc64->s);
+        } else if (whole == 1) {
+            s = &strc64->s;
+            if (remainder == 0) {
+                s->prevVariant = 0xFF;
+            }
+
+            ptr = &strc64->qUnk44[1];
+            s->x = *ptr;
+            ptr = &strc64->qUnk54[1];
+            s->y = *ptr;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+
+            ptr = &strc64->qUnk44[2];
+            s->x = *ptr;
+            ptr = &strc64->qUnk54[2];
+            s->y = *ptr;
+            DisplaySprite(s);
+        }
+    }
+}
+
+void Task_8068148(void)
+{
+    u32 angle;
+
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    angle = strc64->unk3C;
+    if (angle == 0x78) {
+        s->graphics.anim = 0xBF;
+        s->variant = 0;
+        s->prevVariant = 0xFF;
+    } else if (angle == 0x1E0) {
+        s->graphics.anim = 0xBF;
+        s->variant = 1;
+        s->prevVariant = -1;
+    }
+    if ((u32)angle <= 0x257U) {
+        int index = (angle & 0xFF);
+        strc64->qUnk54[0] += SIN(index * 4) >> 9;
+    } else if (angle < 663) {
+        strc64->qUnk54[0] += Div(SIN((angle - 600) * 4), 0x1A);
+    } else {
+        strc64->qUnk44[0] = 0x8C00;
+    }
+    s->x = I(strc64->qUnk44[0]);
+    s->y = I(strc64->qUnk54[0]);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8068214()
+{
+    s16 temp_r0;
+    s16 temp_r4;
+    s32 temp_r1;
+    s32 temp_r2;
+    u32 angle;
+    s32 var_r0;
+    s32 val, val2;
+    SpriteTransform *tf;
+
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    tf = &strc64->transform;
+    angle = strc64->unk3C;
+    if ((u32)angle <= 0x257U) {
+        angle &= 0xFF;
+        val = (SIN(angle * 4) >> 9);
+        strc64->qUnk54[0] += val;
+        s->x = I(strc64->qUnk44[0]);
+        s->y = I(strc64->qUnk54[0]);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    } else if ((u32)angle <= 0x296U) {
+        val = Div(SIN((angle - 600) * 4), 0x1A);
+        strc64->qUnk54[0] += val;
+        s->x = I(strc64->qUnk44[0]);
+        s->y = I(strc64->qUnk54[0]);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    } else if ((u32)angle <= 0x2BBU) {
+        strc64->qUnk44[0] = 0xB400;
+        strc64->qUnk54[0] = 0xB400;
+        if (angle == 0x2BB) {
+            s->graphics.anim = 0x2DF;
+            s->variant = 0;
+            s->prevVariant = 0xFF;
+            s->frameFlags = 0x106B;
+            UpdateSpriteAnimation(s);
+        }
+    } else {
+        temp_r4 = SIN((0x3BB - angle) * 4);
+        strc64->qUnk54[0] += Div((s32)temp_r4, 36);
+        strc64->qUnk44[0] += Div((s32)temp_r4, 18);
+        temp_r2 = angle + 0xFFFFFD44;
+        tf->rotation = (s16)(0x3FF & ~(temp_r2 * 2));
+        tf->qScaleX = Q(1.5) - (temp_r2 * 3);
+        tf->qScaleY = Q(1.5) - (temp_r2 * 3);
+        tf->x = (s16)((s32)strc64->qUnk44[0] >> 8);
+        tf->y = (s16)((s32)strc64->qUnk54[0] >> 8);
+        s->x = (s16)((s32)strc64->qUnk44[0] >> 8);
+        s->y = (s16)((s32)strc64->qUnk54[0] >> 8);
+        TransformSprite(s, tf);
+        DisplaySprite(s);
+    }
+}
+
+void Task_8068360()
+{
+    s32 temp_r0;
+    s32 temp_r0_2;
+
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    strc64->qUnk44[0] += strc64->qUnk44[1];
+    if (strc64->qUnk44[0] > Q(272)) {
+        strc64->qUnk44[0] = -Q(120);
+    }
+    if (strc64->qUnk44[0] < -Q(120)) {
+        strc64->qUnk44[0] = Q(272);
+    }
+
+    strc64->qUnk54[0] += strc64->qUnk54[1];
+    if (strc64->qUnk54[0] > Q(172)) {
+        strc64->qUnk54[0] = -Q(16);
+    }
+    if (strc64->qUnk54[0] < -Q(16)) {
+        strc64->qUnk54[0] = Q(172);
+    }
+
+    strc64->s.x = I(strc64->qUnk44[0]);
+    strc64->s.y = I(strc64->qUnk54[0]);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_80683D8()
+{
+    s32 temp_r0;
+    s32 temp_r0_2;
+
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    strc64->qUnk44[0] += Q(8);
+    strc64->qUnk54[0] += Q(8);
+    strc64->qUnk44[0] += strc64->qUnk44[1];
+    if (strc64->qUnk44[0] > Q(272)) {
+        strc64->qUnk44[0] -= Q(300);
+    }
+
+    strc64->qUnk54[0] += strc64->qUnk54[1];
+    if (strc64->qUnk54[0] > Q(172)) {
+        strc64->qUnk54[0] -= Q(300);
+    }
+
+    strc64->s.x = I(strc64->qUnk44[0]);
+    strc64->s.y = I(strc64->qUnk54[0]);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_nullsub_8068448(void) { }
