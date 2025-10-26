@@ -263,7 +263,7 @@ _08067DD2:
 	str r0, [r1, #8]
 	ldr r0, _08067E60 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _08067E64 @ =sub_8067E68
+	ldr r0, _08067E64 @ =Task_8067E68
 	str r0, [r1, #8]
 _08067E32:
 	mov r0, sb
@@ -286,5 +286,5 @@ _08067E54: .4byte 0x06016E20
 _08067E58: .4byte 0x03000020
 _08067E5C: .4byte Task_8068004
 _08067E60: .4byte gCurTask
-_08067E64: .4byte sub_8067E68
+_08067E64: .4byte Task_8067E68
 .syntax divided

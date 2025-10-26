@@ -2,6 +2,7 @@
 #include "core.h"
 #include "flags.h"
 #include "lib/m4a/m4a.h"
+#include "game/credits.h"
 #include "game/gTask_03006240.h"
 #include "game/game_over.h"
 #include "game/save.h"
@@ -26,6 +27,21 @@ typedef struct ExtraStageResults_64 {
     s32 unk60;
 } ExtraStageResults_64;
 
+typedef struct ExtraStageResults_64_2 {
+    Sprite s;
+    u8 filler30[0xC];
+    s16 unk3C;
+    s32 unk40;
+    s32 unk44;
+    s32 unk48;
+    s32 unk4C;
+    s32 unk50;
+    s32 unk54;
+    s32 unk58;
+    s32 unk5C;
+    s32 unk60;
+} ExtraStageResults_64_2;
+
 typedef struct ExtraStageResults_164 {
     Sprite s;
     s32 unk3C;
@@ -37,14 +53,14 @@ typedef struct ExtraStageResults_164 {
 } ExtraStageResults_164;
 
 typedef struct ExtraStageResultsState {
-    StrcUi_805423C strc0; // ExtraStageResults_64
-    struct Task *taskC; // ExtraStageResults_64
-    struct Task *task10; // ExtraStageResults_64
-    struct Task *task14; // ExtraStageResults_64
-    struct Task *task18; // ExtraStageResults_64
-    struct Task *task1C; // ExtraStageResults_64
-    struct Task *tasks20[4]; // ExtraStageResults_64
-    u8 filler30[8];
+    StrcUi_805423C strc0; // -> ExtraStageResults_64
+    struct Task *taskC; // -> ExtraStageResults_64
+    struct Task *task10; // -> ExtraStageResults_64
+    struct Task *task14; // -> ExtraStageResults_64
+    struct Task *task18; // -> ExtraStageResults_64
+    struct Task *task1C; // -> ExtraStageResults_64
+    struct Task *tasks20[3]; // -> ExtraStageResults_64
+    struct Task *tasks2C[3]; // -> ExtraStageResults_64_2
     s32 unk38;
     s32 unk3C;
     u8 unk40;
@@ -627,6 +643,7 @@ void Task_8067B14()
             state->strc0.unk8 = 0x80;
             state->strc0.unkA = 1;
         }
+
         sub_805423C(&state->strc0);
         state->unk38 = (s32)temp_r5;
         temp_sb->unk3C = temp_r5;
@@ -669,6 +686,7 @@ void Task_8067B9C()
             state->strc0.unk8 = 0x80;
             state->strc0.unkA = 1;
         }
+
         sub_805423C(&state->strc0);
         state->unk38 = (s32)temp_r5;
         temp_sb->unk3C = temp_r5;
@@ -791,3 +809,44 @@ NONMATCH("asm/non_matching/game/extra_stage_results__Task_8067C24.inc", void Tas
     sp14->unk3C = sp10;
 }
 END_NONMATCH
+
+void Task_8067E68()
+{
+    ExtraStageResults_64_2 *tasks[3];
+    ExtraStageResults_64 *temp_r8;
+    s16 temp_r1;
+    s32 temp_r7;
+    u32 temp_r5;
+
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    temp_r8 = TASK_DATA(state->taskC);
+    tasks[0] = TASK_DATA(state->tasks2C[0]);
+    tasks[1] = TASK_DATA(state->tasks2C[1]);
+    tasks[2] = TASK_DATA(state->tasks2C[2]);
+    temp_r7 = state->unk38;
+    temp_r5 = temp_r7 + 1;
+    if (temp_r5 > 0x190U) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        sa2__gUnknown_03005390 = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        CreateStaffCredits();
+        return;
+    } else {
+        if ((0x190 - Div(0x2000, 0x80)) == temp_r5) {
+            state->strc0.unk0 = 0;
+            state->strc0.unk2 = 1;
+            state->strc0.unk4 = 1;
+            state->strc0.unk6 = 0;
+            state->strc0.unk8 = 0x80;
+            state->strc0.unkA = 1;
+        }
+        sub_805423C(&state->strc0);
+        state->unk38 = (s32)temp_r5;
+        temp_r8->unk3C = temp_r5;
+        tasks[0]->unk3C = temp_r7 + 0x14B;
+        tasks[1]->unk3C = temp_r7 + 0x14B;
+        tasks[2]->unk3C = temp_r7 + 0x14B;
+    }
+}
