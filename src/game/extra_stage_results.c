@@ -41,7 +41,7 @@ typedef struct ExtraStageResults_64_2 {
 
 typedef struct ExtraStageResults_164 {
     Sprite s;
-    u8 filler30[0xC];
+    SpriteTransform transform;
     u16 unk3C;
     s32 unk40;
     s32 unk44;
@@ -102,6 +102,10 @@ void Task_806862C(void);
 
 extern const u16 gUnknown_0868B3F8[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B408[NUM_CHARACTERS][2];
+extern const u16 gUnknown_0868B458[NUM_CHARACTERS][2];
+extern const u16 gUnknown_0868B468[NUM_CHARACTERS][2];
+extern const u16 gUnknown_0868B478[NUM_CHARACTERS][2];
+extern const s8 gUnknown_0868B488[2][NUM_CHARACTERS][2];
 extern const s8 gUnknown_0868B498[8][2];
 extern const u16 gUnknown_0868B4A8[NUM_CHARACTERS][2];
 extern const s16 gUnknown_0868B4B8[2];
@@ -133,6 +137,84 @@ static inline void sub_80684F4__inline(s32 comp)
     } else if (comp == 30) {
         state->unk3C = CreateStageResults((u32)gRingCount, gCourseTime);
         return;
+    }
+}
+
+void Task_8066768()
+{
+    SpriteTransform *tf;
+    s32 temp_r0;
+    s16 temp_r0_2;
+    s16 temp_r0_3;
+    s32 var_r1;
+    u16 unk3C;
+    u16 var_r0;
+    void *temp_r2;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    tf = &strc164->transform;
+    unk3C = strc164->unk3C;
+    if (unk3C == 1) {
+        s->graphics.anim = gUnknown_0868B458[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B458[gSelectedCharacter][1];
+        s->prevVariant = -1;
+    } else if (unk3C == 0xF0) {
+        s->graphics.anim = gUnknown_0868B468[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B468[gSelectedCharacter][1];
+        s->prevVariant = -1;
+        strc164->unk4C = -0x400;
+    }
+    if ((u32)unk3C > 0x12BU) {
+        if (unk3C == 0x12C) {
+            s->graphics.anim = gUnknown_0868B478[gSelectedCharacter][0];
+            s->variant = gUnknown_0868B478[gSelectedCharacter][1];
+            s->prevVariant = -1;
+            tf->rotation = 0;
+            temp_r0 = Div(Q(7), 10);
+            tf->qScaleX = temp_r0;
+            tf->qScaleY = temp_r0;
+            tf->x = (s16)(u16)s->x;
+            tf->y = (s16)(u16)s->y;
+        }
+        strc164->unk4C += 0x1E;
+        strc164->unk48 += strc164->unk4C;
+    } else {
+        strc164->unk48 += (SIN_24_8(((unk3C % 256u) * 4)) >> 0x2);
+    }
+
+    s->y = I(strc164->unk48);
+
+    if (unk3C >= 300) {
+        if (unk3C == 300) {
+            tf->x = tf->x - gUnknown_0868B488[0][gSelectedCharacter][0];
+            tf->y = s->y - gUnknown_0868B488[0][gSelectedCharacter][0];
+        } else if (unk3C == 301) {
+            tf->x = gUnknown_0868B488[1][gSelectedCharacter][0] + (SIN_24_8(44) >> 6) + tf->x;
+            tf->y = gUnknown_0868B488[1][gSelectedCharacter][0] + s->y;
+        } else {
+            tf->x = (SIN(((unk3C - 300) * 12) + 0x20) >> 12) + (u16)tf->x;
+            tf->y = (u16)s->y;
+        }
+
+        tf->qScaleX += Q(4. / 256.);
+        if (tf->qScaleX > Q(1.5)) {
+            tf->qScaleX = Q(1.5);
+        }
+
+        tf->qScaleY += Q(4. / 256.);
+        if (tf->qScaleY > Q(1.5)) {
+            tf->qScaleY = Q(1.5);
+        }
+        s->frameFlags = 0x1061;
+        TransformSprite(s, tf);
+    } else {
+        s->frameFlags = 0x1000;
+    }
+    UpdateSpriteAnimation(s);
+    if (unk3C <= 360) {
+        DisplaySprite(s);
     }
 }
 
@@ -278,7 +360,6 @@ void Task_8066C78_164()
         if ((unk3C + var_r8) & 0xF) {
             temp_r2 = var_r8 * 2;
             strc164->unkD6[var_r8] -= 0x10;
-            var_r2 = &strc164->filler30[0xC];
         } else {
             s32 rnd2;
             temp_r0_3 = PseudoRandom32();
@@ -1186,7 +1267,7 @@ NONMATCH("asm/non_matching/game/extra_stage_results__Task_8067C24.inc", void Tas
             s->graphics.size = 0;
             s->animCursor = 0;
             s->qAnimDelay = 0;
-            s->prevVariant = 0xFF;
+            s->prevVariant = -1;
             s->animSpeed = 0x10;
             s->palId = 0;
             s->hitboxes[0].index = -1;
@@ -1346,7 +1427,7 @@ void Task_806806C()
         } else if (whole == 1) {
             s = &strc64->s;
             if (remainder == 0) {
-                s->prevVariant = 0xFF;
+                s->prevVariant = -1;
             }
 
             ptr = &strc64->qUnk44[1];
@@ -1376,7 +1457,7 @@ void Task_8068148(void)
     if (angle == 0x78) {
         s->graphics.anim = 0xBF;
         s->variant = 0;
-        s->prevVariant = 0xFF;
+        s->prevVariant = -1;
     } else if (angle == 0x1E0) {
         s->graphics.anim = 0xBF;
         s->variant = 1;
@@ -1430,7 +1511,7 @@ void Task_8068214()
         if (angle == 0x2BB) {
             s->graphics.anim = 0x2DF;
             s->variant = 0;
-            s->prevVariant = 0xFF;
+            s->prevVariant = -1;
             s->frameFlags = 0x106B;
             UpdateSpriteAnimation(s);
         }
