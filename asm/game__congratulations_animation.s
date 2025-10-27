@@ -152,7 +152,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	strh r4, [r0, #6]
 	strh r4, [r0, #8]
 	strh r4, [r0, #0xa]
-	ldr r0, _08065CC4 @ =Task_8066DD0
+	ldr r0, _08065CC4 @ =Task_8066DD0_164
 	str r4, [sp]
 	movs r1, #0xb2
 	lsls r1, r1, #1
@@ -224,7 +224,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	movs r0, #0xa0
 	lsls r0, r0, #7
 	str r0, [r7, #0x48]
-	ldr r0, _08065CE4 @ =Task_8066E58
+	ldr r0, _08065CE4 @ =Task_8066E58_164
 	str r4, [sp]
 	movs r1, #0xb2
 	lsls r1, r1, #1
@@ -301,7 +301,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	movs r6, #0xd8
 	lsls r6, r6, #7
 	str r6, [r7, #0x48]
-	ldr r0, _08065CF4 @ =Task_8066F14
+	ldr r0, _08065CF4 @ =Task_8066F14_164
 	str r4, [sp]
 	movs r1, #0xb2
 	lsls r1, r1, #1
@@ -359,7 +359,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	str r1, [r7, #0x40]
 	str r4, [r7, #0x4c]
 	str r6, [r7, #0x48]
-	ldr r0, _08065CFC @ =sub_8066A5C
+	ldr r0, _08065CFC @ =Task_8066A5C_164
 	str r4, [sp]
 	movs r1, #0xb2
 	lsls r1, r1, #1
@@ -426,7 +426,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	adds r5, r5, r1
 	movs r2, #0
 	strb r2, [r5]
-	ldr r0, _08065D08 @ =Task_8067020
+	ldr r0, _08065D08 @ =Task_8067020_164
 	str r4, [sp]
 	movs r1, #0xb2
 	lsls r1, r1, #1
@@ -491,7 +491,7 @@ CreateCongratulationsAnimation: @ 0x08065884
 	str r3, [r7, #0x10]
 	adds r0, r7, #0
 	bl UpdateSpriteAnimation
-	ldr r0, _08065D14 @ =sub_8066C78
+	ldr r0, _08065D14 @ =Task_8066C78_164
 	str r4, [sp]
 	movs r1, #0xb2
 	lsls r1, r1, #1
@@ -520,7 +520,7 @@ _08065CB4: .4byte 0x00009D86
 _08065CB8: .4byte 0x00001B8B
 _08065CBC: .4byte 0x00009880
 _08065CC0: .4byte gBgScrollRegs
-_08065CC4: .4byte Task_8066DD0
+_08065CC4: .4byte Task_8066DD0_164
 _08065CC8: .4byte 0x00002120
 _08065CCC: .4byte 0x06010020
 _08065CD0: .4byte gUnknown_0868B3D8
@@ -528,19 +528,19 @@ _08065CD4: .4byte gSelectedCharacter
 _08065CD8: .4byte 0x03000020
 _08065CDC: .4byte 0x03000022
 _08065CE0: .4byte 0x03000025
-_08065CE4: .4byte Task_8066E58
+_08065CE4: .4byte Task_8066E58_164
 _08065CE8: .4byte 0x06017D00
 _08065CEC: .4byte gUnknown_0868B3F8
 _08065CF0: .4byte 0x03000021
-_08065CF4: .4byte Task_8066F14
+_08065CF4: .4byte Task_8066F14_164
 _08065CF8: .4byte 0x06010BA0
-_08065CFC: .4byte sub_8066A5C
+_08065CFC: .4byte Task_8066A5C_164
 _08065D00: .4byte 0x06010940
 _08065D04: .4byte 0x0300015C
-_08065D08: .4byte Task_8067020
+_08065D08: .4byte Task_8067020_164
 _08065D0C: .4byte 0x06014020
 _08065D10: .4byte gUnknown_0868B3E8
-_08065D14: .4byte sub_8066C78
+_08065D14: .4byte Task_8066C78_164
 _08065D18:
 	bl TaskCreate
 	mov sl, r0
@@ -613,7 +613,7 @@ _08065D18:
 	mov r8, r7
 _08065DA6:
 	str r4, [sp]
-	ldr r0, _08065E00 @ =Task_nullsub_8066DC8
+	ldr r0, _08065E00 @ =Task_nullsub_8066DC8_164
 	movs r1, #0xb2
 	lsls r1, r1, #1
 	ldr r2, _08065E04 @ =0x00002120
@@ -650,7 +650,7 @@ _08065DF0: .4byte 0x03000021
 _08065DF4: .4byte 0x03000022
 _08065DF8: .4byte 0x03000025
 _08065DFC: .4byte 0x00000311
-_08065E00: .4byte Task_nullsub_8066DC8
+_08065E00: .4byte Task_nullsub_8066DC8_164
 _08065E04: .4byte 0x00002120
 _08065E08: .4byte 0x06011AA0
 _08065E0C:
@@ -707,7 +707,7 @@ _08065E38:
 	lsrs r5, r0, #0x18
 	cmp r5, #2
 	bls _08065DA6
-	ldr r0, _08065F3C @ =sub_8065F5C
+	ldr r0, _08065F3C @ =Task_8065F5C_48
 	movs r2, #0x84
 	lsls r2, r2, #6
 	movs r4, #0
@@ -801,7 +801,7 @@ _08065E38:
 	.align 2, 0
 _08065F34: .4byte 0x06012820
 _08065F38: .4byte 0x03000020
-_08065F3C: .4byte sub_8065F5C
+_08065F3C: .4byte Task_8065F5C_48
 _08065F40: .4byte 0x03000040
 _08065F44: .4byte 0x03000042
 _08065F48: .4byte 0x03000044
@@ -810,8 +810,8 @@ _08065F50: .4byte gUnknown_086BBE34
 _08065F54: .4byte gUnknown_086BBC34
 _08065F58: .4byte gUnknown_086BE7B4
 
-	thumb_func_start sub_8065F5C
-sub_8065F5C: @ 0x08065F5C
+	thumb_func_start Task_8065F5C_48
+Task_8065F5C_48: @ 0x08065F5C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1052,7 +1052,7 @@ _08066124:
 	str r0, [r1, #8]
 	ldr r0, _080661A0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080661A4 @ =sub_80661A8
+	ldr r0, _080661A4 @ =Task_80661A8_48
 	str r0, [r1, #8]
 _08066154:
 	adds r0, r5, #0
@@ -1085,10 +1085,10 @@ _08066194: .4byte Task_8066F30
 _08066198: .4byte sub_8066628
 _0806619C: .4byte Task_nullsub_8067050
 _080661A0: .4byte gCurTask
-_080661A4: .4byte sub_80661A8
+_080661A4: .4byte Task_80661A8_48
 
-	thumb_func_start sub_80661A8
-sub_80661A8: @ 0x080661A8
+	thumb_func_start Task_80661A8_48
+Task_80661A8_48: @ 0x080661A8
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1197,7 +1197,7 @@ _0806625E:
 	str r0, [r1, #8]
 	ldr r0, _080662A4 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _080662CC @ =sub_80662D0
+	ldr r0, _080662CC @ =Task_80662D0_48
 	str r0, [r1, #8]
 _08066282:
 	mov r1, sb
@@ -1227,10 +1227,10 @@ _080662BC: .4byte sub_80683D8
 _080662C0: .4byte Task_8066EBC
 _080662C4: .4byte Task_8066F90
 _080662C8: .4byte Task_8066DF4
-_080662CC: .4byte sub_80662D0
+_080662CC: .4byte Task_80662D0_48
 
-	thumb_func_start sub_80662D0
-sub_80662D0: @ 0x080662D0
+	thumb_func_start Task_80662D0_48
+Task_80662D0_48: @ 0x080662D0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1278,7 +1278,7 @@ sub_80662D0: @ 0x080662D0
 	str r0, [r6, #8]
 	ldr r0, _08066364 @ =Task_80666E0
 	str r0, [r7, #8]
-	ldr r0, _08066368 @ =Task_806636C
+	ldr r0, _08066368 @ =Task_806636C_48
 	mov r1, ip
 	str r0, [r1, #8]
 _08066334:
@@ -1303,10 +1303,10 @@ _08066358: .4byte Task_8068360
 _0806635C: .4byte Task_80669A0
 _08066360: .4byte Task_8066FDC
 _08066364: .4byte Task_80666E0
-_08066368: .4byte Task_806636C
+_08066368: .4byte Task_806636C_48
 
-	thumb_func_start Task_806636C
-Task_806636C: @ 0x0806636C
+	thumb_func_start Task_806636C_48
+Task_806636C_48: @ 0x0806636C
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -1404,7 +1404,7 @@ sub_80663EC: @ 0x080663EC
 	adds r3, r0, #1
 	cmp r3, #0x3c
 	bne _08066430
-	ldr r0, _08066468 @ =sub_8066BA4
+	ldr r0, _08066468 @ =Task_8066BA4
 	str r0, [r5, #8]
 _08066430:
 	cmp r3, #0xc8
@@ -1435,7 +1435,7 @@ _08066444:
 	bx r0
 	.align 2, 0
 _08066464: .4byte gCurTask
-_08066468: .4byte sub_8066BA4
+_08066468: .4byte Task_8066BA4
 _0806646C: .4byte Task_8067054
 _08066470: .4byte sub_8066478
 _08066474: .4byte 0x000003FF
@@ -2173,8 +2173,8 @@ _08066A50: .4byte 0x03000020
 _08066A54: .4byte 0x03000021
 _08066A58: .4byte gSineTable
 
-	thumb_func_start sub_8066A5C
-sub_8066A5C: @ 0x08066A5C
+	thumb_func_start Task_8066A5C_164
+Task_8066A5C_164: @ 0x08066A5C
 	push {r4, r5, lr}
 	ldr r0, _08066AB8 @ =gCurTask
 	ldr r0, [r0]
@@ -2332,224 +2332,6 @@ _08066B94: .4byte 0x03000050
 _08066B98: .4byte gSineTable
 _08066B9C: .4byte 0x030000D6
 _08066BA0: .4byte gUnknown_0868B498
-
-	thumb_func_start sub_8066BA4
-sub_8066BA4: @ 0x08066BA4
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	ldr r0, _08066C60 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r4, r0
-	mov sb, r6
-	ldrh r1, [r6, #0x3c]
-	ldr r0, _08066C64 @ =0x0300015C
-	adds r5, r4, r0
-	ldrb r0, [r5]
-	adds r0, #1
-	strb r0, [r5]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0x3f
-	ble _08066BD2
-	movs r0, #0
-	strb r0, [r5]
-_08066BD2:
-	adds r0, r1, #0
-	movs r1, #0x40
-	bl Mod
-	movs r1, #0
-	ldrsb r1, [r5, r1]
-	lsls r1, r1, #1
-	ldr r3, _08066C68 @ =0x03000050
-	adds r2, r4, r3
-	adds r2, r2, r1
-	ldr r1, _08066C6C @ =gSineTable
-	lsls r0, r0, #4
-	adds r0, r0, r1
-	ldrh r1, [r0]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x1a
-	strh r1, [r2]
-	movs r0, #0
-	ldrsb r0, [r5, r0]
-	lsls r0, r0, #1
-	ldr r2, _08066C70 @ =0x030000D6
-	adds r4, r4, r2
-	adds r0, r4, r0
-	strh r1, [r0]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	movs r5, #0
-	adds r7, r4, #0
-	ldr r4, _08066C74 @ =gUnknown_0868B498
-	adds r3, r4, #1
-	mov r8, r3
-_08066C12:
-	lsls r2, r5, #1
-	adds r0, r2, r4
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	adds r0, #0xbc
-	strh r0, [r6, #0x16]
-	movs r1, #0xae
-	lsls r1, r1, #1
-	add r1, sb
-	lsls r0, r5, #3
-	ldrb r1, [r1]
-	adds r0, r0, r1
-	movs r1, #0x3f
-	ands r0, r1
-	add r2, r8
-	movs r1, #0
-	ldrsb r1, [r2, r1]
-	lsls r0, r0, #1
-	adds r0, r7, r0
-	ldrh r0, [r0]
-	adds r0, #0x50
-	adds r1, r1, r0
-	strh r1, [r6, #0x18]
-	adds r0, r6, #0
-	bl DisplaySprite
-	adds r0, r5, #1
-	lsls r0, r0, #0x18
-	lsrs r5, r0, #0x18
-	cmp r5, #7
-	bls _08066C12
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08066C60: .4byte gCurTask
-_08066C64: .4byte 0x0300015C
-_08066C68: .4byte 0x03000050
-_08066C6C: .4byte gSineTable
-_08066C70: .4byte 0x030000D6
-_08066C74: .4byte gUnknown_0868B498
-
-	thumb_func_start sub_8066C78
-sub_8066C78: @ 0x08066C78
-	push {r4, r5, r6, r7, lr}
-	mov r7, sl
-	mov r6, sb
-	mov r5, r8
-	push {r5, r6, r7}
-	sub sp, #4
-	ldr r0, _08066CDC @ =gCurTask
-	ldr r0, [r0]
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	adds r7, r6, #0
-	ldrh r0, [r6, #0x3c]
-	adds r0, #1
-	strh r0, [r6, #0x3c]
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	str r0, [sp]
-	ldr r0, _08066CE0 @ =0x03000021
-	adds r1, r1, r0
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r0, r6, #0
-	bl UpdateSpriteAnimation
-	movs r1, #0
-	mov r8, r1
-	ldr r0, _08066CE4 @ =gPseudoRandom
-	mov sb, r0
-	ldr r1, _08066CE8 @ =0x3C6EF35F
-	mov sl, r1
-_08066CB8:
-	ldr r0, [sp]
-	add r0, r8
-	movs r1, #0xf
-	ands r0, r1
-	cmp r0, #0
-	beq _08066CEC
-	mov r0, r8
-	lsls r2, r0, #1
-	adds r3, r7, #0
-	adds r3, #0xd6
-	adds r1, r3, r2
-	ldrh r0, [r1]
-	subs r0, #0x10
-	strh r0, [r1]
-	adds r4, r2, #0
-	adds r2, r7, #0
-	adds r2, #0x50
-	b _08066D2E
-	.align 2, 0
-_08066CDC: .4byte gCurTask
-_08066CE0: .4byte 0x03000021
-_08066CE4: .4byte gPseudoRandom
-_08066CE8: .4byte 0x3C6EF35F
-_08066CEC:
-	mov r1, sb
-	ldr r0, [r1]
-	ldr r1, _08066D60 @ =0x00196225
-	muls r0, r1, r0
-	add r0, sl
-	mov r1, sb
-	str r0, [r1]
-	movs r1, #0x28
-	bl Mod
-	mov r1, r8
-	lsls r4, r1, #1
-	adds r5, r7, #0
-	adds r5, #0xd6
-	adds r1, r5, r4
-	adds r0, #0x8c
-	strh r0, [r1]
-	mov r1, sb
-	ldr r0, [r1]
-	ldr r1, _08066D60 @ =0x00196225
-	muls r0, r1, r0
-	add r0, sl
-	mov r1, sb
-	str r0, [r1]
-	movs r1, #0xdc
-	bl Mod
-	adds r2, r7, #0
-	adds r2, #0x50
-	adds r1, r2, r4
-	adds r0, #0x14
-	strh r0, [r1]
-	adds r3, r5, #0
-_08066D2E:
-	adds r0, r2, r4
-	ldrh r0, [r0]
-	strh r0, [r6, #0x16]
-	adds r0, r3, r4
-	ldrh r0, [r0]
-	strh r0, [r6, #0x18]
-	adds r0, r6, #0
-	bl DisplaySprite
-	mov r0, r8
-	adds r0, #1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	mov r8, r0
-	cmp r0, #0xe
-	bls _08066CB8
-	add sp, #4
-	pop {r3, r4, r5}
-	mov r8, r3
-	mov sb, r4
-	mov sl, r5
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08066D60: .4byte 0x00196225
 
 .if 0
 .endif

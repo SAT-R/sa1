@@ -13,6 +13,12 @@
 
 #include "constants/animations.h"
 
+typedef struct CongratulationsAnim_48 {
+    u8 filler0[0x14];
+    struct Task *task14;
+    u8 filler18[0x30];
+} CongratulationsAnim_48;
+
 typedef struct ExtraStageResults_64 {
     Sprite s;
     SpriteTransform transform;
@@ -35,12 +41,20 @@ typedef struct ExtraStageResults_64_2 {
 
 typedef struct ExtraStageResults_164 {
     Sprite s;
-    s32 unk3C;
+    u8 filler30[0xC];
+    u16 unk3C;
     s32 unk40;
     s32 unk44;
     s32 unk48;
     s32 unk4C;
-    u8 filler30[0x134];
+    s16 unk50[15];
+    u8 filler6E[0x68];
+    s16 unkD6[15];
+    u8 fillerF4[0x54];
+    u16 unk148;
+    u8 filler14A[0x12];
+    s8 unk15C;
+    u8 filler15E[0x7];
 } ExtraStageResults_164;
 
 typedef struct ExtraStageResultsState {
@@ -86,6 +100,8 @@ void Task_8068624(void);
 void Task_8068628(void);
 void Task_806862C(void);
 
+extern const s8 gUnknown_0868B498[8][2];
+
 extern const u16 gUnknown_0868B4A8[NUM_CHARACTERS][2];
 extern const s16 gUnknown_0868B4B8[2];
 extern const s16 gUnknown_0868B4BE[2];
@@ -119,6 +135,80 @@ static inline void sub_80684F4__inline(s32 comp)
     }
 }
 
+void Task_8066BA4()
+{
+    s16 *temp_r4;
+    s32 temp_r1;
+    s32 temp_r2;
+    u8 *temp_r5;
+    u8 i;
+    s32 modRes;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    u16 unk3C = strc164->unk3C;
+
+    if (++strc164->unk15C > 63) {
+        strc164->unk15C = 0;
+    }
+
+    modRes = Mod(unk3C, 64);
+    strc164->unk50[strc164->unk15C] = SIN(modRes * 8) >> 10;
+    strc164->unkD6[strc164->unk15C] = SIN(modRes * 8) >> 10;
+    UpdateSpriteAnimation(s);
+
+    for (i = 0; i < 8; i++) {
+        s32 index;
+        s32 v;
+        s->x = gUnknown_0868B498[i][0] + 0xBC;
+        index = ((u8)strc164->unk15C + i * 8) & 0x3F;
+        s->y = gUnknown_0868B498[i][1] + (DISPLAY_HEIGHT / 2) + strc164->unkD6[index];
+        DisplaySprite(s);
+    }
+}
+
+void Task_8066C78_164()
+{
+    u32 unk3C;
+    s32 sp0;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
+    s32 temp_r2;
+    s32 var_r4;
+    u16 *temp_r1;
+    u16 temp_r0;
+    u8 *temp_r5;
+    u8 *var_r2;
+    u8 *var_r3;
+    u8 temp_r0_2;
+    u8 var_r8;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    unk3C = ++strc164->unk3C;
+    s->prevVariant = -1;
+    UpdateSpriteAnimation(s);
+    for (var_r8 = 0; var_r8 < 15; var_r8++) {
+        if ((unk3C + var_r8) & 0xF) {
+            temp_r2 = var_r8 * 2;
+            strc164->unkD6[var_r8] -= 0x10;
+            var_r2 = &strc164->filler30[0xC];
+        } else {
+            s32 rnd2;
+            temp_r0_3 = PseudoRandom32();
+            strc164->unkD6[var_r8] = Mod(temp_r0_3, 40) + 0x8C;
+            rnd2 = PseudoRandom32();
+            strc164->unk50[var_r8] = Mod(rnd2, 0xDC) + 0x14;
+            var_r3 = temp_r5;
+        }
+        s->x = strc164->unk50[var_r8];
+        s->y = strc164->unkD6[var_r8];
+        DisplaySprite(s);
+    }
+}
+
 void Task_8066D64()
 {
     u32 unk3C;
@@ -131,7 +221,7 @@ void Task_8066D64()
     if (unk3C > gUnknown_0868B4BE[strc64->qUnk44[0]]) {
         unk3C -= gUnknown_0868B4BE[strc64->qUnk44[0]];
         unk3C *= 3;
-        s->x = 120;
+        s->x = (DISPLAY_WIDTH / 2);
         s->y = 180 - unk3C;
         if (s->y < gUnknown_0868B4B8[strc64->qUnk44[0]]) {
             s->y = gUnknown_0868B4B8[strc64->qUnk44[0]];
@@ -141,11 +231,11 @@ void Task_8066D64()
     }
 }
 
-void Task_nullsub_8066DC8(void) { }
+void Task_nullsub_8066DC8_164(void) { ExtraStageResults_164 *strc164; }
 
 void Task_nullsub_8066DCC(void) { }
 
-void Task_8066DD0()
+void Task_8066DD0_164()
 {
     ExtraStageResults_64_2 *strc64 = TASK_DATA(gCurTask);
     Sprite *s = &strc64->s;
@@ -174,6 +264,7 @@ void Task_8066DF4()
     DisplaySprite(s);
 }
 
+// unused, inline?
 void sub_8066E34(void)
 {
     ExtraStageResults_64_2 *strc64 = TASK_DATA(gCurTask);
@@ -183,7 +274,7 @@ void sub_8066E34(void)
     DisplaySprite(s);
 }
 
-void Task_8066E58(void) { }
+void Task_8066E58_164(void) { }
 
 // Literally identical to Task_8066F30()
 void Task_8066E5C()
@@ -240,10 +331,10 @@ void Task_8066EBC()
     DisplaySprite(s);
 }
 
-void Task_8066F14(void)
+void Task_8066F14_164(void)
 {
-    ExtraStageResults_64_2 *strc64 = TASK_DATA(gCurTask);
-    Sprite *s = &strc64->s;
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
 
     UpdateSpriteAnimation(s);
 }
@@ -307,12 +398,12 @@ void Task_8066FDC(void)
     DisplaySprite(s);
 }
 
-void Task_8067020(void)
+void Task_8067020_164(void)
 {
-    ExtraStageResults_64_2 *strc64 = TASK_DATA(gCurTask);
-    Sprite *s = &strc64->s;
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
 
-    if (Mod(strc64->unk3C, 2) == 0) {
+    if (Mod(strc164->unk3C, 2) == 0) {
         gBgScrollRegs[0][1]++;
     }
 }
