@@ -100,8 +100,9 @@ void Task_8068624(void);
 void Task_8068628(void);
 void Task_806862C(void);
 
+extern const u16 gUnknown_0868B3F8[NUM_CHARACTERS][2];
+extern const u16 gUnknown_0868B408[NUM_CHARACTERS][2];
 extern const s8 gUnknown_0868B498[8][2];
-
 extern const u16 gUnknown_0868B4A8[NUM_CHARACTERS][2];
 extern const s16 gUnknown_0868B4B8[2];
 extern const s16 gUnknown_0868B4BE[2];
@@ -132,6 +133,89 @@ static inline void sub_80684F4__inline(s32 comp)
     } else if (comp == 30) {
         state->unk3C = CreateStageResults((u32)gRingCount, gCourseTime);
         return;
+    }
+}
+
+void Task_80669A0()
+{
+    u8 *var_r1;
+    s32 temp_r0;
+    u16 unk3C;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    unk3C = strc164->unk3C;
+    if (unk3C == 0x12C) {
+        if (strc164->unk50[0] != 0) {
+            s->graphics.anim = gUnknown_0868B408[gSelectedCharacter][0];
+            s->variant = gUnknown_0868B408[gSelectedCharacter][1];
+            s->prevVariant = -1;
+            strc164->unk50[0] = 0;
+        }
+    } else if (unk3C == 1) {
+        if (strc164->unk50[0] != 0) {
+            s->graphics.anim = gUnknown_0868B3F8[gSelectedCharacter][0];
+            s->variant = gUnknown_0868B3F8[gSelectedCharacter][1];
+            s->prevVariant = -1;
+            strc164->unk50[0] = 0;
+        }
+    }
+
+    strc164->unk48 += I(SIN((unk3C % 256u) * 4));
+    s->y = I(strc164->unk48);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8066A5C_164()
+{
+    s32 modRes;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    u16 unk3C = strc164->unk3C;
+
+    if (++strc164->unk15C > 63) {
+        strc164->unk15C = 0;
+    }
+
+    modRes = Mod(unk3C, 64);
+    strc164->unk50[strc164->unk15C] = SIN(modRes * 8) >> 10;
+    strc164->unkD6[strc164->unk15C] = SIN(modRes * 8) >> 10;
+}
+
+void sub_8066ACC()
+{
+    s16 *temp_r4;
+    s32 temp_r1;
+    s32 temp_r2;
+    u8 *temp_r5;
+    u8 i;
+    s32 modRes;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    u16 unk3C = strc164->unk3C;
+
+    if (++strc164->unk15C > 63) {
+        strc164->unk15C = 0;
+    }
+
+    modRes = Mod(unk3C, 64);
+    strc164->unk50[strc164->unk15C] = SIN(modRes * 8) >> 10;
+    strc164->unkD6[strc164->unk15C] = SIN(modRes * 8) >> 10;
+    UpdateSpriteAnimation(s);
+
+    for (i = 0; i < ARRAY_COUNT(gUnknown_0868B498); i++) {
+        s32 index;
+        s32 v = gUnknown_0868B498[i][0] + 0xF8;
+        s->x = v - unk3C;
+        index = ((u8)strc164->unk15C + i * 8) & 0x3F;
+        s->y = gUnknown_0868B498[i][1] + (DISPLAY_HEIGHT / 2) + strc164->unkD6[index];
+        DisplaySprite(s);
     }
 }
 
