@@ -24,10 +24,7 @@ typedef struct CongratulationsAnim_48 {
     struct Task *task24;
     struct Task *task28;
     struct Task *task2C;
-    struct Task *task30;
-    struct Task *task34;
-    struct Task *task38;
-    struct Task *task3C;
+    struct Task *tasks30[4]; // ExtraStageResults_64_2
     s16 unk40;
     u8 filler42[0x6];
 } CongratulationsAnim_48;
@@ -90,6 +87,14 @@ typedef struct ExtraStageResultsState {
 } ExtraStageResultsState; /* 0x54 */
 
 extern void Task_8066D64(void); // -> ExtraStageResults_164
+
+void sub_806844C(void);
+void sub_80684B4(void);
+void Task_8066E5C(void);
+void Task_8066F30(void);
+void Task_8066628(void);
+void Task_nullsub_8067050(void);
+void Task_80661A8_48(void);
 
 void Task_806636C_48(void);
 void sub_80683D8(void);
@@ -179,6 +184,108 @@ static inline void sub_80684F4__inline(s32 comp)
     }
 }
 
+void Task_8065F5C_48()
+{
+    struct Task *tasks[4];
+    ExtraStageResults_64_2 *sp14;
+    ExtraStageResults_64_2 *sp18;
+    ExtraStageResults_64_2 *sp1C;
+    ExtraStageResults_64_2 *temp_sl;
+    s16 var_r0;
+    s8 *temp_r3_2;
+    struct Task *t;
+    u16 temp_r3;
+    u32 var_r7;
+    u8 var_r6;
+    CongratulationsAnim_48 *state = TASK_DATA(gCurTask);
+
+    sp14 = TASK_DATA(state->taskC);
+    sp18 = TASK_DATA(state->task18);
+    sp1C = TASK_DATA(state->task1C);
+    temp_sl = TASK_DATA(state->task20);
+    var_r7 = state->unk40 + 1;
+    sub_805423C(&state->strc0);
+    if (var_r7 == 0xB4) {
+        for (var_r6 = 0; var_r6 < 4; var_r6++) {
+            ExtraStageResults_64_2 *strc64;
+            Sprite *s;
+            tasks[var_r6] = TaskCreate(sub_806844C, sizeof(ExtraStageResults_64_2), 0x2120U, 0U, NULL);
+            strc64 = TASK_DATA(tasks[var_r6]);
+            s = &strc64->s;
+            // TODO: Ugly cast
+            *((u32 *)&strc64->unk3C) = 0;
+            if (var_r6 == 0) {
+                strc64->qUnk54[0] = 0xC800;
+                strc64->qUnk44[0] = 0x3C00;
+                strc64->qUnk44[1] = 0x80;
+                strc64->qUnk54[1] = 0xFFFFFC40;
+                s->graphics.dest = OBJ_VRAM0 + 0x2E80;
+                s->graphics.anim = 0x316;
+                s->variant = 0;
+                s->oamFlags = 0x4C0;
+            } else if (var_r6 == 1) {
+                strc64->qUnk54[0] = 0xC800;
+                strc64->qUnk44[0] = 0;
+                strc64->qUnk44[1] = 0x40;
+                strc64->qUnk54[1] = 0xFFFFFC00;
+                s->graphics.dest = OBJ_VRAM0 + 0x2FC0;
+                s->graphics.anim = 0x317;
+                s->variant = 0;
+                s->oamFlags = 0x480;
+            } else if (var_r6 == 2) {
+                strc64->qUnk54[0] = 0xC800;
+                strc64->qUnk44[0] = 0x7800;
+                strc64->qUnk44[1] = 0x100;
+                strc64->qUnk54[1] = 0xFFFFFC80;
+                s->graphics.dest = OBJ_VRAM0 + 0x3260;
+                s->graphics.anim = 0x318;
+                s->variant = 0;
+                s->oamFlags = 0x440;
+            } else {
+                strc64->qUnk54[0] = 0xC800;
+                strc64->qUnk44[0] = 0xB400;
+                strc64->qUnk44[1] = 0xC0;
+                strc64->qUnk54[1] = 0xFFFFFB80;
+                s->graphics.dest = OBJ_VRAM0 + 0x3620;
+                s->graphics.anim = 0x319;
+                s->variant = 0;
+                s->oamFlags = 0x400;
+            }
+            s->x = 0xB4;
+            s->y = 0x50;
+            s->graphics.size = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+            s->palId = 0;
+            s->hitboxes[0].index = -1;
+            s->frameFlags = 0x1000;
+            state->tasks30[var_r6] = tasks[var_r6];
+        }
+    }
+    if (var_r7 == 0x168) {
+        state->tasks30[0]->main = sub_80684B4;
+        state->tasks30[1]->main = sub_80684B4;
+        state->tasks30[2]->main = sub_80684B4;
+        state->tasks30[3]->main = sub_80684B4;
+    }
+    if (var_r7 > 0x190U) {
+        var_r7 = 0;
+        TaskDestroy(state->task10);
+        state->task20->main = Task_8066E5C;
+        state->task1C->main = Task_8066F30;
+        state->task18->main = Task_8066628;
+        state->taskC->main = Task_nullsub_8067050;
+        gCurTask->main = Task_80661A8_48;
+    }
+    state->unk40 = var_r7;
+    sp14->unk3C = var_r7;
+    sp18->unk3C = var_r7;
+    sp1C->unk3C = var_r7;
+    temp_sl->unk3C = var_r7;
+}
+
 void Task_80661A8_48()
 {
     ExtraStageResults_164 *sp0;
@@ -214,34 +321,34 @@ void Task_80661A8_48()
     var_r5 = state->unk40 + 1;
     if (var_r5 == 0xD0) {
 
-        strc64 = TASK_DATA(state->task30);
+        strc64 = TASK_DATA(state->tasks30[0]);
         strc64->qUnk44[0] = -Q(30);
         strc64->qUnk54[0] = -Q(120);
         strc64->qUnk44[1] = Q(0.5);
         strc64->qUnk54[1] = 0;
 
-        strc64 = TASK_DATA(state->task34);
+        strc64 = TASK_DATA(state->tasks30[1]);
         strc64->qUnk44[0] = -Q(60);
         strc64->qUnk54[0] = -Q(90);
         strc64->qUnk44[1] = Q(1.25);
         strc64->qUnk54[1] = 0;
 
-        strc64 = TASK_DATA(state->task38);
+        strc64 = TASK_DATA(state->tasks30[2]);
         strc64->qUnk44[0] = -Q(90);
         strc64->qUnk54[0] = -Q(60);
         strc64->qUnk44[1] = Q(1.00);
         strc64->qUnk54[1] = 0;
 
-        strc64 = TASK_DATA(state->task3C);
+        strc64 = TASK_DATA(state->tasks30[3]);
         strc64->qUnk44[0] = -Q(120);
         strc64->qUnk54[0] = -Q(30);
         strc64->qUnk44[1] = Q(0.75);
         strc64->qUnk54[1] = 0;
 
-        state->task30->main = sub_80683D8;
-        state->task34->main = sub_80683D8;
-        state->task38->main = sub_80683D8;
-        state->task3C->main = sub_80683D8;
+        state->tasks30[0]->main = sub_80683D8;
+        state->tasks30[1]->main = sub_80683D8;
+        state->tasks30[2]->main = sub_80683D8;
+        state->tasks30[3]->main = sub_80683D8;
     }
     if (var_r5 > 0x118U) {
         var_r5 = 0;
@@ -279,10 +386,10 @@ void Task_80662D0_48(void)
     unk3C = state->unk40 + 1;
     if (unk3C > 16) {
         unk3C = 0;
-        state->task30->main = Task_8068360;
-        state->task34->main = Task_8068360;
-        state->task38->main = Task_8068360;
-        state->task3C->main = Task_8068360;
+        state->tasks30[0]->main = Task_8068360;
+        state->tasks30[1]->main = Task_8068360;
+        state->tasks30[2]->main = Task_8068360;
+        state->tasks30[3]->main = Task_8068360;
         task20->main = Task_80669A0;
         task1C->main = Task_8066FDC;
         task18->main = Task_80666E0;
