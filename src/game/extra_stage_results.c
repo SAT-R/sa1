@@ -102,6 +102,19 @@ extern const u16 gUnknown_086BBC34[256];
 extern const u8 gUnknown_086BBE34[0x2980];
 extern const u8 gUnknown_086BE7B4[0x1000];
 
+static inline void sub_80684F4__inline(s32 comp)
+{
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    if (comp == 25) {
+        UiGfxStackInit();
+        sub_80538BC();
+    } else if (comp == 30) {
+        state->unk3C = CreateStageResults((u32)gRingCount, gCourseTime);
+        return;
+    }
+}
+
 void CreateExtraStageResults(void)
 {
     struct Task *tasks[4];
@@ -439,67 +452,51 @@ void sub_80677C4(s32 i)
     }
 }
 
-// TODO: Fake-match
 void Task_8067824(void)
 {
-#ifndef NON_MATCHING
-    register TaskPtr offset asm("r2") = gCurTask->data;
-    ExtraStageResultsState *state = (void *)(offset + IWRAM_START);
-    register ExtraStageResultsState *state2 asm("r4");
-#else
     ExtraStageResultsState *state = TASK_DATA(gCurTask);
-    ExtraStageResultsState *state2;
-#endif
-    {
-        s32 v0;
-        s32 v1;
+    ExtraStageResults_64 *strc64_0 = TASK_DATA(state->taskC);
+    ExtraStageResults_64 *strc64_1 = TASK_DATA(state->task10);
+    s32 v0;
+    s32 v1;
 
-        ExtraStageResults_64 *strc64_0 = TASK_DATA(state->taskC);
-        ExtraStageResults_64 *strc64_1 = TASK_DATA(state->task10);
-        u32 temp_r6 = (state->unk38 + 1);
-        state2 = state;
+    u32 temp_r6 = (state->unk38 + 1);
+    sub_80684F4__inline(temp_r6);
 
-        if (temp_r6 == 0x19) {
-            UiGfxStackInit();
-            sub_80538BC();
-        } else if (temp_r6 == 0x1E) {
-            state2->unk3C = CreateStageResults(gRingCount, gCourseTime);
-        }
-        if (temp_r6 == state->unk3C) {
-            m4aSongNumStart(0x27U);
-        }
+    if (temp_r6 == state->unk3C) {
+        m4aSongNumStart(0x27U);
+    }
 
-        v0 = Div(0x2000, 0x80);
-        v1 = state->unk3C;
+    v0 = Div(0x2000, 0x80);
+    v1 = state->unk3C;
+    v1 += 0x21C;
+    if ((v0 + v1) < temp_r6) {
+        temp_r6 = 0;
+        state->unk38 = temp_r6;
+        strc64_0->unk3C = temp_r6;
+        TaskDestroy(state->task10);
+        state->taskC->main = sub_806853C;
+        gCurTask->main = sub_8067928;
+    } else {
+        s32 divRes2 = Div(0x2000, 0x80);
+        s32 v0 = Div(0x2000, 0x80);
+        s32 v1 = state->unk3C;
         v1 += 0x21C;
-        if ((v0 + v1) < temp_r6) {
-            temp_r6 = 0;
-            state->unk38 = temp_r6;
-            strc64_0->unk3C = temp_r6;
-            TaskDestroy(state->task10);
-            state->taskC->main = sub_806853C;
-            gCurTask->main = sub_8067928;
-        } else {
-            s32 divRes2 = Div(0x2000, 0x80);
-            s32 v0 = Div(0x2000, 0x80);
-            s32 v1 = state->unk3C;
-            v1 += 0x21C;
-            if ((divRes2 + v1 - v0) == temp_r6) {
-                state->strc0.unk0 = 0;
-                state->strc0.unk2 = 1;
-                state->strc0.unk4 = 1;
-                state->strc0.unk6 = 0;
-                state->strc0.unk8 = 0x80;
-                state->strc0.unkA = 1;
-            }
-
-            sub_805423C(&state->strc0);
-            state->unk38 = temp_r6;
-            strc64_0->unk3C = temp_r6;
-            strc64_1->unk3C = temp_r6;
-            strc64_0->unk40 = state->unk3C;
-            strc64_1->unk40 = state->unk3C;
+        if ((divRes2 + v1 - v0) == temp_r6) {
+            state->strc0.unk0 = 0;
+            state->strc0.unk2 = 1;
+            state->strc0.unk4 = 1;
+            state->strc0.unk6 = 0;
+            state->strc0.unk8 = 0x80;
+            state->strc0.unkA = 1;
         }
+
+        sub_805423C(&state->strc0);
+        state->unk38 = temp_r6;
+        strc64_0->unk3C = temp_r6;
+        strc64_1->unk3C = temp_r6;
+        strc64_0->unk40 = state->unk3C;
+        strc64_1->unk40 = state->unk3C;
     }
 }
 
@@ -997,13 +994,10 @@ void Task_8068148(void)
 
 void Task_8068214()
 {
-    s16 temp_r0;
     s16 temp_r4;
-    s32 temp_r1;
     s32 temp_r2;
     u32 angle;
-    s32 var_r0;
-    s32 val, val2;
+    s32 val;
     SpriteTransform *tf;
 
     ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
@@ -1055,9 +1049,6 @@ void Task_8068214()
 
 void Task_8068360()
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-
     ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
     Sprite *s = &strc64->s;
 
@@ -1077,17 +1068,14 @@ void Task_8068360()
         strc64->qUnk54[0] = Q(172);
     }
 
-    strc64->s.x = I(strc64->qUnk44[0]);
-    strc64->s.y = I(strc64->qUnk54[0]);
+    s->x = I(strc64->qUnk44[0]);
+    s->y = I(strc64->qUnk54[0]);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
 
 void sub_80683D8()
 {
-    s32 temp_r0;
-    s32 temp_r0_2;
-
     ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
     Sprite *s = &strc64->s;
 
@@ -1103,10 +1091,61 @@ void sub_80683D8()
         strc64->qUnk54[0] -= Q(300);
     }
 
-    strc64->s.x = I(strc64->qUnk44[0]);
-    strc64->s.y = I(strc64->qUnk54[0]);
+    s->x = I(strc64->qUnk44[0]);
+    s->y = I(strc64->qUnk54[0]);
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
 
 void Task_nullsub_8068448(void) { }
+
+void sub_806844C()
+{
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    strc64->qUnk54[0] += strc64->qUnk54[1];
+
+    if (strc64->qUnk54[0] < -Q(16)) {
+        strc64->qUnk54[0] = +Q(172);
+        strc64->qUnk44[0] += strc64->qUnk44[1] * 200;
+
+        if (strc64->qUnk44[0] > Q(272)) {
+            strc64->qUnk44[0] -= Q(300);
+        }
+    }
+
+    s->x = I(strc64->qUnk44[0]);
+    s->y = I(strc64->qUnk54[0]);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_80684B4()
+{
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    if (strc64->qUnk54[0] >= -Q(16)) {
+        strc64->qUnk54[0] += strc64->qUnk54[1];
+        s->x = I(strc64->qUnk44[0]);
+        s->y = I(strc64->qUnk54[0]);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void sub_80684F4(s32 comp)
+{
+    ExtraStageResultsState *state = TASK_DATA(gCurTask);
+
+    if (comp == 25) {
+        UiGfxStackInit();
+        sub_80538BC();
+    } else if (comp == 30) {
+        state->unk3C = CreateStageResults((u32)gRingCount, gCourseTime);
+        return;
+    }
+}
+
+void sub_8068538(void) { }

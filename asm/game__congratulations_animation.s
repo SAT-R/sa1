@@ -5,6 +5,11 @@
 .syntax unified
 .arm
 
+@ NOTE: This needs to be merged with extra_stage_results, it seems.
+@       Both share task pointers to eachother, so they seem to be the same module after all...
+@       Also this uses 0x64 Task structs, which could be equal to ExtraStageResults_64().
+@       It might make sense to do this module bottom->up.
+
 	thumb_func_start CreateCongratulationsAnimation
 CreateCongratulationsAnimation: @ 0x08065884
 	push {r4, r5, r6, r7, lr}
