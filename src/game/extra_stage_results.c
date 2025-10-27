@@ -16,7 +16,8 @@
 typedef struct CongratulationsAnim_48 {
     u8 filler0[0x14];
     struct Task *task14;
-    u8 filler18[0x30];
+    struct Task *task18; // -> ExtraStageResults_164
+    u8 filler1C[0x2C];
 } CongratulationsAnim_48;
 
 typedef struct ExtraStageResults_64 {
@@ -102,6 +103,7 @@ void Task_806862C(void);
 
 extern const u16 gUnknown_0868B3F8[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B408[NUM_CHARACTERS][2];
+extern u16 gUnknown_0868B448[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B458[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B468[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B478[NUM_CHARACTERS][2];
@@ -140,6 +142,27 @@ static inline void sub_80684F4__inline(s32 comp)
     }
 }
 
+void Task_80666E0()
+{
+    s32 temp_r0;
+    u32 temp_r4;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    temp_r4 = strc164->unk3C;
+    if (temp_r4 == 0x12C) {
+        s->graphics.anim = gUnknown_0868B448[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B448[gSelectedCharacter][1];
+        s->prevVariant = 0xFF;
+    }
+
+    strc164->unk48 = strc164->unk48 + (SIN((temp_r4 % 256u) * 4) >> 8);
+    s->y = I(strc164->unk48);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
 void Task_8066768()
 {
     SpriteTransform *tf;
@@ -166,7 +189,7 @@ void Task_8066768()
         s->prevVariant = -1;
         strc164->unk4C = -0x400;
     }
-    if ((u32)unk3C > 0x12BU) {
+    if (unk3C >= 0x12C) {
         if (unk3C == 0x12C) {
             s->graphics.anim = gUnknown_0868B478[gSelectedCharacter][0];
             s->variant = gUnknown_0868B478[gSelectedCharacter][1];
