@@ -1045,7 +1045,7 @@ _08066124:
 	ldr r0, _08066194 @ =Task_8066F30
 	str r0, [r1, #8]
 	ldr r1, [r5, #0x18]
-	ldr r0, _08066198 @ =sub_8066628
+	ldr r0, _08066198 @ =Task_8066628
 	str r0, [r1, #8]
 	ldr r1, [r5, #0xc]
 	ldr r0, _0806619C @ =Task_nullsub_8067050
@@ -1082,7 +1082,7 @@ _08066188: .4byte 0x03000020
 _0806618C: .4byte sub_80684B4
 _08066190: .4byte Task_8066E5C
 _08066194: .4byte Task_8066F30
-_08066198: .4byte sub_8066628
+_08066198: .4byte Task_8066628
 _0806619C: .4byte Task_nullsub_8067050
 _080661A0: .4byte gCurTask
 _080661A4: .4byte Task_80661A8_48
@@ -1651,98 +1651,5 @@ _08066614:
 	.align 2, 0
 _08066624: .4byte 0x0000029D
 
-	thumb_func_start sub_8066628
-sub_8066628: @ 0x08066628
-	push {r4, r5, r6, lr}
-	ldr r0, _08066644 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r3, r0
-	adds r4, r5, #0
-	ldrh r6, [r5, #0x3c]
-	cmp r6, #0xf
-	bne _0806664C
-	ldr r1, _08066648 @ =gUnknown_0868B418
-	b _0806665E
-	.align 2, 0
-_08066644: .4byte gCurTask
-_08066648: .4byte gUnknown_0868B418
-_0806664C:
-	cmp r6, #0x14
-	bne _08066658
-	ldr r1, _08066654 @ =gUnknown_0868B428
-	b _0806665E
-	.align 2, 0
-_08066654: .4byte gUnknown_0868B428
-_08066658:
-	cmp r6, #0x1e
-	bne _08066686
-	ldr r1, _080666C8 @ =gUnknown_0868B438
-_0806665E:
-	ldr r2, _080666CC @ =gSelectedCharacter
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	strh r0, [r5, #0xa]
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	lsls r0, r0, #2
-	adds r1, #2
-	adds r0, r0, r1
-	ldrh r1, [r0]
-	ldr r2, _080666D0 @ =0x03000020
-	adds r0, r3, r2
-	strb r1, [r0]
-	ldr r0, _080666D4 @ =0x03000021
-	adds r1, r3, r0
-	movs r0, #0xff
-	strb r0, [r1]
-_08066686:
-	cmp r6, #0x14
-	bls _080666B6
-	ldr r0, [r4, #0x48]
-	ldr r1, _080666D8 @ =0xFFFFF800
-	adds r0, r0, r1
-	str r0, [r4, #0x48]
-	ldr r1, _080666DC @ =0xFFFFC000
-	cmp r0, r1
-	bge _0806669A
-	str r1, [r4, #0x48]
-_0806669A:
-	ldr r0, [r4, #0x48]
-	asrs r0, r0, #8
-	strh r0, [r5, #0x18]
-	ldr r0, [r4, #0x40]
-	ldr r1, [r4, #0x44]
-	subs r0, r0, r1
-	str r0, [r4, #0x40]
-	cmp r0, #0
-	bge _080666B0
-	movs r0, #0
-	str r0, [r4, #0x40]
-_080666B0:
-	ldr r0, [r4, #0x40]
-	asrs r0, r0, #8
-	strh r0, [r5, #0x16]
-_080666B6:
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	bl DisplaySprite
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_080666C8: .4byte gUnknown_0868B438
-_080666CC: .4byte gSelectedCharacter
-_080666D0: .4byte 0x03000020
-_080666D4: .4byte 0x03000021
-_080666D8: .4byte 0xFFFFF800
-_080666DC: .4byte 0xFFFFC000
-
-.if 01
+.if 0
 .endif

@@ -103,6 +103,9 @@ void Task_806862C(void);
 
 extern const u16 gUnknown_0868B3F8[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B408[NUM_CHARACTERS][2];
+extern u16 gUnknown_0868B418[NUM_CHARACTERS][2];
+extern u16 gUnknown_0868B428[NUM_CHARACTERS][2];
+extern u16 gUnknown_0868B438[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B448[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B458[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B468[NUM_CHARACTERS][2];
@@ -140,6 +143,48 @@ static inline void sub_80684F4__inline(s32 comp)
         state->unk3C = CreateStageResults((u32)gRingCount, gCourseTime);
         return;
     }
+}
+
+void Task_8066628()
+{
+    s32 temp_r0;
+    s32 temp_r0_2;
+    u16 unk3C;
+
+    ExtraStageResults_164 *strc164 = TASK_DATA(gCurTask);
+    Sprite *s = &strc164->s;
+
+    unk3C = strc164->unk3C;
+    if (unk3C == 15) {
+        s->graphics.anim = gUnknown_0868B418[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B418[gSelectedCharacter][1];
+        s->prevVariant = -1;
+    } else if (unk3C == 20) {
+        s->graphics.anim = gUnknown_0868B428[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B428[gSelectedCharacter][1];
+        s->prevVariant = -1;
+    } else if (unk3C == 30) {
+        s->graphics.anim = gUnknown_0868B438[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B438[gSelectedCharacter][1];
+        s->prevVariant = -1;
+    }
+
+    if (unk3C > 20) {
+        strc164->unk48 -= Q(8);
+        if (strc164->unk48 < -Q(64)) {
+            strc164->unk48 = -Q(64);
+        }
+        s->y = I(strc164->unk48);
+
+        strc164->unk40 -= strc164->unk44;
+        if (strc164->unk40 < 0) {
+            strc164->unk40 = 0;
+        }
+        s->x = I(strc164->unk40);
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
 
 void Task_80666E0()
