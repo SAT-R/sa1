@@ -24,7 +24,10 @@ typedef struct CongratulationsAnim_48 {
     struct Task *task24;
     struct Task *task28;
     struct Task *task2C;
-    u8 filler30[0x10];
+    struct Task *task30;
+    struct Task *task34;
+    struct Task *task38;
+    struct Task *task3C;
     s16 unk40;
     u8 filler42[0x6];
 } CongratulationsAnim_48;
@@ -87,6 +90,20 @@ typedef struct ExtraStageResultsState {
 } ExtraStageResultsState; /* 0x54 */
 
 extern void Task_8066D64(void); // -> ExtraStageResults_164
+
+void Task_806636C_48(void);
+void Task_80663EC_48(void);
+void Task_8066478(void);
+void sub_8066520(void);
+void Task_80666E0(void);
+void Task_8066768(void);
+void Task_80669A0(void);
+void Task_8066ACC(void);
+void Task_8066BA4(void);
+void Task_8066D64(void);
+void Task_8066FDC(void);
+void Task_8067054(void);
+void Task_8067084(void);
 void sub_80677C4(s32 i);
 void Task_8067824(void);
 void sub_8067928(void);
@@ -156,6 +173,164 @@ static inline void sub_80684F4__inline(s32 comp)
     }
 }
 
+void Task_80662D0_48(void)
+{
+    s16 *temp_r2;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *task20;
+    ExtraStageResults_164 *strc164_t14;
+    ExtraStageResults_164 *strc164_t18;
+    ExtraStageResults_164 *strc164_t1C;
+    ExtraStageResults_164 *strc164_t20;
+    u32 unk3C;
+
+    CongratulationsAnim_48 *state = TASK_DATA(gCurTask);
+
+    task18 = state->task18;
+    strc164_t18 = TASK_DATA(task18);
+    task1C = state->task1C;
+    strc164_t1C = TASK_DATA(task1C);
+    task20 = state->task20;
+    strc164_t20 = TASK_DATA(task20);
+    unk3C = state->unk40 + 1;
+    if (unk3C > 16) {
+        unk3C = 0;
+        state->task30->main = Task_8068360;
+        state->task34->main = Task_8068360;
+        state->task38->main = Task_8068360;
+        state->task3C->main = Task_8068360;
+        task20->main = Task_80669A0;
+        task1C->main = Task_8066FDC;
+        task18->main = Task_80666E0;
+        gCurTask->main = Task_806636C_48;
+    }
+
+    state->unk40 = unk3C;
+    strc164_t18->unk3C = unk3C;
+    strc164_t1C->unk3C = unk3C;
+    strc164_t20->unk3C = unk3C;
+}
+
+void Task_806636C_48(void)
+{
+    s16 *temp_r2;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *task20;
+    ExtraStageResults_164 *strc164_t14;
+    ExtraStageResults_164 *strc164_t18;
+    ExtraStageResults_164 *strc164_t1C;
+    ExtraStageResults_164 *strc164_t20;
+    u32 unk3C;
+
+    CongratulationsAnim_48 *state = TASK_DATA(gCurTask);
+
+    task18 = state->task18;
+    strc164_t18 = TASK_DATA(task18);
+    task1C = state->task1C;
+    strc164_t1C = TASK_DATA(task1C);
+    task20 = state->task20;
+    strc164_t20 = TASK_DATA(task20);
+    unk3C = state->unk40 + 1;
+    if (unk3C > 400) {
+        unk3C = 0;
+        state->task14->main = Task_8066ACC;
+        gCurTask->main = Task_80663EC_48;
+    }
+    if (unk3C == 0x12C) {
+        strc164_t20->unk50[0] = 1;
+    }
+    state->unk40 = unk3C;
+    strc164_t18->unk3C = unk3C;
+    strc164_t1C->unk3C = unk3C;
+    strc164_t20->unk3C = unk3C;
+}
+
+void Task_80663EC_48(void)
+{
+    s16 *temp_r2;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *task20;
+    ExtraStageResults_164 *strc164_t14;
+    ExtraStageResults_164 *strc164_t18;
+    ExtraStageResults_164 *strc164_t1C;
+    ExtraStageResults_164 *strc164_t20;
+    u32 unk3C;
+
+    CongratulationsAnim_48 *state = TASK_DATA(gCurTask);
+
+    task18 = state->task18;
+    strc164_t18 = TASK_DATA(task18);
+    task14 = state->task14;
+    strc164_t14 = TASK_DATA(task14);
+    task1C = state->task1C;
+    strc164_t1C = TASK_DATA(task1C);
+    task20 = state->task20;
+    strc164_t20 = TASK_DATA(task20);
+    unk3C = state->unk40 + 1;
+    if (unk3C == 0x3C) {
+        task14->main = Task_8066BA4;
+    }
+    if (unk3C > 200) {
+        unk3C = 0;
+        state->taskC->main = Task_8067054;
+        gCurTask->main = Task_8066478;
+    }
+    state->unk40 = unk3C;
+    strc164_t18->unk3C = (unk3C + 0x3FF);
+    strc164_t14->unk3C = unk3C;
+    strc164_t1C->unk3C = unk3C;
+    strc164_t20->unk3C = unk3C;
+}
+
+void Task_8066478(void)
+{
+    s16 *temp_r2;
+    struct Task *temp_r6;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    ExtraStageResults_164 *strc164;
+    ExtraStageResults_164 *strc164_2;
+    ExtraStageResults_164 *strc164_3;
+    ExtraStageResults_164 *strc164_4;
+    ExtraStageResults_164 *strc164_5;
+    u32 var_r3;
+
+    CongratulationsAnim_48 *state = TASK_DATA(gCurTask);
+
+    task18 = state->task18;
+    strc164_5 = TASK_DATA(task18);
+    task14 = state->task14;
+    strc164_2 = TASK_DATA(state->task14);
+    task1C = state->task1C;
+    strc164_3 = TASK_DATA(task1C);
+    strc164 = TASK_DATA(state->task20);
+    var_r3 = state->unk40 + 1;
+    if (var_r3 > 0xF0U) {
+        var_r3 = 0;
+        state->task24->main = Task_8066D64;
+        state->task28->main = Task_8066D64;
+        state->task2C->main = Task_8066D64;
+        task18->main = Task_8066768;
+        state->taskC->main = Task_8067084;
+        gCurTask->main = sub_8066520;
+    }
+    if (var_r3 == 1) {
+        strc164->unk50[0] = var_r3;
+    }
+    state->unk40 = var_r3;
+    strc164_5->unk3C = var_r3;
+    strc164_2->unk3C = var_r3;
+    strc164_3->unk3C = var_r3;
+    strc164->unk3C = var_r3;
+}
+
 // (96.54%) https://decomp.me/scratch/bDXGb
 NONMATCH("asm/non_matching/game/extra_stage_results__sub_8066520.inc", void sub_8066520(void))
 {
@@ -173,9 +348,9 @@ NONMATCH("asm/non_matching/game/extra_stage_results__sub_8066520.inc", void sub_
     strc0 = &state->strc0;
 
     temp_sl = TASK_DATA(state->taskC);
-    sp0     = TASK_DATA(state->task24);
-    sp4     = TASK_DATA(state->task28);
-    sp8     = TASK_DATA(state->task2C);
+    sp0 = TASK_DATA(state->task24);
+    sp4 = TASK_DATA(state->task28);
+    sp8 = TASK_DATA(state->task2C);
     temp_sb = TASK_DATA(state->task18);
     temp_r8 = TASK_DATA(state->task14);
     temp_r7 = TASK_DATA(state->task1C);
@@ -201,7 +376,7 @@ NONMATCH("asm/non_matching/game/extra_stage_results__sub_8066520.inc", void sub_
             }
             sub_805423C(strc0);
         }
-    
+
         state->unk40 = temp_r5;
         temp_sl->unk3C = temp_r5;
         sp0->unk3C = temp_r5;
@@ -406,7 +581,7 @@ void Task_8066A5C_164()
     strc164->unkD6[strc164->unk15C] = SIN(modRes * 8) >> 10;
 }
 
-void sub_8066ACC()
+void Task_8066ACC(void)
 {
     s16 *temp_r4;
     s32 temp_r1;
@@ -439,7 +614,7 @@ void sub_8066ACC()
     }
 }
 
-void Task_8066BA4()
+void Task_8066BA4(void)
 {
     s16 *temp_r4;
     s32 temp_r1;
