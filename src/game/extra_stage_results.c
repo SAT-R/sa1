@@ -62,8 +62,8 @@ typedef struct ExtraStageResults_164 {
     s32 unk44;
     s32 unk48;
     s32 unk4C;
-    s16 unk50[15];
-    u8 filler6E[0x68];
+    s16 unk50[64];
+    u8 fillerD0[0x6];
     s16 unkD6[15];
     u8 fillerF4[0x54];
     u16 unk148;
@@ -79,7 +79,7 @@ typedef struct ExtraStageResultsState {
     struct Task *task14; // -> ExtraStageResults_64
     struct Task *task18; // -> ExtraStageResults_64
     struct Task *task1C; // -> ExtraStageResults_64
-    struct Task *tasks20[3]; // -> ExtraStageResults_64
+    struct Task *tasks20[3]; // -> ExtraStageResults_164
     struct Task *tasks2C[3]; // -> ExtraStageResults_64_2
     s32 unk38;
     s32 unk3C;
@@ -92,6 +92,7 @@ typedef struct ExtraStageResultsState {
 extern void Task_8066D64(void); // -> ExtraStageResults_164
 
 void Task_806636C_48(void);
+void sub_80683D8(void);
 void Task_80663EC_48(void);
 void Task_8066478(void);
 void sub_8066520(void);
@@ -128,6 +129,11 @@ void Task_8068620(void);
 void Task_8068624(void);
 void Task_8068628(void);
 void Task_806862C(void);
+
+void Task_8066EBC(void);
+void Task_8066F90(void);
+void Task_8066DF4(void);
+void Task_80662D0_48(void);
 
 extern const u16 gUnknown_0868B3F8[NUM_CHARACTERS][2];
 extern const u16 gUnknown_0868B408[NUM_CHARACTERS][2];
@@ -173,6 +179,83 @@ static inline void sub_80684F4__inline(s32 comp)
     }
 }
 
+void Task_80661A8_48()
+{
+    ExtraStageResults_164 *sp0;
+    ExtraStageResults_164 *sp4;
+    ExtraStageResults_164 *sp8;
+    s16 *temp_r3;
+    u32 var_r5;
+    void *temp_r1;
+    void *temp_r3_2;
+    void *temp_r4;
+    void *strc64_2;
+    void *strc64_3;
+    void *strc64_4;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *task20;
+    ExtraStageResults_164 *strc164_t14;
+    ExtraStageResults_164 *strc164_t18;
+    ExtraStageResults_164 *strc164_t1C;
+    ExtraStageResults_164 *strc164_t20;
+    ExtraStageResults_164 *strc164_t34;
+
+    // TODO: There's something weird with its typing.
+    // Maybe we have multiple 0x164-byte structs, actually?
+    ExtraStageResults_64_2 *strc64;
+
+    CongratulationsAnim_48 *state = TASK_DATA(gCurTask);
+
+    sp0 = TASK_DATA(state->task18);
+    sp4 = TASK_DATA(state->task1C);
+    sp8 = TASK_DATA(state->task20);
+    var_r5 = state->unk40 + 1;
+    if (var_r5 == 0xD0) {
+
+        strc64 = TASK_DATA(state->task30);
+        strc64->qUnk44[0] = -Q(30);
+        strc64->qUnk54[0] = -Q(120);
+        strc64->qUnk44[1] = Q(0.5);
+        strc64->qUnk54[1] = 0;
+
+        strc64 = TASK_DATA(state->task34);
+        strc64->qUnk44[0] = -Q(60);
+        strc64->qUnk54[0] = -Q(90);
+        strc64->qUnk44[1] = Q(1.25);
+        strc64->qUnk54[1] = 0;
+
+        strc64 = TASK_DATA(state->task38);
+        strc64->qUnk44[0] = -Q(90);
+        strc64->qUnk54[0] = -Q(60);
+        strc64->qUnk44[1] = Q(1.00);
+        strc64->qUnk54[1] = 0;
+
+        strc64 = TASK_DATA(state->task3C);
+        strc64->qUnk44[0] = -Q(120);
+        strc64->qUnk54[0] = -Q(30);
+        strc64->qUnk44[1] = Q(0.75);
+        strc64->qUnk54[1] = 0;
+
+        state->task30->main = sub_80683D8;
+        state->task34->main = sub_80683D8;
+        state->task38->main = sub_80683D8;
+        state->task3C->main = sub_80683D8;
+    }
+    if (var_r5 > 0x118U) {
+        var_r5 = 0;
+        state->task20->main = Task_8066EBC;
+        state->task1C->main = Task_8066F90;
+        state->task18->main = Task_8066DF4;
+        gCurTask->main = Task_80662D0_48;
+    }
+    state->unk40 = (s16)var_r5;
+    sp0->unk3C = (s16)var_r5;
+    sp4->unk3C = (s16)var_r5;
+    sp8->unk3C = (s16)var_r5;
+}
+
 void Task_80662D0_48(void)
 {
     s16 *temp_r2;
@@ -180,7 +263,6 @@ void Task_80662D0_48(void)
     struct Task *task18;
     struct Task *task1C;
     struct Task *task20;
-    ExtraStageResults_164 *strc164_t14;
     ExtraStageResults_164 *strc164_t18;
     ExtraStageResults_164 *strc164_t1C;
     ExtraStageResults_164 *strc164_t20;
@@ -1872,8 +1954,7 @@ void Task_8068360()
     DisplaySprite(s);
 }
 
-// inline
-void sub_80683D8()
+void sub_80683D8(void)
 {
     ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
     Sprite *s = &strc64->s;
