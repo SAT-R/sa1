@@ -76,7 +76,7 @@ void Task_8068148(void);
 void Task_8068214(void);
 void Task_8068360(void);
 void Task_nullsub_8068448(void);
-void sub_806853C(void);
+void Task_806853C(void);
 void Task_8068570(void);
 void Task_80685C8(void);
 void Task_8067B14(void);
@@ -475,7 +475,7 @@ void Task_8067824(void)
         state->unk38 = temp_r6;
         strc64_0->unk3C = temp_r6;
         TaskDestroy(state->task10);
-        state->taskC->main = sub_806853C;
+        state->taskC->main = Task_806853C;
         gCurTask->main = sub_8067928;
     } else {
         s32 divRes2 = Div(0x2000, 0x80);
@@ -1038,10 +1038,10 @@ void Task_8068214()
         tf->rotation = (s16)(0x3FF & ~(temp_r2 * 2));
         tf->qScaleX = Q(1.5) - (temp_r2 * 3);
         tf->qScaleY = Q(1.5) - (temp_r2 * 3);
-        tf->x = (s16)((s32)strc64->qUnk44[0] >> 8);
-        tf->y = (s16)((s32)strc64->qUnk54[0] >> 8);
-        s->x = (s16)((s32)strc64->qUnk44[0] >> 8);
-        s->y = (s16)((s32)strc64->qUnk54[0] >> 8);
+        tf->x = I(strc64->qUnk44[0]);
+        tf->y = I(strc64->qUnk54[0]);
+        s->x = I(strc64->qUnk44[0]);
+        s->y = I(strc64->qUnk54[0]);
         TransformSprite(s, tf);
         DisplaySprite(s);
     }
@@ -1074,6 +1074,7 @@ void Task_8068360()
     DisplaySprite(s);
 }
 
+// inline
 void sub_80683D8()
 {
     ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
@@ -1149,3 +1150,83 @@ void sub_80684F4(s32 comp)
 }
 
 void sub_8068538(void) { }
+
+void Task_806853C(void)
+{
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    if (strc64->unk3C < 600) {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
+
+void Task_806856C(void) { }
+
+void Task_8068570()
+{
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    u32 temp_r3;
+
+    if (strc64->unk3C == 0) {
+        strc64->s.prevVariant = -1;
+        strc64->s.graphics.dest = OBJ_VRAM0 + 0x26E0;
+        strc64->s.graphics.anim = SA1_ANIM_FINAL_CUTSCENE_ART_A;
+        strc64->s.variant = 0;
+        strc64->s.x = (DISPLAY_WIDTH / 2);
+        strc64->s.y = (DISPLAY_HEIGHT / 2);
+        strc64->s.frameFlags = 0;
+    }
+    UpdateSpriteAnimation(&strc64->s);
+    DisplaySprite(&strc64->s);
+}
+
+void Task_80685C8()
+{
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    u32 temp_r3;
+
+    if (strc64->unk3C == 0) {
+        strc64->s.prevVariant = -1;
+        strc64->s.graphics.dest = OBJ_VRAM0 + 0x26E0;
+        strc64->s.graphics.anim = SA1_ANIM_FINAL_CUTSCENE_ART_A;
+        strc64->s.variant = 1;
+        strc64->s.x = (DISPLAY_WIDTH / 2);
+        strc64->s.y = (DISPLAY_HEIGHT / 2);
+        strc64->s.frameFlags = 0;
+    }
+    UpdateSpriteAnimation(&strc64->s);
+    DisplaySprite(&strc64->s);
+}
+
+void Task_8068620(void) { }
+
+void Task_8068624(void) { }
+
+void Task_8068628(void) { }
+
+void Task_806862C()
+{
+    s32 temp_r0;
+    s32 temp_r0_2;
+
+    ExtraStageResults_64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    if (strc64->unk3C > 180) {
+        strc64->qUnk44[0] -= Q(96. / 256.);
+        if (strc64->qUnk44[0] < -Q(64)) {
+            strc64->qUnk44[0] = -Q(64);
+        }
+        strc64->qUnk54[0] += 0x30;
+        if (strc64->qUnk54[0] > Q(32)) {
+            strc64->qUnk54[0] = Q(32);
+        }
+
+        s->x = I(strc64->qUnk44[0]);
+        s->y = I(strc64->qUnk54[0]);
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
