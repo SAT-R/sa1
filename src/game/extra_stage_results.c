@@ -14,10 +14,19 @@
 #include "constants/animations.h"
 
 typedef struct CongratulationsAnim_48 {
-    u8 filler0[0x14];
+    StrcUi_805423C strc0;
+    struct Task *taskC;
+    struct Task *task10;
     struct Task *task14;
     struct Task *task18; // -> ExtraStageResults_164
-    u8 filler1C[0x2C];
+    struct Task *task1C;
+    struct Task *task20;
+    struct Task *task24;
+    struct Task *task28;
+    struct Task *task2C;
+    u8 filler30[0x10];
+    s16 unk40;
+    u8 filler42[0x6];
 } CongratulationsAnim_48;
 
 typedef struct ExtraStageResults_64 {
@@ -30,6 +39,8 @@ typedef struct ExtraStageResults_64 {
     s32 qUnk54[4];
 } ExtraStageResults_64;
 
+// TODO:
+// This might just have been struct ExtraStageResults_164 all along?
 typedef struct ExtraStageResults_64_2 {
     Sprite s;
     SpriteTransform transform;
@@ -144,6 +155,65 @@ static inline void sub_80684F4__inline(s32 comp)
         return;
     }
 }
+
+// (96.54%) https://decomp.me/scratch/bDXGb
+NONMATCH("asm/non_matching/game/extra_stage_results__sub_8066520.inc", void sub_8066520(void))
+{
+    ExtraStageResults_164 *sp0;
+    ExtraStageResults_164 *sp4;
+    ExtraStageResults_164 *sp8;
+    u32 temp_r5;
+    ExtraStageResults_164 *temp_r6;
+    ExtraStageResults_164 *temp_r7;
+    ExtraStageResults_164 *temp_r8;
+    ExtraStageResults_164 *temp_sl;
+    ExtraStageResults_164 *temp_sb;
+    CongratulationsAnim_48 *state = TASK_DATA(gCurTask);
+    StrcUi_805423C *strc0;
+    strc0 = &state->strc0;
+
+    temp_sl = TASK_DATA(state->taskC);
+    sp0     = TASK_DATA(state->task24);
+    sp4     = TASK_DATA(state->task28);
+    sp8     = TASK_DATA(state->task2C);
+    temp_sb = TASK_DATA(state->task18);
+    temp_r8 = TASK_DATA(state->task14);
+    temp_r7 = TASK_DATA(state->task1C);
+    temp_r6 = TASK_DATA(state->task20);
+
+    temp_r5 = state->unk40 + 1;
+    if (temp_r5 > 0x2BCU) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        CreateStaffCredits();
+        return;
+    } else {
+        if (temp_r5 >= 0x29E) {
+            if (temp_r5 == 0x29E) {
+                strc0->unk0 = 0;
+                strc0->unk2 = 1;
+                strc0->unk4 = 1;
+                strc0->unk6 = 0;
+                strc0->unk8 = 0xC0;
+                strc0->unkA = 1;
+            }
+            sub_805423C(strc0);
+        }
+    
+        state->unk40 = temp_r5;
+        temp_sl->unk3C = temp_r5;
+        sp0->unk3C = temp_r5;
+        sp4->unk3C = temp_r5;
+        sp8->unk3C = temp_r5;
+        temp_sb->unk3C = temp_r5;
+        temp_r8->unk3C = temp_r5;
+        temp_r7->unk3C = temp_r5;
+        temp_r6->unk3C = temp_r5;
+    }
+}
+END_NONMATCH
 
 void Task_8066628()
 {
