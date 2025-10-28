@@ -84,16 +84,14 @@ void CreateEntity_DummyEnt(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
 void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id) { CreateEntity_DummyEnt(me, regionX, regionY, id); }
 
+void sub_8018538() { }
 void sub_801C9D8() { }
 void sub_802E290(void) { }
 
 void CreateMultiplayerModeSelectScreen() { }
-void CreateCongratulationsAnimation() { }
 
-void CreateExtraStageResults() { }
 void CreateMultiplayerResultsScreen() { }
 void CreateMultiplayerPlayer() { }
-void CreateMultipackOutcomeScreen() { }
 void MultiPakCommunicationError() { }
 void ShowSinglePakResults() { }
 void CreateMultiplayerChao() { }

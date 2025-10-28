@@ -212,7 +212,7 @@ void CreateCongratulationsAnimation(void)
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    sa2__gUnknown_03005390 = 0;
+    SA2_LABEL(gUnknown_03005390) = 0;
     PAUSE_GRAPHICS_QUEUE();
 
     {
@@ -1577,7 +1577,7 @@ void CreateExtraStageResults(void)
     s->frameFlags = 0x2000;
 
     for (i2 = 0; i2 < ARRAY_COUNT(tasks); i2++) {
-        struct Task *t = TaskCreate(Task_nullsub_8068448, sizeof(ExtraStageResults_64), 0x2120U, 0U, NULL);
+        struct Task *t = TaskCreate(Task_nullsub_8068448, sizeof(ExtraStageResults_64_2), 0x2120U, 0U, NULL);
         tasks[i2] = t;
         strc64 = TASK_DATA(t);
         s = &strc64->s;
@@ -1671,7 +1671,7 @@ void CreateExtraStageResults(void)
     state->tasks20[0] = tasks[0];
     state->tasks20[1] = tasks[1];
     state->tasks20[2] = tasks[2];
-    state->tasks20[3] = tasks[3];
+    state->tasks2C[0] = tasks[3];
     state->unk44 = 0;
     state->unk48 = 0;
     state->strc0.unk0 = 0;
@@ -1814,7 +1814,7 @@ void sub_8067928()
         state->tasks20[0]->main = Task_8068360;
         state->tasks20[1]->main = Task_8068360;
         state->tasks20[2]->main = Task_8068360;
-        state->tasks20[3]->main = Task_8068360;
+        state->tasks2C[0]->main = Task_8068360;
         state->task14->main = Task_806862C;
         state->task18->main = Task_8068214;
         state->task1C->main = Task_8068148;
@@ -1850,7 +1850,7 @@ void Task_80679E4()
         TaskDestroy(state->tasks20[0]);
         TaskDestroy(state->tasks20[1]);
         TaskDestroy(state->tasks20[2]);
-        TaskDestroy(state->tasks20[3]);
+        TaskDestroy(state->tasks2C[0]);
         TaskDestroy(state->task1C);
         TaskDestroy(state->task14);
         TaskDestroy(state->task18);
@@ -2100,15 +2100,19 @@ void Task_8067E68()
     ExtraStageResultsState *state = TASK_DATA(gCurTask);
 
     temp_r8 = TASK_DATA(state->taskC);
+#ifndef BUG_FIX
+    // [0] gets initialized, but not really used...
     tasks[0] = TASK_DATA(state->tasks2C[0]);
+    // These never get initialized or used
     tasks[1] = TASK_DATA(state->tasks2C[1]);
     tasks[2] = TASK_DATA(state->tasks2C[2]);
+#endif
     temp_r7 = state->unk38;
     temp_r5 = temp_r7 + 1;
     if (temp_r5 > 0x190U) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        sa2__gUnknown_03005390 = 0;
+        SA2_LABEL(gUnknown_03005390) = 0;
         PAUSE_GRAPHICS_QUEUE();
         CreateStaffCredits();
         return;
@@ -2124,9 +2128,11 @@ void Task_8067E68()
         sub_805423C(&state->strc0);
         state->unk38 = (s32)temp_r5;
         temp_r8->unk3C = temp_r5;
+#ifndef BUG_FIX
         tasks[0]->unk3C = temp_r7 + 0x14B;
         tasks[1]->unk3C = temp_r7 + 0x14B;
         tasks[2]->unk3C = temp_r7 + 0x14B;
+#endif
     }
 }
 
