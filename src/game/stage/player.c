@@ -2224,7 +2224,7 @@ void Player_8043970(Player *p)
 
         if (!(p->moveState & (MOVESTATE_800000 | MOVESTATE_8000))) {
             if (p->charState != 22) {
-                p->charState = CHARSTATE_WALK;
+                p->charState = CHARSTATE_WALK_A;
 
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
             }
@@ -2290,7 +2290,7 @@ void Player_8043A2C(Player *p)
 
         if (!(p->moveState & (MOVESTATE_800000 | MOVESTATE_8000))) {
             if (p->charState != 22) {
-                p->charState = CHARSTATE_WALK;
+                p->charState = CHARSTATE_WALK_A;
 
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
             }
@@ -2680,7 +2680,7 @@ void Player_8043DDC(Player *p)
                 if (p->heldInput & DPAD_DOWN) {
                     p->charState = CHARSTATE_CROUCH;
                 } else {
-                    p->charState = CHARSTATE_WALK;
+                    p->charState = CHARSTATE_WALK_A;
                 }
 
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
@@ -3595,7 +3595,7 @@ void Player_8044F7C(Player *p)
             case 0: {
                 if (p->qSpeedGround != Q(0)) {
                     if ((p->charState == CHARSTATE_8) || (p->charState == CHARSTATE_BRAKE) || (p->charState == CHARSTATE_IDLE)) {
-                        p->charState = CHARSTATE_WALK;
+                        p->charState = CHARSTATE_WALK_A;
 
                         PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
                     }
@@ -4701,7 +4701,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
 END_NONMATCH
 
 // NOTE: Main thing preventing this to match are the jumps due to the
-//       if-else blocks setting CHARSTATE_IDLE and CHARSTATE_WALK.
+//       if-else blocks setting CHARSTATE_IDLE and CHARSTATE_WALK_A.
 //       It "matches semantically".
 // (99.99%) https://decomp.me/scratch/e9oqw
 NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_8024B10.inc", void SA2_LABEL(sub_8024B10)(Player *p, PlayerSpriteInfo *inPsi))
@@ -4737,7 +4737,7 @@ top:
     psi->transform.x = I(p->qWorldX) - camX;
     psi->transform.y = I(p->qWorldY) - camY;
 #if (GAME == GAME_SA1)
-    if (p->charState == CHARSTATE_WALK || p->charState == 23 || p->charState == 32 || p->charState == 40)
+    if (p->charState == CHARSTATE_WALK_A || p->charState == 23 || p->charState == 32 || p->charState == 40)
 #elif (GAME == GAME_SA2)
     if (p->charState == CHARSTATE_WALK_A || p->charState == CHARSTATE_GRINDING || p->charState == CHARSTATE_ICE_SLIDE
         || p->charState == CHARSTATE_WALK_B || (p->charState == CHARSTATE_CREAM_CHAO_ATTACK && p->character == CHARACTER_CREAM))
@@ -4790,20 +4790,20 @@ top:
                 p->charState = CHARSTATE_SPINDASH;
             } else if (p->charState == CHARSTATE_3) {
                 if (p->qSpeedGround != 0) {
-                    p->charState = CHARSTATE_WALK;
+                    p->charState = CHARSTATE_WALK_A;
                 } else {
                     p->charState = CHARSTATE_IDLE;
                 }
             } else if (p->charState == CHARSTATE_11) {
                 p->charState = CHARSTATE_IDLE;
             } else if (p->charState == CHARSTATE_22) {
-                p->charState = CHARSTATE_WALK;
+                p->charState = CHARSTATE_WALK_A;
             } else if (p->charState == CHARSTATE_17) {
                 p->charState = CHARSTATE_19;
             } else if (p->charState == CHARSTATE_18) {
                 p->charState = CHARSTATE_19;
             } else if (p->charState == CHARSTATE_27) {
-                p->charState = CHARSTATE_WALK;
+                p->charState = CHARSTATE_WALK_A;
             } else if (p->charState == CHARSTATE_74) {
                 // _0804652C + 0x4
                 if (p->moveState & MOVESTATE_FACING_LEFT) {
@@ -4853,7 +4853,7 @@ top:
                 if (p->qSpeedGround == 0) {
                     p->charState = CHARSTATE_IDLE;
                 } else {
-                    p->charState = CHARSTATE_WALK;
+                    p->charState = CHARSTATE_WALK_A;
                 }
             } else if (p->charState == CHARSTATE_46) {
                 // _08046608 + 0xA
@@ -4930,7 +4930,7 @@ top:
                 if (p->qSpeedGround == 0) {
                     p->charState = CHARSTATE_IDLE;
                 } else {
-                    p->charState = CHARSTATE_WALK;
+                    p->charState = CHARSTATE_WALK_A;
                 }
 
                 p->defeatScoreIndex = 0;
@@ -4977,7 +4977,7 @@ top:
                     p->SA2_LABEL(unk62) = 0;
 
                     if (p->qSpeedGround != 0) {
-                        p->charState = CHARSTATE_WALK;
+                        p->charState = CHARSTATE_WALK_A;
                     } else {
                         p->charState = CHARSTATE_IDLE;
                     }
@@ -4998,7 +4998,7 @@ top:
                 p->SA2_LABEL(unk62) = 0;
 
                 if (p->qSpeedGround != 0) {
-                    p->charState = CHARSTATE_WALK;
+                    p->charState = CHARSTATE_WALK_A;
                 } else {
                     p->charState = CHARSTATE_IDLE;
                 }

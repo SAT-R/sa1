@@ -11,7 +11,7 @@
 #define CHARSTATE_DEAD            1
 #define CHARSTATE_CROUCH          2
 #define CHARSTATE_3               3 // Look-down state?
-#define CHARSTATE_WALK            4
+#define CHARSTATE_WALK_A          4
 #define CHARSTATE_SPINATTACK      5
 #define CHARSTATE_SPINDASH        6
 #define CHARSTATE_7               7

@@ -280,7 +280,7 @@ void Task_Platform_Spiked(void)
                             if (PLAYER(i).charState == CHARSTATE_14) {
                                 if (PLAYER(i).character != CHARACTER_AMY) {
                                     if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
-                                        PLAYER(i).charState = CHARSTATE_WALK;
+                                        PLAYER(i).charState = CHARSTATE_WALK_A;
                                     } else {
                                         if (PLAYER(i).character != CHARACTER_AMY) {
                                             PLAYER(i).charState = CHARSTATE_SPINATTACK;
@@ -290,7 +290,7 @@ void Task_Platform_Spiked(void)
                                     }
                                 } else {
                                     if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
-                                        PLAYER(i).charState = CHARSTATE_WALK;
+                                        PLAYER(i).charState = CHARSTATE_WALK_A;
                                     } else {
                                         if (PLAYER(i).character != CHARACTER_AMY) {
                                             PLAYER(i).charState = CHARSTATE_SPINATTACK;

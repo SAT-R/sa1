@@ -477,7 +477,7 @@ void Player_8049E3C(Player *p)
         psiBody->transform.x = s->x = I(p->qWorldX) - gCamera.x;
         psiBody->transform.y = s->y = I(p->qWorldY) - gCamera.y;
 
-        if (p->charState == CHARSTATE_WALK) {
+        if (p->charState == CHARSTATE_WALK_A) {
             SPRITE_FLAG_CLEAR(s, X_FLIP);
             SPRITE_FLAG_CLEAR(s, ROT_SCALE);
             SPRITE_FLAG_SET(s, ROT_SCALE_ENABLE);

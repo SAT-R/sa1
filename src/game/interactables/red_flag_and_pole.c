@@ -157,7 +157,7 @@ void Task_8077760(void)
 
                 if (!(p->moveState & MOVESTATE_FACING_LEFT)) {
                     if (p->charState == CHARSTATE_BRAKE) {
-                        p->charState = CHARSTATE_WALK;
+                        p->charState = CHARSTATE_WALK_A;
                     }
 
                     if (p->qSpeedGround < +Q(10.5)) {
@@ -166,7 +166,7 @@ void Task_8077760(void)
                     }
                 } else {
                     if (p->charState == CHARSTATE_BRAKE) {
-                        p->charState = CHARSTATE_WALK;
+                        p->charState = CHARSTATE_WALK_A;
                     }
 
                     if (p->qSpeedGround > -Q(10.5)) {

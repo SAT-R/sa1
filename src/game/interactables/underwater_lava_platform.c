@@ -193,9 +193,9 @@ NONMATCH("asm/non_matching/game/interactables/lava_platform__Task_80929A0.inc", 
                 }
 
                 if (PLAYER(i).qSpeedAirY == Q(0)) {
-                    if (PLAYER(i).charState != CHARSTATE_WALK) {
+                    if (PLAYER(i).charState != CHARSTATE_WALK_A) {
                         Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                        PLAYER(i).charState = CHARSTATE_WALK;
+                        PLAYER(i).charState = CHARSTATE_WALK_A;
                     }
                 }
             } else {

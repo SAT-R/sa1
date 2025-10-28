@@ -289,12 +289,12 @@ void Task_Booster(void)
 
                     if (s->frameFlags & SPRITE_FLAG_MASK_X_FLIP) {
                         if (PLAYER(i).charState == CHARSTATE_BRAKE) {
-                            PLAYER(i).charState = CHARSTATE_WALK;
+                            PLAYER(i).charState = CHARSTATE_WALK_A;
                         }
 
                         if ((PLAYER(i).charState != CHARSTATE_SPINATTACK) && (PLAYER(i).charState != CHARSTATE_SPINDASH)
                             && (PLAYER(i).charState != CHARSTATE_7)) {
-                            PLAYER(i).charState = CHARSTATE_WALK;
+                            PLAYER(i).charState = CHARSTATE_WALK_A;
                         }
                         PLAYER(i).moveState |= MOVESTATE_FACING_LEFT;
                         if (PLAYER(i).qSpeedGround > -Q(9)) {
@@ -305,12 +305,12 @@ void Task_Booster(void)
                         PLAYER(i).SA2_LABEL(unk62) = 0;
                     } else {
                         if (PLAYER(i).charState == CHARSTATE_BRAKE) {
-                            PLAYER(i).charState = CHARSTATE_WALK;
+                            PLAYER(i).charState = CHARSTATE_WALK_A;
                         }
 
                         if ((PLAYER(i).charState != CHARSTATE_SPINATTACK) && (PLAYER(i).charState != CHARSTATE_SPINDASH)
                             && (PLAYER(i).charState != CHARSTATE_7)) {
-                            PLAYER(i).charState = CHARSTATE_WALK;
+                            PLAYER(i).charState = CHARSTATE_WALK_A;
                         }
 
                         PLAYER(i).moveState &= ~MOVESTATE_FACING_LEFT;

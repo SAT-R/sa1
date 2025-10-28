@@ -466,7 +466,7 @@ void Task_SkatingStone2(void)
                             PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
                             PLAYER(i).moveState &= ~MOVESTATE_4;
 
-                            PLAYER(i).charState = CHARSTATE_WALK;
+                            PLAYER(i).charState = CHARSTATE_WALK_A;
 
                             PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
                         }

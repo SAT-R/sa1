@@ -69,7 +69,7 @@ void Task_HalfPipeStart(void)
                     p->moveState &= ~MOVESTATE_8000;
 
                     if (p->charState == CHARSTATE_24 || p->charState == CHARSTATE_25 || p->charState == CHARSTATE_26) {
-                        p->charState = CHARSTATE_WALK;
+                        p->charState = CHARSTATE_WALK_A;
                     }
 
                 } else if ((p->qSpeedAirX >= +Q(2.25))) {
@@ -126,7 +126,7 @@ void Task_HalfPipeEnd(void)
                     p->moveState &= ~MOVESTATE_8000;
 
                     if (p->charState == CHARSTATE_24 || p->charState == CHARSTATE_25 || p->charState == CHARSTATE_26) {
-                        p->charState = CHARSTATE_WALK;
+                        p->charState = CHARSTATE_WALK_A;
                     }
 
                 } else if ((p->qSpeedAirX <= -Q(2.25))) {
@@ -197,10 +197,10 @@ NONMATCH("asm/non_matching/game/interactables/half_pipe__sub_804D4A0.inc", void 
     if (!(p->moveState & MOVESTATE_4)) {
         // __0804D55A
         if (p->SA2_LABEL(unk62) == 0) {
-            if (p->charState == CHARSTATE_WALK
+            if (p->charState == CHARSTATE_WALK_A
                 || (p->charState == CHARSTATE_24 || p->charState == CHARSTATE_25 || p->charState == CHARSTATE_26)) {
                 if (r6 < Q(8)) {
-                    p->charState = CHARSTATE_WALK;
+                    p->charState = CHARSTATE_WALK_A;
                 } else if (r6 < Q(24)) {
                     p->charState = CHARSTATE_24;
                 } else if (r6 < Q(48)) {

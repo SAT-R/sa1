@@ -75,7 +75,7 @@ EHit sub_800BFEC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);
 bool32 sub_800DD54(Player *p);
 bool32 SA2_LABEL(sub_800DE44)(Player *p);
-u32 sub_800D0A0(Sprite *, s16, s16, s16, s16, u8, u32);
+u32 SA2_LABEL(sub_800D0A0)(Sprite *s, CamCoord worldX, CamCoord worldY, s16 qSpeedX, s16 qSpeedY, u8 layer, u8 arg6);
 
 // HandlePlayerDestroy?
 #if (GAME == GAME_SA1)

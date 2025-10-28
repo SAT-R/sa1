@@ -121,7 +121,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sub_8048230.inc", void sub_8048230
             SA2_LABEL(sub_8022318)(p);
 
             if (p->qSpeedGround != Q(0)) {
-                p->charState = CHARSTATE_WALK;
+                p->charState = CHARSTATE_WALK_A;
             } else {
                 p->charState = CHARSTATE_IDLE;
             }

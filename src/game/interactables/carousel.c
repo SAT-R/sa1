@@ -340,7 +340,7 @@ NONMATCH("asm/non_matching/game/interactables/carousel__Task_RidingCarousel.inc"
                         PLAYER(i).moveState |= MOVESTATE_4;
                         PLAYER(i).moveState |= MOVESTATE_FLIP_WITH_MOVE_DIR;
                         PLAYER(i).moveState |= MOVESTATE_IN_AIR;
-                        PLAYER(i).charState = CHARSTATE_WALK;
+                        PLAYER(i).charState = CHARSTATE_WALK_A;
                         PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
                         PLAYER(i).qSpeedAirY = Q(0);
                         // _080862C2

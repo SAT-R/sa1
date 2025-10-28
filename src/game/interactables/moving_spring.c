@@ -255,7 +255,7 @@ bool32 sub_808B7A0(MovingSpring *spring, Sprite *s, s32 worldX, s32 worldY)
                     if (PLAYER(i).moveState & MOVESTATE_20) {
                         PLAYER(i).moveState &= ~MOVESTATE_20;
                         Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                        PLAYER(i).charState = CHARSTATE_WALK;
+                        PLAYER(i).charState = CHARSTATE_WALK_A;
                     }
                 }
             }

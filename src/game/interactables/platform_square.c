@@ -387,13 +387,13 @@ void Task_Platform_Square(void)
                         if (PLAYER(i).charState == CHARSTATE_14) {
                             if (PLAYER(i).character != CHARACTER_AMY) {
                                 if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
-                                    PLAYER(i).charState = CHARSTATE_WALK;
+                                    PLAYER(i).charState = CHARSTATE_WALK_A;
                                 } else {
                                     PLAYER(i).charState = CHARSTATE_SPINATTACK;
                                 }
                             } else {
                                 if (!(PLAYER(i).moveState & MOVESTATE_IN_AIR)) {
-                                    PLAYER(i).charState = CHARSTATE_WALK;
+                                    PLAYER(i).charState = CHARSTATE_WALK_A;
                                 } else {
                                     PLAYER(i).charState = CHARSTATE_SPINATTACK;
                                 }

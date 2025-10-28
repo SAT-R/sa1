@@ -192,7 +192,7 @@ NONMATCH("asm/non_matching/game/interactables/hook_rail__Task_HookRail_Type1_2.i
             m4aSongNumStop(SE_HOOK_RAIL);
             Player_TransitionCancelFlyingAndBoost(&gPlayer);
             gPlayer.moveState &= ~MOVESTATE_IA_OVERRIDE;
-            gPlayer.charState = CHARSTATE_WALK;
+            gPlayer.charState = CHARSTATE_WALK_A;
 
             PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
 
@@ -380,7 +380,7 @@ NONMATCH("asm/non_matching/game/interactables/hook_rail__Task_HookRail_Type0_2.i
                 m4aSongNumStop(SE_HOOK_RAIL);
                 Player_TransitionCancelFlyingAndBoost(&gPlayer);
                 gPlayer.moveState &= ~MOVESTATE_IA_OVERRIDE;
-                gPlayer.charState = CHARSTATE_WALK;
+                gPlayer.charState = CHARSTATE_WALK_A;
 
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
 
@@ -630,7 +630,7 @@ void Task_HookRail_Type2_0(void)
             Player_TransitionCancelFlyingAndBoost(&gPlayer);
             gPlayer.moveState &= ~MOVESTATE_IA_OVERRIDE;
             gPlayer.moveState |= MOVESTATE_FACING_LEFT;
-            gPlayer.charState = CHARSTATE_WALK;
+            gPlayer.charState = CHARSTATE_WALK_A;
 
             PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
 

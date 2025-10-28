@@ -50,8 +50,8 @@ u32 sub_80096B0(Sprite *s, CamCoord x, CamCoord y, Player *p)
 
 #if (GAME == GAME_SA1)
 // (75.12%) https://decomp.me/scratch/FhZW1
-NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_80097E4.inc",
-         s32 sub_80097E4(Sprite *s, CamCoord worldX, CamCoord worldY, s16 qSpeedX, s16 qSpeedY, u8 layer, u8 arg6))
+NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sa2__sub_800D0A0.inc",
+         u32 SA2_LABEL(sub_800D0A0)(Sprite *s, CamCoord worldX, CamCoord worldY, s16 qSpeedX, s16 qSpeedY, u8 layer, u8 arg6))
 {
     s8 sp4[4]
         = { -(gPlayer.spriteOffsetX + 5), (1 - (u8)gPlayer.spriteOffsetY), (+(gPlayer.spriteOffsetX + 5)), (gPlayer.spriteOffsetY - 1) };

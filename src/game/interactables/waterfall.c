@@ -255,7 +255,7 @@ void Task_WaterfallZone5(void)
 
                             if (PLAYER(i).character == CHARACTER_KNUCKLES) {
                                 if (PLAYER(i).charState == CHARSTATE_KNUCKLES_GLIDE) {
-                                    PLAYER(i).charState = CHARSTATE_WALK;
+                                    PLAYER(i).charState = CHARSTATE_WALK_A;
                                     PLAYER(i).qSpeedGround = Q(0);
                                     PLAYER(i).qSpeedAirX = Q(0);
 
@@ -283,7 +283,7 @@ void Task_WaterfallZone5(void)
 
                             PLAYER(i).moveState &= ~MOVESTATE_IN_AIR;
                             PLAYER(i).moveState &= ~MOVESTATE_4;
-                            PLAYER(i).charState = CHARSTATE_WALK;
+                            PLAYER(i).charState = CHARSTATE_WALK_A;
                             PLAYER(i).qWorldY += Q(0.6875);
 
                             if (PLAYER(i).qSpeedAirY > Q(0)) {

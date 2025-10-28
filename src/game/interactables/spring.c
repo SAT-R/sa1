@@ -745,7 +745,7 @@ bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
             if (p->moveState & MOVESTATE_4) {
                 p->charState = CHARSTATE_SPINATTACK;
             } else {
-                p->charState = CHARSTATE_WALK;
+                p->charState = CHARSTATE_WALK_A;
             }
 
             p->rotation = 0;
@@ -795,7 +795,7 @@ bool32 sub_80228D0(Sprite *s, MapEntity *me, SpringA *spring, Player *p)
             if (p->moveState & MOVESTATE_4) {
                 p->charState = CHARSTATE_SPINATTACK;
             } else {
-                p->charState = CHARSTATE_WALK;
+                p->charState = CHARSTATE_WALK_A;
             }
 
             p->rotation = 0;
