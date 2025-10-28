@@ -115,7 +115,7 @@ void GameInit(void)
         CreateSegaLogo();
 #endif
 #if (GAME == GAME_SA1)
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < NUM_CHARACTERS; i++) {
             LOADED_SAVE->unlockedLevels[i] = 0xF;
         }
 #elif (GAME == GAME_SA2)
