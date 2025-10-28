@@ -25,7 +25,7 @@ static inline void sub_8047E94_inline(Player *p)
 {
     if (p->SA2_LABEL(unk62) == 0) {
         if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (Player_Tails_8047B04(p) == 0)) {
-            if (!Player_Spindash(p) && !Player_8044250(p)) {
+            if (!Player_Spindash(p) && !Player_TryJump(p)) {
                 SA2_LABEL(sub_8029CA0)(p);
                 Player_8044F7C(p);
                 SA2_LABEL(sub_80232D0)(p);
@@ -76,7 +76,7 @@ static inline void sub_8047FA0_inline(Player *p)
     Player_804726C(p);
     Player_8047280(p);
 
-    if (!Player_8044250(p)) {
+    if (!Player_TryJump(p)) {
         SA2_LABEL(sub_8029D14)(p);
         Player_8043DDC(p);
         SA2_LABEL(sub_80232D0)(p);

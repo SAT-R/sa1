@@ -15,14 +15,20 @@
 
 #define SA1_ANIM_TAILS_SPIN_ATTACK 107
 
-#define SA1_CHAR_ANIM_WALK        4
-#define SA1_CHAR_ANIM_RUN         5
-#define SA1_CHAR_ANIM_SPIN_ATTACK 8
-#define SA1_CHAR_ANIM_GRINDING    44
-
+#define SA1_CHAR_ANIM_WALK         4
+#define SA1_CHAR_ANIM_RUN          5
+#define SA1_CHAR_ANIM_SPIN_ATTACK  8
+#define SA1_CHAR_ANIM_20           20
+#define SA1_CHAR_ANIM_21           21
+#define SA1_CHAR_ANIM_22           22
+#define SA1_CHAR_ANIM_23           23
 #define SA1_CHAR_ANIM_MARBLE_TRACK 39
+#define SA1_CHAR_ANIM_GRINDING     44
 #define SA1_CHAR_ANIM_50           50
 #define SA1_CHAR_ANIM_ATTACK       52
+#define SA1_CHAR_ANIM_56           56
+#define SA1_CHAR_ANIM_57           57
+#define SA1_CHAR_ANIM_58           58
 
 #define SA1_NUM_PLAYER_CHAR_ANIMATIONS (99) // TODO: Don't use constant here
 #define SA1_ANIM_CHAR(character, anim) ((SA1_CHAR_ANIM_##anim) + CHARACTER_##character * SA1_NUM_PLAYER_CHAR_ANIMATIONS)

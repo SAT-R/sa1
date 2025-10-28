@@ -2902,7 +2902,7 @@ bool32 Player_Spindash(Player *p)
 
 #endif // (GAME == GAME_SA1)
 
-bool32 Player_8044250(Player *p)
+bool32 Player_TryJump(Player *p)
 {
     u8 rot = p->rotation;
     s32 r5 = 0;

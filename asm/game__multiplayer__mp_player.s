@@ -6,7 +6,7 @@
 .arm
 
 @ --- Start of src/game/multiplayer/mp_player.c ---
-.if 01
+.if 0
 	thumb_func_start sa2__sub_801707C
 sa2__sub_801707C: @ 0x08014144
 	push {r4, r5, r6, r7, lr}
@@ -432,7 +432,7 @@ _0801445E:
 	adds r0, #1
 	strb r2, [r0]
 	mov r0, r8
-	bl Player_8044250
+	bl Player_TryJump
 	cmp r0, #0
 	beq _080144A8
 	movs r0, #0x1e
@@ -1206,7 +1206,7 @@ _08014A6A:
 _08014A76:
 	ldr r6, _08014A98 @ =gPlayer
 	adds r0, r6, #0
-	bl Player_8044250
+	bl Player_TryJump
 	cmp r0, #0
 	beq _08014AA0
 	movs r0, #0x1e

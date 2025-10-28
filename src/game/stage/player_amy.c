@@ -129,7 +129,7 @@ void Player_Amy_80494E8(Player *p)
 {
     if (p->SA2_LABEL(unk62) == 0) {
         if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (Player_Amy_8049370(p) == 0)) {
-            if (!Player_8044250(p)) {
+            if (!Player_TryJump(p)) {
                 if (!(p->moveState & MOVESTATE_200)) {
                     SA2_LABEL(sub_8029CA0)(p);
                 } else {

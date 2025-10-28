@@ -782,7 +782,7 @@ void sub_8048CB0(Player *p)
 {
     if (p->SA2_LABEL(unk62) == 0) {
         if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (sub_8048C3C(p) == 0)) {
-            if (Player_Spindash(p) || Player_8044250(p)) {
+            if (Player_Spindash(p) || Player_TryJump(p)) {
                 return;
             }
 
@@ -961,7 +961,7 @@ void sub_8048E34(Player *p)
                 return;
             } break;
         }
-    } else if (Player_8044250(p)) {
+    } else if (Player_TryJump(p)) {
         p->qSpeedAirY >>= 1;
         p->SA2_LABEL(unk61) = 0;
     } else {
@@ -992,7 +992,7 @@ void Player_Knuckles_8049000(Player *p)
         case MOVESTATE_4: {
             Player_804726C(p);
             Player_8047280(p);
-            if (!Player_8044250(p)) {
+            if (!Player_TryJump(p)) {
                 SA2_LABEL(sub_8029D14)(p);
                 Player_8043DDC(p);
 
@@ -1086,7 +1086,7 @@ void sub_80491C4(Player *p)
     Player_804726C(p);
     Player_8047280(p);
 
-    if (!Player_8044250(p)) {
+    if (!Player_TryJump(p)) {
         SA2_LABEL(sub_8029D14)(p);
         Player_8043DDC(p);
         SA2_LABEL(sub_80232D0)(p);
