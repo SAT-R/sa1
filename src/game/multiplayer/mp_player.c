@@ -56,8 +56,6 @@ bool8 gShouldSpawnMPAttack2Effect = FALSE;
 void Task_CreateMultiplayerPlayer(void);
 void TaskDestructor_MultiplayerPlayer(struct Task *);
 
-void sub_8017F34(void);
-
 void SA2_LABEL(sub_8016D20)(void);
 void SA2_LABEL(sub_801707C)(void);
 void SA2_LABEL(sub_8017670)(void);
@@ -1378,6 +1376,7 @@ void SA2_LABEL(sub_801707C)(void)
 
 // Knuckles
 // NOTE: Matches in SA2!
+// (99.36%) https://decomp.me/scratch/cjmw6
 NONMATCH("asm/non_matching/game/multiplayer/sa1_mp_player__sa2__sub_8017670.inc", void SA2_LABEL(sub_8017670)(void))
 
 {
@@ -1611,7 +1610,6 @@ NONMATCH("asm/non_matching/game/multiplayer/sa1_mp_player__sa2__sub_8017670.inc"
 }
 END_NONMATCH
 
-#if 0
 void SA2_LABEL(sub_8017C28)(void)
 {
     MultiplayerPlayer *mpp = TASK_DATA(gCurTask);
@@ -1622,9 +1620,18 @@ void SA2_LABEL(sub_8017C28)(void)
         SA2_LABEL(sub_8017F34)();
     }
 
+#if (GAME == GAME_SA1)
+    // Checks twice for gGameMode 3, 5 !
+    if (((gGameMode == 3 || gGameMode == 5)
+         && ((gMultiplayerConnections & (0x10 << (mpp->unk56))) >> ((mpp->unk56 + 4))
+             != (gMultiplayerConnections & (0x10 << (SIO_MULTI_CNT->id))) >> (SIO_MULTI_CNT->id + 4)))
+        || (gGameMode != 3 && gGameMode != 5))
+#elif (GAME == GAME_SA2)
     if (gGameMode != GAME_MODE_TEAM_PLAY
         || ((gMultiplayerConnections & (0x10 << (mpp->unk56))) >> ((mpp->unk56 + 4))
-            != (gMultiplayerConnections & (0x10 << (SIO_MULTI_CNT->id))) >> (SIO_MULTI_CNT->id + 4))) {
+            != (gMultiplayerConnections & (0x10 << (SIO_MULTI_CNT->id))) >> (SIO_MULTI_CNT->id + 4)))
+#endif
+    {
         if (!SA2_LABEL(sub_8018300)()) {
             return;
         }
@@ -1655,9 +1662,14 @@ void SA2_LABEL(sub_8017C28)(void)
             if (gPlayer.SA2_LABEL(unk61) != 0 && (gPlayer.character == CHARACTER_TAILS || gPlayer.character == CHARACTER_KNUCKLES)) {
                 return;
             }
-            val = sub_800DA4C(s, mpp->pos.x, mpp->pos.y, mpp->unk66, mpp->unk68, (mpp->unk54 >> 7) & 1);
+            val = SA2_LABEL(sub_800DA4C)(s, mpp->pos.x, mpp->pos.y, mpp->unk66, mpp->unk68, (mpp->unk54 >> 7) & 1);
             if ((val & 2) && !(gPlayer.moveState & MOVESTATE_IN_AIR) && gPlayer.rotation == 0) {
-                if (s->graphics.anim == SA2_ANIM_CHAR(SA2_CHAR_ANIM_BOOSTLESS_ATTACK, CHARACTER_AMY)) {
+#if (GAME == GAME_SA1)
+                if (s->graphics.anim == SA1_ANIM_CHAR(AMY, BOOSTLESS_ATTACK))
+#elif (GAME == GAME_SA2)
+                if (s->graphics.anim == SA2_ANIM_CHAR(SA2_CHAR_ANIM_BOOSTLESS_ATTACK, CHARACTER_AMY))
+#endif
+                {
                     LaunchPlayer(-Q_8_8(7.5));
 #ifndef NON_MATCHING
                     goto lab;
@@ -1667,7 +1679,12 @@ void SA2_LABEL(sub_8017C28)(void)
 #endif
                 }
 
-                if (s->graphics.anim == SA2_ANIM_CHAR(SA2_CHAR_ANIM_19, CHARACTER_AMY)) {
+#if (GAME == GAME_SA1)
+                if (s->graphics.anim == SA1_ANIM_CHAR(AMY, SA2_19))
+#elif (GAME == GAME_SA2)
+                if (s->graphics.anim == SA2_ANIM_CHAR(SA2_CHAR_ANIM_19, CHARACTER_AMY))
+#endif
+                {
                     LaunchPlayer(-Q_8_8(10.5));
 #ifndef NON_MATCHING
                     goto lab;
@@ -1731,6 +1748,7 @@ void SA2_LABEL(sub_8017C28)(void)
     }
 }
 
+#if 0
 void SA2_LABEL(sub_8017F34)(void)
 {
     MultiplayerPlayer *mpp = TASK_DATA(gCurTask);
@@ -1760,7 +1778,7 @@ void SA2_LABEL(sub_8017F34)(void)
     }
 
     if (mpp->unk48 < 0) {
-        result = sub_801F100(I(gPlayer.qWorldY) - gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, -8, sub_801EC3C);
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldY) - gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, -8, SA2_LABEL(sub_801EC3C));
         if (result < 0) {
             gPlayer.qWorldY -= Q(result);
             gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
@@ -1768,7 +1786,7 @@ void SA2_LABEL(sub_8017F34)(void)
             mpp->unk60 = 30;
         }
     } else if (mpp->unk48 > 0) {
-        result = sub_801F100(I(gPlayer.qWorldY) + gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, 8, sub_801EC3C);
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldY) + gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, 8, SA2_LABEL(sub_801EC3C));
         if (result < 0) {
             gPlayer.qWorldY += Q(result);
             gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
@@ -1778,13 +1796,13 @@ void SA2_LABEL(sub_8017F34)(void)
     }
 
     if (mpp->unk44 < 0) {
-        result = sub_801F100(I(gPlayer.qWorldX) - gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, -8, sub_801EB44);
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldX) - gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, -8, SA2_LABEL(sub_801EB44));
         if (result < 0) {
             gPlayer.qWorldX -= Q(result);
         }
         return;
     } else if (mpp->unk44 > 0) {
-        result = sub_801F100(I(gPlayer.qWorldX) + gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, 8, sub_801EB44);
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldX) + gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, 8, SA2_LABEL(sub_801EB44));
         if (result < 0) {
             gPlayer.qWorldX += Q(result);
         }
