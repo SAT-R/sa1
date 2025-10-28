@@ -138,7 +138,7 @@ typedef struct Player {
     /* 0x1A */ s16 SA2_LABEL(unk2A);
     /* 0x1C */ s16 timerInvulnerability;
     /* 0x1E */ s16 timerInvincibility;
-    /* 0x20 */ s16 timerSpeedup;
+    /* 0x20 */ s16 timerSpeedup; // Also used for the MP slowdown item
     /* 0x22 */ u16 timerConfusion;
     /* 0x24 */ u16 timer24;
     /* 0x26 */ u8 itemEffect;

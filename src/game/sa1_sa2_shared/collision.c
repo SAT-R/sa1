@@ -1564,7 +1564,7 @@ bool32 Coll_DamageSuperSonic(Player *p)
 }
 #endif // (GAME == GAME_SA1)
 
-bool32 sub_800C760(Player *p)
+bool32 SA2_LABEL(sub_800DD54)(Player *p)
 {
     if (p->timerInvincibility > 0 || p->timerInvulnerability > 0) {
         return FALSE;

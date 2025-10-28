@@ -73,18 +73,12 @@ EHit Coll_Player_Bosses_2_6(Sprite *s, CamCoord worldX, CamCoord worldY, Player 
 EHit sub_800BF10(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 EHit sub_800BFEC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);
-bool32 sub_800DD54(Player *p);
+bool32 SA2_LABEL(sub_800DD54)(Player *p);
 bool32 SA2_LABEL(sub_800DE44)(Player *p);
 u32 SA2_LABEL(sub_800D0A0)(Sprite *s, CamCoord worldX, CamCoord worldY, s16 qSpeedX, s16 qSpeedY, u8 layer, u8 arg6);
 
-// HandlePlayerDestroy?
-#if (GAME == GAME_SA1)
-bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord worldX, CamCoord worldY);
-#elif (GAME == GAME_SA2)
-bool32 sub_800C4FC(Sprite *s, CamCoord worldX, CamCoord worldY, u8 hbIndex);
-#endif
+bool32 Coll_Player_Enemy_Attack(Sprite *, s32, s32, u8);
 
-// HandleHitPlayer
-u32 sub_800C84C(Sprite *, s32, s32);
+u32 Coll_Player_Projectile(Sprite *, s32, s32);
 
 #endif // GUARD_STAGE_ENTITIES_0_H

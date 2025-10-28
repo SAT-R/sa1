@@ -7,156 +7,6 @@
 
 @ --- Start of src/game/multiplayer/mp_player.c ---
 .if 0
-.endif
-
-@ Not sa2__sub_8018120, it moved here in SA2, but is farther below in SA1.
-
-	thumb_func_start sa2__sub_80181E0
-sa2__sub_80181E0: @ 0x080151AC
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	sub sp, #8
-	ldr r5, _08015238 @ =gPlayer
-	ldr r1, [r5, #0x64]
-	ldr r0, _0801523C @ =gCurTask
-	ldr r0, [r0]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r4, r0
-	mov r8, r6
-	ldr r0, [r1, #0x3c]
-	movs r1, #1
-	rsbs r1, r1, #0
-	cmp r0, r1
-	beq _08015298
-	ldr r0, [r6, #0x30]
-	cmp r0, r1
-	beq _08015298
-	ldr r1, _08015240 @ =0x03000050
-	adds r0, r4, r1
-	movs r2, #0
-	ldrsh r1, [r0, r2]
-	ldr r3, _08015244 @ =0x03000052
-	adds r0, r4, r3
-	movs r7, #0
-	ldrsh r2, [r0, r7]
-	adds r3, #0x14
-	adds r0, r4, r3
-	movs r7, #0
-	ldrsh r3, [r0, r7]
-	ldr r7, _08015248 @ =0x03000068
-	adds r0, r4, r7
-	movs r7, #0
-	ldrsh r0, [r0, r7]
-	str r0, [sp]
-	ldr r7, _0801524C @ =0x03000054
-	adds r0, r4, r7
-	ldrh r0, [r0]
-	lsrs r0, r0, #7
-	movs r4, #1
-	ands r0, r4
-	str r0, [sp, #4]
-	adds r0, r6, #0
-	bl sa2__sub_800DA4C
-	adds r2, r0, #0
-	ands r0, r4
-	cmp r0, #0
-	beq _08015298
-	adds r0, r5, #0
-	adds r0, #0x3d
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	cmp r0, #0
-	bne _0801526E
-	movs r0, #0x80
-	lsls r0, r0, #0xa
-	ands r0, r2
-	cmp r0, #0
-	beq _08015250
-	ldrh r1, [r5, #8]
-	movs r3, #8
-	ldrsh r0, [r5, r3]
-	cmp r0, #0
-	ble _0801526E
-	b _08015264
-	.align 2, 0
-_08015238: .4byte gPlayer
-_0801523C: .4byte gCurTask
-_08015240: .4byte 0x03000050
-_08015244: .4byte 0x03000052
-_08015248: .4byte 0x03000068
-_0801524C: .4byte 0x03000054
-_08015250:
-	movs r0, #0x80
-	lsls r0, r0, #0xb
-	ands r0, r2
-	cmp r0, #0
-	beq _0801526E
-	ldrh r1, [r5, #8]
-	movs r7, #8
-	ldrsh r0, [r5, r7]
-	cmp r0, #0
-	bge _0801526E
-_08015264:
-	rsbs r0, r1, #0
-	strh r0, [r5, #8]
-	ldrh r0, [r5, #0xc]
-	rsbs r0, r0, #0
-	strh r0, [r5, #0xc]
-_0801526E:
-	movs r0, #0x80
-	lsls r0, r0, #0xd
-	ands r0, r2
-	cmp r0, #0
-	beq _08015288
-	ldr r1, _08015294 @ =gPlayer
-	ldrh r2, [r1, #0xa]
-	movs r3, #0xa
-	ldrsh r0, [r1, r3]
-	cmp r0, #0
-	ble _08015288
-	rsbs r0, r2, #0
-	strh r0, [r1, #0xa]
-_08015288:
-	mov r1, r8
-	adds r1, #0x60
-	movs r0, #0x1e
-	strb r0, [r1]
-	movs r0, #1
-	b _080152B8
-	.align 2, 0
-_08015294: .4byte gPlayer
-_08015298:
-	ldr r2, _080152C4 @ =gPlayer
-	ldr r1, [r2, #0x10]
-	movs r0, #8
-	ands r0, r1
-	cmp r0, #0
-	beq _080152B6
-	ldr r0, [r2, #0x28]
-	cmp r0, r6
-	bne _080152B6
-	movs r0, #9
-	rsbs r0, r0, #0
-	ands r1, r0
-	movs r0, #2
-	orrs r1, r0
-	str r1, [r2, #0x10]
-_080152B6:
-	movs r0, #0
-_080152B8:
-	add sp, #8
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_080152C4: .4byte gPlayer
-
 	thumb_func_start sa2__sub_8018300
 sa2__sub_8018300: @ 0x080152C8
 	push {r4, r5, r6, r7, lr}
@@ -416,7 +266,7 @@ _080154C0:
 _080154C8:
 	str r0, [r3, #0x10]
 	adds r0, r3, #0
-	bl sub_800C760
+	bl sa2__sub_800DD54
 _080154D0:
 	adds r1, r5, #0
 	adds r1, #0x60
@@ -632,6 +482,7 @@ _08015664: .4byte 0x03000050
 _08015668: .4byte 0x03000052
 _0801566C: .4byte 0x03000068
 _08015670: .4byte 0x03000054
+.endif
 
 	thumb_func_start Task_HandleLaunchPlayer
 Task_HandleLaunchPlayer: @ 0x08015674

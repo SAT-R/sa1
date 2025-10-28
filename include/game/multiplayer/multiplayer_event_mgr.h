@@ -19,7 +19,7 @@
 #define ROOMEVENT_TYPE_ITEMEFFECT_APPLIED    6
 #define ROOMEVENT_TYPE_REACHED_STAGE_GOAL    7
 #define ROOMEVENT_TYPE_8                     8
-#define ROOMEVENT_TYPE_9                     9
+#define ROOMEVENT_TYPE_CHAO_COLLECTED        9
 #elif (GAME == GAME_SA2)
 #define ROOMEVENT_TYPE_NONE                  0
 #define ROOMEVENT_TYPE_PLATFORM_CHANGE       1
@@ -92,6 +92,12 @@ typedef struct {
     u8 id;
     u8 unk4;
 } RoomEvent_BalloonPopped;
+
+typedef struct {
+    ROOMEVENT_BASE;
+    u8 id1;
+    u8 id2;
+} RoomEvent_ChaoCollected;
 
 typedef struct {
     ROOMEVENT_BASE;
