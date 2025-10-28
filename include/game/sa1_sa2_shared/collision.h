@@ -32,9 +32,9 @@ typedef enum EHit {
 s32 sub_80097E4(Sprite *s, CamCoord x, CamCoord y, s16 qSpeedX, s16 qSpeedY, u8 layer, u8 arg6);
 
 #if (GAME == GAME_SA1)
-u32 CheckRectCollision_SpritePlayer(Sprite *s, s16 sx, s16 sy, Player *p, struct Rect8 *rectPlayer);
+u32 Coll_Player_Entity_RectIntersection(Sprite *s, s16 sx, s16 sy, Player *p, struct Rect8 *rectPlayer);
 #elif (GAME == GAME_SA2)
-u32 CheckRectCollision_SpritePlayer(Sprite *s, s32 sx, s32 sy, Player *p, struct Rect8 *rectPlayer);
+u32 Coll_Player_Entity_RectIntersection(Sprite *s, s32 sx, s32 sy, Player *p, struct Rect8 *rectPlayer);
 #endif
 
 // param4 might be hitbox index?

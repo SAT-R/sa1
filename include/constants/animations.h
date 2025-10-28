@@ -29,6 +29,13 @@
 #define SA1_CHAR_ANIM_56           56
 #define SA1_CHAR_ANIM_57           57
 #define SA1_CHAR_ANIM_58           58
+#define SA1_CHAR_ANIM_59           59
+#define SA1_CHAR_ANIM_60           60
+#define SA1_CHAR_ANIM_61           61
+#define SA1_CHAR_ANIM_62           62
+#define SA1_CHAR_ANIM_63           63
+#define SA1_CHAR_ANIM_64           64
+#define SA1_CHAR_ANIM_65           65
 
 #define SA1_NUM_PLAYER_CHAR_ANIMATIONS (99) // TODO: Don't use constant here
 #define SA1_ANIM_CHAR(character, anim) ((SA1_CHAR_ANIM_##anim) + CHARACTER_##character * SA1_NUM_PLAYER_CHAR_ANIMATIONS)

@@ -649,7 +649,7 @@ u32 SA2_LABEL(sub_800DA4C)(Sprite *opponent, s16 qOppX, s16 qOppY, UNUSED s32 pa
 }
 END_NONMATCH
 
-u32 CheckRectCollision_SpritePlayer(Sprite *s, CamCoord sx, CamCoord sy, Player *p, struct Rect8 *rectPlayer)
+u32 Coll_Player_Entity_RectIntersection(Sprite *s, CamCoord sx, CamCoord sy, Player *p, struct Rect8 *rectPlayer)
 {
     u32 result = 0;
 
@@ -1869,7 +1869,7 @@ u32 sub_800DF38(Sprite *s, s32 x, s32 y, Player *p)
     // TODO: Could this match with a 'struct Rect8' instead of s8[4]?
     s8 rectPlayer[4] = { -p->spriteOffsetX, -p->spriteOffsetY, +p->spriteOffsetX, +p->spriteOffsetY };
 
-    return CheckRectCollision_SpritePlayer(s, x, y, p, (struct Rect8 *)&rectPlayer);
+    return Coll_Player_Entity_RectIntersection(s, x, y, p, (struct Rect8 *)&rectPlayer);
 }
 
 #if (GAME == GAME_SA1)
@@ -1878,6 +1878,6 @@ u32 sub_800CE98(Sprite *s, s16 x, s16 y, Player *p)
     // TODO: Could this match with a 'struct Rect8' instead of s8[4]?
     s8 rectPlayer[4] = { -(p->spriteOffsetX + 5), (1 - p->spriteOffsetY), +(p->spriteOffsetX + 5), +(p->spriteOffsetY - 1) };
 
-    return CheckRectCollision_SpritePlayer(s, x, y, p, (struct Rect8 *)&rectPlayer);
+    return Coll_Player_Entity_RectIntersection(s, x, y, p, (struct Rect8 *)&rectPlayer);
 }
 #endif
