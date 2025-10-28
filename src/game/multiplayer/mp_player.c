@@ -1748,7 +1748,6 @@ void SA2_LABEL(sub_8017C28)(void)
     }
 }
 
-#if 0
 void SA2_LABEL(sub_8017F34)(void)
 {
     MultiplayerPlayer *mpp = TASK_DATA(gCurTask);
@@ -1762,6 +1761,7 @@ void SA2_LABEL(sub_8017F34)(void)
         return;
     }
 
+#if (GAME == GAME_SA2)
     otherMpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
     if ((otherMpp->unk54 & 0x80) != (mpp->unk54 & 0x80)) {
         gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
@@ -1769,6 +1769,7 @@ void SA2_LABEL(sub_8017F34)(void)
         mpp->unk64 = mpp->unk56;
         return;
     }
+#endif
 
     gPlayer.qWorldX += Q(mpp->unk44);
     if (!GRAVITY_IS_INVERTED) {
@@ -1778,7 +1779,8 @@ void SA2_LABEL(sub_8017F34)(void)
     }
 
     if (mpp->unk48 < 0) {
-        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldY) - gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, -8, SA2_LABEL(sub_801EC3C));
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldY) - gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, -8,
+                                        SA2_LABEL(sub_801EC3C));
         if (result < 0) {
             gPlayer.qWorldY -= Q(result);
             gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
@@ -1786,7 +1788,8 @@ void SA2_LABEL(sub_8017F34)(void)
             mpp->unk60 = 30;
         }
     } else if (mpp->unk48 > 0) {
-        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldY) + gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, 8, SA2_LABEL(sub_801EC3C));
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldY) + gPlayer.spriteOffsetY, I(gPlayer.qWorldX), gPlayer.layer, 8,
+                                        SA2_LABEL(sub_801EC3C));
         if (result < 0) {
             gPlayer.qWorldY += Q(result);
             gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
@@ -1796,20 +1799,21 @@ void SA2_LABEL(sub_8017F34)(void)
     }
 
     if (mpp->unk44 < 0) {
-        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldX) - gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, -8, SA2_LABEL(sub_801EB44));
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldX) - gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, -8,
+                                        SA2_LABEL(sub_801EB44));
         if (result < 0) {
             gPlayer.qWorldX -= Q(result);
         }
         return;
     } else if (mpp->unk44 > 0) {
-        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldX) + gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, 8, SA2_LABEL(sub_801EB44));
+        result = SA2_LABEL(sub_801F100)(I(gPlayer.qWorldX) + gPlayer.spriteOffsetX, I(gPlayer.qWorldY), gPlayer.layer, 8,
+                                        SA2_LABEL(sub_801EB44));
         if (result < 0) {
             gPlayer.qWorldX += Q(result);
         }
         return;
     }
 }
-#endif
 #endif // COLLECT_RINGS_ROM
 
 #if 0
