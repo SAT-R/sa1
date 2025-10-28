@@ -12,6 +12,8 @@
 #include "data/ui_graphics.h"
 
 #include "constants/animations.h"
+#include "constants/songs.h"
+#include "constants/text.h"
 
 typedef struct CongratulationsAnim_48 {
     StrcUi_805423C strc0;
@@ -482,7 +484,7 @@ void CreateCongratulationsAnimation(void)
     gfx.unk29 = 0;
     gfx.unk2A = 0x15;
     sub_80528AC(&gfx);
-    m4aSongNumStart(0x26U);
+    m4aSongNumStart(MUS_CUTSCENE_TORNADO_RESCUE);
 }
 
 void Task_8065F5C_48(void)
@@ -1581,36 +1583,36 @@ void CreateExtraStageResults(void)
         s = &strc64->s;
         strc64->unk3C = 0;
         if (i2 == 0) {
-            strc64->qUnk54[0] = 0x3200;
-            strc64->qUnk44[0] = 0x5000;
+            strc64->qUnk54[0] = Q(50);
+            strc64->qUnk44[0] = Q(80);
             strc64->qUnk44[1] = 0x80;
             strc64->qUnk54[1] = 0;
             s->graphics.dest = OBJ_VRAM0 + 0x6060;
-            s->graphics.anim = 0x316;
+            s->graphics.anim = SA1_ANIM_SOME_CLOUD_XS;
             s->variant = 0;
         } else if (i2 == 1) {
-            strc64->qUnk54[0] = 0x6400;
-            strc64->qUnk44[0] = 0x2800;
+            strc64->qUnk54[0] = Q(100);
+            strc64->qUnk44[0] = Q(40);
             strc64->qUnk44[1] = 0x40;
             strc64->qUnk54[1] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x61A0;
-            s->graphics.anim = 791;
+            s->graphics.anim = SA1_ANIM_SOME_CLOUD_S;
             s->variant = 0;
         } else if (i2 == 2) {
-            strc64->qUnk54[0] = 0x7800;
-            strc64->qUnk44[0] = 0x7800;
+            strc64->qUnk54[0] = Q(120);
+            strc64->qUnk44[0] = Q(120);
             strc64->qUnk44[1] = 0x100;
             strc64->qUnk54[1] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x6440;
-            s->graphics.anim = 792;
+            s->graphics.anim = SA1_ANIM_SOME_CLOUD_M;
             s->variant = 0;
         } else {
-            strc64->qUnk54[0] = 0x1400;
-            strc64->qUnk44[0] = 0xA000;
+            strc64->qUnk54[0] = Q(20);
+            strc64->qUnk44[0] = Q(160);
             strc64->qUnk44[1] = 0xC0;
             strc64->qUnk54[1] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x70A0;
-            s->graphics.anim = 793;
+            s->graphics.anim = SA1_ANIM_SOME_CLOUD_L;
             s->variant = 0;
         }
 
@@ -1638,11 +1640,11 @@ void CreateExtraStageResults(void)
     strc64->qUnk54[2] = 0;
     strc64->qUnk44[2] = 0;
     s->graphics.dest = OBJ_VRAM0 + 0xA0;
-    if (LOADED_SAVE->uiLanguage != 0) {
-        s->graphics.anim = 0x30F;
+    if (LOADED_SAVE->uiLanguage != UILANG_JAPANESE) {
+        s->graphics.anim = SA1_ANIM_A_FEW_DAYS_LATER_EN;
         s->variant = 0;
     } else {
-        s->graphics.anim = 0x312;
+        s->graphics.anim = SA1_ANIM_A_FEW_DAYS_LATER_JP;
         s->variant = 0;
     }
     s->x = 120;
@@ -1753,7 +1755,7 @@ void Task_8067824(void)
     sub_80684F4__inline(temp_r6);
 
     if (temp_r6 == state->unk3C) {
-        m4aSongNumStart(0x27U);
+        m4aSongNumStart(MUS_CUTSCENE_A_FEW_DAYS_LATER);
     }
 
     v0 = Div(0x2000, 0x80);
