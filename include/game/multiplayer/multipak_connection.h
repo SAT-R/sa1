@@ -10,7 +10,11 @@ extern u8 gMultiplayerConnections;
 extern u8 gMultiplayerUnlockedLevels;
 
 void StartMultiPakConnect(void);
+#if (GAME == GAME_SA1)
 void MultiPakCommunicationError(void);
+#else
+void MultiPakCommunicationError(void);
+#endif
 
 // TOOD: MultiSioHeartBeat
 #define MultiPakHeartbeat()                                                                                                                \
