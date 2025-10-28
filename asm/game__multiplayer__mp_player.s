@@ -6,9 +6,7 @@
 .arm
 
 @ --- Start of src/game/multiplayer/mp_player.c ---
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_CreateMultiplayerPlayer
 Task_CreateMultiplayerPlayer: @ 0x08013400
 	push {r4, r5, r6, r7, lr}
@@ -847,16 +845,16 @@ _08013A8C:
 	beq _08013AA8
 	b _08013BD4
 _08013A96:
-	bl sub_8013DF0
+	bl sa2__sub_8016D20
 	b _08013BD4
 _08013A9C:
-	bl sub_8014144
+	bl sa2__sub_801707C
 	b _08013BD4
 _08013AA2:
-	bl sub_801473C
+	bl sa2__sub_8017670
 	b _08013BD4
 _08013AA8:
-	bl sub_8014D0C
+	bl sa2__sub_8017C28
 	b _08013BD4
 _08013AAE:
 	adds r1, r6, #0
@@ -1280,9 +1278,10 @@ _08013DE0: .4byte 0x04000128
 _08013DE4: .4byte gDispCnt
 _08013DE8: .4byte gWinRegs
 _08013DEC: .4byte 0x0000083F
+.endif
 
-	thumb_func_start sub_8013DF0
-sub_8013DF0: @ 0x08013DF0
+	thumb_func_start sa2__sub_8016D20
+sa2__sub_8016D20: @ 0x08013DF0
 	push {r4, r5, r6, r7, lr}
 	mov r7, sb
 	mov r6, r8
@@ -1307,7 +1306,7 @@ sub_8013DF0: @ 0x08013DF0
 	ldr r0, [r2, #0x28]
 	cmp r0, r6
 	bne _08013E24
-	bl sub_8015024
+	bl sa2__sub_8017F34
 _08013E24:
 	ldr r0, _08013E9C @ =gGameMode
 	ldrb r1, [r0]
@@ -1726,8 +1725,8 @@ _08014132:
 	.align 2, 0
 _08014140: .4byte gPlayer
 
-	thumb_func_start sub_8014144
-sub_8014144: @ 0x08014144
+	thumb_func_start sa2__sub_801707C
+sa2__sub_801707C: @ 0x08014144
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1759,7 +1758,7 @@ sub_8014144: @ 0x08014144
 	ldr r0, [r2, #0x28]
 	cmp r0, r7
 	bne _0801418A
-	bl sub_8015024
+	bl sa2__sub_8017F34
 	movs r4, #1
 	str r4, [sp, #0x14]
 _0801418A:
@@ -2500,8 +2499,8 @@ _0801472A:
 	bx r0
 	.align 2, 0
 
-	thumb_func_start sub_801473C
-sub_801473C: @ 0x0801473C
+	thumb_func_start sa2__sub_8017670
+sa2__sub_8017670: @ 0x0801473C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -2533,7 +2532,7 @@ sub_801473C: @ 0x0801473C
 	ldr r0, [r2, #0x28]
 	cmp r0, r7
 	bne _0801477E
-	bl sub_8015024
+	bl sa2__sub_8017F34
 _0801477E:
 	ldr r0, _080147F4 @ =gGameMode
 	ldrb r1, [r0]
@@ -3254,8 +3253,8 @@ _08014CFC:
 	pop {r0}
 	bx r0
 
-	thumb_func_start sub_8014D0C
-sub_8014D0C: @ 0x08014D0C
+	thumb_func_start sa2__sub_8017C28
+sa2__sub_8017C28: @ 0x08014D0C
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -3278,7 +3277,7 @@ sub_8014D0C: @ 0x08014D0C
 	ldr r0, [r2, #0x28]
 	cmp r0, r7
 	bne _08014D3C
-	bl sub_8015024
+	bl sa2__sub_8017F34
 _08014D3C:
 	ldr r0, _08014DB4 @ =gGameMode
 	ldrb r1, [r0]
@@ -3655,8 +3654,8 @@ _0801500E:
 	.align 2, 0
 _08015020: .4byte gPlayer
 
-	thumb_func_start sub_8015024
-sub_8015024: @ 0x08015024
+	thumb_func_start sa2__sub_8017F34
+sa2__sub_8017F34: @ 0x08015024
 	push {r4, r5, r6, lr}
 	sub sp, #4
 	ldr r0, _08015068 @ =gCurTask

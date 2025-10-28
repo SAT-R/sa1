@@ -91,7 +91,6 @@ void sub_802E290(void) { }
 void CreateMultiplayerModeSelectScreen() { }
 
 void CreateMultiplayerResultsScreen() { }
-void CreateMultiplayerPlayer() { }
 void MultiPakCommunicationError() { }
 void ShowSinglePakResults() { }
 void CreateMultiplayerChao() { }

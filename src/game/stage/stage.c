@@ -362,11 +362,17 @@ void Task_GameStage(void)
     u32 timeStep;
 
     if (IS_SINGLE_PLAYER) {
-#if (GAME == GAME_SA1) && DEBUG
+#if DEBUG
 #include "game/character_select.h"
         if (gInput & SELECT_BUTTON) {
+            u32 initialCharacter = CHARACTER_TAILS;
+            bool32 allUnlocked = TRUE;
             TasksDestroyAll();
-            CreateCharacterSelectionScreen(CHARACTER_TAILS);
+#if (GAME == GAME_SA1)
+            CreateCharacterSelectionScreen(initialCharacter);
+#elif (GAME == GAME_SA2)
+            CreateCharacterSelectionScreen(initialCharacter, allUnlocked);
+#endif
             return;
         }
 #endif
