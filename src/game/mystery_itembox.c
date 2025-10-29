@@ -7,6 +7,7 @@
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/multiplayer/mp_player.h"
 #include "game/sa1_sa2_shared/dust_cloud.h"
+#include "game/sa1_sa2_shared/itembox.h"
 #include "game/stage/camera.h"
 #include "game/stage/player.h"
 #include "game/stage/terrain_collision.h"
@@ -66,6 +67,7 @@ void sub_801C69C(void);
 void sub_801C2FC(void);
 void sub_801C420(void);
 void sub_801C130(void);
+void sub_801C3A0(void);
 extern void sub_808623C(void);
 extern void sub_8086858(MysteryItemBox *);
 extern bool32 sub_808693C(MysteryItemBox *);
@@ -439,6 +441,82 @@ static inline void Task_MysteryItemBox_Main0_inline(void)
 
         sub_80868A8(itemBox, 0);
     }
+}
+#endif
+
+#if (GAME == GAME_SA1)
+void sub_801C130()
+{
+    Sprite *s;
+    s16 *temp_r3;
+    s32 rnd;
+    s32 temp_r4_2;
+    RoomEvent_ItemEffect *roomEventA;
+    s8 var_r0;
+    u16 oldRingCount;
+    CamCoord worldX, worldY;
+    u8 temp_r4;
+
+    MysteryItemBox *itembox = TASK_DATA(gCurTask);
+    MapEntity *me = itembox->base.me;
+
+    itembox->unk7C--;
+    itembox->unk80++;
+    worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+    worldY = TO_WORLD_POS(me->y, itembox->base.regionY) + itembox->unk7C;
+    if (itembox->unk80 > 0x3BU) {
+        if (gGameMode != 6) {
+            temp_r4 = itembox->rndItemIndex;
+            switch (temp_r4) {
+                default:
+                case 0:
+                    roomEventA = CreateRoomEvent();
+                    roomEventA->type = ROOMEVENT_TYPE_ITEMEFFECT_APPLIED;
+                    roomEventA->effect = 0;
+                    break;
+                case 1:
+                    roomEventA = CreateRoomEvent();
+                    roomEventA->type = ROOMEVENT_TYPE_ITEMEFFECT_APPLIED;
+                    roomEventA->effect = 1;
+                    break;
+                case 2:
+                    gPlayer.itemEffect |= 0x20;
+                    gPlayer.timer24 = 0x258;
+                    break;
+                    roomEventA = CreateRoomEvent();
+                    roomEventA->type = ROOMEVENT_TYPE_ITEMEFFECT_APPLIED;
+                    roomEventA->effect = 0;
+                    break;
+            }
+        } else {
+            u16 ringsInBox;
+
+            switch (itembox->rndItemIndex) {
+                case 2:
+                case 0:
+                    ringsInBox = ItemBox_RingAmountTable[PseudoRandom32() % 6u];
+                    INCREMENT_RINGS(ringsInBox);
+                    if ((gGameMode == 6) && ((u32)gRingCount > 0xFFU)) {
+                        gRingCount = 0xFF;
+                    }
+                    m4aSongNumStart(0x75U);
+                    break;
+                case 1:
+                case 3:
+                    roomEventA = CreateRoomEvent();
+                    roomEventA->type = 6;
+                    roomEventA->effect = 3;
+                    break;
+            }
+        }
+        gCurTask->main = sub_801C3A0;
+        itembox->unk80 = 0;
+    }
+
+    s = &itembox->identifier;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    DisplaySprite(s);
 }
 #endif
 
