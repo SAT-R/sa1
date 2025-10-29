@@ -18,6 +18,12 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
+/* While you can tell the SA2 version stems from SA1's,
+ *  it's clear they heavily modified it during SA2's development.
+ *
+ * TODO: Maybe we should split them into their own files when merging SA1 and SA2's codebases together.
+ */
+
 #define ITEM_ICON_DISPLAY_TIME  (1 * GBA_FRAMES_PER_SECOND)
 #define ITEM_ICON_DISPLAY_DELAY (int)(0.5 * GBA_FRAMES_PER_SECOND)
 
