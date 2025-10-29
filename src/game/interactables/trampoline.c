@@ -159,7 +159,7 @@ bool32 sub_8074FB0(Sprite *s, s16 worldX, s16 worldY)
                 p->qSpeedAirY = -Q(3.75);
             }
 
-            p->charState = CHARSTATE_21;
+            p->charState = CHARSTATE_SPRING_B;
 
             if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
                 p->timerInvulnerability = 30;

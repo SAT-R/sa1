@@ -1378,8 +1378,11 @@ void SA2_LABEL(sub_801707C)(void)
 // Knuckles
 // NOTE: Matches in SA2!
 // (99.36%) https://decomp.me/scratch/cjmw6
+#if (GAME == GAME_SA1)
 NONMATCH("asm/non_matching/game/multiplayer/sa1_mp_player__sa2__sub_8017670.inc", void SA2_LABEL(sub_8017670)(void))
-
+#else
+void SA2_LABEL(sub_8017670)(void)
+#endif
 {
     Sprite *playerSprite, *s;
     MultiplayerPlayer *mpp;
@@ -1609,7 +1612,9 @@ NONMATCH("asm/non_matching/game/multiplayer/sa1_mp_player__sa2__sub_8017670.inc"
         mpp->unk4C = val;
     }
 }
+#if (GAME == GAME_SA1)
 END_NONMATCH
+#endif
 
 void SA2_LABEL(sub_8017C28)(void)
 {
@@ -1828,6 +1833,7 @@ void SA2_LABEL(sub_8018120)(void)
         gPlayer.qWorldX += Q(mpp->unk44);
         gPlayer.qWorldY += Q(mpp->unk48) + Q(1);
 
+#if (GAME == GAME_SA2)
         otherMpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
 
         if ((otherMpp->unk54 & 0x80) != (mpp->unk54 & 0x80)) {
@@ -1835,7 +1841,9 @@ void SA2_LABEL(sub_8018120)(void)
             gPlayer.stoodObj = (void *)-1;
             mpp->unk64 = mpp->unk56;
         }
+#endif
     }
+
     if (SA2_LABEL(sub_8018300)() && (mpp->unk4C & 0x20)) {
         gPlayer.moveState &= ~MOVESTATE_20;
         mpp->unk4C = 0;
@@ -2073,7 +2081,6 @@ bool32 SA2_LABEL(sub_8018300)(void)
     return FALSE;
 }
 
-#if 0
 #ifndef COLLECT_RINGS_ROM
 void Task_HandleLaunchPlayer(void)
 {
@@ -2104,6 +2111,7 @@ void Task_HandleLaunchPlayer(void)
 }
 #endif
 
+#if (GAME == GAME_SA2)
 void SA2_LABEL(sub_8018818)(void)
 {
     u32 i;
@@ -2121,6 +2129,7 @@ void SA2_LABEL(sub_8018818)(void)
         gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__TELEPORT;
     }
 }
+#endif
 
 void TaskDestructor_MultiplayerPlayer(struct Task *t)
 {
@@ -2142,4 +2151,32 @@ void LaunchPlayer(s16 airSpeedY)
 }
 #endif
 
-#endif // 0
+#if (GAME == GAME_SA1)
+// This function is about 300 lines further up in SA2!
+// Sadly, you cannot use an inline function to match
+void SA2_LABEL(sub_8018120)(void)
+{
+    MultiplayerPlayer *mpp = TASK_DATA(gCurTask);
+    Sprite *s = &mpp->s;
+    if (gPlayer.moveState & MOVESTATE_STOOD_ON_OBJ && gPlayer.stoodObj == s) {
+        MultiplayerPlayer *otherMpp;
+        gPlayer.qWorldX += Q(mpp->unk44);
+        gPlayer.qWorldY += Q(mpp->unk48) + Q(1);
+
+#if (GAME == GAME_SA2)
+        otherMpp = TASK_DATA(gMultiplayerPlayerTasks[SIO_MULTI_CNT->id]);
+
+        if ((otherMpp->unk54 & 0x80) != (mpp->unk54 & 0x80)) {
+            gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+            gPlayer.stoodObj = (void *)-1;
+            mpp->unk64 = mpp->unk56;
+        }
+#endif
+    }
+
+    if (SA2_LABEL(sub_8018300)() && (mpp->unk4C & 0x20)) {
+        gPlayer.moveState &= ~MOVESTATE_20;
+        mpp->unk4C = 0;
+    }
+}
+#endif // (GAME == GAME_SA1)

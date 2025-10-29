@@ -48,7 +48,7 @@ const RoomEventHandler gRoomEventHandlers[] = {
     [ROOMEVENT_TYPE_REACHED_STAGE_GOAL - 1] = ReceiveRoomEvent_ReachedStageGoal,
     [ROOMEVENT_TYPE_8 - 1] = ReceiveRoomEvent_8,
 #if (GAME == GAME_SA1)
-    [ROOMEVENT_TYPE_9 - 1] = ReceiveRoomEvent_CollectChao,
+    [ROOMEVENT_TYPE_CHAO_COLLECTED - 1] = ReceiveRoomEvent_CollectChao,
 #endif
 
     NULL,

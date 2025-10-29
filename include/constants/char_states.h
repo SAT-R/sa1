@@ -28,7 +28,7 @@
 #define CHARSTATE_18              18
 #define CHARSTATE_19              19
 #define CHARSTATE_RAIL_EXTRA_JUMP 20
-#define CHARSTATE_21              21
+#define CHARSTATE_SPRING_B        21
 #define CHARSTATE_22              22
 #define CHARSTATE_BOUNCE          23
 #define CHARSTATE_24              24 // Halfpipe run?
@@ -45,27 +45,27 @@
 #define CHARSTATE_ACT_CLEAR_B 29
 #endif
 
-#define CHARSTATE_30       30
-#define CHARSTATE_31       31
-#define CHARSTATE_32       32
-#define CHARSTATE_33       33
-#define CHARSTATE_34       34
-#define CHARSTATE_35       35
-#define CHARSTATE_36       36
-#define CHARSTATE_37       37
-#define CHARSTATE_38       38
-#define CHARSTATE_39       39
-#define CHARSTATE_40       40
-#define CHARSTATE_41       41
-#define CHARSTATE_42       42
-#define CHARSTATE_43       43
-#define CHARSTATE_AIR_DASH 44
-#define CHARSTATE_45       45
-#define CHARSTATE_46       46
-#define CHARSTATE_47       47
-#define CHARSTATE_48       48
-#define CHARSTATE_49       49
-#define CHARSTATE_50       50
+#define CHARSTATE_30           30
+#define CHARSTATE_31           31
+#define CHARSTATE_32           32
+#define CHARSTATE_33           33
+#define CHARSTATE_34           34
+#define CHARSTATE_35           35
+#define CHARSTATE_36           36
+#define CHARSTATE_37           37
+#define CHARSTATE_38           38
+#define CHARSTATE_39           39
+#define CHARSTATE_40           40
+#define CHARSTATE_41           41
+#define CHARSTATE_AMY_SA1_JUMP 42
+#define CHARSTATE_43           43
+#define CHARSTATE_AIR_DASH     44
+#define CHARSTATE_45           45
+#define CHARSTATE_46           46
+#define CHARSTATE_47           47
+#define CHARSTATE_48           48
+#define CHARSTATE_49           49
+#define CHARSTATE_50           50
 
 #define CHARSTATE_FLYING        53
 #define CHARSTATE_54            54

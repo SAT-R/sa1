@@ -636,7 +636,7 @@ NONMATCH("asm/non_matching/game/interactables/Spring__sub_8022640.inc",
 
         if (me->d.sData[0] & 0x1) {
             Player_TransitionCancelFlyingAndBoost(p);
-            p->charState = CHARSTATE_21;
+            p->charState = CHARSTATE_SPRING_B;
         } else {
             Player_TransitionCancelFlyingAndBoost(p);
             p->charState = CHARSTATE_17;
@@ -887,7 +887,7 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
 
             if (me->d.sData[0] & 0x1) {
                 Player_TransitionCancelFlyingAndBoost(p);
-                p->charState = CHARSTATE_21;
+                p->charState = CHARSTATE_SPRING_B;
             } else {
                 Player_TransitionCancelFlyingAndBoost(p);
                 p->charState = CHARSTATE_17;
@@ -929,7 +929,7 @@ bool32 sub_8022AB4(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
 
             if (me->d.sData[0] & 0x1) {
                 Player_TransitionCancelFlyingAndBoost(p);
-                p->charState = CHARSTATE_21;
+                p->charState = CHARSTATE_SPRING_B;
             } else {
                 Player_TransitionCancelFlyingAndBoost(p);
                 p->charState = CHARSTATE_17;
@@ -1009,7 +1009,7 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
 
             if (me->d.sData[0] & 0x1) {
                 Player_TransitionCancelFlyingAndBoost(p);
-                p->charState = CHARSTATE_21;
+                p->charState = CHARSTATE_SPRING_B;
             } else {
                 Player_TransitionCancelFlyingAndBoost(p);
                 p->charState = CHARSTATE_17;
@@ -1051,7 +1051,7 @@ bool32 sub_8022E14(Sprite *s, MapEntity *me, SpringB *spring, Player *p)
 
             if (me->d.sData[0] & 0x1) {
                 Player_TransitionCancelFlyingAndBoost(p);
-                p->charState = CHARSTATE_21;
+                p->charState = CHARSTATE_SPRING_B;
             } else {
                 Player_TransitionCancelFlyingAndBoost(p);
                 p->charState = CHARSTATE_17;

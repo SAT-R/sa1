@@ -375,7 +375,7 @@ void Task_8077D1C(void)
                 p->moveState &= ~MOVESTATE_4;
                 p->moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
-                p->charState = CHARSTATE_21;
+                p->charState = CHARSTATE_SPRING_B;
                 p->qSpeedAirY = -Q(7.5);
                 p->moveState &= ~MOVESTATE_IA_OVERRIDE;
 

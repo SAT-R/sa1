@@ -106,7 +106,7 @@ NONMATCH("asm/non_matching/game/interactables/Task_PartyBalloon.inc", void Task_
                 PLAYER(i).moveState &= ~MOVESTATE_FLIP_WITH_MOVE_DIR;
                 PLAYERFN_CHANGE_SHIFT_OFFSETS(&PLAYER(i), 6, 14);
                 PLAYER(i).qSpeedAirY = -Q(6);
-                PLAYER(i).charState = CHARSTATE_21;
+                PLAYER(i).charState = CHARSTATE_SPRING_B;
 
                 if (i != 0) {
                     gPlayerBodyPSI.s.prevVariant = -1;

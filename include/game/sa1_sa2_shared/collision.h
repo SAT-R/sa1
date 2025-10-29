@@ -75,10 +75,12 @@ EHit sub_800BFEC(Sprite *s, CamCoord worldX, CamCoord worldY, Player *p);
 u32 sub_800CE94(Sprite *s, s32 sx, s32 sy, struct Rect8 *param3, Player *p);
 bool32 SA2_LABEL(sub_800DD54)(Player *p);
 bool32 SA2_LABEL(sub_800DE44)(Player *p);
-u32 SA2_LABEL(sub_800D0A0)(Sprite *s, CamCoord worldX, CamCoord worldY, s16 qSpeedX, s16 qSpeedY, u8 layer, u8 arg6);
+u32 SA2_LABEL(sub_800D0A0)(Sprite *s, s16 worldX, s16 worldY, s16 qSpeedX, s16 qSpeedY, u8 layer, u32 arg6);
 
-bool32 Coll_Player_Enemy_Attack(Sprite *, s32, s32, u8);
+#if (GAME == GAME_SA1)
+bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord worldX, CamCoord worldY);
+#elif (GAME == GAME_SA2)
+bool32 Coll_Player_Enemy_Attack(Sprite *s, CamCoord worldX, CamCoord worldY, u8 hbIndex);
 
-u32 Coll_Player_Projectile(Sprite *, s32, s32);
-
+#endif
 #endif // GUARD_STAGE_ENTITIES_0_H

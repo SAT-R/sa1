@@ -143,7 +143,7 @@ NONMATCH("asm/non_matching/game/interactables/spring_hiding__sub_8095224.inc",
                 if (me->d.uData[0] & 0x1) {
                     Sprite *infoSprite;
                     Player_TransitionCancelFlyingAndBoost(&PLAYER(i));
-                    PLAYER(i).charState = CHARSTATE_21;
+                    PLAYER(i).charState = CHARSTATE_SPRING_B;
                     PLAYER_SPR_INFO(i).s.prevVariant = -1;
                     asm("");
                 } else {

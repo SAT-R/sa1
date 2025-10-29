@@ -89,7 +89,7 @@ void Task_SpecialSpringMain(void)
             gPartner.moveState |= MOVESTATE_IN_AIR;
             gPartner.moveState &= ~MOVESTATE_100;
             gPartner.qSpeedAirY = -Q(7.5);
-            gPartner.charState = CHARSTATE_21;
+            gPartner.charState = CHARSTATE_SPRING_B;
             s->variant = 0;
             s->prevVariant = -1;
             PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPartner, 6, 14);
@@ -112,7 +112,7 @@ void Task_SpecialSpringMain(void)
                 gPlayer.qSpeedAirY = qSpeed;
             }
 
-            gPlayer.charState = CHARSTATE_21;
+            gPlayer.charState = CHARSTATE_SPRING_B;
 
             spring->camX = gCamera.x;
             spring->camY = gCamera.y;
@@ -169,7 +169,7 @@ void Task_TransitionSpStage(void)
             gPartner.moveState |= MOVESTATE_IN_AIR;
             gPartner.moveState &= ~MOVESTATE_100;
             gPartner.qSpeedAirY = -Q(7.5);
-            gPartner.charState = CHARSTATE_21;
+            gPartner.charState = CHARSTATE_SPRING_B;
             s->variant = 0;
             s->prevVariant = -1;
             PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPartner, 6, 14);
