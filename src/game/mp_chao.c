@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/globals.h"
@@ -27,9 +28,11 @@ typedef struct Chao {
 } Chao;
 
 void Task_802816C(void);
-void sub_8028388(void);
-void sub_8028518(void);
+void Task_8028388(void);
+void Task_8028518(void);
 void Task_80286B0(void);
+void sub_802888C(void);
+bool32 sub_8028AAC(CamCoord x, CamCoord y);
 void TaskDestructor_Chao(struct Task *t);
 
 extern const u16 sChaoSpawnPositions[NUM_LEVEL_IDS_MP][SPAWN_INDEX_COUNT][2];
@@ -92,9 +95,9 @@ void Task_802816C(void)
     if (chao->unk41 != 0xFF) {
         chao->unk42 = chao->unk41;
         if (chao->unk40 == 0) {
-            gCurTask->main = sub_8028388;
+            gCurTask->main = Task_8028388;
         } else if (chao->unk40 == 1) {
-            gCurTask->main = sub_8028518;
+            gCurTask->main = Task_8028518;
         } else {
             gCurTask->main = Task_80286B0;
         }
@@ -114,9 +117,9 @@ void Task_802816C(void)
                     chao->unk42 = pid;
 
                     if (chao->unk40 == 0) {
-                        gCurTask->main = sub_8028388;
+                        gCurTask->main = Task_8028388;
                     } else if (chao->unk40 == 1) {
-                        gCurTask->main = sub_8028518;
+                        gCurTask->main = Task_8028518;
                     } else {
                         gCurTask->main = Task_80286B0;
                     }
@@ -131,4 +134,82 @@ void Task_802816C(void)
     s->x = I(chao->unk30) - gCamera.x;
     s->y = I(chao->unk34) - gCamera.y;
     DisplaySprite(s);
+}
+
+// TODO: Fake-match
+void Task_8028388(void)
+{
+    s32 theta;
+    MultiplayerPlayer *mpp;
+    u16 worldX;
+    u16 worldY;
+    u32 angle;
+    s32 valueY;
+    s32 sinVal;
+
+    Chao *chao = TASK_DATA(gCurTask);
+    Sprite *sprChao;
+
+    if (chao->unk41 != chao->unk42) {
+        chao->unk42 = chao->unk41;
+        sub_802888C();
+        return;
+    }
+    chao->unk42 = chao->unk41;
+    mpp = TASK_DATA(gMultiplayerPlayerTasks[chao->unk41]);
+    sprChao = &chao->s;
+    angle = gStageTime * 0x10;
+    chao->unk3E = angle;
+    if (mpp->s.frameFlags & 0x800) {
+#ifndef NON_MATCHING
+        register u32 r0 asm("r0");
+        register u32 mask asm("r3");
+#else
+        u32 r0;
+        u32 mask;
+#endif
+        sprChao->frameFlags |= 0x800;
+        worldY = mpp->pos.y + 28;
+        theta = (angle + 0x200);
+        mask = 0x3FF;
+
+#ifndef NON_MATCHING
+        asm("mov %0, %1" : "=r"(r0) : "r"(mask));
+#else
+        r0 = mask;
+#endif
+        theta &= r0;
+    } else {
+        sprChao->frameFlags &= 0xFFFFF7FF;
+        worldY = mpp->pos.y - 28;
+        theta = angle & 0x3FF;
+    }
+
+    if (mpp->s.frameFlags & 0x400) {
+        worldX = mpp->pos.x - 20;
+    } else {
+        worldX = mpp->pos.x + 20;
+    }
+
+    if ((s16)worldX == ((s32)chao->unk30 >> 8)) {
+        s32 charAnim = (mpp->s.graphics.anim - (s16)gPlayerCharacterIdleAnims[gMultiplayerCharacters[mpp->unk56]]);
+        if (charAnim == SA1_CHAR_ANIM_1) {
+            sprChao->graphics.anim = SA1_ANIM_CHAO_TURN;
+            sprChao->variant = 0;
+        } else {
+            sprChao->graphics.anim = SA1_ANIM_CHAO_FACE_DIAGONAL_R;
+            sprChao->variant = 0;
+        }
+    } else {
+        sprChao->graphics.anim = 0x2BB;
+        sprChao->variant = 0;
+    }
+    sub_8028AAC(worldX, worldY);
+    sprChao->x = I(chao->unk30) - gCamera.x;
+    valueY = I(chao->unk34);
+    sinVal = SIN(theta);
+    valueY -= (sinVal >> 11);
+    sprChao->y = valueY - gCamera.y;
+    UpdateSpriteAnimation(sprChao);
+    DisplaySprite(sprChao);
 }

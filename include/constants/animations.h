@@ -15,6 +15,7 @@
 
 #define SA1_ANIM_TAILS_SPIN_ATTACK 107
 
+#define SA1_CHAR_ANIM_1                1
 #define SA1_CHAR_ANIM_WALK             4
 #define SA1_CHAR_ANIM_RUN              5
 #define SA1_CHAR_ANIM_SPIN_ATTACK      8

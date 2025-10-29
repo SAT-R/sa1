@@ -8,202 +8,8 @@
 .if 0
 .endif
 
-	thumb_func_start sub_8028388
-sub_8028388: @ 0x08028388
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	ldr r0, _080283B4 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r0, [r0, #6]
-	movs r1, #0xc0
-	lsls r1, r1, #0x12
-	adds r6, r0, r1
-	adds r1, #0x41
-	adds r2, r0, r1
-	ldr r3, _080283B8 @ =0x03000042
-	adds r0, r0, r3
-	ldrb r1, [r2]
-	ldrb r3, [r0]
-	cmp r1, r3
-	beq _080283BC
-	strb r1, [r0]
-	bl sub_802888C
-	b _08028500
-	.align 2, 0
-_080283B4: .4byte gCurTask
-_080283B8: .4byte 0x03000042
-_080283BC:
-	strb r1, [r0]
-	ldr r1, _0802840C @ =gMultiplayerPlayerTasks
-	ldrb r0, [r2]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldr r0, [r0]
-	ldrh r2, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r0, r0, r2
-	mov ip, r0
-	adds r4, r6, #0
-	ldr r0, _08028410 @ =gStageTime
-	ldr r0, [r0]
-	lsls r3, r0, #4
-	strh r3, [r4, #0x3e]
-	mov r1, ip
-	ldr r0, [r1, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #4
-	ands r0, r1
-	cmp r0, #0
-	beq _0802841C
-	ldr r0, [r4, #0x10]
-	orrs r0, r1
-	str r0, [r4, #0x10]
-	ldr r1, _08028414 @ =0x03000052
-	adds r0, r2, r1
-	ldrh r0, [r0]
-	adds r0, #0x1c
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	movs r2, #0x80
-	lsls r2, r2, #2
-	adds r5, r3, r2
-	ldr r3, _08028418 @ =0x000003FF
-	adds r0, r3, #0
-	ands r5, r0
-	b _08028436
-	.align 2, 0
-_0802840C: .4byte gMultiplayerPlayerTasks
-_08028410: .4byte gStageTime
-_08028414: .4byte 0x03000052
-_08028418: .4byte 0x000003FF
-_0802841C:
-	ldr r0, [r4, #0x10]
-	ldr r1, _08028450 @ =0xFFFFF7FF
-	ands r0, r1
-	str r0, [r4, #0x10]
-	ldr r1, _08028454 @ =0x03000052
-	adds r0, r2, r1
-	ldrh r0, [r0]
-	subs r0, #0x1c
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	mov r8, r0
-	ldr r5, _08028458 @ =0x000003FF
-	ands r5, r3
-_08028436:
-	mov r2, ip
-	ldr r0, [r2, #0x10]
-	movs r1, #0x80
-	lsls r1, r1, #3
-	ands r0, r1
-	cmp r0, #0
-	beq _0802845C
-	mov r0, ip
-	adds r0, #0x50
-	ldrh r0, [r0]
-	subs r0, #0x14
-	b _08028464
-	.align 2, 0
-_08028450: .4byte 0xFFFFF7FF
-_08028454: .4byte 0x03000052
-_08028458: .4byte 0x000003FF
-_0802845C:
-	mov r0, ip
-	adds r0, #0x50
-	ldrh r0, [r0]
-	adds r0, #0x14
-_08028464:
-	lsls r0, r0, #0x10
-	lsrs r0, r0, #0x10
-	lsls r0, r0, #0x10
-	asrs r2, r0, #0x10
-	ldr r1, [r6, #0x30]
-	asrs r1, r1, #8
-	adds r7, r0, #0
-	cmp r2, r1
-	bne _080284B8
-	mov r3, ip
-	ldrh r1, [r3, #0xa]
-	ldr r3, _080284A0 @ =gPlayerCharacterIdleAnims
-	ldr r2, _080284A4 @ =gMultiplayerCharacters
-	mov r0, ip
-	adds r0, #0x56
-	ldrb r0, [r0]
-	adds r0, r0, r2
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	lsls r0, r0, #1
-	adds r0, r0, r3
-	movs r2, #0
-	ldrsh r0, [r0, r2]
-	subs r1, r1, r0
-	cmp r1, #1
-	bne _080284AC
-	movs r0, #0
-	ldr r1, _080284A8 @ =0x000002BF
-	b _080284BC
-	.align 2, 0
-_080284A0: .4byte gPlayerCharacterIdleAnims
-_080284A4: .4byte gMultiplayerCharacters
-_080284A8: .4byte 0x000002BF
-_080284AC:
-	movs r0, #0
-	ldr r1, _080284B4 @ =0x000002BE
-	b _080284BC
-	.align 2, 0
-_080284B4: .4byte 0x000002BE
-_080284B8:
-	movs r0, #0
-	ldr r1, _0802850C @ =0x000002BB
-_080284BC:
-	strh r1, [r4, #0xa]
-	adds r1, r4, #0
-	adds r1, #0x20
-	strb r0, [r1]
-	asrs r0, r7, #0x10
-	mov r3, r8
-	lsls r1, r3, #0x10
-	asrs r1, r1, #0x10
-	bl sub_8028AAC
-	ldr r0, [r6, #0x30]
-	asrs r0, r0, #8
-	ldr r3, _08028510 @ =gCamera
-	ldrh r1, [r3]
-	subs r0, r0, r1
-	strh r0, [r4, #0x16]
-	ldr r1, [r6, #0x34]
-	asrs r1, r1, #8
-	ldr r2, _08028514 @ =gSineTable
-	lsls r0, r5, #1
-	adds r0, r0, r2
-	movs r2, #0
-	ldrsh r0, [r0, r2]
-	asrs r0, r0, #0xb
-	subs r1, r1, r0
-	ldrh r0, [r3, #2]
-	subs r1, r1, r0
-	strh r1, [r4, #0x18]
-	adds r0, r4, #0
-	bl UpdateSpriteAnimation
-	adds r0, r4, #0
-	bl DisplaySprite
-_08028500:
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802850C: .4byte 0x000002BB
-_08028510: .4byte gCamera
-_08028514: .4byte gSineTable
-
-	thumb_func_start sub_8028518
-sub_8028518: @ 0x08028518
+	thumb_func_start Task_8028518
+Task_8028518: @ 0x08028518
 	push {r4, r5, r6, r7, lr}
 	mov r7, r8
 	push {r7}
@@ -864,21 +670,21 @@ Task_8028A1C: @ 0x08028A1C
 	cmp r0, #0
 	bne _08028A74
 	ldr r1, [r6]
-	ldr r0, _08028A70 @ =sub_8028388
+	ldr r0, _08028A70 @ =Task_8028388
 	b _08028A94
 	.align 2, 0
 _08028A64: .4byte gCurTask
 _08028A68: .4byte gCamera
 _08028A6C: .4byte 0x03000041
-_08028A70: .4byte sub_8028388
+_08028A70: .4byte Task_8028388
 _08028A74:
 	cmp r0, #1
 	bne _08028A84
 	ldr r1, [r6]
-	ldr r0, _08028A80 @ =sub_8028518
+	ldr r0, _08028A80 @ =Task_8028518
 	b _08028A94
 	.align 2, 0
-_08028A80: .4byte sub_8028518
+_08028A80: .4byte Task_8028518
 _08028A84:
 	ldr r1, [r6]
 	ldr r0, _08028A8C @ =Task_80286B0
