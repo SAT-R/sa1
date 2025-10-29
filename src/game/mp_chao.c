@@ -1,7 +1,9 @@
 #include "global.h"
 #include "core.h"
 #include "malloc_vram.h"
+#include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/globals.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/entity.h"
 
 #include "constants/animations.h"
@@ -25,6 +27,9 @@ typedef struct Chao {
 } Chao;
 
 void Task_802816C(void);
+void sub_8028388(void);
+void sub_8028518(void);
+void Task_80286B0(void);
 void TaskDestructor_Chao(struct Task *t);
 
 extern const u16 sChaoSpawnPositions[NUM_LEVEL_IDS_MP][SPAWN_INDEX_COUNT][2];
@@ -34,7 +39,7 @@ struct Task *CreateMultiplayerChao(u8 spawnIndex, u8 id)
     Chao *chao;
     Sprite *s;
     struct Task *t;
-    s16 x, y;
+    CamCoord x, y;
 
 #ifdef BUG_FIX
     spawnIndex %= ARRAY_COUNT(sChaoSpawnPositions[0]);
@@ -71,7 +76,59 @@ struct Task *CreateMultiplayerChao(u8 spawnIndex, u8 id)
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     return t;
+}
+
+void Task_802816C(void)
+{
+    Chao *chao = TASK_DATA(gCurTask);
+    Sprite *s = &chao->s;
+
+    s->graphics.anim = 0x2C0;
+    s->variant = 0;
+    UpdateSpriteAnimation(s);
+    if (chao->unk41 != 0xFF) {
+        chao->unk42 = chao->unk41;
+        if (chao->unk40 == 0) {
+            gCurTask->main = sub_8028388;
+        } else if (chao->unk40 == 1) {
+            gCurTask->main = sub_8028518;
+        } else {
+            gCurTask->main = Task_80286B0;
+        }
+    } else {
+        u32 pid;
+        for (pid = 0; pid < 4; pid++) {
+            struct Task **mpTasks = gMultiplayerPlayerTasks;
+            MultiplayerPlayer *mpp;
+            if (mpTasks[pid] == NULL)
+                break;
+
+            mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
+            if (!(mpp->unk54 & 0x4)) {
+                if (HB_COLLISION(I(chao->unk30), I(chao->unk34), s->hitboxes[0].b, mpp->pos.x, mpp->pos.y, mpp->s.hitboxes[0].b)) {
+                    mpp->unk5C |= (0x10000 << chao->unk40);
+                    chao->unk41 = pid;
+                    chao->unk42 = pid;
+
+                    if (chao->unk40 == 0) {
+                        gCurTask->main = sub_8028388;
+                    } else if (chao->unk40 == 1) {
+                        gCurTask->main = sub_8028518;
+                    } else {
+                        gCurTask->main = Task_80286B0;
+                    }
+
+                    m4aSongNumStart(0xA3U);
+                    break;
+                }
+            }
+        }
+    }
+
+    s->x = I(chao->unk30) - gCamera.x;
+    s->y = I(chao->unk34) - gCamera.y;
+    DisplaySprite(s);
 }
