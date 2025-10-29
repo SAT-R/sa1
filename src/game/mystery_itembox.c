@@ -64,7 +64,7 @@ extern void Task_MysteryItemBox_Main0(void);
 extern void Task_MysteryItemBox_Main1(void);
 extern void TaskDestructor_MysteryItemBox(struct Task *);
 void sub_801C69C(void);
-void sub_801C2FC(void);
+void Task_801C2FC(void);
 void sub_801C420(void);
 void sub_801C130(void);
 void sub_801C3A0(void);
@@ -326,7 +326,7 @@ void Task_MysteryItemBox_Main0()
     if (me->d.sData[1] > (gRandomItemBox >> 4)) {
         m4aSongNumStart(0xA7U);
         CreateDustCloud(worldX, worldY + itembox->unk7C);
-        gCurTask->main = sub_801C2FC;
+        gCurTask->main = Task_801C2FC;
         itembox->unk80 = sp8;
         if ((8 & gPlayer.moveState) && (gPlayer.stoodObj == s)) {
             gPlayer.moveState = (gPlayer.moveState & ~8) | 2;
@@ -483,10 +483,6 @@ void sub_801C130()
                     gPlayer.itemEffect |= 0x20;
                     gPlayer.timer24 = 0x258;
                     break;
-                    roomEventA = CreateRoomEvent();
-                    roomEventA->type = ROOMEVENT_TYPE_ITEMEFFECT_APPLIED;
-                    roomEventA->effect = 0;
-                    break;
             }
         } else {
             u16 ringsInBox;
@@ -518,6 +514,35 @@ void sub_801C130()
     s->y = worldY - gCamera.y;
     DisplaySprite(s);
 }
+
+void Task_801C2FC() {
+    Sprite *s;
+    u16 *temp_r4;
+    u16 temp_r7;
+    u8 *temp_r6;
+    u8 temp_r2;
+
+    MysteryItemBox *itembox = TASK_DATA(gCurTask);
+    MapEntity *me = itembox->base.me;
+    CamCoord worldX, worldY;
+
+    itembox->unk7C--;
+    itembox->unk80++;
+
+    worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+    worldY = TO_WORLD_POS(me->y, itembox->base.regionY) + itembox->unk7C;
+
+    if (itembox->unk80 >= 60) {
+        gCurTask->main = sub_801C3A0;
+        itembox->unk80 = 0;
+    }
+    
+    s = &itembox->identifier;
+    s->x = worldX - gCamera.x;
+    s->y = worldY - gCamera.y;
+    DisplaySprite(s);
+}
+
 #endif
 
 #if 0
