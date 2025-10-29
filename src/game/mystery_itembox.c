@@ -515,7 +515,8 @@ void sub_801C130()
     DisplaySprite(s);
 }
 
-void Task_801C2FC() {
+void Task_801C2FC()
+{
     Sprite *s;
     u16 *temp_r4;
     u16 temp_r7;
@@ -536,11 +537,33 @@ void Task_801C2FC() {
         gCurTask->main = sub_801C3A0;
         itembox->unk80 = 0;
     }
-    
+
     s = &itembox->identifier;
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
     DisplaySprite(s);
+}
+
+void sub_801C3A0()
+{
+    Sprite *s;
+
+    MysteryItemBox *itembox = TASK_DATA(gCurTask);
+    MapEntity *me = itembox->base.me;
+
+    if (++itembox->unk80 > 30) {
+        gCurTask->main = Task_MysteryItemBox_Main1;
+    } else {
+        CamCoord worldX, worldY;
+
+        worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+        worldY = TO_WORLD_POS(me->y, itembox->base.regionY) + itembox->unk7C;
+
+        s = &itembox->identifier;
+        s->x = worldX - gCamera.x;
+        s->y = worldY - gCamera.y;
+        DisplaySprite(s);
+    }
 }
 
 #endif

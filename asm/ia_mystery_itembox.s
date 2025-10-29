@@ -8,72 +8,6 @@
 @ Basically the old version of we called "Mystery Item Box" in SA2.
 
 .if 0
-.endif
-
-	thumb_func_start sub_801C3A0
-sub_801C3A0: @ 0x0801C3A0
-	push {r4, r5, lr}
-	ldr r2, _0801C3CC @ =gCurTask
-	ldr r0, [r2]
-	ldrh r4, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r3, r4, r0
-	ldr r5, [r3]
-	adds r0, #0x80
-	adds r1, r4, r0
-	ldrb r0, [r1]
-	adds r0, #1
-	strb r0, [r1]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0x1e
-	bls _0801C3D4
-	ldr r1, [r2]
-	ldr r0, _0801C3D0 @ =Task_MysteryItemBox_Main1
-	str r0, [r1, #8]
-	b _0801C40E
-	.align 2, 0
-_0801C3CC: .4byte gCurTask
-_0801C3D0: .4byte Task_MysteryItemBox_Main1
-_0801C3D4:
-	ldrb r2, [r3, #8]
-	lsls r2, r2, #3
-	ldrh r0, [r3, #4]
-	lsls r0, r0, #8
-	adds r2, r2, r0
-	ldrb r1, [r5, #1]
-	lsls r1, r1, #3
-	ldrh r0, [r3, #6]
-	lsls r0, r0, #8
-	ldr r5, _0801C414 @ =0x0300007C
-	adds r3, r4, r5
-	adds r1, r1, r0
-	ldrh r3, [r3]
-	adds r1, r1, r3
-	ldr r3, _0801C418 @ =0x0300003C
-	adds r0, r4, r3
-	ldr r4, _0801C41C @ =gCamera
-	ldrh r3, [r4]
-	lsls r2, r2, #0x10
-	asrs r2, r2, #0x10
-	subs r2, r2, r3
-	strh r2, [r0, #0x16]
-	ldrh r2, [r4, #2]
-	lsls r1, r1, #0x10
-	asrs r1, r1, #0x10
-	subs r1, r1, r2
-	strh r1, [r0, #0x18]
-	bl DisplaySprite
-_0801C40E:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801C414: .4byte 0x0300007C
-_0801C418: .4byte 0x0300003C
-_0801C41C: .4byte gCamera
-
 	thumb_func_start sub_801C420
 sub_801C420: @ 0x0801C420
 	push {r4, r5, r6, r7, lr}
@@ -167,6 +101,7 @@ _0801C4DC: .4byte gUnknown_080BB4D4
 _0801C4E0: .4byte 0x0300005C
 _0801C4E4: .4byte gCurTask
 _0801C4E8: .4byte sub_801C4EC
+.endif
 
 	thumb_func_start sub_801C4EC
 sub_801C4EC: @ 0x0801C4EC
