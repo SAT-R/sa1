@@ -8,103 +8,10 @@
 @ Basically the old version of we called "Mystery Item Box" in SA2.
 
 .if 0
-	thumb_func_start sub_801C420
-sub_801C420: @ 0x0801C420
-	push {r4, r5, r6, r7, lr}
-	ldr r0, _0801C474 @ =gCurTask
-	ldr r0, [r0]
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r3, r0
-	adds r0, #0x6c
-	adds r5, r3, r0
-	ldr r0, _0801C478 @ =gMultiplayerPseudoRandom
-	ldr r1, [r0]
-	movs r0, #3
-	ands r1, r0
-	ldr r2, _0801C47C @ =0x03000081
-	adds r4, r3, r2
-	movs r2, #0
-	strb r1, [r4]
-	ldr r7, _0801C480 @ =0x0300007E
-	adds r0, r3, r7
-	movs r1, #0
-	strh r2, [r0]
-	subs r7, #2
-	adds r0, r3, r7
-	strh r2, [r0]
-	ldr r2, _0801C484 @ =0x03000080
-	adds r0, r3, r2
-	strb r1, [r0]
-	subs r7, #0x40
-	adds r2, r3, r7
-	ldr r0, _0801C488 @ =0x000002C2
-	strh r0, [r2, #0xa]
-	ldr r0, _0801C48C @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #6
-	beq _0801C498
-	ldr r1, _0801C490 @ =gUnknown_080BB4D0
-	ldrb r0, [r4]
-	adds r0, r0, r1
-	ldrb r1, [r0]
-	ldr r4, _0801C494 @ =0x0300005C
-	adds r0, r3, r4
-	b _0801C4A4
-	.align 2, 0
-_0801C474: .4byte gCurTask
-_0801C478: .4byte gMultiplayerPseudoRandom
-_0801C47C: .4byte 0x03000081
-_0801C480: .4byte 0x0300007E
-_0801C484: .4byte 0x03000080
-_0801C488: .4byte 0x000002C2
-_0801C48C: .4byte gGameMode
-_0801C490: .4byte gUnknown_080BB4D0
-_0801C494: .4byte 0x0300005C
-_0801C498:
-	ldr r1, _0801C4DC @ =gUnknown_080BB4D4
-	ldrb r0, [r4]
-	adds r0, r0, r1
-	ldrb r1, [r0]
-	ldr r7, _0801C4E0 @ =0x0300005C
-	adds r0, r3, r7
-_0801C4A4:
-	strb r1, [r0]
-	adds r0, r2, #0
-	bl UpdateSpriteAnimation
-	ldr r0, [r6, #0x1c]
-	movs r1, #0x20
-	orrs r0, r1
-	str r0, [r6, #0x1c]
-	ldr r0, [r6, #0x4c]
-	orrs r0, r1
-	str r0, [r6, #0x4c]
-	movs r1, #0
-	strh r1, [r5]
-	movs r0, #0x80
-	lsls r0, r0, #1
-	strh r0, [r5, #2]
-	strh r1, [r5, #4]
-	strh r1, [r5, #6]
-	strh r1, [r5, #8]
-	ldr r0, _0801C4E4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0801C4E8 @ =sub_801C4EC
-	str r0, [r1, #8]
-	bl _call_via_r0
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801C4DC: .4byte gUnknown_080BB4D4
-_0801C4E0: .4byte 0x0300005C
-_0801C4E4: .4byte gCurTask
-_0801C4E8: .4byte sub_801C4EC
 .endif
 
-	thumb_func_start sub_801C4EC
-sub_801C4EC: @ 0x0801C4EC
+	thumb_func_start Task_801C4EC
+Task_801C4EC: @ 0x0801C4EC
 	push {r4, r5, r6, r7, lr}
 	ldr r0, _0801C558 @ =gCurTask
 	ldr r7, [r0]

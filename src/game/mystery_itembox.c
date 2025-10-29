@@ -65,9 +65,10 @@ extern void Task_MysteryItemBox_Main1(void);
 extern void TaskDestructor_MysteryItemBox(struct Task *);
 void sub_801C69C(void);
 void Task_801C2FC(void);
-void sub_801C420(void);
+void Task_801C420(void);
 void sub_801C130(void);
-void sub_801C3A0(void);
+void Task_801C3A0(void);
+void Task_801C4EC(void);
 extern void sub_808623C(void);
 extern void sub_8086858(MysteryItemBox *);
 extern bool32 sub_808693C(MysteryItemBox *);
@@ -244,7 +245,7 @@ void Task_MysteryItemBox_Main1()
     if (me->d.sData[DATABYTE_A] == (7 & gRandomItemBox)) {
         if (me->d.sData[DATABYTE_B] <= gRandomItemBox >> 4) {
             me->d.sData[DATABYTE_B] = gRandomItemBox >> 4;
-            gCurTask->main = sub_801C420;
+            gCurTask->main = Task_801C420;
             return;
         }
     }
@@ -505,7 +506,7 @@ void sub_801C130()
                     break;
             }
         }
-        gCurTask->main = sub_801C3A0;
+        gCurTask->main = Task_801C3A0;
         itembox->unk80 = 0;
     }
 
@@ -534,7 +535,7 @@ void Task_801C2FC()
     worldY = TO_WORLD_POS(me->y, itembox->base.regionY) + itembox->unk7C;
 
     if (itembox->unk80 >= 60) {
-        gCurTask->main = sub_801C3A0;
+        gCurTask->main = Task_801C3A0;
         itembox->unk80 = 0;
     }
 
@@ -544,7 +545,7 @@ void Task_801C2FC()
     DisplaySprite(s);
 }
 
-void sub_801C3A0()
+void Task_801C3A0(void)
 {
     Sprite *s;
 
@@ -564,6 +565,39 @@ void sub_801C3A0()
         s->y = worldY - gCamera.y;
         DisplaySprite(s);
     }
+}
+
+void Task_801C420(void)
+{
+    Sprite *s;
+    SpriteTransform *tf;
+
+    MysteryItemBox *itembox = TASK_DATA(gCurTask);
+
+    tf = &itembox->transform;
+    itembox->rndItemIndex = gMultiplayerPseudoRandom % 4u;
+    itembox->unk7E = 0;
+    itembox->unk7C = 0;
+    itembox->unk80 = 0;
+
+    s = &itembox->identifier;
+    s->graphics.anim = SA1_ANIM_ITEMBOX_TYPE;
+    if (gGameMode != 6) {
+        s->variant = gUnknown_080BB4D0[itembox->rndItemIndex];
+    } else {
+        s->variant = gUnknown_080BB4D4[itembox->rndItemIndex];
+    }
+    UpdateSpriteAnimation(s);
+    itembox->box.frameFlags |= 0x20;
+    itembox->identifier.frameFlags |= 0x20;
+    tf->rotation = 0;
+    tf->qScaleX = Q(1.0);
+    tf->qScaleY = 0;
+    tf->x = 0;
+    tf->y = 0;
+
+    gCurTask->main = Task_801C4EC;
+    Task_801C4EC();
 }
 
 #endif
