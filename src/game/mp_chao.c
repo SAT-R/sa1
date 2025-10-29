@@ -180,7 +180,7 @@ void Task_8028388(void)
 #endif
         theta &= r0;
     } else {
-        sprChao->frameFlags &= 0xFFFFF7FF;
+        sprChao->frameFlags &= ~0x800;
         worldY = mpp->pos.y - 28;
         theta = angle & 0x3FF;
     }
@@ -210,6 +210,68 @@ void Task_8028388(void)
     sinVal = SIN(theta);
     valueY -= (sinVal >> 11);
     sprChao->y = valueY - gCamera.y;
+    UpdateSpriteAnimation(sprChao);
+    DisplaySprite(sprChao);
+}
+
+void Task_8028518()
+{
+    s32 theta;
+    MultiplayerPlayer *mpp;
+    CamCoord worldX, worldY;
+    u32 angle;
+    s32 valueY;
+    s32 sinVal;
+
+    Chao *chao = TASK_DATA(gCurTask);
+    Sprite *sprChao;
+
+    if (chao->unk41 != chao->unk42) {
+        chao->unk42 = chao->unk41;
+        sub_802888C();
+        return;
+    }
+    chao->unk42 = chao->unk41;
+    mpp = TASK_DATA(gMultiplayerPlayerTasks[chao->unk41]);
+    sprChao = &chao->s;
+    if (mpp->s.frameFlags & 0x800) {
+        sprChao->frameFlags |= 0x800;
+        worldY = mpp->pos.y + mpp->s.hitboxes[0].b.bottom + 16;
+        theta = chao->unk3E & (SIN_PERIOD - 1);
+    } else {
+        sprChao->frameFlags &= ~0x800;
+        worldY = mpp->pos.y + mpp->s.hitboxes[0].b.top - 16;
+        theta = chao->unk3E & (SIN_PERIOD - 1);
+    }
+
+    worldX = mpp->pos.x;
+
+    if (mpp->pos.x == ((s32)chao->unk30 >> 8)) {
+        s32 charAnim = (mpp->s.graphics.anim - (s16)gPlayerCharacterIdleAnims[gMultiplayerCharacters[mpp->unk56]]);
+        if (charAnim == SA1_CHAR_ANIM_1) {
+            sprChao->graphics.anim = SA1_ANIM_CHAO_TURN;
+            sprChao->variant = 0;
+        } else {
+            sprChao->graphics.anim = SA1_ANIM_CHAO_FACE_DIAGONAL_R;
+            sprChao->variant = 0;
+        }
+    } else {
+        sprChao->graphics.anim = 0x2BB;
+        sprChao->variant = 0;
+    }
+
+    if (sub_8028AAC(worldX, worldY)) {
+        sprChao->graphics.anim = SA1_ANIM_CHAO_SITTING;
+        sprChao->variant = 0;
+        sprChao->x = I(chao->unk30) - gCamera.x;
+        sprChao->y = I(chao->unk34) - gCamera.y;
+    } else {
+        sprChao->x = I(chao->unk30) - gCamera.x;
+        valueY = I(chao->unk34);
+        sinVal = SIN(theta);
+        valueY -= (sinVal >> 11);
+        sprChao->y = valueY - gCamera.y;
+    }
     UpdateSpriteAnimation(sprChao);
     DisplaySprite(sprChao);
 }
