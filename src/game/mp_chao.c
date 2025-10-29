@@ -6,6 +6,7 @@
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/multiplayer/chao.h"
 #include "game/multiplayer/mp_player.h"
+#include "game/stage/terrain_collision.h"
 #include "game/entity.h"
 
 #include "constants/animations.h"
@@ -33,6 +34,8 @@ void Task_8028388(void);
 void Task_8028518(void);
 void Task_80286B0(void);
 void sub_802888C(void);
+void sub_8028910(void);
+void Task_8028A1C(void);
 bool32 sub_8028AAC(CamCoord x, CamCoord y);
 void TaskDestructor_Chao(struct Task *t);
 
@@ -354,4 +357,92 @@ void Task_80286B0()
     }
     UpdateSpriteAnimation(sprChao);
     DisplaySprite(sprChao);
+}
+
+void sub_802888C()
+{
+    Chao *chao = TASK_DATA(gCurTask);
+    Sprite *s = &chao->s;
+    MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[chao->unk41]);
+
+    if (chao->s.frameFlags & 0x400) {
+        chao->unk3A = -Q(1.5);
+    } else {
+        chao->unk3A = +Q(1.5);
+    }
+
+    if (mpp->s.frameFlags & 0x800) {
+        chao->unk3C = +Q(3.0);
+    } else {
+        chao->unk3C = -Q(3.0);
+    }
+
+    s->graphics.anim = 0x2BA;
+    s->variant = 0;
+    gCurTask->main = sub_8028910;
+}
+
+void sub_8028910()
+{
+    s32 res;
+
+    Chao *chao = TASK_DATA(gCurTask);
+    Sprite *s = &chao->s;
+    MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[chao->unk41]);
+
+    if (mpp->s.frameFlags & 0x800) {
+        chao->unk3C -= 0x28;
+    } else {
+        chao->unk3C += 0x28;
+    }
+    chao->unk30 += chao->unk3A;
+    chao->unk34 += chao->unk3C;
+
+    if (mpp->s.frameFlags & 0x800) {
+        res = SA2_LABEL(sub_801F100)(I(chao->unk34), I(chao->unk30), (mpp->unk54 >> 7) % 2u, -8, SA2_LABEL(sub_801EC3C));
+        if (res < 0) {
+            chao->unk34 -= Q(res);
+            s->graphics.anim = SA1_ANIM_CHAO_SHOCKED;
+            s->variant = 2;
+            gCurTask->main = Task_8028A1C;
+        }
+    } else {
+        res = SA2_LABEL(sub_801F100)(I(chao->unk34), I(chao->unk30), (mpp->unk54 >> 7) % 2u, +8, SA2_LABEL(sub_801EC3C));
+        if (res < 0) {
+            chao->unk34 += Q(res);
+            s->graphics.anim = SA1_ANIM_CHAO_SHOCKED;
+            s->variant = 2;
+            gCurTask->main = Task_8028A1C;
+        }
+    }
+    s->x = I(chao->unk30) - gCamera.x;
+    s->y = I(chao->unk34) - gCamera.y;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8028A1C()
+{
+    Chao *chao = TASK_DATA(gCurTask);
+    Sprite *s = &chao->s;
+
+    chao->s.x = I(chao->unk30) - gCamera.x;
+    chao->s.y = I(chao->unk34) - gCamera.y;
+
+    if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+        if (chao->unk41 != 0xFF) {
+            if (chao->unk40 == 0) {
+                gCurTask->main = Task_8028388;
+            } else if (chao->unk40 == 1) {
+                gCurTask->main = Task_8028518;
+            } else {
+                gCurTask->main = Task_80286B0;
+            }
+        } else {
+            gCurTask->main = Task_802816C;
+        }
+    }
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
 }
