@@ -259,7 +259,7 @@ extern void CreateEntity_PipeExit(MapEntity *me, u16 regionX, u16 regionY, u8 id
 extern void CreateEntity_TrackAirCorner(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_Interactable113(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_BreakableWall(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MysteryItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 
 const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 000 */ CreateEntity_StageGoal,
@@ -377,7 +377,7 @@ const MapEntityInit gSpriteInits_Interactables[116] = {
     /* 112 */ CreateEntity_TrackAirCorner,
     /* 113 */ CreateEntity_Interactable113,
     /* 114 */ CreateEntity_BreakableWall,
-    /* 115 */ CreateEntity_ItemBox_ChaoHunt,
+    /* 115 */ CreateEntity_MysteryItemBox,
 };
 
 extern void CreateEntity_Kiki(MapEntity *me, u16 regionX, u16 regionY, u8 id);
@@ -472,7 +472,7 @@ extern void CreateEntity_Toggle_PlayerLayer(MapEntity *me, u16 regionX, u16 regi
 extern void CreateEntity_PlatformThin(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_PlatformThin_Falling(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 extern void CreateEntity_WaterBridge(MapEntity *me, u16 regionX, u16 regionY, u8 id);
-extern void CreateEntity_ItemBox_ChaoHunt(MapEntity *me, u16 regionX, u16 regionY, u8 id);
+extern void CreateEntity_MysteryItemBox(MapEntity *me, u16 regionX, u16 regionY, u8 id);
 
 // Used for the Single Pak, "Collect Rings" stage
 const MapEntityInit gSpriteInits_InteractablesMultiplayer[] = {
@@ -493,7 +493,7 @@ const MapEntityInit gSpriteInits_InteractablesMultiplayer[] = {
     /* 014 */ CreateEntity_PlatformThin,
     /* 015 */ CreateEntity_PlatformThin_Falling,
     /* 016 */ CreateEntity_WaterBridge,
-    /* 017 */ CreateEntity_ItemBox_ChaoHunt,
+    /* 017 */ CreateEntity_MysteryItemBox,
 };
 
 // TODO: Is this not in SA1?

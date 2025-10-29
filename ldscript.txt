@@ -53,6 +53,7 @@ SECTIONS {
         src/game/multiplayer/finish.o(.text);
         src/game/sa1_sa2_shared/pause_menu.o(.text);
         asm/game__mp__results_2.o(.text);
+        src/game/mystery_itembox.o(.text);
         asm/ia_mystery_itembox.o(.text);
         asm/game__mp__unk_tasks.o(.text);
         src/game/enemies/kiki.o(.text);
@@ -304,7 +305,7 @@ SECTIONS {
         data/data_0_1_3.o(.rodata);
         src/game/multiplayer/finish.o(.rodata);
         src/game/multiboot/collect_rings/time_display.o(.rodata);
-        data/data_mystery_itembox.o(.rodata);
+        src/game/mystery_itembox.o(.rodata);
         src/game/interactables/spring.o(.rodata);
         src/game/interactables/platform_thin.o(.rodata);
         src/game/interactables/platform_crumbling.o(.rodata);
