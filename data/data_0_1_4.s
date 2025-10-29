@@ -13,6 +13,6 @@ gUnknown_080BB544:
     .short 0x022F, 0x022F
     .short 0x022F, 0x0254
 
-    .global gUnknown_080BB568
-gUnknown_080BB568:
+    .global sChaoSpawnPositions
+sChaoSpawnPositions:
     .incbin "baserom_sa1.gba", 0x000BB568, 0x80

@@ -5,159 +5,8 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateMultiplayerChao
-CreateMultiplayerChao: @ 0x08028034
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	lsls r0, r0, #0x18
-	lsrs r4, r0, #0x18
-	lsls r1, r1, #0x18
-	lsrs r1, r1, #0x18
-	mov r8, r1
-	ldr r0, _080280A8 @ =Task_802816C
-	movs r7, #0x80
-	lsls r7, r7, #6
-	ldr r1, _080280AC @ =sub_8028C70
-	str r1, [sp]
-	movs r1, #0x44
-	adds r2, r7, #0
-	movs r3, #0
-	bl TaskCreate
-	mov sb, r0
-	ldrh r1, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r6, r1, r0
-	adds r3, r6, #0
-	str r7, [r6, #0x10]
-	ldr r1, _080280B0 @ =gUnknown_080BB568
-	lsls r5, r4, #2
-	ldr r2, _080280B4 @ =gCurrentLevel
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	subs r0, #0xe
-	lsls r0, r0, #5
-	adds r0, r5, r0
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	mov ip, r0
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	cmp r0, #0x11
-	bne _080280B8
-	cmp r4, #4
-	bls _080280B8
-	movs r0, #0x80
-	lsls r0, r0, #4
-	orrs r0, r7
-	str r0, [r6, #0x10]
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	subs r0, #0xe
-	lsls r0, r0, #5
-	adds r0, r5, r0
-	adds r1, #2
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	adds r0, #0x10
-	b _080280D2
-	.align 2, 0
-_080280A8: .4byte Task_802816C
-_080280AC: .4byte sub_8028C70
-_080280B0: .4byte gUnknown_080BB568
-_080280B4: .4byte gCurrentLevel
-_080280B8:
-	ldr r2, _08028160 @ =gUnknown_080BB568
-	lsls r1, r4, #2
-	ldr r0, _08028164 @ =gCurrentLevel
-	ldrb r0, [r0]
-	lsls r0, r0, #0x18
-	asrs r0, r0, #0x18
-	subs r0, #0xe
-	lsls r0, r0, #5
-	adds r1, r1, r0
-	adds r2, #2
-	adds r1, r1, r2
-	ldrh r0, [r1]
-	subs r0, #0x10
-_080280D2:
-	lsls r0, r0, #0x10
-	lsrs r2, r0, #0x10
-	adds r0, r3, #0
-	adds r0, #0x40
-	movs r4, #0
-	mov r1, r8
-	strb r1, [r0]
-	adds r1, r3, #0
-	adds r1, #0x41
-	movs r0, #0xff
-	strb r0, [r1]
-	adds r1, #1
-	movs r0, #1
-	rsbs r0, r0, #0
-	strb r0, [r1]
-	mov r0, ip
-	lsls r1, r0, #0x10
-	asrs r1, r1, #8
-	str r1, [r3, #0x30]
-	lsls r0, r2, #0x10
-	asrs r0, r0, #8
-	str r0, [r3, #0x34]
-	movs r5, #0
-	strh r4, [r3, #0x38]
-	strh r4, [r3, #0x3e]
-	asrs r1, r1, #8
-	ldr r2, _08028168 @ =gCamera
-	ldrh r0, [r2]
-	subs r1, r1, r0
-	strh r1, [r6, #0x16]
-	ldr r0, [r3, #0x34]
-	asrs r0, r0, #8
-	ldrh r1, [r2, #2]
-	subs r0, r0, r1
-	strh r0, [r6, #0x18]
-	movs r0, #0x10
-	bl VramMalloc
-	str r0, [r6, #4]
-	movs r1, #0x10
-	mov r2, r8
-	subs r0, r1, r2
-	lsls r0, r0, #6
-	strh r0, [r6, #0x1a]
-	strh r4, [r6, #8]
-	movs r0, #0xb0
-	lsls r0, r0, #2
-	strh r0, [r6, #0xa]
-	adds r0, r6, #0
-	adds r0, #0x20
-	strb r5, [r0]
-	strh r4, [r6, #0x14]
-	strh r4, [r6, #0x1c]
-	adds r2, r6, #0
-	adds r2, #0x21
-	movs r0, #1
-	rsbs r0, r0, #0
-	strb r0, [r2]
-	adds r0, r6, #0
-	adds r0, #0x22
-	strb r1, [r0]
-	adds r0, #3
-	strb r5, [r0]
-	mov r0, sb
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r1}
-	bx r1
-	.align 2, 0
-_08028160: .4byte gUnknown_080BB568
-_08028164: .4byte gCurrentLevel
-_08028168: .4byte gCamera
+.if 0
+.endif
 
 	thumb_func_start Task_802816C
 Task_802816C: @ 0x0802816C
@@ -1566,8 +1415,8 @@ _08028C64:
 	.align 2, 0
 _08028C6C: .4byte gSineTable
 
-	thumb_func_start sub_8028C70
-sub_8028C70: @ 0x08028C70
+	thumb_func_start TaskDestructor_Chao
+TaskDestructor_Chao: @ 0x08028C70
 	push {lr}
 	ldrh r0, [r0, #6]
 	movs r1, #0xc0
