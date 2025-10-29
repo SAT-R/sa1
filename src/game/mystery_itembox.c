@@ -5,9 +5,11 @@
 #include "game/entity.h"
 #include "game/mystery_itembox.h"
 #include "game/multiplayer/multiplayer_event_mgr.h"
+#include "game/multiplayer/mp_player.h"
 #include "game/sa1_sa2_shared/dust_cloud.h"
-#include "game/stage/player.h"
 #include "game/stage/camera.h"
+#include "game/stage/player.h"
+#include "game/stage/terrain_collision.h"
 #include "lib/m4a/m4a.h"
 
 #include "constants/animations.h"
@@ -32,15 +34,16 @@ typedef struct {
     Sprite box; /* 0x0C*/
     Sprite identifier; /* 0x3C */
     /* 0x6C */ SpriteTransform transform;
-    /* 0x78 */ CamCoord x; // x
-    /* 0x7A */ CamCoord y; // y
 #if (GAME == GAME_SA1)
+    u32 unk78;
     s16 unk7C;
     s16 unk7E;
     u8 unk80;
     u8 rndItemIndex;
     s16 unk82;
 #elif (GAME == GAME_SA2)
+    /* 0x78 */ CamCoord x; // x
+    /* 0x7A */ CamCoord y; // y
     s16 iconOffsetY;
     u8 SA2_LABEL(unk82);
     u8 framesSinceOpened;
@@ -53,6 +56,10 @@ extern inline void Task_MysteryItemBox_Main0_inline(void);
 extern void Task_MysteryItemBox_Main0(void);
 extern void Task_MysteryItemBox_Main1(void);
 extern void TaskDestructor_MysteryItemBox(struct Task *);
+void sub_801C69C(void);
+void sub_801C2FC(void);
+void sub_801C420(void);
+void sub_801C130(void);
 extern void sub_808623C(void);
 extern void sub_8086858(MysteryItemBox *);
 extern bool32 sub_808693C(MysteryItemBox *);
@@ -241,7 +248,7 @@ void Task_MysteryItemBox_Main1()
         TaskDestroy(gCurTask);
     }
 }
-#endif(GAME == GAME_SA1)
+#endif // (GAME == GAME_SA1)
 
 #if (GAME == GAME_SA2)
 static void sub_808616C(void)
@@ -271,7 +278,135 @@ static void sub_808616C(void)
 }
 #endif // (GAME == GAME_SA1)
 
-#if 0
+#if (GAME == GAME_SA1)
+
+void Task_MysteryItemBox_Main0()
+{
+    u8 sp8 = 0;
+    MapEntity *me;
+    Sprite *s;
+    s16 *temp_r1;
+    s16 *temp_r1_2;
+    s16 temp_r1_3;
+    s16 temp_r2_2;
+    s32 temp_r0;
+    CamCoord worldX;
+    CamCoord worldY;
+    u32 res;
+    u8 *temp_r3_2;
+    u8 var_r2;
+    RoomEvent_MysteryItemBoxBreak *roomEvent;
+
+    MysteryItemBox *itembox = TASK_DATA(gCurTask);
+
+    s = &itembox->box;
+    me = itembox->base.me;
+    worldX = TO_WORLD_POS(itembox->base.meX, itembox->base.regionX);
+    worldY = TO_WORLD_POS(me->y, itembox->base.regionY);
+    if (me->d.sData[0] != (7 & gRandomItemBox)) {
+        if ((8 & gPlayer.moveState) && (gPlayer.stoodObj == s)) {
+            gPlayer.moveState = (gPlayer.moveState & ~8) | 2;
+        }
+        if (itembox->unk78 & 0x20) {
+            gPlayer.moveState &= ~0x20;
+            itembox->unk78 = 0U;
+        }
+        gCurTask->main = sub_801C69C;
+        sub_801C69C();
+        return;
+    }
+    if (me->d.sData[1] > (gRandomItemBox >> 4)) {
+        m4aSongNumStart(0xA7U);
+        CreateDustCloud(worldX, worldY + itembox->unk7C);
+        gCurTask->main = sub_801C2FC;
+        itembox->unk80 = sp8;
+        if ((8 & gPlayer.moveState) && (gPlayer.stoodObj == s)) {
+            gPlayer.moveState = (gPlayer.moveState & ~8) | 2;
+        }
+        if (!(itembox->unk78 & 0x20)) {
+            return;
+        }
+        gPlayer.moveState &= ~0x20;
+        itembox->unk78 = 0U;
+        return;
+    }
+
+    if (itembox->unk80 != 0) {
+        itembox->unk7C += I(itembox->unk7E);
+        itembox->unk7E += 0x28;
+        temp_r0 = SA2_LABEL(sub_801F07C)(worldY + itembox->unk7C, worldX, 1, 8, NULL, SA2_LABEL(sub_801EE64));
+        if (temp_r0 < 0) {
+            itembox->unk7C += temp_r0;
+            itembox->unk80 = 0;
+        }
+    }
+    s->x = worldX - gCamera.x;
+    s->y = (worldY - gCamera.y) + itembox->unk7C;
+    if ((gGameMode == 3) || (gGameMode == 5)) {
+        for (var_r2 = 0; var_r2 < 4; var_r2++) {
+            struct Task **mpTasks = gMultiplayerPlayerTasks;
+            if (mpTasks[var_r2] == NULL)
+                break;
+
+            if (var_r2 != SIO_MULTI_CNT->id) {
+                MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[var_r2]);
+                if (mpp->unk5C & 4) {
+                    sp8 = 1;
+                }
+            }
+        }
+    }
+
+    if (!((0x400000 & gPlayer.moveState) && (sp8 == 0))) {
+        if (((gPlayer.moveState & 8) && (gPlayer.stoodObj == s)) || (gPlayer.spriteInfoBody->reserved.index == -1)) {
+            res = sub_80096B0(s, (s16)worldX, (worldY + itembox->unk7C), &gPlayer);
+            if (0x10000 & res) {
+                itembox->unk7E = -Q(1);
+                itembox->unk80 = 0xFF;
+            }
+        } else {
+            res = Coll_Player_Itembox(s, worldX, worldY + itembox->unk7C, &gPlayer);
+            if (0x10000 & res) {
+                itembox->unk7E = -Q(1);
+                itembox->unk80 = 0xFF;
+            } else if (0x28 & res) {
+                if ((gPlayer.moveState & 8) && (gPlayer.stoodObj == s)) {
+                    gPlayer.moveState &= ~MOVESTATE_STOOD_ON_OBJ;
+                    gPlayer.moveState &= ~MOVESTATE_20;
+                    gPlayer.moveState |= MOVESTATE_IN_AIR;
+                }
+                m4aSongNumStart(0xA7U);
+                CreateDustCloud(worldX, worldY + itembox->unk7C);
+                gCurTask->main = sub_801C130;
+                itembox->unk80 = 0;
+                me->d.sData[1]++;
+                roomEvent = CreateRoomEvent();
+                roomEvent->type = ROOMEVENT_TYPE_MYSTERY_ITEMBOX_BREAK;
+                roomEvent->x = (s8)itembox->base.regionX;
+                roomEvent->y = (s8)itembox->base.regionY;
+                roomEvent->id = (u8)itembox->base.id;
+                roomEvent->unk4 = (u8)me->d.sData[1];
+                return;
+            }
+        }
+        itembox->unk78 = res;
+    }
+
+    // TODO: Macro
+    if (((u16)(s->x + 128) > (DISPLAY_WIDTH + 256u)) || ((s->y + 0x80 + itembox->unk7C) < 0)
+        || ((s->y + itembox->unk7C) > (DISPLAY_HEIGHT + 128))) {
+        me->x = itembox->base.meX;
+        TaskDestroy(gCurTask);
+        return;
+    }
+    DisplaySprite(s);
+    s = &itembox->identifier;
+    s->x = worldX - gCamera.x;
+    s->y = (worldY - gCamera.y) + itembox->unk7C;
+    DisplaySprite(s);
+}
+
+#elif (GAME == GAME_SA2)
 // TODO: figure out how to move this down
 static inline void Task_MysteryItemBox_Main0_inline(void)
 {
@@ -299,7 +434,9 @@ static inline void Task_MysteryItemBox_Main0_inline(void)
         sub_80868A8(itemBox, 0);
     }
 }
+#endif
 
+#if 0
 static void sub_808623C(void)
 {
     MysteryItemBox *itemBox = TASK_DATA(gCurTask);
