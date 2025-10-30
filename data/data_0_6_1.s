@@ -113,7 +113,10 @@ gUnknown_0868B790:
 
     .global gUnknown_0868B794 @ ptrs 0x0868EB74 - 0x08699E74
 gUnknown_0868B794:
-    .incbin "baserom_sa1.gba", 0x0068B794, 0x80
+    .int gCharacterCards_Sonic_Tiles, 0x09C0, gCharacterCards_Sonic_Palette, gCharacterCards_Sonic_Layout, gUnknown_086969B4, 0x500, gUnknown_086967B4, gUnknown_08696BF4
+    .int gCharacterCards_Tails_Tiles, 0x0680, gCharacterCards_Tails_Palette, gCharacterCards_Tails_Layout, gUnknown_0869A074, 0x500, gUnknown_08699E74, gUnknown_0869A2B4
+    .int gCharacterCards_Knuckles_Tiles, 0x0800, gCharacterCards_Knuckles_Palette, gCharacterCards_Knuckles_Layout, gUnknown_0868FC34, 0x500, gUnknown_0868FA34, gUnknown_0868FE74
+    .int gCharacterCards_Amy_Tiles, 0x04C0, gCharacterCards_Amy_Palette, gCharacterCards_Amy_Layout, gUnknown_08693034, 0x500, gUnknown_08692E34, gUnknown_08693274
 
     .global gUnknown_0868B814
 gUnknown_0868B814:
@@ -175,17 +178,29 @@ gUnknown_0868DFF4:
 gUnknown_0868E5F4:
     .incbin "baserom_sa1.gba", 0x0068E5F4, 0x580
 
-    .global gUnknown_0868EB74
-gUnknown_0868EB74:
+    .global gCharacterCards_Knuckles_Palette
+gCharacterCards_Knuckles_Palette:
     .incbin "baserom_sa1.gba", 0x0068EB74, 0x200
 
-    .global gUnknown_0868ED74
-gUnknown_0868ED74:
+    .global gCharacterCards_Knuckles_Tiles
+gCharacterCards_Knuckles_Tiles:
     .incbin "baserom_sa1.gba", 0x0068ED74, 0x7C0
 
-    .global gUnknown_0868F534
-gUnknown_0868F534:
-    .incbin "baserom_sa1.gba", 0x0068F534, 0x1040
+    .global gCharacterCards_Knuckles_Layout
+gCharacterCards_Knuckles_Layout:
+    .incbin "baserom_sa1.gba", 0x0068F534, 0x500
+
+    .global gUnknown_0868FA34
+gUnknown_0868FA34:
+    .incbin "baserom_sa1.gba", 0x0068FA34, 0x200
+
+    .global gUnknown_0868FC34
+gUnknown_0868FC34:
+    .incbin "baserom_sa1.gba", 0x0068FC34, 0x240
+
+    .global gUnknown_0868FE74
+gUnknown_0868FE74:
+    .incbin "baserom_sa1.gba", 0x0068FE74, 0x700
 
     .global gUnknown_08690574
 gUnknown_08690574:
@@ -195,17 +210,29 @@ gUnknown_08690574:
 gUnknown_08691D74:
     .incbin "baserom_sa1.gba", 0x00691D74, 0x500
 
-    .global gUnknown_08692274
-gUnknown_08692274:
+    .global gCharacterCards_Amy_Palette
+gCharacterCards_Amy_Palette:
     .incbin "baserom_sa1.gba", 0x00692274, 0x200
 
-    .global gUnknown_08692474
-gUnknown_08692474:
+    .global gCharacterCards_Amy_Tiles
+gCharacterCards_Amy_Tiles:
     .incbin "baserom_sa1.gba", 0x00692474, 0x4C0
 
-    .global gUnknown_08692934
-gUnknown_08692934:
-    .incbin "baserom_sa1.gba", 0x00692934, 0x1040
+    .global gCharacterCards_Amy_Layout
+gCharacterCards_Amy_Layout:
+    .incbin "baserom_sa1.gba", 0x00692934, 0x500
+
+    .global gUnknown_08692E34
+gUnknown_08692E34:
+    .incbin "baserom_sa1.gba", 0x00692E34, 0x200
+
+    .global gUnknown_08693034
+gUnknown_08693034:
+    .incbin "baserom_sa1.gba", 0x00693034, 0x240
+
+    .global gUnknown_08693274
+gUnknown_08693274:
+    .incbin "baserom_sa1.gba", 0x00693274, 0x700
 
     .global gUnknown_08693974
 gUnknown_08693974:
@@ -215,17 +242,29 @@ gUnknown_08693974:
 gUnknown_086951F4:
     .incbin "baserom_sa1.gba", 0x006951F4, 0x500
 
-    .global gUnknown_086956F4
-gUnknown_086956F4:
+    .global gCharacterCards_Sonic_Palette
+gCharacterCards_Sonic_Palette:
     .incbin "baserom_sa1.gba", 0x006956F4, 0x200
 
-    .global gUnknown_086958F4
-gUnknown_086958F4:
+    .global gCharacterCards_Sonic_Tiles
+gCharacterCards_Sonic_Tiles:
     .incbin "baserom_sa1.gba", 0x006958F4, 0x9C0
 
-    .global gUnknown_086962B4
-gUnknown_086962B4:
-    .incbin "baserom_sa1.gba", 0x006962B4, 0x1040
+    .global gCharacterCards_Sonic_Layout
+gCharacterCards_Sonic_Layout:
+    .incbin "baserom_sa1.gba", 0x006962B4, 0x500
+
+    .global gUnknown_086967B4
+gUnknown_086967B4:
+    .incbin "baserom_sa1.gba", 0x006967B4, 0x200
+
+    .global gUnknown_086969B4
+gUnknown_086969B4:
+    .incbin "baserom_sa1.gba", 0x006969B4, 0x240
+
+    .global gUnknown_08696BF4
+gUnknown_08696BF4:
+    .incbin "baserom_sa1.gba", 0x00696BF4, 0x700
 
     .global gUnknown_086972F4
 gUnknown_086972F4:
@@ -235,17 +274,29 @@ gUnknown_086972F4:
 gUnknown_08698BF4:
     .incbin "baserom_sa1.gba", 0x00698BF4, 0x500
 
-    .global gUnknown_086990F4
-gUnknown_086990F4:
+    .global gCharacterCards_Tails_Palette
+gCharacterCards_Tails_Palette:
     .incbin "baserom_sa1.gba", 0x006990F4, 0x200
 
-    .global gUnknown_086992F4
-gUnknown_086992F4:
+    .global gCharacterCards_Tails_Tiles
+gCharacterCards_Tails_Tiles:
     .incbin "baserom_sa1.gba", 0x006992F4, 0x680
 
-    .global gUnknown_08699974
-gUnknown_08699974:
-    .incbin "baserom_sa1.gba", 0x00699974, 0x1040
+    .global gCharacterCards_Tails_Layout
+gCharacterCards_Tails_Layout:
+    .incbin "baserom_sa1.gba", 0x00699974, 0x500
+
+    .global gUnknown_08699E74
+gUnknown_08699E74:
+    .incbin "baserom_sa1.gba", 0x00699E74, 0x200
+
+    .global gUnknown_0869A074
+gUnknown_0869A074:
+    .incbin "baserom_sa1.gba", 0x0069A074, 0x240
+
+    .global gUnknown_0869A2B4
+gUnknown_0869A2B4:
+    .incbin "baserom_sa1.gba", 0x0069A2B4, 0x700
 
     .global gUnknown_0869A9B4
 gUnknown_0869A9B4:

@@ -54,18 +54,18 @@ extern u16 gUnknown_0868B0FC[][2];
 
 extern u8 gUnknown_08690574[];
 extern u8 gUnknown_08691D74[];
-extern u16 gUnknown_08692274[];
-extern u8 gUnknown_08692474[];
-extern u8 gUnknown_08692934[];
+extern u16 gCharacterCards_Amy_Palette[];
+extern u8 gCharacterCards_Amy_Tiles[];
+extern u8 gCharacterCards_Amy_Layout[];
 extern u8 gUnknown_08693974[];
-extern u16 gUnknown_086956F4[];
+extern u16 gCharacterCards_Sonic_Palette[];
 extern u8 gUnknown_086951F4[];
-extern u8 gUnknown_086958F4[];
-extern u8 gUnknown_086962B4[];
+extern u8 gCharacterCards_Sonic_Tiles[];
+extern u8 gCharacterCards_Sonic_Layout[];
 extern u8 gUnknown_086972F4[];
 extern u8 gUnknown_08698BF4[];
-extern u16 gUnknown_086990F4[];
-extern u8 gUnknown_08699974[];
+extern u16 gCharacterCards_Tails_Palette[];
+extern u8 gCharacterCards_Tails_Layout[];
 extern u8 gUnknown_0869A9B4[];
 extern u8 gUnknown_0869C5F4[];
 
@@ -75,10 +75,10 @@ extern const u16 sZoneTimeMinutesTable[];
 extern const u8 gMillisUnpackTable[60 * 2];
 extern const u8 gSecondsTable[60 * 2];
 extern void sub_805321C(u8 *param0, GameOverB *param1);
-extern u8 gUnknown_0868F534[];
-extern u8 gUnknown_086992F4[];
-extern u8 gUnknown_0868ED74[];
-extern u16 gUnknown_0868EB74[];
+extern u8 gCharacterCards_Knuckles_Layout[];
+extern u8 gCharacterCards_Tails_Tiles[];
+extern u8 gCharacterCards_Knuckles_Tiles[];
+extern u16 gCharacterCards_Knuckles_Palette[];
 
 void sub_8060C88(void)
 {
@@ -105,11 +105,11 @@ void sub_8060C88(void)
 
     gfx.uiGfxID = UIGFX_OPTIONS;
     gfx.unk2B = 0;
-    gfx.tiles = gUnknown_086958F4;
+    gfx.tiles = gCharacterCards_Sonic_Tiles;
     gfx.tilesSize = 0x9C0;
-    gfx.palette = gUnknown_086956F4;
+    gfx.palette = gCharacterCards_Sonic_Palette;
     gfx.paletteSize = 0x200;
-    gfx.layout = gUnknown_086962B4;
+    gfx.layout = gCharacterCards_Sonic_Layout;
     gfx.layoutSize = 0x500;
     gfx.unk28 = 0;
     gfx.unk29 = 0;
@@ -470,11 +470,11 @@ NONMATCH("asm/non_matching/game/time_attack_record__sub_8061480.inc", void sub_8
 
             gfx.uiGfxID = UIGFX_OPTIONS;
             gfx.unk2B = 0;
-            gfx.tiles = gUnknown_086958F4;
+            gfx.tiles = gCharacterCards_Sonic_Tiles;
             gfx.tilesSize = 0x9C0;
-            gfx.palette = gUnknown_086956F4;
+            gfx.palette = gCharacterCards_Sonic_Palette;
             gfx.paletteSize = 0x200;
-            gfx.layout = gUnknown_086962B4;
+            gfx.layout = gCharacterCards_Sonic_Layout;
             gfx.layoutSize = 0x500;
             gfx.unk28 = 0;
             gfx.unk29 = 0;
@@ -498,11 +498,11 @@ NONMATCH("asm/non_matching/game/time_attack_record__sub_8061480.inc", void sub_8
 
             gfx.uiGfxID = UIGFX_OPTIONS;
             gfx.unk2B = 0;
-            gfx.tiles = gUnknown_086992F4;
+            gfx.tiles = gCharacterCards_Tails_Tiles;
             gfx.tilesSize = 0x680;
-            gfx.palette = gUnknown_086990F4;
+            gfx.palette = gCharacterCards_Tails_Palette;
             gfx.paletteSize = 0x200;
-            gfx.layout = gUnknown_08699974;
+            gfx.layout = gCharacterCards_Tails_Layout;
             gfx.layoutSize = 0x500;
             gfx.unk28 = 0;
             gfx.unk29 = 0;
@@ -526,11 +526,11 @@ NONMATCH("asm/non_matching/game/time_attack_record__sub_8061480.inc", void sub_8
 
             gfx.uiGfxID = UIGFX_OPTIONS;
             gfx.unk2B = 0;
-            gfx.tiles = gUnknown_0868ED74;
+            gfx.tiles = gCharacterCards_Knuckles_Tiles;
             gfx.tilesSize = 0x7C0;
-            gfx.palette = gUnknown_0868EB74;
+            gfx.palette = gCharacterCards_Knuckles_Palette;
             gfx.paletteSize = 0x200;
-            gfx.layout = gUnknown_0868F534;
+            gfx.layout = gCharacterCards_Knuckles_Layout;
             gfx.layoutSize = 0x500;
             gfx.unk28 = 0;
             gfx.unk29 = 0;
@@ -554,11 +554,11 @@ NONMATCH("asm/non_matching/game/time_attack_record__sub_8061480.inc", void sub_8
 
             gfx.uiGfxID = UIGFX_OPTIONS;
             gfx.unk2B = 0;
-            gfx.tiles = gUnknown_08692474;
+            gfx.tiles = gCharacterCards_Amy_Tiles;
             gfx.tilesSize = 0x4C0;
-            gfx.palette = gUnknown_08692274;
+            gfx.palette = gCharacterCards_Amy_Palette;
             gfx.paletteSize = 0x200;
-            gfx.layout = gUnknown_08692934;
+            gfx.layout = gCharacterCards_Amy_Layout;
             gfx.layoutSize = 0x500;
             gfx.unk28 = 0;
             gfx.unk29 = 0;

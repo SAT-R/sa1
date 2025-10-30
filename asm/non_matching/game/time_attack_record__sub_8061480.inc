@@ -83,17 +83,17 @@ _080614CC:
 	bl sub_80528AC
 	strb r5, [r6]
 	strb r7, [r4]
-	ldr r0, _08061560 @ =gUnknown_086958F4
+	ldr r0, _08061560 @ =gCharacterCards_Sonic_Tiles
 	str r0, [sp, #0x14]
 	movs r0, #0x9c
 	lsls r0, r0, #4
 	str r0, [sp, #0x18]
-	ldr r0, _08061564 @ =gUnknown_086956F4
+	ldr r0, _08061564 @ =gCharacterCards_Sonic_Palette
 	str r0, [sp, #0x20]
 	movs r0, #0x80
 	lsls r0, r0, #2
 	str r0, [sp, #0x24]
-	ldr r0, _08061568 @ =gUnknown_086962B4
+	ldr r0, _08061568 @ =gCharacterCards_Sonic_Layout
 	str r0, [sp, #0x10]
 	mov r2, r8
 	str r2, [sp, #0x1c]
@@ -109,9 +109,9 @@ _080614CC:
 _08061554: .4byte 0x03000051
 _08061558: .4byte gUnknown_086972F4
 _0806155C: .4byte gUnknown_08698BF4
-_08061560: .4byte gUnknown_086958F4
-_08061564: .4byte gUnknown_086956F4
-_08061568: .4byte gUnknown_086962B4
+_08061560: .4byte gCharacterCards_Sonic_Tiles
+_08061564: .4byte gCharacterCards_Sonic_Palette
+_08061568: .4byte gCharacterCards_Sonic_Layout
 _0806156C:
 	cmp r7, #1
 	bne _080615F8
@@ -152,17 +152,17 @@ _0806156C:
 	mov r1, r8
 	strb r6, [r1]
 	strb r4, [r5]
-	ldr r0, _080615EC @ =gUnknown_086992F4
+	ldr r0, _080615EC @ =gCharacterCards_Tails_Tiles
 	str r0, [sp, #0x14]
 	movs r0, #0xd0
 	lsls r0, r0, #3
 	str r0, [sp, #0x18]
-	ldr r0, _080615F0 @ =gUnknown_086990F4
+	ldr r0, _080615F0 @ =gCharacterCards_Tails_Palette
 	str r0, [sp, #0x20]
 	movs r0, #0x80
 	lsls r0, r0, #2
 	str r0, [sp, #0x24]
-	ldr r0, _080615F4 @ =gUnknown_08699974
+	ldr r0, _080615F4 @ =gCharacterCards_Tails_Layout
 	str r0, [sp, #0x10]
 	mov r2, sb
 	str r2, [sp, #0x1c]
@@ -174,9 +174,9 @@ _0806156C:
 	.align 2, 0
 _080615E4: .4byte gUnknown_0869A9B4
 _080615E8: .4byte gUnknown_0869C5F4
-_080615EC: .4byte gUnknown_086992F4
-_080615F0: .4byte gUnknown_086990F4
-_080615F4: .4byte gUnknown_08699974
+_080615EC: .4byte gCharacterCards_Tails_Tiles
+_080615F0: .4byte gCharacterCards_Tails_Palette
+_080615F4: .4byte gCharacterCards_Tails_Layout
 _080615F8:
 	cmp r7, #2
 	bne _0806168C
@@ -217,17 +217,17 @@ _080615F8:
 	mov r0, r8
 	strb r6, [r0]
 	strb r4, [r5]
-	ldr r0, _08061680 @ =gUnknown_0868ED74
+	ldr r0, _08061680 @ =gCharacterCards_Knuckles_Tiles
 	str r0, [sp, #0x14]
 	movs r0, #0xf8
 	lsls r0, r0, #3
 	str r0, [sp, #0x18]
-	ldr r0, _08061684 @ =gUnknown_0868EB74
+	ldr r0, _08061684 @ =gCharacterCards_Knuckles_Palette
 	str r0, [sp, #0x20]
 	movs r0, #0x80
 	lsls r0, r0, #2
 	str r0, [sp, #0x24]
-	ldr r0, _08061688 @ =gUnknown_0868F534
+	ldr r0, _08061688 @ =gCharacterCards_Knuckles_Layout
 	str r0, [sp, #0x10]
 	mov r1, sb
 	str r1, [sp, #0x1c]
@@ -245,9 +245,9 @@ _08061670:
 	.align 2, 0
 _08061678: .4byte gUnknown_08690574
 _0806167C: .4byte gUnknown_08691D74
-_08061680: .4byte gUnknown_0868ED74
-_08061684: .4byte gUnknown_0868EB74
-_08061688: .4byte gUnknown_0868F534
+_08061680: .4byte gCharacterCards_Knuckles_Tiles
+_08061684: .4byte gCharacterCards_Knuckles_Palette
+_08061688: .4byte gCharacterCards_Knuckles_Layout
 _0806168C:
 	add r3, sp, #0x2c
 	mov r8, r3
@@ -286,17 +286,17 @@ _0806168C:
 	mov r3, r8
 	strb r6, [r3]
 	strb r4, [r5]
-	ldr r0, _08061788 @ =gUnknown_08692474
+	ldr r0, _08061788 @ =gCharacterCards_Amy_Tiles
 	str r0, [sp, #0x14]
 	movs r0, #0x98
 	lsls r0, r0, #3
 	str r0, [sp, #0x18]
-	ldr r0, _0806178C @ =gUnknown_08692274
+	ldr r0, _0806178C @ =gCharacterCards_Amy_Palette
 	str r0, [sp, #0x20]
 	movs r0, #0x80
 	lsls r0, r0, #2
 	str r0, [sp, #0x24]
-	ldr r0, _08061790 @ =gUnknown_08692934
+	ldr r0, _08061790 @ =gCharacterCards_Amy_Layout
 	str r0, [sp, #0x10]
 	mov r0, sb
 	str r0, [sp, #0x1c]
@@ -372,9 +372,9 @@ _08061722:
 	.align 2, 0
 _08061780: .4byte gUnknown_08693974
 _08061784: .4byte gUnknown_086951F4
-_08061788: .4byte gUnknown_08692474
-_0806178C: .4byte gUnknown_08692274
-_08061790: .4byte gUnknown_08692934
+_08061788: .4byte gCharacterCards_Amy_Tiles
+_0806178C: .4byte gCharacterCards_Amy_Palette
+_08061790: .4byte gCharacterCards_Amy_Layout
 _08061794: .4byte gLoadedSaveGame
 _08061798: .4byte gSecondsTable
 _0806179C: .4byte 0x00008C9F

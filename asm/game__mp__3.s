@@ -5,6 +5,7 @@
 .syntax unified
 .arm
 
+.if 01
 	thumb_func_start sub_806B670
 sub_806B670: @ 0x0806B670
 	push {r4, r5, r6, r7, lr}
@@ -216,6 +217,7 @@ sub_806B670: @ 0x0806B670
 _0806B810: .4byte gUiGraphics
 _0806B814: .4byte gUnknown_0868B794
 _0806B818: .4byte gSelectedCharacter
+.endif
 
 	thumb_func_start sub_806B81C
 sub_806B81C: @ 0x0806B81C
