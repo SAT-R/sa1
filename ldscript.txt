@@ -75,7 +75,6 @@ SECTIONS {
         src/game/enemies/boss_1_egg_hammer_tank.o(.text);
         src/game/interactables/breakable_wall.o(.text);
         src/game/mp_chao.o(.text);
-        asm/game__mp_chao.o(.text);
         src/game/egg_rocket_transitions.o(.text);
         asm/game__special_stage.o(.text);
         src/game/enemies/boss_2_egg_press.o(.text);

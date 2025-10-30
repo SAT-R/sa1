@@ -446,3 +446,79 @@ void Task_8028A1C()
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
+
+u32 sub_8028AAC(CamCoord x, CamCoord y)
+{
+    s16 vecChaoPtY;
+    s16 vecChaoPtX;
+    s16 var_r1;
+    s16 var_r3;
+    s16 var_r4_2;
+    s32 distance;
+
+    Chao *chao = TASK_DATA(gCurTask);
+    MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[chao->unk41]);
+    Sprite *s = &chao->s;
+
+    vecChaoPtX = x - I(chao->unk30);
+    vecChaoPtY = y - I(chao->unk34);
+    if ((vecChaoPtX > 0) || ((vecChaoPtX == 0) && (mpp->s.frameFlags & 0x400))) {
+        s->frameFlags |= 0x400;
+    } else {
+        s->frameFlags &= ~0x400;
+    }
+    if ((vecChaoPtX == 0) && (vecChaoPtY == 0)) {
+        return 1U;
+    }
+
+    var_r3 = vecChaoPtX;
+    var_r1 = vecChaoPtY;
+    if ((vecChaoPtX != 0) && (vecChaoPtY != 0)) {
+        while ((ABS(var_r3) > 0x7F) || (ABS(var_r1) > 0x7F)) {
+            var_r3 /= 2;
+            var_r1 /= 2;
+            if ((ABS(var_r3) <= 1) || ABS(var_r1) <= 1) {
+                break;
+            }
+        }
+    }
+
+    if ((ABS(var_r3) <= 1) && (ABS(var_r1) > 1)) {
+        if (var_r1 > 0) {
+            var_r4_2 = DEG_TO_SIN(90);
+        } else {
+            var_r4_2 = DEG_TO_SIN(270);
+        }
+    } else {
+        if ((ABS(var_r1) <= 1) && (ABS(var_r3) > 1)) {
+            if (var_r3 > 0) {
+                var_r4_2 = DEG_TO_SIN(0);
+            } else {
+                var_r4_2 = DEG_TO_SIN(180);
+            }
+        } else {
+            var_r4_2 = (u16)SA2_LABEL(sub_8004418)(var_r1, var_r3);
+        }
+    }
+
+    distance = Q(Sqrt((vecChaoPtX * vecChaoPtX) + (vecChaoPtY * vecChaoPtY)));
+
+    if (distance > Q(2.0)) {
+        distance = Q(2.0);
+    } else if (distance == 0) {
+        distance = 1;
+    }
+    chao->unk38 = distance;
+
+    if (chao->unk38 != 0) {
+        chao->unk30 += (chao->unk38 * COS(var_r4_2)) >> 14;
+        chao->unk34 += (chao->unk38 * SIN(var_r4_2)) >> 14;
+    }
+    return 0U;
+}
+
+void TaskDestructor_Chao(struct Task *t)
+{
+    Chao *chao = TASK_DATA(t);
+    VramFree(chao->s.graphics.dest);
+}
