@@ -18,9 +18,9 @@
 
 typedef struct Chao {
     Sprite s;
-    s32 unk30;
-    s32 unk34;
-    s16 unk38;
+    s32 qWorldX;
+    s32 qWorldY;
+    s16 qDistanceToPlayer;
     s16 unk3A;
     s16 unk3C;
     u16 unk3E;
@@ -29,15 +29,15 @@ typedef struct Chao {
     u8 unk42;
 } Chao;
 
-void Task_802816C(void);
-void Task_8028388(void);
-void Task_8028518(void);
-void Task_80286B0(void);
-void sub_802888C(void);
-void sub_8028910(void);
-void Task_8028A1C(void);
-bool32 sub_8028AAC(CamCoord x, CamCoord y);
-void TaskDestructor_Chao(struct Task *t);
+static void Task_802816C(void);
+static void Task_8028388(void);
+static void Task_8028518(void);
+static void Task_80286B0(void);
+static void sub_802888C(void);
+static void sub_8028910(void);
+static void Task_8028A1C(void);
+static bool32 UpdateChaoPosition(CamCoord x, CamCoord y);
+static void TaskDestructor_Chao(struct Task *t);
 
 extern const u16 sChaoSpawnPositions[NUM_LEVEL_IDS_MP][SPAWN_INDEX_COUNT][2];
 
@@ -69,12 +69,12 @@ struct Task *CreateMultiplayerChao(u8 spawnIndex, u8 id)
     chao->unk40 = id;
     chao->unk41 = -1;
     chao->unk42 = -1;
-    chao->unk30 = Q(x);
-    chao->unk34 = Q(y);
-    chao->unk38 = 0;
+    chao->qWorldX = Q(x);
+    chao->qWorldY = Q(y);
+    chao->qDistanceToPlayer = 0;
     chao->unk3E = 0;
-    s->x = I(chao->unk30) - gCamera.x;
-    s->y = I(chao->unk34) - gCamera.y;
+    s->x = I(chao->qWorldX) - gCamera.x;
+    s->y = I(chao->qWorldY) - gCamera.y;
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_CHAO_SITTING);
     s->oamFlags = SPRITE_OAM_ORDER(16 - id);
     s->graphics.size = 0;
@@ -115,7 +115,7 @@ void Task_802816C(void)
 
             mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
             if (!(mpp->unk54 & 0x4)) {
-                if (HB_COLLISION(I(chao->unk30), I(chao->unk34), s->hitboxes[0].b, mpp->pos.x, mpp->pos.y, mpp->s.hitboxes[0].b)) {
+                if (HB_COLLISION(I(chao->qWorldX), I(chao->qWorldY), s->hitboxes[0].b, mpp->pos.x, mpp->pos.y, mpp->s.hitboxes[0].b)) {
                     mpp->unk5C |= (0x10000 << chao->unk40);
                     chao->unk41 = pid;
                     chao->unk42 = pid;
@@ -135,8 +135,8 @@ void Task_802816C(void)
         }
     }
 
-    s->x = I(chao->unk30) - gCamera.x;
-    s->y = I(chao->unk34) - gCamera.y;
+    s->x = I(chao->qWorldX) - gCamera.x;
+    s->y = I(chao->qWorldY) - gCamera.y;
     DisplaySprite(s);
 }
 
@@ -195,7 +195,7 @@ void Task_8028388(void)
         worldX = mpp->pos.x + 20;
     }
 
-    if ((s16)worldX == ((s32)chao->unk30 >> 8)) {
+    if ((s16)worldX == ((s32)chao->qWorldX >> 8)) {
         s32 charAnim = (mpp->s.graphics.anim - (s16)gPlayerCharacterIdleAnims[gMultiplayerCharacters[mpp->unk56]]);
         if (charAnim == SA1_CHAR_ANIM_1) {
             sprChao->graphics.anim = SA1_ANIM_CHAO_TURN;
@@ -208,9 +208,9 @@ void Task_8028388(void)
         sprChao->graphics.anim = 0x2BB;
         sprChao->variant = 0;
     }
-    sub_8028AAC(worldX, worldY);
-    sprChao->x = I(chao->unk30) - gCamera.x;
-    sprChao->y = (I(chao->unk34) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
+    UpdateChaoPosition(worldX, worldY);
+    sprChao->x = I(chao->qWorldX) - gCamera.x;
+    sprChao->y = (I(chao->qWorldY) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
     UpdateSpriteAnimation(sprChao);
     DisplaySprite(sprChao);
 }
@@ -247,7 +247,7 @@ void Task_8028518()
 
     worldX = mpp->pos.x;
 
-    if (mpp->pos.x == ((s32)chao->unk30 >> 8)) {
+    if (mpp->pos.x == ((s32)chao->qWorldX >> 8)) {
         s32 charAnim = (mpp->s.graphics.anim - (s16)gPlayerCharacterIdleAnims[gMultiplayerCharacters[mpp->unk56]]);
         if (charAnim == SA1_CHAR_ANIM_1) {
             sprChao->graphics.anim = SA1_ANIM_CHAO_TURN;
@@ -261,14 +261,14 @@ void Task_8028518()
         sprChao->variant = 0;
     }
 
-    if (sub_8028AAC(worldX, worldY)) {
+    if (UpdateChaoPosition(worldX, worldY)) {
         sprChao->graphics.anim = SA1_ANIM_CHAO_SITTING;
         sprChao->variant = 0;
-        sprChao->x = I(chao->unk30) - gCamera.x;
-        sprChao->y = I(chao->unk34) - gCamera.y;
+        sprChao->x = I(chao->qWorldX) - gCamera.x;
+        sprChao->y = I(chao->qWorldY) - gCamera.y;
     } else {
-        sprChao->x = I(chao->unk30) - gCamera.x;
-        sprChao->y = (I(chao->unk34) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
+        sprChao->x = I(chao->qWorldX) - gCamera.x;
+        sprChao->y = (I(chao->qWorldY) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
     }
     UpdateSpriteAnimation(sprChao);
     DisplaySprite(sprChao);
@@ -330,7 +330,7 @@ void Task_80286B0()
         worldX = mpp->pos.x + 20;
     }
 
-    if ((s16)worldX == ((s32)chao->unk30 >> 8)) {
+    if ((s16)worldX == ((s32)chao->qWorldX >> 8)) {
         s32 charAnim = (mpp->s.graphics.anim - (s16)gPlayerCharacterIdleAnims[gMultiplayerCharacters[mpp->unk56]]);
         if (charAnim == SA1_CHAR_ANIM_1) {
             sprChao->graphics.anim = SA1_ANIM_CHAO_TURN;
@@ -346,14 +346,14 @@ void Task_80286B0()
 
     chaoZero = TASK_DATA(gChaoTasks[0]);
 
-    if (sub_8028AAC(worldX, worldY) && (chaoZero->unk41 == chao->unk41)) {
+    if (UpdateChaoPosition(worldX, worldY) && (chaoZero->unk41 == chao->unk41)) {
         sprChao->graphics.anim = SA1_ANIM_CHAO_SITTING;
         sprChao->variant = 0;
-        sprChao->x = I(chao->unk30) - gCamera.x;
-        sprChao->y = (I(chao->unk34) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
+        sprChao->x = I(chao->qWorldX) - gCamera.x;
+        sprChao->y = (I(chao->qWorldY) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
     } else {
-        sprChao->x = I(chao->unk30) - gCamera.x;
-        sprChao->y = (I(chao->unk34) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
+        sprChao->x = I(chao->qWorldX) - gCamera.x;
+        sprChao->y = (I(chao->qWorldY) - ((sinVal = SIN(theta)) >> 11)) - gCamera.y;
     }
     UpdateSpriteAnimation(sprChao);
     DisplaySprite(sprChao);
@@ -395,28 +395,28 @@ void sub_8028910()
     } else {
         chao->unk3C += 0x28;
     }
-    chao->unk30 += chao->unk3A;
-    chao->unk34 += chao->unk3C;
+    chao->qWorldX += chao->unk3A;
+    chao->qWorldY += chao->unk3C;
 
     if (mpp->s.frameFlags & 0x800) {
-        res = SA2_LABEL(sub_801F100)(I(chao->unk34), I(chao->unk30), (mpp->unk54 >> 7) % 2u, -8, SA2_LABEL(sub_801EC3C));
+        res = SA2_LABEL(sub_801F100)(I(chao->qWorldY), I(chao->qWorldX), (mpp->unk54 >> 7) % 2u, -8, SA2_LABEL(sub_801EC3C));
         if (res < 0) {
-            chao->unk34 -= Q(res);
+            chao->qWorldY -= Q(res);
             s->graphics.anim = SA1_ANIM_CHAO_SHOCKED;
             s->variant = 2;
             gCurTask->main = Task_8028A1C;
         }
     } else {
-        res = SA2_LABEL(sub_801F100)(I(chao->unk34), I(chao->unk30), (mpp->unk54 >> 7) % 2u, +8, SA2_LABEL(sub_801EC3C));
+        res = SA2_LABEL(sub_801F100)(I(chao->qWorldY), I(chao->qWorldX), (mpp->unk54 >> 7) % 2u, +8, SA2_LABEL(sub_801EC3C));
         if (res < 0) {
-            chao->unk34 += Q(res);
+            chao->qWorldY += Q(res);
             s->graphics.anim = SA1_ANIM_CHAO_SHOCKED;
             s->variant = 2;
             gCurTask->main = Task_8028A1C;
         }
     }
-    s->x = I(chao->unk30) - gCamera.x;
-    s->y = I(chao->unk34) - gCamera.y;
+    s->x = I(chao->qWorldX) - gCamera.x;
+    s->y = I(chao->qWorldY) - gCamera.y;
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
 }
@@ -426,8 +426,8 @@ void Task_8028A1C()
     Chao *chao = TASK_DATA(gCurTask);
     Sprite *s = &chao->s;
 
-    chao->s.x = I(chao->unk30) - gCamera.x;
-    chao->s.y = I(chao->unk34) - gCamera.y;
+    chao->s.x = I(chao->qWorldX) - gCamera.x;
+    chao->s.y = I(chao->qWorldY) - gCamera.y;
 
     if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
         if (chao->unk41 != 0xFF) {
@@ -447,72 +447,73 @@ void Task_8028A1C()
     DisplaySprite(s);
 }
 
-u32 sub_8028AAC(CamCoord x, CamCoord y)
+// Returns whether a Chao's position is identical to the input player pos
+bool32 UpdateChaoPosition(CamCoord playerX, CamCoord playerY)
 {
-    s16 vecChaoPtY;
-    s16 vecChaoPtX;
-    s16 var_r1;
-    s16 var_r3;
-    s16 var_r4_2;
-    s32 distance;
+    s16 vecChaoPlayerY;
+    s16 vecChaoPlayerX;
+    s16 dirX;
+    s16 dirY;
+    s16 angle;
+    s32 qDistance;
 
     Chao *chao = TASK_DATA(gCurTask);
     MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[chao->unk41]);
     Sprite *s = &chao->s;
 
-    vecChaoPtX = x - I(chao->unk30);
-    vecChaoPtY = y - I(chao->unk34);
-    if ((vecChaoPtX > 0) || ((vecChaoPtX == 0) && (mpp->s.frameFlags & 0x400))) {
+    vecChaoPlayerX = playerX - I(chao->qWorldX);
+    vecChaoPlayerY = playerY - I(chao->qWorldY);
+    if ((vecChaoPlayerX > 0) || ((vecChaoPlayerX == 0) && (mpp->s.frameFlags & 0x400))) {
         s->frameFlags |= 0x400;
     } else {
         s->frameFlags &= ~0x400;
     }
-    if ((vecChaoPtX == 0) && (vecChaoPtY == 0)) {
+    if ((vecChaoPlayerX == 0) && (vecChaoPlayerY == 0)) {
         return 1U;
     }
 
-    var_r3 = vecChaoPtX;
-    var_r1 = vecChaoPtY;
-    if ((vecChaoPtX != 0) && (vecChaoPtY != 0)) {
-        while ((ABS(var_r3) > 0x7F) || (ABS(var_r1) > 0x7F)) {
-            var_r3 /= 2;
-            var_r1 /= 2;
-            if ((ABS(var_r3) <= 1) || ABS(var_r1) <= 1) {
+    dirX = vecChaoPlayerX;
+    dirY = vecChaoPlayerY;
+    if ((vecChaoPlayerX != 0) && (vecChaoPlayerY != 0)) {
+        while ((ABS(dirX) > 0x7F) || (ABS(dirY) > 0x7F)) {
+            dirX /= 2;
+            dirY /= 2;
+            if ((ABS(dirX) <= 1) || ABS(dirY) <= 1) {
                 break;
             }
         }
     }
 
-    if ((ABS(var_r3) <= 1) && (ABS(var_r1) > 1)) {
-        if (var_r1 > 0) {
-            var_r4_2 = DEG_TO_SIN(90);
+    if ((ABS(dirX) <= 1) && (ABS(dirY) > 1)) {
+        if (dirY > 0) {
+            angle = DEG_TO_SIN(90);
         } else {
-            var_r4_2 = DEG_TO_SIN(270);
+            angle = DEG_TO_SIN(270);
         }
     } else {
-        if ((ABS(var_r1) <= 1) && (ABS(var_r3) > 1)) {
-            if (var_r3 > 0) {
-                var_r4_2 = DEG_TO_SIN(0);
+        if ((ABS(dirY) <= 1) && (ABS(dirX) > 1)) {
+            if (dirX > 0) {
+                angle = DEG_TO_SIN(0);
             } else {
-                var_r4_2 = DEG_TO_SIN(180);
+                angle = DEG_TO_SIN(180);
             }
         } else {
-            var_r4_2 = (u16)SA2_LABEL(sub_8004418)(var_r1, var_r3);
+            angle = (u16)SA2_LABEL(sub_8004418)(dirY, dirX);
         }
     }
 
-    distance = Q(Sqrt((vecChaoPtX * vecChaoPtX) + (vecChaoPtY * vecChaoPtY)));
+    qDistance = Q(Sqrt((vecChaoPlayerX * vecChaoPlayerX) + (vecChaoPlayerY * vecChaoPlayerY)));
 
-    if (distance > Q(2.0)) {
-        distance = Q(2.0);
-    } else if (distance == 0) {
-        distance = 1;
+    if (qDistance > Q(2.0)) {
+        qDistance = Q(2.0);
+    } else if (qDistance == 0) {
+        qDistance = 1;
     }
-    chao->unk38 = distance;
+    chao->qDistanceToPlayer = qDistance;
 
-    if (chao->unk38 != 0) {
-        chao->unk30 += (chao->unk38 * COS(var_r4_2)) >> 14;
-        chao->unk34 += (chao->unk38 * SIN(var_r4_2)) >> 14;
+    if (chao->qDistanceToPlayer != 0) {
+        chao->qWorldX += (chao->qDistanceToPlayer * COS(angle)) >> 14;
+        chao->qWorldY += (chao->qDistanceToPlayer * SIN(angle)) >> 14;
     }
     return 0U;
 }
