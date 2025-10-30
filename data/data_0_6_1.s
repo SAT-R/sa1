@@ -111,8 +111,8 @@ gUnknown_0868B78B:
 gUnknown_0868B790:
     .incbin "baserom_sa1.gba", 0x0068B790, 0x4
 
-    .global gUnknown_0868B794 @ ptrs 0x0868EB74 - 0x08699E74
-gUnknown_0868B794:
+    .global gCharacterCards @ ptrs 0x0868EB74 - 0x08699E74
+gCharacterCards:              @ 0x0868B794
     .int gCharacterCards_Sonic_Tiles, 0x09C0, gCharacterCards_Sonic_Palette, gCharacterCards_Sonic_Layout, gUnknown_086969B4, 0x500, gUnknown_086967B4, gUnknown_08696BF4
     .int gCharacterCards_Tails_Tiles, 0x0680, gCharacterCards_Tails_Palette, gCharacterCards_Tails_Layout, gUnknown_0869A074, 0x500, gUnknown_08699E74, gUnknown_0869A2B4
     .int gCharacterCards_Knuckles_Tiles, 0x0800, gCharacterCards_Knuckles_Palette, gCharacterCards_Knuckles_Layout, gUnknown_0868FC34, 0x500, gUnknown_0868FA34, gUnknown_0868FE74
