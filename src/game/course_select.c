@@ -100,7 +100,7 @@ void Task_8062B38(void);
 void Task_8062CB4(void);
 void Task_8062540(void);
 void Task_80628A4(void);
-void sub_806B81C(void);
+void CreateTimeAttackRecords(void);
 void Task_80629E8(void);
 void TaskDestructor_CourseSelect(struct Task *t);
 
@@ -692,7 +692,7 @@ void Task_8062540()
                         gCurrentLevel = level - 1;
                         gMultiplayerCurrentLevel = gCurrentLevel;
                     }
-                    sub_806B81C();
+                    CreateTimeAttackRecords();
 
                     TaskDestroy(state->task18);
                     TaskDestroy(state->task14);
