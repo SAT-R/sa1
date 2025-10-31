@@ -225,12 +225,11 @@ void CreateTimeAttackRecords()
 }
 
 #if 0
-// (78.66%) https://decomp.me/scratch/tmXIB
+// (92.00%) https://decomp.me/scratch/vEl3F
 void Task_806BBC0() {
-    s32 sp0;
     StrcUi_805423C *temp_r1;
     s16 *temp_r2_2;
-    s16 var_r3;
+    u16 var_r3;
     s32 *temp_r0;
     s32 temp_r1_2;
     s32 temp_r2;
@@ -238,16 +237,19 @@ void Task_806BBC0() {
     u32 var_r7;
     winreg_t *var_r2;
 
-
-    u32 var_ip = DISPLAY_HEIGHT;
     u8 var_r6 = 0;
-    u8 var_r4 = 0;
+    s8 sp0 = 0;
+    u32 var_ip = DISPLAY_HEIGHT;
+    s8 var_r4 = 0;
+    s32 temp_sb = 0;
     TimeAttackRecords *recs = TASK_DATA(gCurTask);
     
     temp_r1 = &recs->strcD8;
     var_r7 = recs->unk104;
     var_r7++;
-    recs->unk108++;
+    temp_r2 = recs->unk108;
+    temp_r2++;
+    recs->unk108 = temp_r2;
     if (var_r7 > 0xF0U) {
         gFlags &= ~4;
         m4aSongNumStop(4U);
@@ -268,17 +270,13 @@ void Task_806BBC0() {
     gFlags |= 4;
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 4;
-    var_r2 = gBgOffsetsHBlank;
+    var_r2 = (void*)&((u32*)gBgOffsetsHBlank)[var_r6];
 
     while (var_r6 < var_ip)
     {
-        var_r1 = 0;
-        sp0 = var_r4;
-        for(var_r1 = 0; var_r1 < 24 && (var_r6 < var_ip); var_r1++) {
-            *var_r2++ = (s16) (var_r3 & 0x1FF);
-            *var_r2++ = 0;
-            var_r6++;
-            var_r1++;
+        for(var_r1 = 0; var_r1 < 24 && (var_r6 < var_ip); var_r6++, var_r1++) {
+            *var_r2++ = (var_r3 & 0x1FF);
+            *var_r2++ = temp_sb;
         }
         var_r3 = (-(var_r3 + var_r4));
         var_r4 = -var_r4;
