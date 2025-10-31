@@ -31,7 +31,7 @@ typedef struct TimeAttackRecords {
     /* 0xD8 */ StrcUi_805423C strcD8;
     /* 0xE4 */ u8 fillerE4[0x18];
     /* 0xFC */ s8 unkFC[0x4];
-    /* 0x100 */ s32 unk100;
+    /* 0x100 */ s32 qUnkY;
     /* 0x100 */ s32 unk104;
     /* 0x100 */ s32 unk108;
     /* 0x100 */ s32 unk10C;
@@ -100,11 +100,11 @@ void TimeAttackRecordsInitUI(u8 *vram)
 
 void CreateTimeAttackRecords()
 {
-    struct Task *sp4;
+    struct Task *t;
     GameOverB *temp_r4;
     Sprite *s;
     StrcUi_805423C *temp_r2;
-    u8 var_r4;
+    u8 i;
     void *vram;
 
     TimeAttackRecords *recs;
@@ -120,8 +120,9 @@ void CreateTimeAttackRecords()
     gBgScrollRegs[1][1] = 0;
     vram = VramMalloc(44);
     TimeAttackRecordsInitUI(vram);
-    sp4 = TaskCreate(Task_806BBC0, sizeof(TimeAttackRecords), 0x2000U, 0U, TaskDestructor_806BF38);
-    recs = TASK_DATA(sp4);
+
+    t = TaskCreate(Task_806BBC0, sizeof(TimeAttackRecords), 0x2000U, 0U, TaskDestructor_806BF38);
+    recs = TASK_DATA(t);
     temp_r2 = &recs->strcD8;
     recs->unk104 = 0;
     recs->unk108 = 0;
@@ -185,7 +186,7 @@ void CreateTimeAttackRecords()
     s->graphics.dest = VramMalloc(gUnknown_0868B844[LOADED_SAVE->uiLanguage][gCurrentLevel][0]);
     s->graphics.anim = gUnknown_0868B844[LOADED_SAVE->uiLanguage][gCurrentLevel][1];
     s->variant = gUnknown_0868B844[LOADED_SAVE->uiLanguage][gCurrentLevel][2];
-    recs->unk100 = -Q(90);
+    recs->qUnkY = -Q(90);
     s->x = -90;
     s->y = 48;
     s->graphics.size = 0;
@@ -208,8 +209,8 @@ void CreateTimeAttackRecords()
     temp_r4->unk16 = 1;
     temp_r4->unk8 = 0x18;
 
-    for (var_r4 = 0; var_r4 < 3; var_r4++) {
-        sub_806BDC4(var_r4, sp4);
+    for (i = 0; i < 3; i++) {
+        sub_806BDC4(i, t);
     }
 
     temp_r2->unk0 = 0;
@@ -222,3 +223,69 @@ void CreateTimeAttackRecords()
 
     m4aSongNumStartOrContinue(MUS_COURSE_SELECTION);
 }
+
+#if 0
+// (78.66%) https://decomp.me/scratch/tmXIB
+void Task_806BBC0() {
+    s32 sp0;
+    StrcUi_805423C *temp_r1;
+    s16 *temp_r2_2;
+    s16 var_r3;
+    s32 *temp_r0;
+    s32 temp_r1_2;
+    s32 temp_r2;
+    u32 var_r1;
+    u32 var_r7;
+    winreg_t *var_r2;
+
+
+    u32 var_ip = DISPLAY_HEIGHT;
+    u8 var_r6 = 0;
+    u8 var_r4 = 0;
+    TimeAttackRecords *recs = TASK_DATA(gCurTask);
+    
+    temp_r1 = &recs->strcD8;
+    var_r7 = recs->unk104;
+    var_r7++;
+    recs->unk108++;
+    if (var_r7 > 0xF0U) {
+        gFlags &= ~4;
+        m4aSongNumStop(4U);
+        gDispCnt &= 0x1FFF;
+        gBldRegs.bldCnt = 0;
+        gBldRegs.bldY = 0;
+        TaskDestroy(gCurTask);
+        ApplyGameStageSettings();
+        return;
+    }
+    if (var_r7 == 0xD0) {
+        temp_r1->unk4 = 1;
+        temp_r1->unk6 = 0;
+    } else if ((3 & gPressedKeys) && (var_r7 > 0x20U) && (var_r7 <= 0xCFU)) {
+        var_r7 = 0xCF;
+    }
+    var_r3 = 0xFF & temp_r2;
+    gFlags |= 4;
+    gHBlankCopyTarget = (void *)&REG_BG0HOFS;
+    gHBlankCopySize = 4;
+    var_r2 = gBgOffsetsHBlank;
+
+    while (var_r6 < var_ip)
+    {
+        var_r1 = 0;
+        sp0 = var_r4;
+        for(var_r1 = 0; var_r1 < 24 && (var_r6 < var_ip); var_r1++) {
+            *var_r2++ = (s16) (var_r3 & 0x1FF);
+            *var_r2++ = 0;
+            var_r6++;
+            var_r1++;
+        }
+        var_r3 = (-(var_r3 + var_r4));
+        var_r4 = -var_r4;
+    };
+    recs->unk104 = (s32) var_r7;
+    sub_805423C(temp_r1);
+    sub_806BF04();
+    sub_806BD24();
+}
+#endif

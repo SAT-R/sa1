@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 	thumb_func_start Task_806BBC0
 Task_806BBC0: @ 0x0806BBC0
 	push {r4, r5, r6, r7, lr}
@@ -175,6 +173,7 @@ _0806BD14: .4byte 0x04000010
 _0806BD18: .4byte gHBlankCopySize
 _0806BD1C: .4byte gBgOffsetsHBlank
 _0806BD20: .4byte 0x000001FF
+.endif
 
 	thumb_func_start sub_806BD24
 sub_806BD24: @ 0x0806BD24
