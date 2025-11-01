@@ -23,7 +23,6 @@ typedef struct CharacterCard {
     const u16 *palette;
     const u8 *layout;
 } CharacterCard;
-extern CharacterCard gCharacterCards[NUM_CHARACTERS][2];
 
 typedef struct TimeAttackRecords {
     /* 0x00 */ Sprite sprites[3];
@@ -50,6 +49,48 @@ extern u16 gUnknown_086CC774[16];
 extern u8 gUnknown_086CC794[0xA0];
 extern u8 gUnknown_086CC834[0x500];
 
+extern const u16 gCharacterCards_Sonic_Palette[];
+extern const u8 gCharacterCards_Sonic_Tiles[];
+extern const u8 gCharacterCards_Sonic_Layout[];
+extern const u16 gUnknown_086967B4[];
+extern const u8 gUnknown_086969B4[];
+extern const u8 gUnknown_08696BF4[];
+extern const u16 gCharacterCards_Tails_Palette[];
+extern const u8 gCharacterCards_Tails_Tiles[];
+extern const u8 gCharacterCards_Tails_Layout[];
+extern const u16 gUnknown_08699E74[];
+extern const u8 gUnknown_0869A074[];
+extern const u8 gUnknown_0869A2B4[];
+extern const u16 gCharacterCards_Knuckles_Palette[];
+extern const u8 gCharacterCards_Knuckles_Tiles[];
+extern const u8 gCharacterCards_Knuckles_Layout[];
+extern const u16 gUnknown_0868FA34[];
+extern const u8 gUnknown_0868FC34[];
+extern const u8 gUnknown_0868FE74[];
+extern const u16 gCharacterCards_Amy_Palette[];
+extern const u8 gCharacterCards_Amy_Tiles[];
+extern const u8 gCharacterCards_Amy_Layout[];
+extern const u16 gUnknown_08692E34[];
+extern const u8 gUnknown_08693034[];
+extern const u8 gUnknown_08693274[];
+const CharacterCard gCharacterCards[NUM_CHARACTERS][2] = {
+    [CHARACTER_SONIC] = {
+        {gCharacterCards_Sonic_Tiles, 0x09C0, gCharacterCards_Sonic_Palette, gCharacterCards_Sonic_Layout},
+        {gUnknown_086969B4, 0x500, gUnknown_086967B4, gUnknown_08696BF4},
+    },
+    {
+        {gCharacterCards_Tails_Tiles, 0x0680, gCharacterCards_Tails_Palette, gCharacterCards_Tails_Layout },
+        {gUnknown_0869A074, 0x500, gUnknown_08699E74, gUnknown_0869A2B4},
+    },
+    {
+        {gCharacterCards_Knuckles_Tiles, 0x0800, gCharacterCards_Knuckles_Palette, gCharacterCards_Knuckles_Layout },
+        {gUnknown_0868FC34, 0x500, gUnknown_0868FA34, gUnknown_0868FE74},
+    },
+    {
+        {gCharacterCards_Amy_Tiles, 0x04C0, gCharacterCards_Amy_Palette, gCharacterCards_Amy_Layout },
+        {gUnknown_08693034, 0x500, gUnknown_08692E34, gUnknown_08693274},
+    },
+};
 extern u16 gUnknown_0868B814[NUM_TIME_ATTACK_ZONES][3];
 extern u16 gUnknown_0868B838[ACTS_PER_ZONE][3];
 extern u16 gUnknown_0868B844[UILANG_COUNT][12][3];
