@@ -11,7 +11,171 @@ void sub_801C9AC(void);
 void sub_801C9C0(int_vcount vcount);
 void TaskDestructor_801C980(struct Task *t);
 
-extern const winreg_t gUnknown_087C0118[DISPLAY_HEIGHT];
+#define ROOT            (DISPLAY_WIDTH / 2)
+#define X_RANGE(offset) WIN_RANGE((ROOT) - (offset), (ROOT) + (offset))
+
+static const winreg_t sWin0Ranges[DISPLAY_HEIGHT] = {
+    X_RANGE(00), //
+    X_RANGE(12), //
+    X_RANGE(00), //
+    X_RANGE(12), //
+    X_RANGE(00), //
+    X_RANGE(12), //
+    X_RANGE(00), //
+    X_RANGE(12), //
+    X_RANGE(00), //
+    X_RANGE(11), //
+    X_RANGE(00), //
+    X_RANGE(11), //
+    X_RANGE(00), //
+    X_RANGE(11), //
+    X_RANGE(00), //
+    X_RANGE(11), //
+    X_RANGE(00), //
+    X_RANGE(11), //
+    X_RANGE(15), //
+    X_RANGE(19), //
+    X_RANGE(22), //
+    X_RANGE(24), //
+    X_RANGE(27), //
+    X_RANGE(29), //
+    X_RANGE(30), //
+    X_RANGE(32), //
+    X_RANGE(34), //
+    X_RANGE(35), //
+    X_RANGE(37), //
+    X_RANGE(38), //
+    X_RANGE(39), //
+    X_RANGE(41), //
+    X_RANGE(42), //
+    X_RANGE(43), //
+    X_RANGE(44), //
+    X_RANGE(45), //
+    X_RANGE(46), //
+    X_RANGE(47), //
+    X_RANGE(48), //
+    X_RANGE(49), //
+    X_RANGE(49), //
+    X_RANGE(50), //
+    X_RANGE(51), //
+    X_RANGE(52), //
+    X_RANGE(52), //
+    X_RANGE(53), //
+    X_RANGE(54), //
+    X_RANGE(54), //
+    X_RANGE(55), //
+    X_RANGE(55), //
+    X_RANGE(56), //
+    X_RANGE(57), //
+    X_RANGE(57), //
+    X_RANGE(58), //
+    X_RANGE(58), //
+    X_RANGE(58), //
+    X_RANGE(59), //
+    X_RANGE(59), //
+    X_RANGE(60), //
+    X_RANGE(60), //
+    X_RANGE(60), //
+    X_RANGE(61), //
+    X_RANGE(61), //
+    X_RANGE(61), //
+    X_RANGE(61), //
+    X_RANGE(62), //
+    X_RANGE(62), //
+    X_RANGE(62), //
+    X_RANGE(62), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(64), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(63), //
+    X_RANGE(62), //
+    X_RANGE(62), //
+    X_RANGE(62), //
+    X_RANGE(62), //
+    X_RANGE(61), //
+    X_RANGE(61), //
+    X_RANGE(61), //
+    X_RANGE(61), //
+    X_RANGE(60), //
+    X_RANGE(60), //
+    X_RANGE(60), //
+    X_RANGE(59), //
+    X_RANGE(59), //
+    X_RANGE(58), //
+    X_RANGE(58), //
+    X_RANGE(58), //
+    X_RANGE(57), //
+    X_RANGE(57), //
+    X_RANGE(56), //
+    X_RANGE(55), //
+    X_RANGE(55), //
+    X_RANGE(54), //
+    X_RANGE(54), //
+    X_RANGE(53), //
+    X_RANGE(52), //
+    X_RANGE(52), //
+    X_RANGE(51), //
+    X_RANGE(50), //
+    X_RANGE(49), //
+    X_RANGE(49), //
+    X_RANGE(48), //
+    X_RANGE(47), //
+    X_RANGE(46), //
+    X_RANGE(45), //
+    X_RANGE(44), //
+    X_RANGE(43), //
+    X_RANGE(42), //
+    X_RANGE(41), //
+    X_RANGE(39), //
+    X_RANGE(38), //
+    X_RANGE(37), //
+    X_RANGE(35), //
+    X_RANGE(34), //
+    X_RANGE(32), //
+    X_RANGE(30), //
+    X_RANGE(29), //
+    X_RANGE(27), //
+    X_RANGE(24), //
+    X_RANGE(22), //
+    X_RANGE(19), //
+    X_RANGE(15), //
+    X_RANGE(11), //
+    X_RANGE(16), //
+    X_RANGE(11), //
+    X_RANGE(16), //
+    X_RANGE(11), //
+    X_RANGE(16), //
+    X_RANGE(11), //
+    X_RANGE(16), //
+    X_RANGE(11), //
+    X_RANGE(17), //
+    X_RANGE(12), //
+    X_RANGE(17), //
+    X_RANGE(12), //
+    X_RANGE(17), //
+    X_RANGE(12), //
+    X_RANGE(17), //
+    X_RANGE(12), //
+};
 
 struct Task *sub_801C704(void)
 {
@@ -27,7 +191,7 @@ struct Task *sub_801C704(void)
 
     gDispCnt |= DISPCNT_WIN0_ON;
     gWinRegs[WINREG_WININ] = 0x1F;
-    gWinRegs[WINREG_WINOUT] = 0x3F;
+    gWinRegs[WINREG_WINOUT] = 63;
     gBldRegs.bldCnt = 0x3FDF;
     gBldRegs.bldY = 0;
 
@@ -42,7 +206,7 @@ void Task_801C770()
 
     UnkMP0 *strc = TASK_DATA(gCurTask);
 
-    strc->unk2 += 0x40;
+    strc->unk2 += 64;
     if (strc->unk2 == 0x1000) {
         gCurTask->main = Task_801C810;
     }
@@ -87,7 +251,7 @@ void Task_801C8D4()
 
     UnkMP0 *strc = TASK_DATA(gCurTask);
 
-    strc->unk2 -= 0x40;
+    strc->unk2 -= 64;
     if ((strc->unk2 < 0x0) || (SA2_LABEL(gUnknown_030054B4[SIO_MULTI_CNT->id]) != -1)) {
         TaskDestroy(gCurTask);
         return;
@@ -112,12 +276,12 @@ void TaskDestructor_801C980(struct Task *t)
 void sub_801C9AC(void)
 {
     volatile winreg_t *regs = &REG_WIN0H;
-    *regs = gUnknown_087C0118[0];
+    *regs = sWin0Ranges[0];
 }
 
 void sub_801C9C0(int_vcount vcount)
 {
     volatile winreg_t *reg = &REG_WIN0H;
-    const winreg_t *src = &gUnknown_087C0118[vcount];
+    const winreg_t *src = &sWin0Ranges[vcount];
     *reg = *src;
 }

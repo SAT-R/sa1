@@ -556,6 +556,8 @@ SECTIONS {
         src/lib/agb_flash/agb_flash_mx_512k.o(.rodata);
         src/lib/agb_flash/agb_flash_at_512k.o(.rodata);
         data/data1.o(.rodata);
+        src/game/multiplayer/unk_0.o(.rodata);
+        data/data1_1.o(.rodata);
         data/build_info.o(.rodata);
     } = 0
 
