@@ -6,6 +6,7 @@
 #include "game/gTask_03006240.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/save.h"
+#include "game/stage/stage.h"
 #include "game/stage/ui.h"
 
 #include "constants/animations.h"
@@ -13,6 +14,8 @@
 #include "constants/songs.h"
 #include "constants/text.h"
 #include "constants/zones.h"
+
+/* TODO: It seems like these aren't the overall records, only(?) the ones appearing after selecting / before starting to play a stage */
 
 typedef struct CharacterCard {
     const u8 *tiles;
@@ -40,6 +43,8 @@ typedef struct TimeAttackRecords {
 
 void TimeAttackRecordsInitUI(u8 *vram);
 void Task_806BBC0(void);
+void sub_806BD24();
+void sub_806BF04();
 void sub_806BDC4(u8 arg0, struct Task *arg1);
 void TaskDestructor_806BF38(struct Task *t);
 
@@ -224,9 +229,9 @@ void CreateTimeAttackRecords()
     m4aSongNumStartOrContinue(MUS_COURSE_SELECTION);
 }
 
-#if 0
 // (92.00%) https://decomp.me/scratch/vEl3F
-void Task_806BBC0() {
+NONMATCH("asm/non_matching/game/time_attack_records__Task_806BBC0.inc", void Task_806BBC0())
+{
     StrcUi_805423C *temp_r1;
     s16 *temp_r2_2;
     u16 var_r3;
@@ -243,7 +248,7 @@ void Task_806BBC0() {
     s8 var_r4 = 0;
     s32 temp_sb = 0;
     TimeAttackRecords *recs = TASK_DATA(gCurTask);
-    
+
     temp_r1 = &recs->strcD8;
     var_r7 = recs->unk104;
     var_r7++;
@@ -270,20 +275,22 @@ void Task_806BBC0() {
     gFlags |= 4;
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 4;
-    var_r2 = (void*)&((u32*)gBgOffsetsHBlank)[var_r6];
+    var_r2 = (void *)&((u32 *)gBgOffsetsHBlank)[var_r6];
 
-    while (var_r6 < var_ip)
-    {
-        for(var_r1 = 0; var_r1 < 24 && (var_r6 < var_ip); var_r6++, var_r1++) {
+    while (var_r6 < var_ip) {
+        for (var_r1 = 0; var_r1 < 24 && (var_r6 < var_ip); var_r6++, var_r1++) {
             *var_r2++ = (var_r3 & 0x1FF);
             *var_r2++ = temp_sb;
         }
         var_r3 = (-(var_r3 + var_r4));
         var_r4 = -var_r4;
     };
-    recs->unk104 = (s32) var_r7;
+    recs->unk104 = (s32)var_r7;
     sub_805423C(temp_r1);
     sub_806BF04();
     sub_806BD24();
 }
+END_NONMATCH
+
+#if 01
 #endif
