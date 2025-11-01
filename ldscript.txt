@@ -55,6 +55,7 @@ SECTIONS {
         asm/game__mp__results_2.o(.text);
         src/game/mystery_itembox.o(.text);
         src/game/multiplayer/unk_0.o(.text);
+        src/game/multiplayer/unk_1.o(.text);
         asm/game__mp__unk_task_1.o(.text);
         asm/game__mp__unk_task_2.o(.text);
         src/game/enemies/kiki.o(.text);
