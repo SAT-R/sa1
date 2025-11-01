@@ -18,13 +18,11 @@ int gMaxLines = 0;
 ExtraBossTaskData gExtraBossTaskData = { 0 };
 
 void CreateMultiplayerSinglePakResultsScreen() { }
-void sub_801C704() { }
 
 // Player
 s32 gUnknown_03005C74 = 0;
 
 void sub_8018538() { }
-void sub_801C9D8() { }
 void sub_802E290(void) { }
 
 void CreateMultiplayerModeSelectScreen() { }

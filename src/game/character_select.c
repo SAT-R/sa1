@@ -5,6 +5,7 @@
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
+#include "game/multiplayer/unk_1.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/stage.h"
 #include "game/stage/ui.h"
@@ -102,7 +103,6 @@ void Task_805AC00(void);
 
 extern u32 gUnknown_03005140;
 
-extern void sub_801C9D8();
 extern void CreateCourseSelect(u8 param0); // TODO: Header
 const u16 gUnknown_08688570[] = { 25, 25, 24, 20 };
 const u8 gUnknown_08688578[4] = { 3, 0, 2, 1 };

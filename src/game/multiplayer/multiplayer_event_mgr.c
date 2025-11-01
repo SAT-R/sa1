@@ -5,7 +5,7 @@
 #include "game/stage/item_tasks.h"
 
 #include "game/multiplayer/mp_attack_1_effect.h"
-
+#include "game/multiplayer/unk_0.h"
 #include "game/multiplayer/multiplayer_event_mgr.h"
 #include "game/multiplayer/finish.h"
 #include "game/multiplayer/mp_player.h"
@@ -25,9 +25,6 @@ void ReceiveRoomEvent_ItemEffect(union MultiSioData *recv, u8 i);
 void ReceiveRoomEvent_8(union MultiSioData *recv, u8 i);
 void ReceiveRoomEvent_CollectChao(union MultiSioData *recv, u8 i);
 typedef void (*RoomEventHandler)(union MultiSioData *recv, u8 i);
-
-// TODO: Put into header
-extern void sub_801C704(void);
 
 // TODO: Improve names
 #if (GAME == GAME_SA1)

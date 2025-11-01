@@ -1,8 +1,10 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "bg_triangles.h"
 #include "game/gTask_03006240.h"
-//#include "game/multiplayer/unk_1.h"
+#include "game/multiplayer/multipak_connection.h"
+#include "game/multiplayer/unk_1.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/player.h"
 
@@ -18,11 +20,13 @@ typedef struct MPStrc1 {
     /*  0x40 */ u8 filler40[0x40];
     /*  0x80 */ SpriteStrc sprites[4];
     /* 0x120 */ u8 filler160[0x2D0];
-    /* 0x430 */ u16 unk430;
-    /* 0x432 */ u16 unk432;
+    /* 0x430 */ u16 qUnk430;
+    /* 0x432 */ s16 unk432;
 } MPStrc1; /* 0x434 */
 
 void Task_801CB80(void);
+void sub_801D0CC();
+void Task_801D34C(void);
 
 void sub_801C9D8(void)
 {
@@ -53,7 +57,7 @@ void sub_801C9D8(void)
     DmaFill32(3, 0, VRAM + 0xA000 - 0x20, 0x40);
     t = TaskCreate(Task_801CB80, sizeof(MPStrc1), 0x2000U, 0U, NULL);
     strc = TASK_DATA(t);
-    strc->unk430 = 0;
+    strc->qUnk430 = 0;
 
     for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
         if (!GetBit(gMultiplayerConnections, i))
@@ -105,4 +109,65 @@ void sub_801C9D8(void)
     };
 
     sub_80535FC();
+}
+
+void Task_801CB80()
+{
+    u32 pid;
+    u32 i;
+    MPStrc1 *strc;
+
+    gDispCnt |= (DISPCNT_OBJ_ON | DISPCNT_BG3_ON);
+    if (IS_MULTI_PLAYER) {
+        for (pid = 0; pid < 4; pid++) {
+            if (!GetBit(gMultiplayerConnections, pid)) {
+                break;
+            }
+
+            if (!CheckBit(gMultiSioStatusFlags, pid)) {
+                if (gMultiplayerMissingHeartbeats[pid]++ >= 0xB5) {
+                    TasksDestroyAll();
+                    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                    sa2__gUnknown_03005390 = 0;
+                    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[pid] = 0;
+            }
+        }
+    }
+
+    strc = TASK_DATA(gCurTask);
+    strc->qUnk430 += Q(4);
+    if (strc->qUnk430 > Q(DISPLAY_WIDTH)) {
+        strc->qUnk430 = 0;
+        sub_801D0CC();
+        gCurTask->main = Task_801D34C;
+        Task_801D34C();
+        return;
+    }
+
+    if (strc->unk432 != 0) {
+        SA2_LABEL(sub_80078D4)(3U, 0U, strc->unk432, 0xF0U, 0U);
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (!GetBit(gMultiplayerConnections, i)) {
+            break;
+        }
+
+        if (1 & i) {
+            SA2_LABEL(sub_80078D4)
+            (3U, strc->unk432 + (i * 40), strc->unk432 + ((i + 1) * 40), (DISPLAY_WIDTH - I(strc->qUnk430)), (-strc->unk432) & 0xFF);
+        } else {
+            SA2_LABEL(sub_80078D4)
+            (3U, strc->unk432 + (i * 40), strc->unk432 + ((i + 1) * 40), (I(strc->qUnk430) - DISPLAY_WIDTH), (-strc->unk432) & 0xFF);
+        }
+    }
+
+    if (strc->unk432 != 0) {
+        SA2_LABEL(sub_80078D4)(3U, (u8)(strc->unk432 + (i * 40)), DISPLAY_HEIGHT, DISPLAY_WIDTH, 0U);
+    }
 }
