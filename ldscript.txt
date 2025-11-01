@@ -161,7 +161,6 @@ SECTIONS {
         src/game/edit_language_screen.o(.text);
         src/game/multiplayer/continue_screen.o(.text);
         src/game/time_attack/records.o(.text);
-        asm/game__time_attack__records.o(.text);
 
         src/game/enemies/gamigami.o(.text);
         src/game/enemies/rhinotank.o(.text);

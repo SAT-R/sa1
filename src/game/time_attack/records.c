@@ -26,26 +26,24 @@ typedef struct CharacterCard {
 extern CharacterCard gCharacterCards[NUM_CHARACTERS][2];
 
 typedef struct TimeAttackRecords {
-    /* 0x00 */ Sprite s0;
-    /* 0x30 */ Sprite s1;
-    /* 0x60 */ Sprite s2;
+    /* 0x00 */ Sprite sprites[3];
     /* 0x90 */ Sprite s3;
-    /* 0xC0 */ GameOverB overb;
+    /* 0xC0 */ GameOverB overB;
     /* 0xD8 */ StrcUi_805423C strcD8;
-    /* 0xE4 */ u8 fillerE4[0x18];
+    /* 0xE4 */ u8 unkE4[3][8];
     /* 0xFC */ s8 unkFC[0x4];
     /* 0x100 */ s32 qUnkY;
     /* 0x100 */ s32 unk104;
     /* 0x100 */ s32 unk108;
     /* 0x100 */ s32 unk10C;
-    /* 0x110 */ void *unk110;
+    /* 0x110 */ void *vram110;
 } TimeAttackRecords; /* 0x114 */
 
 void TimeAttackRecordsInitUI(u8 *vram);
 void Task_806BBC0(void);
-void sub_806BD24();
-void sub_806BF04();
-void sub_806BDC4(u8 arg0, struct Task *arg1);
+void sub_806BD24(void);
+void sub_806BF04(void);
+void sub_806BDC4(u8 rankIndex, struct Task *t);
 void TaskDestructor_806BF38(struct Task *t);
 
 extern u16 gUnknown_086CC774[16];
@@ -55,6 +53,11 @@ extern u8 gUnknown_086CC834[0x500];
 extern u16 gUnknown_0868B814[NUM_TIME_ATTACK_ZONES][3];
 extern u16 gUnknown_0868B838[ACTS_PER_ZONE][3];
 extern u16 gUnknown_0868B844[UILANG_COUNT][12][3];
+
+extern const s16 sZoneTimeSecondsTable[];
+extern const u16 sZoneTimeMinutesTable[];
+extern const u8 gSecondsTable[60 * 2];
+extern const u8 gMillisUnpackTable[60 * 2];
 
 void TimeAttackRecordsInitUI(u8 *vram)
 {
@@ -132,12 +135,12 @@ void CreateTimeAttackRecords()
     recs->unk104 = 0;
     recs->unk108 = 0;
     recs->unk10C = 0;
-    recs->unk110 = vram;
+    recs->vram110 = vram;
     recs->unkFC[0] = 0x21;
     recs->unkFC[1] = 0x22;
     recs->unkFC[2] = 0x23;
 
-    s = &recs->s0;
+    s = &recs->sprites[0];
     s->graphics.dest = VramMalloc(gUnknown_0868B814[LEVEL_TO_ZONE(gCurrentLevel)][0]);
     s->graphics.anim = gUnknown_0868B814[LEVEL_TO_ZONE(gCurrentLevel)][1];
     s->variant = gUnknown_0868B814[LEVEL_TO_ZONE(gCurrentLevel)][2];
@@ -154,7 +157,7 @@ void CreateTimeAttackRecords()
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);
 
-    s = &recs->s1;
+    s = &recs->sprites[1];
     s->graphics.dest = VramMalloc(gUnknown_0868B838[ACT_INDEX(gCurrentLevel)][0]);
     s->graphics.anim = gUnknown_0868B838[ACT_INDEX(gCurrentLevel)][1];
     s->variant = gUnknown_0868B838[ACT_INDEX(gCurrentLevel)][2];
@@ -170,7 +173,8 @@ void CreateTimeAttackRecords()
     s->oamFlags = 0x480;
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);
-    s = &recs->s2;
+
+    s = &recs->sprites[2];
     s->graphics.dest = VramMalloc(0xCU);
     s->graphics.anim = SA1_ANIM_MP_ACT_MSG_EN;
     s->variant = 2;
@@ -205,7 +209,7 @@ void CreateTimeAttackRecords()
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);
 
-    temp_r4 = &recs->overb;
+    temp_r4 = &recs->overB;
     temp_r4->qUnkA = 0xF0;
     temp_r4->unkC = 0x8C;
     temp_r4->unkE = 8;
@@ -292,5 +296,89 @@ NONMATCH("asm/non_matching/game/time_attack_records__Task_806BBC0.inc", void Tas
 }
 END_NONMATCH
 
-#if 01
-#endif
+void sub_806BD24()
+{
+    GameOverB *overB;
+    Sprite *s;
+    s16 temp_r0_2;
+    s32 temp_r0;
+    u8 i;
+
+    TimeAttackRecords *recs = TASK_DATA(gCurTask);
+
+    overB = &recs->overB;
+    for (i = 0; i < 3; i++) {
+        s = &recs->sprites[i];
+        DisplaySprite(s);
+    }
+    s = &recs->s3;
+    s->x = I(recs->qUnkY);
+    while (s->x < 500) {
+        DisplaySprite(s);
+        s->x += 200;
+    }
+
+    for (i = 0; i < 3; i++) {
+        overB->unkE = 1;
+        overB->qUnkA = 0x2C;
+        overB->unkC = (i * 0x10) + 0x5C;
+        sub_8052F78(&recs->unkFC[i], overB);
+
+        overB->unkE = 7;
+        overB->qUnkA = 0x50;
+        sub_8052F78(&recs->unkE4[i][0], overB);
+    }
+}
+
+void sub_806BDC4(u8 rankIndex, struct Task *t)
+{
+    s32 temp_r0_2;
+    s32 temp_r2;
+    s32 temp_r4;
+    u32 temp_r6;
+
+    TimeAttackRecords *recs = TASK_DATA(t);
+
+    temp_r6 = LOADED_SAVE->timeRecords.table[gSelectedCharacter][gCurrentLevel][rankIndex];
+    if (temp_r6 >= MAX_COURSE_TIME) {
+        recs->unkE4[rankIndex][6] = 0x29;
+        recs->unkE4[rankIndex][5] = 0x29;
+        recs->unkE4[rankIndex][3] = 0x29;
+        recs->unkE4[rankIndex][2] = 0x25;
+        recs->unkE4[rankIndex][0] = 0x29;
+    } else {
+        temp_r4 = Div(temp_r6, 60);
+        temp_r0_2 = Div(temp_r4, 60);
+        temp_r4 = (temp_r4 - sZoneTimeSecondsTable[temp_r0_2]);
+        temp_r2 = ((temp_r6 - sZoneTimeSecondsTable[temp_r4]) - sZoneTimeMinutesTable[temp_r0_2]) * 2;
+
+        recs->unkE4[rankIndex][6] = gMillisUnpackTable[temp_r2 + 1];
+        recs->unkE4[rankIndex][5] = gMillisUnpackTable[temp_r2 + 0];
+        recs->unkE4[rankIndex][3] = gSecondsTable[temp_r4 * 2 + 1];
+        recs->unkE4[rankIndex][2] = gSecondsTable[temp_r4 * 2 + 0];
+        recs->unkE4[rankIndex][0] = gSecondsTable[temp_r0_2 * 2 + 1];
+    }
+    recs->unkE4[rankIndex][1] = 0x2A;
+    recs->unkE4[rankIndex][4] = 0x2A;
+}
+
+void sub_806BF04(void)
+{
+    TimeAttackRecords *recs = TASK_DATA(gCurTask);
+    recs->qUnkY -= Q(2);
+
+    if (recs->qUnkY < -Q(200)) {
+        recs->qUnkY += Q(200);
+    }
+}
+
+void TaskDestructor_806BF38(struct Task *t)
+{
+    TimeAttackRecords *recs = TASK_DATA(t);
+
+    VramFree(recs->sprites[0].graphics.dest);
+    VramFree(recs->sprites[1].graphics.dest);
+    VramFree(recs->sprites[2].graphics.dest);
+    VramFree(recs->s3.graphics.dest);
+    VramFree(recs->vram110);
+}
