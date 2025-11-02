@@ -13,6 +13,7 @@
 #include "game/stage/stage.h"
 #include "game/save.h"
 
+#include "constants/songs.h"
 #include "constants/tilemaps.h"
 
 typedef struct SpriteStrc {
@@ -215,12 +216,13 @@ void Task_801CD80()
                 sub_8018AE0();
             }
         } else {
-            m4aSongNumStop(3U);
-            if (0x100 & gInput) {
+            m4aSongNumStop(MUS_CHARACTER_SELECTION);
+
+            if (R_BUTTON & gInput) {
                 SA2_LABEL(gUnknown_03004D80)[0] = 0;
                 SA2_LABEL(gUnknown_03002280)[0][0] = 0;
                 SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-                SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
+                SA2_LABEL(gUnknown_03002280)[0][2] = -1;
                 SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
                 SA2_LABEL(gUnknown_03004D80)[1] = 0;
                 SA2_LABEL(gUnknown_03002280)[1][0] = 0;
@@ -238,7 +240,7 @@ void Task_801CD80()
                 SA2_LABEL(gUnknown_03002280)[3][2] = -1;
                 SA2_LABEL(gUnknown_03002280)[3][3] = 0x20;
                 CreateUnusedLevelSelect();
-            } else if ((gGameMode == 0) && (LOADED_SAVE->unlockedLevels[(s8)(u8)gSelectedCharacter] == 0)) {
+            } else if ((gGameMode == 0) && (LOADED_SAVE->unlockedLevels[gSelectedCharacter] == 0)) {
                 gCurrentLevel = 0;
                 ApplyGameStageSettings();
             } else {
@@ -248,5 +250,60 @@ void Task_801CD80()
     } else {
         sub_801CF08();
         gBldRegs.bldY = I(strc->qUnk430);
+    }
+}
+
+void sub_801CF08()
+{
+    SpriteStrc *spriteStrc;
+    u32 pid;
+    u32 i;
+
+    MPStrc1 *strc;
+
+    if (IS_MULTI_PLAYER) {
+        for (pid = 0; pid < 4; pid++) {
+            if (!GetBit(gMultiplayerConnections, pid)) {
+                break;
+            }
+
+            if (CheckBit(gMultiSioStatusFlags, pid) == 0) {
+                if (gMultiplayerMissingHeartbeats[pid]++ >= 0xB5) {
+                    TasksDestroyInPriorityRange(0U, 0xFFFFU);
+                    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[pid] = 0;
+            }
+        }
+    }
+
+    strc = TASK_DATA(gCurTask);
+    if (strc->unk432 != 0) {
+        SA2_LABEL(sub_80078D4)(3U, 0U, strc->unk432, 240, 0U);
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (!GetBit(gMultiplayerConnections, i)) {
+            break;
+        }
+
+        SA2_LABEL(sub_80078D4)(3U, (strc->unk432 + (i * 0x28)), (strc->unk432 + ((i + 1) * 0x28)), 0U, (-strc->unk432) & 0xFF);
+
+        if ((i == SIO_MULTI_CNT->id) || GetBit(gMultiplayerConnections, i)) {
+            spriteStrc = &strc->sprites[gMultiplayerCharacters[i]];
+            spriteStrc->s.x = 120;
+            spriteStrc->s.y = (i * 40) + 20 + strc->unk432;
+            UpdateSpriteAnimation(&spriteStrc->s);
+            DisplaySprite(&spriteStrc->s);
+        }
+    }
+
+    if (strc->unk432 != 0) {
+        SA2_LABEL(sub_80078D4)(3U, (strc->unk432 + (i * 0x28)), 0xA0U, 0xF0U, 0U);
     }
 }
