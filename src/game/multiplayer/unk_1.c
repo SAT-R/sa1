@@ -414,3 +414,31 @@ NONMATCH("asm/non_matching/game/multiplayer/unk_1__Task_801D200.inc", void Task_
     }
 }
 END_NONMATCH
+
+void Task_801D34C()
+{
+    u32 pid;
+    u32 i;
+    MPStrc1 *strc = TASK_DATA(gCurTask);
+
+    if (strc->qUnk430++ > Q(60. / 256.)) {
+        strc->qUnk430 = 0;
+        gBldRegs.bldCnt = 0xFF;
+
+        m4aMPlayFadeOut(&gMPlayInfo_BGM, 0);
+        m4aMPlayFadeOut(&gMPlayInfo_SE1, 0);
+        m4aMPlayFadeOut(&gMPlayInfo_SE2, 0);
+        m4aMPlayFadeOut(&gMPlayInfo_SE3, 0);
+
+        gCurTask->main = Task_801CD80;
+        gCurTask->main();
+    } else {
+        sub_801CF08();
+    }
+}
+
+void TaskDestructor_801D3C8(struct Task *t)
+{
+    MPStrc2 *strc = TASK_DATA(t);
+    VramFree(strc->vram64);
+}
