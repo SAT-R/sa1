@@ -50,6 +50,8 @@ void TaskDestructor_801D3C8(struct Task *t);
 extern void sub_8018AE0(void);
 extern void sub_8062F90(void);
 
+extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
+
 void sub_801C9D8(void)
 {
     MPStrc1 *strc;
@@ -175,7 +177,7 @@ void Task_801CB80()
         SA2_LABEL(sub_80078D4)(3U, 0U, strc->unk432, 0xF0U, 0U);
     }
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
         if (!GetBit(gMultiplayerConnections, i)) {
             break;
         }
@@ -360,3 +362,55 @@ void sub_801D0CC(void)
         overB->unk8 = 0;
     }
 }
+
+// (93.77%) https://decomp.me/scratch/9u8Fv
+NONMATCH("asm/non_matching/game/multiplayer/unk_1__Task_801D200.inc", void Task_801D200())
+{
+    MPStrc2 *strc;
+    s32 sp4;
+    u8 pid;
+    GameOverB *overB;
+    s32 var_r0_2;
+    u8 var_r6;
+    u8 nameChar;
+
+    strc = TASK_DATA(gCurTask);
+    for (pid = 0; pid < MULTI_SIO_PLAYERS_MAX; pid++) {
+        if (!GetBit(gMultiplayerConnections, pid)) {
+            break;
+        }
+    }
+
+    if (pid == 3) {
+        sp4 = 0x14;
+    } else {
+        if (pid == 2) {
+            sp4 = 0x28;
+        } else {
+            sp4 = 0;
+        }
+    }
+
+    for (var_r6 = 0; var_r6 < pid; var_r6++) {
+        for (nameChar = 0; nameChar < 6; nameChar++) {
+            overB = &strc->overBs[var_r6];
+            overB->qUnkA = (nameChar * 8) + strc->unk60;
+            overB->unkC = (var_r6 * 40) + strc->unk62 + sp4;
+
+            if (SIO_MULTI_CNT->id == var_r6) {
+                u8 character = (LOADED_SAVE->playerName[nameChar] - 0x70);
+                if (character < 26) {
+                    overB->unkC += 8;
+                }
+                sub_8052F78(&LOADED_SAVE->playerName[nameChar], overB);
+            } else {
+                u8 character = LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].playerName[nameChar] - 0x70u;
+                if (character < 0x1A) {
+                    overB->unkC += 8;
+                }
+                sub_8052F78(&LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].playerName[nameChar], overB);
+            }
+        }
+    }
+}
+END_NONMATCH
