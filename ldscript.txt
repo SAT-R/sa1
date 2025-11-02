@@ -49,6 +49,7 @@ SECTIONS {
         src/game/sa1_sa2_shared/spot_lights_manager.o(.text);
         src/game/multiplayer/multiplayer_event_mgr.o(.text);
         src/game/multiplayer/multiplayer_event_recv_mgr.o(.text);
+        src/game/multiplayer/results.o(.text);
         asm/game__mp__results.o(.text);
         src/game/multiplayer/finish.o(.text);
         src/game/sa1_sa2_shared/pause_menu.o(.text);
@@ -303,6 +304,7 @@ SECTIONS {
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
         data/data_0_1_3.o(.rodata);
+        src/game/multiplayer/results.o(.rodata);
         src/game/multiplayer/finish.o(.rodata);
         src/game/multiboot/collect_rings/time_display.o(.rodata);
         src/game/mystery_itembox.o(.rodata);
