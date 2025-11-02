@@ -15,7 +15,7 @@
 #include "constants/text.h"
 #include "constants/zones.h"
 
-/* TODO: It seems like these aren't the overall records, only(?) the ones appearing after selecting / before starting to play a stage */
+/* These are the records appearing after selecting / before starting to play a stage */
 
 typedef struct CharacterCard {
     const u8 *tiles;

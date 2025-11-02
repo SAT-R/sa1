@@ -1,12 +1,17 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "lib/m4a/m4a.h"
 #include "bg_triangles.h"
+#include "game/course_select.h"
+#include "game/sa1_sa2_shared/unused_level_select.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/multiplayer/unk_1.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/stage/player.h"
+#include "game/stage/stage.h"
+#include "game/save.h"
 
 #include "constants/tilemaps.h"
 
@@ -25,8 +30,12 @@ typedef struct MPStrc1 {
 } MPStrc1; /* 0x434 */
 
 void Task_801CB80(void);
+void sub_801CF08(void);
 void sub_801D0CC();
 void Task_801D34C(void);
+
+extern void sub_8018AE0(void);
+extern void sub_8062F90(void);
 
 void sub_801C9D8(void)
 {
@@ -169,5 +178,75 @@ void Task_801CB80()
 
     if (strc->unk432 != 0) {
         SA2_LABEL(sub_80078D4)(3U, (u8)(strc->unk432 + (i * 40)), DISPLAY_HEIGHT, DISPLAY_WIDTH, 0U);
+    }
+}
+
+void Task_801CD80()
+{
+    MPStrc1 *strc = TASK_DATA(gCurTask);
+    u8 i;
+
+    strc->qUnk430 += Q(2);
+    if (strc->qUnk430 > Q(16)) {
+        strc->qUnk430 = 0x1000;
+        gBldRegs.bldY = 0x10;
+        gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+
+        if ((gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_CHAO_HUNT)) {
+            for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
+                if (!GetBit(gMultiplayerConnections, i)) {
+                    break;
+                }
+            }
+
+            if (i < 3) {
+                if (gGameMode == GAME_MODE_RACE) {
+                    gGameMode = GAME_MODE_RACE;
+                    CreateCourseSelect(0U);
+                    return;
+                }
+                gGameMode = 4;
+                sub_8062F90();
+            } else {
+                sub_8018AE0();
+            }
+        } else {
+            m4aSongNumStop(3U);
+            if (0x100 & gInput) {
+                SA2_LABEL(gUnknown_03004D80)[0] = 0;
+                SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+                SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+                SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
+                SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+                SA2_LABEL(gUnknown_03004D80)[1] = 0;
+                SA2_LABEL(gUnknown_03002280)[1][0] = 0;
+                SA2_LABEL(gUnknown_03002280)[1][1] = 0;
+                SA2_LABEL(gUnknown_03002280)[1][2] = -1;
+                SA2_LABEL(gUnknown_03002280)[1][3] = 0x20;
+                SA2_LABEL(gUnknown_03004D80)[2] = 0;
+                SA2_LABEL(gUnknown_03002280)[2][0] = 0;
+                SA2_LABEL(gUnknown_03002280)[2][1] = 0;
+                SA2_LABEL(gUnknown_03002280)[2][2] = -1;
+                SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+                SA2_LABEL(gUnknown_03004D80)[3] = 0;
+                SA2_LABEL(gUnknown_03002280)[3][0] = 0;
+                SA2_LABEL(gUnknown_03002280)[3][1] = 0;
+                SA2_LABEL(gUnknown_03002280)[3][2] = -1;
+                SA2_LABEL(gUnknown_03002280)[3][3] = 0x20;
+                CreateUnusedLevelSelect();
+            } else if ((gGameMode == 0) && (LOADED_SAVE->unlockedLevels[(s8)(u8)gSelectedCharacter] == 0)) {
+                gCurrentLevel = 0;
+                ApplyGameStageSettings();
+            } else {
+                CreateCourseSelect(0U);
+            }
+        }
+    } else {
+        sub_801CF08();
+        gBldRegs.bldY = I(strc->qUnk430);
     }
 }
