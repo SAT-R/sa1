@@ -1,8 +1,10 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "bg_triangles.h"
+#include "data/ui_graphics.h"
 #include "game/course_select.h"
 #include "game/sa1_sa2_shared/unused_level_select.h"
 #include "game/gTask_03006240.h"
@@ -15,6 +17,7 @@
 
 #include "constants/songs.h"
 #include "constants/tilemaps.h"
+#include "constants/ui_graphics.h"
 
 typedef struct SpriteStrc {
     Sprite s;
@@ -30,10 +33,19 @@ typedef struct MPStrc1 {
     /* 0x432 */ s16 unk432;
 } MPStrc1; /* 0x434 */
 
+typedef struct MPStrc2 {
+    /* 0x00 */ GameOverB overBs[4];
+    /* 0x60 */ u16 unk60;
+    /* 0x60 */ u16 unk62;
+    /* 0x60 */ u8 *vram64;
+} MPStrc2; /* 0x68 */
+
 void Task_801CB80(void);
 void sub_801CF08(void);
 void sub_801D0CC();
+void Task_801D200(void);
 void Task_801D34C(void);
+void TaskDestructor_801D3C8(struct Task *t);
 
 extern void sub_8018AE0(void);
 extern void sub_8062F90(void);
@@ -305,5 +317,46 @@ void sub_801CF08()
 
     if (strc->unk432 != 0) {
         SA2_LABEL(sub_80078D4)(3U, (strc->unk432 + (i * 0x28)), 0xA0U, 0xF0U, 0U);
+    }
+}
+
+void sub_801D0CC(void)
+{
+    Strc_80528AC gfx;
+    u8 i;
+    GameOverB *overB;
+
+    MPStrc2 *strc68;
+
+    strc68 = TASK_DATA(TaskCreate(Task_801D200, sizeof(MPStrc2), 0x2200U, 0U, TaskDestructor_801D3C8));
+    gfx.uiGfxID = UIGFX_ASCII_CHARS;
+    gfx.unk2B = 1;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
+    gfx.palette = gUiGraphics[UIGFX_60].palette; // TODO: What is this palette?
+    gfx.vramC = VramMalloc(0xE0U);
+    gfx.tilesSize = 0x1C00;
+    gfx.paletteSize = 0x20;
+    gfx.unk28 = 4;
+    gfx.unk2A = 0xD;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx);
+
+    strc68->vram64 = gfx.vramC;
+    strc68->unk60 = 10;
+    strc68->unk62 = 20;
+
+    for (i = 0; i < 4; i++) {
+        overB = &strc68->overBs[i];
+        overB->qUnkA = 10;
+        overB->unkC = 20;
+        overB->unkE = 1;
+        overB->unk10 = 1;
+        overB->unk12 = 4;
+        overB->unk16 = 1;
+        overB->unk8 = 0;
     }
 }
