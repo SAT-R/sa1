@@ -1,9 +1,12 @@
 #include "global.h"
 #include "core.h"
 #include "lib/m4a/m4a.h"
+#include "game/character_select.h"
+#include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/save.h"
 
+#include "constants/animations.h"
 #include "constants/songs.h"
 #include "constants/text.h"
 
@@ -23,9 +26,9 @@ typedef struct MPResults {
     /* 0x214 */ u8 filler214[0x8];
 } MPResults; /* 0x21C */
 
-void sub_801874C(void);
+void Task_801874C(void);
 const AnimId gUnknown_080BB488[UILANG_COUNT] = { 895, 894 };
-const u8 gUnknown_080BB48C[4] = { 0x38, 0x5C, 0x40, 0x68 };
+const u8 gUnknown_080BB48C[2][2] = { { 56, 92 }, { 64, 104 } };
 
 void sub_8018538(void)
 {
@@ -40,7 +43,7 @@ void sub_8018538(void)
     gBgCntRegs[0] = 0x1E03;
     gBldRegs.bldCnt = 0;
     gBldRegs.bldY = 0;
-    strc = TASK_DATA(TaskCreate(sub_801874C, sizeof(MPResults), 0x2000U, 0U, NULL));
+    strc = TASK_DATA(TaskCreate(Task_801874C, sizeof(MPResults), 0x2000U, 0U, NULL));
     strc->unk200 = 0;
     strc->unk203 = 0;
     strc->unk1FC = 0;
@@ -68,7 +71,7 @@ void sub_8018538(void)
     s->graphics.dest = (void *)OBJ_VRAM0 + 0x2C0;
     s->oamFlags = 0x400;
     s->graphics.size = 0;
-    s->graphics.anim = 0x35C;
+    s->graphics.anim = SA1_ANIM_OPTS_BLACK_RECT;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -84,7 +87,7 @@ void sub_8018538(void)
     s->graphics.dest = strc->s2.graphics.dest + 0x180;
     s->oamFlags = 0x80;
     s->graphics.size = 0;
-    s->graphics.anim = 0x389;
+    s->graphics.anim = SA1_ANIM_VS_MENU_WAIT;
     s->variant = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -111,3 +114,137 @@ void sub_8018538(void)
     DrawBackground(&strc->bg);
     m4aSongNumStartOrChange(MUS_006);
 }
+
+// (99.30%) https://decomp.me/scratch/ZiBTK
+NONMATCH("asm/non_matching/game/multiplayer/results__Task_801874C.inc", void Task_801874C())
+{
+    Sprite *s;
+    s32 offsetX;
+    s32 var_r8;
+    u32 var_r3;
+    u32 i;
+    u8 temp_r5_2;
+    u8 temp_r7;
+
+    MPResults *strc = TASK_DATA(gCurTask);
+
+    if (IS_MULTI_PLAYER) {
+        for (var_r3 = 0; var_r3 < MULTI_SIO_PLAYERS_MAX; var_r3++) {
+            if (!GetBit(gMultiplayerConnections, var_r3)) {
+                break;
+            }
+
+            if (CheckBit(gMultiSioStatusFlags, var_r3) == 0) {
+                if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
+                    TasksDestroyInPriorityRange(0U, 0xFFFFU);
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[var_r3] = 0;
+            }
+        }
+    }
+
+    if (gMultiSioRecv->pat0.unk0 == 0x30) {
+        if (strc->unk203 != gMultiSioRecv->pat0.unk2) {
+            m4aSongNumStart(0x6CU);
+            if (!(gMultiSioStatusFlags & 0x80)) {
+                strc->unk203 = gMultiSioRecv->pat0.unk2;
+            }
+        }
+    } else if (gMultiSioRecv->pat0.unk0 == 0x31) {
+        if (strc->unk203 != gMultiSioRecv->pat0.unk2) {
+            m4aSongNumStart(0x6CU);
+            strc->unk203 = gMultiSioRecv->pat0.unk2;
+        }
+        m4aSongNumStart(0x6AU);
+
+        if (strc->unk203 == 0) {
+            gGameMode = GAME_MODE_RACE;
+            TaskDestroy(gCurTask);
+            CreateCharacterSelectionScreen((PseudoRandom32() + SIO_MULTI_CNT->id) % 4u);
+        } else {
+            gGameMode = GAME_MODE_CHAO_HUNT;
+            TaskDestroy(gCurTask);
+            CreateCharacterSelectionScreen((PseudoRandom32() + SIO_MULTI_CNT->id) % 4u);
+        }
+        return;
+    }
+
+    if (gMultiSioStatusFlags & 0x80) {
+        s32 v;
+        var_r8 = 1;
+        v = 0x30;
+        gMultiSioSend.pat0.unk0 = v;
+        temp_r5_2 = strc->unk213;
+        if (temp_r5_2 == 0) {
+            if (DPAD_UP & gRepeatedKeys) {
+                m4aSongNumStart(0x6CU);
+
+                if (--strc->unk203 > 1U) {
+                    strc->unk203 = var_r8;
+                }
+                strc->unk1FC = 0;
+            } else if (DPAD_DOWN & gRepeatedKeys) {
+                m4aSongNumStart(0x6CU);
+
+                if (++strc->unk203 > 1U) {
+                    strc->unk203 = 0;
+                }
+                strc->unk1FC = 0;
+            }
+        }
+
+        gMultiSioSend.pat0.unk2 = strc->unk203;
+        for (i = 1; i < 4; i++) {
+            if (!GetBit(gMultiplayerConnections, i)) {
+                break;
+            }
+
+            if (gMultiSioRecv[i].pat0.unk0 != 0x30) {
+                var_r8 = 0;
+            }
+        }
+
+        if (((var_r8 != 0) && (A_BUTTON & gPressedKeys)) || (strc->unk213 != 0)) {
+            strc->unk213 = 1;
+            gMultiSioSend.pat0.unk0 = 0x31;
+        }
+    } else {
+        s32 v = 0x30;
+        gMultiSioSend.pat0.unk0 = v;
+        s = &strc->spr1C0;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    s = &strc->s;
+
+    temp_r7 = gUnknown_080BB48C[gLoadedSaveGame.uiLanguage][strc->unk203];
+    strc->unk1FC += 0x80;
+    if (strc->unk1FC > Q(temp_r7)) {
+        strc->unk1FC -= Q(temp_r7);
+    }
+    s->y = (strc->unk203 * 24) + 64;
+    s->variant = strc->unk203;
+    UpdateSpriteAnimation(s);
+
+    offsetX = I(strc->unk1FC) - temp_r7;
+    while ((232 - offsetX) > 0) {
+        s->x = 232 - offsetX;
+        DisplaySprite(s);
+        offsetX += temp_r7;
+    }
+
+    s = &strc->s2;
+    s->y = (strc->unk203 * 24) + 54;
+    for (i = 0; i < 8; i++) {
+        s->x = i * 32;
+        DisplaySprite(s);
+    }
+}
+END_NONMATCH

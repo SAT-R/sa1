@@ -22,7 +22,6 @@ void CreateMultiplayerSinglePakResultsScreen() { }
 // Player
 s32 gUnknown_03005C74 = 0;
 
-void sub_8018538() { }
 void sub_8018AE0() { }
 void sub_802E290(void) { }
 
