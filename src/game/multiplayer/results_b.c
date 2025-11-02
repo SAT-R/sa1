@@ -1,7 +1,9 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "game/character_select.h"
+#include "game/course_select.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/save.h"
@@ -15,18 +17,16 @@ typedef struct MPResultsB {
     /* 0x40 */ Background bg2;
     /* 0x80 */ Sprite s;
     /* 0xB0 */ Sprite s2;
-    /* 0xE0 */ Sprite s3;
-    /* 0x110 */ Sprite s4;
-    /* 0x140 */ Sprite s5;
+    /* 0xE0 */ Sprite s3[3];
     /* 0x170 */ u8 filler170[0x90];
     /* 0x200 */ Sprite spr200;
     /* 0x230 */ s32 unk230;
     /* 0x234 */ u16 unk234;
-    /* 0x236 */ u16 unk236;
+    /* 0x236 */ s16 unk236;
     /* 0x238 */ u16 unk238;
     /* 0x23A */ u16 unk23A;
-    /* 0x23C */ u16 unk23C;
-    /* 0x23E */ u16 unk23E;
+    /* 0x23C */ s16 unk23C;
+    /* 0x23E */ s16 unk23E;
     /* 0x240 */ u16 unk240;
     /* 0x240 */ u16 unk242;
     /* 0x240 */ u16 unk244;
@@ -35,6 +35,9 @@ typedef struct MPResultsB {
 } MPResultsB; /* 0x248 */
 
 void Task_8018ECC(void);
+void sub_8019348(void);
+
+extern void sub_8062F90(void);
 
 void sub_8018AE0()
 {
@@ -70,9 +73,9 @@ void sub_8018AE0()
     s->x = 0;
     s->y = 0x19;
     s->graphics.dest = sp4;
-    s->oamFlags = 0x3C0;
+    s->oamFlags = SPRITE_OAM_ORDER(15);
     s->graphics.size = 0;
-    s->graphics.anim = 0x37E;
+    s->graphics.anim = 894;
     strc->s.variant = 2;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -100,7 +103,7 @@ void sub_8018AE0()
     UpdateSpriteAnimation(s);
 
     sp4 += 0x180;
-    s = &strc->s3;
+    s = &strc->s3[0];
     s->x = 0x35;
     s->y = 0x58;
     s->graphics.dest = sp4;
@@ -117,7 +120,7 @@ void sub_8018AE0()
     UpdateSpriteAnimation(s);
 
     sp4 += 0x180;
-    s = &strc->s4;
+    s = &strc->s3[1];
     s->x = 0xB7;
     s->y = 0x58;
     s->graphics.dest = sp4;
@@ -134,7 +137,7 @@ void sub_8018AE0()
     UpdateSpriteAnimation(s);
 
     sp4 += 0x100;
-    s = &strc->s5;
+    s = &strc->s3[2];
     s->x = 25;
     s->y = 73;
     s->graphics.dest = sp4;
@@ -210,3 +213,192 @@ void sub_8018AE0()
     gBldRegs.bldAlpha = 0xA10;
     gWinRegs[2] = 0xA0;
 }
+
+// (97.44%) https://decomp.me/scratch/nj1HT
+NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void Task_8018ECC(void))
+{
+    Sprite *s;
+    s32 temp_r1_5;
+    s32 temp_r3_3;
+    s32 var_r1;
+    s32 var_r3_2;
+    s32 var_r4;
+    s32 i;
+    u16 *temp_r1_2;
+    u16 *temp_r4_4;
+    u16 temp_r0_2;
+    u32 var_r3;
+    s16 var_r4_2;
+    u8 *var_r2;
+    u8 temp_r0;
+    u8 temp_r4;
+    u8 var_r0;
+    u8 var_r0_2;
+    u16 recvData;
+    union MultiSioData *send_recv;
+
+    MPResultsB *strc = TASK_DATA(gCurTask);
+
+    strc->unk234++;
+    if (IS_MULTI_PLAYER) {
+        for (var_r3 = 0; var_r3 < 4; var_r3++) {
+            if (!GetBit(gMultiplayerConnections, var_r3)) {
+                break;
+            }
+
+            if (!CheckBit(gMultiSioStatusFlags, var_r3)) {
+                if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[var_r3] = 0;
+            }
+        }
+    }
+
+    recvData = gMultiSioRecv->pat0.unk0;
+    if (recvData == 0x34) {
+        if (strc->unk246 != gMultiSioRecv->pat0.unk2) {
+            m4aSongNumStart(0x6CU);
+            if (!(gMultiSioStatusFlags & 0x80)) {
+                strc->unk246 = gMultiSioRecv->pat0.unk2;
+            }
+        }
+    } else if (recvData == 0x35) {
+        var_r3_2 = 1;
+        if (gMultiSioStatusFlags & 0x80) {
+            for (i = 1; i < 4; i++) {
+                if (!GetBit(gMultiplayerConnections, i)) {
+                    break;
+                }
+
+                send_recv = &gMultiSioRecv[i];
+                if (send_recv->pat0.unk0 < 0x35) {
+                    var_r3_2 = 0;
+                }
+            }
+        } else {
+            gMultiSioSend.pat0.unk0 = recvData;
+        }
+        if (var_r3_2 != 0) {
+            if (strc->unk246 != gMultiSioRecv->pat0.unk2) {
+                m4aSongNumStart(0x6CU);
+                strc->unk246 = gMultiSioRecv->pat0.unk2;
+            }
+            m4aSongNumStart(0x6AU);
+            if (strc->unk246 == 0) {
+                if (gGameMode == 2) {
+                    gGameMode = 3;
+                } else {
+                    gGameMode = 5;
+                }
+                gCurTask->main = sub_8019348;
+                return;
+            }
+            var_r0_2 = gGameMode;
+            if (gGameMode != 2) {
+                var_r0_2 = 4;
+            }
+            gGameMode = var_r0_2;
+            TaskDestroy(gCurTask);
+
+            if (gGameMode == GAME_MODE_RACE) {
+                CreateCourseSelect(0U);
+            } else {
+                sub_8062F90();
+            }
+            return;
+        }
+    } else if (recvData > 0x35U) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        MultiPakCommunicationError();
+        return;
+    }
+
+    if (gMultiSioStatusFlags & 0x80) {
+        var_r4 = 1;
+        send_recv = &gMultiSioSend;
+        send_recv->pat0.unk0 = 0x34;
+        if (strc->unk247 == 0) {
+            if (0x10 & gInput) {
+                strc->unk246 = 1;
+            } else if (0x20 & gInput) {
+                strc->unk246 = 0;
+            }
+        }
+        send_recv->pat0.unk2 = strc->unk246;
+
+        for (i = 1; i < 4; i++) {
+            if (!GetBit(gMultiplayerConnections, i)) {
+                break;
+            }
+
+            if (gMultiSioRecv[i].pat0.unk0 < 0x34) {
+                var_r4 = 0;
+            }
+        }
+        if (((var_r4 != 0) && (1 & gPressedKeys)) || (strc->unk247 != 0)) {
+            gMultiSioSend.pat0.unk0 = 0x35;
+            gMultiSioSend.pat0.unk2 = strc->unk246;
+            strc->unk247 = 1;
+        }
+    } else {
+        gMultiSioSend.pat0.unk0 = 0x34;
+        s = &strc->spr200;
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    s = &strc->s3[2];
+    s->x = (strc->unk246 * 0x83) + 0x19;
+    strc->unk236 += 0x10;
+    if (strc->unk236 > 0x400) {
+        strc->unk236 = 0x400;
+    }
+    if (strc->unk246 == 0) {
+        strc->unk238 = (strc->unk238 + 1) & 0x3FF;
+    } else {
+        strc->unk238 = (strc->unk238 - 1) & 0x3FF;
+    }
+
+    strc->unk23A = (strc->unk236 * COS_24_8(strc->unk238)) >> 8;
+    strc->unk23C = (strc->unk236 * SIN_24_8(strc->unk238)) >> 8;
+    strc->unk23E += strc->unk23A;
+    strc->unk240 += strc->unk23C;
+
+    gBgScrollRegs[1][0] = (s16)((s32)((u16)strc->unk23E << 0x10) >> 0x18);
+    gBgScrollRegs[1][1] = (s16)((s32)(strc->unk240 << 0x10) >> 0x18);
+    strc->unk230 += 0x80;
+    if (strc->unk230 > Q(136)) {
+        strc->unk230 -= Q(136);
+    }
+
+    s = &strc->s;
+    var_r4_2 = I(-strc->unk230);
+    while (var_r4_2 < DISPLAY_WIDTH) {
+        s->x = (s16)var_r4_2;
+        var_r4_2 += 136;
+        DisplaySprite(s);
+    }
+
+    for (i = 0; i < 3; i++) {
+        s = &strc->s3[i];
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    s = &strc->s2;
+    for (i = 0; i < 8; i++) {
+        s->x = i * 32;
+        DisplaySprite(s);
+    }
+}
+END_NONMATCH
