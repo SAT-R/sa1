@@ -1,11 +1,13 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "bg_triangles.h"
 #include "multi_sio.h"
 #include "sio32_multi_load.h" // for SIO32ML_BLOCK_SIZE
 #include "lib/m4a/m4a.h"
 #include "data/sprite_tables.h"
 #include "game/multiplayer/communication_outcome.h"
+#include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/save.h"
@@ -13,6 +15,7 @@
 
 #include "constants/animations.h"
 #include "constants/songs.h"
+#include "constants/text.h"
 
 extern u8 gUnknown_087D7E80[0x3400];
 extern u8 gUnknown_087E3610[0x2000];
@@ -40,6 +43,7 @@ typedef struct MultiplayerSinglePakResultsScreen {
 } MultiplayerSinglePakResultsScreen; /* size 0x440 */
 
 void SA2_LABEL(Task_808207C)(void);
+void SA2_LABEL(sub_80823FC)(void);
 
 void LinkCommunicationError(void)
 {
@@ -216,3 +220,217 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__CreateMultiplayerSinglePa
     gBldRegs.bldY = 0x10;
 }
 END_NONMATCH
+
+void Task_MultiplayerSinglePakResultsScreenInit(void)
+{
+    u32 i;
+    Sprite *s;
+    AnimId animValue;
+    struct MultiplayerSinglePakResultsScreen *resultsScreen;
+    gDispCnt |= 0x1800;
+    gMultiplayerConnections = ((gMultiSioStatusFlags & MULTI_SIO_ALL_CONNECTED) >> 8);
+    MultiPakHeartbeat();
+
+#if (GAME == GAME_SA1)
+    gMultiSioSend.pat0.unk0 = 0x10;
+#elif (GAME == GAME_SA2)
+    gMultiSioSend.pat0.unk0 = 0x4010;
+#endif
+    if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) {
+#if (GAME == GAME_SA1)
+        gMultiSioSend.pat0.unk3 = LOADED_SAVE->uiLanguage;
+#elif (GAME == GAME_SA2)
+        gMultiSioSend.pat0.unk3 = gMultiplayerLanguage;
+#endif
+    }
+#if COLLECT_RINGS_ROM
+    else if (gMultiSioRecv->pat0.unk0 == 0x4010) {
+        gMultiplayerLanguage = gMultiSioRecv->pat0.unk3;
+    }
+#endif
+
+    resultsScreen = TASK_DATA(gCurTask);
+#ifndef NON_MATCHING
+    while (0)
+        ;
+#endif
+    gBldRegs.bldCnt = 0;
+    gBldRegs.bldY = 0;
+
+    if (++resultsScreen->unk430 > 0xF0) {
+#if (GAME == GAME_SA2) && !defined(COLLECT_RINGS_ROM)
+        gFlags &= ~0x8000;
+#endif
+
+        if (resultsScreen->unk434) {
+            for (i = 0; i < 3; i++) {
+                s32 temp;
+                s = &resultsScreen->unk370[i];
+#if (GAME == GAME_SA1)
+                s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * 0x1C0));
+#elif (GAME == GAME_SA2)
+                s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * 0x180));
+#endif
+
+                s->x = 0;
+                s->y = 0;
+                s->oamFlags = SPRITE_OAM_ORDER(4);
+                s->graphics.size = 0;
+
+// Non match required for non japan main rom
+#if !defined(NON_MATCHING) && !defined(JAPAN)
+#if COLLECT_RINGS_ROM
+                do
+#endif
+                {
+
+#if (GAME == GAME_SA2)
+                    s16 var = SA2_ANIM_MP_SINGLE_PAK_RESULTS_ROUND;
+                    asm("" ::"r"(var));
+#endif
+                }
+#if COLLECT_RINGS_ROM
+
+                while (0);
+#endif
+#endif
+
+#if (GAME == GAME_SA1)
+                switch (LOADED_SAVE->uiLanguage) {
+                    case UILANG_JAPANESE:
+                        s->graphics.anim = SA1_ANIM_MP_SINGLE_PAK_RESULTS_CUMULATIVE;
+                        break;
+
+                    case UILANG_ENGLISH:
+                    default:
+                        s->graphics.anim = SA1_ANIM_MP_SINGLE_PAK_RESULTS_ROUND;
+                        break;
+                }
+#elif (GAME == GAME_SA2)
+                switch (gMultiplayerLanguage) {
+#ifdef JAPAN
+                    case LANG_DEFAULT:
+                        s->graphics.anim = SA2_ANIM_MP_SINGLE_PAK_RESULTS_CUMULATIVE;
+                        break;
+#endif
+                    case LANG_JAPANESE:
+                        s->graphics.anim = SA2_ANIM_MP_SINGLE_PAK_RESULTS_CUMULATIVE;
+                        break;
+#ifdef JAPAN
+                    case LANG_ENGLISH:
+#endif
+                    default:
+                        s->graphics.anim = SA2_ANIM_MP_SINGLE_PAK_RESULTS_ROUND;
+                        break;
+                }
+#endif
+
+                s->variant = i;
+                s->animCursor = 0;
+                s->qAnimDelay = 0;
+                s->prevVariant = -1;
+                s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+                s->palId = 0;
+                s->frameFlags = 0x1000;
+                UpdateSpriteAnimation(s);
+            }
+        }
+#ifndef COLLECT_RINGS_ROM
+        if (gMultiSioStatusFlags & MULTI_SIO_PARENT) {
+            s = &resultsScreen->unk400;
+            s->x = (DISPLAY_WIDTH / 2);
+            s->y = (DISPLAY_HEIGHT / 2);
+
+#if (GAME == GAME_SA1)
+            if (resultsScreen->unk434) {
+                s->graphics.dest = resultsScreen->unk370[2].graphics.dest + 0x1C0;
+            } else {
+                s->graphics.dest = resultsScreen->unk340.graphics.dest + 0x1C0;
+            }
+#elif (GAME == GAME_SA2)
+            if (resultsScreen->unk434) {
+                s->graphics.dest = resultsScreen->unk370[2].graphics.dest + 0x180;
+            } else {
+                s->graphics.dest = resultsScreen->unk340.graphics.dest + 0x180;
+            }
+#endif
+
+            s->oamFlags = SPRITE_OAM_ORDER(0);
+            s->graphics.size = 0;
+
+#if (GAME == GAME_SA1)
+            switch (LOADED_SAVE->uiLanguage) {
+                case UILANG_JAPANESE:
+                    s->graphics.anim = 893; // SA1_ANIM_PRESS_START_MSG_JP;
+                    break;
+                default:
+                    s->graphics.anim = SA1_ANIM_MP_PRESS_START; // SA1_ANIM_PRESS_START_MSG_EN;
+                    break;
+            }
+#elif (GAME == GAME_SA2)
+            switch (gMultiplayerLanguage) {
+#ifdef JAPAN
+                case LANG_DEFAULT:
+                    s->graphics.anim = SA2_ANIM_PRESS_START_MSG_JP;
+                    break;
+#endif
+                case LANG_JAPANESE:
+                    s->graphics.anim = SA2_ANIM_PRESS_START_MSG_JP;
+                    break;
+#ifdef JAPAN
+                case LANG_ENGLISH:
+                    s->graphics.anim = SA2_ANIM_PRESS_START_MSG_EN;
+                    break;
+#endif
+                default:
+                    s->graphics.anim = SA2_ANIM_PRESS_START_MSG_EN;
+                    break;
+            }
+#endif
+            s->variant = 0;
+            s->animCursor = 0;
+            s->qAnimDelay = 0;
+            s->prevVariant = -1;
+            s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+#if (GAME == GAME_SA1)
+            s->palId = 10;
+#elif (GAME == GAME_SA2)
+            s->palId = 0;
+#endif
+            s->frameFlags = 0;
+            UpdateSpriteAnimation(s);
+        }
+#endif
+        resultsScreen->unk430 = 0;
+        gCurTask->main = SA2_LABEL(sub_80823FC);
+        SA2_LABEL(sub_80823FC)(); // SA1: SA2_LABEL(sub_80823FC)
+    } else {
+#ifndef NON_MATCHING
+        // This is wrong, just here to make asm correct here
+        resultsScreen++;
+        while (0)
+            ;
+        resultsScreen--;
+#endif
+
+        for (i = 0; i < 4; i++) {
+            if (!(gMultiSioStatusFlags & MULTI_SIO_RECV_ID(i + 8))) {
+                if (SA2_LABEL(gUnknown_030054B4)[i] & 1) {
+                    SA2_LABEL(sub_80078D4)(3, i * 40, (i + 1) * 40, DISPLAY_WIDTH - resultsScreen->unk430, DISPLAY_HEIGHT - i * 40);
+                } else {
+                    SA2_LABEL(sub_80078D4)(3, i * 40, (i + 1) * 40, resultsScreen->unk430 - DISPLAY_WIDTH, DISPLAY_HEIGHT - i * 40);
+                }
+            } else {
+                if (SA2_LABEL(gUnknown_030054B4)[i] & 1) {
+                    SA2_LABEL(sub_80078D4)
+                    (3, SA2_LABEL(gUnknown_030054B4)[i] * 40, (SA2_LABEL(gUnknown_030054B4)[i] + 1) * 40,
+                     DISPLAY_WIDTH - resultsScreen->unk430, (i * 5 - SA2_LABEL(gUnknown_030054B4)[i] * 5) * 8);
+                } else {
+                    SA2_LABEL(sub_80078D4)
+                    (3, SA2_LABEL(gUnknown_030054B4)[i] * 40, (SA2_LABEL(gUnknown_030054B4)[i] + 1) * 40,
+                     resultsScreen->unk430 - DISPLAY_WIDTH, (i * 5 - SA2_LABEL(gUnknown_030054B4)[i] * 5) * 8);
+                }
+            }
+        }
+    }
+}
