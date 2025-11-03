@@ -14,11 +14,6 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 
-#if (GAME == GAME_SA1) && defined(SIO32ML_BLOCK_SIZE)
-#undef SIO32ML_BLOCK_SIZE
-#define SIO32ML_BLOCK_SIZE 0x2000
-#endif // (GAME == GAME_SA1) && defined(SIO32ML_BLOCK_SIZE)
-
 extern u8 gUnknown_087D7E80[0x3400];
 extern u8 gUnknown_087E3610[0x2000];
 
@@ -90,8 +85,8 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__CreateMultiplayerSinglePa
     m4aSoundVSyncOn();
     gGameMode = 6;
     gFlags &= 0xFFFF7FFF;
-    CpuFastSet(&gUnknown_087E3610, (void *)BG_VRAM, SIO32ML_BLOCK_SIZE);
-    CpuFastSet(&gUnknown_087D7E80, (void *)EWRAM_START + 0x33000, 0x3400U);
+    CpuFastSet(&gUnknown_087E3610, (void *)BG_VRAM, sizeof(gUnknown_087E3610));
+    CpuFastSet(&gUnknown_087D7E80, (void *)EWRAM_START + 0x33000, sizeof(gUnknown_087D7E80));
     gTilemapsRef = *((Tilemap ***)(EWRAM_START + 0x33000));
 
     gDispCnt = 0x40;
