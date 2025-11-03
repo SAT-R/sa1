@@ -36,8 +36,9 @@ typedef struct MPResultsB {
 
 void Task_8018ECC(void);
 void Task_8019348(void);
-void sub_80196FC(void);
+void Task_80196FC(void);
 
+extern u8 gUnknown_080BB484[4];
 extern void sub_8062F90(void);
 
 void sub_8018AE0()
@@ -565,6 +566,232 @@ void Task_8019348(void)
     gWinRegs[5] = 0x3B;
     gBldRegs.bldCnt = 0x3F46;
 
-    gCurTask->main = sub_80196FC;
-    sub_80196FC();
+    gCurTask->main = Task_80196FC;
+    Task_80196FC();
 }
+
+// (99.42%) https://decomp.me/scratch/2e0s2
+NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_80196FC.inc", void Task_80196FC(void))
+{
+    s32 spC = 1;
+    u8 sp8[2] = { 0 };
+    s32 sp10;
+    s32 r2;
+    Sprite *temp_r4_10;
+    Sprite *temp_r6;
+    s16 *temp_r3;
+    s16 temp_r4_7;
+    s32 *temp_r2_5;
+    s32 temp_r0_3;
+    s32 temp_r1_3;
+    s32 temp_r1_4;
+    s32 temp_r2_2;
+    s32 temp_r3_2;
+    s32 var_r6;
+    s32 var_sl;
+    u32 var_r3;
+    s16 var_r5;
+    u8 *var_r2;
+    u8 temp_r0;
+    u8 temp_r0_2;
+    u8 temp_r2_4;
+    u8 temp_r4_3;
+    union MultiSioData *send_recv;
+    void *var_r1;
+
+    MPResultsB *strc = TASK_DATA(gCurTask);
+
+    if (strc->unk247 == 0) {
+        if (DPAD_RIGHT & gRepeatedKeys) {
+            if (strc->unk246 == 0) {
+                m4aSongNumStart(0x6CU);
+            }
+            strc->unk246 = spC;
+        } else if (DPAD_LEFT & gRepeatedKeys) {
+            if (strc->unk246 == 1) {
+                m4aSongNumStart(0x6CU);
+            }
+            strc->unk246 = 0;
+        }
+    }
+    if (IS_MULTI_PLAYER) {
+        for (var_r3 = 0; var_r3 < 4; var_r3++) {
+            if (!GetBit(gMultiplayerConnections, var_r3)) {
+                break;
+            }
+
+            if (!CheckBit(gMultiSioStatusFlags, var_r3)) {
+                if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
+                    TasksDestroyAll();
+                    gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                    MultiPakCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[var_r3] = 0;
+            }
+        }
+    }
+block_18:
+    for (var_r6 = 0; var_r6 < 4; var_r6++) {
+        if (!GetBit(gMultiplayerConnections, var_r6)) {
+            break;
+        }
+        var_sl = 0xE0;
+
+        send_recv = &gMultiSioRecv[var_r6];
+        if ((u32)(u16)(send_recv->pat0.unk0 - 0x40) <= 1U) {
+            if (send_recv->pat0.unk0 != 0x41) {
+                temp_r4_10 = &strc->s3[var_r6]; // TODO: s3 has 4 elements????
+                temp_r4_10->x = (send_recv->pat0.unk2 << 7) + 0x2B;
+                DisplaySprite(temp_r4_10);
+                temp_r4_10 = &strc->s6[1];
+                temp_r4_10->y = gUnknown_080BB484[var_r6];
+                temp_r4_10->x = (send_recv->pat0.unk2 * 0x5E) + 0x4B;
+                if (send_recv->pat0.unk2 == 0) {
+                    temp_r4_10->frameFlags &= 0xFFFFFBFF;
+                    gMultiplayerConnections &= ~(0x10 << var_r6);
+                    asm("");
+                } else {
+                    temp_r4_10->frameFlags |= 0x400;
+                    gMultiplayerConnections |= 0x10 << var_r6;
+                }
+                DisplaySprite(temp_r4_10);
+                spC = 0;
+            } else {
+                temp_r4_10 = &strc->s3[var_r6];
+                DisplaySprite(temp_r4_10);
+                if (temp_r4_10->x == 0x2B) {
+                    sp8[0]++;
+                } else {
+                    sp8[1]++;
+                }
+            }
+        } else {
+            spC = 0;
+        }
+    }
+    temp_r0_2 = (u8)var_r6;
+    if (spC != 0) {
+        if ((sp8[0] == 0) || (sp8[1] == 0)) {
+            strc->unk247 = 0;
+            goto block_39;
+        }
+        TaskDestroy(gCurTask);
+        gFlags &= ~4;
+        if (gGameMode == 3) {
+            CreateCourseSelect(0U);
+            return;
+        }
+        sub_8062F90();
+        return;
+    }
+block_39:
+    sa2__sub_80064A8(0U, 0x74U, 0U, 0x7CU, 8U, 0xF0U);
+    sa2__sub_80064A8(0U, 0x7CU, 8U, 0x74U, 0x10U, 0xF0U);
+
+    // TOOD
+#ifndef NON_MATCHING
+    {
+        register volatile void *dmaSrc asm("r2") = &REG_DMA3SAD;
+        register u8 *offsetsHBlank asm("r4") = gBgOffsetsHBlank;
+        asm("" ::"r"(dmaSrc));
+        asm("" ::"r"(offsetsHBlank));
+        {
+            u32 copySize = gHBlankCopySize;
+            register void *dmaDst asm("r1") = &(offsetsHBlank)[copySize << 4];
+            register s32 v asm("r7") = 0x84000000;
+            asm("" ::"r"(v));
+            for (var_r6 = 0; var_r6 <= 0x80; var_r6 += 0x10) {
+                DmaCopy32(3, gBgOffsetsHBlank, dmaDst, (gHBlankCopySize << 4));
+                dmaDst += copySize;
+            }
+        }
+    }
+#else
+    temp_r1_4 = gHBlankCopySize * 0x10;
+    for (var_r6 = 0x0; var_r6 <= 0x80; var_r6 += 0x10) {
+        DmaCopy32(3, gBgOffsetsHBlank, &((u8 *)gBgOffsetsHBlank)[temp_r1_4], (gHBlankCopySize << 4));
+        temp_r1_4 += gHBlankCopySize * var_r6;
+    }
+#endif
+
+    strc->unk238 = (strc->unk238 + 1) & 0x3FF;
+    temp_r2_2 = (((strc->unk236 * COS_24_8(strc->unk238))) << 8) >> 16;
+    temp_r1_3 = (((strc->unk236 * SIN_24_8(strc->unk238))) << 8) >> 16;
+    strc->unk23E += temp_r2_2;
+    strc->unk240 += temp_r1_3;
+    strc->unk242 -= temp_r2_2;
+    strc->unk244 -= temp_r1_3;
+    gBgScrollRegs[1][0] = (s16)((s32)((u16)strc->unk23E << 0x10) >> 0x18);
+    gBgScrollRegs[1][1] = (s16)((s32)(strc->unk240 << 0x10) >> 0x18);
+    gBgScrollRegs[2][0] = (s16)((s32)(strc->unk242 << 0x10) >> 0x18);
+    gBgScrollRegs[2][1] = (s16)((s32)(strc->unk244 << 0x10) >> 0x18);
+    if (2 & gPressedKeys) {
+        m4aSongNumStart(0x6BU);
+        strc->unk247 = 0;
+    }
+    if ((!(DPAD_SIDEWAYS & gInput) && (A_BUTTON & gPressedKeys)
+         && (((strc->unk246 == 0) && ((temp_r0_2 - 1) != sp8[0])) || ((strc->unk246 == 1) && ((temp_r0_2 - 1) != sp8[1]))))
+        || (strc->unk247 != 0)) {
+        if (strc->unk247 == 0) {
+            m4aSongNumStart(0x6AU);
+        }
+        send_recv = &gMultiSioSend;
+        send_recv->pat0.unk0 = 0x41;
+        send_recv->pat0.unk2 = strc->unk246;
+        strc->unk247 = 1;
+    } else {
+        send_recv = &gMultiSioSend;
+        send_recv->pat0.unk0 = 0x40;
+        send_recv->pat0.unk2 = strc->unk246;
+    }
+
+    for (var_r6 = 0; var_r6 < 4; var_r6++) {
+        if (!GetBit(gMultiplayerConnections, var_r6)) {
+            break;
+        }
+
+        if (SIO_MULTI_CNT->id != var_r6) {
+            send_recv = &gMultiSioRecv[var_r6];
+            if (send_recv->pat0.unk0 >= 0x42) {
+                TasksDestroyAll();
+                gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
+                SA2_LABEL(gUnknown_03005390) = 0;
+                gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
+                MultiPakCommunicationError();
+                return;
+            }
+        }
+    }
+
+    temp_r4_10 = &strc->s;
+    temp_r2_5 = &strc->unk230;
+    temp_r3_2 = strc->unk230;
+    temp_r1_4 = temp_r3_2 + 0x80;
+    strc->unk230 = temp_r1_4;
+    if (temp_r1_4 > Q(164)) {
+        strc->unk230 -= Q(164);
+    }
+
+    var_r5 = I(-strc->unk230);
+    temp_r0_3 = var_r5;
+    temp_r6 = &strc->s2;
+    while (var_r5 < DISPLAY_WIDTH) {
+        temp_r4_10->x = (s16)var_r5;
+        var_r5 += 164;
+        DisplaySprite(temp_r4_10);
+        temp_r0_3 = var_r5;
+    }
+    temp_r4_10 = &strc->s6[2];
+    DisplaySprite(temp_r4_10);
+
+    temp_r4_10 = temp_r6;
+    for (var_r6 = 0; var_r6 < 8; var_r6++) {
+        temp_r4_10->x = var_r6 * 32;
+        DisplaySprite(temp_r4_10);
+    }
+}
+END_NONMATCH
