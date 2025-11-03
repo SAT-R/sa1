@@ -483,7 +483,7 @@ void Task_8062140()
                     PAUSE_BACKGROUNDS_QUEUE();
                     sa2__gUnknown_03005390 = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {
@@ -635,7 +635,7 @@ void Task_8062540()
                     PAUSE_BACKGROUNDS_QUEUE();
                     sa2__gUnknown_03005390 = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {
@@ -791,7 +791,7 @@ void Task_80628A4()
                     PAUSE_BACKGROUNDS_QUEUE();
                     sa2__gUnknown_03005390 = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {

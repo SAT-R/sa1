@@ -158,7 +158,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/unused_lvl_select__Task_CreateMul
                     sa2__gUnknown_03005390 = 0;
                     PAUSE_GRAPHICS_QUEUE();
 
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {

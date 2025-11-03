@@ -154,7 +154,7 @@ void Task_801CB80()
                     gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
                     sa2__gUnknown_03005390 = 0;
                     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {
@@ -287,7 +287,7 @@ void sub_801CF08()
                     gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
                     SA2_LABEL(gUnknown_03005390) = 0;
                     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {

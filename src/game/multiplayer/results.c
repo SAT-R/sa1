@@ -140,7 +140,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results__Task_801874C.inc", void Tas
                     PAUSE_BACKGROUNDS_QUEUE();
                     SA2_LABEL(gUnknown_03005390) = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {

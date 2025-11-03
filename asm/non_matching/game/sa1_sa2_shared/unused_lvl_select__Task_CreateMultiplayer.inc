@@ -51,7 +51,7 @@ _0800E24C:
 	ldr r0, _0800E2B4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0800E334_return
 	.align 2, 0
 _0800E28C: .4byte gCurTask

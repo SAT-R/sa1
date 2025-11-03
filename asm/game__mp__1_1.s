@@ -1597,7 +1597,7 @@ _0803B598:
 	ldr r0, _0803B5FC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0803B790
 	.align 2, 0
 _0803B5D8: .4byte gGameMode
@@ -1860,7 +1860,7 @@ _0803B7CC:
 	ldr r0, _0803B830 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0803B936
 	.align 2, 0
 _0803B80C: .4byte gGameMode
@@ -2066,7 +2066,7 @@ _0803B964:
 	ldr r0, _0803B9C8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0803BACE
 	.align 2, 0
 _0803B9A4: .4byte gGameMode
@@ -2259,7 +2259,7 @@ _0803BAF4:
 	ldr r0, _0803BB58 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0803BC5A
 	.align 2, 0
 _0803BB34: .4byte gGameMode

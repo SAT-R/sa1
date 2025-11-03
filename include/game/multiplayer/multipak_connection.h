@@ -10,11 +10,7 @@ extern u8 gMultiplayerConnections;
 extern u8 gMultiplayerUnlockedLevels;
 
 void StartMultiPakConnect(void);
-#if (GAME == GAME_SA1)
-void MultiPakCommunicationError(void);
-#else
-void MultiPakCommunicationError(void);
-#endif
+void LinkCommunicationError(void);
 
 // TOOD: MultiSioHeartBeat
 #define MultiPakHeartbeat()                                                                                                                \
@@ -28,7 +24,7 @@ void MultiPakCommunicationError(void);
                         PAUSE_BACKGROUNDS_QUEUE();                                                                                         \
                         gUnknown_03005390 = 0;                                                                                             \
                         PAUSE_GRAPHICS_QUEUE();                                                                                            \
-                        MultiPakCommunicationError();                                                                                      \
+                        LinkCommunicationError();                                                                                          \
                         return;                                                                                                            \
                     }                                                                                                                      \
                 } else {                                                                                                                   \

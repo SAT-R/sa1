@@ -1213,7 +1213,7 @@ _0800EE82:
 	ldr r0, _0800EEA4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0800F032
 	.align 2, 0
 _0800EE90: .4byte 0x0000FFFF
@@ -1587,7 +1587,7 @@ _0800F1A2:
 	ldr r0, _0800F1D8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0800F2FA
 	.align 2, 0
 _0800F1C0: .4byte 0x00000219
@@ -2019,7 +2019,7 @@ sub_800F318: @ 0x0800F318
 	ldr r0, _0800F5EC @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 _0800F538:
 	pop {r3, r4, r5}
 	mov r8, r3
@@ -2346,7 +2346,7 @@ _0800F808:
 	ands r0, r1
 	str r0, [r2]
 	bl m4aSoundVSyncOn
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0800F986
 	.align 2, 0
 _0800F840: .4byte gMultiBootParam
@@ -2620,7 +2620,7 @@ _0800FA34:
 	ands r1, r0
 	str r1, [r2]
 	bl m4aSoundVSyncOn
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0800FBD8
 	.align 2, 0
 _0800FA98: .4byte gCurTask

@@ -510,7 +510,7 @@ _08019B0E:
 	ldr r0, _08019B30 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _08019BEA
 	.align 2, 0
 _08019B1C: .4byte 0x0000FFFF

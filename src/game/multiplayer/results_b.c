@@ -254,7 +254,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void T
                     PAUSE_BACKGROUNDS_QUEUE();
                     SA2_LABEL(gUnknown_03005390) = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {
@@ -321,7 +321,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void T
         PAUSE_BACKGROUNDS_QUEUE();
         SA2_LABEL(gUnknown_03005390) = 0;
         PAUSE_GRAPHICS_QUEUE();
-        MultiPakCommunicationError();
+        LinkCommunicationError();
         return;
     }
 
@@ -626,7 +626,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_80196FC.inc", void T
                     gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
                     SA2_LABEL(gUnknown_03005390) = 0;
                     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {
@@ -761,7 +761,7 @@ block_39:
                 gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
                 SA2_LABEL(gUnknown_03005390) = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
-                MultiPakCommunicationError();
+                LinkCommunicationError();
                 return;
             }
         }

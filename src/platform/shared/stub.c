@@ -18,7 +18,7 @@ void CreateMultiplayerSinglePakResultsScreen() { }
 void CreateMultiplayerModeSelectScreen() { }
 
 void CreateMultiplayerResultsScreen() { }
-void MultiPakCommunicationError() { }
+void LinkCommunicationError() { }
 void ShowSinglePakResults() { }
 void CreateMultiplayerMultiPakUI() { }
 void CreateSpecialStage() { }

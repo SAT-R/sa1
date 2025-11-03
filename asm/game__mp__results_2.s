@@ -7,8 +7,8 @@
 
 @ Module exists in some form in SA2!
 
-	thumb_func_start MultiPakCommunicationError
-MultiPakCommunicationError: @ 0x0801A728
+	thumb_func_start LinkCommunicationError
+LinkCommunicationError: @ 0x0801A728
 	push {lr}
 	bl m4aMPlayAllStop
 	ldr r2, _0801A774 @ =gFlags
@@ -536,7 +536,7 @@ _0801AB72:
 	ldr r0, _0801ABD8 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0801AE7A
 	.align 2, 0
 _0801ABB0: .4byte gDispCnt
@@ -1334,7 +1334,7 @@ _0801B1DC:
 	ldr r0, _0801B23C @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0801B4EE
 	.align 2, 0
 _0801B218: .4byte gGameMode

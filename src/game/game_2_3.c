@@ -284,7 +284,7 @@ void Task_80632B4()
                     PAUSE_BACKGROUNDS_QUEUE();
                     SA2_LABEL(gUnknown_03005390) = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {
@@ -368,7 +368,7 @@ void Task_80634EC(void)
                     PAUSE_BACKGROUNDS_QUEUE();
                     SA2_LABEL(gUnknown_03005390) = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {
@@ -427,7 +427,7 @@ NONMATCH("asm/non_matching/game/game2_3__Task_8063638.inc", void Task_8063638())
                     PAUSE_BACKGROUNDS_QUEUE();
                     SA2_LABEL(gUnknown_03005390) = 0;
                     PAUSE_GRAPHICS_QUEUE();
-                    MultiPakCommunicationError();
+                    LinkCommunicationError();
                     return;
                 }
             } else {

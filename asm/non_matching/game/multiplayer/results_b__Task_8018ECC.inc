@@ -237,7 +237,7 @@ _080190AC:
 	ldr r0, _080190D0 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _0801933A
 	.align 2, 0
 _080190BC: .4byte 0x0000FFFF

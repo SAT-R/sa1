@@ -56,7 +56,7 @@ _0806366E:
 	ldr r0, _080636D4 @ =gVramGraphicsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	bl MultiPakCommunicationError
+	bl LinkCommunicationError
 	b _08063818
 	.align 2, 0
 _080636AC: .4byte gCurTask
