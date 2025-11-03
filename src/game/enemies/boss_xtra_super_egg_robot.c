@@ -29,6 +29,8 @@ void sub_80523F8(SuperEggRobo *boss);
 void sub_8052424(SuperEggRobo *boss);
 void sub_8052468(SuperEggRobo *boss);
 
+ExtraBossTaskData gExtraBossTaskData = { 0 };
+
 const u8 gUnknown_084AE560[] = { 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0 };
 
 SomeTaskManager_7C *sub_8052474(SomeTaskManager_7C *strc, s32 param1, s32 param2, s32 param3);

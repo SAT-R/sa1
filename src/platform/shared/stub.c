@@ -13,17 +13,7 @@ void *iwram_end = 0;
 char gNumMusicPlayers = 4;
 int gMaxLines = 0;
 
-// TEMP
-#include "game/enemies/boss_xtra_super_egg_robo.h"
-ExtraBossTaskData gExtraBossTaskData = { 0 };
-
 void CreateMultiplayerSinglePakResultsScreen() { }
-
-// Player
-s32 gUnknown_03005C74 = 0;
-
-void sub_8018AE0() { }
-void sub_802E290(void) { }
 
 void CreateMultiplayerModeSelectScreen() { }
 

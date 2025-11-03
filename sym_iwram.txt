@@ -46,12 +46,12 @@ src/game/special_stage/temporary_sound_play_task.o(.data);
 . = 0x00005840; gUnknown_03005840 = .;
 . = 0x00005860;
 src/game/enemies/boss_6_egg_snake.o(COMMON);
-. = 0x00005870; gUnknown_03005870 = .;
 . = 0x00005890; gUnknown_03005890 = .;
 . = 0x000058A8; gUnknown_030058A8 = .;
 . = 0x000058B4; gUnknown_030058B4 = .;
 . = 0x000058B8; gUnknown_030058B8 = .;
-. = 0x000058BC; gDummyTask = .;
+. = 0x000058BC;
+src/game/dummy_task.o(.data);
 
 . = 0x000058C0;
 src/game/stage/stage.o(.data);
@@ -74,17 +74,13 @@ src/game/water_effects.o(.data);
 src/input_recorder.o(.data);
 src/game/stage/player_controls.o(.data);
 src/game/some_task_manager.o(.data);
-
-. = 0x000061F0; gExtraBossTaskData = .;
+src/game/enemies/boss_xtra_super_egg_robot.o(.data);
 
 . = 0x00006240; 
 src/game/stage/ui_rendering.o(.data);
 
 . = 0x00006408;
 src/lib/agb_flash/agb_flash.o(.data);
-
-/* TODO: Remove this after inserting library .o files */
-. = 0x0000642C;
 
 iwram_end = .;
 
