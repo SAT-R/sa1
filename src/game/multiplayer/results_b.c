@@ -18,7 +18,7 @@ typedef struct MPResultsB {
     /* 0x80 */ Sprite s;
     /* 0xB0 */ Sprite s2;
     /* 0xE0 */ Sprite s3[3];
-    /* 0x170 */ u8 filler170[0x90];
+    /* 0xE0 */ Sprite s6[3];
     /* 0x200 */ Sprite spr200;
     /* 0x230 */ s32 unk230;
     /* 0x234 */ u16 unk234;
@@ -35,7 +35,8 @@ typedef struct MPResultsB {
 } MPResultsB; /* 0x248 */
 
 void Task_8018ECC(void);
-void sub_8019348(void);
+void Task_8019348(void);
+void sub_80196FC(void);
 
 extern void sub_8062F90(void);
 
@@ -264,7 +265,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void T
     recvData = gMultiSioRecv->pat0.unk0;
     if (recvData == 0x34) {
         if (strc->unk246 != gMultiSioRecv->pat0.unk2) {
-            m4aSongNumStart(0x6CU);
+            m4aSongNumStart(SE_MENU_CURSOR_MOVE);
             if (!(gMultiSioStatusFlags & 0x80)) {
                 strc->unk246 = gMultiSioRecv->pat0.unk2;
             }
@@ -287,17 +288,17 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void T
         }
         if (var_r3_2 != 0) {
             if (strc->unk246 != gMultiSioRecv->pat0.unk2) {
-                m4aSongNumStart(0x6CU);
+                m4aSongNumStart(SE_MENU_CURSOR_MOVE);
                 strc->unk246 = gMultiSioRecv->pat0.unk2;
             }
-            m4aSongNumStart(0x6AU);
+            m4aSongNumStart(SE_SELECT);
             if (strc->unk246 == 0) {
                 if (gGameMode == 2) {
                     gGameMode = 3;
                 } else {
                     gGameMode = 5;
                 }
-                gCurTask->main = sub_8019348;
+                gCurTask->main = Task_8019348;
                 return;
             }
             var_r0_2 = gGameMode;
@@ -402,3 +403,168 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void T
     }
 }
 END_NONMATCH
+
+void Task_8019348(void)
+{
+    Sprite *s;
+    u8 *vram = (u8 *)OBJ_VRAM0;
+
+    MPResultsB *strc = TASK_DATA(gCurTask);
+
+    strc->unk246 = 1 & SIO_MULTI_CNT->id;
+    strc->unk247 = 0;
+    s = &strc->s;
+    s->x = 0;
+    s->y = 25;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x3C0;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x37E;
+    strc->s.variant = 3;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    strc->s.prevVariant = 0xFF;
+    strc->s.animSpeed = 0x10;
+    strc->s.palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x400;
+
+    s = &strc->s2;
+    s->x = 0;
+    s->y = 0xE;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x400;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x35C;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x180;
+
+    s = &strc->s3[0];
+    s->x = 0x2B;
+    s->y = 0x3D;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x400;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x37E;
+    s->variant = 5;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x100;
+
+    s = &strc->s3[1];
+    s->x = 0x2B;
+    s->y = 0x55;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x400;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x37E;
+    s->variant = 6;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x100;
+
+    s = &strc->s3[2];
+    s->x = 43;
+    s->y = 109;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x400;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x37E;
+    s->variant = 7;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x100;
+
+    s = &strc->s6[0];
+    s->x = 0x2B;
+    s->y = 0x85;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x400;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x37E;
+    s->variant = 8;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x100;
+
+    s = &strc->s6[1];
+    s->x = 0x4B;
+    s->y = 0x35;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x400;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x359;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+    vram += 0x80;
+
+    s = &strc->s6[2];
+    s->x = 0x67;
+    s->y = 0x61;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x400;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x37E;
+    s->variant = 4;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0;
+    UpdateSpriteAnimation(s);
+
+    gRepeatedKeys = 0;
+    gPressedKeys = 0;
+    gInput = 0;
+
+    gBgCntRegs[2] = 0x1F05;
+    gBgScrollRegs[2][0] = gBgScrollRegs[1][0];
+    gBgScrollRegs[2][1] = gBgScrollRegs[1][1];
+    strc->unk23E = gBgScrollRegs[1][0];
+    strc->unk240 = gBgScrollRegs[1][1];
+    strc->unk242 = gBgScrollRegs[1][0];
+    strc->unk244 = gBgScrollRegs[1][1];
+
+    gDispCnt |= 0x2400;
+    gWinRegs[4] = 0x3D;
+    gWinRegs[5] = 0x3B;
+    gBldRegs.bldCnt = 0x3F46;
+
+    gCurTask->main = sub_80196FC;
+    sub_80196FC();
+}

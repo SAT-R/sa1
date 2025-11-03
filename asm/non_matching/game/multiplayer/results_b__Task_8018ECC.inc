@@ -189,12 +189,12 @@ _0801904A:
 	strb r0, [r1]
 	ldr r0, _08019058 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0801905C @ =sub_8019348
+	ldr r0, _0801905C @ =Task_8019348
 	str r0, [r1, #8]
 	b _0801933A
 	.align 2, 0
 _08019058: .4byte gCurTask
-_0801905C: .4byte sub_8019348
+_0801905C: .4byte Task_8019348
 _08019060:
 	ldr r1, _08019084 @ =gGameMode
 	ldrb r0, [r1]
