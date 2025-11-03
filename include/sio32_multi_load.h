@@ -6,11 +6,7 @@
 // Optimize the following settings based on the software
 // specifications
 
-#if (GAME == GAME_SA1)
-#define SIO32ML_BLOCK_SIZE 0x2000
-#elif (GAME == GAME_SA2)
 #define SIO32ML_BLOCK_SIZE 0x8000
-#endif
 
 // Update if maximum delay for communication interrupt is larger than
 // following.
