@@ -6,6 +6,7 @@
 #include "sio32_multi_load.h" // for SIO32ML_BLOCK_SIZE
 #include "lib/m4a/m4a.h"
 #include "data/sprite_tables.h"
+#include "game/multiboot/connection.h"
 #include "game/multiplayer/communication_outcome.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
@@ -543,10 +544,191 @@ void SA2_LABEL(Task_8082630)(void)
 
     if (resultsScreen->unk430 > 0x1000) {
         resultsScreen->unk430 = 0x1000;
-        // irrelevant
         gBldRegs.bldY = 0x10;
         gCurTask->main = SA2_LABEL(sub_808267C);
     }
 
-    gBldRegs.bldY = resultsScreen->unk430 >> 8;
+    gBldRegs.bldY = I(resultsScreen->unk430);
+}
+
+void SA2_LABEL(sub_808267C)(void)
+{
+    union MultiSioData *packet;
+    struct MultiplayerSinglePakResultsScreen *resultsScreen = TASK_DATA(gCurTask);
+
+    packet = &gMultiSioRecv[0];
+
+    if (packet->pat3.unk0 == COMM_DATA(0x80)) {
+        u32 i;
+        gMultiplayerPseudoRandom = packet->pat3.unk8;
+
+        for (i = 0; i < 4; i++) {
+            gMultiplayerCharacters[i] = 0;
+            SA2_LABEL(gUnknown_030054B4)[i] = i;
+        }
+
+        gFlags &= ~4;
+        if (resultsScreen->unk434) {
+            TaskDestroy(gCurTask);
+            CreateMultiplayerSinglePakResultsScreen(0);
+        } else {
+            TaskDestroy(gCurTask);
+            gBldRegs.bldCnt = 0;
+            gBldRegs.bldY = 0;
+            SA2_LABEL(sub_8081200)();
+#if (GAME == GAME_SA2)
+            GameStageStart();
+#endif
+        }
+        return;
+    }
+
+    SA2_LABEL(sub_8082788)();
+    packet = &gMultiSioSend;
+    packet->pat0.unk0 = COMM_DATA(0x51);
+    packet->pat0.unk2 = 0;
+
+    if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) {
+        u8 i;
+        for (i = 0; i < 4; i++) {
+            if (GetBit(gMultiplayerConnections, i)) {
+                packet = &gMultiSioRecv[i];
+                if (packet->pat0.unk0 != COMM_DATA(0x51)) {
+                    return;
+                }
+            }
+        }
+        packet = &gMultiSioSend;
+        packet->pat3.unk0 = COMM_DATA(0x80);
+        packet->pat3.unk8 = resultsScreen->unk43C;
+    }
+}
+
+#if (GAME == GAME_SA1)
+NONMATCH("asm/non_matching/game/multiplayer/results_2__sa2__sub_8082788.inc", void SA2_LABEL(sub_8082788)(void))
+#else
+void SA2_LABEL(sub_8082788)(void)
+#endif
+{
+    u32 i;
+
+    Sprite *s;
+    struct MultiplayerSinglePakResultsScreen *resultsScreen;
+
+    MultiPakHeartbeat();
+    resultsScreen = TASK_DATA(gCurTask);
+
+    for (i = 0; i < 4; i++) {
+        if (!(gMultiSioStatusFlags & MULTI_SIO_RECV_ID(i + 8))) {
+#if (GAME == GAME_SA1) && !defined(NON_MATCHING)
+            u32 unk = SA2_LABEL(gUnknown_030054B4)[i] & 0x1;
+            asm("" ::"r"(unk));
+#endif
+            SA2_LABEL(sub_80078D4)(3, i * 40, (i + 1) * 40, 0, DISPLAY_HEIGHT - i * 40);
+        } else {
+            union MultiSioData *send_recv;
+            SA2_LABEL(sub_80078D4)
+            (3, SA2_LABEL(gUnknown_030054B4)[i] * 40, (SA2_LABEL(gUnknown_030054B4)[i] + 1) * 40, 0,
+             i * 40 - SA2_LABEL(gUnknown_030054B4)[i] * 40);
+#if (GAME == GAME_SA1)
+            send_recv = &gMultiSioRecv[i];
+            if ((i == SIO_MULTI_CNT->id) || send_recv->pat0.unk0 > 15)
+#endif
+            {
+                if (resultsScreen->unk434) {
+                    u16 temp;
+
+                    s = &resultsScreen->unk80[i].unk0;
+                    s->x = (DISPLAY_WIDTH / 2);
+                    s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                    UpdateSpriteAnimation(s);
+                    DisplaySprite(s);
+
+                    s = &resultsScreen->unk370[gMultiplayerCharacters[i]];
+                    s->x = 52;
+                    s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                    DisplaySprite(s);
+
+                    // TODO: Fix type
+                    temp = Base10DigitsToHexNibbles(gMultiplayerCharRings[i]);
+                    s = &resultsScreen->unk160[((temp) >> 8) & 0xF];
+
+#if (GAME == GAME_SA1) && !defined(NON_MATCHING)
+                    {
+                        register s32 r7 asm("r7");
+                        asm("" : "=r"(r7));
+                    }
+#endif
+
+                    if (s != &resultsScreen->unk160[0]) {
+                        s->x = 160;
+                        s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                        DisplaySprite(s);
+                    }
+
+                    s = &resultsScreen->unk160[((temp) >> 4) & 0xF];
+
+                    if (s != &resultsScreen->unk160[0] || (temp > 0xFF)) {
+                        s->x = 171;
+                        s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                        DisplaySprite(s);
+                    }
+
+                    s = &resultsScreen->unk160[(temp)&0xF];
+                    s->x = 182;
+                    s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                    DisplaySprite(s);
+                } else {
+                    u16 temp;
+                    s = &resultsScreen->unk80[i].unk0;
+                    s->x = (DISPLAY_WIDTH / 2);
+                    s->y = i * 40 + 20;
+                    UpdateSpriteAnimation(s);
+                    DisplaySprite(s);
+
+                    if (gMPRingCollectWins[i] > 99) {
+                        temp = 99;
+                    } else {
+                        temp = Base10DigitsToHexNibbles(gMPRingCollectWins[i]);
+                    }
+
+                    s = &resultsScreen->unk160[((temp) >> 4)];
+
+                    if (s != &resultsScreen->unk160[0]) {
+                        s->x = 160;
+                        s->y = i * 40 + 20;
+                        DisplaySprite(s);
+                    }
+                    s = &resultsScreen->unk160[temp & 0xF];
+                    s->x = 171;
+                    s->y = i * 40 + 20;
+                    DisplaySprite(s);
+
+                    s = &resultsScreen->unk340;
+                    s->x = 197;
+                    s->y = i * 40 + 20;
+                    DisplaySprite(s);
+                }
+            }
+        }
+    }
+}
+#if (GAME == GAME_SA1)
+END_NONMATCH
+#endif
+
+void SA2_LABEL(sub_8082AA8)(void)
+{
+    struct MultiplayerSinglePakResultsScreen *resultsScreen = TASK_DATA(gCurTask);
+
+    SA2_LABEL(sub_8082788)();
+    if (resultsScreen->unk430++ > 0x1E) {
+        resultsScreen->unk430 = 0;
+        m4aMPlayFadeOut(&gMPlayInfo_BGM, 8);
+        m4aMPlayFadeOut(&gMPlayInfo_SE1, 8);
+        m4aMPlayFadeOut(&gMPlayInfo_SE2, 8);
+        m4aMPlayFadeOut(&gMPlayInfo_SE3, 8);
+        gBldRegs.bldCnt = 0xFF;
+        gCurTask->main = SA2_LABEL(Task_8082630);
+    }
 }

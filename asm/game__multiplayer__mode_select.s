@@ -2887,8 +2887,8 @@ _0800FCF0: .4byte gMultiSioStatusFlags
 _0800FCF4: .4byte gUnknown_080BB3F8
 _0800FCF8: .4byte sub_8010020
 
-	thumb_func_start sub_800FCFC
-sub_800FCFC: @ 0x0800FCFC
+	thumb_func_start sa2__sub_8081200
+sa2__sub_8081200: @ 0x0800FCFC
 	push {lr}
 	ldr r3, _0800FD64 @ =gGameMode
 	movs r2, #6

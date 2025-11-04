@@ -3,7 +3,7 @@
 
 #include "global.h"
 
-void sub_8081200(void);
+void SA2_LABEL(sub_8081200)(void);
 void StartSinglePakConnect(void);
 void ShowSinglePakResults(void);
 
