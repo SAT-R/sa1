@@ -16,9 +16,21 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 #include "constants/text.h"
+#include "constants/tilemaps.h"
+#include "constants/zones.h"
 
 extern u8 gUnknown_087D7E80[0x3400];
 extern u8 gUnknown_087E3610[0x2000];
+
+#if (GAME == GAME_SA1)
+#define COMM_DATA(val) (val)
+#define MP_LANGUAGE    LOADED_SAVE->uiLanguage
+#define UNK_GFX_SIZE   0x1C0
+#elif (GAME == GAME_SA2)
+#define COMM_DATA(val) ((val) | 0x4000)
+#define MP_LANGUAGE    gMultiplayerLanguage
+#define UNK_GFX_SIZE   0x180
+#endif
 
 // TODO: Is this a "Sprite2" (Sprite with 2 hitboxes)?
 typedef struct MultiplayerSinglePakResultsScreen_UNK80 {
@@ -44,6 +56,11 @@ typedef struct MultiplayerSinglePakResultsScreen {
 
 void SA2_LABEL(Task_808207C)(void);
 void SA2_LABEL(sub_80823FC)(void);
+void SA2_LABEL(Task_8082630)(void);
+void SA2_LABEL(sub_808267C)(void);
+void SA2_LABEL(sub_8082788)(void);
+void SA2_LABEL(sub_8082AA8)(void);
+void LinkCommunicationError(void);
 
 void LinkCommunicationError(void)
 {
@@ -87,13 +104,13 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__CreateMultiplayerSinglePa
     gMultiSioEnabled = 1;
     gFlags &= 0xFFFFBFFF;
     m4aSoundVSyncOn();
-    gGameMode = 6;
-    gFlags &= 0xFFFF7FFF;
+    gGameMode = GAME_MODE_MULTI_PLAYER_COLLECT_RINGS;
+    gFlags &= ~0x8000;
     CpuFastSet(&gUnknown_087E3610, (void *)BG_VRAM, sizeof(gUnknown_087E3610));
     CpuFastSet(&gUnknown_087D7E80, (void *)EWRAM_START + 0x33000, sizeof(gUnknown_087D7E80));
     gTilemapsRef = *((Tilemap ***)(EWRAM_START + 0x33000));
 
-    gDispCnt = 0x40;
+    gDispCnt = DISPCNT_OBJ_1D_MAP;
     gBgCntRegs[3] = 0x5E0B;
     gBgCntRegs[2] = 0x1C0C;
     SA2_LABEL(gUnknown_03004D80)[2] = 0x7F;
@@ -173,11 +190,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__CreateMultiplayerSinglePa
     if (resultsScreen->unk434 != 0) {
         for (i = 0; i < 3; i++) {
             s = &resultsScreen->unk370[i];
-#if (GAME == GAME_SA1)
-            s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * 0x1C0));
-#elif (GAME == GAME_SA2)
-            s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * 0x180));
-#endif
+            s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * UNK_GFX_SIZE));
             s->x = 0;
             s->y = 0;
             s->oamFlags = SPRITE_OAM_ORDER(4);
@@ -231,20 +244,13 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
     gMultiplayerConnections = ((gMultiSioStatusFlags & MULTI_SIO_ALL_CONNECTED) >> 8);
     MultiPakHeartbeat();
 
-#if (GAME == GAME_SA1)
-    gMultiSioSend.pat0.unk0 = 0x10;
-#elif (GAME == GAME_SA2)
-    gMultiSioSend.pat0.unk0 = 0x4010;
-#endif
+    gMultiSioSend.pat0.unk0 = COMM_DATA(0x10);
+
     if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) {
-#if (GAME == GAME_SA1)
-        gMultiSioSend.pat0.unk3 = LOADED_SAVE->uiLanguage;
-#elif (GAME == GAME_SA2)
-        gMultiSioSend.pat0.unk3 = gMultiplayerLanguage;
-#endif
+        gMultiSioSend.pat0.unk3 = MP_LANGUAGE;
     }
 #if COLLECT_RINGS_ROM
-    else if (gMultiSioRecv->pat0.unk0 == 0x4010) {
+    else if (gMultiSioRecv->pat0.unk0 == COMM_DATA(0x10)) {
         gMultiplayerLanguage = gMultiSioRecv->pat0.unk3;
     }
 #endif
@@ -266,12 +272,7 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
             for (i = 0; i < 3; i++) {
                 s32 temp;
                 s = &resultsScreen->unk370[i];
-#if (GAME == GAME_SA1)
-                s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * 0x1C0));
-#elif (GAME == GAME_SA2)
-                s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * 0x180));
-#endif
-
+                s->graphics.dest = (void *)(OBJ_VRAM0 + 0x2500 + (i * UNK_GFX_SIZE));
                 s->x = 0;
                 s->y = 0;
                 s->oamFlags = SPRITE_OAM_ORDER(4);
@@ -283,7 +284,6 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
                 do
 #endif
                 {
-
 #if (GAME == GAME_SA2)
                     s16 var = SA2_ANIM_MP_SINGLE_PAK_RESULTS_ROUND;
                     asm("" ::"r"(var));
@@ -296,7 +296,7 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
 #endif
 
 #if (GAME == GAME_SA1)
-                switch (LOADED_SAVE->uiLanguage) {
+                switch (MP_LANGUAGE) {
                     case UILANG_JAPANESE:
                         s->graphics.anim = SA1_ANIM_MP_SINGLE_PAK_RESULTS_CUMULATIVE;
                         break;
@@ -307,7 +307,7 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
                         break;
                 }
 #elif (GAME == GAME_SA2)
-                switch (gMultiplayerLanguage) {
+                switch (MP_LANGUAGE) {
 #ifdef JAPAN
                     case LANG_DEFAULT:
                         s->graphics.anim = SA2_ANIM_MP_SINGLE_PAK_RESULTS_CUMULATIVE;
@@ -341,25 +341,17 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
             s->x = (DISPLAY_WIDTH / 2);
             s->y = (DISPLAY_HEIGHT / 2);
 
-#if (GAME == GAME_SA1)
             if (resultsScreen->unk434) {
-                s->graphics.dest = resultsScreen->unk370[2].graphics.dest + 0x1C0;
+                s->graphics.dest = resultsScreen->unk370[2].graphics.dest + UNK_GFX_SIZE;
             } else {
-                s->graphics.dest = resultsScreen->unk340.graphics.dest + 0x1C0;
+                s->graphics.dest = resultsScreen->unk340.graphics.dest + UNK_GFX_SIZE;
             }
-#elif (GAME == GAME_SA2)
-            if (resultsScreen->unk434) {
-                s->graphics.dest = resultsScreen->unk370[2].graphics.dest + 0x180;
-            } else {
-                s->graphics.dest = resultsScreen->unk340.graphics.dest + 0x180;
-            }
-#endif
 
             s->oamFlags = SPRITE_OAM_ORDER(0);
             s->graphics.size = 0;
 
 #if (GAME == GAME_SA1)
-            switch (LOADED_SAVE->uiLanguage) {
+            switch (MP_LANGUAGE) {
                 case UILANG_JAPANESE:
                     s->graphics.anim = 893; // SA1_ANIM_PRESS_START_MSG_JP;
                     break;
@@ -368,7 +360,7 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
                     break;
             }
 #elif (GAME == GAME_SA2)
-            switch (gMultiplayerLanguage) {
+            switch (MP_LANGUAGE) {
 #ifdef JAPAN
                 case LANG_DEFAULT:
                     s->graphics.anim = SA2_ANIM_PRESS_START_MSG_JP;
@@ -433,4 +425,128 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
             }
         }
     }
+}
+
+void SA2_LABEL(sub_80823FC)(void)
+{
+    Background *background;
+    u32 i;
+    s32 val2 = 0;
+    u8 val = FALSE;
+    struct MultiplayerSinglePakResultsScreen *resultsScreen = TASK_DATA(gCurTask);
+    union MultiSioData *packet;
+
+    gMultiplayerConnections = ((gMultiSioStatusFlags & MULTI_SIO_ALL_CONNECTED) >> 8);
+    packet = &gMultiSioRecv[0];
+    if (packet->pat0.unk0 == COMM_DATA(0x12)) {
+#if (GAME == GAME_SA1) || COLLECT_RINGS_ROM
+        gSelectedCharacter = 0;
+#else
+        gSelectedCharacter = SIO_MULTI_CNT->id;
+#endif
+        if (!resultsScreen->unk434) {
+            background = &resultsScreen->unk40;
+#if (GAME == GAME_SA2)
+            gBgScrollRegs[2][0] = 0;
+            gBgScrollRegs[2][1] = 0;
+#endif
+            background->graphics.dest = (void *)BG_SCREEN_ADDR(24);
+            background->graphics.anim = 0;
+            background->layoutVram = (void *)BG_SCREEN_ADDR(28);
+            background->unk18 = 0;
+            background->unk1A = 0;
+
+#if (GAME == GAME_SA1)
+            background->tilemapId = TM_LEVEL_BG(LEVEL_INDEX(ZONE_1, ACT_BOSS));
+            background->unk1E = 0;
+            background->unk20 = MP_LANGUAGE * 4;
+#elif (GAME == GAME_SA2)
+            background->tilemapId = TM_LEVEL_METATILES_0(LEVEL_INDEX(ZONE_1, ACT_BOSS));
+
+            switch (gMultiplayerLanguage) {
+                case 0:
+#ifdef JAPAN
+                    background->unk1E = 0;
+                    background->unk20 = 0;
+#else
+                    background->unk1E = 0;
+                    background->unk20 = 4;
+#endif
+                    break;
+                case 1:
+                    background->unk1E = 0;
+                    background->unk20 = 0;
+                    break;
+                case 2:
+                default:
+                    background->unk1E = 0;
+                    background->unk20 = 4;
+                    break;
+            }
+#endif
+            background->unk22 = 6;
+            background->unk24 = 8;
+            background->targetTilesX = 0x12;
+            background->targetTilesY = 4;
+            background->paletteOffset = 0;
+            background->flags = BACKGROUND_FLAGS_BG_ID(2);
+            DrawBackground(background);
+        }
+
+        gDispCnt |= 0x400;
+        resultsScreen->unk430 = 0;
+        if (resultsScreen->unk434) {
+            gBldRegs.bldCnt = 0xFF;
+            gCurTask->main = SA2_LABEL(Task_8082630);
+            SA2_LABEL(Task_8082630)();
+        } else {
+            gCurTask->main = SA2_LABEL(sub_8082AA8);
+            SA2_LABEL(sub_8082AA8)();
+        }
+    } else {
+        SA2_LABEL(sub_8082788)();
+
+#ifndef COLLECT_RINGS_ROM
+        if (gMultiSioStatusFlags & MULTI_SIO_PARENT) {
+            DisplaySprite(&resultsScreen->unk400);
+        }
+#endif
+
+        for (i = 0; i < 4 && GetBit(gMultiplayerConnections, i); i++) {
+            if (!(MULTI_SIO_RECV_ID(i) & gMultiSioStatusFlags)) {
+                val = TRUE;
+            } else {
+                packet = &gMultiSioRecv[i];
+                if (i == SIO_MULTI_CNT->id || packet->pat0.unk0 == COMM_DATA(0x10)) {
+                    val2++;
+                }
+            }
+        }
+        packet = &gMultiSioSend;
+        packet->pat0.unk0 = COMM_DATA(0x10);
+        if (gMultiSioStatusFlags & MULTI_SIO_PARENT) {
+            packet->pat0.unk3 = MP_LANGUAGE;
+        }
+
+        if ((gMultiSioStatusFlags & MULTI_SIO_PARENT && gPressedKeys & START_BUTTON && !val && val2 > 1) || resultsScreen->actor) {
+            resultsScreen->actor = 1;
+            packet->pat0.unk0 = COMM_DATA(0x12);
+        }
+    }
+}
+
+void SA2_LABEL(Task_8082630)(void)
+{
+    struct MultiplayerSinglePakResultsScreen *resultsScreen = TASK_DATA(gCurTask);
+    resultsScreen->unk430 += 0x20;
+    SA2_LABEL(sub_8082788)();
+
+    if (resultsScreen->unk430 > 0x1000) {
+        resultsScreen->unk430 = 0x1000;
+        // irrelevant
+        gBldRegs.bldY = 0x10;
+        gCurTask->main = SA2_LABEL(sub_808267C);
+    }
+
+    gBldRegs.bldY = resultsScreen->unk430 >> 8;
 }

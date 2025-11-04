@@ -224,7 +224,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results__Task_801874C.inc", void Tas
 
     s = &strc->s;
 
-    temp_r7 = gUnknown_080BB48C[gLoadedSaveGame.uiLanguage][strc->unk203];
+    temp_r7 = gUnknown_080BB48C[LOADED_SAVE->uiLanguage][strc->unk203];
     strc->unk1FC += 0x80;
     if (strc->unk1FC > Q(temp_r7)) {
         strc->unk1FC -= Q(temp_r7);
