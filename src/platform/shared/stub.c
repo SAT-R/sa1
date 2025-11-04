@@ -20,7 +20,7 @@ void CreateMultiplayerModeSelectScreen() { }
 void CreateMultiplayerResultsScreen() { }
 void LinkCommunicationError() { }
 void ShowSinglePakResults() { }
-void CreateMultiplayerMultiPakUI() { }
+void CreateChaoHuntHUD() { }
 void CreateSpecialStage() { }
 void CreateSpecialStageIntro() { }
 

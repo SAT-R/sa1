@@ -45,7 +45,7 @@ void StageInit_MPCollectRings(void);
 // TODO: Declare in headers!
 extern struct Task *sub_80550F8(void);
 extern bool32 CreateSpotlightsManager(void); // Spotlight-beam related
-extern void CreateMultiplayerMultiPakUI();
+extern void CreateChaoHuntHUD();
 extern void CreateStageWaterTask(s32 waterLevel, u32 p1, u32 mask);
 extern struct Task *CreateMultiplayerChao(u8, u8);
 extern void SetFaceButtonConfig(bool32);
@@ -181,7 +181,7 @@ void CreateGameStage(void)
     SA2_LABEL(gUnknown_030053E0) = 0;
 
     if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        CreateMultiplayerMultiPakUI();
+        CreateChaoHuntHUD();
     }
 
     if (IS_MULTI_PLAYER) {

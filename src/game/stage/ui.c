@@ -70,7 +70,7 @@ extern const u16 sZoneTimeMinutesTable[];
 void CreateStageUI(void);
 void Task_StageUIMain(void);
 void Task_SpecialStageUIMain(void);
-void CreateMultiplayerMultiPakUI(void);
+void CreateChaoHuntHUD(void);
 
 // (98.15%) https://decomp.me/scratch/LupqY
 NONMATCH("asm/non_matching/game/stage/ui__Task_StageUIMain.inc", void Task_StageUIMain(void))

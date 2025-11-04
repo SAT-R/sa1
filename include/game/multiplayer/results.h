@@ -10,7 +10,7 @@
 void CreateMultiplayerResultsScreen(u8 mode);
 
 #if (GAME == GAME_SA1)
-void CreateMultiplayerMultiPakUI(void);
+void CreateChaoHuntHUD(void);
 #endif
 
 #endif // GUARD_MULTIPLAYER_RESULTS_H

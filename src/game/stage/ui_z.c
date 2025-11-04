@@ -6,6 +6,7 @@
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/mp_player.h"
+#include "game/multiplayer/results.h" // CreateChaoHuntHUD
 #include "game/stage/ui.h"
 #include "game/stage/underwater_effects.h"
 #include "game/water_effects.h"
@@ -550,7 +551,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055458.inc", void Task_8055458(v
         if (IS_SINGLE_PLAYER | (gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_MULTI_PLAYER)) {
             CreateStageUI();
         } else {
-            CreateMultiplayerMultiPakUI();
+            CreateChaoHuntHUD();
         }
 
         if (IS_EXTRA_STAGE(gCurrentLevel)) {

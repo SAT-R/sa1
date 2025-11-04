@@ -104,7 +104,6 @@ void sub_804A5D8(s32 x, s32 y);
 
 void CreateStageUI(void);
 void CreateSpecialStageUI(void);
-void CreateMultiplayerMultiPakUI(void);
 
 // TODO: Maybe param1 is actually (GameOverB *) ?
 void sub_8052E40(u8 *param0, Strc_8052C84 *param1);

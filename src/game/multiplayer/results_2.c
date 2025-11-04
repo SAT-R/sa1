@@ -605,6 +605,7 @@ void SA2_LABEL(sub_808267C)(void)
 }
 
 #if (GAME == GAME_SA1)
+// (99.30%) https://decomp.me/scratch/yvxpr
 NONMATCH("asm/non_matching/game/multiplayer/results_2__sa2__sub_8082788.inc", void SA2_LABEL(sub_8082788)(void))
 #else
 void SA2_LABEL(sub_8082788)(void)
@@ -730,5 +731,92 @@ void SA2_LABEL(sub_8082AA8)(void)
         m4aMPlayFadeOut(&gMPlayInfo_SE3, 8);
         gBldRegs.bldCnt = 0xFF;
         gCurTask->main = SA2_LABEL(Task_8082630);
+    }
+}
+
+/*   *Appears to be* only used by Chao Hunt when actually running the game   */
+
+// TODO: Move this out of here?
+
+#include "malloc_vram.h"
+
+typedef struct ChaoHuntHUD {
+    Sprite s0;
+    Sprite spritesA[11];
+    Sprite spritesB[11];
+} ChaoHuntHUD;
+
+void Task_ChaoHuntHUD(void);
+void TaskDestructor_ChaoHuntHUD(struct Task *t);
+
+void CreateChaoHuntHUD(void)
+{
+    Sprite *s;
+    u32 i;
+
+    ChaoHuntHUD *hud = TASK_DATA(TaskCreate(Task_ChaoHuntHUD, 0x450U, 0x2000U, 0U, TaskDestructor_ChaoHuntHUD));
+
+    s = &hud->s0;
+    s->x = 0;
+    s->y = 8;
+    s->oamFlags = SPRITE_OAM_ORDER(5);
+    s->graphics.size = 0;
+    if (gGameMode == 6) {
+        s->graphics.dest = VramMalloc(12);
+        s->graphics.anim = 714;
+        s->variant = 0;
+    } else {
+        s->graphics.dest = VramMalloc(16);
+        s->graphics.anim = SA1_ANIM_CHAO_HUNT_COUNTER_BACKDROP;
+        s->variant = 0;
+    }
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    s->palId = 0;
+    s->frameFlags = 0x40000;
+    UpdateSpriteAnimation(s);
+
+    for (i = 0; i < 11; i++) {
+        s = &hud->spritesA[i];
+        s->x = 0;
+        s->y = 0;
+        if (i == 0) {
+            s->graphics.dest = VramMalloc(22);
+        } else {
+            s->graphics.dest = hud->spritesA[0].graphics.dest + (i * (2 * TILE_SIZE_4BPP));
+        }
+        s->oamFlags = 0x100;
+        s->graphics.size = 0;
+        s->graphics.anim = 907;
+        s->variant = i;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
+
+        s = &hud->spritesB[i];
+        s->x = 0;
+        s->y = 0;
+        if (i == 0) {
+            s->graphics.dest = VramMalloc(22);
+        } else {
+            s->graphics.dest = hud->spritesB[0].graphics.dest + (i * (2 * TILE_SIZE_4BPP));
+        }
+        s->oamFlags = 0x100;
+        s->graphics.size = 0;
+        s->graphics.anim = 907;
+        s->variant = i + 11;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->frameFlags = 0;
+        UpdateSpriteAnimation(s);
     }
 }

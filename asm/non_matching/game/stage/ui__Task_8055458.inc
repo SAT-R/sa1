@@ -308,7 +308,7 @@ _080556D8: .4byte gCurrentLevel
 _080556DC: .4byte 0x0000FFDF
 _080556E0: .4byte gCurTask
 _080556E4:
-	bl CreateMultiplayerMultiPakUI
+	bl CreateChaoHuntHUD
 _080556E8:
 	ldr r0, _08055704 @ =gCurrentLevel
 	ldrb r0, [r0]
