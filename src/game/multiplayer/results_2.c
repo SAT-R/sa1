@@ -357,7 +357,7 @@ void Task_MultiplayerSinglePakResultsScreenInit(void)
                     s->graphics.anim = 893; // SA1_ANIM_PRESS_START_MSG_JP;
                     break;
                 default:
-                    s->graphics.anim = SA1_ANIM_MP_PRESS_START; // SA1_ANIM_PRESS_START_MSG_EN;
+                    s->graphics.anim = SA1_ANIM_MP_PRESS_START_EN; // SA1_ANIM_PRESS_START_MSG_EN;
                     break;
             }
 #elif (GAME == GAME_SA2)

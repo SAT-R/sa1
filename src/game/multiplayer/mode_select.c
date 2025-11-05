@@ -3,7 +3,9 @@
 #include "lib/m4a/m4a.h"
 #include "game/multiplayer/mode_select.h"
 #include "game/save.h"
+#include "game/title_screen.h"
 
+#include "constants/animations.h"
 #include "constants/songs.h"
 #include "constants/text.h"
 
@@ -12,23 +14,28 @@ typedef struct ModeSelect {
     /* 0x40 */ Sprite s;
     /* 0x40 */ Sprite s2;
     /* 0xA0 */ u8 fillerA0[0x15C];
-    /* 0x200 */ s32 unk1FC;
+    /* 0x200 */ s32 qUnk1FC;
     /* 0x200 */ s16 unk200;
     /* 0x202 */ u8 unk202;
     /* 0x203 */ u8 unk203;
     /* 0x204 */ u8 filler204[0x4];
-    /* 0x200 */ s16 unk208;
+    /* 0x200 */ s16 qUnk208;
     /* 0x200 */ u8 unk20A;
     /* 0x204 */ u8 filler20B[0x11];
 } ModeSelect; /* 0x21C */
 
-extern const AnimId gUnknown_080BB348[UILANG_COUNT];
-
 void Task_MultiplayerModeSelectScreenInit(void);
-void Task_800E868(void);
 void sub_800E798(void);
+void Task_800E868(void);
+void sub_800E934(void);
+void sub_800F318(void);
 
 extern void CreatePlayerNameInputMenu();
+
+const AnimId gUnknown_080BB348[UILANG_COUNT] = { SA1_ANIM_MP_GAME_PAK_MODE_JP, SA1_ANIM_MP_GAME_PAK_MODE_EN };
+const AnimId gUnknown_080BB34C[UILANG_COUNT] = { SA1_ANIM_MP_OUTCOME_MESSAGES_JP, SA1_ANIM_MP_OUTCOME_MESSAGES_EN };
+const AnimId gUnknown_080BB350[UILANG_COUNT] = { SA1_ANIM_MP_PRESS_START_JP, SA1_ANIM_MP_PRESS_START_EN };
+const VoidFn gUnknown_080BB354[UILANG_COUNT] = { sub_800E934, sub_800F318 };
 
 void CreateMultiplayerModeSelectScreen(void)
 {
@@ -47,8 +54,8 @@ void CreateMultiplayerModeSelectScreen(void)
     modeSelect = TASK_DATA(TaskCreate(Task_MultiplayerModeSelectScreenInit, sizeof(ModeSelect), 0x2000U, 0U, NULL));
     modeSelect->unk200 = 0;
     modeSelect->unk203 = 0;
-    modeSelect->unk1FC = 0;
-    modeSelect->unk208 = 0x1000;
+    modeSelect->qUnk1FC = Q(0);
+    modeSelect->qUnk208 = Q(16);
 
     gBldRegs.bldCnt = 0xFF;
     gBldRegs.bldY = 0x10;
@@ -116,14 +123,14 @@ void Task_800E648()
             modeSelect->unk203 = 1;
         }
 
-        modeSelect->unk1FC = 0;
+        modeSelect->qUnk1FC = 0;
     } else if (DPAD_DOWN & gRepeatedKeys) {
         m4aSongNumStart(SE_MENU_CURSOR_MOVE);
 
         if (++modeSelect->unk203 > 1U) {
             modeSelect->unk203 = 0;
         }
-        modeSelect->unk1FC = 0;
+        modeSelect->qUnk1FC = 0;
     }
 
     if (A_BUTTON & gPressedKeys) {
@@ -140,10 +147,79 @@ void Task_800E648()
         modeSelect->unk20A = v;
         gMultiSioEnabled = FALSE;
         MultiSioStop();
-        MultiSioInit(0U);
+        MultiSioInit(0);
         gCurTask->main = Task_800E868;
         m4aSongNumStart(SE_RETURN);
         gBldRegs.bldCnt = 0xFF;
     }
     sub_800E798();
+}
+
+void sub_800E798()
+{
+    Sprite *s;
+    s32 temp_r1;
+    s32 temp_r2;
+    s32 var_r4;
+    u32 var_r4_2;
+
+    ModeSelect *modeSelect = TASK_DATA(gCurTask);
+
+    modeSelect->qUnk1FC += Q(0.5);
+    if (modeSelect->qUnk1FC > Q(200)) {
+        modeSelect->qUnk1FC -= Q(200);
+    }
+
+    s = &modeSelect->s;
+    s->y = (modeSelect->unk203 * 24) + 64;
+    modeSelect->s.variant = modeSelect->unk203;
+    UpdateSpriteAnimation(s);
+    var_r4 = I(modeSelect->qUnk1FC) - 200;
+
+    while ((232 - var_r4) > 0) {
+        s->x = 232 - var_r4;
+        DisplaySprite(s);
+        var_r4 += 200;
+    }
+
+    s = &modeSelect->s2;
+    s->y = (modeSelect->unk203 * 24) + 54;
+    for (var_r4_2 = 0; var_r4_2 < 8; var_r4_2++) {
+        s->x = var_r4_2 * 32;
+        DisplaySprite(s);
+    }
+}
+
+void Task_800E868()
+{
+    ModeSelect *modeSelect = TASK_DATA(gCurTask);
+
+    modeSelect->qUnk208 += Q(0.5);
+    if (modeSelect->qUnk208 >= Q(16)) {
+        modeSelect->qUnk208 = Q(16);
+
+        if (modeSelect->unk20A != 0) {
+            gBldRegs.bldCnt = 0;
+            gBldRegs.bldY = 0;
+            m4aSongNumStop(3U);
+            SA2_LABEL(gUnknown_03004D80)[0] = 0;
+            SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+            SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+            SA2_LABEL(gUnknown_03002280)[0][2] = -1;
+            SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+            TaskDestroy(gCurTask);
+            CreateMainMenu(1);
+        } else {
+            gCurTask->main = gUnknown_080BB354[modeSelect->unk203];
+            SA2_LABEL(gUnknown_03004D80)[0] = 0;
+            SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+            SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+            SA2_LABEL(gUnknown_03002280)[0][2] = -1;
+            SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+            gMultiSioEnabled = 1;
+        }
+    } else {
+        gBldRegs.bldY = I(modeSelect->qUnk208);
+        sub_800E798();
+    }
 }

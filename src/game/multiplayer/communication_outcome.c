@@ -153,7 +153,7 @@ void CreateMultipackOutcomeScreen(u8 outcome)
     s->graphics.dest = (void *)OBJ_VRAM0;
     s->oamFlags = SPRITE_OAM_ORDER(15);
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES;
+    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES_EN;
     s->variant = outcomeScreen->unk203 + 8;
     s->animCursor = 0;
     s->qAnimDelay = 0;

@@ -111,7 +111,7 @@ void sub_8018AE0()
     s->graphics.dest = sp4;
     s->oamFlags = 0x400;
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES;
+    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES_EN;
     s->variant = 2;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -128,7 +128,7 @@ void sub_8018AE0()
     s->graphics.dest = sp4;
     s->oamFlags = 0x400;
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES;
+    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES_EN;
     s->variant = 3;
     s->animCursor = 0;
     s->qAnimDelay = 0;
