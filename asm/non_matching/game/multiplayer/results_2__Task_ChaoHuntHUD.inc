@@ -1,17 +1,8 @@
-.include "asm/macros.inc"
 .include "constants/constants.inc"
 
-.text
 .syntax unified
-.arm
 
-@ Module exists in some form in SA2!
-
-.if 0
-.endif
-
-	thumb_func_start Task_ChaoHuntHUD
-Task_ChaoHuntHUD: @ 0x0801B6F4
+.text
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -466,23 +457,4 @@ _0801BA86:
 _0801BA98: .4byte gMultiplayerConnections
 _0801BA9C: .4byte gGameMode
 
-	thumb_func_start TaskDestructor_ChaoHuntHUD
-TaskDestructor_ChaoHuntHUD: @ 0x0801BAA0
-	push {r4, r5, lr}
-	ldrh r5, [r0, #6]
-	movs r4, #0xc0
-	lsls r4, r4, #0x12
-	adds r4, r5, r4
-	ldr r0, [r4, #4]
-	bl VramFree
-	ldr r0, [r4, #0x34]
-	bl VramFree
-	ldr r0, _0801BAC8 @ =0x03000244
-	adds r5, r5, r0
-	ldr r0, [r5]
-	bl VramFree
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0801BAC8: .4byte 0x03000244
+.syntax divided
