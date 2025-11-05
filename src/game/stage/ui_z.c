@@ -6,7 +6,7 @@
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/mp_player.h"
-#include "game/multiplayer/results.h" // CreateChaoHuntHUD
+#include "game/multiplayer/hud.h" // CreateChaoHuntHUD
 #include "game/stage/ui.h"
 #include "game/stage/underwater_effects.h"
 #include "game/water_effects.h"
