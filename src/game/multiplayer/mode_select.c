@@ -7,35 +7,41 @@
 
 #include "constants/animations.h"
 #include "constants/songs.h"
+#include "constants/tilemaps.h"
 #include "constants/text.h"
 
 typedef struct ModeSelect {
     /* 0x00 */ Background bg;
     /* 0x40 */ Sprite s;
-    /* 0x40 */ Sprite s2;
-    /* 0xA0 */ u8 fillerA0[0x15C];
-    /* 0x200 */ s32 qUnk1FC;
+    /* 0x70 */ Sprite s2;
+    /* 0xA0 */ Sprite s3;
+    /* 0xD0 */ Sprite s4;
+    /* 0x100 */ u8 filler100[0xFC];
+    /* 0x1FC */ s32 qUnk1FC;
     /* 0x200 */ s16 unk200;
     /* 0x202 */ u8 unk202;
     /* 0x203 */ u8 unk203;
-    /* 0x204 */ u8 filler204[0x4];
+    /* 0x204 */ u8 filler204[0x2];
+    /* 0x200 */ u8 unk206;
     /* 0x200 */ s16 qUnk208;
     /* 0x200 */ u8 unk20A;
-    /* 0x204 */ u8 filler20B[0x11];
+    /* 0x204 */ u8 unk20B[2][4];
+    /* 0x214 */ s32 frameCount;
+    /* 0x218 */ u8 unk218;
 } ModeSelect; /* 0x21C */
 
 void Task_MultiplayerModeSelectScreenInit(void);
 void sub_800E798(void);
 void Task_800E868(void);
-void sub_800E934(void);
-void sub_800F318(void);
+void ModeSelect_InitGraphicsEN(void);
+void sub_800EB4C(void);
+void ModeSelect_InitGraphicsJP(void);
 
 extern void CreatePlayerNameInputMenu();
-
 const AnimId gUnknown_080BB348[UILANG_COUNT] = { SA1_ANIM_MP_GAME_PAK_MODE_JP, SA1_ANIM_MP_GAME_PAK_MODE_EN };
 const AnimId gUnknown_080BB34C[UILANG_COUNT] = { SA1_ANIM_MP_OUTCOME_MESSAGES_JP, SA1_ANIM_MP_OUTCOME_MESSAGES_EN };
 const AnimId gUnknown_080BB350[UILANG_COUNT] = { SA1_ANIM_MP_PRESS_START_JP, SA1_ANIM_MP_PRESS_START_EN };
-const VoidFn gUnknown_080BB354[UILANG_COUNT] = { sub_800E934, sub_800F318 };
+const VoidFn gUnknown_080BB354[UILANG_COUNT] = { ModeSelect_InitGraphicsEN, ModeSelect_InitGraphicsJP };
 
 void CreateMultiplayerModeSelectScreen(void)
 {
@@ -222,4 +228,113 @@ void Task_800E868()
         gBldRegs.bldY = I(modeSelect->qUnk208);
         sub_800E798();
     }
+}
+
+void ModeSelect_InitGraphicsEN()
+{
+    Background *bg;
+    Sprite *s;
+    s32 i;
+    ModeSelect *modeSelect;
+    u8 *vram = OBJ_VRAM0;
+
+    m4aSongNumStart(MUS_VS_PLEASE_WAIT);
+    modeSelect = TASK_DATA(gCurTask);
+    modeSelect->frameCount = (s32)(LOADED_SAVE->unk4 + gFrameCount);
+
+    for (i = 0; i < 4; i++) {
+        modeSelect->unk20B[0][i] = 0;
+        modeSelect->unk20B[1][i] = 0;
+    }
+    s = &modeSelect->s;
+    s->x = 120;
+    s->y = 33;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x3C0;
+    s->graphics.size = 0;
+    s->graphics.anim = gUnknown_080BB34C[LOADED_SAVE->uiLanguage];
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+    vram += 0x540;
+
+    s = &modeSelect->s2;
+    s->x = 101;
+    s->y = 41;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x3C0;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x378;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+    vram += 0x460;
+
+    s = &modeSelect->s3;
+    s->x = 120;
+    s->y = 109;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x3C0;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES_EN;
+    s->variant = 4;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+    vram += 0x80;
+
+    s = &modeSelect->s4;
+    s->x = 120;
+    s->y = 125;
+    s->graphics.dest = vram;
+    s->oamFlags = SPRITE_OAM_ORDER(15);
+    s->graphics.size = 0;
+    s->graphics.anim = gUnknown_080BB350[LOADED_SAVE->uiLanguage];
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+
+    bg = &modeSelect->bg;
+    bg->graphics.dest = (void *)BG_VRAM;
+    bg->graphics.anim = 0;
+    bg->layoutVram = (u16 *)(BG_VRAM + 0xF000);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = TM_MP_CONTINUE_SCREEN;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 0x1E;
+    bg->targetTilesY = 0x14;
+    bg->paletteOffset = 0;
+    bg->flags = 0;
+    DrawBackground(bg);
+
+    if ((gMultiSioStatusFlags & MULTI_SIO_TYPE) == MULTI_SIO_PARENT) {
+        MultiSioStart();
+    }
+
+    modeSelect->unk206 = 0;
+    modeSelect->unk218 = 0;
+    gCurTask->main = sub_800EB4C;
 }

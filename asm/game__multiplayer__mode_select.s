@@ -5,9 +5,9 @@
 .syntax unified
 .arm
 
-.if 01
-	thumb_func_start sub_800E934
-sub_800E934: @ 0x0800E934
+.if 0
+	thumb_func_start ModeSelect_InitGraphicsEN
+ModeSelect_InitGraphicsEN: @ 0x0800E934
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
@@ -1206,8 +1206,8 @@ _0800F30C: .4byte gLoadedSaveGame
 _0800F310: .4byte 0x040000D4
 _0800F314: .4byte 0x84000002
 
-	thumb_func_start sub_800F318
-sub_800F318: @ 0x0800F318
+	thumb_func_start ModeSelect_InitGraphicsJP
+ModeSelect_InitGraphicsJP: @ 0x0800F318
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, sb
