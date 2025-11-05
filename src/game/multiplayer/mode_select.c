@@ -18,12 +18,15 @@ typedef struct ModeSelect {
     /* 0x203 */ u8 unk203;
     /* 0x204 */ u8 filler204[0x4];
     /* 0x200 */ s16 unk208;
-    /* 0x204 */ u8 filler20A[0x12];
+    /* 0x200 */ u8 unk20A;
+    /* 0x204 */ u8 filler20B[0x11];
 } ModeSelect; /* 0x21C */
 
 extern const AnimId gUnknown_080BB348[UILANG_COUNT];
 
 void Task_MultiplayerModeSelectScreenInit(void);
+void Task_800E868(void);
+void sub_800E798(void);
 
 extern void CreatePlayerNameInputMenu();
 
@@ -100,4 +103,47 @@ void CreateMultiplayerModeSelectScreen(void)
     DrawBackground(bg);
 
     m4aSongNumStartOrChange(MUS_CHARACTER_SELECTION);
+}
+
+void Task_800E648()
+{
+    ModeSelect *modeSelect = TASK_DATA(gCurTask);
+
+    if (DPAD_UP & gRepeatedKeys) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+        if (--modeSelect->unk203 > 1) {
+            modeSelect->unk203 = 1;
+        }
+
+        modeSelect->unk1FC = 0;
+    } else if (DPAD_DOWN & gRepeatedKeys) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+
+        if (++modeSelect->unk203 > 1U) {
+            modeSelect->unk203 = 0;
+        }
+        modeSelect->unk1FC = 0;
+    }
+
+    if (A_BUTTON & gPressedKeys) {
+        modeSelect->unk20A = 0;
+        m4aSongNumStart(SE_SELECT);
+
+        DmaFill32(3, 0, &gMultiSioSend, sizeof(gMultiSioSend));
+        DmaFill32(3, 0, &gMultiSioRecv, sizeof(gMultiSioRecv));
+
+        gBldRegs.bldCnt = 0xFF;
+        gCurTask->main = Task_800E868;
+    } else if (B_BUTTON & gPressedKeys) {
+        s32 v = 1;
+        modeSelect->unk20A = v;
+        gMultiSioEnabled = FALSE;
+        MultiSioStop();
+        MultiSioInit(0U);
+        gCurTask->main = Task_800E868;
+        m4aSongNumStart(SE_RETURN);
+        gBldRegs.bldCnt = 0xFF;
+    }
+    sub_800E798();
 }
