@@ -303,7 +303,7 @@ _0803ABBC:
 _0803ABC8:
 	cmp r0, #2
 	bne _0803ABD0
-	bl sub_803B534
+	bl _803B534
 _0803ABD0:
 	bl _0803B55E
 _0803ABD4:
@@ -1511,9 +1511,7 @@ _0803B518:
 	.align 2, 0
 _0803B52C: .4byte gLoadedSaveGame
 _0803B530: .4byte 0x00000427
-
-	thumb_func_start sub_803B534
-sub_803B534: @ 0x0803B534
+_803B534: @ 0x0803B534
 	movs r4, #0
 	mov r2, ip
 	adds r2, #0x54
