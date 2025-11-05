@@ -54,6 +54,7 @@ SECTIONS {
         src/game/multiplayer/finish.o(.text);
         src/game/sa1_sa2_shared/pause_menu.o(.text);
         src/game/multiplayer/results_2.o(.text);
+        src/game/multiplayer/hud.o(.text);
         src/game/mystery_itembox.o(.text);
         src/game/multiplayer/unk_0.o(.text);
         src/game/multiplayer/unk_1.o(.text);
