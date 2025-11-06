@@ -48,9 +48,7 @@ typedef struct SaveGame {
     /* 0x000 */ u32 security; // Save Sector Magic Number
     /* 0x004 */ s32 unk4;
     /* 0x008 */ u16 unlockedLevels[NUM_CHARACTERS];
-    /* 0x010 */ PlayerNameChar playerName[MAX_PLAYER_NAME_LENGTH];
-    /* 0x016 */ u8 unk16;
-    /* 0x017 */ u8 unk17;
+    /* 0x010 */ PlayerNameChar playerName[MAX_PLAYER_NAME_LENGTH + 2];
     /* 0x018 */ u8 difficultyLevel;
     /* 0x019 */ u8 uiLanguage;
     /* 0x01A */ u8 language;

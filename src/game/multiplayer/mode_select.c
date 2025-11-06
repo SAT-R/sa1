@@ -2,6 +2,7 @@
 #include "core.h"
 #include "lib/m4a/m4a.h"
 #include "game/multiplayer/mode_select.h"
+#include "game/multiplayer/multipak_connection.h"
 #include "game/save.h"
 #include "game/title_screen.h"
 
@@ -10,17 +11,22 @@
 #include "constants/tilemaps.h"
 #include "constants/text.h"
 
+typedef enum PakModes {
+    PM_MULTI_PAK,
+    PM_SINGLE_PAK,
+
+    PM_COUNT
+} PakModes;
+
 typedef struct ModeSelect {
     /* 0x00 */ Background bg;
-    /* 0x40 */ Sprite s;
-    /* 0x70 */ Sprite s2;
-    /* 0xA0 */ Sprite s3;
+    /* 0x40 */ Sprite s[3];
     /* 0xD0 */ Sprite s4;
     /* 0x100 */ u8 filler100[0xFC];
     /* 0x1FC */ s32 qUnk1FC;
     /* 0x200 */ s16 unk200;
     /* 0x202 */ u8 unk202;
-    /* 0x203 */ u8 unk203;
+    /* 0x203 */ u8 mode;
     /* 0x204 */ u8 filler204[0x2];
     /* 0x200 */ u8 unk206;
     /* 0x200 */ s16 qUnk208;
@@ -28,20 +34,25 @@ typedef struct ModeSelect {
     /* 0x204 */ u8 unk20B[2][4];
     /* 0x214 */ s32 frameCount;
     /* 0x218 */ u8 unk218;
+    /* 0x219 */ u8 unk219;
 } ModeSelect; /* 0x21C */
 
 void Task_MultiplayerModeSelectScreenInit(void);
 void sub_800E798(void);
 void Task_800E868(void);
-void ModeSelect_InitGraphicsEN(void);
-void sub_800EB4C(void);
-void ModeSelect_InitGraphicsJP(void);
+void ModeSelect_InitMultiPak(void);
+void Task_MultiPak(void);
+void ModeSelect_InitSinglePak(void);
 
 extern void CreatePlayerNameInputMenu();
 const AnimId gUnknown_080BB348[UILANG_COUNT] = { SA1_ANIM_MP_GAME_PAK_MODE_JP, SA1_ANIM_MP_GAME_PAK_MODE_EN };
 const AnimId gUnknown_080BB34C[UILANG_COUNT] = { SA1_ANIM_MP_OUTCOME_MESSAGES_JP, SA1_ANIM_MP_OUTCOME_MESSAGES_EN };
 const AnimId gUnknown_080BB350[UILANG_COUNT] = { SA1_ANIM_MP_PRESS_START_JP, SA1_ANIM_MP_PRESS_START_EN };
-const VoidFn gUnknown_080BB354[UILANG_COUNT] = { ModeSelect_InitGraphicsEN, ModeSelect_InitGraphicsJP };
+const VoidFn sModeInitProcs[PM_COUNT] = { ModeSelect_InitMultiPak, ModeSelect_InitSinglePak };
+
+extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
+void sub_800FD9C(u8 *param);
+void sub_800F058(void);
 
 void CreateMultiplayerModeSelectScreen(void)
 {
@@ -59,14 +70,14 @@ void CreateMultiplayerModeSelectScreen(void)
     gBgCntRegs[0] = 0x1E03;
     modeSelect = TASK_DATA(TaskCreate(Task_MultiplayerModeSelectScreenInit, sizeof(ModeSelect), 0x2000U, 0U, NULL));
     modeSelect->unk200 = 0;
-    modeSelect->unk203 = 0;
+    modeSelect->mode = PM_MULTI_PAK;
     modeSelect->qUnk1FC = Q(0);
     modeSelect->qUnk208 = Q(16);
 
     gBldRegs.bldCnt = 0xFF;
     gBldRegs.bldY = 0x10;
 
-    s = &modeSelect->s;
+    s = &modeSelect->s[0];
     s->x = 232;
     s->y = 64;
     s->graphics.dest = (void *)OBJ_VRAM0;
@@ -82,7 +93,7 @@ void CreateMultiplayerModeSelectScreen(void)
     s->frameFlags = 0x2000;
     UpdateSpriteAnimation(s);
 
-    s = &modeSelect->s2;
+    s = &modeSelect->s[1];
     s->x = 0;
     s->y = 64;
     s->graphics.dest = (void *)(OBJ_VRAM0 + 0x840);
@@ -125,16 +136,16 @@ void Task_800E648()
     if (DPAD_UP & gRepeatedKeys) {
         m4aSongNumStart(SE_MENU_CURSOR_MOVE);
 
-        if (--modeSelect->unk203 > 1) {
-            modeSelect->unk203 = 1;
+        if (--modeSelect->mode >= PM_COUNT) {
+            modeSelect->mode = PM_SINGLE_PAK;
         }
 
         modeSelect->qUnk1FC = 0;
     } else if (DPAD_DOWN & gRepeatedKeys) {
         m4aSongNumStart(SE_MENU_CURSOR_MOVE);
 
-        if (++modeSelect->unk203 > 1U) {
-            modeSelect->unk203 = 0;
+        if (++modeSelect->mode >= PM_COUNT) {
+            modeSelect->mode = PM_MULTI_PAK;
         }
         modeSelect->qUnk1FC = 0;
     }
@@ -176,9 +187,9 @@ void sub_800E798()
         modeSelect->qUnk1FC -= Q(200);
     }
 
-    s = &modeSelect->s;
-    s->y = (modeSelect->unk203 * 24) + 64;
-    modeSelect->s.variant = modeSelect->unk203;
+    s = &modeSelect->s[0];
+    s->y = (modeSelect->mode * 24) + 64;
+    modeSelect->s[0].variant = modeSelect->mode;
     UpdateSpriteAnimation(s);
     var_r4 = I(modeSelect->qUnk1FC) - 200;
 
@@ -188,8 +199,8 @@ void sub_800E798()
         var_r4 += 200;
     }
 
-    s = &modeSelect->s2;
-    s->y = (modeSelect->unk203 * 24) + 54;
+    s = &modeSelect->s[1];
+    s->y = (modeSelect->mode * 24) + 54;
     for (var_r4_2 = 0; var_r4_2 < 8; var_r4_2++) {
         s->x = var_r4_2 * 32;
         DisplaySprite(s);
@@ -216,7 +227,7 @@ void Task_800E868()
             TaskDestroy(gCurTask);
             CreateMainMenu(1);
         } else {
-            gCurTask->main = gUnknown_080BB354[modeSelect->unk203];
+            gCurTask->main = sModeInitProcs[modeSelect->mode];
             SA2_LABEL(gUnknown_03004D80)[0] = 0;
             SA2_LABEL(gUnknown_03002280)[0][0] = 0;
             SA2_LABEL(gUnknown_03002280)[0][1] = 0;
@@ -230,7 +241,7 @@ void Task_800E868()
     }
 }
 
-void ModeSelect_InitGraphicsEN()
+void ModeSelect_InitMultiPak()
 {
     Background *bg;
     Sprite *s;
@@ -246,7 +257,7 @@ void ModeSelect_InitGraphicsEN()
         modeSelect->unk20B[0][i] = 0;
         modeSelect->unk20B[1][i] = 0;
     }
-    s = &modeSelect->s;
+    s = &modeSelect->s[0];
     s->x = 120;
     s->y = 33;
     s->graphics.dest = vram;
@@ -263,7 +274,7 @@ void ModeSelect_InitGraphicsEN()
     UpdateSpriteAnimation(s);
     vram += 0x540;
 
-    s = &modeSelect->s2;
+    s = &modeSelect->s[1];
     s->x = 101;
     s->y = 41;
     s->graphics.dest = vram;
@@ -280,7 +291,7 @@ void ModeSelect_InitGraphicsEN()
     UpdateSpriteAnimation(s);
     vram += 0x460;
 
-    s = &modeSelect->s3;
+    s = &modeSelect->s[2];
     s->x = 120;
     s->y = 109;
     s->graphics.dest = vram;
@@ -336,5 +347,211 @@ void ModeSelect_InitGraphicsEN()
 
     modeSelect->unk206 = 0;
     modeSelect->unk218 = 0;
-    gCurTask->main = sub_800EB4C;
+    gCurTask->main = Task_MultiPak;
+}
+
+// TODO: Fake-match
+void Task_MultiPak()
+{
+    s32 sp0;
+    s32 sp4;
+    s32 sp8;
+    s32 spC;
+    Sprite *s;
+    s32 i;
+    s32 var_sb;
+    u8 temp_r1_2;
+    u8 var_r7;
+    u8 var_sl;
+    ModeSelect *modeSelect;
+    union MultiSioData *send_recv;
+    u8 unk20B;
+
+#ifndef NON_MATCHING
+    register s32 r0 asm("r0");
+    register s32 r2 asm("r2");
+#else
+    s32 r0;
+    s32 r2;
+#endif
+
+    sp0 = 0;
+    sp4 = 0;
+    var_sl = 0;
+    sp8 = 0;
+    var_sb = 0;
+    spC = 1;
+    if (0x81 & gMultiSioStatusFlags) {
+        if (!(gMultiSioStatusFlags & MULTI_SIO_RECV_ID(SIO_MULTI_CNT->id))) {
+            if (gMultiplayerMissingHeartbeats[SIO_MULTI_CNT->id]++ >= 0xB5) {
+                TasksDestroyAll();
+                PAUSE_BACKGROUNDS_QUEUE();
+                SA2_LABEL(gUnknown_03005390) = 0;
+                PAUSE_GRAPHICS_QUEUE();
+                LinkCommunicationError();
+                return;
+            }
+        } else {
+            gMultiplayerMissingHeartbeats[SIO_MULTI_CNT->id] = 0;
+        }
+    }
+
+    modeSelect = TASK_DATA(gCurTask);
+    modeSelect->qUnk208 -= 0x80;
+    if (modeSelect->qUnk208 < 0) {
+        modeSelect->qUnk208 = 0;
+    }
+    gBldRegs.bldY = I(modeSelect->qUnk208);
+
+    for (i = 0; i < 4; i++) {
+        send_recv = &gMultiSioRecv[i];
+        r0 = modeSelect->unk20B[0][i];
+        r2 = r0 << 1;
+        modeSelect->unk20B[0][i] = r2;
+        modeSelect->unk20B[1][i] *= 2;
+        if ((i == SIO_MULTI_CNT->id) || (CheckBit(gMultiSioStatusFlags, i) && (send_recv->pat0.unk0 >= 0x10))) {
+            r2 |= 1;
+            modeSelect->unk20B[0][i] = r2;
+            sp0 += 1;
+            var_sl |= 1 << i;
+            if (sp8 != 0) {
+                var_sb = 1;
+            }
+        } else {
+            r0 = ((vu16 *)&REG_SIODATA32)[i];
+            r2 = r0;
+#ifndef NON_MATCHING
+            asm("" ::"r"(r0));
+#endif
+            sp8 = 1;
+            if (!CheckBit(gMultiSioStatusFlags, i) && (r2 == 0)) {
+                var_sb = 1;
+                modeSelect->unk20B[1][i] = (u8)(1 | modeSelect->unk20B[1][i]);
+                if (modeSelect->unk20B[0][i] == 0) {
+                    spC = 0;
+                }
+            } else if (modeSelect->unk20B[1][i] != 0) {
+                var_sb = 1;
+                spC = 0;
+            } else if (CheckBit(gMultiSioStatusFlags, i) && (send_recv->pat0.unk0 < 0x10)) {
+                var_sb = 1;
+                spC = 0;
+            }
+        }
+
+        if (modeSelect->unk20B[0][i] != 0) {
+            sp4 += 1;
+        }
+    }
+
+    if (sp4 == 0) {
+        sp4 = 1;
+    }
+
+    send_recv = &gMultiSioRecv[0];
+    if (modeSelect->unk218 == 0) {
+        if (((gMultiSioStatusFlags & 0x81) == 1) && ((u32)send_recv->pat0.unk0 > 0x10U)) {
+            TasksDestroyAll();
+            PAUSE_BACKGROUNDS_QUEUE();
+            SA2_LABEL(gUnknown_03005390) = 0;
+            PAUSE_GRAPHICS_QUEUE();
+            LinkCommunicationError();
+            return;
+        } else {
+            modeSelect->unk218 = 1;
+        }
+    }
+
+    if ((var_sb == 0) && (send_recv->pat0.unk0 == 0x11) && (modeSelect->unk218 != 0)) {
+        var_r7 = 2;
+        gMultiplayerPseudoRandom = send_recv->pat0.unk10;
+        gMultiplayerConnections = send_recv->pat0.unk2;
+        for (i = 3; i >= 0; i--) {
+            send_recv = &gMultiSioRecv[i];
+            if (i == SIO_MULTI_CNT->id) {
+                gUnknown_03005008[i] |= 0xFF;
+            } else if (CheckBit(gMultiSioStatusFlags, i)) {
+                sub_800FD9C((void *)send_recv);
+                gUnknown_03005008[i] = var_r7--;
+            } else {
+                gUnknown_03005008[i] |= 0xFF;
+                var_r7 -= 1;
+            }
+        }
+        modeSelect->unk200 = 0;
+        modeSelect->unk206 = 0;
+        gMultiplayerMissingHeartbeats[3] = 0;
+        gMultiplayerMissingHeartbeats[2] = 0;
+        gMultiplayerMissingHeartbeats[1] = 0;
+        gMultiplayerMissingHeartbeats[0] = 0;
+        modeSelect->unk219 = 0;
+        gCurTask->main = sub_800F058;
+        sub_800F058();
+        return;
+    } else if (send_recv->pat0.unk0 > 0x12u) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        LinkCommunicationError();
+        return;
+    } else if (2 & gPressedKeys) {
+        gMultiSioEnabled = 0;
+        MultiSioStop();
+        MultiSioInit(0U);
+        send_recv = &gMultiSioSend;
+        send_recv->pat0.unk0 = 0;
+        m4aSongNumStop(3U);
+        m4aSongNumStart(0x6BU);
+        SA2_LABEL(gUnknown_03004D80)[0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
+        SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+        TaskDestroy(gCurTask);
+        CreateMultiplayerModeSelectScreen();
+        return;
+    }
+
+    modeSelect->s[2].variant = sp4 + 3;
+    for (i = 0; i < 3; i++) {
+        s = &modeSelect->s[i];
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+
+    if (gMultiSioStatusFlags & 0x80) {
+        if ((sp4 > 1) && (spC != 0)) {
+            s = &modeSelect->s4;
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+
+        if (gMultiSioStatusFlags & 0x80) {
+            if (((var_sb == 0) && (sp0 > 1) && (START_BUTTON & gPressedKeys))
+                || ((modeSelect->unk206 != 0) && (var_sb == 0) && (sp0 > 1))) {
+                send_recv = &gMultiSioSend;
+                send_recv->pat0.unk0 = 0x11;
+                send_recv->pat0.unk2 = var_sl;
+                send_recv->pat0.unk4 = LOADED_SAVE->unk4;
+                DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv->pat0.unk8, sizeof(LOADED_SAVE->playerName));
+                send_recv->pat0.unk4 = LOADED_SAVE->unk4;
+                send_recv->pat0.unk10 = modeSelect->frameCount;
+                DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv->pat0.unk8, sizeof(LOADED_SAVE->playerName));
+                modeSelect->unk206 = 1;
+                return;
+            }
+        }
+    }
+
+    if (modeSelect->unk206 != 0) {
+        modeSelect->unk206 = 0;
+    }
+
+    send_recv = &gMultiSioSend;
+    send_recv->pat0.unk0 = 0x10;
+    send_recv->pat0.unk4 = LOADED_SAVE->unk4;
+    DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv->pat0.unk8, sizeof(LOADED_SAVE->playerName));
+    send_recv->pat0.unk4 = LOADED_SAVE->unk4;
+    DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv->pat0.unk8, sizeof(LOADED_SAVE->playerName));
 }
