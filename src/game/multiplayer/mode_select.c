@@ -19,6 +19,7 @@
    differently when the two functions directly above it in the ROM were in the same module.
 
    This is a rare agbcc behavior.
+   This MIGHT be resolved once Task_SinglePak() matches (because the function changed)?
 */
 
 typedef enum PakModes {

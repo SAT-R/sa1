@@ -2,11 +2,19 @@
 #include "core.h"
 #include "flags.h"
 #include "multi_boot.h"
+#include "sio32_multi_load.h"
 #include "lib/m4a/m4a.h"
+#include "game/dummy_task.h"
 #include "game/multiplayer/communication_outcome.h"
 #include "game/multiplayer/mode_select.h"
 #include "game/multiplayer/multipak_connection.h"
+#include "game/sa1_sa2_shared/globals.h"
+#include "game/sa1_sa2_shared/camera.h"
+#include "game/sa1_sa2_shared/player.h"
 #include "game/save.h"
+#include "game/stage/player_controls.h"
+#include "game/stage/rings_scatter.h"
+#include "game/stage/stage.h"
 #include "game/title_screen.h"
 
 #include "constants/animations.h"
@@ -32,7 +40,9 @@ typedef struct ModeSelect {
     /* 0x00 */ Background bg;
     /* 0x40 */ Sprite s[3];
     /* 0xD0 */ Sprite s4;
-    /* 0x100 */ u8 filler100[0xF8];
+    /* 0x100 */ u8 filler100[0xF0];
+    /* 0x1F0 */ VoidFn fn1F0;
+    /* 0x100 */ u8 filler1F4[0x4];
     /* 0x1FC */ s32 unk1F8;
     /* 0x1FC */ s32 qUnk1FC;
     /* 0x200 */ s16 unk200;
@@ -52,10 +62,13 @@ typedef struct ModeSelect {
 
 void sub_800FBF8(void);
 void sub_800FF38(void);
+void Task_8010020(void);
 void sub_8010048(void);
 
 void sub_800FD9C(u8 *param);
 void Task_800F058(void);
+
+extern const VoidFn gUnknown_080BB3F8[9];
 
 void Task_800F9BC(void)
 {
@@ -125,4 +138,65 @@ void Task_800F9BC(void)
         modeSelect->unk204 = gMultiSioRecv->pat0.unk2;
         modeSelect->unk1F8 = 0;
     }
+}
+
+void sub_800FBF8(void)
+{
+    u32 var_r1;
+    u8 *temp_r3;
+
+    ModeSelect *modeSelect = TASK_DATA(gCurTask);
+
+    MultiSioStop();
+    if (modeSelect->unk204 == 9) {
+        for (var_r1 = 0; var_r1 < 4; var_r1++) {
+            gMultiplayerCharacters[var_r1] = 0;
+            gMPRingCollectWins[var_r1] = 0;
+            SA2_LABEL(gUnknown_030054B4)[var_r1] = var_r1;
+            gMultiplayerMissingHeartbeats[var_r1] = 0;
+        }
+        *gIntrTable = modeSelect->fn1F0;
+        gMultiSioEnabled = 1;
+        MultiSioInit((u32)(gMultiSioStatusFlags & 0xF00) >> 8);
+        MultiSioStart();
+        gCurTask->main = sub_8010048;
+        gDispCnt = 0x40;
+        return;
+    }
+    modeSelect->fn1F0 = *gIntrTable;
+    *gIntrTable = Sio32MultiLoadIntr;
+    Sio32MultiLoadInit(gMultiSioStatusFlags & 0x80, gUnknown_080BB3F8[modeSelect->unk204]);
+    gCurTask->main = Task_8010020;
+}
+
+void SA2_LABEL(sub_8081200)(void)
+{
+    u8 i;
+
+    gGameMode = GAME_MODE_MULTI_PLAYER_COLLECT_RINGS;
+
+    gRingsScatterTask = NULL;
+    gDummyTask = NULL;
+    gGameStageTask = NULL;
+    gPlayer.spriteTask = NULL;
+#if (GAME == GAME_SA1)
+    gPartner.spriteTask = NULL;
+#endif
+    gCamera.movementTask = NULL;
+    SA2_LABEL(gUnknown_0300543C) = 0;
+#ifndef COLLECT_RINGS_ROM
+    gGameMode = GAME_MODE_MULTI_PLAYER_COLLECT_RINGS;
+#endif
+    gEntitiesManagerTask = NULL;
+
+    for (i = 0; i < 4; i++) {
+        gMultiplayerPlayerTasks[i] = NULL;
+    };
+
+    ApplyGameStageSettings();
+#ifndef COLLECT_RINGS_ROM
+    gStageFlags &= ~STAGE_FLAG__ACT_START;
+    gPlayer.moveState &= ~MOVESTATE_IGNORE_INPUT;
+#endif
+    gPlayer.heldInput |= gPlayerControls.jump | gPlayerControls.attack;
 }
