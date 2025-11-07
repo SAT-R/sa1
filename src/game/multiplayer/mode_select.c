@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "lib/m4a/m4a.h"
+#include "game/multiplayer/communication_outcome.h"
 #include "game/multiplayer/mode_select.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/save.h"
@@ -52,7 +53,7 @@ const VoidFn sModeInitProcs[PM_COUNT] = { ModeSelect_InitMultiPak, ModeSelect_In
 
 extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
 void sub_800FD9C(u8 *param);
-void sub_800F058(void);
+void Task_800F058(void);
 
 void CreateMultiplayerModeSelectScreen(void)
 {
@@ -485,8 +486,8 @@ void Task_MultiPak()
         gMultiplayerMissingHeartbeats[1] = 0;
         gMultiplayerMissingHeartbeats[0] = 0;
         modeSelect->unk219 = 0;
-        gCurTask->main = sub_800F058;
-        sub_800F058();
+        gCurTask->main = Task_800F058;
+        Task_800F058();
         return;
     } else if (send_recv->pat0.unk0 > 0x12u) {
         TasksDestroyAll();
@@ -555,3 +556,156 @@ void Task_MultiPak()
     send_recv->pat0.unk4 = LOADED_SAVE->unk4;
     DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv->pat0.unk8, sizeof(LOADED_SAVE->playerName));
 }
+
+NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void Task_800F058())
+{
+    Sprite *s;
+    s32 var_r3_2;
+    s32 var_r3_3;
+    s32 var_r5;
+    s32 var_r6;
+    u16 var_r4;
+    u32 var_r3;
+    u8 *temp_r0_2;
+    u8 *var_r1;
+    u8 *var_r2;
+    u8 temp_r0;
+    u8 temp_r1;
+    u8 var_r7;
+    union MultiSioData *send_recv_r2;
+    union MultiSioData *send_recv_r6;
+
+    ModeSelect *modeSelect;
+
+    var_r6 = 0;
+    var_r7 = 0;
+    modeSelect = TASK_DATA(gCurTask);
+
+    if (IS_MULTI_PLAYER) {
+        for (var_r3 = 0; var_r3 < 4; var_r3++) {
+            if (!GetBit(gMultiplayerConnections, var_r3)) {
+                break;
+            }
+
+            if (!CheckBit(gMultiSioStatusFlags, var_r3)) {
+                if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
+                    TasksDestroyAll();
+                    PAUSE_BACKGROUNDS_QUEUE();
+                    SA2_LABEL(gUnknown_03005390) = 0;
+                    PAUSE_GRAPHICS_QUEUE();
+                    LinkCommunicationError();
+                    return;
+                }
+            } else {
+                gMultiplayerMissingHeartbeats[var_r3] = 0;
+            }
+        }
+    }
+
+    send_recv_r2 = &gMultiSioRecv[0];
+    if (send_recv_r2->pat0.unk0 == 0x12) {
+        gGameMode = GAME_MODE_RACE;
+        TaskDestroy(gCurTask);
+        CreateMultipackOutcomeScreen(0U);
+        return;
+    }
+
+    if (send_recv_r2->pat0.unk0 == 0x10) {
+        gMultiSioEnabled = 0;
+        MultiSioStop();
+        MultiSioInit(0U);
+        send_recv_r2 = &gMultiSioSend;
+        send_recv_r2->pat0.unk0 = 0;
+        m4aSongNumStop(3U);
+        m4aSongNumStart(0x6BU);
+        *sa2__gUnknown_03004D80 = 0;
+        sa2__gUnknown_03002280[0][0] = 0;
+        sa2__gUnknown_03002280[0][1] = 0;
+        sa2__gUnknown_03002280[0][2] = 0xFF;
+        sa2__gUnknown_03002280[0][3] = 0x20;
+        TaskDestroy(gCurTask);
+        CreateMultiplayerModeSelectScreen();
+        return;
+    } else {
+        if (gMultiSioStatusFlags & 0x80) {
+            if (B_BUTTON & gPressedKeys) {
+                gMultiSioEnabled = 0;
+                MultiSioStop();
+                MultiSioInit(0U);
+                send_recv_r2 = &gMultiSioSend;
+                send_recv_r2->pat0.unk0 = 0;
+                m4aSongNumStop(3U);
+                m4aSongNumStart(0x6BU);
+                *sa2__gUnknown_03004D80 = 0;
+                sa2__gUnknown_03002280[0][0] = 0;
+                sa2__gUnknown_03002280[0][1] = 0;
+                sa2__gUnknown_03002280[0][2] = 0xFF;
+                sa2__gUnknown_03002280[0][3] = 0x20;
+                TaskDestroy(gCurTask);
+                CreateMultiplayerModeSelectScreen();
+                return;
+            }
+
+            if (modeSelect->unk219++ > 60) {
+                TasksDestroyAll();
+                PAUSE_BACKGROUNDS_QUEUE();
+                SA2_LABEL(gUnknown_03005390) = 0;
+                PAUSE_GRAPHICS_QUEUE();
+                LinkCommunicationError();
+                return;
+            }
+        }
+
+        for (var_r5 = 0; var_r5 < 4; var_r5++) {
+            send_recv_r2 = &gMultiSioRecv[var_r5];
+            modeSelect->unk20B[0][var_r5] *= 2;
+            if ((SIO_MULTI_CNT->id == var_r5) || (send_recv_r2->pat0.unk0 > 0x10U)) {
+                var_r7 |= 1 << var_r5;
+            }
+            if (modeSelect->unk20B[0][var_r5] != 0) {
+                var_r6 += 1;
+            }
+        }
+
+        if (var_r6 == 0) {
+            var_r6 = 1;
+        }
+
+        modeSelect->s[2].variant = var_r6 + 3;
+        for (var_r5 = 0; var_r5 < 3; var_r5++) {
+            s = &modeSelect->s[var_r5];
+            UpdateSpriteAnimation(s);
+            DisplaySprite(s);
+        }
+
+        if (gMultiSioStatusFlags & 0x80) {
+            send_recv_r6 = &gMultiSioSend;
+            send_recv_r6->pat0.unk0 = 0x12;
+            send_recv_r6->pat0.unk2 = var_r7;
+            send_recv_r6->pat0.unk4 = gLoadedSaveGame.unk4;
+            DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv_r6->pat0.unk8, sizeof(LOADED_SAVE->playerName));
+
+            for (var_r5 = 0, var_r7 = gMultiplayerConnections; var_r5 < 4; var_r5++) {
+                // union MultiSioData *recv = gMultiSioRecv;
+                if (!GetBit(var_r7, var_r5) || var_r5 == 0) {
+                    continue;
+                }
+
+                if (!CheckBit(gMultiSioStatusFlags, var_r5) || (send_recv_r2 = &gMultiSioRecv[var_r5])->pat0.unk0 != 0x11) {
+                    goto lbl;
+                }
+            }
+            return;
+
+        lbl:
+            send_recv_r6->pat0.unk0 = 0x11;
+        } else {
+            send_recv_r6 = &gMultiSioSend;
+            gMultiSioSend.pat0.unk0 = 0x11;
+            gMultiSioSend.pat0.unk2 = var_r7;
+            gMultiSioSend.pat0.unk4 = gLoadedSaveGame.unk4;
+            DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv_r6->pat0.unk8, sizeof(LOADED_SAVE->playerName));
+        }
+    }
+}
+END_NONMATCH
