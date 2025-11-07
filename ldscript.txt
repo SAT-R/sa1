@@ -32,6 +32,7 @@ SECTIONS {
         src/game/title_screen.o(.text);
         src/game/sa1_sa2_shared/unused_level_select.o(.text);
         src/game/multiplayer/mode_select.o(.text);
+        src/game/multiplayer/mode_select_2.o(.text);
         asm/game__multiplayer__mode_select.o(.text);
         src/game/time_attack/menu.o(.text);
         src/game/options_menu.o(.text);

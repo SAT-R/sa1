@@ -14,6 +14,13 @@
 #include "constants/tilemaps.h"
 #include "constants/text.h"
 
+/* NOTE:
+   This module was split into two, because Task_800F9BC() would compile
+   differently when the two functions directly above it in the ROM were in the same module.
+
+   This is a rare agbcc behavior.
+*/
+
 typedef enum PakModes {
     PM_MULTI_PAK,
     PM_SINGLE_PAK,
@@ -25,7 +32,8 @@ typedef struct ModeSelect {
     /* 0x00 */ Background bg;
     /* 0x40 */ Sprite s[3];
     /* 0xD0 */ Sprite s4;
-    /* 0x100 */ u8 filler100[0xFC];
+    /* 0x100 */ u8 filler100[0xF8];
+    /* 0x1FC */ s32 unk1F8;
     /* 0x1FC */ s32 qUnk1FC;
     /* 0x200 */ s16 unk200;
     /* 0x202 */ u8 unk202;
@@ -45,7 +53,9 @@ typedef struct ModeSelect {
 void Task_MultiplayerModeSelectScreenInit(void);
 void sub_800E798(void);
 void Task_800E868(void);
+void sub_800FBF8(void);
 void sub_800FF38(void);
+void sub_8010048(void);
 void Task_SinglePak(void);
 void ModeSelect_InitMultiPak(void);
 void Task_MultiPak(void);
