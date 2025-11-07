@@ -102,7 +102,7 @@
 	str r0, [r2, #4]
 	str r3, [r2, #8]
 	ldr r0, [r2, #8]
-	ldr r0, _0801AA64 @ =Task_MultiplayerSinglePakResultsScreenInit
+	ldr r0, _0801AA64 @ =sa2__Task_808207C
 	movs r1, #0x88
 	lsls r1, r1, #3
 	str r5, [sp]
@@ -337,7 +337,7 @@ _0801AA54: .4byte 0x040000D4
 _0801AA58: .4byte 0x06009FE0
 _0801AA5C: .4byte 0x85000010
 _0801AA60: .4byte 0x06000FE0
-_0801AA64: .4byte Task_MultiplayerSinglePakResultsScreenInit
+_0801AA64: .4byte sa2__Task_808207C
 _0801AA68: .4byte 0x03000434
 _0801AA6C: .4byte 0x03000430
 _0801AA70: .4byte gLoadedSaveGame

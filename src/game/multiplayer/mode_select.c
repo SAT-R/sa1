@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "flags.h"
 #include "multi_boot.h"
 #include "lib/m4a/m4a.h"
 #include "game/multiplayer/communication_outcome.h"
@@ -29,7 +30,8 @@ typedef struct ModeSelect {
     /* 0x200 */ s16 unk200;
     /* 0x202 */ u8 unk202;
     /* 0x203 */ u8 mode;
-    /* 0x204 */ u8 filler204[0x2];
+    /* 0x204 */ u8 unk204;
+    /* 0x205 */ u8 unk205;
     /* 0x206 */ u8 unk206;
     /* 0x207 */ u8 unk207;
     /* 0x208 */ s16 qUnk208;
@@ -43,7 +45,8 @@ typedef struct ModeSelect {
 void Task_MultiplayerModeSelectScreenInit(void);
 void sub_800E798(void);
 void Task_800E868(void);
-void sub_800F5F0(void);
+void sub_800FF38(void);
+void Task_SinglePak(void);
 void ModeSelect_InitMultiPak(void);
 void Task_MultiPak(void);
 void ModeSelect_InitSinglePak(void);
@@ -56,6 +59,7 @@ const VoidFn sModeInitProcs[PM_COUNT] = { ModeSelect_InitMultiPak, ModeSelect_In
 
 extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
 extern u8 gMultiboot_087C0258[];
+extern u8 gMultiboot_087C22F8[];
 void sub_800FD9C(u8 *param);
 void Task_800F058(void);
 
@@ -831,7 +835,7 @@ void ModeSelect_InitSinglePak()
     gMultiBootParam.server_type = 0;
     MultiBootInit(&gMultiBootParam);
 
-    gCurTask->main = sub_800F5F0;
+    gCurTask->main = Task_SinglePak;
 
     if (*(u8 *)&REG_SIOCNT & 0x30) {
         TasksDestroyAll();
@@ -842,3 +846,192 @@ void ModeSelect_InitSinglePak()
         return;
     }
 }
+
+// (93.89%) https://decomp.me/scratch/Canr3
+NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_SinglePak.inc", void Task_SinglePak())
+{
+    s16 sp4;
+    Sprite *temp_r4;
+    Sprite *temp_r4_2;
+    s16 temp_r0;
+    s32 temp_r0_2;
+    s32 var_r6;
+    Background *bg;
+    u8 *temp_r1_3;
+    u8 temp_r2_2;
+    u8 var_r5;
+    void *temp_r1;
+    void *temp_r1_2;
+    ModeSelect *modeSelect;
+    union MultiSioData *recv;
+    union MultiSioData *send;
+    union MultiSioData *send_recv;
+
+    var_r6 = 1;
+    modeSelect = TASK_DATA(gCurTask);
+    modeSelect->qUnk208 -= 0x80;
+    if (modeSelect->qUnk208 < 0) {
+        modeSelect->qUnk208 = 0;
+    }
+    gBldRegs.bldY = (u16)((s32)((u16)modeSelect->qUnk208 << 0x10) >> 0x18);
+
+    for (var_r5 = 1; var_r5 < 4; var_r5++) {
+        if ((GetBit((s32)gMultiBootParam.response_bit, var_r5)) && GetBit((s32)gMultiBootParam.client_bit, var_r5)) {
+            var_r6++;
+        } else {
+            break;
+        }
+    }
+
+    modeSelect->s[2].variant = var_r6 + 3;
+    for (var_r5 = 0; var_r5 < 3; var_r5++) {
+        temp_r4 = &modeSelect->s[var_r5];
+        UpdateSpriteAnimation(temp_r4);
+        DisplaySprite(temp_r4);
+    }
+
+    if (0xE & gMultiBootParam.client_bit) {
+        if ((gMultiBootParam.probe_count == 0) && (var_r6 > 1)) {
+            temp_r4_2 = &modeSelect->s4;
+            UpdateSpriteAnimation(temp_r4_2);
+            DisplaySprite(temp_r4_2);
+        }
+        asm("");
+    } else {
+        modeSelect->unk207 = 0;
+        gFlags &= 0xFFFFBFFF;
+        gFlags &= 0xFFFF7FFF;
+        m4aSoundVSyncOn();
+    }
+
+    if ((gMultiBootParam.probe_count == 0) && (gMultiBootParam.client_bit != 0) && (8 & gPressedKeys)) {
+        modeSelect->unk207 = 1;
+        gFlags |= FLAGS_8000;
+        gFlags |= FLAGS_4000;
+        m4aMPlayAllStop();
+        gFlags &= ~4;
+        m4aSoundVSyncOff();
+        {
+#ifndef NON_MATCHING
+            vu16 *dma = (vu16 *)&REG_DMA0SAD;
+            dma[5] &= 0xC5FF; /* REG_DMA0CNT_H */
+            dma[5] &= 0x7FFF; /* REG_DMA0CNT_H */
+            dma[5];
+
+            dma += 6;
+            dma[5] &= 0xC5FF; /* REG_DMA0CNT_H */
+            dma[5] &= 0x7FFF; /* REG_DMA0CNT_H */
+            dma[5];
+
+            dma += 6;
+            dma[5] &= 0xC5FF; /* REG_DMA2CNT_H */
+            dma[5] &= 0x7FFF; /* REG_DMA2CNT_H */
+            dma[5];
+
+            dma += 6;
+            dma[5] &= 0xC5FF; /* REG_DMA3CNT_H */
+            dma[5] &= 0x7FFF; /* REG_DMA3CNT_H */
+            dma[5];
+#else
+            REG_DMA0CNT_H &= 0xC5FF;
+            REG_DMA0CNT_H &= 0x7FFF;
+            REG_DMA1CNT_H &= 0xC5FF;
+            REG_DMA1CNT_H &= 0x7FFF;
+            REG_DMA2CNT_H &= 0xC5FF;
+            REG_DMA2CNT_H &= 0x7FFF;
+            REG_DMA3CNT_H &= 0xC5FF;
+            REG_DMA3CNT_H &= 0x7FFF;
+#endif
+        }
+
+        temp_r1_3 = &gMultiboot_087C0258[0xC0];
+        MultiBootStartMaster(&gMultiBootParam, temp_r1_3, (uintptr_t)&gMultiboot_087C22F8 - (uintptr_t)temp_r1_3, 4U, 1);
+    }
+    if ((modeSelect->unk207 == 0) && (2 & gPressedKeys)) {
+        TaskDestroy(gCurTask);
+        CreateMultiplayerModeSelectScreen();
+        return;
+    }
+
+    temp_r0_2 = MultiBootMain(&gMultiBootParam);
+    if ((temp_r0_2 == 0x50) || (temp_r0_2 == 0x60) || (temp_r0_2 == 0x70) || (temp_r0_2 == 0x71)) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        gFlags &= 0xFFFFBFFF;
+        gFlags &= 0xFFFF7FFF;
+        m4aSoundVSyncOn();
+        LinkCommunicationError();
+        return;
+    }
+
+    if (MultiBootCheckComplete(&gMultiBootParam) == 0) {
+        return;
+    }
+
+    gDispCnt = 0x1341;
+    gBgCntRegs[0] = 0x1E02;
+    gBgCntRegs[1] = 0x1E03;
+    gBgScrollRegs[0][0] = 0;
+    gBgScrollRegs[0][1] = 0;
+    gBgScrollRegs[1][0] = 0;
+    gBgScrollRegs[1][1] = 0x80;
+
+    modeSelect = TASK_DATA(gCurTask);
+    bg = &modeSelect->bg;
+    bg->graphics.dest = (void *)BG_VRAM;
+    bg->graphics.anim = 0;
+    bg->layoutVram = (void *)(BG_VRAM + 0xF000);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = TM_MP_SINGLEPAK_PROGRAM_IS_BEING_SENT;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 30;
+    bg->targetTilesY = 27;
+    bg->paletteOffset = 0;
+    bg->flags = 0;
+    DrawBackground(bg);
+
+    if (LOADED_SAVE->uiLanguage != 0) {
+        gDispCnt |= 0x2000;
+        gWinRegs[4] = 2;
+        gWinRegs[5] = 1;
+        gWinRegs[0] = WIN_RANGE(0, DISPLAY_WIDTH);
+        gWinRegs[2] = WIN_RANGE(32, 88);
+    } else {
+        gDispCnt &= 0xDFFF;
+        gWinRegs[4] = 0;
+        gWinRegs[5] = 0;
+    }
+    gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
+
+    CpuFill16(0, &gBgPalette[32], 0x20);
+    gCurTask->main = sub_800FF38;
+
+    send = &gMultiSioSend;
+    send->pat2.unk0 = 0;
+
+    recv = &gMultiSioRecv[0];
+    recv[0].pat2.unk0 = 0;
+    recv[1].pat2.unk0 = 0;
+    recv[2].pat2.unk0 = 0;
+    recv[3].pat2.unk0 = 0;
+
+    send_recv = recv;
+    send_recv += 3;
+
+    send->pat0.unk2 = 0;
+    send->pat0.unk0 = 0xF001;
+
+    recv = &gMultiSioRecv[0];
+    recv[0].pat0.unk2 = 0;
+    recv[1].pat0.unk2 = 0;
+    recv[2].pat0.unk2 = 0;
+    recv[3].pat0.unk2 = 0;
+    modeSelect->unk204 = 0;
+}
+END_NONMATCH

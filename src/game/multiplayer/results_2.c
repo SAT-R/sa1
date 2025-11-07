@@ -235,7 +235,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__CreateMultiplayerSinglePa
 }
 END_NONMATCH
 
-void Task_MultiplayerSinglePakResultsScreenInit(void)
+void SA2_LABEL(Task_808207C)(void)
 {
     u32 i;
     Sprite *s;
