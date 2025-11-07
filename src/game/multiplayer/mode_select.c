@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "multi_boot.h"
 #include "lib/m4a/m4a.h"
 #include "game/multiplayer/communication_outcome.h"
 #include "game/multiplayer/mode_select.h"
@@ -29,9 +30,10 @@ typedef struct ModeSelect {
     /* 0x202 */ u8 unk202;
     /* 0x203 */ u8 mode;
     /* 0x204 */ u8 filler204[0x2];
-    /* 0x200 */ u8 unk206;
-    /* 0x200 */ s16 qUnk208;
-    /* 0x200 */ u8 unk20A;
+    /* 0x206 */ u8 unk206;
+    /* 0x207 */ u8 unk207;
+    /* 0x208 */ s16 qUnk208;
+    /* 0x20A */ u8 unk20A;
     /* 0x204 */ u8 unk20B[2][4];
     /* 0x214 */ s32 frameCount;
     /* 0x218 */ u8 unk218;
@@ -41,6 +43,7 @@ typedef struct ModeSelect {
 void Task_MultiplayerModeSelectScreenInit(void);
 void sub_800E798(void);
 void Task_800E868(void);
+void sub_800F5F0(void);
 void ModeSelect_InitMultiPak(void);
 void Task_MultiPak(void);
 void ModeSelect_InitSinglePak(void);
@@ -52,6 +55,7 @@ const AnimId gUnknown_080BB350[UILANG_COUNT] = { SA1_ANIM_MP_PRESS_START_JP, SA1
 const VoidFn sModeInitProcs[PM_COUNT] = { ModeSelect_InitMultiPak, ModeSelect_InitSinglePak };
 
 extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
+extern u8 gMultiboot_087C0258[];
 void sub_800FD9C(u8 *param);
 void Task_800F058(void);
 
@@ -557,6 +561,7 @@ void Task_MultiPak()
     DmaCopy32(3, &LOADED_SAVE->playerName[0], send_recv->pat0.unk8, sizeof(LOADED_SAVE->playerName));
 }
 
+// (99.87%) https://decomp.me/scratch/TdivT
 NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void Task_800F058())
 {
     Sprite *s;
@@ -709,3 +714,131 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void
     }
 }
 END_NONMATCH
+
+void ModeSelect_InitSinglePak()
+{
+    Background *bg;
+    Sprite *s;
+    s32 i;
+    ModeSelect *modeSelect;
+    u8 *vram = OBJ_VRAM0;
+
+    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[0][2] = -1;
+    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
+    SA2_LABEL(gUnknown_03002280)[2][2] = -1;
+    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+
+    gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
+    gBgCntRegs[0] = 0x1E03;
+
+    modeSelect = TASK_DATA(gCurTask);
+    modeSelect->unk207 = 0;
+    s = &modeSelect->s[0];
+
+    s->x = 120;
+    s->y = 33;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x3C0;
+    s->graphics.size = 0;
+    s->graphics.anim = gUnknown_080BB34C[LOADED_SAVE->uiLanguage];
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+    vram += 0x540;
+
+    s = &modeSelect->s[1];
+    s->x = 101;
+    s->y = 41;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x3C0;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x378;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+    vram += 0x460;
+
+    s = &modeSelect->s[2];
+    s->x = 120;
+    s->y = 109;
+    s->graphics.dest = vram;
+    s->oamFlags = 0x3C0;
+    s->graphics.size = 0;
+    s->graphics.anim = SA1_ANIM_MP_OUTCOME_MESSAGES_EN;
+    s->variant = 4;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+    vram += 0x80;
+
+    s = &modeSelect->s4;
+    s->x = 120;
+    s->y = 125;
+    s->graphics.dest = vram;
+    s->oamFlags = SPRITE_OAM_ORDER(15);
+    s->graphics.size = 0;
+    s->graphics.anim = gUnknown_080BB350[LOADED_SAVE->uiLanguage];
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = -1;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2000;
+    UpdateSpriteAnimation(s);
+
+    bg = &modeSelect->bg;
+    bg->graphics.dest = (void *)BG_VRAM;
+    bg->graphics.anim = 0;
+    bg->layoutVram = (u16 *)(BG_VRAM + 0xF000);
+    bg->unk18 = 0;
+    bg->unk1A = 0;
+    bg->tilemapId = TM_MP_CONTINUE_SCREEN;
+    bg->unk1E = 0;
+    bg->unk20 = 0;
+    bg->unk22 = 0;
+    bg->unk24 = 0;
+    bg->targetTilesX = 0x1E;
+    bg->targetTilesY = 0x14;
+    bg->paletteOffset = 0;
+    bg->flags = 0;
+    DrawBackground(bg);
+
+    gMultiSioEnabled = 0;
+    m4aSongNumStart(MUS_VS_PLEASE_WAIT);
+
+    gMultiBootParam.masterp = gMultiboot_087C0258;
+    gMultiBootParam.server_type = 0;
+    MultiBootInit(&gMultiBootParam);
+
+    gCurTask->main = sub_800F5F0;
+
+    if (*(u8 *)&REG_SIOCNT & 0x30) {
+        TasksDestroyAll();
+        PAUSE_BACKGROUNDS_QUEUE();
+        SA2_LABEL(gUnknown_03005390) = 0;
+        PAUSE_GRAPHICS_QUEUE();
+        LinkCommunicationError();
+        return;
+    }
+}
