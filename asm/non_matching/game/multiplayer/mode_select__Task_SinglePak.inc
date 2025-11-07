@@ -395,7 +395,7 @@ _0800F936:
 	bl CpuSet
 	ldr r0, _0800F9A8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0800F9AC @ =sub_800FF38
+	ldr r0, _0800F9AC @ =sa2__sub_8081C50
 	str r0, [r1, #8]
 	ldr r1, _0800F9B0 @ =gMultiSioSend
 	strb r4, [r1]
@@ -435,7 +435,7 @@ _0800F99C: .4byte gFlags
 _0800F9A0: .4byte gBgPalette+0x40
 _0800F9A4: .4byte 0x01000010
 _0800F9A8: .4byte gCurTask
-_0800F9AC: .4byte sub_800FF38
+_0800F9AC: .4byte sa2__sub_8081C50
 _0800F9B0: .4byte gMultiSioSend
 _0800F9B4: .4byte gMultiSioRecv
 _0800F9B8: .4byte 0x0000F001

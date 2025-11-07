@@ -5,6 +5,7 @@
 #include "sio32_multi_load.h"
 #include "lib/m4a/m4a.h"
 #include "game/dummy_task.h"
+#include "game/multiboot/collect_rings/results.h"
 #include "game/multiplayer/communication_outcome.h"
 #include "game/multiplayer/mode_select.h"
 #include "game/multiplayer/multipak_connection.h"
@@ -23,7 +24,7 @@
 #include "constants/text.h"
 
 /* NOTE:
-   This module was split into two, because Task_800F9BC() would compile
+   This module was split into two, because sa2__sub_80818B8() would compile
    differently when the two functions directly above it in the ROM were in the same module.
 
    This is a rare agbcc behavior.
@@ -60,17 +61,28 @@ typedef struct ModeSelect {
     /* 0x219 */ u8 unk219;
 } ModeSelect; /* 0x21C */
 
+typedef struct SioMultiplayerScore {
+    u16 unk0;
+    u8 unk2;
+    u8 unk3;
+    struct MultiplayerScore mps;
+} SioMultiplayerScore;
+
+void Task_800E648(void);
+void sub_800E798(void);
 void sub_800FBF8(void);
 void sub_800FF38(void);
+void SA2_LABEL(sub_8081CC4)(void);
 void Task_8010020(void);
-void sub_8010048(void);
+void SA2_LABEL(sub_8081D58)(void);
+void SA2_LABEL(sub_8081DB4)();
 
-void sub_800FD9C(u8 *param);
+void sub_800FD9C(SioMultiplayerScore *param);
 void Task_800F058(void);
 
 extern const VoidFn gUnknown_080BB3F8[9];
 
-void Task_800F9BC(void)
+void sa2__sub_80818B8(void)
 {
     u32 var_r1;
     u8 temp_r4_3;
@@ -123,7 +135,7 @@ void Task_800F9BC(void)
                     SA2_LABEL(gUnknown_030054B4)[var_r1] = var_r1;
                     gMultiplayerMissingHeartbeats[var_r1] = 0;
                 }
-                gCurTask->main = sub_8010048;
+                gCurTask->main = SA2_LABEL(sub_8081D58);
                 gDispCnt = 0x40;
                 return;
             }
@@ -159,7 +171,7 @@ void sub_800FBF8(void)
         gMultiSioEnabled = 1;
         MultiSioInit((u32)(gMultiSioStatusFlags & 0xF00) >> 8);
         MultiSioStart();
-        gCurTask->main = sub_8010048;
+        gCurTask->main = SA2_LABEL(sub_8081D58);
         gDispCnt = 0x40;
         return;
     }
@@ -199,4 +211,125 @@ void SA2_LABEL(sub_8081200)(void)
     gPlayer.moveState &= ~MOVESTATE_IGNORE_INPUT;
 #endif
     gPlayer.heldInput |= gPlayerControls.jump | gPlayerControls.attack;
+}
+
+// TODO: 0%
+NONMATCH("asm/non_matching/game/multiplayer/results_2__sub_800FD9C.inc", void sub_800FD9C(SioMultiplayerScore *data)) { }
+END_NONMATCH
+
+void ShowSinglePakResults(void)
+{
+    u32 i;
+    for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
+        gMultiplayerCharacters[i] = 0;
+        gMPRingCollectWins[i] = 0;
+        SA2_LABEL(gUnknown_030054B4)[i] = i;
+        gMultiplayerMissingHeartbeats[i] = 0;
+    }
+
+    MultiSioStart();
+    CreateMultiplayerSinglePakResultsScreen(0);
+}
+
+#if (GAME == GAME_SA1)
+void Task_MultiplayerModeSelectScreenInit(void)
+{
+    ModeSelect *modeSelect = TASK_DATA(gCurTask);
+    modeSelect->qUnk208 -= Q(0.5);
+    if (modeSelect->qUnk208 <= Q(0)) {
+        modeSelect->qUnk208 = Q(0);
+        gCurTask->main = Task_800E648;
+    }
+
+    gBldRegs.bldY = I(modeSelect->qUnk208);
+
+    sub_800E798();
+}
+#endif // (GAME == GAME_SA1)
+
+void SA2_LABEL(sub_8081C50)(void)
+{
+    gMultiplayerMissingHeartbeats[3] = 0;
+    gMultiplayerMissingHeartbeats[2] = 0;
+    gMultiplayerMissingHeartbeats[1] = 0;
+    gMultiplayerMissingHeartbeats[0] = 0;
+    SA2_LABEL(sub_8081DB4)();
+    gCurTask->main = SA2_LABEL(sub_80818B8);
+    MultiSioStart();
+}
+
+void SA2_LABEL(sub_8081C8C)(void)
+{
+    gMultiplayerMissingHeartbeats[3] = 0;
+    gMultiplayerMissingHeartbeats[2] = 0;
+    gMultiplayerMissingHeartbeats[1] = 0;
+    gMultiplayerMissingHeartbeats[0] = 0;
+    SA2_LABEL(sub_8081DB4)();
+    gCurTask->main = SA2_LABEL(sub_8081CC4);
+}
+
+#if (GAME == GAME_SA1)
+void SA2_LABEL(sub_8081DB4)(void)
+#elif (GAME == GAME_SA2)
+void SA2_LABEL(sub_8081DB4)(struct SinglePakConnectScreen *connectScreen)
+#endif
+{
+#if (GAME == GAME_SA1)
+    ModeSelect *modeSelect = TASK_DATA(gCurTask);
+#endif
+
+#ifdef MULTI_SIO_DI_FUNC_FAST
+    gIntrTable[0] = (void *)gMultiSioIntrFuncBuf;
+#else
+    gIntrTable[0] = MultiSioIntr;
+#endif
+
+    MultiSioInit((gMultiSioStatusFlags & MULTI_SIO_ALL_CONNECTED) >> 8);
+#if (GAME == GAME_SA1)
+    modeSelect->unk202 = 0;
+    modeSelect->unk205 = 0;
+#elif (GAME == GAME_SA2)
+    connectScreen->unkF8 = 0;
+    connectScreen->unkF4 = 0;
+#endif
+    gMultiSioStatusFlags = 0;
+}
+
+void SA2_LABEL(sub_8081CC4)(void)
+{
+    if (gMultiSioStatusFlags & MULTI_SIO_LD_ENABLE) {
+        if (gMultiSioStatusFlags & MULTI_SIO_LD_SUCCESS) {
+            gMultiSioSend.pat0.unk2 += 1;
+        }
+        gCurTask->main = SA2_LABEL(sub_80818B8);
+    }
+
+    SA2_LABEL(sub_80818B8)();
+}
+
+void Task_8010020(void)
+{
+    u32 progress = 0;
+    if (Sio32MultiLoadMain(&progress)) {
+        gCurTask->main = SA2_LABEL(sub_8081C8C);
+    }
+}
+
+void SA2_LABEL(sub_8081D58)(void)
+{
+    TaskDestroy(gCurTask);
+    CreateMultiplayerSinglePakResultsScreen(0);
+}
+
+void sub_8010060(void)
+{
+    if (B_BUTTON & gPressedKeys) {
+        m4aSongNumStart(107);
+        gCurTask->main = Task_800E648;
+        SA2_LABEL(gUnknown_03004D80)[0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
+        SA2_LABEL(gUnknown_03002280)[0][2] = -1;
+        SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    }
 }

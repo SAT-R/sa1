@@ -55,7 +55,7 @@ void Task_MultiplayerModeSelectScreenInit(void);
 void sub_800E798(void);
 void Task_800E868(void);
 void sub_800FBF8(void);
-void sub_800FF38(void);
+void SA2_LABEL(sub_8081C50)(void);
 void sub_8010048(void);
 void Task_SinglePak(void);
 void ModeSelect_InitMultiPak(void);
@@ -1021,7 +1021,7 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_SinglePak.inc", vo
     gFlags |= FLAGS_UPDATE_BACKGROUND_PALETTES;
 
     CpuFill16(0, &gBgPalette[32], 0x20);
-    gCurTask->main = sub_800FF38;
+    gCurTask->main = SA2_LABEL(sub_8081C50);
 
     send = &gMultiSioSend;
     send->pat2.unk0 = 0;
