@@ -70,7 +70,7 @@ _0800FE08:
 	ldm r0!, {r5, r6, r7}
 	stm r1!, {r5, r6, r7}
 	ldr r0, [r0]
-	str r0, [r1]
+	str r0, [r1]    @ LOADED_SAVE->multiplayerScores = 
 	cmp r2, #0
 	bne _0800FE08
 _0800FE22:
