@@ -22,7 +22,7 @@ typedef struct ChaoMessage {
     /* 0x48 */ s16 unk4C;
     /* 0x48 */ s16 unk4E;
     /* 0x48 */ s16 unk50;
-    /* 0x48 */ s16 unk52;
+    /* 0x48 */ u16 unk52;
     /* 0x54 */ u8 unk54;
     /* 0x55 */ u8 mode;
     /* 0x56 */ u8 unk56;
@@ -41,7 +41,9 @@ u8 gUnknown_030058B8[4];
 
 void Task_ChaoMessageInit(void);
 void Task_803C130(void);
-void sub_803B7AC(void);
+void Task_803B7AC(void);
+void sub_803B944(void);
+void sub_803BE0C(void);
 void sub_803BEB8(void);
 void TaskDestructor_803C184(struct Task *t);
 void sub_803AB60(ChaoMessage *message);
@@ -489,7 +491,8 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
 }
 END_NONMATCH
 
-void Task_ChaoMessageInit(void) {
+void Task_ChaoMessageInit(void)
+{
     u8 i;
     Sprite *s;
 
@@ -497,15 +500,14 @@ void Task_ChaoMessageInit(void) {
     ChaoMsgSprite *msgSprite;
 
     MultiPakHeartbeat();
-    
+
     message = TASK_DATA(gCurTask);
-    for(i = 0; i < message->unk54; i++)
-    {
+    for (i = 0; i < message->unk54; i++) {
         msgSprite = TASK_DATA(TaskCreate(Task_803C130, sizeof(ChaoMsgSprite), 0x2100U, 0U, TaskDestructor_803C184));
         msgSprite->unk30 = 0x2D;
         msgSprite->unk32 = (i * 0x28 + 2);
         msgSprite->unk34 = i;
-    
+
         s = &msgSprite->s;
         s->graphics.dest = VramMalloc(40);
         s->graphics.anim = SA1_ANIM_MP_CHAO_AVATAR;
@@ -520,12 +522,11 @@ void Task_ChaoMessageInit(void) {
         s->hitboxes[0].index = -1;
         s->frameFlags = 0x3000;
 
-
         msgSprite = TASK_DATA(TaskCreate(Task_803C130, sizeof(ChaoMsgSprite), 0x2100U, 0U, TaskDestructor_803C184));
         msgSprite->unk30 = 0xA9;
         msgSprite->unk32 = (i * 0x28 + 0x14);
         msgSprite->unk34 = i;
-    
+
         s = &msgSprite->s;
         s->graphics.dest = VramMalloc(26);
         if (gLoadedSaveGame.uiLanguage == UILANG_JAPANESE) {
@@ -547,6 +548,63 @@ void Task_ChaoMessageInit(void) {
     sub_80535FC();
     sub_803BEB8();
     message->unk52 = 0;
-    gCurTask->main = sub_803B7AC;
-    sub_803B7AC();
+    gCurTask->main = Task_803B7AC;
+    Task_803B7AC();
+}
+
+void Task_803B7AC()
+{
+    ChaoMessage *message;
+    u8 var_r6 = 0;
+
+    MultiPakHeartbeat();
+
+    message = TASK_DATA(gCurTask);
+    message->unk52++;
+
+    switch (message->unk54) {
+        case 0:
+            break;
+        case 4:
+            if (message->unk52 >= 0x10) {
+                if (message->unk4E != 0) {
+                    message->unk4E -= 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            /* fallthrough */
+        case 3:
+            if (message->unk52 > 0xAU) {
+                if (message->unk4C != 0) {
+                    message->unk4C += 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            /* fallthrough */
+        case 2:
+            if (message->unk52 > 5U) {
+                if (message->unk4A != 0) {
+                    message->unk4A = (u16)message->unk4A - 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            if (message->unk52 != 0) {
+                if (message->unk48 != 0) {
+                    message->unk48 += 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            break;
+    }
+    if (var_r6 == message->unk54) {
+        gCurTask->main = sub_803B944;
+    }
+    if (gBldRegs.bldY != 0) {
+        gBldRegs.bldY -= 1;
+    }
+    sub_803BE0C();
 }

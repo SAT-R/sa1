@@ -5,215 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_803B7AC
-sub_803B7AC: @ 0x0803B7AC
-	push {r4, r5, r6, r7, lr}
-	movs r6, #0
-	ldr r0, _0803B80C @ =gGameMode
-	ldrb r0, [r0]
-	cmp r0, #1
-	bls _0803B84A
-	movs r3, #0
-	ldr r0, _0803B810 @ =gMultiplayerConnections
-	ldrb r1, [r0]
-	movs r2, #1
-	ands r1, r2
-	adds r7, r0, #0
-	cmp r1, #0
-	beq _0803B84A
-	movs r5, #1
-	ldr r2, _0803B814 @ =gMultiplayerMissingHeartbeats
-_0803B7CC:
-	ldr r1, _0803B818 @ =gMultiSioStatusFlags
-	adds r0, r5, #0
-	lsls r0, r3
-	ldr r4, [r1]
-	ands r4, r0
-	cmp r4, #0
-	bne _0803B834
-	ldrb r0, [r2]
-	adds r1, r0, #1
-	strb r1, [r2]
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0xb4
-	bls _0803B838
-	movs r0, #0
-	ldr r1, _0803B81C @ =0x0000FFFF
-	bl TasksDestroyInPriorityRange
-	ldr r1, _0803B820 @ =gBackgroundsCopyQueueCursor
-	ldr r0, _0803B824 @ =gBackgroundsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r0, _0803B828 @ =sa2__gUnknown_03005390
-	strb r4, [r0]
-	ldr r1, _0803B82C @ =gVramGraphicsCopyCursor
-	ldr r0, _0803B830 @ =gVramGraphicsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	bl LinkCommunicationError
-	b _0803B936
-	.align 2, 0
-_0803B80C: .4byte gGameMode
-_0803B810: .4byte gMultiplayerConnections
-_0803B814: .4byte gMultiplayerMissingHeartbeats
-_0803B818: .4byte gMultiSioStatusFlags
-_0803B81C: .4byte 0x0000FFFF
-_0803B820: .4byte gBackgroundsCopyQueueCursor
-_0803B824: .4byte gBackgroundsCopyQueueIndex
-_0803B828: .4byte sa2__gUnknown_03005390
-_0803B82C: .4byte gVramGraphicsCopyCursor
-_0803B830: .4byte gVramGraphicsCopyQueueIndex
-_0803B834:
-	movs r0, #0
-	strb r0, [r2]
-_0803B838:
-	adds r2, #1
-	adds r3, #1
-	cmp r3, #3
-	bhi _0803B84A
-	ldrb r0, [r7]
-	asrs r0, r3
-	ands r0, r5
-	cmp r0, #0
-	bne _0803B7CC
-_0803B84A:
-	ldr r2, _0803B894 @ =gCurTask
-	ldr r0, [r2]
-	ldrh r3, [r0, #6]
-	movs r0, #0xc0
-	lsls r0, r0, #0x12
-	adds r5, r3, r0
-	adds r0, #0x52
-	adds r1, r3, r0
-	ldrh r0, [r1]
-	adds r4, r0, #1
-	strh r4, [r1]
-	ldr r1, _0803B898 @ =0x03000054
-	adds r0, r3, r1
-	ldrb r0, [r0]
-	cmp r0, #2
-	beq _0803B8CC
-	cmp r0, #2
-	ble _0803B916
-	cmp r0, #3
-	beq _0803B8A6
-	cmp r0, #4
-	bne _0803B916
-	lsls r0, r4, #0x10
-	lsrs r0, r0, #0x10
-	cmp r0, #0xf
-	bls _0803B8A6
-	ldr r4, _0803B89C @ =0x0300004E
-	adds r1, r3, r4
-	ldrh r3, [r1]
-	movs r7, #0
-	ldrsh r0, [r1, r7]
-	cmp r0, #0
-	beq _0803B8A0
-	adds r0, r3, #0
-	subs r0, #0x10
-	strh r0, [r1]
-	b _0803B8A6
-	.align 2, 0
-_0803B894: .4byte gCurTask
-_0803B898: .4byte 0x03000054
-_0803B89C: .4byte 0x0300004E
-_0803B8A0:
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-_0803B8A6:
-	adds r0, r5, #0
-	adds r0, #0x52
-	ldrh r0, [r0]
-	cmp r0, #0xa
-	bls _0803B8CC
-	adds r1, r5, #0
-	adds r1, #0x4c
-	ldrh r3, [r1]
-	movs r4, #0
-	ldrsh r0, [r1, r4]
-	cmp r0, #0
-	beq _0803B8C6
-	adds r0, r3, #0
-	adds r0, #0x10
-	strh r0, [r1]
-	b _0803B8CC
-_0803B8C6:
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-_0803B8CC:
-	adds r0, r5, #0
-	adds r0, #0x52
-	ldrh r1, [r0]
-	adds r4, r0, #0
-	cmp r1, #5
-	bls _0803B8F4
-	adds r1, r5, #0
-	adds r1, #0x4a
-	ldrh r3, [r1]
-	movs r7, #0
-	ldrsh r0, [r1, r7]
-	cmp r0, #0
-	beq _0803B8EE
-	adds r0, r3, #0
-	subs r0, #0x10
-	strh r0, [r1]
-	b _0803B8F4
-_0803B8EE:
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-_0803B8F4:
-	ldrh r0, [r4]
-	cmp r0, #0
-	beq _0803B916
-	adds r1, r5, #0
-	adds r1, #0x48
-	ldrh r3, [r1]
-	movs r4, #0
-	ldrsh r0, [r1, r4]
-	cmp r0, #0
-	beq _0803B910
-	adds r0, r3, #0
-	adds r0, #0x10
-	strh r0, [r1]
-	b _0803B916
-_0803B910:
-	adds r0, r6, #1
-	lsls r0, r0, #0x18
-	lsrs r6, r0, #0x18
-_0803B916:
-	adds r0, r5, #0
-	adds r0, #0x54
-	ldrb r0, [r0]
-	cmp r6, r0
-	bne _0803B926
-	ldr r1, [r2]
-	ldr r0, _0803B93C @ =sub_803B944
-	str r0, [r1, #8]
-_0803B926:
-	ldr r1, _0803B940 @ =gBldRegs
-	ldrh r0, [r1, #4]
-	cmp r0, #0
-	beq _0803B932
-	subs r0, #1
-	strh r0, [r1, #4]
-_0803B932:
-	bl sub_803BE0C
-_0803B936:
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0803B93C: .4byte sub_803B944
-_0803B940: .4byte gBldRegs
-
+.if 01
 	thumb_func_start sub_803B944
 sub_803B944: @ 0x0803B944
 	push {r4, r5, r6, r7, lr}
@@ -406,6 +198,7 @@ _0803BACE:
 	pop {r4, r5, r6, r7}
 	pop {r0}
 	bx r0
+.endif
 
 	thumb_func_start sub_803BAD4
 sub_803BAD4: @ 0x0803BAD4
@@ -1198,6 +991,7 @@ _0803C11C:
 	.align 2, 0
 _0803C12C: .4byte gUnknown_03005008
 
+@ -> ChaoMsgSprite
 	thumb_func_start Task_803C130
 Task_803C130: @ 0x0803C130
 	push {r4, lr}
