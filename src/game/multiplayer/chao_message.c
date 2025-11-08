@@ -3,6 +3,7 @@
 #include "flags.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/globals.h"
+#include "game/save.h"
 
 #include "constants/songs.h"
 
@@ -10,7 +11,7 @@
 
 typedef struct ChaoMessage {
     /* 0x00 */ Background bg;
-    /* 0x40 */ u8 filler40[0x8];
+    /* 0x40 */ u8 unk40[2][4];
     /* 0x48 */ s16 unk48;
     /* 0x48 */ s16 unk4A;
     /* 0x48 */ s16 unk4C;
@@ -22,11 +23,14 @@ typedef struct ChaoMessage {
     /* 0x56 */ u8 unk56;
 } ChaoMessage; /* 0x58 */
 
+extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
 u8 gUnknown_030058B4;
 u8 gUnknown_030058B8[4];
 
 void Task_ChaoMessageInit(void);
 void sub_803AB60(ChaoMessage *message);
+
+extern u8 gUnknown_030058A8[][2];
 
 void CreateMultiplayerResultsScreen(u8 mode)
 {
@@ -121,3 +125,350 @@ void CreateMultiplayerResultsScreen(u8 mode)
             break;
     }
 }
+
+// (99.02%) https://decomp.me/scratch/HVYh9
+NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void sub_803AB60(ChaoMessage *message))
+{
+    u8 sp0;
+    u8 sp4;
+    s16 var_r0;
+    s32 var_r3;
+    u8 var_r2_3;
+    u8 i;
+    u8 var_r6;
+
+    switch (message->unk54) {
+        case 2:
+            message->unk50 = 0x28;
+            break;
+        case 3:
+            message->unk50 = 0x14;
+            break;
+        default:
+        case 0:
+        case 1:
+        case 4:
+            message->unk50 = 0;
+            break;
+    }
+
+    switch (message->mode) {
+        case 0:
+            sp0 = 0;
+            sp4 = 0;
+            for (i = 0; i < message->unk54; i++) {
+                u32 unk5008 = gUnknown_03005008[i];
+                if (i != (SIO_MULTI_CNT->id)) {
+                    if (unk5008 < 10) {
+                        gUnknown_030058A8[i][0] = LOADED_SAVE->multiplayerScores[unk5008].wins;
+                        gUnknown_030058A8[i][1] = LOADED_SAVE->multiplayerScores[unk5008].losses;
+                    } else {
+                        gUnknown_030058A8[i][0] = 0;
+                        gUnknown_030058A8[i][1] = 0;
+                    }
+
+                    if (gUnknown_030058A8[i][0] > gUnknown_030058A8[i][1]) {
+                        message->unk40[1][i] = 6;
+                        message->unk40[0][i] = 6;
+                        sp0++;
+                    } else if (gUnknown_030058A8[i][0] < gUnknown_030058A8[i][1]) {
+                        message->unk40[1][i] = 1;
+                        message->unk40[0][i] = 1;
+                        sp4++;
+                    } else {
+                        message->unk40[1][i] = 0;
+                        message->unk40[0][i] = 0;
+                    }
+                }
+            }
+
+            if (sp0 > sp4) {
+                message->unk40[1][SIO_MULTI_CNT->id] = 1;
+                message->unk40[0][SIO_MULTI_CNT->id] = 1;
+            } else if (sp0 < sp4) {
+                message->unk40[1][SIO_MULTI_CNT->id] = 6;
+                message->unk40[0][SIO_MULTI_CNT->id] = 6;
+            } else {
+                message->unk40[1][SIO_MULTI_CNT->id] = 0;
+                message->unk40[0][SIO_MULTI_CNT->id] = 0;
+            }
+            break;
+        case 1:
+            if ((gUnknown_030058B4 == 2) || (gGameMode == 3) || (gGameMode == 5)) {
+                for (i = 0; i < message->unk54; i++) {
+                    switch (SA2_LABEL(gUnknown_030054B4)[i]) {
+                        case 0:
+                            message->unk40[1][i] = 2;
+                            message->unk40[0][i] = 2;
+                            if (i == (SIO_MULTI_CNT->id)) {
+
+                            } else if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                                if ((gGameMode != 3) && (gGameMode != 5)) {
+                                    ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws;
+                                    if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws > 99) {
+                                        LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws = 99;
+                                    }
+                                }
+                            } else {
+                                ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses;
+                                if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses > 99) {
+                                    LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses = 99;
+                                }
+                            }
+                            break;
+                        default:
+                        case 1:
+                            message->unk40[1][i] = 3;
+                            message->unk40[0][i] = 3;
+                            if (i != (SIO_MULTI_CNT->id)) {
+                                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                                    ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins;
+                                    if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins > 99) {
+                                        LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins = 99;
+                                    }
+                                } else if ((gGameMode != 3) && (gGameMode != 5)) {
+                                    ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws;
+                                    if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws > 99) {
+                                        LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws = 99;
+                                    }
+                                }
+                            }
+                            break;
+                        case 4:
+                            message->unk40[1][i] = 4;
+                            message->unk40[0][i] = 4;
+                            if ((i != (SIO_MULTI_CNT->id))
+                                && (((gGameMode != 3) && (gGameMode != 5))
+                                    || (((s32)(gMultiplayerConnections & (0x10 << i)) >> (i + 4))
+                                        != ((s32)(gMultiplayerConnections & (0x10 << (SIO_MULTI_CNT->id)))
+                                            >> ((SIO_MULTI_CNT->id) + 4))))) {
+                                ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws;
+                                if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws > 99) {
+                                    LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws = 99;
+                                }
+                            }
+                            break;
+                    }
+                }
+
+                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                    message->unk56 = 0;
+                    if (++LOADED_SAVE->unk425 > 99) {
+                        LOADED_SAVE->unk425 = 99;
+                    }
+                } else {
+                    if ((SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 4)) {
+                        message->unk56 = 2;
+                        if (++LOADED_SAVE->unk427 > 99) {
+                            LOADED_SAVE->unk427 = 99;
+                        }
+                    } else {
+                        message->unk56 = 1;
+                        if (++LOADED_SAVE->unk426 > 99) {
+                            LOADED_SAVE->unk426 = 99;
+                        }
+                    }
+                }
+            } else if (gGameMode == 4) {
+                for (i = 0, var_r2_3 = 0; i < message->unk54; i++) {
+                    if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                        var_r2_3 += 1;
+                    }
+                }
+                if (var_r2_3 == 1) {
+                    for (i = 0; i < message->unk54; i++) {
+                        if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                            message->unk40[1][i] = 2;
+                            message->unk40[0][i] = 2;
+
+                            if (i != (SIO_MULTI_CNT->id)) {
+                                ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses;
+                                if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses > 99) {
+                                    LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses = 99;
+                                }
+                            }
+                        } else {
+                            message->unk40[1][i] = 3;
+                            message->unk40[0][i] = 3;
+
+                            if ((i != (SIO_MULTI_CNT->id)) && (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0)) {
+                                ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins;
+                                if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins > 99) {
+                                    LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins = 99;
+                                }
+                            }
+                        }
+                    }
+
+                    if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                        message->unk56 = 0;
+                        if (++LOADED_SAVE->unk425 > 99) {
+                            LOADED_SAVE->unk425 = 99;
+                        }
+                    } else {
+                        message->unk56 = 1;
+                        if (++LOADED_SAVE->unk426 > 99) {
+                            LOADED_SAVE->unk426 = 99;
+                        }
+                    }
+                } else if (var_r2_3 == 0) {
+                    for (i = 0; i < message->unk54; i++) {
+                        message->unk40[1][i] = 4;
+                        message->unk40[0][i] = 4;
+
+                        if (i != (SIO_MULTI_CNT->id)) {
+                            ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws;
+                            if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws > 99) {
+                                LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws = 99;
+                            }
+                        }
+                    }
+                    message->unk56 = 2;
+                    if (++LOADED_SAVE->unk427 > 99) {
+                        LOADED_SAVE->unk427 = 99;
+                    }
+                } else {
+                    for (i = 0; i < message->unk54; i++) {
+                        if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                            message->unk40[1][i] = 4;
+                            message->unk40[0][i] = 4;
+                            if (i != (SIO_MULTI_CNT->id)) {
+                                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != 0) {
+                                    ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses;
+                                    if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses > 99) {
+                                        LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses = 99;
+                                    }
+                                } else {
+                                    ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws;
+                                    if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws > 99) {
+                                        LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws = 99;
+                                    }
+                                }
+                            }
+                        } else {
+                            message->unk40[1][i] = 3;
+                            message->unk40[0][i] = 3;
+                            if (i != (SIO_MULTI_CNT->id)) {
+                                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                                    ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins;
+                                    if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins > 99) {
+                                        LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins = 99;
+                                    }
+                                } else {
+                                    ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws;
+                                    if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws > 99) {
+                                        LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws = 99;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                        message->unk56 = 2;
+                        if (++LOADED_SAVE->unk427 > 99) {
+                            LOADED_SAVE->unk427 = 99;
+                        }
+                    } else {
+                        message->unk56 = 1;
+                        if (++LOADED_SAVE->unk426 > 99) {
+                            LOADED_SAVE->unk426 = 99;
+                        }
+                    }
+                }
+            } else {
+                for (var_r6 = 0, i = 0; i < message->unk54; i++) {
+                    if (SA2_LABEL(gUnknown_030054B4)[i] == 4) {
+                        var_r6++;
+                    }
+                }
+
+                if (var_r6 == message->unk54) {
+                    for (i = 0; i < message->unk54; i++) {
+                        message->unk40[1][i] = 4;
+                        message->unk40[0][i] = 4;
+                    }
+                } else {
+                    for (i = 0; i < message->unk54; i++) {
+                        switch (SA2_LABEL(gUnknown_030054B4)[i]) {
+                            case 0:
+                                message->unk40[1][i] = 7;
+                                message->unk40[0][i] = 2;
+                                break;
+                            case 1:
+                                message->unk40[1][i] = 8;
+                                message->unk40[0][i] = 4;
+                                break;
+                            case 2:
+                                message->unk40[1][i] = 9;
+                                if (message->unk54 == 3) {
+                                    message->unk40[0][i] = 3;
+                                } else {
+                                    message->unk40[0][i] = 4;
+                                }
+                                break;
+                            case 3:
+                                message->unk40[1][i] = 10;
+                                message->unk40[0][i] = 3;
+                                break;
+                            case 4:
+                                message->unk40[1][i] = 3;
+                                message->unk40[0][i] = 3;
+                                break;
+                            case 5:
+                                message->unk40[1][i] = 3;
+                                message->unk40[0][i] = 3;
+                                break;
+                        }
+
+                        if (i != SIO_MULTI_CNT->id) {
+                            if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] < SA2_LABEL(gUnknown_030054B4)[i]) {
+                                ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins;
+                                if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins > 99) {
+                                    LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].wins = 99;
+                                }
+                            } else if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == SA2_LABEL(gUnknown_030054B4)[i]) {
+                                ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws;
+                                if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws > 99) {
+                                    LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].draws = 99;
+                                }
+
+                            } else {
+                                ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses;
+                                if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses > 99) {
+                                    LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].losses = 99;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                    message->unk56 = 0;
+                    ++LOADED_SAVE->unk425;
+                    if (LOADED_SAVE->unk425 > 99) {
+                        LOADED_SAVE->unk425 = 99;
+                    }
+                } else if ((SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != 4) || (var_r6 != message->unk54)) {
+                    message->unk56 = 1;
+                    ++LOADED_SAVE->unk426;
+                    if (LOADED_SAVE->unk426 > 99) {
+                        LOADED_SAVE->unk426 = 99;
+                    }
+                } else {
+                    message->unk56 = 2;
+                    ++LOADED_SAVE->unk427;
+                    if (LOADED_SAVE->unk427 > 99) {
+                        LOADED_SAVE->unk427 = 99;
+                    }
+                }
+            }
+            break;
+        case 2:
+            for (i = 0; i < message->unk54; i++) {
+                message->unk40[1][i] = 5;
+                message->unk40[0][i] = 5;
+            }
+            break;
+    }
+}
+END_NONMATCH
