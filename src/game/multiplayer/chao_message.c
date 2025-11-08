@@ -1,11 +1,16 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
+#include "game/gTask_03006240.h"
+#include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/save.h"
 
+#include "constants/animations.h"
 #include "constants/songs.h"
+#include "constants/text.h"
 
 #define CM_BACKGROUND_COLOR RGB16(0, 27, 30)
 
@@ -23,11 +28,22 @@ typedef struct ChaoMessage {
     /* 0x56 */ u8 unk56;
 } ChaoMessage; /* 0x58 */
 
+typedef struct ChaoMsgSprite {
+    Sprite s;
+    s16 unk30;
+    s16 unk32;
+    u8 unk34;
+} ChaoMsgSprite;
+
 extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
 u8 gUnknown_030058B4;
 u8 gUnknown_030058B8[4];
 
 void Task_ChaoMessageInit(void);
+void Task_803C130(void);
+void sub_803B7AC(void);
+void sub_803BEB8(void);
+void TaskDestructor_803C184(struct Task *t);
 void sub_803AB60(ChaoMessage *message);
 
 extern u8 gUnknown_030058A8[][2];
@@ -472,3 +488,65 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
     }
 }
 END_NONMATCH
+
+void Task_ChaoMessageInit(void) {
+    u8 i;
+    Sprite *s;
+
+    ChaoMessage *message;
+    ChaoMsgSprite *msgSprite;
+
+    MultiPakHeartbeat();
+    
+    message = TASK_DATA(gCurTask);
+    for(i = 0; i < message->unk54; i++)
+    {
+        msgSprite = TASK_DATA(TaskCreate(Task_803C130, sizeof(ChaoMsgSprite), 0x2100U, 0U, TaskDestructor_803C184));
+        msgSprite->unk30 = 0x2D;
+        msgSprite->unk32 = (i * 0x28 + 2);
+        msgSprite->unk34 = i;
+    
+        s = &msgSprite->s;
+        s->graphics.dest = VramMalloc(40);
+        s->graphics.anim = SA1_ANIM_MP_CHAO_AVATAR;
+        s->variant = message->unk40[0][i];
+        s->oamFlags = SPRITE_OAM_ORDER(16);
+        s->graphics.size = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x3000;
+
+
+        msgSprite = TASK_DATA(TaskCreate(Task_803C130, sizeof(ChaoMsgSprite), 0x2100U, 0U, TaskDestructor_803C184));
+        msgSprite->unk30 = 0xA9;
+        msgSprite->unk32 = (i * 0x28 + 0x14);
+        msgSprite->unk34 = i;
+    
+        s = &msgSprite->s;
+        s->graphics.dest = VramMalloc(26);
+        if (gLoadedSaveGame.uiLanguage == UILANG_JAPANESE) {
+            s->graphics.anim = SA1_ANIM_MP_PLAYER_MSG_JP;
+        } else {
+            s->graphics.anim = SA1_ANIM_MP_PLAYER_MSG_EN;
+        }
+        s->variant = message->unk40[1][i];
+        s->oamFlags = SPRITE_OAM_ORDER(16);
+        s->graphics.size = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = 0;
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = -1;
+        s->frameFlags = 0x3000;
+    }
+    sub_80535FC();
+    sub_803BEB8();
+    message->unk52 = 0;
+    gCurTask->main = sub_803B7AC;
+    sub_803B7AC();
+}
