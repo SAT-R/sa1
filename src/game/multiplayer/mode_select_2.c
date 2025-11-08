@@ -213,8 +213,65 @@ void SA2_LABEL(sub_8081200)(void)
     gPlayer.heldInput |= gPlayerControls.jump | gPlayerControls.attack;
 }
 
-// TODO: 0%
-NONMATCH("asm/non_matching/game/multiplayer/results_2__sub_800FD9C.inc", void sub_800FD9C(SioMultiplayerScore *data)) { }
+// (66.97%) https://decomp.me/scratch/876Ux
+NONMATCH("asm/non_matching/game/multiplayer/results_2__sub_800FD9C.inc", void sub_800FD9C(SioMultiplayerScore *data))
+{
+    struct MultiplayerScore sp00;
+    // s32 ip = 0;
+    u32 i = 0;
+    u32 r3;
+    bool32 r6;
+    u8 *ptrA, *ptrB;
+
+    struct MultiplayerScore *inScore = &data->mps;
+
+    for (i = 0; i < ARRAY_COUNT(LOADED_SAVE->multiplayerScores); i++) {
+        struct MultiplayerScore *score = &LOADED_SAVE->multiplayerScores[i];
+        r6 = TRUE;
+        r3 = 0;
+
+        if ((u8)data->mps.playerId != (u8)score->playerId) {
+            r6 = FALSE;
+        } else {
+            // _0800FDD8
+            while (++r3 < 12) {
+                if (data->mps.playerName[r3] != score->playerName[r3]) {
+                    r6 = FALSE;
+                    break;
+                }
+            }
+            // _0800FDEC
+
+            if (r6) {
+                sp00 = data->mps;
+
+                while (i > 0) {
+                    LOADED_SAVE->multiplayerScores[i] = LOADED_SAVE->multiplayerScores[i - 1];
+                    i--;
+                }
+
+                LOADED_SAVE->multiplayerScores[0] = sp00;
+
+                return;
+            }
+        }
+        // _0800FE38 (cont.)
+    }
+
+    for (i = 9; i > 0; i--) {
+        LOADED_SAVE->multiplayerScores[i] = LOADED_SAVE->multiplayerScores[i - 1];
+    }
+
+    ptrB = (u8 *)&inScore;
+    ptrA = (u8 *)&LOADED_SAVE->multiplayerScores[0];
+    for (i = 0; i < 12; i++) {
+        *ptrA++ = *ptrB++;
+    }
+
+    LOADED_SAVE->multiplayerScores[0].wins = 0;
+    LOADED_SAVE->multiplayerScores[0].losses = 0;
+    LOADED_SAVE->multiplayerScores[0].draws = 0;
+}
 END_NONMATCH
 
 void ShowSinglePakResults(void)

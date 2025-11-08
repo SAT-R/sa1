@@ -56,7 +56,7 @@ typedef struct SaveGame {
     /* 0x01C */ u8 btnConfig;
     /* 0x01D */ u8 chaosEmeralds;
     /* 0x020 */ struct TimeRecords timeRecords;
-    /* 0x2AC */ struct MultiplayerScore multiplayerScores[NUM_MULTIPLAYER_SCORES];
+    /* 0x380 */ struct MultiplayerScore multiplayerScores[NUM_MULTIPLAYER_SCORES];
     /* 0x420 */ u32 unk420;
     /* 0x424 */ u8 unk424;
     /* 0x425 */ u8 unk425;

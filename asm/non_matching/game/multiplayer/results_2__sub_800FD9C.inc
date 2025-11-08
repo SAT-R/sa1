@@ -9,28 +9,28 @@
 	mov r5, r8
 	push {r5, r6, r7}
 	sub sp, #0x14
-	mov sb, r0
+	mov sb, r0      @ sb = data
 	movs r0, #0
 	mov ip, r0
 	ldr r1, _0800FDD4 @ =gLoadedSaveGame + 0x380
-	mov sl, r1
+	mov sl, r1      @ sl = LOADED_SAVE->multiplayerScores
 	mov r5, sb
 	adds r5, #4
-	str r5, [sp, #0x10]
+	str r5, [sp, #0x10] @ sp10 = 
 	mov r7, sl
-	mov r8, r0
-_0800FDBC:
+	mov r8, r0      @ r8 = r0 = i
+_0800FDBC_loop:
 	ldr r4, _0800FDD4 @ =gLoadedSaveGame + 0x380
-	add r4, r8
+	add r4, r8      @ r4 = score
 	movs r6, #1
 	movs r3, #0
-	mov r2, sb
+	mov r2, sb      @ r2 = sb = data
 	ldrb r1, [r2, #4]
 	ldrb r0, [r4]
 	cmp r1, r0
 	beq _0800FDD8
 	movs r6, #0
-	b _0800FE38
+	b _0800FE38_continue
 	.align 2, 0
 _0800FDD4: .4byte gLoadedSaveGame + 0x380
 _0800FDD8:
@@ -46,7 +46,7 @@ _0800FDD8:
 	movs r6, #0
 _0800FDEC:
 	cmp r6, #0
-	beq _0800FE38
+	beq _0800FE38_continue
 	mov r0, sp
 	adds r1, r7, #0
 	ldm r1!, {r3, r4, r5}
@@ -58,7 +58,7 @@ _0800FDEC:
 	beq _0800FE22
 	ldr r4, _0800FE30 @ =gLoadedSaveGame
 	movs r3, #0xe0
-	lsls r3, r3, #2
+	lsls r3, r3, #2   @ 0x380
 _0800FE08:
 	lsls r1, r2, #4
 	adds r1, r1, r4
@@ -84,7 +84,7 @@ _0800FE22:
 	.align 2, 0
 _0800FE30: .4byte gLoadedSaveGame
 _0800FE34: .4byte gLoadedSaveGame + 0x380
-_0800FE38:
+_0800FE38_continue:
 	adds r7, #0x10
 	movs r3, #0x10
 	add r8, r3
@@ -92,7 +92,7 @@ _0800FE38:
 	add ip, r4
 	mov r6, ip
 	cmp r6, #9
-	bls _0800FDBC
+	bls _0800FDBC_loop
 	movs r2, #9
 	ldr r4, _0800FEA4 @ =gLoadedSaveGame
 	movs r3, #0xe0
@@ -112,7 +112,7 @@ _0800FE50:
 	cmp r2, #0
 	bne _0800FE50
 	ldr r5, [sp, #0x10]
-	mov r4, sl
+	mov r4, sl      @ r4 = sl = LOADED_SAVE->multiplayerScores
 _0800FE6E:
 	ldrb r0, [r5]
 	strb r0, [r4]
