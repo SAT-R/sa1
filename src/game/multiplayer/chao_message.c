@@ -44,6 +44,7 @@ void Task_803C130(void);
 void Task_803B7AC(void);
 void sub_803B944(void);
 void sub_803BAD4(void);
+void sub_803BC64(void);
 void sub_803BE0C(void);
 void sub_803BEB8(void);
 void TaskDestructor_803C184(struct Task *t);
@@ -659,6 +660,60 @@ void sub_803B944()
                 m4aSongNumStart(SE_159);
             }
         }
+    }
+    sub_803BE0C();
+}
+
+void sub_803BAD4()
+{
+    ChaoMessage *message;
+    u8 var_r6 = 0;
+
+    MultiPakHeartbeat();
+
+    message = TASK_DATA(gCurTask);
+    message->unk52++;
+
+    switch (message->unk54) {
+        case 0:
+            break;
+        case 4:
+            if (message->unk52 != 0) {
+                if (message->unk4E != 240) {
+                    message->unk4E += 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            /* fallthrough */
+        case 3:
+            if (message->unk52 > 5) {
+                if (message->unk4C != -240) {
+                    message->unk4C -= 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            /* fallthrough */
+        case 2:
+            if (message->unk52 > 10) {
+                if (message->unk4A != 240) {
+                    message->unk4A = (u16)message->unk4A + 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            if (message->unk52 >= 0x10) {
+                if (message->unk48 != -240) {
+                    message->unk48 -= 0x10;
+                } else {
+                    var_r6++;
+                }
+            }
+            break;
+    }
+    if (var_r6 == message->unk54) {
+        gCurTask->main = sub_803BC64;
     }
     sub_803BE0C();
 }
