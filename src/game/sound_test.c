@@ -1,11 +1,13 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
 #include "game/save.h"
 #include "game/stage/ui.h"
 
+#include "constants/animations.h"
 #include "constants/songs.h"
 
 typedef struct SoundTestState {
@@ -448,6 +450,7 @@ void CreateSoundTest(void)
     sub_805E9B4();
 }
 
+// TODO: Match without goto and the "fake-match" inline.
 void Task_SoundTestInit(void)
 {
     SoundTest114 *sp0;
@@ -669,4 +672,143 @@ lbl:
     sp10->unk108 = var_r7;
     sp14->unk108 = var_r7;
     state->unk24 = var_r7;
+}
+
+// (94.09%) https://decomp.me/scratch/m9YNS
+NONMATCH("asm/non_matching/game/sound_test__sub_805F950.inc", void sub_805F950())
+{
+    s32 temp_r6;
+
+    SoundTest114 *strc114 = TASK_DATA(gCurTask);
+
+    temp_r6 = strc114->unk108;
+    if ((strc114->unk10D == 0) || ((u32)temp_r6 < 120)) {
+        strc114->s.x = 180;
+        strc114->s.y = 120;
+        strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_BYE;
+        strc114->s.variant = 0;
+        if (temp_r6 == 0x77) {
+            strc114->s.prevVariant = 0xFF;
+            strc114->unk10D = 1;
+            strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_IDLE;
+            strc114->s.variant = 0;
+        }
+        strc114->s.frameFlags &= ~0x400;
+    } else if (strc114->unk10D == 1) {
+        strc114->s.x = 180;
+        strc114->s.y = 120;
+        strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_IDLE;
+        strc114->s.variant = 0;
+        strc114->s.frameFlags &= ~0x400;
+    } else if (strc114->unk10D == 2) {
+        if (Mod(temp_r6, 250) <= 0x77) {
+            strc114->s.x = 164;
+            strc114->s.y = 120;
+            strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_SHAKE;
+            strc114->s.variant = 0;
+            strc114->s.frameFlags &= ~0x400;
+        } else if ((Mod(temp_r6, 250) > 124) && (Mod(temp_r6, 250) < 245)) {
+            strc114->s.x = 196;
+            strc114->s.y = 120;
+            strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_SHAKE;
+            strc114->s.variant = 0;
+            strc114->s.frameFlags |= 0x400;
+        } else {
+            strc114->s.x = 180;
+            strc114->s.y = 120;
+            strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_SHAKE;
+            strc114->s.variant = 1;
+            strc114->unk10E = 5;
+        }
+    } else if (strc114->unk10D == 3) {
+        strc114->s.x = 180;
+        strc114->s.y = 120;
+        strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_KISS;
+        strc114->s.variant = 0;
+
+        if (--strc114->unk10E == 0) {
+            strc114->s.prevVariant = 0xFF;
+            strc114->unk10D = 1;
+            strc114->s.graphics.anim = SA1_ANIM_SOUNDTEST_AMY_IDLE;
+            strc114->s.variant = 0;
+        }
+
+        strc114->s.frameFlags &= ~0x400;
+    }
+    UpdateSpriteAnimation(&strc114->s);
+    DisplaySprite(&strc114->s);
+}
+END_NONMATCH
+
+void sub_805FAD4()
+{
+    SoundTest114 *strc114 = TASK_DATA(gCurTask);
+    Sprite *s = &strc114->s;
+    SpriteTransform *tf = &strc114->transform;
+
+    if (strc114->unk10D != 0) {
+        strc114->unk10E += 0x10;
+        strc114->unk10E &= 0x3FF;
+    } else {
+        if (strc114->unk10E != 4) {
+            if (strc114->unk10E < 0x200) {
+                strc114->unk10E += 0x10;
+                if (strc114->unk10E > 0x200) {
+                    strc114->unk10E = 4;
+                }
+            } else {
+                strc114->unk10E += 0x10;
+
+                if (strc114->unk10E > 0x3FF) {
+                    strc114->unk10E = 4;
+                }
+            }
+        }
+    }
+
+    tf->rotation = 0;
+    tf->qScaleX = I(SIN(strc114->unk10E)) + Q(1);
+    tf->qScaleY = I(SIN(strc114->unk10E)) + Q(1);
+    tf->x = 76;
+    s->x = 76;
+    tf->y = 92;
+    s->y = 92;
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    s = &strc114->s2;
+    tf = &strc114->transform2;
+    tf->rotation = 0x100;
+    tf->qScaleX = I(SIN(strc114->unk10E)) + Q(1);
+    tf->qScaleY = I(SIN(strc114->unk10E)) + Q(1);
+    tf->x = 76;
+    s->x = 76;
+    tf->y = 92;
+    s->y = 92;
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    s = &strc114->s3;
+    tf = &strc114->transform3;
+    tf->rotation = 0x200;
+    tf->qScaleX = I(SIN(strc114->unk10E)) + Q(1);
+    tf->qScaleY = I(SIN(strc114->unk10E)) + Q(1);
+    tf->x = 76;
+    s->x = 76;
+    tf->y = 92;
+    s->y = 92;
+    TransformSprite(s, tf);
+    DisplaySprite(s);
+
+    s = &strc114->s4;
+    tf = &strc114->transform4;
+    tf->rotation = 0x300;
+    tf->qScaleX = I(SIN(strc114->unk10E)) + Q(1);
+    tf->qScaleY = I(SIN(strc114->unk10E)) + Q(1);
+    tf->x = 76;
+    s->x = 76;
+    tf->y = 92;
+    s->y = 92;
+    TransformSprite(s, tf);
+    DisplaySprite(s);
 }
