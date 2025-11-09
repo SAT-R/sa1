@@ -13,5 +13,3 @@ void CreateSpecialStageIntro() { }
 
 void sub_800E934() { }
 void sub_800F318() { }
-
-void CreateSoundTest() { }

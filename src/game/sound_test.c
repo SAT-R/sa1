@@ -4,11 +4,26 @@
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
+#include "game/options_screen.h"
 #include "game/save.h"
 #include "game/stage/ui.h"
 
 #include "constants/animations.h"
 #include "constants/songs.h"
+
+#ifndef BUG_FIX
+#define DoSpriteTransformAndDisplay(s, tf)                                                                                                 \
+    TransformSprite(s, tf);                                                                                                                \
+    UpdateSpriteAnimation(s);                                                                                                              \
+    DisplaySprite(s);
+#else
+// UpdateSpriteAnimation() should be called first for initialization.
+// TransformSprite() reads from a nullptr otherwise.
+#define DoSpriteTransformAndDisplay(s, tf)                                                                                                 \
+    UpdateSpriteAnimation(s);                                                                                                              \
+    TransformSprite(s, tf);                                                                                                                \
+    DisplaySprite(s);
+#endif
 
 typedef struct SoundTestState {
     StrcUi_805423C strc0;
@@ -35,15 +50,7 @@ typedef struct SoundTest114 {
     SpriteTransform transform3;
     Sprite s4;
     SpriteTransform transform4;
-    u8 fillerF0[0x8];
-    s16 unkF8;
-    s16 unkFA;
-    s16 unkFC;
-    s16 unkFE;
-    s16 unk100;
-    s16 unk102;
-    s16 unk104;
-    u8 unk106;
+    GameOverB overB;
     s32 unk108;
     u8 unk10C;
     u8 unk10D;
@@ -59,11 +66,14 @@ void sub_805FAD4(void);
 void sub_805FDE4(void);
 void sub_805FC88(void);
 void sub_805FE48(void);
-void sub_805FDB0(void);
+void Task_TransitionOptionsMenu(void);
 void Task_805FEAC(void);
 
 extern u8 gUnknown_0868403C[0x800];
 extern u16 sSoundTestSongIds[];
+const u8 gUnknown_0868B0CC[8] = { 0, 1, 2, 3, 4, 3, 2, 1 };
+
+extern void sub_805321C(u8 *param0, GameOverB *param1);
 
 static inline void sub_805FF0C__inline(u8 param0)
 {
@@ -73,16 +83,14 @@ static inline void sub_805FF0C__inline(u8 param0)
     strc114->unk10E = 120;
 }
 
-// NOTE: This is basically a workaround to get the call of this in Task_SoundTestInit() to match
-//       So this can go if we find another way!
-static inline void sub_805FF0C__inline_2(u8 param0, bool32 setAnim)
+static inline void sub_805FD54__inline(u8 param0)
 {
     SoundTestState *state = TASK_DATA(gCurTask);
     SoundTest114 *strc114 = TASK_DATA(state->task10);
     strc114->unk10D = param0;
     strc114->unk10E = 120;
 
-    if (setAnim) {
+    {
         Sprite *s = &strc114->s;
         s->prevVariant = 0xFF;
         s->graphics.anim = 0x357;
@@ -225,9 +233,7 @@ void CreateSoundTest(void)
     tf->qScaleY = 0x101;
     tf->x = 0x4C;
     tf->y = 0x5C;
-    TransformSprite(s, tf);
-    UpdateSpriteAnimation(s);
-    DisplaySprite(s);
+    DoSpriteTransformAndDisplay(s, tf);
 
     s = &temp_r4->s2;
     tf = &temp_r4->transform2;
@@ -249,9 +255,7 @@ void CreateSoundTest(void)
     tf->qScaleY = 0x101;
     tf->x = 0x4C;
     tf->y = 0x5C;
-    TransformSprite(s, tf);
-    UpdateSpriteAnimation(s);
-    DisplaySprite(s);
+    DoSpriteTransformAndDisplay(s, tf);
 
     s = &temp_r4->s3;
     tf = &temp_r4->transform3;
@@ -273,9 +277,7 @@ void CreateSoundTest(void)
     tf->qScaleY = 0x101;
     tf->x = 0x4C;
     tf->y = 0x5C;
-    TransformSprite(s, tf);
-    UpdateSpriteAnimation(s);
-    DisplaySprite(s);
+    DoSpriteTransformAndDisplay(s, tf);
 
     s = &temp_r4->s4;
     tf = &temp_r4->transform4;
@@ -297,9 +299,7 @@ void CreateSoundTest(void)
     tf->qScaleY = 0x101;
     tf->x = 0x4C;
     tf->y = 0x5C;
-    TransformSprite(s, tf);
-    UpdateSpriteAnimation(s);
-    DisplaySprite(s);
+    DoSpriteTransformAndDisplay(s, tf);
 
     t = TaskCreate(Task_805FEAC, sizeof(SoundTest114), 0x2020U, 0U, NULL);
     temp_r1_2 = TASK_DATA(t);
@@ -360,13 +360,13 @@ void CreateSoundTest(void)
     temp_r1_2->unk110 = 0;
     state->taskC = t;
 
-    temp_r1_2->unkFA = 0;
-    temp_r1_2->unkFC = 0x52;
-    temp_r1_2->unkFE = 1;
-    temp_r1_2->unk100 = 0;
-    temp_r1_2->unk102 = 0xF;
-    temp_r1_2->unk106 = 1;
-    temp_r1_2->unkF8 = 0x40;
+    temp_r1_2->overB.qUnkA = 0;
+    temp_r1_2->overB.unkC = 0x52;
+    temp_r1_2->overB.unkE = 1;
+    temp_r1_2->overB.unk10 = 0;
+    temp_r1_2->overB.unk12 = 0xF;
+    temp_r1_2->overB.unk16 = 1;
+    temp_r1_2->overB.unk8 = 0x40;
 
     t = TaskCreate(sub_805FE48, sizeof(SoundTest114), 0x2020U, 0U, NULL);
     temp_r4 = TASK_DATA(t);
@@ -487,7 +487,7 @@ void Task_SoundTestInit(void)
         TaskDestroy(state->task18);
         TaskDestroy(state->task1C);
         TaskDestroy(state->task20);
-        gCurTask->main = sub_805FDB0;
+        gCurTask->main = Task_TransitionOptionsMenu;
         return;
     }
     scrollX = (u16)gBgScrollRegs[0][0] + 1;
@@ -556,7 +556,7 @@ void Task_SoundTestInit(void)
         SoundTestState *state;
         Sprite *s;
         var_r7 = 0x79;
-        sub_805FF0C__inline_2(2, 1);
+        sub_805FD54__inline(2);
     }
 
     if ((var_r7 > 1U) && (1 & gPressedKeys) && (state->strc0.unk4 != 1) && (var_r7 > 0x78U) && !(2 & gPressedKeys)) {
@@ -811,4 +811,130 @@ void sub_805FAD4()
     s->y = 92;
     TransformSprite(s, tf);
     DisplaySprite(s);
+}
+
+void sub_805FC88()
+{
+    GameOverB *overB;
+    s16 *temp_r6;
+    s32 var_r8;
+    u8 temp_r5;
+    u8 subroutine_arg0;
+    SoundTest114 *strc114 = TASK_DATA(gCurTask);
+
+    temp_r5 = strc114->unk10C + 1;
+    var_r8 = 0;
+    strc114->overB.unkC = 0x52;
+    if ((u32)temp_r5 > 0x63U) {
+        subroutine_arg0 = Div((s32)temp_r5, 100) + 0x20;
+        strc114->overB.qUnkA = 0x40;
+        sub_805321C(&subroutine_arg0, &strc114->overB);
+    } else {
+        if (temp_r5 >= 10) {
+            var_r8 = 5;
+        } else {
+            var_r8 = 10;
+        }
+    }
+    temp_r6 = &strc114->overB.qUnkA;
+    overB = &strc114->overB;
+    if ((u32)temp_r5 > 9U) {
+        subroutine_arg0 = (s8)(Div(Mod(temp_r5, 100), 0xA) + 0x20);
+        *temp_r6 = 74 - var_r8;
+        sub_805321C(&subroutine_arg0, overB);
+    }
+    subroutine_arg0 = (s8)(Mod(temp_r5, 0xA) + 0x20);
+    *temp_r6 = 84 - var_r8;
+    sub_805321C(&subroutine_arg0, overB);
+}
+
+// inline
+void sub_805FD54()
+{
+    SoundTestState *state = TASK_DATA(gCurTask);
+    SoundTest114 *strc114 = TASK_DATA(state->task10);
+    strc114->unk10D = 2;
+    strc114->unk10E = 120;
+
+    {
+        Sprite *s = &strc114->s;
+        s->prevVariant = -1;
+        s->graphics.anim = SA1_ANIM_SOUNDTEST_AMY_SHAKE;
+        s->variant = 0;
+        UpdateSpriteAnimation(s);
+    }
+}
+
+void Task_TransitionOptionsMenu(void)
+{
+    gDispCnt &= ~0xE000;
+    gBldRegs.bldCnt = 0;
+    gBldRegs.bldY = 0;
+    TaskDestroy(gCurTask);
+
+    CreateOptionsMenu();
+}
+
+void sub_805FDE4()
+{
+    u32 unk108;
+
+    SoundTest114 *strc114 = TASK_DATA(gCurTask);
+
+    unk108 = strc114->unk108;
+    if ((strc114->unk10D != 0) && (unk108 > 24)) {
+        strc114->s.prevVariant = -1;
+        strc114->s.variant = 0;
+    } else {
+        strc114->s.prevVariant = -1;
+        strc114->s.variant = 1;
+    }
+    UpdateSpriteAnimation(&strc114->s);
+    DisplaySprite(&strc114->s);
+}
+
+void sub_805FE48()
+{
+    SoundTest114 *strc114 = TASK_DATA(gCurTask);
+    Sprite *s = &strc114->s;
+
+    s = &strc114->s;
+    DisplaySprite(s);
+
+    s = &strc114->s2;
+    DisplaySprite(s);
+
+    s = &strc114->s3;
+    DisplaySprite(s);
+
+    s = &strc114->s4;
+    s->frameFlags &= 0xFFFFFBFF;
+    DisplaySprite(s);
+    s->frameFlags |= 0x400;
+    DisplaySprite(s);
+}
+
+void Task_805FEAC(void)
+{
+    SoundTest114 *strc114 = TASK_DATA(gCurTask);
+    Sprite *s = &strc114->s;
+    u8 baseX;
+    u32 unk108 = strc114->unk108;
+
+    s->frameFlags &= ~0x400;
+    baseX = gUnknown_0868B0CC[(unk108 >> 3) % ARRAY_COUNT(gUnknown_0868B0CC)];
+    s->x = baseX + 102;
+    DisplaySprite(s);
+    s->frameFlags |= 0x400;
+    s->x = 52 - baseX;
+    DisplaySprite(s);
+}
+
+// inline
+void sub_805FF0C(u8 param0)
+{
+    SoundTestState *state = TASK_DATA(gCurTask);
+    SoundTest114 *strc114 = TASK_DATA(state->task10);
+    strc114->unk10D = param0;
+    strc114->unk10E = 120;
 }
