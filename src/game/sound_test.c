@@ -1,11 +1,62 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
+#include "game/stage/ui.h"
 
-extern u8 gUnknown_0868403C[0x800];
+typedef struct SoundTestState {
+    StrcUi_805423C strc0;
+    struct Task *taskC;
+    struct Task *task10;
+    struct Task *task14;
+    struct Task *task18;
+    struct Task *task1C;
+    struct Task *task20;
+    s32 unk24;
+    u8 unk28;
+    u8 unk29;
+    u8 unk2A;
+    u8 unk2B;
+    u8 unk2C;
+} SoundTestState; /* 0x30 */
+
+typedef struct SoundTest114 {
+    Sprite s;
+    SpriteTransform transform;
+    Sprite s2;
+    SpriteTransform transform2;
+    Sprite s3;
+    SpriteTransform transform3;
+    Sprite s4;
+    SpriteTransform transform4;
+    u8 fillerF0[0x8];
+    s16 unkF8;
+    s16 unkFA;
+    s16 unkFC;
+    s16 unkFE;
+    s16 unk100;
+    s16 unk102;
+    s16 unk104;
+    u8 unk106;
+    s32 unk108;
+    u8 unk10C;
+    u8 unk10D;
+    u16 unk10E;
+    u8 unk110;
+    u8 filler111[0x3];
+} SoundTest114;
 
 void *sub_805E9B4(void);
+void Task_SoundTestInit(void);
+void sub_805F950(void);
+void sub_805FAD4(void);
+void sub_805FDE4(void);
+void sub_805FC88(void);
+void sub_805FE48(void);
+void Task_805FEAC(void);
+
+extern u8 gUnknown_0868403C[0x800];
 
 void *sub_805E9B4(void)
 {
