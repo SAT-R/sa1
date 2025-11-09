@@ -43,6 +43,7 @@ void Task_ChaoMessageInit(void);
 void Task_803C130(void);
 void Task_803B7AC(void);
 void sub_803B944(void);
+void sub_803BAD4(void);
 void sub_803BE0C(void);
 void sub_803BEB8(void);
 void TaskDestructor_803C184(struct Task *t);
@@ -605,6 +606,59 @@ void Task_803B7AC()
     }
     if (gBldRegs.bldY != 0) {
         gBldRegs.bldY -= 1;
+    }
+    sub_803BE0C();
+}
+
+void sub_803B944()
+{
+    ChaoMessage *message;
+    u8 var_r6 = 0;
+    u32 i;
+
+    MultiPakHeartbeat();
+
+    message = TASK_DATA(gCurTask);
+
+    if (message->mode != 1) {
+        if (++message->unk52 >= 240) {
+            gCurTask->main = sub_803BAD4;
+            message->unk52 = 0;
+        }
+
+        if (message->unk52 == 0x2D) {
+            if (message->mode == 0) {
+                m4aSongNumStart(SE_156);
+            } else {
+                m4aSongNumStart(SE_160);
+            }
+        }
+    } else {
+        ++message->unk52;
+
+        for (i = 0; i < 4; i++) {
+            if (gMultiSioRecv[i].pat0.unk0 == 0xB0) {
+                var_r6 = 1;
+            }
+        }
+
+        if ((A_BUTTON & gPressedKeys) || (message->unk52 > 0x707U) || (var_r6 != 0)) {
+            gCurTask->main = sub_803BAD4;
+            message->unk52 = 0;
+            if (var_r6 == 0) {
+                gMultiSioSend.pat0.unk0 = 0xB0;
+            }
+        }
+
+        if (message->unk52 == 0x2D) {
+            if (message->unk56 == 0) {
+                m4aSongNumStart(SE_157);
+            } else if (message->unk56 == 1) {
+                m4aSongNumStart(SE_158);
+            } else {
+                m4aSongNumStart(SE_159);
+            }
+        }
     }
     sub_803BE0C();
 }
