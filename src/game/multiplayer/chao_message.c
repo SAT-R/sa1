@@ -14,6 +14,7 @@
 #include "constants/animations.h"
 #include "constants/songs.h"
 #include "constants/text.h"
+#include "constants/tilemaps.h"
 
 #define CM_BACKGROUND_COLOR RGB16(0, 27, 30)
 
@@ -833,7 +834,7 @@ void sub_803BEB8(void)
     gfx.uiGfxID = 0;
     gfx.unk2B = 1;
     gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
-    gfx.palette = gUiGraphics[60].palette;
+    gfx.palette = gUiGraphics[TM_SPECIAL_STAGE_BG_FRAME_5].palette;
     gfx.vramC = VramMalloc(0xE0U);
     gfx.tilesSize = 0x1C00;
     gfx.paletteSize = 0x20;
