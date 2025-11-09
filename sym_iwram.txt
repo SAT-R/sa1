@@ -47,10 +47,8 @@ src/game/special_stage/temporary_sound_play_task.o(.data);
 . = 0x00005860;
 src/game/enemies/boss_6_egg_snake.o(COMMON);
 . = 0x00005890; gUnknown_03005890 = .;
-. = 0x000058A8; gUnknown_030058A8 = .;
-. = 0x000058B4; gUnknown_030058B4 = .;
-. = 0x000058B8; gUnknown_030058B8 = .;
-. = 0x000058BC;
+. = 0x000058A8;
+src/game/multiplayer/chao_message.o(.bss);
 src/game/dummy_task.o(.data);
 
 . = 0x000058C0;

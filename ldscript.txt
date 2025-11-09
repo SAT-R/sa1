@@ -90,7 +90,6 @@ SECTIONS {
         src/game/enemies/boss_x3_egg_x.o(.text);
 
         src/game/multiplayer/chao_message.o(.text);
-        asm/game__mp__1_1.o(.text);
         src/game/multiplayer/communication_outcome.o(.text);
         src/game/amy_attack_heart_effect.o(.text);
         src/game/sa1_sa2_shared/music_manager.o(.text);

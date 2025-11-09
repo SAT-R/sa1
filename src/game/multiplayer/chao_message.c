@@ -4,6 +4,7 @@
 #include "bg_triangles.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
+#include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
@@ -28,16 +29,26 @@ typedef struct ChaoMessage {
 } ChaoMessage; /* 0x58 */
 
 typedef struct ChaoMsgSprite {
-    Sprite s;
-    s16 unk30;
-    s16 unk32;
-    u8 unk34;
-} ChaoMsgSprite;
+    /* 0x00 */ Sprite s;
+    /* 0x30 */ s16 unk30;
+    /* 0x32 */ s16 unk32;
+    /* 0x34 */ u8 unk34;
+} ChaoMsgSprite; /* 0x38 */
+
+typedef struct ChaoMsg68 {
+    GameOverB overBs[4];
+    s16 unk60;
+    s16 unk62;
+    void *vram64;
+} ChaoMsg68;
 
 extern u8 gUnknown_03005008[MULTI_SIO_PLAYERS_MAX];
-u8 gUnknown_030058B4;
-u8 gUnknown_030058B8[4];
 
+static u8 gUnknown_030058A8[6][2];
+static u8 gUnknown_030058B4;
+static u8 gUnknown_030058B8[4];
+
+void sub_803AB60(ChaoMessage *message);
 void Task_ChaoMessageInit(void);
 void Task_803C130(void);
 void Task_803B7AC(void);
@@ -46,12 +57,12 @@ void sub_803BAD4(void);
 void sub_803BC64(void);
 void sub_803BE0C(void);
 void sub_803BEB8(void);
+void sub_803BFE8(void);
 void TaskDestructor_803C184(struct Task *t);
-void sub_803AB60(ChaoMessage *message);
+void TaskDestructor_803C198(struct Task *t);
 
 extern void sub_8018538(void);
 extern void CreateMultiplayerContinueScreen(void);
-extern u8 gUnknown_030058A8[][2];
 
 void CreateMultiplayerResultsScreen(u8 mode)
 {
@@ -810,4 +821,95 @@ void sub_803BE0C()
     if (var_r4 < DISPLAY_HEIGHT) {
         SA2_LABEL(sub_80078D4)(0U, var_r4, DISPLAY_HEIGHT, DISPLAY_WIDTH, 0U);
     }
+}
+
+void sub_803BEB8(void)
+{
+    Strc_80528AC gfx;
+    ChaoMsg68 *strc68;
+    u8 i;
+
+    strc68 = TASK_DATA(TaskCreate(sub_803BFE8, sizeof(ChaoMsg68), 0x2200U, 0U, TaskDestructor_803C198));
+    gfx.uiGfxID = 0;
+    gfx.unk2B = 1;
+    gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
+    gfx.palette = gUiGraphics[60].palette;
+    gfx.vramC = VramMalloc(0xE0U);
+    gfx.tilesSize = 0x1C00;
+    gfx.paletteSize = 0x20;
+    gfx.unk28 = 1;
+    gfx.unk2A = 0xD;
+    gfx.unk0.unk4 = gUiGraphics[gfx.uiGfxID].unk8;
+    gfx.unk0.unk8 = gUiGraphics[gfx.uiGfxID].unkC;
+    gfx.unk0.unk9 = gUiGraphics[gfx.uiGfxID].unk10;
+    gfx.unk0.unkA = gUiGraphics[gfx.uiGfxID].unk14;
+    gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
+    sub_80528AC(&gfx);
+
+    strc68->vram64 = gfx.vramC;
+    strc68->unk60 = 0xA;
+    strc68->unk62 = 0x14;
+
+    for (i = 0; i < 4; i++) {
+        GameOverB *temp_r0 = &strc68->overBs[i];
+        temp_r0->qUnkA = 0xA;
+        temp_r0->unkC = 0x14;
+        temp_r0->unkE = 1;
+        temp_r0->unk10 = 1;
+        temp_r0->unk12 = 1;
+        temp_r0->unk16 = 1;
+        temp_r0->unk8 = 0;
+    }
+}
+
+void sub_803BFE8()
+{
+    ChaoMsg68 *strc68 = TASK_DATA(gCurTask);
+    ChaoMessage *parent = TASK_DATA(TASK_PARENT(gCurTask));
+    u8 charIndex;
+    u8 i;
+
+    for (i = 0; i < parent->unk54; i++) {
+        for (charIndex = 0; charIndex < 6; charIndex++) {
+            GameOverB *overB = &strc68->overBs[i];
+            overB->qUnkA = parent->unk48[i] + strc68->unk60 + (charIndex * 8);
+            overB->unkC = parent->unk50 + (i * 40) + strc68->unk62;
+
+            if (SIO_MULTI_CNT->id == i) {
+                if ((u8)(LOADED_SAVE->playerName[charIndex] - 0x70) < 26) {
+                    overB->unkC += 8;
+                }
+                sub_8052F78(&LOADED_SAVE->playerName[charIndex], overB);
+            } else {
+                if ((u8)(LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].playerName[charIndex] - 0x70) < 26) {
+                    overB->unkC += 8;
+                }
+                sub_8052F78(&LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].playerName[charIndex], overB);
+            }
+        }
+    }
+}
+
+void Task_803C130(void)
+{
+    ChaoMsgSprite *msgSprite = TASK_DATA(gCurTask);
+    Sprite *s = &msgSprite->s;
+
+    ChaoMessage *message = TASK_DATA(TASK_PARENT(gCurTask));
+    s->x = msgSprite->unk30 + message->unk48[msgSprite->unk34];
+    s->y = msgSprite->unk32 + message->unk50;
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void TaskDestructor_803C184(struct Task *t)
+{
+    ChaoMsgSprite *msgSprite = TASK_DATA(t);
+    VramFree(msgSprite->s.graphics.dest);
+}
+
+void TaskDestructor_803C198(struct Task *t)
+{
+    ChaoMsg68 *strc68 = TASK_DATA(t);
+    VramFree(strc68->vram64);
 }
