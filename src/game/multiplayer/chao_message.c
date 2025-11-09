@@ -1,12 +1,14 @@
 #include "global.h"
 #include "core.h"
 #include "flags.h"
+#include "bg_triangles.h"
 #include "malloc_vram.h"
 #include "lib/m4a/m4a.h"
 #include "game/gTask_03006240.h"
 #include "game/multiplayer/multipak_connection.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/save.h"
+#include "game/title_screen.h"
 
 #include "constants/animations.h"
 #include "constants/songs.h"
@@ -17,10 +19,7 @@
 typedef struct ChaoMessage {
     /* 0x00 */ Background bg;
     /* 0x40 */ u8 unk40[2][4];
-    /* 0x48 */ s16 unk48;
-    /* 0x48 */ s16 unk4A;
-    /* 0x48 */ s16 unk4C;
-    /* 0x48 */ s16 unk4E;
+    /* 0x48 */ s16 unk48[4];
     /* 0x48 */ s16 unk50;
     /* 0x48 */ u16 unk52;
     /* 0x54 */ u8 unk54;
@@ -50,6 +49,8 @@ void sub_803BEB8(void);
 void TaskDestructor_803C184(struct Task *t);
 void sub_803AB60(ChaoMessage *message);
 
+extern void sub_8018538(void);
+extern void CreateMultiplayerContinueScreen(void);
 extern u8 gUnknown_030058A8[][2];
 
 void CreateMultiplayerResultsScreen(u8 mode)
@@ -83,10 +84,10 @@ void CreateMultiplayerResultsScreen(u8 mode)
     message->mode = mode;
     message->unk54 = gUnknown_030058B4;
     sub_803AB60(message);
-    message->unk48 = 0xFF10;
-    message->unk4A = 0xF0;
-    message->unk4C = 0xFF10;
-    message->unk4E = 0xF0;
+    message->unk48[0] = 0xFF10;
+    message->unk48[1] = 0xF0;
+    message->unk48[2] = 0xFF10;
+    message->unk48[3] = 0xF0;
     gDispCnt = 0x3140;
     gBgCntRegs[0] = (DISPCNT_WIN1_ON) | DISPCNT_BG3_ON | DISPCNT_MODE_3;
     gBgScrollRegs[0][0] = 256;
@@ -569,8 +570,8 @@ void Task_803B7AC()
             break;
         case 4:
             if (message->unk52 >= 0x10) {
-                if (message->unk4E != 0) {
-                    message->unk4E -= 0x10;
+                if (message->unk48[3] != 0) {
+                    message->unk48[3] -= 0x10;
                 } else {
                     var_r6++;
                 }
@@ -578,8 +579,8 @@ void Task_803B7AC()
             /* fallthrough */
         case 3:
             if (message->unk52 > 0xAU) {
-                if (message->unk4C != 0) {
-                    message->unk4C += 0x10;
+                if (message->unk48[2] != 0) {
+                    message->unk48[2] += 0x10;
                 } else {
                     var_r6++;
                 }
@@ -587,15 +588,15 @@ void Task_803B7AC()
             /* fallthrough */
         case 2:
             if (message->unk52 > 5U) {
-                if (message->unk4A != 0) {
-                    message->unk4A = (u16)message->unk4A - 0x10;
+                if (message->unk48[1] != 0) {
+                    message->unk48[1] = (u16)message->unk48[1] - 0x10;
                 } else {
                     var_r6++;
                 }
             }
             if (message->unk52 != 0) {
-                if (message->unk48 != 0) {
-                    message->unk48 += 0x10;
+                if (message->unk48[0] != 0) {
+                    message->unk48[0] += 0x10;
                 } else {
                     var_r6++;
                 }
@@ -679,8 +680,8 @@ void sub_803BAD4()
             break;
         case 4:
             if (message->unk52 != 0) {
-                if (message->unk4E != 240) {
-                    message->unk4E += 0x10;
+                if (message->unk48[3] != 240) {
+                    message->unk48[3] += 0x10;
                 } else {
                     var_r6++;
                 }
@@ -688,8 +689,8 @@ void sub_803BAD4()
             /* fallthrough */
         case 3:
             if (message->unk52 > 5) {
-                if (message->unk4C != -240) {
-                    message->unk4C -= 0x10;
+                if (message->unk48[2] != -240) {
+                    message->unk48[2] -= 0x10;
                 } else {
                     var_r6++;
                 }
@@ -697,15 +698,15 @@ void sub_803BAD4()
             /* fallthrough */
         case 2:
             if (message->unk52 > 10) {
-                if (message->unk4A != 240) {
-                    message->unk4A = (u16)message->unk4A + 0x10;
+                if (message->unk48[1] != 240) {
+                    message->unk48[1] = (u16)message->unk48[1] + 0x10;
                 } else {
                     var_r6++;
                 }
             }
             if (message->unk52 >= 0x10) {
-                if (message->unk48 != -240) {
-                    message->unk48 -= 0x10;
+                if (message->unk48[0] != -240) {
+                    message->unk48[0] -= 0x10;
                 } else {
                     var_r6++;
                 }
@@ -716,4 +717,97 @@ void sub_803BAD4()
         gCurTask->main = sub_803BC64;
     }
     sub_803BE0C();
+}
+
+void sub_803BC64()
+{
+    ChaoMessage *message = TASK_DATA(gCurTask);
+    u32 mode;
+
+    if ((0x1F & gBldRegs.bldY) < 0x10) {
+        gBldRegs.bldY += 1;
+        sub_803BE0C();
+        return;
+    }
+
+    mode = message->mode;
+
+    TasksDestroyAll();
+    PAUSE_BACKGROUNDS_QUEUE();
+    SA2_LABEL(gUnknown_03005390) = 0;
+    PAUSE_GRAPHICS_QUEUE();
+
+    if (mode == 0) {
+        sub_8018538();
+    } else if (message->mode == 1) {
+        {
+            u16 irqEnable, irqMasterEnable, dispStat;
+
+            m4aMPlayAllStop();
+            m4aSoundVSyncOff();
+
+            gFlags |= FLAGS_8000;
+            irqEnable = REG_IE;
+            irqMasterEnable = REG_IME;
+            dispStat = REG_DISPSTAT;
+
+            REG_IE = 0;
+            REG_IE;
+            REG_IME = 0;
+            REG_IME;
+            REG_DISPSTAT = 0;
+            REG_DISPSTAT;
+
+            gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
+
+            SlowDmaStop(0);
+            SlowDmaStop(1);
+            SlowDmaStop(2);
+            SlowDmaStop(3);
+
+            WriteSaveGame();
+
+            REG_IE = irqEnable;
+            REG_IE;
+            REG_IME = irqMasterEnable;
+            REG_IME;
+            REG_DISPSTAT = dispStat;
+            REG_DISPSTAT;
+
+            m4aSoundVSyncOn();
+
+            gFlags &= ~FLAGS_8000;
+        }
+
+        CreateMultiplayerContinueScreen();
+    } else {
+        gMultiSioEnabled = 0;
+        MultiSioStop();
+        MultiSioInit(0);
+        CreateTitleScreen(TITLESCREEN_PARAM__PLAY_MUSIC);
+    }
+
+    gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
+}
+
+void sub_803BE0C()
+{
+    s16 var_r4;
+    u32 var_r6;
+
+    ChaoMessage *message = TASK_DATA(gCurTask);
+
+    var_r4 = message->unk50;
+    if (message->unk50 != 0) {
+        SA2_LABEL(sub_80078D4)(0U, 0U, var_r4, DISPLAY_WIDTH, 0U);
+    }
+
+    for (var_r6 = 0; var_r6 < message->unk54; var_r6++) {
+        u32 mask = 0x1FF;
+        SA2_LABEL(sub_80078D4)(0U, var_r4, var_r4 += 0x28, ~message->unk48[var_r6] & mask, (-message->unk50));
+    }
+
+    if (var_r4 < DISPLAY_HEIGHT) {
+        SA2_LABEL(sub_80078D4)(0U, var_r4, DISPLAY_HEIGHT, DISPLAY_WIDTH, 0U);
+    }
 }
