@@ -3,16 +3,19 @@
 #include "lib/m4a/m4a.h"
 #include "data/ui_graphics.h"
 #include "game/gTask_03006240.h"
+#include "game/save.h"
 #include "game/stage/ui.h"
+
+#include "constants/songs.h"
 
 typedef struct SoundTestState {
     StrcUi_805423C strc0;
-    struct Task *taskC;
-    struct Task *task10;
-    struct Task *task14;
-    struct Task *task18;
-    struct Task *task1C;
-    struct Task *task20;
+    struct Task *taskC; // SoundTest114
+    struct Task *task10; // SoundTest114
+    struct Task *task14; // SoundTest114
+    struct Task *task18; // SoundTest114
+    struct Task *task1C; // SoundTest114
+    struct Task *task20; // SoundTest114
     s32 unk24;
     u8 unk28;
     u8 unk29;
@@ -43,7 +46,7 @@ typedef struct SoundTest114 {
     u8 unk10C;
     u8 unk10D;
     u16 unk10E;
-    u8 unk110;
+    s8 unk110;
     u8 filler111[0x3];
 } SoundTest114;
 
@@ -54,9 +57,37 @@ void sub_805FAD4(void);
 void sub_805FDE4(void);
 void sub_805FC88(void);
 void sub_805FE48(void);
+void sub_805FDB0(void);
 void Task_805FEAC(void);
 
 extern u8 gUnknown_0868403C[0x800];
+extern u16 sSoundTestSongIds[];
+
+static inline void sub_805FF0C__inline(u8 param0)
+{
+    SoundTestState *state = TASK_DATA(gCurTask);
+    SoundTest114 *strc114 = TASK_DATA(state->task10);
+    strc114->unk10D = param0;
+    strc114->unk10E = 120;
+}
+
+// NOTE: This is basically a workaround to get the call of this in Task_SoundTestInit() to match
+//       So this can go if we find another way!
+static inline void sub_805FF0C__inline_2(u8 param0, bool32 setAnim)
+{
+    SoundTestState *state = TASK_DATA(gCurTask);
+    SoundTest114 *strc114 = TASK_DATA(state->task10);
+    strc114->unk10D = param0;
+    strc114->unk10E = 120;
+
+    if (setAnim) {
+        Sprite *s = &strc114->s;
+        s->prevVariant = 0xFF;
+        s->graphics.anim = 0x357;
+        s->variant = 0;
+        UpdateSpriteAnimation(s);
+    }
+}
 
 void *sub_805E9B4(void)
 {
@@ -415,4 +446,227 @@ void CreateSoundTest(void)
 
     sub_80543A4(&state->strc0);
     sub_805E9B4();
+}
+
+void Task_SoundTestInit(void)
+{
+    SoundTest114 *sp0;
+    SoundTest114 *sp4;
+    SoundTest114 *sp8;
+    SoundTest114 *spC;
+    SoundTest114 *sp10;
+    SoundTest114 *sp14;
+    struct Task *t;
+    s32 var_r0;
+    s32 var_r1;
+    struct MP2KPlayerState *mp2kState;
+    u32 var_r7;
+    u8 var_r4;
+    u8 var_r5;
+    u32 scrollX, scrollY;
+
+    SoundTestState *state = TASK_DATA(gCurTask);
+    SoundTest114 *temp_r2_3;
+
+    t = state->taskC;
+    sp0 = TASK_DATA(t);
+    sp4 = TASK_DATA(state->task10);
+    sp8 = TASK_DATA(state->task14);
+    spC = TASK_DATA(state->task18);
+    sp10 = TASK_DATA(state->task1C);
+    sp14 = TASK_DATA(state->task20);
+    var_r7 = state->unk24;
+    var_r7++;
+    if ((state->strc0.unk4 == 1) && ((s32)state->strc0.unk6 > 0x1FFF)) {
+        TaskDestroy(t);
+        TaskDestroy(state->task10);
+        TaskDestroy(state->task14);
+        TaskDestroy(state->task18);
+        TaskDestroy(state->task1C);
+        TaskDestroy(state->task20);
+        gCurTask->main = sub_805FDB0;
+        return;
+    }
+    scrollX = (u16)gBgScrollRegs[0][0] + 1;
+    scrollY = (u16)gBgScrollRegs[0][1] + 1;
+    gBgScrollRegs[0][0] = scrollX & 0xFF;
+    gBgScrollRegs[0][1] = scrollY & 0xFF;
+    var_r5 = state->unk28;
+    if (0x20 & gRepeatedKeys) {
+        if (var_r5 == 0) {
+            if (gLoadedSaveGame.unk424 != 0) {
+                var_r5 = 0x29;
+            } else {
+                var_r5 = 0x26;
+            }
+        } else {
+            var_r5 -= 1;
+        }
+        state->unk2B = 0xFF;
+        sp0->unk110 = -1;
+        sp0->unk10E = 8;
+    } else if (0x10 & gRepeatedKeys) {
+        if (gLoadedSaveGame.unk424 != 0) {
+            var_r0 = var_r5 + 1;
+            var_r1 = 0x2A;
+        } else {
+            var_r0 = var_r5 + 1;
+            var_r1 = 0x27;
+        }
+        var_r5 = (u8)Mod(var_r0, var_r1);
+        state->unk2B = 1;
+        sp0->unk110 = 1;
+        sp0->unk10E = 0;
+    }
+
+    if (sp0->unk110 != 0) {
+        if (sp0->unk110 > 0) {
+            if (++sp0->unk10E == 8) {
+                sp0->unk110 = 0;
+            }
+        } else {
+            if (sp0->unk10E != 0) {
+                sp0->unk10E--;
+            } else {
+                sp0->unk110 = 0;
+            }
+        }
+    }
+
+    sp0->unk10C = var_r5;
+    sp4->unk10C = var_r5;
+    sp8->unk10C = var_r5;
+    spC->unk10C = var_r5;
+    sp10->unk10C = var_r5;
+    sp14->unk10C = var_r5;
+
+    state->unk28 = var_r5;
+
+    if (var_r7 == 2) {
+        m4aMPlayContinue(&gMPlayInfo_BGM);
+        m4aMPlayContinue(&gMPlayInfo_SE1);
+        m4aMPlayContinue(&gMPlayInfo_SE2);
+        m4aMPlayContinue(&gMPlayInfo_SE3);
+    }
+
+    if (sub_805423C(&state->strc0) && (A_BUTTON & gPressedKeys) && (var_r7 <= 0x78U) && !(B_BUTTON & gPressedKeys)) {
+        SoundTestState *state;
+        Sprite *s;
+        var_r7 = 0x79;
+        sub_805FF0C__inline_2(2, 1);
+    }
+
+    if ((var_r7 > 1U) && (1 & gPressedKeys) && (state->strc0.unk4 != 1) && (var_r7 > 0x78U) && !(2 & gPressedKeys)) {
+        m4aMPlayFadeOut(&gMPlayInfo_BGM, 1U);
+        m4aMPlayFadeOut(&gMPlayInfo_SE1, 1U);
+        m4aMPlayFadeOut(&gMPlayInfo_SE2, 1U);
+        m4aMPlayFadeOut(&gMPlayInfo_SE3, 1U);
+        m4aSongNumStart(sSoundTestSongIds[var_r5]);
+
+        sub_805FF0C__inline(2);
+    } else {
+        for (var_r4 = 0; var_r4 < 4; var_r4++) {
+            if (var_r4 == 0) {
+                if (gMPlayInfo_BGM.status & 0xFFFF) {
+                    state->unk2A |= 1;
+                } else {
+                    if ((1 & state->unk2A) && (var_r7 > 0x64U) && (state->strc0.unk4 != 1)) {
+                        sub_805FF0C__inline(3);
+                    }
+                    state->unk2A &= ~0x1;
+                }
+            } else if (var_r4 == 1) {
+                if (gMPlayInfo_SE1.status & 0xFFFF) {
+                    state->unk2A |= 2;
+                } else {
+                    if ((2 & state->unk2A) && (var_r7 > 0x64U) && (state->strc0.unk4 != 1)) {
+                        sub_805FF0C__inline(3);
+                    }
+                    state->unk2A &= ~0x2;
+                }
+            } else if (var_r4 == 2) {
+                if (gMPlayInfo_SE2.status & 0xFFFF) {
+                    state->unk2A |= 4;
+                } else {
+                    if ((4 & state->unk2A) && (var_r7 > 0x64U) && (state->strc0.unk4 != 1)) {
+                        sub_805FF0C__inline(3);
+                    }
+                    state->unk2A &= ~0x4;
+                }
+            } else {
+                if (gMPlayInfo_SE3.status & 0xFFFF) {
+                    state->unk2A |= 8;
+                } else {
+                    if ((8 & state->unk2A) && (var_r7 > 0x64U) && (state->strc0.unk4 != 1)) {
+                        sub_805FF0C__inline(3);
+                    }
+                    state->unk2A &= ~0x8;
+                }
+            }
+        }
+    }
+    if ((state->unk2A != 0) && (state->strc0.unk4 != 1)) {
+        if (var_r7 > 0x78U) {
+            sub_805FF0C__inline(2);
+            state->unk29 = 1;
+        }
+    } else {
+        state->unk29 = 0;
+    }
+
+    if (B_BUTTON & gPressedKeys) {
+        if ((state->strc0.unk4 != 1) && (state->unk29 == 0) && (state->unk2C == 0) && (var_r7 > 120)) {
+            if (!(A_BUTTON & gPressedKeys)) {
+                m4aSongNumStart(SE_RETURN);
+                state->unk24 = 0;
+                state->strc0.unk4 = 1;
+                state->strc0.unk6 = 0x2000 - (u16)state->strc0.unk6;
+                state->strc0.unk8 = 0xC0;
+
+                sub_805FF0C__inline(0);
+                sub_805FF0C__inline(0);
+                sub_805FF0C__inline(0);
+            }
+        }
+        if ((B_BUTTON & gPressedKeys) && (state->strc0.unk4 != 1) && (state->unk29 != 0)) {
+            if (state->unk2C == 0) {
+                for (var_r4 = 0; var_r4 < 4; var_r4++) {
+                    if (var_r4 == 0) {
+                        if (GetBit(state->unk2A, var_r4)) {
+                            state->unk2C = 0xA;
+                            m4aMPlayFadeOut(&gMPlayInfo_BGM, 1U);
+                        }
+                    } else if (var_r4 == 1) {
+                        if (GetBit(state->unk2A, var_r4)) {
+                            state->unk2C = 0xA;
+                            m4aMPlayFadeOut(&gMPlayInfo_SE1, 1U);
+                        }
+                    } else if (GetBit(state->unk2A, var_r4)) {
+                        state->unk2C = 0xA;
+                        m4aMPlayFadeOut(&gMPlayInfo_SE3, 1U);
+                    }
+                }
+
+                goto lbl;
+            }
+        }
+    }
+    {
+        if (state->unk2C != 0) {
+            state->unk2C -= 1;
+        }
+    }
+lbl:
+    sp0->unk10D = state->unk29;
+    sp8->unk10D = state->unk29;
+    spC->unk10D = state->unk29;
+    sp10->unk10D = state->unk29;
+    sp14->unk10D = state->unk29;
+    sp0->unk108 = var_r7;
+    sp4->unk108 = var_r7;
+    sp8->unk108 = var_r7;
+    spC->unk108 = var_r7;
+    sp10->unk108 = var_r7;
+    sp14->unk108 = var_r7;
+    state->unk24 = var_r7;
 }
