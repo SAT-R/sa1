@@ -10,6 +10,7 @@
 #include "constants/animations.h"
 #include "constants/characters.h"
 #include "constants/ui_graphics.h"
+#include "constants/zones.h"
 
 #define FRAME_RELAY_A 90
 #define FRAME_RELAY_B 150
@@ -59,10 +60,10 @@ typedef struct SpecialStageIntro20 {
 
 typedef struct SpecialStageIntro28 {
     StrcUi_805423C strc0;
-    struct Task *unkC;
-    struct Task *unk10;
-    struct Task *unk14;
-    struct Task *unk18;
+    struct Task *taskC; // SpecialStageIntro44
+    struct Task *task10; // SpecialStageIntro44
+    struct Task *task14; // SpecialStageIntro44
+    struct Task *task18; // SpecialStageIntro44
     s16 unk1C;
     u8 unk1E;
     s16 unk20;
@@ -73,6 +74,7 @@ typedef struct SpecialStageIntro28 {
 void sub_80688E4(s32 someId);
 void Task_SpecialStageIntroInit(void);
 void Task_8068360(void);
+void Task_8069634(void);
 void Task_8068948(void);
 void Task_8068A78(void);
 void Task_8068B10(void);
@@ -82,14 +84,18 @@ void sub_8068D0C();
 void Task_80694E8(void);
 void Task_nullsub_806954C(void);
 void Task_strc44_806959C(void);
+void sub_805D048(u8 arg0);
 
 extern u16 gUnknown_0868B584[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B594[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B5A4[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B5B4[NUM_CHARACTERS][2];
+extern u16 gUnknown_0868B5C4[][NUM_CHARACTERS][2];
 extern u16 gUnknown_086BBC34[256];
 extern u8 gUnknown_086BBE34[0x2980];
 extern u8 gUnknown_086BE7B4[0x1000];
+
+extern u8 gUnknown_08487134[NUM_LEVEL_IDS];
 
 void CreateSpecialStageIntro(void)
 {
@@ -494,7 +500,7 @@ void sub_8068D0C(void)
         if (i == 0) {
             temp_r1_2->unk44[4] = Q(50);
             temp_r1_2->unk44[0] = Q(80);
-            temp_r1_2->unk44[1] = 0x80;
+            temp_r1_2->unk44[1] = Q(0.5);
             temp_r1_2->unk44[5] = 0;
             s->graphics.dest = OBJ_VRAM0 + 0x6040;
             s->graphics.anim = SA1_ANIM_SOME_CLOUD_XS;
@@ -502,23 +508,23 @@ void sub_8068D0C(void)
         } else if (i == 1) {
             temp_r1_2->unk44[4] = Q(100);
             temp_r1_2->unk44[0] = Q(40);
-            temp_r1_2->unk44[1] = 0x40;
+            temp_r1_2->unk44[1] = Q(0.25);
             temp_r1_2->unk44[5] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x6180;
             s->graphics.anim = SA1_ANIM_SOME_CLOUD_S;
             s->variant = 0;
         } else if (i == 2) {
-            temp_r1_2->unk44[4] = 0x7800;
-            temp_r1_2->unk44[0] = 0x7800;
-            temp_r1_2->unk44[1] = 0x100;
+            temp_r1_2->unk44[4] = Q(120);
+            temp_r1_2->unk44[0] = Q(120);
+            temp_r1_2->unk44[1] = Q(1.0);
             temp_r1_2->unk44[5] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x6420;
             s->graphics.anim = SA1_ANIM_SOME_CLOUD_M;
             s->variant = 0;
         } else {
-            temp_r1_2->unk44[4] = 0x1400;
-            temp_r1_2->unk44[0] = 0xA000;
-            temp_r1_2->unk44[1] = 0x120;
+            temp_r1_2->unk44[4] = Q(20);
+            temp_r1_2->unk44[0] = Q(160);
+            temp_r1_2->unk44[1] = Q(1.125);
             temp_r1_2->unk44[5] = 0U;
             s->graphics.dest = OBJ_VRAM0 + 0x7080;
             s->graphics.anim = SA1_ANIM_SOME_CLOUD_L;
@@ -541,9 +547,9 @@ void sub_8068D0C(void)
 
     temp_r1_4->unk1C = 0;
     temp_r1_4->unk1E = 1;
-    temp_r1_4->unkC = sp44;
-    temp_r1_4->unk18 = sp48;
-    temp_r1_4->unk14 = sp4C;
+    temp_r1_4->taskC = sp44;
+    temp_r1_4->task18 = sp48;
+    temp_r1_4->task14 = sp4C;
     temp_r1_4->unk24 = 0;
     temp_r1_4->unk20 = 0;
     temp_r1_4->unk22 = 0;
@@ -567,4 +573,110 @@ void sub_8068D0C(void)
     gfx.unk29 = 0;
     gfx.unk2A = 0x15;
     sub_80528AC(&gfx);
+}
+
+void Task_8069100(void)
+{
+    SpecialStageIntro44 *sp4;
+    SpecialStageIntro44 *sp8;
+    SpecialStageIntro44 *strc44_0;
+    SpecialStageIntro44 *temp_sl;
+    SpecialStageIntro44 *var_r7;
+    struct Task *t;
+    u32 temp_r0;
+
+    SpecialStageIntro28 *strc28 = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    temp_sl = TASK_DATA(strc28->taskC);
+    sp4 = TASK_DATA(strc28->task18);
+    sp8 = TASK_DATA(strc28->task14);
+    temp_r0 = strc28->unk1C + 1;
+    if (temp_r0 == 1) {
+        strc44_0 = TASK_DATA(TaskCreate(Task_8069634, sizeof(SpecialStageIntro44), 0x2120U, 0U, NULL));
+        s = &strc44_0->s;
+        s->graphics.dest = OBJ_VRAM0 + 0x3820;
+        s->graphics.anim = 0x2FD;
+        s->variant = 0;
+        s->x = 0x78;
+        s->y = 0xB4;
+        s->oamFlags = 0;
+        s->graphics.size = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = Q(0);
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = 0x1000;
+        UpdateSpriteAnimation(s);
+        strc44_0->unk30 = 0;
+        strc44_0->qUnk3C = -Q(1);
+        strc44_0->qUnk40 = temp_sl->qUnk40 - Q(8);
+        strc44_0->qUnk34 = Q(0);
+        strc44_0->qUnk38 = temp_sl->qUnk38 + Q(10);
+
+        t = TaskCreate(Task_strc44_806959C, sizeof(SpecialStageIntro44), 0x2120U, 0U, NULL);
+        strc28->task10 = t;
+        var_r7 = TASK_DATA(t);
+        s = &var_r7->s;
+        s->graphics.dest = OBJ_VRAM0 + 0xAA0;
+        s->graphics.anim = gUnknown_0868B5C4[gUnknown_08487134[gCurrentLevel]][gSelectedCharacter][0];
+        s->variant = gUnknown_0868B5C4[gUnknown_08487134[gCurrentLevel]][gSelectedCharacter][1];
+        s->x = 0x78;
+        s->y = 0xB4;
+        s->oamFlags = 0x180;
+        s->graphics.size = 0;
+        s->animCursor = 0;
+        s->qAnimDelay = Q(0);
+        s->prevVariant = -1;
+        s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+        s->palId = 0;
+        s->hitboxes[0].index = HITBOX_STATE_INACTIVE;
+        s->frameFlags = 0x1000;
+        UpdateSpriteAnimation(s);
+        var_r7->unk30 = 0;
+        var_r7->qUnk3C = -Q(1);
+        var_r7->qUnk40 = temp_sl->qUnk40;
+        var_r7->qUnk34 = 0;
+        var_r7->qUnk38 = temp_sl->qUnk38;
+    } else {
+        var_r7 = TASK_DATA(strc28->task10);
+    }
+
+    if (temp_r0 > 7U) {
+        if (sp8->qUnk38 >= Q(100)) {
+            sp8->qUnk38 = (s32)(sp8->qUnk38 - Q(1));
+            sp4->qUnk38 = (s32)(sp4->qUnk38 - Q(1));
+            temp_sl->qUnk38 -= Q(1);
+            var_r7->qUnk38 -= Q(1);
+        }
+    }
+    if (temp_r0 == 1) {
+        sp8->qUnk38 = (s32)(sp8->qUnk38 + 0xA00);
+        sp4->qUnk38 = (s32)(sp4->qUnk38 + 0xA00);
+        temp_sl->qUnk38 = (s32)(temp_sl->qUnk38 + 0xA00);
+        var_r7->qUnk38 = (s32)(var_r7->qUnk38 + 0xA00);
+    }
+    if (sub_805423C(&strc28->strc0) && (strc28->strc0.unk4 == 4)) {
+        if (strc28->unk24 > 0xAU) {
+            TasksDestroyAll();
+            PAUSE_BACKGROUNDS_QUEUE();
+            SA2_LABEL(gUnknown_03005390) = 0;
+            PAUSE_GRAPHICS_QUEUE();
+            sub_805D048(1);
+            return;
+        }
+        strc28->unk24 = strc28->unk24 + 1;
+    }
+    if ((0x12C - Div(0x2000, 0x128)) == temp_r0) {
+        strc28->strc0.unk0 = 0;
+        strc28->strc0.unk2 = 1;
+        strc28->strc0.unk4 = 4;
+        strc28->strc0.unk6 = 0;
+        strc28->strc0.unk8 = 0x128;
+        strc28->strc0.unkA = 1;
+    }
+    strc28->unk1C = (s16)temp_r0;
+    temp_sl->unk30 = temp_r0;
 }
