@@ -248,7 +248,7 @@ _08053F10:
 	ldrh r0, [r0, #6]
 	ldr r1, _08053F34 @ =0x03000010
 	adds r6, r0, r1
-	ldr r2, _08053F38 @ =gUnknown_03005154
+	ldr r2, _08053F38 @ =gSpecialStageTargetRings
 	ldrh r1, [r2]
 	ldr r0, _08053F3C @ =0x000003E7
 	cmp r1, r0
@@ -261,7 +261,7 @@ _08053F10:
 	.align 2, 0
 _08053F30: .4byte gCurTask
 _08053F34: .4byte 0x03000010
-_08053F38: .4byte gUnknown_03005154
+_08053F38: .4byte gSpecialStageTargetRings
 _08053F3C: .4byte 0x000003E7
 _08053F40:
 	ldrh r4, [r2]
@@ -290,7 +290,7 @@ _08053F68:
 	ldrh r0, [r0, #6]
 	ldr r2, _08053F9C @ =0x03000044
 	adds r0, r0, r2
-	ldr r1, _08053FA0 @ =gUnknown_03005154
+	ldr r1, _08053FA0 @ =gSpecialStageTargetRings
 	ldrh r1, [r1]
 	strh r1, [r0]
 	mov r4, sb
@@ -310,7 +310,7 @@ _08053F68:
 	.align 2, 0
 _08053F98: .4byte gCurTask
 _08053F9C: .4byte 0x03000044
-_08053FA0: .4byte gUnknown_03005154
+_08053FA0: .4byte gSpecialStageTargetRings
 _08053FA4:
 	cmp r2, #0x22
 	ble _08053FAE
@@ -332,7 +332,7 @@ _08053FB2:
 	strh r2, [r0, #0x10]
 	movs r3, #1
 	strb r3, [r0, #0x16]
-	ldr r0, _08054010 @ =gUnknown_03005154
+	ldr r0, _08054010 @ =gSpecialStageTargetRings
 	ldrh r2, [r0]
 	cmp r2, #9
 	bhi _0805402A
@@ -366,7 +366,7 @@ _08053FB2:
 	b _08054058
 	.align 2, 0
 _0805400C: .4byte 0x0000FFCC
-_08054010: .4byte gUnknown_03005154
+_08054010: .4byte gSpecialStageTargetRings
 _08054014: .4byte gUnknown_0865F174
 _08054018: .4byte gCurTask
 _0805401C: .4byte 0x03000048

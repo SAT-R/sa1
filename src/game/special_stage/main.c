@@ -2,6 +2,7 @@
 #include "core.h"
 #include "game/special_stage/main.h"
 
-u16 gUnknown_03005154 = 0;
+// Number of rings needed this round, to continue to the next / (in the last one) collect the emerald.
+u16 gSpecialStageTargetRings = 0;
 
 void test() { }

@@ -503,12 +503,12 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
     // _08053F10
     unk10 = &TASK_GET_MEMBER(StageUI, gCurTask, StageUI_10, unk10);
 
-    if (gUnknown_03005154 > 999) {
+    if (gSpecialStageTargetRings > 999) {
         unk10->unk0[0] = UI_DIGIT(9);
         unk10->unk0[1] = UI_DIGIT(9);
         unk10->unk0[2] = UI_DIGIT(9);
     } else {
-        remainder = gUnknown_03005154;
+        remainder = gSpecialStageTargetRings;
         for (i = 0; i < (s32)ARRAY_COUNT(unk10->unk0); i++) {
             remainder0 = Div(remainder, 10);
 
@@ -519,7 +519,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
     }
     // _08053F68
 
-    TASK_SET_MEMBER(StageUI, gCurTask, u16, ringCount, gUnknown_03005154);
+    TASK_SET_MEMBER(StageUI, gCurTask, u16, ringCount, gSpecialStageTargetRings);
 
     if (sb >= 15 && sb < 35) {
         overB.unkC = Div((sb - 15) << 6, 20) - 52;
@@ -535,11 +535,11 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
     overB.unk10 = 0;
     overB.unk16 = 1;
 
-    if (gUnknown_03005154 < 10) {
+    if (gSpecialStageTargetRings < 10) {
         overB.qUnkA = sl + Q(12. / 256.);
         overB.unkE = 1;
 
-        if (gUnknown_03005154 == 0) {
+        if (gSpecialStageTargetRings == 0) {
             sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
 
             r7 %= 32u;
@@ -547,7 +547,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
         } else {
             sub_80530CC(&unk10->unk0[2], &overB);
         }
-    } else if (gUnknown_03005154 < 100) {
+    } else if (gSpecialStageTargetRings < 100) {
         overB.qUnkA = sl + 8;
         overB.unkE = 2;
         sub_80530CC(&unk10->unk0[1], &overB);

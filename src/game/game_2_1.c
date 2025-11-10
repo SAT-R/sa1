@@ -302,7 +302,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     gBgScrollRegs[3][0] = 0;
     gBgScrollRegs[3][1] = 0;
 
-    if (gSpecialStageCollectedRings >= gUnknown_03005154) {
+    if (gSpecialStageCollectedRings >= gSpecialStageTargetRings) {
         m4aSongNumStart(0x2FU);
         sp24 = 1;
         sp20 = 0x2710;

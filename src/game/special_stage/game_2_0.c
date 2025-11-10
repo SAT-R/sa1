@@ -477,7 +477,7 @@ void Task_805C594(void)
     }
 
     if (strc->unk18 == 2) {
-        sub_805BC94(gUnknown_03005154);
+        sub_805BC94(gSpecialStageTargetRings);
     }
 }
 

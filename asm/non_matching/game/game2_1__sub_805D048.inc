@@ -23,7 +23,7 @@
 	strh r0, [r1, #0xc]
 	strh r0, [r1, #0xe]
 	ldr r0, _0805D0B4 @ =gSpecialStageCollectedRings
-	ldr r1, _0805D0B8 @ =gUnknown_03005154
+	ldr r1, _0805D0B8 @ =gSpecialStageTargetRings
 	ldrh r0, [r0]
 	ldrh r1, [r1]
 	cmp r0, r1
@@ -55,7 +55,7 @@
 	.align 2, 0
 _0805D0B0: .4byte gBgScrollRegs
 _0805D0B4: .4byte gSpecialStageCollectedRings
-_0805D0B8: .4byte gUnknown_03005154
+_0805D0B8: .4byte gSpecialStageTargetRings
 _0805D0BC: .4byte 0x00002710
 _0805D0C0: .4byte gLoadedSaveGame
 _0805D0C4: .4byte gUnknown_08487134

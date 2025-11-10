@@ -39,7 +39,7 @@ CreateSpecialStage: @ 0x08029908
 	adds r0, r0, r1
 	ldrh r0, [r0]
 	strh r0, [r5]
-	ldr r0, _080299A4 @ =gUnknown_03005154
+	ldr r0, _080299A4 @ =gSpecialStageTargetRings
 	strh r4, [r0]
 	ldr r1, _080299A8 @ =gPlayer
 	adds r1, #0x26
@@ -69,7 +69,7 @@ _08029994: .4byte gUnknown_08487140
 _08029998: .4byte gUnknown_08487134
 _0802999C: .4byte gCurrentLevel
 _080299A0: .4byte gUnknown_03005070
-_080299A4: .4byte gUnknown_03005154
+_080299A4: .4byte gSpecialStageTargetRings
 _080299A8: .4byte gPlayer
 _080299AC: .4byte gLoadedSaveGame
 
@@ -262,7 +262,7 @@ _08029B40: .4byte gVramGraphicsCopyCursor
 _08029B44: .4byte gVramGraphicsCopyQueueIndex
 _08029B48: .4byte 0x00003F1F
 _08029B4C:
-	ldr r0, _08029B60 @ =gUnknown_03005154
+	ldr r0, _08029B60 @ =gSpecialStageTargetRings
 	ldr r1, _08029B64 @ =gSpecialStageCollectedRings
 	ldrh r0, [r0]
 	ldrh r1, [r1]
@@ -271,7 +271,7 @@ _08029B4C:
 	bl sub_8068D0C
 	b _08029B6E
 	.align 2, 0
-_08029B60: .4byte gUnknown_03005154
+_08029B60: .4byte gSpecialStageTargetRings
 _08029B64: .4byte gSpecialStageCollectedRings
 _08029B68:
 	movs r0, #0
@@ -2958,7 +2958,7 @@ _0802B0C8:
 	ldrsh r0, [r4, r1]
 	cmp r0, #0xb4
 	bne _0802B110
-	ldr r1, _0802B178 @ =gUnknown_03005154
+	ldr r1, _0802B178 @ =gSpecialStageTargetRings
 	ldr r0, _0802B17C @ =gUnknown_03005070
 	ldrh r0, [r0]
 	strh r0, [r1]
@@ -3019,7 +3019,7 @@ _0802B168: .4byte gUnknown_03005690
 _0802B16C: .4byte gUnknown_030055FC
 _0802B170: .4byte 0x000003FF
 _0802B174: .4byte gSineTable
-_0802B178: .4byte gUnknown_03005154
+_0802B178: .4byte gSpecialStageTargetRings
 _0802B17C: .4byte gUnknown_03005070
 _0802B180: .4byte 0x00001181
 _0802B184: .4byte gCurTask
