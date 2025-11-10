@@ -81,8 +81,11 @@ void Task_8068B10(void);
 void Task_8068BB0(void);
 void Task_8068CD4(void);
 void sub_8068D0C();
+void Task_8069100(void);
+void Task_80693D0(void);
 void Task_80694E8(void);
 void Task_nullsub_806954C(void);
+void Task_8069550(void);
 void Task_strc44_806959C(void);
 void sub_805D048(u8 arg0);
 
@@ -91,6 +94,8 @@ extern u16 gUnknown_0868B594[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B5A4[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B5B4[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B5C4[][NUM_CHARACTERS][2];
+extern u16 gUnknown_0868B634[NUM_CHARACTERS][2];
+extern u16 gUnknown_0868B644[NUM_CHARACTERS][2];
 extern u16 gUnknown_086BBC34[256];
 extern u8 gUnknown_086BBE34[0x2980];
 extern u8 gUnknown_086BE7B4[0x1000];
@@ -679,4 +684,144 @@ void Task_8069100(void)
     }
     strc28->unk1C = (s16)temp_r0;
     temp_sl->unk30 = temp_r0;
+}
+
+void Task_80693D0()
+{
+    SpecialStageIntro44 *strc44 = TASK_DATA(gCurTask);
+    Sprite *s = &strc44->s;
+
+    if (strc44->unk30 == 0) {
+        s->graphics.anim = gUnknown_0868B634[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B634[gSelectedCharacter][1];
+        s->prevVariant = -1;
+        strc44->qUnk38 += Q(16);
+    }
+
+    strc44->qUnk40 -= Q(1);
+    if (strc44->qUnk40 < -Q(100)) {
+        strc44->qUnk40 = -Q(100);
+    }
+
+    s->x = I(strc44->qUnk40);
+    s->y = I(strc44->qUnk38);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_8069464()
+{
+    SpecialStageIntro44 *strc44 = TASK_DATA(gCurTask);
+    Sprite *s = &strc44->s;
+
+    if (strc44->unk30 == 0) {
+        s->graphics.anim = gUnknown_0868B644[gSelectedCharacter][0];
+        s->variant = gUnknown_0868B644[gSelectedCharacter][1];
+        s->prevVariant = -1;
+        strc44->qUnk38 = Q(180);
+    }
+
+    strc44->qUnk40 += strc44->qUnk3C;
+    strc44->qUnk38 += strc44->qUnk34;
+
+    s->x = I(strc44->qUnk40);
+    s->y = I(strc44->qUnk38);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_80694E8()
+{
+    SpecialStageIntro28 *strc28 = TASK_DATA(gCurTask);
+    SpecialStageIntro44 *temp_r6 = TASK_DATA(strc28->taskC);
+    u32 temp_r4;
+
+    temp_r4 = strc28->unk1C + 1;
+    sub_805423C(&strc28->strc0);
+    if (temp_r4 == 0x8C) {
+        strc28->taskC->main = Task_8069550;
+    }
+    if (temp_r4 > 0xA1U) {
+        m4aSongNumStart(0x2DU);
+
+        temp_r4 = 0;
+        strc28->unk1C = 0;
+        temp_r6->unk30 = 0U;
+        strc28->taskC->main = Task_80693D0;
+        gCurTask->main = Task_8069100;
+        return;
+    }
+    strc28->unk1C = (s16)temp_r4;
+    temp_r6->unk30 = temp_r4;
+}
+
+void Task_nullsub_806954C(void) { }
+
+void Task_8069550()
+{
+    SpecialStageIntro44 *strc44 = TASK_DATA(gCurTask);
+    Sprite *s = &strc44->s;
+
+    strc44->qUnk38 += 0x4A0;
+    if (strc44->qUnk38 > Q(80)) {
+        strc44->qUnk38 = Q(80);
+    }
+    s->x = I(strc44->qUnk40);
+    s->y = I(strc44->qUnk38);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void sub_8069598(void) { }
+
+void Task_strc44_806959C()
+{
+    SpecialStageIntro44 *strc44 = TASK_DATA(gCurTask);
+    Sprite *s = &strc44->s;
+
+    strc44->qUnk40 -= Q(1);
+    if (strc44->qUnk40 < -Q(100)) {
+        strc44->qUnk40 = -Q(100);
+    }
+
+    s->x = I(strc44->qUnk40);
+    s->y = I(strc44->qUnk38);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+// indentical to Task_strc44_806959C
+void sub_80695E8()
+{
+    SpecialStageIntro44 *strc44 = TASK_DATA(gCurTask);
+    Sprite *s = &strc44->s;
+
+    strc44->qUnk40 -= Q(1);
+    if (strc44->qUnk40 < -Q(100)) {
+        strc44->qUnk40 = -Q(100);
+    }
+
+    s->x = I(strc44->qUnk40);
+    s->y = I(strc44->qUnk38);
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8069634()
+{
+    SpecialStageIntro44 *strc44 = TASK_DATA(gCurTask);
+    Sprite *s = &strc44->s;
+
+    s->x = I(strc44->qUnk40);
+    s->y = I(strc44->qUnk38);
+
+    if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+        TaskDestroy(gCurTask);
+        return;
+    }
+
+    s->frameFlags &= ~0x400;
+    DisplaySprite(s);
+    s->frameFlags |= 0x400;
+    DisplaySprite(s);
 }
