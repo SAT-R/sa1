@@ -158,6 +158,7 @@ SECTIONS {
         src/game/game_2_3.o(.text);
         src/game/intro_animation.o(.text);
         src/game/extra_stage_results.o(.text);
+        src/game/special_stage/intro.o(.text);
         asm/game__special_stage_intro.o(.text);
         src/game/collect_chaos_emeralds_msg.o(.text);
         src/game/time_attack/results.o(.text);

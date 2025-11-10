@@ -124,7 +124,7 @@ void sub_805C994(u8 arg0)
     sub_80528AC(&gfx);
 
     if (arg0 != 0) {
-        gfx.uiGfxID = 51;
+        gfx.uiGfxID = UIGFX_51;
         gfx.unk2B = 2;
         gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
         gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -140,7 +140,7 @@ void sub_805C994(u8 arg0)
         gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
         sub_80528AC(&gfx);
 
-        gfx.uiGfxID = 11 + gSelectedCharacter;
+        gfx.uiGfxID = UIGFX_STGRESULT_SONIC + gSelectedCharacter;
         gfx.unk2B = 2;
         gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
         gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -156,7 +156,7 @@ void sub_805C994(u8 arg0)
         gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
         sub_80528AC(&gfx);
     } else {
-        gfx.uiGfxID = 53;
+        gfx.uiGfxID = UIGFX_53;
         gfx.unk2B = 2;
         gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
         gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -173,7 +173,7 @@ void sub_805C994(u8 arg0)
         sub_80528AC(&gfx);
     }
 
-    gfx.uiGfxID = 52;
+    gfx.uiGfxID = UIGFX_52;
     gfx.unk2B = 3;
     gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
     gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -189,7 +189,7 @@ void sub_805C994(u8 arg0)
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
     sub_80528AC(&gfx);
 
-    gfx.uiGfxID = 54;
+    gfx.uiGfxID = UIGFX_54;
     gfx.unk2B = 4;
     gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
     gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -205,7 +205,7 @@ void sub_805C994(u8 arg0)
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
     sub_80528AC(&gfx);
 
-    gfx.uiGfxID = 56;
+    gfx.uiGfxID = UIGFX_56;
     gfx.unk2B = 5;
     gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
     gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -221,7 +221,7 @@ void sub_805C994(u8 arg0)
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
     sub_80528AC(&gfx);
 
-    gfx.uiGfxID = 57;
+    gfx.uiGfxID = UIGFX_57;
     gfx.unk2B = 5;
     gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
     gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -237,7 +237,7 @@ void sub_805C994(u8 arg0)
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
     sub_80528AC(&gfx);
 
-    gfx.uiGfxID = 58;
+    gfx.uiGfxID = UIGFX_58;
     gfx.unk2B = 5;
     gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles;
     gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
@@ -253,7 +253,7 @@ void sub_805C994(u8 arg0)
     gfx.unk0.unkB = gUiGraphics[gfx.uiGfxID].unk18;
     sub_80528AC(&gfx);
 
-    gfx.uiGfxID = 0;
+    gfx.uiGfxID = UIGFX_ASCII_CHARS;
     gfx.unk2B = 6;
     gfx.tiles = gUiGraphics[gfx.uiGfxID].tiles + 0x400;
     gfx.palette = gUiGraphics[gfx.uiGfxID].palette;
