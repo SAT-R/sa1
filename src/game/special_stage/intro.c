@@ -13,7 +13,7 @@
 #define FRAME_RELAY_A 90
 #define FRAME_RELAY_B 150
 
-typedef struct SpecialStageIntro64 {
+typedef struct SpecialStageIntroC4 {
     Sprite s;
     u32 unk30;
     s32 qUnk34;
@@ -22,13 +22,13 @@ typedef struct SpecialStageIntro64 {
     s32 qUnk40;
     s32 unk44[16];
     s32 unk84[16];
-} SpecialStageIntro64; /* 0xC4 */
+} SpecialStageIntroC4; /* 0xC4 */
 
 typedef struct SpecialStageIntro20 {
     StrcUi_805423C strc0;
-    struct Task *taskC; // SpecialStageIntro64
-    struct Task *task10; // SpecialStageIntro64
-    struct Task *task14; // SpecialStageIntro64
+    struct Task *taskC; // SpecialStageIntroC4
+    struct Task *task10; // SpecialStageIntroC4
+    struct Task *task14; // SpecialStageIntroC4
     s16 unk18;
     u8 unk1A;
     s16 unk1C;
@@ -42,6 +42,7 @@ void Task_8068A78(void);
 void Task_8068B10();
 void Task_8068BB0(void);
 void Task_8068CD4(void);
+void sub_8068D0C();
 
 extern u16 gUnknown_0868B584[NUM_CHARACTERS][2];
 extern u16 gUnknown_0868B594[NUM_CHARACTERS][2];
@@ -53,9 +54,9 @@ void CreateSpecialStageIntro(void)
 {
     struct Task *taskC;
     struct Task *task10;
-    SpecialStageIntro64 *temp_r0_3;
+    SpecialStageIntroC4 *temp_r0_3;
     SpecialStageIntro20 *temp_r0_6;
-    SpecialStageIntro64 *temp_r2;
+    SpecialStageIntroC4 *temp_r2;
     Sprite *s;
     u8 var_r5;
 
@@ -69,7 +70,7 @@ void CreateSpecialStageIntro(void)
     gBgCntRegs[0] = 0x9D86;
     gBgScrollRegs[0][0] = 0;
     gBgScrollRegs[0][1] = 0x128;
-    task10 = TaskCreate(Task_SpecialStageIntroInit, sizeof(SpecialStageIntro64), 0x2120U, 0U, NULL);
+    task10 = TaskCreate(Task_SpecialStageIntroInit, sizeof(SpecialStageIntroC4), 0x2120U, 0U, NULL);
     temp_r2 = TASK_DATA(task10);
     s = &temp_r2->s;
     s->graphics.dest = OBJ_VRAM0 + 0x20;
@@ -94,7 +95,7 @@ void CreateSpecialStageIntro(void)
     temp_r2->qUnk34 = -Q(3.8125);
     temp_r2->qUnk38 = +Q(180);
 
-    taskC = TaskCreate(Task_8068BB0, sizeof(SpecialStageIntro64), 0x2120U, 0U, NULL);
+    taskC = TaskCreate(Task_8068BB0, sizeof(SpecialStageIntroC4), 0x2120U, 0U, NULL);
     temp_r2 = TASK_DATA(taskC);
     s = &temp_r2->s;
 
@@ -166,8 +167,8 @@ void sub_80688E4(s32 someId)
 
 void Task_8068948()
 {
-    SpecialStageIntro64 *temp_r2;
-    SpecialStageIntro64 *temp_r7;
+    SpecialStageIntroC4 *temp_r2;
+    SpecialStageIntroC4 *temp_r7;
     struct Task *t;
     Sprite *s;
     u32 temp_r5;
@@ -190,7 +191,7 @@ void Task_8068948()
         strc20->strc0.unk6 = 0;
         strc20->strc0.unk8 = 0x150;
         strc20->strc0.unkA = 1;
-        t = TaskCreate(Task_8068CD4, sizeof(SpecialStageIntro64), 0x2120U, 0U, NULL);
+        t = TaskCreate(Task_8068CD4, sizeof(SpecialStageIntroC4), 0x2120U, 0U, NULL);
         strc20->task14 = t;
         temp_r2 = TASK_DATA(t);
         s = &temp_r2->s;
@@ -231,7 +232,7 @@ void Task_8068948()
 void Task_8068A78()
 {
     SpecialStageIntro20 *strc20 = TASK_DATA(gCurTask);
-    SpecialStageIntro64 *temp_r7;
+    SpecialStageIntroC4 *temp_r7;
     u32 temp_r5;
 
     temp_r7 = TASK_DATA(strc20->task10);
@@ -261,25 +262,25 @@ void Task_8068A78()
 
 void Task_8068B10()
 {
-    SpecialStageIntro64 *strc64 = TASK_DATA(gCurTask);
-    Sprite *s = &strc64->s;
-    u32 temp_r6 = strc64->unk30;
+    SpecialStageIntroC4 *strcC4 = TASK_DATA(gCurTask);
+    Sprite *s = &strcC4->s;
+    u32 temp_r6 = strcC4->unk30;
 
     if (temp_r6 == 0) {
         s->graphics.anim = gUnknown_0868B594[gSelectedCharacter][0];
         s->variant = gUnknown_0868B594[gSelectedCharacter][1];
         s->prevVariant = -1;
-        strc64->qUnk34 += -Q(5);
-        strc64->qUnk38 = Q(180);
-        strc64->qUnk40 = Q(150);
+        strcC4->qUnk34 += -Q(5);
+        strcC4->qUnk38 = Q(180);
+        strcC4->qUnk40 = Q(150);
     }
 
     if (temp_r6 > 40) {
-        strc64->qUnk40 += strc64->qUnk3C;
-        strc64->qUnk34 += Q(0.25);
-        strc64->qUnk38 += strc64->qUnk34;
-        strc64->s.x = I(strc64->qUnk40);
-        strc64->s.y = I(strc64->qUnk38);
+        strcC4->qUnk40 += strcC4->qUnk3C;
+        strcC4->qUnk34 += Q(0.25);
+        strcC4->qUnk38 += strcC4->qUnk34;
+        strcC4->s.x = I(strcC4->qUnk40);
+        strcC4->s.y = I(strcC4->qUnk38);
 
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
@@ -300,38 +301,38 @@ void Task_8068BB0(void)
     u8 temp_r0_2;
     u8 var_r8;
 
-    SpecialStageIntro64 *strc64 = TASK_DATA(gCurTask);
-    Sprite *s = &strc64->s;
+    SpecialStageIntroC4 *strcC4 = TASK_DATA(gCurTask);
+    Sprite *s = &strcC4->s;
 
-    temp_r0 = strc64->unk30 + 1;
-    strc64->unk30++;
+    temp_r0 = strcC4->unk30 + 1;
+    strcC4->unk30++;
     sp0 = temp_r0;
-    strc64->s.prevVariant = -1;
-    UpdateSpriteAnimation(&strc64->s);
+    strcC4->s.prevVariant = -1;
+    UpdateSpriteAnimation(&strcC4->s);
 
     for (var_r8 = 0; var_r8 < 16; var_r8++) {
         if ((sp0 + var_r8) & 0xF) {
-            strc64->unk84[var_r8] += 0x10;
+            strcC4->unk84[var_r8] += 0x10;
         } else {
-            strc64->unk84[var_r8] = Mod(PseudoRandom32(), 0x28) - 0x14;
-            strc64->unk44[var_r8] = Mod(PseudoRandom32(), 0xDC) + 0x14;
+            strcC4->unk84[var_r8] = Mod(PseudoRandom32(), 0x28) - 0x14;
+            strcC4->unk44[var_r8] = Mod(PseudoRandom32(), 0xDC) + 0x14;
         }
 
-        s->x = strc64->unk44[var_r8];
-        s->y = strc64->unk84[var_r8];
+        s->x = strcC4->unk44[var_r8];
+        s->y = strcC4->unk84[var_r8];
         DisplaySprite(s);
     }
 }
 
 void Task_SpecialStageIntroInit(void)
 {
-    SpecialStageIntro64 *strc64 = TASK_DATA(gCurTask);
-    Sprite *s = &strc64->s;
+    SpecialStageIntroC4 *strcC4 = TASK_DATA(gCurTask);
+    Sprite *s = &strcC4->s;
     u16 temp_r4;
 
-    strc64->qUnk38 -= Q(3.8125);
-    s->x = I(strc64->qUnk40);
-    s->y = I(strc64->qUnk38);
+    strcC4->qUnk38 -= Q(3.8125);
+    s->x = I(strcC4->qUnk40);
+    s->y = I(strcC4->qUnk38);
 
     UpdateSpriteAnimation(s);
     DisplaySprite(s);
@@ -339,10 +340,10 @@ void Task_SpecialStageIntroInit(void)
 
 void Task_8068CD4(void)
 {
-    SpecialStageIntro64 *strc64 = TASK_DATA(gCurTask);
-    Sprite *s = &strc64->s;
+    SpecialStageIntroC4 *strcC4 = TASK_DATA(gCurTask);
+    Sprite *s = &strcC4->s;
 
-    if ((Div(++strc64->unk30, 30) & 0x1) == 0) {
+    if ((Div(++strcC4->unk30, 30) % 2u) == 0) {
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }

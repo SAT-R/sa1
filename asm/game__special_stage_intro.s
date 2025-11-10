@@ -5,9 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
+.if 01
 @ Special Stage UI ???
 	thumb_func_start sub_8068D0C
 sub_8068D0C: @ 0x08068D0C
@@ -480,6 +478,7 @@ _080690F0: .4byte 0x03000024
 _080690F4: .4byte gUnknown_086BBE34
 _080690F8: .4byte gUnknown_086BBC34
 _080690FC: .4byte gUnknown_086BE7B4
+.endif
 
 	thumb_func_start Task_8069100
 Task_8069100: @ 0x08069100
