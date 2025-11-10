@@ -285,3 +285,65 @@ void Task_8068B10()
         DisplaySprite(s);
     }
 }
+
+void Task_8068BB0(void)
+{
+    s32 sp0;
+    s32 *temp_r1;
+    s32 *temp_r5;
+    s32 *var_r2;
+    s32 *var_r3;
+    s32 temp_r0;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
+    s32 var_r4;
+    u8 temp_r0_2;
+    u8 var_r8;
+
+    SpecialStageIntro64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    temp_r0 = strc64->unk30 + 1;
+    strc64->unk30++;
+    sp0 = temp_r0;
+    strc64->s.prevVariant = -1;
+    UpdateSpriteAnimation(&strc64->s);
+
+    for (var_r8 = 0; var_r8 < 16; var_r8++) {
+        if ((sp0 + var_r8) & 0xF) {
+            strc64->unk84[var_r8] += 0x10;
+        } else {
+            strc64->unk84[var_r8] = Mod(PseudoRandom32(), 0x28) - 0x14;
+            strc64->unk44[var_r8] = Mod(PseudoRandom32(), 0xDC) + 0x14;
+        }
+
+        s->x = strc64->unk44[var_r8];
+        s->y = strc64->unk84[var_r8];
+        DisplaySprite(s);
+    }
+}
+
+void Task_SpecialStageIntroInit(void)
+{
+    SpecialStageIntro64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+    u16 temp_r4;
+
+    strc64->qUnk38 -= Q(3.8125);
+    s->x = I(strc64->qUnk40);
+    s->y = I(strc64->qUnk38);
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+}
+
+void Task_8068CD4(void)
+{
+    SpecialStageIntro64 *strc64 = TASK_DATA(gCurTask);
+    Sprite *s = &strc64->s;
+
+    if ((Div(++strc64->unk30, 30) & 0x1) == 0) {
+        UpdateSpriteAnimation(s);
+        DisplaySprite(s);
+    }
+}
