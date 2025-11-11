@@ -7,6 +7,7 @@
 #include "game/special_stage/main.h"
 #include "game/stage/terrain_collision.h"
 
+#include "constants/tilemaps.h"
 #include "constants/zones.h"
 
 typedef struct Strc_30055E0 {
@@ -20,7 +21,9 @@ typedef struct Strc_30055E0 {
 typedef struct Strc_03005690 {
     s32 unk0;
     s32 unk4;
-    u8 filler8[0x20];
+    u8 filler8[0x10];
+    s16 unk18;
+    u8 filler1A[6 + 8];
     u8 unk28;
     u8 unk29;
     u8 unk2A;
@@ -229,6 +232,88 @@ void sub_8029B74(void)
     DrawBackground(&gUnknown_030057A0);
 
     TaskCreate(Task_802D2BC, 0U, 0x1200U, 0U, NULL);
+
+    // Orthogonal big lights
     CreatePaletteLoaderTask(0x2000U, gUnknown_08487134[gCurrentLevel] + 0x340, 0U, NULL);
+
+    // Diagonal small lights
     CreatePaletteLoaderTask(0x2000U, gUnknown_08487134[gCurrentLevel] + 0x340, 1U, NULL);
+}
+
+void sub_8029CDC(void)
+{
+    Strc_3005780 *strc5780 = &gUnknown_03005780;
+    Background *bg5630 = &gUnknown_03005630;
+    Background *bg55A0 = &gUnknown_030055A0;
+    Background *bg5740 = &gUnknown_03005740;
+    Background *bg5800 = &gUnknown_03005800;
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    s32 temp_r0;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    register s32 r1 asm("r1");
+    u8 r2;
+    u32 temp_r0_2;
+
+    strc5780->unk4 = I(-((strc5690->unk0 / 134) * 32));
+    temp_r0 = (s32)(0 - (((s32)strc5690->unk4 / 94) << 5)) >> 8;
+    strc5780->unk6 = (s16)temp_r0;
+    if ((s32)(s16)temp_r0 < -0x20) {
+        strc5780->unk6 = -0x20;
+    }
+    if ((s32)strc5780->unk6 > 0x20) {
+        strc5780->unk6 = 0x20;
+    }
+    if ((s32)strc5780->unk4 < -0x20) {
+        strc5780->unk4 = -0x20;
+    }
+    if ((s32)strc5780->unk4 > 0x20) {
+        strc5780->unk4 = 0x20;
+    }
+
+#ifndef NON_MATCHING
+    asm("" ::"r"(gBgScrollRegs));
+#endif
+
+    var_r0 = strc5780->unk0 - strc5780->unk4;
+    if (var_r0 < 0) {
+        var_r0 += 7;
+    }
+    gBgScrollRegs[3][0] = (s16)(var_r0 >> 3);
+    var_r0_2 = strc5780->unk2 + strc5780->unk6;
+    if (var_r0_2 < 0) {
+        var_r0_2 += 7;
+    }
+    gBgScrollRegs[3][1] = (s16)(var_r0_2 >> 3);
+
+    gBgScrollRegs[2][0] = strc5780->unk0 - strc5780->unk4;
+    gBgScrollRegs[2][1] = strc5780->unk2 + strc5780->unk6;
+
+    r2 = strc5780->unk12;
+    strc5780->unk12 = ((strc5690->unk18 >> 9) + r2) & 0x3F;
+    var_r0_3 = strc5780->unk12;
+    if (var_r0_3 < 0) {
+        var_r0_3 += 3;
+    }
+    bg5630->tilemapId = TM_SPECIAL_STAGE_BG_FRAME_0 + (var_r0_3 >> 2);
+    var_r0_4 = strc5780->unk12;
+
+#ifndef NON_MATCHING
+    asm("mov r2, r0" ::"r"(var_r0_4));
+#endif
+
+    r1 = var_r0_4;
+    if (r1 < 0) {
+        var_r0_4 = r1 + 3;
+    }
+    bg55A0->tilemapId = (var_r0_4 >> 2) + 0x37;
+    bg5740->tilemapId = (var_r0_4 >> 2) + 0x37;
+    bg5800->tilemapId = (var_r0_4 >> 2) + 0x37;
+    bg5630->flags &= 0xFFF7;
+    DrawBackground(bg5630);
+    DrawBackground(bg55A0);
+    DrawBackground(bg5740);
+    DrawBackground(bg5800);
 }
