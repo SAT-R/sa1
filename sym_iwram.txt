@@ -29,7 +29,7 @@ src/game/special_stage/main.o(.data);
 
 . = 0x000055A0; gUnknown_030055A0 = .;
 . = 0x000055E0; gUnknown_030055E0 = .;
-. = 0x000055FC; gUnknown_030055FC = .;
+. = 0x000055F0; gUnknown_030055F0 = .;
 . = 0x00005630; gUnknown_03005630 = .;
 . = 0x00005670; gUnknown_03005670 = .;
 . = 0x00005690; gUnknown_03005690 = .;
