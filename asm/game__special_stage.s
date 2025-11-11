@@ -5,73 +5,7 @@
 .syntax unified
 .arm
 
-	thumb_func_start CreateSpecialStage
-CreateSpecialStage: @ 0x08029908
-	push {r4, r5, lr}
-	bl sa2__sub_801F044
-	ldr r1, _08029984 @ =gUnknown_03005730
-	movs r0, #0
-	strb r0, [r1]
-	ldr r0, _08029988 @ =gUnknown_0300507C
-	movs r1, #0
-	strh r1, [r0]
-	ldr r0, _0802998C @ =gSpecialStageCollectedRings
-	strh r1, [r0]
-	ldr r5, _08029990 @ =gUnknown_03005028
-	ldr r1, _08029994 @ =gUnknown_08487140
-	ldr r3, _08029998 @ =gUnknown_08487134
-	ldr r2, _0802999C @ =gCurrentLevel
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	adds r0, r0, r3
-	ldrb r0, [r0]
-	lsls r0, r0, #2
-	adds r0, r0, r1
-	ldrh r4, [r0]
-	strh r4, [r5]
-	ldr r5, _080299A0 @ =gUnknown_03005070
-	movs r0, #0
-	ldrsb r0, [r2, r0]
-	adds r0, r0, r3
-	ldrb r0, [r0]
-	lsls r0, r0, #2
-	adds r1, #2
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	strh r0, [r5]
-	ldr r0, _080299A4 @ =gSpecialStageTargetRings
-	strh r4, [r0]
-	ldr r1, _080299A8 @ =gPlayer
-	adds r1, #0x26
-	ldrb r2, [r1]
-	movs r0, #0xfb
-	ands r0, r2
-	strb r0, [r1]
-	ldr r0, _080299AC @ =gLoadedSaveGame
-	ldrb r0, [r0, #0x1c]
-	bl SetFaceButtonConfig
-	bl sub_802D158
-	bl sub_802D190
-	bl sub_802D1D8
-	bl sub_8029B74
-	bl sub_802C934
-	movs r0, #1
-	bl sub_805C448
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08029984: .4byte gUnknown_03005730
-_08029988: .4byte gUnknown_0300507C
-_0802998C: .4byte gSpecialStageCollectedRings
-_08029990: .4byte gUnknown_03005028
-_08029994: .4byte gUnknown_08487140
-_08029998: .4byte gUnknown_08487134
-_0802999C: .4byte gCurrentLevel
-_080299A0: .4byte gUnknown_03005070
-_080299A4: .4byte gSpecialStageTargetRings
-_080299A8: .4byte gPlayer
-_080299AC: .4byte gLoadedSaveGame
+.if 0
 
 	thumb_func_start sub_80299B0
 sub_80299B0: @ 0x080299B0
@@ -148,6 +82,7 @@ _08029A40: .4byte gUnknown_03005028
 _08029A44: .4byte gSpecialStageCollectedRings
 _08029A48: .4byte sub_802D274
 _08029A4C: .4byte gUnknown_03005070
+.endif
 
 	thumb_func_start sub_8029A50
 sub_8029A50: @ 0x08029A50

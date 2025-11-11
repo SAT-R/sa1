@@ -126,10 +126,7 @@ void Task_SpecialSpringMain(void)
             s->prevVariant = -1;
             PLAYERFN_CHANGE_SHIFT_OFFSETS(&gPlayer, 6, 14);
             m4aSongNumStart(SE_SPRING);
-#if !PORTABLE
-            // TEMP
             gCurTask->main = Task_TransitionSpStage;
-#endif
         }
     }
 
