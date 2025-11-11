@@ -134,6 +134,9 @@ extern const Background gUnknown_08487074;
 extern const Background gUnknown_084870B4;
 extern const Background gUnknown_084870F4;
 
+extern const s16 gUnknown_08487184[16][2];
+extern const s16 gUnknown_084871C4[16][2];
+
 void CreateSpecialStage()
 {
     SA2_LABEL(sub_801F044)();
@@ -473,4 +476,50 @@ bool32 sub_8029FA4(Strc_03005690 *param0)
     }
 
     return FALSE;
+}
+
+void sub_802A068(Strc_03005690 *param0)
+{
+    s32 temp_r0;
+    s32 var_r0;
+    u16 temp_r1;
+
+    if (0xC0 & param0->unk42) {
+        param0->unk1E = gUnknown_084871C4[(0xF0 & param0->unk42) >> 4][1];
+        if ((param0->unk16 > 0) && (param0->unk1E < 0)) {
+            param0->unk16 = 0;
+        }
+        if ((param0->unk16 < 0) && (param0->unk1E > 0)) {
+            param0->unk16 = 0;
+        }
+    } else {
+        var_r0 = param0->unk16;
+        if (var_r0 < 0) {
+            var_r0 += 3;
+        }
+
+        param0->unk1E = -(var_r0 >> 2);
+        if (param0->unk1E == 0) {
+            param0->unk1E = 0 - (u16)param0->unk16;
+        }
+    }
+
+    if (0x30 & param0->unk42) {
+        param0->unk1C = gUnknown_084871C4[(0xF0 & param0->unk42) >> 4][0];
+        if ((param0->unk14 > 0) && (param0->unk1C < 0)) {
+            param0->unk14 = 0;
+        }
+        if ((param0->unk14 < 0) && (param0->unk1C > 0)) {
+            param0->unk14 = 0;
+        }
+    } else {
+        var_r0 = param0->unk14;
+        if (var_r0 < 0) {
+            var_r0 += 3;
+        }
+        param0->unk1C = -(var_r0 >> 2);
+        if (param0->unk1C == 0) {
+            param0->unk1C = -param0->unk14;
+        }
+    }
 }
