@@ -1,14 +1,17 @@
 #include "global.h"
 #include "core.h"
+#include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/palette_loader.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/save.h"
 #include "game/special_stage/main.h"
+#include "game/stage/player_controls.h"
 #include "game/stage/terrain_collision.h"
 
 #include "constants/animations.h"
 #include "constants/tilemaps.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct Strc_30055E0 {
@@ -30,7 +33,9 @@ typedef struct Strc_03005690 {
     s16 unk16;
     s16 unk18;
     s16 unk1A;
-    u8 filler1C[4 + 8];
+    s16 unk1C;
+    s16 unk1E;
+    u8 filler20[8];
     u8 unk28;
     u8 unk29;
     u8 unk2A;
@@ -41,9 +46,10 @@ typedef struct Strc_03005690 {
     u8 unk31;
     u16 unk32;
     u16 unk34;
-    u8 filler36[0x7];
-    u8 unk3D;
-    u8 unk3E;
+    u8 filler36[0x6];
+    s8 unk3C;
+    s8 unk3D;
+    s8 unk3E;
     u8 unk3F;
     u8 unk40;
     u8 unk41;
@@ -82,6 +88,11 @@ void Task_8029AC4(void);
 void sub_8029B74(void);
 void sub_8029E0C(s16 arg0);
 void sub_8029EA8(s32 unused);
+bool32 sub_8029F30(Strc_03005690 *param0);
+void sub_802A688(void);
+void sub_802A988(void);
+void sub_802ABA0(void);
+void sub_802ACF0(void);
 void sub_802C56C(u8 param0);
 void sub_802C934(void);
 void sub_802D158(void);
@@ -411,4 +422,55 @@ void sub_8029EA8(s32 unused)
     tf->qScaleY = Q(1);
     tf->x = 0;
     tf->y = 0;
+}
+
+bool32 sub_8029F30(Strc_03005690 *param0)
+{
+    if (!(1 & param0->unk29)) {
+        if (8 & param0->unk29) {
+            param0->unk28 = 2;
+            ClearBit(param0->unk29, 3);
+            sub_802A988();
+            return TRUE;
+        } else if (4 & param0->unk29) {
+            if (param0->unk52 != param0->unk50) {
+                param0->unk28 = 1;
+                ClearBit(param0->unk29, 2);
+                param0->unk52 = param0->unk50;
+                sub_802A688();
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+bool32 sub_8029FA4(Strc_03005690 *param0)
+{
+    if (param0->unk3E != 0) {
+        param0->unk3E--;
+        param0->unk3D = 0;
+    } else if (param0->unk3D != 0) {
+        param0->unk3D--;
+
+        if (param0->unk44 & gPlayerControls.attack) {
+            sub_802ACF0();
+            MPlayStop(gMPlayTable[gSongTable[42].ms].info);
+            CreateSpStageTrickSoundTask(MUS_SP_STAGE_TRICK, MUS_SPECIAL_STAGE);
+            return TRUE;
+        }
+    } else if (param0->unk44 & gPlayerControls.attack) {
+        if (!(1 & param0->unk29)) {
+            if (0x200 & param0->unk44) {
+                param0->unk3C = 0;
+            } else {
+                param0->unk3C = -1;
+            }
+            sub_802ABA0();
+            return TRUE;
+        }
+    }
+
+    return FALSE;
 }
