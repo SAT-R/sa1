@@ -23,7 +23,12 @@
 #define SA1_CHAR_ANIM_21               21
 #define SA1_CHAR_ANIM_22               22
 #define SA1_CHAR_ANIM_23               23
+#define SA1_CHAR_ANIM_24               24
+#define SA1_CHAR_ANIM_25               25
+#define SA1_CHAR_ANIM_26               26
 #define SA1_CHAR_ANIM_27               27
+#define SA1_CHAR_ANIM_28               28
+#define SA1_CHAR_ANIM_29               29
 #define SA1_CHAR_ANIM_MARBLE_TRACK     39
 #define SA1_CHAR_ANIM_GRINDING         44
 #define SA1_CHAR_ANIM_50               50

@@ -53,7 +53,7 @@ typedef struct Strc_03005690 {
     u8 unk3F;
     u8 unk40;
     u8 unk41;
-    u16 unk42;
+    s16 unk42;
     u16 unk44;
     u8 filler46[0x2];
     AnimId anim48;
@@ -134,8 +134,11 @@ extern const Background gUnknown_08487074;
 extern const Background gUnknown_084870B4;
 extern const Background gUnknown_084870F4;
 
+extern const s16 gUnknown_0848715C[16][2];
 extern const s16 gUnknown_08487184[16][2];
 extern const s16 gUnknown_084871C4[16][2];
+
+u16 sub_802D2F4(Strc_03005690 *param0);
 
 void CreateSpecialStage()
 {
@@ -521,5 +524,36 @@ void sub_802A068(Strc_03005690 *param0)
         if (param0->unk1C == 0) {
             param0->unk1C = -param0->unk14;
         }
+    }
+}
+
+void sub_802A134(Strc_03005690 *param0)
+{
+    Sprite *s = &gUnknown_030055F0.s;
+    u32 var_r0;
+
+    if (2 & param0->unk29) {
+        if (param0->unk18 <= Q(12)) {
+            param0->anim48 = SA1_CHAR_ANIM_29 + gPlayerCharacterIdleAnims[param0->unk4C];
+            param0->variant4A = 0;
+        } else {
+            param0->anim48 = SA1_CHAR_ANIM_29 + gPlayerCharacterIdleAnims[param0->unk4C];
+            param0->variant4A = 1;
+        }
+    } else {
+        if ((0xF0 & param0->unk42) != 0) {
+            param0->anim48 = gUnknown_08487184[((0xF0 & param0->unk42) >> 4)][0] + gPlayerCharacterIdleAnims[param0->unk4C];
+            param0->variant4A = gUnknown_08487184[((0xF0 & param0->unk42) >> 4)][1];
+        } else {
+            var_r0 = sub_802D2F4(param0);
+            param0->anim48 = gUnknown_0848715C[var_r0][0] + gPlayerCharacterIdleAnims[param0->unk4C];
+            param0->variant4A = gUnknown_0848715C[var_r0][1];
+        }
+    }
+
+    if ((s->graphics.anim != param0->anim48) || (s->variant != param0->variant4A)) {
+        s->graphics.anim = param0->anim48;
+        s->variant = param0->variant4A;
+        s->prevVariant = -1;
     }
 }
