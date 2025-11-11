@@ -6,368 +6,7 @@
 .arm
 
 .if 0
-
-	thumb_func_start sub_80299B0
-sub_80299B0: @ 0x080299B0
-	push {r4, r5, lr}
-	ldr r4, _08029A30 @ =gUnknown_03005690
-	ldr r5, _08029A34 @ =gUnknown_030055E0
-	ldrb r0, [r5]
-	cmp r0, #2
-	bne _080299F0
-	movs r0, #0xd2
-	lsls r0, r0, #1
-	strh r0, [r5, #2]
-	adds r2, r4, #0
-	adds r2, #0x29
-	ldrb r1, [r2]
-	movs r0, #1
-	orrs r0, r1
-	strb r0, [r2]
-	adds r1, r4, #0
-	adds r1, #0x2a
-	movs r0, #0x40
-	strb r0, [r1]
-	ldr r0, _08029A38 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08029A3C @ =sub_8029A50
-	str r0, [r1, #8]
-	ldr r0, _08029A40 @ =gUnknown_03005028
-	ldr r1, _08029A44 @ =gSpecialStageCollectedRings
-	ldrh r0, [r0]
-	ldrh r1, [r1]
-	cmp r0, r1
-	bls _080299F0
-	movs r0, #2
-	bl sub_802C56C
-_080299F0:
-	ldrb r0, [r5]
-	cmp r0, #1
-	bne _08029A2A
-	movs r0, #0xd2
-	lsls r0, r0, #1
-	strh r0, [r5, #2]
-	adds r2, r4, #0
-	adds r2, #0x29
-	ldrb r1, [r2]
-	movs r0, #1
-	orrs r0, r1
-	strb r0, [r2]
-	adds r1, r4, #0
-	adds r1, #0x2a
-	movs r0, #0x80
-	strb r0, [r1]
-	ldr r0, _08029A38 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08029A48 @ =sub_802D274
-	str r0, [r1, #8]
-	ldr r0, _08029A4C @ =gUnknown_03005070
-	ldr r1, _08029A44 @ =gSpecialStageCollectedRings
-	ldrh r0, [r0]
-	ldrh r1, [r1]
-	cmp r0, r1
-	bls _08029A2A
-	movs r0, #2
-	bl sub_802C56C
-_08029A2A:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08029A30: .4byte gUnknown_03005690
-_08029A34: .4byte gUnknown_030055E0
-_08029A38: .4byte gCurTask
-_08029A3C: .4byte sub_8029A50
-_08029A40: .4byte gUnknown_03005028
-_08029A44: .4byte gSpecialStageCollectedRings
-_08029A48: .4byte sub_802D274
-_08029A4C: .4byte gUnknown_03005070
 .endif
-
-	thumb_func_start sub_8029A50
-sub_8029A50: @ 0x08029A50
-	push {lr}
-	ldr r2, _08029A88 @ =gUnknown_03005690
-	ldr r3, _08029A8C @ =gUnknown_030055E0
-	ldrh r0, [r3, #2]
-	subs r0, #1
-	strh r0, [r3, #2]
-	lsls r0, r0, #0x10
-	cmp r0, #0
-	bgt _08029AB2
-	ldr r0, _08029A90 @ =gUnknown_03005028
-	ldr r1, _08029A94 @ =gSpecialStageCollectedRings
-	ldrh r0, [r0]
-	ldrh r1, [r1]
-	cmp r0, r1
-	bhi _08029AA0
-	movs r0, #0
-	strb r0, [r3]
-	adds r2, #0x29
-	ldrb r1, [r2]
-	movs r0, #0xfe
-	ands r0, r1
-	strb r0, [r2]
-	bl sub_802D560
-	ldr r0, _08029A98 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08029A9C @ =sub_80299B0
-	b _08029AB0
-	.align 2, 0
-_08029A88: .4byte gUnknown_03005690
-_08029A8C: .4byte gUnknown_030055E0
-_08029A90: .4byte gUnknown_03005028
-_08029A94: .4byte gSpecialStageCollectedRings
-_08029A98: .4byte gCurTask
-_08029A9C: .4byte sub_80299B0
-_08029AA0:
-	ldr r2, _08029AB8 @ =gStageFlags
-	ldrh r0, [r2]
-	movs r1, #0x20
-	orrs r0, r1
-	strh r0, [r2]
-	ldr r0, _08029ABC @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _08029AC0 @ =sub_8029AC4
-_08029AB0:
-	str r0, [r1, #8]
-_08029AB2:
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08029AB8: .4byte gStageFlags
-_08029ABC: .4byte gCurTask
-_08029AC0: .4byte sub_8029AC4
-
-	thumb_func_start sub_8029AC4
-sub_8029AC4: @ 0x08029AC4
-	push {r4, r5, lr}
-	ldr r5, _08029B20 @ =gUnknown_030055E0
-	ldrh r0, [r5, #4]
-	adds r0, #0x40
-	movs r2, #0
-	strh r0, [r5, #4]
-	ldr r4, _08029B24 @ =gBldRegs
-	ldr r1, _08029B28 @ =0x00003F9F
-	strh r1, [r4]
-	strh r2, [r4, #2]
-	lsls r0, r0, #0x10
-	lsrs r1, r0, #0x18
-	strh r1, [r4, #4]
-	ldr r1, _08029B2C @ =0x0FFF0000
-	cmp r0, r1
-	bls _08029B6E
-	movs r0, #0x10
-	strh r0, [r4, #2]
-	ldr r1, _08029B30 @ =0x0000FFFF
-	movs r0, #0
-	bl TasksDestroyInPriorityRange
-	ldr r1, _08029B34 @ =gBackgroundsCopyQueueCursor
-	ldr r0, _08029B38 @ =gBackgroundsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldr r1, _08029B3C @ =sa2__gUnknown_03005390
-	movs r0, #0
-	strb r0, [r1]
-	ldr r1, _08029B40 @ =gVramGraphicsCopyCursor
-	ldr r0, _08029B44 @ =gVramGraphicsCopyQueueIndex
-	ldrb r0, [r0]
-	strb r0, [r1]
-	ldrh r0, [r4]
-	ldr r2, _08029B48 @ =0x00003F1F
-	adds r1, r2, #0
-	orrs r0, r1
-	strh r0, [r4]
-	ldrb r0, [r5]
-	cmp r0, #2
-	bne _08029B4C
-	movs r0, #0
-	bl sub_805D048
-	b _08029B6E
-	.align 2, 0
-_08029B20: .4byte gUnknown_030055E0
-_08029B24: .4byte gBldRegs
-_08029B28: .4byte 0x00003F9F
-_08029B2C: .4byte 0x0FFF0000
-_08029B30: .4byte 0x0000FFFF
-_08029B34: .4byte gBackgroundsCopyQueueCursor
-_08029B38: .4byte gBackgroundsCopyQueueIndex
-_08029B3C: .4byte sa2__gUnknown_03005390
-_08029B40: .4byte gVramGraphicsCopyCursor
-_08029B44: .4byte gVramGraphicsCopyQueueIndex
-_08029B48: .4byte 0x00003F1F
-_08029B4C:
-	ldr r0, _08029B60 @ =gSpecialStageTargetRings
-	ldr r1, _08029B64 @ =gSpecialStageCollectedRings
-	ldrh r0, [r0]
-	ldrh r1, [r1]
-	cmp r0, r1
-	bhi _08029B68
-	bl sub_8068D0C
-	b _08029B6E
-	.align 2, 0
-_08029B60: .4byte gSpecialStageTargetRings
-_08029B64: .4byte gSpecialStageCollectedRings
-_08029B68:
-	movs r0, #0
-	bl sub_805D048
-_08029B6E:
-	pop {r4, r5}
-	pop {r0}
-	bx r0
-
-	thumb_func_start sub_8029B74
-sub_8029B74: @ 0x08029B74
-	push {r4, r5, r6, r7, lr}
-	mov r7, sb
-	mov r6, r8
-	push {r6, r7}
-	sub sp, #4
-	ldr r2, _08029C8C @ =gUnknown_03005780
-	ldr r1, _08029C90 @ =gDispCnt
-	movs r3, #0xe2
-	lsls r3, r3, #5
-	adds r0, r3, #0
-	strh r0, [r1]
-	ldr r1, _08029C94 @ =gBgCntRegs
-	movs r7, #0
-	ldr r0, _08029C98 @ =0x00000201
-	strh r0, [r1, #2]
-	ldr r0, _08029C9C @ =0x00005806
-	strh r0, [r1, #4]
-	ldr r0, _08029CA0 @ =0x00001C0B
-	strh r0, [r1, #6]
-	movs r4, #0x88
-	strh r4, [r2]
-	movs r5, #0x20
-	strh r5, [r2, #2]
-	strh r7, [r2, #0xe]
-	strh r7, [r2, #4]
-	strh r7, [r2, #0x10]
-	strh r7, [r2, #6]
-	strh r7, [r2, #8]
-	strh r7, [r2, #0xc]
-	ldr r3, _08029CA4 @ =gBgScrollRegs
-	movs r1, #4
-	ldrsh r0, [r2, r1]
-	subs r0, r4, r0
-	cmp r0, #0
-	bge _08029BBC
-	adds r0, #7
-_08029BBC:
-	asrs r0, r0, #3
-	strh r0, [r3, #0xc]
-	movs r0, #6
-	ldrsh r1, [r2, r0]
-	adds r0, r1, #0
-	adds r0, #0x20
-	cmp r0, #0
-	bge _08029BCE
-	adds r0, #7
-_08029BCE:
-	asrs r0, r0, #3
-	strh r0, [r3, #0xe]
-	strh r4, [r3, #8]
-	strh r5, [r3, #0xa]
-	ldr r1, _08029CA8 @ =gUnknown_03005630
-	mov sb, r1
-	ldr r1, _08029CAC @ =gUnknown_08487034
-	mov r0, sb
-	movs r2, #0x40
-	bl memcpy
-	ldr r3, _08029CB0 @ =gUnknown_030055A0
-	mov r8, r3
-	ldr r1, _08029CB4 @ =gUnknown_08487074
-	mov r0, r8
-	movs r2, #0x40
-	bl memcpy
-	ldr r6, _08029CB8 @ =gUnknown_03005740
-	ldr r1, _08029CBC @ =gUnknown_084870B4
-	adds r0, r6, #0
-	movs r2, #0x40
-	bl memcpy
-	ldr r5, _08029CC0 @ =gUnknown_03005800
-	ldr r1, _08029CC4 @ =gUnknown_084870F4
-	adds r0, r5, #0
-	movs r2, #0x40
-	bl memcpy
-	ldr r4, _08029CC8 @ =gUnknown_030057A0
-	ldr r1, _08029CCC @ =gUnknown_08486FF4
-	adds r0, r4, #0
-	movs r2, #0x40
-	bl memcpy
-	mov r0, sb
-	bl DrawBackground
-	mov r0, r8
-	bl DrawBackground
-	adds r0, r6, #0
-	bl DrawBackground
-	adds r0, r5, #0
-	bl DrawBackground
-	adds r0, r4, #0
-	bl DrawBackground
-	ldr r0, _08029CD0 @ =sub_802D2BC
-	movs r2, #0x90
-	lsls r2, r2, #5
-	str r7, [sp]
-	movs r1, #0
-	movs r3, #0
-	bl TaskCreate
-	movs r0, #0x80
-	lsls r0, r0, #6
-	mov r8, r0
-	ldr r6, _08029CD4 @ =gUnknown_08487134
-	ldr r5, _08029CD8 @ =gCurrentLevel
-	movs r0, #0
-	ldrsb r0, [r5, r0]
-	adds r0, r0, r6
-	movs r1, #0xd0
-	lsls r1, r1, #2
-	adds r4, r1, #0
-	ldrb r0, [r0]
-	adds r1, r4, r0
-	mov r0, r8
-	movs r2, #0
-	movs r3, #0
-	bl CreatePaletteLoaderTask
-	movs r0, #0
-	ldrsb r0, [r5, r0]
-	adds r0, r0, r6
-	ldrb r0, [r0]
-	adds r4, r4, r0
-	mov r0, r8
-	adds r1, r4, #0
-	movs r2, #1
-	movs r3, #0
-	bl CreatePaletteLoaderTask
-	add sp, #4
-	pop {r3, r4}
-	mov r8, r3
-	mov sb, r4
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_08029C8C: .4byte gUnknown_03005780
-_08029C90: .4byte gDispCnt
-_08029C94: .4byte gBgCntRegs
-_08029C98: .4byte 0x00000201
-_08029C9C: .4byte 0x00005806
-_08029CA0: .4byte 0x00001C0B
-_08029CA4: .4byte gBgScrollRegs
-_08029CA8: .4byte gUnknown_03005630
-_08029CAC: .4byte gUnknown_08487034
-_08029CB0: .4byte gUnknown_030055A0
-_08029CB4: .4byte gUnknown_08487074
-_08029CB8: .4byte gUnknown_03005740
-_08029CBC: .4byte gUnknown_084870B4
-_08029CC0: .4byte gUnknown_03005800
-_08029CC4: .4byte gUnknown_084870F4
-_08029CC8: .4byte gUnknown_030057A0
-_08029CCC: .4byte gUnknown_08486FF4
-_08029CD0: .4byte sub_802D2BC
-_08029CD4: .4byte gUnknown_08487134
-_08029CD8: .4byte gCurrentLevel
 
 	thumb_func_start sub_8029CDC
 sub_8029CDC: @ 0x08029CDC
@@ -7018,7 +6657,7 @@ Task_802D238: @ 0x0802D238
 	bgt _0802D260
 	ldr r0, _0802D26C @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802D270 @ =sub_80299B0
+	ldr r0, _0802D270 @ =Task_80299B0
 	str r0, [r1, #8]
 	adds r2, #0x29
 	ldrb r1, [r2]
@@ -7033,7 +6672,7 @@ _0802D260:
 _0802D264: .4byte gUnknown_03005690
 _0802D268: .4byte gUnknown_030055E0
 _0802D26C: .4byte gCurTask
-_0802D270: .4byte sub_80299B0
+_0802D270: .4byte Task_80299B0
 
 	thumb_func_start sub_802D274
 sub_802D274: @ 0x0802D274
@@ -7051,7 +6690,7 @@ sub_802D274: @ 0x0802D274
 	strh r0, [r2]
 	ldr r0, _0802D2A0 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802D2A4 @ =sub_8029AC4
+	ldr r0, _0802D2A4 @ =Task_8029AC4
 	str r0, [r1, #8]
 _0802D294:
 	bx lr
@@ -7059,7 +6698,7 @@ _0802D294:
 _0802D298: .4byte gUnknown_030055E0
 _0802D29C: .4byte gStageFlags
 _0802D2A0: .4byte gCurTask
-_0802D2A4: .4byte sub_8029AC4
+_0802D2A4: .4byte Task_8029AC4
 
 	thumb_func_start sub_802D2A8
 sub_802D2A8: @ 0x0802D2A8
@@ -7074,8 +6713,8 @@ sub_802D2A8: @ 0x0802D2A8
 	.align 2, 0
 _0802D2B8: .4byte gDispCnt
 
-	thumb_func_start sub_802D2BC
-sub_802D2BC: @ 0x0802D2BC
+	thumb_func_start Task_802D2BC
+Task_802D2BC: @ 0x0802D2BC
 	push {lr}
 	ldr r3, _0802D2E0 @ =gUnknown_03005780
 	ldr r1, _0802D2E4 @ =gBldRegs
