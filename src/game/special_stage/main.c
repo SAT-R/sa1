@@ -74,7 +74,6 @@ extern Strc_3005780 gUnknown_03005780;
 extern Background gUnknown_030057A0;
 extern Background gUnknown_03005800;
 
-
 extern u16 gUnknown_08487140[][2];
 extern u8 gUnknown_08487134[NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE];
 extern Strc_03005690 gUnknown_03005690;
