@@ -109,8 +109,24 @@ typedef struct SpStage74 {
     u8 unk6B;
     u8 filler6C[2];
     u16 unk6E;
-    u8 filler70[4];
+    u16 unk70;
+    u8 filler72[2];
 } SpStage74;
+
+typedef struct SpStage8 {
+    u8 filler0[2];
+    u16 unk2;
+    u16 unk4;
+    u8 unk6;
+} SpStage8;
+
+// Stage layouts?
+typedef struct SpStageC {
+    s16 unk0;
+    s16 unk2;
+    s32 unk4;
+    u16 unk8;
+} SpStageC; /* 0x0C */
 
 // Number of rings needed this round, to continue to the next / (in the last one) collect the emerald.
 u16 gSpecialStageTargetRings = 0;
@@ -142,6 +158,7 @@ void sub_802B18C(void);
 void sub_802B214(void);
 void Task_802AD9C(void);
 void Task_802AE40(void);
+void Task_802BEDC(void);
 void sub_802C56C(u8 param0);
 void sub_802C6C4(void);
 void sub_802C934(void);
@@ -150,6 +167,7 @@ void sub_802D190(void);
 void sub_802D1D8(void);
 void sub_802D274(void);
 u16 sub_802D2F4(Strc_03005690 *param0);
+void sub_802D33C(void);
 void Task_802D508(void);
 void sub_802D560(void);
 u8 sub_802D58C(s16 param0);
@@ -196,6 +214,8 @@ extern const s16 gUnknown_084871C4[16][2];
 extern const s16 gUnknown_084871C4[16][2];
 extern const s16 gUnknown_08487214[12][2];
 extern const s16 gUnknown_0848722C[16][3];
+
+extern SpStageC *gUnknown_087BF8DC[7];
 
 void CreateSpecialStage()
 {
@@ -1374,7 +1394,7 @@ void sub_802B214(void)
     SpStage74 *strc74 = TASK_DATA(TaskCreate(Task_802D508, sizeof(SpStage74), 0x10FFU, 0U, NULL));
     strc74->unk3C = strc5690->unk0;
     strc74->unk40 = strc5690->unk4;
-    strc74->unk44 = strc5690->unk8 + 0xFFFFFF00;
+    strc74->unk44 = strc5690->unk8 - Q(1);
     strc74->unk50 = (s16)(u16)strc5690->unk10;
     strc74->unk52 = 0;
     strc74->unk54 = 0;
@@ -1415,4 +1435,48 @@ void sub_802B214(void)
     tf->qScaleY = Q(0.25);
     tf->x = s->x;
     tf->y = s->y;
+}
+
+void sub_802B3E4()
+{
+    SpStage8 *strc8 = TASK_DATA(gCurTask);
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_30055E0 *strc55E0 = &gUnknown_030055E0;
+    SpStage74 *strc74;
+    SpStageC *temp_r5;
+    u16 var_r0;
+
+    temp_r5 = gUnknown_087BF8DC[gUnknown_08487134[gCurrentLevel]];
+    if ((strc8->unk6 == 0) && (strc55E0->unk0 != 1)) {
+        while (temp_r5[strc8->unk2].unk4 < (I(strc5690->unk8) + 0x300)) {
+            if (temp_r5[strc8->unk2].unk8 == 0xFFFF) {
+                strc74 = TASK_DATA(TaskCreate(sub_802D33C, sizeof(SpStage74), 0x1F00U, 0U, NULL));
+                strc74->unk60 = 1;
+                strc74->unk44 = temp_r5[strc8->unk2].unk4 << 8;
+                strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
+                strc8->unk2 += 1;
+                strc8->unk6 = 1;
+                break;
+            } else if (temp_r5[strc8->unk2].unk8 == 0x7FFF) {
+                strc74 = TASK_DATA(TaskCreate(sub_802D33C, sizeof(SpStage74), 0x1F00U, 0U, NULL));
+                strc74->unk60 = 2;
+                strc74->unk44 = temp_r5[strc8->unk2].unk4 << 8;
+                strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
+                strc8->unk2++;
+            } else if (temp_r5[strc8->unk2].unk8 == 0) {
+                strc8->unk2++;
+            } else {
+                strc74 = TASK_DATA(TaskCreate(Task_802BEDC, sizeof(SpStage74), 0x1500U, 0U, NULL));
+                strc74->unk60 = temp_r5[strc8->unk2].unk8;
+                strc74->unk3C = Q(temp_r5[strc8->unk2].unk0);
+                strc74->unk40 = Q(temp_r5[strc8->unk2].unk2);
+                strc74->unk44 = Q(temp_r5[strc8->unk2].unk4);
+                strc74->unk68 = (s16)strc8->unk2;
+                strc74->filler6C[1] = 0xB;
+                strc74->unk70 = 0;
+                strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
+                strc8->unk2++;
+            }
+        }
+    }
 }
