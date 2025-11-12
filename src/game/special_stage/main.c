@@ -48,7 +48,7 @@ typedef struct Strc_03005690 {
     u8 unk30;
     u8 unk31;
     u16 unk32;
-    u16 unk34;
+    s16 unk34;
     u8 filler36[0x6];
     s8 unk3C;
     s8 unk3D;
@@ -83,6 +83,28 @@ typedef struct Strc_3005780 {
     s8 unk12;
 } Strc_3005780;
 
+typedef struct SpStage74 {
+    u8 filler0[0x3C];
+    s32 unk3C;
+    s32 unk40;
+    s32 unk44;
+    u8 filler48[0x8];
+    s16 unk50;
+    s16 unk52;
+    s16 unk54;
+    s16 unk56;
+    s16 unk58;
+    s16 unk5A;
+    s16 unk5C;
+    u8 filler5E[2];
+    s16 unk60;
+    u8 filler62[6];
+    s16 unk68;
+    u8 unk6A;
+    u8 unk6B;
+    u8 filler6C[8];
+} SpStage74;
+
 // Number of rings needed this round, to continue to the next / (in the last one) collect the emerald.
 u16 gSpecialStageTargetRings = 0;
 
@@ -101,10 +123,13 @@ void sub_802A4C4(Strc_03005690 *strc5690);
 void sub_802A688(void);
 void sub_802A890(void);
 void sub_802A988(void);
+void Task_802AA48(void);
+void sub_802AAF0(void);
 void sub_802ABA0(void);
 void sub_802ACF0(void);
 void Task_802AE40(void);
 void sub_802C56C(u8 param0);
+void sub_802C6C4(void);
 void sub_802C934(void);
 void sub_802D158(void);
 void sub_802D190(void);
@@ -824,11 +849,24 @@ void sub_802A688(void)
             strc5690->unk1C = -(gUnknown_0848722C[index][0] >> 7);
             strc5690->unk1E = -(gUnknown_0848722C[index][1] >> 7);
             strc5690->unk20 = -32;
+
+#ifndef NON_MATCHING
+            // NOTE: This works, but converts each value to double, multiplies two doubles in software and then converts them back to
+            // integer.
+            //       Considering the mul values are just 1.5 and 3, this can be done as integers.
             strc5690->unk14 *= 1.5;
             strc5690->unk16 *= 1.5;
             strc5690->unk18 *= 1.5;
             strc5690->unk1C *= 3.0;
             strc5690->unk1E *= 3.0;
+#else
+            // This is now just one add and two/one shifts
+            strc5690->unk14 = (strc5690->unk14 * 3) >> 1;
+            strc5690->unk16 = (strc5690->unk16 * 3) >> 1;
+            strc5690->unk18 = (strc5690->unk18 * 3) >> 1;
+            strc5690->unk1C *= 3;
+            strc5690->unk1E *= 3;
+#endif
             unk20 = -Q(0.375);
             strc5690->unk20 = unk20;
         } break;
@@ -858,4 +896,160 @@ void sub_802A688(void)
     DisplaySprite(s);
 
     gCurTask->main = sub_802A890;
+}
+
+void sub_802A890(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+    bool32 var_r7 = 0;
+
+    strc5690->unk42 = gInput;
+    strc5690->unk44 = gPressedKeys;
+
+    if (strc5690->unk3D != 0) {
+        strc5690->unk3D--;
+    }
+
+    switch (strc5690->unk54) {
+        case 4:
+            if (strc5690->unk18 > 0) {
+                sub_802A068(strc5690);
+            }
+            break;
+        case 5:
+            sub_802A068(strc5690);
+            break;
+    }
+
+    if (sub_8029F30(strc5690) == 0) {
+        if (strc5690->unk54 == 4) {
+            if (strc5690->unk18 >= 0x800) {
+                var_r7 = 1;
+            }
+        } else {
+            if (strc5690->unk18 <= 0x800) {
+                var_r7 = 1;
+            }
+        }
+
+        if (var_r7 != 0) {
+            gCurTask->main = Task_802A560;
+            strc5690->unk28 = 0;
+            strc5690->unk18 = 0x800;
+            strc5690->unk20 = 0;
+            strc5690->unk3E = 0;
+        }
+        sub_802A248(strc5690);
+        sub_802A4C4(strc5690);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
+    }
+}
+
+void sub_802A988(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+
+    if (gSpecialStageCollectedRings != 0) {
+        sub_802AAF0();
+        if (gUnknown_03005730 == 0) {
+            m4aSongNumStart(0x76U);
+        }
+    }
+
+    strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 32;
+    strc5690->variant4A = 0;
+
+    s->graphics.anim = strc5690->anim48;
+    s->variant = strc5690->variant4A;
+    s->prevVariant = 0xFF;
+
+    strc5690->unk14 = 0;
+    strc5690->unk16 = 0;
+    strc5690->unk18 = 0x800;
+    strc5690->unk1C = 0;
+    strc5690->unk1E = 0;
+    strc5690->unk20 = 0;
+    strc5690->unk29 &= 0xFE;
+    strc5690->unk34 = 0x3C;
+    sub_802A248(strc5690);
+    sub_802A4C4(strc5690);
+
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    DisplaySprite(s);
+
+    gCurTask->main = Task_802AA48;
+}
+
+void Task_802AA48(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+    u16 temp_r0;
+
+    strc5690->unk42 = gInput;
+    strc5690->unk44 = gPressedKeys;
+    if (strc5690->unk3D != 0) {
+        strc5690->unk3D = (u8)strc5690->unk3D - 1;
+    }
+
+    if (--strc5690->unk34 == 0) {
+        gCurTask->main = Task_802A560;
+        strc5690->unk28 = 0;
+        (&strc5690->unk28)[0x16] = 0;
+    }
+    if (strc5690->unk34 <= 30) {
+        sub_802A068(&gUnknown_03005690);
+    }
+    sub_802A248(&gUnknown_03005690);
+    sub_802A4C4(&gUnknown_03005690);
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    if (!(2 & strc5690->unk34)) {
+        DisplaySprite(s);
+    }
+}
+
+void sub_802AAF0(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    s32 temp_r3;
+    SpStage74 *strc74;
+    u16 temp_r7;
+    u16 var_r5;
+
+    if ((u32)gSpecialStageCollectedRings > 9U) {
+        var_r5 = 10;
+        gSpecialStageCollectedRings = gSpecialStageCollectedRings - 10;
+    } else {
+        var_r5 = gSpecialStageCollectedRings;
+        gSpecialStageCollectedRings = 0;
+    }
+
+    temp_r7 = var_r5;
+    while (var_r5 != 0) {
+        strc74 = TASK_DATA(TaskCreate(sub_802C6C4, sizeof(SpStage74), 0x1500U, 0U, NULL));
+        temp_r3 = var_r5 - 1;
+        strc74->unk6A = temp_r3;
+        strc74->unk6B = temp_r7;
+        strc74->unk3C = strc5690->unk0;
+        strc74->unk40 = strc5690->unk4;
+        strc74->unk44 = strc5690->unk8;
+        strc74->unk52 = 0;
+        strc74->unk54 = 0;
+        strc74->unk56 = 0;
+        strc74->unk58 = 0;
+        strc74->unk5A = 0;
+        strc74->unk5C = 0;
+        strc74->unk60 = 0;
+        strc74->unk68 = 0xFFFF;
+        var_r5 = temp_r3;
+    }
 }
