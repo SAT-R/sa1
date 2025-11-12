@@ -47,7 +47,7 @@ typedef struct Strc_03005690 {
     u16 unk2E;
     u8 unk30;
     u8 unk31;
-    u16 unk32;
+    s16 unk32;
     s16 unk34;
     u8 filler36[0x4];
     s16 unk3A;
@@ -130,6 +130,10 @@ void sub_802AAF0(void);
 void sub_802ABA0(void);
 void Task_802AC50(void);
 void sub_802ACF0(void);
+void sub_802B008(void);
+void sub_802B07C(void);
+void sub_802B18C(void);
+void sub_802B214(void);
 void Task_802AD9C(void);
 void Task_802AE40(void);
 void sub_802C56C(u8 param0);
@@ -1190,3 +1194,138 @@ void Task_802AD9C(void)
         DisplaySprite(s);
     }
 }
+
+void Task_802AE40(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+
+    strc5690->unk42 = 0;
+    strc5690->unk44 = 0;
+    strc5690->unk12 = ((u16)strc5690->unk12 + 0x10) & 0x3FF;
+    strc5690->unk10 = (s16)((s32)((u16)gSineTable[strc5690->unk12] << 0x10) >> 0x1A);
+
+    if (2 & strc5690->unk29) {
+        strc5690->unk20 = -Q(1);
+    } else {
+        strc5690->unk20 = 0;
+    }
+
+    sub_802A134(strc5690);
+    sub_802A248(strc5690);
+    sub_802A4C4(strc5690);
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    DisplaySprite(s);
+
+    if (--strc5690->unk32 == 0) {
+        if (strc5690->unk2A == 0x40) {
+            if (gUnknown_03005028 <= gSpecialStageCollectedRings) {
+                strc5690->unk32 = 0x14A;
+                strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x21;
+                strc5690->variant4A = 0;
+                gCurTask->main = sub_802B07C;
+                sub_802C56C(0U);
+            } else {
+                strc5690->unk32 = 0;
+                strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x22;
+                strc5690->variant4A = 0;
+                gCurTask->main = sub_802B008;
+                sub_802B214();
+                sub_802C56C(1U);
+            }
+        } else if (gUnknown_03005070 <= gSpecialStageCollectedRings) {
+            strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x21;
+            strc5690->variant4A = 0;
+            gCurTask->main = sub_802B18C;
+            m4aSongNumStart(0x2CU);
+            sub_802C56C(0U);
+        } else {
+            strc5690->unk32 = 0;
+            strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x22;
+            strc5690->variant4A = 0;
+            gCurTask->main = sub_802B008;
+            sub_802B214();
+            sub_802C56C(1U);
+        }
+        s->graphics.anim = strc5690->anim48;
+        s->variant = strc5690->variant4A;
+        s->prevVariant = -1;
+    }
+}
+
+void sub_802B008(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+
+    if (strc5690->unk32 > -120) {
+        strc5690->unk10 = --strc5690->unk32;
+        strc5690->unk42 = 0;
+        strc5690->unk44 = 0;
+
+        if (!(2 & strc5690->unk29)) {
+            strc5690->unk20 = 0;
+        } else {
+            strc5690->unk20 = -Q(1.0);
+        }
+
+        sub_802A068(strc5690);
+        sub_802A248(strc5690);
+        sub_802A4C4(strc5690);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
+    }
+}
+
+// (98.11%) https://decomp.me/scratch/jrZYE
+NONMATCH("asm/non_matching/game/special_stage/sub_802B07C.inc", void sub_802B07C(void))
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+    u32 flags;
+    u8 *ptr;
+
+    strc5690->unk42 = 0;
+    strc5690->unk44 = 0;
+    strc5690->unk12 = (strc5690->unk12 + 0x10) & 0x3FF;
+    strc5690->unk10 = SIN(strc5690->unk12) >> 10;
+    flags = 2 & strc5690->unk29;
+    ptr = &strc5690->unk29;
+    if (flags) {
+        strc5690->unk20 = -Q(1);
+    } else {
+        strc5690->unk20 = 0;
+    }
+
+    sub_802A068(strc5690);
+    sub_802A248(strc5690);
+    sub_802A4C4(strc5690);
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    DisplaySprite(s);
+
+    if (strc5690->unk32 == 0xB4) {
+        gSpecialStageTargetRings = gUnknown_03005070;
+        TasksDestroyInPriorityRange(0x1180U, 0x1181U);
+        sub_805C448(0U);
+    }
+    if (strc5690->unk32 != 0) {
+        if (--strc5690->unk32 == 0) {
+            strc5690->variant4A = 1;
+            s->variant = 1;
+            s->prevVariant = 0xFF;
+        }
+    }
+    if (s->frameFlags & 0x4000) {
+        gCurTask->main = Task_802A560;
+        *ptr = 0;
+        strc5690->unk2A = 0;
+        strc5690->unk3E = 0xC;
+    }
+}
+END_NONMATCH
