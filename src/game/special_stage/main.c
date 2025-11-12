@@ -85,7 +85,8 @@ typedef struct Strc_3005780 {
 } Strc_3005780;
 
 typedef struct SpStage74 {
-    u8 filler0[0x3C];
+    SpriteTransform tf;
+    Sprite s;
     s32 unk3C;
     s32 unk40;
     s32 unk44;
@@ -99,11 +100,16 @@ typedef struct SpStage74 {
     s16 unk5C;
     u8 filler5E[2];
     s16 unk60;
-    u8 filler62[6];
+    AnimId anim62;
+    u16 variant64;
+    u8 unk66;
+    u8 unk67;
     s16 unk68;
     u8 unk6A;
     u8 unk6B;
-    u8 filler6C[8];
+    u8 filler6C[2];
+    u16 unk6E;
+    u8 filler70[4];
 } SpStage74;
 
 // Number of rings needed this round, to continue to the next / (in the last one) collect the emerald.
@@ -144,7 +150,9 @@ void sub_802D190(void);
 void sub_802D1D8(void);
 void sub_802D274(void);
 u16 sub_802D2F4(Strc_03005690 *param0);
+void Task_802D508(void);
 void sub_802D560(void);
+u8 sub_802D58C(s16 param0);
 void Task_802D2BC(void);
 
 void sub_802BE0C(Sprite *s, SpriteTransform *tf);
@@ -1354,4 +1362,57 @@ void sub_802B18C(void)
     UpdateSpriteAnimation(s);
     sub_802BE0C(s, tf);
     DisplaySprite(s);
+}
+
+void sub_802B214(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s;
+    SpriteTransform *tf;
+    s32 rnd;
+
+    SpStage74 *strc74 = TASK_DATA(TaskCreate(Task_802D508, sizeof(SpStage74), 0x10FFU, 0U, NULL));
+    strc74->unk3C = strc5690->unk0;
+    strc74->unk40 = strc5690->unk4;
+    strc74->unk44 = strc5690->unk8 + 0xFFFFFF00;
+    strc74->unk50 = (s16)(u16)strc5690->unk10;
+    strc74->unk52 = 0;
+    strc74->unk54 = 0;
+    strc74->unk56 = 0;
+    rnd = PseudoRandom32();
+    strc74->unk58 = rnd & 0xF;
+    strc74->unk5A = -((0x70 & rnd) >> 4);
+    strc74->unk5C = -0x10;
+    if (rnd & 0x80) {
+        strc74->unk58 = -strc74->unk58;
+    }
+    strc74->unk6E = 0;
+    strc74->unk60 = 0xE;
+    strc74->anim62 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 34;
+    strc74->variant64 = 1U;
+    strc74->unk67 = 0;
+
+    s = &strc74->s;
+    s->graphics.dest = OBJ_VRAM0 + 0x1400;
+    s->graphics.size = 0;
+    s->graphics.anim = strc74->anim62;
+    s->variant = strc74->variant64;
+    s->prevVariant = -1;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+
+    strc74->unk66 = sub_802D58C(I(strc5690->unk8) - I(strc74->unk44));
+    s->x = I(strc74->unk3C) + 120;
+    s->y = 80 - I(strc74->unk40);
+    s->oamFlags = SPRITE_OAM_ORDER(4);
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = strc74->unk66 | 0x2020;
+    tf = &strc74->tf;
+    tf->rotation = 0;
+    tf->qScaleX = Q(0.25);
+    tf->qScaleY = Q(0.25);
+    tf->x = s->x;
+    tf->y = s->y;
 }
