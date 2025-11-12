@@ -99,6 +99,7 @@ void sub_802A134(Strc_03005690 *strc5690);
 void sub_802A248(Strc_03005690 *strc5690);
 void sub_802A4C4(Strc_03005690 *strc5690);
 void sub_802A688(void);
+void sub_802A890(void);
 void sub_802A988(void);
 void sub_802ABA0(void);
 void sub_802ACF0(void);
@@ -139,6 +140,7 @@ extern Background gUnknown_03005800;
 
 extern u16 gUnknown_08487140[][2];
 extern u8 gUnknown_08487134[NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE];
+
 extern Strc_03005690 gUnknown_03005690;
 
 extern const Background gUnknown_08486FF4;
@@ -150,6 +152,9 @@ extern const Background gUnknown_084870F4;
 extern const s16 gUnknown_0848715C[16][2];
 extern const s16 gUnknown_08487184[16][2];
 extern const s16 gUnknown_084871C4[16][2];
+extern const s16 gUnknown_084871C4[16][2];
+extern const s16 gUnknown_08487214[12][2];
+extern const s16 gUnknown_0848722C[16][3];
 
 void CreateSpecialStage()
 {
@@ -317,7 +322,11 @@ void sub_8029CDC(void)
     s32 var_r0_2;
     s32 var_r0_3;
     s32 var_r0_4;
+#ifndef NON_MATCHING
     register s32 r1 asm("r1");
+#else
+    s32 r1;
+#endif
     u8 r2;
     u32 temp_r0_2;
 
@@ -784,4 +793,69 @@ void Task_802A560(void)
             DisplaySprite(s);
         }
     }
+}
+
+void sub_802A688(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+    u16 index;
+
+    index = strc5690->unk54 - 4;
+    strc5690->anim48 = gUnknown_08487214[index][0] + gPlayerCharacterIdleAnims[strc5690->unk4C];
+    strc5690->variant4A = gUnknown_08487214[index][1];
+    s->graphics.anim = strc5690->anim48;
+    s->variant = strc5690->variant4A;
+    s->prevVariant = -1;
+    if (2 & strc5690->unk29) {
+        strc5690->unk14 = (gUnknown_0848722C[index][0] * 4) / 3;
+        strc5690->unk16 = (gUnknown_0848722C[index][1] * 4) / 3;
+        strc5690->unk18 = (gUnknown_0848722C[index][2] * 4) / 3;
+    } else {
+        strc5690->unk14 = gUnknown_0848722C[index][0];
+        strc5690->unk16 = gUnknown_0848722C[index][1];
+        strc5690->unk18 = gUnknown_0848722C[index][2];
+    }
+
+    switch (index) {
+        default: {
+            s32 unk20;
+            strc5690->unk1C = -(gUnknown_0848722C[index][0] >> 7);
+            strc5690->unk1E = -(gUnknown_0848722C[index][1] >> 7);
+            strc5690->unk20 = -32;
+            strc5690->unk14 *= 1.5;
+            strc5690->unk16 *= 1.5;
+            strc5690->unk18 *= 1.5;
+            strc5690->unk1C *= 3.0;
+            strc5690->unk1E *= 3.0;
+            unk20 = -Q(0.375);
+            strc5690->unk20 = unk20;
+        } break;
+
+        case 0: {
+            strc5690->unk1C = 0;
+            strc5690->unk1E = 0;
+            strc5690->unk20 = +Q(0.25);
+        } break;
+
+        case 1: {
+            strc5690->unk1C = 0;
+            strc5690->unk1E = 0;
+            strc5690->unk20 = -Q(0.25);
+        } break;
+    }
+
+    if (gUnknown_03005730 == 0) {
+        m4aSongNumStart(0x94U);
+    }
+
+    strc5690->unk29 &= ~0x6;
+    sub_802A248(strc5690);
+    sub_802A4C4(strc5690);
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    DisplaySprite(s);
+
+    gCurTask->main = sub_802A890;
 }
