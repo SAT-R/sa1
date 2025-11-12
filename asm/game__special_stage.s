@@ -8,141 +8,6 @@
 .if 0
 .endif
 
-	thumb_func_start sub_802A560
-sub_802A560: @ 0x0802A560
-	push {r4, r5, r6, r7, lr}
-	mov r7, r8
-	push {r7}
-	ldr r4, _0802A5C4 @ =gUnknown_03005690
-	ldr r5, _0802A5C8 @ =gUnknown_030055F0+0xC
-	movs r0, #0xc
-	rsbs r0, r0, #0
-	adds r0, r0, r5
-	mov r8, r0
-	ldr r0, _0802A5CC @ =gInput
-	ldrh r0, [r0]
-	adds r7, r4, #0
-	adds r7, #0x42
-	movs r6, #0
-	strh r0, [r7]
-	ldr r0, _0802A5D0 @ =gPressedKeys
-	ldrh r1, [r0]
-	adds r0, r4, #0
-	adds r0, #0x44
-	strh r1, [r0]
-	subs r0, #0x1a
-	ldrb r1, [r0]
-	movs r0, #0xc0
-	ands r0, r1
-	cmp r0, #0
-	beq _0802A5DC
-	movs r0, #0x78
-	strh r0, [r4, #0x32]
-	ldr r0, [r4]
-	rsbs r0, r0, #0
-	movs r1, #0x78
-	bl __divsi3
-	strh r0, [r4, #0x14]
-	ldr r0, [r4, #4]
-	rsbs r0, r0, #0
-	movs r1, #0x78
-	bl __divsi3
-	strh r0, [r4, #0x16]
-	strh r6, [r4, #0x1c]
-	strh r6, [r4, #0x1e]
-	ldr r0, _0802A5D4 @ =gCurTask
-	ldr r1, [r0]
-	ldr r0, _0802A5D8 @ =sub_802AE40
-	str r0, [r1, #8]
-	bl _call_via_r0
-	b _0802A67C
-	.align 2, 0
-_0802A5C4: .4byte gUnknown_03005690
-_0802A5C8: .4byte gUnknown_030055F0+0xC
-_0802A5CC: .4byte gInput
-_0802A5D0: .4byte gPressedKeys
-_0802A5D4: .4byte gCurTask
-_0802A5D8: .4byte sub_802AE40
-_0802A5DC:
-	adds r0, r4, #0
-	bl sub_8029F30
-	cmp r0, #0
-	bne _0802A67C
-	adds r0, r4, #0
-	bl sub_8029FA4
-	cmp r0, #0
-	bne _0802A67C
-	ldrh r0, [r4, #0x12]
-	adds r0, #0x10
-	ldr r2, _0802A630 @ =0x000003FF
-	adds r1, r2, #0
-	ands r0, r1
-	strh r0, [r4, #0x12]
-	ldr r1, _0802A634 @ =gSineTable
-	movs r2, #0x12
-	ldrsh r0, [r4, r2]
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x1a
-	strh r0, [r4, #0x10]
-    @ inline of sub_802D6B4?
-	ldr r0, _0802A638 @ =gPlayerControls 
-	ldrh r1, [r7]
-	ldrh r0, [r0]
-	ands r0, r1
-	adds r2, r4, #0
-	adds r2, #0x29
-	cmp r0, #0
-	beq _0802A63C
-	ldrb r1, [r2]
-	movs r0, #1
-	ands r0, r1
-	cmp r0, #0
-	bne _0802A63C
-	movs r0, #0x80
-	lsls r0, r0, #1
-	b _0802A64E
-	.align 2, 0
-_0802A630: .4byte 0x000003FF
-_0802A634: .4byte gSineTable
-_0802A638: .4byte gPlayerControls
-_0802A63C:
-	ldrb r1, [r2]
-	movs r0, #2
-	ands r0, r1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0
-	beq _0802A64E
-	movs r0, #0xff
-	lsls r0, r0, #8
-_0802A64E:
-	strh r0, [r4, #0x20]
-	adds r0, r4, #0
-	bl sub_802A068
-	adds r0, r4, #0
-	bl sub_802A134
-	adds r0, r4, #0
-	bl sub_802A248
-	adds r0, r4, #0
-	bl sub_802A4C4
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	mov r1, r8
-	bl sub_802BE0C
-	adds r0, r5, #0
-	bl DisplaySprite
-_0802A67C:
-	pop {r3}
-	mov r8, r3
-	pop {r4, r5, r6, r7}
-	pop {r0}
-	bx r0
-	.align 2, 0
-
 	thumb_func_start sub_802A688
 sub_802A688: @ 0x0802A688
 	push {r4, r5, r6, r7, lr}
@@ -462,7 +327,7 @@ _0802A932:
 _0802A936:
 	ldr r0, _0802A980 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802A984 @ =sub_802A560
+	ldr r0, _0802A984 @ =Task_802A560
 	str r0, [r1, #8]
 	adds r0, r4, #0
 	adds r0, #0x28
@@ -496,7 +361,7 @@ _0802A976:
 	bx r0
 	.align 2, 0
 _0802A980: .4byte gCurTask
-_0802A984: .4byte sub_802A560
+_0802A984: .4byte Task_802A560
 
 	thumb_func_start sub_802A988
 sub_802A988: @ 0x0802A988
@@ -621,7 +486,7 @@ _0802AA7A:
 	bne _0802AA98
 	ldr r0, _0802AAE8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802AAEC @ =sub_802A560
+	ldr r0, _0802AAEC @ =Task_802A560
 	str r0, [r1, #8]
 	adds r0, r4, #0
 	adds r0, #0x28
@@ -662,7 +527,7 @@ _0802AADC: .4byte gUnknown_030055F0+0xC
 _0802AAE0: .4byte gInput
 _0802AAE4: .4byte gPressedKeys
 _0802AAE8: .4byte gCurTask
-_0802AAEC: .4byte sub_802A560
+_0802AAEC: .4byte Task_802A560
 
 	thumb_func_start sub_802AAF0
 sub_802AAF0: @ 0x0802AAF0
@@ -874,7 +739,7 @@ _0802AC8A:
 	bne _0802ACB6
 	ldr r0, _0802ACE8 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802ACEC @ =sub_802A560
+	ldr r0, _0802ACEC @ =Task_802A560
 	str r0, [r1, #8]
 	ldrb r1, [r2]
 	movs r0, #0xef
@@ -908,7 +773,7 @@ _0802ACDC: .4byte gUnknown_03005690
 _0802ACE0: .4byte gUnknown_030055F0+0xC
 _0802ACE4: .4byte 0x0000FF80
 _0802ACE8: .4byte gCurTask
-_0802ACEC: .4byte sub_802A560
+_0802ACEC: .4byte Task_802A560
 
 	thumb_func_start sub_802ACF0
 sub_802ACF0: @ 0x0802ACF0
@@ -1029,7 +894,7 @@ _0802ADD6:
 	beq _0802AE04
 	ldr r0, _0802AE38 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802AE3C @ =sub_802A560
+	ldr r0, _0802AE3C @ =Task_802A560
 	str r0, [r1, #8]
 	ldrb r1, [r2]
 	movs r0, #0xdf
@@ -1064,10 +929,10 @@ _0802AE2C: .4byte gUnknown_03005690
 _0802AE30: .4byte gUnknown_030055F0+0xC
 _0802AE34: .4byte 0x0000FF80
 _0802AE38: .4byte gCurTask
-_0802AE3C: .4byte sub_802A560
+_0802AE3C: .4byte Task_802A560
 
-	thumb_func_start sub_802AE40
-sub_802AE40: @ 0x0802AE40
+	thumb_func_start Task_802AE40
+Task_802AE40: @ 0x0802AE40
 	push {r4, r5, r6, lr}
 	ldr r4, _0802AF04 @ =gUnknown_03005690
 	ldr r6, _0802AF08 @ =gUnknown_030055F0+0xC
@@ -1433,7 +1298,7 @@ _0802B13C:
 	beq _0802B160
 	ldr r0, _0802B184 @ =gCurTask
 	ldr r1, [r0]
-	ldr r0, _0802B188 @ =sub_802A560
+	ldr r0, _0802B188 @ =Task_802A560
 	str r0, [r1, #8]
 	movs r0, #0
 	strb r0, [r6]
@@ -1456,7 +1321,7 @@ _0802B178: .4byte gSpecialStageTargetRings
 _0802B17C: .4byte gUnknown_03005070
 _0802B180: .4byte 0x00001181
 _0802B184: .4byte gCurTask
-_0802B188: .4byte sub_802A560
+_0802B188: .4byte Task_802A560
 
 	thumb_func_start sub_802B18C
 sub_802B18C: @ 0x0802B18C
@@ -5433,7 +5298,7 @@ sub_802D190: @ 0x0802D190
 	bl sub_8029E0C
 	adds r0, r4, #0
 	bl sub_8029EA8
-	ldr r0, _0802D1D4 @ =sub_802A560
+	ldr r0, _0802D1D4 @ =Task_802A560
 	movs r2, #0x88
 	lsls r2, r2, #5
 	movs r1, #0
@@ -5452,7 +5317,7 @@ sub_802D190: @ 0x0802D190
 	bx r0
 	.align 2, 0
 _0802D1D0: .4byte gSelectedCharacter
-_0802D1D4: .4byte sub_802A560
+_0802D1D4: .4byte Task_802A560
 
 	thumb_func_start sub_802D1D8
 sub_802D1D8: @ 0x0802D1D8

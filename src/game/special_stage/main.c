@@ -1,5 +1,6 @@
 #include "global.h"
 #include "core.h"
+#include "trig.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/palette_loader.h"
@@ -55,7 +56,7 @@ typedef struct Strc_03005690 {
     u8 unk3F;
     u8 unk40;
     u8 unk41;
-    s16 unk42;
+    u16 unk42;
     u16 unk44;
     u8 filler46[0x2];
     AnimId anim48;
@@ -92,10 +93,16 @@ void sub_8029B74(void);
 void sub_8029E0C(s16 arg0);
 void sub_8029EA8(s32 unused);
 bool32 sub_8029F30(Strc_03005690 *param0);
+bool32 sub_8029FA4(Strc_03005690 *param0);
+void sub_802A068(Strc_03005690 *strc5690);
+void sub_802A134(Strc_03005690 *strc5690);
+void sub_802A248(Strc_03005690 *strc5690);
+void sub_802A4C4(Strc_03005690 *strc5690);
 void sub_802A688(void);
 void sub_802A988(void);
 void sub_802ABA0(void);
 void sub_802ACF0(void);
+void Task_802AE40(void);
 void sub_802C56C(u8 param0);
 void sub_802C934(void);
 void sub_802D158(void);
@@ -105,6 +112,8 @@ void sub_802D274(void);
 u16 sub_802D2F4(Strc_03005690 *param0);
 void sub_802D560(void);
 void Task_802D2BC(void);
+
+void sub_802BE0C(Sprite *s, SpriteTransform *tf);
 
 extern void sub_805C448(u8 arg0);
 extern void sub_805D048(u8 arg0);
@@ -734,3 +743,45 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802A4C4.inc", void sub_802A4C4
     s->frameFlags = 0x2020;
 }
 END_NONMATCH
+
+void Task_802A560(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+    u32 var_r0;
+
+    strc5690->unk42 = gInput;
+    strc5690->unk44 = gPressedKeys;
+    if (0xC0 & strc5690->unk2A) {
+        strc5690->unk32 = 0x78;
+        strc5690->unk14 = (-strc5690->unk0) / 120;
+        strc5690->unk16 = (-strc5690->unk4) / 120;
+        strc5690->unk1C = 0;
+        strc5690->unk1E = 0;
+        gCurTask->main = Task_802AE40;
+        Task_802AE40();
+    } else {
+        if (!sub_8029F30(strc5690) && !sub_8029FA4(strc5690)) {
+            strc5690->unk12 = (strc5690->unk12 + 0x10) & 0x3FF;
+            strc5690->unk10 = SIN_24_8(strc5690->unk12) / 16u;
+            if ((strc5690->unk42 & gPlayerControls.jump) && !(1 & strc5690->unk29)) {
+                strc5690->unk20 = +Q(1);
+            } else {
+                var_r0 = 2 & strc5690->unk29;
+                if (var_r0 != 0) {
+                    strc5690->unk20 = -Q(1);
+                } else {
+                    strc5690->unk20 = Q(0);
+                }
+            }
+            sub_802A068(strc5690);
+            sub_802A134(strc5690);
+            sub_802A248(strc5690);
+            sub_802A4C4(strc5690);
+            UpdateSpriteAnimation(s);
+            sub_802BE0C(s, tf);
+            DisplaySprite(s);
+        }
+    }
+}
