@@ -35,7 +35,8 @@ typedef struct Strc_03005690 {
     s16 unk1A;
     s16 unk1C;
     s16 unk1E;
-    u8 filler20[8];
+    s16 unk20;
+    u8 filler22[6];
     u8 unk28;
     u8 unk29;
     u8 unk2A;
@@ -63,7 +64,8 @@ typedef struct Strc_03005690 {
     u8 filler4E[0x2];
     u16 unk50;
     u16 unk52;
-    u8 filler54[0xC];
+    u16 unk54;
+    u8 filler56[0xA];
 } Strc_03005690; /* 0x60 */
 
 typedef struct Strc_3005780 {
@@ -99,6 +101,7 @@ void sub_802D158(void);
 void sub_802D190(void);
 void sub_802D1D8(void);
 void sub_802D274(void);
+u16 sub_802D2F4(Strc_03005690 *param0);
 void sub_802D560(void);
 void Task_802D2BC(void);
 
@@ -137,8 +140,6 @@ extern const Background gUnknown_084870F4;
 extern const s16 gUnknown_0848715C[16][2];
 extern const s16 gUnknown_08487184[16][2];
 extern const s16 gUnknown_084871C4[16][2];
-
-u16 sub_802D2F4(Strc_03005690 *param0);
 
 void CreateSpecialStage()
 {
@@ -555,5 +556,154 @@ void sub_802A134(Strc_03005690 *param0)
         s->graphics.anim = param0->anim48;
         s->variant = param0->variant4A;
         s->prevVariant = -1;
+    }
+}
+
+void sub_802A248(Strc_03005690 *param0)
+{
+    s32 param0_unk0 = param0->unk0;
+    s32 param0_unk4 = param0->unk4;
+    s32 temp_r2_2;
+    s32 var_r0;
+    s32 var_r0_4;
+    s32 var_r0_5;
+    u16 temp_r0_2;
+    u8 var_r1_5;
+
+    param0->unk14 += param0->unk1C;
+    param0->unk16 += param0->unk1E;
+    param0->unk18 += param0->unk20;
+
+    switch (param0->unk28) {
+        case 0:
+        case 2:
+        case 3:
+        case 4:
+        case 5: {
+            if (param0->unk14 > 0x400) {
+                param0->unk14 = 0x400;
+            } else if (param0->unk14 < -0x400) {
+                param0->unk14 = -0x400;
+            }
+
+            if (param0->unk16 > 0x400) {
+                param0->unk16 = 0x400;
+            } else if (param0->unk16 < -0x400) {
+                param0->unk16 = -0x400;
+            }
+
+            if (param0->unk18 <= 0xC00) {
+                if (param0->unk18 <= 0x7FF) {
+                    param0->unk18 = 0x800;
+                }
+            } else {
+                param0->unk18 = 0xC00;
+            }
+
+            if (param0->unk18 == 0x800) {
+                param0->unk29 &= ~2;
+            } else {
+                param0->unk29 |= 2;
+            }
+
+            if (2 & param0->unk29) {
+                param0_unk4 = param0->unk4 >> 5;
+                if (param0_unk4 >= 0) {
+                    if (param0_unk4 < param0->unk16) {
+                        param0->unk16 = param0_unk4;
+                    }
+                } else {
+                    if (param0_unk4 > param0->unk16) {
+                        param0->unk16 = param0_unk4;
+                    }
+                }
+
+                if (2 & param0->unk29) {
+                    param0->unk0 += (param0->unk14 * 8) / I(param0->unk18);
+                    param0->unk4 += (param0->unk16 * 8) / I(param0->unk18);
+                    param0->unk0 -= (param0->unk0 >> 5);
+                    param0->unk4 -= (param0->unk4 >> 5);
+                } else {
+                    param0->unk0 += param0->unk14;
+                    param0->unk4 += param0->unk16;
+                }
+            } else {
+                param0->unk0 += param0->unk14;
+                param0->unk4 += param0->unk16;
+            }
+            if (!(1 & param0->unk29)) {
+                param0->unk8 += param0->unk18;
+            }
+        } break;
+
+        case 1: {
+            switch (param0->unk54) {
+                default: {
+                    param0->unk0 = param0_unk0 + param0->unk14;
+                    param0->unk4 = param0_unk4 + param0->unk16;
+                } break;
+
+                case 4: {
+                    param0->unk14 += param0->unk1C;
+                    param0->unk16 += param0->unk1E;
+
+                    if (param0->unk14 > 0x400) {
+                        param0->unk14 = 0x400;
+                    } else if (param0->unk14 < -0x400) {
+                        param0->unk14 = -0x400;
+                    }
+
+                    if (param0->unk16 > 0x400) {
+                        param0->unk16 = 0x400;
+                    } else if (param0->unk16 < -0x400) {
+                        param0->unk16 = -0x400;
+                    }
+
+                    param0->unk14 = (param0->unk14 * I(param0->unk18)) / 8;
+                    param0->unk16 = (param0->unk16 * I(param0->unk18)) / 8;
+
+                    param0->unk0 += param0->unk14;
+                    param0->unk4 += param0->unk16;
+                } break;
+
+                case 5: {
+                    param0->unk14 += param0->unk1C;
+                    param0->unk16 += param0->unk1E;
+
+                    if (param0->unk14 > 0x400) {
+                        param0->unk14 = 0x400;
+                    } else if (param0->unk14 < -0x400) {
+                        param0->unk14 = -0x400;
+                    }
+
+                    if (param0->unk16 > 0x400) {
+                        param0->unk16 = 0x400;
+                    } else if (param0->unk16 < -0x400) {
+                        param0->unk16 = -0x400;
+                    }
+
+                    param0->unk14 = (param0->unk14 * 8) / I(param0->unk18);
+                    param0->unk16 = (param0->unk16 * 8) / I(param0->unk18);
+                    param0->unk0 += param0->unk14;
+                    param0->unk4 += param0->unk16;
+                }
+            }
+            if (!(1 & param0->unk29)) {
+                param0->unk8 += param0->unk18;
+            }
+        } break;
+    }
+
+    if (param0->unk0 < -Q(134)) {
+        param0->unk0 = -Q(134);
+    }
+    if (param0->unk0 > +Q(134)) {
+        param0->unk0 = +Q(134);
+    }
+    if (param0->unk4 < -Q(94)) {
+        param0->unk4 = -Q(94);
+    }
+    if (param0->unk4 > +Q(94)) {
+        param0->unk4 = +Q(94);
     }
 }
