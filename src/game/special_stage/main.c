@@ -49,7 +49,8 @@ typedef struct Strc_03005690 {
     u8 unk31;
     u16 unk32;
     s16 unk34;
-    u8 filler36[0x6];
+    u8 filler36[0x4];
+    s16 unk3A;
     s8 unk3C;
     s8 unk3D;
     s8 unk3E;
@@ -120,13 +121,16 @@ void sub_802A068(Strc_03005690 *strc5690);
 void sub_802A134(Strc_03005690 *strc5690);
 void sub_802A248(Strc_03005690 *strc5690);
 void sub_802A4C4(Strc_03005690 *strc5690);
+void Task_802A560(void);
 void sub_802A688(void);
 void sub_802A890(void);
 void sub_802A988(void);
 void Task_802AA48(void);
 void sub_802AAF0(void);
 void sub_802ABA0(void);
+void Task_802AC50(void);
 void sub_802ACF0(void);
+void Task_802AD9C(void);
 void Task_802AE40(void);
 void sub_802C56C(u8 param0);
 void sub_802C6C4(void);
@@ -1051,5 +1055,138 @@ void sub_802AAF0(void)
         strc74->unk60 = 0;
         strc74->unk68 = 0xFFFF;
         var_r5 = temp_r3;
+    }
+}
+
+void sub_802ABA0(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+
+    strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 30;
+    strc5690->variant4A = 0;
+
+    s->graphics.anim = strc5690->anim48;
+    s->variant = strc5690->variant4A;
+    s->prevVariant = 0xFF;
+
+    strc5690->unk14 = 0;
+    strc5690->unk16 = 0;
+    strc5690->unk1C = 0;
+    strc5690->unk1E = 0;
+    strc5690->unk20 = 0;
+    strc5690->unk28 = 3;
+    strc5690->unk29 |= 0x10;
+    strc5690->unk3A = 0x2D;
+
+    if (gUnknown_03005730 == 0) {
+        m4aSongNumStart(0x95);
+    }
+
+    sub_802A248(strc5690);
+    sub_802A4C4(strc5690);
+
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    DisplaySprite(s);
+
+    gCurTask->main = Task_802AC50;
+}
+
+void Task_802AC50(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+
+    if (strc5690->unk3D != 0) {
+        strc5690->unk3D--;
+    }
+    if (sub_8029F30(strc5690) == 0) {
+        if (2 & strc5690->unk29) {
+            strc5690->unk20 = -Q(0.5);
+        } else {
+            strc5690->unk20 = 0;
+        }
+
+        if (--strc5690->unk3A == 0) {
+            gCurTask->main = Task_802A560;
+            strc5690->unk29 &= ~0x10;
+            strc5690->unk28 = 0;
+            strc5690->unk3E = 0xC;
+        }
+
+        sub_802A248(strc5690);
+        sub_802A4C4(strc5690);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
+    }
+}
+
+void sub_802ACF0(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+
+    strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 31;
+    strc5690->variant4A = 0;
+
+    s->graphics.anim = strc5690->anim48;
+    s->variant = strc5690->variant4A;
+    s->prevVariant = 0xFF;
+
+    strc5690->unk14 = 0;
+    strc5690->unk16 = 0;
+    strc5690->unk1C = 0;
+    strc5690->unk1E = 0;
+    strc5690->unk20 = 0;
+    strc5690->unk28 = 4;
+    strc5690->unk29 |= 0x20;
+
+    if (gUnknown_03005730 == 0) {
+        m4aSongNumStart(0x95);
+    }
+
+    sub_802A248(strc5690);
+    sub_802A4C4(strc5690);
+
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    DisplaySprite(s);
+
+    gCurTask->main = Task_802AD9C;
+}
+
+void Task_802AD9C(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+
+    if (strc5690->unk3D != 0) {
+        strc5690->unk3D--;
+    }
+    if (sub_8029F30(strc5690) == 0) {
+        if (2 & strc5690->unk29) {
+            strc5690->unk20 = -Q(0.5);
+        } else {
+            strc5690->unk20 = 0;
+        }
+
+        if (s->frameFlags & 0x4000) {
+            gCurTask->main = Task_802A560;
+            strc5690->unk29 &= ~0x20;
+            strc5690->unk28 = 0;
+            strc5690->unk3E = 0xC;
+        }
+
+        sub_802A248(strc5690);
+        sub_802A4C4(strc5690);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
     }
 }
