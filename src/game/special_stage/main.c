@@ -158,6 +158,7 @@ void sub_802B18C(void);
 void sub_802B214(void);
 void Task_802AD9C(void);
 void Task_802AE40(void);
+void sub_802B5DC(Sprite *s);
 void Task_802BEDC(void);
 void sub_802C56C(u8 param0);
 void sub_802C6C4(void);
@@ -192,6 +193,7 @@ extern Background gUnknown_030055A0;
 extern Strc_30055E0 gUnknown_030055E0;
 extern TfSprite gUnknown_030055F0;
 extern Background gUnknown_03005630;
+extern u16 gUnknown_030056F0[16][2];
 extern Background gUnknown_03005740;
 extern Strc_3005780 gUnknown_03005780;
 extern Background gUnknown_030057A0;
@@ -1476,6 +1478,28 @@ void sub_802B3E4()
                 strc74->unk70 = 0;
                 strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
                 strc8->unk2++;
+            }
+        }
+    }
+}
+
+void sub_802B5DC(Sprite *s)
+{
+    s32 i;
+
+    if ((s->graphics.anim != 0x31D) || (s->variant != 0)) {
+        for (i = 0; i < 16; i++) {
+            if ((gUnknown_030056F0[i][0] == s->graphics.anim) && (gUnknown_030056F0[i][1] == s->variant)) {
+                s->frameFlags = s->frameFlags | 0xC0000;
+                return;
+            }
+        }
+
+        for (i = 0; i < 16; i++) {
+            if ((gUnknown_030056F0[i][0] == 0) && (gUnknown_030056F0[i][1] == 0)) {
+                gUnknown_030056F0[i][0] = s->graphics.anim;
+                gUnknown_030056F0[i][1] = s->variant;
+                return;
             }
         }
     }
