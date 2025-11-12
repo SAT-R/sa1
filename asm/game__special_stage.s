@@ -5,72 +5,7 @@
 .syntax unified
 .arm
 
-.if 0
-.endif
-
-	thumb_func_start sub_802B18C
-sub_802B18C: @ 0x0802B18C
-	push {r4, r5, r6, lr}
-	ldr r4, _0802B204 @ =gUnknown_03005690
-	ldr r5, _0802B208 @ =gUnknown_030055F0+0xC
-	adds r6, r5, #0
-	subs r6, #0xc
-	adds r0, r4, #0
-	adds r0, #0x42
-	movs r1, #0
-	strh r1, [r0]
-	adds r0, #2
-	strh r1, [r0]
-	ldrh r0, [r4, #0x12]
-	adds r0, #0x10
-	ldr r2, _0802B20C @ =0x000003FF
-	adds r1, r2, #0
-	ands r0, r1
-	strh r0, [r4, #0x12]
-	ldr r1, _0802B210 @ =gSineTable
-	movs r2, #0x12
-	ldrsh r0, [r4, r2]
-	lsls r0, r0, #1
-	adds r0, r0, r1
-	ldrh r0, [r0]
-	lsls r0, r0, #0x10
-	asrs r0, r0, #0x1a
-	strh r0, [r4, #0x10]
-	adds r0, r4, #0
-	adds r0, #0x29
-	ldrb r1, [r0]
-	movs r0, #2
-	ands r0, r1
-	lsls r0, r0, #0x18
-	lsrs r0, r0, #0x18
-	cmp r0, #0
-	beq _0802B1D6
-	movs r0, #0xff
-	lsls r0, r0, #8
-_0802B1D6:
-	strh r0, [r4, #0x20]
-	adds r0, r4, #0
-	bl sub_802A068
-	adds r0, r4, #0
-	bl sub_802A248
-	adds r0, r4, #0
-	bl sub_802A4C4
-	adds r0, r5, #0
-	bl UpdateSpriteAnimation
-	adds r0, r5, #0
-	adds r1, r6, #0
-	bl sub_802BE0C
-	adds r0, r5, #0
-	bl DisplaySprite
-	pop {r4, r5, r6}
-	pop {r0}
-	bx r0
-	.align 2, 0
-_0802B204: .4byte gUnknown_03005690
-_0802B208: .4byte gUnknown_030055F0+0xC
-_0802B20C: .4byte 0x000003FF
-_0802B210: .4byte gSineTable
-
+.if 01
 	thumb_func_start sub_802B214
 sub_802B214: @ 0x0802B214
 	push {r4, r5, r6, r7, lr}
@@ -279,6 +214,7 @@ _0802B3D4: .4byte 0x0300002D
 _0802B3D8: .4byte 0x0300002E
 _0802B3DC: .4byte 0x03000066
 _0802B3E0: .4byte 0x00002020
+.endif
 
 	thumb_func_start sub_802B3E4
 sub_802B3E4: @ 0x0802B3E4

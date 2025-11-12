@@ -1329,3 +1329,29 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802B07C.inc", void sub_802B07C
     }
 }
 END_NONMATCH
+
+void sub_802B18C(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+    u32 flags;
+
+    strc5690->unk42 = 0;
+    strc5690->unk44 = 0;
+    strc5690->unk12 = (strc5690->unk12 + 0x10) & 0x3FF;
+    strc5690->unk10 = SIN_24_8(strc5690->unk12) / 16u;
+
+    if (2 & strc5690->unk29) {
+        strc5690->unk20 = -Q(1);
+    } else {
+        strc5690->unk20 = 0;
+    }
+
+    sub_802A068(strc5690);
+    sub_802A248(strc5690);
+    sub_802A4C4(strc5690);
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+    DisplaySprite(s);
+}
