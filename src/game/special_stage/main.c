@@ -26,7 +26,8 @@ typedef struct Strc_03005690 {
     s32 unk0;
     s32 unk4;
     s32 unk8;
-    u8 fillerC[0x4];
+    s16 unkC;
+    s16 unkE;
     s16 unk10;
     s16 unk12;
     s16 unk14;
@@ -563,12 +564,6 @@ void sub_802A248(Strc_03005690 *param0)
 {
     s32 param0_unk0 = param0->unk0;
     s32 param0_unk4 = param0->unk4;
-    s32 temp_r2_2;
-    s32 var_r0;
-    s32 var_r0_4;
-    s32 var_r0_5;
-    u16 temp_r0_2;
-    u8 var_r1_5;
 
     param0->unk14 += param0->unk1C;
     param0->unk16 += param0->unk1E;
@@ -707,3 +702,35 @@ void sub_802A248(Strc_03005690 *param0)
         param0->unk4 = +Q(94);
     }
 }
+
+// (90.14%) https://decomp.me/scratch/ZDa67
+NONMATCH("asm/non_matching/game/special_stage/sub_802A4C4.inc", void sub_802A4C4(Strc_03005690 *param0))
+{
+    Sprite *s = &gUnknown_030055F0.s;
+    SpriteTransform *tf = &gUnknown_030055F0.tf;
+    s16 temp_r1;
+    s16 temp_r1_3;
+    s16 x16, y16;
+    s16 temp_r8;
+    s32 r1, r8;
+    s32 temp_r1_2;
+
+    r8 = param0->unk10;
+    temp_r1_2 = (param0->unk10 + 0x240);
+    x16 = I((param0->unk0 * (param0->unk10 + 0x240)) / 576);
+    y16 = I((param0->unk4 * (param0->unk10 + 0x240)) / 576);
+    r1 = 80;
+    r1 -= y16;
+
+    param0->unkC = (x16 += 120 + gUnknown_03005780.unk4);
+    param0->unkE = r1 -= (u16)gUnknown_03005780.unk6;
+    s->x = param0->unkC;
+    s->y = param0->unkE;
+    tf->x = s->x;
+    tf->y = s->y;
+    tf->rotation = 0;
+    tf->qScaleX = r8 + Q(1);
+    tf->qScaleY = r8 + Q(1);
+    s->frameFlags = 0x2020;
+}
+END_NONMATCH
