@@ -90,7 +90,9 @@ typedef struct SpStage74 {
     s32 unk3C;
     s32 unk40;
     s32 unk44;
-    u8 filler48[0x8];
+    s16 unk48;
+    s16 unk4A;
+    u8 filler4C[0x4];
     s16 unk50;
     s16 unk52;
     s16 unk54;
@@ -99,7 +101,7 @@ typedef struct SpStage74 {
     s16 unk5A;
     s16 unk5C;
     u8 filler5E[2];
-    s16 unk60;
+    u16 unk60;
     AnimId anim62;
     u16 variant64;
     u8 unk66;
@@ -107,7 +109,8 @@ typedef struct SpStage74 {
     s16 unk68;
     u8 unk6A;
     u8 unk6B;
-    u8 filler6C[2];
+    u8 unk6C;
+    u8 unk6D;
     u16 unk6E;
     u16 unk70;
     u8 filler72[2];
@@ -159,7 +162,12 @@ void sub_802B214(void);
 void Task_802AD9C(void);
 void Task_802AE40(void);
 void sub_802B5DC(Sprite *s);
+bool32 sub_802B66C(SpStage74 *strc74, Sprite *s, s16 param2, s16 param3);
 void Task_802BEDC(void);
+void sub_802C04C(SpStage74 *strc74);
+void sub_802C224(void);
+void sub_802C2DC(SpStage74 *strc74);
+void sub_802C488(void);
 void sub_802C56C(u8 param0);
 void sub_802C6C4(void);
 void sub_802C934(void);
@@ -173,6 +181,8 @@ void Task_802D508(void);
 void sub_802D560(void);
 u8 sub_802D58C(s16 param0);
 void Task_802D2BC(void);
+void sub_802D3E4(void);
+void SpStage_PlayRingSoundeffect(void); // 0x0802D5EC
 
 void sub_802BE0C(Sprite *s, SpriteTransform *tf);
 
@@ -225,8 +235,10 @@ extern const HitboxS16 gUnknown_08487204;
 extern const HitboxS16 gUnknown_0848720C;
 extern const s16 gUnknown_08487214[12][2];
 extern const s16 gUnknown_0848722C[16][3];
+extern const u16 gUnknown_0848728C[14][2];
 
 extern SpStageC *gUnknown_087BF8DC[7];
+extern u16 gUnknown_084872C4[];
 
 void CreateSpecialStage()
 {
@@ -1483,7 +1495,7 @@ void sub_802B3E4()
                 strc74->unk40 = Q(temp_r5[strc8->unk2].unk2);
                 strc74->unk44 = Q(temp_r5[strc8->unk2].unk4);
                 strc74->unk68 = (s16)strc8->unk2;
-                strc74->filler6C[1] = 0xB;
+                strc74->unk6D = 0xB;
                 strc74->unk70 = 0;
                 strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
                 strc8->unk2++;
@@ -1545,3 +1557,140 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802B66C.inc", u32 sub_802B66C(
     return FALSE;
 }
 END_NONMATCH
+
+void sub_802B884()
+{
+    u16 temp_r0;
+
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+
+    if (1 & strc74->unk67) {
+        return;
+    }
+    if (1 & strc5690->unk29) {
+        return;
+    }
+    if (strc5690->unk28 == 2) {
+        return;
+    }
+    if (sub_802B66C(strc74, s, strc74->unk48, strc74->unk4A) == 0) {
+        return;
+    }
+
+    switch (strc74->unk60) {
+        case 0: {
+            strc74->unk60 = 1;
+            strc74->anim62 = gUnknown_0848728C[strc74->unk60][0];
+            strc74->variant64 = gUnknown_0848728C[strc74->unk60][1];
+            strc74->unk67 |= 1;
+            strc74->unk52 = 0;
+            strc74->unk54 = 0;
+            strc74->unk56 = 0;
+            strc74->unk58 = 0;
+            strc74->unk5A = 0;
+            strc74->unk5C = 0;
+            s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+            s->graphics.size = 0;
+            s->graphics.anim = strc74->anim62;
+            s->variant = strc74->variant64;
+            s->prevVariant = -1;
+            s->qAnimDelay = 0;
+            s->animSpeed = 0x10;
+            gSpecialStageCollectedRings += 1;
+            SpStage_PlayRingSoundeffect();
+            gCurTask->main = sub_802D3E4;
+        } break;
+        case 3: {
+            strc74->unk60 = 1;
+            strc74->anim62 = gUnknown_0848728C[strc74->unk60][0];
+            strc74->variant64 = gUnknown_0848728C[strc74->unk60][1];
+            strc74->unk67 |= 1;
+            strc74->unk52 = 0;
+            strc74->unk54 = 0;
+            strc74->unk58 = 0;
+            strc74->unk5A = 0;
+            s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+            s->graphics.size = 0;
+            s->graphics.anim = strc74->anim62;
+            s->variant = strc74->variant64;
+            s->prevVariant = -1;
+            s->qAnimDelay = 0;
+            s->animSpeed = 0x10;
+            gSpecialStageCollectedRings += 1;
+            SpStage_PlayRingSoundeffect();
+            gCurTask->main = sub_802C224;
+        } break;
+
+        case 2: {
+            strc74->unk67 |= 1;
+            if (gUnknown_03005730 == 0) {
+                m4aSongNumStart(0x96U);
+            }
+            sub_802C2DC(strc74);
+            sub_802C04C(strc74);
+            gCurTask->main = sub_802C488;
+            strc5690->unk3D = 0xA;
+            strc74->unk6D = 0xB;
+        } break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9: {
+            strc5690->unk29 = 4 | strc5690->unk29;
+            strc5690->unk50 = (u16)strc74->unk68;
+            strc5690->unk54 = (u16)strc74->unk60;
+        } break;
+
+        case 10: {
+            TaskDestroy(gCurTask);
+            if (gUnknown_03005730 == 0) {
+                m4aSongNumStart(0x97U);
+            }
+            gUnknown_0300507C += 1;
+        } break;
+
+        case 11: {
+            strc74->unk60 = 0xC;
+            strc74->anim62 = gUnknown_0848728C[strc74->unk60][0];
+            strc74->variant64 = gUnknown_0848728C[strc74->unk60][1];
+            strc74->unk67 |= 1;
+            strc74->unk52 = 0;
+            strc74->unk54 = 0;
+            strc74->unk56 = 0;
+            strc74->unk58 = 0;
+            strc74->unk5A = 0;
+            strc74->unk5C = 0;
+
+            s->graphics.dest = OBJ_VRAM0 + (gUnknown_084872C4[strc74->unk60] * TILE_SIZE_4BPP);
+            s->graphics.size = 0;
+            s->graphics.anim = strc74->anim62;
+            s->variant = strc74->variant64;
+            s->prevVariant = -1;
+            s->qAnimDelay = 0;
+            s->animSpeed = 0x10;
+            strc5690->unk29 |= 8;
+
+            if (gUnknown_03005730 == 0) {
+                m4aSongNumStart(0x90U);
+            }
+
+            gCurTask->main = sub_802D3E4;
+        } break;
+    }
+}
+
+void sub_802BBF0()
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+
+    strc74->unk52 += strc74->unk58;
+    strc74->unk54 += strc74->unk5A;
+    strc74->unk56 += strc74->unk5C;
+    strc74->unk3C += strc74->unk52;
+    strc74->unk40 += strc74->unk54;
+    strc74->unk44 += strc74->unk56;
+}
