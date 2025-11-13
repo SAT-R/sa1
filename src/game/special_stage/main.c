@@ -172,7 +172,12 @@ void sub_802C0CC(void);
 void sub_802C224(void);
 void sub_802C2DC(SpStage74 *strc74);
 void sub_802C488(void);
-void sub_802C56C(u8 param0);
+typedef enum CheckpointMsg {
+    CHKPTMSG_PLAYER_COOL,
+    CHKPTMSG_PLAYER_AAARGH,
+    CHKPTMSG_NOT_ENOUGH_RINGS,
+} CheckpointMsg;
+static void CreateCheckpointMessage(u8 msg);
 void sub_802C6C4(void);
 void sub_802C934(void);
 void sub_802D158(void);
@@ -299,7 +304,7 @@ void Task_80299B0(void)
         gCurTask->main = sub_8029A50;
 
         if (gUnknown_03005028 > gSpecialStageCollectedRings) {
-            sub_802C56C(2);
+            CreateCheckpointMessage(CHKPTMSG_NOT_ENOUGH_RINGS);
         }
     }
     if (strc55E0->unk0 == 1) {
@@ -309,7 +314,7 @@ void Task_80299B0(void)
         gCurTask->main = sub_802D274;
 
         if (gUnknown_03005070 > gSpecialStageCollectedRings) {
-            sub_802C56C(2);
+            CreateCheckpointMessage(CHKPTMSG_NOT_ENOUGH_RINGS);
         }
     }
 }
@@ -966,7 +971,7 @@ void sub_802A688(void)
     }
 
     if (gUnknown_03005730 == 0) {
-        m4aSongNumStart(0x94U);
+        m4aSongNumStart(SE_148);
     }
 
     strc5690->unk29 &= ~0x6;
@@ -1039,7 +1044,7 @@ void sub_802A988(void)
     if (gSpecialStageCollectedRings != 0) {
         sub_802AAF0();
         if (gUnknown_03005730 == 0) {
-            m4aSongNumStart(0x76U);
+            m4aSongNumStart(SE_RINGS_LOST);
         }
     }
 
@@ -1158,7 +1163,7 @@ void sub_802ABA0(void)
     strc5690->unk3A = 0x2D;
 
     if (gUnknown_03005730 == 0) {
-        m4aSongNumStart(0x95);
+        m4aSongNumStart(SE_149);
     }
 
     sub_802A248(strc5690);
@@ -1224,7 +1229,7 @@ void sub_802ACF0(void)
     strc5690->unk29 |= 0x20;
 
     if (gUnknown_03005730 == 0) {
-        m4aSongNumStart(0x95);
+        m4aSongNumStart(SE_149);
     }
 
     sub_802A248(strc5690);
@@ -1299,28 +1304,28 @@ void Task_802AE40(void)
                 strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x21;
                 strc5690->variant4A = 0;
                 gCurTask->main = sub_802B07C;
-                sub_802C56C(0U);
+                CreateCheckpointMessage(CHKPTMSG_PLAYER_COOL);
             } else {
                 strc5690->unk32 = 0;
                 strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x22;
                 strc5690->variant4A = 0;
                 gCurTask->main = sub_802B008;
                 sub_802B214();
-                sub_802C56C(1U);
+                CreateCheckpointMessage(CHKPTMSG_PLAYER_AAARGH);
             }
         } else if (gUnknown_03005070 <= gSpecialStageCollectedRings) {
             strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x21;
             strc5690->variant4A = 0;
             gCurTask->main = sub_802B18C;
-            m4aSongNumStart(0x2CU);
-            sub_802C56C(0U);
+            m4aSongNumStart(MUS_SPECIAL_STAGE_CLEAR);
+            CreateCheckpointMessage(CHKPTMSG_PLAYER_COOL);
         } else {
             strc5690->unk32 = 0;
             strc5690->anim48 = gPlayerCharacterIdleAnims[strc5690->unk4C] + 0x22;
             strc5690->variant4A = 0;
             gCurTask->main = sub_802B008;
             sub_802B214();
-            sub_802C56C(1U);
+            CreateCheckpointMessage(CHKPTMSG_PLAYER_AAARGH);
         }
         s->graphics.anim = strc5690->anim48;
         s->variant = strc5690->variant4A;
@@ -1648,7 +1653,7 @@ void sub_802B884()
         case 2: {
             strc74->unk67 |= 1;
             if (gUnknown_03005730 == 0) {
-                m4aSongNumStart(0x96U);
+                m4aSongNumStart(SE_150);
             }
             sub_802C2DC(strc74);
             sub_802C04C(strc74);
@@ -1670,7 +1675,7 @@ void sub_802B884()
         case 10: {
             TaskDestroy(gCurTask);
             if (gUnknown_03005730 == 0) {
-                m4aSongNumStart(0x97U);
+                m4aSongNumStart(SE_151);
             }
             gUnknown_0300507C += 1;
         } break;
@@ -1697,7 +1702,7 @@ void sub_802B884()
             strc5690->unk29 |= 8;
 
             if (gUnknown_03005730 == 0) {
-                m4aSongNumStart(0x90U);
+                m4aSongNumStart(SE_EXPLOSION);
             }
 
             gCurTask->main = sub_802D3E4;
@@ -2022,10 +2027,10 @@ void sub_802C488()
     if (--strc74->unk6D == 0) {
         strc74->unk6D = 60;
         if (gUnknown_03005690.unk28 == 4) {
-            strc74->anim62 = 812;
+            strc74->anim62 = SA1_ANIM_SP_STAGE_FEEDBACK_MESSAGES;
             strc74->variant64 = 1;
         } else {
-            strc74->anim62 = 812;
+            strc74->anim62 = SA1_ANIM_SP_STAGE_FEEDBACK_MESSAGES;
             strc74->variant64 = 2;
         }
 
@@ -2036,6 +2041,57 @@ void sub_802C488()
         s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
         gCurTask->main = sub_802D4C4;
     }
+}
+
+static void CreateCheckpointMessage(u8 msg)
+{
+    Sprite *s;
+    u8 *temp_r1;
+    u8 var_r0;
+
+    SpStage74 *strc74 = TASK_DATA(TaskCreate(sub_802D4C4, 0x74U, 0x1500U, 0U, NULL));
+    s = &strc74->s;
+
+    switch (msg) {
+        case 0:
+            // "COOL!"
+            s->y = 40;
+            strc74->anim62 = SA1_ANIM_SP_STAGE_PLAYER_SPEECH;
+            strc74->variant64 = (u16)msg;
+            strc74->unk60 = 5;
+            strc74->unk6D = 0xB4;
+            break;
+        case 1:
+            // "AAARGH!"
+            s->y = 40;
+            strc74->anim62 = SA1_ANIM_SP_STAGE_PLAYER_SPEECH;
+            strc74->variant64 = (u16)msg;
+            strc74->unk60 = 5;
+            strc74->unk6D = 0xB4;
+            break;
+        case 2:
+            // "Not enough rings..."
+            s->y = 136;
+            strc74->anim62 = SA1_ANIM_SP_STAGE_FEEDBACK_MESSAGES;
+            strc74->variant64 = 0;
+            strc74->unk60 = (u16)msg;
+            strc74->unk6D = 0x78;
+            break;
+    }
+
+    s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+    s->graphics.size = 0;
+    s->graphics.anim = strc74->anim62;
+    s->variant = strc74->variant64;
+    s->prevVariant = -1;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->x = 120;
+    s->oamFlags = 0x40;
+    s->frameFlags = 0x2000;
+    s->palId = 0;
+    s->animCursor = 0;
+    s->hitboxes[0].index = -1;
 }
 
 #if 0
