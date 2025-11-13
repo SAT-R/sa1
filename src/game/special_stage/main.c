@@ -113,7 +113,7 @@ typedef struct SpStage74 {
     u8 unk6C;
     u8 unk6D;
     u16 unk6E;
-    u16 unk70;
+    s16 unk70;
     u8 filler72[2];
 } SpStage74;
 
@@ -163,7 +163,9 @@ void sub_802B214(void);
 void Task_802AD9C(void);
 void Task_802AE40(void);
 void sub_802B5DC(Sprite *s);
+void sub_802B884(void);
 bool32 sub_802B66C(SpStage74 *strc74, Sprite *s, s16 param2, s16 param3);
+bool32 sub_802BC6C(void);
 void Task_802BEDC(void);
 void sub_802C04C(SpStage74 *strc74);
 void sub_802C224(void);
@@ -239,6 +241,7 @@ extern const HitboxS16 gUnknown_0848720C;
 extern const s16 gUnknown_08487214[12][2];
 extern const s16 gUnknown_0848722C[16][3];
 extern const u16 gUnknown_0848728C[14][2];
+extern s16 gUnknown_084872E0[12][2];
 
 extern SpStageC *gUnknown_087BF8DC[7];
 extern u16 gUnknown_084872C4[];
@@ -1799,7 +1802,8 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802BE0C.inc", void sub_802BE0C
 }
 END_NONMATCH
 
-void Task_802BEDC(void) {
+void Task_802BEDC(void)
+{
     SpStage74 *strc74 = TASK_DATA(gCurTask);
     Sprite *s;
 
@@ -1824,7 +1828,7 @@ void Task_802BEDC(void) {
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     strc74->unk66 = sub_802D58C((I(gUnknown_03005690.unk8) - I(strc74->unk44)));
     s->x = 120 + I(strc74->unk3C);
-    s->y = 80  - I(strc74->unk40);
+    s->y = 80 - I(strc74->unk40);
     s->oamFlags = 0x7C0;
     s->palId = 0;
     s->frameFlags = strc74->unk66 | 0x2020;
@@ -1838,4 +1842,72 @@ void Task_802BEDC(void) {
     sub_802B5DC(s);
     UpdateSpriteAnimation(s);
     sub_802BE0C(s, &strc74->tf);
+}
+
+void sub_802C04C(SpStage74 *strc74)
+{
+    s32 var_r6;
+    SpStage74 *newStrc74;
+
+    for (var_r6 = 0; var_r6 < 12; var_r6++) {
+        newStrc74 = TASK_DATA(TaskCreate(Task_802BEDC, sizeof(SpStage74), 0x1510U, 0U, NULL));
+        newStrc74->unk60 = 3;
+        newStrc74->unk3C = (strc74->unk3C + (gUnknown_084872E0[var_r6][0] << 6));
+        newStrc74->unk40 = (strc74->unk40 + (gUnknown_084872E0[var_r6][1] << 6));
+        newStrc74->unk44 = strc74->unk44;
+        newStrc74->unk68 = strc74->unk68;
+        newStrc74->unk70 = 0xF;
+    }
+}
+
+void sub_802C0CC()
+{
+    s16 temp_r1_3;
+    s32 temp_r1_2;
+    s16 temp_r0_3;
+    u16 var_r2;
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+    s16 theta;
+    s16 x, y;
+    s32 v0, v1;
+
+    x = (strc5690->unkC - strc74->unk4C);
+    y = (strc5690->unkE - strc74->unk4E);
+
+    theta = sa2__sub_8004418(y, x);
+    strc74->unk52 += 0x15;
+    v0 = (strc74->unk52 * COS(theta));
+    v1 = (SIN(theta));
+    strc74->unk3C += v0 >> 14;
+    strc74->unk40 -= (strc74->unk52 * v1) >> 14;
+    strc74->unk5C = I(strc5690->unk8 - strc74->unk44);
+    temp_r0_3 = strc74->unk56 + strc74->unk5C;
+
+    if (temp_r0_3 >= 0) {
+        if (temp_r0_3 > Q(14)) {
+            temp_r0_3 = Q(14);
+        }
+    } else if (temp_r0_3 < -Q(14)) {
+        temp_r0_3 = -Q(14);
+    }
+
+    strc74->unk56 = temp_r0_3;
+    strc74->unk44 += strc74->unk56;
+    if ((strc5690->unk8 + 0x100) < strc74->unk44) {
+        strc74->unk44 = strc5690->unk8;
+    }
+    if (sub_802BC6C() != 0) {
+        if (strc74->unk70 != 0) {
+            strc74->unk70 -= 1;
+        } else {
+            sub_802B884();
+        }
+        sub_802B5DC(s);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
+    }
 }
