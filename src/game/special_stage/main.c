@@ -168,6 +168,7 @@ bool32 sub_802B66C(SpStage74 *strc74, Sprite *s, s16 param2, s16 param3);
 bool32 sub_802BC6C(void);
 void Task_802BEDC(void);
 void sub_802C04C(SpStage74 *strc74);
+void sub_802C0CC(void);
 void sub_802C224(void);
 void sub_802C2DC(SpStage74 *strc74);
 void sub_802C488(void);
@@ -178,15 +179,18 @@ void sub_802D158(void);
 void sub_802D190(void);
 void sub_802D1D8(void);
 void sub_802D274(void);
+void Task_802D2BC(void);
 u16 sub_802D2F4(Strc_03005690 *param0);
 void sub_802D33C(void);
 void Task_802D37C(void);
+void sub_802D3E4(void);
+void sub_802D450(void);
+void sub_802D4C4(void);
 void Task_802D508(void);
 void sub_802D560(void);
 u8 sub_802D58C(s16 param0);
-void Task_802D2BC(void);
-void sub_802D3E4(void);
 void SpStage_PlayRingSoundeffect(void); // 0x0802D5EC
+void sub_802D6FC(SpStage74 *strc74, Sprite *s);
 
 void sub_802BE0C(Sprite *s, SpriteTransform *tf);
 
@@ -242,9 +246,21 @@ extern const s16 gUnknown_08487214[12][2];
 extern const s16 gUnknown_0848722C[16][3];
 extern const u16 gUnknown_0848728C[14][2];
 extern s16 gUnknown_084872E0[12][2];
+extern s16 gUnknown_08487310[8][2];
 
 extern SpStageC *gUnknown_087BF8DC[7];
 extern u16 gUnknown_084872C4[];
+
+static inline void sub_802D6FC__inline(SpStage74 *strc74, Sprite *s)
+{
+    s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+    s->graphics.size = 0;
+    s->graphics.anim = strc74->anim62;
+    s->variant = strc74->variant64;
+    s->prevVariant = -1;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+}
 
 void CreateSpecialStage()
 {
@@ -1860,7 +1876,7 @@ void sub_802C04C(SpStage74 *strc74)
     }
 }
 
-void sub_802C0CC()
+void sub_802C0CC(void)
 {
     s16 temp_r1_3;
     s32 temp_r1_2;
@@ -1911,3 +1927,128 @@ void sub_802C0CC()
         DisplaySprite(s);
     }
 }
+
+void sub_802C224(void)
+{
+    s16 temp_r1_3;
+    s32 temp_r1_2;
+    s16 temp_r0_3;
+    u16 var_r2;
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+    s16 theta;
+    s16 x, y;
+    s32 v0, v1;
+
+    if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
+        gCurTask->main = sub_802D450;
+        return;
+    }
+
+    strc74->unk5C = I(strc5690->unk8 - strc74->unk44);
+
+    temp_r0_3 = strc74->unk56 + strc74->unk5C;
+    if (temp_r0_3 >= 0) {
+        if (temp_r0_3 > Q(14)) {
+            temp_r0_3 = Q(14);
+        }
+    } else if (temp_r0_3 < -Q(14)) {
+        temp_r0_3 = -Q(14);
+    }
+
+    strc74->unk56 = temp_r0_3;
+    strc74->unk44 += strc74->unk56;
+    if ((strc5690->unk8 + 0x100) < strc74->unk44) {
+        strc74->unk44 = strc5690->unk8;
+    }
+    if (sub_802BC6C() != 0) {
+        sub_802B5DC(s);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
+    }
+}
+
+void sub_802C2DC(SpStage74 *strc74)
+{
+    s32 i;
+    SpStage74 *newStrc74;
+    Sprite *s;
+
+    for (i = 0; i < 8; i++) {
+        newStrc74 = TASK_DATA(TaskCreate(sub_802D3E4, sizeof(SpStage74), 0x1510U, 0U, NULL));
+        newStrc74->unk60 = 0xD;
+        newStrc74->unk3C = (strc74->unk3C + Q(gUnknown_08487310[i][0]));
+        newStrc74->unk40 = (strc74->unk40 + Q(gUnknown_08487310[i][1]));
+        newStrc74->unk44 = strc74->unk44;
+        newStrc74->unk50 = 0;
+        newStrc74->unk52 = (u16)gUnknown_08487310[i][0] * 8;
+        newStrc74->unk54 = (u16)gUnknown_08487310[i][1] * 8;
+        newStrc74->unk56 = 0;
+        newStrc74->unk58 = 0 - (newStrc74->unk52 / 32);
+        newStrc74->unk5A = 0 - (newStrc74->unk54 / 32);
+        newStrc74->unk5C = 0;
+        newStrc74->anim62 = gUnknown_0848728C[newStrc74->unk60][0];
+        newStrc74->variant64 = gUnknown_0848728C[newStrc74->unk60][1];
+        newStrc74->unk66 = strc74->unk66;
+        newStrc74->unk67 = 1;
+        s = &newStrc74->s;
+        s->graphics.dest = ((gUnknown_084872C4[newStrc74->unk60] << 5) + OBJ_VRAM0);
+        s->graphics.size = 0;
+        s->graphics.anim = newStrc74->anim62;
+        s->variant = newStrc74->variant64;
+        s->prevVariant = 0xFF;
+        s->qAnimDelay = 0;
+        s->animSpeed = 0x10;
+        s->palId = 0;
+        s->frameFlags = (newStrc74->unk66 | 0x2020);
+        s->oamFlags = SPRITE_OAM_ORDER(31);
+    }
+}
+
+void sub_802C488()
+{
+    u16 var_r0;
+    u8 *temp_r1;
+    u8 *temp_r3;
+    u8 temp_r0_2;
+
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+
+    s = &strc74->s;
+    if (--strc74->unk6D == 0) {
+        strc74->unk6D = 60;
+        if (gUnknown_03005690.unk28 == 4) {
+            strc74->anim62 = 812;
+            strc74->variant64 = 1;
+        } else {
+            strc74->anim62 = 812;
+            strc74->variant64 = 2;
+        }
+
+        sub_802D6FC__inline(strc74, s);
+        s->x = 120;
+        s->y = 40;
+        s->oamFlags = SPRITE_OAM_ORDER(1);
+        s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
+        gCurTask->main = sub_802D4C4;
+    }
+}
+
+#if 0
+// Matches!
+void sub_802D6FC(SpStage74 *strc74, Sprite *s) {
+    u8 *temp_r1;
+
+    s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+    s->graphics.size = 0;
+    s->graphics.anim = strc74->anim62;
+    s->variant = strc74->variant64;
+    s->prevVariant = -1;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+}
+#endif
