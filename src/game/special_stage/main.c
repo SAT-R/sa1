@@ -210,10 +210,19 @@ extern const Background gUnknown_08487074;
 extern const Background gUnknown_084870B4;
 extern const Background gUnknown_084870F4;
 
+typedef struct HitboxS16 {
+    s16 left;
+    s16 top;
+    s16 right;
+    s16 bottom;
+} HitboxS16;
+
 extern const s16 gUnknown_0848715C[16][2];
 extern const s16 gUnknown_08487184[16][2];
 extern const s16 gUnknown_084871C4[16][2];
 extern const s16 gUnknown_084871C4[16][2];
+extern const HitboxS16 gUnknown_08487204;
+extern const HitboxS16 gUnknown_0848720C;
 extern const s16 gUnknown_08487214[12][2];
 extern const s16 gUnknown_0848722C[16][3];
 
@@ -1487,15 +1496,15 @@ void sub_802B5DC(Sprite *s)
 {
     s32 i;
 
-    if ((s->graphics.anim != 0x31D) || (s->variant != 0)) {
-        for (i = 0; i < 16; i++) {
+    if ((s->graphics.anim != 797) || (s->variant != 0)) {
+        for (i = 0; i < (s32)ARRAY_COUNT(gUnknown_030056F0); i++) {
             if ((gUnknown_030056F0[i][0] == s->graphics.anim) && (gUnknown_030056F0[i][1] == s->variant)) {
                 s->frameFlags = s->frameFlags | 0xC0000;
                 return;
             }
         }
 
-        for (i = 0; i < 16; i++) {
+        for (i = 0; i < (s32)ARRAY_COUNT(gUnknown_030056F0); i++) {
             if ((gUnknown_030056F0[i][0] == 0) && (gUnknown_030056F0[i][1] == 0)) {
                 gUnknown_030056F0[i][0] = s->graphics.anim;
                 gUnknown_030056F0[i][1] = s->variant;
@@ -1504,3 +1513,35 @@ void sub_802B5DC(Sprite *s)
         }
     }
 }
+
+// (97.41%) https://decomp.me/scratch/veYrR
+NONMATCH("asm/non_matching/game/special_stage/sub_802B66C.inc", u32 sub_802B66C(SpStage74 *strc74, Sprite *s, s16 param2, s16 param3))
+{
+    Sprite *spr55F0 = &gUnknown_030055F0.s;
+    Strc_03005690 *strc5690;
+
+    if (s->hitboxes[0].index == -1) {
+        return 0U;
+    }
+
+    strc5690 = &gUnknown_03005690;
+    if ((strc5690->unk8 >= strc74->unk44 - Q(64)) && (strc5690->unk8 <= strc74->unk44)) {
+        u16 unk60 = strc74->unk60;
+        if ((unk60 >= 4) && ((unk60 < 10) || (unk60 == 0xB))) {
+            if (2 & strc5690->unk29) {
+                if (HB_COLLISION(param2, param3, s->hitboxes[0].b, I(strc5690->unk0), I(strc5690->unk4), gUnknown_0848720C)) {
+                    return TRUE;
+                }
+            } else if (RECT_COLLISION(param2, param3, &s->hitboxes[0].b, I(strc5690->unk0), I(strc5690->unk4), &gUnknown_08487204)) {
+                return TRUE;
+            }
+        } else {
+            if (HB_COLLISION(param2, param3, s->hitboxes[0].b, I(strc5690->unk0), I(strc5690->unk4), spr55F0->hitboxes[0].b)) {
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+END_NONMATCH
