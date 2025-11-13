@@ -179,6 +179,7 @@ typedef enum CheckpointMsg {
 } CheckpointMsg;
 static void CreateCheckpointMessage(u8 msg);
 void sub_802C6C4(void);
+void sub_802C89C(void);
 void sub_802C934(void);
 void sub_802D158(void);
 void sub_802D190(void);
@@ -252,6 +253,7 @@ extern const s16 gUnknown_0848722C[16][3];
 extern const u16 gUnknown_0848728C[14][2];
 extern s16 gUnknown_084872E0[12][2];
 extern s16 gUnknown_08487310[8][2];
+extern s16 gUnknown_08487330[10][2];
 
 extern SpStageC *gUnknown_087BF8DC[7];
 extern u16 gUnknown_084872C4[];
@@ -2092,6 +2094,76 @@ static void CreateCheckpointMessage(u8 msg)
     s->palId = 0;
     s->animCursor = 0;
     s->hitboxes[0].index = -1;
+}
+
+void sub_802C6C4()
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s;
+    SpriteTransform *tf;
+
+    strc74->unk50 = 0;
+    strc74->unk52 = gUnknown_08487330[strc74->unk6A][0];
+    strc74->unk54 = gUnknown_08487330[strc74->unk6A][1];
+    strc74->unk56 = 0x800;
+    strc74->unk58 = -(strc74->unk52 / 32);
+    strc74->unk5A = -(strc74->unk54 / 32);
+    strc74->unk5C = -(strc74->unk56 / 64);
+    strc74->anim62 = gUnknown_0848728C[0][0];
+    strc74->variant64 = gUnknown_0848728C[0][1];
+    strc74->unk67 = 0;
+    strc74->unk66 = sub_802D58C(I(gUnknown_03005690.unk8) - I(strc74->unk44));
+
+    s = &strc74->s;
+    s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+    s->graphics.size = 0;
+    s->graphics.anim = strc74->anim62;
+    s->variant = strc74->variant64;
+    s->prevVariant = -1;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->x = 120 + I(strc74->unk3C);
+    s->y = +80 - I(strc74->unk40);
+    s->oamFlags = 0x180;
+    s->qAnimDelay = 0;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = strc74->unk66 | 0x2020;
+
+    tf = &strc74->tf;
+    tf->rotation = 0;
+    tf->qScaleX = 0x100;
+    tf->qScaleY = 0x100;
+    tf->x = s->x;
+    tf->y = s->y;
+
+    gCurTask->main = sub_802C89C;
+
+    sub_802B5DC(s);
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, tf);
+}
+
+void sub_802C89C()
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+
+    strc74->unk58 = -(strc74->unk52 / 32);
+    strc74->unk5A = -(strc74->unk54 / 32);
+
+    sub_802BBF0();
+
+    if (sub_802BC6C() != 0) {
+        sub_802B5DC(s);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+
+        if (1 & strc74->unk6C++) {
+            DisplaySprite(s);
+        }
+    }
 }
 
 #if 0
