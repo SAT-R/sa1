@@ -92,7 +92,8 @@ typedef struct SpStage74 {
     s32 unk44;
     s16 unk48;
     s16 unk4A;
-    u8 filler4C[0x4];
+    s16 unk4C;
+    s16 unk4E;
     s16 unk50;
     s16 unk52;
     s16 unk54;
@@ -1694,3 +1695,69 @@ void sub_802BBF0()
     strc74->unk40 += strc74->unk54;
     strc74->unk44 += strc74->unk56;
 }
+
+NONMATCH("asm/non_matching/game/special_stage/sub_802BC6C.inc", bool32 sub_802BC6C(void))
+{
+    s32 var_r0;
+    s32 var_r4;
+    s32 var_r7;
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+
+    strc74->unk50 = (s16)I(strc5690->unk8 - strc74->unk44);
+    if ((strc74->unk60 != 3) && (strc74->unk50 > 576)) {
+        TaskDestroy(gCurTask);
+        return 0;
+    }
+
+    if (strc74->unk50 > 0xC0) {
+        return FALSE;
+    }
+    if (strc74->unk50 < -Q(3)) {
+        return FALSE;
+    }
+
+    strc74->unk66 = sub_802D58C(strc74->unk50);
+    var_r7 = (strc74->unk50 + 0x300);
+    var_r7 >>= 3;
+    if (var_r7 == 0) {
+        var_r7 = 1;
+    }
+    var_r7 = (var_r7 * var_r7 * var_r7 * var_r7) / 408;
+    var_r4 = var_r7;
+    if (var_r7 < 0) {
+        var_r4 = var_r7 + 0x1FF;
+    }
+
+    strc74->unk48 = ((((var_r4 >> 9) + 0x38) * strc74->unk3C) / 640) >> 8;
+    strc74->unk4A = ((((var_r4 >> 9) + 0x38) * strc74->unk40) / 640) >> 8;
+    strc74->unk4C = 120 + strc74->unk48;
+    strc74->unk4E = 80 - strc74->unk4A;
+    strc74->unk4C += gUnknown_03005780.unk4;
+    strc74->unk4E -= gUnknown_03005780.unk6;
+    s->x = strc74->unk4C;
+    s->y = strc74->unk4E;
+    tf->x = s->x;
+    tf->y = s->y;
+
+    var_r0 = var_r7;
+    if (var_r7 < 0) {
+        var_r0 = var_r7 + 0x3FF;
+    }
+
+    tf->qScaleX = (var_r0 >> 10) + 0x40;
+    tf->qScaleY = (var_r0 >> 10) + 0x40;
+    s->frameFlags = strc74->unk66 | 0x2020;
+    if (tf->qScaleX > 0x100) {
+        s->frameFlags |= 0x40;
+    }
+
+    var_r0 = ((strc74->unk50 - 0xC0) / 32);
+    s->oamFlags = SPRITE_OAM_ORDER(-var_r0);
+
+    return TRUE;
+}
+END_NONMATCH
