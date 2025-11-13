@@ -178,6 +178,7 @@ void sub_802D1D8(void);
 void sub_802D274(void);
 u16 sub_802D2F4(Strc_03005690 *param0);
 void sub_802D33C(void);
+void Task_802D37C(void);
 void Task_802D508(void);
 void sub_802D560(void);
 u8 sub_802D58C(s16 param0);
@@ -1797,3 +1798,44 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802BE0C.inc", void sub_802BE0C
     }
 }
 END_NONMATCH
+
+void Task_802BEDC(void) {
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s;
+
+    strc74->unk50 = 0;
+    strc74->unk52 = 0;
+    strc74->unk54 = 0;
+    strc74->unk56 = 0;
+    strc74->unk58 = 0;
+    strc74->unk5A = 0;
+    strc74->unk5C = 0;
+    strc74->anim62 = gUnknown_0848728C[strc74->unk60][0];
+    strc74->variant64 = gUnknown_0848728C[strc74->unk60][1];
+    strc74->unk67 = 0;
+
+    s = &strc74->s;
+    s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+    s->graphics.size = 0;
+    s->graphics.anim = strc74->anim62;
+    s->variant = strc74->variant64;
+    s->prevVariant = -1;
+    s->qAnimDelay = 0;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
+    strc74->unk66 = sub_802D58C((I(gUnknown_03005690.unk8) - I(strc74->unk44)));
+    s->x = 120 + I(strc74->unk3C);
+    s->y = 80  - I(strc74->unk40);
+    s->oamFlags = 0x7C0;
+    s->palId = 0;
+    s->frameFlags = strc74->unk66 | 0x2020;
+
+    strc74->tf.rotation = 0;
+    strc74->tf.qScaleX = Q(0.25);
+    strc74->tf.qScaleY = Q(0.25);
+    strc74->tf.x = s->x;
+    strc74->tf.y = s->y;
+    gCurTask->main = Task_802D37C;
+    sub_802B5DC(s);
+    UpdateSpriteAnimation(s);
+    sub_802BE0C(s, &strc74->tf);
+}
