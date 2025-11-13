@@ -12,7 +12,7 @@ typedef struct {
     u16 unk4;
     u16 unk6;
 } MultiPlayerBgCtrlRegs; /* size: 8 */
-extern MultiPlayerBgCtrlRegs *gUnknown_03005840;
+extern MultiPlayerBgCtrlRegs *gMPAttackEffect2Regs;
 
 void sub_801A384(void);
 

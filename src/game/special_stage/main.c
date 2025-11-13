@@ -1,6 +1,7 @@
 #include "global.h"
 #include "core.h"
 #include "trig.h"
+#include "malloc_ewram.h"
 #include "lib/m4a/m4a.h"
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/palette_loader.h"
@@ -132,6 +133,12 @@ typedef struct SpStageC {
     u16 unk8;
 } SpStageC; /* 0x0C */
 
+typedef struct SpStage40 {
+    SpriteTransform tf;
+    Sprite s;
+    void *mem;
+} SpStage40;
+
 // Number of rings needed this round, to continue to the next / (in the last one) collect the emerald.
 u16 gSpecialStageTargetRings = 0;
 
@@ -181,6 +188,7 @@ static void CreateCheckpointMessage(u8 msg);
 void sub_802C6C4(void);
 void sub_802C89C(void);
 void sub_802C934(void);
+void Task_802CA90(void);
 void sub_802D158(void);
 void sub_802D190(void);
 void sub_802D1D8(void);
@@ -193,6 +201,7 @@ void sub_802D3E4(void);
 void sub_802D450(void);
 void sub_802D4C4(void);
 void Task_802D508(void);
+void TaskDestructor_802D578(struct Task *t);
 void sub_802D560(void);
 u8 sub_802D58C(s16 param0);
 void SpStage_PlayRingSoundeffect(void); // 0x0802D5EC
@@ -223,6 +232,7 @@ extern Strc_3005780 gUnknown_03005780;
 extern Background gUnknown_030057A0;
 extern s8 gUnknown_030057E0[];
 extern Background gUnknown_03005800;
+extern s16 gUnknown_03005840[16];
 
 extern u16 gUnknown_08487140[][2];
 extern u8 gUnknown_08487134[NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE];
@@ -1505,7 +1515,7 @@ void sub_802B3E4()
                 strc74 = TASK_DATA(TaskCreate(sub_802D33C, sizeof(SpStage74), 0x1F00U, 0U, NULL));
                 strc74->unk60 = 1;
                 strc74->unk44 = temp_r5[strc8->unk2].unk4 << 8;
-                strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
+                strc8->unk4 = temp_r5[strc8->unk2].unk4;
                 strc8->unk2 += 1;
                 strc8->unk6 = 1;
                 break;
@@ -1513,7 +1523,7 @@ void sub_802B3E4()
                 strc74 = TASK_DATA(TaskCreate(sub_802D33C, sizeof(SpStage74), 0x1F00U, 0U, NULL));
                 strc74->unk60 = 2;
                 strc74->unk44 = temp_r5[strc8->unk2].unk4 << 8;
-                strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
+                strc8->unk4 = temp_r5[strc8->unk2].unk4;
                 strc8->unk2++;
             } else if (temp_r5[strc8->unk2].unk8 == 0) {
                 strc8->unk2++;
@@ -1526,7 +1536,7 @@ void sub_802B3E4()
                 strc74->unk68 = (s16)strc8->unk2;
                 strc74->unk6D = 0xB;
                 strc74->unk70 = 0;
-                strc8->unk4 = (u16)temp_r5[strc8->unk2].unk4;
+                strc8->unk4 = temp_r5[strc8->unk2].unk4;
                 strc8->unk2++;
             }
         }
@@ -2164,6 +2174,51 @@ void sub_802C89C()
             DisplaySprite(s);
         }
     }
+}
+
+void sub_802C934(void)
+{
+    s32 sp4;
+    SpStageC *element;
+    Sprite *s;
+    u16 var_r4;
+    u32 allocSize;
+    u8 var_r2;
+    u8 *temp_r6;
+    SpStage40 *strc40;
+
+    element = gUnknown_087BF8DC[gUnknown_08487134[gCurrentLevel]];
+    var_r4 = 0;
+    for (var_r2 = 0; var_r2 < 16; var_r2++) {
+        while (((u32)(var_r2 << 12) > (element[var_r4].unk4 + 0x300))) {
+            if (element[var_r4].unk8 == 0xFFFF) {
+                break;
+            }
+
+            var_r4 += 1;
+        }
+        gUnknown_03005840[var_r2] = var_r4;
+    }
+
+    allocSize = ((var_r4 >> 3) + 4) & 0xFFFC;
+    temp_r6 = EwramMalloc(allocSize);
+    DmaFill32(3, 0, temp_r6, allocSize);
+    strc40 = TASK_DATA(TaskCreate(Task_802CA90, sizeof(SpStage40), 0x1300U, 0U, TaskDestructor_802D578));
+    strc40->mem = temp_r6;
+    s = &strc40->s;
+    s->x = 0;
+    s->y = 0;
+    s->graphics.dest = (void *)OBJ_VRAM0 + 0x800;
+    s->oamFlags = 0x500;
+    s->graphics.size = 0;
+    s->graphics.anim = 0x31B;
+    s->variant = 0;
+    s->animCursor = 0;
+    s->qAnimDelay = 0;
+    s->prevVariant = 0xFF;
+    s->animSpeed = 0x10;
+    s->palId = 0;
+    s->frameFlags = 0x2030;
 }
 
 #if 0
