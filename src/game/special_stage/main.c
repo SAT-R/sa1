@@ -208,6 +208,7 @@ extern u16 gUnknown_030056F0[16][2];
 extern Background gUnknown_03005740;
 extern Strc_3005780 gUnknown_03005780;
 extern Background gUnknown_030057A0;
+extern s8 gUnknown_030057E0[];
 extern Background gUnknown_03005800;
 
 extern u16 gUnknown_08487140[][2];
@@ -1759,5 +1760,40 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802BC6C.inc", bool32 sub_802BC
     s->oamFlags = SPRITE_OAM_ORDER(-var_r0);
 
     return TRUE;
+}
+END_NONMATCH
+
+// (73.95%) https://decomp.me/scratch/2UCbe
+NONMATCH("asm/non_matching/game/special_stage/sub_802BE0C.inc", void sub_802BE0C(Sprite *s, SpriteTransform *tf))
+{
+    s16 sp00[8];
+    const SpriteOffset *dims;
+    s8 temp_r7;
+    u32 temp_r1;
+    u32 temp_r1_2;
+    s16 *affine;
+
+    dims = s->dimensions;
+    if (dims != (SpriteOffset *)-1) {
+        u16 *ptrSP = &sp00[0];
+        *ptrSP++ = tf->qScaleX;
+        *ptrSP++ = tf->qScaleY;
+        ptrSP = &sp00[7];
+        *ptrSP = s->frameFlags & 0x1F;
+        temp_r7 = gUnknown_030057E0[*ptrSP];
+        if (temp_r7 == 0) {
+            gUnknown_030057E0[*ptrSP] = 0xFF;
+
+            affine = (*ptrSP << 4) + &gOamBuffer->all.affineParam;
+            affine[0 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, tf->qScaleX);
+            affine[1 * OAM_DATA_COUNT_AFFINE] = 0;
+            affine[2 * OAM_DATA_COUNT_AFFINE] = 0;
+            affine[3 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, tf->qScaleY);
+        }
+        sp00[2] = tf->x - I((tf->qScaleX * (dims->offsetX - (dims->width >> 1))) + Q((dims->width >> 1)));
+        sp00[4] = tf->y - I((tf->qScaleY * (dims->offsetY - (dims->height >> 1))) + Q((dims->height >> 1)));
+        s->x = sp00[2];
+        s->y = sp00[4];
+    }
 }
 END_NONMATCH
