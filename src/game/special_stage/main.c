@@ -2222,7 +2222,7 @@ void sub_802C934(void)
     s->frameFlags = 0x2030;
 }
 
-// (77.24%) https://decomp.me/scratch/inpcX
+// (77.44%) https://decomp.me/scratch/inpcX
 // This function loads all objects' positions, scales and renders them
 // and the player character, and checks the collision between them.
 NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void UpdateObjectsAndRender(void))
@@ -2269,7 +2269,6 @@ NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void 
     u8 var_r2;
     u8 var_r2_2;
     u16 *temp_r5_2;
-    u16 *temp_r5_3;
     u16 *temp_r2;
     u8 vall;
 
@@ -2290,17 +2289,7 @@ NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void 
     DmaFill16(3, 0, gUnknown_030057E0, 0x10);
     sp1C = strc40->mem;
 #else
-    temp_r5 = strc40;
     sp20 = 0;
-    temp_r2 = (u16 *)&oamData0.split[3];
-    temp_r2->all.attr0 = INT16_MAX;
-    (void *)0x040000D4->unk0 = temp_r2;
-    (void *)0x040000D4->unk4 = &gUnknown_03005670;
-    (void *)0x040000D4->unk8 = 0x81000010;
-    temp_r2->all.attr0 = 0;
-    (void *)0x040000D4->unk0 = temp_r2;
-    (void *)0x040000D4->unk4 = gUnknown_030057E0;
-    (void *)0x040000D4->unk8 = 0x81000008;
     sp1C = strc40->mem;
 #endif
     UpdateSpriteAnimation(s);
@@ -2404,7 +2393,7 @@ NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void 
                     sp3C[0] = s->frameFlags & 0x1F;
                     if (gUnknown_030057E0[sp3C[0]] == 0) {
                         gUnknown_030057E0[sp3C[0]] = -1;
-                        temp_r5_2 = (u16 *)(&gOamBuffer->all.affineParam + (sp3C[0] << 4));
+                        temp_r5_2 = (u16 *)(&gOamBuffer[sp3C[0] * 4]);
                         temp_r5_2[0 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleX);
                         temp_r5_2[1 * OAM_DATA_COUNT_AFFINE] = 0;
                         temp_r5_2[2 * OAM_DATA_COUNT_AFFINE] = 0;
@@ -2421,19 +2410,19 @@ NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void 
                     sp3C[0] = s->frameFlags & 0x1F;
                     if (gUnknown_030057E0[sp3C[0]] == 0) {
                         gUnknown_030057E0[sp3C[0]] = -1;
-                        temp_r5_3 = (u16 *)(&gOamBuffer->all.affineParam + (sp3C[0] << 4));
-                        temp_r5_3[0 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleX);
-                        temp_r5_3[1 * OAM_DATA_COUNT_AFFINE] = 0;
-                        temp_r5_3[2 * OAM_DATA_COUNT_AFFINE] = 0;
-                        temp_r5_3[3 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleY);
+                        temp_r5_2 = (u16 *)(&gOamBuffer[sp3C[0] * 4]);
+                        temp_r5_2[0 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleX);
+                        temp_r5_2[1 * OAM_DATA_COUNT_AFFINE] = 0;
+                        temp_r5_2[2 * OAM_DATA_COUNT_AFFINE] = 0;
+                        temp_r5_2[3 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleY);
                     }
-                    temp_r5_4 = &gOamBuffer2[s->oamBaseIndex];
+                    temp_r5_2 = (u16 *)&gOamBuffer2[s->oamBaseIndex];
                     temp_r0_9 = OamMalloc(((s->oamFlags & 0x7C0) >> 6));
                     if (iwram_end == temp_r0_9) {
                         break;
                     }
 
-                    DmaCopy16(3, temp_r5_4, temp_r0_9, sizeof(OamDataShort));
+                    DmaCopy16(3, temp_r5_2, temp_r0_9, sizeof(OamDataShort));
 
                     temp_r0_9->all.attr0 &= 0xFD00;
                     temp_r0_9->all.attr1 &= 0xC000;
