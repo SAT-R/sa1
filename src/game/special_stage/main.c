@@ -2223,6 +2223,8 @@ void sub_802C934(void)
 }
 
 // (77.24%) https://decomp.me/scratch/inpcX
+// This function loads all objects' positions, scales and renders them
+// and the player character, and checks the collision between them.
 NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void UpdateObjectsAndRender(void))
 {
     u16 sp4;
