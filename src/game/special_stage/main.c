@@ -83,6 +83,7 @@ typedef struct Strc_3005780 {
     s16 unkE;
     s16 unk10;
     s8 unk12;
+    s8 unk13;
 } Strc_3005780;
 
 typedef struct SpStage74 {
@@ -146,8 +147,8 @@ void Task_80299B0(void);
 void sub_8029A50(void);
 void Task_8029AC4(void);
 void sub_8029B74(void);
-void sub_8029E0C(s16 arg0);
-void sub_8029EA8(s32 unused);
+void sub_8029E0C(s16 characterId);
+void sub_8029EA8(s16 unusedCharacterId);
 bool32 sub_8029F30(Strc_03005690 *param0);
 bool32 sub_8029FA4(Strc_03005690 *param0);
 void sub_802A068(Strc_03005690 *strc5690);
@@ -205,6 +206,9 @@ void TaskDestructor_802D578(struct Task *t);
 void sub_802D560(void);
 u8 sub_802D58C(s16 param0);
 void SpStage_PlayRingSoundeffect(void); // 0x0802D5EC
+void Task_SpStageInitializeSomethingAndStartMusic(void);
+void Task_802D238(void);
+void sub_802D680(void);
 void sub_802D6FC(SpStage74 *strc74, Sprite *s);
 
 void sub_802BE0C(Sprite *s, SpriteTransform *tf);
@@ -515,9 +519,9 @@ void sub_8029CDC(void)
     DrawBackground(bg5800);
 }
 
-void sub_8029E0C(s16 arg0)
+void sub_8029E0C(s16 characterId)
 {
-    gUnknown_03005690.unk4C = arg0; // NOTE: arg0 downcast to u8!
+    gUnknown_03005690.unk4C = characterId; // NOTE: u8 cast!
     gUnknown_03005690.unk0 = 0;
     gUnknown_03005690.unk4 = 0;
     gUnknown_03005690.unk8 = 0;
@@ -547,7 +551,7 @@ void sub_8029E0C(s16 arg0)
     gUnknown_03005690.unk32 = 0;
 }
 
-void sub_8029EA8(s32 unused)
+void sub_8029EA8(s16 unusedCharacterId)
 {
     Strc_03005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
@@ -1500,7 +1504,7 @@ void sub_802B214(void)
     tf->y = s->y;
 }
 
-void sub_802B3E4()
+void Task_802B3E4()
 {
     SpStage8 *strc8 = TASK_DATA(gCurTask);
     Strc_03005690 *strc5690 = &gUnknown_03005690;
@@ -2440,6 +2444,79 @@ NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void 
     // return
 }
 END_NONMATCH
+
+void sub_802D158(void)
+{
+    TaskCreate(Task_SpStageInitializeSomethingAndStartMusic, 0, 0x1000, 0, NULL);
+    TaskCreate(sub_802D680, 0, 0x1000, 0, NULL);
+}
+
+void sub_802D190(void)
+{
+    u8 *character;
+    u16 charId = gSelectedCharacter;
+    sub_8029E0C(charId);
+    sub_8029EA8(charId);
+
+    character = TASK_DATA(TaskCreate(Task_802A560, sizeof(u8), 0x1100, 0, NULL));
+    *character = charId;
+}
+
+void sub_802D1D8(void)
+{
+    struct Task *t = TaskCreate(Task_802B3E4, sizeof(SpStage8), 0x1400, 0, NULL);
+    SpStage8 *strc8 = TASK_DATA(t);
+    strc8->unk2 = 0;
+    strc8->unk4 = 0;
+    strc8->unk6 = 0;
+}
+
+void Task_SpStageInitializeSomethingAndStartMusic(void)
+{
+    gUnknown_030055E0.unk0 = 0;
+    gUnknown_030055E0.unk2 = 240;
+    gUnknown_030055E0.qBlend = Q(0);
+
+    gCurTask->main = Task_802D238;
+
+    m4aSongNumStart(MUS_SPECIAL_STAGE);
+}
+
+void Task_802D238(void)
+{
+    Strc_03005690 *strc5690 = &gUnknown_03005690;
+
+    if (--gUnknown_030055E0.unk2 <= 0) {
+        gCurTask->main = Task_80299B0;
+
+        strc5690->unk29 &= ~0x1;
+
+        sub_802D560();
+    }
+}
+
+void sub_802D274(void)
+{
+    if (--gUnknown_030055E0.unk2 <= 0) {
+        gStageFlags |= 0x20;
+        gCurTask->main = Task_8029AC4;
+    }
+}
+
+void sub_802D2A8(void) { gDispCnt |= DISPCNT_OBJ_ON | ((~DISPCNT_BG0_ON) & DISPCNT_BG_ALL_ON); }
+
+void Task_802D2BC(void)
+{
+    Strc_3005780 *strc5780 = &gUnknown_03005780;
+    gBldRegs.bldCnt = 0;
+    gBldRegs.bldY = 0;
+    strc5780->unk12 = 0;
+    strc5780->unk13 = 8;
+    sub_8029CDC();
+    gCurTask->main = sub_8029CDC;
+}
+
+void nullsub_802D2F0(void) { }
 
 #if 0
 // Matches!
