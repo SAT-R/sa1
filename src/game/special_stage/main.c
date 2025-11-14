@@ -188,7 +188,7 @@ static void CreateCheckpointMessage(u8 msg);
 void sub_802C6C4(void);
 void sub_802C89C(void);
 void sub_802C934(void);
-void Task_802CA90(void);
+void UpdateObjectsAndRender(void);
 void sub_802D158(void);
 void sub_802D190(void);
 void sub_802D1D8(void);
@@ -230,6 +230,7 @@ extern u16 gUnknown_030056F0[16][2];
 extern Background gUnknown_03005740;
 extern Strc_3005780 gUnknown_03005780;
 extern Background gUnknown_030057A0;
+extern s16 gUnknown_03005670[];
 extern s8 gUnknown_030057E0[];
 extern Background gUnknown_03005800;
 extern s16 gUnknown_03005840[16];
@@ -2203,7 +2204,7 @@ void sub_802C934(void)
     allocSize = ((var_r4 >> 3) + 4) & 0xFFFC;
     temp_r6 = EwramMalloc(allocSize);
     DmaFill32(3, 0, temp_r6, allocSize);
-    strc40 = TASK_DATA(TaskCreate(Task_802CA90, sizeof(SpStage40), 0x1300U, 0U, TaskDestructor_802D578));
+    strc40 = TASK_DATA(TaskCreate(UpdateObjectsAndRender, sizeof(SpStage40), 0x1300U, 0U, TaskDestructor_802D578));
     strc40->mem = temp_r6;
     s = &strc40->s;
     s->x = 0;
@@ -2220,6 +2221,234 @@ void sub_802C934(void)
     s->palId = 0;
     s->frameFlags = 0x2030;
 }
+
+// (77.24%) https://decomp.me/scratch/inpcX
+NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void UpdateObjectsAndRender(void))
+{
+    u16 sp4;
+    SpStageC *sp8;
+    Strc_03005690 *strc5690;
+    SpStage40 *strc40;
+    SpriteTransform *tf;
+    const SpriteOffset *sp18;
+    u8 *sp1C;
+    u8 sp20;
+    s32 sp24;
+    s32 sp28;
+    s32 sp2C;
+    s32 sp34;
+    s32 sp38;
+    u16 *sp3C;
+    u32 sp40;
+    OamData *temp_r0_9;
+    OamData *temp_r5_4;
+    s16 temp_r0_6;
+    s16 temp_r2_6;
+    s16 temp_r3_6;
+    s32 temp_r0_3;
+    s32 temp_r1;
+    s32 temp_r3;
+    s32 temp_r4_3;
+    s32 var_r0_2;
+    s32 var_r6;
+    s8 *temp_r1_7;
+    s8 temp_r3_4;
+    s8 temp_r6;
+    s8 temp_r6_2;
+    u16 *temp_r0_11;
+    u16 *temp_r4_6;
+    u16 temp_r0_2;
+    u16 temp_r1_2;
+    u16 temp_r2_7;
+    u16 var_sb;
+    u32 temp_r0_7;
+    u32 temp_r0_8;
+    u32 temp_r2_5;
+    u8 var_r2;
+    u8 var_r2_2;
+    u16 *temp_r5_2;
+    u16 *temp_r5_3;
+    u16 *temp_r2;
+    u8 vall;
+
+    Sprite *spr55F0;
+    Sprite *spr74;
+    Sprite *s;
+    SpStage74 *strc74;
+    s16 someX, someY;
+
+    strc40 = TASK_DATA(gCurTask);
+    sp8 = gUnknown_087BF8DC[gUnknown_08487134[gCurrentLevel]];
+    strc5690 = &gUnknown_03005690;
+    spr55F0 = &gUnknown_030055F0.s;
+    s = &strc40->s;
+#if 1
+    sp20 = 0;
+    DmaFill16(3, INT16_MAX, gUnknown_03005670, 0x20);
+    DmaFill16(3, 0, gUnknown_030057E0, 0x10);
+    sp1C = strc40->mem;
+#else
+    temp_r5 = strc40;
+    sp20 = 0;
+    temp_r2 = (u16 *)&oamData0.split[3];
+    temp_r2->all.attr0 = INT16_MAX;
+    (void *)0x040000D4->unk0 = temp_r2;
+    (void *)0x040000D4->unk4 = &gUnknown_03005670;
+    (void *)0x040000D4->unk8 = 0x81000010;
+    temp_r2->all.attr0 = 0;
+    (void *)0x040000D4->unk0 = temp_r2;
+    (void *)0x040000D4->unk4 = gUnknown_030057E0;
+    (void *)0x040000D4->unk8 = 0x81000008;
+    sp1C = strc40->mem;
+#endif
+    UpdateSpriteAnimation(s);
+    sp18 = s->dimensions;
+    temp_r3 = (I(strc5690->unk8) + 0x300);
+    vall = (temp_r3 >> 0xC);
+    var_sb = gUnknown_03005840[vall];
+    sp34 = I(strc5690->unk8) - 0xC0;
+    sp3C = &sp4;
+    while (sp8[var_sb].unk4 < temp_r3) {
+        if (((sp8[var_sb].unk8 != 0xFFFF) && !(sp8[var_sb].unk8 != 0)) || (sp8[var_sb].unk4 < sp34)
+            || (((((s32)(strc40 + (var_sb >> 3)) >> (7 & var_sb)) & 1) != 0))) {
+            u8 *ptrU8;
+            s32 valR3;
+            sp24 = Q(sp8[var_sb].unk0);
+            sp28 = Q(sp8[var_sb].unk2);
+            sp2C = Q(sp8[var_sb].unk4);
+            temp_r0_2 = I(strc5690->unk8) - sp8[var_sb].unk4;
+            var_r6 = (s32)((s16)temp_r0_2 + 0x300) >> 3;
+            if (var_r6 == 0) {
+                var_r6 = 1;
+            }
+            temp_r0_3 = (s32)(var_r6 * (var_r6 * var_r6) * var_r6) / 408;
+            temp_r4_3 = (temp_r0_3 / 512) + 0x38;
+            someX = ((temp_r4_3 * sp24) / 640) >> 8;
+            someY = ((temp_r4_3 * sp28) / 640) >> 8;
+            if (!(1 & strc5690->unk29) && (strc5690->unk28 != 2) && (I(strc5690->unk8) >= (s32)(I(sp2C) - 32))
+                && (I(strc5690->unk8) <= I(sp2C))
+                && HB_COLLISION(someX, someY, s->hitboxes[0].b, I(strc5690->unk0), I(strc5690->unk4), spr55F0->hitboxes[0].b)) {
+                strc74 = TASK_DATA(TaskCreate(sub_802D3E4, sizeof(SpStage74), 0x1500U, 0U, NULL));
+                strc74->unk60 = 1;
+                strc74->unk3C = sp24;
+                strc74->unk40 = sp28;
+                strc74->unk44 = sp2C;
+                strc74->unk50 = 0;
+                strc74->unk52 = 0;
+                strc74->unk54 = 0;
+                strc74->unk56 = 0;
+                strc74->unk58 = 0;
+                strc74->unk5A = 0;
+                strc74->unk5C = 0;
+                strc74->anim62 = gUnknown_0848728C[strc74->unk60][0];
+                strc74->variant64 = gUnknown_0848728C[strc74->unk60][1];
+
+                valR3 = temp_r0_2;
+                for (var_r2_2 = 0; var_r2_2 < 16; var_r2_2++) {
+                    if (gUnknown_03005670[var_r2_2] == INT16_MAX) {
+                        gUnknown_03005670[var_r2_2] = valR3;
+                        break;
+                    }
+
+                    if (gUnknown_03005670[var_r2_2] == valR3) {
+                        break;
+                    }
+                }
+
+                strc74->unk66 = var_r2_2 + 1;
+                strc74->unk67 = 1;
+                spr74 = &strc74->s;
+                spr74->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
+                spr74->graphics.size = 0;
+                spr74->graphics.anim = strc74->anim62;
+                spr74->variant = strc74->variant64;
+                spr74->prevVariant = -1;
+                spr74->qAnimDelay = 0;
+                spr74->animSpeed = 0x10;
+                spr74->qAnimDelay = 0;
+                spr74->animSpeed = 0x10;
+                spr74->palId = 0;
+                spr74->frameFlags = strc74->unk66 | 0x2020;
+                spr74->oamFlags = 0x7C0;
+                gSpecialStageCollectedRings += 1;
+                SpStage_PlayRingSoundeffect();
+                sp1C[var_sb >> 3] |= 1 << (var_sb & 7);
+                var_sb++;
+            } else {
+                for (var_r2 = 0; var_r2 < 16; var_r2++) {
+                    if ((u16)gUnknown_03005670[var_r2] == INT16_MAX) {
+                        gUnknown_03005670[var_r2] = temp_r0_2;
+                        break;
+                    }
+
+                    if (gUnknown_03005670[var_r2] == temp_r0_2) {
+                        break;
+                    }
+                }
+
+                var_r2++;
+                strc40->tf.x = (120 + someX + gUnknown_03005780.unk4);
+                strc40->tf.y = ((+80 - gUnknown_03005780.unk6) - someY);
+                strc40->tf.qScaleX = (temp_r0_3 / 1024) + 64;
+                strc40->tf.qScaleY = (temp_r0_3 / 1024) + 64;
+                s->frameFlags = 0x2020 | var_r2;
+                if (strc40->tf.qScaleX > Q(1)) {
+                    s->frameFlags |= 0x40;
+                }
+                s->x = strc40->tf.x - I((strc40->tf.qScaleX * (sp18->offsetX - (sp18->width >> 1))) + ((sp18->width >> 1) << 8));
+                s->y = strc40->tf.y - I((strc40->tf.qScaleY * (sp18->offsetY - (sp18->height >> 1))) + ((sp18->height >> 1) << 8));
+                if ((sp20 == 0) || (s->oamBaseIndex == 0xFF)) {
+                    s->oamBaseIndex = 0xFF;
+                    sp3C[0] = s->frameFlags & 0x1F;
+                    if (gUnknown_030057E0[sp3C[0]] == 0) {
+                        gUnknown_030057E0[sp3C[0]] = -1;
+                        temp_r5_2 = (u16 *)(&gOamBuffer->all.affineParam + (sp3C[0] << 4));
+                        temp_r5_2[0 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleX);
+                        temp_r5_2[1 * OAM_DATA_COUNT_AFFINE] = 0;
+                        temp_r5_2[2 * OAM_DATA_COUNT_AFFINE] = 0;
+                        temp_r5_2[3 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleY);
+                    }
+                    DisplaySprite(s);
+                    var_sb++;
+                    sp20++;
+                } else {
+                    if (s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) {
+                        s->x -= (sp18->width >> 1);
+                        s->y -= (sp18->height >> 1);
+                    }
+                    sp3C[0] = s->frameFlags & 0x1F;
+                    if (gUnknown_030057E0[sp3C[0]] == 0) {
+                        gUnknown_030057E0[sp3C[0]] = -1;
+                        temp_r5_3 = (u16 *)(&gOamBuffer->all.affineParam + (sp3C[0] << 4));
+                        temp_r5_3[0 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleX);
+                        temp_r5_3[1 * OAM_DATA_COUNT_AFFINE] = 0;
+                        temp_r5_3[2 * OAM_DATA_COUNT_AFFINE] = 0;
+                        temp_r5_3[3 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleY);
+                    }
+                    temp_r5_4 = &gOamBuffer2[s->oamBaseIndex];
+                    temp_r0_9 = OamMalloc(((s->oamFlags & 0x7C0) >> 6));
+                    if (iwram_end == temp_r0_9) {
+                        break;
+                    }
+
+                    DmaCopy16(3, temp_r5_4, temp_r0_9, sizeof(OamDataShort));
+
+                    temp_r0_9->all.attr0 &= 0xFD00;
+                    temp_r0_9->all.attr1 &= 0xC000;
+                    temp_r0_9->all.attr0 |= (u8)s->y | ((s->frameFlags & SPRITE_FLAG_MASK_ROT_SCALE_DOUBLE_SIZE) * 8);
+                    temp_r0_9->all.attr1 |= ((u16)s->x & 0x1FF) | ((s->frameFlags & 0x1F) << 9);
+                    var_sb++;
+                    sp20++;
+                }
+            }
+        } else {
+            break;
+        }
+        // continue
+    }
+    // return
+}
+END_NONMATCH
 
 #if 0
 // Matches!
