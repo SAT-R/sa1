@@ -284,10 +284,64 @@ const Background gUnknown_08486FF4 = {
     .prevScrollX = 0x7FFF,
     .prevScrollY = 0x7FFF,
 };
-extern const Background gUnknown_08487034;
-extern const Background gUnknown_08487074;
-extern const Background gUnknown_084870B4;
-extern const Background gUnknown_084870F4;
+const Background gUnknown_08487034 = {
+    .graphics = {
+        .src = NULL,
+        .dest = (void*)(BG_VRAM + 0x4000),
+        .size = 0,
+    },
+    .layoutVram = (void*)(BG_VRAM + 0xC01A),
+    .tilemapId = 55,
+    .targetTilesX = (152 / 8),
+    .targetTilesY = (112 / 8),
+    .flags = 0x2,
+    .scrollX = 136,
+    .scrollY = 32,
+    .prevScrollX = 0x7FFF,
+    .prevScrollY = 0x7FFF,
+};
+const Background gUnknown_08487074 = {
+    .graphics = {
+        .src = NULL,
+        .dest = (void*)(BG_VRAM + 0x4000),
+        .size = 0,
+    },
+    .layoutVram = (void*)(BG_VRAM + 0xC39A),
+    .tilemapId = 55,
+    .targetTilesX = (152 / 8),
+    .targetTilesY = (112 / 8),
+    .flags = 0x9A,
+    .prevScrollX = 0x7FFF,
+    .prevScrollY = 0x7FFF,
+};
+const Background gUnknown_084870B4 = {
+    .graphics = {
+        .src = NULL,
+        .dest = (void*)(BG_VRAM + 0x4000),
+        .size = 0,
+    },
+    .layoutVram = (void*)(BG_VRAM + 0xC800),
+    .tilemapId = 55,
+    .targetTilesX = (152 / 8),
+    .targetTilesY = (112 / 8),
+    .flags = 0x11A,
+    .prevScrollX = 0x7FFF,
+    .prevScrollY = 0x7FFF,
+};
+const Background gUnknown_084870F4 = {
+    .graphics = {
+        .src = NULL,
+        .dest = (void*)(BG_VRAM + 0x4000),
+        .size = 0,
+    },
+    .layoutVram = (void*)(BG_VRAM + 0xCB80),
+    .tilemapId = 55,
+    .targetTilesX = (152 / 8),
+    .targetTilesY = (112 / 8),
+    .flags = 0x19A,
+    .prevScrollX = 0x7FFF,
+    .prevScrollY = 0x7FFF,
+};
 
 typedef struct HitboxS16 {
     s16 left;

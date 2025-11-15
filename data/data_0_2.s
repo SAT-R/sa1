@@ -1,21 +1,5 @@
 	.section .rodata
 
-    .global gUnknown_08487034
-gUnknown_08487034:
-    .incbin "baserom_sa1.gba", 0x00487034, 0x40
-
-    .global gUnknown_08487074
-gUnknown_08487074:
-    .incbin "baserom_sa1.gba", 0x00487074, 0x40
-
-    .global gUnknown_084870B4
-gUnknown_084870B4:
-    .incbin "baserom_sa1.gba", 0x004870B4, 0x40
-
-    .global gUnknown_084870F4
-gUnknown_084870F4:
-    .incbin "baserom_sa1.gba", 0x004870F4, 0x40
-
     .global gUnknown_08487134
 gUnknown_08487134:
     .incbin "baserom_sa1.gba", 0x00487134, 0xC
