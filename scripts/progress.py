@@ -116,7 +116,7 @@ def main():
     parser.add_argument("format", nargs="?", default="text", choices=["text", "csv", "shield-json"])
     parser.add_argument("-m", "--matching", dest='matching', action='store_true',
                         help="Output matching progress instead of decompilation progress")
-    parser.add_argument("-f", "--file", dest='map_file', default="sa2.map")
+    parser.add_argument("-f", "--file", dest='map_file', default="sa1.map")
     args = parser.parse_args()
 
     matching = args.matching
