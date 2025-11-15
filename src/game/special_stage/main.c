@@ -247,7 +247,7 @@ extern u8 gUnknown_03005730;
 extern Background gUnknown_03005740;
 extern Strc_3005780 gUnknown_03005780;
 extern Background gUnknown_030057A0;
-extern s8 gUnknown_030057E0[];
+extern s8 gUnknown_030057E0[32];
 extern Background gUnknown_03005800;
 extern s16 gUnknown_03005840[16];
 #else
@@ -262,7 +262,7 @@ extern u8 gUnknown_03005730;
 Background gUnknown_03005740 = { 0 };
 Strc_3005780 gUnknown_03005780 = { 0 };
 Background gUnknown_030057A0 = { 0 };
-s8 gUnknown_030057E0[] = { 0 };
+s8 gUnknown_030057E0[32] = { 0 };
 Background gUnknown_03005800 = { 0 };
 s16 gUnknown_03005840[16] = { 0 };
 #endif
