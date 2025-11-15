@@ -1,17 +1,15 @@
 # Sonic Advance (Europe)
-[![CI status][ci-badge]][ci-status-link] [![Decompilation Progress][progress-badge]][progress-link] [![Contributors][contributors-badge]][contributors-link] [![Discord][discord-badge]][discord-link]
 
-[ci-status-link]: https://github.com/SAT-R/sa1/actions/workflows/build.yml
-[ci-badge]: https://github.com/SAT-R/sa1/actions/workflows/build.yml/badge.svg
+This is a work in progress matching decompilation of Sonic Advance
+<p align="center">
+  <a href="https://github.com/SAT-R/sa1/actions/workflows/build.yml"><img src="https://github.com/SAT-R/sa1/actions/workflows/build.yml/badge.svg" alt="CI status"></a>
+  <a href="https://github.com/SAT-R/sa1"><img src="https://img.shields.io/endpoint?url=https://sat-r.github.io/sa1/reports/progress-sa1-shield.json" alt="Decompilation Progress"></a>
+  <a href="https://github.com/SAT-R/sa1"><img src="https://img.shields.io/endpoint?url=https://sat-r.github.io/sa1/reports/progress-sa1-shield-matching.json" alt="Decompilation Matching Progress"></a>
+  <a href="https://github.com/SAT-R/sa1/graphs/contributors"><img src="https://img.shields.io/github/contributors/SAT-R/sa1" alt="Contributors"></a>
+  <a href="https://discord.gg/vZTvVH3gA9"><img src="https://img.shields.io/discord/1052347299457671200" alt="Discord"></a>
+</p>
 
-[progress-link]: https://github.com/SAT-R/sa1
-[progress-badge]: https://img.shields.io/endpoint?url=https://sat-r.github.io/sa1/reports/progress-sa1-shield.json
-
-[contributors-link]: https://github.com/SAT-R/sa1/graphs/contributors
-[contributors-badge]: https://img.shields.io/github/contributors/SAT-R/sa1
-
-[discord-badge]: https://img.shields.io/discord/1052347299457671200
-[discord-link]: https://discord.gg/vZTvVH3gA9
+> :warning: **This project is not completed and still under active development**
 
 This is a work in progress matching decompilation of Sonic Advance
 
