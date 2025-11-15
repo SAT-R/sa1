@@ -81,7 +81,6 @@ SECTIONS {
         src/game/mp_chao.o(.text);
         src/game/egg_rocket_transitions.o(.text);
         src/game/special_stage/main.o(.text);
-        asm/game__special_stage.o(.text);
         src/game/enemies/boss_2_egg_press.o(.text);
         src/game/enemies/boss_3_egg_ball.o(.text);
         src/game/enemies/boss_4_egg_spider.o(.text);
@@ -323,6 +322,7 @@ SECTIONS {
         src/data/oam_data.o(.rodata);
         src/data/obj_palettes.o(.rodata);
         data/obj_gfx.o(.rodata);
+        src/game/special_stage/main.o(.rodata);
         data/data_0_2.o(.rodata);
         src/data/tilemaps_special_stage.o(.rodata);
         src/data/tilemaps_special_stage.o(.data);

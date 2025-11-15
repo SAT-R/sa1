@@ -3,13 +3,17 @@
 #include "trig.h"
 #include "malloc_ewram.h"
 #include "lib/m4a/m4a.h"
+#include "lib/m4a/m4a_internal.h" // for MP2KSongHeader
 #include "game/sa1_sa2_shared/globals.h"
 #include "game/sa1_sa2_shared/palette_loader.h"
+#include "game/sa1_sa2_shared/pause_menu.h"
 #include "game/sa1_sa2_shared/player.h"
 #include "game/save.h"
 #include "game/special_stage/main.h"
 #include "game/stage/player_controls.h"
 #include "game/stage/terrain_collision.h"
+
+extern struct MP2KSongHeader se_ring_copy;
 
 #include "constants/animations.h"
 #include "constants/tilemaps.h"
@@ -24,7 +28,7 @@ typedef struct Strc_30055E0 {
     u8 fillerC[0x4];
 } Strc_30055E0; /* 0x10 */
 
-typedef struct Strc_03005690 {
+typedef struct Strc_3005690 {
     s32 unk0;
     s32 unk4;
     s32 unk8;
@@ -70,7 +74,7 @@ typedef struct Strc_03005690 {
     u16 unk52;
     u16 unk54;
     u8 filler56[0xA];
-} Strc_03005690; /* 0x60 */
+} Strc_3005690; /* 0x60 */
 
 typedef struct Strc_3005780 {
     s16 unk0;
@@ -114,7 +118,7 @@ typedef struct SpStage74 {
     u8 unk6B;
     u8 unk6C;
     u8 unk6D;
-    u16 unk6E;
+    s16 unk6E;
     s16 unk70;
     u8 filler72[2];
 } SpStage74;
@@ -149,12 +153,12 @@ void Task_8029AC4(void);
 void sub_8029B74(void);
 void sub_8029E0C(s16 characterId);
 void sub_8029EA8(s16 unusedCharacterId);
-bool32 sub_8029F30(Strc_03005690 *param0);
-bool32 sub_8029FA4(Strc_03005690 *param0);
-void sub_802A068(Strc_03005690 *strc5690);
-void sub_802A134(Strc_03005690 *strc5690);
-void sub_802A248(Strc_03005690 *strc5690);
-void sub_802A4C4(Strc_03005690 *strc5690);
+bool32 sub_8029F30(Strc_3005690 *param0);
+bool32 sub_8029FA4(Strc_3005690 *param0);
+void sub_802A068(Strc_3005690 *strc5690);
+void sub_802A134(Strc_3005690 *strc5690);
+void sub_802A248(Strc_3005690 *strc5690);
+void sub_802A4C4(Strc_3005690 *strc5690);
 void Task_802A560(void);
 void sub_802A688(void);
 void sub_802A890(void);
@@ -194,8 +198,9 @@ void sub_802D158(void);
 void sub_802D190(void);
 void sub_802D1D8(void);
 void sub_802D274(void);
+void sub_802D464(void);
 void Task_802D2BC(void);
-u16 sub_802D2F4(Strc_03005690 *param0);
+u16 sub_802D2F4(Strc_3005690 *param0);
 void sub_802D33C(void);
 void Task_802D37C(void);
 void sub_802D3E4(void);
@@ -208,6 +213,7 @@ u8 sub_802D58C(s16 param0);
 void SpStage_PlayRingSoundeffect(void); // 0x0802D5EC
 void Task_SpStageInitializeSomethingAndStartMusic(void);
 void Task_802D238(void);
+void sub_802D66C(void);
 void sub_802D680(void);
 void sub_802D6FC(SpStage74 *strc74, Sprite *s);
 
@@ -224,27 +230,60 @@ typedef struct TfSprite {
     Sprite s;
 } TfSprite;
 
+// From temporary_sound_play_task.c
 extern u16 gUnknown_03005028;
 extern u16 gUnknown_03005070;
+
+#if PLATFORM_GBA
+// TODO: Insert these!
 extern Background gUnknown_030055A0;
 extern Strc_30055E0 gUnknown_030055E0;
 extern TfSprite gUnknown_030055F0;
 extern Background gUnknown_03005630;
+extern s16 gUnknown_03005670[16];
+extern Strc_3005690 gUnknown_03005690;
 extern u16 gUnknown_030056F0[16][2];
+extern u8 gUnknown_03005730;
 extern Background gUnknown_03005740;
 extern Strc_3005780 gUnknown_03005780;
 extern Background gUnknown_030057A0;
-extern s16 gUnknown_03005670[];
 extern s8 gUnknown_030057E0[];
 extern Background gUnknown_03005800;
 extern s16 gUnknown_03005840[16];
+#else
+Background gUnknown_030055A0 = { 0 };
+Strc_30055E0 gUnknown_030055E0 = { 0 };
+TfSprite gUnknown_030055F0 = { 0 };
+Background gUnknown_03005630 = { 0 };
+s16 gUnknown_03005670[16] = { 0 };
+Strc_3005690 gUnknown_03005690 = { 0 };
+u16 gUnknown_030056F0[16][2] = { 0 };
+extern u8 gUnknown_03005730;
+Background gUnknown_03005740 = { 0 };
+Strc_3005780 gUnknown_03005780 = { 0 };
+Background gUnknown_030057A0 = { 0 };
+s8 gUnknown_030057E0[] = { 0 };
+Background gUnknown_03005800 = { 0 };
+s16 gUnknown_03005840[16] = { 0 };
+#endif
 
 extern u16 gUnknown_08487140[][2];
 extern u8 gUnknown_08487134[NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE];
 
-extern Strc_03005690 gUnknown_03005690;
-
-extern const Background gUnknown_08486FF4;
+const Background gUnknown_08486FF4 = {
+    .graphics = {
+        .src = NULL,
+        .dest = (void*)(BG_VRAM + 0x8000),
+        .size = 0,
+    },
+    .layoutVram = (void*)(BG_VRAM + 0xE000),
+    .tilemapId = 54,
+    .targetTilesX = (256 / 8),
+    .targetTilesY = (256 / 8),
+    .flags = 0x3,
+    .prevScrollX = 0x7FFF,
+    .prevScrollY = 0x7FFF,
+};
 extern const Background gUnknown_08487034;
 extern const Background gUnknown_08487074;
 extern const Background gUnknown_084870B4;
@@ -272,6 +311,19 @@ extern s16 gUnknown_08487330[10][2];
 
 extern SpStageC *gUnknown_087BF8DC[7];
 extern u16 gUnknown_084872C4[];
+
+static inline void sub_802D6B4__inline(Strc_3005690 *strc5690)
+{
+    if ((strc5690->unk42 & gPlayerControls.jump) && !(1 & strc5690->unk29)) {
+        strc5690->unk20 = +Q(1);
+    } else {
+        if (!(2 & strc5690->unk29)) {
+            strc5690->unk20 = Q(0);
+        } else {
+            strc5690->unk20 = -Q(1);
+        }
+    }
+}
 
 static inline void sub_802D6FC__inline(SpStage74 *strc74, Sprite *s)
 {
@@ -310,7 +362,7 @@ void CreateSpecialStage()
 
 void Task_80299B0(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Strc_30055E0 *strc55E0 = &gUnknown_030055E0;
 
     if (strc55E0->unk0 == 2) {
@@ -338,7 +390,7 @@ void Task_80299B0(void)
 
 void sub_8029A50(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
 
     if (--gUnknown_030055E0.unk2 <= 0) {
         if (gUnknown_03005028 <= gSpecialStageCollectedRings) {
@@ -444,7 +496,7 @@ void sub_8029CDC(void)
     Background *bg55A0 = &gUnknown_030055A0;
     Background *bg5740 = &gUnknown_03005740;
     Background *bg5800 = &gUnknown_03005800;
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     s32 temp_r0;
     s32 var_r0;
     s32 var_r0_2;
@@ -553,7 +605,7 @@ void sub_8029E0C(s16 characterId)
 
 void sub_8029EA8(s16 unusedCharacterId)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf;
 
@@ -578,7 +630,7 @@ void sub_8029EA8(s16 unusedCharacterId)
     tf->y = 0;
 }
 
-bool32 sub_8029F30(Strc_03005690 *param0)
+bool32 sub_8029F30(Strc_3005690 *param0)
 {
     if (!(1 & param0->unk29)) {
         if (8 & param0->unk29) {
@@ -600,7 +652,7 @@ bool32 sub_8029F30(Strc_03005690 *param0)
     return FALSE;
 }
 
-bool32 sub_8029FA4(Strc_03005690 *param0)
+bool32 sub_8029FA4(Strc_3005690 *param0)
 {
     if (param0->unk3E != 0) {
         param0->unk3E--;
@@ -629,7 +681,7 @@ bool32 sub_8029FA4(Strc_03005690 *param0)
     return FALSE;
 }
 
-void sub_802A068(Strc_03005690 *param0)
+void sub_802A068(Strc_3005690 *param0)
 {
     s32 temp_r0;
     s32 var_r0;
@@ -675,7 +727,7 @@ void sub_802A068(Strc_03005690 *param0)
     }
 }
 
-void sub_802A134(Strc_03005690 *param0)
+void sub_802A134(Strc_3005690 *param0)
 {
     Sprite *s = &gUnknown_030055F0.s;
     u32 var_r0;
@@ -706,7 +758,7 @@ void sub_802A134(Strc_03005690 *param0)
     }
 }
 
-void sub_802A248(Strc_03005690 *param0)
+void sub_802A248(Strc_3005690 *param0)
 {
     s32 param0_unk0 = param0->unk0;
     s32 param0_unk4 = param0->unk4;
@@ -850,7 +902,7 @@ void sub_802A248(Strc_03005690 *param0)
 }
 
 // (90.14%) https://decomp.me/scratch/ZDa67
-NONMATCH("asm/non_matching/game/special_stage/sub_802A4C4.inc", void sub_802A4C4(Strc_03005690 *param0))
+NONMATCH("asm/non_matching/game/special_stage/sub_802A4C4.inc", void sub_802A4C4(Strc_3005690 *param0))
 {
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
@@ -883,7 +935,7 @@ END_NONMATCH
 
 void Task_802A560(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
     u32 var_r0;
@@ -902,16 +954,9 @@ void Task_802A560(void)
         if (!sub_8029F30(strc5690) && !sub_8029FA4(strc5690)) {
             strc5690->unk12 = (strc5690->unk12 + 0x10) & 0x3FF;
             strc5690->unk10 = SIN_24_8(strc5690->unk12) / 16u;
-            if ((strc5690->unk42 & gPlayerControls.jump) && !(1 & strc5690->unk29)) {
-                strc5690->unk20 = +Q(1);
-            } else {
-                var_r0 = 2 & strc5690->unk29;
-                if (var_r0 != 0) {
-                    strc5690->unk20 = -Q(1);
-                } else {
-                    strc5690->unk20 = Q(0);
-                }
-            }
+
+            sub_802D6B4__inline(strc5690);
+
             sub_802A068(strc5690);
             sub_802A134(strc5690);
             sub_802A248(strc5690);
@@ -925,7 +970,7 @@ void Task_802A560(void)
 
 void sub_802A688(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
     u16 index;
@@ -1003,7 +1048,7 @@ void sub_802A688(void)
 
 void sub_802A890(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
     bool32 var_r7 = 0;
@@ -1054,7 +1099,7 @@ void sub_802A890(void)
 
 void sub_802A988(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
 
@@ -1092,7 +1137,7 @@ void sub_802A988(void)
 
 void Task_802AA48(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
     u16 temp_r0;
@@ -1122,7 +1167,7 @@ void Task_802AA48(void)
 
 void sub_802AAF0(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     s32 temp_r3;
     SpStage74 *strc74;
     u16 temp_r7;
@@ -1159,7 +1204,7 @@ void sub_802AAF0(void)
 
 void sub_802ABA0(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
 
@@ -1195,7 +1240,7 @@ void sub_802ABA0(void)
 
 void Task_802AC50(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
 
@@ -1226,7 +1271,7 @@ void Task_802AC50(void)
 
 void sub_802ACF0(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
 
@@ -1261,7 +1306,7 @@ void sub_802ACF0(void)
 
 void Task_802AD9C(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
 
@@ -1292,7 +1337,7 @@ void Task_802AD9C(void)
 
 void Task_802AE40(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
 
@@ -1352,7 +1397,7 @@ void Task_802AE40(void)
 
 void sub_802B008(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
 
@@ -1379,7 +1424,7 @@ void sub_802B008(void)
 // (98.11%) https://decomp.me/scratch/jrZYE
 NONMATCH("asm/non_matching/game/special_stage/sub_802B07C.inc", void sub_802B07C(void))
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
     u32 flags;
@@ -1427,7 +1472,7 @@ END_NONMATCH
 
 void sub_802B18C(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s = &gUnknown_030055F0.s;
     SpriteTransform *tf = &gUnknown_030055F0.tf;
     u32 flags;
@@ -1453,7 +1498,7 @@ void sub_802B18C(void)
 
 void sub_802B214(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Sprite *s;
     SpriteTransform *tf;
     s32 rnd;
@@ -1507,7 +1552,7 @@ void sub_802B214(void)
 void Task_802B3E4()
 {
     SpStage8 *strc8 = TASK_DATA(gCurTask);
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     Strc_30055E0 *strc55E0 = &gUnknown_030055E0;
     SpStage74 *strc74;
     SpStageC *temp_r5;
@@ -1574,7 +1619,7 @@ void sub_802B5DC(Sprite *s)
 NONMATCH("asm/non_matching/game/special_stage/sub_802B66C.inc", u32 sub_802B66C(SpStage74 *strc74, Sprite *s, s16 param2, s16 param3))
 {
     Sprite *spr55F0 = &gUnknown_030055F0.s;
-    Strc_03005690 *strc5690;
+    Strc_3005690 *strc5690;
 
     if (s->hitboxes[0].index == -1) {
         return 0U;
@@ -1602,13 +1647,13 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802B66C.inc", u32 sub_802B66C(
 }
 END_NONMATCH
 
-void sub_802B884()
+void sub_802B884(void)
 {
     u16 temp_r0;
 
     SpStage74 *strc74 = TASK_DATA(gCurTask);
     Sprite *s = &strc74->s;
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
 
     if (1 & strc74->unk67) {
         return;
@@ -1744,7 +1789,7 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802BC6C.inc", bool32 sub_802BC
     s32 var_r0;
     s32 var_r4;
     s32 var_r7;
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
 
     SpStage74 *strc74 = TASK_DATA(gCurTask);
     Sprite *s = &strc74->s;
@@ -1904,7 +1949,7 @@ void sub_802C0CC(void)
     s32 temp_r1_2;
     s16 temp_r0_3;
     u16 var_r2;
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     SpStage74 *strc74 = TASK_DATA(gCurTask);
     Sprite *s = &strc74->s;
     SpriteTransform *tf = &strc74->tf;
@@ -1956,7 +2001,7 @@ void sub_802C224(void)
     s32 temp_r1_2;
     s16 temp_r0_3;
     u16 var_r2;
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
     SpStage74 *strc74 = TASK_DATA(gCurTask);
     Sprite *s = &strc74->s;
     SpriteTransform *tf = &strc74->tf;
@@ -2229,11 +2274,12 @@ void sub_802C934(void)
 // (77.44%) https://decomp.me/scratch/inpcX
 // This function loads all objects' positions, scales and renders them
 // and the player character, and checks the collision between them.
+// NOTE(Jace): I think the loops in this should have the same layout as sub_802D58C().
 NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void UpdateObjectsAndRender(void))
 {
     u16 sp4;
     SpStageC *sp8;
-    Strc_03005690 *strc5690;
+    Strc_3005690 *strc5690;
     SpStage40 *strc40;
     SpriteTransform *tf;
     const SpriteOffset *sp18;
@@ -2305,7 +2351,7 @@ NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void 
     sp3C = &sp4;
     while (sp8[var_sb].unk4 < temp_r3) {
         if (((sp8[var_sb].unk8 != 0xFFFF) && !(sp8[var_sb].unk8 != 0)) || (sp8[var_sb].unk4 < sp34)
-            || (((((s32)(strc40 + (var_sb >> 3)) >> (7 & var_sb)) & 1) != 0))) {
+            || (((((uintptr_t)(strc40 + (var_sb >> 3)) >> (7 & var_sb)) & 1) != 0))) {
             u8 *ptrU8;
             s32 valR3;
             sp24 = Q(sp8[var_sb].unk0);
@@ -2484,7 +2530,7 @@ void Task_SpStageInitializeSomethingAndStartMusic(void)
 
 void Task_802D238(void)
 {
-    Strc_03005690 *strc5690 = &gUnknown_03005690;
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
 
     if (--gUnknown_030055E0.unk2 <= 0) {
         gCurTask->main = Task_80299B0;
@@ -2518,9 +2564,215 @@ void Task_802D2BC(void)
 
 void nullsub_802D2F0(void) { }
 
-#if 0
-// Matches!
-void sub_802D6FC(SpStage74 *strc74, Sprite *s) {
+u16 sub_802D2F4(Strc_3005690 *param0)
+{
+    s32 temp_r2;
+    s32 temp_r2_2;
+    u16 var_r0;
+    u16 var_r1;
+
+    temp_r2 = param0->unk0;
+    if (temp_r2 < -Q(40)) {
+        var_r1 = 1;
+    } else if (temp_r2 <= +Q(40)) {
+        var_r1 = 2;
+    } else {
+        var_r1 = 3;
+    }
+
+    if (param0->unk4 < +Q(30)) {
+        if (param0->unk4 > -Q(30)) {
+            var_r1 += 3;
+        } else {
+            var_r1 += 6;
+        }
+    }
+
+    return var_r1;
+}
+
+void sub_802D33C(void)
+{
+    Strc_3005690 *strc5690 = &gUnknown_03005690;
+    Strc_30055E0 *strc55E0 = &gUnknown_030055E0;
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+
+    if (strc5690->unk8 >= strc74->unk44) {
+        strc55E0->unk0 = strc74->unk60;
+        TaskDestroy(gCurTask);
+    }
+}
+
+void Task_802D37C(void)
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+
+    sub_802D464();
+    sub_802BBF0();
+    if (sub_802BC6C() != 0) {
+        if (strc74->unk70 != 0) {
+            strc74->unk70 -= 1;
+        } else {
+            sub_802B884();
+        }
+        sub_802B5DC(s);
+        UpdateSpriteAnimation(s);
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
+    }
+}
+
+void sub_802D3E4(void)
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+
+    sub_802BBF0();
+    if (sub_802BC6C() != 0) {
+        if (s->frameFlags & SPRITE_FLAG_MASK_ANIM_OVER) {
+            gCurTask->main = sub_802D450;
+            return;
+        }
+        sub_802B5DC(s);
+        if (UpdateSpriteAnimation(s) == ACMD_RESULT__ENDED) {
+            gCurTask->main = sub_802D450;
+        }
+        sub_802BE0C(s, tf);
+        DisplaySprite(s);
+    }
+}
+
+void sub_802D450(void) { TaskDestroy(gCurTask); }
+
+void sub_802D464(void)
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    SpStage74 *parent = TASK_DATA(TASK_PARENT(gCurTask));
+
+    if (strc74->unk60 == 3) {
+        if (parent->unk6D != 0) {
+            if (gUnknown_03005690.unk28 == 4) {
+                gCurTask->main = sub_802C0CC;
+                strc74->unk52 = -Q(3);
+            }
+        } else {
+            strc74->unk60 = 0;
+        }
+    }
+}
+
+void sub_802D4C4(void)
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+
+    UpdateSpriteAnimation(s);
+    DisplaySprite(s);
+
+    if (--strc74->unk6D == 0) {
+        gCurTask->main = sub_802D66C;
+    }
+}
+
+void Task_802D508(void)
+{
+    SpStage74 *strc74 = TASK_DATA(gCurTask);
+    Sprite *s = &strc74->s;
+    SpriteTransform *tf = &strc74->tf;
+
+    if (strc74->unk6E > -160) {
+        strc74->unk6E--;
+        sub_802BBF0();
+
+        if (sub_802BC6C() != 0) {
+            s->oamFlags = SPRITE_OAM_ORDER(5);
+            UpdateSpriteAnimation(s);
+            sub_802BE0C(s, tf);
+            DisplaySprite(s);
+        }
+    }
+}
+
+void sub_802D560(void)
+{
+    s32 var_r1;
+    u16(*var_r0)[2];
+
+    var_r0 = gUnknown_030056F0;
+    for (var_r1 = 0; var_r1 < 16; var_r1++) {
+        var_r0[var_r1][0] = 0;
+        var_r0[var_r1][1] = 0;
+    }
+}
+
+void TaskDestructor_802D578(struct Task *t)
+{
+    SpStage40 *strc40 = TASK_DATA(t);
+    EwramFree(strc40->mem);
+}
+
+u8 sub_802D58C(s16 param0)
+{
+    u8 var_r3;
+    for (var_r3 = 0; var_r3 < 16; var_r3++) {
+        if (gUnknown_03005670[var_r3] == INT16_MAX) {
+            gUnknown_03005670[var_r3] = param0;
+            break;
+        }
+
+        if (gUnknown_03005670[var_r3] == param0) {
+            break;
+        }
+    }
+
+    var_r3++;
+
+    return var_r3;
+}
+
+void SpStage_PlayRingSoundeffect(void)
+{
+    if (1 & gSpecialStageCollectedRings) {
+        MPlayStart(&gMPlayInfo_SE2, &se_ring_copy);
+        m4aMPlayImmInit(&gMPlayInfo_SE2);
+        m4aMPlayVolumeControl(&gMPlayInfo_SE2, 0xFFFFU, 0x80U);
+        m4aMPlayPanpotControl(&gMPlayInfo_SE2, 0xFFFFU, -0x40);
+    } else {
+        MPlayStart(&gMPlayInfo_SE1, &se_ring_copy);
+        m4aMPlayImmInit(&gMPlayInfo_SE1);
+        m4aMPlayVolumeControl(&gMPlayInfo_SE1, 0xFFFFU, 0x80U);
+        m4aMPlayPanpotControl(&gMPlayInfo_SE1, 0xFFFFU, 0x40);
+    }
+}
+
+void sub_802D66C(void) { TaskDestroy(gCurTask); }
+
+void sub_802D680(void)
+{
+    if (!(0x20 & gStageFlags) && (START_BUTTON & gPressedKeys) && !(0x40 & gStageFlags)) {
+        CreatePauseMenu();
+    }
+}
+
+void sub_802D6B4(Strc_3005690 *strc5690)
+{
+    if ((strc5690->unk42 & gPlayerControls.jump) && !(1 & strc5690->unk29)) {
+        strc5690->unk20 = 0x100;
+    } else {
+        if (!(2 & strc5690->unk29)) {
+            strc5690->unk20 = 0;
+        } else {
+            strc5690->unk20 = 0xFF00;
+        }
+    }
+}
+
+void sub_802D6FC(SpStage74 *strc74, Sprite *s)
+{
     u8 *temp_r1;
 
     s->graphics.dest = (gUnknown_084872C4[strc74->unk60] << 5) + OBJ_VRAM0;
@@ -2531,4 +2783,3 @@ void sub_802D6FC(SpStage74 *strc74, Sprite *s) {
     s->qAnimDelay = 0;
     s->animSpeed = SPRITE_ANIM_SPEED(1.0);
 }
-#endif
