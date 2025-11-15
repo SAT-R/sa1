@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <assert.h>
 #include <string.h> // memcpy
 #include "global.h"
 #include "gfx.h"
@@ -415,7 +416,7 @@ void WriteImage(char *path, int numTiles, int bitDepth, int metatileWidth, int m
             /* Split image into shapes */
             struct OamShape* head = FindOamShapes(image->width, image->height);
 
-#ifdef DEBUG
+#if 0
             /* Debug */
             printf("OAM Shapes (%d, %d):\n", image->width, image->height);
             struct OamShape* temp = head;
@@ -444,6 +445,7 @@ void WriteImage(char *path, int numTiles, int bitDepth, int metatileWidth, int m
 
                 curr = curr->next;
             }
+            assert(scratchBuffer != NULL);
             /* Copy the scratch buffer back into the original buffer */
             memcpy(buffer, scratchBuffer, bufferSize);
             
