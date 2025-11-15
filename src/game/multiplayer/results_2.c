@@ -23,16 +23,6 @@
 extern u8 gUnknown_087D7E80[0x3400];
 extern u8 gUnknown_087E3610[0x2000];
 
-#if (GAME == GAME_SA1)
-#define COMM_DATA(val) (val)
-#define MP_LANGUAGE    LOADED_SAVE->uiLanguage
-#define UNK_GFX_SIZE   0x1C0
-#elif (GAME == GAME_SA2)
-#define COMM_DATA(val) ((val) | 0x4000)
-#define MP_LANGUAGE    gMultiplayerLanguage
-#define UNK_GFX_SIZE   0x180
-#endif
-
 // TODO: Is this a "Sprite2" (Sprite with 2 hitboxes)?
 typedef struct MultiplayerSinglePakResultsScreen_UNK80 {
     Sprite unk0;

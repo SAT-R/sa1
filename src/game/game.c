@@ -109,7 +109,7 @@ void GameInit(void)
     }
 
     if (gFlags & FLAGS_NO_FLASH_MEMORY) {
-#if PORTABLE
+#if DEBUG
         CreateCharacterSelectionScreen(CHARACTER_TAILS);
 #else
         CreateSegaLogo();
@@ -140,7 +140,7 @@ void GameInit(void)
     // title screen
     if (gFlags & FLAGS_SKIP_INTRO) {
 #if (GAME == GAME_SA1)
-#if PORTABLE
+#if DEBUG
         CreateCharacterSelectionScreen(CHARACTER_TAILS);
 #else
         CreateTitleScreen(1);
@@ -153,7 +153,7 @@ void GameInit(void)
     }
 
 #if (GAME == GAME_SA1)
-#if PORTABLE
+#if DEBUG
     CreateCharacterSelectionScreen(CHARACTER_TAILS);
 #else
     CreateSegaLogo();
