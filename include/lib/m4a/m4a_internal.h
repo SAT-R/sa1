@@ -36,7 +36,11 @@
 #define SOUND_MODE_DA_BIT       0x00B00000
 #define SOUND_MODE_DA_BIT_SHIFT 20
 
+#if COLLECT_RINGS_ROM
+#define DEFAULT_SOUND_MODE (SOUND_MODE_DA_BIT_8 | SOUND_MODE_FREQ_07884 | (15 << SOUND_MODE_MASVOL_SHIFT) | (4 << SOUND_MODE_MAXCHN_SHIFT))
+#else
 #define DEFAULT_SOUND_MODE (SOUND_MODE_DA_BIT_8 | SOUND_MODE_FREQ_10512 | (15 << SOUND_MODE_MASVOL_SHIFT) | (5 << SOUND_MODE_MAXCHN_SHIFT))
+#endif
 
 #define TONEDATA_TYPE_CGB 0x07
 #define TONEDATA_TYPE_FIX 0x08
@@ -103,7 +107,6 @@
 struct MP2KTrack;
 struct MP2KPlayerState;
 
-typedef void (*MPlayFunc)();
 typedef void (*MP2KEventNoteFunc)(u8, struct MP2KPlayerState *, struct MP2KTrack *);
 typedef void (*MP2KEventFunc)(struct MP2KPlayerState *, struct MP2KTrack *);
 typedef void (*CgbSoundFunc)(void);
@@ -227,7 +230,7 @@ struct SoundMixerState {
     CgbSoundFunc CgbSound;
     CgbOscOffFunc CgbOscOff;
     MidiKeyToCgbFreqFunc MidiKeyToCgbFreq;
-    MPlayFunc *MPlayJumpTable;
+    void **MPlayJumpTable;
     MP2KEventNoteFunc plynote;
     ExtVolPitFunc ExtVolPit;
     void *reserved2;
@@ -366,7 +369,7 @@ typedef void (*XcmdFunc)(struct MP2KPlayerState *, struct MP2KTrack *);
 
 extern char SoundMainRAM[];
 extern u8 gMPlayMemAccArea[];
-extern MPlayFunc gMPlayJumpTable[];
+extern void *gMPlayJumpTable[];
 extern struct MixerSource gCgbChans[];
 
 extern const struct MusicPlayer gMPlayTable[NUM_MUSIC_PLAYERS_STATIC];
