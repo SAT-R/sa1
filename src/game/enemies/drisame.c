@@ -15,16 +15,11 @@ typedef struct {
     /* 0x60 */ Sprite s3;
     /* 0x90 */ s16 unk90;
     /* 0x92 */ s16 unk92;
-    /* 0x94 */ s16 unk94[2];
-    /* 0x98 */ u8 filler98[0x4];
-    /* 0x9C */ s16 unk9C[2];
-    /* 0xA0 */ u8 fillerA0[0x4];
-    /* 0xA4 */ s16 unkA4[2];
-    /* 0xA8 */ u8 fillerA8[0x4];
-    /* 0xAC */ s16 unkAC[2];
-    /* 0xB0 */ u8 fillerB0[0x4];
-    /* 0xB4 */ s16 qUnkB4[2];
-    /* 0xB6 */ u8 fillerB8[0x4];
+    /* 0x94 */ s16 unk94[4];
+    /* 0x9C */ s16 unk9C[4];
+    /* 0xA4 */ s16 unkA4[4];
+    /* 0xAC */ s16 unkAC[4];
+    /* 0xB4 */ s16 qUnkB4[4];
     /* 0xBC */ s8 unkBC;
     /* 0xBD */ bool8 shattered;
 } IceBlock;
@@ -243,7 +238,8 @@ struct Task *CreateIceBlock(s16 worldX, s16 worldY)
     iceBlock->unkBC = 0;
     iceBlock->shattered = FALSE;
 
-    for (i = 0; i < ARRAY_COUNT(iceBlock->unkAC); i++) {
+    // TODO: This array limit is weird.
+    for (i = 0; i < (s32)(ARRAY_COUNT(iceBlock->unkAC) / 2); i++) {
         iceBlock->qUnkB4[i] = -Q(1);
 
         if ((i % 2u) != 0) {
