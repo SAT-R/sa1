@@ -136,6 +136,9 @@ jobs:
         run: |
           make SDL2.dll
   
+      - name: Fetch assets
+        run: curl -o baserom_sa1.gba -u ${{ secrets.STORAGE_USERNAME }}:${{ secrets.STORAGE_PASSWORD }} ${{ secrets.STORAGE_URL }}/baserom.gba
+
       - name: ${{ matrix.platform }}
         run: |
           make -j${nproc} ${{ matrix.platform }}
