@@ -87,15 +87,14 @@ struct Strc_3006250 {
     u8 unk4[0x20];
 }; /* 0x24 */
 
-// TODO: Is this the correct module?
-void sub_8052C84(u8 *param0, Strc_8052C84 *param1);
-
 void sub_80535C8(struct Strc0 *inTask, u8 param1);
 
 void sub_80535FC(void);
 IwramData UiGfxStackInit(void);
 GraphicsData *UiGfxStackPop(void);
 void sub_80528AC(Strc_80528AC *strc);
+// TODO: Is this the correct module?
+void sub_8052C84(const char *param0, Strc_8052C84 *param1);
 void sub_8052F78(const char *param0, struct GameOverB *strc);
 void sub_80530CC(const char *param0, struct GameOverB *param1);
 void sub_8055C50(Strc_8055C50 *param0);

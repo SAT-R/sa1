@@ -143,7 +143,7 @@ END_NONMATCH
 NONMATCH("asm/non_matching/game/gTask_3006240__unused_8052B84.inc", void unused_8052B84(s32 param0, u16 param1, u16 param2, u8 param3)) { }
 END_NONMATCH
 
-void sub_8052C84(u8 *param0, Strc_8052C84 *param1)
+void sub_8052C84(const char *param0, Strc_8052C84 *param1)
 {
     Strc0 *strc0;
     u32 u8;
@@ -286,7 +286,7 @@ void sub_8052E40(u8 *param0, Strc_8052C84 *param1)
 NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052EF0.inc", void sub_8052EF0(s32 param0, Strc_8052C84 *param1))
 {
     s32 byteCount = 0;
-    u8 sp00[10];
+    char sp00[10];
     s32 i;
 
     param1->byteCount = byteCount;

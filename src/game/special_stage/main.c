@@ -1907,7 +1907,7 @@ END_NONMATCH
 // (73.95%) https://decomp.me/scratch/2UCbe
 NONMATCH("asm/non_matching/game/special_stage/sub_802BE0C.inc", void sub_802BE0C(Sprite *s, SpriteTransform *tf))
 {
-    s16 sp00[8];
+    u16 sp00[8];
     const SpriteOffset *dims;
     s8 temp_r7;
     u32 temp_r1;

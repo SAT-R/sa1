@@ -46,7 +46,6 @@ void TaskDestructor_GameOverScreen(struct Task *t);
 void TaskDestructor_8056F30(struct Task *t);
 
 // NOTE: param0[param1->byteCount (offset: 0xE)]
-extern void sub_8052C84(u8 *param0, Strc_8052C84 *param1);
 extern const u16 gUnknown_086883E4[10];
 extern const u8 gUnknown_086883F8[];
 
