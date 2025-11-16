@@ -269,7 +269,7 @@ void sub_8048524(Player *inPlayer)
     Player *p = inPlayer;
 #endif
     u8 rot;
-    u32 sp04;
+    s32 sp04;
     s32 offsetY;
 
     if ((gStageTime % 4u) == 0) {

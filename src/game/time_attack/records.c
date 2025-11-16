@@ -363,7 +363,7 @@ void sub_806BD24()
         overB->unkE = 1;
         overB->qUnkA = 0x2C;
         overB->unkC = (i * 0x10) + 0x5C;
-        sub_8052F78(&recs->unkFC[i], overB);
+        sub_8052F78((const char *)&recs->unkFC[i], overB);
 
         overB->unkE = 7;
         overB->qUnkA = 0x50;
