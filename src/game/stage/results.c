@@ -582,9 +582,9 @@ void Task_8057B74(void)
         }
     }
     if ((u32)(arg0->unk30 + DISPLAY_WIDTH) < arg0->unk1C) {
-        sub_8052F78(&gUnknown_0868841C[0], &arg0->unk0);
+        sub_8052F78((const char*)&gUnknown_0868841C[0], &arg0->unk0);
     } else {
-        sub_80530CC(&gUnknown_0868841C[0], &arg0->unk0);
+        sub_80530CC((const char*)&gUnknown_0868841C[0], &arg0->unk0);
     }
 }
 
@@ -619,7 +619,7 @@ void Task_8057C3C(void)
             arg0->unk0.qUnkA = var_r0;
             arg0->unk1E = Mod(arg0->unk1E + 1, 8);
         }
-        sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
+        sub_80530CC((const char*)&arr[arg0->unk1E], &arg0->unk0);
     } else if (temp_r1 >= 50) {
         arg0->unk0.unkC = 0x2C;
         arg0->unk0.qUnkA -= Q(2. / 256.);
@@ -629,7 +629,7 @@ void Task_8057C3C(void)
             arg0->unk1E = Mod(arg0->unk1E + 1, 8);
         }
 
-        sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
+        sub_80530CC((const char*)&arr[arg0->unk1E], &arg0->unk0);
     } else if (temp_r1 >= 36) {
         arg0->unk0.unkC -= 6;
         arg0->unk0.qUnkA -= Q(2. / 256.);
@@ -639,7 +639,7 @@ void Task_8057C3C(void)
             arg0->unk1E = Mod(arg0->unk1E + 1, 8);
         }
 
-        sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
+        sub_80530CC((const char*)&arr[arg0->unk1E], &arg0->unk0);
     } else if (temp_r1 >= 26) {
         arg0->unk0.qUnkA -= Q(2. / 256.);
         arg0->unk0.unkE = 9;
@@ -649,7 +649,7 @@ void Task_8057C3C(void)
             arg0->unk1E = Mod(arg0->unk1E + 1, 8);
         }
 
-        sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
+        sub_80530CC((const char*)&arr[arg0->unk1E], &arg0->unk0);
     } else if (temp_r1 >= 16) {
         arg0->unk0.qUnkA -= Q(28. / 256.);
 
@@ -659,7 +659,7 @@ void Task_8057C3C(void)
                 arg0->unk0.qUnkA += Q(32. / 256.);
                 arg0->unk1E = Mod(arg0->unk1E + 1, 8);
             }
-            sub_80530CC(&arr[arg0->unk1E], &arg0->unk0);
+            sub_80530CC((const char*)&arr[arg0->unk1E], &arg0->unk0);
         }
     }
 }
@@ -722,7 +722,7 @@ void Task_8057D30(void)
         arg0->unk0.unkC = 0x66;
 
         if (arg0->unk0.qUnkA >= -80) {
-            sub_80530CC(arg0->unk20, &arg0->unk0);
+            sub_80530CC((const char*)arg0->unk20, &arg0->unk0);
         }
 
         arg0->unk0.unk10 = 0;
@@ -734,7 +734,7 @@ void Task_8057D30(void)
                 s32 v = var_r7_2 - 50;
                 arg0->unk0.qUnkA = (var_r6 * 8) - v;
                 if (arg0->unk0.qUnkA >= -8) {
-                    sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
+                    sub_80530CC((const char*)&arg0->unk20[var_r6], &arg0->unk0);
                 }
             }
         }
@@ -744,7 +744,7 @@ void Task_8057D30(void)
         arg0->unk0.unkE = 0xA;
         arg0->unk0.qUnkA = 0x32;
         arg0->unk0.unkC = 0x66;
-        sub_80530CC(arg0->unk20, &arg0->unk0);
+        sub_80530CC((const char*)arg0->unk20, &arg0->unk0);
 
         for (var_r6 = 11; (var_r6 < 15); var_r6++) {
             if (arg0->unk20[var_r6] != 0x2B)
@@ -755,7 +755,7 @@ void Task_8057D30(void)
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 16 - var_r6;
         arg0->unk0.qUnkA = (var_r6 * 8) - (var_r7_2 -= 50);
-        sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
+        sub_80530CC((const char*)&arg0->unk20[var_r6], &arg0->unk0);
     } else {
         s32 var_sb = (u8)Div(sp0, 2);
         if ((u32)var_sb > 16) {
@@ -809,7 +809,7 @@ void Task_8057D30(void)
                 arg0->unk0.unkE = var_sl - var_r6;
                 arg0->unk0.unkC = 0x66;
                 arg0->unk0.qUnkA = (var_r6 * 8) + 0x32;
-                sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
+                sub_80530CC((const char*)&arg0->unk20[var_r6], &arg0->unk0);
                 var_sl = 11;
             }
 
@@ -818,7 +818,7 @@ void Task_8057D30(void)
             arg0->unk0.unkE = var_sl;
             arg0->unk0.unkC = 0x66;
             arg0->unk0.qUnkA = 0x32;
-            sub_80530CC(arg0->unk20, &arg0->unk0);
+            sub_80530CC((const char*)arg0->unk20, &arg0->unk0);
         }
     }
 }
@@ -878,7 +878,7 @@ void Task_805803C(void)
         arg0->unk0.unkC = 80;
 
         if (arg0->unk0.qUnkA >= -80) {
-            sub_80530CC(arg0->unk20, &arg0->unk0);
+            sub_80530CC((const char*)arg0->unk20, &arg0->unk0);
         }
 
         arg0->unk0.unk10 = 0;
@@ -890,7 +890,7 @@ void Task_805803C(void)
                 s32 v = var_r7_2 - 50;
                 arg0->unk0.qUnkA = (var_r6 * 8) - v;
                 if (arg0->unk0.qUnkA >= -8) {
-                    sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
+                    sub_80530CC((const char*)&arg0->unk20[var_r6], &arg0->unk0);
                 }
             }
         }
@@ -900,7 +900,7 @@ void Task_805803C(void)
         arg0->unk0.unkE = 0xA;
         arg0->unk0.qUnkA = 0x32;
         arg0->unk0.unkC = 80;
-        sub_80530CC(arg0->unk20, &arg0->unk0);
+        sub_80530CC((const char*)arg0->unk20, &arg0->unk0);
 
         for (var_r6 = 11; (var_r6 < 15); var_r6++) {
             if (arg0->unk20[var_r6] != 0x2B)
@@ -911,7 +911,7 @@ void Task_805803C(void)
         arg0->unk0.unk12 = 6;
         arg0->unk0.unkE = 16 - var_r6;
         arg0->unk0.qUnkA = (var_r6 * 8) - (var_r7_2 -= 50);
-        sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
+        sub_80530CC((const char*)&arg0->unk20[var_r6], &arg0->unk0);
     } else {
         s32 var_sb = (u8)Div(sp0, 2);
         if ((u32)var_sb > 16) {
@@ -962,7 +962,7 @@ void Task_805803C(void)
                 arg0->unk0.unkE = var_sl - var_r6;
                 arg0->unk0.unkC = 80;
                 arg0->unk0.qUnkA = (var_r6 * 8) + 0x32;
-                sub_80530CC(&arg0->unk20[var_r6], &arg0->unk0);
+                sub_80530CC((const char*)&arg0->unk20[var_r6], &arg0->unk0);
                 var_sl = 11;
             }
 
@@ -971,7 +971,7 @@ void Task_805803C(void)
             arg0->unk0.unkE = var_sl;
             arg0->unk0.unkC = 80;
             arg0->unk0.qUnkA = 0x32;
-            sub_80530CC(arg0->unk20, &arg0->unk0);
+            sub_80530CC((const char*)arg0->unk20, &arg0->unk0);
         }
     }
 }
