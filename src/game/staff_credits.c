@@ -15,7 +15,15 @@
 #include "constants/vram_hardcoded.h"
 
 extern const u8 gUnknown_0868483C[0x500];
-extern const u16 gUnknown_086886A0[12];
+
+const ALIGNED(4) u16 gUnknown_086886A0[12] = {
+    22,  0, //
+    79,  0, //
+    139, 0, //
+    322, 0, //
+    322, 0, //
+    322, 0, //
+};
 
 typedef struct StaffCredits {
     /* 0x00 */ Sprite s;

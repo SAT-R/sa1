@@ -12,6 +12,7 @@
 
 #include "constants/ui_graphics.h"
 #include "constants/vram_hardcoded.h"
+#include "constants/songs.h"
 #include "constants/zones.h"
 
 typedef struct Game_2_1_2C {
@@ -60,12 +61,6 @@ void sub_805D4F0(void);
 void TaskDestructor_805E1E4(struct Task *t);
 
 extern u8 gUnknown_08487134[NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE];
-extern const char gUnknown_08688688[1]; // TODO: Inline as string!
-extern const char gUnknown_0868868C[3]; // TODO: Inline as string!
-extern const char gUnknown_08688690[3]; // TODO: Inline as string!
-extern const char gUnknown_08688694[3]; // TODO: Inline as string!
-extern const char gUnknown_08688698[3]; // TODO: Inline as string!
-extern const char gUnknown_0868869C[3]; // TODO: Inline as string!
 
 void sub_805C900(u8 arg0)
 {
@@ -303,7 +298,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     gBgScrollRegs[3][1] = 0;
 
     if (gSpecialStageCollectedRings >= gSpecialStageTargetRings) {
-        m4aSongNumStart(0x2FU);
+        m4aSongNumStart(MUS_047);
         sp24 = 1;
         sp20 = 0x2710;
         if (GetBit(LOADED_SAVE->chaosEmeralds, gUnknown_08487134[gCurrentLevel])) {
@@ -313,7 +308,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
             var_r8 = 0;
         }
     } else {
-        m4aSongNumStart(0x2EU);
+        m4aSongNumStart(MUS_SPECIAL_STAGE_RESULT_LOSE);
         var_r8 = 0;
         sp24 = 0;
         sp20 = 0;
@@ -831,7 +826,7 @@ void sub_805D9E4()
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = (0xBB - var_r6);
-                sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
+                sub_8052F78(" ", &strc34->u.overB);
             }
         } else {
             s32 divResB = Div((s32)strc34->u.strc0.unk2, 25);
@@ -845,7 +840,7 @@ void sub_805D9E4()
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = 0xB7U;
-                sub_8052C84((const char *)&gUnknown_08688688[0], &strc34->u.strc0);
+                sub_8052C84(" ", &strc34->u.strc0);
             }
         }
         strc34->u.strc0.unkA = temp_r7;
@@ -874,7 +869,7 @@ void Task_805DB04(void)
             strc34->u.overB.unkE = 0;
             strc34->u.overB.qUnkA = -0x80;
         } else {
-            sub_8052F78((const char *)&gUnknown_0868868C[0], &strc34->u.overB);
+            sub_8052F78("&'(", &strc34->u.overB);
         }
 
         sub_805D9E4();
@@ -885,11 +880,11 @@ void Task_805DB04(void)
             strc34->u.strc0.unk2 = 0x100;
             strc34->u.strc0.unkA = 0x29;
             strc34->u.strc0.unkC = 0x6D;
-            sub_8052F78((const char *)&gUnknown_0868868C[0], &strc34->u.overB);
+            sub_8052F78("&'(", &strc34->u.overB);
         } else {
             strc34->u.strc0.unkA = 0x19U;
             strc34->u.strc0.unkC = (0x77 - (strc34->u.strc0.unk2 >> 4));
-            sub_8052C84((const char *)&gUnknown_0868868C[0], &strc34->u.strc0);
+            sub_8052C84("&'(", &strc34->u.strc0);
         }
 
         sub_805D9E4();
@@ -902,7 +897,7 @@ void Task_805DB04(void)
             strc34->u.strc0.unk2 = 0x100;
         }
 
-        sub_8052C84((const char *)&gUnknown_0868868C[0], &strc34->u.strc0);
+        sub_8052C84("&'(", &strc34->u.strc0);
         sub_805D9E4();
     }
 }
@@ -955,7 +950,7 @@ void sub_805DBF0(void)
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = (0xBB - var_r6);
-                sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
+                sub_8052F78(" ", &strc34->u.overB);
             }
         } else {
             s32 divResB = Div((s32)strc34->u.strc0.unk2, 25);
@@ -969,7 +964,7 @@ void sub_805DBF0(void)
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = 0xB7U;
-                sub_8052C84((const char *)&gUnknown_08688688[0], &strc34->u.strc0);
+                sub_8052C84(" ", &strc34->u.strc0);
             }
         }
         strc34->u.strc0.unkA = temp_r7;
@@ -998,7 +993,7 @@ void Task_805DD10(void)
                 strc34->u.overB.unkE = 0;
                 strc34->u.overB.qUnkA = -0x80;
             } else {
-                sub_8052F78((const char *)&gUnknown_08688690[0], &strc34->u.overB);
+                sub_8052F78("#$%", &strc34->u.overB);
             }
 
             sub_805DBF0();
@@ -1009,11 +1004,11 @@ void Task_805DD10(void)
                 strc34->u.strc0.unk2 = 0x100;
                 strc34->u.strc0.unkA = 0x29;
                 strc34->u.strc0.unkC = 0x5B;
-                sub_8052F78((const char *)&gUnknown_08688690[0], &strc34->u.overB);
+                sub_8052F78("#$%", &strc34->u.overB);
             } else {
                 strc34->u.strc0.unkA = 0x19U;
                 strc34->u.strc0.unkC = (0x65 - (strc34->u.strc0.unk2 >> 4));
-                sub_8052C84((const char *)&gUnknown_08688690[0], &strc34->u.strc0);
+                sub_8052C84("#$%", &strc34->u.strc0);
             }
 
             sub_805DBF0();
@@ -1026,7 +1021,7 @@ void Task_805DD10(void)
                 strc34->u.strc0.unk2 = 0x100;
             }
 
-            sub_8052C84((const char *)&gUnknown_08688690[0], &strc34->u.strc0);
+            sub_8052C84("#$%", &strc34->u.strc0);
             sub_805DBF0();
         }
     }
@@ -1080,7 +1075,7 @@ void sub_805DE0C(void)
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = (0xBB - var_r6);
-                sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
+                sub_8052F78(" ", &strc34->u.overB);
             }
         } else {
             s32 divResB = Div((s32)strc34->u.strc0.unk2, 25);
@@ -1094,7 +1089,7 @@ void sub_805DE0C(void)
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = 0xB7U;
-                sub_8052C84((const char *)&gUnknown_08688688[0], &strc34->u.strc0);
+                sub_8052C84(" ", &strc34->u.strc0);
             }
         }
         strc34->u.strc0.unkA = temp_r7;
@@ -1122,7 +1117,7 @@ void Task_805DF2C(void)
             strc34->u.overB.unkE = 0;
             strc34->u.overB.qUnkA = -0x80;
         } else {
-            sub_8052F78((const char *)&gUnknown_08688694[0], &strc34->u.overB);
+            sub_8052F78(" !\"", &strc34->u.overB);
         }
 
         sub_805DE0C();
@@ -1133,11 +1128,11 @@ void Task_805DF2C(void)
             strc34->u.strc0.unk2 = 0x100;
             strc34->u.strc0.unkA = 0x29;
             strc34->u.strc0.unkC = 0x49;
-            sub_8052F78((const char *)&gUnknown_08688694[0], &strc34->u.overB);
+            sub_8052F78(" !\"", &strc34->u.overB);
         } else {
             strc34->u.strc0.unkA = 0x19U;
             strc34->u.strc0.unkC = (0x53 - (strc34->u.strc0.unk2 >> 4));
-            sub_8052C84((const char *)&gUnknown_08688694[0], &strc34->u.strc0);
+            sub_8052C84(" !\"", &strc34->u.strc0);
         }
 
         sub_805DE0C();
@@ -1150,7 +1145,7 @@ void Task_805DF2C(void)
             strc34->u.strc0.unk2 = 0x100;
         }
 
-        sub_8052C84((const char *)&gUnknown_08688694[0], &strc34->u.strc0);
+        sub_8052C84(" !\"", &strc34->u.strc0);
         sub_805DE0C();
     }
 }
@@ -1189,13 +1184,13 @@ void sub_805E018()
                 if (GetBit(strc34->unk29, i)) {
                     strc34->u.overB.unk12 = (u16)(0xD - (i >> 1));
                     if (i & 1) {
-                        sub_8052F78((void *)&gUnknown_08688698[0], &strc34->u.overB);
+                        sub_8052F78("!", &strc34->u.overB);
                     } else {
-                        sub_8052F78((void *)&gUnknown_08688688[0], &strc34->u.overB);
+                        sub_8052F78(" ", &strc34->u.overB);
                     }
                 } else {
                     strc34->u.overB.unk12 = 0xB;
-                    sub_8052F78((void *)&gUnknown_0868869C[0], &strc34->u.overB);
+                    sub_8052F78("\"", &strc34->u.overB);
                 }
             }
         }
@@ -1205,13 +1200,13 @@ void sub_805E018()
             if ((strc34->unk29 >> i) & 1) {
                 strc34->u.overB.unk12 = (13 - (i >> 1));
                 if (i & 1) {
-                    sub_8052F78((const char *)&gUnknown_08688698[0], &strc34->u.overB);
+                    sub_8052F78("!", &strc34->u.overB);
                 } else {
-                    sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
+                    sub_8052F78(" ", &strc34->u.overB);
                 }
             } else {
                 strc34->u.overB.unk12 = 0xB;
-                sub_8052F78((const char *)&gUnknown_0868869C[0], &strc34->u.overB);
+                sub_8052F78("\"", &strc34->u.overB);
             }
         }
     } else if (temp_r1 > 0x31U) {
@@ -1228,13 +1223,13 @@ void sub_805E018()
                 if ((strc34->unk29 >> i) & 1) {
                     strc34->u.overB.unk12 = (u16)(0xD - (i >> 1));
                     if (i & 1) {
-                        sub_8052F78((const char *)&gUnknown_08688698[0], &strc34->u.overB);
+                        sub_8052F78("!", &strc34->u.overB);
                     } else {
-                        sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
+                        sub_8052F78(" ", &strc34->u.overB);
                     }
                 } else {
                     strc34->u.overB.unk12 = 0xB;
-                    sub_8052F78((const char *)&gUnknown_0868869C[0], &strc34->u.overB);
+                    sub_8052F78("\"", &strc34->u.overB);
                 }
             }
         }
