@@ -523,7 +523,7 @@ NONMATCH("asm/non_matching/game/interactables/red_flag__sub_80780B4.inc",
         }
 
         if (!(p->moveState & MOVESTATE_4) && (p->qSpeedGround <= +Q(3))) {
-            if ((p->qSpeedGround > Q(5.25)) && (!p->moveState & MOVESTATE_FACING_LEFT)) {
+            if ((p->qSpeedGround > Q(5.25)) && !(p->moveState & MOVESTATE_FACING_LEFT)) {
                 Player_TransitionCancelFlyingAndBoost(p);
                 m4aSongNumStart(SE_POLE);
                 p->qWorldX = qWorldX;
