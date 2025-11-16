@@ -221,7 +221,6 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__sub_800FD9C.inc", void su
     u32 i = 0;
     u32 r3;
     bool32 r6;
-    u8 *ptrA, *ptrB;
 
     struct MultiplayerScore *inScore = &data->mps;
 
@@ -235,7 +234,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__sub_800FD9C.inc", void su
         } else {
             // _0800FDD8
             while (++r3 < 12) {
-                if (data->mps.playerName[r3] != score->playerName[r3]) {
+                if (data->mps.data.split.playerName[r3] != score->data.split.playerName[r3]) {
                     r6 = FALSE;
                     break;
                 }
@@ -262,15 +261,25 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__sub_800FD9C.inc", void su
         LOADED_SAVE->multiplayerScores[i] = LOADED_SAVE->multiplayerScores[i - 1];
     }
 
-    ptrB = (u8 *)&inScore;
-    ptrA = (u8 *)&LOADED_SAVE->multiplayerScores[0];
-    for (i = 0; i < 12; i++) {
-        *ptrA++ = *ptrB++;
+#ifndef NON_MATCHING
+    {
+        u8 *ptrA, *ptrB;
+        ptrB = (u8 *)&inScore;
+        ptrA = (u8 *)&LOADED_SAVE->multiplayerScores[0];
+        for (i = 0; i < 12; i++) {
+            *ptrA++ = *ptrB++;
+        }
     }
+#else
+    // This is both less error-prone and removes compile errors on modern compilers
+    LOADED_SAVE->multiplayerScores[0].playerId = inScore->playerId;
+    memcpy(LOADED_SAVE->multiplayerScores[0].data.split.playerName, inScore->data.split.playerName,
+           sizeof(LOADED_SAVE->multiplayerScores[0].data.split.playerName));
+#endif
 
-    LOADED_SAVE->multiplayerScores[0].wins = 0;
-    LOADED_SAVE->multiplayerScores[0].losses = 0;
-    LOADED_SAVE->multiplayerScores[0].draws = 0;
+    LOADED_SAVE->multiplayerScores[0].data.split.wins = 0;
+    LOADED_SAVE->multiplayerScores[0].data.split.losses = 0;
+    LOADED_SAVE->multiplayerScores[0].data.split.draws = 0;
 }
 END_NONMATCH
 

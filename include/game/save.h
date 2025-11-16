@@ -29,14 +29,25 @@ struct TimeRecords {
     TimeRecord table[NUM_CHARACTERS][NUM_LEVEL_IDS][TIME_RECORDS_PER_COURSE];
 };
 
-struct MultiplayerScore {
-    u32 playerId;
+// This is split off because of some code accessing the data as an array.
+// Modern compilers don't like that (for good reason!)
+typedef struct MultiplayerScoreDataSplit {
     // TODO/NOTE: Only 6 chars are displayed, but the string is treated 8-char wide
     PlayerNameChar playerName[MAX_PLAYER_NAME_LENGTH + 2];
 
     u8 wins;
     u8 losses;
     u8 draws;
+} MultiplayerScoreDataSplit;
+
+typedef union {
+    MultiplayerScoreDataSplit split;
+    u8 raw[sizeof(MultiplayerScoreDataSplit)];
+} MultiplayerScoreData;
+
+struct MultiplayerScore {
+    u32 playerId;
+    MultiplayerScoreData data;
 };
 
 #define NUM_TIME_RECORD_ROWS (NUM_TIME_ATTACK_ZONES * ACTS_PER_ZONE * NUM_CHARACTERS * TIME_RECORDS_PER_COURSE)

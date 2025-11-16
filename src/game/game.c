@@ -179,9 +179,9 @@ void CreateEmptySaveGame(void)
     for (i = 0; i < 10; i++) {
         u32 charIndex;
 
-        LOADED_SAVE->multiplayerScores[i].wins |= 0xFF;
-        for (charIndex = 0; charIndex < (s32)ARRAY_COUNT(LOADED_SAVE->multiplayerScores[i].playerName); charIndex++) {
-            LOADED_SAVE->multiplayerScores[i].playerName[charIndex] = ' ';
+        LOADED_SAVE->multiplayerScores[i].data.split.wins |= 0xFF;
+        for (charIndex = 0; charIndex < (s32)ARRAY_COUNT(LOADED_SAVE->multiplayerScores[i].data.split.playerName); charIndex++) {
+            LOADED_SAVE->multiplayerScores[i].data.split.playerName[charIndex] = ' ';
         }
     }
 

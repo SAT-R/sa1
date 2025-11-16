@@ -404,11 +404,11 @@ NONMATCH("asm/non_matching/game/multiplayer/unk_1__Task_801D200.inc", void Task_
                 }
                 sub_8052F78(&LOADED_SAVE->playerName[nameChar], overB);
             } else {
-                u8 character = LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].playerName[nameChar] - 0x70u;
+                u8 character = LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].data.split.playerName[nameChar] - 0x70u;
                 if (character < 0x1A) {
                     overB->unkC += 8;
                 }
-                sub_8052F78(&LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].playerName[nameChar], overB);
+                sub_8052F78(&LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].data.split.playerName[nameChar], overB);
             }
         }
     }
