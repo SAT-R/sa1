@@ -25,15 +25,15 @@ void Task_8055B18(void);
 void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
 
-extern const u8 gUnknown_08688378[];
-extern const u8 gUnknown_08688386[];
-extern const u8 gUnknown_08688394[];
-extern const u8 gUnknown_08688398[];
-extern const u8 gUnknown_086883AC[];
-extern const u8 gUnknown_086883B0[];
-extern const u8 gUnknown_086883B8[];
-extern const u8 gUnknown_086883C4[];
-extern const u8 gUnknown_086883CC[24];
+extern const s8 gUnknown_08688378[];
+extern const s8 gUnknown_08688386[];
+extern const s8 gUnknown_08688394[];
+extern const s8 gUnknown_08688398[];
+extern const s8 gUnknown_086883AC[];
+extern const s8 gUnknown_086883B0[];
+extern const s8 gUnknown_086883B8[];
+extern const s8 gUnknown_086883C4[];
+extern const s8 gUnknown_086883CC[24];
 
 /* TODO: Different module? */
 bool32 sub_80549FC(void)
