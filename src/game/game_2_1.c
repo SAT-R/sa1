@@ -270,7 +270,7 @@ void sub_805C994(u8 arg0)
     sub_80528AC(&gfx);
 }
 
-// (91.53%) https://decomp.me/scratch/GJc3f
+// (91.64%) https://decomp.me/scratch/oLMqr
 NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 arg0))
 {
     struct Task *task18;
@@ -440,7 +440,8 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     temp_r2->unk18 = sp20;
     temp_r2->unk1C = 0;
 
-    temp_r2 = TASK_DATA(TaskCreate(Task_805DF2C, sizeof(Game_2_1_34), 0x2120U, 0U, NULL));
+    task14 = TaskCreate(Task_805DF2C, sizeof(Game_2_1_34), 0x2120U, 0U, NULL);
+    temp_r2 = TASK_DATA(task14);
     temp_r2->unk20 = 0;
     temp_r2->unk22 = var_r7;
     temp_r2->unk24 = 0;
