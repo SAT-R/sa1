@@ -28,9 +28,10 @@ jobs:
         run: |
           make check_format
 
-  build:
+  build-gba:
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork || github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.fork}} 
     runs-on: ubuntu-22.04
+    name: Build GBA (Europe)
     steps:
       - name: Checkout PR
         if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target'}} 
@@ -57,11 +58,8 @@ jobs:
 
       - name: Install tools
         run: |
-          sudo apt update && sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi xorg-dev
+          sudo apt update && sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi
           python3 -m pip install gitpython
-        # build-essential, git, and libpng-dev are already installed
-        # gcc-arm-none-eabi is only needed for the modern build
-        # as an alternative to dkP
 
       - name: Install agbcc
         run: |
@@ -99,3 +97,72 @@ jobs:
           cwd: "./gh-pages"
           add: "reports maps"
           message: ${{ env.REPORTS_COMMIT_MSG }}
+
+#
+# Space for other regional variants
+#
+
+  ports:
+    strategy:
+      matrix: 
+        platform: ["sdl", "sdl_win32", "win32"]
+        os: ["ubuntu-22.04", "macos-15"]
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork || github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.fork}} 
+    runs-on: ${{ matrix.os }}
+    name: Build ${{ matrix.platform }} (${{ matrix.os }})
+    steps:
+      - name: Checkout PR
+        if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target'}} 
+        uses: actions/checkout@master
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Checkout
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/checkout@master
+
+      - name: Install tools (Linux)
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        run: |
+          sudo apt update && sudo apt install xorg-dev libsdl2-dev gcc-mingw-w64 libarchive-tools
+
+      - name: Install Tools (Macos)
+        if: ${{ matrix.os == 'macos-15' }}
+        run: |
+          brew install libpng sdl2 mingw-w64 arm-none-eabi-gcc
+  
+      - name: Install SDL for win32
+        if: ${{ matrix.platform == 'sdl_win32' }}
+        run: |
+          make SDL2.dll
+  
+      - name: ${{ matrix.platform }}
+        run: |
+          make -j${nproc} ${{ matrix.platform }}
+
+#
+# Space for TAS test
+#
+
+  level_editor:
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork || github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.fork}} 
+    runs-on: ubuntu-22.04
+    name: Level editor (BriBaSA)
+    steps:
+      - name: Checkout PR
+        if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target'}} 
+        uses: actions/checkout@master
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Checkout
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/checkout@master
+
+      - name: Install deps
+        run: |
+          sudo apt update && sudo apt install xorg-dev libsdl2-dev
+  
+      - name: Build
+        run: |
+          make -j${nproc} bribasa
