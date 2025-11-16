@@ -209,7 +209,12 @@ void CreateDecorationDebris(s16 vecX, s16 vecY)
 
     /* Sprite/Transform 3 */
     s = &debris->s3;
-    DmaCopy16(3, tf, (tf = &debris->transform3), sizeof(debris->transform3));
+#ifndef NON_MATCHING
+    DmaCopy16(3, tf, (tf = &debris->transform3), sizeof(*tf));
+#else
+    DmaCopy16(3, tf, &debris->transform3, sizeof(*tf));
+    tf = &debris->transform3;
+#endif
 
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_ROCK_DEBRIS_L);
     s->oamFlags = SPRITE_OAM_ORDER(8);
