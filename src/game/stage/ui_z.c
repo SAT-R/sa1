@@ -25,15 +25,15 @@ void Task_8055B18(void);
 void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
 
-extern const s8 gUnknown_08688378[];
-extern const s8 gUnknown_08688386[];
-extern const s8 gUnknown_08688394[];
-extern const s8 gUnknown_08688398[];
-extern const s8 gUnknown_086883AC[];
-extern const s8 gUnknown_086883B0[];
-extern const s8 gUnknown_086883B8[];
-extern const s8 gUnknown_086883C4[];
-extern const s8 gUnknown_086883CC[24];
+extern const char gUnknown_08688378[];
+extern const char gUnknown_08688386[];
+extern const char gUnknown_08688394[];
+extern const char gUnknown_08688398[];
+extern const char gUnknown_086883AC[];
+extern const char gUnknown_086883B0[];
+extern const char gUnknown_086883B8[];
+extern const char gUnknown_086883C4[];
+extern const char gUnknown_086883CC[24];
 
 /* TODO: Different module? */
 bool32 sub_80549FC(void)
@@ -594,7 +594,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
         s32 r5 = 0;
         s16 r6 = -Div((strc->unk18 - 215) << 7, 10);
         s16 r8 = r6;
-        const char *r7 = &gUnknown_08688394[0];
+        const char *r7 = gUnknown_08688394;
 
         for (; r5 < 4; r8 += 0x20, r6 += 0x20, r7++, r5++) {
             strc->unk0.unkC = r6;
@@ -612,7 +612,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
         // _08055826 + 0x4
         s32 r5 = 0;
 
-        const char *r6 = &gUnknown_08688394[0];
+        const char *r6 = gUnknown_08688394;
 
         for (; r5 < 4; r6++, r5++) {
             strc->unk0.unkC = r5 * 32;

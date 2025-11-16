@@ -611,7 +611,7 @@ void Task_8056714(void)
         overB0->unk0.qUnkA = 0;
     }
 
-    sub_80530CC(&gUnknown_086883F8[0], &overB0->unk0);
+    sub_80530CC((const char *)&gUnknown_086883F8[0], &overB0->unk0);
 
     if (unk18 >= 182) {
         gCurTask->main = Task_8056F80;
@@ -655,7 +655,7 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
             sp00.unk2 = 256;
             sp00.unk4 = 0;
             sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
-            sub_8052C84(&*ptrArr, &sp00);
+            sub_8052C84((const char *)&*ptrArr, &sp00);
         }
     } else if (temp > 20) {
         temp -= 20;
@@ -665,7 +665,7 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
         sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
         sp00.unkA = 104;
         sp00.unkC = 83;
-        sub_8052C84(&*ptrArr, &sp00);
+        sub_8052C84((const char *)&*ptrArr, &sp00);
     } else {
         sp00.unkA = (temp * 116) / 20;
 
@@ -674,7 +674,7 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
             sp00.unk2 = 256;
             sp00.unk4 = 0;
             sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
-            sub_8052C84(arr, &sp00);
+            sub_8052C84((const char *)arr, &sp00);
         }
     }
 
@@ -745,7 +745,7 @@ void Task_8056970(void)
             sp00.unk2 = 256;
             sp00.unk4 = 0;
             sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
-            sub_8052C84(&*ptrArr, &sp00);
+            sub_8052C84((const char *)&*ptrArr, &sp00);
         }
     } else if (temp > 20) {
         temp -= 20;
@@ -755,7 +755,7 @@ void Task_8056970(void)
         sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
         sp00.unkA = 88;
         sp00.unkC = 68;
-        sub_8052C84(&*ptrArr, &sp00);
+        sub_8052C84((const char *)&*ptrArr, &sp00);
     } else {
         sp00.unkA = (temp * 116) / 20;
 
@@ -764,7 +764,7 @@ void Task_8056970(void)
             sp00.unk2 = 256;
             sp00.unk4 = 0;
             sp00.unk6 = SA2_LABEL(gUnknown_030054B8)++;
-            sub_8052C84(arr, &sp00);
+            sub_8052C84((const char *)arr, &sp00);
         }
     }
 
@@ -1007,7 +1007,7 @@ void Task_8056F80(void)
     GameOverB0 *overB0 = TASK_DATA(gCurTask);
     s16 unk18 = overB0->unk18;
 
-    sub_80530CC(&gUnknown_086883F8[0], &overB0->unk0);
+    sub_80530CC((const char *)&gUnknown_086883F8[0], &overB0->unk0);
 }
 
 void Task_8056FA0(void)

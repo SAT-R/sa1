@@ -31,15 +31,8 @@ void Task_8055B18(void);
 void TaskDestructor_8055C38(struct Task *);
 void TaskDestructor_StrcUI28_8055C4C(struct Task *);
 
-extern const u8 gUnknown_0865F174[];
-extern const u8 gUnknown_0865F178[];
-
-extern const u8 gUnknown_08688394[];
-extern const u8 gUnknown_086883AC[];
-extern const u8 gUnknown_086883B0[];
-extern const u8 gUnknown_086883B8[];
-extern const u8 gUnknown_086883C4[];
-extern const u8 gUnknown_086883CC[16];
+extern const char gUnknown_0865F174[];
+extern const char gUnknown_0865F178[];
 
 #if 0
 // NOTE: In SA2 gMillisUnpackTable and gSecondsTable are stored as their literal values.
@@ -93,7 +86,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_StageUIMain.inc", void Task_Stage
     overB.unk12 = 6;
     overB.unk16 = 1;
 
-    sub_80530CC(&gUnknown_0865F178[0], &overB);
+    sub_80530CC((const char *)&gUnknown_0865F178[0], &overB);
 
     if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
         // Lives Character Icon
@@ -102,7 +95,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_StageUIMain.inc", void Task_Stage
         overB.unk10 = 1;
 
         overB.unk12 = gSelectedCharacter;
-        sub_80530CC(&gUnknown_0865F178[0], &overB);
+        sub_80530CC((const char *)&gUnknown_0865F178[0], &overB);
     }
 
     ui = TASK_DATA(gCurTask);
@@ -340,7 +333,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
 
         if (gRingCount == 0) {
             u8 r4 = r7 + 1;
-            sub_80530CC(&gUnknown_0865F174[r7 >> 3], &overB);
+            sub_80530CC((const char *)&gUnknown_0865F174[r7 >> 3], &overB);
 
             r4 %= 32u;
 
@@ -351,12 +344,12 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
     } else if (gRingCount <= 99) {
         overB.qUnkA = 5;
         overB.unkE = 2;
-        sub_80530CC(&ui->digitsRings[1], &overB);
+        sub_80530CC((const char *)&ui->digitsRings[1], &overB);
     } else {
         // _08053C5C
         overB.qUnkA = 1;
         overB.unkE = 3;
-        sub_80530CC(&ui->digitsRings[0], &overB);
+        sub_80530CC((const char *)&ui->digitsRings[0], &overB);
     }
     // _08053C6C
 
@@ -373,12 +366,12 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
         s32 r1;
         overB.unkE = (r1 = 9 - i);
         overB.qUnkA = 0x51 - (r1 * 8);
-        sub_80530CC(&ptr[i], &overB);
+        sub_80530CC((const char *)&ptr[i], &overB);
     } else {
         // _08053CBC
         overB.unkE = 1;
         overB.qUnkA = 73;
-        sub_80530CC(&gUnknown_0865F178[0], &overB);
+        sub_80530CC((const char *)&gUnknown_0865F178[0], &overB);
     }
     // _08053CCC
 
@@ -386,7 +379,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
     overB.qUnkA = 0x19;
     overB.unkC = 12;
     overB.unkE = 7;
-    sub_80530CC(ptr, &overB);
+    sub_80530CC((const char *)ptr, &overB);
 
     if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
         // Num Lives
@@ -394,7 +387,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
         overB.qUnkA = 22;
         overB.unkC = DISPLAY_HEIGHT - 17;
         overB.unkE = 1;
-        sub_80530CC(ptr, &overB);
+        sub_80530CC((const char *)ptr, &overB);
     }
 }
 END_NONMATCH
@@ -479,12 +472,12 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
         overB.unkE = 1;
 
         if (gSpecialStageCollectedRings == 0) {
-            sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
+            sub_80530CC((const char *)&gUnknown_0865F174[r7++ >> 3], &overB);
 
             r7 %= 32u;
             TASK_SET_MEMBER(StageUI, gCurTask, u16, unk48, r7);
         } else {
-            sub_80530CC(&ui->digitsRings[2], &overB);
+            sub_80530CC((const char *)&ui->digitsRings[2], &overB);
         }
     } else if (gSpecialStageCollectedRings < 100) {
         // _08053EE2+0x4
@@ -492,13 +485,13 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
         overB.qUnkA = r4 + 8;
         overB.unkE = 2;
 
-        sub_80530CC(&ui->digitsRings[1], &overB);
+        sub_80530CC((const char *)&ui->digitsRings[1], &overB);
     } else {
         // _08053EFC
         overB.qUnkA = r4 + 4;
         overB.unkE = 3;
 
-        sub_80530CC(&ui->digitsRings[0], &overB);
+        sub_80530CC((const char *)&ui->digitsRings[0], &overB);
     }
     // _08053F10
     unk10 = &TASK_GET_MEMBER(StageUI, gCurTask, StageUI_10, unk10);
@@ -540,21 +533,21 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_SpecialStageUIMain.inc", void Tas
         overB.unkE = 1;
 
         if (gSpecialStageTargetRings == 0) {
-            sub_80530CC(&gUnknown_0865F174[r7++ >> 3], &overB);
+            sub_80530CC((const char *)&gUnknown_0865F174[r7++ >> 3], &overB);
 
             r7 %= 32u;
             TASK_SET_MEMBER(StageUI, gCurTask, u16, unk48, r7);
         } else {
-            sub_80530CC(&unk10->unk0[2], &overB);
+            sub_80530CC((const char *)&unk10->unk0[2], &overB);
         }
     } else if (gSpecialStageTargetRings < 100) {
         overB.qUnkA = sl + 8;
         overB.unkE = 2;
-        sub_80530CC(&unk10->unk0[1], &overB);
+        sub_80530CC((const char *)&unk10->unk0[1], &overB);
     } else {
         overB.qUnkA = sl + 4;
         overB.unkE = 3;
-        sub_80530CC(&unk10->unk0[0], &overB);
+        sub_80530CC((const char *)&unk10->unk0[0], &overB);
     }
 }
 END_NONMATCH
