@@ -25,7 +25,7 @@ typedef struct {
     u16 filler2C;
     u16 unk30;
     u8 filler32[1];
-    s16 unk34[16]; // palette?
+    u16 unk34[16];
     s16 unk54;
     u16 filler56;
     u16 unk58;
@@ -228,8 +228,6 @@ NONMATCH("asm/non_matching/game/player_name_input_menu__sub_8058830.inc", void s
     struct Task *sp34;
     s32 sp44;
     s32 sp48;
-    s8 *sp58;
-    s8 *sp5C;
     PlayerNameMenu *sp64;
     s16 temp_r0_3;
     s16 temp_r0_9;
@@ -476,8 +474,7 @@ NONMATCH("asm/non_matching/game/player_name_input_menu__sub_8058830.inc", void s
             }
         }
     }
-    sp58 = &subroutine_arg0.unk29;
-    sp5C = &subroutine_arg0.unk29;
+
     if ((A_BUTTON & gPressedKeys) && !(B_BUTTON & gPressedKeys)) {
         switch (temp_r6) {
             case 0x126:
@@ -576,7 +573,7 @@ NONMATCH("asm/non_matching/game/player_name_input_menu__sub_8058830.inc", void s
 
     subroutine_arg0.uiGfxID = 0x25;
     subroutine_arg0.unk2B = 1;
-    subroutine_arg0.palette = &TASK_GET_MEMBER(PlayerNameMenu, gCurTask, s16, unk34);
+    subroutine_arg0.palette = &TASK_GET_MEMBER(PlayerNameMenu, gCurTask, u16, unk34);
     subroutine_arg0.paletteSize = sizeof(menu->unk34);
     subroutine_arg0.unk28 = 1;
     subroutine_arg0.unk29 = 1;

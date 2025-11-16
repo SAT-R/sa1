@@ -282,9 +282,9 @@ void sub_8069EE4(u32 unk0)
         DisplaySprite(&strc->s2);
         temp_r5 = &strc->strc90;
         if (unk0 != 0) {
-            sub_8052F78(strc->unkB4, temp_r5);
+            sub_8052F78((const char *)strc->unkB4, temp_r5);
         } else {
-            sub_80530CC(strc->unkB4, temp_r5);
+            sub_80530CC((const char *)strc->unkB4, temp_r5);
         }
     }
     temp_r5 = &strc->strc60;
@@ -304,11 +304,11 @@ void sub_8069EE4(u32 unk0)
         strc->unkC0 = Mod(strc->unkC0 + 1, 8);
     }
     if (unk0 != 0) {
-        sub_8052F78(&arr[strc->unkC0], temp_r5);
+        sub_8052F78((const char *)&arr[strc->unkC0], temp_r5);
         return;
     }
 
-    sub_80530CC(&arr[strc->unkC0], temp_r5);
+    sub_80530CC((const char *)&arr[strc->unkC0], temp_r5);
 }
 
 void sub_8069FDC()

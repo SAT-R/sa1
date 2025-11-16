@@ -1853,6 +1853,8 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sub_800CBBC.inc",
     }
 
     PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
+
+    return FALSE;
 }
 END_NONMATCH
 
