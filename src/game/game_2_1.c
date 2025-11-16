@@ -639,7 +639,7 @@ void Task_805D720()
             strc34->unk24 = Mod(strc34->unk24 + 1, 10);
         }
 
-        sub_8052F78((const char*)&sp00[strc34->unk24], &strc34->u.overB);
+        sub_8052F78((const char *)&sp00[strc34->unk24], &strc34->u.overB);
     } else if (unk20 > 49) {
         strc34->u.overB.unkC = 0x13;
         strc34->u.overB.qUnkA -= 2;
@@ -649,7 +649,7 @@ void Task_805D720()
             strc34->unk24 = Mod(strc34->unk24 + 1, 0xA);
         }
 
-        sub_8052F78((const char*)&sp00[strc34->unk24], &strc34->u.overB);
+        sub_8052F78((const char *)&sp00[strc34->unk24], &strc34->u.overB);
     } else if (unk20 > 33) {
         strc34->u.overB.unkC -= 6;
         strc34->u.overB.qUnkA -= 2;
@@ -659,7 +659,7 @@ void Task_805D720()
             strc34->unk24 = Mod(strc34->unk24 + 1, 0xA);
         }
 
-        sub_8052F78((const char*)&sp00[strc34->unk24], &strc34->u.overB);
+        sub_8052F78((const char *)&sp00[strc34->unk24], &strc34->u.overB);
     } else if (unk20 > 0x19) {
         strc34->u.overB.qUnkA -= 2;
         strc34->u.overB.unkE = 9;
@@ -669,7 +669,7 @@ void Task_805D720()
             strc34->unk24 = Mod(strc34->unk24 + 1, 0xA);
         }
 
-        sub_8052F78((const char*)&sp00[strc34->unk24], &strc34->u.overB);
+        sub_8052F78((const char *)&sp00[strc34->unk24], &strc34->u.overB);
     } else if (unk20 > 0xF) {
         strc34->u.overB.qUnkA -= 0x1C;
         if (strc34->u.overB.qUnkA < 0xF0) {
@@ -678,7 +678,7 @@ void Task_805D720()
                 strc34->u.overB.qUnkA += 0x20;
                 strc34->unk24 = Mod((u16)strc34->unk24 + 1, 0xA);
             }
-            sub_8052F78((const char*)&sp00[strc34->unk24], &strc34->u.overB);
+            sub_8052F78((const char *)&sp00[strc34->unk24], &strc34->u.overB);
         }
     }
 }
@@ -714,14 +714,14 @@ void sub_805D81C(void)
             strc34->u.strc0.unkC = 0x7EU;
             strc34->u.strc0.byteCount = 1;
             strc34->u.strc0.unkA = (179 - var_r6);
-            sub_8052F78((const char*)&strc34->unk2B[var_r5], &strc34->u.overB);
+            sub_8052F78((const char *)&strc34->unk2B[var_r5], &strc34->u.overB);
         } else {
             s32 divResB = Div(strc34->u.strc0.unk2, 25);
             s32 divResA = (strc34->u.strc0.unk2 / 16);
             strc34->u.strc0.unkC = ((143 - divResA) - divResB);
             strc34->u.strc0.byteCount = 1;
             strc34->u.strc0.unkA = 0xA3U;
-            sub_8052C84((const char*)&strc34->unk2B[var_r5], &strc34->u.strc0);
+            sub_8052C84((const char *)&strc34->unk2B[var_r5], &strc34->u.strc0);
         }
 
         strc34->u.strc0.unkA = temp_r7;
@@ -826,11 +826,11 @@ void sub_805D9E4()
                 v = 195;
                 v -= var_r6;
                 strc34->u.strc0.unkA = (v - (w * 8));
-                sub_8052F78((const char*)&strc34->unk2B[var_r5], &strc34->u.overB);
+                sub_8052F78((const char *)&strc34->unk2B[var_r5], &strc34->u.overB);
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = (0xBB - var_r6);
-                sub_8052F78((const char*)&gUnknown_08688688[0], &strc34->u.overB);
+                sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
             }
         } else {
             s32 divResB = Div((s32)strc34->u.strc0.unk2, 25);
@@ -840,11 +840,11 @@ void sub_805D9E4()
                 temp_r0 = 7 - var_r5;
                 strc34->u.strc0.byteCount = temp_r0;
                 strc34->u.strc0.unkA = (u16)(((6 - temp_r0) * 8) + 0x8F);
-                sub_8052C84((const char*)&strc34->unk2B[var_r5], &strc34->u.strc0);
+                sub_8052C84((const char *)&strc34->unk2B[var_r5], &strc34->u.strc0);
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = 0xB7U;
-                sub_8052C84((const char*)&gUnknown_08688688[0], &strc34->u.strc0);
+                sub_8052C84((const char *)&gUnknown_08688688[0], &strc34->u.strc0);
             }
         }
         strc34->u.strc0.unkA = temp_r7;
@@ -873,7 +873,7 @@ void Task_805DB04(void)
             strc34->u.overB.unkE = 0;
             strc34->u.overB.qUnkA = -0x80;
         } else {
-            sub_8052F78((const char*)&gUnknown_0868868C[0], &strc34->u.overB);
+            sub_8052F78((const char *)&gUnknown_0868868C[0], &strc34->u.overB);
         }
 
         sub_805D9E4();
@@ -884,11 +884,11 @@ void Task_805DB04(void)
             strc34->u.strc0.unk2 = 0x100;
             strc34->u.strc0.unkA = 0x29;
             strc34->u.strc0.unkC = 0x6D;
-            sub_8052F78((const char*)&gUnknown_0868868C[0], &strc34->u.overB);
+            sub_8052F78((const char *)&gUnknown_0868868C[0], &strc34->u.overB);
         } else {
             strc34->u.strc0.unkA = 0x19U;
             strc34->u.strc0.unkC = (0x77 - (strc34->u.strc0.unk2 >> 4));
-            sub_8052C84((const char*)&gUnknown_0868868C[0], &strc34->u.strc0);
+            sub_8052C84((const char *)&gUnknown_0868868C[0], &strc34->u.strc0);
         }
 
         sub_805D9E4();
@@ -901,7 +901,7 @@ void Task_805DB04(void)
             strc34->u.strc0.unk2 = 0x100;
         }
 
-        sub_8052C84((const char*)&gUnknown_0868868C[0], &strc34->u.strc0);
+        sub_8052C84((const char *)&gUnknown_0868868C[0], &strc34->u.strc0);
         sub_805D9E4();
     }
 }
@@ -950,11 +950,11 @@ void sub_805DBF0(void)
                 v = 195;
                 v -= var_r6;
                 strc34->u.strc0.unkA = (v - (w * 8));
-                sub_8052F78((const char*)&strc34->unk2B[var_r5], &strc34->u.overB);
+                sub_8052F78((const char *)&strc34->unk2B[var_r5], &strc34->u.overB);
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = (0xBB - var_r6);
-                sub_8052F78((const char*)&gUnknown_08688688[0], &strc34->u.overB);
+                sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
             }
         } else {
             s32 divResB = Div((s32)strc34->u.strc0.unk2, 25);
@@ -964,11 +964,11 @@ void sub_805DBF0(void)
                 temp_r0 = 7 - var_r5;
                 strc34->u.strc0.byteCount = temp_r0;
                 strc34->u.strc0.unkA = (u16)(((6 - temp_r0) * 8) + 0x8F);
-                sub_8052C84((const char*)&strc34->unk2B[var_r5], &strc34->u.strc0);
+                sub_8052C84((const char *)&strc34->unk2B[var_r5], &strc34->u.strc0);
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = 0xB7U;
-                sub_8052C84((const char*)&gUnknown_08688688[0], &strc34->u.strc0);
+                sub_8052C84((const char *)&gUnknown_08688688[0], &strc34->u.strc0);
             }
         }
         strc34->u.strc0.unkA = temp_r7;
@@ -997,7 +997,7 @@ void Task_805DD10(void)
                 strc34->u.overB.unkE = 0;
                 strc34->u.overB.qUnkA = -0x80;
             } else {
-                sub_8052F78((const char*)&gUnknown_08688690[0], &strc34->u.overB);
+                sub_8052F78((const char *)&gUnknown_08688690[0], &strc34->u.overB);
             }
 
             sub_805DBF0();
@@ -1008,11 +1008,11 @@ void Task_805DD10(void)
                 strc34->u.strc0.unk2 = 0x100;
                 strc34->u.strc0.unkA = 0x29;
                 strc34->u.strc0.unkC = 0x5B;
-                sub_8052F78((const char*)&gUnknown_08688690[0], &strc34->u.overB);
+                sub_8052F78((const char *)&gUnknown_08688690[0], &strc34->u.overB);
             } else {
                 strc34->u.strc0.unkA = 0x19U;
                 strc34->u.strc0.unkC = (0x65 - (strc34->u.strc0.unk2 >> 4));
-                sub_8052C84((const char*)&gUnknown_08688690[0], &strc34->u.strc0);
+                sub_8052C84((const char *)&gUnknown_08688690[0], &strc34->u.strc0);
             }
 
             sub_805DBF0();
@@ -1025,7 +1025,7 @@ void Task_805DD10(void)
                 strc34->u.strc0.unk2 = 0x100;
             }
 
-            sub_8052C84((const char*)&gUnknown_08688690[0], &strc34->u.strc0);
+            sub_8052C84((const char *)&gUnknown_08688690[0], &strc34->u.strc0);
             sub_805DBF0();
         }
     }
@@ -1075,11 +1075,11 @@ void sub_805DE0C(void)
                 v = 195;
                 v -= var_r6;
                 strc34->u.strc0.unkA = (v - (w * 8));
-                sub_8052F78((const char*)&strc34->unk2B[var_r5], &strc34->u.overB);
+                sub_8052F78((const char *)&strc34->unk2B[var_r5], &strc34->u.overB);
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = (0xBB - var_r6);
-                sub_8052F78((const char*)&gUnknown_08688688[0], &strc34->u.overB);
+                sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
             }
         } else {
             s32 divResB = Div((s32)strc34->u.strc0.unk2, 25);
@@ -1089,11 +1089,11 @@ void sub_805DE0C(void)
                 temp_r0 = 7 - var_r5;
                 strc34->u.strc0.byteCount = temp_r0;
                 strc34->u.strc0.unkA = (u16)(((6 - temp_r0) * 8) + 0x8F);
-                sub_8052C84((const char*)&strc34->unk2B[var_r5], &strc34->u.strc0);
+                sub_8052C84((const char *)&strc34->unk2B[var_r5], &strc34->u.strc0);
             } else {
                 strc34->u.strc0.byteCount = 1;
                 strc34->u.strc0.unkA = 0xB7U;
-                sub_8052C84((const char*)&gUnknown_08688688[0], &strc34->u.strc0);
+                sub_8052C84((const char *)&gUnknown_08688688[0], &strc34->u.strc0);
             }
         }
         strc34->u.strc0.unkA = temp_r7;
@@ -1121,7 +1121,7 @@ void Task_805DF2C(void)
             strc34->u.overB.unkE = 0;
             strc34->u.overB.qUnkA = -0x80;
         } else {
-            sub_8052F78((const char*)&gUnknown_08688694[0], &strc34->u.overB);
+            sub_8052F78((const char *)&gUnknown_08688694[0], &strc34->u.overB);
         }
 
         sub_805DE0C();
@@ -1132,11 +1132,11 @@ void Task_805DF2C(void)
             strc34->u.strc0.unk2 = 0x100;
             strc34->u.strc0.unkA = 0x29;
             strc34->u.strc0.unkC = 0x49;
-            sub_8052F78((const char*)&gUnknown_08688694[0], &strc34->u.overB);
+            sub_8052F78((const char *)&gUnknown_08688694[0], &strc34->u.overB);
         } else {
             strc34->u.strc0.unkA = 0x19U;
             strc34->u.strc0.unkC = (0x53 - (strc34->u.strc0.unk2 >> 4));
-            sub_8052C84((const char*)&gUnknown_08688694[0], &strc34->u.strc0);
+            sub_8052C84((const char *)&gUnknown_08688694[0], &strc34->u.strc0);
         }
 
         sub_805DE0C();
@@ -1149,7 +1149,7 @@ void Task_805DF2C(void)
             strc34->u.strc0.unk2 = 0x100;
         }
 
-        sub_8052C84((const char*)&gUnknown_08688694[0], &strc34->u.strc0);
+        sub_8052C84((const char *)&gUnknown_08688694[0], &strc34->u.strc0);
         sub_805DE0C();
     }
 }
@@ -1204,13 +1204,13 @@ void sub_805E018()
             if ((strc34->unk29 >> i) & 1) {
                 strc34->u.overB.unk12 = (13 - (i >> 1));
                 if (i & 1) {
-                    sub_8052F78((const char*)&gUnknown_08688698[0], &strc34->u.overB);
+                    sub_8052F78((const char *)&gUnknown_08688698[0], &strc34->u.overB);
                 } else {
-                    sub_8052F78((const char*)&gUnknown_08688688[0], &strc34->u.overB);
+                    sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
                 }
             } else {
                 strc34->u.overB.unk12 = 0xB;
-                sub_8052F78((const char*)&gUnknown_0868869C[0], &strc34->u.overB);
+                sub_8052F78((const char *)&gUnknown_0868869C[0], &strc34->u.overB);
             }
         }
     } else if (temp_r1 > 0x31U) {
@@ -1227,13 +1227,13 @@ void sub_805E018()
                 if ((strc34->unk29 >> i) & 1) {
                     strc34->u.overB.unk12 = (u16)(0xD - (i >> 1));
                     if (i & 1) {
-                        sub_8052F78((const char*)&gUnknown_08688698[0], &strc34->u.overB);
+                        sub_8052F78((const char *)&gUnknown_08688698[0], &strc34->u.overB);
                     } else {
-                        sub_8052F78((const char*)&gUnknown_08688688[0], &strc34->u.overB);
+                        sub_8052F78((const char *)&gUnknown_08688688[0], &strc34->u.overB);
                     }
                 } else {
                     strc34->u.overB.unk12 = 0xB;
-                    sub_8052F78((const char*)&gUnknown_0868869C[0], &strc34->u.overB);
+                    sub_8052F78((const char *)&gUnknown_0868869C[0], &strc34->u.overB);
                 }
             }
         }
