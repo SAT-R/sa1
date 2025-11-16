@@ -350,11 +350,11 @@ void TaskDestructor_EditLanguageScreen(struct Task *t)
     Sprite *s;
     u8 i;
 
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < (s32)ARRAY_COUNT(screen->sprites); i++) {
         VramFree(screen->sprites[i].graphics.dest);
     }
 
-    VramFree(screen->sprites[9].graphics.dest);
+    VramFree(screen->spr1F0.graphics.dest);
 
     if (screen->spr250.graphics.dest) {
         VramFree(screen->spr250.graphics.dest);
