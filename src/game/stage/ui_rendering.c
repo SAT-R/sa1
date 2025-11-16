@@ -310,7 +310,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052EF0.inc", void sub_8052EF
 END_NONMATCH
 
 // (97.64%) https://decomp.me/scratch/8KTZ5
-NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052F78.inc", void sub_8052F78(const u8 *param0, GameOverB *param1))
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052F78.inc", void sub_8052F78(const char *param0, GameOverB *param1))
 {
     Strc0 *strc0;
     u32 u8;
@@ -376,7 +376,7 @@ NONMATCH("asm/non_matching/game/gTask_3006240__sub_8052F78.inc", void sub_8052F7
 END_NONMATCH
 
 // (97.61%) https://decomp.me/scratch/qWdSy
-NONMATCH("asm/non_matching/game/gTask_3006240__sub_80530CC.inc", void sub_80530CC(const u8 *param0, GameOverB *param1))
+NONMATCH("asm/non_matching/game/gTask_3006240__sub_80530CC.inc", void sub_80530CC(const char *param0, GameOverB *param1))
 {
     Strc0 *strc0;
     u32 u8;
