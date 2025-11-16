@@ -523,7 +523,7 @@ void Task_805C740(void)
     Game_2_0_Sub *sub;
 
 #ifndef NON_MATCHING
-    const u8 arrA[22 + 5];
+    const char arrA[22 + 5];
     memcpy((void *)arrA, &gUnknown_08688638[0], sizeof(arrA) - 5);
     memset((void *)(arrA + 22), 0, 5);
 #else

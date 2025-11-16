@@ -299,7 +299,7 @@ void sub_8011C94()
             menu->unkFC.unkC = 0x44;
         }
 
-        sub_8052F78(&LOADED_SAVE->playerName[i], &menu->unkFC);
+        sub_8052F78((const char *)&LOADED_SAVE->playerName[i], &menu->unkFC);
     }
 }
 

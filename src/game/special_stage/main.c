@@ -1912,7 +1912,7 @@ NONMATCH("asm/non_matching/game/special_stage/sub_802BE0C.inc", void sub_802BE0C
     s8 temp_r7;
     u32 temp_r1;
     u32 temp_r1_2;
-    s16 *affine;
+    u16 *affine;
 
     dims = s->dimensions;
     if (dims != (SpriteOffset *)-1) {
