@@ -264,9 +264,9 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__sub_800FD9C.inc", void su
 #ifndef NON_MATCHING
     {
         u8 *ptrA, *ptrB;
-        ptrB = (u8 *)&inScore;
-        ptrA = (u8 *)&LOADED_SAVE->multiplayerScores[0];
-        for (i = 0; i < 12; i++) {
+        ptrB = (u8 *)&inScore->data.raw;
+        ptrA = (u8 *)&LOADED_SAVE->multiplayerScores[0].data.raw;
+        for (i = 0; i < sizeof(inScore->data.raw); i++) {
             *ptrA++ = *ptrB++;
         }
     }

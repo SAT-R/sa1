@@ -392,20 +392,20 @@ NONMATCH("asm/non_matching/game/multiplayer/unk_1__Task_801D200.inc", void Task_
     }
 
     for (var_r6 = 0; var_r6 < pid; var_r6++) {
-        for (nameChar = 0; nameChar < 6; nameChar++) {
+        for (nameChar = 0; nameChar < MAX_PLAYER_NAME_LENGTH; nameChar++) {
             overB = &strc->overBs[var_r6];
             overB->qUnkA = (nameChar * 8) + strc->unk60;
             overB->unkC = (var_r6 * 40) + strc->unk62 + sp4;
 
             if (SIO_MULTI_CNT->id == var_r6) {
-                u8 character = (LOADED_SAVE->playerName[nameChar] - 0x70);
-                if (character < 26) {
+                u8 character = LOADED_SAVE->playerName[nameChar];
+                if (character >= 0x70 && character < 0x8A) {
                     overB->unkC += 8;
                 }
                 sub_8052F78(&LOADED_SAVE->playerName[nameChar], overB);
             } else {
-                u8 character = LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].data.split.playerName[nameChar] - 0x70u;
-                if (character < 0x1A) {
+                u8 character = LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].data.split.playerName[nameChar];
+                if (character >= 0x70 && character < 0x8A) {
                     overB->unkC += 8;
                 }
                 sub_8052F78(&LOADED_SAVE->multiplayerScores[gUnknown_03005008[var_r6]].data.split.playerName[nameChar], overB);
