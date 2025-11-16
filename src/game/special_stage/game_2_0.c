@@ -544,9 +544,9 @@ void Task_805C740(void)
             sub->u.overB.qUnkA += 0x20;
             sub->unk1A = Mod(sub->unk1A + 1, 7);
 
-            sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+            sub_8052F78((const char*)&arrA[sub->unk1A], &sub->u.overB);
         } else {
-            sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+            sub_8052F78((const char*)&arrA[sub->unk1A], &sub->u.overB);
         }
 
     } else if (sub->unk18 > 0x2D) {
@@ -558,7 +558,7 @@ void Task_805C740(void)
             sub->unk1A = Mod(sub->unk1A + 1, 7);
         }
 
-        sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+        sub_8052F78((const char*)&arrA[sub->unk1A], &sub->u.overB);
     } else if (sub->unk18 > 0x21) {
         sub->u.overB.unkC -= 8;
         sub->u.overB.qUnkA -= 2;
@@ -568,7 +568,7 @@ void Task_805C740(void)
             sub->unk1A = Mod(sub->unk1A + 1, 7);
         }
 
-        sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+        sub_8052F78((const char*)&arrA[sub->unk1A], &sub->u.overB);
     } else if (sub->unk18 > 0x19) {
         sub->u.overB.qUnkA -= 2;
         sub->u.overB.unkE = 9U;
@@ -578,7 +578,7 @@ void Task_805C740(void)
             sub->unk1A = Mod(sub->unk1A + 1, 7);
         }
 
-        sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+        sub_8052F78((const char*)&arrA[sub->unk1A], &sub->u.overB);
     } else if (sub->unk18 > 0xF) {
         sub->u.overB.qUnkA -= 0x1C;
         if (sub->u.overB.qUnkA <= 0xEF) {
@@ -587,7 +587,7 @@ void Task_805C740(void)
                 sub->u.overB.qUnkA += 0x20;
                 sub->unk1A = Mod(sub->unk1A + 1, 7);
             }
-            sub_8052F78(&arrA[sub->unk1A], &sub->u.overB);
+            sub_8052F78((const char*)&arrA[sub->unk1A], &sub->u.overB);
         }
     }
 }

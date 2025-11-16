@@ -985,7 +985,7 @@ void Task_805ACD8()
     }
     strc44->overB2.qUnkA = (strc44->unk3C >> 6);
     strc44->overB2.unkC = strc44->overB.unkC;
-    sub_8052F78(&arr[strc44->unk30], &strc44->overB2);
+    sub_8052F78((const char*)&arr[strc44->unk30], &strc44->overB2);
 }
 
 void sub_805ADF0()
@@ -1022,7 +1022,7 @@ void sub_805ADF0()
         strc44->unk30 = (strc44->unk30 + 1) & 7;
     }
     strc44->overB2.qUnkA = (strc44->unk3C >> 6);
-    sub_8052F78(&arr[strc44->unk30], &strc44->overB2);
+    sub_8052F78((const char*)&arr[strc44->unk30], &strc44->overB2);
 }
 
 void Task_805AE84()
@@ -1377,9 +1377,9 @@ void Task_805B52C()
             sub_80528AC(&gfx);
         }
     }
-    sub_8052F78(&arr[0][0], &strc20->overB);
+    sub_8052F78((const char*)&arr[0][0], &strc20->overB);
     strc20->overB.unkC += 0x20;
-    sub_8052F78(&arr[1][0], &strc20->overB);
+    sub_8052F78((const char*)&arr[1][0], &strc20->overB);
     strc20->overB.unkC -= 0x20;
 }
 
@@ -1454,9 +1454,9 @@ void sub_805B694()
     if (strc20->overB.unkC < 0x70) {
         strc20->overB.unkC = 0x70;
     }
-    sub_8052F78(&arr[0][0], &strc20->overB);
+    sub_8052F78((const char*)&arr[0][0], &strc20->overB);
     strc20->overB.unkC += 0x20;
-    sub_8052F78(&arr[1][0], &strc20->overB);
+    sub_8052F78((const char*)&arr[1][0], &strc20->overB);
     strc20->overB.unkC -= 0x20;
 }
 

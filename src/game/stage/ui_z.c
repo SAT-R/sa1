@@ -578,10 +578,10 @@ void Task_8055730(void)
 
     if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
         // TODO: Resolve cast!
-        sub_8052F78(gUnknown_086883AC, (void *)strc);
+        sub_8052F78((const char*)gUnknown_086883AC, (void *)strc);
     } else {
         // TODO: Resolve cast!
-        sub_80530CC(gUnknown_086883AC, (void *)strc);
+        sub_80530CC((const char*)gUnknown_086883AC, (void *)strc);
     }
 }
 
@@ -594,7 +594,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
         s32 r5 = 0;
         s16 r6 = -Div((strc->unk18 - 215) << 7, 10);
         s16 r8 = r6;
-        const u8 *r7 = &gUnknown_08688394[0];
+        const char *r7 = &gUnknown_08688394[0];
 
         for (; r5 < 4; r8 += 0x20, r6 += 0x20, r7++, r5++) {
             strc->unk0.unkC = r6;
@@ -612,7 +612,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
         // _08055826 + 0x4
         s32 r5 = 0;
 
-        const u8 *r6 = &gUnknown_08688394[0];
+        const char *r6 = &gUnknown_08688394[0];
 
         for (; r5 < 4; r6++, r5++) {
             strc->unk0.unkC = r5 * 32;
@@ -638,9 +638,9 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055798.inc", void Task_8055798(v
 
                 if (r2 >= -0x20) {
                     if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
-                        sub_8052F78(&gUnknown_08688394[r5], (void *)strc); // TODO: cast
+                        sub_8052F78((const char*)&gUnknown_08688394[r5], (void *)strc); // TODO: cast
                     } else {
-                        sub_80530CC(&gUnknown_08688394[r5], (void *)strc); // TODO: cast
+                        sub_80530CC((const char*)&gUnknown_08688394[r5], (void *)strc); // TODO: cast
                     }
                 }
             }
@@ -669,9 +669,9 @@ void Task_8055904(void)
 
     if (gCurrentLevel <= LEVEL_INDEX(ZONE_6, ACT_2)) {
         if (((strc->unk18 >= 0) && (strc->unk18 <= 105)) || !strc->unk20 || (strc->unk21 != 0)) {
-            sub_8052F78(&gUnknown_086883B0[0], (void *)strc); // TODO: cast
+            sub_8052F78((const char*)&gUnknown_086883B0[0], (void *)strc); // TODO: cast
         } else {
-            sub_80530CC(&gUnknown_086883B0[0], (void *)strc); // TODO: cast
+            sub_80530CC((const char*)&gUnknown_086883B0[0], (void *)strc); // TODO: cast
         }
     }
 }
@@ -722,9 +722,9 @@ void Task_8055998(void)
     }
 
     if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
-        sub_8052F78(&gUnknown_086883B8[0], (void *)strc);
+        sub_8052F78((const char*)&gUnknown_086883B8[0], (void *)strc);
     } else {
-        sub_80530CC(&gUnknown_086883B8[0], (void *)strc);
+        sub_80530CC((const char*)&gUnknown_086883B8[0], (void *)strc);
     }
 }
 
@@ -747,9 +747,9 @@ void Task_8055AA0()
     }
 
     if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
-        sub_8052F78(&gUnknown_086883C4[0], (void *)strc);
+        sub_8052F78((const char*)&gUnknown_086883C4[0], (void *)strc);
     } else {
-        sub_80530CC(&gUnknown_086883C4[0], (void *)strc);
+        sub_80530CC((const char*)&gUnknown_086883C4[0], (void *)strc);
     }
 }
 
@@ -776,9 +776,9 @@ void Task_8055B18()
             }
 
             if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
-                sub_8052F78(&arr0[strc->unk1A], (void *)strc);
+                sub_8052F78((const char*)&arr0[strc->unk1A], (void *)strc);
             } else {
-                sub_80530CC(&arr0[strc->unk1A], (void *)strc);
+                sub_80530CC((const char*)&arr0[strc->unk1A], (void *)strc);
             }
         } else if (strc->unk18 > 25) {
             u16 qInitialUnkA = strc->unk0.qUnkA;
@@ -791,9 +791,9 @@ void Task_8055B18()
             }
 
             if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
-                sub_8052F78(&arr0[strc->unk1A], (void *)strc);
+                sub_8052F78((const char*)&arr0[strc->unk1A], (void *)strc);
             } else {
-                sub_80530CC(&arr0[strc->unk1A], (void *)strc);
+                sub_80530CC((const char*)&arr0[strc->unk1A], (void *)strc);
             }
         } else if (strc->unk18 > 15) {
             // _08055BC0
@@ -813,9 +813,9 @@ void Task_8055B18()
                 }
 
                 if ((strc->unk18 >= 0 && strc->unk18 <= 105) || !strc->unk20 || (strc->unk21 != 0)) {
-                    sub_8052F78(&arr0[strc->unk1A], (void *)strc);
+                    sub_8052F78((const char*)&arr0[strc->unk1A], (void *)strc);
                 } else {
-                    sub_80530CC(&arr0[strc->unk1A], (void *)strc);
+                    sub_80530CC((const char*)&arr0[strc->unk1A], (void *)strc);
                 }
             }
         }
