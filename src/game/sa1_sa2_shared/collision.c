@@ -970,7 +970,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sa2__800C060.inc",
             y += rectPlayer[3];
         }
         y = Q(y);
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
         asm("" : "=r"(p->qWorldY) : "r"(~0xFF), "r"(p->qWorldY), "r"(y));
 #else
         p->qWorldY = Q_24_8_FRAC(p->qWorldY) + (y);
