@@ -9,7 +9,7 @@ all: libarena_alloc.a
 	@:
 
 %.o: $(SOURCE)
-	$(CC) -O2 $(SOURCE) -static -c $< $(LDFLAGS)
+	$(CC) -O2 -std=gnu11 $(SOURCE) -static -c $< $(LDFLAGS)
 
 libarena_alloc.a: arena_alloc.o
 	$(AR) -rcs $@ $<
