@@ -15,6 +15,9 @@
 #include "constants/songs.h"
 
 #define INTRO_SPOTLIGHT_COUNT 2
+
+#define EMERALD_START_X (DISPLAY_WIDTH / 2)
+#define EMERALD_START_Y -36
 typedef struct IntroSprite {
     Sprite s;
     u16 unk30;
@@ -229,6 +232,7 @@ void CreateIntroAnimation(void)
     SA2_LABEL(gUnknown_03005390) = 0;
     PAUSE_GRAPHICS_QUEUE();
     sub_80535FC();
+
     UiGfxStackInit();
     gDispCnt = (DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
     gBgCntRegs[0] = 0x9D86;
@@ -252,14 +256,14 @@ void CreateIntroAnimation(void)
     s->graphics.dest = OBJ_VRAM0 + 0x20;
     s->graphics.anim = SA1_ANIM_INTRO_EMERALD;
     s->variant = 0;
-    s->x = 0x78;
-    s->y = 0xFFDC;
-    s->oamFlags = 0xC0;
+    s->x = EMERALD_START_X;
+    s->y = EMERALD_START_Y;
+    s->oamFlags = SPRITE_OAM_ORDER(3);
     s->graphics.size = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
     s->prevVariant = -1;
-    s->animSpeed = 0x10;
+    s->animSpeed = SPRITE_ANIM_SPEED(1.0);
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->frameFlags = 0x1000;
@@ -278,10 +282,10 @@ void CreateIntroAnimation(void)
         introSpr->qUnk40 = Q(2.25);
         chunkOffset = (i * (4 * TILE_SIZE_4BPP));
         s->graphics.dest = (chunkOffset + OBJ_VRAM0 + (31 * TILE_SIZE_4BPP));
-        s->graphics.anim = 0x307;
+        s->graphics.anim = SA1_ANIM_SUPER_SONIC_SPARKLE;
         s->variant = 0;
-        s->x = (Div(SIN(i << 6), 650) + 120);
-        s->y = -36;
+        s->x = EMERALD_START_X + Div(SIN(i << 6), 650);
+        s->y = EMERALD_START_Y;
         s->oamFlags = 0;
         s->graphics.size = 0;
         s->animCursor = 0;
@@ -1655,7 +1659,7 @@ void sub_80656A4(void)
     Sprite *s = &introSpr->s;
     s16 temp_r0 = ++introSpr->unk30;
 
-    if ((introSpr->unk30) == 0x161) {
+    if ((introSpr->unk30) == 353) {
         s->frameFlags = 0;
     }
 
@@ -1681,7 +1685,7 @@ void sub_806571C(void)
     Sprite *s = &introSpr->s;
     s16 temp_r0 = ++introSpr->unk30;
 
-    if ((introSpr->unk30) == 0x161) {
+    if ((introSpr->unk30) == 353) {
         s->frameFlags = 0;
     }
 
@@ -1738,9 +1742,10 @@ void Task_IntroChaosEmeraldUpdate()
     Sprite *s = &introSpr->s;
     s16 unk30 = introSpr->unk30;
 
-    if ((u16)(unk30 - 90) > 0x8f) {
+    if ((unk30 < 90) || (unk30 > 233)) {
         introSpr->qUnk3C += introSpr->qUnk40;
     }
+
     if (unk30 < 90) {
         introSpr->qUnk40 -= Q(6. / 256.);
         if (introSpr->qUnk40 < Q(0)) {
@@ -1748,7 +1753,7 @@ void Task_IntroChaosEmeraldUpdate()
         }
     }
 
-    if (unk30 == 0xE9) {
+    if (unk30 == 233) {
         introSpr->qUnk40 = Q(1.25);
     }
 
