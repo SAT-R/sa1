@@ -257,14 +257,14 @@ void *IwramMalloc(u16 req)
     struct IwramNode *cur, *next;
     u16 size = req;
 
-    // Align size to be a multiple of 0x4.
-    size = (size + 3) >> 2;
+    // Align size to be a multiple of word-size.
+    size = (size + (sizeof(uintptr_t) - 1)) / sizeof(uintptr_t);
 
     if (size == 0) {
         return 0;
     }
 
-    size = (size << 2) + offsetof(struct IwramNode, space);
+    size = (size * sizeof(uintptr_t)) + offsetof(struct IwramNode, space);
     cur = (struct IwramNode *)&gIwramHeap[0];
 
     while (1) {

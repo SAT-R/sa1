@@ -97,6 +97,8 @@ struct IwramNode {
 #define TASK_NEXT(taskp)   (struct Task *)TASK_PTR((taskp)->next)
 #define TasksDestroyAll()  TasksDestroyInPriorityRange(0, 0xFFFF)
 
+#define TASK_HEAP_SIZE ((0x881) * sizeof(uintptr_t))
+
 // TODO: DO NOT USE, unless ABSOLUTELY necessary for matching!!!
 #define TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName)                                                                        \
     *(_memberType *)((unsigned char *)TASK_DATA(_task) + offsetof(_taskType, _memberName))
@@ -109,7 +111,7 @@ extern struct Task *gTaskPtrs[MAX_TASK_NUM];
 extern s32 gNumTasks;
 extern struct Task *gNextTask;
 extern struct Task *gCurTask;
-extern u8 gIwramHeap[0x2204];
+extern u8 gIwramHeap[TASK_HEAP_SIZE];
 
 u32 TasksInit(void);
 void TasksExec(void);
