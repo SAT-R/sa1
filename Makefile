@@ -219,7 +219,7 @@ endif # BUILD_NAME == sa1
 else
 	CC1FLAGS += -Wstrict-overflow=1
 	ifeq ($(PLATFORM),sdl)
-		CC1FLAGS += -Wno-parentheses-equality -Wno-unused-value -Wno-incompatible-pointer-types
+		CC1FLAGS += -Wno-parentheses-equality -Wno-unused-value
 		CPPFLAGS += -D TITLE_BAR=$(BUILD_NAME).$(PLATFORM) -D PLATFORM_GBA=0 -D PLATFORM_SDL=1 -D PLATFORM_WIN32=0 $(shell sdl2-config --cflags)
 	else ifeq ($(PLATFORM),sdl_win32)
 		CC1FLAGS += -Wno-aggressive-loop-optimizations
