@@ -305,7 +305,7 @@ SECTIONS {
         src/game/sa1_sa2_shared/unused_flash_task.o(.rodata);
         data/data_0_1_2.o(.rodata);
         src/game/multiplayer/multiplayer_event_mgr.o(.rodata);
-        data/data_0_1_3.o(.rodata);
+        src/game/multiplayer/results_b.o(.rodata);
         src/game/multiplayer/results.o(.rodata);
         src/game/multiplayer/finish.o(.rodata);
         src/game/multiboot/collect_rings/time_display.o(.rodata);
@@ -314,6 +314,7 @@ SECTIONS {
         src/game/interactables/platform_thin.o(.rodata);
         src/game/interactables/platform_crumbling.o(.rodata);
         data/data_0_1_4.o(.rodata);
+        src/game/mp_chao.o(.rodata);
         src/data/tilemap_data_0.o(.rodata);
         src/data/sprite_tables.o(.rodata);
         src/data/animations/animations.o(.rodata);

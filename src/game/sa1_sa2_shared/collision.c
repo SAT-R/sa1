@@ -905,7 +905,7 @@ u32 Coll_Player_SkatingStone(Sprite *s, CamCoord worldX, CamCoord worldY, Player
 
 // sa2__sub_800C060
 // 'Coll_Player_PlatformCrumbling' name from SA2, called by many Entities in SA1!
-// (86.62%) https://decomp.me/scratch/icjnK
+// (86.62%) https://decomp.me/scratch/kyp0r
 NONMATCH("asm/non_matching/game/sa1_sa2_shared/collision__sa2__800C060.inc",
          u32 Coll_Player_PlatformCrumbling(Sprite *s, CamCoord sx, CamCoord sy, Player *p))
 {

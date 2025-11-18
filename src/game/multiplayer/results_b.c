@@ -38,8 +38,9 @@ void Task_8018ECC(void);
 void Task_8019348(void);
 void Task_80196FC(void);
 
-extern u8 gUnknown_080BB484[4];
 extern void sub_8062F90(void);
+
+const u8 gUnknown_080BB484[4] = { 53, 77, 101, 125 };
 
 void sub_8018AE0()
 {

@@ -39,7 +39,48 @@ static void Task_8028A1C(void);
 static bool32 UpdateChaoPosition(CamCoord x, CamCoord y);
 static void TaskDestructor_Chao(struct Task *t);
 
-extern const u16 sChaoSpawnPositions[NUM_LEVEL_IDS_MP][SPAWN_INDEX_COUNT][2];
+const u16 sChaoSpawnPositions[NUM_LEVEL_IDS_MP][SPAWN_INDEX_COUNT][2] = { //
+    [ACT_CHAO_HUNT_A - NUM_LEVEL_IDS_SP] = {
+        { 906, 290 },
+        { 1250, 267 },
+        { 1348, 700 },
+        { 1054, 843 },
+        { 753, 889 },
+        { 475, 554 },
+        { 475, 1035 },
+        { 1740, 215 },
+    },
+    [ACT_CHAO_HUNT_B - NUM_LEVEL_IDS_SP] = {
+        { 817, 483 },
+        { 817, 815 },
+        { 1400, 286 },
+        { 1177, 864 },
+        { 1506, 579 },
+        { 404, 480 },
+        { 1594, 1009 },
+        { 1029, 482 },
+    },
+    [ACT_CHAO_HUNT_C - NUM_LEVEL_IDS_SP] = {
+        { 458, 192 },
+        { 447, 578 },
+        { 534, 864 },
+        { 332, 1248 },
+        { 1023, 1250 },
+        { 433, 1536 },
+        { 410, 1728 },
+        { 650, 1728 },
+    },
+    [ACT_CHAO_HUNT_D - NUM_LEVEL_IDS_SP] = {
+        { 633, 335 },
+        { 1289, 335 },
+        { 722, 576 },
+        { 1162, 576 },
+        { 945, 960 },
+        { 706, 1057 },
+        { 1219, 1057 },
+        { 1009, 1008 },
+    }
+};
 
 struct Task *CreateMultiplayerChao(u8 spawnIndex, u8 id)
 {
