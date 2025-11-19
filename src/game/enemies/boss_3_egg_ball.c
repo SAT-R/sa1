@@ -335,7 +335,7 @@ void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         s->frameFlags = (s16)gUnknown_084ACDD2[i][1][1] | 0x2000;
     }
 
-    Bosses_SetCamBounds(s0->y - 184, s0->y + 0x10, s0->x - 280, s0->x);
+    Bosses_SetCamBounds(s0->y - (DISPLAY_HEIGHT + 24), s0->y + 16, s0->x - (DISPLAY_WIDTH + 40), s0->x);
     gMusicManagerState.unk1 = 0x10;
 }
 
