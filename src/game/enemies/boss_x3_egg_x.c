@@ -1188,7 +1188,7 @@ void Task_8038554()
                 strc10->unk6 = 0xCU;
                 sub_8038C20();
                 strc10->unk8++;
-                sub_80171BC(gCamera.minY, gCamera.maxY, ((gPlayer.qWorldX >> 8) - 0x60), gCamera.maxX);
+                Bosses_SetCamBounds(gCamera.minY, gCamera.maxY, ((gPlayer.qWorldX >> 8) - 96), gCamera.maxX);
             }
         } break;
 

@@ -308,7 +308,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_6__CreateEntity_EggSnake.inc",
     s2->palId = 0;
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
-    sub_80171BC(s->y - 0x80, s->y + 0x20, s->x - 0x90, s->x + 0xB0);
+    Bosses_SetCamBounds(s->y - 0x80, s->y + 0x20, s->x - 0x90, s->x + 0xB0);
 }
 END_NONMATCH
 

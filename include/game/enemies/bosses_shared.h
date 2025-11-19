@@ -18,7 +18,7 @@ void CreateBossCapsule(s16, s16);
 void CreatePostBossEggMobile(CamCoord worldX, CamCoord worldY);
 
 struct Task *sub_80168F0(CamCoord worldX, CamCoord worldY, u16 numTiles, AnimId anim, u8 variant); // -> Strc_sub_80168F0
-struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX);
+struct Task *Bosses_SetCamBounds(s16 minY, s16 maxY, s16 minX, s16 maxX);
 struct Task *CreatePreBossCameraPan(s16 yMin, s16 yMax);
 struct Task *sub_8017540(s32 param0, s32 param1); // -> NutsAndBolts
 struct Task *sub_8016D80(CamCoord worldX, CamCoord worldY, AnimId anim, u8 variant);

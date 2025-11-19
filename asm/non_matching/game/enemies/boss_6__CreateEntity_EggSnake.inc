@@ -231,7 +231,7 @@ _080320BE:
 	adds r3, #0xb0
 	lsls r3, r3, #0x10
 	asrs r3, r3, #0x10
-	bl sub_80171BC
+	bl Bosses_SetCamBounds
 _080321A8:
 	add sp, #4
 	pop {r3, r4, r5}

@@ -401,7 +401,7 @@ void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id)
 
     // TODO/NOTE(Jace):
     // (DISPLAY_WIDTH * 1.5f) might break TAS tests, if we plan on adding those.
-    // 
+    //
     // Also, once we allow for arbitrary resolutions, it might lead to Eggman
     // indefinitely moving left, without turning around...
     gCamera.minX = (((float)gCamera.maxX) - (DISPLAY_WIDTH * 1.5f));

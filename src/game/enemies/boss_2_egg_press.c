@@ -233,7 +233,15 @@ void CreateEntity_EggPress(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->palId = 0;
     s2->hitboxes[0].index = HITBOX_STATE_INACTIVE;
     s2->frameFlags = SPRITE_FLAG(PRIORITY, 2);
-    sub_80171BC(s->y - 144, s->y + 16, (int)((float)s->x - 300.0f), s->x);
+
+#if PORTABLE && ((240 + 60) < DISPLAY_WIDTH)
+    // TODO: We need to spawn *something* at the left bound, to prevent both Player and Boss
+    //       from leaving the designated Boss Area if the DISPLAY_WIDTH is too large.
+    // The Boss is programmed to land on a fixed Y-value, so it "clips through" slopes.
+    Bosses_SetCamBounds(s->y - (DISPLAY_HEIGHT - 16), s->y + 16, (int)((float)s->x - DISPLAY_WIDTH), s->x);
+#else
+    Bosses_SetCamBounds(s->y - (DISPLAY_HEIGHT - 16), s->y + 16, (int)((float)s->x - (DISPLAY_WIDTH * 1.25f)), s->x);
+#endif // PORTABLE
 
     gMusicManagerState.unk1 = 0x10;
 }

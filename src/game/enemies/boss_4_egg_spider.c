@@ -242,7 +242,7 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->palId = 0;
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
-    sub_80171BC(s->y, s->y + 192, s->x - 320, s->x);
+    Bosses_SetCamBounds(s->y, s->y + 192, s->x - 320, s->x);
 
     gPlayer.qSpeedGround = 0;
     gPlayer.moveState |= 0x200000;

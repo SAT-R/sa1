@@ -767,7 +767,7 @@ void sub_8017054()
     DisplaySprite(s);
 }
 
-struct Task *sub_80171BC(s16 minY, s16 maxY, s16 param2, s16 someX)
+struct Task *Bosses_SetCamBounds(s16 minY, s16 maxY, s16 param2, s16 someX)
 {
     s16 temp_r1;
     struct Task *t;
