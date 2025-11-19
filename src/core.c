@@ -115,7 +115,7 @@ u8 gOamFirstPausedIndex ALIGNED(4) = 0;
 u8 gBackgroundsCopyQueueCursor ALIGNED(4) = 0;
 HBlankFunc gHBlankIntrs[4] ALIGNED(16) = {};
 
-u8 gIwramHeap[0x2204] = {};
+u8 gIwramHeap[TASK_HEAP_SIZE] = {};
 
 Sprite *sa2__gUnknown_03004D10[] ALIGNED(16) = {};
 u8 gNumVBlankCallbacks ALIGNED(4) = 0;

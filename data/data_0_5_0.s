@@ -23,4 +23,3 @@ gUnknown_0865F174:
     .global gUnknown_0865F178
 gUnknown_0865F178:
     .incbin "baserom_sa1.gba", 0x0065F178, 0x4
-    
