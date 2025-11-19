@@ -103,9 +103,9 @@ struct Task *CreateMultiplayerChao(u8 spawnIndex, u8 id)
     if ((gCurrentLevel == ACT_CHAO_HUNT_D) && (spawnIndex > 4U)) {
         SPRITE_FLAG_SET(s, Y_FLIP);
         SPRITE_FLAG_SET_VALUE(s, PRIORITY, 2);
-        y = sChaoSpawnPositions[gCurrentLevel - NUM_LEVEL_IDS_SP][spawnIndex][1] + 0x10;
+        y = sChaoSpawnPositions[gCurrentLevel - NUM_LEVEL_IDS_SP][spawnIndex][1] + 16;
     } else {
-        y = sChaoSpawnPositions[gCurrentLevel - NUM_LEVEL_IDS_SP][spawnIndex][1] - 0x10;
+        y = sChaoSpawnPositions[gCurrentLevel - NUM_LEVEL_IDS_SP][spawnIndex][1] - 16;
     }
 
     chao->id = id;

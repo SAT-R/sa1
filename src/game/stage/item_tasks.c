@@ -187,7 +187,7 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Normal.inc", 
 
     b = (pid & 1);
 
-    if (((gStageTime & 0x2) && (pid != b)) || (!(gStageTime & 0x2) && (b != 0))) {
+    if (((gStageTime & 0x2) && (pid != b)) || (!(gStageTime & 0x2) && (pid != 0))) {
         DisplaySprite(&item->s);
     }
 }

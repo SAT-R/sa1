@@ -282,7 +282,7 @@ void Task_8025D80(void)
         s2->graphics.anim = SA1_ANIM_EGGMAN;
         s2->variant = 0;
         s2->frameFlags |= 0x400;
-        CreatePreBossCameraPan((worldY - 48), (worldY + 112));
+        CreatePreBossCameraPan((worldY - 48), (worldY + (DISPLAY_HEIGHT - 48)));
     }
 }
 
@@ -399,7 +399,12 @@ void CreateEntity_EggHammerTank(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     gCamera.shiftY = -56;
     gCamera.maxX = s->x - 64;
 
-    gCamera.minX = (((float)gCamera.maxX) - 360.f);
+    // TODO/NOTE(Jace):
+    // (DISPLAY_WIDTH * 1.5f) might break TAS tests, if we plan on adding those.
+    // 
+    // Also, once we allow for arbitrary resolutions, it might lead to Eggman
+    // indefinitely moving left, without turning around...
+    gCamera.minX = (((float)gCamera.maxX) - (DISPLAY_WIDTH * 1.5f));
     gMusicManagerState.unk1 = 0x10;
 }
 
