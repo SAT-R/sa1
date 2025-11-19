@@ -233,7 +233,7 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->graphics.dest = VramMalloc(8U);
     s2->oamFlags = SPRITE_OAM_ORDER(21);
     s2->graphics.size = 0;
-    s2->graphics.anim = 0x275;
+    s2->graphics.anim = SA1_ANIM_BOSS_4_EGGMAN;
     s2->variant = 0;
     s2->animCursor = 0;
     s2->qAnimDelay = 0;
@@ -242,7 +242,11 @@ void CreateEntity_EggSpider(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     s2->palId = 0;
     s2->hitboxes[0].index = -1;
     s2->frameFlags = 0x2000;
-    Bosses_SetCamBounds(s->y, s->y + 192, s->x - 320, s->x);
+#if PORTABLE && WIDESCREEN_HACK
+    Bosses_SetCamBounds(s->y, s->y + DISPLAY_HEIGHT, s->x - DISPLAY_WIDTH, s->x);
+#else
+    Bosses_SetCamBounds(s->y, s->y + (DISPLAY_HEIGHT + 32), s->x - (DISPLAY_WIDTH + 80), s->x);
+#endif
 
     gPlayer.qSpeedGround = 0;
     gPlayer.moveState |= 0x200000;

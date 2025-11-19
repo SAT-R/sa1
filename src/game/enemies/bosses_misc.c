@@ -67,10 +67,10 @@ typedef struct Strc_sub_8016F44 {
 } Strc_sub_8016F44; /* 0x54 */
 
 typedef struct CameraPanning {
-    /* 0x00 */ s16 unk0;
-    /* 0x02 */ s16 unk2;
-    /* 0x04 */ s16 unk4;
-    /* 0x06 */ s16 unk6;
+    /* 0x00 */ CamCoord unk0;
+    /* 0x02 */ CamCoord unk2;
+    /* 0x04 */ CamCoord unk4;
+    /* 0x06 */ CamCoord unk6;
 } CameraPanning;
 
 typedef struct Strc_sub_801766C {
@@ -767,24 +767,22 @@ void sub_8017054()
     DisplaySprite(s);
 }
 
-struct Task *Bosses_SetCamBounds(s16 minY, s16 maxY, s16 param2, s16 someX)
+struct Task *Bosses_SetCamBounds(CamCoord minY, CamCoord maxY, CamCoord minX, CamCoord maxX)
 {
     s16 temp_r1;
     struct Task *t;
     CameraPanning *temp_r2;
-    u16 temp_r0_2;
 
-    temp_r0_2 = someX;
     t = TaskCreate(Task_8017244, 8U, 0x2000U, 0U, NULL);
     temp_r2 = TASK_DATA(t);
     temp_r2->unk0 = minY;
     temp_r2->unk2 = maxY;
-    temp_r2->unk4 = param2;
-    temp_r2->unk6 = temp_r0_2;
+    temp_r2->unk4 = minX;
+    temp_r2->unk6 = maxX;
     gCamera.minY = gCamera.y;
     gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
     gCamera.minX = gCamera.x;
-    gCamera.maxX = temp_r0_2;
+    gCamera.maxX = maxX;
     if (temp_r2->unk2 > gCamera.maxY) {
         gCamera.maxY = gCamera.y + 320;
     }
