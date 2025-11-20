@@ -24,6 +24,43 @@
 // TODO: Automate inserting 'MECHA_KNUX_PARTS_VARIANTS' from animation itself!
 #define MECHA_KNUX_PARTS_VARIANTS 6
 
+typedef enum {
+    MKPHASE_A,
+    MKPHASE_B,
+
+    MKPHASE_COUNT
+} MechaKnucklesPhases;
+
+typedef enum {
+    /*  0 */ MKSTATE_ACTIVATE,
+    /*  1 */ MKSTATE_B,
+    /*  2 */ MKSTATE_C,
+    /*  3 */ MKPHASE_ACTIVATE_2,
+    /*  4 */ MKSTATE_IDLE,
+    /*  5 */ MKSTATE_IDLE_2,
+    /*  6 */ MKSTATE_SPIN,
+    /*  7 */ MKSTATE_GLIDE,
+    /*  8 */ MKSTATE_LAND,
+    /*  9 */ MKSTATE_LAND_2,
+    /* 10 */ MKSTATE_COVER,
+    /* 11 */ MKSTATE_SPINDASH,
+    /* 12 */ MKSTATE_SPIN_2,
+    /* 13 */ MKSTATE_PUNCH,
+    /* 14 */ MKSTATE_PUNCH_2,
+    /* 15 */ MKSTATE_LAUNCH_ROCKET,
+    /* 16 */ MKSTATE_LAUNCH_ROCKET_2,
+    /* 17 */ MKSTATE_HIT,
+    /* 18 */ MKSTATE_HIT_2,
+    /* 19 */ MKSTATE_DEFEATED,
+    /* 20 */ MKSTATE_DEFEATED_2,
+    /* 21 */ MKSTATE_DEFEATED_3,
+    /* 22 */ MKSTATE_EGGMOBILE,
+    /* 23 */ MKSTATE_EGGMOBILE_2,
+    /* 24 */ MKSTATE_EGGMOBILE_3,
+
+    /* 25 */ MKSTATE_COUNT
+} MechaKnucklesStates;
+
 typedef struct MechaKnuckles {
     /* 0x00 */ SpriteBase base;
     /* 0x0C */ Sprite s;
@@ -37,16 +74,16 @@ typedef struct MechaKnuckles {
     /* 0x82 */ s16 unk82;
     /* 0x84 */ u16 unk84;
     /* 0x88 */ u32 flags88;
-    /* 0x8C */ s32 unk8C;
-    /* 0x90 */ s32 unk90;
-    /* 0x94 */ s8 unk94;
-    /* 0x95 */ s8 unk95;
+    /* 0x8C */ s32 spawnX;
+    /* 0x90 */ s32 spawnY;
+    /* 0x94 */ s8 phase;
+    /* 0x95 */ s8 lives;
     /* 0x96 */ s8 unk96;
     /* 0x97 */ s8 unk97;
     /* 0x98 */ s8 unk98;
     /* 0x99 */ s8 unk99;
-    /* 0x9A */ s8 unk9A;
-    /* 0x9B */ u8 unk9B;
+    /* 0x9A */ s8 state;
+    /* 0x9B */ s8 state2;
 } MechaKnuckles; /* 0x9C */
 
 typedef struct MechaKnucklesRocket {
@@ -160,7 +197,7 @@ bool32 sub_804ED80(MechaKnuckles *boss, Player *p);
 
 typedef struct ProcDataBoss5 {
     MechaKnuxPlayerFn knuxPlayerFn;
-    MechaKnuxFn knuxFn;
+    MechaKnuxFn changeState;
     s16 unk8;
     s16 unkA;
     s16 unkC;
@@ -171,44 +208,297 @@ typedef struct ProcDataBoss5 {
 
     s8 unk18;
     s8 unk19;
-    Unk unk1C[2];
+    Unk unk1C[MKPHASE_COUNT];
 } ProcDataBoss5; /* 0x24 */
 
-const ProcDataBoss5 sBoss5ProcData[25] = {
-    { sub_804EEA8, sub_804F73C, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0277, 0x00, 0 }, { 0xFFFF, 0xFF, 0 } } },
-    { sub_804EF18, sub_804F760, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0xFFFF, 0xFF, 0 }, { 0xFFFF, 0xFF, 0 } } },
-    { sub_804F984, sub_804F788, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0xFFFF, 0xFF, 0 }, { 0xFFFF, 0xFF, 0 } } },
-    { sub_804F990, sub_804F78C, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0277, 0x01, 0 }, { 0xFFFF, 0xFF, 0 } } },
-    { sub_804F9B0, sub_804F790, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0278, 0x00, 0 }, { 0xFFFF, 0xFF, 0 } } },
-    { sub_804FA08, sub_804F7B0, 0x0000, 0x0000, 00, 00, 0x5A, 0, 0x0200, 6, 14, { { 0x0278, 0x00, 0 }, { 0x0284, 0x00, 0 } } },
-    { sub_804FA38, sub_804F7B4, 0x0000, 0xFB20, 00, 42, 0x00, 0, 0x0210, 6, 9, { { 0x027C, 0x00, 0 }, { 0x0288, 0x00, 0 } } },
-    { sub_804EFA0, sub_804F7C0, 0x0300, 0x0180, 03, 00, 0x00, 0, 0x1210, 6, 6, { { 0x027E, 0x00, 0 }, { 0x028A, 0x00, 0 } } },
-    { sub_804FA54, sub_804F7C4, 0x0000, 0x0000, 00, 42, 0x00, 0, 0x0010, 6, 14, { { 0x0280, 0x00, 0 }, { 0x028C, 0x00, 0 } } },
-    { sub_804FA70, sub_804F7C8, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { 0x0280, 0x01, 0 }, { 0x028C, 0x01, 0 } } },
-    { sub_804FA9C, sub_804F7CC, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x1200, 6, 14, { { 0x0282, 0x00, 0 }, { 0x028E, 0x00, 0 } } },
-    { sub_804FAC8, sub_804F7D0, 0x0000, 0x0000, 00, 00, 0x3C, 0, 0x0900, 6, 9, { { 0x027D, 0x00, 0 }, { 0x0289, 0x00, 0 } } },
-    { sub_804FAF0, sub_804F7DC, 0x0480, 0x0000, 00, 00, 0x00, 0, 0x2400, 6, 9, { { 0x027C, 0x00, 0 }, { 0x0288, 0x00, 0 } } },
-    { sub_804FB10, sub_804F7E8, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0200, 6, 14, { { 0x0283, 0x00, 0 }, { 0x0283, 0x00, 0 } } },
-    { sub_804FB30, sub_804F7EC, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0200, 6, 14, { { 0x0283, 0x01, 0 }, { 0x0283, 0x01, 0 } } },
-    { sub_804FB5C, sub_804F7F0, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x1200, 6, 14, { { 0x028F, 0x00, 0 }, { 0x028F, 0x00, 0 } } },
-    { sub_804FB7C, sub_804F7F4, 0xFB80, 0x0000, 96, 00, 0x00, 0, 0x6400, 6, 14, { { 0x028F, 0x01, 0 }, { 0x028F, 0x01, 0 } } },
-    { sub_804FBA8, sub_804F834, 0xFE80, 0xFD00, 00, 42, 0x00, 0, 0x1210, 6, 9, { { 0x027A, 0x00, 0 }, { 0x0286, 0x00, 0 } } },
-    { sub_804FBE4, sub_804F860, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 9, { { 0x027B, 0x00, 0 }, { 0x0286, 0x00, 0 } } },
-    { sub_804FC28, sub_804F888, 0xFE80, 0xFD00, 00, 21, 0x00, 0, 0x1210, 6, 9, { { 0x0291, 0x00, 0 }, { 0x0291, 0x00, 0 } } },
-    { sub_804FC78, sub_804F8D4, 0x0000, 0x0000, 00, 00, 0x78, 0, 0x0000, 6, 9, { { 0x0291, 0x01, 0 }, { 0x0291, 0x01, 0 } } },
-    { sub_804FCA4, sub_804F8D8, 0x0000, 0x0000, 00, 00, 0x78, 0, 0x0000, 6, 14, { { 0x0291, 0x01, 0 }, { 0x0291, 0x01, 0 } } },
-    { sub_804FCEC, sub_804F8DC, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x6000000, 0, 0, { { 0x02B5, 0x00, 0 }, { 0x02B5, 0x00, 0 } } },
-    { sub_804F020, sub_804F934, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x6000000, 0, 0, { { 0x02B5, 0x01, 0 }, { 0x02B5, 0x01, 0 } } },
-    { sub_804FD54, sub_804F95C, 0x0400, 0x0000, 00, 00, 0x00, 0, 0x6000000, 0, 0, { { 0x02B5, 0x00, 0 }, { 0x02B5, 0x00, 0 } } },
+const ProcDataBoss5 sBoss5ProcData[MKSTATE_COUNT] = {
+    [MKSTATE_ACTIVATE] = { sub_804EEA8,
+                           sub_804F73C,
+                           0x0000,
+                           0x0000,
+                           00,
+                           00,
+                           0x00,
+                           0,
+                           0x0000,
+                           6,
+                           14,
+                           { { SA1_ANIM_BOSS_5_PHASE1_ACTIVATE, 0, 0 }, { -1, -1, 0 } } },
+    [MKSTATE_B] = { sub_804EF18, sub_804F760, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { -1, -1, 0 }, { -1, -1, 0 } } },
+    [MKSTATE_C] = { sub_804F984, sub_804F788, 0x0000, 0x0000, 00, 00, 0x00, 0, 0x0000, 6, 14, { { -1, -1, 0 }, { -1, -1, 0 } } },
+    [MKPHASE_ACTIVATE_2] = { sub_804F990,
+                             sub_804F78C,
+                             0x0000,
+                             0x0000,
+                             00,
+                             00,
+                             0x00,
+                             0,
+                             0x0000,
+                             6,
+                             14,
+                             { { SA1_ANIM_BOSS_5_PHASE1_ACTIVATE, 1, 0 }, { -1, -1, 0 } } },
+    [MKSTATE_IDLE] = { sub_804F9B0,
+                       sub_804F790,
+                       0x0000,
+                       0x0000,
+                       00,
+                       00,
+                       0x00,
+                       0,
+                       0x0000,
+                       6,
+                       14,
+                       { { SA1_ANIM_BOSS_5_PHASE1_IDLE, 0, 0 }, { -1, -1, 0 } } },
+    [MKSTATE_IDLE_2] = { sub_804FA08,
+                         sub_804F7B0,
+                         0x0000,
+                         0x0000,
+                         00,
+                         00,
+                         0x5A,
+                         0,
+                         0x0200,
+                         6,
+                         14,
+                         { { SA1_ANIM_BOSS_5_PHASE1_IDLE, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_IDLE, 0, 0 } } },
+    [MKSTATE_SPIN] = { sub_804FA38,
+                       sub_804F7B4,
+                       0x0000,
+                       0xFB20,
+                       00,
+                       42,
+                       0x00,
+                       0,
+                       0x0210,
+                       6,
+                       9,
+                       { { SA1_ANIM_BOSS_5_PHASE1_SPIN, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_SPIN, 0, 0 } } },
+    [MKSTATE_GLIDE] = { sub_804EFA0,
+                        sub_804F7C0,
+                        0x0300,
+                        0x0180,
+                        03,
+                        00,
+                        0x00,
+                        0,
+                        0x1210,
+                        6,
+                        6,
+                        { { SA1_ANIM_BOSS_5_PHASE1_GLIDE, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_GLIDE, 0, 0 } } },
+    [MKSTATE_LAND] = { sub_804FA54,
+                       sub_804F7C4,
+                       0x0000,
+                       0x0000,
+                       00,
+                       42,
+                       0x00,
+                       0,
+                       0x0010,
+                       6,
+                       14,
+                       { { SA1_ANIM_BOSS_5_PHASE1_LAND, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_LAND, 0, 0 } } },
+    [MKSTATE_LAND_2] = { sub_804FA70,
+                         sub_804F7C8,
+                         0x0000,
+                         0x0000,
+                         00,
+                         00,
+                         0x00,
+                         0,
+                         0x0000,
+                         6,
+                         14,
+                         { { SA1_ANIM_BOSS_5_PHASE1_LAND, 1, 0 }, { SA1_ANIM_BOSS_5_PHASE2_LAND, 1, 0 } } },
+    [MKSTATE_COVER] = { sub_804FA9C,
+                        sub_804F7CC,
+                        0x0000,
+                        0x0000,
+                        00,
+                        00,
+                        0x00,
+                        0,
+                        0x1200,
+                        6,
+                        14,
+                        { { SA1_ANIM_BOSS_5_PHASE1_COVER, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_COVER, 0, 0 } } },
+    [MKSTATE_SPINDASH] = { sub_804FAC8,
+                           sub_804F7D0,
+                           0x0000,
+                           0x0000,
+                           00,
+                           00,
+                           0x3C,
+                           0,
+                           0x0900,
+                           6,
+                           9,
+                           { { SA1_ANIM_BOSS_5_PHASE1_SPINDASH, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_SPINDASH, 0, 0 } } },
+    [MKSTATE_SPIN_2] = { sub_804FAF0,
+                         sub_804F7DC,
+                         0x0480,
+                         0x0000,
+                         00,
+                         00,
+                         0x00,
+                         0,
+                         0x2400,
+                         6,
+                         9,
+                         { { SA1_ANIM_BOSS_5_PHASE1_SPIN, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_SPIN, 0, 0 } } },
+    [MKSTATE_PUNCH] = { sub_804FB10,
+                        sub_804F7E8,
+                        0x0000,
+                        0x0000,
+                        00,
+                        00,
+                        0x00,
+                        0,
+                        0x0200,
+                        6,
+                        14,
+                        { { SA1_ANIM_BOSS_5_PHASE1_PUNCH, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE1_PUNCH, 0, 0 } } },
+    [MKSTATE_PUNCH_2] = { sub_804FB30,
+                          sub_804F7EC,
+                          0x0000,
+                          0x0000,
+                          00,
+                          00,
+                          0x00,
+                          0,
+                          0x0200,
+                          6,
+                          14,
+                          { { SA1_ANIM_BOSS_5_PHASE1_PUNCH, 1, 0 }, { SA1_ANIM_BOSS_5_PHASE1_PUNCH, 1, 0 } } },
+    [MKSTATE_LAUNCH_ROCKET] = { sub_804FB5C,
+                                sub_804F7F0,
+                                0x0000,
+                                0x0000,
+                                00,
+                                00,
+                                0x00,
+                                0,
+                                0x1200,
+                                6,
+                                14,
+                                { { SA1_ANIM_BOSS_5_PHASE2_LAUNCH_ROCKET, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_LAUNCH_ROCKET, 0, 0 } } },
+    [MKSTATE_LAUNCH_ROCKET_2] = { sub_804FB7C,
+                                  sub_804F7F4,
+                                  0xFB80,
+                                  0x0000,
+                                  96,
+                                  00,
+                                  0x00,
+                                  0,
+                                  0x6400,
+                                  6,
+                                  14,
+                                  { { SA1_ANIM_BOSS_5_PHASE2_LAUNCH_ROCKET, 1, 0 }, { SA1_ANIM_BOSS_5_PHASE2_LAUNCH_ROCKET, 1, 0 } } },
+    [MKSTATE_HIT] = { sub_804FBA8,
+                      sub_804F834,
+                      0xFE80,
+                      0xFD00,
+                      00,
+                      42,
+                      0x00,
+                      0,
+                      0x1210,
+                      6,
+                      9,
+                      { { SA1_ANIM_BOSS_5_PHASE1_HIT, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_HIT, 0, 0 } } },
+    [MKSTATE_HIT_2] = { sub_804FBE4,
+                        sub_804F860,
+                        0x0000,
+                        0x0000,
+                        00,
+                        00,
+                        0x00,
+                        0,
+                        0x0000,
+                        6,
+                        9,
+                        { { SA1_ANIM_BOSS_5_PHASE1_GROUND, 0, 0 }, { SA1_ANIM_BOSS_5_PHASE2_HIT, 0, 0 } } },
+    [MKSTATE_DEFEATED] = { sub_804FC28,
+                           sub_804F888,
+                           0xFE80,
+                           0xFD00,
+                           00,
+                           21,
+                           0x00,
+                           0,
+                           0x1210,
+                           6,
+                           9,
+                           { { SA1_ANIM_BOSS_5_PHASE2_DEFEATED, 0x00, 0 }, { SA1_ANIM_BOSS_5_PHASE2_DEFEATED, 0x00, 0 } } },
+    [MKSTATE_DEFEATED_2] = { sub_804FC78,
+                             sub_804F8D4,
+                             0x0000,
+                             0x0000,
+                             00,
+                             00,
+                             0x78,
+                             0,
+                             0x0000,
+                             6,
+                             9,
+                             { { SA1_ANIM_BOSS_5_PHASE2_DEFEATED, 0x01, 0 }, { SA1_ANIM_BOSS_5_PHASE2_DEFEATED, 0x01, 0 } } },
+    [MKSTATE_DEFEATED_3] = { sub_804FCA4,
+                             sub_804F8D8,
+                             0x0000,
+                             0x0000,
+                             00,
+                             00,
+                             0x78,
+                             0,
+                             0x0000,
+                             6,
+                             14,
+                             { { SA1_ANIM_BOSS_5_PHASE2_DEFEATED, 0x01, 0 }, { SA1_ANIM_BOSS_5_PHASE2_DEFEATED, 0x01, 0 } } },
+    [MKSTATE_EGGMOBILE] = { sub_804FCEC,
+                            sub_804F8DC,
+                            0x0000,
+                            0x0000,
+                            00,
+                            00,
+                            0x00,
+                            0,
+                            0x6000000,
+                            0,
+                            0,
+                            { { SA1_ANIM_EGGMOBILE, 0x00, 0 }, { SA1_ANIM_EGGMOBILE, 0x00, 0 } } },
+    [MKSTATE_EGGMOBILE_2] = { sub_804F020,
+                              sub_804F934,
+                              0x0000,
+                              0x0000,
+                              00,
+                              00,
+                              0x00,
+                              0,
+                              0x6000000,
+                              0,
+                              0,
+                              { { SA1_ANIM_EGGMOBILE, 0x01, 0 }, { SA1_ANIM_EGGMOBILE, 0x01, 0 } } },
+    [MKSTATE_EGGMOBILE_3] = { sub_804FD54,
+                              sub_804F95C,
+                              0x0400,
+                              0x0000,
+                              00,
+                              00,
+                              0x00,
+                              0,
+                              0x6000000,
+                              0,
+                              0,
+                              { { SA1_ANIM_EGGMOBILE, 0x00, 0 }, { SA1_ANIM_EGGMOBILE, 0x00, 0 } } },
 };
 
 const TileInfoFirework sMechaKnucklesParts[MECHA_KNUX_PARTS_VARIANTS] = {
-    { SA1_ANIM_BOSS_5_PARTS, 0, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 0) },
-    { SA1_ANIM_BOSS_5_PARTS, 1, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 1) },
-    { SA1_ANIM_BOSS_5_PARTS, 2, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 2) },
-    { SA1_ANIM_BOSS_5_PARTS, 3, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 3) },
-    { SA1_ANIM_BOSS_5_PARTS, 4, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 4) },
-    { SA1_ANIM_BOSS_5_PARTS, 5, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PARTS, 5) },
+    { SA1_ANIM_BOSS_5_PHASE2_PARTS, 0, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PHASE2_PARTS, 0) },
+    { SA1_ANIM_BOSS_5_PHASE2_PARTS, 1, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PHASE2_PARTS, 1) },
+    { SA1_ANIM_BOSS_5_PHASE2_PARTS, 2, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PHASE2_PARTS, 2) },
+    { SA1_ANIM_BOSS_5_PHASE2_PARTS, 3, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PHASE2_PARTS, 3) },
+    { SA1_ANIM_BOSS_5_PHASE2_PARTS, 4, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PHASE2_PARTS, 4) },
+    { SA1_ANIM_BOSS_5_PHASE2_PARTS, 5, MAX_TILES_VARIANT(SA1_ANIM_BOSS_5_PHASE2_PARTS, 5) },
 };
 
 // TODO: Fake-match
@@ -272,7 +562,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
         s->frameFlags &= ~0x180;
     }
 
-    sp4 = sBoss5ProcData[boss->unk9A].knuxPlayerFn(boss, p);
+    sp4 = sBoss5ProcData[boss->state].knuxPlayerFn(boss, p);
     sub_804EB04(boss);
     if (!(boss->flags88 & 0x04000000)) {
         sub_804FDD4(boss);
@@ -281,9 +571,9 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
         sub_804EB90(boss);
     }
 
-    var_r5 = sub_800BFEC(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), p);
+    var_r5 = sub_800BFEC(s, boss->spawnX + I(boss->qUnk74), boss->spawnY + I(boss->qUnk78), p);
     if (gNumSingleplayerCharacters == 2) {
-        var_r5 |= sub_800BFEC(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), &gPartner);
+        var_r5 |= sub_800BFEC(s, boss->spawnX + I(boss->qUnk74), boss->spawnY + I(boss->qUnk78), &gPartner);
     }
 
     if (var_r5 == 0) {
@@ -293,44 +583,44 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
 #else
             Player *player;
 #endif
-            var_r5 = sub_800C0E0(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), p);
+            var_r5 = sub_800C0E0(s, boss->spawnX + I(boss->qUnk74), boss->spawnY + I(boss->qUnk78), p);
             if (gNumSingleplayerCharacters == 2) {
-                var_r0 = sub_800C0E0(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), &gPartner);
+                var_r0 = sub_800C0E0(s, boss->spawnX + I(boss->qUnk74), boss->spawnY + I(boss->qUnk78), &gPartner);
             } else {
                 var_r0 = 0;
             }
 
             if (var_r5 != 0) {
-                if (((boss->unk9A == 5) || (boss->unk9A == 0xA)) && !(p->moveState & 2)) {
-                    if (boss->unk9A != 0xA) {
+                if (((boss->state == MKSTATE_IDLE_2) || (boss->state == MKSTATE_COVER)) && !(p->moveState & 2)) {
+                    if (boss->state != MKSTATE_COVER) {
                         sp4 = 0;
-                        boss->unk9B = 10;
+                        boss->state2 = MKSTATE_COVER;
                         player = p;
                         player->qSpeedAirX = -player->qSpeedAirX;
                         player->qSpeedGround = -player->qSpeedGround;
                     }
                 } else {
                     sp4 = 0;
-                    boss->unk9B = 17;
-                    if (--boss->unk95 <= 0) {
-                        boss->unk9B = 19;
+                    boss->state2 = MKSTATE_HIT;
+                    if (--boss->lives <= 0) {
+                        boss->state2 = MKSTATE_DEFEATED;
                     }
                     boss->unk97 = 0x20;
                 }
             } else if (var_r0 != 0) {
-                if (((boss->unk9A == 5) || (boss->unk9A == 0xA)) && ((gPartner.moveState & 2) == 0)) {
-                    if (boss->unk9A != 0xA) {
+                if (((boss->state == MKSTATE_IDLE_2) || (boss->state == MKSTATE_COVER)) && ((gPartner.moveState & 2) == 0)) {
+                    if (boss->state != MKSTATE_COVER) {
                         sp4 = 0;
-                        boss->unk9B = 10;
+                        boss->state2 = MKSTATE_COVER;
                         player = &gPartner;
                         player->qSpeedAirX = -player->qSpeedAirX;
                         player->qSpeedGround = -player->qSpeedGround;
                     }
                 } else {
                     sp4 = 0;
-                    boss->unk9B = 17;
-                    if (--boss->unk95 <= 0) {
-                        boss->unk9B = 19;
+                    boss->state2 = MKSTATE_HIT;
+                    if (--boss->lives <= 0) {
+                        boss->state2 = MKSTATE_DEFEATED;
                     }
                     boss->unk97 = 0x20;
                 }
@@ -345,13 +635,13 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
             gWinRegs[5] = 0x3F3F;
         }
 
-        if (boss->unk9B != 17 && boss->unk9B != 18) {
+        if (boss->state2 != MKSTATE_HIT && boss->state2 != MKSTATE_HIT_2) {
             boss->unk97--;
         }
     }
 
-    s->x = s2->x = (boss->unk8C + I(boss->qUnk74)) - gCamera.x;
-    s->y = s2->y = (boss->unk90 + I(boss->qUnk78)) - gCamera.y;
+    s->x = s2->x = (boss->spawnX + I(boss->qUnk74)) - gCamera.x;
+    s->y = s2->y = (boss->spawnY + I(boss->qUnk78)) - gCamera.y;
 
     if (boss->flags88 & 0x20) {
         UpdateSpriteAnimation(s);
@@ -363,15 +653,15 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
     }
 
     if (sp4 == 0) {
-        boss->unk9A = boss->unk9B;
-        sub_804E8D4(boss, boss->unk9A);
+        boss->state = boss->state2;
+        sub_804E8D4(boss, boss->state);
     }
 }
 END_NONMATCH
 
-void sub_804E8D4(MechaKnuckles *boss, s32 param1)
+void sub_804E8D4(MechaKnuckles *boss, s32 state)
 {
-    s32 sp0;
+    s32 phase;
     const ProcDataBoss5 *procData;
     Player *p;
     Sprite *s;
@@ -382,12 +672,12 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
     s32 temp_r5_2;
     s32 var_r2;
 
-    procData = &sBoss5ProcData[param1];
+    procData = &sBoss5ProcData[state];
 
     p = &gPlayer;
 
     s = &boss->s;
-    sp0 = boss->unk94;
+    phase = boss->phase;
     var_r7 = procData->unk8;
     var_r8 = procData->unkC;
     var_r2 = boss->flags88;
@@ -431,7 +721,7 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
             }
         } break;
         case 0x1000: {
-            if ((I(boss->qUnk74) + boss->unk8C) >= I(p->qWorldX)) {
+            if ((I(boss->qUnk74) + boss->spawnX) >= I(p->qWorldX)) {
                 var_r7 = -var_r7;
                 var_r8 = -var_r8;
             }
@@ -453,7 +743,7 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
         } break;
 
         case 0x200: {
-            if ((I(boss->qUnk74) + boss->unk8C) >= I(p->qWorldX)) {
+            if ((I(boss->qUnk74) + boss->spawnX) >= I(p->qWorldX)) {
                 SPRITE_FLAG_CLEAR(s, X_FLIP);
             } else {
                 SPRITE_FLAG_SET(s, X_FLIP);
@@ -462,17 +752,17 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
         } break;
     }
 
-    if ((procData->unk1C[sp0].anim >= 0)
-        && ((s->graphics.anim != procData->unk1C[sp0].anim) || (s->variant != procData->unk1C[sp0].variant))) {
-        s->graphics.anim = procData->unk1C[sp0].anim;
-        s->variant = procData->unk1C[sp0].variant;
+    if ((procData->unk1C[phase].anim >= 0)
+        && ((s->graphics.anim != procData->unk1C[phase].anim) || (s->variant != procData->unk1C[phase].variant))) {
+        s->graphics.anim = procData->unk1C[phase].anim;
+        s->variant = procData->unk1C[phase].variant;
         s->prevVariant = -1;
         SPRITE_FLAG_CLEAR(s, ANIM_OVER);
         s->hitboxes[0].index = -1;
         s->hitboxes[1].index = -1;
     }
 
-    procData->knuxFn(boss, p);
+    procData->changeState(boss, p);
 }
 
 void sub_804EB04(MechaKnuckles *boss)
@@ -515,8 +805,8 @@ void sub_804EB90(MechaKnuckles *boss)
     s32 temp_r6;
     s32 temp_r7;
 
-    temp_r7 = boss->unk8C + I(boss->qUnk74);
-    temp_r6 = boss->unk90 + I(boss->qUnk78);
+    temp_r7 = boss->spawnX + I(boss->qUnk74);
+    temp_r6 = boss->spawnY + I(boss->qUnk78);
 
     boss->flags88 &= ~1;
 
@@ -552,8 +842,8 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     Sprite *s2;
     u32 difficulty;
 
-    boss->unk8C = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
-    boss->unk90 = TO_WORLD_POS(me->y, boss->base.regionY);
+    boss->spawnX = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
+    boss->spawnY = TO_WORLD_POS(me->y, boss->base.regionY);
     boss->qUnk74 = Q(208);
     boss->qUnk78 = -Q(32);
     boss->unk7C = 0;
@@ -562,9 +852,9 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     boss->unk82 = 0;
     boss->flags88 = 0;
     boss->unk84 = 0;
-    boss->unk94 = 0;
+    boss->phase = MKPHASE_A;
 
-    ptr_r3 = &boss->unk95;
+    ptr_r3 = &boss->lives;
     off_r1 = 8;
     difficulty = LOADED_SAVE->difficultyLevel;
     *ptr_r3 = off_r1 -= (difficulty * 2);
@@ -574,8 +864,8 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     boss->unk97 = 0;
     boss->unk98 = 0;
     boss->unk99 = 0;
-    boss->unk9A = 0;
-    boss->unk9B = 0;
+    boss->state = MKSTATE_ACTIVATE;
+    boss->state2 = MKSTATE_ACTIVATE;
 
     s = &boss->s;
     // TODO: ALLOC_TILES!
@@ -602,10 +892,10 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     s2->animSpeed = 0x10;
     s2->palId = 0;
     s2->frameFlags = SPRITE_FLAG(PRIORITY, 2);
-    sub_804E8D4(boss, boss->unk9A);
+    sub_804E8D4(boss, boss->state);
 }
 
-u32 sub_804ED80(MechaKnuckles *boss, Player *p)
+MechaKnucklesStates sub_804ED80(MechaKnuckles *boss, Player *p)
 {
     s32 temp_r1;
     s32 temp_r2;
@@ -614,7 +904,7 @@ u32 sub_804ED80(MechaKnuckles *boss, Player *p)
     s32 diffX;
 
     temp_r2 = I(p->qWorldX);
-    temp_r1 = boss->unk8C + I(boss->qUnk74);
+    temp_r1 = boss->spawnX + I(boss->qUnk74);
     diffX = temp_r2 - temp_r1;
     if (diffX < 0) {
         diffX = temp_r1 - temp_r2;
@@ -622,10 +912,10 @@ u32 sub_804ED80(MechaKnuckles *boss, Player *p)
 
     rnd = PseudoRandom32();
 
-    if (boss->unk94 == 0) {
+    if (boss->phase == MKPHASE_A) {
         if (diffX < 80) {
             if (diffX < 32) {
-                result = (p->moveState & 2) ? 6 : 13;
+                result = (p->moveState & MOVESTATE_IN_AIR) ? 6 : 13;
             } else {
                 if (0x1000 & rnd) {
                     result = 5;
@@ -636,16 +926,18 @@ u32 sub_804ED80(MechaKnuckles *boss, Player *p)
         } else {
             result = (rnd & 0x100) ? 11 : 6;
         }
-    } else if (diffX > 0x4F) {
-        if (0x3000 & rnd) {
-            result = 0xF;
+    } else {
+        if (diffX >= 80) {
+            if (0x3000 & rnd) {
+                result = 0xF;
+            } else {
+                result = (rnd & 0x100) ? 11 : 6;
+            }
+        } else if (p->moveState & MOVESTATE_IN_AIR) {
+            result = 6;
         } else {
             result = (rnd & 0x100) ? 11 : 6;
         }
-    } else if (p->moveState & 2) {
-        result = 6;
-    } else {
-        result = (rnd & 0x100) ? 11 : 6;
     }
 
     return result;
@@ -663,7 +955,7 @@ bool32 sub_804EE20(MechaKnuckles *boss)
 
         temp_r0 = (((u32)PseudoRandom32() & 0x1FFF00) >> 8) - 4096;
         temp_r3 = (((u32)PseudoRandom32() & 0x1FFF00) >> 8) - 4096;
-        t = sub_8017540(boss->qUnk74 + Q(boss->unk8C) + temp_r0, boss->qUnk78 + Q(boss->unk90) + temp_r3);
+        t = sub_8017540(boss->qUnk74 + Q(boss->spawnX) + temp_r0, boss->qUnk78 + Q(boss->spawnY) + temp_r3);
 
         bolts = TASK_DATA(t);
         bolts->s.oamFlags = SPRITE_OAM_ORDER(19);
@@ -684,20 +976,20 @@ bool32 sub_804EEA8(MechaKnuckles *boss, Player *p)
 
     cam->minX = cam->x;
 
-    if (cam->maxY > boss->unk90) {
+    if (cam->maxY > boss->spawnY) {
         cam->maxY--;
-    } else if (cam->maxY < boss->unk90) {
+    } else if (cam->maxY < boss->spawnY) {
         cam->maxY++;
     }
 
-    if (cam->minY > boss->unk90 - DISPLAY_HEIGHT) {
+    if (cam->minY > boss->spawnY - DISPLAY_HEIGHT) {
         cam->minY--;
-    } else if (cam->minY < boss->unk90 - DISPLAY_HEIGHT) {
+    } else if (cam->minY < boss->spawnY - DISPLAY_HEIGHT) {
         cam->minY++;
     }
 
-    if (I(p->qWorldX) >= (boss->unk8C + 0x20)) {
-        boss->unk9B = 1;
+    if (I(p->qWorldX) >= (boss->spawnX + 0x20)) {
+        boss->state2 = MKSTATE_B;
         result = 0;
     }
 
@@ -714,25 +1006,25 @@ u32 sub_804EF18(MechaKnuckles *boss, Player *p)
     asm("" ::"r"(r2));
 #endif
 
-    if (cam->minX < boss->unk8C) {
+    if (cam->minX < boss->spawnX) {
         cam->minX++;
     }
 
-    if (cam->maxY > boss->unk90) {
+    if (cam->maxY > boss->spawnY) {
         cam->maxY--;
-    } else if (cam->maxY < boss->unk90) {
+    } else if (cam->maxY < boss->spawnY) {
         cam->maxY++;
     }
 
-    if (cam->minY > boss->unk90 - DISPLAY_HEIGHT) {
+    if (cam->minY > boss->spawnY - DISPLAY_HEIGHT) {
         cam->minY--;
-    } else if (cam->minY < boss->unk90 - DISPLAY_HEIGHT) {
+    } else if (cam->minY < boss->spawnY - DISPLAY_HEIGHT) {
         cam->minY++;
     }
 
-    if (boss->unk8C <= cam->minX) {
-        if (boss->unk90 >= cam->maxY) {
-            boss->unk9B = 2;
+    if (boss->spawnX <= cam->minX) {
+        if (boss->spawnY >= cam->maxY) {
+            boss->state2 = MKSTATE_C;
             result = 0;
         }
     }
@@ -756,9 +1048,9 @@ bool32 sub_804EFA0(MechaKnuckles *boss, Player *p)
         boss->unk7E -= 0x18;
     }
 
-    if ((boss->flags88 & 0xC) || ((boss->unk7C < 0) && ((I(p->qWorldX) - (boss->unk8C + I(boss->qUnk74))) > 0x20))
-        || ((boss->unk7C > 0) && (I(p->qWorldX) - (boss->unk8C + I(boss->qUnk74)) < -0x20))) {
-        boss->unk9B = 8;
+    if ((boss->flags88 & 0xC) || ((boss->unk7C < 0) && ((I(p->qWorldX) - (boss->spawnX + I(boss->qUnk74))) > 0x20))
+        || ((boss->unk7C > 0) && (I(p->qWorldX) - (boss->spawnX + I(boss->qUnk74)) < -0x20))) {
+        boss->state2 = MKSTATE_LAND;
         result = FALSE;
     }
     return result;
@@ -776,9 +1068,9 @@ bool32 sub_804F020(MechaKnuckles *boss, Player *p)
         gCamera.minX = gCamera.x;
     }
     if (SPRITE_FLAG_GET(&boss->s, ANIM_OVER)) {
-        boss->unk9B = 0x18;
+        boss->state2 = MKSTATE_EGGMOBILE_3;
         result = FALSE;
-        CreateBossCapsule(boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78));
+        CreateBossCapsule(boss->spawnX + I(boss->qUnk74), boss->spawnY + I(boss->qUnk78));
         gMusicManagerState.unk1 = 0x32;
     }
     return result;
@@ -798,8 +1090,8 @@ void CreateMechaKnucklesRocket(MechaKnuckles *boss)
     tf = &rocket->transform;
     isFlippedX = boss->s.frameFlags & SPRITE_FLAG_MASK_X_FLIP;
 
-    rocket->unk0 = (Q(boss->unk8C) + boss->qUnk74);
-    rocket->unk4 = (Q(boss->unk90) + boss->qUnk78 - Q(6));
+    rocket->unk0 = (Q(boss->spawnX) + boss->qUnk74);
+    rocket->unk4 = (Q(boss->spawnY) + boss->qUnk78 - Q(6));
     rocket->unk8 = -Q(0.25);
 
     if (isFlippedX) {
@@ -820,7 +1112,7 @@ void CreateMechaKnucklesRocket(MechaKnuckles *boss)
 
     s->graphics.dest = ALLOC_TILES(SA1_ANIM_BOSS_5_ROCKET);
     s->graphics.size = 0;
-    s->graphics.anim = SA1_ANIM_BOSS_5_ROCKET;
+    s->graphics.anim = SA1_ANIM_BOSS_5_PHASE2_ROCKET;
     s->variant = 0;
     s->prevVariant = -1;
     s->oamFlags = SPRITE_OAM_ORDER(21);
@@ -979,8 +1271,8 @@ struct Task *CreateMechaKnucklesParts(MechaKnuckles *boss, s32 variant)
     }
     s->oamFlags = SPRITE_OAM_ORDER(19);
     s->frameFlags = 0x2000;
-    parts->unk0 = Q(boss->unk8C) + boss->qUnk74;
-    parts->unk4 = Q(boss->unk90) + boss->qUnk78;
+    parts->unk0 = Q(boss->spawnX) + boss->qUnk74;
+    parts->unk4 = Q(boss->spawnY) + boss->qUnk78;
     val = (((u32)(PseudoRandom32() << 0xD) >> 0x15) - Q(4));
     parts->unk8 = val;
     {
@@ -1067,7 +1359,7 @@ void Task_MechaKnucklesPartsInit()
 
 void sub_804F73C(MechaKnuckles *boss, Player *p)
 {
-    gCamera.maxX = boss->unk8C + DISPLAY_WIDTH;
+    gCamera.maxX = boss->spawnX + DISPLAY_WIDTH;
     gCamera.minY = gCamera.y;
     gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
     boss->flags88 |= 0x20;
@@ -1079,8 +1371,8 @@ void sub_804F760(MechaKnuckles *boss, Player *p)
     p->qSpeedGround = 0;
     p->qSpeedAirX = 0;
     p->qSpeedAirY = 0;
-    p->moveState |= 0x200000;
-    p->moveState &= ~1;
+    p->moveState |= MOVESTATE_IGNORE_INPUT;
+    p->moveState &= ~MOVESTATE_FACING_LEFT;
     p->heldInput = 0;
     p->frameInput = 0;
 }
@@ -1091,8 +1383,8 @@ void sub_804F78C(MechaKnuckles *boss, Player *p) { }
 
 void sub_804F790(MechaKnuckles *boss, Player *p)
 {
-    p->charState = 0x27;
-    p->moveState |= 0x800000;
+    p->charState = CHARSTATE_39;
+    p->moveState |= MOVESTATE_800000;
     gMusicManagerState.unk1 = 0x11;
 }
 
@@ -1128,7 +1420,7 @@ void sub_804F7F4(MechaKnuckles *boss, Player *p)
 
 void sub_804F834(MechaKnuckles *boss, Player *p)
 {
-    if (boss->unk95 == (s8)boss->unk96) {
+    if (boss->lives == (s8)boss->unk96) {
         boss->unk80 >>= 1;
         boss->unk82 >>= 1;
     }
@@ -1136,8 +1428,8 @@ void sub_804F834(MechaKnuckles *boss, Player *p)
 
 void sub_804F860(MechaKnuckles *boss, Player *p)
 {
-    if (boss->unk95 == (s8)boss->unk96) {
-        boss->unk94 = 1;
+    if (boss->lives == (s8)boss->unk96) {
+        boss->phase = MKPHASE_B;
         gMusicManagerState.unk1 = 0x12;
     }
 }
@@ -1180,7 +1472,7 @@ void sub_804F95C(MechaKnuckles *boss, Player *p)
 
 u32 sub_804F984(MechaKnuckles *boss, Player *p)
 {
-    boss->unk9B = 3;
+    boss->state2 = MKPHASE_ACTIVATE_2;
     return 0;
 }
 
@@ -1189,7 +1481,7 @@ bool32 sub_804F990(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = 4;
+        boss->state2 = MKSTATE_IDLE;
         result = FALSE;
     }
 
@@ -1201,12 +1493,12 @@ u32 sub_804F9B0(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (p->spriteInfoBody->s.frameFlags & 0x4000) {
-        boss->unk9B = 5;
+        boss->state2 = MKSTATE_IDLE_2;
         result = FALSE;
         p->moveState &= ~MOVESTATE_IGNORE_INPUT;
         p->heldInput |= gPlayerControls.jump | gPlayerControls.attack;
         p->moveState &= ~MOVESTATE_800000;
-        p->charState = 0;
+        p->charState = CHARSTATE_IDLE;
     }
 
     return result;
@@ -1220,7 +1512,7 @@ u32 sub_804FA08(MechaKnuckles *boss, Player *p)
     boss->unk84--;
 
     if (temp_r1 <= 0) {
-        boss->unk9B = sub_804ED80(boss, p);
+        boss->state2 = sub_804ED80(boss, p);
         result = FALSE;
     }
     return result;
@@ -1230,7 +1522,7 @@ u32 sub_804FA38(MechaKnuckles *boss, Player *p)
 {
     s32 result = TRUE;
     if (boss->unk7E >= 0) {
-        boss->unk9B = 7;
+        boss->state2 = MKSTATE_GLIDE;
         result = FALSE;
     }
     return result;
@@ -1241,7 +1533,7 @@ u32 sub_804FA54(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->flags88 & 1) {
-        boss->unk9B = 9;
+        boss->state2 = MKSTATE_LAND_2;
         result = FALSE;
     }
 
@@ -1253,7 +1545,7 @@ u32 sub_804FA70(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = sub_804ED80(boss, p);
+        boss->state2 = sub_804ED80(boss, p);
         result = FALSE;
     }
 
@@ -1265,7 +1557,7 @@ u32 sub_804FA9C(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = sub_804ED80(boss, p);
+        boss->state2 = sub_804ED80(boss, p);
         result = FALSE;
     }
 
@@ -1280,7 +1572,7 @@ u32 sub_804FAC8(MechaKnuckles *boss, Player *p)
     boss->unk84--;
 
     if (temp_r1 <= 0) {
-        boss->unk9B = 12;
+        boss->state2 = MKSTATE_SPIN_2;
         result = FALSE;
     }
 
@@ -1292,7 +1584,7 @@ u32 sub_804FAF0(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->flags88 & 0xC) {
-        boss->unk9B = 5;
+        boss->state2 = MKSTATE_IDLE_2;
         result = FALSE;
     }
 
@@ -1304,7 +1596,7 @@ u32 sub_804FB10(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = 14;
+        boss->state2 = MKSTATE_PUNCH_2;
         result = FALSE;
     }
 
@@ -1316,7 +1608,7 @@ u32 sub_804FB30(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = sub_804ED80(boss, p);
+        boss->state2 = sub_804ED80(boss, p);
         result = FALSE;
     }
 
@@ -1328,7 +1620,7 @@ u32 sub_804FB5C(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = 16;
+        boss->state2 = MKSTATE_LAUNCH_ROCKET_2;
         result = FALSE;
     }
 
@@ -1340,7 +1632,7 @@ u32 sub_804FB7C(MechaKnuckles *boss, Player *p)
     s32 result = TRUE;
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = sub_804ED80(boss, p);
+        boss->state2 = sub_804ED80(boss, p);
         result = FALSE;
     }
 
@@ -1351,12 +1643,12 @@ u32 sub_804FBA8(MechaKnuckles *boss, Player *p)
 {
     s32 result = TRUE;
 
-    if (boss->unk95 == boss->unk96) {
+    if (boss->lives == boss->unk96) {
         sub_804EE20(boss);
     }
 
     if (boss->flags88 & 1) {
-        boss->unk9B = 18;
+        boss->state2 = MKSTATE_HIT_2;
         result = FALSE;
     }
 
@@ -1367,12 +1659,12 @@ u32 sub_804FBE4(MechaKnuckles *boss, Player *p)
 {
     s32 result = TRUE;
 
-    if (boss->unk95 == boss->unk96) {
+    if (boss->lives == boss->unk96) {
         sub_804EE20(boss);
     }
 
     if (boss->s.frameFlags & 0x4000) {
-        boss->unk9B = sub_804ED80(boss, p);
+        boss->state2 = sub_804ED80(boss, p);
         result = FALSE;
     }
 
@@ -1392,7 +1684,7 @@ u32 sub_804FC28(MechaKnuckles *boss, Player *p)
         boss->unk7C = -boss->unk7C;
     }
     if (boss->flags88 & 1) {
-        boss->unk9B = 20;
+        boss->state2 = MKSTATE_DEFEATED_2;
         result = FALSE;
     }
     return result;
@@ -1410,7 +1702,7 @@ u32 sub_804FC78(MechaKnuckles *boss, Player *p)
     boss->unk84--;
 
     if (temp_r1 <= 0) {
-        boss->unk9B = 21;
+        boss->state2 = MKSTATE_DEFEATED_3;
         result = FALSE;
     }
 
@@ -1421,7 +1713,7 @@ u32 sub_804FCA4(MechaKnuckles *boss, Player *p)
 {
     s32 result = TRUE;
     if (sub_804EE20(boss)) {
-        boss->unk9B = 22;
+        boss->state2 = MKSTATE_EGGMOBILE;
         result = FALSE;
 
         CreateMechaKnucklesParts(boss, 0);
@@ -1450,9 +1742,9 @@ u32 sub_804FCEC(MechaKnuckles *boss, Player *p)
         gCamera.minX = gCamera.x;
     }
 
-    if (((boss->unk8C + I(boss->qUnk74) + 0x20) <= (gCamera.x + DISPLAY_WIDTH))
+    if (((boss->spawnX + I(boss->qUnk74) + 0x20) <= (gCamera.x + DISPLAY_WIDTH))
         && ((s32)gCamera.minX >= (s32)(gCamera.maxX - DISPLAY_WIDTH))) {
-        boss->unk9B = 23;
+        boss->state2 = MKSTATE_EGGMOBILE_2;
         result = FALSE;
     }
 
@@ -1471,7 +1763,7 @@ u32 sub_804FD54(MechaKnuckles *boss, Player *p)
         gCamera.minX = gCamera.x;
     }
 
-    if (boss->unk8C + I(boss->qUnk74) >= (gCamera.maxX + 32)) {
+    if (boss->spawnX + I(boss->qUnk74) >= (gCamera.maxX + 32)) {
         boss->flags88 &= ~0x60;
         TaskDestroy(gCurTask);
     }
