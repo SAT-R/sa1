@@ -134,21 +134,27 @@ struct Task *CreateItemTask_Confusion(s8 playerID)
     return t;
 }
 
-// (99.89%) https://decomp.me/scratch/Jp0vL
-NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Normal.inc", void Task_Item_Shield_Normal(void))
+// TODO: Fake-match
+// (100.00%) https://decomp.me/scratch/RHonJ
+void Task_Item_Shield_Normal(void)
 {
     struct Task *t = gCurTask;
     s8 pid = ITEMTASK_GET_PLAYER_NUM(t);
+    s32 pid2;
 
     ItemTask *item = TASK_DATA(t);
     struct Camera *cam = &gCamera;
     Player *p;
+#ifndef NON_MATCHING
+    register bool32 b asm("r3");
+#else
     bool32 b;
+#endif
 
     if (IS_MULTI_PLAYER) {
         MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
 
-        if (!(mpp->unk57 & 0x1)) {
+        if (!(mpp->unk57 & PLAYER_ITEM_EFFECT__SHIELD_NORMAL)) {
             TaskDestroy(t);
             return;
         }
@@ -185,13 +191,14 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Normal.inc", 
 
     UpdateSpriteAnimation(&item->s);
 
-    b = (pid & 1);
+    pid2 = pid;
+    b = 1;
+    pid2 &= b;
 
-    if (((gStageTime & 0x2) && (pid != b)) || (!(gStageTime & 0x2) && (pid != 0))) {
+    if (((gStageTime & 0x2) && (pid2 != b)) || (!(gStageTime & 0x2) && (pid2 != 0))) {
         DisplaySprite(&item->s);
     }
 }
-END_NONMATCH
 
 // (99.85%) https://decomp.me/scratch/Ozaza
 NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Magnetic.inc", void Task_Item_Shield_Magnetic(void))
