@@ -29,14 +29,14 @@ typedef struct MechaKnuckles {
     /* 0x0C */ Sprite s;
     /* 0x3C */ Hitbox reserved;
     /* 0x44 */ Sprite s2;
-    /* 0x74 */ s32 unk74;
-    /* 0x78 */ s32 unk78;
+    /* 0x74 */ s32 qUnk74;
+    /* 0x78 */ s32 qUnk78;
     /* 0x7C */ s16 unk7C;
     /* 0x7E */ s16 unk7E;
     /* 0x80 */ s16 unk80;
     /* 0x82 */ s16 unk82;
     /* 0x84 */ u16 unk84;
-    /* 0x88 */ s32 unk88;
+    /* 0x88 */ u32 flags88;
     /* 0x8C */ s32 unk8C;
     /* 0x90 */ s32 unk90;
     /* 0x94 */ s8 unk94;
@@ -248,7 +248,7 @@ void CreateEntity_MechaKnuckles(MapEntity *me, u16 regionX, u16 regionY, u8 id)
     }
 }
 
-// (96.14%) https://decomp.me/scratch/PJZn0
+// (97.27%) https://decomp.me/scratch/IOy1q
 NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", void Task_MechaKnucklesInit())
 {
     Sprite *s;
@@ -274,16 +274,16 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
 
     sp4 = sBoss5ProcData[boss->unk9A].knuxPlayerFn(boss, p);
     sub_804EB04(boss);
-    if (!(boss->unk88 & 0x04000000)) {
+    if (!(boss->flags88 & 0x04000000)) {
         sub_804FDD4(boss);
     }
-    if (!(boss->unk88 & 0x02000000)) {
+    if (!(boss->flags88 & 0x02000000)) {
         sub_804EB90(boss);
     }
 
-    var_r5 = sub_800BFEC(s, boss->unk8C + I(boss->unk74), boss->unk90 + I(boss->unk78), p);
+    var_r5 = sub_800BFEC(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), p);
     if (gNumSingleplayerCharacters == 2) {
-        var_r5 |= sub_800BFEC(s, boss->unk8C + I(boss->unk74), boss->unk90 + I(boss->unk78), &gPartner);
+        var_r5 |= sub_800BFEC(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), &gPartner);
     }
 
     if (var_r5 == 0) {
@@ -293,9 +293,9 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
 #else
             Player *player;
 #endif
-            var_r5 = sub_800C0E0(s, boss->unk8C + I(boss->unk74), boss->unk90 + I(boss->unk78), p);
+            var_r5 = sub_800C0E0(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), p);
             if (gNumSingleplayerCharacters == 2) {
-                var_r0 = sub_800C0E0(s, boss->unk8C + I(boss->unk74), boss->unk90 + I(boss->unk78), &gPartner);
+                var_r0 = sub_800C0E0(s, boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78), &gPartner);
             } else {
                 var_r0 = 0;
             }
@@ -304,16 +304,16 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
                 if (((boss->unk9A == 5) || (boss->unk9A == 0xA)) && !(p->moveState & 2)) {
                     if (boss->unk9A != 0xA) {
                         sp4 = 0;
-                        boss->unk9B = 0xA;
+                        boss->unk9B = 10;
                         player = p;
                         player->qSpeedAirX = -player->qSpeedAirX;
                         player->qSpeedGround = -player->qSpeedGround;
                     }
                 } else {
                     sp4 = 0;
-                    boss->unk9B = 0x11;
+                    boss->unk9B = 17;
                     if (--boss->unk95 <= 0) {
-                        boss->unk95 = 0x13;
+                        boss->unk9B = 19;
                     }
                     boss->unk97 = 0x20;
                 }
@@ -321,16 +321,16 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
                 if (((boss->unk9A == 5) || (boss->unk9A == 0xA)) && ((gPartner.moveState & 2) == 0)) {
                     if (boss->unk9A != 0xA) {
                         sp4 = 0;
-                        boss->unk9B = 0xA;
+                        boss->unk9B = 10;
                         player = &gPartner;
                         player->qSpeedAirX = -player->qSpeedAirX;
                         player->qSpeedGround = -player->qSpeedGround;
                     }
                 } else {
                     sp4 = 0;
-                    boss->unk9B = 0x11;
+                    boss->unk9B = 17;
                     if (--boss->unk95 <= 0) {
-                        boss->unk95 = 0x13;
+                        boss->unk9B = 19;
                     }
                     boss->unk97 = 0x20;
                 }
@@ -339,7 +339,7 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
     }
 
     if (boss->unk97 != 0) {
-        if (!(gStageTime & 2) && PLAYER_IS_ALIVE) {
+        if (!(gStageTime & 2) && !(gPlayer.moveState & 0x80)) {
             s->frameFlags |= 0x100;
             gDispCnt |= 0x8000;
             gWinRegs[5] = 0x3F3F;
@@ -350,14 +350,14 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesInit.inc", voi
         }
     }
 
-    s->x = s2->x = (boss->unk8C + I(boss->unk74)) - gCamera.x;
-    s->y = s2->y = (boss->unk90 + I(boss->unk78)) - gCamera.y;
+    s->x = s2->x = (boss->unk8C + I(boss->qUnk74)) - gCamera.x;
+    s->y = s2->y = (boss->unk90 + I(boss->qUnk78)) - gCamera.y;
 
-    if (boss->unk88 & 0x20) {
+    if (boss->flags88 & 0x20) {
         UpdateSpriteAnimation(s);
         DisplaySprite(s);
     }
-    if (boss->unk88 & 0x40) {
+    if (boss->flags88 & 0x40) {
         UpdateSpriteAnimation(s2);
         DisplaySprite(s2);
     }
@@ -390,7 +390,7 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
     sp0 = boss->unk94;
     var_r7 = procData->unk8;
     var_r8 = procData->unkC;
-    var_r2 = boss->unk88;
+    var_r2 = boss->flags88;
     temp_r3 = procData->unk14;
     temp_r5_2 = (0x400 & temp_r3);
     if (temp_r5_2 == 0) {
@@ -407,7 +407,7 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
     if (var_r2 & 0x10) {
         var_r2 &= ~1;
     }
-    boss->unk88 = var_r2;
+    boss->flags88 = var_r2;
 
     temp_r1 = procData->unk10;
     boss->unk84 = temp_r1;
@@ -419,19 +419,19 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
 
     temp_r1 = procData->unk19;
     if (temp_r1 != boss->unk99) {
-        boss->unk78 -= Q(boss->unk99 - temp_r1);
+        boss->qUnk78 -= Q(boss->unk99 - temp_r1);
         boss->unk99 = procData->unk19;
     }
 
     switch (0x1800 & var_r2) {
         case 0x800: {
-            if (I(boss->unk74) > 0x77) {
+            if (I(boss->qUnk74) > 0x77) {
                 var_r7 = -var_r7;
                 var_r8 = -var_r8;
             }
         } break;
         case 0x1000: {
-            if ((I(boss->unk74) + boss->unk8C) >= I(p->qWorldX)) {
+            if ((I(boss->qUnk74) + boss->unk8C) >= I(p->qWorldX)) {
                 var_r7 = -var_r7;
                 var_r8 = -var_r8;
             }
@@ -444,19 +444,19 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
 
     switch (0x300 & var_r2) {
         case 0x100: {
-            if (I(boss->unk74) > 0x77) {
-                s->frameFlags &= ~0x400;
+            if (I(boss->qUnk74) > 0x77) {
+                SPRITE_FLAG_CLEAR(s, X_FLIP);
             } else {
-                s->frameFlags |= 0x400;
+                SPRITE_FLAG_SET(s, X_FLIP);
             }
 
         } break;
 
         case 0x200: {
-            if ((I(boss->unk74) + boss->unk8C) >= I(p->qWorldX)) {
-                s->frameFlags &= ~0x400;
+            if ((I(boss->qUnk74) + boss->unk8C) >= I(p->qWorldX)) {
+                SPRITE_FLAG_CLEAR(s, X_FLIP);
             } else {
-                s->frameFlags |= 0x400;
+                SPRITE_FLAG_SET(s, X_FLIP);
             }
 
         } break;
@@ -466,8 +466,8 @@ void sub_804E8D4(MechaKnuckles *boss, s32 param1)
         && ((s->graphics.anim != procData->unk1C[sp0].anim) || (s->variant != procData->unk1C[sp0].variant))) {
         s->graphics.anim = procData->unk1C[sp0].anim;
         s->variant = procData->unk1C[sp0].variant;
-        s->prevVariant = 0xFF;
-        s->frameFlags &= 0xFFFFBFFF;
+        s->prevVariant = -1;
+        SPRITE_FLAG_CLEAR(s, ANIM_OVER);
         s->hitboxes[0].index = -1;
         s->hitboxes[1].index = -1;
     }
@@ -483,12 +483,12 @@ void sub_804EB04(MechaKnuckles *boss)
 
     var_r3 = boss->unk7C;
     var_r4 = boss->unk7E;
-    boss->unk74 += var_r3;
-    boss->unk78 += var_r4;
+    boss->qUnk74 += var_r3;
+    boss->qUnk78 += var_r4;
     var_r2 = var_r3 & 0x80000000;
     var_r3 += boss->unk80;
 
-    if ((boss->unk88 & 0x4000) && (var_r2 != (var_r3 & 0x80000000))) {
+    if ((boss->flags88 & 0x4000) && (var_r2 != (var_r3 & 0x80000000))) {
         var_r3 = 0;
         boss->unk80 = 0;
     }
@@ -498,7 +498,7 @@ void sub_804EB04(MechaKnuckles *boss)
     var_r2 &= 0x80000000;
     var_r4 = var_r4 + boss->unk82;
 
-    if ((boss->unk88 & 0x8000) && (var_r2 != (var_r4 & 0x80000000))) {
+    if ((boss->flags88 & 0x8000) && (var_r2 != (var_r4 & 0x80000000))) {
         var_r4 = 0;
         boss->unk82 = 0;
     }
@@ -515,30 +515,30 @@ void sub_804EB90(MechaKnuckles *boss)
     s32 temp_r6;
     s32 temp_r7;
 
-    temp_r7 = boss->unk8C + I(boss->unk74);
-    temp_r6 = boss->unk90 + I(boss->unk78);
+    temp_r7 = boss->unk8C + I(boss->qUnk74);
+    temp_r6 = boss->unk90 + I(boss->qUnk78);
 
-    boss->unk88 &= ~1;
+    boss->flags88 &= ~1;
 
     res = sa2__sub_801E4E4(temp_r6 + boss->unk99, temp_r7, 1, 8, NULL, sa2__sub_801EE64);
-    if (boss->unk88 & 0x10) {
+    if (boss->flags88 & 0x10) {
         if (res < 0) {
-            boss->unk78 += res << 8;
-            boss->unk88 |= 1;
+            boss->qUnk78 += res << 8;
+            boss->flags88 |= 1;
         }
     } else if (res <= 0xA) {
-        boss->unk78 += res << 8;
-        boss->unk88 |= 1;
+        boss->qUnk78 += res << 8;
+        boss->flags88 |= 1;
     }
 
-    boss->unk88 &= ~2;
+    boss->flags88 &= ~2;
 
     if (boss->unk7E < 0) {
         res = sa2__sub_801E4E4(temp_r6 - boss->unk99, temp_r7, 1, -8, NULL, sa2__sub_801EE64);
 
         if (res < 0) {
-            boss->unk78 -= Q(res);
-            boss->unk88 |= 2;
+            boss->qUnk78 -= Q(res);
+            boss->flags88 |= 2;
         }
     }
 }
@@ -552,15 +552,15 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     Sprite *s2;
     u32 difficulty;
 
-    boss->unk8C = (boss->base.meX * 8) + (boss->base.regionX << 8);
-    boss->unk90 = (me->y * 8) + (boss->base.regionY << 8);
-    boss->unk74 = 0xD000;
-    boss->unk78 = -0x2000;
+    boss->unk8C = TO_WORLD_POS(boss->base.meX, boss->base.regionX);
+    boss->unk90 = TO_WORLD_POS(me->y, boss->base.regionY);
+    boss->qUnk74 = Q(208);
+    boss->qUnk78 = -Q(32);
     boss->unk7C = 0;
     boss->unk7E = 0;
     boss->unk80 = 0;
     boss->unk82 = 0;
-    boss->unk88 = 0;
+    boss->flags88 = 0;
     boss->unk84 = 0;
     boss->unk94 = 0;
 
@@ -580,7 +580,7 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     s = &boss->s;
     // TODO: ALLOC_TILES!
     s->graphics.dest = VramMalloc(64);
-    s->oamFlags = 0x500;
+    s->oamFlags = SPRITE_OAM_ORDER(20);
     s->graphics.size = 0;
     s->animCursor = 0;
     s->qAnimDelay = 0;
@@ -589,19 +589,19 @@ void sub_804EC60(MechaKnuckles *boss, MapEntity *me)
     s->palId = 0;
     s->hitboxes[0].index = -1;
     s->hitboxes[1].index = -1;
-    s->frameFlags = 0x2000;
+    s->frameFlags = SPRITE_FLAG(PRIORITY, 2);
 
     s2 = &boss->s2;
     // TODO: ALLOC_TILES!
     s2->graphics.dest = VramMalloc(30);
-    s2->oamFlags = 0x500;
+    s2->oamFlags = SPRITE_OAM_ORDER(20);
     s2->graphics.size = 0;
     s2->animCursor = 0;
     s2->qAnimDelay = 0;
     s2->prevVariant = -1;
     s2->animSpeed = 0x10;
     s2->palId = 0;
-    s2->frameFlags = 0x2000;
+    s2->frameFlags = SPRITE_FLAG(PRIORITY, 2);
     sub_804E8D4(boss, boss->unk9A);
 }
 
@@ -614,7 +614,7 @@ u32 sub_804ED80(MechaKnuckles *boss, Player *p)
     s32 diffX;
 
     temp_r2 = I(p->qWorldX);
-    temp_r1 = boss->unk8C + I(boss->unk74);
+    temp_r1 = boss->unk8C + I(boss->qUnk74);
     diffX = temp_r2 - temp_r1;
     if (diffX < 0) {
         diffX = temp_r1 - temp_r2;
@@ -663,10 +663,10 @@ bool32 sub_804EE20(MechaKnuckles *boss)
 
         temp_r0 = (((u32)PseudoRandom32() & 0x1FFF00) >> 8) - 4096;
         temp_r3 = (((u32)PseudoRandom32() & 0x1FFF00) >> 8) - 4096;
-        t = sub_8017540(boss->unk74 + Q(boss->unk8C) + temp_r0, boss->unk78 + Q(boss->unk90) + temp_r3);
+        t = sub_8017540(boss->qUnk74 + Q(boss->unk8C) + temp_r0, boss->qUnk78 + Q(boss->unk90) + temp_r3);
 
         bolts = TASK_DATA(t);
-        bolts->s.oamFlags = 0x4C0;
+        bolts->s.oamFlags = SPRITE_OAM_ORDER(19);
         result = TRUE;
     }
     return result;
@@ -756,8 +756,8 @@ bool32 sub_804EFA0(MechaKnuckles *boss, Player *p)
         boss->unk7E -= 0x18;
     }
 
-    if ((boss->unk88 & 0xC) || ((boss->unk7C < 0) && ((I(p->qWorldX) - (boss->unk8C + I(boss->unk74))) > 0x20))
-        || ((boss->unk7C > 0) && (I(p->qWorldX) - (boss->unk8C + I(boss->unk74)) < -0x20))) {
+    if ((boss->flags88 & 0xC) || ((boss->unk7C < 0) && ((I(p->qWorldX) - (boss->unk8C + I(boss->qUnk74))) > 0x20))
+        || ((boss->unk7C > 0) && (I(p->qWorldX) - (boss->unk8C + I(boss->qUnk74)) < -0x20))) {
         boss->unk9B = 8;
         result = FALSE;
     }
@@ -775,10 +775,10 @@ bool32 sub_804F020(MechaKnuckles *boss, Player *p)
     if (gCamera.minX < gCamera.x) {
         gCamera.minX = gCamera.x;
     }
-    if (boss->s.frameFlags & 0x4000) {
+    if (SPRITE_FLAG_GET(&boss->s, ANIM_OVER)) {
         boss->unk9B = 0x18;
         result = FALSE;
-        CreateBossCapsule(boss->unk8C + I(boss->unk74), boss->unk90 + I(boss->unk78));
+        CreateBossCapsule(boss->unk8C + I(boss->qUnk74), boss->unk90 + I(boss->qUnk78));
         gMusicManagerState.unk1 = 0x32;
     }
     return result;
@@ -798,8 +798,8 @@ void CreateMechaKnucklesRocket(MechaKnuckles *boss)
     tf = &rocket->transform;
     isFlippedX = boss->s.frameFlags & SPRITE_FLAG_MASK_X_FLIP;
 
-    rocket->unk0 = (Q(boss->unk8C) + boss->unk74);
-    rocket->unk4 = (Q(boss->unk90) + boss->unk78 - Q(6));
+    rocket->unk0 = (Q(boss->unk8C) + boss->qUnk74);
+    rocket->unk4 = (Q(boss->unk90) + boss->qUnk78 - Q(6));
     rocket->unk8 = -Q(0.25);
 
     if (isFlippedX) {
@@ -951,9 +951,6 @@ NONMATCH("asm/non_matching/game/enemies/boss_5__Task_MechaKnucklesRocketInit.inc
 }
 END_NONMATCH
 
-#if 0
-#endif
-
 struct Task *CreateMechaKnucklesParts(MechaKnuckles *boss, s32 variant)
 {
     struct Task *sp4;
@@ -982,8 +979,8 @@ struct Task *CreateMechaKnucklesParts(MechaKnuckles *boss, s32 variant)
     }
     s->oamFlags = SPRITE_OAM_ORDER(19);
     s->frameFlags = 0x2000;
-    parts->unk0 = Q(boss->unk8C) + boss->unk74;
-    parts->unk4 = Q(boss->unk90) + boss->unk78;
+    parts->unk0 = Q(boss->unk8C) + boss->qUnk74;
+    parts->unk4 = Q(boss->unk90) + boss->qUnk78;
     val = (((u32)(PseudoRandom32() << 0xD) >> 0x15) - Q(4));
     parts->unk8 = val;
     {
@@ -1073,7 +1070,7 @@ void sub_804F73C(MechaKnuckles *boss, Player *p)
     gCamera.maxX = boss->unk8C + DISPLAY_WIDTH;
     gCamera.minY = gCamera.y;
     gCamera.maxY = gCamera.y + DISPLAY_HEIGHT;
-    boss->unk88 |= 0x20;
+    boss->flags88 |= 0x20;
 }
 
 void sub_804F760(MechaKnuckles *boss, Player *p)
@@ -1154,15 +1151,15 @@ void sub_804F8D8(MechaKnuckles *boss, Player *p) { }
 void sub_804F8DC(MechaKnuckles *boss, Player *p)
 {
     Camera *cam = &gCamera;
-    boss->unk74 = +Q(272); // TODO: Is this (DISPLAY_WIDTH + 32)?
-    boss->unk78 = -Q(100);
+    boss->qUnk74 = +Q(272); // TODO: Is this (DISPLAY_WIDTH + 32)?
+    boss->qUnk78 = -Q(100);
     cam->maxX = gRefCollision->pxWidth;
     boss->s.frameFlags &= ~0x400;
     boss->s2.frameFlags &= ~0x400;
     boss->s2.graphics.anim = SA1_ANIM_EGGMAN;
     boss->s2.variant = 3;
     boss->s2.prevVariant = -1;
-    boss->unk88 |= 0x40;
+    boss->flags88 |= 0x40;
 }
 
 void sub_804F934(MechaKnuckles *boss, Player *p)
@@ -1243,7 +1240,7 @@ u32 sub_804FA54(MechaKnuckles *boss, Player *p)
 {
     s32 result = TRUE;
 
-    if (boss->unk88 & 1) {
+    if (boss->flags88 & 1) {
         boss->unk9B = 9;
         result = FALSE;
     }
@@ -1294,7 +1291,7 @@ u32 sub_804FAF0(MechaKnuckles *boss, Player *p)
 {
     s32 result = TRUE;
 
-    if (boss->unk88 & 0xC) {
+    if (boss->flags88 & 0xC) {
         boss->unk9B = 5;
         result = FALSE;
     }
@@ -1358,7 +1355,7 @@ u32 sub_804FBA8(MechaKnuckles *boss, Player *p)
         sub_804EE20(boss);
     }
 
-    if (boss->unk88 & 1) {
+    if (boss->flags88 & 1) {
         boss->unk9B = 18;
         result = FALSE;
     }
@@ -1388,13 +1385,13 @@ u32 sub_804FC28(MechaKnuckles *boss, Player *p)
 
     sub_804EE20(boss);
 
-    if (boss->unk88 & 4) {
+    if (boss->flags88 & 4) {
         boss->unk7C = -boss->unk7C;
     }
-    if (boss->unk88 & 8) {
+    if (boss->flags88 & 8) {
         boss->unk7C = -boss->unk7C;
     }
-    if (boss->unk88 & 1) {
+    if (boss->flags88 & 1) {
         boss->unk9B = 20;
         result = FALSE;
     }
@@ -1453,7 +1450,7 @@ u32 sub_804FCEC(MechaKnuckles *boss, Player *p)
         gCamera.minX = gCamera.x;
     }
 
-    if (((boss->unk8C + I(boss->unk74) + 0x20) <= (gCamera.x + DISPLAY_WIDTH))
+    if (((boss->unk8C + I(boss->qUnk74) + 0x20) <= (gCamera.x + DISPLAY_WIDTH))
         && ((s32)gCamera.minX >= (s32)(gCamera.maxX - DISPLAY_WIDTH))) {
         boss->unk9B = 23;
         result = FALSE;
@@ -1474,8 +1471,8 @@ u32 sub_804FD54(MechaKnuckles *boss, Player *p)
         gCamera.minX = gCamera.x;
     }
 
-    if (boss->unk8C + I(boss->unk74) >= (gCamera.maxX + 32)) {
-        boss->unk88 &= ~0x60;
+    if (boss->unk8C + I(boss->qUnk74) >= (gCamera.maxX + 32)) {
+        boss->flags88 &= ~0x60;
         TaskDestroy(gCurTask);
     }
 
@@ -1496,10 +1493,10 @@ void sub_804FDD4(MechaKnuckles *boss)
     s32 var_r2;
     s32 var_r3;
 
-    var_r2 = boss->unk74;
-    var_r3 = boss->unk88;
-    var_r3 &= ~0xC;
-    temp_r0 = (I(boss->unk74) - boss->unk98) - 6;
+    var_r2 = boss->qUnk74;
+    var_r3 = boss->flags88;
+    var_r3 &= ~(0x4 | 0x8);
+    temp_r0 = (I(boss->qUnk74) - boss->unk98) - 6;
 
     if (temp_r0 < 0) {
         var_r2 -= Q(temp_r0);
@@ -1512,8 +1509,8 @@ void sub_804FDD4(MechaKnuckles *boss)
         var_r3 |= 8;
     }
 
-    boss->unk74 = var_r2;
-    boss->unk88 = var_r3;
+    boss->qUnk74 = var_r2;
+    boss->flags88 = var_r3;
 }
 
 void TaskDestructor_MechaKnuckles_Rocket(struct Task *t)
