@@ -1583,7 +1583,7 @@ u32 sub_804FAF0(MechaKnuckles *boss, Player *p)
 {
     s32 result = TRUE;
 
-    if (boss->flags88 & 0xC) {
+    if (boss->flags88 & (0x8 | 0x4)) {
         boss->state2 = MKSTATE_IDLE_2;
         result = FALSE;
     }
