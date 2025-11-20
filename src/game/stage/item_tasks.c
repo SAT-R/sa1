@@ -200,20 +200,27 @@ void Task_Item_Shield_Normal(void)
     }
 }
 
-// (99.85%) https://decomp.me/scratch/Ozaza
-NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Magnetic.inc", void Task_Item_Shield_Magnetic(void))
+// TODO: Fake-match
+// (100.00%) https://decomp.me/scratch/zjlaf
+void Task_Item_Shield_Magnetic(void)
 {
     struct Task *t = gCurTask;
     s8 pid = ITEMTASK_GET_PLAYER_NUM(t);
+    s32 pid2;
 
     ItemTask *item = TASK_DATA(t);
     struct Camera *cam = &gCamera;
     Player *p;
+#ifndef NON_MATCHING
+    register bool32 b asm("r3");
+#else
     bool32 b;
+#endif
 
-    if (IS_MULTI_PLAYER) {
+    if(IS_MULTI_PLAYER) {
         MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
 
+        
         if (!(mpp->unk57 & PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC)) {
             TaskDestroy(t);
             return;
@@ -221,43 +228,44 @@ NONMATCH("asm/non_matching/game/stage/Item_Tasks__Task_Item_Shield_Magnetic.inc"
 
         item->s.x = mpp->pos.x - cam->x;
         item->s.y = mpp->pos.y - cam->y;
-
+        
         item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
         item->s.frameFlags |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
     } else {
         p = &PLAYER(pid);
 
-        if ((p->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_NORMAL)) == 0) {
+        if ((p->itemEffect & (PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC)) == 0) {
             TaskDestroy(t);
             return;
         }
 
         if (!(p->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
             s32 screenX, screenY;
-
+    
             screenX = I(p->qWorldX) - (u16)cam->x;
             item->s.x = screenX + p->SA2_LABEL(unk7C);
-
+    
             screenY = I(p->qWorldY) - (u16)cam->y;
             item->s.y = screenY;
-
+    
             item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
-
+            
             item->s.frameFlags |= p->spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
         } else {
             return;
         }
     }
-
+    
     UpdateSpriteAnimation(&item->s);
 
-    b = (pid & 1);
-
-    if (((gStageTime & 0x2) && (pid != b)) || (!(gStageTime & 0x2) && (b != 0))) {
+    pid2 = pid;
+    b = 1;
+    pid2 &= b;
+    
+    if (((gStageTime & 0x2) && (pid2 != b)) || (!(gStageTime & 0x2) && (pid2 != 0))) {
         DisplaySprite(&item->s);
     }
 }
-END_NONMATCH
 
 void sub_804BABC(void)
 {
