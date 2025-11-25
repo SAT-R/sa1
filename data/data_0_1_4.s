@@ -1,4 +1,6 @@
-	.section .rodata
+.include "asm/macros/portable.inc"
+
+	mSectionRodata
     .align 2 , 0
 
     .global gUnknown_080BB544

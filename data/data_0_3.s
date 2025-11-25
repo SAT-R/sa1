@@ -1,4 +1,6 @@
-.section .rodata
+.include "asm/macros/portable.inc"
+
+    mSectionRodata
 
 
     .global gUnknown_084ACDA0

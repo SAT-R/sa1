@@ -1495,8 +1495,13 @@ void CreateExtraStageResults(void)
     s->graphics.dest = OBJ_VRAM0 + 0x2560;
     s->graphics.anim = SA1_ANIM_FINAL_CUTSCENE_SPARKLE_B;
     s->variant = 0;
+    #ifdef BUG_FIX
+    s->x = 160;
+    s->y = -32;
+    #else
     s->x = Q(160); // NOTE: These shouldn't be Q()!
     s->y = -Q(32); // NOTE: These shouldn't be Q()!
+    #endif
     s->oamFlags = SPRITE_OAM_ORDER(3);
     s->graphics.size = 0;
     s->animCursor = 0;

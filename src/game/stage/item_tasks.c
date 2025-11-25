@@ -217,10 +217,9 @@ void Task_Item_Shield_Magnetic(void)
     bool32 b;
 #endif
 
-    if(IS_MULTI_PLAYER) {
+    if (IS_MULTI_PLAYER) {
         MultiplayerPlayer *mpp = TASK_DATA(gMultiplayerPlayerTasks[pid]);
 
-        
         if (!(mpp->unk57 & PLAYER_ITEM_EFFECT__SHIELD_MAGNETIC)) {
             TaskDestroy(t);
             return;
@@ -228,7 +227,7 @@ void Task_Item_Shield_Magnetic(void)
 
         item->s.x = mpp->pos.x - cam->x;
         item->s.y = mpp->pos.y - cam->y;
-        
+
         item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
         item->s.frameFlags |= mpp->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
     } else {
@@ -241,27 +240,27 @@ void Task_Item_Shield_Magnetic(void)
 
         if (!(p->itemEffect & PLAYER_ITEM_EFFECT__INVINCIBILITY)) {
             s32 screenX, screenY;
-    
+
             screenX = I(p->qWorldX) - (u16)cam->x;
             item->s.x = screenX + p->SA2_LABEL(unk7C);
-    
+
             screenY = I(p->qWorldY) - (u16)cam->y;
             item->s.y = screenY;
-    
+
             item->s.frameFlags &= ~SPRITE_FLAG_MASK_PRIORITY;
-            
+
             item->s.frameFlags |= p->spriteInfoBody->s.frameFlags & SPRITE_FLAG_MASK_PRIORITY;
         } else {
             return;
         }
     }
-    
+
     UpdateSpriteAnimation(&item->s);
 
     pid2 = pid;
     b = 1;
     pid2 &= b;
-    
+
     if (((gStageTime & 0x2) && (pid2 != b)) || (!(gStageTime & 0x2) && (pid2 != 0))) {
         DisplaySprite(&item->s);
     }

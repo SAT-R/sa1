@@ -1,4 +1,6 @@
-.section .rodata
+.include "asm/macros/portable.inc"
+
+    mSectionRodata
 
     @ "graphics/tilemaps/mp_multipak_player_overview/header.c"
 

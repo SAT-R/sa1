@@ -1,4 +1,6 @@
-	.section .rodata
+.include "asm/macros/portable.inc"
+
+	mSectionRodata
 
     .global gObjTiles_4bpp
 gObjTiles_4bpp:

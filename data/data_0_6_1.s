@@ -1,6 +1,6 @@
 .include "asm/macros/portable.inc" @; for mPtr / mAlignWord
 
-	.section .rodata
+	mSectionRodata
 
     .align 2, 0
     .global gUnknown_0868B684

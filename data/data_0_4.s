@@ -1,5 +1,6 @@
     .include "asm/macros/portable.inc"
-	.section .rodata
+
+	mSectionRodata
 
     .global gSpawnPositions
 gSpawnPositions:

@@ -1,7 +1,7 @@
 	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
-	.section .rodata
+	mSectionRodata
 
 	@********************** Track  1 **********************@
 

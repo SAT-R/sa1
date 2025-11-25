@@ -1,6 +1,6 @@
     .include "asm/macros/portable.inc"
 
-	.section .rodata
+	mSectionRodata
 
     .global gMultiboot_087C0258
 gMultiboot_087C0258:

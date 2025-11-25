@@ -1,4 +1,6 @@
-.section .rodata
+.include "asm/macros/portable.inc"
+
+    mSectionRodata
 
     .align 2 , 0
     .global gMultiBootProgram_TinyChaoGarden

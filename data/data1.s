@@ -1,6 +1,6 @@
     .include "asm/macros/portable.inc"
 
-	.section .rodata
+	mSectionRodata
 
     .space 0x100
 

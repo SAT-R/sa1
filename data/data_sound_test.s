@@ -1,4 +1,6 @@
-	.section .rodata
+.include "asm/macros/portable.inc"
+
+	mSectionRodata
 
     .global sSoundTestSongIds
 sSoundTestSongIds: @ 0x0868B078
