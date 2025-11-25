@@ -885,12 +885,12 @@ void sub_803BFE8()
                 if ((u8)(LOADED_SAVE->playerName[charIndex] - 0x70) < 26) {
                     overB->unkC += 8;
                 }
-                sub_8052F78((const char*)&LOADED_SAVE->playerName[charIndex], overB);
+                sub_8052F78((const char *)&LOADED_SAVE->playerName[charIndex], overB);
             } else {
                 if ((u8)(LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.playerName[charIndex] - 0x70) < 26) {
                     overB->unkC += 8;
                 }
-                sub_8052F78((const char*)&LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.playerName[charIndex], overB);
+                sub_8052F78((const char *)&LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.playerName[charIndex], overB);
             }
         }
     }

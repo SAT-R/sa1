@@ -1038,7 +1038,7 @@ void Task_805AE84()
 
     strc44->unk34++;
     strc44->overB.qUnkA = 0;
-    sub_805321C((u8*)"        ", &strc44->overB);
+    sub_805321C((u8 *)"        ", &strc44->overB);
     strc44->overB2.unkC = 6;
     strc44->unk3C -= strc44->unk40;
 
@@ -1516,7 +1516,7 @@ void Task_805B880(void)
 
     strc20->unk18++;
 
-    sub_805321C((u8*)" !\"#$%&\'", &strc20->overB);
+    sub_805321C((u8 *)" !\"#$%&\'", &strc20->overB);
 
     strc20->overB.qUnkA = gUnknown_08688570[(strc20->unk1C & 0x300) >> 8];
 }
