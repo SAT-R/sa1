@@ -1230,7 +1230,11 @@ void Task_805B1E0()
 
 // TEMP - Remove this once sub_805B324() matches!
 #ifndef NON_MATCHING
+#if !CPU_ARCH_X86 && defined(__APPLE__)
+asm("    .section __DATA,__data");
+#else
 asm("    .section .rodata");
+#endif
 asm("    .global gUnknown_08688602");
 asm("gUnknown_08688602:");
 #endif

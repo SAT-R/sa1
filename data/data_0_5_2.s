@@ -1,4 +1,6 @@
-	.section .rodata
+	.include "asm/macros/portable.inc"
+
+	mSectionRodata
 
     .global gUnknown_08688378
 gUnknown_08688378:
@@ -62,7 +64,7 @@ gUnknown_08688428:
 
     .global gUnknown_08688444
 gUnknown_08688444:
-    .ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,j-pqrstuvwxyz{|}~\x7F€\x81‚ƒ„…†‡ˆ‰?!& 0123456789abcdef@\0"
+    .ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,j-pqrstuvwxyz{|}~\x7F\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89?!& 0123456789abcdef@\0"
 
     .global gUnknown_08688492
 gUnknown_08688492:

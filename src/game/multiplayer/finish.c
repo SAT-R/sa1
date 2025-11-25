@@ -22,7 +22,11 @@
 #if (GAME == GAME_SA1) && !(defined NON_MATCHING)
 // Once CreateMultiplayerFinishHandler matches in SA1,
 // this can go away.
-asm(".section .rodata");
+#if !CPU_ARCH_X86 && defined(__APPLE__)
+asm("    .section __DATA,__data");
+#else
+asm("    .section .rodata");
+#endif
 asm(".align 2, 0");
 asm(".global gUnknown_080BB490");
 asm("gUnknown_080BB490:");
