@@ -1,3 +1,4 @@
+	.include "asm/macros/c_decl.inc"
 .include "asm/macros/portable.inc"
 
 mSectionRodata

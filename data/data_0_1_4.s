@@ -1,8 +1,11 @@
-	.section .rodata
+	.include "asm/macros/c_decl.inc"
+.include "asm/macros/portable.inc"
+
+	mSectionRodata
     .align 2 , 0
 
-    .global gUnknown_080BB544
-gUnknown_080BB544:
+    .global C_DECL(gUnknown_080BB544)
+C_DECL(gUnknown_080BB544):
     .short 0x022F, 0x022F
     .short 0x022F, 0x022F
     .short 0x022F, 0x022F

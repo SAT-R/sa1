@@ -1038,7 +1038,7 @@ void Task_805AE84()
 
     strc44->unk34++;
     strc44->overB.qUnkA = 0;
-    sub_805321C("        ", &strc44->overB);
+    sub_805321C((u8 *)"        ", &strc44->overB);
     strc44->overB2.unkC = 6;
     strc44->unk3C -= strc44->unk40;
 
@@ -1177,8 +1177,8 @@ void Task_805B11C()
 
 void Task_805B1E0()
 {
-    s32 *temp_r1;
-    s32 *temp_r1_2;
+    u32 *temp_r1;
+    u32 *temp_r1_2;
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r4;
@@ -1230,7 +1230,11 @@ void Task_805B1E0()
 
 // TEMP - Remove this once sub_805B324() matches!
 #ifndef NON_MATCHING
+#if !CPU_ARCH_X86 && defined(__APPLE__)
+asm("    .section __DATA,__data");
+#else
 asm("    .section .rodata");
+#endif
 asm("    .global gUnknown_08688602");
 asm("gUnknown_08688602:");
 #endif
@@ -1512,7 +1516,7 @@ void Task_805B880(void)
 
     strc20->unk18++;
 
-    sub_805321C(" !\"#$%&\'", &strc20->overB);
+    sub_805321C((u8 *)" !\"#$%&\'", &strc20->overB);
 
     strc20->overB.qUnkA = gUnknown_08688570[(strc20->unk1C & 0x300) >> 8];
 }

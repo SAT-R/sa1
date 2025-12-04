@@ -816,7 +816,12 @@ void sub_803BE0C()
 
     for (var_r6 = 0; var_r6 < message->unk54; var_r6++) {
         u32 mask = 0x1FF;
+#ifndef NON_MATCHING
         SA2_LABEL(sub_80078D4)(0U, var_r4, var_r4 += 0x28, ~message->unk48[var_r6] & mask, (-message->unk50));
+#else
+        SA2_LABEL(sub_80078D4)(0U, var_r4, var_r4 + 0x28, ~message->unk48[var_r6] & mask, (-message->unk50));
+        var_r4 += 0x28;
+#endif
     }
 
     if (var_r4 < DISPLAY_HEIGHT) {
@@ -880,12 +885,12 @@ void sub_803BFE8()
                 if ((u8)(LOADED_SAVE->playerName[charIndex] - 0x70) < 26) {
                     overB->unkC += 8;
                 }
-                sub_8052F78(&LOADED_SAVE->playerName[charIndex], overB);
+                sub_8052F78((const char *)&LOADED_SAVE->playerName[charIndex], overB);
             } else {
                 if ((u8)(LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.playerName[charIndex] - 0x70) < 26) {
                     overB->unkC += 8;
                 }
-                sub_8052F78(&LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.playerName[charIndex], overB);
+                sub_8052F78((const char *)&LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.playerName[charIndex], overB);
             }
         }
     }
