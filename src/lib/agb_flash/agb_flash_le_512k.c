@@ -126,7 +126,7 @@ u16 ProgramFlashSector_LE(u16 sectorNum, void *src)
     if (sectorNum > 15)
         return 0x80FF;
 
-#if AGBFLASH_USE_V126
+#if !AGBFLASH_USE_V126
 #ifdef BUG_FIX
     if (gFlash->romSize == FLASH_ROM_SIZE_1M) {
 #else

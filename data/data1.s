@@ -1,25 +1,26 @@
-    .include "asm/macros/portable.inc"
+    	.include "asm/macros/c_decl.inc"
+.include "asm/macros/portable.inc"
 
 	mSectionRodata
 
     .space 0x100
 
-    .global gDemoRecordings
-gDemoRecordings:
+    .global C_DECL(gDemoRecordings)
+C_DECL(gDemoRecordings):
     mPtr demo1
     mPtr demo2
     mPtr demo3
     mPtr demo4
 
-    .global gUnknown_087BF8DC
-gUnknown_087BF8DC:
-    mPtr gUnknown_08487358
-    mPtr gUnknown_08487BBC
-    mPtr gUnknown_0848872C
-    mPtr gUnknown_08489308
-    mPtr gUnknown_08489F5C
-    mPtr gUnknown_0848ADB4
-    mPtr gUnknown_0848BA80
+    .global C_DECL(gUnknown_087BF8DC)
+C_DECL(gUnknown_087BF8DC):
+    mPtr C_DECL(gUnknown_08487358)
+    mPtr C_DECL(gUnknown_08487BBC)
+    mPtr C_DECL(gUnknown_0848872C)
+    mPtr C_DECL(gUnknown_08489308)
+    mPtr C_DECL(gUnknown_08489F5C)
+    mPtr C_DECL(gUnknown_0848ADB4)
+    mPtr C_DECL(gUnknown_0848BA80)
     .ascii "CODRED\0\0"
     .ascii "NIMDA \0\0"
     .ascii "CIRCAM\0\0"

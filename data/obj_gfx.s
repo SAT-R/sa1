@@ -1,11 +1,12 @@
+	.include "asm/macros/c_decl.inc"
 .include "asm/macros/portable.inc"
 
 	mSectionRodata
 
-    .global gObjTiles_4bpp
-gObjTiles_4bpp:
+    .global C_DECL(gObjTiles_4bpp)
+C_DECL(gObjTiles_4bpp):
     .include "graphics/obj_tiles_4bpp.inc"
 
-    .global gObjTiles_8bpp
-gObjTiles_8bpp:
+    .global C_DECL(gObjTiles_8bpp)
+C_DECL(gObjTiles_8bpp):
     .include "graphics/obj_tiles_8bpp.inc"

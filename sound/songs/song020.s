@@ -1,3 +1,4 @@
+	.include "asm/macros/c_decl.inc"
 	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
@@ -1922,8 +1923,8 @@ song020_9_4:
 	.byte	FINE
 
 	mAlignWord
-	.global song020
-song020:	@ 0x087AA03C
+	.global C_DECL(song020)
+C_DECL(song020):	@ 0x087AA03C
 	.byte	9		@ trackCount
 	.byte	0		@ blockCount
 	.byte	0		@ priority
