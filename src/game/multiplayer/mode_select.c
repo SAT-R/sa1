@@ -239,7 +239,7 @@ void Task_800E868()
             gBldRegs.bldCnt = 0;
             gBldRegs.bldY = 0;
             m4aSongNumStop(3U);
-            SA2_LABEL(gUnknown_03004D80)[0] = 0;
+            gBgSprites_Unknown1[0] = 0;
             gBgSprites_Unknown2[0][0] = 0;
             gBgSprites_Unknown2[0][1] = 0;
             gBgSprites_Unknown2[0][2] = -1;
@@ -248,7 +248,7 @@ void Task_800E868()
             CreateMainMenu(1);
         } else {
             gCurTask->main = sModeInitProcs[modeSelect->mode];
-            SA2_LABEL(gUnknown_03004D80)[0] = 0;
+            gBgSprites_Unknown1[0] = 0;
             gBgSprites_Unknown2[0][0] = 0;
             gBgSprites_Unknown2[0][1] = 0;
             gBgSprites_Unknown2[0][2] = -1;
@@ -406,7 +406,7 @@ void Task_MultiPak()
             if (gMultiplayerMissingHeartbeats[SIO_MULTI_CNT->id]++ >= 0xB5) {
                 TasksDestroyAll();
                 PAUSE_BACKGROUNDS_QUEUE();
-                SA2_LABEL(gUnknown_03005390) = 0;
+                gBgSpritesCount = 0;
                 PAUSE_GRAPHICS_QUEUE();
                 LinkCommunicationError();
                 return;
@@ -473,7 +473,7 @@ void Task_MultiPak()
         if (((gMultiSioStatusFlags & 0x81) == 1) && ((u32)send_recv->pat0.unk0 > 0x10U)) {
             TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
             LinkCommunicationError();
             return;
@@ -511,7 +511,7 @@ void Task_MultiPak()
     } else if (send_recv->pat0.unk0 > 0x12u) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         LinkCommunicationError();
         return;
@@ -523,7 +523,7 @@ void Task_MultiPak()
         send_recv->pat0.unk0 = 0;
         m4aSongNumStop(3U);
         m4aSongNumStart(0x6BU);
-        SA2_LABEL(gUnknown_03004D80)[0] = 0;
+        gBgSprites_Unknown1[0] = 0;
         gBgSprites_Unknown2[0][0] = 0;
         gBgSprites_Unknown2[0][1] = 0;
         gBgSprites_Unknown2[0][2] = 0xFF;
@@ -611,7 +611,7 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void
                 if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -638,7 +638,7 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void
         send_recv_r2->pat0.unk0 = 0;
         m4aSongNumStop(3U);
         m4aSongNumStart(0x6BU);
-        *sa2__gUnknown_03004D80 = 0;
+        *gBgSprites_Unknown1 = 0;
         gBgSprites_Unknown2[0][0] = 0;
         gBgSprites_Unknown2[0][1] = 0;
         gBgSprites_Unknown2[0][2] = 0xFF;
@@ -656,7 +656,7 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void
                 send_recv_r2->pat0.unk0 = 0;
                 m4aSongNumStop(3U);
                 m4aSongNumStart(0x6BU);
-                *sa2__gUnknown_03004D80 = 0;
+                *gBgSprites_Unknown1 = 0;
                 gBgSprites_Unknown2[0][0] = 0;
                 gBgSprites_Unknown2[0][1] = 0;
                 gBgSprites_Unknown2[0][2] = 0xFF;
@@ -669,7 +669,7 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void
             if (modeSelect->unk219++ > 60) {
                 TasksDestroyAll();
                 PAUSE_BACKGROUNDS_QUEUE();
-                SA2_LABEL(gUnknown_03005390) = 0;
+                gBgSpritesCount = 0;
                 PAUSE_GRAPHICS_QUEUE();
                 LinkCommunicationError();
                 return;
@@ -738,12 +738,12 @@ void ModeSelect_InitSinglePak()
     ModeSelect *modeSelect;
     u8 *vram = OBJ_VRAM0;
 
-    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = -1;
     gBgSprites_Unknown2[0][3] = 0x20;
-    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+    gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = -1;
@@ -851,7 +851,7 @@ void ModeSelect_InitSinglePak()
     if (*(u8 *)&REG_SIOCNT & 0x30) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         LinkCommunicationError();
         return;
@@ -968,7 +968,7 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_SinglePak.inc", vo
     if ((temp_r0_2 == 0x50) || (temp_r0_2 == 0x60) || (temp_r0_2 == 0x70) || (temp_r0_2 == 0x71)) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         gFlags &= 0xFFFFBFFF;
         gFlags &= 0xFFFF7FFF;

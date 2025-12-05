@@ -113,7 +113,7 @@ void sa2__sub_80818B8(void)
                 if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     gFlags &= 0xFFFFBFFF;
                     gFlags &= 0xFFFF7FFF;
@@ -392,7 +392,7 @@ void sub_8010060(void)
     if (B_BUTTON & gPressedKeys) {
         m4aSongNumStart(107);
         gCurTask->main = Task_800E648;
-        SA2_LABEL(gUnknown_03004D80)[0] = 0;
+        gBgSprites_Unknown1[0] = 0;
         gBgSprites_Unknown2[0][0] = 0;
         gBgSprites_Unknown2[0][1] = 0;
         gBgSprites_Unknown2[0][2] = -1;

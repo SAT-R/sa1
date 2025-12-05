@@ -120,7 +120,7 @@ _0800F12C:
 	bl m4aSongNumStop
 	movs r0, #0x6b
 	bl m4aSongNumStart
-	ldr r0, _0800F180 @ =sa2__gUnknown_03004D80
+	ldr r0, _0800F180 @ =gBgSprites_Unknown1
 	strb r4, [r0]
 	ldr r1, _0800F184 @ =gBgSprites_Unknown2
 	strb r4, [r1]
@@ -139,7 +139,7 @@ _0800F170: .4byte gMultiSioStatusFlags
 _0800F174: .4byte gPressedKeys
 _0800F178: .4byte gMultiSioEnabled
 _0800F17C: .4byte gMultiSioSend
-_0800F180: .4byte sa2__gUnknown_03004D80
+_0800F180: .4byte gBgSprites_Unknown1
 _0800F184: .4byte gBgSprites_Unknown2
 _0800F188: .4byte gCurTask
 _0800F18C:
@@ -160,7 +160,7 @@ _0800F1A2:
 	ldr r0, _0800F1CC @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _0800F1D0 @ =sa2__gUnknown_03005390
+	ldr r0, _0800F1D0 @ =gBgSpritesCount
 	strb r4, [r0]
 	ldr r1, _0800F1D4 @ =gVramGraphicsCopyCursor
 	ldr r0, _0800F1D8 @ =gVramGraphicsCopyQueueIndex
@@ -173,7 +173,7 @@ _0800F1C0: .4byte 0x00000219
 _0800F1C4: .4byte 0x0000FFFF
 _0800F1C8: .4byte gBackgroundsCopyQueueCursor
 _0800F1CC: .4byte gBackgroundsCopyQueueIndex
-_0800F1D0: .4byte sa2__gUnknown_03005390
+_0800F1D0: .4byte gBgSpritesCount
 _0800F1D4: .4byte gVramGraphicsCopyCursor
 _0800F1D8: .4byte gVramGraphicsCopyQueueIndex
 _0800F1DC:

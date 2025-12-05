@@ -251,7 +251,7 @@ void sub_8010580(void)
     gDispCnt &= 0x1FFF;
     gBldRegs.bldCnt = 0;
     gBldRegs.bldY = 0;
-    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;

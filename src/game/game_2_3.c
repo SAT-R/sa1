@@ -282,7 +282,7 @@ void Task_80632B4()
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -366,7 +366,7 @@ void Task_80634EC(void)
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -425,7 +425,7 @@ NONMATCH("asm/non_matching/game/game2_3__Task_8063638.inc", void Task_8063638())
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;

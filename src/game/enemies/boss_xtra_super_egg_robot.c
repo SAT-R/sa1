@@ -173,7 +173,7 @@ void Task_SuperEggRobotInit()
         if (fade == 0x10) {
             TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
             CreateExtraStageResults();
             return;

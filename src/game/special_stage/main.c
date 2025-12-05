@@ -471,7 +471,7 @@ void Task_8029AC4(void)
 
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
 
         gBldRegs.bldCnt |= 0x3F1F;

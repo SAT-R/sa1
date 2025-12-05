@@ -66,7 +66,7 @@
 	strh r0, [r1, #6]
 	ldr r0, _0801AA48 @ =0x00001C0C
 	strh r0, [r1, #4]
-	ldr r2, _0801AA4C @ =sa2__gUnknown_03004D80
+	ldr r2, _0801AA4C @ =gBgSprites_Unknown1
 	movs r0, #0x7f
 	strb r0, [r2, #2]
 	ldr r0, _0801AA50 @ =gBgSprites_Unknown2
@@ -331,7 +331,7 @@ _0801AA3C: .4byte gDispCnt
 _0801AA40: .4byte gBgCntRegs
 _0801AA44: .4byte 0x00005E0B
 _0801AA48: .4byte 0x00001C0C
-_0801AA4C: .4byte sa2__gUnknown_03004D80
+_0801AA4C: .4byte gBgSprites_Unknown1
 _0801AA50: .4byte gBgSprites_Unknown2
 _0801AA54: .4byte 0x040000D4
 _0801AA58: .4byte 0x06009FE0

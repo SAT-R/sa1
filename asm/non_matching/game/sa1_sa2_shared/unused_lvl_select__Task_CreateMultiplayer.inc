@@ -45,7 +45,7 @@ _0800E24C:
 	ldr r0, _0800E2A8 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _0800E2AC @ =sa2__gUnknown_03005390
+	ldr r0, _0800E2AC @ =gBgSpritesCount
 	strb r4, [r0]
 	ldr r1, _0800E2B0 @ =gVramGraphicsCopyCursor
 	ldr r0, _0800E2B4 @ =gVramGraphicsCopyQueueIndex
@@ -62,7 +62,7 @@ _0800E29C: .4byte gMultiSioStatusFlags
 _0800E2A0: .4byte 0x0000FFFF
 _0800E2A4: .4byte gBackgroundsCopyQueueCursor
 _0800E2A8: .4byte gBackgroundsCopyQueueIndex
-_0800E2AC: .4byte sa2__gUnknown_03005390
+_0800E2AC: .4byte gBgSpritesCount
 _0800E2B0: .4byte gVramGraphicsCopyCursor
 _0800E2B4: .4byte gVramGraphicsCopyQueueIndex
 _0800E2B8:

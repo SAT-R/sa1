@@ -850,7 +850,7 @@ _08059C5C:
 	adds r2, r2, r1
 	strb r4, [r2]
 	bl UpdateSpriteAnimation
-	ldr r0, _08059F94 @ =sa2__gUnknown_03004D80
+	ldr r0, _08059F94 @ =gBgSprites_Unknown1
 	strb r4, [r0, #1]
 	ldr r0, _08059F98 @ =gBgSprites_Unknown2
 	strb r4, [r0, #4]
@@ -906,7 +906,7 @@ _08059F84: .4byte 0x030000B1
 _08059F88: .4byte 0x030000B2
 _08059F8C: .4byte 0x000002DA
 _08059F90: .4byte 0x030000B0
-_08059F94: .4byte sa2__gUnknown_03004D80
+_08059F94: .4byte gBgSprites_Unknown1
 _08059F98: .4byte gBgSprites_Unknown2
 
 .syntax divided

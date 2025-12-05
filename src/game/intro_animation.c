@@ -229,7 +229,7 @@ void CreateIntroAnimation(void)
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
     sub_80535FC();
 
@@ -1336,7 +1336,7 @@ void IntroOpenTitlescreenSilent(void)
     TasksDestroyAll();
 
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
     gBgScrollRegs[0][0] = 0;
@@ -1355,7 +1355,7 @@ void IntroOpenTitlescreenPlayMusic(void)
 {
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
     m4aSongNumStop(MUS_INTRO);

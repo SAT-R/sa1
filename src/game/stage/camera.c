@@ -479,12 +479,12 @@ void InitCamera(u32 level)
         gStageBackgroundsRam.unkC0.flags |= BACKGROUND_FLAGS_BG_ID(1);
     }
 
-    sa2__gUnknown_03004D80[1] = 0;
+    gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
     gBgSprites_Unknown2[1][2] = 0xff;
     gBgSprites_Unknown2[1][3] = 0x20;
-    sa2__gUnknown_03004D80[2] = 0;
+    gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = 0xff;

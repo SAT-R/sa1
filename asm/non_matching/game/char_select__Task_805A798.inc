@@ -48,7 +48,7 @@ _0805A7C8:
 	ldr r0, _0805A824 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _0805A828 @ =sa2__gUnknown_03005390
+	ldr r0, _0805A828 @ =gBgSpritesCount
 	strb r4, [r0]
 	ldr r1, _0805A82C @ =gVramGraphicsCopyCursor
 	ldr r0, _0805A830 @ =gVramGraphicsCopyQueueIndex
@@ -65,7 +65,7 @@ _0805A818: .4byte gMultiSioStatusFlags
 _0805A81C: .4byte 0x0000FFFF
 _0805A820: .4byte gBackgroundsCopyQueueCursor
 _0805A824: .4byte gBackgroundsCopyQueueIndex
-_0805A828: .4byte sa2__gUnknown_03005390
+_0805A828: .4byte gBgSpritesCount
 _0805A82C: .4byte gVramGraphicsCopyCursor
 _0805A830: .4byte gVramGraphicsCopyQueueIndex
 _0805A834:

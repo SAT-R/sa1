@@ -102,7 +102,7 @@ void Task_Poll(void)
         m4aSongNumStop(MUS_CHARACTER_SELECTION);
 #endif
 
-        sa2__gUnknown_03004D80[0] = 0;
+        gBgSprites_Unknown1[0] = 0;
         gBgSprites_Unknown2[0][0] = 0;
         gBgSprites_Unknown2[0][1] = 0;
         gBgSprites_Unknown2[0][2] = 0xFF;
@@ -124,7 +124,7 @@ void Task_Poll(void)
         CreateCharacterSelectionScreen(0);
 #endif
 
-        sa2__gUnknown_03004D80[0] = 0;
+        gBgSprites_Unknown1[0] = 0;
         gBgSprites_Unknown2[0][0] = 0;
         gBgSprites_Unknown2[0][1] = 0;
         gBgSprites_Unknown2[0][2] = 0xFF;
@@ -155,7 +155,7 @@ NONMATCH("asm/non_matching/game/sa1_sa2_shared/unused_lvl_select__Task_CreateMul
                     TasksDestroyAll();
 
                     PAUSE_BACKGROUNDS_QUEUE();
-                    sa2__gUnknown_03005390 = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
 
                     LinkCommunicationError();

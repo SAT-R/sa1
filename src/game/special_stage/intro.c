@@ -114,7 +114,7 @@ void CreateSpecialStageIntro(void)
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
     sub_80535FC();
     UiGfxStackInit();
@@ -292,7 +292,7 @@ void Task_8068A78()
     if (temp_r5 > FRAME_RELAY_B) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         CreateSpecialStage();
         return;
@@ -667,7 +667,7 @@ void Task_8069100(void)
         if (strc28->unk24 > 0xAU) {
             TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
             sub_805D048(1);
             return;

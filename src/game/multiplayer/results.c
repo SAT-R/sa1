@@ -138,7 +138,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results__Task_801874C.inc", void Tas
                 if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
                     TasksDestroyInPriorityRange(0U, 0xFFFFU);
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;

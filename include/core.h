@@ -290,7 +290,7 @@ extern s16 sa2__gUnknown_0300194C;
 
 extern Tilemap **gTilemapsRef;
 extern u8 gBgSprites_Unknown2[4][4];
-extern u8 sa2__gUnknown_03004D80[16];
+extern u8 gBgSprites_Unknown1[16];
 
 #define LOG_GRAPHICS_QUEUE !TRUE
 #if (!PLATFORM_GBA && LOG_GRAPHICS_QUEUE)
@@ -358,12 +358,12 @@ extern u8 gOamFirstPausedIndex;
 extern u8 gBackgroundsCopyQueueCursor;
 extern Sprite *gBgSprites[16];
 extern u8 gNumVBlankCallbacks;
-extern void *sa2__gUnknown_03004D54;
-extern u16 sa2__gUnknown_03004D58;
+extern void *gBgOffsetsPrimary;
+extern u16 SA2_LABEL(gUnknown_03004D58);
 extern u8 gVramGraphicsCopyCursor;
-extern u8 sa2__gUnknown_03004D60[0x20];
-extern u8 sa2__gUnknown_03005390;
-extern u16 sa2__gUnknown_03005394;
+extern u8 gOamMallocOrders_EndIndex[0x20];
+extern u8 gBgSpritesCount;
+extern u16 SA2_LABEL(gUnknown_03005394);
 extern u16 sa2__gUnknown_03005398;
 extern IntrFunc gVBlankIntrs[4];
 extern s32 gPseudoRandom;

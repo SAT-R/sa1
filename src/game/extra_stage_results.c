@@ -212,7 +212,7 @@ void CreateCongratulationsAnimation(void)
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
     {
@@ -852,7 +852,7 @@ NONMATCH("asm/non_matching/game/extra_stage_results__Task_8066520.inc", void Tas
     if (temp_r5 > 0x2BCU) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         CreateStaffCredits();
         return;
@@ -1471,7 +1471,7 @@ void CreateExtraStageResults(void)
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
     sub_80535FC();
@@ -1861,7 +1861,7 @@ void Task_80679E4()
         TaskDestroy(state->task18);
         state->taskC->main = Task_8068570;
         gCurTask->main = Task_8067B14;
-        SA2_LABEL(gUnknown_03004D80)[0] = 0;
+        gBgSprites_Unknown1[0] = 0;
         gBgSprites_Unknown2[0][0] = 0;
         gBgSprites_Unknown2[0][1] = 0;
         gBgSprites_Unknown2[0][2] = 0xFF;
@@ -2117,7 +2117,7 @@ void Task_8067E68()
     if (temp_r5 > 0x190U) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         CreateStaffCredits();
         return;

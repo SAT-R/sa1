@@ -104,12 +104,12 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__CreateMultiplayerSinglePa
     gDispCnt = DISPCNT_OBJ_1D_MAP;
     gBgCntRegs[3] = 0x5E0B;
     gBgCntRegs[2] = 0x1C0C;
-    SA2_LABEL(gUnknown_03004D80)[2] = 0x7F;
+    gBgSprites_Unknown1[2] = 0x7F;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = 0xFF;
     gBgSprites_Unknown2[2][3] = 0x20;
-    SA2_LABEL(gUnknown_03004D80)[3] = -1;
+    gBgSprites_Unknown1[3] = -1;
     gBgSprites_Unknown2[3][0] = 0;
     gBgSprites_Unknown2[3][1] = 0;
     gBgSprites_Unknown2[3][2] = -1;

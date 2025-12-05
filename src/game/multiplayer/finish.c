@@ -565,7 +565,7 @@ void Task_TransitionToResultsScreen(void)
 
         { // TODO: This is a macro!
             PAUSE_BACKGROUNDS_QUEUE();
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
         }
 

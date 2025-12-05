@@ -488,22 +488,22 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     temp_r0_10->task14 = task14;
     temp_r0_10->task20 = task20;
 
-    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+    gBgSprites_Unknown1[0] = 0;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = -1;
     gBgSprites_Unknown2[0][3] = 0x20;
-    SA2_LABEL(gUnknown_03004D80)[1] = 0;
+    gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
     gBgSprites_Unknown2[1][2] = -1;
     gBgSprites_Unknown2[1][3] = 0x20;
-    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+    gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = -1;
     gBgSprites_Unknown2[2][3] = 0x20;
-    SA2_LABEL(gUnknown_03004D80)[3] = 0;
+    gBgSprites_Unknown1[3] = 0;
     gBgSprites_Unknown2[3][0] = 0;
     gBgSprites_Unknown2[3][1] = 0;
     gBgSprites_Unknown2[3][2] = -1;
@@ -557,7 +557,7 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D4F0.inc", void sub_805D4F0())
         TasksDestroyAll();
 
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
 
         temp_r6 = gCourseTime;

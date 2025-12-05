@@ -122,18 +122,17 @@ u8 gIwramHeap[TASK_HEAP_SIZE] = {};
 
 Sprite *gBgSprites[] ALIGNED(16) = {};
 u8 gNumVBlankCallbacks ALIGNED(4) = 0;
-
 #if (ENGINE == ENGINE_2)
-void *SA2_LABEL(gUnknown_03004D54) = NULL;
+void *gBgOffsetsPrimary = NULL;
 #endif
-u16 sa2__gUnknown_03004D58 ALIGNED(4) = 0;
+u16 SA2_LABEL(gUnknown_03004D58) ALIGNED(4) = 0;
 u8 gVramGraphicsCopyCursor ALIGNED(4) = 0;
-u8 sa2__gUnknown_03004D60[] ALIGNED(16) = {};
-u8 sa2__gUnknown_03004D80[] = {};
+u8 gOamMallocOrders_EndIndex[] ALIGNED(16) = {};
+u8 gBgSprites_Unknown1[] = {};
 OamData gOamBuffer[] ALIGNED(16) = {};
 u16 gVramHeapState[] = {};
-u8 sa2__gUnknown_03005390 ALIGNED(4) = 0;
-u16 sa2__gUnknown_03005394 ALIGNED(4) = 0;
+u8 gBgSpritesCount ALIGNED(4) = 0;
+u16 SA2_LABEL(gUnknown_03005394) ALIGNED(4) = 0;
 u16 sa2__gUnknown_03005398 ALIGNED(4) = 0;
 IntrFunc gVBlankIntrs[] ALIGNED(16) = {};
 const u8 *gInputPlaybackData = NULL;
@@ -220,14 +219,14 @@ void EngineInit(void)
     sLastCalledVblankFuncId = VBLANK_FUNC_ID_NONE;
     gBackgroundsCopyQueueCursor = 0;
     gBackgroundsCopyQueueIndex = 0;
-    sa2__gUnknown_03005390 = 0;
+    gBgSpritesCount = 0;
     gVramGraphicsCopyCursor = 0;
     gVramGraphicsCopyQueueIndex = 0;
 
     DmaFill32(3, 0, gBgSprites_Unknown2, sizeof(gBgSprites_Unknown2));
 
     // TODO: sort out this type
-    *(u32 *)sa2__gUnknown_03004D80 = 0;
+    *(u32 *)gBgSprites_Unknown1 = 0;
 
     DmaFill32(3, 0, gBgScrollRegs, sizeof(gBgScrollRegs));
 
@@ -244,7 +243,7 @@ void EngineInit(void)
     DmaFill16(3, 0x200, gOamBuffer, sizeof(gOamBuffer));
     DmaFill16(3, 0x200, gOamMallocBuffer, sizeof(gOamMallocBuffer));
     DmaFill32(3, ~0, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
-    DmaFill32(3, ~0, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
+    DmaFill32(3, ~0, gOamMallocOrders_EndIndex, sizeof(gOamMallocOrders_EndIndex));
     DmaFill32(3, 0, gObjPalette, sizeof(gObjPalette));
     DmaFill32(3, 0, gBgPalette, sizeof(gBgPalette));
 
@@ -269,9 +268,9 @@ void EngineInit(void)
 #endif
     sa2__gUnknown_03001944 = 0;
     sa2__gUnknown_030017F0 = 0x100;
-    sa2__gUnknown_03005394 = 0x100;
+    SA2_LABEL(gUnknown_03005394) = 0x100;
     SA2_LABEL(gUnknown_03002A8C) = 0;
-    sa2__gUnknown_03004D58 = 0;
+    SA2_LABEL(gUnknown_03004D58) = 0;
     sa2__gUnknown_0300194C = 0;
     SA2_LABEL(gUnknown_03002820) = 0;
     sa2__gUnknown_03005398 = 0x100;

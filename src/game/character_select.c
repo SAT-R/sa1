@@ -400,7 +400,7 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
         UpdateSpriteAnimation(s);
     }
 
-    sa2__gUnknown_03004D80[1] = 0;
+    gBgSprites_Unknown1[1] = 0;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
     gBgSprites_Unknown2[1][2] = -1;
@@ -471,7 +471,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A060.inc", void Task_805A06
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyInPriorityRange(0U, 0xFFFFU);
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -661,7 +661,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A54C.inc", void Task_805A54
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -745,7 +745,7 @@ NONMATCH("asm/non_matching/game/char_select__Task_805A798.inc", void Task_805A79
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -916,19 +916,19 @@ void Task_805AC00(void)
         TaskDestroy(strc3C->task1C);
         TaskDestroy(strc3C->task20);
 
-        sa2__gUnknown_03004D80[0] = 0;
+        gBgSprites_Unknown1[0] = 0;
         gBgSprites_Unknown2[0][0] = 0;
         gBgSprites_Unknown2[0][1] = 0;
         gBgSprites_Unknown2[0][2] = -1;
         gBgSprites_Unknown2[0][3] = 0x14;
 
-        sa2__gUnknown_03004D80[1] = 0;
+        gBgSprites_Unknown1[1] = 0;
         gBgSprites_Unknown2[1][0] = 0;
         gBgSprites_Unknown2[1][1] = 0;
         gBgSprites_Unknown2[1][2] = -1;
         gBgSprites_Unknown2[1][3] = 0x14;
 
-        sa2__gUnknown_03004D80[2] = 0;
+        gBgSprites_Unknown1[2] = 0;
         gBgSprites_Unknown2[2][0] = 0;
         gBgSprites_Unknown2[2][1] = 0;
         gBgSprites_Unknown2[2][2] = -1;

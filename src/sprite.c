@@ -962,11 +962,11 @@ OamData *OamMalloc(u8 order)
         if (gOamMallocOrders_StartIndex[order] == 0xFF) {
             gOamMallocBuffer[gOamFreeIndex].split.fractional = 0xFF;
             gOamMallocOrders_StartIndex[order] = gOamFreeIndex;
-            SA2_LABEL(gUnknown_03004D60)[order] = gOamFreeIndex;
+            gOamMallocOrders_EndIndex[order] = gOamFreeIndex;
         } else {
             gOamMallocBuffer[gOamFreeIndex].split.fractional = 0xFF;
-            gOamMallocBuffer[SA2_LABEL(gUnknown_03004D60)[order]].split.fractional = gOamFreeIndex;
-            SA2_LABEL(gUnknown_03004D60)[order] = gOamFreeIndex;
+            gOamMallocBuffer[gOamMallocOrders_EndIndex[order]].split.fractional = gOamFreeIndex;
+            gOamMallocOrders_EndIndex[order] = gOamFreeIndex;
         }
 
         gOamFreeIndex++;
@@ -1041,10 +1041,10 @@ void CopyOamBufferToOam(void)
     gOamFreeIndex = 0;
     if (gFlags & FLAGS_4000) {
         CpuFill32(-1, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
-        CpuFill32(-1, SA2_LABEL(gUnknown_03004D60), sizeof(SA2_LABEL(gUnknown_03004D60)));
+        CpuFill32(-1, gOamMallocOrders_EndIndex, sizeof(gOamMallocOrders_EndIndex));
     } else {
         DmaFill32(3, -1, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
-        DmaFill32(3, -1, SA2_LABEL(gUnknown_03004D60), sizeof(SA2_LABEL(gUnknown_03004D60)));
+        DmaFill32(3, -1, gOamMallocOrders_EndIndex, sizeof(gOamMallocOrders_EndIndex));
     }
 }
 

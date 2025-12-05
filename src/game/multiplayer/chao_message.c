@@ -114,7 +114,7 @@ void CreateMultiplayerResultsScreen(u8 mode)
 
     DmaFill32(3, 0, BG_VRAM + 0x1FE0, 0x40);
 
-    SA2_LABEL(gUnknown_03004D80)[0] = 0xFF;
+    gBgSprites_Unknown1[0] = 0xFF;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = -1;
@@ -746,7 +746,7 @@ void sub_803BC64()
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
     if (mode == 0) {

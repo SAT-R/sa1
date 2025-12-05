@@ -259,7 +259,7 @@ _0800F808:
 	ldr r0, _0800F84C @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _0800F850 @ =sa2__gUnknown_03005390
+	ldr r1, _0800F850 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _0800F854 @ =gVramGraphicsCopyCursor
@@ -281,7 +281,7 @@ _0800F840: .4byte gMultiBootParam
 _0800F844: .4byte 0x0000FFFF
 _0800F848: .4byte gBackgroundsCopyQueueCursor
 _0800F84C: .4byte gBackgroundsCopyQueueIndex
-_0800F850: .4byte sa2__gUnknown_03005390
+_0800F850: .4byte gBgSpritesCount
 _0800F854: .4byte gVramGraphicsCopyCursor
 _0800F858: .4byte gVramGraphicsCopyQueueIndex
 _0800F85C: .4byte gFlags

@@ -253,7 +253,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void T
                 if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -320,7 +320,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_8018ECC.inc", void T
     } else if (recvData > 0x35U) {
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
         LinkCommunicationError();
         return;
@@ -625,7 +625,7 @@ NONMATCH("asm/non_matching/game/multiplayer/results_b__Task_80196FC.inc", void T
                 if (gMultiplayerMissingHeartbeats[var_r3]++ >= 0xB5) {
                     TasksDestroyAll();
                     gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
                     LinkCommunicationError();
                     return;
@@ -760,7 +760,7 @@ block_39:
             if (send_recv->pat0.unk0 >= 0x42) {
                 TasksDestroyAll();
                 gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                SA2_LABEL(gUnknown_03005390) = 0;
+                gBgSpritesCount = 0;
                 gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
                 LinkCommunicationError();
                 return;

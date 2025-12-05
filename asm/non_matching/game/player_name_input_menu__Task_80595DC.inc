@@ -180,7 +180,7 @@ _08059740:
 	ldr r0, _08059778 @ =gCurTask
 	ldr r0, [r0]
 	bl TaskDestroy
-	ldr r4, _080597BC @ =sa2__gUnknown_03004D80
+	ldr r4, _080597BC @ =gBgSprites_Unknown1
 	movs r2, #0
 	strb r2, [r4, #1]
 	ldr r0, _080597C0 @ =gBgSprites_Unknown2
@@ -221,7 +221,7 @@ _080597AC: .4byte 0x0000C5FF
 _080597B0: .4byte 0x00007FFF
 _080597B4: .4byte 0x040000D4
 _080597B8: .4byte 0xFFFF7FFF
-_080597BC: .4byte sa2__gUnknown_03004D80
+_080597BC: .4byte gBgSprites_Unknown1
 _080597C0: .4byte gBgSprites_Unknown2
 _080597C4: .4byte gGameMode
 _080597C8:

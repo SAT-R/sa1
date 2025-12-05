@@ -790,8 +790,8 @@ void sa2__sub_8003914(Sprite *s)
 {
     const SpriteOffset *dims;
 
-    gBgSprites[sa2__gUnknown_03005390] = s;
-    sa2__gUnknown_03005390++;
+    gBgSprites[gBgSpritesCount] = s;
+    gBgSpritesCount++;
 
     if (s->dimensions != (void *)-1) {
         u32 bgId;
@@ -844,11 +844,11 @@ NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sa2__sub_80039E4(void
 
 // TODO: once function matches this can be removed
 #if PORTABLE
-    sa2__gUnknown_03005390 = 0;
+    gBgSpritesCount = 0;
     return TRUE;
 #endif
 
-    if (sa2__gUnknown_03005390 != 0) {
+    if (gBgSpritesCount != 0) {
         OamDataShort oam;
         s32 r5;
         s32 sp08;
@@ -864,7 +864,7 @@ NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sa2__sub_80039E4(void
         s32 yPos; // =r5
         u16 oamX, oamY;
 
-        for (r5 = 0; r5 < sa2__gUnknown_03005390; r5++) {
+        for (r5 = 0; r5 < gBgSpritesCount; r5++) {
             // _08003A1A
             s = gBgSprites[r5];
             dims = s->dimensions;
@@ -984,7 +984,7 @@ NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sa2__sub_80039E4(void
             }
         }
 
-        sa2__gUnknown_03005390 = 0;
+        gBgSpritesCount = 0;
     }
 
     return TRUE;
@@ -1053,7 +1053,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
 
                 if (gBgSprites_Unknown2[bgIndex][3] == 0xFF) {
                     // _080040A2
-                    u16 v = sa2__gUnknown_03004D80[bgIndex];
+                    u16 v = gBgSprites_Unknown1[bgIndex];
                     u32 value;
                     v |= v << 8;
 
@@ -1063,7 +1063,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                     // _080040F8
                     // u8 i2 = i + 1;
                     for (; r4 < gBgSprites_Unknown2[bgIndex][3]; r4++) {
-                        u16 v = sa2__gUnknown_03004D80[bgIndex];
+                        u16 v = gBgSprites_Unknown1[bgIndex];
                         v |= v << 8;
 
                         DmaFill16(3, v, &spVramPtr[bgIndex * r4], (s32)(bgIndex * 4 - gBgSprites_Unknown2[bgIndex][0] + 1));
@@ -1079,7 +1079,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                     tileSize = 64;
 
                 if (gBgSprites_Unknown2[bgIndex][2] == 0xFF) {
-                    u8 r1 = sa2__gUnknown_03004D80[bgIndex];
+                    u8 r1 = gBgSprites_Unknown1[bgIndex];
                     p1p = &gBgSprites_Unknown2[bgIndex][tileSize];
                     sp00[0] = r1;
 
@@ -1092,7 +1092,7 @@ NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(vo
                     // _080041D8
                     for (; r4 <= gBgSprites_Unknown2[bgIndex][3]; r4++) {
                         // _080041F6
-                        DmaFill16(3, sa2__gUnknown_03004D80[bgIndex], &gBgSprites_Unknown2[bgIndex][tileSize],
+                        DmaFill16(3, gBgSprites_Unknown1[bgIndex], &gBgSprites_Unknown2[bgIndex][tileSize],
                                   ARRAY_COUNT(gBgSprites_Unknown2[0]));
                     }
                 }
@@ -1141,7 +1141,7 @@ u32 sub_8004010(void)
 
                 if (gBgSprites_Unknown2[bg][3] == 0xFF) {
                     // __080040A2
-                    u16 cb = combine(sa2__gUnknown_03004D80[bg]);
+                    u16 cb = combine(gBgSprites_Unknown1[bg]);
                     void *vram = (vramBase + (gBgSprites_Unknown2[bg][1] * affineSize));
                     s32 size = affineSize * (gBgSprites_Unknown2[bg][3] - gBgSprites_Unknown2[bg][1]);
 
@@ -1151,7 +1151,7 @@ u32 sub_8004010(void)
                     u8 r4 = gBgSprites_Unknown2[bg][1];
 
                     for (; r4 <= gBgSprites_Unknown2[bg][3]; r4++) {
-                        u16 cb = combine(sa2__gUnknown_03004D80[bg]);
+                        u16 cb = combine(gBgSprites_Unknown1[bg]);
                         void *vram = (vramBase + (gBgSprites_Unknown2[bg][1] * affineSize));
                         s32 size = (gBgSprites_Unknown2[bg][2] - sp08) + 1;
 
@@ -1184,7 +1184,7 @@ u32 sub_8004010(void)
                     void *vram = (vramBase + (gBgSprites_Unknown2[bg][1] * tileSize));
                     s32 size = tileSize * (gBgSprites_Unknown2[bg][3] - gBgSprites_Unknown2[bg][1]);
 
-                    DmaFill16(3, sa2__gUnknown_03004D80[bg], vram, size * 2);
+                    DmaFill16(3, gBgSprites_Unknown1[bg], vram, size * 2);
                 } else {
                     // _080041D8
                     u8 r4 = gBgSprites_Unknown2[bg][1];
@@ -1192,7 +1192,7 @@ u32 sub_8004010(void)
                     for (; r4 < gBgSprites_Unknown2[bg][3]; r4++) {
                         void *vram = (vramBase + (gBgSprites_Unknown2[bg][1] * (tileSize * 2)));
                         s32 size = tileSize * (gBgSprites_Unknown2[bg][2] - sp08) + 1;
-                        DmaFill16(3, sa2__gUnknown_03004D80[bg], vram, size * 2);
+                        DmaFill16(3, gBgSprites_Unknown1[bg], vram, size * 2);
                     }
                 }
             }

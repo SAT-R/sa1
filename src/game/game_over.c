@@ -832,7 +832,7 @@ void Task_8056AC8(void)
             TasksDestroyAll();
 
             PAUSE_BACKGROUNDS_QUEUE();
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
 
             ApplyGameStageSettings();
@@ -840,7 +840,7 @@ void Task_8056AC8(void)
             TasksDestroyAll();
 
             PAUSE_BACKGROUNDS_QUEUE();
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
 
 #if DEBUG

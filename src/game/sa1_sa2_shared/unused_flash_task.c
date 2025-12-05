@@ -19,7 +19,7 @@ void CreateUnusedFlashTask(void)
     gBgCntRegs[2] = (BGCNT_SCREENBASE(30) | BGCNT_16COLOR | BGCNT_CHARBASE(0) | BGCNT_PRIORITY(1));
     DmaFill32(3, 0, VRAM, 2 * TILE_SIZE_4BPP);
 
-    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+    gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = 0xFF;
@@ -43,7 +43,7 @@ void Task_UnusedFlashTask(void)
 
 void DestroyUnusedFlashTask(void)
 {
-    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+    gBgSprites_Unknown1[2] = 0;
     gBgSprites_Unknown2[2][0] = 0;
     gBgSprites_Unknown2[2][1] = 0;
     gBgSprites_Unknown2[2][2] = 0xFF;

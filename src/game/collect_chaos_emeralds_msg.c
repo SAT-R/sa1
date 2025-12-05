@@ -49,7 +49,7 @@ void sub_806968C(void)
     sp00.unk2A = 5;
     sub_80528AC(&sp00);
 
-    sa2__gUnknown_03004D80[0] = 1;
+    gBgSprites_Unknown1[0] = 1;
     gBgSprites_Unknown2[0][0] = 0;
     gBgSprites_Unknown2[0][1] = 0;
     gBgSprites_Unknown2[0][2] = 0xFF;

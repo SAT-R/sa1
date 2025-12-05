@@ -77,7 +77,7 @@ void sub_801C9D8(void)
     gMultiplayerMissingHeartbeats[2] = 0;
     gMultiplayerMissingHeartbeats[1] = 0;
     gMultiplayerMissingHeartbeats[0] = 0;
-    SA2_LABEL(gUnknown_03004D80)[3] = 0xFF;
+    gBgSprites_Unknown1[3] = 0xFF;
     gBgSprites_Unknown2[3][0] = 0;
     gBgSprites_Unknown2[3][1] = 0;
     gBgSprites_Unknown2[3][2] = -1;
@@ -156,7 +156,7 @@ void Task_801CB80()
                 if (gMultiplayerMissingHeartbeats[pid]++ >= 0xB5) {
                     TasksDestroyAll();
                     gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                    sa2__gUnknown_03005390 = 0;
+                    gBgSpritesCount = 0;
                     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
                     LinkCommunicationError();
                     return;
@@ -212,7 +212,7 @@ void Task_801CD80()
         gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
         PAUSE_GRAPHICS_QUEUE();
 
         if ((gGameMode == GAME_MODE_RACE) || (gGameMode == GAME_MODE_CHAO_HUNT)) {
@@ -237,22 +237,22 @@ void Task_801CD80()
             m4aSongNumStop(MUS_CHARACTER_SELECTION);
 
             if (R_BUTTON & gInput) {
-                SA2_LABEL(gUnknown_03004D80)[0] = 0;
+                gBgSprites_Unknown1[0] = 0;
                 gBgSprites_Unknown2[0][0] = 0;
                 gBgSprites_Unknown2[0][1] = 0;
                 gBgSprites_Unknown2[0][2] = -1;
                 gBgSprites_Unknown2[0][3] = 0x20;
-                SA2_LABEL(gUnknown_03004D80)[1] = 0;
+                gBgSprites_Unknown1[1] = 0;
                 gBgSprites_Unknown2[1][0] = 0;
                 gBgSprites_Unknown2[1][1] = 0;
                 gBgSprites_Unknown2[1][2] = -1;
                 gBgSprites_Unknown2[1][3] = 0x20;
-                SA2_LABEL(gUnknown_03004D80)[2] = 0;
+                gBgSprites_Unknown1[2] = 0;
                 gBgSprites_Unknown2[2][0] = 0;
                 gBgSprites_Unknown2[2][1] = 0;
                 gBgSprites_Unknown2[2][2] = -1;
                 gBgSprites_Unknown2[2][3] = 0x20;
-                SA2_LABEL(gUnknown_03004D80)[3] = 0;
+                gBgSprites_Unknown1[3] = 0;
                 gBgSprites_Unknown2[3][0] = 0;
                 gBgSprites_Unknown2[3][1] = 0;
                 gBgSprites_Unknown2[3][2] = -1;
@@ -289,7 +289,7 @@ void sub_801CF08()
                 if (gMultiplayerMissingHeartbeats[pid]++ >= 0xB5) {
                     TasksDestroyInPriorityRange(0U, 0xFFFFU);
                     gBackgroundsCopyQueueCursor = gBackgroundsCopyQueueIndex;
-                    SA2_LABEL(gUnknown_03005390) = 0;
+                    gBgSpritesCount = 0;
                     gVramGraphicsCopyCursor = gVramGraphicsCopyQueueIndex;
                     LinkCommunicationError();
                     return;

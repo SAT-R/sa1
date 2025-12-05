@@ -112,7 +112,7 @@ _0805D586:
 	ldr r0, _0805D610 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _0805D614 @ =sa2__gUnknown_03005390
+	ldr r1, _0805D614 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 	ldr r1, _0805D618 @ =gVramGraphicsCopyCursor
@@ -143,7 +143,7 @@ _0805D604: .4byte gPlayer
 _0805D608: .4byte 0x0000FFFF
 _0805D60C: .4byte gBackgroundsCopyQueueCursor
 _0805D610: .4byte gBackgroundsCopyQueueIndex
-_0805D614: .4byte sa2__gUnknown_03005390
+_0805D614: .4byte gBgSpritesCount
 _0805D618: .4byte gVramGraphicsCopyCursor
 _0805D61C: .4byte gVramGraphicsCopyQueueIndex
 _0805D620: .4byte gCourseTime

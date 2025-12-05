@@ -523,7 +523,7 @@ void HandleLifeLost(void)
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
 
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
 
         PAUSE_GRAPHICS_QUEUE();
         CreateTimeAttackLobbyScreen();
@@ -554,7 +554,7 @@ void HandleLifeLost(void)
             TasksDestroyAll();
             PAUSE_BACKGROUNDS_QUEUE();
 
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
 
             PAUSE_GRAPHICS_QUEUE();
             CreateGameStage();
@@ -571,7 +571,7 @@ void HandleDeath(void)
         TasksDestroyAll();
         PAUSE_BACKGROUNDS_QUEUE();
 
-        SA2_LABEL(gUnknown_03005390) = 0;
+        gBgSpritesCount = 0;
 
         PAUSE_GRAPHICS_QUEUE();
         CreateTimeAttackLobbyScreen();
@@ -598,7 +598,7 @@ void GoToNextLevel(void)
 
     TasksDestroyAll();
     PAUSE_BACKGROUNDS_QUEUE();
-    SA2_LABEL(gUnknown_03005390) = 0;
+    gBgSpritesCount = 0;
     PAUSE_GRAPHICS_QUEUE();
 
 #if (GAME == GAME_SA1)

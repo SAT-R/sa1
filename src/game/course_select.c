@@ -481,7 +481,7 @@ void Task_8062140()
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    sa2__gUnknown_03005390 = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -633,7 +633,7 @@ void Task_8062540()
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    sa2__gUnknown_03005390 = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;
@@ -706,22 +706,22 @@ void Task_8062540()
                     TaskDestroy(state->task10);
                     TaskDestroy(gCurTask);
                 } else {
-                    SA2_LABEL(gUnknown_03004D80)[0] = 0;
+                    gBgSprites_Unknown1[0] = 0;
                     gBgSprites_Unknown2[0][0] = 0;
                     gBgSprites_Unknown2[0][1] = 0;
                     gBgSprites_Unknown2[0][2] = -1;
                     gBgSprites_Unknown2[0][3] = 0x20;
-                    SA2_LABEL(gUnknown_03004D80)[1] = 0;
+                    gBgSprites_Unknown1[1] = 0;
                     gBgSprites_Unknown2[1][0] = 0;
                     gBgSprites_Unknown2[1][1] = 0;
                     gBgSprites_Unknown2[1][2] = -1;
                     gBgSprites_Unknown2[1][3] = 0x20;
-                    SA2_LABEL(gUnknown_03004D80)[2] = 0;
+                    gBgSprites_Unknown1[2] = 0;
                     gBgSprites_Unknown2[2][0] = 0;
                     gBgSprites_Unknown2[2][1] = 0;
                     gBgSprites_Unknown2[2][2] = -1;
                     gBgSprites_Unknown2[2][3] = 0x20;
-                    SA2_LABEL(gUnknown_03004D80)[3] = 0;
+                    gBgSprites_Unknown1[3] = 0;
                     gBgSprites_Unknown2[3][0] = 0;
                     gBgSprites_Unknown2[3][1] = 0;
                     gBgSprites_Unknown2[3][2] = -1;
@@ -789,7 +789,7 @@ void Task_80628A4()
                 if (gMultiplayerMissingHeartbeats[i]++ > 0xB4U) {
                     TasksDestroyAll();
                     PAUSE_BACKGROUNDS_QUEUE();
-                    sa2__gUnknown_03005390 = 0;
+                    gBgSpritesCount = 0;
                     PAUSE_GRAPHICS_QUEUE();
                     LinkCommunicationError();
                     return;

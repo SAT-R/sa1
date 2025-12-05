@@ -191,7 +191,7 @@ void Task_TransitionSpStage(void)
             TasksDestroyAll();
 
             PAUSE_BACKGROUNDS_QUEUE();
-            SA2_LABEL(gUnknown_03005390) = 0;
+            gBgSpritesCount = 0;
             PAUSE_GRAPHICS_QUEUE();
 
             CreateSpecialStageIntro();

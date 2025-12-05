@@ -54,7 +54,7 @@ _08018F08:
 	ldr r0, _08018F5C @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _08018F60 @ =sa2__gUnknown_03005390
+	ldr r0, _08018F60 @ =gBgSpritesCount
 	strb r4, [r0]
 	b _080190AC
 	.align 2, 0
@@ -67,7 +67,7 @@ _08018F50: .4byte gMultiSioStatusFlags
 _08018F54: .4byte 0x0000FFFF
 _08018F58: .4byte gBackgroundsCopyQueueCursor
 _08018F5C: .4byte gBackgroundsCopyQueueIndex
-_08018F60: .4byte sa2__gUnknown_03005390
+_08018F60: .4byte gBgSpritesCount
 _08018F64:
 	movs r0, #0
 	strb r0, [r2]
@@ -229,7 +229,7 @@ _08019092:
 	ldr r0, _080190C4 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r1, _080190C8 @ =sa2__gUnknown_03005390
+	ldr r1, _080190C8 @ =gBgSpritesCount
 	movs r0, #0
 	strb r0, [r1]
 _080190AC:
@@ -243,7 +243,7 @@ _080190AC:
 _080190BC: .4byte 0x0000FFFF
 _080190C0: .4byte gBackgroundsCopyQueueCursor
 _080190C4: .4byte gBackgroundsCopyQueueIndex
-_080190C8: .4byte sa2__gUnknown_03005390
+_080190C8: .4byte gBgSpritesCount
 _080190CC: .4byte gVramGraphicsCopyCursor
 _080190D0: .4byte gVramGraphicsCopyQueueIndex
 _080190D4:

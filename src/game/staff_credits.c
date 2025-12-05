@@ -202,7 +202,7 @@ void CreateStaffCredits()
 
     DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(1), 0x40);
 
-    sa2__gUnknown_03004D80[1] = 1;
+    gBgSprites_Unknown1[1] = 1;
     gBgSprites_Unknown2[1][0] = 0;
     gBgSprites_Unknown2[1][1] = 0;
     gBgSprites_Unknown2[1][2] = -1;

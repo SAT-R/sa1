@@ -44,7 +44,7 @@ _0801B1DC:
 	ldr r0, _0801B230 @ =gBackgroundsCopyQueueIndex
 	ldrb r0, [r0]
 	strb r0, [r1]
-	ldr r0, _0801B234 @ =sa2__gUnknown_03005390
+	ldr r0, _0801B234 @ =gBgSpritesCount
 	strb r4, [r0]
 	ldr r1, _0801B238 @ =gVramGraphicsCopyCursor
 	ldr r0, _0801B23C @ =gVramGraphicsCopyQueueIndex
@@ -60,7 +60,7 @@ _0801B224: .4byte gMultiplayerMissingHeartbeats
 _0801B228: .4byte 0x0000FFFF
 _0801B22C: .4byte gBackgroundsCopyQueueCursor
 _0801B230: .4byte gBackgroundsCopyQueueIndex
-_0801B234: .4byte sa2__gUnknown_03005390
+_0801B234: .4byte gBgSpritesCount
 _0801B238: .4byte gVramGraphicsCopyCursor
 _0801B23C: .4byte gVramGraphicsCopyQueueIndex
 _0801B240:
