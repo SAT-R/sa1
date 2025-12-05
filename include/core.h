@@ -278,13 +278,13 @@ extern Background *gBackgroundsCopyQueue[16];
 // This is used to buffer the xy-shift for each background scanline
 extern void *gBgOffsetsHBlankPrimary;
 
-extern u16 sa2__gUnknown_030017F0;
+extern u16 SA2_LABEL(gUnknown_030017F0);
 extern Vec2_16 gSpriteOffset;
 extern u8 gOamMallocOrders_StartIndex[32];
 extern IntrFunc gVBlankCallbacks[4];
 
 extern u8 gOamFreeIndex;
-extern u16 sa2__gUnknown_03001944;
+extern u16 SA2_LABEL(gUnknown_03001944);
 extern u8 gNumVBlankIntrs;
 extern s16 sa2__gUnknown_0300194C;
 

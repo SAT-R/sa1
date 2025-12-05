@@ -187,10 +187,12 @@ IntrFunc const gIntrTableTemplate[] = {
 // Result of these:
 // FALSE: Not currently in vblank
 // TRUE:  Currently in VBlank /
-VBlankFunc const sVblankFuncs[] = {
+static VBlankProcessFunc const sVblankFuncs[] = {
     ProcessVramGraphicsCopyQueue,
     SA2_LABEL(sub_8004010),
+#ifndef COLLECT_RINGS_ROM
     SA2_LABEL(sub_80039E4),
+#endif
     SA2_LABEL(sub_8002B20),
 };
 
@@ -203,10 +205,12 @@ void EngineInit(void)
     gFlags = 0;
     gFlagsPreVBlank = 0;
 
+#ifndef COLLECT_RINGS_ROM
     if ((REG_RCNT & 0xC000) != 0x8000) {
         gFlags = FLAGS_200;
         DmaCopy16(3, (void *)OBJ_VRAM0, EWRAM_START + 0x3B000, 0x5000);
     }
+#endif
 
     // Skip the intro if these
     // 4 buttons are pressed
@@ -216,7 +220,11 @@ void EngineInit(void)
         gFlags &= ~FLAGS_SKIP_INTRO;
     }
 
+#if COLLECT_RINGS_ROM
+    DmaCopy16(3, (void *)OBJ_VRAM0, (void *)(EWRAM_START + 0x3b000), 0x5000);
+#else
     DmaFill32(3, 0, (void *)VRAM, VRAM_SIZE);
+#endif
     DmaFill32(3, 0, (void *)OAM, OAM_SIZE);
     DmaFill32(3, 0, (void *)PLTT, PLTT_SIZE);
 
@@ -270,8 +278,8 @@ void EngineInit(void)
 #if (ENGINE >= ENGINE_3)
     gNextFreeAffineIndex = 0;
 #endif
-    sa2__gUnknown_03001944 = 0;
-    sa2__gUnknown_030017F0 = 0x100;
+    SA2_LABEL(gUnknown_03001944) = 0;
+    SA2_LABEL(gUnknown_030017F0) = 0x100;
     SA2_LABEL(gUnknown_03005394) = 0x100;
     SA2_LABEL(gUnknown_03002A8C) = 0;
     SA2_LABEL(gUnknown_03004D58) = 0;
