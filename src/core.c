@@ -93,12 +93,12 @@ struct GraphicsData gVramGraphicsCopyQueueBuffer[32] = {};
 #endif
 struct GraphicsData *gVramGraphicsCopyQueue[] ALIGNED(16) = {};
 
-s16 sa2__gUnknown_03002820 = 0;
+s16 SA2_LABEL(gUnknown_03002820) = 0;
 s16 gBgScrollRegs[][2] ALIGNED(16) = {};
 u16 gDispCnt = 0;
 u8 gKeysContinuedRepeatIntervals[10] ALIGNED(16) = {};
 union MultiSioData gMultiSioSend ALIGNED(8) = {};
-u8 sa2__gUnknown_03002874 = 0;
+u8 SA2_LABEL(gUnknown_03002874) = 0;
 
 // gComputedBgTarget
 void *gHBlankCopyTarget ALIGNED(4) = NULL;
@@ -275,7 +275,7 @@ void EngineInit(void)
     sa2__gUnknown_03002A8C = 0;
     sa2__gUnknown_03004D58 = 0;
     sa2__gUnknown_0300194C = 0;
-    sa2__gUnknown_03002820 = 0;
+    SA2_LABEL(gUnknown_03002820) = 0;
     sa2__gUnknown_03005398 = 0x100;
 
     gWinRegs[WINREG_WIN0H] = 0;
@@ -659,7 +659,7 @@ void VBlankIntr(void)
     if (gFlagsPreVBlank & FLAGS_40) {
         REG_DISPSTAT |= DISPSTAT_VCOUNT_INTR;
         REG_DISPSTAT &= 0xff;
-        REG_DISPSTAT |= sa2__gUnknown_03002874 << 8;
+        REG_DISPSTAT |= SA2_LABEL(gUnknown_03002874) << 8;
         REG_DISPSTAT &= ~DISPSTAT_VCOUNT;
         REG_DISPSTAT |= DISPSTAT_VCOUNT_INTR;
         REG_IE |= INTR_FLAG_VCOUNT;
