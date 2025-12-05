@@ -661,8 +661,8 @@ void DisplaySprite(Sprite *sprite)
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= SA2_LABEL(gUnknown_030017F4)[0];
-            y -= SA2_LABEL(gUnknown_030017F4)[1];
+            x -= gSpriteOffset.x;
+            y -= gSpriteOffset.y;
         }
 
         sprWidth = sprDims->width;
@@ -836,8 +836,8 @@ UNUSED void DisplaySprites(Sprite *sprite, Vec2_16 *positions, u8 numPositions)
         y = sprite->y;
 
         if (sprite->frameFlags & SPRITE_FLAG_MASK_17) {
-            x -= SA2_LABEL(gUnknown_030017F4)[0];
-            y -= SA2_LABEL(gUnknown_030017F4)[1];
+            x -= gSpriteOffset.x;
+            y -= gSpriteOffset.y;
         }
 
         sprWidth = sprDims->width;
@@ -959,9 +959,9 @@ OamData *OamMalloc(u8 order)
     if (gOamFreeIndex > OAM_ENTRY_COUNT - 1) {
         result = (OamData *)iwram_end;
     } else {
-        if (SA2_LABEL(gUnknown_03001850)[order] == 0xFF) {
+        if (gOamMallocOrders_StartIndex[order] == 0xFF) {
             gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
-            SA2_LABEL(gUnknown_03001850)[order] = gOamFreeIndex;
+            gOamMallocOrders_StartIndex[order] = gOamFreeIndex;
             SA2_LABEL(gUnknown_03004D60)[order] = gOamFreeIndex;
         } else {
             gOamBuffer2[gOamFreeIndex].split.fractional = 0xFF;
@@ -982,8 +982,8 @@ void CopyOamBufferToOam(void)
     u8 i = 0;
     s32 r3;
 
-    for (r3 = 0; r3 < (s32)ARRAY_COUNT(SA2_LABEL(gUnknown_03001850)); r3++) {
-        s8 index = SA2_LABEL(gUnknown_03001850)[r3];
+    for (r3 = 0; r3 < (s32)ARRAY_COUNT(gOamMallocOrders_StartIndex); r3++) {
+        s8 index = gOamMallocOrders_StartIndex[r3];
 
         while (index != -1) {
             u8 newI;
@@ -1040,10 +1040,10 @@ void CopyOamBufferToOam(void)
 
     gOamFreeIndex = 0;
     if (gFlags & FLAGS_4000) {
-        CpuFill32(-1, SA2_LABEL(gUnknown_03001850), sizeof(SA2_LABEL(gUnknown_03001850)));
+        CpuFill32(-1, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
         CpuFill32(-1, SA2_LABEL(gUnknown_03004D60), sizeof(SA2_LABEL(gUnknown_03004D60)));
     } else {
-        DmaFill32(3, -1, SA2_LABEL(gUnknown_03001850), sizeof(SA2_LABEL(gUnknown_03001850)));
+        DmaFill32(3, -1, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
         DmaFill32(3, -1, SA2_LABEL(gUnknown_03004D60), sizeof(SA2_LABEL(gUnknown_03004D60)));
     }
 }

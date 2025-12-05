@@ -203,10 +203,10 @@ void CreateStaffCredits()
     DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(1), 0x40);
 
     sa2__gUnknown_03004D80[1] = 1;
-    sa2__gUnknown_03002280[1][0] = 0;
-    sa2__gUnknown_03002280[1][1] = 0;
-    sa2__gUnknown_03002280[1][2] = -1;
-    sa2__gUnknown_03002280[1][3] = 0x14;
+    gBgSprites_Unknown2[1][0] = 0;
+    gBgSprites_Unknown2[1][1] = 0;
+    gBgSprites_Unknown2[1][2] = -1;
+    gBgSprites_Unknown2[1][3] = 0x14;
 
     gDispCnt |= 0x6000;
     gWinRegs[WINREG_WIN0H] = WIN_RANGE(0, DISPLAY_WIDTH);

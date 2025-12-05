@@ -240,7 +240,7 @@ _08061334:
 	str r0, [r1]
 	ldr r0, _080613C4 @ =gHBlankCopySize
 	strb r2, [r0]
-	ldr r0, _080613C8 @ =gBgOffsetsHBlank
+	ldr r0, _080613C8 @ =gBgOffsetsHBlankPrimary
 	lsls r1, r7, #2
 	ldr r0, [r0]
 	adds r2, r0, r1
@@ -302,7 +302,7 @@ _080613B8: .4byte gFlags
 _080613BC: .4byte gHBlankCopyTarget
 _080613C0: .4byte 0x04000010
 _080613C4: .4byte gHBlankCopySize
-_080613C8: .4byte gBgOffsetsHBlank
+_080613C8: .4byte gBgOffsetsHBlankPrimary
 _080613CC: .4byte 0x000001FF
 
 .syntax divided

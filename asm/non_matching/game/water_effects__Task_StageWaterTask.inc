@@ -226,7 +226,7 @@ _0804C7CC:
 	bl sa2__sub_8007738
 	movs r5, #0x20
 	ldr r2, _0804C884 @ =0x040000D4
-	ldr r0, _0804C888 @ =gBgOffsetsHBlank
+	ldr r0, _0804C888 @ =gBgOffsetsHBlankPrimary
 	ldr r4, [r0]
 	ldr r0, _0804C88C @ =gHBlankCopySize
 	ldrb r3, [r0]
@@ -270,7 +270,7 @@ _0804C878: .4byte gStageTime
 _0804C87C: .4byte gBgScrollRegs
 _0804C880: .4byte 0x000003FF
 _0804C884: .4byte 0x040000D4
-_0804C888: .4byte gBgOffsetsHBlank
+_0804C888: .4byte gBgOffsetsHBlankPrimary
 _0804C88C: .4byte gHBlankCopySize
 _0804C890: .4byte gFlags
 

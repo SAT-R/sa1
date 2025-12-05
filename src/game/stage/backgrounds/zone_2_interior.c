@@ -24,7 +24,7 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
     gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 4;
 
-    offsets = gBgOffsetsHBlank;
+    offsets = gBgOffsetsHBlankPrimary;
 
     wallY = ySub % 64u;
     r4 = 0;
@@ -67,7 +67,7 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
         xSub = ((x >> 1) + (i << 5)) & 0xFF;
         ySub = ((y >> 1) + (i << 6)) & 0xFF;
         ySub = (-ySub) & 0xFF;
-        offsets = gBgOffsetsHBlank;
+        offsets = gBgOffsetsHBlankPrimary;
 
         for (line = ySub - 16; line < ySub; line++) {
             if (line < 0) {
@@ -86,7 +86,7 @@ NONMATCH("asm/non_matching/game/stage/backgrounds/StageBgUpdate_Zone2_Interior.i
 
     // Bigger bar
     v = (-ySub & 0xFF);
-    offsets = gBgOffsetsHBlank;
+    offsets = gBgOffsetsHBlankPrimary;
     for (line = v - 24; line < v; line++) {
         if ((line < 0)) {
             continue;

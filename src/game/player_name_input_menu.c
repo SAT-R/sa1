@@ -723,15 +723,15 @@ NONMATCH("asm/non_matching/game/player_name_input_menu__Task_80595DC.inc", void 
         TaskDestroy(gCurTask);
 
         sa2__gUnknown_03004D80[1] = 0;
-        sa2__gUnknown_03002280[1][0] = 0;
-        sa2__gUnknown_03002280[1][1] = 0;
-        sa2__gUnknown_03002280[1][2] = 0xFF;
-        sa2__gUnknown_03002280[1][3] = 0x20;
+        gBgSprites_Unknown2[1][0] = 0;
+        gBgSprites_Unknown2[1][1] = 0;
+        gBgSprites_Unknown2[1][2] = 0xFF;
+        gBgSprites_Unknown2[1][3] = 0x20;
         sa2__gUnknown_03004D80[2] = 0;
-        sa2__gUnknown_03002280[2][0] = 0;
-        sa2__gUnknown_03002280[2][1] = 0;
-        sa2__gUnknown_03002280[2][2] = 0xFF;
-        sa2__gUnknown_03002280[2][3] = 0x20;
+        gBgSprites_Unknown2[2][0] = 0;
+        gBgSprites_Unknown2[2][1] = 0;
+        gBgSprites_Unknown2[2][2] = 0xFF;
+        gBgSprites_Unknown2[2][3] = 0x20;
 
         if (gGameMode == 2) {
             CreateMultiplayerModeSelectScreen();

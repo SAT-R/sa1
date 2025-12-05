@@ -313,7 +313,7 @@ _08019952:
 	movs r3, #0x74
 	bl sa2__sub_80064A8
 	ldr r2, _08019AC0 @ =0x040000D4
-	ldr r0, _08019AC4 @ =gBgOffsetsHBlank
+	ldr r0, _08019AC4 @ =gBgOffsetsHBlankPrimary
 	ldr r4, [r0]
 	ldr r0, _08019AC8 @ =gHBlankCopySize
 	ldrb r3, [r0]
@@ -481,7 +481,7 @@ _08019AAA:
 	b _08019B42
 	.align 2, 0
 _08019AC0: .4byte 0x040000D4
-_08019AC4: .4byte gBgOffsetsHBlank
+_08019AC4: .4byte gBgOffsetsHBlankPrimary
 _08019AC8: .4byte gHBlankCopySize
 _08019ACC: .4byte 0x000003FF
 _08019AD0: .4byte 0x00000236

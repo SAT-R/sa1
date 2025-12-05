@@ -303,8 +303,8 @@ NONMATCH("asm/non_matching/game/water_effects__Task_StageWaterTask.inc", void Ta
         (3, 0, 32, r3, 2, 64, (((gStageTime * 2 + (((gBgScrollRegs[3][1] + water->SA2_LABEL(unk2)) % 32u) << 5))) + 0x100) & ONE_CYCLE, 10,
          32, gBgScrollRegs[3][0], gBgScrollRegs[3][1]);
 
-        for (r5 = 32, ptr = gBgOffsetsHBlank + (adder = (gHBlankCopySize << 5)); r5 < DISPLAY_HEIGHT;) {
-            DmaCopy32(3, gBgOffsetsHBlank, ptr, (gHBlankCopySize << 5));
+        for (r5 = 32, ptr = gBgOffsetsHBlankPrimary + (adder = (gHBlankCopySize << 5)); r5 < DISPLAY_HEIGHT;) {
+            DmaCopy32(3, gBgOffsetsHBlankPrimary, ptr, (gHBlankCopySize << 5));
             ptr += adder;
             r5 += 0x20;
         }

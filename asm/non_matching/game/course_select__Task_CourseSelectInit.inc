@@ -185,7 +185,7 @@ _08061F64:
 	str r0, [r1]
 	ldr r0, _0806211C @ =gHBlankCopySize
 	strb r2, [r0]
-	ldr r0, _08062120 @ =gBgOffsetsHBlank
+	ldr r0, _08062120 @ =gBgOffsetsHBlankPrimary
 	ldr r1, [r0]
 	movs r2, #0
 	movs r4, #0
@@ -336,7 +336,7 @@ _08062110: .4byte gFlags
 _08062114: .4byte gHBlankCopyTarget
 _08062118: .4byte 0x04000010
 _0806211C: .4byte gHBlankCopySize
-_08062120: .4byte gBgOffsetsHBlank
+_08062120: .4byte gBgOffsetsHBlankPrimary
 _08062124: .4byte 0x000001FF
 _08062128: .4byte gPressedKeys
 _0806212C: .4byte gBgScrollRegs

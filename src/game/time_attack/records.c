@@ -320,7 +320,7 @@ NONMATCH("asm/non_matching/game/time_attack_records__Task_806BBC0.inc", void Tas
     gFlags |= 4;
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 4;
-    var_r2 = (void *)&((u32 *)gBgOffsetsHBlank)[var_r6];
+    var_r2 = (void *)&((u32 *)gBgOffsetsHBlankPrimary)[var_r6];
 
     while (var_r6 < var_ip) {
         for (var_r1 = 0; var_r1 < 24 && (var_r6 < var_ip); var_r6++, var_r1++) {

@@ -489,25 +489,25 @@ NONMATCH("asm/non_matching/game/game2_1__sub_805D048.inc", void sub_805D048(u8 a
     temp_r0_10->task20 = task20;
 
     SA2_LABEL(gUnknown_03004D80)[0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    gBgSprites_Unknown2[0][0] = 0;
+    gBgSprites_Unknown2[0][1] = 0;
+    gBgSprites_Unknown2[0][2] = -1;
+    gBgSprites_Unknown2[0][3] = 0x20;
     SA2_LABEL(gUnknown_03004D80)[1] = 0;
-    SA2_LABEL(gUnknown_03002280)[1][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[1][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[1][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[1][3] = 0x20;
+    gBgSprites_Unknown2[1][0] = 0;
+    gBgSprites_Unknown2[1][1] = 0;
+    gBgSprites_Unknown2[1][2] = -1;
+    gBgSprites_Unknown2[1][3] = 0x20;
     SA2_LABEL(gUnknown_03004D80)[2] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = -1;
+    gBgSprites_Unknown2[2][3] = 0x20;
     SA2_LABEL(gUnknown_03004D80)[3] = 0;
-    SA2_LABEL(gUnknown_03002280)[3][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[3][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[3][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[3][3] = 0x20;
+    gBgSprites_Unknown2[3][0] = 0;
+    gBgSprites_Unknown2[3][1] = 0;
+    gBgSprites_Unknown2[3][2] = -1;
+    gBgSprites_Unknown2[3][3] = 0x20;
 
     sub_805C994(arg0);
 }

@@ -347,7 +347,6 @@ typedef struct {
 // TODO: Find better place for this
 typedef void (*HBlankFunc)(int_vcount vcount);
 typedef void (*IntrFunc)(void);
-typedef void (*FuncType_030053A0)(void);
 typedef bool32 (*VBlankFunc)(void);
 
 extern void *iwram_end;

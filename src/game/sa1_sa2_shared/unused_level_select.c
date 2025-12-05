@@ -103,10 +103,10 @@ void Task_Poll(void)
 #endif
 
         sa2__gUnknown_03004D80[0] = 0;
-        sa2__gUnknown_03002280[0][0] = 0;
-        sa2__gUnknown_03002280[0][1] = 0;
-        sa2__gUnknown_03002280[0][2] = 0xFF;
-        sa2__gUnknown_03002280[0][3] = 0x20;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = 0xFF;
+        gBgSprites_Unknown2[0][3] = 0x20;
 #if (GAME == GAME_SA1)
         if (IS_MULTI_PLAYER) {
             gCurTask->main = Task_CreateMultiplayer;
@@ -125,10 +125,10 @@ void Task_Poll(void)
 #endif
 
         sa2__gUnknown_03004D80[0] = 0;
-        sa2__gUnknown_03002280[0][0] = 0;
-        sa2__gUnknown_03002280[0][1] = 0;
-        sa2__gUnknown_03002280[0][2] = 0xFF;
-        sa2__gUnknown_03002280[0][3] = 0x20;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = 0xFF;
+        gBgSprites_Unknown2[0][3] = 0x20;
     } else {
         if (gRepeatedKeys & DPAD_LEFT) {
             LEFT_INPUT(levelSelect->levelId);

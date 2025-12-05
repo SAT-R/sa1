@@ -480,15 +480,15 @@ void InitCamera(u32 level)
     }
 
     sa2__gUnknown_03004D80[1] = 0;
-    sa2__gUnknown_03002280[1][0] = 0;
-    sa2__gUnknown_03002280[1][1] = 0;
-    sa2__gUnknown_03002280[1][2] = 0xff;
-    sa2__gUnknown_03002280[1][3] = 0x20;
+    gBgSprites_Unknown2[1][0] = 0;
+    gBgSprites_Unknown2[1][1] = 0;
+    gBgSprites_Unknown2[1][2] = 0xff;
+    gBgSprites_Unknown2[1][3] = 0x20;
     sa2__gUnknown_03004D80[2] = 0;
-    sa2__gUnknown_03002280[2][0] = 0;
-    sa2__gUnknown_03002280[2][1] = 0;
-    sa2__gUnknown_03002280[2][2] = 0xff;
-    sa2__gUnknown_03002280[2][3] = 0x20;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = 0xff;
+    gBgSprites_Unknown2[2][3] = 0x20;
 #elif (GAME == GAME_SA2)
     gUnknown_03004D80[1] = 0;
     gUnknown_03002280[1][0] = 0;

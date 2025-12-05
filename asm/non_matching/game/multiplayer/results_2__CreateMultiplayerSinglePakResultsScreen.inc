@@ -69,7 +69,7 @@
 	ldr r2, _0801AA4C @ =sa2__gUnknown_03004D80
 	movs r0, #0x7f
 	strb r0, [r2, #2]
-	ldr r0, _0801AA50 @ =sa2__gUnknown_03002280
+	ldr r0, _0801AA50 @ =gBgSprites_Unknown2
 	strb r6, [r0, #8]
 	strb r6, [r0, #9]
 	movs r1, #0xff
@@ -332,7 +332,7 @@ _0801AA40: .4byte gBgCntRegs
 _0801AA44: .4byte 0x00005E0B
 _0801AA48: .4byte 0x00001C0C
 _0801AA4C: .4byte sa2__gUnknown_03004D80
-_0801AA50: .4byte sa2__gUnknown_03002280
+_0801AA50: .4byte gBgSprites_Unknown2
 _0801AA54: .4byte 0x040000D4
 _0801AA58: .4byte 0x06009FE0
 _0801AA5C: .4byte 0x85000010

@@ -251,7 +251,7 @@ void StageBgUpdate_Zone6Act2(s32 x, s32 y)
     gHBlankCopySize = 4;
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
         DmaFill32(3, r4, ptr, DISPLAY_HEIGHT * sizeof(r4));
 
         r4 = ((ySub << 16) | ((xSub - (gStageTime >> 1)) & 0x1FF));
@@ -271,7 +271,7 @@ void StageBgUpdate_Zone6Act2(s32 x, s32 y)
     }
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
 
         r4 = ((ySub << 16) | (((gStageTime >> 1) + xSub) & 0x1FF));
 

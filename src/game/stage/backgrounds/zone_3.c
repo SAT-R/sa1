@@ -90,7 +90,7 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     gHBlankCopySize = 4;
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
         DmaFill32(3, r4, ptr, DISPLAY_HEIGHT * sizeof(r4));
 
         r4 = ((ySub << 16) | ((xSub + (x >> 6)) & 0xFF));
@@ -110,7 +110,7 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     }
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
 
         r4 = ((ySub << 16) | ((xSub + (x >> 5)) & 0xFF));
 
@@ -129,7 +129,7 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     }
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
 
         r4 = ((ySub << 16) | ((xSub + (x >> 4)) & 0xFF));
 
@@ -148,7 +148,7 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     }
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
 
         r4 = ((ySub << 16) | ((xSub + (x >> 3)) & 0xFF));
 
@@ -167,7 +167,7 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     }
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
 
         r4 = ((ySub << 16) | ((xSub + (x >> 2)) & 0xFF));
 
@@ -186,7 +186,7 @@ void StageBgUpdate_Zone3Acts12(s32 x, s32 y)
     }
 
     {
-        ptr = gBgOffsetsHBlank;
+        ptr = gBgOffsetsHBlankPrimary;
 
         r4 = ((ySub << 16) | ((xSub + (x >> 1)) & 0xFF));
 

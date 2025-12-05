@@ -50,10 +50,10 @@ void sub_806968C(void)
     sub_80528AC(&sp00);
 
     sa2__gUnknown_03004D80[0] = 1;
-    sa2__gUnknown_03002280[0][0] = 0;
-    sa2__gUnknown_03002280[0][1] = 0;
-    sa2__gUnknown_03002280[0][2] = 0xFF;
-    sa2__gUnknown_03002280[0][3] = 0x14;
+    gBgSprites_Unknown2[0][0] = 0;
+    gBgSprites_Unknown2[0][1] = 0;
+    gBgSprites_Unknown2[0][2] = 0xFF;
+    gBgSprites_Unknown2[0][3] = 0x14;
 }
 
 void CreateGetAllChaosEmeraldsMessage()

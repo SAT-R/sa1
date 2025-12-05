@@ -13,8 +13,6 @@
 #include "data/sprite_data.h"
 #include "animation_commands.h"
 
-/* More or less copy-pasted from SA2 on January 15th, 2024 */
-
 struct MultiSioData_0_0 {
     // id
     u16 unk0;
@@ -278,12 +276,12 @@ extern int_vcount gBgOffsetsBuffer[2][DISPLAY_HEIGHT][4];
 extern Background *gBackgroundsCopyQueue[16];
 
 // This is used to buffer the xy-shift for each background scanline
-extern void *gBgOffsetsHBlank;
+extern void *gBgOffsetsHBlankPrimary;
 
 extern u16 sa2__gUnknown_030017F0;
-extern s16 sa2__gUnknown_030017F4[2];
-extern u8 sa2__gUnknown_03001850[32];
-extern FuncType_030053A0 gVBlankCallbacks[4];
+extern Vec2_16 gSpriteOffset;
+extern u8 gOamMallocOrders_StartIndex[32];
+extern IntrFunc gVBlankCallbacks[4];
 
 extern u8 gOamFreeIndex;
 extern u16 sa2__gUnknown_03001944;
@@ -291,7 +289,7 @@ extern u8 gNumVBlankIntrs;
 extern s16 sa2__gUnknown_0300194C;
 
 extern Tilemap **gTilemapsRef;
-extern u8 sa2__gUnknown_03002280[4][4];
+extern u8 gBgSprites_Unknown2[4][4];
 extern u8 sa2__gUnknown_03004D80[16];
 
 #define LOG_GRAPHICS_QUEUE !TRUE
@@ -367,7 +365,7 @@ extern u8 sa2__gUnknown_03004D60[0x20];
 extern u8 sa2__gUnknown_03005390;
 extern u16 sa2__gUnknown_03005394;
 extern u16 sa2__gUnknown_03005398;
-extern FuncType_030053A0 gVBlankIntrs[4];
+extern IntrFunc gVBlankIntrs[4];
 extern s32 gPseudoRandom;
 extern u8 sa2__gUnknown_03002710[128];
 extern struct MultiBootParam gMultiBootParam;

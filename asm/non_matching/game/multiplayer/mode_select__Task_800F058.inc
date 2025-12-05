@@ -122,7 +122,7 @@ _0800F12C:
 	bl m4aSongNumStart
 	ldr r0, _0800F180 @ =sa2__gUnknown_03004D80
 	strb r4, [r0]
-	ldr r1, _0800F184 @ =sa2__gUnknown_03002280
+	ldr r1, _0800F184 @ =gBgSprites_Unknown2
 	strb r4, [r1]
 	strb r4, [r1, #1]
 	movs r0, #0xff
@@ -140,7 +140,7 @@ _0800F174: .4byte gPressedKeys
 _0800F178: .4byte gMultiSioEnabled
 _0800F17C: .4byte gMultiSioSend
 _0800F180: .4byte sa2__gUnknown_03004D80
-_0800F184: .4byte sa2__gUnknown_03002280
+_0800F184: .4byte gBgSprites_Unknown2
 _0800F188: .4byte gCurTask
 _0800F18C:
 	ldr r0, _0800F1C0 @ =0x00000219

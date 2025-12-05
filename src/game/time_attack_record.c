@@ -377,7 +377,7 @@ NONMATCH("asm/non_matching/game/time_attack_record__sub_8061144.inc", void sub_8
     gHBlankCopyTarget = (void *)&REG_BG0HOFS;
     gHBlankCopySize = 4;
     {
-        var_r2 = gBgOffsetsHBlank;
+        var_r2 = gBgOffsetsHBlankPrimary;
         for (var_r7; var_r7 < DISPLAY_HEIGHT; var_r7++) {
             for (var_r1 = 0; var_r7 < DISPLAY_HEIGHT && var_r1 < 24; var_r1++) {
                 *var_r2++ = (s16)(var_r3 & 0x1FF);

@@ -27,7 +27,7 @@ void StageBgUpdate_Zone1Acts12(s32 x, s32 UNUSED y)
     gHBlankCopyTarget = (void *)&REG_BG3HOFS;
     gHBlankCopySize = 4;
 
-    offsets = gBgOffsetsHBlank;
+    offsets = gBgOffsetsHBlankPrimary;
 
     for (i = 0; i < 8; i++) {
         // Highest moving cloud (fastest)

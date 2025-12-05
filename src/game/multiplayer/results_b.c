@@ -697,7 +697,7 @@ block_39:
 #ifndef NON_MATCHING
     {
         register volatile void *dmaSrc asm("r2") = &REG_DMA3SAD;
-        register u8 *offsetsHBlank asm("r4") = gBgOffsetsHBlank;
+        register u8 *offsetsHBlank asm("r4") = gBgOffsetsHBlankPrimary;
         asm("" ::"r"(dmaSrc));
         asm("" ::"r"(offsetsHBlank));
         {
@@ -706,7 +706,7 @@ block_39:
             register s32 v asm("r7") = 0x84000000;
             asm("" ::"r"(v));
             for (var_r6 = 0; var_r6 <= 0x80; var_r6 += 0x10) {
-                DmaCopy32(3, gBgOffsetsHBlank, dmaDst, (gHBlankCopySize << 4));
+                DmaCopy32(3, gBgOffsetsHBlankPrimary, dmaDst, (gHBlankCopySize << 4));
                 dmaDst += copySize;
             }
         }
@@ -714,7 +714,7 @@ block_39:
 #else
     temp_r1_4 = gHBlankCopySize * 0x10;
     for (var_r6 = 0x0; var_r6 <= 0x80; var_r6 += 0x10) {
-        DmaCopy32(3, gBgOffsetsHBlank, &((u8 *)gBgOffsetsHBlank)[temp_r1_4], (gHBlankCopySize << 4));
+        DmaCopy32(3, gBgOffsetsHBlankPrimary, &((u8 *)gBgOffsetsHBlankPrimary)[temp_r1_4], (gHBlankCopySize << 4));
         temp_r1_4 += gHBlankCopySize * var_r6;
     }
 #endif

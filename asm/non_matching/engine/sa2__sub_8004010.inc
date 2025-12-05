@@ -13,10 +13,10 @@
 _08002F98:
 	mov r2, r8
 	lsls r0, r2, #2
-	ldr r1, _08003050 @ =sa2__gUnknown_03002280
+	ldr r1, _08003050 @ =gBgSprites_Unknown2
 	adds r1, #1
 	adds r4, r0, r1
-	ldr r6, _08003054 @ =sa2__gUnknown_03002280+3
+	ldr r6, _08003054 @ =gBgSprites_Unknown2+3
 	adds r6, r0, r6
 	str r6, [sp, #0xc]
 	ldrb r1, [r4]
@@ -25,9 +25,9 @@ _08002F98:
 	mov sl, r0
 	cmp r1, ip
 	bne _08002FCA
-	ldr r0, _08003050 @ =sa2__gUnknown_03002280
+	ldr r0, _08003050 @ =gBgSprites_Unknown2
 	add r0, sl
-	ldr r1, _08003058 @ =sa2__gUnknown_03002280+
+	ldr r1, _08003058 @ =gBgSprites_Unknown2+
 	add r1, sl
 	ldrb r0, [r0]
 	mov r7, r8
@@ -50,7 +50,7 @@ _08002FCA:
 	lsls r0, r0, #3
 	adds r5, r0, r1
 	ldrb r4, [r4]
-	ldr r0, _08003050 @ =sa2__gUnknown_03002280
+	ldr r0, _08003050 @ =gBgSprites_Unknown2
 	add r0, sl
 	ldrb r0, [r0]
 	str r0, [sp, #8]
@@ -105,9 +105,9 @@ _08002FCA:
 	mov sb, r2
 	b _08003134
 	.align 2, 0
-_08003050: .4byte sa2__gUnknown_03002280
-_08003054: .4byte sa2__gUnknown_03002280+3
-_08003058: .4byte sa2__gUnknown_03002280+2
+_08003050: .4byte gBgSprites_Unknown2
+_08003054: .4byte gBgSprites_Unknown2+3
+_08003058: .4byte gBgSprites_Unknown2+2
 _0800305C: .4byte gBgCntRegs
 _08003060: .4byte gDispCnt
 _08003064: .4byte sa2__gUnknown_03004D80
@@ -125,7 +125,7 @@ _0800307A:
 	add r0, r8
 	mov ip, r0
 	ldr r2, _080030D4 @ =0x040000D4
-	ldr r1, _080030D8 @ =sa2__gUnknown_03002280
+	ldr r1, _080030D8 @ =gBgSprites_Unknown2
 	add r1, sl
 	mov r8, r1
 	ldr r6, [sp, #0xc]
@@ -168,7 +168,7 @@ _0800308C:
 	.align 2, 0
 _080030D0: .4byte sa2__gUnknown_03004D80
 _080030D4: .4byte 0x040000D4
-_080030D8: .4byte sa2__gUnknown_03002280+2
+_080030D8: .4byte gBgSprites_Unknown2+2
 _080030DC:
 	ldr r1, [sp, #8]
 	lsls r0, r1, #1
@@ -184,7 +184,7 @@ _080030DC:
 	bhi _080030F6
 	movs r3, #0x40
 _080030F6:
-	ldr r1, _0800313C @ =sa2__gUnknown_03002280+2
+	ldr r1, _0800313C @ =gBgSprites_Unknown2+2
 	add r1, sl
 	ldrb r0, [r1]
 	cmp r0, #0xff
@@ -201,7 +201,7 @@ _080030F6:
 	ldr r1, _08003144 @ =0x040000D4
 	str r6, [r1]
 	str r0, [r1, #4]
-	ldr r0, _08003148 @ =sa2__gUnknown_03002280+3
+	ldr r0, _08003148 @ =gBgSprites_Unknown2+3
 	add r0, sl
 	ldrb r0, [r0]
 	subs r0, r0, r4
@@ -220,12 +220,12 @@ _08003134:
 	adds r7, #1
 	b _080031A0
 	.align 2, 0
-_0800313C: .4byte sa2__gUnknown_03002280+2
+_0800313C: .4byte gBgSprites_Unknown2+2
 _08003140: .4byte sa2__gUnknown_03004D80
 _08003144: .4byte 0x040000D4
-_08003148: .4byte sa2__gUnknown_03002280+3
+_08003148: .4byte gBgSprites_Unknown2+3
 _0800314C:
-	ldr r0, _080031D4 @ =sa2__gUnknown_03002280+3
+	ldr r0, _080031D4 @ =gBgSprites_Unknown2+3
 	add r0, sl
 	add r2, sp, #4
 	mov sb, r2
@@ -274,7 +274,7 @@ _080031A0:
 	mov r1, sb
 	ldr r2, _080031DC @ =0x040000D4
 	str r1, [r2]
-	ldr r0, _080031E0 @ =sa2__gUnknown_03002280
+	ldr r0, _080031E0 @ =gBgSprites_Unknown2
 	add r0, sl
 	str r0, [r2, #4]
 	ldr r0, _080031E4 @ =0x85000001
@@ -298,10 +298,10 @@ _080031C2:
 	pop {r1}
 	bx r1
 	.align 2, 0
-_080031D4: .4byte sa2__gUnknown_03002280+3
+_080031D4: .4byte gBgSprites_Unknown2+3
 _080031D8: .4byte sa2__gUnknown_03004D80
 _080031DC: .4byte 0x040000D4
-_080031E0: .4byte sa2__gUnknown_03002280
+_080031E0: .4byte gBgSprites_Unknown2
 _080031E4: .4byte 0x85000001
 
 .syntax divided

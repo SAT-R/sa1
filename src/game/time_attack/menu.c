@@ -252,10 +252,10 @@ void sub_8010580(void)
     gBldRegs.bldCnt = 0;
     gBldRegs.bldY = 0;
     SA2_LABEL(gUnknown_03004D80)[0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    gBgSprites_Unknown2[0][0] = 0;
+    gBgSprites_Unknown2[0][1] = 0;
+    gBgSprites_Unknown2[0][2] = 0xFF;
+    gBgSprites_Unknown2[0][3] = 0x20;
     TaskDestroy(gCurTask);
     CreateMainMenu(1);
 }

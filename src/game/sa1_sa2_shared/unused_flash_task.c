@@ -20,10 +20,10 @@ void CreateUnusedFlashTask(void)
     DmaFill32(3, 0, VRAM, 2 * TILE_SIZE_4BPP);
 
     SA2_LABEL(gUnknown_03004D80)[2] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x40;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = 0xFF;
+    gBgSprites_Unknown2[2][3] = 0x40;
 
     {
         struct Task *t = TaskCreate(Task_UnusedFlashTask, 0, 0x1000, 0, NULL);
@@ -44,10 +44,10 @@ void Task_UnusedFlashTask(void)
 void DestroyUnusedFlashTask(void)
 {
     SA2_LABEL(gUnknown_03004D80)[2] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = 0xFF;
+    gBgSprites_Unknown2[2][3] = 0x20;
 
     TaskDestroy(gCurTask);
 

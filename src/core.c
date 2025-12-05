@@ -13,6 +13,8 @@
 // TODO: Better name
 #define VBLANK_FUNC_ID_NONE 0xFF
 
+typedef bool32 (*VBlankProcessFunc)(void);
+
 // TODO: the order of these vars has
 // been shuffled due to compilation losses.
 // It's possible to use `ramscrgen` to reorder
@@ -21,15 +23,15 @@
 IntrFunc gIntrTable[] = {};
 u32 gIntrMainBuf[] = {};
 struct Task gTasks[] = {};
-u16 sa2__gUnknown_030017F0 ALIGNED(4) = 0;
-s16 sa2__gUnknown_030017F4[2] ALIGNED(4) = {};
+u16 SA2_LABEL(gUnknown_030017F0) ALIGNED(4) = 0;
+Vec2_16 gSpriteOffset ALIGNED(4) = {};
 Background *gBackgroundsCopyQueue[] ALIGNED(16) = {};
 u32 gFlags = 0;
-u8 sa2__gUnknown_03001850[] ALIGNED(16) = {};
-FuncType_030053A0 gVBlankCallbacks[] = {};
+u8 gOamMallocOrders_StartIndex[] ALIGNED(16) = {};
+IntrFunc gVBlankCallbacks[] = {};
 u16 gPhysicalInput = 0;
 
-void *gBgOffsetsHBlank = NULL;
+void *gBgOffsetsHBlankPrimary = NULL;
 
 u16 gVramHeapMaxTileSlots = 0;
 u8 gNumHBlankCallbacks ALIGNED(4) = 0;
@@ -45,21 +47,21 @@ u8 gNextFreeAffineIndex = 0;
 #endif
 BgAffineReg gBgAffineRegs[NUM_AFFINE_BACKGROUNDS] ALIGNED(16) = {};
 void *gVramHeapStartAddr = NULL;
-u16 sa2__gUnknown_03001944 ALIGNED(4) = 0;
+u16 SA2_LABEL(gUnknown_03001944) ALIGNED(4) = 0;
 u8 gNumVBlankIntrs ALIGNED(4) = 0;
-s16 sa2__gUnknown_0300194C ALIGNED(4) = 0;
+s16 SA2_LABEL(gUnknown_0300194C) ALIGNED(4) = 0;
 
 u32 gMultiSioStatusFlags = 0;
 bool8 gMultiSioEnabled = FALSE;
 
 struct Task *gTaskPtrs[] ALIGNED(16) = {};
-int_vcount gBgOffsetsBuffer[2][DISPLAY_HEIGHT][4] = {}; /* TODO: Find out how this is different from gBgOffsetsHBlank */
+int_vcount gBgOffsetsBuffer[2][DISPLAY_HEIGHT][4] = {}; /* TODO: Find out how this is different from gBgOffsetsHBlankPrimary */
 u16 gObjPalette[] = {};
 Tilemap **gTilemapsRef = NULL;
 u32 gFrameCount = 0;
 winreg_t gWinRegs[6] ALIGNED(16) = {};
 s32 gNumTasks = 0;
-u8 sa2__gUnknown_03002280[4][4] = {};
+u8 gBgSprites_Unknown2[4][4] = {};
 u16 gInput = 0;
 u8 gRepeatedKeysTestCounter[] ALIGNED(16) = {};
 void *sa2__gUnknown_030022AC = NULL;
@@ -135,7 +137,7 @@ u16 gVramHeapState[] = {};
 u8 sa2__gUnknown_03005390 ALIGNED(4) = 0;
 u16 sa2__gUnknown_03005394 ALIGNED(4) = 0;
 u16 sa2__gUnknown_03005398 ALIGNED(4) = 0;
-FuncType_030053A0 gVBlankIntrs[] ALIGNED(16) = {};
+IntrFunc gVBlankIntrs[] ALIGNED(16) = {};
 const u8 *gInputPlaybackData = NULL;
 bool8 gExecSoundMain ALIGNED(4) = FALSE;
 s32 gPseudoRandom = 0;
@@ -224,15 +226,15 @@ void EngineInit(void)
     gVramGraphicsCopyCursor = 0;
     gVramGraphicsCopyQueueIndex = 0;
 
-    DmaFill32(3, 0, sa2__gUnknown_03002280, sizeof(sa2__gUnknown_03002280));
+    DmaFill32(3, 0, gBgSprites_Unknown2, sizeof(gBgSprites_Unknown2));
 
     // TODO: sort out this type
     *(u32 *)sa2__gUnknown_03004D80 = 0;
 
     DmaFill32(3, 0, gBgScrollRegs, sizeof(gBgScrollRegs));
 
-    sa2__gUnknown_030017F4[0] = 0;
-    sa2__gUnknown_030017F4[1] = 0;
+    gSpriteOffset.x = 0;
+    gSpriteOffset.y = 0;
 
     gDispCnt = DISPCNT_FORCED_BLANK;
 
@@ -243,7 +245,7 @@ void EngineInit(void)
 
     DmaFill16(3, 0x200, gOamBuffer, sizeof(gOamBuffer));
     DmaFill16(3, 0x200, gOamBuffer2, sizeof(gOamBuffer2));
-    DmaFill32(3, ~0, sa2__gUnknown_03001850, sizeof(sa2__gUnknown_03001850));
+    DmaFill32(3, ~0, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
     DmaFill32(3, ~0, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
     DmaFill32(3, 0, gObjPalette, sizeof(gObjPalette));
     DmaFill32(3, 0, gBgPalette, sizeof(gBgPalette));
@@ -314,7 +316,7 @@ void EngineInit(void)
 
     DmaFill32(3, 0, &gBgOffsetsBuffer, sizeof(gBgOffsetsBuffer));
 
-    gBgOffsetsHBlank = gBgOffsetsBuffer[0];
+    gBgOffsetsHBlankPrimary = gBgOffsetsBuffer[0];
     sa2__gUnknown_030022AC = gBgOffsetsBuffer[1];
     gHBlankCopyTarget = NULL;
     gHBlankCopySize = 0;
@@ -474,7 +476,7 @@ void UpdateScreenDma(void)
 
     if (gFlags & FLAGS_EXECUTE_HBLANK_COPY) {
 
-        DmaCopy16(3, gBgOffsetsHBlank, gHBlankCopyTarget, gHBlankCopySize);
+        DmaCopy16(3, gBgOffsetsHBlankPrimary, gHBlankCopyTarget, gHBlankCopySize);
     }
 
     if (sLastCalledVblankFuncId == VBLANK_FUNC_ID_NONE) {
@@ -501,7 +503,7 @@ void UpdateScreenDma(void)
     if (gFlags & FLAGS_EXECUTE_VBLANK_CALLBACKS) {
         DmaFill32(3, 0, gVBlankIntrs, sizeof(gVBlankIntrs));
         if (gNumVBlankCallbacks != 0) {
-            DmaCopy32(3, gVBlankCallbacks, gVBlankIntrs, gNumVBlankCallbacks * sizeof(FuncType_030053A0));
+            DmaCopy32(3, gVBlankCallbacks, gVBlankIntrs, gNumVBlankCallbacks * sizeof(IntrFunc));
         }
         gNumVBlankIntrs = gNumVBlankCallbacks;
     } else {
@@ -540,24 +542,13 @@ void ClearOamBufferDma(void)
 
     gFlags &= ~FLAGS_EXECUTE_HBLANK_CALLBACKS;
     if (!(gFlags & FLAGS_20)) {
-#if (GAME == GAME_SA1)
-        if (gBgOffsetsHBlank == gBgOffsetsBuffer[0]) {
-            gBgOffsetsHBlank = gBgOffsetsBuffer[1];
-            sa2__gUnknown_030022AC = gBgOffsetsBuffer[0];
+        if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer[0]) {
+            gBgOffsetsHBlankPrimary = gBgOffsetsBuffer[1];
+            SA2_LABEL(gUnknown_030022AC) = gBgOffsetsBuffer[0];
         } else {
-            gBgOffsetsHBlank = gBgOffsetsBuffer[0];
-            sa2__gUnknown_030022AC = gBgOffsetsBuffer[1];
+            gBgOffsetsHBlankPrimary = gBgOffsetsBuffer[0];
+            SA2_LABEL(gUnknown_030022AC) = gBgOffsetsBuffer[1];
         }
-#else
-        if (gBgOffsetsHBlank == gUnknown_03004D54) {
-            gBgOffsetsHBlank = gUnknown_030022C0;
-            gUnknown_030022AC = gUnknown_03004D54;
-        } else {
-
-            gBgOffsetsHBlank = gUnknown_03004D54;
-            gUnknown_030022AC = gUnknown_030022C0;
-        }
-#endif
     }
     gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
     DmaFill16(3, 0x200, gOamBuffer + (OAM_ENTRY_COUNT / 4) * 0, OAM_SIZE / 4);
@@ -656,8 +647,8 @@ void VBlankIntr(void)
         REG_IE |= INTR_FLAG_HBLANK;
         DmaWait(0);
 
-        DmaCopy16(0, gBgOffsetsHBlank, gHBlankCopyTarget, gHBlankCopySize);
-        DmaSet(0, gBgOffsetsHBlank + gHBlankCopySize, gHBlankCopyTarget,
+        DmaCopy16(0, gBgOffsetsHBlankPrimary, gHBlankCopyTarget, gHBlankCopySize);
+        DmaSet(0, gBgOffsetsHBlankPrimary + gHBlankCopySize, gHBlankCopyTarget,
                ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | (gHBlankCopySize >> 1));
 
     } else if (gHBlankCopyTarget) {
@@ -861,11 +852,11 @@ void ClearOamBufferCpuSet(void)
 
     gFlags &= ~FLAGS_EXECUTE_HBLANK_CALLBACKS;
     if (!(gFlags & FLAGS_20)) {
-        if (gBgOffsetsHBlank == gBgOffsetsBuffer) {
-            gBgOffsetsHBlank = &gBgOffsetsBuffer[1];
+        if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
+            gBgOffsetsHBlankPrimary = &gBgOffsetsBuffer[1];
             sa2__gUnknown_030022AC = (void *)&gBgOffsetsBuffer[0];
         } else {
-            gBgOffsetsHBlank = &gBgOffsetsBuffer[0];
+            gBgOffsetsHBlankPrimary = &gBgOffsetsBuffer[0];
             sa2__gUnknown_030022AC = (void *)&gBgOffsetsBuffer[1];
         }
     }
@@ -881,11 +872,11 @@ void ClearOamBufferCpuSet(void)
 
     gFlags &= ~FLAGS_EXECUTE_HBLANK_CALLBACKS;
     if (!(gFlags & FLAGS_20)) {
-        if (gBgOffsetsHBlank == gUnknown_03004D54) {
-            gBgOffsetsHBlank = gUnknown_030022C0;
+        if (gBgOffsetsHBlankPrimary == gUnknown_03004D54) {
+            gBgOffsetsHBlankPrimary = gUnknown_030022C0;
             gUnknown_030022AC = gUnknown_03004D54;
         } else {
-            gBgOffsetsHBlank = gUnknown_03004D54;
+            gBgOffsetsHBlankPrimary = gUnknown_03004D54;
             gUnknown_030022AC = gUnknown_030022C0;
         }
     }

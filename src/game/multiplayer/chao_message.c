@@ -115,10 +115,10 @@ void CreateMultiplayerResultsScreen(u8 mode)
     DmaFill32(3, 0, BG_VRAM + 0x1FE0, 0x40);
 
     SA2_LABEL(gUnknown_03004D80)[0] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[0][3] = 0x40;
+    gBgSprites_Unknown2[0][0] = 0;
+    gBgSprites_Unknown2[0][1] = 0;
+    gBgSprites_Unknown2[0][2] = -1;
+    gBgSprites_Unknown2[0][3] = 0x40;
 
     bg->graphics.dest = (void *)BG_VRAM;
     bg->graphics.anim = 0xFF;

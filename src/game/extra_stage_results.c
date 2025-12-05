@@ -1862,10 +1862,10 @@ void Task_80679E4()
         state->taskC->main = Task_8068570;
         gCurTask->main = Task_8067B14;
         SA2_LABEL(gUnknown_03004D80)[0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
-        SA2_LABEL(gUnknown_03002280)[0][3] = 0x14;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = 0xFF;
+        gBgSprites_Unknown2[0][3] = 0x14;
         gBgScrollRegs[0][1] = 0;
         state->strc0.unk0 = 0;
         state->strc0.unk2 = 1;

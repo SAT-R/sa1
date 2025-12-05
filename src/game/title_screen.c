@@ -108,10 +108,10 @@ void CreateSegaLogo(void)
     DmaFill32(3, 0, VRAM, 64);
 
     SA2_LABEL(gUnknown_03004D80)[2] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x40;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = 0xFF;
+    gBgSprites_Unknown2[2][3] = 0x40;
 
     t = TaskCreate(Task_SetSegaLogoTask, sizeof(SegaLogo), 0x2000, 0, NULL);
 
@@ -185,10 +185,10 @@ void CreateSonicTeamLogo(void)
     DmaFill32(3, 0, VRAM, 64);
 
     SA2_LABEL(gUnknown_03004D80)[2] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x40;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = 0xFF;
+    gBgSprites_Unknown2[2][3] = 0x40;
 
     t = TaskCreate(Task_SonicTeamLogoInit, sizeof(SonicTeamLogo), 0x2000, 0, NULL);
 
@@ -352,15 +352,15 @@ void CreateTitleScreen(u32 playMusic)
     gBgScrollRegs[2][0] = 0;
     gBgScrollRegs[2][1] = 0;
     SA2_LABEL(gUnknown_03004D80)[0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    gBgSprites_Unknown2[0][0] = 0;
+    gBgSprites_Unknown2[0][1] = 0;
+    gBgSprites_Unknown2[0][2] = 0xFF;
+    gBgSprites_Unknown2[0][3] = 0x20;
     SA2_LABEL(gUnknown_03004D80)[2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = -1;
+    gBgSprites_Unknown2[2][3] = 0x20;
 
     DmaFill32(3, 0, BG_VRAM, 64);
     DmaFill32(3, 0, BG_VRAM + 0xFFC0, 0x80); // TODO: This spills into OBJ VRAM!
@@ -549,15 +549,15 @@ void CreateMainMenu(u32 param0)
 
     if (menu->unk1AF != 0) {
         SA2_LABEL(gUnknown_03004D80)[0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][2] |= ~0;
-        SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] |= ~0;
+        gBgSprites_Unknown2[0][3] = 0x20;
         SA2_LABEL(gUnknown_03004D80)[2] |= ~0;
-        SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-        SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-        SA2_LABEL(gUnknown_03002280)[2][2] |= ~0;
-        SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+        gBgSprites_Unknown2[2][0] = 0;
+        gBgSprites_Unknown2[2][1] = 0;
+        gBgSprites_Unknown2[2][2] |= ~0;
+        gBgSprites_Unknown2[2][3] = 0x20;
 
         DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(0), 0x40);
         DmaFill32(3, 0, BG_CHAR_ADDR_FROM_BGCNT(2) + 0x3FC0, 0x80); // NOTE: Overflow to 0x4040!
@@ -764,15 +764,15 @@ void Task_800DE44(void)
         gCurTask->main = Task_800DEE4;
 
         sa2__gUnknown_03004D80[0] = 0;
-        sa2__gUnknown_03002280[0][0] = 0;
-        sa2__gUnknown_03002280[0][1] = 0;
-        sa2__gUnknown_03002280[0][2] = 0xFF;
-        sa2__gUnknown_03002280[0][3] = 0x20;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = 0xFF;
+        gBgSprites_Unknown2[0][3] = 0x20;
         sa2__gUnknown_03004D80[2] = 0;
-        sa2__gUnknown_03002280[2][0] = 0;
-        sa2__gUnknown_03002280[2][1] = 0;
-        sa2__gUnknown_03002280[2][2] = 0xFF;
-        sa2__gUnknown_03002280[2][3] = 0x20;
+        gBgSprites_Unknown2[2][0] = 0;
+        gBgSprites_Unknown2[2][1] = 0;
+        gBgSprites_Unknown2[2][2] = 0xFF;
+        gBgSprites_Unknown2[2][3] = 0x20;
 
         gFlags &= ~4;
     }

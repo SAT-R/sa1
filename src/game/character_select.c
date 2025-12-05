@@ -401,10 +401,10 @@ NONMATCH("asm/non_matching/game/char_select__CreateCharacterSelectionScreen.inc"
     }
 
     sa2__gUnknown_03004D80[1] = 0;
-    sa2__gUnknown_03002280[1][0] = 0;
-    sa2__gUnknown_03002280[1][1] = 0;
-    sa2__gUnknown_03002280[1][2] = -1;
-    sa2__gUnknown_03002280[1][3] = 0x20;
+    gBgSprites_Unknown2[1][0] = 0;
+    gBgSprites_Unknown2[1][1] = 0;
+    gBgSprites_Unknown2[1][2] = -1;
+    gBgSprites_Unknown2[1][3] = 0x20;
     m4aSongNumStartOrContinue(MUS_CHARACTER_SELECTION);
     sub_805423C(&temp_r7->strc0);
 }
@@ -917,22 +917,22 @@ void Task_805AC00(void)
         TaskDestroy(strc3C->task20);
 
         sa2__gUnknown_03004D80[0] = 0;
-        sa2__gUnknown_03002280[0][0] = 0;
-        sa2__gUnknown_03002280[0][1] = 0;
-        sa2__gUnknown_03002280[0][2] = -1;
-        sa2__gUnknown_03002280[0][3] = 0x14;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = -1;
+        gBgSprites_Unknown2[0][3] = 0x14;
 
         sa2__gUnknown_03004D80[1] = 0;
-        sa2__gUnknown_03002280[1][0] = 0;
-        sa2__gUnknown_03002280[1][1] = 0;
-        sa2__gUnknown_03002280[1][2] = -1;
-        sa2__gUnknown_03002280[1][3] = 0x14;
+        gBgSprites_Unknown2[1][0] = 0;
+        gBgSprites_Unknown2[1][1] = 0;
+        gBgSprites_Unknown2[1][2] = -1;
+        gBgSprites_Unknown2[1][3] = 0x14;
 
         sa2__gUnknown_03004D80[2] = 0;
-        sa2__gUnknown_03002280[2][0] = 0;
-        sa2__gUnknown_03002280[2][1] = 0;
-        sa2__gUnknown_03002280[2][2] = -1;
-        sa2__gUnknown_03002280[2][3] = 0x14;
+        gBgSprites_Unknown2[2][0] = 0;
+        gBgSprites_Unknown2[2][1] = 0;
+        gBgSprites_Unknown2[2][2] = -1;
+        gBgSprites_Unknown2[2][3] = 0x14;
     }
 }
 

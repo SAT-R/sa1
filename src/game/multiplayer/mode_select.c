@@ -240,19 +240,19 @@ void Task_800E868()
             gBldRegs.bldY = 0;
             m4aSongNumStop(3U);
             SA2_LABEL(gUnknown_03004D80)[0] = 0;
-            SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-            SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-            SA2_LABEL(gUnknown_03002280)[0][2] = -1;
-            SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+            gBgSprites_Unknown2[0][0] = 0;
+            gBgSprites_Unknown2[0][1] = 0;
+            gBgSprites_Unknown2[0][2] = -1;
+            gBgSprites_Unknown2[0][3] = 0x20;
             TaskDestroy(gCurTask);
             CreateMainMenu(1);
         } else {
             gCurTask->main = sModeInitProcs[modeSelect->mode];
             SA2_LABEL(gUnknown_03004D80)[0] = 0;
-            SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-            SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-            SA2_LABEL(gUnknown_03002280)[0][2] = -1;
-            SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+            gBgSprites_Unknown2[0][0] = 0;
+            gBgSprites_Unknown2[0][1] = 0;
+            gBgSprites_Unknown2[0][2] = -1;
+            gBgSprites_Unknown2[0][3] = 0x20;
             gMultiSioEnabled = 1;
         }
     } else {
@@ -524,10 +524,10 @@ void Task_MultiPak()
         m4aSongNumStop(3U);
         m4aSongNumStart(0x6BU);
         SA2_LABEL(gUnknown_03004D80)[0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][2] = 0xFF;
-        SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = 0xFF;
+        gBgSprites_Unknown2[0][3] = 0x20;
         TaskDestroy(gCurTask);
         CreateMultiplayerModeSelectScreen();
         return;
@@ -639,10 +639,10 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void
         m4aSongNumStop(3U);
         m4aSongNumStart(0x6BU);
         *sa2__gUnknown_03004D80 = 0;
-        sa2__gUnknown_03002280[0][0] = 0;
-        sa2__gUnknown_03002280[0][1] = 0;
-        sa2__gUnknown_03002280[0][2] = 0xFF;
-        sa2__gUnknown_03002280[0][3] = 0x20;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = 0xFF;
+        gBgSprites_Unknown2[0][3] = 0x20;
         TaskDestroy(gCurTask);
         CreateMultiplayerModeSelectScreen();
         return;
@@ -657,10 +657,10 @@ NONMATCH("asm/non_matching/game/multiplayer/mode_select__Task_800F058.inc", void
                 m4aSongNumStop(3U);
                 m4aSongNumStart(0x6BU);
                 *sa2__gUnknown_03004D80 = 0;
-                sa2__gUnknown_03002280[0][0] = 0;
-                sa2__gUnknown_03002280[0][1] = 0;
-                sa2__gUnknown_03002280[0][2] = 0xFF;
-                sa2__gUnknown_03002280[0][3] = 0x20;
+                gBgSprites_Unknown2[0][0] = 0;
+                gBgSprites_Unknown2[0][1] = 0;
+                gBgSprites_Unknown2[0][2] = 0xFF;
+                gBgSprites_Unknown2[0][3] = 0x20;
                 TaskDestroy(gCurTask);
                 CreateMultiplayerModeSelectScreen();
                 return;
@@ -739,15 +739,15 @@ void ModeSelect_InitSinglePak()
     u8 *vram = OBJ_VRAM0;
 
     SA2_LABEL(gUnknown_03004D80)[0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[0][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+    gBgSprites_Unknown2[0][0] = 0;
+    gBgSprites_Unknown2[0][1] = 0;
+    gBgSprites_Unknown2[0][2] = -1;
+    gBgSprites_Unknown2[0][3] = 0x20;
     SA2_LABEL(gUnknown_03004D80)[2] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = -1;
+    gBgSprites_Unknown2[2][3] = 0x20;
 
     gDispCnt = DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_OBJ_1D_MAP | DISPCNT_MODE_1;
     gBgCntRegs[0] = 0x1E03;

@@ -105,15 +105,15 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__CreateMultiplayerSinglePa
     gBgCntRegs[3] = 0x5E0B;
     gBgCntRegs[2] = 0x1C0C;
     SA2_LABEL(gUnknown_03004D80)[2] = 0x7F;
-    SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[2][2] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+    gBgSprites_Unknown2[2][0] = 0;
+    gBgSprites_Unknown2[2][1] = 0;
+    gBgSprites_Unknown2[2][2] = 0xFF;
+    gBgSprites_Unknown2[2][3] = 0x20;
     SA2_LABEL(gUnknown_03004D80)[3] = -1;
-    SA2_LABEL(gUnknown_03002280)[3][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[3][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[3][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[3][3] = 0x40;
+    gBgSprites_Unknown2[3][0] = 0;
+    gBgSprites_Unknown2[3][1] = 0;
+    gBgSprites_Unknown2[3][2] = -1;
+    gBgSprites_Unknown2[3][3] = 0x40;
     DmaFill32(3, 0, VRAM + 0x9FE0, 0x40);
     DmaFill32(3, 0, VRAM + 0xFE0 + ((r8 = 3) << 14), 0x40);
 

@@ -509,7 +509,7 @@ _0805D186:
 	str r6, [r0, #0x20]
 	ldr r3, _0805D4E8 @ =sa2__gUnknown_03004D80
 	strb r4, [r3]
-	ldr r0, _0805D4EC @ =sa2__gUnknown_03002280
+	ldr r0, _0805D4EC @ =gBgSprites_Unknown2
 	strb r4, [r0]
 	strb r4, [r0, #1]
 	movs r1, #0xff
@@ -558,6 +558,6 @@ _0805D4DC: .4byte sub_805E018
 _0805D4E0: .4byte sub_805D4F0
 _0805D4E4: .4byte TaskDestructor_805E1E4
 _0805D4E8: .4byte sa2__gUnknown_03004D80
-_0805D4EC: .4byte sa2__gUnknown_03002280
+_0805D4EC: .4byte gBgSprites_Unknown2
 
 .syntax divided

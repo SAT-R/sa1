@@ -183,7 +183,7 @@ _08059740:
 	ldr r4, _080597BC @ =sa2__gUnknown_03004D80
 	movs r2, #0
 	strb r2, [r4, #1]
-	ldr r0, _080597C0 @ =sa2__gUnknown_03002280
+	ldr r0, _080597C0 @ =gBgSprites_Unknown2
 	strb r2, [r0, #4]
 	strb r2, [r0, #5]
 	movs r1, #0xff
@@ -222,7 +222,7 @@ _080597B0: .4byte 0x00007FFF
 _080597B4: .4byte 0x040000D4
 _080597B8: .4byte 0xFFFF7FFF
 _080597BC: .4byte sa2__gUnknown_03004D80
-_080597C0: .4byte sa2__gUnknown_03002280
+_080597C0: .4byte gBgSprites_Unknown2
 _080597C4: .4byte gGameMode
 _080597C8:
 	bl CreatePlayerDataMenu

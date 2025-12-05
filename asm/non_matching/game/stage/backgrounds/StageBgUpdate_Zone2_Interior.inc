@@ -32,7 +32,7 @@
 	str r0, [r1]
 	ldr r0, _0803EA1C @ =gHBlankCopySize
 	strb r2, [r0]
-	ldr r0, _0803EA20 @ =gBgOffsetsHBlank
+	ldr r0, _0803EA20 @ =gBgOffsetsHBlankPrimary
 	ldr r5, [r0]
 	movs r6, #0x3f
 	ands r6, r3         @ r6 = ySub & 0x3F
@@ -128,7 +128,7 @@ _0803E952:
 	mov ip, r4
 	ldr r0, [sp, #8]
 	mov r8, r0          @ r8 = (y >> 1)
-	ldr r0, _0803EA20 @ =gBgOffsetsHBlank
+	ldr r0, _0803EA20 @ =gBgOffsetsHBlankPrimary
 	ldr r5, [r0]
 _0803E962:
 	lsls r0, r3, #5
@@ -184,7 +184,7 @@ _0803E9A0:
 	ands r0, r4
 	rsbs r1, r0, #0
 	ands r1, r4
-	ldr r0, _0803EA20 @ =gBgOffsetsHBlank
+	ldr r0, _0803EA20 @ =gBgOffsetsHBlankPrimary
 	ldr r5, [r0]
 	adds r2, r1, #0
 	subs r2, #0x18
@@ -224,6 +224,6 @@ _0803EA10: .4byte gFlags
 _0803EA14: .4byte gHBlankCopyTarget
 _0803EA18: .4byte 0x0400001C
 _0803EA1C: .4byte gHBlankCopySize
-_0803EA20: .4byte gBgOffsetsHBlank
+_0803EA20: .4byte gBgOffsetsHBlankPrimary
 
 .syntax divided

@@ -78,10 +78,10 @@ void sub_801C9D8(void)
     gMultiplayerMissingHeartbeats[1] = 0;
     gMultiplayerMissingHeartbeats[0] = 0;
     SA2_LABEL(gUnknown_03004D80)[3] = 0xFF;
-    SA2_LABEL(gUnknown_03002280)[3][0] = 0;
-    SA2_LABEL(gUnknown_03002280)[3][1] = 0;
-    SA2_LABEL(gUnknown_03002280)[3][2] = -1;
-    SA2_LABEL(gUnknown_03002280)[3][3] = 0x40;
+    gBgSprites_Unknown2[3][0] = 0;
+    gBgSprites_Unknown2[3][1] = 0;
+    gBgSprites_Unknown2[3][2] = -1;
+    gBgSprites_Unknown2[3][3] = 0x40;
     DmaFill32(3, 0, VRAM + 0xA000 - 0x20, 0x40);
     t = TaskCreate(Task_801CB80, sizeof(MPStrc1), 0x2000U, 0U, NULL);
     strc = TASK_DATA(t);
@@ -238,25 +238,25 @@ void Task_801CD80()
 
             if (R_BUTTON & gInput) {
                 SA2_LABEL(gUnknown_03004D80)[0] = 0;
-                SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-                SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-                SA2_LABEL(gUnknown_03002280)[0][2] = -1;
-                SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+                gBgSprites_Unknown2[0][0] = 0;
+                gBgSprites_Unknown2[0][1] = 0;
+                gBgSprites_Unknown2[0][2] = -1;
+                gBgSprites_Unknown2[0][3] = 0x20;
                 SA2_LABEL(gUnknown_03004D80)[1] = 0;
-                SA2_LABEL(gUnknown_03002280)[1][0] = 0;
-                SA2_LABEL(gUnknown_03002280)[1][1] = 0;
-                SA2_LABEL(gUnknown_03002280)[1][2] = -1;
-                SA2_LABEL(gUnknown_03002280)[1][3] = 0x20;
+                gBgSprites_Unknown2[1][0] = 0;
+                gBgSprites_Unknown2[1][1] = 0;
+                gBgSprites_Unknown2[1][2] = -1;
+                gBgSprites_Unknown2[1][3] = 0x20;
                 SA2_LABEL(gUnknown_03004D80)[2] = 0;
-                SA2_LABEL(gUnknown_03002280)[2][0] = 0;
-                SA2_LABEL(gUnknown_03002280)[2][1] = 0;
-                SA2_LABEL(gUnknown_03002280)[2][2] = -1;
-                SA2_LABEL(gUnknown_03002280)[2][3] = 0x20;
+                gBgSprites_Unknown2[2][0] = 0;
+                gBgSprites_Unknown2[2][1] = 0;
+                gBgSprites_Unknown2[2][2] = -1;
+                gBgSprites_Unknown2[2][3] = 0x20;
                 SA2_LABEL(gUnknown_03004D80)[3] = 0;
-                SA2_LABEL(gUnknown_03002280)[3][0] = 0;
-                SA2_LABEL(gUnknown_03002280)[3][1] = 0;
-                SA2_LABEL(gUnknown_03002280)[3][2] = -1;
-                SA2_LABEL(gUnknown_03002280)[3][3] = 0x20;
+                gBgSprites_Unknown2[3][0] = 0;
+                gBgSprites_Unknown2[3][1] = 0;
+                gBgSprites_Unknown2[3][2] = -1;
+                gBgSprites_Unknown2[3][3] = 0x20;
                 CreateUnusedLevelSelect();
             } else if ((gGameMode == 0) && (LOADED_SAVE->unlockedLevels[gSelectedCharacter] == 0)) {
                 gCurrentLevel = 0;

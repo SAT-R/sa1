@@ -393,9 +393,9 @@ void sub_8010060(void)
         m4aSongNumStart(107);
         gCurTask->main = Task_800E648;
         SA2_LABEL(gUnknown_03004D80)[0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][0] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][1] = 0;
-        SA2_LABEL(gUnknown_03002280)[0][2] = -1;
-        SA2_LABEL(gUnknown_03002280)[0][3] = 0x20;
+        gBgSprites_Unknown2[0][0] = 0;
+        gBgSprites_Unknown2[0][1] = 0;
+        gBgSprites_Unknown2[0][2] = -1;
+        gBgSprites_Unknown2[0][3] = 0x20;
     }
 }

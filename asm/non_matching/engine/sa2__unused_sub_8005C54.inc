@@ -129,7 +129,7 @@ _08004C50:
 	lsrs r0, r0, #0x18
 	mov sl, r0
 	lsls r1, r3, #2
-	ldr r7, _08004D70 @ =gBgOffsetsHBlank
+	ldr r7, _08004D70 @ =gBgOffsetsHBlankPrimary
 	ldr r0, [r7]
 	adds r4, r0, r1
 	mov r0, ip
@@ -183,7 +183,7 @@ _08004CC4:
 	str r0, [sp, #8]
 	adds r3, r0, #0
 	lsls r1, r0, #2
-	ldr r4, _08004D70 @ =gBgOffsetsHBlank
+	ldr r4, _08004D70 @ =gBgOffsetsHBlankPrimary
 	ldr r0, [r4]
 	adds r4, r0, r1
 	ldr r0, [sp, #4]
@@ -222,7 +222,7 @@ _08004D2C:
 	str r0, [r7]
 	ldr r0, _08004D84 @ =gHBlankCopySize
 	strb r1, [r0]
-	ldr r1, _08004D70 @ =gBgOffsetsHBlank
+	ldr r1, _08004D70 @ =gBgOffsetsHBlankPrimary
 	ldr r0, [r1]
 	mov r2, sb
 	adds r4, r0, r2
@@ -243,7 +243,7 @@ _08004D2C:
 	subs r0, r1, r2
 	b _08004D8C
 	.align 2, 0
-_08004D70: .4byte gBgOffsetsHBlank
+_08004D70: .4byte gBgOffsetsHBlankPrimary
 _08004D74: .4byte 0x000001FF
 _08004D78: .4byte gFlags
 _08004D7C: .4byte 0x04000010
