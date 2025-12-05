@@ -314,7 +314,7 @@ void CreateGameStage(void)
 #endif
             }
 
-            SA2_LABEL(gUnknown_030054B4)[i] = -1;
+            gMultiplayerRanks[i] = -1;
 
             if (gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
                 gMultiplayerCharacters[i] = i;
@@ -339,7 +339,7 @@ void CreateGameStage(void)
         }
     } else {
         for (i = 0; i < 4; i++) {
-            SA2_LABEL(gUnknown_030054B4)[i] = -1;
+            gMultiplayerRanks[i] = -1;
         }
     }
 

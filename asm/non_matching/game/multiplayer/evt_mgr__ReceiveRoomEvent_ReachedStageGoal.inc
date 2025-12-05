@@ -85,7 +85,7 @@ _08017F8C:
 	asrs r3, r0
 	cmp r2, r3
 	beq _08017FCA
-	ldr r2, _08017FFC @ =sa2__gUnknown_030054B4
+	ldr r2, _08017FFC @ =gMultiplayerRanks
 	adds r0, r6, r2
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -103,7 +103,7 @@ _08017FCA:
 	cmp r0, #0
 	bne _08017F56
 _08017FD8:
-	ldr r1, _08017FFC @ =sa2__gUnknown_030054B4
+	ldr r1, _08017FFC @ =gMultiplayerRanks
 	adds r0, r7, r1
 	movs r1, #0
 	ldrsb r1, [r0, r1]
@@ -119,7 +119,7 @@ _08017FD8:
 	b _08018004
 	.align 2, 0
 _08017FF8: .4byte gMultiplayerConnections
-_08017FFC: .4byte sa2__gUnknown_030054B4
+_08017FFC: .4byte gMultiplayerRanks
 _08018000:
 	movs r0, #1
 	str r0, [sp, #8]
@@ -158,7 +158,7 @@ _0801801C:
 _08018040:
 	cmp r6, r7
 	beq _080180F4
-	ldr r0, _0801818C @ =sa2__gUnknown_030054B4
+	ldr r0, _0801818C @ =gMultiplayerRanks
 	adds r0, r6, r0
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -300,7 +300,7 @@ _08018144:
 _08018158:
 	cmp r6, r7
 	beq _080181C2
-	ldr r0, _0801818C @ =sa2__gUnknown_030054B4
+	ldr r0, _0801818C @ =gMultiplayerRanks
 	adds r0, r6, r0
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -322,7 +322,7 @@ _08018176:
 _08018180: .4byte gGameMode
 _08018184: .4byte gMultiplayerPlayerTasks
 _08018188: .4byte gPlayer
-_0801818C: .4byte sa2__gUnknown_030054B4
+_0801818C: .4byte gMultiplayerRanks
 _08018190: .4byte gMultiplayerConnections
 _08018194: .4byte 0x04000128
 _08018198: .4byte 0xFFFFFBFF

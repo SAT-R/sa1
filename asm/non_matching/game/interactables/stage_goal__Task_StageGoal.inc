@@ -237,7 +237,7 @@ _0801F460:
 	bne _0801F468
 	b _0801F620
 _0801F468:
-	ldr r1, _0801F4AC @ =sa2__gUnknown_030054B4
+	ldr r1, _0801F4AC @ =gMultiplayerRanks
 	ldr r0, _0801F4A0 @ =0x04000128
 	ldr r0, [r0]
 	lsls r0, r0, #0x1a
@@ -266,7 +266,7 @@ _0801F49C: .4byte gMultiplayerPlayerTasks
 _0801F4A0: .4byte 0x04000128
 _0801F4A4: .4byte gMultiplayerConnections
 _0801F4A8: .4byte 0x03000054
-_0801F4AC: .4byte sa2__gUnknown_030054B4
+_0801F4AC: .4byte gMultiplayerRanks
 _0801F4B0: .4byte gCurTask
 _0801F4B4: .4byte Task_StageGoal3
 _0801F4B8:
@@ -370,7 +370,7 @@ _0801F572:
 	ldrb r0, [r1]
 	cmp r0, #1
 	bls _0801F5A4
-	ldr r1, _0801F59C @ =sa2__gUnknown_030054B4
+	ldr r1, _0801F59C @ =gMultiplayerRanks
 	ldr r0, _0801F5A0 @ =0x04000128
 	ldr r0, [r0]
 	lsls r0, r0, #0x1a
@@ -386,10 +386,10 @@ _0801F572:
 	.align 2, 0
 _0801F594: .4byte gCurrentLevel
 _0801F598: .4byte gGameMode
-_0801F59C: .4byte sa2__gUnknown_030054B4
+_0801F59C: .4byte gMultiplayerRanks
 _0801F5A0: .4byte 0x04000128
 _0801F5A4:
-	ldr r0, _0801F5C4 @ =sa2__gUnknown_030054B4
+	ldr r0, _0801F5C4 @ =gMultiplayerRanks
 	movs r1, #0
 	ldrsb r1, [r0, r1]
 	movs r0, #1
@@ -406,7 +406,7 @@ _0801F5B2:
 	ldr r0, _0801F5CC @ =Task_StageGoal3
 	b _0801F606_callTaskMain
 	.align 2, 0
-_0801F5C4: .4byte sa2__gUnknown_030054B4
+_0801F5C4: .4byte gMultiplayerRanks
 _0801F5C8: .4byte gCurTask
 _0801F5CC: .4byte Task_StageGoal3
 _0801F5D0:

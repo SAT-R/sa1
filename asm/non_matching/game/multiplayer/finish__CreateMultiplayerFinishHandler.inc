@@ -102,7 +102,7 @@ _08019E64:
 	bls _08019E16
 	movs r6, #0
 	mov r5, sb
-	ldr r3, _08019EA4 @ =sa2__gUnknown_030054B4
+	ldr r3, _08019EA4 @ =gMultiplayerRanks
 	add r2, sp, #4
 _08019E78:
 	cmp r6, #0
@@ -123,7 +123,7 @@ _08019E94: .4byte sa2__Task_801A04C
 _08019E98: .4byte gGameMode
 _08019E9C: .4byte gMusicManagerState
 _08019EA0: .4byte gMultiplayerCharRings
-_08019EA4: .4byte sa2__gUnknown_030054B4
+_08019EA4: .4byte gMultiplayerRanks
 _08019EA8:
 	ldrb r1, [r5, #1]
 	ldrb r0, [r5]
@@ -153,7 +153,7 @@ _08019ECE:
 	beq _08019EE2
 	lsls r0, r6, #0x18
 	lsrs r0, r0, #0x18
-	ldr r1, _08019EF0 @ =sa2__gUnknown_030054B4
+	ldr r1, _08019EF0 @ =gMultiplayerRanks
 	adds r1, r6, r1
 	ldrb r1, [r1]
 	bl CreateMultiplayerFinishResult
@@ -165,7 +165,7 @@ _08019EE2:
 	b _0801A0F6
 	.align 2, 0
 _08019EEC: .4byte gMultiplayerPlayerTasks
-_08019EF0: .4byte sa2__gUnknown_030054B4
+_08019EF0: .4byte gMultiplayerRanks
 _08019EF4:
 	cmp r3, #5
 	beq _08019EFA
@@ -236,7 +236,7 @@ _08019F6A:
 	cmp r0, r1
 	bne _08019FA0
 	movs r6, #0
-	ldr r3, _08019F9C @ =sa2__gUnknown_030054B4
+	ldr r3, _08019F9C @ =gMultiplayerRanks
 	movs r2, #4
 	ldr r1, _08019F90 @ =gMultiplayerPlayerTasks
 _08019F7C:
@@ -255,10 +255,10 @@ _08019F86:
 _08019F90: .4byte gMultiplayerPlayerTasks
 _08019F94: .4byte gMultiplayerConnections
 _08019F98: .4byte gMultiplayerCharRings
-_08019F9C: .4byte sa2__gUnknown_030054B4
+_08019F9C: .4byte gMultiplayerRanks
 _08019FA0:
 	movs r6, #0
-	ldr r2, _08019FC8 @ =sa2__gUnknown_030054B4
+	ldr r2, _08019FC8 @ =gMultiplayerRanks
 	ldr r3, _08019FCC @ =gMultiplayerPlayerTasks
 	ldr r4, _08019FD0 @ =gMultiplayerConnections
 _08019FA8:
@@ -278,7 +278,7 @@ _08019FA8:
 	movs r0, #0
 	b _08019FD6
 	.align 2, 0
-_08019FC8: .4byte sa2__gUnknown_030054B4
+_08019FC8: .4byte gMultiplayerRanks
 _08019FCC: .4byte gMultiplayerPlayerTasks
 _08019FD0: .4byte gMultiplayerConnections
 _08019FD4:
@@ -300,7 +300,7 @@ _08019FE6:
 	beq _08019FFA
 	lsls r0, r6, #0x18
 	lsrs r0, r0, #0x18
-	ldr r1, _0801A008 @ =sa2__gUnknown_030054B4
+	ldr r1, _0801A008 @ =gMultiplayerRanks
 	adds r1, r6, r1
 	ldrb r1, [r1]
 	bl CreateMultiplayerFinishResult
@@ -312,7 +312,7 @@ _08019FFA:
 	b _0801A0F6
 	.align 2, 0
 _0801A004: .4byte gMultiplayerPlayerTasks
-_0801A008: .4byte sa2__gUnknown_030054B4
+_0801A008: .4byte gMultiplayerRanks
 _0801A00C:
 	cmp r3, #6
 	beq _0801A0F6
@@ -351,7 +351,7 @@ _0801A03E:
 	mov r8, r0
 	cmp r1, #0
 	beq _0801A078
-	ldr r5, _0801A098 @ =sa2__gUnknown_030054B4
+	ldr r5, _0801A098 @ =gMultiplayerRanks
 	movs r3, #1
 	rsbs r3, r3, #0
 	mov r1, r8
@@ -383,7 +383,7 @@ _0801A088: .4byte gCourseTime
 _0801A08C: .4byte 0x00008CA0
 _0801A090: .4byte gStageFlags
 _0801A094: .4byte gMultiplayerPlayerTasks
-_0801A098: .4byte sa2__gUnknown_030054B4
+_0801A098: .4byte gMultiplayerRanks
 _0801A09C:
 	subs r0, r4, #1
 	cmp r2, r0
@@ -407,7 +407,7 @@ _0801A0B2:
 	movs r6, #1
 	rsbs r6, r6, #0
 _0801A0C0:
-	ldr r0, _0801A108 @ =sa2__gUnknown_030054B4
+	ldr r0, _0801A108 @ =gMultiplayerRanks
 	adds r0, r4, r0
 	ldrb r0, [r0]
 	lsls r0, r0, #0x18
@@ -445,7 +445,7 @@ _0801A0F6:
 	bx r0
 	.align 2, 0
 _0801A104: .4byte gMultiplayerPlayerTasks
-_0801A108: .4byte sa2__gUnknown_030054B4
+_0801A108: .4byte gMultiplayerRanks
 _0801A10C: .4byte gGameMode
 
 .syntax divided

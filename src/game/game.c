@@ -89,7 +89,7 @@ void GameInit(void)
 
     for (i = 0; i < 4; i++) {
         gMultiplayerCharacters[i] = 0;
-        sa2__gUnknown_030054B4[i] = 0;
+        gMultiplayerRanks[i] = 0;
         gMultiplayerMissingHeartbeats[i] = 0;
     }
 

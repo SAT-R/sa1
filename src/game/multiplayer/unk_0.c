@@ -238,7 +238,7 @@ void Task_801C810()
         gCurTask->main = Task_801C8D4;
     }
 
-    if (SA2_LABEL(gUnknown_030054B4[SIO_MULTI_CNT->id]) != -1) {
+    if (gMultiplayerRanks[SIO_MULTI_CNT->id] != -1) {
         TaskDestroy(gCurTask);
     }
 }
@@ -252,7 +252,7 @@ void Task_801C8D4()
     UnkMP0 *strc = TASK_DATA(gCurTask);
 
     strc->unk2 -= 64;
-    if ((strc->unk2 < 0x0) || (SA2_LABEL(gUnknown_030054B4[SIO_MULTI_CNT->id]) != -1)) {
+    if ((strc->unk2 < 0x0) || (gMultiplayerRanks[SIO_MULTI_CNT->id] != -1)) {
         TaskDestroy(gCurTask);
         return;
     }

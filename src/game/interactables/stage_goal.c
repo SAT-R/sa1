@@ -167,7 +167,7 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
             // _0801F460
 
             if (sp08) {
-                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != -1) {
+                if (gMultiplayerRanks[SIO_MULTI_CNT->id] != -1) {
                     // _0801F482
                     s->variant = 1;
                     gCurTask->main = Task_StageGoal3;
@@ -197,12 +197,12 @@ NONMATCH("asm/non_matching/game/interactables/stage_goal__Task_StageGoal.inc", v
                              && (RECT_BOTTOM(I(gPlayer.qWorldY), &gPlayer.spriteInfoBody->s.hitboxes[0].b) >= worldY))))))
             || !((gCurrentLevel == LEVEL_INDEX(ZONE_4, ACT_2)) || (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1)))) {
             if (IS_MULTI_PLAYER) {
-                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != -1) {
+                if (gMultiplayerRanks[SIO_MULTI_CNT->id] != -1) {
                     goto _30C;
                 }
             } else {
                 // _0801F5A4
-                if (SA2_LABEL(gUnknown_030054B4)[0] != -1) {
+                if (gMultiplayerRanks[0] != -1) {
                 _30C:
                     s->variant = 1;
                     gCurTask->main = Task_StageGoal3;
@@ -279,7 +279,7 @@ void Task_StageGoal2(void)
             TaskCreate(Task_ShowResults, 0, 0x2000, 0, NULL);
         }
 
-        SA2_LABEL(gUnknown_030054B4)[0] = 0;
+        gMultiplayerRanks[0] = 0;
 
         if (goal->unk3C++ > 120) {
             if ((gPlayer.charState == CHARSTATE_28) || (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1))) {
@@ -344,7 +344,7 @@ void Task_StageGoal2(void)
             r3 = (gMultiplayerConnections & (0x10 << SIO_MULTI_CNT->id)) >> (SIO_MULTI_CNT->id + 4);
 
             if (r2 != r3) {
-                if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                if (gMultiplayerRanks[i] == 0) {
                     r8 = 1;
                     break;
                 }
@@ -356,7 +356,7 @@ void Task_StageGoal2(void)
             if (t == NULL)
                 break;
 
-            if (SA2_LABEL(gUnknown_030054B4)[i] == -1) {
+            if (gMultiplayerRanks[i] == -1) {
                 mpp = TASK_DATA(gMultiplayerPlayerTasks[i]);
 
                 r2 = (gMultiplayerConnections & (0x10 << i)) >> (i + 4);
@@ -443,11 +443,11 @@ void Task_StageGoal4(void)
     s->x = worldX - gCamera.x;
     s->y = worldY - gCamera.y;
 
-    if (SA2_LABEL(gUnknown_030054B4)[sioId] == -1) {
+    if (gMultiplayerRanks[sioId] == -1) {
         return;
     }
 
-    r6 = SA2_LABEL(gUnknown_030054B4)[sioId];
+    r6 = gMultiplayerRanks[sioId];
 
     if (gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {
         s32 count = 0;

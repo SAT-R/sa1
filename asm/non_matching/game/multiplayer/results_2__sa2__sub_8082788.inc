@@ -96,7 +96,7 @@ _0801B266:
 	ands r0, r1
 	cmp r0, #0
 	bne _0801B2B8
-	ldr r0, _0801B2B4 @ =sa2__gUnknown_030054B4
+	ldr r0, _0801B2B4 @ =gMultiplayerRanks
 	adds r0, r6, r0
 	ldrb r1, [r0]
 	adds r0, r3, #0
@@ -123,9 +123,9 @@ _0801B266:
 	.align 2, 0
 _0801B2AC: .4byte gCurTask
 _0801B2B0: .4byte gMultiSioStatusFlags
-_0801B2B4: .4byte sa2__gUnknown_030054B4
+_0801B2B4: .4byte gMultiplayerRanks
 _0801B2B8:
-	ldr r0, _0801B42C @ =sa2__gUnknown_030054B4
+	ldr r0, _0801B42C @ =gMultiplayerRanks
 	adds r0, r0, r6
 	mov sb, r0
 	ldrb r0, [r0]
@@ -296,7 +296,7 @@ _0801B3F8:
 	adds r5, r1, r0
 	movs r0, #0xb6
 	strh r0, [r5, #0x16]
-	ldr r0, _0801B42C @ =sa2__gUnknown_030054B4
+	ldr r0, _0801B42C @ =gMultiplayerRanks
 	adds r0, r6, r0
 	movs r1, #0
 	ldrsb r1, [r0, r1]
@@ -309,7 +309,7 @@ _0801B3F8:
 	bl DisplaySprite
 	b _0801B4E4
 	.align 2, 0
-_0801B42C: .4byte sa2__gUnknown_030054B4
+_0801B42C: .4byte gMultiplayerRanks
 _0801B430: .4byte gMultiSioRecv
 _0801B434: .4byte 0x04000128
 _0801B438: .4byte 0x00000434

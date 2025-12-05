@@ -665,7 +665,7 @@ _08013908:
 	cmp r0, #5
 	bne _080139C6
 _08013934:
-	ldr r1, _08013A74 @ =sa2__gUnknown_030054B4
+	ldr r1, _08013A74 @ =gMultiplayerRanks
 	ldr r0, [r2]
 	lsls r0, r0, #0x1a
 	lsrs r0, r0, #0x1e
@@ -825,7 +825,7 @@ _08013A64: .4byte gCamera
 _08013A68: .4byte gMultiplayerPlayerTasks
 _08013A6C: .4byte 0x04000128
 _08013A70: .4byte gGameMode
-_08013A74: .4byte sa2__gUnknown_030054B4
+_08013A74: .4byte gMultiplayerRanks
 _08013A78: .4byte gMultiplayerConnections
 _08013A7C: .4byte 0x03000054
 _08013A80: .4byte gStageFlags
@@ -889,7 +889,7 @@ _08013ACC:
 	ands r0, r2
 	cmp r0, #0
 	bne _08013B10
-	ldr r1, _08013B98 @ =sa2__gUnknown_030054B4
+	ldr r1, _08013B98 @ =gMultiplayerRanks
 	adds r0, r6, #0
 	adds r0, #0x56
 	ldrb r0, [r0]
@@ -970,7 +970,7 @@ _08013B76:
 	str r1, [r2, #0x10]
 	b _08013BCC
 	.align 2, 0
-_08013B98: .4byte sa2__gUnknown_030054B4
+_08013B98: .4byte gMultiplayerRanks
 _08013B9C: .4byte gGameMode
 _08013BA0: .4byte 0x04000128
 _08013BA4: .4byte gMultiplayerCharacters
@@ -1131,7 +1131,7 @@ _08013CAA:
 	ands r0, r2
 	cmp r0, #0
 	bne _08013CFE
-	ldr r1, _08013DD0 @ =sa2__gUnknown_030054B4
+	ldr r1, _08013DD0 @ =gMultiplayerRanks
 	adds r0, r6, #0
 	adds r0, #0x56
 	ldrb r0, [r0]
@@ -1263,7 +1263,7 @@ _08013DB4:
 _08013DC4: .4byte 0xFFFFF7FF
 _08013DC8: .4byte 0xFFFFCFFF
 _08013DCC: .4byte gStageTime
-_08013DD0: .4byte sa2__gUnknown_030054B4
+_08013DD0: .4byte gMultiplayerRanks
 _08013DD4: .4byte 0xFFFFFE7F
 _08013DD8: .4byte gGameMode
 _08013DDC: .4byte gMultiplayerConnections

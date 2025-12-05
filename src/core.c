@@ -10,6 +10,9 @@
 #include "lib/m4a/m4a.h"
 #include "lib/agb_flash/agb_flash.h"
 
+// TODO: Better name
+#define VBLANK_FUNC_ID_NONE 0xFF
+
 // TODO: the order of these vars has
 // been shuffled due to compilation losses.
 // It's possible to use `ramscrgen` to reorder
@@ -177,9 +180,6 @@ IntrFunc const gIntrTableTemplate[] = {
     GamepakIntr,
     NULL,
 };
-
-// TODO: Better name
-#define VBLANK_FUNC_ID_NONE 0xFF
 
 // Result of these:
 // FALSE: Not currently in vblank

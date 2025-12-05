@@ -73,7 +73,7 @@ MusicManagerState ALIGNED(8) gMusicManagerState = {};
 #if (GAME == GAME_SA2)
 u8 gUnknown_030054B0 = 0;
 #endif
-s8 ALIGNED(4) sa2__gUnknown_030054B4[MULTI_SIO_PLAYERS_MAX] = {};
+s8 ALIGNED(4) gMultiplayerRanks[MULTI_SIO_PLAYERS_MAX] = {};
 u8 ALIGNED(4) sa2__gUnknown_030054B8 = 0;
 
 #if (GAME == GAME_SA1)

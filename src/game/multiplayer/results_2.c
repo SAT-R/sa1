@@ -398,20 +398,20 @@ void SA2_LABEL(Task_808207C)(void)
 
         for (i = 0; i < 4; i++) {
             if (!(gMultiSioStatusFlags & MULTI_SIO_RECV_ID(i + 8))) {
-                if (SA2_LABEL(gUnknown_030054B4)[i] & 1) {
+                if (gMultiplayerRanks[i] & 1) {
                     SA2_LABEL(sub_80078D4)(3, i * 40, (i + 1) * 40, DISPLAY_WIDTH - resultsScreen->unk430, DISPLAY_HEIGHT - i * 40);
                 } else {
                     SA2_LABEL(sub_80078D4)(3, i * 40, (i + 1) * 40, resultsScreen->unk430 - DISPLAY_WIDTH, DISPLAY_HEIGHT - i * 40);
                 }
             } else {
-                if (SA2_LABEL(gUnknown_030054B4)[i] & 1) {
+                if (gMultiplayerRanks[i] & 1) {
                     SA2_LABEL(sub_80078D4)
-                    (3, SA2_LABEL(gUnknown_030054B4)[i] * 40, (SA2_LABEL(gUnknown_030054B4)[i] + 1) * 40,
-                     DISPLAY_WIDTH - resultsScreen->unk430, (i * 5 - SA2_LABEL(gUnknown_030054B4)[i] * 5) * 8);
+                    (3, gMultiplayerRanks[i] * 40, (gMultiplayerRanks[i] + 1) * 40, DISPLAY_WIDTH - resultsScreen->unk430,
+                     (i * 5 - gMultiplayerRanks[i] * 5) * 8);
                 } else {
                     SA2_LABEL(sub_80078D4)
-                    (3, SA2_LABEL(gUnknown_030054B4)[i] * 40, (SA2_LABEL(gUnknown_030054B4)[i] + 1) * 40,
-                     resultsScreen->unk430 - DISPLAY_WIDTH, (i * 5 - SA2_LABEL(gUnknown_030054B4)[i] * 5) * 8);
+                    (3, gMultiplayerRanks[i] * 40, (gMultiplayerRanks[i] + 1) * 40, resultsScreen->unk430 - DISPLAY_WIDTH,
+                     (i * 5 - gMultiplayerRanks[i] * 5) * 8);
                 }
             }
         }
@@ -554,7 +554,7 @@ void SA2_LABEL(sub_808267C)(void)
 
         for (i = 0; i < 4; i++) {
             gMultiplayerCharacters[i] = 0;
-            SA2_LABEL(gUnknown_030054B4)[i] = i;
+            gMultiplayerRanks[i] = i;
         }
 
         gFlags &= ~4;
@@ -612,15 +612,14 @@ void SA2_LABEL(sub_8082788)(void)
     for (i = 0; i < 4; i++) {
         if (!(gMultiSioStatusFlags & MULTI_SIO_RECV_ID(i + 8))) {
 #if (GAME == GAME_SA1) && !defined(NON_MATCHING)
-            u32 unk = SA2_LABEL(gUnknown_030054B4)[i] & 0x1;
+            u32 unk = gMultiplayerRanks[i] & 0x1;
             asm("" ::"r"(unk));
 #endif
             SA2_LABEL(sub_80078D4)(3, i * 40, (i + 1) * 40, 0, DISPLAY_HEIGHT - i * 40);
         } else {
             union MultiSioData *send_recv;
             SA2_LABEL(sub_80078D4)
-            (3, SA2_LABEL(gUnknown_030054B4)[i] * 40, (SA2_LABEL(gUnknown_030054B4)[i] + 1) * 40, 0,
-             i * 40 - SA2_LABEL(gUnknown_030054B4)[i] * 40);
+            (3, gMultiplayerRanks[i] * 40, (gMultiplayerRanks[i] + 1) * 40, 0, i * 40 - gMultiplayerRanks[i] * 40);
 #if (GAME == GAME_SA1)
             send_recv = &gMultiSioRecv[i];
             if ((i == SIO_MULTI_CNT->id) || send_recv->pat0.unk0 > 15)
@@ -631,13 +630,13 @@ void SA2_LABEL(sub_8082788)(void)
 
                     s = &resultsScreen->unk80[i].unk0;
                     s->x = (DISPLAY_WIDTH / 2);
-                    s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                    s->y = gMultiplayerRanks[i] * 40 + 20;
                     UpdateSpriteAnimation(s);
                     DisplaySprite(s);
 
                     s = &resultsScreen->unk370[gMultiplayerCharacters[i]];
                     s->x = 52;
-                    s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                    s->y = gMultiplayerRanks[i] * 40 + 20;
                     DisplaySprite(s);
 
                     // TODO: Fix type
@@ -653,7 +652,7 @@ void SA2_LABEL(sub_8082788)(void)
 
                     if (s != &resultsScreen->unk160[0]) {
                         s->x = 160;
-                        s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                        s->y = gMultiplayerRanks[i] * 40 + 20;
                         DisplaySprite(s);
                     }
 
@@ -661,13 +660,13 @@ void SA2_LABEL(sub_8082788)(void)
 
                     if (s != &resultsScreen->unk160[0] || (temp > 0xFF)) {
                         s->x = 171;
-                        s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                        s->y = gMultiplayerRanks[i] * 40 + 20;
                         DisplaySprite(s);
                     }
 
                     s = &resultsScreen->unk160[(temp)&0xF];
                     s->x = 182;
-                    s->y = SA2_LABEL(gUnknown_030054B4)[i] * 40 + 20;
+                    s->y = gMultiplayerRanks[i] * 40 + 20;
                     DisplaySprite(s);
                 } else {
                     u16 temp;

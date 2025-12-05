@@ -132,7 +132,7 @@ void sa2__sub_80818B8(void)
                 for (var_r1 = 0; var_r1 < 4; var_r1++) {
                     gMultiplayerCharacters[var_r1] = 0;
                     gMPRingCollectWins[var_r1] = 0;
-                    SA2_LABEL(gUnknown_030054B4)[var_r1] = var_r1;
+                    gMultiplayerRanks[var_r1] = var_r1;
                     gMultiplayerMissingHeartbeats[var_r1] = 0;
                 }
                 gCurTask->main = SA2_LABEL(sub_8081D58);
@@ -164,7 +164,7 @@ void sub_800FBF8(void)
         for (var_r1 = 0; var_r1 < 4; var_r1++) {
             gMultiplayerCharacters[var_r1] = 0;
             gMPRingCollectWins[var_r1] = 0;
-            SA2_LABEL(gUnknown_030054B4)[var_r1] = var_r1;
+            gMultiplayerRanks[var_r1] = var_r1;
             gMultiplayerMissingHeartbeats[var_r1] = 0;
         }
         *gIntrTable = modeSelect->fn1F0;
@@ -289,7 +289,7 @@ void ShowSinglePakResults(void)
     for (i = 0; i < MULTI_SIO_PLAYERS_MAX; i++) {
         gMultiplayerCharacters[i] = 0;
         gMPRingCollectWins[i] = 0;
-        SA2_LABEL(gUnknown_030054B4)[i] = i;
+        gMultiplayerRanks[i] = i;
         gMultiplayerMissingHeartbeats[i] = 0;
     }
 

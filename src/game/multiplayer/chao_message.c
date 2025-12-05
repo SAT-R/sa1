@@ -229,13 +229,13 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
         case 1:
             if ((gUnknown_030058B4 == 2) || (gGameMode == 3) || (gGameMode == 5)) {
                 for (i = 0; i < message->unk54; i++) {
-                    switch (SA2_LABEL(gUnknown_030054B4)[i]) {
+                    switch (gMultiplayerRanks[i]) {
                         case 0:
                             message->unk40[1][i] = 2;
                             message->unk40[0][i] = 2;
                             if (i == (SIO_MULTI_CNT->id)) {
 
-                            } else if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                            } else if (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0) {
                                 if ((gGameMode != 3) && (gGameMode != 5)) {
                                     ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.draws;
                                     if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.draws > 99) {
@@ -254,7 +254,7 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                             message->unk40[1][i] = 3;
                             message->unk40[0][i] = 3;
                             if (i != (SIO_MULTI_CNT->id)) {
-                                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                                if (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0) {
                                     ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins;
                                     if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins > 99) {
                                         LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins = 99;
@@ -284,13 +284,13 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                     }
                 }
 
-                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                if (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0) {
                     message->unk56 = 0;
                     if (++LOADED_SAVE->unk425 > 99) {
                         LOADED_SAVE->unk425 = 99;
                     }
                 } else {
-                    if ((SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 4)) {
+                    if ((gMultiplayerRanks[SIO_MULTI_CNT->id] == 4)) {
                         message->unk56 = 2;
                         if (++LOADED_SAVE->unk427 > 99) {
                             LOADED_SAVE->unk427 = 99;
@@ -304,13 +304,13 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                 }
             } else if (gGameMode == 4) {
                 for (i = 0, var_r2_3 = 0; i < message->unk54; i++) {
-                    if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                    if (gMultiplayerRanks[i] == 0) {
                         var_r2_3 += 1;
                     }
                 }
                 if (var_r2_3 == 1) {
                     for (i = 0; i < message->unk54; i++) {
-                        if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                        if (gMultiplayerRanks[i] == 0) {
                             message->unk40[1][i] = 2;
                             message->unk40[0][i] = 2;
 
@@ -324,7 +324,7 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                             message->unk40[1][i] = 3;
                             message->unk40[0][i] = 3;
 
-                            if ((i != (SIO_MULTI_CNT->id)) && (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0)) {
+                            if ((i != (SIO_MULTI_CNT->id)) && (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0)) {
                                 ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins;
                                 if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins > 99) {
                                     LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins = 99;
@@ -333,7 +333,7 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                         }
                     }
 
-                    if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                    if (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0) {
                         message->unk56 = 0;
                         if (++LOADED_SAVE->unk425 > 99) {
                             LOADED_SAVE->unk425 = 99;
@@ -362,11 +362,11 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                     }
                 } else {
                     for (i = 0; i < message->unk54; i++) {
-                        if (SA2_LABEL(gUnknown_030054B4)[i] == 0) {
+                        if (gMultiplayerRanks[i] == 0) {
                             message->unk40[1][i] = 4;
                             message->unk40[0][i] = 4;
                             if (i != (SIO_MULTI_CNT->id)) {
-                                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != 0) {
+                                if (gMultiplayerRanks[SIO_MULTI_CNT->id] != 0) {
                                     ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.losses;
                                     if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.losses > 99) {
                                         LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.losses = 99;
@@ -382,7 +382,7 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                             message->unk40[1][i] = 3;
                             message->unk40[0][i] = 3;
                             if (i != (SIO_MULTI_CNT->id)) {
-                                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                                if (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0) {
                                     ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins;
                                     if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins > 99) {
                                         LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins = 99;
@@ -397,7 +397,7 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                         }
                     }
 
-                    if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                    if (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0) {
                         message->unk56 = 2;
                         if (++LOADED_SAVE->unk427 > 99) {
                             LOADED_SAVE->unk427 = 99;
@@ -411,7 +411,7 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                 }
             } else {
                 for (var_r6 = 0, i = 0; i < message->unk54; i++) {
-                    if (SA2_LABEL(gUnknown_030054B4)[i] == 4) {
+                    if (gMultiplayerRanks[i] == 4) {
                         var_r6++;
                     }
                 }
@@ -423,7 +423,7 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                     }
                 } else {
                     for (i = 0; i < message->unk54; i++) {
-                        switch (SA2_LABEL(gUnknown_030054B4)[i]) {
+                        switch (gMultiplayerRanks[i]) {
                             case 0:
                                 message->unk40[1][i] = 7;
                                 message->unk40[0][i] = 2;
@@ -455,12 +455,12 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                         }
 
                         if (i != SIO_MULTI_CNT->id) {
-                            if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] < SA2_LABEL(gUnknown_030054B4)[i]) {
+                            if (gMultiplayerRanks[SIO_MULTI_CNT->id] < gMultiplayerRanks[i]) {
                                 ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins;
                                 if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins > 99) {
                                     LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.wins = 99;
                                 }
-                            } else if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == SA2_LABEL(gUnknown_030054B4)[i]) {
+                            } else if (gMultiplayerRanks[SIO_MULTI_CNT->id] == gMultiplayerRanks[i]) {
                                 ++LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.draws;
                                 if (LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.draws > 99) {
                                     LOADED_SAVE->multiplayerScores[gUnknown_03005008[i]].data.split.draws = 99;
@@ -475,13 +475,13 @@ NONMATCH("asm/non_matching/game/multiplayer/chao_message__sub_803AB60.inc", void
                         }
                     }
                 }
-                if (SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] == 0) {
+                if (gMultiplayerRanks[SIO_MULTI_CNT->id] == 0) {
                     message->unk56 = 0;
                     ++LOADED_SAVE->unk425;
                     if (LOADED_SAVE->unk425 > 99) {
                         LOADED_SAVE->unk425 = 99;
                     }
-                } else if ((SA2_LABEL(gUnknown_030054B4)[SIO_MULTI_CNT->id] != 4) || (var_r6 != message->unk54)) {
+                } else if ((gMultiplayerRanks[SIO_MULTI_CNT->id] != 4) || (var_r6 != message->unk54)) {
                     message->unk56 = 1;
                     ++LOADED_SAVE->unk426;
                     if (LOADED_SAVE->unk426 > 99) {
