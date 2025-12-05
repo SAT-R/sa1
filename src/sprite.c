@@ -987,7 +987,7 @@ void CopyOamBufferToOam(void)
 
         while (index != -1) {
             u8 newI;
-            u8 *byteArray = SA2_LABEL(gUnknown_03002710);
+            u8 *byteArray = gOamMallocCopiedOrder;
             DmaCopy16(3, &gOamMallocBuffer[index], dstOam, sizeof(OamDataShort));
             dstOam++;
 

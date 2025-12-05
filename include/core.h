@@ -237,8 +237,8 @@ extern union MultiSioData gMultiSioRecv[4];
 extern u32 gMultiSioStatusFlags;
 extern bool8 gMultiSioEnabled;
 
-extern HBlankFunc gHBlankIntrs[4];
-extern HBlankFunc gHBlankCallbacks[4];
+extern HBlankIntrFunc gHBlankIntrs[4];
+extern HBlankIntrFunc gHBlankCallbacks[4];
 extern u8 gNumHBlankCallbacks;
 extern u8 gNumHBlankIntrs;
 
@@ -367,7 +367,7 @@ extern u16 sa2__gUnknown_03005394;
 extern u16 sa2__gUnknown_03005398;
 extern IntrFunc gVBlankIntrs[4];
 extern s32 gPseudoRandom;
-extern u8 sa2__gUnknown_03002710[128];
+extern u8 gOamMallocCopiedOrder[128];
 extern struct MultiBootParam gMultiBootParam;
 
 extern const struct SpriteTables *gRefSpriteTables;

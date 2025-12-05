@@ -78,13 +78,13 @@ OamData gOamMallocBuffer[OAM_ENTRY_COUNT] ALIGNED(16) = {};
 s16 gMosaicReg = 0;
 #endif
 
-HBlankFunc gHBlankCallbacks[4] ALIGNED(16) = {};
+HBlankIntrFunc gHBlankCallbacks[4] ALIGNED(16) = {};
 struct Task *gCurTask = NULL;
 u8 sLastCalledVblankFuncId = 0;
 u8 gKeysFirstRepeatIntervals[10] ALIGNED(16) = {};
 
 u16 gReleasedKeys ALIGNED(4) = 0;
-u8 sa2__gUnknown_03002710[] ALIGNED(16) = {};
+u8 gOamMallocCopiedOrder[] ALIGNED(16) = {};
 u32 gFlagsPreVBlank = 0;
 /* 0x03002794 */ const struct SpriteTables *gRefSpriteTables = NULL;
 
@@ -118,7 +118,7 @@ struct MultiBootParam gMultiBootParam ALIGNED(8) = {};
 u16 gPressedKeys ALIGNED(4) = 0;
 u8 gOamFirstPausedIndex ALIGNED(4) = 0;
 u8 gBackgroundsCopyQueueCursor ALIGNED(4) = 0;
-HBlankFunc gHBlankIntrs[4] ALIGNED(16) = {};
+HBlankIntrFunc gHBlankIntrs[4] ALIGNED(16) = {};
 
 u8 gIwramHeap[TASK_HEAP_SIZE] = {};
 
@@ -466,7 +466,7 @@ void UpdateScreenDma(void)
         REG_IE |= INTR_FLAG_HBLANK;
         DmaFill32(3, 0, gHBlankIntrs, sizeof(gHBlankIntrs));
         if (gNumHBlankCallbacks != 0) {
-            DmaCopy32(3, gHBlankCallbacks, gHBlankIntrs, gNumHBlankCallbacks * sizeof(HBlankFunc));
+            DmaCopy32(3, gHBlankCallbacks, gHBlankIntrs, gNumHBlankCallbacks * sizeof(HBlankIntrFunc));
         }
         gNumHBlankIntrs = gNumHBlankCallbacks;
     } else {
