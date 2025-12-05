@@ -14,7 +14,7 @@ void HBlankCallback_803F92C(int_vcount line)
     s32 newLine = line - 90;
 
     if ((newLine >= 0) && (line != DISPLAY_HEIGHT - 1)) {
-        u32 *ptr = SA2_LABEL(gUnknown_030022AC);
+        u32 *ptr = gBgOffsetsHBlankSecondary;
         ptr += 90;
 
         *(vu32 *)&REG_BG1HOFS = ptr[newLine];

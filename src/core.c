@@ -64,7 +64,7 @@ s32 gNumTasks = 0;
 u8 gBgSprites_Unknown2[4][4] = {};
 u16 gInput = 0;
 u8 gRepeatedKeysTestCounter[] ALIGNED(16) = {};
-void *sa2__gUnknown_030022AC = NULL;
+void *gBgOffsetsHBlankSecondary = NULL;
 u16 gBgCntRegs[] = {};
 u16 gRepeatedKeys ALIGNED(4) = 0;
 struct Task *gNextTask = NULL;
@@ -126,7 +126,7 @@ Sprite *sa2__gUnknown_03004D10[] ALIGNED(16) = {};
 u8 gNumVBlankCallbacks ALIGNED(4) = 0;
 
 #if (ENGINE == ENGINE_2)
-void *gUnknown_03004D54 = NULL;
+void *SA2_LABEL(gUnknown_03004D54) = NULL;
 #endif
 u16 sa2__gUnknown_03004D58 ALIGNED(4) = 0;
 u8 gVramGraphicsCopyCursor ALIGNED(4) = 0;
@@ -317,7 +317,7 @@ void EngineInit(void)
     DmaFill32(3, 0, &gBgOffsetsBuffer, sizeof(gBgOffsetsBuffer));
 
     gBgOffsetsHBlankPrimary = gBgOffsetsBuffer[0];
-    sa2__gUnknown_030022AC = gBgOffsetsBuffer[1];
+    gBgOffsetsHBlankSecondary = gBgOffsetsBuffer[1];
     gHBlankCopyTarget = NULL;
     gHBlankCopySize = 0;
     gNumHBlankCallbacks = 0;
@@ -544,10 +544,10 @@ void ClearOamBufferDma(void)
     if (!(gFlags & FLAGS_20)) {
         if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer[0]) {
             gBgOffsetsHBlankPrimary = gBgOffsetsBuffer[1];
-            SA2_LABEL(gUnknown_030022AC) = gBgOffsetsBuffer[0];
+            gBgOffsetsHBlankSecondary = gBgOffsetsBuffer[0];
         } else {
             gBgOffsetsHBlankPrimary = gBgOffsetsBuffer[0];
-            SA2_LABEL(gUnknown_030022AC) = gBgOffsetsBuffer[1];
+            gBgOffsetsHBlankSecondary = gBgOffsetsBuffer[1];
         }
     }
     gFlags &= ~FLAGS_EXECUTE_HBLANK_COPY;
@@ -854,10 +854,10 @@ void ClearOamBufferCpuSet(void)
     if (!(gFlags & FLAGS_20)) {
         if (gBgOffsetsHBlankPrimary == gBgOffsetsBuffer) {
             gBgOffsetsHBlankPrimary = &gBgOffsetsBuffer[1];
-            sa2__gUnknown_030022AC = (void *)&gBgOffsetsBuffer[0];
+            gBgOffsetsHBlankSecondary = (void *)&gBgOffsetsBuffer[0];
         } else {
             gBgOffsetsHBlankPrimary = &gBgOffsetsBuffer[0];
-            sa2__gUnknown_030022AC = (void *)&gBgOffsetsBuffer[1];
+            gBgOffsetsHBlankSecondary = (void *)&gBgOffsetsBuffer[1];
         }
     }
     gFlags &= ~4;

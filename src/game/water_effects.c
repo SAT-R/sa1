@@ -476,7 +476,7 @@ void SA2_LABEL(VCountIntr_8011ACC)(void)
 
 #if (GAME == GAME_SA1)
         {
-            DmaSet(0, SA2_LABEL(gUnknown_030022AC), (void *)&REG_BG3HOFS, //
+            DmaSet(0, gBgOffsetsHBlankSecondary, (void *)&REG_BG3HOFS, //
                    ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_DEST_RELOAD) << 16) | (gHBlankCopySize >> 1));
         }
 #endif

@@ -340,7 +340,7 @@ extern struct GraphicsData gVramGraphicsCopyQueueBuffer[32];
     gBackgroundsCopyQueue[gBackgroundsCopyQueueIndex] = _bg;                                                                               \
     INC_BACKGROUNDS_QUEUE_CURSOR(gBackgroundsCopyQueueIndex);
 
-extern void *sa2__gUnknown_030022AC;
+extern void *gBgOffsetsHBlankSecondary;
 extern void *sa2__gUnknown_030022C0;
 #if (GAME == GAME_SA2)
 extern s16 gMosaicReg;
