@@ -1543,7 +1543,7 @@ void Task_8034098(void)
             s->y = worldY - gCamera.y;
             DisplaySprite(s);
         } else {
-            oamData = &gOamBuffer2[s->oamBaseIndex];
+            oamData = &gOamMallocBuffer[s->oamBaseIndex];
             oamAllocated = OamMalloc((0x7C0 & s->oamFlags) >> 6);
 
             if (iwram_end != oamAllocated) {

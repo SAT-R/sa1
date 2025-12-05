@@ -754,7 +754,7 @@ _0802D08E:
 	mov r4, sl
 	ldrb r0, [r4]
 	lsls r0, r0, #3
-	ldr r1, _0802D144 @ =gOamBuffer2
+	ldr r1, _0802D144 @ =gOamMallocBuffer
 	adds r5, r0, r1
 	mov r6, r8
 	ldrh r0, [r6, #0x1a]
@@ -842,7 +842,7 @@ _0802D12A:
 	.align 2, 0
 _0802D13C: .4byte gUnknown_030057E0
 _0802D140: .4byte gOamBuffer+0x6
-_0802D144: .4byte gOamBuffer2
+_0802D144: .4byte gOamMallocBuffer
 _0802D148: .4byte iwram_end
 _0802D14C: .4byte 0x040000D4
 _0802D150: .4byte 0x80000003

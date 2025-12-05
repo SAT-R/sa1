@@ -268,7 +268,7 @@ extern u16 gBgCntRegs[4];
 //       [4]{s16 x, s16 y}
 extern s16 gBgScrollRegs[NUM_BACKGROUNDS][2];
 
-extern OamData gOamBuffer2[OAM_ENTRY_COUNT];
+extern OamData gOamMallocBuffer[OAM_ENTRY_COUNT];
 extern OamData gOamBuffer[OAM_ENTRY_COUNT];
 
 // NOTE(Jace): This could be u16[2][DISPLAY_HEIGHT][2] (or unsigned Vec2_16?)

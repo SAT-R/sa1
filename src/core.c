@@ -69,10 +69,10 @@ u16 gBgCntRegs[] = {};
 u16 gRepeatedKeys ALIGNED(4) = 0;
 struct Task *gNextTask = NULL;
 #if (ENGINE == ENGINE_2)
-void *gUnknown_030022C0 = NULL;
+void *gBgOffsetsSecondary = NULL;
 #endif
 
-OamData gOamBuffer2[OAM_ENTRY_COUNT] ALIGNED(16) = {};
+OamData gOamMallocBuffer[OAM_ENTRY_COUNT] ALIGNED(16) = {};
 
 #if (GAME == GAME_SA2)
 s16 gMosaicReg = 0;
@@ -244,7 +244,7 @@ void EngineInit(void)
     gOamFirstPausedIndex = 0;
 
     DmaFill16(3, 0x200, gOamBuffer, sizeof(gOamBuffer));
-    DmaFill16(3, 0x200, gOamBuffer2, sizeof(gOamBuffer2));
+    DmaFill16(3, 0x200, gOamMallocBuffer, sizeof(gOamMallocBuffer));
     DmaFill32(3, ~0, gOamMallocOrders_StartIndex, sizeof(gOamMallocOrders_StartIndex));
     DmaFill32(3, ~0, sa2__gUnknown_03004D60, sizeof(sa2__gUnknown_03004D60));
     DmaFill32(3, 0, gObjPalette, sizeof(gObjPalette));
@@ -873,11 +873,11 @@ void ClearOamBufferCpuSet(void)
     gFlags &= ~FLAGS_EXECUTE_HBLANK_CALLBACKS;
     if (!(gFlags & FLAGS_20)) {
         if (gBgOffsetsHBlankPrimary == gUnknown_03004D54) {
-            gBgOffsetsHBlankPrimary = gUnknown_030022C0;
+            gBgOffsetsHBlankPrimary = gBgOffsetsSecondary;
             gUnknown_030022AC = gUnknown_03004D54;
         } else {
             gBgOffsetsHBlankPrimary = gUnknown_03004D54;
-            gUnknown_030022AC = gUnknown_030022C0;
+            gUnknown_030022AC = gBgOffsetsSecondary;
         }
     }
     gFlags &= ~4;

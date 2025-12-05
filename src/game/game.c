@@ -49,7 +49,7 @@ void GameInit(void)
 
 #if (GAME != GAME_SA1)
     gUnknown_03004D54 = gBgOffsetsBuffer[0];
-    gUnknown_030022C0 = gBgOffsetsBuffer[1];
+    gBgOffsetsSecondary = gBgOffsetsBuffer[1];
 #endif
 
     gStageFlags = sa2__gUnknown_0300544C = STAGE_FLAG__CLEAR;

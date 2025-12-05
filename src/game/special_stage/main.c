@@ -2520,7 +2520,7 @@ NONMATCH("asm/non_matching/game/special_stage/UpdateObjectsAndRender.inc", void 
                         temp_r5_2[2 * OAM_DATA_COUNT_AFFINE] = 0;
                         temp_r5_2[3 * OAM_DATA_COUNT_AFFINE] = Div(0x10000, strc40->tf.qScaleY);
                     }
-                    temp_r5_2 = (u16 *)&gOamBuffer2[s->oamBaseIndex];
+                    temp_r5_2 = (u16 *)&gOamMallocBuffer[s->oamBaseIndex];
                     temp_r0_9 = OamMalloc(((s->oamFlags & 0x7C0) >> 6));
                     if (iwram_end == temp_r0_9) {
                         break;

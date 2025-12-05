@@ -449,7 +449,7 @@ _080410DC: .4byte gStageTime
 _080410E0:
 	ldrb r0, [r1]
 	lsls r0, r0, #3
-	ldr r1, _08041174 @ =gOamBuffer2
+	ldr r1, _08041174 @ =gOamMallocBuffer
 	adds r4, r0, r1
 	mov r1, sb
 	ldrh r0, [r1, #0x1a]
@@ -524,7 +524,7 @@ _08041162:
 	pop {r0}
 	bx r0
 	.align 2, 0
-_08041174: .4byte gOamBuffer2
+_08041174: .4byte gOamMallocBuffer
 _08041178: .4byte iwram_end
 _0804117C: .4byte 0x040000D4
 _08041180: .4byte 0x80000003

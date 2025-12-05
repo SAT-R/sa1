@@ -320,7 +320,7 @@ NONMATCH("asm/non_matching/game/stage/Task_RingsMgrMain.inc", void Task_RingsMgr
                                         DisplaySprite(s);
                                     } else {
                                         // _08008788
-                                        OamData *oamDat = &gOamBuffer2[s->oamBaseIndex];
+                                        OamData *oamDat = &gOamMallocBuffer[s->oamBaseIndex];
                                         OamData *oamAllocated = OamMalloc(GET_SPRITE_OAM_ORDER(s));
 
                                         if (iwram_end == oamAllocated)
@@ -392,7 +392,7 @@ NONMATCH("asm/non_matching/game/stage/Task_RingsMgrMain.inc", void Task_RingsMgr
                                         DisplaySprite(s);
                                     } else {
                                         // _08008788
-                                        OamData *oamDat = &gOamBuffer2[s->oamBaseIndex];
+                                        OamData *oamDat = &gOamMallocBuffer[s->oamBaseIndex];
                                         OamData *oamAllocated = OamMalloc(GET_SPRITE_OAM_ORDER(s));
 
                                         if (iwram_end == oamAllocated)
