@@ -33,7 +33,7 @@ _08003A12:
 	b _08003EC2
 _08003A1A:
 	lsls r0, r5, #2
-	ldr r1, _08003BA8 @ =sa2__gUnknown_03004D10
+	ldr r1, _08003BA8 @ =gBgSprites
 	adds r0, r0, r1
 	ldr r0, [r0]
 	str r0, [sp, #0xc]  @ sp0C = s
@@ -239,7 +239,7 @@ _08003B96:
 	b _08003BDE
 	.align 2, 0
 _08003BA4: .4byte sa2__gUnknown_03005390
-_08003BA8: .4byte sa2__gUnknown_03004D10
+_08003BA8: .4byte gBgSprites
 _08003BAC: .4byte gBgCntRegs
 _08003BB0: .4byte gDispCnt
 _08003BB4: .4byte gRefSpriteTables

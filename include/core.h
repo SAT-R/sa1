@@ -351,12 +351,12 @@ extern u8 SA2_LABEL(gUnknown_03002874);
 extern void *gHBlankCopyTarget;
 extern u8 gBackgroundsCopyQueueIndex;
 extern u8 gHBlankCopySize;
-extern u16 sa2__gUnknown_03002A8C;
+extern u16 SA2_LABEL(gUnknown_03002A8C);
 //// When paused, the previously-active OAM elements get moved to the end
 //// of the OAM. This is the index of the first currently-inactive element
 extern u8 gOamFirstPausedIndex;
 extern u8 gBackgroundsCopyQueueCursor;
-extern Sprite *sa2__gUnknown_03004D10[16];
+extern Sprite *gBgSprites[16];
 extern u8 gNumVBlankCallbacks;
 extern void *sa2__gUnknown_03004D54;
 extern u16 sa2__gUnknown_03004D58;

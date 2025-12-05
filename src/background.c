@@ -790,7 +790,7 @@ void sa2__sub_8003914(Sprite *s)
 {
     const SpriteOffset *dims;
 
-    sa2__gUnknown_03004D10[sa2__gUnknown_03005390] = s;
+    gBgSprites[sa2__gUnknown_03005390] = s;
     sa2__gUnknown_03005390++;
 
     if (s->dimensions != (void *)-1) {
@@ -866,7 +866,7 @@ NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sa2__sub_80039E4(void
 
         for (r5 = 0; r5 < sa2__gUnknown_03005390; r5++) {
             // _08003A1A
-            s = sa2__gUnknown_03004D10[r5];
+            s = gBgSprites[r5];
             dims = s->dimensions;
 
             if (dims != (void *)-1) {

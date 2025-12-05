@@ -100,18 +100,16 @@ u8 gKeysContinuedRepeatIntervals[10] ALIGNED(16) = {};
 union MultiSioData gMultiSioSend ALIGNED(8) = {};
 u8 SA2_LABEL(gUnknown_03002874) = 0;
 
-// gComputedBgTarget
 void *gHBlankCopyTarget ALIGNED(4) = NULL;
 
 u8 gBackgroundsCopyQueueIndex = 0;
 u16 gBgPalette[] ALIGNED(16) = {};
 
-// gComputedBgSectorSize
 u8 gHBlankCopySize ALIGNED(4) = 0;
 
 u8 gVramGraphicsCopyQueueIndex ALIGNED(4) = 0;
 u16 gPrevInput ALIGNED(4) = 0;
-u16 sa2__gUnknown_03002A8C ALIGNED(4) = 0;
+u16 SA2_LABEL(gUnknown_03002A8C) ALIGNED(4) = 0;
 
 struct MultiBootParam gMultiBootParam ALIGNED(8) = {};
 
@@ -122,7 +120,7 @@ HBlankIntrFunc gHBlankIntrs[4] ALIGNED(16) = {};
 
 u8 gIwramHeap[TASK_HEAP_SIZE] = {};
 
-Sprite *sa2__gUnknown_03004D10[] ALIGNED(16) = {};
+Sprite *gBgSprites[] ALIGNED(16) = {};
 u8 gNumVBlankCallbacks ALIGNED(4) = 0;
 
 #if (ENGINE == ENGINE_2)
@@ -272,7 +270,7 @@ void EngineInit(void)
     sa2__gUnknown_03001944 = 0;
     sa2__gUnknown_030017F0 = 0x100;
     sa2__gUnknown_03005394 = 0x100;
-    sa2__gUnknown_03002A8C = 0;
+    SA2_LABEL(gUnknown_03002A8C) = 0;
     sa2__gUnknown_03004D58 = 0;
     sa2__gUnknown_0300194C = 0;
     SA2_LABEL(gUnknown_03002820) = 0;
