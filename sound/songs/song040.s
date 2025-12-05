@@ -1,7 +1,8 @@
+	.include "asm/macros/c_decl.inc"
 	.include "asm/macros/portable.inc"
 	.include "sound/MPlayDef.s"
 
-	.section .rodata
+	mSectionRodata
 
 	@********************** Track  1 **********************@
 
@@ -5738,8 +5739,8 @@ song040_12:	@ 0x087B7F59
 	.byte	FINE
 
 	mAlignWord
-	.global song040
-song040:	@ 0x087B8084
+	.global C_DECL(song040)
+C_DECL(song040):	@ 0x087B8084
 	.byte	12		@ trackCount
 	.byte	0		@ blockCount
 	.byte	0		@ priority

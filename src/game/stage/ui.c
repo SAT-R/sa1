@@ -339,7 +339,7 @@ NONMATCH("asm/non_matching/game/stage/ui__sub_8053BAC.inc", void sub_8053BAC(voi
 
             TASK_SET_MEMBER(StageUI, gCurTask, u16, unk48, r4);
         } else {
-            sub_80530CC((const u8 *)&ui->digitsRings[2], &overB);
+            sub_80530CC((const char *)&ui->digitsRings[2], &overB);
         }
     } else if (gRingCount <= 99) {
         overB.qUnkA = 5;

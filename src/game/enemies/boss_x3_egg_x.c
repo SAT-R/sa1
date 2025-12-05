@@ -2091,10 +2091,12 @@ NONMATCH("asm/non_matching/game/enemies/boss_x3__Task_8039A64.inc", void Task_80
     }
     worldX = COS(var_r6);
     worldX >>= 6;
-    worldX = I((worldX *= sparkle->unk40) >> 8); // NOTE: Technically I(Q_MUL())!
+    worldX *= sparkle->unk40;
+    worldX = I((worldX) >> 8); // NOTE: Technically I(Q_MUL())!
     worldY = SIN(var_r6);
     worldY >>= 6;
-    worldY = I((worldY *= sparkle->unk40) >> 8);
+    worldY *= sparkle->unk40;
+    worldY = I((worldY) >> 8);
     worldX += sparkle->unk50;
     worldY += sparkle->unk52;
     tf->x = worldX - gCamera.x;
@@ -2437,10 +2439,12 @@ void Task_803A2F8()
     sparkle->unk40 = sparkleParent->unk40 + (Q((sparkle->unk60 * 0x10) + 8));
     worldX = COS(var_r4);
     worldX >>= 6;
-    worldX = I((worldX *= sparkle->unk40) >> 8);
+    worldX *= sparkle->unk40;
+    worldX = I((worldX) >> 8);
     worldY = SIN(var_r4);
     worldY >>= 6;
-    worldY = I((worldY *= sparkle->unk40) >> 8);
+    worldY *= sparkle->unk40;
+    worldY = I((worldY) >> 8);
     worldX += sparkle->unk50;
     worldY += sparkle->unk52;
 

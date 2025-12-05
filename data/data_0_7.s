@@ -1,7 +1,10 @@
-	.section .rodata
+	.include "asm/macros/c_decl.inc"
+.include "asm/macros/portable.inc"
 
-    .global sBounceBlockAnims
-sBounceBlockAnims:
+	mSectionRodata
+
+    .global C_DECL(sBounceBlockAnims)
+C_DECL(sBounceBlockAnims):
     .short 0x01CE @ SA1_ANIM_BOUNCE_BLOCK_1   @ Neo Green Hill 1
     .short 0x01CE @ SA1_ANIM_BOUNCE_BLOCK_1   @ Neo Green Hill 2
     .short 0x01F3 @ SA1_ANIM_BOUNCE_BLOCK_2   @ Secret Base 1
@@ -21,8 +24,8 @@ sBounceBlockAnims:
     .short 0x021F @ SA1_ANIM_BOUNCE_BLOCK_5   @ 2-Player Casino Paradise
     .short 0x0259 @ SA1_ANIM_BOUNCE_BLOCK_6_2 @ 2-Player Cosmic Angel
 
-    .global gUnknown_086CED28
-gUnknown_086CED28:
+    .global C_DECL(gUnknown_086CED28)
+C_DECL(gUnknown_086CED28):
     .short 0x01D0 @ SA1_ANIM_WATER_SPLASH_1  @ Neo Green Hill 1
     .short 0x01D0 @ SA1_ANIM_WATER_SPLASH_1  @ Neo Green Hill 2
     .short 0x01D0 @ SA1_ANIM_WATER_SPLASH_1  @ Secret Base 1
