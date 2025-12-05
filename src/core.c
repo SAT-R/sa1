@@ -133,38 +133,42 @@ OamData gOamBuffer[] ALIGNED(16) = {};
 u16 gVramHeapState[] = {};
 u8 gBgSpritesCount ALIGNED(4) = 0;
 u16 SA2_LABEL(gUnknown_03005394) ALIGNED(4) = 0;
-u16 sa2__gUnknown_03005398 ALIGNED(4) = 0;
+u16 SA2_LABEL(gUnknown_03005398) ALIGNED(4) = 0;
 IntrFunc gVBlankIntrs[] ALIGNED(16) = {};
 const u8 *gInputPlaybackData = NULL;
 bool8 gExecSoundMain ALIGNED(4) = FALSE;
 s32 gPseudoRandom = 0;
 
-void UpdateScreenDma(void);
-void UpdateScreenCpuSet(void);
-void ClearOamBufferCpuSet(void);
-void ClearOamBufferDma(void);
-void GetInput(void);
-bool32 ProcessVramGraphicsCopyQueue(void);
+static void UpdateScreenDma(void);
+static void UpdateScreenCpuSet(void);
+static void ClearOamBufferCpuSet(void);
+static void ClearOamBufferDma(void);
+static void GetInput(void);
+static bool32 ProcessVramGraphicsCopyQueue(void);
 
-void VBlankIntr(void);
-void HBlankIntr(void);
-void VCountIntr(void);
-void Timer0Intr(void);
-void Timer1Intr(void);
-void Timer2Intr(void);
-void Dma0Intr(void);
-void Dma1Intr(void);
-void Dma2Intr(void);
-void Dma3Intr(void);
-void KeypadIntr(void);
-void GamepakIntr(void);
+static void VBlankIntr(void);
+static void HBlankIntr(void);
+static void VCountIntr(void);
+static void Timer0Intr(void);
+static void Timer1Intr(void);
+static void Timer2Intr(void);
+static void Dma0Intr(void);
+static void Dma1Intr(void);
+static void Dma2Intr(void);
+static void Dma3Intr(void);
+static void KeypadIntr(void);
+static void GamepakIntr(void);
 
 extern void IntrMain(void);
 
 // Warning: array contains an empty slot which would have
 // been used for a Timer3Intr function
 IntrFunc const gIntrTableTemplate[] = {
+#ifdef MULTI_SIO_DI_FUNC_FAST
     (void *)gMultiSioIntrFuncBuf,
+#else
+    MultiSioIntr,
+#endif
     VBlankIntr,
     HBlankIntr,
     VCountIntr,
@@ -185,9 +189,9 @@ IntrFunc const gIntrTableTemplate[] = {
 // TRUE:  Currently in VBlank /
 VBlankFunc const sVblankFuncs[] = {
     ProcessVramGraphicsCopyQueue,
-    sa2__sub_8004010,
-    sa2__sub_80039E4,
-    sa2__sub_8002B20,
+    SA2_LABEL(sub_8004010),
+    SA2_LABEL(sub_80039E4),
+    SA2_LABEL(sub_8002B20),
 };
 
 void EngineInit(void)
@@ -273,7 +277,7 @@ void EngineInit(void)
     SA2_LABEL(gUnknown_03004D58) = 0;
     sa2__gUnknown_0300194C = 0;
     SA2_LABEL(gUnknown_03002820) = 0;
-    sa2__gUnknown_03005398 = 0x100;
+    SA2_LABEL(gUnknown_03005398) = 0x100;
 
     gWinRegs[WINREG_WIN0H] = 0;
     gWinRegs[WINREG_WIN1H] = 0;

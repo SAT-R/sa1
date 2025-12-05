@@ -75,7 +75,7 @@ void DrawBackground(Background *background)
 }
 
 // TODO: The assembly is not the same between SA1 and SA2!
-NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 sa2__sub_8002B20(void))
+NONMATCH("asm/non_matching/engine/sa2__sub_8002B20.inc", bool32 SA2_LABEL(sub_8002B20)(void))
 {
     u16 sp00;
     s32 sp04 = 0;
@@ -830,7 +830,7 @@ void sa2__sub_8003914(Sprite *s)
 
 // Some VBlank function
 // (21.30%) https://decomp.me/scratch/UfJX7
-NONMATCH("asm/non_matching/engine/sub_80039E4.inc", bool32 sa2__sub_80039E4(void))
+NONMATCH("asm/non_matching/engine/sa2__sub_80039E4.inc", bool32 SA2_LABEL(sub_80039E4)(void))
 {
     // tilesize (could be 32 and get optimized out?)
     s32 sp28 = 5;
@@ -1020,7 +1020,7 @@ void sa2__sub_8003EE4(u16 p0, s16 p1, s16 p2, s16 p3, s16 p4, s16 p5, s16 p6, Bg
 // (58.36%) https://decomp.me/scratch/ClyxP
 // (48.23%) https://decomp.me/scratch/bDTEe
 #if 01
-NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 sa2__sub_8004010(void))
+NONMATCH("asm/non_matching/engine/sa2__sub_8004010.inc", u32 SA2_LABEL(sub_8004010)(void))
 {
     u8 bgIndex = 0;
     u16 sp00[2];
@@ -1109,7 +1109,7 @@ END_NONMATCH
 #else
 #define combine(v) ((v) << 8 | (v))
 
-u32 sub_8004010(void)
+u32 SA2_LABEL(sub_8004010)(void)
 {
     // Stack size: 0x18 bytes
 
