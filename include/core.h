@@ -286,7 +286,7 @@ extern IntrFunc gVBlankCallbacks[4];
 extern u8 gOamFreeIndex;
 extern u16 SA2_LABEL(gUnknown_03001944);
 extern u8 gNumVBlankIntrs;
-extern s16 sa2__gUnknown_0300194C;
+extern s16 SA2_LABEL(gUnknown_0300194C);
 
 extern Tilemap **gTilemapsRef;
 extern u8 gBgSprites_Unknown2[4][4];

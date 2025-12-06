@@ -239,7 +239,7 @@ void DrawBackground(Background *);
 u32 SA2_LABEL(sub_8004010)(void);
 u32 SA2_LABEL(sub_80039E4)(void);
 bool32 SA2_LABEL(sub_8002B20)(void);
-void CopyOamBufferToOam(void);
+void ProcessOamBuffers(void);
 OamData *OamMalloc(u8 order);
 
 void TransformSprite(Sprite *, SpriteTransform *);
