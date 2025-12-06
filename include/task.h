@@ -30,11 +30,11 @@ typedef TaskPtr TaskPtr32;
 
 typedef void *IwramData;
 
-#if !DEBUG
+#if !DEBUG && !TAS_TESTING
 #define ENABLE_TASK_LOGGING !TRUE
 #else
 #define ENABLE_TASK_LOGGING TRUE
-#endif // !DEBUG
+#endif // !DEBUG && !TAS_TESTING
 
 #define CLEAR_TASK_MEMORY_ON_DESTROY TRUE
 #endif // PLATFORM_GBA
@@ -48,6 +48,8 @@ typedef void *IwramData;
 #define TASK_x0004            0x0004
 #define TASK_USE_EWRAM        0x0010
 
+#define USE_SA2_TASK_SYSTEM ((GAME < GAME_SA3) && !defined(NON_MATCHING))
+
 struct Task {
     /* 0x00 */ TaskPtr parent;
     /* 0x02 */ TaskPtr prev;
@@ -55,19 +57,20 @@ struct Task {
     /* 0x06 */ IwramData data;
 #if PORTABLE
     u32 dataSize;
-#endif
+#endif // PORTABLE
     /* 0x08 */ TaskMain main;
     /* 0x0C */ TaskDestructor dtor;
     /* 0x10 */ u16 priority; // priority?
     /* 0x12 */ u16 flags; // 0x1  = active
                           // 0x2  = ???
                           // 0x10 = use ewram for struct
-#if (GAME == GAME_SA2)
+#if USE_SA2_TASK_SYSTEM
     /* 0x14 */ u8 unk14;
     /* 0x15 */ u8 unk15;
     /* 0x16 */ u16 unk16;
     /* 0x18 */ u16 unk18;
-#endif
+#endif // USE_SA2_TASK_SYSTEM
+
 #if ENABLE_TASK_LOGGING
     const char *name;
 #endif
@@ -81,7 +84,7 @@ struct IwramNode;
 
 typedef struct IwramNode *IwramNodePtr;
 typedef IwramNodePtr IwramNodePtr32;
-#endif
+#endif // PLATFORM_GBA
 
 #define IWRAM_PTR(ptr) TASK_PTR(ptr)
 
@@ -98,12 +101,6 @@ struct IwramNode {
 #define TasksDestroyAll()  TasksDestroyInPriorityRange(0, 0xFFFF)
 
 #define TASK_HEAP_SIZE ((0x881) * sizeof(uintptr_t))
-
-// TODO: DO NOT USE, unless ABSOLUTELY necessary for matching!!!
-#define TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName)                                                                        \
-    *(_memberType *)((unsigned char *)TASK_DATA(_task) + offsetof(_taskType, _memberName))
-#define TASK_SET_MEMBER(_taskType, _task, _memberType, _memberName, _value)                                                                \
-    TASK_GET_MEMBER(_taskType, _task, _memberType, _memberName) = (_value);
 
 extern struct Task gTasks[MAX_TASK_NUM];
 extern struct Task gEmptyTask;
@@ -131,10 +128,10 @@ struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 fla
     })
 #else
 struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 flags, TaskDestructor taskDestructor);
-#endif
+#endif // ENABLE_TASK_LOGGING
 
 void TaskDestroy(struct Task *);
 void *IwramMalloc(u16);
 void TasksDestroyInPriorityRange(u16, u16);
 
-#endif
+#endif // GUARD_TASK_H
