@@ -1,3 +1,5 @@
+/* Task Module based on ./src/task.c from
+   https://github.com/jiangzhengwenjz/katam/ */
 #if PORTABLE
 // TEMP
 #include <assert.h>
@@ -13,7 +15,6 @@
 static void TaskMainDummy1(void);
 static void TaskMainDummy2(void);
 static void TaskMainDummy3(void);
-static void IwramFree(void *);
 static struct Task *TaskGetNextSlot(void);
 
 u32 TasksInit(void)
@@ -24,6 +25,10 @@ u32 TasksInit(void)
     gCurTask = NULL;
     gNextTask = NULL;
     gNumTasks = 0;
+
+#if (ENGINE == ENGINE_3)
+    gNextTaskToCheckForDestruction = NULL;
+#endif
 
 #ifndef BUG_FIX
     // 0x4 * MAX_TASK_NUM = 0x200, but that would assume gTasks is an array of pointers
@@ -114,7 +119,7 @@ struct Task *TaskCreate(TaskMain taskMain, u16 structSize, u16 priority, u16 fla
     task->dtor = taskDestructor;
     task->priority = priority;
     task->flags = flags;
-#if (GAME == GAME_SA2)
+#if USE_SA2_TASK_SYSTEM
     task->unk15 = 0;
     task->unk16 = 0;
     task->unk18 = 0;
@@ -165,6 +170,14 @@ void TaskDestroy(struct Task *task)
                     gNextTask = TASK_NEXT(task);
                 }
 
+#if (ENGINE == ENGINE_3)
+                // can only happen in (implicitly) recursive TaskDestroy calls (from
+                // task->dtor) in TasksDestroyInPriorityRange
+                if (task == gNextTaskToCheckForDestruction) {
+                    gNextTaskToCheckForDestruction = (struct Task *)(task->next + IWRAM_START);
+                }
+#endif
+
                 prev = TASK_PTR(task->prev);
                 next = TASK_PTR(task->next);
                 ((struct Task *)prev)->next = next;
@@ -203,17 +216,8 @@ void TasksExec(void)
         while (TASK_IS_NOT_NULL(gCurTask)) {
             gNextTask = (struct Task *)TASK_PTR(gCurTask->next);
 
-            if (!(gCurTask->flags & 1)) {
-#ifdef BUG_FIX
-                if (gCurTask->main == NULL)
-#if ENABLE_TASK_LOGGING
-                    printf("WARNING: Pointer of Task '%s' is NULL.\n", gCurTask->name);
-#else
-                    ;
-#endif
-                else
-#endif
-                    gCurTask->main();
+            if (!(gCurTask->flags & TASK_INACTIVE)) {
+                gCurTask->main();
             }
 
             gCurTask = gNextTask;
@@ -346,7 +350,7 @@ void IwramFree(void *p)
 }
 
 /* The function is probably for cleaning up the IWRAM nodes, but it's not working. */
-static void UNUSED sa2__sub_80028DC(void)
+static void UNUSED SA2_LABEL(sub_80028DC)(void)
 {
     struct IwramNode *cur = (struct IwramNode *)&gIwramHeap[0];
     s32 curStateBackup;
@@ -405,6 +409,7 @@ static struct Task *TaskGetNextSlot(void)
     }
 }
 
+#if ((GAME == GAME_SA1) || (GAME == GAME_SA2))
 void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
 {
     struct Task *cur = gTaskPtrs[0];
@@ -436,6 +441,40 @@ void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
         cur = (struct Task *)TASK_PTR(curOffset);
     }
 }
+#else
+void TasksDestroyInPriorityRange(u16 lbound, u16 rbound)
+{
+    struct Task *cur = gTaskPtrs[0];
+    TaskPtr curOffset = (TaskPtr)(TaskPtr32)cur;
+#ifndef NONMATCHING
+    asm("" ::: "r5");
+#endif
+    while (curOffset != 0) {
+        if (cur->priority >= lbound) {
+            lbound = 0;
+            while (cur->priority < rbound) {
+                gNextTaskToCheckForDestruction = (struct Task *)(cur->next + (IWRAM_START));
+                if (cur != gTaskPtrs[0] && cur != gTaskPtrs[1]) {
+                    TaskDestroy(cur);
+                }
+                cur = gNextTaskToCheckForDestruction;
+
+                if (TASK_IS_NULL(cur)) {
+                    break;
+                }
+                ++cur;
+                --cur;
+                gNextTaskToCheckForDestruction += 0;
+            }
+            gNextTaskToCheckForDestruction = (void *)(TaskPtr32)lbound; // NULL
+            return;
+        }
+        curOffset = cur->next;
+        cur = (struct Task *)(curOffset + IWRAM_START);
+    }
+    gNextTaskToCheckForDestruction = NULL;
+}
+#endif
 
 #if (GAME == GAME_SA3)
 static s32 IwramActiveNodeTotalSize(void)
