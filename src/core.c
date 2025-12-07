@@ -557,7 +557,7 @@ void EngineMainLoop(void)
                 gMultiSioStatusFlags = MultiSioMain(&gMultiSioSend, gMultiSioRecv, 0);
             }
 #if (ENGINE == ENGINE_3)
-            else if((gFlags & (FLAGS_80000 | FLAGS_10000)) == FLAGS_80000){
+            else if ((gFlags & (FLAGS_80000 | FLAGS_10000)) == FLAGS_80000) {
                 sub_80C6908();
             }
 #endif
