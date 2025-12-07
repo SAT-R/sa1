@@ -226,11 +226,8 @@ else
 		CC1FLAGS += -Wno-parentheses-equality -Wno-unused-value
 		CPPFLAGS += -D TITLE_BAR=$(BUILD_NAME).$(PLATFORM) -D PLATFORM_GBA=0 -D PLATFORM_SDL=1 -D PLATFORM_WIN32=0 $(shell sdl2-config --cflags)
 	else ifeq ($(PLATFORM),sdl_win32)
-		CC1FLAGS += -Wno-aggressive-loop-optimizations
 		CPPFLAGS += -D TITLE_BAR=$(BUILD_NAME).$(PLATFORM) -D PLATFORM_GBA=0 -D PLATFORM_SDL=1 -D PLATFORM_WIN32=0 $(SDL_MINGW_FLAGS)
 	else ifeq ($(PLATFORM),win32)
-        # Without -Wno-aggressive-loop-optimizations, Drisame does not compile.
-		CC1FLAGS += -Wno-aggressive-loop-optimizations
 		CPPFLAGS += -D TITLE_BAR=$(BUILD_NAME).$(PLATFORM) -D PLATFORM_GBA=0 -D PLATFORM_SDL=0 -D PLATFORM_WIN32=1
 	endif
 
@@ -247,10 +244,6 @@ endif
 ifeq ($(PLATFORM),gba)
   ASFLAGS  += -mcpu=arm7tdmi -mthumb-interwork
   CC1FLAGS += -mthumb-interwork
-  ifeq ($(THUMB_SUPPORT),1)
-    ASFLAGS  += -mthumb-interwork
-    CC1FLAGS += -mthumb-interwork
-  endif
 else
   ifeq ($(PLATFORM), sdl)
     # for modern we are using a modern compiler
@@ -273,6 +266,12 @@ ifeq ($(PORTABLE),1)
   CPPFLAGS += -D PORTABLE=1
 else
   CPPFLAGS += -D PORTABLE=0
+endif
+
+ifeq ($(TAS_TESTING),1)
+  CPPFLAGS += -D TAS_TESTING=1
+else
+  CPPFLAGS += -D TAS_TESTING=0
 endif
 
 ifeq ($(NON_MATCHING),1)
