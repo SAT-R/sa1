@@ -53,8 +53,7 @@ static void *memArenaVirtualAlloc(void* baseAddress, size_t size) {
     u64 memoryAmount = ARENA_SIZE;
     memory = VirtualAlloc(baseAddress, memoryAmount, (MEM_COMMIT | MEM_RESERVE), PAGE_READWRITE);
 #else
-    // TODO/TEMP: Just reserve 2GB for each arena
-    u64 memoryAmount = GetGigabytes(1);
+    u64 memoryAmount = ARENA_SIZE;
     printf("WARNING: OS-specific SDK not found. Using malloc.\n");
     memory = malloc(memoryAmount);
 
