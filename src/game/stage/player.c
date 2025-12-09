@@ -219,7 +219,7 @@ void SA2_LABEL(sub_80213C0)(u32 UNUSED characterId, u32 UNUSED levelId, Player *
 #endif
     }
 #if (GAME == GAME_SA1)
-    else {
+    else /* (playerID != PLAYER_1) */ {
         // here: playerID != 0
         p->spriteTask = TaskCreate(Task_8045B38, sizeof(player_0_Task), 0x3001, 0, TaskDestructor_Player);
         gt = (player_0_Task *)TASK_DATA(p->spriteTask);

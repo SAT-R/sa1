@@ -109,6 +109,7 @@ mAlignWord
 	.endm
 
 	.macro voice_keysplit voice_group_pointer, keysplit_table_pointer
+mAlignWord
 	.byte 0x40, 0, 0, 0
 mAlignWord
 	mPtr \voice_group_pointer
@@ -116,6 +117,7 @@ mAlignWord
 	.endm
 
 	.macro voice_keysplit_all voice_group_pointer
+mAlignWord
 	.byte 0x80, 0, 0, 0
 mAlignWord
 	mPtr \voice_group_pointer
