@@ -924,7 +924,6 @@ void m4aSoundVSync(void)
         }
 
         if (shouldQueue) {
-
             Platform_QueueAudio(audioBuffer, samplesPerFrame * 4);
         }
         if ((s8)(--mixer->dmaCounter) <= 0)

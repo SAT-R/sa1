@@ -1378,7 +1378,7 @@ cond_true : {
 }
 
 cond_false:
-    track->cmdPtr += 4;
+    track->cmdPtr += sizeof(uintptr_t);
 }
 
 void MP2K_event_xcmd(struct MP2KPlayerState *mplayInfo, struct MP2KTrack *track)
