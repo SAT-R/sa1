@@ -58,7 +58,7 @@ mAlignWord
 mAlignWord
 	voice_directsound 60, 0, gUnknown_0871AED4, 255, 216, 25, 0	@086DBE34
 mAlignWord
-	voice_directsound 60, 0, gUnknown_0871DC9C, 37, 0, 255, 149	@086DBE40
+	voice_directsound 60, 0, spectrasonics__symphony_of_voices__partition_d__big_chord__big_min__c4_r, 37, 0, 255, 149	@086DBE40
 mAlignWord
 	voice_directsound 60, 0, gUnknown_0871EF30, 255, 0, 255, 0	@086DBE4C
 mAlignWord

@@ -229,9 +229,9 @@ gUnknown_0871AED4:
 	.incbin "sound/direct_sound_samples/0871AED4.bin"
 
 	mAlignWord
-	.global gUnknown_0871DC9C
-gUnknown_0871DC9C:
-	.incbin "sound/direct_sound_samples/0871DC9C.bin"
+	.global spectrasonics__symphony_of_voices__partition_d__big_chord__big_min__c4_r
+spectrasonics__symphony_of_voices__partition_d__big_chord__big_min__c4_r:
+	.incbin "sound/direct_sound_samples/spectrasonics__symphony_of_voices__partition_d__big_chord__big_min__c4_r.bin"
 
 	mAlignWord
 	.global gUnknown_0871EF30
