@@ -325,9 +325,9 @@ static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
         s32 paletteIndex = cmd->palId;
 
         if (gFlags & FLAGS_20000) {
-            CopyPalette(&gRefSpriteTables->palettes[paletteIndex * 16], s->palId * 16 + cmd->insertOffset, cmd->numColors);
+            CopyPalette(&gRefSpriteTables->palettes[paletteIndex * PALETTE_LEN_4BPP], s->palId * PALETTE_LEN_4BPP + cmd->insertOffset, cmd->numColors);
         } else {
-            DmaCopy16(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gObjPalette[s->palId * 16 + cmd->insertOffset],
+            DmaCopy16(3, &gRefSpriteTables->palettes[paletteIndex * PALETTE_LEN_4BPP], &gObjPalette[s->palId * PALETTE_LEN_4BPP + cmd->insertOffset],
                       cmd->numColors * 2);
 
             gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
@@ -1059,7 +1059,7 @@ static AnimCmdResult animCmd_GetPalette(void *cursor, Sprite *s)
     if (!(s->frameFlags & SPRITE_FLAG_MASK_18)) {
         s32 paletteIndex = cmd->palId;
 
-        DmaCopy32(3, &gRefSpriteTables->palettes[paletteIndex * 16], &gObjPalette[s->palId * 16 + cmd->insertOffset], cmd->numColors * 2);
+        DmaCopy32(3, &gRefSpriteTables->palettes[paletteIndex * PALETTE_LEN_4BPP], &gObjPalette[s->palId * PALETTE_LEN_4BPP + cmd->insertOffset], cmd->numColors * 2);
 
         gFlags |= FLAGS_UPDATE_SPRITE_PALETTES;
     }
