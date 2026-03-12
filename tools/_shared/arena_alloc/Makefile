@@ -3,7 +3,7 @@ CC = gcc
 
 SOURCE = arena_alloc.c
 
-# Clear the default suffixes
+# Clear the default suffixes (needed to fix build race condition)
 .SUFFIXES:
 
 .PHONY: all clean
