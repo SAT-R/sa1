@@ -8,6 +8,9 @@ SRCS = c_header_parser.c
 
 CFLAGS = -I $(ARENA_ALLOC_DIR) -Wall -Wextra -Werror $(NO_ERROR) -std=gnu11 -O2
 
+# Clear the default suffixes (needed to fix build race condition)
+.SUFFIXES:
+
 .PHONY: all clean
 
 all: libc_header_parser.a
