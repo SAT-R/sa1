@@ -522,7 +522,7 @@ NONMATCH("asm/non_matching/game/stage/ui__Task_8055458.inc", void Task_8055458(v
                 mpp->unk5C &= ~0x2;
             }
 
-            gPlayer.timerInvulnerability = ZONE_TIME_TO_INT(0, 2);
+            gPlayer.timerInvulnerability = TIME(0, 2);
         }
         // _08055622
 

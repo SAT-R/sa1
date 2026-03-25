@@ -234,7 +234,7 @@ void Task_801623C()
 
         if ((Coll_Player_Entity_Intersection(s, capsule->worldX, capsule->worldY, p) & 0x80000)
             || (Coll_Player_Entity_Intersection(s2, capsule->worldX, capsule->worldY, p) & 0x80000)) {
-            p->timerInvulnerability = ZONE_TIME_TO_INT(0, 2);
+            p->timerInvulnerability = TIME(0, 2);
             if (I(p->qWorldX) < gCamera.x + (DISPLAY_WIDTH / 2)) {
                 p->qSpeedAirX = -Q(2);
                 sideX = (capsule->worldX + s->hitboxes[0].b.left) - p->spriteOffsetX;

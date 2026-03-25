@@ -90,14 +90,14 @@ void Task_TimeOverTimerUpdate()
     TimeOverState *state = TASK_DATA(overTimer->t);
 
     state->timer = overTimer->timer;
-    if (overTimer->timer > ZONE_TIME_TO_INT(0, 3.5)) {
+    if (overTimer->timer > TIME(0, 3.5)) {
         if (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1)) {
             gCamera.SA2_LABEL(unk50) |= 0x2000;
         }
         sub_805423C(&state->strc0);
     }
 
-    if (++overTimer->timer > ZONE_TIME_TO_INT(0, 5.5)) {
+    if (++overTimer->timer > TIME(0, 5.5)) {
         TaskDestroy(overTimer->t);
         TaskDestroy(gCurTask);
 
@@ -120,10 +120,10 @@ void Task_TimeOverStateUpdate()
     TimeOverState *state = TASK_DATA(gCurTask);
 
     timer = state->timer;
-    if (timer > ZONE_TIME_TO_INT(0, 2.0)) {
+    if (timer > TIME(0, 2.0)) {
         state->s2.x = state->s.x = (DISPLAY_WIDTH / 2);
-    } else if (timer > ZONE_TIME_TO_INT(0, 0.5)) {
-        state->s2.x = state->s.x = (DISPLAY_WIDTH + 60) - ((timer - ZONE_TIME_TO_INT(0, 0.5)) * 2);
+    } else if (timer > TIME(0, 0.5)) {
+        state->s2.x = state->s.x = (DISPLAY_WIDTH + 60) - ((timer - TIME(0, 0.5)) * 2);
     }
 
     s = &state->s;

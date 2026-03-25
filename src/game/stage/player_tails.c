@@ -332,7 +332,7 @@ void Player_Tails_InitFlying(Player *p)
         PLAYERFN_CHANGE_SHIFT_OFFSETS(p, 6, 14);
     }
 
-    p->w.tf.flyingDuration = ZONE_TIME_TO_INT(0, 4);
+    p->w.tf.flyingDuration = TIME(0, 4);
     Player_Tails_8047990(p);
 }
 

@@ -253,7 +253,7 @@ void Task_GameOverScreenInit(void)
 
     screen->frames = ++frames;
 
-    if (frames >= ZONE_TIME_TO_INT(0, 1)) {
+    if (frames >= TIME(0, 1)) {
         screen->s.frameFlags = 0;
         screen->s2.frameFlags = 0;
         gCurTask->main = Task_8056100;
@@ -297,7 +297,7 @@ void Task_8056100(void)
 
     screen->frames = ++frames;
 
-    if (frames >= ZONE_TIME_TO_INT(0, 1.5)) {
+    if (frames >= TIME(0, 1.5)) {
         gCurTask->main = Task_805618C;
     }
 
@@ -324,7 +324,7 @@ void Task_805618C(void)
 
     screen->frames = ++frames;
 
-    if (frames >= ZONE_TIME_TO_INT(0, 2)) {
+    if (frames >= TIME(0, 2)) {
         s->frameFlags = SPRITE_OAM_ORDER(2);
         s2->frameFlags = SPRITE_OAM_ORDER(2);
 
@@ -678,7 +678,7 @@ NONMATCH("asm/non_matching/game/game_over__Task_805676C.inc", void Task_805676C(
         }
     }
 
-    if (unk24 >= ZONE_TIME_TO_INT(0, 20)) {
+    if (unk24 >= TIME(0, 20)) {
         gCurTask->main = Task_DestroyGameOverD;
     }
 

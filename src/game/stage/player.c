@@ -503,7 +503,7 @@ void InitializePlayer(Player *p)
     p->stoodObj = NULL;
     p->itemEffect = PLAYER_ITEM_EFFECT__NONE;
     p->SA2_LABEL(unk2A) = 0;
-    p->SA2_LABEL(unk72) = ZONE_TIME_TO_INT(0, 6);
+    p->SA2_LABEL(unk72) = TIME(0, 6);
     p->SA2_LABEL(unk7E) = 0;
     p->SA2_LABEL(unk7C) = 0;
     p->SA2_LABEL(unk82) = Q(1);
@@ -3897,7 +3897,7 @@ void Task_PlayerDied(void)
 
     if (DeadPlayerLeftScreen(&gPlayer, &gCamera, gPlayer.qWorldY)) {
         player_0_Task *gt = TASK_DATA(gCurTask);
-        gt->unk4 = ZONE_TIME_TO_INT(0, 1);
+        gt->unk4 = TIME(0, 1);
 #if (GAME == GAME_SA2)
         gPlayer.moveState |= MOVESTATE_100000;
         if (IS_MULTI_PLAYER) {
@@ -4244,7 +4244,7 @@ NONMATCH("asm/non_matching/game/stage/Player__Task_804597C.inc", void Task_80459
             }
 
             // Inline of Player_InitializeDrowning?
-            gPartner.framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
+            gPartner.framesUntilDrownCountDecrement = TIME(0, 1);
             gPartner.secondsUntilDrown = 30;
 
             if (gPartner.playerID == 0) {
@@ -4355,7 +4355,7 @@ void Task_8045B38(void)
             partner->moveState &= ~MOVESTATE_20;
 
             // Inline of Player_InitializeDrowning?
-            partner->framesUntilDrownCountDecrement = ZONE_TIME_TO_INT(0, 1);
+            partner->framesUntilDrownCountDecrement = TIME(0, 1);
             partner->secondsUntilDrown = 30;
 
             if (partner->playerID == PLAYER_1) {
@@ -4591,7 +4591,7 @@ NONMATCH("asm/non_matching/game/stage/Player__sa2__sub_802486C.inc", void SA2_LA
 
 #if (GAME == GAME_SA1)
     if ((p->qSpeedGround != Q(0)) || (p->heldInput & (DPAD_ANY | A_BUTTON | B_BUTTON))) {
-        p->SA2_LABEL(unk72) = ZONE_TIME_TO_INT(0, 6);
+        p->SA2_LABEL(unk72) = TIME(0, 6);
     }
 
 #endif
@@ -5745,7 +5745,7 @@ void Player_8047280(Player *p)
     }
 }
 
-void sub_80472AC(Player *p) { p->SA2_LABEL(unk72) = ZONE_TIME_TO_INT(0, 6); }
+void sub_80472AC(Player *p) { p->SA2_LABEL(unk72) = TIME(0, 6); }
 
 void sub_80472B8(Player *p)
 {

@@ -287,7 +287,7 @@ void CreateEntity_EggBall(MapEntity *me, u16 regionX, u16 regionY, u8 id)
         t = TaskCreate(Task_PipeInitialDelay, sizeof(EggBall_Pipe), 0x2200U, 0U, TaskDestructor_8030754);
         strc = TASK_DATA(t);
         strc->unk44 = i;
-        strc->delay = ZONE_TIME_TO_INT(0, 1.5);
+        strc->delay = TIME(0, 1.5);
         strc->unk3C = unk3C = gUnknown_084ACDD2[i][0][0];
         strc->unk3E = unk3E = gUnknown_084ACDD2[i][0][1];
         strc->base.regionX = boss->base.regionX;

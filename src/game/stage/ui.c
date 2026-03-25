@@ -245,13 +245,13 @@ void StageUI_DrawTimer(u32 courseTime)
     s16 redOffset;
 
     if (gStageFlags & STAGE_FLAG__TIMER_REVERSED) {
-        if ((gCourseTime < ZONE_TIME_TO_INT(1, 0)) && (gStageTime & 0x10)) {
+        if ((gCourseTime < TIME(1, 0)) && (gStageTime & 0x10)) {
             redOffset = 11;
         } else {
             redOffset = 0;
         }
     } else {
-        if ((gCourseTime > ZONE_TIME_TO_INT(9, 0)) && (gStageTime & 0x10)) {
+        if ((gCourseTime > TIME(9, 0)) && (gStageTime & 0x10)) {
             redOffset = 11;
         } else {
             redOffset = 0;

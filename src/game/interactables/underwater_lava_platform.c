@@ -16,7 +16,7 @@
 #include "constants/songs.h"
 #include "constants/zones.h"
 
-#define LAVA_SPURT_RATE ZONE_TIME_TO_INT(0, 1.7)
+#define LAVA_SPURT_RATE TIME(0, 1.7)
 
 typedef struct {
     /* 0x00 */ SpriteBase base;

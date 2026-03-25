@@ -122,21 +122,21 @@ void GameStageStart(void)
         gMPStageStartFrameCount = gFrameCount;
     }
 
-    gCheckpointTime = ZONE_TIME_TO_INT(0, 0);
+    gCheckpointTime = TIME(0, 0);
 
 #if (GAME == GAME_SA1)
     if ((gGameMode == GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) || (gGameMode == GAME_MODE_CHAO_HUNT)) {
-        gCourseTime = ZONE_TIME_TO_INT(3, 0);
+        gCourseTime = TIME(3, 0);
     } else if (gGameMode == GAME_MODE_TEAM_PLAY) {
-        gCourseTime = ZONE_TIME_TO_INT(5, 0);
+        gCourseTime = TIME(5, 0);
     } else {
-        gCourseTime = ZONE_TIME_TO_INT(0, 0);
+        gCourseTime = TIME(0, 0);
     }
 #elif (GAME == GAME_SA2)
     if (gGameMode != GAME_MODE_MULTI_PLAYER_COLLECT_RINGS) {
-        gCourseTime = ZONE_TIME_TO_INT(0, 0);
+        gCourseTime = TIME(0, 0);
     } else {
-        gCourseTime = ZONE_TIME_TO_INT(3, 0);
+        gCourseTime = TIME(3, 0);
     }
 #endif
 
@@ -710,7 +710,7 @@ void StageInit_Zone6Act1(void)
 
         if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
             gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
-            gCourseTime = ZONE_TIME_TO_INT(5, 0);
+            gCourseTime = TIME(5, 0);
         }
     }
 
@@ -724,7 +724,7 @@ void StageInit_Zone6Act1(void)
 
         if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
             gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
-            gCourseTime = ZONE_TIME_TO_INT(5, 0);
+            gCourseTime = TIME(5, 0);
         }
     }
 
@@ -736,7 +736,7 @@ void StageInit_Zone6Act1(void)
 
         if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
             gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
-            gCourseTime = ZONE_TIME_TO_INT(5, 0);
+            gCourseTime = TIME(5, 0);
         }
     }
 }

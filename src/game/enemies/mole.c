@@ -82,7 +82,7 @@ void Task_Mole(void)
         return;
     }
 
-    if (++mole->frames >= ZONE_TIME_TO_INT(0, 1)) {
+    if (++mole->frames >= TIME(0, 1)) {
         mole->frames = 0;
         s->variant = 1;
 
@@ -118,7 +118,7 @@ void Task_Mole_8071640(void)
         return;
     }
 
-    if (++mole->frames >= ZONE_TIME_TO_INT(0, 1)) {
+    if (++mole->frames >= TIME(0, 1)) {
         mole->frames = 0;
         s->variant = 0;
         gCurTask->main = Task_Mole;

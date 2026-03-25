@@ -115,12 +115,12 @@ NONMATCH("asm/non_matching/game/multiplayer/results_2__Task_ChaoHuntHUD.inc", vo
     hud = TASK_DATA(gCurTask);
 
     // Show the red timer every 2 frames, lasting 2 frames
-    if (((u32)gCourseTime < ZONE_TIME_TO_INT(1, 0)) && (gCourseTime & 2)) {
+    if (((u32)gCourseTime < TIME(1, 0)) && (gCourseTime & 2)) {
         timerSprites = hud->spritesB;
     } else {
         timerSprites = hud->spritesA;
     }
-    if (!(1 & gStageFlags) && (gCourseTime < ZONE_TIME_TO_INT(1, 0)) && (Mod(gCourseTime, 60) == 0)) {
+    if (!(1 & gStageFlags) && (gCourseTime < TIME(1, 0)) && (Mod(gCourseTime, 60) == 0)) {
         m4aSongNumStart(SE_TIMER);
     }
     s = &timerSprites[10];

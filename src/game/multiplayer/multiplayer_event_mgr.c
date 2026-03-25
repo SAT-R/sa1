@@ -123,7 +123,7 @@ void ReceiveRoomEvent_ItemEffect(union MultiSioData *recv, u8 i)
                     || ((gMultiplayerConnections & (0x10 << (i))) >> ((i + 4))
                         != (gMultiplayerConnections & (0x10 << (SIO_MULTI_CNT->id))) >> (SIO_MULTI_CNT->id + 4))) {
                     gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__CONFUSION;
-                    gPlayer.timerConfusion = ZONE_TIME_TO_INT(0, 10);
+                    gPlayer.timerConfusion = TIME(0, 10);
                     CreateItemTask_Confusion(gPlayer.character);
 #if (GAME == GAME_SA2)
                     m4aSongNumStart(SE_ITEM_CONFUSION);
@@ -177,7 +177,7 @@ void ReceiveRoomEvent_ItemEffect(union MultiSioData *recv, u8 i)
                         gPlayer.layer = (mpp->unk54 >> 7) & 1;
                         gPlayer.moveState |= MOVESTATE_IN_AIR;
                         mpp->unk60 = 30;
-                        gPlayer.timerInvulnerability = ZONE_TIME_TO_INT(0, 2);
+                        gPlayer.timerInvulnerability = TIME(0, 2);
                         gCamera.x = (I(gPlayer.qWorldX) + gCamera.shiftX) - (DISPLAY_WIDTH / 2);
                         gCamera.y = (I(gPlayer.qWorldY) + gCamera.shiftY) - (DISPLAY_HEIGHT / 2);
 #if (GAME == GAME_SA2)
@@ -192,7 +192,7 @@ void ReceiveRoomEvent_ItemEffect(union MultiSioData *recv, u8 i)
                     || ((gMultiplayerConnections & (0x10 << (i))) >> ((i + 4))
                         != (gMultiplayerConnections & (0x10 << (SIO_MULTI_CNT->id))) >> (SIO_MULTI_CNT->id + 4))) {
                     gPlayer.itemEffect |= PLAYER_ITEM_EFFECT__MP_SLOW_DOWN;
-                    gPlayer.timerSpeedup = ZONE_TIME_TO_INT(0, 10);
+                    gPlayer.timerSpeedup = TIME(0, 10);
                     gPlayer.itemEffect &= ~PLAYER_ITEM_EFFECT__SPEED_UP;
                     CreateItemTask_Confusion(gPlayer.character);
                     m4aMPlayTempoControl(&gMPlayInfo_BGM, Q(0.5));
@@ -304,7 +304,7 @@ NONMATCH("asm/non_matching/game/multiplayer/evt_mgr__ReceiveRoomEvent_ReachedSta
 
     if (count2 == 0 && !(gStageFlags & 1)) {
         gStageFlags |= 4;
-        gCourseTime = ZONE_TIME_TO_INT(1, 0);
+        gCourseTime = TIME(1, 0);
     };
 
     if ((count3 + 1) >= (u32)(count - 1) || gGameMode == GAME_MODE_MULTI_PLAYER || gGameMode == GAME_MODE_TEAM_PLAY) {

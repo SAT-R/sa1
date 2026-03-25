@@ -17,7 +17,7 @@
 #include "constants/vram_hardcoded.h"
 #include "constants/zones.h"
 
-#define BOULDER_SPAWN_RATE ZONE_TIME_TO_INT(0, 2)
+#define BOULDER_SPAWN_RATE TIME(0, 2)
 
 typedef struct {
     /* 0x00 */ SpriteBase base;

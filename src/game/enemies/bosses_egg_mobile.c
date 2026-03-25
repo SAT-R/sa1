@@ -102,7 +102,7 @@ void Task_EggMobileAscent()
     UpdateSpriteAnimation(s2);
     DisplaySprite(s2);
 
-    if (eggMobile->stunDelay > ZONE_TIME_TO_INT(0, 0.75)) {
+    if (eggMobile->stunDelay > TIME(0, 0.75)) {
         eggMobile->offsetY -= Q(1);
 
         if (eggMobile->offsetY <= -Q(80)) {

@@ -28,9 +28,9 @@
 #define PLAYER_MAX_FLOATING_SPEED (2.25)
 
 // NOTE: Equal in SA1 and SA2!
-#define PLAYER_INVULNERABLE_DURATION ZONE_TIME_TO_INT(0, 2)
-#define PLAYER_INVINCIBLE_DURATION   ZONE_TIME_TO_INT(0, 20)
-#define PLAYER_SPEED_UP_DURATION     ZONE_TIME_TO_INT(0, 20)
+#define PLAYER_INVULNERABLE_DURATION TIME(0, 2)
+#define PLAYER_INVINCIBLE_DURATION   TIME(0, 20)
+#define PLAYER_SPEED_UP_DURATION     TIME(0, 20)
 #define PLAYER_SPEED_UP_MUSIC_TEMPO  Q(2.0)
 
 #define PLAYER_AIR_SPEED_MAX 15.0
@@ -39,13 +39,13 @@
 #define TRICK__STOP_N_SLAM__DROP_SPEED Q(0.21875)
 
 /*** Cream ***/
-#define CREAM_FLYING_DURATION ZONE_TIME_TO_INT(0, 4)
+#define CREAM_FLYING_DURATION TIME(0, 4)
 
 /*** Tails ***/
 // NOTE: Unlike Cream, Tails does fly for 8 seconds, but his initial value gets set to 4.
 //       For some reason they lower his timer only every 2nd frame (in PlayerCB_8012C2C),
 //       instead of using a bigger value from the get-go, even though they gave him a
 //       4-byte timer.
-#define TAILS_FLYING_DURATION (ZONE_TIME_TO_INT(0, 8) / 2)
+#define TAILS_FLYING_DURATION (TIME(0, 8) / 2)
 
 #endif // GUARD_PARAMETERS_CHARACTERS_H

@@ -357,7 +357,7 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_80294A8.inc", void Task_8
 
             if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
                 gStageFlags |= FLAGS_EXECUTE_HBLANK_COPY;
-                gCourseTime = ZONE_TIME_TO_INT(5, 0);
+                gCourseTime = TIME(5, 0);
             }
         }
 
@@ -368,7 +368,7 @@ NONMATCH("asm/non_matching/game/egg_rocket_trans__Task_80294A8.inc", void Task_8
 
             if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
                 gStageFlags |= FLAGS_EXECUTE_HBLANK_COPY;
-                gCourseTime = ZONE_TIME_TO_INT(5, 0);
+                gCourseTime = TIME(5, 0);
             }
         }
 
@@ -399,7 +399,7 @@ void Task_80297E8(void)
     if (--shake->unkC == 0) {
         if (gGameMode == GAME_MODE_SINGLE_PLAYER) {
             gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
-            gCourseTime = ZONE_TIME_TO_INT(5, 0);
+            gCourseTime = TIME(5, 0);
         }
 
         gPlayer.moveState &= ~MOVESTATE_IGNORE_INPUT;
@@ -415,7 +415,7 @@ void CreateEggRocketLaunchScreenShakeEffect()
     struct Task *t = TaskCreate(Task_80298C0, sizeof(EggRocketScreenShake), 0x4000, 0, NULL);
     EggRocketScreenShake *shake = TASK_DATA(t);
 
-    shake->unkC = ZONE_TIME_TO_INT(0, 1);
+    shake->unkC = TIME(0, 1);
 
     CreateScreenShake(0x800, 8, 16, 10, SCREENSHAKE_VERTICAL);
 
@@ -429,7 +429,7 @@ void Task_80298C0()
     EggRocketScreenShake *shake = TASK_DATA(gCurTask);
 
     if (--shake->unkC == 0) {
-        shake->unkC = ZONE_TIME_TO_INT(0, 5);
+        shake->unkC = TIME(0, 5);
         CreateScreenShake(0x800, 8, 16, 300, (SCREENSHAKE_VERTICAL | SCREENSHAKE_RANDOM_VALUE));
         gCurTask->main = Task_80297E8;
     }

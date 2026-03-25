@@ -178,7 +178,7 @@ void Task_MirrorShoot(void)
         }
     }
 
-    if (mirror->frames == ZONE_TIME_TO_INT(0, 1)) {
+    if (mirror->frames == TIME(0, 1)) {
         s->variant = 0;
         gCurTask->main = Task_Mirror;
     }

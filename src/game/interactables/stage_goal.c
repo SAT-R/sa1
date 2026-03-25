@@ -311,7 +311,7 @@ void Task_StageGoal2(void)
 
         if (count == 0) {
             gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
-            gCourseTime = ZONE_TIME_TO_INT(1, 0);
+            gCourseTime = TIME(1, 0);
         }
 
         gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
@@ -371,7 +371,7 @@ void Task_StageGoal2(void)
         }
 
         gStageFlags |= STAGE_FLAG__TIMER_REVERSED;
-        gCourseTime = ZONE_TIME_TO_INT(1, 0);
+        gCourseTime = TIME(1, 0);
 
         gPlayer.moveState |= MOVESTATE_IGNORE_INPUT;
         gPlayer.heldInput = DPAD_RIGHT;

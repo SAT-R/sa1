@@ -9,7 +9,7 @@
 #include "constants/zones.h"
 
 #define NUM_SPARKS          2
-#define FIREBALL_SPAWN_RATE ZONE_TIME_TO_INT(0, 4)
+#define FIREBALL_SPAWN_RATE TIME(0, 4)
 
 typedef struct {
     /* 0x00 */ MapEntity *me;

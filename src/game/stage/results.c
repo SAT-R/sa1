@@ -235,7 +235,7 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
     }
 
     if (gCurrentLevel == LEVEL_INDEX(ZONE_6, ACT_1)) {
-        const s32 countDown = ZONE_TIME_TO_INT(3, 0);
+        const s32 countDown = TIME(3, 0);
         if (gCheckpointTime <= +countDown) {
             courseTime = 1;
         } else {
@@ -254,23 +254,23 @@ NONMATCH("asm/non_matching/game/stage/results__CreateStageResults.inc", u32 Crea
 
     gMusicManagerState.unk0 = 0xFF;
 
-    if (courseTime >= ZONE_TIME_TO_INT(6, 0)) {
+    if (courseTime >= TIME(6, 0)) {
         timeScore = 0;
-    } else if (courseTime >= ZONE_TIME_TO_INT(5, 0)) {
+    } else if (courseTime >= TIME(5, 0)) {
         timeScore = 500;
-    } else if (courseTime >= ZONE_TIME_TO_INT(4, 0)) {
+    } else if (courseTime >= TIME(4, 0)) {
         timeScore = 1000;
-    } else if (courseTime >= ZONE_TIME_TO_INT(3, 0)) {
+    } else if (courseTime >= TIME(3, 0)) {
         timeScore = 2000;
-    } else if (courseTime >= ZONE_TIME_TO_INT(2, 0)) {
+    } else if (courseTime >= TIME(2, 0)) {
         timeScore = 3000;
-    } else if (courseTime >= ZONE_TIME_TO_INT(1, 30)) {
+    } else if (courseTime >= TIME(1, 30)) {
         timeScore = 4000;
-    } else if (courseTime >= ZONE_TIME_TO_INT(1, 0)) {
+    } else if (courseTime >= TIME(1, 0)) {
         timeScore = 5000;
-    } else if (courseTime >= ZONE_TIME_TO_INT(0, 50)) {
+    } else if (courseTime >= TIME(0, 50)) {
         timeScore = 10000;
-    } else if (courseTime >= ZONE_TIME_TO_INT(0, 30)) {
+    } else if (courseTime >= TIME(0, 30)) {
         timeScore = 50000;
     } else {
         timeScore = 80000;
