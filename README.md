@@ -1,5 +1,7 @@
 # Sonic Advance (Europe)
 
+:warning: **This project has moved to within the [sa2 repo](https://github.com/SAT-R/sa2/tree/main/sa1)**
+
 This is a work in progress matching decompilation of Sonic Advance
 <p align="center">
   <a href="https://github.com/SAT-R/sa1/actions/workflows/build.yml"><img src="https://github.com/SAT-R/sa1/actions/workflows/build.yml/badge.svg" alt="CI status"></a>
